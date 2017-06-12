@@ -50,7 +50,7 @@ abstract class ModMenuHelper
 		}
 		catch (RuntimeException $e)
 		{
-			$result = array();
+			$result = [];
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED') . ' ' . $e->getMessage(), 'danger');
 		}
 
@@ -68,13 +68,13 @@ abstract class ModMenuHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function getComponents($authCheck = true, $enabledOnly = false, $exclude = array())
+	public static function getComponents($authCheck = true, $enabledOnly = false, $exclude = [])
 	{
 		$lang   = JFactory::getLanguage();
 		$user   = JFactory::getUser();
 		$db     = JFactory::getDbo();
 		$query  = $db->getQuery(true);
-		$result = array();
+		$result = [];
 
 		// Prepare the query.
 		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element, m.menutype')
@@ -110,7 +110,7 @@ abstract class ModMenuHelper
 		}
 		catch (RuntimeException $e)
 		{
-			$components = array();
+			$components = [];
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'danger');
 		}
 
@@ -130,7 +130,7 @@ abstract class ModMenuHelper
 
 					if (!isset($result[$component->id]->submenu))
 					{
-						$result[$component->id]->submenu = array();
+						$result[$component->id]->submenu = [];
 					}
 
 					// If the root menu link is empty, add it in.
@@ -207,7 +207,7 @@ abstract class ModMenuHelper
 		}
 		catch (RuntimeException $e)
 		{
-			$menuItems = array();
+			$menuItems = [];
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
@@ -226,7 +226,7 @@ abstract class ModMenuHelper
 	 */
 	public static function parseItems($menuItems, $authCheck = true)
 	{
-		$result = array();
+		$result = [];
 		$user   = JFactory::getUser();
 		$lang   = JFactory::getLanguage();
 		$levels = $user->getAuthorisedViewLevels();
@@ -278,7 +278,7 @@ abstract class ModMenuHelper
 			}
 
 			$menuitem->text    = $lang->hasKey($menuitem->title) ? JText::_($menuitem->title) : $menuitem->title;
-			$menuitem->submenu = array();
+			$menuitem->submenu = [];
 
 			$result[$menuitem->parent_id][$menuitem->id] = $menuitem;
 		}
@@ -286,7 +286,7 @@ abstract class ModMenuHelper
 		// Do an early exit if there are no top level menu items.
 		if (!isset($result[1]))
 		{
-			return array();
+			return [];
 		}
 
 		// Put the items under respective parent menu items.

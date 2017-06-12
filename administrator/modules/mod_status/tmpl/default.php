@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $hideLinks = $input->getBool('hidemainmenu');
 $task      = $input->getCmd('task');
-$output    = array();
+$output    = [];
 
 // Print logged in user count based on the shared session state
 if (JFactory::getConfig()->get('shared_session', '0'))

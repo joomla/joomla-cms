@@ -23,7 +23,7 @@ abstract class ModQuickIconHelper
 	 *
 	 * @since   1.6
 	 */
-	protected static $buttons = array();
+	protected static $buttons = [];
 
 	/**
 	 * Helper method to return button list.
@@ -50,40 +50,40 @@ abstract class ModQuickIconHelper
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				JFactory::getLanguage()->load('mod_quickicon');
 
-				self::$buttons[$key] = array(
-					array(
+				self::$buttons[$key] = [
+					[
 						'link'   => JRoute::_('index.php?option=com_content&task=article.add'),
 						'image'  => 'fa fa-pencil-square',
 						'text'   => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
-						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
+						'access' => ['core.manage', 'com_content', 'core.create', 'com_content'],
 						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
+					],
+					[
 						'link'   => JRoute::_('index.php?option=com_media'),
 						'image'  => 'fa fa-file-image-o',
 						'text'   => JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
-						'access' => array('core.manage', 'com_media'),
+						'access' => ['core.manage', 'com_media'],
 						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
+					],
+					[
 						'link'   => JRoute::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
 						'text'   => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
-						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+						'access' => ['core.manage', 'com_config', 'core.admin', 'com_config'],
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
-					),
-					array(
+					],
+					[
 						'link'   => JRoute::_('index.php?option=com_modules'),
 						'image'  => 'fa fa-cube',
 						'text'   => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
-						'access' => array('core.manage', 'com_modules'),
+						'access' => ['core.manage', 'com_modules'],
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
-					)
-				);
+					]
+				];
 			}
 			else
 			{
-				self::$buttons[$key] = array();
+				self::$buttons[$key] = [];
 			}
 
 			// Include buttons defined by published quickicon plugins
@@ -98,13 +98,13 @@ abstract class ModQuickIconHelper
 			{
 				foreach ($response as $icon)
 				{
-					$default = array(
+					$default = [
 						'link'   => null,
 						'image'  => 'cog',
 						'text'   => null,
 						'access' => true,
 						'group'  => 'MOD_QUICKICON_EXTENSIONS',
-					);
+					];
 					$icon = array_merge($default, $icon);
 
 					if (!is_null($icon['link']) && !is_null($icon['text']))

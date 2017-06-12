@@ -178,7 +178,7 @@ class JAdminCssMenu
 		echo '<li' . $class . ' role="menuitem" ' . $ariaPopup . '>';
 
 		// Print a link if it exists
-		$linkClass = array();
+		$linkClass = [];
 		$dataToggle = '';
 
 		if ($this->_current->hasChildren())
@@ -266,7 +266,7 @@ class JAdminCssMenu
 		// Initialise the known classes array if it does not exist
 		if (!is_array($classes))
 		{
-			$classes = array();
+			$classes = [];
 		}
 
 		$html = '';
@@ -367,7 +367,7 @@ class JAdminCssMenu
 					}
 					else
 					{
-						$missing = array();
+						$missing = [];
 
 						if ($rMenu)
 						{
@@ -388,7 +388,7 @@ class JAdminCssMenu
 						$uri->setVar('recover_menu', 1);
 
 						$table = JTable::getInstance('MenuType');
-						$table->load(array('menutype' => $menutype));
+						$table->load(['menutype' => $menutype]);
 						$mType = $table->get('title', $menutype);
 
 						$msg = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $mType, implode(', ', $missing), $uri);
@@ -430,7 +430,7 @@ class JAdminCssMenu
 			}
 			elseif ($item->type == 'container')
 			{
-				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$exclude    = (array) $item->params->get('hideitems') ?: [];
 				$components = ModMenuHelper::getComponents(true, false, $exclude);
 
 				// Exclude if it is a container type menu item, and has no children.
@@ -551,7 +551,7 @@ class JMenuNode
 	 *
 	 * @var  array
 	 */
-	protected $_children = array();
+	protected $_children = [];
 
 	/**
 	 * Constructor for the class.
@@ -576,11 +576,11 @@ class JMenuNode
 		{
 			$uri    = new JUri($link);
 			$params = $uri->getQuery(true);
-			$parts  = array();
+			$parts  = [];
 
 			foreach ($params as $value)
 			{
-				$parts[] = str_replace(array('.', '_'), '-', $value);
+				$parts[] = str_replace(['.', '_'], '-', $value);
 			}
 
 			$this->id = implode('-', $parts);

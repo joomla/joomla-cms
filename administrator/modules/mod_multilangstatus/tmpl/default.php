@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include jQuery
 JHtml::_('jquery.framework');
 
-JHtml::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <li class="px-2 multilanguage">
@@ -24,7 +24,7 @@ JHtml::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', array('ve
 <?php echo JHtml::_(
 	'bootstrap.renderModal',
 	'multiLangModal',
-	array(
+	[
 		'title'      => JText::_('MOD_MULTILANGSTATUS'),
 		'url'        => JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
 		'height'     => '400px',
@@ -32,5 +32,5 @@ JHtml::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', array('ve
 		'bodyHeight' => 70,
 		'modalWidth' => 80,
 		'footer'     => '<a class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</a>',
-	)
+	]
 );
