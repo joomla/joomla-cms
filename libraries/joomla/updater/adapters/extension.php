@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.updater.updateadapter');
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Extension class for updater
  *
@@ -332,7 +334,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$byName = false;
 
-					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Design_of_JUpdate
+					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
 					JLog::add(
 						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
 						JLog::WARNING, 'deprecated'
@@ -343,7 +345,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					$byName = true;
 				}
 
-				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
+				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 

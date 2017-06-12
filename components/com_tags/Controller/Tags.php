@@ -29,11 +29,11 @@ class Tags extends Controller
 	{
 		// Receive request data
 		$filters = array(
-			'like'      => trim($this->input->get('like', null)),
-			'title'     => trim($this->input->get('title', null)),
-			'flanguage' => $this->input->get('flanguage', null),
+			'like'      => trim($this->input->get('like', null, 'string')),
+			'title'     => trim($this->input->get('title', null, 'string')),
+			'flanguage' => $this->input->get('flanguage', null, 'word'),
 			'published' => $this->input->get('published', 1, 'int'),
-			'parent_id' => $this->input->get('parent_id', null)
+			'parent_id' => $this->input->get('parent_id', 0, 'int')
 		);
 
 		if ($results = TagsHelper::searchTags($filters))

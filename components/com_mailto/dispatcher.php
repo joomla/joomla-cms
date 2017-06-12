@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Controller\Controller;
 
 /**
  * Dispatcher class for com_mailto
@@ -26,4 +27,19 @@ class MailtoDispatcher extends Dispatcher
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Mailto';
+
+	/**
+	 * Dispatch a controller task. Redirecting the user if appropriate.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function dispatch()
+	{
+		$command = $this->input->getCmd('task', 'mailto');
+		$this->input->set('task', $command);
+
+		parent::dispatch();
+	}
 }

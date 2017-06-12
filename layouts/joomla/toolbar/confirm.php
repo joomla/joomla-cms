@@ -16,6 +16,6 @@ $class  = $displayData['class'];
 $text   = $displayData['text'];
 ?>
 <button onclick="<?php echo $doTask; ?>" class="btn btn-sm btn-outline-danger">
-	<span class="<?php echo $class; ?>"></span>
+	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>

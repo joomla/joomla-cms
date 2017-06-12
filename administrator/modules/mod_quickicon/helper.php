@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('GetQuickIconsEvent', __DIR__ . '/event.php');
+
 /**
  * Helper for mod_quickicon
  *
@@ -87,7 +89,10 @@ abstract class ModQuickIconHelper
 			// Include buttons defined by published quickicon plugins
 			JPluginHelper::importPlugin('quickicon');
 			$app = JFactory::getApplication();
-			$arrays = (array) $app->triggerEvent('onGetIcons', array($context));
+			$arrays = (array) $app->triggerEvent(
+				'onGetIcons',
+				new GetQuickIconsEvent('onGetIcons', ['context' => $context])
+			);
 
 			foreach ($arrays as $response)
 			{

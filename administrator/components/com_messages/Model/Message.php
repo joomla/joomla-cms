@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Model\Admin;
 
 /**
@@ -353,7 +354,43 @@ class Message extends Admin
 			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
-			\JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
+			$mailer = \JFactory::getMailer();
+
+			if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+			{
+				try
+				{
+					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
+				}
+
+				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+				return true;
+			}
+
+			if (!$mailer->addRecipient($toUser->email, $toUser->name))
+			{
+				try
+				{
+					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
+				}
+
+				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+				return true;
+			}
+
+			$mailer->setSubject($subject);
+			$mailer->setBody($msg);
+
+			// The Send method will raise an error via JError on a failure, we do not need to check it ourselves here
+			$mailer->Send();
 		}
 
 		return true;

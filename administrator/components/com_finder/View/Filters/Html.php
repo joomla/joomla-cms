@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Administrator\View\Filters;
 
@@ -139,20 +139,21 @@ class Html extends HtmlView
 			ToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_finder');
-		}
-
 		ToolbarHelper::divider();
 		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 
 		if ($canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList('', 'filters.delete');
 			ToolbarHelper::divider();
 		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			ToolbarHelper::preferences('com_finder');
+		}
+
+		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 	}
 }

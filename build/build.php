@@ -120,6 +120,7 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'scss-lint-report.xml',
 	'sccs-lint.yml',
+	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
 	// Remove the testing sample data from all packages

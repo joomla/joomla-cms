@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * JHtml helper class.
  *
@@ -28,7 +30,7 @@ class JHtmlTemplates
 	 */
 	public static function thumb($template, $clientId = 0)
 	{
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
 		$thumb = $basePath . '/template_thumbnail.png';
 		$preview = $basePath . '/template_preview.png';
@@ -64,7 +66,7 @@ class JHtmlTemplates
 	 */
 	public static function thumbModal($template, $clientId = 0)
 	{
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
 		$baseUrl = ($clientId == 0) ? JUri::root(true) : JUri::root(true) . '/administrator';
 		$thumb = $basePath . '/template_thumbnail.png';

@@ -18,6 +18,9 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -29,73 +32,9 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-abstract class CMSApplication extends WebApplication implements ContainerAwareInterface
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ContainerAwareTrait;
-
-	/**
-	 * Constant defining an enqueued emergency message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_EMERGENCY = 'emergency';
-
-	/**
-	 * Constant defining an enqueued alert message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_ALERT = 'alert';
-
-	/**
-	 * Constant defining an enqueued critical message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_CRITICAL = 'critical';
-
-	/**
-	 * Constant defining an enqueued error message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_ERROR = 'error';
-
-	/**
-	 * Constant defining an enqueued warning message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_WARNING = 'warning';
-
-	/**
-	 * Constant defining an enqueued notice message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_NOTICE = 'notice';
-
-	/**
-	 * Constant defining an enqueued info message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_INFO = 'info';
-
-	/**
-	 * Constant defining an enqueued debug message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_DEBUG = 'debug';
+	use ContainerAwareTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -148,7 +87,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The profiler instance
 	 *
-	 * @var    \JProfiler
+	 * @var    Profiler
 	 * @since  3.2
 	 */
 	protected $profiler = null;
@@ -187,7 +126,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			$this->profiler = \JProfiler::getInstance('Application');
+			$this->profiler = Profiler::getInstance('Application');
 		}
 
 		// Enable sessions by default.
@@ -201,6 +140,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			$this->config->set('session_name', $this->getName());
 		}
+
+		$this->createExtensionNamespaceMap();
 	}
 
 	/**
@@ -219,7 +160,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
+			$session->set('user', new User);
 		}
 
 		// TODO: At some point we need to get away from having session data always in the db.
@@ -553,6 +494,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
+
+			static::$instances[$name]->loadIdentity(\JFactory::getUser());
 		}
 
 		return static::$instances[$name];
@@ -828,6 +771,33 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  boolean  True if is forced for the client, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+		$forceSsl = (int) $this->get('force_ssl');
+
+		if ($clientId === 0 && $forceSsl === 2)
+		{
+			return true;
+		}
+
+		if ($clientId === 1 && $forceSsl >= 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check the client interface by name.
 	 *
 	 * @param   string  $identifier  String identifier for the application interface
@@ -1034,49 +1004,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function redirect($url, $status = 303)
 	{
-		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
-		if (func_num_args() > 1)
-		{
-			$args = func_get_args();
-
-			/*
-			 * Do some checks on the $args array, values below correspond to legacy redirect() method
-			 *
-			 * $args[0] = $url
-			 * $args[1] = Message to enqueue
-			 * $args[2] = Message type
-			 * $args[3] = $status (previously moved)
-			 */
-			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
-			{
-				// Log that passing the message to the function is deprecated
-				$this->getLogger()->warning(
-					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
-					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
-					. '::redirect().',
-					array('category' => 'deprecated')
-				);
-
-				$message = $args[1];
-
-				// Set the message type if present
-				if (isset($args[2]) && !empty($args[2]))
-				{
-					$type = $args[2];
-				}
-				else
-				{
-					$type = 'message';
-				}
-
-				// Enqueue the message
-				$this->enqueueMessage($message, $type);
-
-				// Reset the $moved variable
-				$status = isset($args[3]) ? (boolean) $args[3] : false;
-			}
-		}
-
 		// Persist messages if they exist.
 		if (count($this->messageQueue))
 		{
@@ -1234,7 +1161,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getFormToken($forceNew = false)
 	{
-		/** @var \JSession $session */
+		/** @var Session $session */
 		$session = $this->getSession();
 
 		return $session->getFormToken();
@@ -1253,9 +1180,24 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkToken($method = 'post')
 	{
-		/** @var \JSession $session */
+		/** @var Session $session */
 		$session = $this->getSession();
 
 		return $session->checkToken($method);
+	}
+
+	/**
+	 * Flag if the application instance is a CLI or web based application.
+	 *
+	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.
+	 *
+	 * @return  boolean
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  5.0  Will be removed without replacements
+	 */
+	public function isCli()
+	{
+		return false;
 	}
 }

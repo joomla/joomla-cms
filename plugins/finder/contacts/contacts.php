@@ -251,7 +251,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}

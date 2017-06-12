@@ -15,11 +15,11 @@ defined('_JEXEC') or die;
 	<head>
 		<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap.min.css" rel="stylesheet">
 		<?php if ($this->direction == 'rtl') : ?>
-			<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet" />
+			<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet">
 		<?php endif; ?>
-		<link href="<?php echo $this->baseurl; ?>/template/css/template.css" rel="stylesheet" />
+		<link href="<?php echo $this->baseurl; ?>/template/css/template.css" rel="stylesheet">
 		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body>

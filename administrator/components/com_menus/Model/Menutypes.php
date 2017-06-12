@@ -273,37 +273,27 @@ class Menutypes extends Model
 	protected function getTypeOptionsFromMvc($component)
 	{
 		$options = array();
-		$client  = ApplicationHelper::getClientInfo($this->getState('client_id'));
+		$views   = array();
 
-		// Get the views for this component.
-		if (is_dir($client->path . '/components/' . $component))
+		foreach ($this->getFolders($component) as $path)
 		{
-			$folders = \JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
+			if (!is_dir($path))
+			{
+				continue;
+			}
+
+			$views = array_merge($views, \JFolder::folders($path, '.', false, true));
 		}
 
-		$path = '';
+		foreach ($views as $viewPath)
+		{
+			$view = basename($viewPath);
 
-		if (!empty($folders[0]))
-		{
-			$path = $folders[0];
-		}
-
-		if (is_dir($path))
-		{
-			$views = \JFolder::folders($path);
-		}
-		else
-		{
-			return false;
-		}
-
-		foreach ($views as $view)
-		{
 			// Ignore private views.
 			if (strpos($view, '_') !== 0)
 			{
 				// Determine if a metadata file exists for the view.
-				$file = $path . '/' . $view . '/metadata.xml';
+				$file = $viewPath . '/metadata.xml';
 
 				if (is_file($file))
 				{
@@ -490,27 +480,24 @@ class Menutypes extends Model
 		$layouts     = array();
 		$layoutNames = array();
 		$lang        = \JFactory::getLanguage();
-		$path        = '';
 		$client      = ApplicationHelper::getClientInfo($this->getState('client_id'));
 
 		// Get the views for this component.
-		if (is_dir($client->path . '/components/' . $component))
+		foreach ($this->getFolders($component) as $folder)
 		{
-			$folders = \JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
-		}
+			$path = $folder . '/' . $view . '/tmpl';
 
-		if (!empty($folders[0]))
-		{
-			$path = $folders[0] . '/' . $view . '/tmpl';
-		}
+			if (!is_dir($path))
+			{
+				$path = $folder . '/' . $view;
+			}
 
-		if (is_dir($path))
-		{
+			if (!is_dir($path))
+			{
+				continue;
+			}
+
 			$layouts = array_merge($layouts, \JFolder::files($path, '.xml$', false, true));
-		}
-		else
-		{
-			return $options;
 		}
 
 		// Build list of standard layout names
@@ -621,5 +608,34 @@ class Menutypes extends Model
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Get the folders with template files for the given component.
+	 *
+	 * @param   string  $component  Component option as in URLs
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getFolders($component)
+	{
+		$client  = ApplicationHelper::getClientInfo($this->getState('client_id'));
+
+		if (!is_dir($client->path . '/components/' . $component))
+		{
+			return array();
+		}
+
+		$folders = \JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
+		$folders = array_merge($folders, \JFolder::folders($client->path . '/components/' . $component, '^tmpl?$', false, true));
+
+		if (!$folders)
+		{
+			return array();
+		}
+
+		return $folders;
 	}
 }

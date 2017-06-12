@@ -26,7 +26,7 @@ JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<jdoc:include type="head" />
 </head>
-<body class="contentpane modal">
+<body>
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>

@@ -123,7 +123,7 @@ class PlgAuthenticationGMail extends JPlugin
 		{
 			// If there was an error in the request then create a 'false' dummy response.
 			$result = new JHttpResponse;
-			$result->code = false;
+			$result = $result->withStatus(500);
 		}
 
 		$code = $result->code;
@@ -191,7 +191,7 @@ class PlgAuthenticationGMail extends JPlugin
 			foreach ($localUsers as $localUser)
 			{
 				// Local user exists with same username but different email address
-				if ($email != $localUser->email)
+				if ($email !== $localUser->email)
 				{
 					$response->status        = JAuthentication::STATUS_FAILURE;
 					$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_GMAIL_ERROR_LOCAL_USERNAME_CONFLICT'));

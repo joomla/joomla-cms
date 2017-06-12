@@ -28,9 +28,9 @@ class MediaHelper
 	 *
 	 * @since   3.2
 	 */
-	public function isImage($fileName)
+	public static function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp';
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
@@ -57,7 +57,7 @@ class MediaHelper
 	 *
 	 * @return  mixed    the mime type detected false on error
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.2
 	 */
 	private function getMimeType($file, $isImage = false)
 	{

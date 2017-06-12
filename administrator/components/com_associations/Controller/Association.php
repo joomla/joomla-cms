@@ -54,7 +54,7 @@ class Association extends Form
 	 *
 	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since  3.7.0
 	 */

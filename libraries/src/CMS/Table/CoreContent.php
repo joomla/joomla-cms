@@ -10,6 +10,7 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -113,7 +114,7 @@ class CoreContent extends Table
 			$this->core_alias = $this->core_title;
 		}
 
-		$this->core_alias = \JApplicationHelper::stringURLSafe($this->core_alias);
+		$this->core_alias = ApplicationHelper::stringURLSafe($this->core_alias);
 
 		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{

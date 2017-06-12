@@ -1102,7 +1102,8 @@ class Item extends Admin
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
 					$base . '/views/' . $view . '/tmpl',
-					$base . '/view/' . $view . '/tmpl'
+					$base . '/view/' . $view . '/tmpl',
+					$base . '/tmpl/' . $view
 				);
 				$path = \JPath::find($tplFolders, $layout . '.xml');
 

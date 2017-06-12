@@ -8,11 +8,13 @@
 
 namespace Joomla\DI\Exception;
 
+use Psr\Container\ContainerExceptionInterface;
+
 /**
  * Exception class for handling errors in resolving a dependency
  *
  * @since  1.0
  */
-class DependencyResolutionException extends \Exception
+class DependencyResolutionException extends \RuntimeException implements ContainerExceptionInterface
 {
 }

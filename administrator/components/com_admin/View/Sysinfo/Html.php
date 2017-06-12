@@ -10,6 +10,7 @@ namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\View\HtmlView;
 
@@ -74,7 +75,7 @@ class Html extends HtmlView
 		// Access check.
 		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new \JUserAuthorizationexception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$this->php_settings = $this->get('PhpSettings');

@@ -16,9 +16,8 @@ use Joomla\Registry\Registry;
  * Object representing a component extension record
  *
  * @since  3.7.0
- * @note   As of 4.0 this class will no longer extend JObject
  */
-class ComponentRecord extends \JObject
+class ComponentRecord
 {
 	/**
 	 * Primary key
@@ -84,7 +83,7 @@ class ComponentRecord extends \JObject
 	 * @return  mixed  The property value or null.
 	 *
 	 * @since   3.7.0
-	 * @deprecated  4.0  Access the item parameters through the `getParams()` method
+	 * @deprecated  5.0  Access the item parameters through the `getParams()` method
 	 */
 	public function __get($name)
 	{
@@ -105,7 +104,7 @@ class ComponentRecord extends \JObject
 	 * @return  void
 	 *
 	 * @since   3.7.0
-	 * @deprecated  4.0  Set the item parameters through the `setParams()` method
+	 * @deprecated  5.0  Set the item parameters through the `setParams()` method
 	 */
 	public function __set($name, $value)
 	{

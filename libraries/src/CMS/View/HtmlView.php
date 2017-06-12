@@ -10,6 +10,7 @@ namespace Joomla\CMS\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Model\Model;
 
 /**
@@ -134,9 +135,17 @@ class HtmlView extends AbstractView
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
-		else
+		elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName()))
+		{
+			$this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
+		}
+		elseif (is_dir($this->_basePath . '/views/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
+		}
+		else
+		{
+			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName());
 		}
 
 		// Set the default helper search path
@@ -426,7 +435,7 @@ class HtmlView extends AbstractView
 		}
 		else
 		{
-			$component = \JApplicationHelper::getComponentName();
+			$component = ApplicationHelper::getComponentName();
 		}
 
 		$app = \JFactory::getApplication();

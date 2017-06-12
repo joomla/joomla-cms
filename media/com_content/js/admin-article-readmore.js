@@ -22,6 +22,6 @@ window.insertReadmore = function(editor) {
 		alert(options.exists);
 		return false;
 	} else {
-		Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
+		Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
 	}
 };

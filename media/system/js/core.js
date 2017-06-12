@@ -1002,4 +1002,20 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		element.addEventListener(name, onceCallback);
 	};
 
+	/**
+	 * Check if HTML5 localStorage enabled on the browser
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.localStorageEnabled = function() {
+		var test = 'joomla-cms';
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
+			return true;
+		} catch(e) {
+			return false;
+		}
+	}
+
 })( window, Joomla );

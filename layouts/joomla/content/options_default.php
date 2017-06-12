@@ -25,6 +25,7 @@ defined('JPATH_BASE') or die;
 		foreach ($displayData->form->getFieldset($fieldname) as $field)
 		{
 			$datashowon = '';
+			$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
 
 			if ($field->showon)
 			{
@@ -33,7 +34,7 @@ defined('JPATH_BASE') or die;
 				$datashowon = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\'';
 			}
 			?>
-			<div class="control-group"<?php echo $datashowon; ?>>
+			<div class="control-group<?php echo $groupClass; ?>"<?php echo $datashowon; ?>>
 				<?php if (!isset($displayData->showlabel) || $displayData->showlabel) : ?>
 					<div class="control-label"><?php echo $field->label; ?></div>
 				<?php endif; ?>

@@ -45,5 +45,5 @@ echo JHtml::_('bootstrap.renderModal',
 );
 ?>
 <button onclick="jQuery('#modal_<?php echo $selector; ?>').modal('show')" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">
-	<span class="icon-<?php echo $icon; ?>"></span><?php echo $text; ?>
+	<span class="icon-<?php echo $icon; ?>" aria-hidden="true"></span><?php echo $text; ?>
 </button>
