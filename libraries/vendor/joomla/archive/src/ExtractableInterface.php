@@ -24,6 +24,7 @@ interface ExtractableInterface
 	 * @return  boolean  True if successful
 	 *
 	 * @since   1.0
+	 * @throws  \RuntimeException
 	 */
 	public function extract($archive, $destination);
 

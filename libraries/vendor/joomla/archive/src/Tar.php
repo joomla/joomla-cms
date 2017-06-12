@@ -62,7 +62,7 @@ class Tar implements ExtractableInterface
 	/**
 	 * Holds the options array.
 	 *
-	 * @var    mixed  Array or object that implements \ArrayAccess
+	 * @var    array|\ArrayAccess
 	 * @since  1.0
 	 */
 	protected $options = array();
@@ -70,12 +70,20 @@ class Tar implements ExtractableInterface
 	/**
 	 * Create a new Archive object.
 	 *
-	 * @param   mixed  $options  An array of options or an object that implements \ArrayAccess
+	 * @param   array|\ArrayAccess  $options  An array of options or an object that implements \ArrayAccess
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct($options = array())
 	{
+		if (!is_array($options) && !($options instanceof \ArrayAccess))
+		{
+			throw new \InvalidArgumentException(
+				'The options param must be an array or implement the ArrayAccess interface.'
+			);
+		}
+
 		$this->options = $options;
 	}
 
@@ -119,7 +127,7 @@ class Tar implements ExtractableInterface
 					throw new \RuntimeException('Unable to create destination');
 				}
 
-				if (File::write($path, $buffer) === false)
+				if (!File::write($path, $buffer))
 				{
 					throw new \RuntimeException('Unable to write entry');
 				}

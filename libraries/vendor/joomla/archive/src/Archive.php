@@ -21,7 +21,7 @@ class Archive
 	/**
 	 * The array of instantiated archive adapters.
 	 *
-	 * @var    array
+	 * @var    ExtractableInterface[]
 	 * @since  1.0
 	 */
 	protected $adapters = array();
@@ -29,7 +29,7 @@ class Archive
 	/**
 	 * Holds the options array.
 	 *
-	 * @var    mixed  Array or object that implements \ArrayAccess
+	 * @var    array|\ArrayAccess
 	 * @since  1.0
 	 */
 	public $options = array();
@@ -37,12 +37,20 @@ class Archive
 	/**
 	 * Create a new Archive object.
 	 *
-	 * @param   mixed  $options  An array of options or an object that implements \ArrayAccess
+	 * @param   array|\ArrayAccess  $options  An array of options
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct($options = array())
 	{
+		if (!is_array($options) && !($options instanceof \ArrayAccess))
+		{
+			throw new \InvalidArgumentException(
+				'The options param must be an array or implement the ArrayAccess interface.'
+			);
+		}
+
 		// Make sure we have a tmp directory.
 		isset($options['tmp_path']) or $options['tmp_path'] = realpath(sys_get_temp_dir());
 
@@ -81,9 +89,12 @@ class Archive
 			case 'gzip':
 				// This may just be an individual file (e.g. sql script)
 				$tmpfname = $this->options['tmp_path'] . '/' . uniqid('gzip');
-				$gzresult = $this->getAdapter('gzip')->extract($archivename, $tmpfname);
 
-				if ($gzresult instanceof \Exception)
+				try
+				{
+					$this->getAdapter('gzip')->extract($archivename, $tmpfname);
+				}
+				catch (\RuntimeException $exception)
 				{
 					@unlink($tmpfname);
 
@@ -97,7 +108,7 @@ class Archive
 				else
 				{
 					Folder::create($path);
-					$result = File::copy($tmpfname, $extractdir, null, 0);
+					$result = File::copy($tmpfname, $extractdir . '/' . $filename, null, 0);
 				}
 
 				@unlink($tmpfname);
@@ -109,9 +120,12 @@ class Archive
 			case 'bzip2':
 				// This may just be an individual file (e.g. sql script)
 				$tmpfname = $this->options['tmp_path'] . '/' . uniqid('bzip2');
-				$bzresult = $this->getAdapter('bzip2')->extract($archivename, $tmpfname);
 
-				if ($bzresult instanceof \Exception)
+				try
+				{
+					$this->getAdapter('bzip2')->extract($archivename, $tmpfname);
+				}
+				catch (\RuntimeException $exception)
 				{
 					@unlink($tmpfname);
 
@@ -125,7 +139,7 @@ class Archive
 				else
 				{
 					Folder::create($path);
-					$result = File::copy($tmpfname, $extractdir, null, 0);
+					$result = File::copy($tmpfname, $extractdir . '/' . $filename, null, 0);
 				}
 
 				@unlink($tmpfname);
@@ -136,12 +150,7 @@ class Archive
 				throw new \InvalidArgumentException(sprintf('Unknown archive type: %s', $ext));
 		}
 
-		if (!$result || $result instanceof \Exception)
-		{
-			return false;
-		}
-
-		return true;
+		return $result;
 	}
 
 	/**
