@@ -279,3 +279,5 @@ JLoader::registerAlias('JFormRuleUrl',                      '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form\\Rule\\UsernameRule', '5.0');
 
 JLoader::registerAlias('JMicrodata',                        '\\Joomla\\CMS\\Microdata\\Microdata', '5.0');
+
+JLoader::registerAlias('JFactory',                          '\\Joomla\\CMS\\Factory', '5.0');
