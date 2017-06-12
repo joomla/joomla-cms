@@ -14,7 +14,7 @@ require_once JPATH_LIBRARIES . '/bootstrap.php';
 // Set system error handling
 JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
+JError::setErrorHandling(E_ERROR, 'callback', ['JError', 'customErrorPage']);
 
 // Installation check, and check on removal of the install directory.
 if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')

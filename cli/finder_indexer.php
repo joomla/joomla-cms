@@ -86,7 +86,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 * @var    array
 	 * @since  3.3
 	 */
-	private $filters = array();
+	private $filters = [];
 
 	/**
 	 * Entry point for Smart Search CLI script
@@ -271,7 +271,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		// Use the temporary filter information to update the filter taxonomy ids.
 		foreach ($this->filters as $filter_id => $filter)
 		{
-			$tids = array();
+			$tids = [];
 
 			foreach ($filter as $element)
 			{
@@ -356,11 +356,11 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 			// Construct a temporary data structure to hold the filter information.
 			foreach ($taxonomies as $taxonomy)
 			{
-				$this->filters[$filter->filter_id][] = array(
+				$this->filters[$filter->filter_id][] = [
 					'filter' => $filter->title,
 					'title'  => $taxonomy->title,
 					'parent' => $taxonomy->parent,
-				);
+				];
 			}
 		}
 
