@@ -394,11 +394,11 @@ class Updatesites extends Installer
 	}
 
 	/**
-	 * Fetch the Joomla update sites ids.
+	 * Fetch the Joomla update sites names.
 	 *
-	 * @param   integer  $column  Column to return. 0 for update site ids, 1 for extension ids.
+	 * @param   array  $ids  Extension ids to delete.
 	 *
-	 * @return  array  Array with joomla core update site ids.
+	 * @return  array  Array with joomla core update site names.
 	 *
 	 * @since   3.6.0
 	 */
