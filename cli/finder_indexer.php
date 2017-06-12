@@ -295,7 +295,7 @@ class FinderCli extends JApplicationCli
 				{
 					$this->out(JText::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
 					sleep($pause);
-					$this->out(JText::sprintf('FINDER_CLI_BATCH_CONTINUING'), true);
+					$this->out(JText::_('FINDER_CLI_BATCH_CONTINUING'));
 				}
 
 				if ($skip)
