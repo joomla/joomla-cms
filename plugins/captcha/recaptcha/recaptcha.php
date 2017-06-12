@@ -59,7 +59,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		else
 		{
 			// Load callback first for browser compatibility
-			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', ['version' => 'auto', 'relative' => true]);
 
 			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
 			JHtml::_('script', $file);
@@ -172,12 +172,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 			case '1.0':
 				$response = $this->_recaptcha_http_post(
 					'www.google.com', '/recaptcha/api/verify',
-					array(
+					[
 						'privatekey' => $privatekey,
 						'remoteip'   => $remoteip,
 						'challenge'  => $challenge,
-						'response'   => $response
-					)
+						'response'   => $response,
+					]
 				);
 
 				$answers = explode("\n", $response[1]);
@@ -291,9 +291,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 	{
 		$language = JFactory::getLanguage();
 
-		$tag = explode('-', $language->getTag());
-		$tag = $tag[0];
-		$available = array('en', 'pt', 'fr', 'de', 'nl', 'ru', 'es', 'tr');
+		$tag       = explode('-', $language->getTag());
+		$tag       = $tag[0];
+		$available = ['en', 'pt', 'fr', 'de', 'nl', 'ru', 'es', 'tr'];
 
 		if (in_array($tag, $available))
 		{

@@ -17,9 +17,9 @@ defined('_JEXEC') or die;
  */
 class PlgContentLoadmodule extends JPlugin
 {
-	protected static $modules = array();
+	protected static $modules = [];
 
-	protected static $mods = array();
+	protected static $mods = [];
 
 	/**
 	 * Plugin that loads module positions within content
@@ -135,7 +135,7 @@ class PlgContentLoadmodule extends JPlugin
 		$document = JFactory::getDocument();
 		$renderer = $document->loadRenderer('module');
 		$modules  = JModuleHelper::getModules($position);
-		$params   = array('style' => $style);
+		$params   = ['style' => $style];
 		ob_start();
 
 		foreach ($modules as $module)
@@ -175,7 +175,7 @@ class PlgContentLoadmodule extends JPlugin
 			$mod  = JModuleHelper::getModule($name, $title);
 		}
 
-		$params = array('style' => $style);
+		$params = ['style' => $style];
 		ob_start();
 
 		if ($mod->id)

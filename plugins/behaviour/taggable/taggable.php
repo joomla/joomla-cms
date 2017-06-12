@@ -31,7 +31,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(&$subject, $config = array())
+	public function __construct(&$subject, $config = [])
 	{
 		$this->allowLegacyListeners = false;
 
@@ -115,7 +115,7 @@ class PlgBehaviourTaggable extends JPlugin
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
-		$newTags = isset($table->newTags) ? $table->newTags : array();
+		$newTags = isset($table->newTags) ? $table->newTags : [];
 
 		if (empty($newTags))
 		{
@@ -173,7 +173,7 @@ class PlgBehaviourTaggable extends JPlugin
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
-		$newTags = isset($table->newTags) ? $table->newTags : array();
+		$newTags = isset($table->newTags) ? $table->newTags : [];
 
 		if (empty($newTags))
 		{

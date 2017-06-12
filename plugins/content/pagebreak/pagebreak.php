@@ -103,7 +103,7 @@ class PlgContentPagebreak extends JPlugin
 		$this->loadLanguage();
 
 		// Find all instances of plugin and put in $matches.
-		$matches = array();
+		$matches = [];
 		preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
 
 		if ($showall && $this->params->get('showall', 1))

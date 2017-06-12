@@ -38,7 +38,7 @@ class PlgContentContact extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
-		$allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+		$allowed_contexts = ['com_content.category', 'com_content.article', 'com_content.featured'];
 
 		if (!in_array($context, $allowed_contexts))
 		{
@@ -82,7 +82,7 @@ class PlgContentContact extends JPlugin
 	 */
 	protected function getContactId($created_by)
 	{
-		static $contacts = array();
+		static $contacts = [];
 
 		if (isset($contacts[$created_by]))
 		{

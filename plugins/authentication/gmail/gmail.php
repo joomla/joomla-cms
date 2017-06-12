@@ -42,12 +42,12 @@ class PlgAuthenticationGMail extends JPlugin
 
 		$success = false;
 
-		$curlParams = array(
+		$curlParams = [
 			'follow_location' => true,
-			'transport.curl'  => array(
+			'transport.curl'  => [
 				CURLOPT_SSL_VERIFYPEER => $this->params->get('verifypeer', 1)
-			),
-		);
+			],
+		];
 
 		$transportParams = new Registry($curlParams);
 
@@ -111,9 +111,9 @@ class PlgAuthenticationGMail extends JPlugin
 			}
 		}
 
-		$headers = array(
+		$headers = [
 			'Authorization' => 'Basic ' . base64_encode($credentials['username'] . ':' . $credentials['password'])
-		);
+		];
 
 		try
 		{
@@ -175,12 +175,12 @@ class PlgAuthenticationGMail extends JPlugin
 
 		// Extra security checks with existing local accounts
 		$db                  = JFactory::getDbo();
-		$localUsernameChecks = array(strstr($email, '@', true), $email);
+		$localUsernameChecks = [strstr($email, '@', true), $email];
 
 		$query = $db->getQuery(true)
 			->select('id, activation, username, email, block')
 			->from('#__users')
-			->where('username IN(' . implode(',', array_map(array($db, 'quote'), $localUsernameChecks)) . ')'
+			->where('username IN(' . implode(',', array_map([$db, 'quote'], $localUsernameChecks)) . ')'
 				. ' OR email = ' . $db->quote($email)
 			);
 
