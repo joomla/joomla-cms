@@ -1,22 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Client
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Client;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Wrapper class for JClientHelper
+ * Wrapper class for ClientHelper
  *
  * @package     Joomla.Platform
  * @subpackage  Client
  * @since       3.4
+ * @deprecated  4.0 Will b removed without replacemenent
  */
-class JClientWrapperHelper
+class ClientWrapper
 {
 	/**
 	 * Helper wrapper method for getCredentials
@@ -26,12 +28,12 @@ class JClientWrapperHelper
 	 *
 	 * @return  array    Client layer configuration options, consisting of at least
 	 *
-	 * @see     JClientHelper::getCredentials()
+	 * @see     ClientHelper::getCredentials()
 	 * @since   3.4
 	 */
 	public function getCredentials($client, $force = false)
 	{
-		return JClientHelper::getCredentials($client, $force);
+		return ClientHelper::getCredentials($client, $force);
 	}
 
 	/**
@@ -43,12 +45,12 @@ class JClientWrapperHelper
 	 *
 	 * @return boolean  True if the given login credentials have been set and are valid
 	 *
-	 * @see     JClientHelper::setCredentials()
+	 * @see     ClientHelper::setCredentials()
 	 * @since   3.4
 	 */
 	public function setCredentials($client, $user, $pass)
 	{
-		return JClientHelper::setCredentials($client, $user, $pass);
+		return ClientHelper::setCredentials($client, $user, $pass);
 	}
 
 	/**
@@ -58,12 +60,12 @@ class JClientWrapperHelper
 	 *
 	 * @return boolean  True if login credentials are available
 	 *
-	 * @see     JClientHelper::hasCredentials()
+	 * @see     ClientHelper::hasCredentials()
 	 * @since   3.4
 	 */
 	public function hasCredentials($client)
 	{
-		return JClientHelper::hasCredentials($client);
+		return ClientHelper::hasCredentials($client);
 	}
 
 	/**
@@ -73,12 +75,12 @@ class JClientWrapperHelper
 	 *
 	 * @return  mixed  True, if FTP settings; JError if using legacy tree
 	 *
-	 * @see     JUserHelper::setCredentialsFromRequest()
+	 * @see     UserHelper::setCredentialsFromRequest()
 	 * @since   3.4
-	 * @throws  InvalidArgumentException if credentials invalid
+	 * @throws  \InvalidArgumentException if credentials invalid
 	 */
 	public function setCredentialsFromRequest($client)
 	{
-		return JClientHelper::setCredentialsFromRequest($client);
+		return ClientHelper::setCredentialsFromRequest($client);
 	}
 }

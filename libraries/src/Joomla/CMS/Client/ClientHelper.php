@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Client
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Client;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JClientHelper
+class ClientHelper
 {
 	/**
 	 * Method to return the array of client layer configuration options
@@ -36,7 +37,7 @@ class JClientHelper
 
 		if (!isset($credentials[$client]) || $force)
 		{
-			$config = JFactory::getConfig();
+			$config = \JFactory::getConfig();
 
 			// Fetch the client layer configuration options for the specific client
 			switch ($client)
@@ -60,7 +61,7 @@ class JClientHelper
 			// If user and pass are not set in global config lets see if they are in the session
 			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == ''))
 			{
-				$session = JFactory::getSession();
+				$session = \JFactory::getSession();
 				$options['user'] = $session->get($client . '.user', null, 'JClientHelper');
 				$options['pass'] = $session->get($client . '.pass', null, 'JClientHelper');
 			}
@@ -98,12 +99,12 @@ class JClientHelper
 		switch ($client)
 		{
 			case 'ftp':
-				$config = JFactory::getConfig();
+				$config = \JFactory::getConfig();
 				$options = array('enabled' => $config->get('ftp_enable'), 'host' => $config->get('ftp_host'), 'port' => $config->get('ftp_port'));
 
 				if ($options['enabled'])
 				{
-					$ftp = JClientFtp::getInstance($options['host'], $options['port']);
+					$ftp = FtpClient::getInstance($options['host'], $options['port']);
 
 					// Test the connection and try to log in
 					if ($ftp->isConnected())
@@ -125,7 +126,7 @@ class JClientHelper
 		if ($return)
 		{
 			// Save valid credentials to the session
-			$session = JFactory::getSession();
+			$session = \JFactory::getSession();
 			$session->set($client . '.user', $user, 'JClientHelper');
 			$session->set($client . '.pass', $pass, 'JClientHelper');
 
@@ -154,7 +155,7 @@ class JClientHelper
 		switch ($client)
 		{
 			case 'ftp':
-				$config = JFactory::getConfig();
+				$config = \JFactory::getConfig();
 				$options = array('enabled' => $config->get('ftp_enable'), 'user' => $config->get('ftp_user'), 'pass' => $config->get('ftp_pass'));
 				break;
 
@@ -176,7 +177,7 @@ class JClientHelper
 		else
 		{
 			// Check if login credentials are available in the session
-			$session = JFactory::getSession();
+			$session = \JFactory::getSession();
 			$user = $session->get($client . '.user', null, 'JClientHelper');
 			$pass = $session->get($client . '.pass', null, 'JClientHelper');
 
@@ -201,12 +202,12 @@ class JClientHelper
 	 * @return  mixed  True, if FTP settings; JError if using legacy tree.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException if credentials invalid
+	 * @throws  \InvalidArgumentException if credentials invalid
 	 */
 	public static function setCredentialsFromRequest($client)
 	{
 		// Determine whether FTP credentials have been passed along with the current request
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$user = $input->post->getString('username', null);
 		$pass = $input->post->getString('password', null);
 
@@ -221,11 +222,11 @@ class JClientHelper
 			{
 				if (class_exists('JError'))
 				{
-					$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+					$return = \JError::raiseWarning('SOME_ERROR_CODE', \JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
 				}
 				else
 				{
-					throw new InvalidArgumentException('Invalid user credentials');
+					throw new \InvalidArgumentException('Invalid user credentials');
 				}
 			}
 		}
