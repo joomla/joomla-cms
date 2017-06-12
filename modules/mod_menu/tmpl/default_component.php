@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$attributes = array();
+$attributes = [];
 
 if ($item->anchor_title)
 {

@@ -33,7 +33,7 @@ abstract class ModArticlesPopularHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', ['ignore_request' => true]);
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();
@@ -52,7 +52,7 @@ abstract class ModArticlesPopularHelper
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+		$model->setState('filter.category_id', $params->get('catid', []));
 
 		// Date filter
 		$date_filtering = $params->get('date_filtering', 'off');

@@ -32,7 +32,7 @@ abstract class ModArticlesNewsHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', ['ignore_request' => true]);
 
 		// Set application parameters in model
 		$app       = JFactory::getApplication();
@@ -50,7 +50,7 @@ abstract class ModArticlesNewsHelper
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+		$model->setState('filter.category_id', $params->get('catid', []));
 
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
@@ -118,15 +118,15 @@ abstract class ModArticlesNewsHelper
 			if ($triggerEvents)
 			{
 				$item->text = '';
-				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 1));
+				$app->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$params, 1]);
 
-				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
+				$results                 = $app->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$params, 1]);
 				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$params, 1]);
 				$item->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+				$results                   = $app->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$params, 1]);
 				$item->afterDisplayContent = trim(implode("\n", $results));
 			}
 			else

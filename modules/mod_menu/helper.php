@@ -51,7 +51,7 @@ class ModMenuHelper
 			$end            = (int) $params->get('endLevel');
 			$showAll        = $params->get('showAllChildren');
 			$items          = $menu->getItems('menutype', $params->get('menutype'));
-			$hidden_parents = array();
+			$hidden_parents = [];
 			$lastitem       = 0;
 
 			if ($items)

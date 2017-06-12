@@ -27,7 +27,7 @@ class ModStatsHelper
 	{
 		$app        = JFactory::getApplication();
 		$db         = JFactory::getDbo();
-		$rows       = array();
+		$rows       = [];
 		$query      = $db->getQuery(true);
 		$serverinfo = $params->get('serverinfo');
 		$siteinfo   = $params->get('siteinfo');
@@ -145,7 +145,7 @@ class ModStatsHelper
 		// Include additional data defined by published system plugins
 		JPluginHelper::importPlugin('system');
 
-		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
+		$arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats']);
 
 		foreach ($arrays as $response)
 		{
