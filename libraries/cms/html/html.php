@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -1088,11 +1088,8 @@ abstract class JHtml
 	 */
 	public static function addIncludePath($path = '')
 	{
-		// Force path to array
-		settype($path, 'array');
-
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			if (!empty($dir) && !in_array($dir, static::$includePaths))
 			{

@@ -592,7 +592,7 @@ class ModulesModelModule extends JModelAdmin
 		$app = JFactory::getApplication();
 
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
+		$data = $app->getUserState('com_modules.edit.module.data', array());
 
 		if (empty($data))
 		{

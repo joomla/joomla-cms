@@ -162,7 +162,7 @@ class JCacheStorageFile extends JCacheStorage
 
 			foreach ($files as $file)
 			{
-				$item->updateSize(filesize($path . '/' . $folder . '/' . $file) / 1024);
+				$item->updateSize(filesize($path . '/' . $folder . '/' . $file));
 			}
 
 			$data[$folder] = $item;

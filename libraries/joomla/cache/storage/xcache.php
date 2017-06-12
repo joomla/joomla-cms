@@ -101,7 +101,7 @@ class JCacheStorageXcache extends JCacheStorage
 					$item = $data[$group];
 				}
 
-				$item->updateSize($key['size'] / 1024);
+				$item->updateSize($key['size']);
 
 				$data[$group] = $item;
 			}
