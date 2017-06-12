@@ -512,7 +512,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	{
 		$file = $this->input->getCmd('tmpl', 'index');
 
-		$options = {
+		$options = [
 			'template'  => 'template',
 			'file'      => $file . '.php',
 			'directory' => JPATH_THEMES,
