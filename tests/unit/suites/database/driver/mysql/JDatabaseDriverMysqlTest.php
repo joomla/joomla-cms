@@ -4,7 +4,7 @@
  * @subpackage  Database
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -36,7 +36,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestQuoteName()
 	{
@@ -152,7 +152,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestQuoteName
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testQuoteName($text, $asPart, $expected)
 	{

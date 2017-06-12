@@ -4,11 +4,12 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\BaseApplication;
 use Joomla\Registry\Registry;
 
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
@@ -21,9 +22,9 @@ JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
  * and render() functions.
  *
  * @since       1.5
- * @deprecated  3.2  Use JApplicationCms instead unless specified otherwise
+ * @deprecated  3.2  Use CMSApplication instead unless specified otherwise
  */
-class JApplication extends JApplicationBase
+class JApplication extends BaseApplication
 {
 	/**
 	 * The client identifier.
@@ -397,7 +398,7 @@ class JApplication extends JApplicationBase
 
 			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
-				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
+				// MSIE type browser and/or server cause issues when URL contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script></head></html>';
 			}

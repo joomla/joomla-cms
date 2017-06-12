@@ -26,7 +26,6 @@ $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = json_encode($fullScreenCombo);
 $modPath         = json_encode(JUri::root(true) . '/' . $modePath . $extJS);
-
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
 		;(function (cm, $) {

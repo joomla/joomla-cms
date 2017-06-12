@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// @deprecated  4.0 not used for a long time
+
 defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScriptDeclaration(

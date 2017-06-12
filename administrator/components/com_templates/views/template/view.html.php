@@ -97,7 +97,7 @@ class TemplatesViewTemplate extends JViewLegacy
 	{
 		$app            = JFactory::getApplication();
 		$this->file     = $app->input->get('file');
-		$this->fileName = base64_decode($this->file);
+		$this->fileName = JFilterInput::getInstance()->clean(base64_decode($this->file), 'string');
 		$explodeArray   = explode('.', $this->fileName);
 		$ext            = end($explodeArray);
 		$this->files    = $this->get('Files');

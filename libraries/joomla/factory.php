@@ -8,6 +8,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 /**
@@ -60,7 +62,7 @@ abstract class JFactory
 	/**
 	 * Global language object
 	 *
-	 * @var    JLanguage
+	 * @var   JLanguage
 	 * @since  11.1
 	 */
 	public static $language = null;
@@ -182,11 +184,11 @@ abstract class JFactory
 	/**
 	 * Get a language object.
 	 *
-	 * Returns the global {@link JLanguage} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Language} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JLanguage object
+	 * @return  Language object
 	 *
-	 * @see     JLanguage
+	 * @see     Language
 	 * @since   11.1
 	 */
 	public static function getLanguage()
@@ -222,13 +224,13 @@ abstract class JFactory
 	/**
 	 * Get a user object.
 	 *
-	 * Returns the global {@link JUser} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link User} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   integer  $id  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
-	 * @return  JUser object
+	 * @return  User object
 	 *
-	 * @see     JUser
+	 * @see     User
 	 * @since   11.1
 	 */
 	public static function getUser($id = null)
@@ -237,15 +239,15 @@ abstract class JFactory
 
 		if (is_null($id))
 		{
-			if (!($instance instanceof JUser))
+			if (!($instance instanceof User))
 			{
-				$instance = JUser::getInstance();
+				$instance = User::getInstance();
 			}
 		}
 		// Check if we have a string as the id or if the numeric id is the current instance
-		elseif (!($instance instanceof JUser) || is_string($id) || $instance->id !== $id)
+		elseif (!($instance instanceof User) || is_string($id) || $instance->id !== $id)
 		{
-			$instance = JUser::getInstance($id);
+			$instance = User::getInstance($id);
 		}
 
 		return $instance;
@@ -254,13 +256,13 @@ abstract class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns the global {@link JCacheController} object
+	 * Returns the global {@link CacheController} object
 	 *
 	 * @param   string  $group    The cache group name
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCacheController object
+	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
 	 * @see     JCache
 	 * @since   11.1
@@ -283,7 +285,7 @@ abstract class JFactory
 			$options['storage'] = $storage;
 		}
 
-		$cache = JCache::getInstance($handler, $options);
+		$cache = \Joomla\CMS\Cache\Cache::getInstance($handler, $options);
 
 		self::$cache[$hash] = $cache;
 
@@ -483,12 +485,12 @@ abstract class JFactory
 	}
 
 	/**
-	 * Return the {@link JDate} object
+	 * Return the {@link \Joomla\CMS\Date\Date} object
 	 *
 	 * @param   mixed  $time      The initial time for the JDate object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
-	 * @return  JDate object
+	 * @return  \Joomla\CMS\Date\Date object
 	 *
 	 * @see     JDate
 	 * @since   11.1
@@ -513,13 +515,13 @@ abstract class JFactory
 				if (!class_exists($classname))
 				{
 					// The class does not exist, default to JDate
-					$classname = 'JDate';
+					$classname = 'Joomla\\CMS\\Date\\Date';
 				}
 			}
 			else
 			{
 				// No tag, so default to JDate
-				$classname = 'JDate';
+				$classname = 'Joomla\\CMS\\Date\\Date';
 			}
 		}
 
@@ -594,8 +596,13 @@ abstract class JFactory
 		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
+		// The session handler needs a JInput object, we can inject it without having a hard dependency to an application instance
+		$input = self::$application ? self::getApplication()->input : new JInput;
+
 		$sessionHandler = new JSessionHandlerJoomla($options);
-		$session        = JSession::getInstance($handler, $options, $sessionHandler);
+		$sessionHandler->input = $input;
+
+		$session = JSession::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{
@@ -714,9 +721,9 @@ abstract class JFactory
 	/**
 	 * Create a language object
 	 *
-	 * @return  JLanguage object
+	 * @return  Language object
 	 *
-	 * @see     JLanguage
+	 * @see     Language
 	 * @since   11.1
 	 */
 	protected static function createLanguage()
@@ -724,7 +731,7 @@ abstract class JFactory
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
-		$lang = JLanguage::getInstance($locale, $debug);
+		$lang = Language::getInstance($locale, $debug);
 
 		return $lang;
 	}

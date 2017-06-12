@@ -90,12 +90,11 @@ class ContentViewArticles extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Levels filter - Used in Hathor.
+		// @deprecated  4.0 To be removed with Hathor
 		$this->f_levels = array(
 			JHtml::_('select.option', '1', JText::_('J1')),
 			JHtml::_('select.option', '2', JText::_('J2')),

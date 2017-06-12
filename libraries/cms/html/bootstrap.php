@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -38,6 +38,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function affix($selector = 'affix', $params = array())
 	{
@@ -294,7 +296,7 @@ abstract class JHtmlBootstrap
 	 *                             - url          string   URL of a resource to be inserted as an `<iframe>` inside the modal body
 	 *                             - height       string   height of the `<iframe>` containing the remote resource
 	 *                             - width        string   width of the `<iframe>` containing the remote resource
-	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the url option is set
+	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
@@ -500,6 +502,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.6
+	 *
+	 * @deprecated  4.0 No replacement, use Bootstrap tooltips.
 	 */
 	public static function tooltipExtended($extended = true)
 	{
@@ -535,6 +539,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function typeahead($selector = '.typeahead', $params = array())
 	{
@@ -630,6 +636,20 @@ abstract class JHtmlBootstrap
 			if ($onHidden)
 			{
 				$script[] = "\t.on('hidden', " . $onHidden . ")";
+			}
+
+			$parents = array_key_exists(__METHOD__, static::$loaded) ? array_filter(array_column(static::$loaded[__METHOD__], 'parent')) : array();
+
+			if ($opt['parent'] && empty($parents))
+			{
+				$script[] = "
+					$(document).on('click.collapse.data-api', '[data-toggle=collapse]', function (e) {
+						var \$this   = $(this), href
+						var parent  = \$this.attr('data-parent')
+						var \$parent = parent && $(parent)
+
+						if (\$parent) \$parent.find('[data-toggle=collapse][data-parent=' + parent + ']').not(\$this).addClass('collapsed')
+					})";
 			}
 
 			$script[] = "});";

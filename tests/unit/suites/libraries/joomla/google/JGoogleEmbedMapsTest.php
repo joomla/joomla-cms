@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -62,7 +62,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -754,19 +754,19 @@ class JGoogleEmbedMapsTest extends TestCase
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
 	$query = parse_url($url, PHP_URL_QUERY);
-	
+
 	parse_str($query, $params);
-	
+
 	$address = strtolower($params['address']);
 
 	switch ($address)
 	{
 		case 'san francisco':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
 		break;
 
 		case 'palo alto':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'paloalto.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'paloalto.txt');
 		break;
 
 		default:

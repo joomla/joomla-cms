@@ -4,7 +4,7 @@
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/dbtestcomposite.php';
@@ -194,7 +194,7 @@ class JTableTest extends TestCaseDatabase
 		$expected = array(
 			'/dummy/',
 			'dir/not/exist',
-			realpath(JPATH_PLATFORM . '/src/Joomla/Cms/Table')
+			realpath(JPATH_PLATFORM . '/src/Joomla/CMS/Table')
 		);
 
 		// Add dummy paths

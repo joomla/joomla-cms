@@ -924,7 +924,7 @@ ENDDATA;
 		$username = isset($credentials['username']) ? $credentials['username'] : null;
 		$user     = JFactory::getUser();
 
-		if ($user->username != $username)
+		if (strtolower($user->username) != strtolower($username))
 		{
 			return false;
 		}

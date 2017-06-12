@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $class = ' class="first"';
-if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
+if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 ?>
 <ul>
 <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>

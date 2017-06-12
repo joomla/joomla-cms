@@ -6,7 +6,7 @@
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set the platform root path as a constant if necessary.
@@ -67,6 +67,20 @@ if (!interface_exists('JsonSerializable'))
 // @deprecated 4.0
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
+
+/**
+ * Mask for the raw routing mode
+ *
+ * @deprecated  4.0
+ */
+const JROUTER_MODE_RAW = 0;
+
+/**
+ * Mask for the SEF routing mode
+ *
+ * @deprecated  4.0
+ */
+const JROUTER_MODE_SEF = 1;
 
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');

@@ -25,7 +25,7 @@ class RedirectHelper
 	 *
 	 * @param   string  $vName  The name of the active view.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

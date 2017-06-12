@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -95,7 +95,7 @@ class JGoogleDataPicasaTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -298,7 +298,7 @@ function picasaAlbumCallback($url, array $headers = null, $timeout = null)
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
-	$response->body = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'album.txt');
+	$response->body = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'album.txt');
 
 	return $response;
 }
@@ -317,7 +317,7 @@ function picasaAlbumCallback($url, array $headers = null, $timeout = null)
  */
 function dataPicasaAlbumCallback($url, $data, array $headers = null, $timeout = null)
 {
-	PHPUnit_Framework_TestCase::assertContains('<title>New Title</title>', $data);
+	\PHPUnit\Framework\TestCase::assertContains('<title>New Title</title>', $data);
 
 	$response = new stdClass;
 
@@ -345,7 +345,7 @@ function picasaAlbumlistCallback($url, array $headers = null, $timeout = null)
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
-	$response->body = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'albumlist.txt');
+	$response->body = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'albumlist.txt');
 
 	return $response;
 }

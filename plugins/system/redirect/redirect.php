@@ -180,7 +180,7 @@ class PlgSystemRedirect extends JPlugin
 		}
 
 		// A redirect object was found and, if published, will be used
-		if (!is_null($redirect) && ((int) $redirect->published === 1))
+		if ($redirect !== null && ((int) $redirect->published === 1))
 		{
 			if (!$redirect->header || (bool) JComponentHelper::getParams('com_redirect')->get('mode', false) === false)
 			{
@@ -193,7 +193,7 @@ class PlgSystemRedirect extends JPlugin
 
 				$oldUrlParts = parse_url($redirect->old_url);
 
-				if (empty($oldUrlParts['query']) && $urlQuery !== '')
+				if ($urlQuery !== '' && empty($oldUrlParts['query']))
 				{
 					$redirect->new_url .= '?' . $urlQuery;
 				}
@@ -206,7 +206,7 @@ class PlgSystemRedirect extends JPlugin
 			JErrorPage::render(new RuntimeException($error->getMessage(), $redirect->header, $error));
 		}
 		// No redirect object was found so we create an entry in the redirect table
-		elseif (is_null($redirect))
+		elseif ($redirect === null)
 		{
 			$params = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
 
@@ -234,7 +234,7 @@ class PlgSystemRedirect extends JPlugin
 		// We have an unpublished redirect object, increment the hit counter
 		else
 		{
-			$redirect->hits += 1;
+			$redirect->hits++;
 
 			try
 			{

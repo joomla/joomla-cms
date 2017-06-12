@@ -11,11 +11,7 @@ defined('JPATH_BASE') or die;
 
 $item = $displayData;
 
-if ($item->language == '')
-{
-	echo JText::_('JDEFAULT');
-}
-elseif ($item->language == '*')
+if ($item->language == '*')
 {
 	echo JText::alt('JALL', 'language');
 }
