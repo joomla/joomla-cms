@@ -282,3 +282,6 @@ JLoader::registerAlias('JFormRuleUrl',                      '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form\\Rule\\UsernameRule', '5.0');
 
 JLoader::registerAlias('JMicrodata',                        '\\Joomla\\CMS\\Microdata\\Microdata', '5.0');
+
+JLoader::registerAlias('JHtml',                             '\\Joomla\\CMS\\Html\\HtmlHelper', '5.0');
+JLoader::registerAlias('JHtmlJquery',                       '\\Joomla\\CMS\\Html\\Jquery', '5.0');
