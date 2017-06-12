@@ -69,9 +69,9 @@ class Html extends HtmlView
 	{
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		//$user       = \JFactory::getUser();
-		//$userId     = $user->id;
-		//$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		// $user       = \JFactory::getUser();
+		// $userId     = $user->id;
+		// $checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		$checkedOut = false;
 

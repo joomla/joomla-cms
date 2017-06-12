@@ -119,40 +119,6 @@ class Updatesites extends Installer
 		return $result;
 	}
 
-	public function edit(&$eid = array(), $value = 1)
-	{
-		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
-		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
-		}
-
-		$result = true;
-
-		// Ensure eid is an array of extension ids
-		if (!is_array($eid))
-		{
-			$eid = array($eid);
-		}
-
-		// Get a table object for the extension type
-		$table = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
-
-		// Enable the update site in the table and store it in the database
-		foreach ($eid as $i => $id)
-		{
-			$table->load($id);
-			$table->enabled = $value;
-
-			if (!$table->store())
-			{
-				$this->setError($table->getError());
-				$result = false;
-			}
-		}
-
-		return $result;
-	}
-
 	/**
 	 * Deletes an update site.
 	 *
