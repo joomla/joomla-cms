@@ -45,7 +45,7 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$attributes = array(
+$attributes = [
 	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
@@ -54,7 +54,7 @@ $attributes = array(
 	!empty($step) ? 'step="' . $step . '"' : '',
 	!empty($min) ? 'min="' . $min . '"' : '',
 	$autofocus ? 'autofocus' : '',
-);
+];
 
 $value = (float) $value;
 $value = empty($value) ? $min : $value;

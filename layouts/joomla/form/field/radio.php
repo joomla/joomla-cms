@@ -54,7 +54,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 ?>
 <?php // START SWITCHER ?>
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
-<?php JHtml::_('script', 'system/fields/switcher.js', array('version' => 'auto', 'relative' => true)); ?>
+<?php JHtml::_('script', 'system/fields/switcher.js', ['version' => 'auto', 'relative' => true]); ?>
 <fieldset id="<?php echo $id; ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>>
@@ -80,7 +80,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 					$onchange    = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 					$oid         = $id . $i;
 					$ovalue      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-					$attributes  = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+					$attributes  = array_filter([$checked, $optionClass, $disabled, $onchange, $onclick]);
 				?>
 				<?php if ($required) : ?>
 					<?php $attributes[] = 'required aria-required="true"'; ?>
@@ -118,7 +118,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 				$oid        = $id . $i;
 				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+				$attributes = array_filter([$checked, $optionClass, $disabled, $onchange, $onclick]);
 			?>
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required aria-required="true"'; ?>

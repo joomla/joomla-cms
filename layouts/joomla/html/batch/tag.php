@@ -22,5 +22,5 @@ echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_L
 </label>
 <select name="batch[tag]" class="custom-select" id="batch-tag-id">
 	<option value=""><?php echo JText::_('JLIB_HTML_BATCH_TAG_NOCHANGE'); ?></option>
-	<?php echo JHtml::_('select.options', JHtml::_('tag.tags', array('filter.published' => array(1))), 'value', 'text'); ?>
+	<?php echo JHtml::_('select.options', JHtml::_('tag.tags', ['filter.published' => [1]]), 'value', 'text'); ?>
 </select>

@@ -63,11 +63,11 @@ $data .= 'aria-valuemax="' . $max . '"';
 $data .= ' aria-valuemin="' . $min . '"';
 $data .= ' aria-valuenow="' . $value . '"';
 
-$attributes = array(
+$attributes = [
 	$class,
 	!empty($width) ? ' style="width:' . $width . ';"' : '',
 	$data
-);
+];
 
 $value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>

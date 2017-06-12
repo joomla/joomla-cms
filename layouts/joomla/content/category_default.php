@@ -22,16 +22,16 @@ $className = substr($extension, 4);
 $app = JFactory::getApplication();
 
 $category->text = $category->description;
-$app->triggerEvent('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
+$app->triggerEvent('onContentPrepare', [$extension . '.categories', &$category, &$params, 0]);
 $category->description = $category->text;
 
-$results = $app->triggerEvent('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentAfterTitle', [$extension . '.categories', &$category, &$params, 0]);
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentBeforeDisplay', [$extension . '.categories', &$category, &$params, 0]);
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentAfterDisplay', [$extension . '.categories', &$category, &$params, 0]);
 $afterDisplayContent = trim(implode("\n", $results));
 
 /**

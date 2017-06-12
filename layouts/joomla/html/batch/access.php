@@ -22,8 +22,8 @@ defined('JPATH_BASE') or die;
 		'access.assetgrouplist',
 		'batch[assetgroup_id]', '',
 		'class="custom-select"',
-		array(
+		[
 			'title' => JText::_('JLIB_HTML_BATCH_NOCHANGE'),
-			'id' => 'batch-access'
-		)
+			'id'    => 'batch-access'
+		]
 	); ?>

@@ -58,7 +58,7 @@ if ($displayData['active'])
 		$limit = 'limitstart.value=0';
 	}
 
-	$cssClasses = array();
+	$cssClasses = [];
 
 	$title = '';
 

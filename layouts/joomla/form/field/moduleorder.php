@@ -55,7 +55,7 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
-JHtml::_('script', 'system/fields/moduleorder.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/fields/moduleorder.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <div
 	id="parent_<?php echo $id; ?>"

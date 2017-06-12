@@ -48,7 +48,7 @@ extract($displayData);
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
 
-$attributes = array(
+$attributes = [
 	$columns ?: '',
 	$rows ?: '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
@@ -63,7 +63,7 @@ $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
 	$maxlength ? $maxlength: ''
 
-);
+];
 ?>
 <textarea name="<?php
 echo $name; ?>" id="<?php

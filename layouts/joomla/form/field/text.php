@@ -54,7 +54,7 @@ if ($options)
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
-$attributes = array(
+$attributes = [
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
@@ -72,7 +72,7 @@ $attributes = array(
 
 	// @TODO add a proper string here!!!
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
-);
+];
 
 $addonBeforeHtml = '<span class="input-group-addon">' . $addonBefore . '</span>';
 $addonAfterHtml  = '<span class="input-group-addon">' . $addonAfter . '</span>';

@@ -17,7 +17,7 @@ if (preg_match('/Joomla.submitbutton/', $displayData['doTask']))
 	$ctrls = str_replace("')", '', $ctrls);
 	$ctrls = str_replace(";", '', $ctrls);
 
-	$options = array('task' => $ctrls);
+	$options = ['task' => $ctrls];
 	JFactory::getDocument()->addScriptOptions('keySave', $options);
 }
 

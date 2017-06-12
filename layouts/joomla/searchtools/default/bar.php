@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 $data = $displayData;
 
 // Receive overridable options
-$data['options'] = !empty($data['options']) ? $data['options'] : array();
+$data['options'] = !empty($data['options']) ? $data['options'] : [];
 
 if (is_array($data['options']))
 {
@@ -42,7 +42,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<div class="input-group">
 					<?php echo $filters['filter_search']->input; ?>
 					<?php if ($filters['filter_search']->description) : ?>
-						<?php JHtmlBootstrap::tooltip('#filter_search', array('title' => JText::_($filters['filter_search']->description))); ?>
+						<?php JHtmlBootstrap::tooltip('#filter_search', ['title' => JText::_($filters['filter_search']->description)]); ?>
 					<?php endif; ?>
 					<span class="input-group-btn">
 						<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>">

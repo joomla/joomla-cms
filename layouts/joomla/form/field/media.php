@@ -112,7 +112,7 @@ $url    = ($readonly ? ''
 	// Render the modal
 	echo JHtml::_('bootstrap.renderModal',
 		'imageModal_'. $id,
-		array(
+		[
 			'url'         => $url,
 			'title'       => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
@@ -121,10 +121,10 @@ $url    = ($readonly ? ''
 			'modalWidth'  => '80',
 			'bodyHeight'  => '60',
 			'footer'      => '<button class="btn btn-secondary button-save-selected">' . JText::_('JSELECT') . '</button><button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
-		)
+		]
 	);
 
-	JHtml::_('script', 'system/fields/mediafield.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/fields/mediafield.min.js', ['version' => 'auto', 'relative' => true]);
 	?>
 	<div class="input-group">
 		<?php if ($showPreview && $showAsTooltip) : ?>

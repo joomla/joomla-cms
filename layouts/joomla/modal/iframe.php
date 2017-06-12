@@ -30,10 +30,10 @@ extract($displayData);
  *
  */
 
-$iframeAttributes = array(
+$iframeAttributes = [
 	'class' => 'iframe',
 	'src'   => $params['url']
-);
+];
 
 if (isset($params['title']))
 {

@@ -35,7 +35,7 @@ extract($displayData);
  *
  */
 
-$modalClasses = array('modal');
+$modalClasses = ['modal'];
 
 if (!isset($params['animation']) || $params['animation'])
 {
@@ -50,10 +50,10 @@ if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
 	$modalDialogClass = ' jviewport-width' . $modalWidth;
 }
 
-$modalAttributes = array(
+$modalAttributes = [
 	'tabindex' => '-1',
 	'class'    => 'joomla-modal ' .implode(' ', $modalClasses)
-);
+];
 
 if (isset($params['backdrop']))
 {
