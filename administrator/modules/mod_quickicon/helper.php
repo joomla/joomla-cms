@@ -79,7 +79,7 @@ abstract class ModQuickIconHelper
 						'access' => ['core.manage', 'com_modules'],
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
 					]
-				);
+				];
 			}
 			else
 			{
