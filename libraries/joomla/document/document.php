@@ -434,7 +434,7 @@ class JDocument
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
-		
+
 		if ($name == 'generator')
 		{
 			$this->setGenerator($content);
