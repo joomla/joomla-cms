@@ -46,7 +46,7 @@ class InstallationFormFieldPrefix extends JFormField
 		}
 
 		// If a prefix is already set, use it instead.
-		$session = JFactory::getSession()->get('setup.options', array());
+		$session = JFactory::getSession()->get('setup.options', []);
 
 		if (empty($session['db_prefix']))
 		{

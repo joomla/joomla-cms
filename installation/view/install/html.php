@@ -38,7 +38,7 @@ class InstallationViewInstallHtml extends JViewHtml
 	 * @var    array
 	 * @since  3.1
 	 */
-	protected $tasks = array();
+	protected $tasks = [];
 
 	/**
 	 * Method to render the view.

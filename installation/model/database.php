@@ -244,14 +244,14 @@ class InstallationModelDatabase extends JModelBase
 				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
 				 * in order to trick the connection into creating the database
 				 */
-				$altDBoptions = array(
+				$altDBoptions = [
 					'driver'   => $options->db_type,
 					'host'     => $options->db_host,
 					'user'     => $options->db_user,
 					'password' => $options->db_pass,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
-				);
+				];
 
 				$altDB = JDatabaseDriver::getInstance($altDBoptions);
 
@@ -549,10 +549,10 @@ class InstallationModelDatabase extends JModelBase
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
-				array(
+				[
 					$db->quoteName('extension_id'),
 					$db->quoteName('version_id')
-				)
+				]
 			)
 			->values('700, ' . $db->quote($version));
 		$db->setQuery($query);
@@ -623,7 +623,7 @@ class InstallationModelDatabase extends JModelBase
 		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
 		{
 			// Build the language parameters for the language manager.
-			$params = array();
+			$params = [];
 
 			// Set default administrator/site language to sample data values.
 			$params['administrator'] = 'en-GB';
@@ -798,19 +798,19 @@ class InstallationModelDatabase extends JModelBase
 		$userId = self::getUserId();
 
 		// Update all core tables created_by fields of the tables with the random user id.
-		$updatesArray = array(
-			'#__banners'         => array('created_by', 'modified_by'),
-			'#__categories'      => array('created_user_id', 'modified_user_id'),
-			'#__contact_details' => array('created_by', 'modified_by'),
-			'#__content'         => array('created_by', 'modified_by'),
-			'#__fields'          => array('created_user_id', 'modified_by'),
-			'#__finder_filters'  => array('created_by', 'modified_by'),
-			'#__newsfeeds'       => array('created_by', 'modified_by'),
-			'#__tags'            => array('created_user_id', 'modified_user_id'),
-			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
-			'#__ucm_history'     => array('editor_user_id'),
-			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
-		);
+		$updatesArray = [
+			'#__banners'         => ['created_by', 'modified_by'],
+			'#__categories'      => ['created_user_id', 'modified_user_id'],
+			'#__contact_details' => ['created_by', 'modified_by'],
+			'#__content'         => ['created_by', 'modified_by'],
+			'#__fields'          => ['created_user_id', 'modified_by'],
+			'#__finder_filters'  => ['created_by', 'modified_by'],
+			'#__newsfeeds'       => ['created_by', 'modified_by'],
+			'#__tags'            => ['created_user_id', 'modified_user_id'],
+			'#__ucm_content'     => ['core_created_user_id', 'core_modified_user_id'],
+			'#__ucm_history'     => ['editor_user_id'],
+			'#__user_notes'      => ['created_user_id', 'modified_user_id'],
+		];
 
 		foreach ($updatesArray as $table => $fields)
 		{
@@ -852,26 +852,26 @@ class InstallationModelDatabase extends JModelBase
 		$nullDate    = $db->getNullDate();
 
 		// Update all core tables date fields of the tables with the current date.
-		$updatesArray = array(
-			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
-			'#__banner_tracks'       => array('track_date'),
-			'#__categories'          => array('created_time', 'modified_time'),
-			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__contentitem_tag_map' => array('tag_date'),
-			'#__fields'              => array('created_time', 'modified_time'),
-			'#__finder_filters'      => array('created', 'modified'),
-			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
-			'#__messages'            => array('date_time'),
-			'#__modules'             => array('publish_up', 'publish_down'),
-			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__redirect_links'      => array('created_date', 'modified_date'),
-			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
-			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
-			'#__ucm_history'         => array('save_date'),
-			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
-			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
-		);
+		$updatesArray = [
+			'#__banners'             => ['publish_up', 'publish_down', 'reset', 'created', 'modified'],
+			'#__banner_tracks'       => ['track_date'],
+			'#__categories'          => ['created_time', 'modified_time'],
+			'#__contact_details'     => ['publish_up', 'publish_down', 'created', 'modified'],
+			'#__content'             => ['publish_up', 'publish_down', 'created', 'modified'],
+			'#__contentitem_tag_map' => ['tag_date'],
+			'#__fields'              => ['created_time', 'modified_time'],
+			'#__finder_filters'      => ['created', 'modified'],
+			'#__finder_links'        => ['indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'],
+			'#__messages'            => ['date_time'],
+			'#__modules'             => ['publish_up', 'publish_down'],
+			'#__newsfeeds'           => ['publish_up', 'publish_down', 'created', 'modified'],
+			'#__redirect_links'      => ['created_date', 'modified_date'],
+			'#__tags'                => ['publish_up', 'publish_down', 'created_time', 'modified_time'],
+			'#__ucm_content'         => ['core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'],
+			'#__ucm_history'         => ['save_date'],
+			'#__users'               => ['registerDate', 'lastvisitDate', 'lastResetTime'],
+			'#__user_notes'          => ['publish_up', 'publish_down', 'created_time', 'modified_time'],
+		];
 
 		foreach ($updatesArray as $table => $fields)
 		{
@@ -1132,8 +1132,8 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function splitQueries($query)
 	{
-		$buffer    = array();
-		$queries   = array();
+		$buffer    = [];
+		$queries   = [];
 		$in_string = false;
 
 		// Trim any whitespace.

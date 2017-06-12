@@ -49,10 +49,10 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 					$lifetime = (($app->get('lifetime')) ? $app->get('lifetime') * 60 : 900);
 
 					// Initialize the options for the Session object.
-					$options = array(
+					$options = [
 						'name'   => $name,
 						'expire' => $lifetime
-					);
+					];
 
 					// Set up the storage handler
 					$handler = new FilesystemHandler(JPATH_INSTALLATION . '/sessions');
@@ -62,7 +62,7 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 					$storage = new JoomlaStorage($input, $handler);
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
-					$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
+					$dispatcher->addListener('onAfterSessionStart', [$app, 'afterSessionStart']);
 
 					$session = new JSession($storage, $dispatcher, $options);
 					$session->addValidator(new AddressValidator($input, $session));

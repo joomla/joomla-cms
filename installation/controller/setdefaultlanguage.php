@@ -92,7 +92,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		}
 
 		// Check if user has activated the multilingual site
-		$data = $this->getInput()->post->get('jform', array(), 'array');
+		$data = $this->getInput()->post->get('jform', [], 'array');
 
 		if ((int) $data['activateMultilanguage'])
 		{
@@ -122,7 +122,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
 			$siteLanguages       = $model->getInstalledlangsFrontend();
-			$groupedAssociations = array();
+			$groupedAssociations = [];
 
 			foreach ($siteLanguages as $siteLang)
 			{

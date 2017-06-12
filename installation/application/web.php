@@ -117,7 +117,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			ksort($orphans, SORT_STRING);
 
-			$guesses = array();
+			$guesses = [];
 
 			foreach ($orphans as $key => $occurance)
 			{
@@ -252,7 +252,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -308,7 +308,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			return false;
 		}
 
-		$ret = array();
+		$ret = [];
 
 		$ret['language']   = (string) $xml->forceLang;
 		$ret['helpurl']    = (string) $xml->helpurl;
@@ -330,7 +330,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
-		$langfiles = array();
+		$langfiles = [];
 
 		// If db connection, fetch them from the database.
 		if ($db)
@@ -387,7 +387,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @since   3.1
 	 */
-	protected function initialiseApp($options = array())
+	protected function initialiseApp($options = [])
 	{
 		// Get the localisation information provided in the localise.xml file.
 		$forced = $this->getLocalise();
@@ -479,14 +479,14 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$type = $this->input->get('format', 'html', 'word');
 			$date = new JDate('now');
 
-			$attributes = array(
+			$attributes = [
 				'charset'      => 'utf-8',
 				'lineend'      => 'unix',
 				'tab'          => "\t",
 				'language'     => $lang->getTag(),
 				'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
 				'mediaversion' => md5($date->format('YmdHi')),
-			);
+			];
 
 			$document = JDocument::getInstance($type, $attributes);
 
@@ -512,12 +512,12 @@ final class InstallationApplicationWeb extends JApplicationCms
 	{
 		$file = $this->input->getCmd('tmpl', 'index');
 
-		$options = array(
-			'template' => 'template',
-			'file' => $file . '.php',
+		$options = {
+			'template'  => 'template',
+			'file'      => $file . '.php',
 			'directory' => JPATH_THEMES,
-			'params' => '{}',
-		);
+			'params'    => '{}',
+		];
 
 		// Parse the document.
 		$this->document->parse($options);
@@ -568,7 +568,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @since   3.1
 	 */
-	public function setCfg(array $vars = array(), $namespace = 'config')
+	public function setCfg(array $vars = [], $namespace = 'config')
 	{
 		$this->config->loadArray($vars, $namespace);
 	}

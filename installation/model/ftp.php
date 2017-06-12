@@ -34,7 +34,7 @@ class InstallationModelFtp extends JModelBase
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
-		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'), array('type' => FTP_BINARY));
+		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'), ['type' => FTP_BINARY]);
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected())
@@ -82,8 +82,8 @@ class InstallationModelFtp extends JModelBase
 		}
 
 		// Check to see if Joomla is installed at the FTP current working directory.
-		$paths = array();
-		$known = array('administrator', 'components', 'installation', 'language', 'libraries', 'plugins');
+		$paths = [];
+		$known = ['administrator', 'components', 'installation', 'language', 'libraries', 'plugins'];
 
 		if (count(array_diff($known, $cwdFolders)) == 0)
 		{
@@ -220,7 +220,7 @@ class InstallationModelFtp extends JModelBase
 		}
 
 		// Verify valid root path, part one.
-		$checkList = array('robots.txt', 'index.php');
+		$checkList = ['robots.txt', 'index.php'];
 
 		if (count(array_diff($checkList, $rootList)))
 		{

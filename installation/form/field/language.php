@@ -75,12 +75,12 @@ class InstallationFormFieldLanguage extends JFormFieldList
 
 		if (!$options || $options  instanceof Exception)
 		{
-			$options = array();
+			$options = [];
 		}
 		// Sort languages by name
 		else
 		{
-			usort($options, array($this, '_sortLanguages'));
+			usort($options, [$this, '_sortLanguages']);
 		}
 
 		// Set the default value from the native language.
