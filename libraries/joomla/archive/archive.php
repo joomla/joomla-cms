@@ -17,9 +17,8 @@ use Joomla\Archive\Archive;
 /**
  * An Archive handling class
  *
- * @since  11.1
- *
- * @deprecated 4.0 use the Joomla\Archive\Archive class instead
+ * @since       11.1
+ * @deprecated  4.0 use the Joomla\Archive\Archive class instead
  */
 class JArchive
 {
