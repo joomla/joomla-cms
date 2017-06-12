@@ -760,7 +760,7 @@ class PlgEditorTinymce extends JPlugin
 				// Set some vars
 				$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ?: null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
@@ -801,7 +801,7 @@ class PlgEditorTinymce extends JPlugin
 					icon: \"" . $icon . "\",
 					onclick: function () {";
 
-				if ($button->get('modal') || $href)
+				if ($href || $button->get('modal'))
 				{
 					$tempConstructor .= "
 							var modalOptions = {
@@ -823,21 +823,21 @@ class PlgEditorTinymce extends JPlugin
 					if ($onclick && ($button->get('modal') || $href))
 					{
 						$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						" . $onclick . '
+							';
 					}
 				}
 				else
 				{
 					$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						" . $onclick . '
+							';
 				}
 
-				$tempConstructor .= "
+				$tempConstructor .= '
 					}
 				});
-			})();";
+			})();';
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name . ' | ';
