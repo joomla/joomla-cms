@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="4.0" type="plugin" group="filesystem" method="upgrade">
-	<name>plg_filesystem_local</name>
+	<name>plg_filesystem_foo</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2017</creationDate>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
@@ -8,26 +8,20 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>__DEPLOY_VERSION__</version>
-	<description>PLG_FILESYSTEM_LOCAL_XML_DESCRIPTION</description>
+	<description>Foo plugin</description>
 	<files>
-		<filename plugin="local">local.php</filename>
+		<filename plugin="foo">foo.php</filename>
 		<folder>adapter</folder>
 	</files>
-
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.sys.ini</language>
-	</languages>
-
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field
 					name="display_name"
 					type="text"
-					label="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_LABEL"
-					description="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_DESC"
-					default="Local"
+					label="Display Name"
+					description="Foo Filesystem plugin"
+					default="Foo Filesystem"
 				/>
 			</fieldset>
 		</fields>

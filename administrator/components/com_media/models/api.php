@@ -19,12 +19,12 @@ use Joomla\CMS\Model\Model;
 class MediaModelApi extends Model
 {
 	/**
-	 * The local file adapter to work with.
+	 * Holds avaliable media file adapters
 	 *
-	 * @var    MediaFileAdapterInterface
+	 * @var   MediaFileAdapterInterface[]
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $adapter = null;
+	protected $adapters = null;
 
 	/**
 	 * Constructor
@@ -38,32 +38,61 @@ class MediaModelApi extends Model
 	{
 		parent::__construct($config);
 
-		if (!isset($config['fileadapter']))
+		if (!isset($config['providers']))
 		{
-			// Import Local file system plugin
-			JPluginHelper::importPlugin('filesystem');
+			$config['providers'] = Joomla\CMS\Plugin\PluginHelper::getPlugin('filesystem');
+		}
+
+		$providers = $config['providers'];
+
+		if (!isset($config['fileadapters']))
+		{
+			// Import enabled file system plugins
+			Joomla\CMS\Plugin\PluginHelper::importPlugin('filesystem');
 
 			$app = JFactory::getApplication();
 
 			$results = $app->triggerEvent('onFileSystemGetAdapters');
+			$adapters = array();
 
-			if ($results != null)
+			for ($i = 0, $len = count($results); $i < $len; $i++)
 			{
-				$config['fileadapter'] = $results[0];
+				$adapters[$providers[$i]->name] = $results[$i];
 			}
+
+			$config['fileadapters'] = $adapters;
 		}
 
-		if (isset($config['fileadapter']))
+		$this->adapters = $config['fileadapters'];
+	}
+
+	/**
+	 * Return the requested adapter
+	 *
+	 * @param   string  $name  Name of the adapter
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @return MediaFileAdapterInterface
+	 *
+	 * @throws Exception
+	 */
+	private function getAdapter($name)
+	{
+		if (isset($this->adapters[$name]))
 		{
-			$this->adapter = $config['fileadapter'];
+			return $this->adapters[$name];
 		}
+
+		// Todo Use a translated string
+		throw new InvalidArgumentException('Requested media file adapter was not found', 500);
 	}
 
 	/**
 	 * Returns the requested file or folder information. More information
 	 * can be found in MediaFileAdapterInterface::getFile().
 	 *
-	 * @param   string  $path  The path to the file or folder
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  stdClass[]
 	 *
@@ -71,17 +100,18 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::getFile()
 	 */
-	public function getFile($path = '/')
+	public function getFile($adapter, $path = '/')
 	{
-		return $this->adapter->getFile($path);
+		return $this->getAdapter($adapter)->getFile($path);
 	}
 
 	/**
 	 * Returns the folders and files for the given path. More information
 	 * can be found in MediaFileAdapterInterface::getFiles().
 	 *
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $path     The folder
+	 * @param   string  $filter   The filter
 	 *
 	 * @return  stdClass[]
 	 *
@@ -89,22 +119,18 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::getFile()
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($adapter, $path = '/', $filter = '')
 	{
-		if (!$this->adapter)
-		{
-			return array();
-		}
-
-		return $this->adapter->getFiles($path, $filter);
+		return $this->getAdapter($adapter)->getFiles($path, $filter);
 	}
 
 	/**
 	 * Creates a folder with the given name in the given path. More information
 	 * can be found in MediaFileAdapterInterface::createFolder().
 	 *
-	 * @param   string  $name  The name
-	 * @param   string  $path  The folder
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $name     The name
+	 * @param   string  $path     The folder
 	 *
 	 * @return  string  The new file name
 	 *
@@ -112,11 +138,11 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::createFolder()
 	 */
-	public function createFolder($name, $path)
+	public function createFolder($adapter, $name, $path)
 	{
 		$name = $this->getSafeName($name);
 
-		$this->adapter->createFolder($name, $path);
+		$this->getAdapter($adapter)->createFolder($name, $path);
 
 		return $name;
 	}
@@ -125,9 +151,10 @@ class MediaModelApi extends Model
 	 * Creates a file with the given name in the given path with the data. More information
 	 * can be found in MediaFileAdapterInterface::createFile().
 	 *
-	 * @param   string  $name  The name
-	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $name     The name
+	 * @param   string  $path     The folder
+	 * @param   binary  $data     The data
 	 *
 	 * @return  string  The new file name
 	 *
@@ -135,11 +162,11 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::createFile()
 	 */
-	public function createFile($name, $path, $data)
+	public function createFile($adapter, $name, $path, $data)
 	{
 		$name = $this->getSafeName($name);
 
-		$this->adapter->createFile($name, $path, $data);
+		$this->getAdapter($adapter)->createFile($name, $path, $data);
 
 		return $name;
 	}
@@ -148,9 +175,10 @@ class MediaModelApi extends Model
 	 * Updates the file with the given name in the given path with the data. More information
 	 * can be found in MediaFileAdapterInterface::updateFile().
 	 *
-	 * @param   string  $name  The name
-	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $name     The name
+	 * @param   string  $path     The folder
+	 * @param   binary  $data     The data
 	 *
 	 * @return  void
 	 *
@@ -158,16 +186,17 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::updateFile()
 	 */
-	public function updateFile($name, $path, $data)
+	public function updateFile($adapter, $name, $path, $data)
 	{
-		$this->adapter->updateFile($name, $path, $data);
+		$this->getAdapter($adapter)->updateFile($name, $path, $data);
 	}
 
 	/**
 	 * Deletes the folder or file of the given path. More information
 	 * can be found in MediaFileAdapterInterface::delete().
 	 *
-	 * @param   string  $path  The path to the file or folder
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $path     The path to the file or folder
 	 *
 	 * @return  void
 	 *
@@ -175,9 +204,9 @@ class MediaModelApi extends Model
 	 * @throws  Exception
 	 * @see     MediaFileAdapterInterface::delete()
 	 */
-	public function delete($path)
+	public function delete($adapter, $path)
 	{
-		$this->adapter->delete($path);
+		$this->getAdapter($adapter)->delete($path);
 	}
 
 	/**
@@ -217,6 +246,7 @@ class MediaModelApi extends Model
 	 * Copies file or folder from source path to destination path
 	 * If forced, existing files/folders would be overwritten
 	 *
+	 * @param   string  $adapter          The adapter
 	 * @param   string  $sourcePath       Source path of the file or folder (relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
@@ -226,15 +256,16 @@ class MediaModelApi extends Model
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function copy($sourcePath, $destinationPath, $force = false)
+	public function copy($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		$this->adapter->copy($sourcePath, $destinationPath, $force);
+		$this->getAdapter($adapter)->copy($sourcePath, $destinationPath, $force);
 	}
 
 	/**
 	 * Moves file or folder from source path to destination path
 	 * If forced, existing files/folders would be overwritten
 	 *
+	 * @param   string  $adapter          The adapter
 	 * @param   string  $sourcePath       Source path of the file or folder (relative)
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
@@ -244,8 +275,8 @@ class MediaModelApi extends Model
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function move($sourcePath, $destinationPath, $force = false)
+	public function move($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		 $this->adapter->move($sourcePath, $destinationPath, $force);
+		$this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
 	}
 }
