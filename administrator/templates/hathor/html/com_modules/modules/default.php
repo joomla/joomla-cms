@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -169,7 +169,7 @@ $saveOrder = $listOrder == 'ordering';
 					<?php else : ?>
 						<?php // Extension is not enabled, show a message that indicates this. ?>
 							<button class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
-								<i class="icon-ban-circle"></i>
+								<span class="icon-ban-circle" aria-hidden="true"></span>
 							</button>
 					<?php endif; ?>					
 				</td>

@@ -17,7 +17,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,12 +99,14 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.appveyor.yml',
 	'.drone.yml',
 	'.github',
 	'.gitignore',
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
+	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
 	'composer.json',

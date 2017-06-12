@@ -161,8 +161,8 @@
 	text-align: right;
 }
 
-/* Dropdown toggle icon align */
-.btn-group > .btn + .dropdown-toggle {
+/* btn-group */
+.btn-group.btn-group-yesno > .btn, .btn-group > .btn, .btn-group > .btn + .dropdown-toggle {
 	float: none;
 }
 
@@ -212,8 +212,13 @@ a.grid_true {
 
 /* For collapsible sidebar */
 .j-sidebar-container {
+	position: absolute;
+	display: block;
 	left: auto;
 	right: -16.5%;
+	padding-top: 28px;
+	padding-bottom: 40px;
+	clear: both;
 	margin: -10px -1px 0 0;
 	border-right: 0;
 	border-left: 1px solid #d3d3d3;
@@ -248,6 +253,11 @@ a.grid_true {
 	}
 }
 
+.j-sidebar-container .icon-folder-2 {
+    line-height: 15px;
+    padding-left: 0;
+}
+
 #system-message-container,
 #j-main-container {
 	padding: 0 5px 0 0;
@@ -268,6 +278,8 @@ a.grid_true {
 
 @media (max-width: 767px) {
 	.j-sidebar-container {
+		position: relative;
+		padding: 0;
 		border-right: 0;
 		border-left: 0;
 	}
@@ -349,4 +361,65 @@ a.grid_true {
 /* Modal Header text align right even if parent container centered */
 .modal-header {
 	text-align: right;
+}
+
+
+/* Media Manager */
+#mediamanager-form .thumbnails-media .thumbnail {
+    margin-left: 18px !important;
+    margin-right: 0;
+}
+.thumbnails-media .imgThumb label::before, .thumbnails-media .imgThumb .imgThumbInside::before {
+	left: 0;
+	right: auto;
+	border-radius: 3px 0;
+}
+.thumbnails-media .thumbnail input[type="radio"], .thumbnails-media .thumbnail input[type="checkbox"] {
+    left: auto;
+    right: 5px;
+}
+.thumbnails-media .imgDelete a.close {
+	border-radius: 0 3px;
+}
+.thumbnails-media .imgPreview a, .thumbnails-media .imgDetails {
+    border-radius: 3px 0;
+    border-width: 1px 0 0 1px;
+    left: auto;
+    right: 0;
+}
+
+/* SubForms (Table) */
+.subform-table-layout {
+	td {
+		padding-left: 10px;
+		&::before {
+			content: attr(data-column);
+			left: auto;
+			right: 10px;
+			padding-left: 10px;
+			padding-right: 0;
+		}
+	}
+	.subform-repeatable tbody td:last-of-type {
+		text-align: left;
+	}
+	.form-horizontal .controls {
+		margin-top: 0;
+	}
+}
+
+/* com_templates */
+.tree-holder {
+	ul {
+		ul {
+			padding-right: 15px;
+			box-shadow: 3px 0 0 rgba(0, 0, 0, 0.08);
+			padding-left: 0;
+			.folder-url, .file {
+				box-shadow: 3px 0 0 @linkColor;
+				border-right: 0;
+				border-left: 1px solid rgba(0, 0, 0, 0.08);
+			}
+		}
+	}
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+	<name>plg_fields_checkboxes</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_FIELDS_CHECKBOXES_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="checkboxes">checkboxes.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_fields_checkboxes.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_checkboxes.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="options"
+					type="subform" 
+					label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_LABEL"
+					description="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list" 
+					multiple="true"
+					>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="name"
+							type="text"
+							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_NAME_LABEL"
+							size="30"
+						/>
+	
+						<field
+							name="value"
+							type="text"
+							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_VALUE_LABEL"
+							size="30"
+						/>
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -66,17 +66,14 @@ class PlgSearchTags extends JPlugin
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
 		$limit   = $this->params->def('search_limit', 50);
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -129,7 +126,7 @@ class PlgSearchTags extends JPlugin
 			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -156,7 +153,7 @@ class PlgSearchTags extends JPlugin
 			foreach ($rows as $key => $row)
 			{
 				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
-				$rows[$key]->text       = ($row->description != "" ? $row->description : $row->title);
+				$rows[$key]->text       = ($row->description !== '' ? $row->description : $row->title);
 				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;
 				$rows[$key]->created    = $row->created;

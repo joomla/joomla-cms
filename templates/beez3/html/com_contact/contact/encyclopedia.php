@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,14 +66,14 @@ $cparams = JComponentHelper::getParams('com_media');
 	</div>
 
 <div class="clr"> </div>
-	<?php  if ($this->params->get('presentation_style') != 'plain'):?>
+	<?php  if ($this->params->get('presentation_style') !== 'plain'):?>
 		<?php  echo  JHtml::_($this->params->get('presentation_style').'.start', 'contact-slider'); ?>
 	<?php endif ?>
 <div class="encyclopedia_links">
 <?php echo $this->loadTemplate('links'); ?>
 
 </div>
-	<?php if ($this->params->get('presentation_style') != 'plain'):?>
+	<?php if ($this->params->get('presentation_style') !== 'plain'):?>
 			<?php echo JHtml::_($this->params->get('presentation_style').'.end'); ?>
 			<?php endif; ?>
 </div>

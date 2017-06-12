@@ -3,7 +3,7 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,6 +11,7 @@
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
+		<folder>preset</folder>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>menu.php</filename>
@@ -24,23 +25,50 @@
 		<fields name="params">
 			<fieldset name="advanced">
 				<field
+					name="menutype"
+					type="menu"
+					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
+					description="MOD_MENU_FIELD_MENUTYPE_DESC"
+					clientid="1"
+					>
+					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
+				</field>
+	
+				<field
+					name="check"
+					type="radio"
+					label="MOD_MENU_FIELD_CHECK_LABEL"
+					description="MOD_MENU_FIELD_CHECK_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 
 				<field
 					name="shownew"
 					type="radio"
+					label="MOD_MENU_FIELD_SHOWNEW"
+					description="MOD_MENU_FIELD_SHOWNEW_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_MENU_FIELD_SHOWNEW"
-					description="MOD_MENU_FIELD_SHOWNEW_DESC">
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -48,10 +76,11 @@
 				<field
 					name="showhelp"
 					type="radio"
+					label="MOD_MENU_FIELD_SHOWHELP"
+					description="MOD_MENU_FIELD_SHOWHELP_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_MENU_FIELD_SHOWHELP"
-					description="MOD_MENU_FIELD_SHOWHELP_DESC">
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -59,13 +88,12 @@
 				<field
 					name="forum_url"
 					type="url"
+					label="MOD_MENU_FIELD_FORUMURL_LABEL"
+					description="MOD_MENU_FIELD_FORUMURL_DESC"
 					filter="url"
 					size="30"
 					default=""
-					label="MOD_MENU_FIELD_FORUMURL_LABEL"
-					description="MOD_MENU_FIELD_FORUMURL_DESC"
 				/>
-
 			</fieldset>
 		</fields>
 	</config>

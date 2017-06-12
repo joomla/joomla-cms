@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Cache lite storage handler
  *
- * @see    http://pear.php.net/package/Cache_Lite/
+ * @link   http://pear.php.net/package/Cache_Lite/
  * @since  11.1
+ * @deprecated  4.0 Deprecated without replacement
  */
 class JCacheStorageCachelite extends JCacheStorage
 {
@@ -84,6 +85,21 @@ class JCacheStorageCachelite extends JCacheStorage
 	}
 
 	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		return $this->get($id, $group) !== false;
+	}
+
+	/**
 	 * Get cached data by ID and group
 	 *
 	 * @param   string   $id         The cache data ID
@@ -138,7 +154,7 @@ class JCacheStorageCachelite extends JCacheStorage
 
 				$filename = $file->getFilename();
 
-				$item->updateSize(filesize($path . '/' . $foldername . '/' . $filename) / 1024);
+				$item->updateSize(filesize($path . '/' . $foldername . '/' . $filename));
 			}
 
 			$data[$foldername] = $item;

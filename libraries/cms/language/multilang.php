@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class JLanguageMultilang
 		$app = JFactory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			$enabled = $app->getLanguageFilter();
 
@@ -69,7 +69,7 @@ class JLanguageMultilang
 	 * @return  array of language extension objects.
 	 *
 	 * @since   3.5
-	 * @deprecated   __DEPLOY_VERSION__  Use JLanguageHelper::getInstalledLanguages(0) instead.
+	 * @deprecated   3.7.0  Use JLanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSiteLangs()
 	{

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class InstallationHtmlHelper
 	{
 		// Determine if the configuration file path is writable.
 		$path   = JPATH_CONFIGURATION . '/configuration.php';
-		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
+		$useftp = file_exists($path) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 
 		$tabs   = array();
 		$tabs[] = 'site';

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,12 +60,16 @@ else
 	}
 
 	$sublayout = 'section';
-}
 
+	// Label will not be shown for sections layout, so reset the margin left
+	JFactory::getDocument()->addStyleDeclaration(
+		'.subform-table-sublayout-section .controls { margin-left: 0px }'
+	);
+}
 ?>
 
 <div class="row-fluid">
-	<div class="subform-repeatable-wrapper subform-table-layout">
+	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
 			data-repeatable-element="tr.subform-repeatable-group"

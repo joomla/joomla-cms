@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ extract($displayData);
  * @var   integer $size           Size attribute of the input.
  * @var   boolean $spellcheck     Spellcheck state for the form field.
  * @var   string  $validate       Validation rules to apply.
- * @var   string  $value          Value attribute of the field.
+ * @var   array   $value          Value of the field.
   *
  * @var   array   $menus           List of the menu items
  * @var   array   $menubarSource   Menu items for builder
@@ -46,6 +46,7 @@ extract($displayData);
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set
+ * @var   string   $languageFile   TinyMCE language file to translate the buttons
  *
  * @var   JLayoutFile  $this       Context
  */
@@ -54,6 +55,12 @@ JHtml::_('behavior.core');
 JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
 JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+
+if ($languageFile)
+{
+	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+}
+
 
 $doc = JFactory::getDocument();
 $doc->addScriptOptions('plg_editors_tinymce_builder', array(
@@ -93,6 +100,9 @@ $doc->addStyleDeclaration('
 
 ?>
 <div id="joomla-tinymce-builder">
+
+	<p><?php echo JText::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+
 	<div class="mce-tinymce mce-container mce-panel">
 		<div class="mce-container-body mce-stack-layout">
 
@@ -109,6 +119,9 @@ $doc->addStyleDeclaration('
 			</div>
 		</div>
 	</div>
+
+	<hr />
+	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
 	<!-- Render tabs for each set -->
 	<ul class="nav nav-tabs" id="set-tabs">

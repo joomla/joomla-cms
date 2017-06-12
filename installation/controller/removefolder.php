@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// Check whether we need to use FTP.
 		$useFTP = false;
 
-		if ((file_exists($path) && !is_writable($path)))
+		if (file_exists($path) && !is_writable($path))
 		{
 			$useFTP = true;
 		}

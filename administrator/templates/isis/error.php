@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ $option   = $input->get('option', '');
 $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
-$itemid   = $input->get('Itemid', '');
+$itemid   = $input->get('Itemid', '', 'int');
 $sitename = $app->get('sitename');
 
 $cpanel = ($option === 'com_cpanel');
@@ -79,9 +79,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet" />
 	<?php endif; ?>
 	<?php // Load specific language related CSS ?>
-	<?php $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
-	<?php if (is_file($file)) : ?>
-		<link href="<?php echo $file; ?>" rel="stylesheet" />
+	<?php $file = '/administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
+	<?php if (is_file(JPATH_ROOT . $file)) : ?>
+		<link href="<?php echo JUri::root(true) . $file; ?>" rel="stylesheet" />
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" rel="stylesheet" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
@@ -122,7 +122,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js"></script>
 	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task;?>" data-spy="scroll" data-target=".subhead" data-offset="87">
 	<!-- Top Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">

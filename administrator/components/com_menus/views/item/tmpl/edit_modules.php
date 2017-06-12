@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,17 +71,17 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 		<?php foreach ($this->modules as $i => &$module) : ?>
 			<?php if (is_null($module->menuid)) : ?>
 				<?php if (!$module->except || $module->menuid < 0) : ?>
-					<?php $no = "no "; ?>
+					<?php $no = 'no '; ?>
 				<?php else : ?>
-					<?php $no = ""; ?>
+					<?php $no = ''; ?>
 				<?php endif; ?>
 			<?php else : ?>
-				<?php $no = ""; ?>
+				<?php $no = ''; ?>
 			<?php endif; ?>
 			<?php if ($module->published) : ?>
-				<?php $status = ""; ?>
+				<?php $status = ''; ?>
 			<?php else : ?>
-				<?php $status = "unpublished "; ?>
+				<?php $status = 'unpublished '; ?>
 			<?php endif; ?>
 			<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
 				<td id="<?php echo $module->id; ?>">
@@ -146,13 +146,13 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 						'modalWidth'  => '80',
 						'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+								. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 								. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-								. JText::_("JSAVE") . '</button>'
+								. JText::_('JSAVE') . '</button>'
 								. '<button type="button" class="btn btn-success" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-								. JText::_("JAPPLY") . '</button>',
+								. JText::_('JAPPLY') . '</button>',
 					)
 				); ?>
 			</tr>

@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -151,15 +151,4 @@ class JInstallerExtension extends JObject
  */
 class JExtension extends JInstallerExtension
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
-	 *
-	 * @since  3.1
-	 */
-	public function __construct(SimpleXMLElement $element = null)
-	{
-		parent::__construct($element);
-	}
 }

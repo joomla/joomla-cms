@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -181,7 +181,7 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-						<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+						<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 					<?php else : ?>
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
@@ -215,8 +215,8 @@ $loggeduser = JFactory::getUser();
 			'bootstrap.renderModal',
 			'collapseModal',
 			array(
-				'title' => JText::_('COM_USERS_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'title'  => JText::_('COM_USERS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>

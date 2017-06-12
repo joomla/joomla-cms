@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 JFactory::getDocument()->addStyleDeclaration(
-	"
+	'
 	@media (min-width: 768px) {
 		div.modal {
 			left: none;
@@ -29,7 +29,7 @@ JFactory::getDocument()->addStyleDeclaration(
 			margin-left: -250px;
 		}
 	}
-	"
+	'
 );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">

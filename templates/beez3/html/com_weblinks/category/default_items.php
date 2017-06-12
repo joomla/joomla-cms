@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,10 +136,10 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 				<?php echo $this->item->tagLayout->render($tagsData); ?>
 			<?php endif; ?>
 
-			<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>
+			<?php if ($this->params->get('show_link_description') and ($item->description != '')) : ?>
 				<?php $images = json_decode($item->images); ?>
 				<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
-				<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
+				<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 				<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>"> <img
 					<?php if ($images->image_first_caption):
 						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') .'"';
@@ -147,7 +147,7 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 					src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 				<?php endif; ?>
 				<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
-					<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+					<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 					<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"> <img
 					<?php if ($images->image_second_caption):
 						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8') .'"';
