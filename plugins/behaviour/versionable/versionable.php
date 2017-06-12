@@ -31,7 +31,7 @@ class PlgBehaviourVersionable extends JPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct(&$subject, $config = array())
+	public function __construct(&$subject, $config = [])
 	{
 		$this->allowLegacyListeners = false;
 

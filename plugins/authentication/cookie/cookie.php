@@ -103,7 +103,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		// Find the matching record if it exists.
 		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('user_id', 'token', 'series', 'time')))
+			->select($this->db->quoteName(['user_id', 'token', 'series', 'time']))
 			->from($this->db->quoteName('#__user_keys'))
 			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
 			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
@@ -166,7 +166,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		// Make sure there really is a user with this name and get the data for the session.
 		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('id', 'username', 'password')))
+			->select($this->db->quoteName(['id', 'username', 'password']))
 			->from($this->db->quoteName('#__users'))
 			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($results[0]->user_id))
 			->where($this->db->quoteName('requireReset') . ' = 0');

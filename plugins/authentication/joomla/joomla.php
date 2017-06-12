@@ -105,7 +105,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 
 			/** @var \Joomla\Component\Users\Administrator\Model\User $model */
-			$model = new User(array('ignore_request' => true));
+			$model = new User(['ignore_request' => true]);
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
@@ -147,7 +147,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			// Try to validate the OTP
 			JPluginHelper::importPlugin('twofactorauth');
 
-			$otpAuthReplies = JFactory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
+			$otpAuthReplies = JFactory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', [$credentials, $options]);
 
 			$check = false;
 
@@ -199,7 +199,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				if (in_array($otep, $otpConfig->otep))
 				{
 					// Remove the OTEP from the array
-					$otpConfig->otep = array_diff($otpConfig->otep, array($otep));
+					$otpConfig->otep = array_diff($otpConfig->otep, [$otep]);
 
 					$model->setOtpConfig($result->id, $otpConfig);
 

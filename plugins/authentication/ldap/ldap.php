@@ -33,7 +33,7 @@ class PlgAuthenticationLdap extends JPlugin
 	{
 		$userdetails = null;
 		$success = 0;
-		$userdetails = array();
+		$userdetails = [];
 
 		// For JLog
 		$response->type = 'LDAP';

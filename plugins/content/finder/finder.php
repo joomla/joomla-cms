@@ -34,7 +34,7 @@ class PlgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterSave event.
-		JFactory::getApplication()->triggerEvent('onFinderAfterSave', array($context, $article, $isNew));
+		JFactory::getApplication()->triggerEvent('onFinderAfterSave', [$context, $article, $isNew]);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class PlgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderBeforeSave event.
-		JFactory::getApplication()->triggerEvent('onFinderBeforeSave', array($context, $article, $isNew));
+		JFactory::getApplication()->triggerEvent('onFinderBeforeSave', [$context, $article, $isNew]);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class PlgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterDelete event.
-		JFactory::getApplication()->triggerEvent('onFinderAfterDelete', array($context, $article));
+		JFactory::getApplication()->triggerEvent('onFinderAfterDelete', [$context, $article]);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class PlgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderChangeState event.
-		JFactory::getApplication()->triggerEvent('onFinderChangeState', array($context, $pks, $value));
+		JFactory::getApplication()->triggerEvent('onFinderChangeState', [$context, $pks, $value]);
 	}
 
 	/**
@@ -116,6 +116,6 @@ class PlgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderCategoryChangeState event.
-		JFactory::getApplication()->triggerEvent('onFinderCategoryChangeState', array($extension, $pks, $value));
+		JFactory::getApplication()->triggerEvent('onFinderCategoryChangeState', [$extension, $pks, $value]);
 	}
 }

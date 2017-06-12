@@ -67,8 +67,8 @@ class PlgContentFields extends JPlugin
 
 			$context    = $parts[0] . '.' . $parts[1];
 			$fields     = FieldsHelper::getFields($context, $item, true);
-			$fieldsById = array();
-			$groups     = array();
+			$fieldsById = [];
+			$groups     = [];
 
 			// Rearranging fields in arrays for easier lookup later.
 			foreach ($fields as $field)
@@ -93,11 +93,11 @@ class PlgContentFields extends JPlugin
 						$output = FieldsHelper::render(
 							$context,
 							'field.' . $layout,
-							array(
+							[
 								'item'    => $item,
 								'context' => $context,
 								'field'   => $fieldsById[$id]
-							)
+							]
 						);
 					}
 				}
@@ -118,11 +118,11 @@ class PlgContentFields extends JPlugin
 						$output = FieldsHelper::render(
 							$context,
 							'fields.' . $layout,
-							array(
+							[
 								'item'    => $item,
 								'context' => $context,
 								'fields'  => $renderFields
-							)
+							]
 						);
 					}
 				}
