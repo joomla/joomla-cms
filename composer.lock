@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5f439fd219c654099ba9bf99b5dbaa4",
+    "content-hash": "508d04c9f88b696e7a08afbc3959b6ed",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -105,7 +105,7 @@
         },
         {
             "name": "joomla/archive",
-            "version": "dev-master",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
@@ -2845,9 +2845,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "joomla/archive": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
