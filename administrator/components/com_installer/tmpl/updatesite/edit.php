@@ -16,8 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="form-horizontal">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_INSTALLER_UPDATESITE_EDIT_DETAILS'); ?></legend>
-			<div class="row-fluid">
-				<div class="span6">
+			<div class="row">
+				<div class="col">
 					<?php foreach ($this->form->getFieldset() as $field): ?>
 						<div class="control-group">
 							<div class="control-label"><?php echo $field->label; ?></div>

@@ -53,7 +53,7 @@ class Updatesites extends Admin
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Rebuild the update sites.
-		$this->getModel('Updatesites')->rebuild();
+		$this->getModel('updatesites')->rebuild();
 
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
 	}

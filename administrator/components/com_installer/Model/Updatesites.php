@@ -119,6 +119,40 @@ class Updatesites extends Installer
 		return $result;
 	}
 
+	public function edit(&$eid = array(), $value = 1)
+	{
+		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
+		{
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
+		}
+
+		$result = true;
+
+		// Ensure eid is an array of extension ids
+		if (!is_array($eid))
+		{
+			$eid = array($eid);
+		}
+
+		// Get a table object for the extension type
+		$table = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
+
+		// Enable the update site in the table and store it in the database
+		foreach ($eid as $i => $id)
+		{
+			$table->load($id);
+			$table->enabled = $value;
+
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+				$result = false;
+			}
+		}
+
+		return $result;
+	}
+
 	/**
 	 * Deletes an update site.
 	 *
@@ -148,13 +182,8 @@ class Updatesites extends Installer
 
 		$count = 0;
 
-		// Gets the update site names.
-		$query = $db->getQuery(true)
-			->select($db->qn(array('update_site_id', 'name')))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
-		$db->setQuery($query);
-		$updateSitesNames = $db->loadObjectList('update_site_id');
+		// Gets Joomla core update sites names.
+		$updateSitesNames = $this->getJoomlaUpdateSitesNames($ids);
 
 		// Gets Joomla core update sites Ids.
 		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
@@ -377,7 +406,7 @@ class Updatesites extends Installer
 	 *
 	 * @since   3.6.0
 	 */
-	protected function getJoomlaUpdateSitesIds($column = 0)
+	public function getJoomlaUpdateSitesIds($column = 0)
 	{
 		$db  = $this->getDbo();
 
@@ -396,6 +425,30 @@ class Updatesites extends Installer
 		$db->setQuery($query);
 
 		return $db->loadColumn($column);
+	}
+
+	/**
+	 * Fetch the Joomla update sites ids.
+	 *
+	 * @param   integer  $column  Column to return. 0 for update site ids, 1 for extension ids.
+	 *
+	 * @return  array  Array with joomla core update site ids.
+	 *
+	 * @since   3.6.0
+	 */
+	public function getJoomlaUpdateSitesNames($ids = array())
+	{
+		$db  = $this->getDbo();
+
+		// Gets the update site names.
+		$query = $db->getQuery(true)
+			->select($db->qn(array('update_site_id', 'name')))
+			->from($db->qn('#__update_sites'))
+			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+		$db->setQuery($query);
+		$updateSitesNames = $db->loadObjectList('update_site_id');
+
+		return $updateSitesNames;
 	}
 
 	/**

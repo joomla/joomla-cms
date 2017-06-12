@@ -74,7 +74,7 @@ class Html extends HtmlView
 		//$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		$checkedOut = false;
-		
+
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_installer', 'updatesite');
 

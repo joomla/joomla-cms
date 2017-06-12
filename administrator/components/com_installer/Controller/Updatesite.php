@@ -20,4 +20,37 @@ use Joomla\CMS\Controller\Form;
  */
 class Updatesite extends Form
 {
+	/**
+	 * Edit update site.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function edit()
+	{
+		$model = $this->getModel('updatesites');
+
+		//Get the id of the UpdateSite that we are trying to edit
+		$recordId    = $this->input->post->get('cid', array(), 'array')[0];
+
+		//Get the list of the Joomla Core UpdateSites
+		$joomlaUpdateSitesIds = $model->getJoomlaUpdateSitesIds(0);
+
+		if (in_array($recordId, $joomlaUpdateSitesIds))
+		{
+			$this->setMessage(\JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_EDIT',reset($model->getJoomlaUpdateSitesNames(array($recordId)))->name), 'error');
+
+			$this->setRedirect(
+				\JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+
+			return false;
+		}
+
+		parent::edit();
+	}
 }
