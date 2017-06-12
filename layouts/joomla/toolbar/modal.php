@@ -27,7 +27,7 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 // Render the modal
 echo JHtml::_('bootstrap.renderModal',
 	'modal_'. $selector,
-	array(
+	[
 		'url'         => $displayData['doTask'],
 		'title'       => $text,
 		'height'      => '100%',
@@ -41,7 +41,7 @@ echo JHtml::_('bootstrap.renderModal',
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="jQuery(\'#modal_downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
 						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
-	)
+	]
 );
 ?>
 <button onclick="jQuery('#modal_<?php echo $selector; ?>').modal('show')" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">

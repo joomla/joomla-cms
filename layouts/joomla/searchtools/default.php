@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 $data = $displayData;
 
 // Receive overridable options
-$data['options'] = !empty($data['options']) ? $data['options'] : array();
+$data['options'] = !empty($data['options']) ? $data['options'] : [];
 
 $noResultsText     = '';
 $hideActiveFilters = false;
@@ -57,7 +57,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 }
 
 // Set some basic options.
-$customOptions = array(
+$customOptions = [
 	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
 	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
 	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
@@ -68,7 +68,7 @@ $customOptions = array(
 	'showNoResults'       => !empty($noResultsText) ? true : false,
 	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
-);
+];
 
 // Merge custom options in the options array.
 $data['options'] = array_merge($customOptions, $data['options']);

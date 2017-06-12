@@ -18,21 +18,21 @@ if (empty($fieldSets))
 	return;
 }
 
-$ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
-$ignoreFields    = $displayData->get('ignore_fields') ?: array();
-$extraFields     = $displayData->get('extra_fields') ?: array();
+$ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: [];
+$ignoreFields    = $displayData->get('ignore_fields') ?: [];
+$extraFields     = $displayData->get('extra_fields') ?: [];
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
 
 if (!empty($displayData->hiddenFieldsets))
 {
 	// These are required to preserve data on save when fields are not displayed.
-	$hiddenFieldsets = $displayData->hiddenFieldsets ?: array();
+	$hiddenFieldsets = $displayData->hiddenFieldsets ?: [];
 }
 
 if (!empty($displayData->configFieldsets))
 {
 	// These are required to configure showing and hiding fields in the editor.
-	$configFieldsets = $displayData->configFieldsets ?: array();
+	$configFieldsets = $displayData->configFieldsets ?: [];
 }
 
 if ($displayData->get('show_options', 1))
@@ -78,7 +78,7 @@ if ($displayData->get('show_options', 1))
 }
 else
 {
-	$html   = array();
+	$html   = [];
 	$html[] = '<div style="display:none;">';
 	foreach ($fieldSets as $name => $fieldSet)
 	{

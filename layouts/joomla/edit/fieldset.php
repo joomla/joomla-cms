@@ -20,8 +20,8 @@ if (empty($fieldSet))
 	return;
 }
 
-$ignoreFields = $displayData->get('ignore_fields') ? : array();
-$extraFields = $displayData->get('extra_fields') ? : array();
+$ignoreFields = $displayData->get('ignore_fields') ? : [];
+$extraFields = $displayData->get('extra_fields') ? : [];
 
 if ($displayData->get('show_options', 1))
 {
@@ -40,7 +40,7 @@ if ($displayData->get('show_options', 1))
 		}
 	}
 
-	$html = array();
+	$html = [];
 
 	foreach ($fieldSet as $field)
 	{
@@ -51,7 +51,7 @@ if ($displayData->get('show_options', 1))
 }
 else
 {
-	$html = array();
+	$html = [];
 	$html[] = '<div style="display:none;">';
 	foreach ($fieldSet as $field)
 	{

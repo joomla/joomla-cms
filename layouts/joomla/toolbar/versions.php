@@ -14,7 +14,7 @@ extract($displayData);
 echo JHtml::_(
 	'bootstrap.renderModal',
 	'versionsModal',
-	array(
+	[
 		'url'    => "index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id="
 			. (int) $displayData['itemId']. "&amp;type_id=" . $displayData['typeId'] . "&amp;type_alias=" . $displayData['typeAlias']
 			. "&amp;" . JSession::getFormToken() . "=1",
@@ -25,7 +25,7 @@ echo JHtml::_(
 		'bodyHeight'  => '60',
 		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-	)
+	]
 );
 
 ?>

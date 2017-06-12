@@ -63,7 +63,7 @@ $document = JFactory::getDocument();
 $inputvalue = '';
 
 // Build the attributes array.
-$attributes = array();
+$attributes = [];
 
 empty($size)      ? null : $attributes['size'] = $size;
 empty($maxlength) ? null : $attributes['maxlength'] = $maxLength;
@@ -98,7 +98,7 @@ $cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
 JHtml::_('script', $localesPath, false, true, false, false, true);
 JHtml::_('script', $helperPath, false, true, false, false, true);
 JHtml::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
+JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, [], true);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>

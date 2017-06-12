@@ -52,22 +52,22 @@ extract($displayData);
  */
 
 JHtml::_('behavior.core');
-JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
-JHtml::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('jquery.ui', ['core', 'sortable']);
+JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', ['version' => 'auto', 'relative' => false]);
+JHtml::_('stylesheet', 'editors/tinymce/tinymce-builder.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('script', 'editors/tinymce/tinymce-builder.js', ['version' => 'auto', 'relative' => true]);
 
 if ($languageFile)
 {
-	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+	JHtml::_('script', $languageFile, ['version' => 'auto', 'relative' => false]);
 }
 
-JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
+JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', [
 		'menus'         => $menus,
 		'buttons'       => $buttons,
 		'toolbarPreset' => $toolbarPreset,
 		'formControl'   => $name . '[toolbars]',
-	)
+	]
 );
 
 ?>
@@ -110,11 +110,11 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 	<?php // Render tab content for each set ?>
 	<div class="tab-content">
 		<?php
-		$presetButtonClases = array(
+		$presetButtonClases = [
 			'simple'   => 'btn-success',
 			'medium'   => 'btn-info',
 			'advanced' => 'btn-warning',
-		);
+		];
 		foreach ( $setsNames as $num => $title ) :
 
 			// Check whether the values exists, and if empty then use from preset
@@ -138,9 +138,9 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 			}
 
 			// Take existing values
-			$valMenu = empty($value['toolbars'][$num]['menu'])     ? array() : $value['toolbars'][$num]['menu'];
-			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
-			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
+			$valMenu = empty($value['toolbars'][$num]['menu'])     ? [] : $value['toolbars'][$num]['menu'];
+			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? [] : $value['toolbars'][$num]['toolbar1'];
+			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? [] : $value['toolbars'][$num]['toolbar2'];
 		?>
 			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
 				<div class="btn-toolbar float-right">
@@ -179,7 +179,7 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 				</div>
 
 				<?php // Render the form for extra options ?>
-				<?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
+				<?php echo $this->sublayout('setoptions', ['form' => $setsForms[$num]]); ?>
 			</div>
 		<?php endforeach; ?>
 	</div>

@@ -48,7 +48,7 @@ extract($displayData);
 if (!$readonly)
 {
 	JHtml::_('behavior.modal', 'a.modal_' . $id);
-	JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/fields/fielduser.min.js', ['version' => 'auto', 'relative' => true]);
 }
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
@@ -76,9 +76,13 @@ if ($this->escape($userName) === JText::_('JLIB_FORM_SELECT_USER'))
 	$userName = '';
 }
 
-$inputAttributes = array(
-	'type' => 'text', 'id' => $id, 'class' => 'form-control field-user-input-name', 'value' => $this->escape($userName)
-);
+$inputAttributes = [
+	'type'  => 'text',
+	'id'    => $id,
+	'class' => 'form-control field-user-input-name',
+	'value' => $this->escape($userName),
+];
+
 if ($class)
 {
 	$inputAttributes['class'] .= ' ' . $class;
@@ -113,7 +117,7 @@ if (!$readonly)
 					<?php echo JHtml::_(
 						'bootstrap.renderModal',
 						'userModal_' . $id,
-						array(
+						[
 							'url'         => $uri,
 							'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
 							'closeButton' => true,
@@ -122,7 +126,7 @@ if (!$readonly)
 							'modalWidth'  => 80,
 							'bodyHeight'  => 60,
 							'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
-						)
+						]
 					); ?>
 				</span>
 			<?php endif; ?>

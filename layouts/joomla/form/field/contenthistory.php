@@ -47,7 +47,7 @@ extract($displayData);
 echo JHtml::_(
 	'bootstrap.renderModal',
 	'versionsModal',
-	array(
+	[
 		'url'    => $link,
 		'title'  => $label,
 		'height' => '100%',
@@ -56,7 +56,7 @@ echo JHtml::_(
 		'bodyHeight'  => '60',
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-	)
+	]
 );
 
 ?>

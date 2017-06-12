@@ -47,7 +47,7 @@ extract($displayData);
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
-$attributes = array(
+$attributes = [
 	!empty($size) ? ' size="' . $size . '"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
@@ -58,7 +58,7 @@ $attributes = array(
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
 	$required ? ' required aria-required="true"' : '',
-);
+];
 ?>
 <input
 	<?php echo $inputType; ?>

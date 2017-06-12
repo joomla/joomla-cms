@@ -48,7 +48,7 @@ extract($displayData);
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
-$attributes = array(
+$attributes = [
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
@@ -61,7 +61,7 @@ $attributes = array(
 	$required ? 'required aria-required="true"' : '',
 	$autocomplete,
 	$autofocus ? 'autofocus' : ''
-);
+];
 
 if (is_numeric($value))
 {
