@@ -38,7 +38,7 @@ abstract class ModLanguagesHelper
 		$active		= $menu->getActive();
 
 		// Get menu home items
-		$homes = array();
+		$homes = [];
 		$homes['*'] = $menu->getDefault('*');
 
 		foreach ($languages as $item)
@@ -65,9 +65,9 @@ abstract class ModLanguagesHelper
 			$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
 			JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
 
-			if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+			if (class_exists($class) && is_callable([$class, 'getAssociations']))
 			{
-				$cassociations = call_user_func(array($class, 'getAssociations'));
+				$cassociations = call_user_func([$class, 'getAssociations']);
 			}
 		}
 
@@ -129,7 +129,7 @@ abstract class ModLanguagesHelper
 					{
 						if ($language->active)
 						{
-							$language->link = JUri::getInstance()->toString(array('path', 'query'));
+							$language->link = JUri::getInstance()->toString(['path', 'query']);
 						}
 						else
 						{

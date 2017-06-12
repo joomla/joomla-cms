@@ -28,7 +28,7 @@ class ModWhosonlineHelper
 		$db = JFactory::getDbo();
 
 		// Calculate number of guests and users
-		$result	     = array();
+		$result	     = [];
 		$user_array  = 0;
 		$guest_array = 0;
 
@@ -47,7 +47,7 @@ class ModWhosonlineHelper
 		catch (RuntimeException $e)
 		{
 			// Don't worry be happy
-			$sessions = array();
+			$sessions = [];
 		}
 
 		if (count($sessions))
@@ -89,11 +89,11 @@ class ModWhosonlineHelper
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('a.username', 'a.userid', 'a.client_id')))
+			->select($db->quoteName(['a.username', 'a.userid', 'a.client_id']))
 			->from('#__session AS a')
 			->where($db->quoteName('a.userid') . ' != 0')
 			->where($db->quoteName('a.client_id') . ' ' . $whereCondition)
-			->group($db->quoteName(array('a.username', 'a.userid', 'a.client_id')));
+			->group($db->quoteName(['a.username', 'a.userid', 'a.client_id']));
 
 		$user = JFactory::getUser();
 
@@ -103,7 +103,7 @@ class ModWhosonlineHelper
 
 			if (empty($groups))
 			{
-				return array();
+				return [];
 			}
 
 			$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = a.userid')
@@ -120,7 +120,7 @@ class ModWhosonlineHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return array();
+			return [];
 		}
 	}
 }

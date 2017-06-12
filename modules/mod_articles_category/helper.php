@@ -38,7 +38,7 @@ abstract class ModArticlesCategoryHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', ['ignore_request' => true]);
 
 		// Set application parameters in model
 		$app       = JFactory::getApplication();
@@ -69,10 +69,10 @@ abstract class ModArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
+							$catids = [$app->input->getInt('id')];
 							break;
 						case 'categories' :
-							$catids = array($app->input->getInt('id'));
+							$catids = [$app->input->getInt('id')];
 							break;
 						case 'article' :
 							if ($params->get('show_on_article_page', 1))
@@ -83,17 +83,17 @@ abstract class ModArticlesCategoryHelper
 								if (!$catid)
 								{
 									// Get an instance of the generic article model
-									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
+									$article = JModelLegacy::getInstance('Article', 'ContentModel', ['ignore_request' => true]);
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
 									$article->setState('article.id', (int) $article_id);
 									$item   = $article->getItem();
-									$catids = array($item->catid);
+									$catids = [$item->catid];
 								}
 								else
 								{
-									$catids = array($catid);
+									$catids = [$catid];
 								}
 							}
 							else
@@ -130,13 +130,13 @@ abstract class ModArticlesCategoryHelper
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
 			{
 				// Get an instance of the generic categories model
-				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', ['ignore_request' => true]);
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);
-				$additional_catids = array();
+				$additional_catids = [];
 
 				foreach ($catids as $catid)
 				{
@@ -321,7 +321,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
+		$introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -391,7 +391,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
 	{
-		$grouped = array();
+		$grouped = [];
 
 		if (!is_array($list))
 		{
@@ -400,14 +400,14 @@ abstract class ModArticlesCategoryHelper
 				return $grouped;
 			}
 
-			$list = array($list);
+			$list = [$list];
 		}
 
 		foreach ($list as $key => $item)
 		{
 			if (!isset($grouped[$item->$fieldName]))
 			{
-				$grouped[$item->$fieldName] = array();
+				$grouped[$item->$fieldName] = [];
 			}
 
 			if ($fieldNameToKeep === null)
@@ -441,7 +441,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
 	{
-		$grouped = array();
+		$grouped = [];
 
 		if (!is_array($list))
 		{
@@ -450,7 +450,7 @@ abstract class ModArticlesCategoryHelper
 				return $grouped;
 			}
 
-			$list = array($list);
+			$list = [$list];
 		}
 
 		foreach ($list as $key => $item)
@@ -462,7 +462,7 @@ abstract class ModArticlesCategoryHelper
 
 					if (!isset($grouped[$month_year]))
 					{
-						$grouped[$month_year] = array();
+						$grouped[$month_year] = [];
 					}
 
 					$grouped[$month_year][$key] = $item;
@@ -474,7 +474,7 @@ abstract class ModArticlesCategoryHelper
 
 					if (!isset($grouped[$year]))
 					{
-						$grouped[$year] = array();
+						$grouped[$year] = [];
 					}
 
 					$grouped[$year][$key] = $item;

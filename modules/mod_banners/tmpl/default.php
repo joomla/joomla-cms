@@ -23,7 +23,7 @@ $baseurl = JUri::base();
 		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id=' . $item->id); ?>
 		<?php if ($item->type == 1) : ?>
 			<?php // Text based banners ?>
-			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode); ?>
+			<?php echo str_replace(['{CLICKURL}', '{NAME}'], [$link, $item->name], $item->custombannercode); ?>
 		<?php else : ?>
 			<?php $imageurl = $item->params->get('imageurl'); ?>
 			<?php $width = $item->params->get('width'); ?>

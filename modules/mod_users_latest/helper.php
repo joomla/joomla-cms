@@ -32,7 +32,7 @@ class ModUsersLatestHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
+			->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
 			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from('#__users AS a');
 		$user = JFactory::getUser();
@@ -43,7 +43,7 @@ class ModUsersLatestHelper
 
 			if (empty($groups))
 			{
-				return array();
+				return [];
 			}
 
 			$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = a.id')
@@ -62,7 +62,7 @@ class ModUsersLatestHelper
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-			return array();
+			return [];
 		}
 	}
 }

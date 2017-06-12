@@ -38,7 +38,7 @@ abstract class ModArticlesLatestHelper
 		$db = JFactory::getDbo();
 
 		// Get an instance of the generic articles model
-		$model = new Articles(array('ignore_request' => true));
+		$model = new Articles(['ignore_request' => true]);
 
 		// Set application parameters in model
 		$app       = JFactory::getApplication();
@@ -56,7 +56,7 @@ abstract class ModArticlesLatestHelper
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+		$model->setState('filter.category_id', $params->get('catid', []));
 
 		// User filter
 		$userId = JFactory::getUser()->get('id');
@@ -97,13 +97,13 @@ abstract class ModArticlesLatestHelper
 		}
 
 		// Set ordering
-		$order_map = array(
-			'm_dsc' => 'a.modified DESC, a.created',
+		$order_map = [
+			'm_dsc'  => 'a.modified DESC, a.created',
 			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
-			'c_dsc' => 'a.created',
-			'p_dsc' => 'a.publish_up',
+			'c_dsc'  => 'a.created',
+			'p_dsc'  => 'a.publish_up',
 			'random' => $db->getQuery(true)->Rand(),
-		);
+		];
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
 		$dir      = 'DESC';

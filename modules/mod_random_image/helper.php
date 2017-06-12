@@ -86,8 +86,8 @@ class ModRandomImageHelper
 	public static function getImages(&$params, $folder)
 	{
 		$type   = $params->get('type', 'jpg');
-		$files  = array();
-		$images = array();
+		$files  = [];
+		$images = [];
 
 		$dir = JPATH_BASE . '/' . $folder;
 
@@ -149,6 +149,6 @@ class ModRandomImageHelper
 			$folder = str_replace(JPATH_BASE, '', $folder);
 		}
 
-		return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
+		return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
 	}
 }

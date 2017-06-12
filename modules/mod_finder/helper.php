@@ -36,7 +36,7 @@ class ModFinderHelper
 		// Determine if there is an item id before routing.
 		$needId = !JUri::getInstance($route)->getVar('Itemid');
 
-		$fields = array();
+		$fields = [];
 		$uri = JUri::getInstance(JRoute::_($route));
 		$uri->delVar('q');
 
@@ -73,7 +73,7 @@ class ModFinderHelper
 		$filter  = JFilterInput::getInstance();
 
 		// Get the static taxonomy filters.
-		$options = array();
+		$options = [];
 		$options['filter'] = ($request->get('f', 0, 'int') !== 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 

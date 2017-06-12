@@ -38,13 +38,13 @@ abstract class ModRelatedItemsHelper
 
 		// Get an instance of the generic articles model
 		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models');
-		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', ['ignore_request' => true]);
 
 		if ($articles === false)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-			return array();
+			return [];
 		}
 
 		// Set application parameters in model
@@ -60,7 +60,7 @@ abstract class ModRelatedItemsHelper
 
 		$nullDate = $db->getNullDate();
 		$now      = $date->toSql();
-		$related  = array();
+		$related  = [];
 		$query    = $db->getQuery(true);
 
 		if ($option === 'com_content' && $view === 'article' && $id)
@@ -79,12 +79,12 @@ abstract class ModRelatedItemsHelper
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-				return array();
+				return [];
 			}
 
 			// Explode the meta keys on a comma
 			$keys  = explode(',', $metakey);
-			$likes = array();
+			$likes = [];
 
 			// Assemble any non-blank word(s)
 			foreach ($keys as $key)
@@ -113,7 +113,7 @@ abstract class ModRelatedItemsHelper
 				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
 				$a_id = $query->castAsChar('a.id');
-				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+				$case_when .= $query->concatenate([$a_id, 'a.alias'], ':');
 				$case_when .= ' ELSE ';
 				$case_when .= $a_id . ' END as slug';
 
@@ -125,7 +125,7 @@ abstract class ModRelatedItemsHelper
 					->where('a.state = 1')
 					->where('a.access IN (' . $groups . ')');
 
-				$wheres = array();
+				$wheres = [];
 
 				foreach ($likes as $keyword)
 				{
@@ -152,12 +152,12 @@ abstract class ModRelatedItemsHelper
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-					return array();
+					return [];
 				}
 
 				if (count($temp))
 				{
-					$articles_ids = array();
+					$articles_ids = [];
 
 					foreach ($temp as $row)
 					{
