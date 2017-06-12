@@ -46,7 +46,7 @@ abstract class HtmlHelper
 	 * @var    string[]
 	 * @since  1.5
 	 */
-	protected static $includePaths = array(JPATH_LIBRARIES . '/cms/html');
+	protected static $includePaths = array();
 
 	/**
 	 * An array to hold included class prefixes
@@ -141,6 +141,13 @@ abstract class HtmlHelper
 
 		if (!class_exists($className))
 		{
+			$default = JPATH_LIBRARIES . '/cms/html';
+
+			if (!in_array($default, static::$includePaths))
+			{
+				static::addIncludePath($default);
+			}
+
 			$path = \JPath::find(static::$includePaths, strtolower($file) . '.php');
 
 			if (!$path)
