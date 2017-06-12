@@ -151,7 +151,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
-	$menuTypes = ArrayHelper::sortObjects($menuTypes, isset($menuTypes[0]->client_id) ? array('client_id', 'title') : 'title', 1, false);
+	$menuTypes = ArrayHelper::sortObjects($menuTypes, isset($menuTypes[0]->client_id) ? ['client_id', 'title'] : 'title', 1, false);
 
 	foreach ($menuTypes as $mti => $menuType)
 	{
@@ -173,13 +173,13 @@ if ($user->authorise('core.manage', 'com_menus'))
 		elseif ($menuType->home > 1)
 		{
 			$titleicon = ' <span>'
-				. JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true)
+				. JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, ['title' => JText::_('MOD_MENU_HOME_MULTIPLE')], true)
 				. '</span>';
 		}
 		elseif ($menuType->image && JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true))
 		{
 			$titleicon = ' <span>' .
-				JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true) . '</span>';
+				JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, ['title' => $menuType->title_native], true) . '</span>';
 		}
 		else
 		{

@@ -29,7 +29,7 @@ class ModStatsHelper
 	{
 		$app   = JFactory::getApplication();
 		$db    = JFactory::getDbo();
-		$rows  = array();
+		$rows  = [];
 		$query = $db->getQuery(true);
 
 		$serverinfo = $params->get('serverinfo');
@@ -115,7 +115,7 @@ class ModStatsHelper
 		JPluginHelper::importPlugin('system');
 
 		$app    = JFactory::getApplication();
-		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
+		$arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats_admin']);
 
 		foreach ($arrays as $response)
 		{

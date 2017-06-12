@@ -14,7 +14,7 @@ use Joomla\Component\Content\Administrator\Model\Articles;
 // Include the mod_popular functions only once.
 JLoader::register('ModPopularHelper', __DIR__ . '/helper.php');
 
-$list = ModPopularHelper::getList($params, new Articles(array('ignore_request' => true)));
+$list = ModPopularHelper::getList($params, new Articles(['ignore_request' => true]));
 
 // Get module data.
 if ($params->get('automatic_title', 0))
