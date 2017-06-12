@@ -101,12 +101,12 @@ class InstallationModelLanguages extends JModelBase
 			 * In #__update_sites_extensions you should have this extension_id linked
 			 * to the Accredited Translations Repo.
 			 */
-			$updater->findUpdates(array($extId), 0);
+			$updater->findUpdates([$extId], 0);
 
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->qn(array('update_id', 'name', 'element', 'version')))
+			$query->select($db->qn(['update_id', 'name', 'element', 'version']))
 				->from($db->qn('#__updates'))
 				->order($db->qn('name'));
 
@@ -115,12 +115,12 @@ class InstallationModelLanguages extends JModelBase
 
 			if (!$list || $list instanceof Exception)
 			{
-				$list = array();
+				$list = [];
 			}
 		}
 		else
 		{
-			$list = array();
+			$list = [];
 		}
 
 		return $list;
@@ -307,7 +307,7 @@ class InstallationModelLanguages extends JModelBase
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
-		$data = array();
+		$data = [];
 
 		foreach ($langlist as $lang)
 		{
@@ -342,7 +342,7 @@ class InstallationModelLanguages extends JModelBase
 			$data[]           = $row;
 		}
 
-		usort($data, array($this, 'compareLanguages'));
+		usort($data, [$this, 'compareLanguages']);
 
 		return $data;
 	}
@@ -363,7 +363,7 @@ class InstallationModelLanguages extends JModelBase
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->qn(array('element', 'name')))
+		$query->select($db->qn(['element', 'name']))
 			->from($db->qn('#__extensions'))
 			->where($db->qn('type') . ' = ' . $db->q('language'))
 			->where($db->qn('state') . ' = 0')
@@ -444,7 +444,7 @@ class InstallationModelLanguages extends JModelBase
 		$params->set($client->name, $language);
 
 		$table = JTable::getInstance('extension');
-		$id    = $table->find(array('element' => 'com_languages'));
+		$id    = $table->find(['element' => 'com_languages']);
 
 		// Load
 		if (!$table->load($id))
@@ -484,7 +484,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getOptions()
 	{
-		return JFactory::getSession()->get('setup.options', array());
+		return JFactory::getSession()->get('setup.options', []);
 	}
 
 	/**
@@ -510,7 +510,7 @@ class InstallationModelLanguages extends JModelBase
 
 		try
 		{
-			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+			$form = JForm::getInstance('jform', $view, ['control' => 'jform']);
 		}
 		catch (Exception $e)
 		{
@@ -609,7 +609,7 @@ class InstallationModelLanguages extends JModelBase
 		JTable::addIncludePath(JPATH_LIBRARIES . '/legacy/table/');
 		$tableModule = JTable::getInstance('Module', 'JTable');
 
-		$moduleData  = array(
+		$moduleData  = [
 			'id'        => 0,
 			'title'     => 'Language Switcher',
 			'note'      => '',
@@ -625,8 +625,8 @@ class InstallationModelLanguages extends JModelBase
 			'client_id' => 0,
 			'language'  => '*',
 			'published' => 1,
-			'rules'     => array(),
-		);
+			'rules'     => [],
+		];
 
 		// Bind the data.
 		if (!$tableModule->bind($moduleData))
@@ -667,7 +667,7 @@ class InstallationModelLanguages extends JModelBase
 		// Add Module in Module menus.
 		$query->clear()
 			->insert($db->qn('#__modules_menu'))
-			->columns(array($db->qn('moduleid'), $db->qn('menuid')))
+			->columns([$db->qn('moduleid'), $db->qn('menuid')])
 			->values($moduleId . ', 0');
 		$db->setQuery($query);
 
@@ -702,7 +702,7 @@ class InstallationModelLanguages extends JModelBase
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
 		{
-			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+			if ($tableLanguage->load(['lang_code' => $siteLang->language, 'published' => 0]))
 			{
 				if (!$tableLanguage->publish())
 				{
@@ -785,7 +785,7 @@ class InstallationModelLanguages extends JModelBase
 			$nativeLanguageName = $itemLanguage->name;
 		}
 
-		$langData = array(
+		$langData = [
 			'lang_id'      => 0,
 			'lang_code'    => $itemLanguage->language,
 			'title'        => $itemLanguage->name,
@@ -797,7 +797,7 @@ class InstallationModelLanguages extends JModelBase
 			'description'  => '',
 			'metakey'      => '',
 			'metadesc'     => '',
-		);
+		];
 
 		// Bind the data.
 		if (!$tableLanguage->bind($langData))
@@ -844,12 +844,12 @@ class InstallationModelLanguages extends JModelBase
 		// Add Menu Group.
 		$tableMenu = JTable::getInstance('Type', 'JTableMenu');
 
-		$menuData = array(
+		$menuData = [
 			'id'          => 0,
 			'menutype'    => 'mainmenu-' . strtolower($itemLanguage->language),
 			'title'       => 'Main Menu (' . $itemLanguage->language . ')',
 			'description' => 'The main menu for the site in language ' . $itemLanguage->name,
-		);
+		];
 
 		// Bind the data.
 		if (!$tableMenu->bind($menuData))
@@ -891,7 +891,7 @@ class InstallationModelLanguages extends JModelBase
 		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
 		$alias = 'home_' . $itemLanguage->language;
 
-		$menuItem = array(
+		$menuItem = [
 			'title'        => $title,
 			'alias'        => $alias,
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
@@ -913,7 +913,7 @@ class InstallationModelLanguages extends JModelBase
 				. '"menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"",'
 				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
-		);
+		];
 
 		// Bind the data.
 		if (!$tableItem->bind($menuItem))
@@ -958,7 +958,7 @@ class InstallationModelLanguages extends JModelBase
 		$tableModule = JTable::getInstance('Module', 'JTable');
 		$title = 'Main menu ' . $itemLanguage->language;
 
-		$moduleData = array(
+		$moduleData = [
 			'id'        => 0,
 			'title'     => $title,
 			'note'      => '',
@@ -973,8 +973,8 @@ class InstallationModelLanguages extends JModelBase
 			'client_id' => 0,
 			'language'  => $itemLanguage->language,
 			'published' => 1,
-			'rules' => array(),
-		);
+			'rules'     => [],
+		];
 
 		// Bind the data.
 		if (!$tableModule->bind($moduleData))
@@ -1085,7 +1085,7 @@ class InstallationModelLanguages extends JModelBase
 		// Initialize a new category.
 		$category = JTable::getInstance('Category');
 
-		$data = array(
+		$data = [
 			'extension'       => 'com_content',
 			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
 			'description'     => '',
@@ -1098,9 +1098,9 @@ class InstallationModelLanguages extends JModelBase
 			'created_time'    => JFactory::getDate()->toSql(),
 			'created_user_id' => (int) $this->getAdminId(),
 			'language'        => $itemLanguage->language,
-			'rules'           => array(),
+			'rules'           => [],
 			'parent_id'       => 1,
-		);
+		];
 
 		// Set the location in the tree.
 		$category->setLocation(1, 'last-child');
@@ -1151,7 +1151,7 @@ class InstallationModelLanguages extends JModelBase
 		// Initialize a new article.
 		$article = JTable::getInstance('Content');
 
-		$data = array(
+		$data = [
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
 			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
 										. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
@@ -1161,8 +1161,8 @@ class InstallationModelLanguages extends JModelBase
 										. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
 										. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
 										. 'debet libris consulatu.</p>',
-			'images'           => json_encode(array()),
-			'urls'             => json_encode(array()),
+			'images'           => json_encode([]),
+			'urls'             => json_encode([]),
 			'state'            => 1,
 			'created'          => $currentDate,
 			'created_by'       => (int) $this->getAdminId(),
@@ -1176,9 +1176,9 @@ class InstallationModelLanguages extends JModelBase
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
 			'featured'         => 1,
-			'attribs'          => array(),
-			'rules'            => array(),
-		);
+			'attribs'          => [],
+			'rules'            => [],
+		];
 
 		// Bind the data to the table
 		if (!$article->bind($data))

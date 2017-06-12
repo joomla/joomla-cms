@@ -147,7 +147,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('shared_session', 0);
 
 		// Generate the configuration class string buffer.
-		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+		$buffer = $registry->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
 		// Build the configuration file path.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
@@ -291,8 +291,9 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		else
 		{
-			$columns = array(
-				$db->quoteName('id'), $db->quoteName('name'),
+			$columns = [
+				$db->quoteName('id'),
+				$db->quoteName('name'),
 				$db->quoteName('username'),
 				$db->quoteName('email'),
 				$db->quoteName('password'),
@@ -302,7 +303,7 @@ class InstallationModelConfiguration extends JModelBase
 				$db->quoteName('lastvisitDate'),
 				$db->quoteName('activation'),
 				$db->quoteName('params')
-			);
+			];
 			$query->clear()
 				->insert('#__users', true)
 				->columns($columns)
@@ -346,7 +347,7 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			$query->clear()
 				->insert($db->quoteName('#__user_usergroup_map'), false)
-				->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
+				->columns([$db->quoteName('user_id'), $db->quoteName('group_id')])
 				->values($db->quote($userId) . ', 8');
 		}
 

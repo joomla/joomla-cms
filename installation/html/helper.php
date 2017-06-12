@@ -28,7 +28,7 @@ class InstallationHtmlHelper
 		$path   = JPATH_CONFIGURATION . '/configuration.php';
 		$useftp = file_exists($path) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 
-		$tabs   = array();
+		$tabs   = [];
 		$tabs[] = 'site';
 		$tabs[] = 'database';
 
@@ -39,7 +39,7 @@ class InstallationHtmlHelper
 
 		$tabs[] = 'summary';
 
-		$html = array();
+		$html = [];
 		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)
@@ -61,12 +61,12 @@ class InstallationHtmlHelper
 	 */
 	public static function stepbarlanguages()
 	{
-		$tabs = array();
+		$tabs = [];
 		$tabs[] = 'languages';
 		$tabs[] = 'defaultlanguage';
 		$tabs[] = 'complete';
 
-		$html = array();
+		$html = [];
 		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)

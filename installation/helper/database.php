@@ -37,15 +37,15 @@ abstract class InstallationHelperDatabase
 		if (!$db)
 		{
 			// Build the connection options array.
-			$options = array(
-				'driver' => $driver,
-				'host' => $host,
-				'user' => $user,
+			$options = [
+				'driver'   => $driver,
+				'host'     => $host,
+				'user'     => $user,
 				'password' => $password,
 				'database' => $database,
-				'prefix' => $prefix,
-				'select' => $select,
-			);
+				'prefix'   => $prefix,
+				'select'   => $select,
+			];
 
 			// Get a database object.
 			$db = JDatabaseDriver::getInstance($options);

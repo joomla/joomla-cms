@@ -25,7 +25,7 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getOptions()
 	{
-		return JFactory::getSession()->get('setup.options', array());
+		return JFactory::getSession()->get('setup.options', []);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class InstallationModelSetup extends JModelBase
 
 		try
 		{
-			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+			$form = JForm::getInstance('jform', $view, ['control' => 'jform']);
 		}
 		catch (Exception $e)
 		{
@@ -113,7 +113,7 @@ class InstallationModelSetup extends JModelBase
 	public function checkForm($page = 'site')
 	{
 		// Get the posted values from the request and validate them.
-		$data   = JFactory::getApplication()->input->post->get('jform', array(), 'array');
+		$data   = JFactory::getApplication()->input->post->get('jform', [], 'array');
 		$return = $this->validate($data, $page);
 
 		// Attempt to save the data before validation.
@@ -166,7 +166,7 @@ class InstallationModelSetup extends JModelBase
 
 		if (!$list || $list instanceof Exception)
 		{
-			$list = array();
+			$list = [];
 		}
 
 		return $list;
@@ -214,7 +214,7 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getPhpOptions()
 	{
-		$options = array();
+		$options = [];
 
 		// Check the PHP Version.
 		$option = new stdClass;
@@ -331,7 +331,7 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getPhpSettings()
 	{
-		$settings = array();
+		$settings = [];
 
 		// Check for safe mode.
 		$setting = new stdClass;

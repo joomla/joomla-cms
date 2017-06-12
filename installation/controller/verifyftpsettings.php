@@ -36,7 +36,7 @@ class InstallationControllerVerifyftpsettings extends JControllerBase
 		$model = new InstallationModelSetup;
 
 		// Get the data
-		$data = $app->input->post->get('jform', array(), 'array');
+		$data = $app->input->post->get('jform', [], 'array');
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($data);

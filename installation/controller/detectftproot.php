@@ -33,7 +33,7 @@ class InstallationControllerDetectftproot extends JControllerBase
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the data
-		$data = $app->input->post->get('jform', array(), 'array');
+		$data = $app->input->post->get('jform', [], 'array');
 
 		// Store the options in the session.
 		$vars = (new InstallationModelSetup)->storeOptions($data);
