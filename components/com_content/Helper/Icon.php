@@ -7,8 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Site\Helper;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Html\HtmlHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +21,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class JHtmlIcon
+abstract class Icon
 {
 	/**
 	 * Method to generate a link to the create item page for the given category
@@ -30,11 +35,11 @@ abstract class JHtmlIcon
 	 */
 	public static function create($category, $params, $attribs = array(), $legacy = false)
 	{
-		$uri = JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
 
-		$text = JLayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => $legacy));
+		$text = LayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => $legacy));
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
@@ -46,9 +51,9 @@ abstract class JHtmlIcon
 			$attribs['class'] = 'btn btn-primary';
 		}
 
-		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$button = HtmlHelper::_('link', \JRoute::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . JHtml::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
+		$output = '<span class="hasTooltip" title="' . HtmlHelper::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
 		return $output;
 	}
@@ -65,24 +70,24 @@ abstract class JHtmlIcon
 	 */
 	public static function email($article, $params, $attribs = array(), $legacy = false)
 	{
-		JLoader::register('MailtoHelper', JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
+		\JLoader::register('MailtoHelper', JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
 
-		$uri      = JUri::getInstance();
+		$uri      = Uri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
-		$template = JFactory::getApplication()->getTemplate();
-		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
-		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
+		$template = \JFactory::getApplication()->getTemplate();
+		$link     = $base . \JRoute::_(\ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
+		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . \MailtoHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
-		$text = JLayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
+		$text = LayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
 
-		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
+		$attribs['title']   = \JText::_('JGLOBAL_EMAIL_TITLE');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 		$attribs['class']   = 'dropdown-item';
 
-		return JHtml::_('link', JRoute::_($url), $text, $attribs);
+		return HtmlHelper::_('link', \JRoute::_($url), $text, $attribs);
 	}
 
 	/**
@@ -102,8 +107,8 @@ abstract class JHtmlIcon
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
-		$user = JFactory::getUser();
-		$uri  = JUri::getInstance();
+		$user = \JFactory::getUser();
+		$uri  = Uri::getInstance();
 
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup'))
@@ -126,42 +131,42 @@ abstract class JHtmlIcon
 			&& $article->checked_out > 0
 			&& $article->checked_out != $user->get('id'))
 		{
-			$checkoutUser = JFactory::getUser($article->checked_out);
-			$date         = JHtml::_('date', $article->checked_out_time);
-			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
+			$checkoutUser = \JFactory::getUser($article->checked_out);
+			$date         = HtmlHelper::_('date', $article->checked_out_time);
+			$tooltip      = \JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . \JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br> ' . $date;
 
-			$text = JLayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
+			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
 
-			$output = JHtml::_('link', '#', $text, $attribs);
+			$output = HtmlHelper::_('link', '#', $text, $attribs);
 
 			return $output;
 		}
 
-		$contentUrl = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
+		$contentUrl = \ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
 		if ($article->state == 0)
 		{
-			$overlib = JText::_('JUNPUBLISHED');
+			$overlib = \JText::_('JUNPUBLISHED');
 		}
 		else
 		{
-			$overlib = JText::_('JPUBLISHED');
+			$overlib = \JText::_('JPUBLISHED');
 		}
 
-		$date   = JHtml::_('date', $article->created);
+		$date   = HtmlHelper::_('date', $article->created);
 		$author = $article->created_by_alias ?: $article->author;
 
 		$overlib .= '&lt;br&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br&gt;';
-		$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
+		$overlib .= \JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
-		$text = JLayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'overlib' => $overlib, 'legacy' => $legacy));
+		$text = LayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'overlib' => $overlib, 'legacy' => $legacy));
 
-		$attribs['title']   = JText::_('JGLOBAL_EDIT_TITLE');
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$attribs['title']   = \JText::_('JGLOBAL_EDIT_TITLE');
+		$output = HtmlHelper::_('link', \JRoute::_($url), $text, $attribs);
 
 		return $output;
 	}
@@ -178,23 +183,23 @@ abstract class JHtmlIcon
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$input = $app->input;
 		$request = $input->request;
 
-		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
+		$url  = \ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
-		$text = JLayoutHelper::render('joomla.content.icons.print_popup', array('params' => $params, 'legacy' => $legacy));
+		$text = LayoutHelper::render('joomla.content.icons.print_popup', array('params' => $params, 'legacy' => $legacy));
 
-		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
+		$attribs['title']   = \JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 		$attribs['class']   = 'dropdown-item';
 
-		return JHtml::_('link', JRoute::_($url), $text, $attribs);
+		return HtmlHelper::_('link', \JRoute::_($url), $text, $attribs);
 	}
 
 	/**
@@ -209,7 +214,7 @@ abstract class JHtmlIcon
 	 */
 	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
 	{
-		$text = JLayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
+		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 
 		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
 	}
