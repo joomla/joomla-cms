@@ -7,18 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Helper\Html;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Html\HtmlHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
+\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
  * Content HTML helper
  *
  * @since  3.0
  */
-abstract class JHtmlContentAdministrator
+abstract class Contentadministrator
 {
 	/**
 	 * Render the list of associated items
@@ -27,7 +32,7 @@ abstract class JHtmlContentAdministrator
 	 *
 	 * @return  string  The language HTML
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public static function association($articleid)
 	{
@@ -35,7 +40,7 @@ abstract class JHtmlContentAdministrator
 		$html = '';
 
 		// Get the associations
-		if ($associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $articleid))
+		if ($associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $articleid))
 		{
 			foreach ($associations as $tag => $associated)
 			{
@@ -43,7 +48,7 @@ abstract class JHtmlContentAdministrator
 			}
 
 			// Get the associated menu items
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.*')
 				->select('l.sef as lang_sef')
@@ -61,9 +66,9 @@ abstract class JHtmlContentAdministrator
 			{
 				$items = $db->loadObjectList('id');
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500, $e);
+				throw new \Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
@@ -71,8 +76,8 @@ abstract class JHtmlContentAdministrator
 				foreach ($items as &$item)
 				{
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
-					$url     = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$url     = \JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . \JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 					$classes = 'hasPopover badge badge-association badge-' . $item->lang_sef;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
@@ -81,9 +86,9 @@ abstract class JHtmlContentAdministrator
 				}
 			}
 
-			JHtml::_('bootstrap.popover');
+			HtmlHelper::_('bootstrap.popover');
 
-			$html = JLayoutHelper::render('joomla.content.associations', $items);
+			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;
@@ -100,7 +105,7 @@ abstract class JHtmlContentAdministrator
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{
-		JHtml::_('bootstrap.tooltip');
+		HtmlHelper::_('bootstrap.tooltip');
 
 		// Array of image, task, title, action
 		$states = array(
@@ -113,13 +118,13 @@ abstract class JHtmlContentAdministrator
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3])
+				. ($value == 1 ? ' active' : '') . '" title="' . HtmlHelper::_('tooltipText', $state[3])
 				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
 			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
-				. JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+				. HtmlHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;
