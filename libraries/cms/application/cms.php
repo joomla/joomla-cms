@@ -803,16 +803,20 @@ class JApplicationCms extends JApplicationWeb
 
 		$session->initialise($this->input, $this->dispatcher);
 
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
 
-		// Remove expired sessions from the database.
+		// Remove expired sessions from the database if not using the database handler.
 		$time = time();
 
-		if ($time % 2)
+		if ($handler != 'database' && $time % 2)
 		{
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
+
+			// TODO: At some point we need to get away from having session data always in the db.
+			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
 				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
@@ -821,11 +825,8 @@ class JApplicationCms extends JApplicationWeb
 			$db->execute();
 		}
 
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		// Check the session after removing expired sessions or if the session is new.
+		if (($handler != 'database' && $time % 2) || $session->isNew())
 		{
 			$this->checkSession();
 		}
