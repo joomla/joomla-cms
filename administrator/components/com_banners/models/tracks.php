@@ -518,7 +518,7 @@ class BannersModelTracks extends JModelList
 					}
 				}
 
-				$archive = new Archive();
+				$archive = new Archive;
 				if (!$packager = $archive->getAdapter('zip'))
 				{
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
