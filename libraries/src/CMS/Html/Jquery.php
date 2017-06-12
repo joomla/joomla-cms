@@ -50,7 +50,7 @@ abstract class Jquery
 			$debug = (boolean) \JFactory::getConfig()->get('debug');
 		}
 
-		HtmlHelper::_('script', 'jui/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		HtmlHelper::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
@@ -61,7 +61,7 @@ abstract class Jquery
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			HtmlHelper::_('script', 'jui/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			HtmlHelper::_('script', 'vendor/jquery/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;
