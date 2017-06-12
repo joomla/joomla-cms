@@ -69,15 +69,10 @@ class Html extends HtmlView
 	{
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		/**
-		 *
-		 * $user       = \JFactory::getUser();
-		 * $userId     = $user->id;
-		 * $checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		 *
-		 */
 
-		$checkedOut = false;
+		$user       = \JFactory::getUser();
+		$userId     = $user->id;
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_installer', 'updatesite');
