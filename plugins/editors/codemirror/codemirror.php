@@ -32,12 +32,12 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @var array
 	 */
-	protected $modeAlias = array(
+	protected $modeAlias = [
 			'html' => 'htmlmixed',
 			'ini'  => 'properties',
-			'json' => array('name' => 'javascript', 'json' => true),
+			'json' => ['name' => 'javascript', 'json' => true],
 			'scss' => 'css',
-		);
+		];
 
 	/**
 	 * Initialises the Editor.
@@ -63,9 +63,9 @@ class PlgEditorCodemirror extends JPlugin
 		JPluginHelper::importPlugin('editors_codemirror');
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
-		JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
+		JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', [&$this->params]);
 
-		$displayData = (object) array('params'  => $this->params);
+		$displayData = (object) ['params'  => $this->params];
 
 		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
 		ob_start();
@@ -93,7 +93,7 @@ class PlgEditorCodemirror extends JPlugin
 		JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		JFactory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params));
+		JFactory::getApplication()->triggerEvent('onCodeMirrorAfterInit', [&$this->params]);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class PlgEditorCodemirror extends JPlugin
 	 * @return  string  HTML
 	 */
 	public function onDisplay(
-		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
 	{
 		$id = empty($id) ? $name : $id;
 
@@ -215,10 +215,10 @@ class PlgEditorCodemirror extends JPlugin
 		// Add styling to the active line.
 		if ($this->params->get('selectionMatches', false))
 		{
-			$options->highlightSelectionMatches = array(
-					'showToken' => true,
-					'annotateScrollbar' => true,
-				);
+			$options->highlightSelectionMatches = [
+				'showToken'         => true,
+				'annotateScrollbar' => true,
+			];
 		}
 
 		// Do we use line numbering?
@@ -248,11 +248,11 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			$options->theme = $theme;
 
-			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
+			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', ['version' => 'auto']);
 		}
 
 		// Special options for tagged modes (xml/html).
-		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
+		if (in_array($options->mode, ['xml', 'htmlmixed', 'htmlembedded', 'php']))
 		{
 			// Autogenerate closing tags (html/xml only).
 			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
@@ -262,7 +262,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Special options for non-tagged modes.
-		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
+		if (!in_array($options->mode, ['xml', 'htmlmixed', 'htmlembedded']))
 		{
 			// Autogenerate closing brackets.
 			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);
@@ -276,7 +276,7 @@ class PlgEditorCodemirror extends JPlugin
 		// Vim Keybindings.
 		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
 
-		$displayData = (object) array(
+		$displayData = (object) [
 				'options' => $options,
 				'params'  => $this->params,
 				'name'    => $name,
@@ -285,14 +285,14 @@ class PlgEditorCodemirror extends JPlugin
 				'rows'    => $row,
 				'content' => $content,
 				'buttons' => $buttons
-			);
+			];
 
 		// At this point, displayData can be modified by a plugin before going to the layout renderer.
-		$results = JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
+		$results = JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', [&$displayData]);
 
-		$results[] = JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
+		$results[] = JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', ['debug' => JDEBUG]);
 
-		foreach (JFactory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
+		foreach (JFactory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', [&$displayData]) as $result)
 		{
 			$results[] = $result;
 		}

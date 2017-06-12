@@ -56,7 +56,7 @@ class PlgFieldsSql extends FieldsListPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentBeforeSave($context, $item, $isNew, $data = array())
+	public function onContentBeforeSave($context, $item, $isNew, $data = [])
 	{
 		// Only work on new SQL fields
 		if ($context != 'com_fields.field' || !isset($item->type) || $item->type != 'sql' || !$isNew)

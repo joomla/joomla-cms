@@ -43,22 +43,22 @@ class PlgButtonMenu extends JPlugin
 		if ($user->authorise('core.create', 'com_menus')
 			|| $user->authorise('core.edit', 'com_menus'))
 		{
-		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
-			. JSession::getFormToken() . '=1&amp;editor=' . $name;
+			$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
+				. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
-		$button          = new JObject;
-		$button->modal   = true;
-		$button->link    = $link;
-		$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
-		$button->name    = 'share-alt';
-		$button->options = array(
-			'height' => '300px',
-			'width'  => '800px',
-			'bodyHeight'  => '70',
-			'modalWidth'  => '80',
-		);
+			$button          = new JObject;
+			$button->modal   = true;
+			$button->link    = $link;
+			$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
+			$button->name    = 'share-alt';
+			$button->options = [
+				'height'     => '300px',
+				'width'      => '800px',
+				'bodyHeight' => '70',
+				'modalWidth' => '80',
+			];
 
-		return $button;
+			return $button;
 		}
 	}
 }

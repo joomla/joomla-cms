@@ -29,7 +29,7 @@ $g                   = hexdec($color{3} . $color{4});
 $b                   = hexdec($color{5} . $color{6});
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
-JHtml::_('stylesheet', 'editors/codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'editors/codemirror/codemirror.css', ['version' => 'auto', 'relative' => true]);
 
 JFactory::getDocument()->addStyleDeclaration(
 <<<CSS

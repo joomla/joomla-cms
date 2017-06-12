@@ -65,7 +65,7 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$query->clear()
 				->insert('#__update_sites')
-				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
+				->columns([$db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')])
 				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
 			$db->setQuery($query);
 
@@ -93,7 +93,7 @@ class PlgExtensionJoomla extends JPlugin
 				// Link this extension to the relevant update site
 				$query->clear()
 					->insert('#__update_sites_extensions')
-					->columns(array($db->quoteName('update_site_id'), $db->quoteName('extension_id')))
+					->columns([$db->quoteName('update_site_id'), $db->quoteName('extension_id')])
 					->values($update_site_id . ', ' . $this->eid);
 				$db->setQuery($query);
 				$db->execute();
@@ -239,7 +239,7 @@ class PlgExtensionJoomla extends JPlugin
 		}
 		else
 		{
-			$children = array();
+			$children = [];
 		}
 
 		if (count($children))
