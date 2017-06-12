@@ -65,7 +65,7 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 		$this->out('Fetching data from docs wiki', true);
 		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . $version::RELEASE, null, 'max');
 
-		$members = array();
+		$members = [];
 
 		// Loop through the result objects to get every document
 		foreach ($categoryMembers->query->categorymembers as $catmembers)
@@ -89,12 +89,12 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 		 * Now we start fancy processing so we can get the language key for the titles
 		 */
 
-		$cleanMembers = array();
+		$cleanMembers = [];
 
 		// Strip the namespace prefix off the titles and replace spaces with underscores
 		foreach ($members as $member)
 		{
-			$cleanMembers[] = str_replace(array($namespace, ' '), array('', '_'), $member);
+			$cleanMembers[] = str_replace([$namespace, ' '], ['', '_'], $member);
 		}
 
 		// Make sure we only have an array of unique values before continuing
@@ -104,7 +104,7 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 		 * Loop through the cleaned up title array and the language strings array to match things up
 		 */
 
-		$matchedMembers = array();
+		$matchedMembers = [];
 
 		foreach ($cleanMembers as $member)
 		{
@@ -123,7 +123,7 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 		asort($matchedMembers);
 
 		// Now we strip off the JHELP_ prefix from the strings to get usable strings for both COM_ADMIN and JHELP
-		$stripped = array();
+		$stripped = [];
 
 		foreach ($matchedMembers as $member)
 		{
@@ -137,7 +137,7 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 		// Load the admin com_admin language file
 		$language->load('com_admin', JPATH_ADMINISTRATOR);
 
-		$toc = array();
+		$toc = [];
 
 		foreach ($stripped as $string)
 		{

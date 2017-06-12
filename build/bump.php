@@ -38,39 +38,38 @@ const PHP_TAB = "\t";
 // File paths.
 $versionFile      = '/libraries/src/Joomla/CMS/Version.php';
 
-$coreXmlFiles     = array(
-			'/administrator/manifests/files/joomla.xml',
-			);
+$coreXmlFiles     = [
+	'/administrator/manifests/files/joomla.xml',
+];
 
-$languageXmlFiles = array(
-			'/language/en-GB/en-GB.xml',
-			'/language/en-GB/install.xml',
-			'/administrator/language/en-GB/en-GB.xml',
-			'/administrator/language/en-GB/install.xml',
-			'/installation/language/en-GB/en-GB.xml',
-			);
+$languageXmlFiles = [
+	'/language/en-GB/en-GB.xml',
+	'/language/en-GB/install.xml',
+	'/administrator/language/en-GB/en-GB.xml',
+	'/administrator/language/en-GB/install.xml',
+	'/installation/language/en-GB/en-GB.xml',
+];
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
-$readMeFiles = array(
-			'/README.md',
-			'/README.txt',
-			);
+$readMeFiles = [
+	'/README.md',
+	'/README.txt',
+];
 
 // Change copyright date exclusions.
-$directoryLoopExcludeDirectories = array(
-			'/libraries/vendor/',
-			'/libraries/phputf8/',
-			'/libraries/php-encryption/',
-			'/libraries/phpass/',
-			'/libraries/idna_convert/',
-			'/libraries/fof/',
-			);
+$directoryLoopExcludeDirectories = [
+	'/libraries/vendor/',
+	'/libraries/phputf8/',
+	'/libraries/php-encryption/',
+	'/libraries/phpass/',
+	'/libraries/idna_convert/',
+	'/libraries/fof/',
+];
 
-$directoryLoopExcludeFiles = array(
-			);
+$directoryLoopExcludeFiles = [];
 
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
@@ -148,17 +147,17 @@ else
 // Set version properties.
 $versionSubParts = explode('.', $versionParts[0]);
 
-$version = array(
-		'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
-		'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
-		'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
-		'dev_status' => $dev_status,
-		'build'      => '',
-		'reldate'    => date('j-F-Y'),
-		'reltime'    => date('H:i'),
-		'reltz'      => 'GMT',
-		'credate'    => date('F Y'),
-		);
+$version = [
+	'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
+	'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
+	'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
+	'dev_status' => $dev_status,
+	'build'      => '',
+	'reldate'    => date('j-F-Y'),
+	'reltime'    => date('H:i'),
+	'reltz'      => 'GMT',
+	'credate'    => date('F Y'),
+];
 
 // Version Codename.
 if (!empty($opts['c']))
