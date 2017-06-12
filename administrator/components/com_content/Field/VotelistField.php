@@ -20,7 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  3.7.1
  */
-class Votelist extends \JFormFieldList
+class VotelistField extends \JFormFieldList
 {
 	/**
 	 * The form field type.

@@ -20,7 +20,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class Categoryedit extends \JFormFieldList
+class CategoryeditField extends \JFormFieldList
 {
 	/**
 	 * To allow creation of new categories.
