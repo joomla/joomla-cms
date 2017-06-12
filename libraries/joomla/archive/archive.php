@@ -46,16 +46,6 @@ class JArchive
 		// The archive instance
 		$archive = new Archive(array('tmp_path' => JFactory::getConfig()->get('tmp_path')));
 
-		// The extension of the file to extract
-		$extension = JFile::stripExt($archivename);
-
-		// Check if it is a single file archive
-		if (in_array($extension, array('gz', 'gzip', 'bz2', 'bzip2')) && stripos($archivename, '.tar') === false)
-		{
-			// Set up the file name based on the archive without extension
-			$extractdir = $extractdir . '/' . JFile::stripExt(basename(strtolower($archivename)));
-		}
-
 		// Extract the archive
 		return $archive->extract($archivename, $extractdir);
 	}
