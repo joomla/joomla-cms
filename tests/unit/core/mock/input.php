@@ -38,7 +38,7 @@ class TestMockInput
 	public function __construct(PHPUnit_Framework_TestCase $test)
 	{
 		self::$inputs = [];
-		self::$test = $test;
+		self::$test   = $test;
 	}
 
 	/**

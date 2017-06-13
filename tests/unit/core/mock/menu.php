@@ -103,9 +103,9 @@ class TestMockMenu
 
 	public static function prepareGetItemsData($attributes, $values)
 	{
-		$items = [];
+		$items      = [];
 		$attributes = (array) $attributes;
-		$values = (array) $values;
+		$values     = (array) $values;
 
 		foreach (self::$data as $item)
 		{
