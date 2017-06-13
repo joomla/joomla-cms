@@ -24,7 +24,7 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	 * @var    array  The JDatabaseDriver options for the connection.
 	 * @since  12.1
 	 */
-	private static $_options = array('driver' => 'postgresql');
+	private static $_options = ['driver' => 'postgresql'];
 
 	/**
 	 * @var    JDatabaseDriverPostgresql  The saved database driver to be restored after these tests.

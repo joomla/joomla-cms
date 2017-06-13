@@ -20,7 +20,7 @@ class TestMockSession
 	 * @var    array
 	 * @since  11.3
 	 */
-	protected static $options = array();
+	protected static $options = [];
 
 	/**
 	 * Gets an option.
@@ -51,7 +51,7 @@ class TestMockSession
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test, $options = array())
+	public static function create($test, $options = [])
 	{
 		if (is_array($options))
 		{
@@ -59,7 +59,7 @@ class TestMockSession
 		}
 
 		// Mock all the public methods.
-		$methods = array(
+		$methods = [
 			'clear',
 			'close',
 			'destroy',
@@ -79,28 +79,28 @@ class TestMockSession
 			'isNew',
 			'restart',
 			'set',
-		);
+		];
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JSession')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
-			$mockObject, array(
+			$mockObject, [
 				'getId' => self::getOption('getId')
-			)
+			]
 		);
 
 		$test->assignMockCallbacks(
 			$mockObject,
-			array(
-				'get' => array(get_called_class(), 'mockGet'),
-			)
+			[
+				'get' => [get_called_class(), 'mockGet'],
+			]
 		);
 
 		return $mockObject;

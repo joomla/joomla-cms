@@ -24,7 +24,7 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 	 * @var    array  The database driver options for the connection.
 	 * @since  12.1
 	 */
-	private static $options = array('driver' => 'sqlsrv');
+	private static $options = ['driver' => 'sqlsrv'];
 
 	/**
 	 * @var    JDatabaseDriverSqlsrv  The saved database driver to be restored after these tests.

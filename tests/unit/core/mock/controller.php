@@ -26,18 +26,18 @@ class TestMockController
 	public static function create($test)
 	{
 		// Collect all the relevant methods in JController.
-		$methods = array(
+		$methods = [
 			'execute',
 			'getApplication',
 			'getInput',
 			'serialize',
 			'unserialize',
-		);
+		];
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JControllerBase')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();

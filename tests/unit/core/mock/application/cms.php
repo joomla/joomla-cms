@@ -24,7 +24,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	public static function getMethods()
 	{
 		// Collect all the relevant methods in JApplicationCms (work in progress).
-		$methods = array(
+		$methods = [
 			'getMenu',
 			'getPathway',
 			'getTemplate',
@@ -36,7 +36,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getUserState',
 			'getUserStateFromRequest',
 			'setUserState',
-		);
+		];
 
 		return array_merge($methods, parent::getMethods());
 	}
@@ -79,7 +79,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 *
 	 * @since   3.2
 	 */
-	public static function create($test, $options = array(), $constructor = array())
+	public static function create($test, $options = [], $constructor = [])
 	{
 		// Set expected server variables.
 		if (!isset($_SERVER['HTTP_HOST']))

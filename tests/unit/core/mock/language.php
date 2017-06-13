@@ -26,36 +26,36 @@ class TestMockLanguage
 	public static function create($test)
 	{
 		// Collect all the relevant methods in JDatabase.
-		$methods = array(
+		$methods = [
 			'_',
 			'getInstance',
 			'getTag',
 			'test',
-		);
+		];
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JLanguage')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
-			$mockObject, array(
+			$mockObject, [
 				'getInstance' => $mockObject,
-				'getTag' => 'en-GB',
+				'getTag'      => 'en-GB',
 				// An additional 'test' method for confirming this object is successfully mocked.
-				'test' => 'ok',
-			)
+				'test'        => 'ok',
+			]
 		);
 
 		$test->assignMockCallbacks(
 			$mockObject,
-			array(
-				'_' => array(get_called_class(), 'mock_'),
-			)
+			[
+				'_' => [get_called_class(), 'mock_'],
+			]
 		);
 
 		return $mockObject;

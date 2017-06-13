@@ -23,7 +23,7 @@ class TestMockApplicationBase
 	 */
 	public static function getMethods()
 	{
-		return array(
+		return [
 			'close',
 			'getIdentity',
 			'registerEvent',
@@ -31,7 +31,7 @@ class TestMockApplicationBase
 			'loadDispatcher',
 			'loadIdentity',
 			'getDispatcher',
-		);
+		];
 	}
 
 	/**
@@ -59,7 +59,7 @@ class TestMockApplicationBase
 
 		$test->assignMockReturns(
 			$mockObject,
-			array('close' => true)
+			['close' => true]
 		);
 
 		return $mockObject;
@@ -75,7 +75,7 @@ class TestMockApplicationBase
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test, $options = array())
+	public static function create($test, $options = [])
 	{
 		// Set expected server variables.
 		if (!isset($_SERVER['HTTP_HOST']))
@@ -89,7 +89,7 @@ class TestMockApplicationBase
 		// Build the mock object & allow Call to original constructor
 		$mockObject = $test->getMockBuilder('JApplicationBase')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->getMock();
 

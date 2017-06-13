@@ -40,17 +40,17 @@ class TestHelper
 			return;
 		}
 
-		$deprecations = array(
+		$deprecations = [
 			'phpCount'  => 0,
 			'userCount' => 0,
-			'php'       => array(),
-			'user'      => array(),
-		);
+			'php'       => [],
+			'user'      => [],
+		];
 
 		$deprecationHandler = function ($type, $msg, $file, $line, $context) use (&$deprecations)
 		{
 			// Check if the type is E_DEPRECATED or E_USER_DEPRECATED
-			if (!in_array($type, array(E_DEPRECATED, E_USER_DEPRECATED)))
+			if (!in_array($type, [E_DEPRECATED, E_USER_DEPRECATED]))
 			{
 				return PHPUnit_Util_ErrorHandler::handleError($type, $msg, $file, $line, $context);
 			}
@@ -91,7 +91,7 @@ class TestHelper
 		{
 			restore_error_handler();
 
-			if (array('PHPUnit_Util_ErrorHandler', 'handleError') === $oldErrorHandler)
+			if (['PHPUnit_Util_ErrorHandler', 'handleError'] === $oldErrorHandler)
 			{
 				restore_error_handler();
 				self::register();
@@ -133,7 +133,7 @@ class TestHelper
 					return $b['count'] - $a['count'];
 				};
 
-				foreach (array('php', 'user') as $group)
+				foreach (['php', 'user'] as $group)
 				{
 					if ($deprecations[$group . 'Count'])
 					{
@@ -176,15 +176,15 @@ class TestHelper
 	public static function registerDeprecationLogger()
 	{
 		Log::addLogger(
-			array(
+			[
 				'logger'   => 'callback',
 				'callback' => function (LogEntry $entry)
 				{
 					@trigger_error($entry->message, E_USER_DEPRECATED);
 				},
-			),
+			],
 			Log::ALL,
-			array('deprecated')
+			['deprecated']
 		);
 	}
 
@@ -200,11 +200,11 @@ class TestHelper
 		if (defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
 		{
 			Log::addLogger(
-				array(
+				[
 					'logger'         => 'formattedtext',
 					'text_file'      => 'unit_test.php',
 					'text_file_path' => dirname(dirname(__DIR__)) . '/tmp'
-				)
+				]
 			);
 		}
 	}

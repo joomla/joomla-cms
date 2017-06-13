@@ -22,7 +22,7 @@ class TestMockDispatcher
 	 * @var    array
 	 * @since  11.3
 	 */
-	public static $handlers = array();
+	public static $handlers = [];
 
 	/**
 	 * Keeps track of triggers.
@@ -30,7 +30,7 @@ class TestMockDispatcher
 	 * @var    array
 	 * @since  11.3
 	 */
-	public static $triggered = array();
+	public static $triggered = [];
 
 	/**
 	 * Creates and instance of the mock DispatcherInterface object.
@@ -45,18 +45,18 @@ class TestMockDispatcher
 	public static function create($test, $defaults = true)
 	{
 		// Clear the static tracker properties.
-		self::$handlers  = array();
-		self::$triggered = array();
+		self::$handlers  = [];
+		self::$triggered = [];
 
 		// Collect all the relevant methods in DispatcherInterface.
-		$methods = array(
+		$methods = [
 			'addListener',
 			'dispatch',
 			'register',
 			'removeListener',
 			'trigger',
 			'test',
-		);
+		];
 
 		// Create the mock.
 		$mockObject = $test->getMockBuilder(DispatcherInterface::class)
@@ -65,20 +65,20 @@ class TestMockDispatcher
 
 		// Mock selected methods.
 		$test->assignMockReturns(
-			$mockObject, array(
+			$mockObject, [
 				// An additional 'test' method for confirming this object is successfully mocked.
 				'test' => 'ok',
-			)
+			]
 		);
 
 		if ($defaults)
 		{
 			$test->assignMockCallbacks(
 				$mockObject,
-				array(
-					'dispatch'     => array(get_called_class(), 'mockDispatch'),
-					'addListener'  => array(get_called_class(), 'mockRegister'),
-				)
+				[
+					'dispatch'     => [get_called_class(), 'mockDispatch'],
+					'addListener'  => [get_called_class(), 'mockRegister'],
+				]
 			);
 		}
 
@@ -105,7 +105,7 @@ class TestMockDispatcher
 			return self::$handlers[$event];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**

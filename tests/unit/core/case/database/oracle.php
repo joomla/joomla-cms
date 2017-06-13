@@ -24,7 +24,7 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	 * @var    array  The JDatabaseDriver options for the connection.
 	 * @since  12.1
 	 */
-	private static $_options = array('driver' => 'oracle');
+	private static $_options = ['driver' => 'oracle'];
 
 	/**
 	 * @var    JDatabaseDriverOracle  The saved database driver to be restored after these tests.

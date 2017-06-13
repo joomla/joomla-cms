@@ -37,7 +37,7 @@ class TestMockInput
 	 */
 	public function __construct(PHPUnit_Framework_TestCase $test)
 	{
-		self::$inputs = array();
+		self::$inputs = [];
 		self::$test = $test;
 	}
 
@@ -54,7 +54,7 @@ class TestMockInput
 	public function createInput(array $options = null)
 	{
 		// Collect all the relevant methods in JInput.
-		$methods = array(
+		$methods = [
 			'count',
 			'def',
 			'get',
@@ -64,7 +64,7 @@ class TestMockInput
 			'set',
 			'serialize',
 			'unserialize',
-		);
+		];
 
 		// Add custom methods if required for derived application classes.
 		if (isset($options['methods']) && is_array($options['methods']))
@@ -75,19 +75,19 @@ class TestMockInput
 		// Build the mock object.
 		$mockObject = self::$test->getMockBuilder('JInput')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
 
 		self::$test->assignMockCallbacks(
 			$mockObject,
-			array(
-				'get' => array((is_callable(array(self::$test, 'mockInputGet')) ? self::$test : $this), 'mockInputGet'),
-				'getArray' => array((is_callable(array(self::$test, 'mockInputGetArray')) ? self::$test : $this), 'mockInputGetArray'),
-				'getInt' => array((is_callable(array(self::$test, 'mockInputGetInt')) ? self::$test : $this), 'mockInputGetInt'),
-				'set' => array((is_callable(array(self::$test, 'mockInputSet')) ? self::$test : $this), 'mockInputSet'),
-			)
+			[
+				'get'      => [(is_callable([self::$test, 'mockInputGet']) ? self::$test : $this), 'mockInputGet'],
+				'getArray' => [(is_callable([self::$test, 'mockInputGetArray']) ? self::$test : $this), 'mockInputGetArray'],
+				'getInt'   => [(is_callable([self::$test, 'mockInputGetInt']) ? self::$test : $this), 'mockInputGetInt'],
+				'set'      => [(is_callable([self::$test, 'mockInputSet']) ? self::$test : $this), 'mockInputSet'],
+			]
 		);
 
 		$mockObject->get = $mockObject;
@@ -106,13 +106,13 @@ class TestMockInput
 	 */
 	public function createInputJson()
 	{
-		$mockObject = $this->createInput(array('methods' => array('getRaw')));
+		$mockObject = $this->createInput(['methods' => ['getRaw']]);
 
 		self::$test->assignMockCallbacks(
 			$mockObject,
-			array(
-				'getRaw' => array((is_callable(array(self::$test, 'mockInputGetRaw')) ? self::$test : $this), 'mockInputGetRaw'),
-			)
+			[
+				'getRaw' => [(is_callable([self::$test, 'mockInputGetRaw']) ? self::$test : $this), 'mockInputGetRaw'],
+			]
 		);
 
 		return $mockObject;
@@ -146,9 +146,9 @@ class TestMockInput
 	 *
 	 * @since   3.4
 	 */
-	public static function mockInputGetArray(array $vars = array(), $datasource = null)
+	public static function mockInputGetArray(array $vars = [], $datasource = null)
 	{
-		return array();
+		return [];
 	}
 
 	/**

@@ -14,7 +14,7 @@
  */
 class TestMockMenu
 {
-	protected static $data = array();
+	protected static $data = [];
 
 	/**
 	 * Creates an instance of the mock JMenu object.
@@ -28,7 +28,7 @@ class TestMockMenu
 	public static function create(PHPUnit_Framework_TestCase $test, $setDefault = true, $setActive = false)
 	{
 		// Collect all the relevant methods in JMenu (work in progress).
-		$methods = array(
+		$methods = [
 			'getItem',
 			'setDefault',
 			'getDefault',
@@ -39,12 +39,12 @@ class TestMockMenu
 			'getMenu',
 			'authorise',
 			'load'
-		);
+		];
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JMenu')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
@@ -57,7 +57,7 @@ class TestMockMenu
 
 		$mockObject->expects($test->any())
 				->method('getItems')
-				->will($test->returnCallback(array(__CLASS__, 'prepareGetItemsData')));
+				->will($test->returnCallback([__CLASS__, 'prepareGetItemsData']));
 
 		$mockObject->expects($test->any())
 				->method('getMenu')
@@ -82,12 +82,12 @@ class TestMockMenu
 
 	protected static function prepareGetItemData()
 	{
-		$return = array();
+		$return = [];
 
 		foreach (self::$data as $id => $item)
 		{
-			$return[] = array($id, $item);
-			$return[] = array((string) $id, $item);
+			$return[] = [$id, $item];
+			$return[] = [(string) $id, $item];
 		}
 
 		return $return;
@@ -95,15 +95,15 @@ class TestMockMenu
 
 	protected static function prepareDefaultData()
 	{
-		$return   = array();
-		$return[] = array('en-GB', self::$data[45]);
+		$return   = [];
+		$return[] = ['en-GB', self::$data[45]];
 
 		return $return;
 	}
 
 	public static function prepareGetItemsData($attributes, $values)
 	{
-		$items = array();
+		$items = [];
 		$attributes = (array) $attributes;
 		$values = (array) $values;
 
@@ -142,7 +142,7 @@ class TestMockMenu
 
 	protected static function createMenuSampleData()
 	{
-		self::$data[42] = (object) array(
+		self::$data[42] = (object) [
 			'id'           => '42',
 			'menutype'     => 'testmenu',
 			'title'        => 'Test1',
@@ -158,10 +158,11 @@ class TestMockMenu
 			'component_id' => '1000',
 			'parent_id'    => '0',
 			'component'    => 'com_test',
-			'tree'         => array(42),
-			'query'        => array('option' => 'com_test', 'view' => 'test'));
+			'tree'         => [42],
+			'query'        => ['option' => 'com_test', 'view' => 'test']
+		];
 
-		self::$data[43] = (object) array(
+		self::$data[43] = (object) [
 			'id'           => '43',
 			'menutype'     => 'testmenu',
 			'title'        => 'Test2',
@@ -177,10 +178,11 @@ class TestMockMenu
 			'component_id' => '1000',
 			'parent_id'    => '0',
 			'component'    => 'com_test2',
-			'tree'         => array(43),
-			'query'        => array('option' => 'com_test2', 'view' => 'test'));
+			'tree'         => [43],
+			'query'        => ['option' => 'com_test2', 'view' => 'test']
+		];
 
-		self::$data[44] = (object) array(
+		self::$data[44] = (object) [
 			'id'           => '44',
 			'menutype'     => 'testmenu',
 			'title'        => 'Submenu',
@@ -196,10 +198,11 @@ class TestMockMenu
 			'component_id' => '1000',
 			'parent_id'    => '43',
 			'component'    => 'com_test2',
-			'tree'         => array(43, 44),
-			'query'        => array('option' => 'com_test2', 'view' => 'test2'));
+			'tree'         => [43, 44],
+			'query'        => ['option' => 'com_test2', 'view' => 'test2']
+		];
 
-		self::$data[45] = (object) array(
+		self::$data[45] = (object) [
 			'id'           => '45',
 			'menutype'     => 'testmenu',
 			'title'        => 'Home',
@@ -215,10 +218,11 @@ class TestMockMenu
 			'component_id' => '1000',
 			'parent_id'    => '0',
 			'component'    => 'com_test3',
-			'tree'         => array(43, 44),
-			'query'        => array('option' => 'com_test3', 'view' => 'test3'));
+			'tree'         => [43, 44],
+			'query'        => ['option' => 'com_test3', 'view' => 'test3']
+		];
 
-		self::$data[46] = (object) array(
+		self::$data[46] = (object) [
 			'id'           => '46',
 			'menutype'     => 'testmenu',
 			'title'        => 'Submenu',
@@ -234,10 +238,11 @@ class TestMockMenu
 			'component_id' => '1000',
 			'parent_id'    => '42',
 			'component'    => 'com_test',
-			'tree'         => array(42, 46),
-			'query'        => array('option' => 'com_test', 'view' => 'test2'));
+			'tree'         => [42, 46],
+			'query'        => ['option' => 'com_test', 'view' => 'test2']
+		];
 
-		self::$data[47] = (object) array(
+		self::$data[47] = (object) [
 			'id'           => '47',
 			'menutype'     => 'testmenu',
 			'title'        => 'English Test',
@@ -253,9 +258,10 @@ class TestMockMenu
 			'component_id' => '1000',
 			'parent_id'    => '0',
 			'component'    => 'com_test',
-			'query'        => array('option' => 'com_test', 'view' => 'test2'));
+			'query'        => ['option' => 'com_test', 'view' => 'test2']
+		];
 
-	/**	self::$data[48] = (object) array(
+	/**	self::$data[48] = (object) [
 			'id'           => '48',
 			'menutype'     => '',
 			'title'        => '',
@@ -271,9 +277,10 @@ class TestMockMenu
 			'component_id' => '',
 			'parent_id'    => '',
 			'component'    => '',
-			'query'        => array());
+			'query'        => []
+		];
 
-		self::$data[49] = (object) array(
+		self::$data[49] = (object) [
 			'id'           => '49',
 			'menutype'     => '',
 			'title'        => '',
@@ -289,9 +296,10 @@ class TestMockMenu
 			'component_id' => '',
 			'parent_id'    => '',
 			'component'    => '',
-			'query'        => array());
+			'query'        => []
+		];
 
-		self::$data[50] = (object) array(
+		self::$data[50] = (object) [
 			'id'           => '50',
 			'menutype'     => '',
 			'title'        => '',
@@ -307,9 +315,10 @@ class TestMockMenu
 			'component_id' => '',
 			'parent_id'    => '',
 			'component'    => '',
-			'query'        => array());
+			'query'        => []
+		];
 
-		self::$data[51] = (object) array(
+		self::$data[51] = (object) [
 			'id'           => '51',
 			'menutype'     => '',
 			'title'        => '',
@@ -325,6 +334,7 @@ class TestMockMenu
 			'component_id' => '',
 			'parent_id'    => '',
 			'component'    => '',
-			'query'        => array());**/
+			'query'        => []
+		];**/
 	}
 }
