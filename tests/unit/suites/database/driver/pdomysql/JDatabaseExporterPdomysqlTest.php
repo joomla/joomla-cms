@@ -76,7 +76,7 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'Extra'      => 'auto_increment',
 						'Privileges' => 'select,insert,update,references',
 						'Comment'    => '',
-					),
+					],
 					(object) [
 						'Field'      => 'title',
 						'Type'       => 'varchar(255)',
