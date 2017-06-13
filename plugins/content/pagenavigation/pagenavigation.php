@@ -137,7 +137,12 @@ class PlgContentPagenavigation extends JPlugin
 			$query->select('a.id, a.title, a.catid, a.language,' . $case_when . ',' . $case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
-			$query->join('LEFT', '#__users AS u ON u.id = a.created_by');
+
+			if (($order_method === 'author') || ($order_method === 'rauthor'))
+			{
+				$query->join('LEFT', '#__users AS u ON u.id = a.created_by');
+			}
+
 			$query->where(
 					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
 						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
