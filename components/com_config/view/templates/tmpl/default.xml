@@ -10,7 +10,8 @@
 	</layout>
 	<fields name="request">
 		<fieldset name="request" >
-			<field name="controller" 
+			<field 
+				name="controller" 
 				type="hidden"
 				default="config.display.templates"
 			/>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -209,11 +209,12 @@ class JAccessRules
 
 		foreach ($this->data as $name => $rule)
 		{
-			// Convert the action to JSON, then back into an array otherwise
-			// re-encoding will quote the JSON for the identities in the action.
-			$temp[$name] = json_decode((string) $rule);
+			if ($data = $rule->getData())
+			{
+				$temp[$name] = $data;
+			}
 		}
 
-		return json_encode($temp);
+		return json_encode($temp, JSON_FORCE_OBJECT);
 	}
 }

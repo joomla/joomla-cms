@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -180,7 +180,7 @@ class JCache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function contains($id, $group = null)
 	{
@@ -192,15 +192,7 @@ class JCache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->contains($id, $group);
-		}
-
-		return false;
+		return $this->_getStorage()->contains($id, $group);
 	}
 
 	/**
@@ -221,17 +213,9 @@ class JCache
 		}
 
 		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
+		$group = $group ?: $this->_options['defaultgroup'];
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->get($id, $group, $this->_options['checkTime']);
-		}
-
-		return false;
+		return $this->_getStorage()->get($id, $group, $this->_options['checkTime']);
 	}
 
 	/**
@@ -248,15 +232,7 @@ class JCache
 			return false;
 		}
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->getAll();
-		}
-
-		return false;
+		return $this->_getStorage()->getAll();
 	}
 
 	/**
@@ -278,17 +254,10 @@ class JCache
 		}
 
 		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
+		$group = $group ?: $this->_options['defaultgroup'];
 
 		// Get the storage and store the cached data
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->store($id, $group, $data);
-		}
-
-		return false;
+		return $this->_getStorage()->store($id, $group, $data);
 	}
 
 	/**
@@ -304,17 +273,9 @@ class JCache
 	public function remove($id, $group = null)
 	{
 		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
+		$group = $group ?: $this->_options['defaultgroup'];
 
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->remove($id, $group);
-		}
-
-		return false;
+		return $this->_getStorage()->remove($id, $group);
 	}
 
 	/**
@@ -333,17 +294,9 @@ class JCache
 	public function clean($group = null, $mode = 'group')
 	{
 		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
+		$group = $group ?: $this->_options['defaultgroup'];
 
-		// Get the storage handler
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->clean($group, $mode);
-		}
-
-		return false;
+		return $this->_getStorage()->clean($group, $mode);
 	}
 
 	/**
@@ -355,15 +308,7 @@ class JCache
 	 */
 	public function gc()
 	{
-		// Get the storage handler
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->gc();
-		}
-
-		return false;
+		return $this->_getStorage()->gc();
 	}
 
 	/**
@@ -390,10 +335,10 @@ class JCache
 		}
 
 		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
+		$group = $group ?: $this->_options['defaultgroup'];
 
 		// Get the default locktime
-		$locktime = ($locktime) ? $locktime : $this->_options['locktime'];
+		$locktime = $locktime ?: $this->_options['locktime'];
 
 		/*
 		 * Allow storage handlers to perform locking on their own
@@ -401,7 +346,7 @@ class JCache
 		 */
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception) && $this->_options['locking'] == true)
+		if ($this->_options['locking'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
 
@@ -422,7 +367,7 @@ class JCache
 
 		if ($this->_options['locking'] == true)
 		{
-			$data_lock = $this->get($id2, $group);
+			$data_lock = $handler->get($id2, $group, $this->_options['checkTime']);
 		}
 		else
 		{
@@ -445,14 +390,14 @@ class JCache
 				}
 
 				usleep(100);
-				$data_lock = $this->get($id2, $group);
+				$data_lock = $handler->get($id2, $group, $this->_options['checkTime']);
 				$lock_counter++;
 			}
 		}
 
 		if ($this->_options['locking'] == true)
 		{
-			$returning->locked = $this->store(1, $id2, $group);
+			$returning->locked = $handler->store(1, $id2, $group);
 		}
 
 		// Revert lifetime to previous one
@@ -478,31 +423,21 @@ class JCache
 			return false;
 		}
 
-		$unlock = false;
-
 		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
+		$group = $group ?: $this->_options['defaultgroup'];
 
 		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
-		{
-			$unlocked = $handler->unlock($id, $group);
+		$unlocked = $handler->unlock($id, $group);
 
-			if ($unlocked !== false)
-			{
-				return $unlocked;
-			}
+		if ($unlocked !== false)
+		{
+			return $unlocked;
 		}
 
 		// Fallback
-		if ($this->getCaching())
-		{
-			$unlock = $this->remove($id . '_lock', $group);
-		}
-
-		return $unlock;
+		return $handler->remove($id . '_lock', $group);
 	}
 
 	/**

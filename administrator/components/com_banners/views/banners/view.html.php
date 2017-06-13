@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,9 +65,7 @@ class BannersViewBanners extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		BannersHelper::addSubmenu('banners');
@@ -103,7 +101,7 @@ class BannersViewBanners extends JViewLegacy
 			JToolbarHelper::addNew('banner.add');
 		}
 
-		if (($canDo->get('core.edit')))
+		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('banner.edit');
 		}
@@ -175,15 +173,15 @@ class BannersViewBanners extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
-			'a.name' => JText::_('COM_BANNERS_HEADING_NAME'),
-			'a.sticky' => JText::_('COM_BANNERS_HEADING_STICKY'),
+			'ordering'    => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'     => JText::_('JSTATUS'),
+			'a.name'      => JText::_('COM_BANNERS_HEADING_NAME'),
+			'a.sticky'    => JText::_('COM_BANNERS_HEADING_STICKY'),
 			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'impmade' => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
-			'clicks' => JText::_('COM_BANNERS_HEADING_CLICKS'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'impmade'     => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
+			'clicks'      => JText::_('COM_BANNERS_HEADING_CLICKS'),
+			'a.language'  => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

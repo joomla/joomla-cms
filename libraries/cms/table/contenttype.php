@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class JTableContenttype extends JTable
 	public function check()
 	{
 		// Check for valid name.
-		if (trim($this->type_title) == '')
+		if (trim($this->type_title) === '')
 		{
 			throw new UnexpectedValueException(sprintf('The title is empty'));
 		}

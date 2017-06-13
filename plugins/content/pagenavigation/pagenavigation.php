@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class PlgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if (($context === 'com_content.article') && ($view === 'article') && $params->get('show_item_navigation'))
+		if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation'))
 		{
 			$db       = JFactory::getDbo();
 			$user     = JFactory::getUser();
@@ -217,8 +217,6 @@ class PlgContentPagenavigation extends JPlugin
 				$row->paginationrelative = $this->params->get('relative', 0);
 			}
 		}
-
-		return;
 	}
 
 	/**
