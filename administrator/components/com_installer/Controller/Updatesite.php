@@ -32,7 +32,7 @@ class Updatesite extends Form
 		$model = $this->getModel('updatesites');
 
 		// Get the id of the UpdateSite that we are trying to edit
-		$recordId    = $this->input->post->get('cid', array(), 'array')[0];
+		$recordId = $this->input->post->get('cid', array(), 'array')[0];
 
 		// Get the list of the Joomla Core UpdateSites
 		$joomlaUpdateSitesIds = $model->getJoomlaUpdateSitesIds(0);
@@ -40,9 +40,16 @@ class Updatesite extends Form
 		if (in_array($recordId, $joomlaUpdateSitesIds))
 		{
 			$this->setMessage(
-				\JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_EDIT',
-					array_shift($model->getJoomlaUpdateSitesNames(array($recordId)))->name),
-					'error');
+				\JText::sprintf(
+					'COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_EDIT',
+					array_shift(
+						$model->getJoomlaUpdateSitesNames(
+							array($recordId)
+						)
+					)->name
+				),
+				'error'
+			);
 
 			$this->setRedirect(
 				\JRoute::_(
