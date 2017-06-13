@@ -748,7 +748,7 @@ final class JApplicationSite extends JApplicationCms
 				$template = $this->getTemplate(true);
 				$file     = $this->input->get('tmpl', 'index');
 
-				if (($file === 'offline') && !$this->get('offline'))
+				if ($file === 'offline' && !$this->get('offline'))
 				{
 					$this->set('themeFile', 'index.php');
 				}
