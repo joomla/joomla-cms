@@ -15,7 +15,7 @@ use Joomla\CMS\Model\Admin;
 /**
  * Item Model for a Contact.
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class Updatesite extends Admin
 {
