@@ -106,30 +106,30 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 */
 	private function getPhpSupport()
 	{
-		$phpSupportData = array(
-			'5.5' => array(
+		$phpSupportData = [
+			'5.5' => [
 				'security' => '2015-07-10',
 				'eos'      => '2016-07-21'
-			),
-			'5.6' => array(
+			],
+			'5.6' => [
 				'security' => '2016-12-31',
 				'eos'      => '2018-12-31'
-			),
-			'7.0' => array(
+			],
+			'7.0' => [
 				'security' => '2017-12-03',
 				'eos'      => '2018-12-03'
-			),
-			'7.1' => array(
+			],
+			'7.1' => [
 				'security' => '2018-12-01',
 				'eos'      => '2019-12-01'
-			),
-		);
+			],
+		];
 
 		// Fill our return array with default values
-		$supportStatus = array(
+		$supportStatus = [
 			'status'  => self::PHP_SUPPORTED,
 			'message' => null,
-		);
+		];
 
 		// Check the PHP version's support status using the minor version
 		$activePhpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;

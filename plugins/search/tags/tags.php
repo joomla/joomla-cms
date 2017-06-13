@@ -35,9 +35,9 @@ class PlgSearchTags extends JPlugin
 	 */
 	public function onContentSearchAreas()
 	{
-		static $areas = array(
+		static $areas = [
 			'tags' => 'PLG_SEARCH_TAGS_TAGS'
-		);
+		];
 
 		return $areas;
 	}
@@ -72,7 +72,7 @@ class PlgSearchTags extends JPlugin
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
 			{
-				return array();
+				return [];
 			}
 		}
 
@@ -80,7 +80,7 @@ class PlgSearchTags extends JPlugin
 
 		if ($text === '')
 		{
-			return array();
+			return [];
 		}
 
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
@@ -113,7 +113,7 @@ class PlgSearchTags extends JPlugin
 		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
 		$a_id                  = $query->castAsChar('a.id');
-		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias);
@@ -147,7 +147,7 @@ class PlgSearchTags extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$rows = array();
+			$rows = [];
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 

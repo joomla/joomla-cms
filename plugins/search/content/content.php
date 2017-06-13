@@ -25,9 +25,9 @@ class PlgSearchContent extends JPlugin
 	 */
 	public function onContentSearchAreas()
 	{
-		static $areas = array(
+		static $areas = [
 			'content' => 'JGLOBAL_ARTICLES'
-		);
+		];
 
 		return $areas;
 	}
@@ -63,7 +63,7 @@ class PlgSearchContent extends JPlugin
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
 			{
-				return array();
+				return [];
 			}
 		}
 
@@ -79,14 +79,14 @@ class PlgSearchContent extends JPlugin
 
 		if ($text === '')
 		{
-			return array();
+			return [];
 		}
 
 		switch ($phrase)
 		{
 			case 'exact':
 				$text      = $db->quote('%' . $db->escape($text, true) . '%', false);
-				$wheres2   = array();
+				$wheres2   = [];
 				$wheres2[] = 'a.title LIKE ' . $text;
 				$wheres2[] = 'a.introtext LIKE ' . $text;
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
@@ -100,12 +100,12 @@ class PlgSearchContent extends JPlugin
 			case 'any':
 			default:
 				$words = explode(' ', $text);
-				$wheres = array();
+				$wheres = [];
 
 				foreach ($words as $word)
 				{
 					$word      = $db->quote('%' . $db->escape($word, true) . '%', false);
-					$wheres2   = array();
+					$wheres2   = [];
 					$wheres2[] = 'LOWER(a.title) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.introtext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
@@ -143,7 +143,7 @@ class PlgSearchContent extends JPlugin
 				break;
 		}
 
-		$rows = array();
+		$rows  = [];
 		$query = $db->getQuery(true);
 
 		// Search articles.
@@ -152,15 +152,15 @@ class PlgSearchContent extends JPlugin
 			$query->clear();
 
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
-				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+				. ' THEN ' . $query->concatenate([$query->castAsChar('a.id'), 'a.alias'], ':')
 				. ' ELSE a.id END AS slug';
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
-				. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
+				. ' THEN ' . $query->concatenate([$query->castAsChar('c.id'), 'c.alias'], ':')
 				. ' ELSE c.id END AS catslug';
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
-				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
+				->select($query->concatenate(['a.introtext', 'a.fulltext']) . ' AS text')
 				->select('c.title AS section')
 				->select($case_when)
 				->select($case_when1)
@@ -199,7 +199,7 @@ class PlgSearchContent extends JPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				$list = array();
+				$list = [];
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 			$limit -= count($list);
@@ -221,15 +221,15 @@ class PlgSearchContent extends JPlugin
 			$query->clear();
 
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
-			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+			. ' THEN ' . $query->concatenate([$query->castAsChar('a.id'), 'a.alias'], ':')
 			. ' ELSE a.id END AS slug';
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
-				. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
+				. ' THEN ' . $query->concatenate([$query->castAsChar('c.id'), 'c.alias'], ':')
 				. ' ELSE c.id END AS catslug';
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
-				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
+				->select($query->concatenate(['a.introtext', 'a.fulltext']) . ' AS text')
 				->select($case_when)
 				->select($case_when1)
 				->select('c.title AS section')
@@ -267,7 +267,7 @@ class PlgSearchContent extends JPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				$list3 = array();
+				$list3 = [];
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 
@@ -291,13 +291,13 @@ class PlgSearchContent extends JPlugin
 			$rows[] = $list3;
 		}
 
-		$results = array();
+		$results = [];
 
 		if (count($rows))
 		{
 			foreach ($rows as $row)
 			{
-				$new_row = array();
+				$new_row = [];
 
 				foreach ($row as $article)
 				{
@@ -311,7 +311,7 @@ class PlgSearchContent extends JPlugin
 					$db->setQuery($query);
 					$article->jcfields = implode(',', $db->loadColumn());
 
-					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'jcfields', 'metadesc', 'metakey')))
+					if (SearchHelper::checkNoHtml($article, $searchText, ['text', 'title', 'jcfields', 'metadesc', 'metakey']))
 					{
 						$new_row[] = $article;
 					}

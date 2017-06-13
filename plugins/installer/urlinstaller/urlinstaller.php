@@ -32,7 +32,7 @@ class PlgInstallerUrlInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		$tab            = array();
+		$tab            = [];
 		$tab['name']    = 'url';
 		$tab['label']   = JText::_('PLG_INSTALLER_URLINSTALLER_TEXT');
 

@@ -120,11 +120,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Check if the path points to a file
 		if (is_file($basePath))
 		{
-			return array($this->getPathInformation($basePath));
+			return [$this->getPathInformation($basePath)];
 		}
 
 		// The data to return
-		$data = array();
+		$data = [];
 
 		// Read the folders
 		foreach (JFolder::folders($basePath, $filter) as $folder)
