@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -390,7 +390,7 @@ class JUser extends JObject
 			}
 		}
 
-		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : (bool) JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
@@ -529,6 +529,22 @@ class JUser extends JObject
 		return $this->_params;
 
 		// @codeCoverageIgnoreEnd
+	}
+
+	/**
+	 * Method to get the user timezone.
+	 *
+	 * If the user didn't set a timezone, it will return the server timezone
+	 *
+	 * @return DateTimeZone
+	 *
+	 * @since 3.7.0
+	 */
+	public function getTimezone()
+	{
+		$timezone = $this->getParam('timezone', JFactory::getApplication()->get('offset', 'GMT'));
+
+		return new DateTimeZone($timezone);
 	}
 
 	/**

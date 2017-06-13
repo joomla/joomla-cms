@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,6 +41,7 @@ class PlgButtonPagebreak extends JPlugin
 			|| $user->authorise('core.edit', 'com_content')
 			|| $user->authorise('core.edit.own', 'com_content'))
 		{
+			JFactory::getDocument()->addScriptOptions('xtd-pagebreak', array('editor' => $name));
 			$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
 			$button          = new JObject;

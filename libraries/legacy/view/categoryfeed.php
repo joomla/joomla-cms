@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,6 +67,12 @@ class JViewCategoryfeed extends JViewLegacy
 		$items    = $this->get('Items');
 		$category = $this->get('Category');
 
+		// Don't display feed if category id missing or non existent
+		if ($category == false || $category->alias == "root")
+		{
+			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
+
 		foreach ($items as $item)
 		{
 			$this->reconcileNames($item);
@@ -88,7 +94,7 @@ class JViewCategoryfeed extends JViewLegacy
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;
-			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+			$author      = $item->created_by_alias ?: $item->author;
 
 			if ($createdField)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,11 +41,11 @@ JFactory::getDocument()->addScriptDeclaration("
 
 <button class="diff-header btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML_DESC'); ?>"
 	onclick="jQuery('.diffhtml, .diffhtml-header').show(); jQuery('.diff, .diff-header').hide()">
-	<span class="icon-wrench"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML'); ?></button>
+	<span class="icon-wrench" aria-hidden="true"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML'); ?></button>
 
 <button class="diffhtml-header btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT_DESC'); ?>"
 	onclick="jQuery('.diffhtml, .diffhtml-header').hide(); jQuery('.diff, .diff-header').show()">
-	<span class="icon-pencil"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT'); ?></button>
+	<span class="icon-pencil" aria-hidden="true"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT'); ?></button>
 </div>
 </legend>
 <table id="diff" class="table table-striped table-condensed">
@@ -65,9 +65,9 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php if (is_object($value->value)) : ?>
 		<td><strong><?php echo $value->label; ?></strong></td>
 		<td /><td /><td />
-		<?php foreach ($value->value as $subName => $subValue): ?>
+		<?php foreach ($value->value as $subName => $subValue) : ?>
 			<?php $newSubValue = isset($object2->$name->value->$subName->value) ? $object2->$name->value->$subName->value : ''; ?>
-			<?php if ($subValue->value || $newSubValue): ?>
+			<?php if ($subValue->value || $newSubValue) : ?>
 				<?php $rowClass = ($subValue->value == $newSubValue) ? 'items-equal' : 'items-not-equal'; ?>
 				<tr class="<?php echo $rowClass; ?>">
 				<td><i>&nbsp;&nbsp;<?php echo $subValue->label; ?></i></td>
@@ -80,7 +80,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				</tr>
 			<?php endif; ?>
 		<?php endforeach; ?>
-	<?php else: ?>
+	<?php else : ?>
 		<td><strong><?php echo $value->label; ?></strong></td>
 		<td class="originalhtml" style="display:none" ><?php echo htmlspecialchars($value->value); ?></td>
 		<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		// No remember me for admin.
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return;
 		}
@@ -78,7 +78,7 @@ class PlgSystemRemember extends JPlugin
 	public function onUserLogout($user, $options)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return true;
 		}

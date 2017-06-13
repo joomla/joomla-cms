@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 				$guess = trim($guess);
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -143,7 +143,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			// Register the document object with JFactory.
 			JFactory::$document = $document;
 
-			if ($document->getType() == 'html')
+			if ($document->getType() === 'html')
 			{
 				// Set metadata
 				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
@@ -231,7 +231,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function fetchController($task)
 	{
-		if (is_null($task))
+		if ($task === null)
 		{
 			$task = 'default';
 		}
@@ -250,7 +250,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Returns the language code and help url set in the localise.xml file.
+	 * Returns the language code and help URL set in the localise.xml file.
 	 * Used for forcing a particular language in localised releases.
 	 *
 	 * @return  mixed  False on failure, array on success.
@@ -267,7 +267,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Check that it's a localise file.
-		if ($xml->getName() != 'localise')
+		if ($xml->getName() !== 'localise')
 		{
 			return false;
 		}
@@ -312,8 +312,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = JFolder::folders(JLanguage::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = JFolder::folders(JLanguage::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
@@ -361,7 +361,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$requestLang = $this->input->getCmd('lang', null);
 
-			if (!is_null($requestLang))
+			if ($requestLang !== null)
 			{
 				$options['language'] = $requestLang;
 			}
@@ -482,7 +482,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
+		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
 
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
@@ -494,24 +494,11 @@ final class InstallationApplicationWeb extends JApplicationCms
 			'force_ssl' => $this->get('force_ssl'),
 		);
 
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
-
-		if (!$session->get('registry') instanceof Registry)
-		{
-			// Registry has been corrupted somehow.
-			$session->set('registry', new Registry);
-		}
 
 		// Set the session object.
 		$this->session = $session;

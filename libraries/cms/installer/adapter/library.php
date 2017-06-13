@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -94,7 +94,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			$manifest = array();
 			$manifest['src'] = $this->parent->getPath('manifest');
@@ -169,7 +169,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 
 		$extension = 'lib_' . $this->getElement();
 		$librarypath = (string) $this->getManifest()->libraryname;
-		$source = $path ? $path : JPATH_PLATFORM . '/' . $librarypath;
+		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
 		$this->doLoadLanguage($extension, $source, JPATH_SITE);
 	}
@@ -233,7 +233,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -378,6 +378,17 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		$manifestFile = JPATH_MANIFESTS . '/libraries/' . $row->element . '.xml';
 
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
@@ -399,7 +410,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			}
 
 			// Check for a valid XML root tag.
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				JLog::add(JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 

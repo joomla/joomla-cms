@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ class InstallationControllerDefault extends JControllerBase
 		$vFormat = $document->getType();
 		$lName   = $this->input->getWord('layout', 'default');
 
-		if (strcmp($vName, $defaultView) == 0)
+		if (strcmp($vName, $defaultView) === 0)
 		{
 			$this->input->set('view', $defaultView);
 		}
@@ -89,7 +89,7 @@ class InstallationControllerDefault extends JControllerBase
 				break;
 		}
 
-		if ($vName != $defaultView && ($checkOptions && empty($options)))
+		if ($vName !== $defaultView && $checkOptions && empty($options))
 		{
 			$app->redirect('index.php');
 		}

@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -40,11 +40,11 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		// Load installer plugins, and allow url and headers modification
+		// Load installer plugins, and allow URL and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
 		$dispatcher = JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+		$dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
 		try
 		{
@@ -173,7 +173,7 @@ abstract class JInstallerHelper
 		 */
 		$dirList = array_merge((array) JFolder::files($extractdir, ''), (array) JFolder::folders($extractdir, ''));
 
-		if (count($dirList) == 1)
+		if (count($dirList) === 1)
 		{
 			if (JFolder::exists($extractdir . '/' . $dirList[0]))
 			{
@@ -233,7 +233,7 @@ abstract class JInstallerHelper
 				continue;
 			}
 
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				unset($xml);
 				continue;

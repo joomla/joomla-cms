@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,11 +50,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$app = JFactory::getApplication();
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isSite())
+			elseif ($app->isClient('site'))
 			{
 				$current_section = 1;
 			}
@@ -91,7 +91,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		// Create a new TOTP class with Google Authenticator compatible settings
 		$totp = new FOFEncryptTotp(30, 6, 10);
 
-		if ($otpConfig->method == $this->methodName)
+		if ($otpConfig->method === $this->methodName)
 		{
 			// This method is already activated. Reuse the same secret key.
 			$secret = $otpConfig->config['code'];
@@ -110,7 +110,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		$url = $totp->getUrl($username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != 'totp';
+		$new_totp = $otpConfig->method !== 'totp';
 
 		// Start output buffering
 		@ob_start();
@@ -152,7 +152,7 @@ class PlgTwofactorauthTotp extends JPlugin
 	 */
 	public function onUserTwofactorApplyConfiguration($method)
 	{
-		if ($method != $this->methodName)
+		if ($method !== $this->methodName)
 		{
 			return false;
 		}
@@ -192,7 +192,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Check the security code entered by the user (exact time slot match)
 		$code = $totp->getCode($data['key']);
-		$check = $code == $data['securitycode'];
+		$check = $code === $data['securitycode'];
 
 		/*
 		 * If the check fails, test the previous 30 second slot. This allow the
@@ -203,7 +203,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() - 30;
 			$code = $totp->getCode($data['key'], $time);
-			$check = $code == $data['securitycode'];
+			$check = $code === $data['securitycode'];
 		}
 
 		/*
@@ -214,7 +214,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() + 30;
 			$code = $totp->getCode($data['key'], $time);
-			$check = $code == $data['securitycode'];
+			$check = $code === $data['securitycode'];
 		}
 
 		if (!$check)
@@ -258,7 +258,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Check if we have the correct method
-		if ($otpConfig->method != $this->methodName)
+		if ($otpConfig->method !== $this->methodName)
 		{
 			return false;
 		}
@@ -274,7 +274,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Check the code
 		$code = $totp->getCode($otpConfig->config['code']);
-		$check = $code == $credentials['secretkey'];
+		$check = $code === $credentials['secretkey'];
 
 		/*
 		 * If the check fails, test the previous 30 second slot. This allow the
@@ -285,7 +285,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() - 30;
 			$code = $totp->getCode($otpConfig->config['code'], $time);
-			$check = $code == $credentials['secretkey'];
+			$check = $code === $credentials['secretkey'];
 		}
 
 		/*
@@ -296,7 +296,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() + 30;
 			$code = $totp->getCode($otpConfig->config['code'], $time);
-			$check = $code == $credentials['secretkey'];
+			$check = $code === $credentials['secretkey'];
 		}
 
 		return $check;

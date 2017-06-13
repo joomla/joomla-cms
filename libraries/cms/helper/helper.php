@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,9 +64,7 @@ class JHelper
 			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
 		$db->setQuery($query);
 
-		$id = $db->loadResult();
-
-		return $id;
+		return $db->loadResult();
 	}
 
 	/**

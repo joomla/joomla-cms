@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -146,6 +146,14 @@ class InstallerModelManage extends InstallerModel
 			}
 		}
 
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
+
 		return $result;
 	}
 
@@ -198,8 +206,6 @@ class InstallerModelManage extends InstallerModel
 			return false;
 		}
 
-		$failed = array();
-
 		/*
 		 * Ensure eid is an array of extension ids in the form id => client_id
 		 * TODO: If it isn't an array do we want to set an error and fail?
@@ -231,7 +237,7 @@ class InstallerModelManage extends InstallerModel
 				$rowtype = $row->type;
 			}
 
-			if ($row->type && $row->type != 'language')
+			if ($row->type)
 			{
 				$result = $installer->uninstall($row->type, $id);
 
@@ -251,25 +257,27 @@ class InstallerModelManage extends InstallerModel
 				continue;
 			}
 
-			if ($row->type == 'language')
-			{
-				// One should always uninstall a language package, not a single language
-				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
-
-				continue;
-			}
-
 			// There was an error in uninstalling the package
 			$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}
 
-		$msg = implode("<br />", $msgs);
+		$msg = implode('<br />', $msgs);
 		$app = JFactory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
 		$app->setUserState('com_installer.message', $installer->message);
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
 
 		return $result;
 	}

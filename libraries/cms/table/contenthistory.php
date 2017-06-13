@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,9 +102,9 @@ class JTableContenthistory extends JTable
 	 */
 	public function getSha1($jsonData, JTableContenttype $typeTable)
 	{
-		$object = (is_object($jsonData)) ? $jsonData : json_decode($jsonData);
+		$object = is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
-		if (isset($typeTable->content_history_options) && (is_object(json_decode($typeTable->content_history_options))))
+		if (isset($typeTable->content_history_options) && is_object(json_decode($typeTable->content_history_options)))
 		{
 			$options = json_decode($typeTable->content_history_options);
 			$this->ignoreChanges = isset($options->ignoreChanges) ? $options->ignoreChanges : $this->ignoreChanges;
@@ -201,7 +201,7 @@ class JTableContenthistory extends JTable
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions
-		if (count($idsToSave) == (int) $maxVersions)
+		if (count($idsToSave) === (int) $maxVersions)
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ abstract class JHtmlIcon
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
 		{
-			$attribs['class'] = $attribs['class'] . ' btn btn-primary';
+			$attribs['class'] .= ' btn btn-primary';
 		}
 		else
 		{
@@ -48,7 +48,7 @@ abstract class JHtmlIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
 		return $output;
 	}
@@ -81,9 +81,7 @@ abstract class JHtmlIcon
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
-
-		return $output;
+		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
 	/**
@@ -149,7 +147,7 @@ abstract class JHtmlIcon
 		}
 
 		$date   = JHtml::_('date', $article->created);
-		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
+		$author = $article->created_by_alias ?: $article->author;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
