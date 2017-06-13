@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @package     Joomla
  * @subpackage  JavaScript Tests
@@ -11,7 +11,8 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 
 	describe('Calendar set for the input element', function () {
 		beforeAll(function () {
-			JoomlaCalendar.init(".field-calendar");
+			var element = document.querySelector(".field-calendar");
+			JoomlaCalendar.init(element);
 		});
 
 		it('Should have calendar element under the input element', function () {

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -269,9 +269,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function getMenu($name = 'site', $options = array())
 	{
-		$menu = parent::getMenu($name, $options);
-
-		return $menu;
+		return parent::getMenu($name, $options);
 	}
 
 	/**
@@ -497,6 +495,9 @@ final class JApplicationSite extends JApplicationCms
 				$template->params = new Registry($template->params);
 			}
 
+			// Unset the $template reference to the last $templates[n] item cycled in the foreach above to avoid editing it later
+			unset($template);
+
 			// Add home element, after loop to avoid double execution
 			if (isset($template_home))
 			{
@@ -526,7 +527,7 @@ final class JApplicationSite extends JApplicationCms
 			{
 				foreach ($templates as $tmpl)
 				{
-					if ($tmpl->template == $template_override)
+					if ($tmpl->template === $template_override)
 					{
 						$template = $tmpl;
 						break;
@@ -548,7 +549,7 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as $tmpl)
 			{
-				if ($tmpl->template == 'beez3')
+				if ($tmpl->template === 'beez3')
 				{
 					$template = $tmpl;
 					break;
@@ -747,7 +748,7 @@ final class JApplicationSite extends JApplicationCms
 				$template = $this->getTemplate(true);
 				$file     = $this->input->get('tmpl', 'index');
 
-				if (!$this->get('offline') && ($file == 'offline'))
+				if (!$this->get('offline') && $file === 'offline')
 				{
 					$this->set('themeFile', 'index.php');
 				}

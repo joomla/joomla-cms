@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ JHtml::_('behavior.formvalidator');
 						<div class="control-group">
 							<div class="control-label">
 							<?php echo $field->label; ?>
-							<?php if (!$field->required && $field->type != 'Spacer') : ?>
+							<?php if (!$field->required && $field->type !== 'Spacer') : ?>
 								<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 							<?php endif; ?>
 							</div>

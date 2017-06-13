@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -244,7 +244,7 @@ class JUpdate extends JObject
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -317,9 +317,11 @@ class JUpdate extends JObject
 				 */
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) 
+					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) 
+					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					$phpMatch = false;
 
@@ -470,7 +472,7 @@ class JUpdate extends JObject
 		{
 			JLog::add(
 				sprintf(
-					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
+					'XML error: %s at line %d', xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
 				),
 				JLog::WARNING, 'updater'

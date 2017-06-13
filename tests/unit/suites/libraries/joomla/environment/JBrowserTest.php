@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_PLATFORM . '/joomla/environment/browser.php';
@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM . '/joomla/environment/browser.php';
  * @subpackage  Environment
  * @since       11.1
  */
-class JBrowserTest extends PHPUnit_Framework_TestCase
+class JBrowserTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JBrowser
@@ -41,7 +41,7 @@ class JBrowserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

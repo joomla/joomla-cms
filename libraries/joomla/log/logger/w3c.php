@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This class is designed to build log files based on the W3C specification.
  *
- * @see    https://www.w3.org/TR/WD-logfile.html
+ * @link   https://www.w3.org/TR/WD-logfile.html
  * @since  11.1
  */
 class JLogLoggerW3c extends JLogLoggerFormattedtext

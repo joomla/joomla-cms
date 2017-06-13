@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -272,7 +272,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 
@@ -332,7 +332,7 @@ class JApplicationCms extends JApplicationWeb
 				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
 				{
 					// Check short task version, must be on the same option of the view
-					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false)
 					{
 						// Not permitted task
 						$redirect = true;
@@ -341,7 +341,8 @@ class JApplicationCms extends JApplicationWeb
 			}
 			else
 			{
-				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+				if ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+					|| $this->input->getCmd('layout', '') !== $layout)
 				{
 					// Requested a different option/view/layout
 					$redirect = true;
@@ -453,11 +454,13 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Get the system message queue.
 	 *
+	 * @param   boolean  $clear  Clear the messages currently attached to the application object
+	 *
 	 * @return  array  The system message queue.
 	 *
 	 * @since   3.2
 	 */
-	public function getMessageQueue()
+	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue))
@@ -471,8 +474,15 @@ class JApplicationCms extends JApplicationWeb
 				$session->set('application.queue', null);
 			}
 		}
+		
+		$messageQueue = $this->_messageQueue;
+		
+		if ($clear)
+		{
+			$this->_messageQueue = array();
+		}
 
-		return $this->_messageQueue;
+		return $messageQueue;
 	}
 
 	/**
@@ -701,6 +711,33 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  boolean  True if is forced for the client, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+		$forceSsl = (int) $this->get('force_ssl');
+
+		if ($clientId === 0 && $forceSsl === 2)
+		{
+			return true;
+		}
+
+		if ($clientId === 1 && $forceSsl >= 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check the client interface by name.
 	 *
 	 * @param   string  $identifier  String identifier for the application interface
@@ -748,37 +785,6 @@ class JApplicationCms extends JApplicationWeb
 			return $this;
 		}
 
-		// Generate a session name.
-		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name'   => $name,
-			'expire' => $lifetime,
-		);
-
-		switch ($this->getClientId())
-		{
-			case 0:
-				if ($this->get('force_ssl') == 2)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-
-			case 1:
-				if ($this->get('force_ssl') >= 1)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-		}
-
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
 		/*
@@ -788,7 +794,14 @@ class JApplicationCms extends JApplicationWeb
 		 * without a proper dependency injection container.
 		 */
 
-		$session = JFactory::getSession($options);
+		$session = JFactory::getSession(
+			array(
+				'name'      => JApplicationHelper::getHash($this->get('session_name', get_class($this))),
+				'expire'    => $this->get('lifetime') ? $this->get('lifetime') * 60 : 900,
+				'force_ssl' => $this->isHttpsForced(),
+			)
+		);
+
 		$session->initialise($this->input, $this->dispatcher);
 
 		// TODO: At some point we need to get away from having session data always in the db.
@@ -812,8 +825,8 @@ class JApplicationCms extends JApplicationWeb
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -901,7 +914,7 @@ class JApplicationCms extends JApplicationWeb
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -1177,7 +1190,7 @@ class JApplicationCms extends JApplicationWeb
 	public function toString($compress = false)
 	{
 		// Don't compress something if the server is going to do it anyway. Waste of time.
-		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 		}

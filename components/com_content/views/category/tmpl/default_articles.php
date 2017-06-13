@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<thead>
 			<tr>
 				<th scope="col" id="categorylist_header_title">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th scope="col" id="categorylist_header_date">

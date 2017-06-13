@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -491,7 +491,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				case 'update':
 					if ($this->parent->manifestClass->$method($this) === false)
 					{
-						if ($method != 'uninstall')
+						if ($method !== 'uninstall')
 						{
 							// The script failed, rollback changes
 							throw new RuntimeException(
@@ -511,7 +511,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		$this->extensionMessage .= ob_get_clean();
 
 		// If in postflight or uninstall, set the message for display
-		if (($method == 'uninstall' || $method == 'postflight') && $this->extensionMessage != '')
+		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '')
 		{
 			$this->parent->set('extension_message', $this->extensionMessage);
 		}
@@ -580,7 +580,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 
@@ -721,11 +721,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		$db->setQuery($query);
-		$result = $db->loadResult();
 
 		// Note: For templates, libraries and packages their unique name is their key.
 		// This means they come out the same way they came in.
-		return $result;
+		return $db->loadResult();
 	}
 
 	/**

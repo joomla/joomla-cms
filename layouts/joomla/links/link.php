@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,6 @@ $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $
 ?>
 <li<?php echo $id; ?>>
 	<a href="<?php echo JFilterOutput::ampReplace($displayData['link']); ?>"<?php echo $target . $onclick . $title; ?>>
-		<span class="icon-<?php echo $displayData['image']; ?>"></span> <?php echo $text; ?>
+		<span class="icon-<?php echo $displayData['image']; ?>" aria-hidden="true"></span> <?php echo $text; ?>
 	</a>
 </li>
