@@ -128,6 +128,12 @@ class PlgSystemDebug extends JPlugin
 			$this->app = JFactory::getApplication();
 		}
 
+		// Get the db if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->db)
+		{
+			$this->db = JFactory::getDbo();
+		}
+
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
