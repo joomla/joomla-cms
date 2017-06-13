@@ -143,7 +143,7 @@ final class JVersion
 	 */
 	public function isInDevelopmentState()
 	{
-		return strtolower(self::DEV_STATUS) != 'stable';
+		return strtolower(self::DEV_STATUS) !== 'stable';
 	}
 
 	/**

@@ -63,20 +63,20 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
-			if ($alterCommand == 'ADD')
+			if ($alterCommand === 'ADD')
 			{
 				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
 				$this->queryType = 'ADD';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
-			elseif ($alterCommand == 'CREATE INDEX')
+			elseif ($alterCommand === 'CREATE INDEX')
 			{
 				$index = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5], '(')));
 				$result = 'SELECT * FROM SYS.INDEXES ' . $wordArray[2] . ' WHERE name = ' . $index;
 				$this->queryType = 'CREATE INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif (strtoupper($wordArray[3]) == 'MODIFY' || strtoupper($wordArray[3]) == 'CHANGE')
+			elseif (strtoupper($wordArray[3]) === 'MODIFY' || strtoupper($wordArray[3]) === 'CHANGE')
 			{
 				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
 				$this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
@@ -84,7 +84,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 			}
 		}
 
-		if ($command == 'CREATE TABLE')
+		if ($command === 'CREATE TABLE')
 		{
 			$table = $wordArray[2];
 			$result = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
@@ -121,7 +121,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = 'int';
 		}

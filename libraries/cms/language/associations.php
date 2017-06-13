@@ -110,7 +110,7 @@ class JLanguageAssociations
 				foreach ($items as $tag => $item)
 				{
 					// Do not return itself as result
-					if ((int) $item->{$pk} != $id)
+					if ((int) $item->{$pk} !== $id)
 					{
 						$multilanguageAssociations[$queryKey][$tag] = $item;
 					}
