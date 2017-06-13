@@ -138,8 +138,9 @@ class PlgContentPagenavigation extends JPlugin
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
 
-			if (($order_method === 'author') || ($order_method === 'rauthor'))
+			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
+				$query->select('a.created_by, u.name');
 				$query->join('LEFT', '#__users AS u ON u.id = a.created_by');
 			}
 
