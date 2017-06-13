@@ -66,6 +66,7 @@ class InstallerModelDatabase extends InstallerModel
 		$this->fixUpdateVersion();
 		$installer = new JoomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
+		$installer->convertTablesToNewNullDate();
 		$this->fixDefaultTextFilters();
 
 		/*
