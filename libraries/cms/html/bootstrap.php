@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -597,7 +597,7 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
-			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : !($opt['parent'] === false || isset($params['active']));
 			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
 			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
 			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;

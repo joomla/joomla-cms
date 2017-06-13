@@ -4,7 +4,7 @@
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -255,18 +255,11 @@ class JControllerForm extends JControllerLegacy
 		// Build an array of item contexts to check
 		$contexts = array();
 
+		$option = isset($this->extension) ? $this->extension : $this->option;
+
 		foreach ($cid as $id)
 		{
 			// If we're coming from com_categories, we need to use extension vs. option
-			if (isset($this->extension))
-			{
-				$option = $this->extension;
-			}
-			else
-			{
-				$option = $this->option;
-			}
-
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
 		}
 

@@ -229,7 +229,7 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] != 'com_tags')
+			if ($menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}

@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -892,7 +892,7 @@ class JInstaller extends JAdapter
 		// Get the array of query nodes to process
 		$queries = $element->children();
 
-		if (count($queries) == 0)
+		if (count($queries) === 0)
 		{
 			// No queries to process
 			return 0;
@@ -987,7 +987,7 @@ class JInstaller extends JAdapter
 				// Create an array of queries from the sql file
 				$queries = JDatabaseDriver::splitSql($buffer);
 
-				if (count($queries) == 0)
+				if (count($queries) === 0)
 				{
 					// No queries to process
 					return 0;
@@ -1177,7 +1177,7 @@ class JInstaller extends JAdapter
 							// Create an array of queries from the sql file
 							$queries = JDatabaseDriver::splitSql($buffer);
 
-							if (count($queries) == 0)
+							if (count($queries) === 0)
 							{
 								// No queries to process
 								continue;
@@ -1757,7 +1757,7 @@ class JInstaller extends JAdapter
 		// Get the array of file nodes to process
 		$files = $element->children();
 
-		if (count($files) == 0)
+		if (count($files) === 0)
 		{
 			// No files to process
 			return true;

@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -122,9 +122,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		TestReflection::setValue('JApplicationCms', 'instances', array());
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
