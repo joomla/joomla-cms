@@ -124,7 +124,7 @@ abstract class JHtmlSelect
 				$attribs = $options['list.attr'];
 			}
 
-			if ($attribs != '')
+			if ($attribs !== '')
 			{
 				$attribs = ' ' . $attribs;
 			}
@@ -670,12 +670,12 @@ abstract class JHtmlSelect
 
 			$key = (string) $key;
 
-			if ($options['groups'] && $key == '<OPTGROUP>')
+			if ($options['groups'] && $key === '<OPTGROUP>')
 			{
 				$html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? JText::_($text) : $text) . '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
 			}
-			elseif ($options['groups'] && $key == '</OPTGROUP>')
+			elseif ($options['groups'] && $key === '</OPTGROUP>')
 			{
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];
@@ -686,7 +686,7 @@ abstract class JHtmlSelect
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 
-				if (isset($splitText[1]) && $splitText[1] != '' && !preg_match('/^[\s]+$/', $splitText[1]))
+				if (isset($splitText[1]) && $splitText[1] !== '' && !preg_match('/^[\s]+$/', $splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}
@@ -725,7 +725,7 @@ abstract class JHtmlSelect
 						}
 					}
 				}
-				elseif ((string) $key == (string) $options['list.select'])
+				elseif ((string) $key === (string) $options['list.select'])
 				{
 					$extra .= ' selected="selected"';
 				}
@@ -799,7 +799,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
+				$extra .= ((string) $k === (string) $selected ? ' checked="checked" ' : '');
 			}
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';

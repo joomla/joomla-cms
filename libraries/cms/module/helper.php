@@ -37,10 +37,10 @@ abstract class JModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the name of the module
-			if ($modules[$i]->name == $name || $modules[$i]->module == $name)
+			if ($modules[$i]->name === $name || $modules[$i]->module === $name)
 			{
 				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules[$i]->title == $title)
+				if (!$title || $modules[$i]->title === $title)
 				{
 					// Found it
 					$result = &$modules[$i];
@@ -50,7 +50,7 @@ abstract class JModuleHelper
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if (is_null($result) && substr($name, 0, 4) == 'mod_')
+		if (is_null($result) && substr($name, 0, 4) === 'mod_')
 		{
 			$result            = new stdClass;
 			$result->id        = 0;
@@ -87,7 +87,7 @@ abstract class JModuleHelper
 
 		for ($i = 0; $i < $total; $i++)
 		{
-			if ($modules[$i]->position == $position)
+			if ($modules[$i]->position === $position)
 			{
 				$result[] = &$modules[$i];
 			}
@@ -295,7 +295,7 @@ abstract class JModuleHelper
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}

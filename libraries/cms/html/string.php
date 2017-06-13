@@ -63,7 +63,7 @@ abstract class JHtmlString
 		{
 			$tmp = trim(StringHelper::substr($text, 0, $length));
 
-			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
+			if (substr($tmp, 0, 1) === '<' && strpos($tmp, '>') === false)
 			{
 				return '...';
 			}
@@ -176,7 +176,7 @@ abstract class JHtmlString
 		}
 
 		// Take care of short simple cases.
-		if ($maxLength <= 3 && substr($html, 0, 1) != '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
+		if ($maxLength <= 3 && substr($html, 0, 1) !== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
 		{
 			return '...';
 		}
@@ -211,13 +211,13 @@ abstract class JHtmlString
 
 		// If the plain text is shorter than the max length the variable will not end in ...
 		// In that case we use the whole string.
-		if (substr($ptString, -3) != '...')
+		if (substr($ptString, -3) !== '...')
 		{
 				return $html;
 		}
 
 		// Regular truncate gives us the ellipsis but we want to go back for text and tags.
-		if ($ptString == '...')
+		if ($ptString === '...')
 		{
 			$stripped = substr(strip_tags($html), 0, $maxLength);
 			$ptString = JHtml::_('string.truncate', $stripped, $maxLength, $noSplit, $allowHtml = false);
@@ -232,7 +232,7 @@ abstract class JHtmlString
 			// Get the truncated string assuming HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
 
-			if ($htmlString == '...' && strlen($ptString) + 3 > $maxLength)
+			if ($htmlString === '...' && strlen($ptString) + 3 > $maxLength)
 			{
 				return $htmlString;
 			}
@@ -244,7 +244,7 @@ abstract class JHtmlString
 			$htmlStringToPtString = rtrim($htmlStringToPtString, '.');
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString . '...';
 			}
