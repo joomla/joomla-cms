@@ -101,7 +101,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 				[],
 				'InvalidArgumentException',
 			],
-		);
+		];
 	}
 
 	/**

@@ -47,7 +47,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 			/* ' will be escaped and become '' */
 			["'%_abc123", false], ["'%_abc123", true],
 			/* ' and \ will be escaped: the first become '', the latter \\ */
-			["\'%_abc123", false] ["\'%_abc123", true]
+			["\'%_abc123", false], ["\'%_abc123", true]
 		];
 	}
 
@@ -135,7 +135,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 			['jos_dbtest', 'test', '"jos_dbtest" AS "test"'],
 			['public.jos_dbtest', 'tst', '"public"."jos_dbtest" AS "tst"'],
 			['joomla_ut.public.jos_dbtest', 'tst', '"joomla_ut"."public"."jos_dbtest" AS "tst"'],
-			[['joomla_ut', 'dbtest'), ['j_ut', 'tst'], ['"joomla_ut" AS "j_ut"', '"dbtest" AS "tst"']],
+			[['joomla_ut', 'dbtest'], ['j_ut', 'tst'], ['"joomla_ut" AS "j_ut"', '"dbtest" AS "tst"']],
 			[
 				['joomla_ut.dbtest', 'public.dbtest'],
 				['j_ut_db', 'pub_tst'],
