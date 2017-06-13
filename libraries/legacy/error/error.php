@@ -381,7 +381,7 @@ abstract class JError
 
 		foreach ($levels as $eLevel => $eTitle)
 		{
-			if (($level & $eLevel) != $eLevel)
+			if (($level & $eLevel) !== $eLevel)
 			{
 				continue;
 			}

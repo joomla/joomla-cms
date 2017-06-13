@@ -211,7 +211,7 @@ class JControllerAdmin extends JControllerLegacy
 				$errors = $model->getErrors();
 				$ntext = null;
 
-				if ($value == 1)
+				if ($value === 1)
 				{
 					if ($errors)
 					{
@@ -222,11 +222,11 @@ class JControllerAdmin extends JControllerLegacy
 						$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
 					}
 				}
-				elseif ($value == 0)
+				elseif ($value === 0)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
 				}
-				elseif ($value == 2)
+				elseif ($value === 2)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
 				}

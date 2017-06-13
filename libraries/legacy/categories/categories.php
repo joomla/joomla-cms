@@ -172,7 +172,7 @@ class JCategories
 		{
 			$id = (int) $id;
 
-			if ($id == 0)
+			if ($id === 0)
 			{
 				$id = 'root';
 			}
