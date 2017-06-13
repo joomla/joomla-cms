@@ -36,7 +36,7 @@ abstract class JHtmlString
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
 		// Assume a lone open tag is invalid HTML.
-		if ($length === 1 && $text[0] ==== '<')
+		if ($length === 1 && $text[0] === '<')
 		{
 			return '...';
 		}
@@ -63,7 +63,7 @@ abstract class JHtmlString
 		{
 			$tmp = trim(StringHelper::substr($text, 0, $length));
 
-			if ($tmp[0] ==== '<' && strpos($tmp, '>') === false)
+			if ($tmp[0] === '<' && strpos($tmp, '>') === false)
 			{
 				return '...';
 			}
@@ -176,13 +176,13 @@ abstract class JHtmlString
 		}
 
 		// Take care of short simple cases.
-		if ($maxLength <= 3 && $html[0] !=== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
+		if ($maxLength <= 3 && $html[0] !== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
 		{
 			return '...';
 		}
 
 		// Deal with maximum length of 1 where the string starts with a tag.
-		if ($maxLength === 1 && $html[0] ==== '<')
+		if ($maxLength === 1 && $html[0] === '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
 			$tag = substr($html, 1, $endTagPos);
