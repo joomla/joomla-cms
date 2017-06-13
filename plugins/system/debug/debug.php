@@ -101,8 +101,8 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object &$subject The object to observe.
-	 * @param   array  $config   An optional associative array of configuration settings.
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
 	 */
@@ -249,9 +249,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;'
-		) === 0
-			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
+		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0 &&
+			strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -267,7 +266,7 @@ class PlgSystemDebug extends JPlugin
 		$html[] = "<script>function toggleContainer(name)
 		{
 			var e = document.getElementById(name);// MooTools might not be available ;)
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
+			e.style.display = (e.style.display === 'none') ? 'block' : 'none';
 		}</script>";
 
 		$html[] = '<div id="system-debug" class="profiler">';
@@ -630,8 +629,8 @@ class PlgSystemDebug extends JPlugin
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
-			$totalMem += (float) $mark->memory;
-			$htmlMark = sprintf(
+			$totalMem  += (float) $mark->memory;
+			$htmlMark  = sprintf(
 				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="label label-default">%.2f&nbsp;ms</span>'
 				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
 				. ' %s: %s',
@@ -688,7 +687,7 @@ class PlgSystemDebug extends JPlugin
 				$labelClassMem = 'label-warning';
 			}
 
-			$barClass .= " progress-$barClass";
+			$barClass    .= " progress-$barClass";
 			$barClassMem .= " progress-$barClassMem";
 
 			$bars[] = (object) array(
@@ -865,7 +864,7 @@ class PlgSystemDebug extends JPlugin
 			if ($timings && isset($timings[$id * 2 + 1]))
 			{
 				// Compute the query time.
-				$queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
+				$queryTime      = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
 				$totalQueryTime += $queryTime;
 
 				// Run an EXPLAIN EXTENDED query on the SQL query if possible.
@@ -926,7 +925,7 @@ class PlgSystemDebug extends JPlugin
 					if ($barPre < 0)
 					{
 						$minWidth += $barPre;
-						$barPre = 0;
+						$barPre   = 0;
 					}
 
 					$barWidth = $minWidth;
@@ -971,7 +970,7 @@ class PlgSystemDebug extends JPlugin
 
 			if ($bars[1]->pre < 0)
 			{
-				$minWidth += $bars[1]->pre;
+				$minWidth     += $bars[1]->pre;
 				$bars[1]->pre = 0;
 			}
 
@@ -998,7 +997,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$fromString = substr($query, 0, $whereStart);
-			$fromString = str_replace(array("\t","\n"), ' ', $fromString);
+			$fromString = str_replace(array("\t", "\n"), ' ', $fromString);
 			$fromString = trim($fromString);
 
 			// Initialise the select/other query type counts the first time.
@@ -1103,7 +1102,7 @@ class PlgSystemDebug extends JPlugin
 						}
 
 						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
-						$htmlTiming .= ' <span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
+						$htmlTiming          .= ' <span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
 
@@ -1317,7 +1316,7 @@ class PlgSystemDebug extends JPlugin
 			if (isset($bar->tip) && $bar->tip)
 			{
 				$barClass .= ' hasTooltip';
-				$tip = JHtml::_('tooltipText', $bar->tip, '', 0);
+				$tip      = JHtml::_('tooltipText', $bar->tip, '', 0);
 			}
 
 			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
@@ -1511,7 +1510,7 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
+		if (in_array($db->getServerType(), array('mysql', 'postgresql'), true))
 		{
 			$log = $db->getLog();
 
@@ -1672,7 +1671,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -1814,7 +1813,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				)
 			);
-			$logEntriesTotal -= $logEntriesDatabasequery;
+			$logEntriesTotal         -= $logEntriesDatabasequery;
 		}
 
 		// Deprecated log entries
@@ -1847,7 +1846,7 @@ class PlgSystemDebug extends JPlugin
 			<br />';
 		}
 
-		$out .= '<ol>';
+		$out   .= '<ol>';
 		$count = 1;
 
 		foreach ($this->logEntries as $entry)
@@ -1865,7 +1864,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			// Don't show everything logs if not selected.
-			if (!$showEverything && !in_array($entry->category, array('deprecated', 'databasequery')))
+			if (!$showEverything && !in_array($entry->category, array('deprecated', 'databasequery'), true))
 			{
 				continue;
 			}
@@ -1905,7 +1904,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		$htmlCallStack = '';
 
-		if (isset($callStack))
+		if ($callStack !== null)
 		{
 			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
@@ -2038,9 +2037,9 @@ class PlgSystemDebug extends JPlugin
 		{
 			if (isset($timings[$id * 2 + 1]))
 			{
-				$temp     = str_replace('`', '', $log[$id]);
-				$temp     = str_replace(array("\t", "\n", "\r\n"), ' ', $temp);
-				$current .=  $temp . ";\n";
+				$temp    = str_replace('`', '', $log[$id]);
+				$temp    = str_replace(array("\t", "\n", "\r\n"), ' ', $temp);
+				$current .= $temp . ";\n";
 			}
 		}
 
