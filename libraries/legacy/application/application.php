@@ -1012,8 +1012,7 @@ class JApplication extends JApplicationBase
 		// Check to see the the session already exists.
 		$handler = $this->get('session_handler');
 
-		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler === 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}

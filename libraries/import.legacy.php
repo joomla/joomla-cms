@@ -25,7 +25,7 @@ if (!defined('IS_WIN'))
 
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', ($os !== 'MAC') && ($os !== 'WIN'));
+	define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
 }
 
 /**
