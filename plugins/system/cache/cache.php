@@ -59,6 +59,12 @@ class PlgSystemCache extends JPlugin
 			'caching'      => false,
 		);
 
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+
 		$this->_cache     = JCache::getInstance('page', $options);
 		$this->_cache_key = JUri::getInstance()->toString();
 	}
