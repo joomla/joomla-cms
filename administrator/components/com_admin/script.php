@@ -1899,6 +1899,8 @@ class JoomlaInstallerScript
 			'/administrator/templates/hathor/html/mod_menu',
 			'/administrator/components/com_messages/layouts/toolbar',
 			'/administrator/components/com_messages/layouts',
+			// Joomla! __DEPLOY_VERSION__
+			'/components/com_fields/controllers',
 		);
 
 		jimport('joomla.filesystem.file');

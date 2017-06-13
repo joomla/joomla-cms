@@ -312,25 +312,6 @@ class FieldsHelper
 		 */
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
-			// The uri to submit to
-			$uri = clone JUri::getInstance('index.php');
-
-			/*
-			 * Removing the catid parameter from the actual URL and set it as
-			 * return
-			*/
-			$returnUri = clone JUri::getInstance();
-			$returnUri->setVar('catid', null);
-			$uri->setVar('return', base64_encode($returnUri->toString()));
-
-			// Setting the options
-			$uri->setVar('option', 'com_fields');
-			$uri->setVar('task', 'field.storeform');
-			$uri->setVar('context', $parts[0] . '.' . $parts[1]);
-			$uri->setVar('formcontrol', $form->getFormControl());
-			$uri->setVar('view', null);
-			$uri->setVar('layout', null);
-
 			/*
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
@@ -343,8 +324,7 @@ class FieldsHelper
 				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
-				jQuery('input[name=task]').val('field.storeform');
-				element.form.action='" . $uri . "';
+				jQuery('input[name=task]').val('" . $section . ".reload');
 				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
