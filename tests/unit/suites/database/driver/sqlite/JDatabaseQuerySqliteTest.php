@@ -73,13 +73,13 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 */
 	public function seedDateAdd()
 	{
-		return array(
+		return [
 			// date, interval, datepart, expected
-			'Add date'			=> array('2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"),
-			'Subtract date'		=> array('2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"),
-			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"),
-			'Add microseconds'	=> array('2008-12-31 23:59:59', '53', 'microseconds', "datetime('2008-12-31 23:59:59', '+0.053 seconds')"),
-		);
+			'Add date'         => ['2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"],
+			'Subtract date'    => ['2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"],
+			'Add datetime'     => ['2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"],
+			'Add microseconds' => ['2008-12-31 23:59:59', '53', 'microseconds', "datetime('2008-12-31 23:59:59', '+0.053 seconds')"],
+		];
 	}
 
 	/**

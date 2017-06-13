@@ -25,10 +25,10 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function dataTestEscape()
 	{
-		return array(
-			array("'%_abc123", false, '\\\'%_abc123'),
-			array("'%_abc123", true, '\\\'\\%\_abc123')
-		);
+		return [
+			["'%_abc123", false, '\\\'%_abc123'],
+			["'%_abc123", true, '\\\'\\%\_abc123']
+		];
 	}
 
 	/**
@@ -40,11 +40,11 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function dataTestQuoteName()
 	{
-		return array(
-			array('protected`title', null, '`protected``title`'),
-			array('protected"title', null, '`protected"title`'),
-			array('protected]title', null, '`protected]title`'),
-		);
+		return [
+			['protected`title', null, '`protected``title`'],
+			['protected"title', null, '`protected"title`'],
+			['protected]title', null, '`protected]title`'],
+		];
 	}
 
 	/**
@@ -56,7 +56,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function dataTestTransactionRollback()
 	{
-		return array(array(null, 0), array('transactionSavepoint', 1));
+		return [[null, 0], ['transactionSavepoint', 1]];
 	}
 
 	/**
@@ -92,7 +92,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$objCompFour->start_date = '1980-04-18 00:00:00';
 		$objCompFour->description = 'four';
 
-		return array(array(array($objCompOne, $objCompTwo, $objCompThree, $objCompFour)));
+		return [[[$objCompOne, $objCompTwo, $objCompThree, $objCompFour]]];
 	}
 
 	/**
@@ -104,13 +104,16 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function dataTestLoadNextRow()
 	{
-		return array(
-			array(
-				array(
-					array(1, 'Testing', '1980-04-18 00:00:00', 'one'),
-					array(2, 'Testing2', '1980-04-18 00:00:00', 'one'),
-					array(3, 'Testing3', '1980-04-18 00:00:00', 'three'),
-					array(4, 'Testing4', '1980-04-18 00:00:00', 'four'))));
+		return [
+			[
+				[
+					[1, 'Testing', '1980-04-18 00:00:00', 'one'],
+					[2, 'Testing2', '1980-04-18 00:00:00', 'one'],
+					[3, 'Testing3', '1980-04-18 00:00:00', 'three'],
+					[4, 'Testing4', '1980-04-18 00:00:00', 'four']
+				]
+			]
+		];
 	}
 
 	/**
@@ -275,7 +278,12 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function testGetTableColumns()
 	{
-		$tableCol = array('id' => 'int unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
+		$tableCol = [
+			'id'          => 'int unsigned',
+			'title'       => 'varchar',
+			'start_date'  => 'datetime',
+			'description' => 'text'
+		];
 
 		$this->assertThat(
 			self::$driver->getTableColumns('jos_dbtest'),
@@ -331,12 +339,12 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$this->assertThat(
 			self::$driver->getTableColumns('jos_dbtest', false),
 			$this->equalTo(
-				array(
-					'id' => $id,
-					'title' => $title,
-					'start_date' => $start_date,
+				[
+					'id'          => $id,
+					'title'       => $title,
+					'start_date'  => $start_date,
 					'description' => $description
-				)
+				]
 			),
 			__LINE__
 		);
@@ -405,7 +413,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssoc();
 
-		$this->assertThat($result, $this->equalTo(array('title' => 'Testing')), __LINE__);
+		$this->assertThat($result, $this->equalTo(['title' => 'Testing']), __LINE__);
 	}
 
 	/**
@@ -425,7 +433,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 
 		$this->assertThat(
 			$result,
-			$this->equalTo(array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))),
+			$this->equalTo([['title' => 'Testing'], ['title' => 'Testing2'], ['title' => 'Testing3'], ['title' => 'Testing4']]),
 			__LINE__
 		);
 	}
@@ -445,7 +453,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadColumn();
 
-		$this->assertThat($result, $this->equalTo(array('Testing', 'Testing2', 'Testing3', 'Testing4')), __LINE__);
+		$this->assertThat($result, $this->equalTo(['Testing', 'Testing2', 'Testing3', 'Testing4']), __LINE__);
 	}
 
 	/**
@@ -647,7 +655,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObjectList();
 
-		$expected = array();
+		$expected = [];
 
 		$objCompare = new stdClass;
 		$objCompare->id = 1;
@@ -721,7 +729,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRow();
 
-		$expected = array(3, 'Testing3', '1980-04-18 00:00:00', 'three');
+		$expected = [3, 'Testing3', '1980-04-18 00:00:00', 'three'];
 
 		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}
@@ -742,7 +750,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRowList();
 
-		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'), array(2, 'Testing2', '1980-04-18 00:00:00', 'one'));
+		$expected = [[1, 'Testing', '1980-04-18 00:00:00', 'one'], [2, 'Testing2', '1980-04-18 00:00:00', 'one']];
 
 		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}
@@ -781,7 +789,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRowList();
 
-		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'));
+		$expected = [[1, 'Testing', '1980-04-18 00:00:00', 'one']];
 
 		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}
@@ -803,7 +811,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($query, 0, 1);
 		$result = self::$driver->loadRowList();
 
-		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'));
+		$expected = [[1, 'Testing', '1980-04-18 00:00:00', 'one']];
 
 		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}
@@ -857,7 +865,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($queryCheck);
 		$result = self::$driver->loadRow();
 
-		$expected = array('6', 'testTitle', '1970-01-01 00:00:00', 'testDescription');
+		$expected = ['6', 'testTitle', '1970-01-01 00:00:00', 'testDescription'];
 
 		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}

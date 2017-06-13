@@ -73,12 +73,12 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 */
 	public function seedDateAdd()
 	{
-		return array(
+		return [
 			// date, interval, datepart, expected
-			'Add date'			=> array('2008-12-31', '1', 'day', "DATEADD('day', '1', '2008-12-31')"),
-			'Subtract date'		=> array('2008-12-31', '-1', 'day', "DATEADD('day', '-1', '2008-12-31')"),
-			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'day', "DATEADD('day', '1', '2008-12-31 23:59:59')"),
-		);
+			'Add date'      => ['2008-12-31', '1', 'day', "DATEADD('day', '1', '2008-12-31')"],
+			'Subtract date' => ['2008-12-31', '-1', 'day', "DATEADD('day', '-1', '2008-12-31')"],
+			'Add datetime'  => ['2008-12-31 23:59:59', '1', 'day', "DATEADD('day', '1', '2008-12-31 23:59:59')"],
+		];
 	}
 
 	/**
@@ -209,7 +209,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			. ",'sta''tic' 'static'"
 			. ", 1. AS x";
 
-		$expected = array(
+		$expected = [
 			'DISTINCT - [catid] AS [\\"]',
 			'a.id',
 			'a.title AS [a\'title]]x]',
@@ -221,7 +221,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			'++-+ a.end + 1 - 3',
 			"'sta''tic' 'static'",
 			'1. AS x',
-		);
+		];
 
 		$columns = TestReflection::invoke($this->_instance, 'splitSqlExpression', $columns);
 
@@ -238,10 +238,10 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$columns = "ALL-[catid] AS []]] "
 			. ', - id';
 
-		$expected = array(
+		$expected = [
 			'ALL - [catid] AS []]]',
 			'- id',
-		);
+		];
 
 		$columns = TestReflection::invoke($this->_instance, 'splitSqlExpression', $columns);
 
@@ -293,7 +293,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			. ','
 		);
 
-		$expected = array(
+		$expected = [
 			'*',
 			'a.*',
 			'id_9',
@@ -320,7 +320,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			'- a.id AS [columnAlias23]',
 			'eNULL',
 			'',
-		);
+		];
 
 		TestReflection::invoke($this->_instance, 'fixSelectAliases');
 
@@ -340,7 +340,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			. ", ++ ix"
 		);
 
-		$expected = array(
+		$expected = [
 			'DISTINCT +++ id',
 			'-+-+- a. [id_9] AS [columnAlias1]',
 			'-+-+- a. [id_9] AS [columnAlias2]',
@@ -348,7 +348,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			'-+-+- a.[id_9] AS [columnAlias4]',
 			'+-+ ix AS [columnAlias5]',
 			'++ ix',
-		);
+		];
 
 		TestReflection::invoke($this->_instance, 'fixSelectAliases');
 
@@ -365,12 +365,12 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			. ", [a].[b] + c"
 		);
 
-		$expected = array(
+		$expected = [
 			'DISTINCT -+++ [a]. id AS [columnAlias0]',
 			'[a]. [id_9]',
 			'c ++ [a].[b] AS [columnAlias2]',
 			'[a].[b] + c AS [columnAlias3]',
-		);
+		];
 
 		TestReflection::invoke($this->_instance, 'fixSelectAliases');
 
@@ -385,10 +385,10 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 			. ", ''+a . id_9 'alias'"
 		);
 
-		$expected = array(
+		$expected = [
 			'DISTINCT + id',
 			"'' + a. id_9 AS 'alias'",
-		);
+		];
 
 		TestReflection::invoke($this->_instance, 'fixSelectAliases');
 

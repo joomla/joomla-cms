@@ -25,83 +25,83 @@ class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 */
 	public function casesForEachData()
 	{
-		return array(
+		return [
 			// Testing 'stdClass' type without specific index, offset or limit
-			array(
+			[
 				'title',
 				'#__dbtest',
 				null,
 				'stdClass',
 				0,
 				0,
-				array(
-					(object) array('title' => 'Testing'),
-					(object) array('title' => 'Testing2'),
-					(object) array('title' => 'Testing3'),
-					(object) array('title' => 'Testing4')
-				),
+				[
+					(object) ['title' => 'Testing'],
+					(object) ['title' => 'Testing2'],
+					(object) ['title' => 'Testing3'],
+					(object) ['title' => 'Testing4']
+				],
 				null
-			),
+			],
 
 			// Testing 'stdClass' type, limit=2 without specific index or offset
-			array(
+			[
 				'title',
 				'#__dbtest',
 				null,
 				'stdClass',
 				2,
 				0,
-				array(
-					(object) array('title' => 'Testing'),
-					(object) array('title' => 'Testing2')
-				),
+				[
+					(object) ['title' => 'Testing'],
+					(object) ['title' => 'Testing2']
+				],
 				null
-			),
+			],
 
 			// Testing 'stdClass' type, offset=2 without specific index or limit
-			array(
+			[
 				'title',
 				'#__dbtest',
 				null,
 				'stdClass',
 				20,
 				2,
-				array(
-					(object) array('title' => 'Testing3', 'RowNumber' => '3'),
-					(object) array('title' => 'Testing4', 'RowNumber' => '4')
-				),
+				[
+					(object) ['title' => 'Testing3', 'RowNumber' => '3'],
+					(object) ['title' => 'Testing4', 'RowNumber' => '4']
+				],
 				null
-			),
+			],
 
 			// Testing 'stdClass' type, index='title' without specific offset or limit
-			array(
+			[
 				'title, id',
 				'#__dbtest',
 				'title',
 				'stdClass',
 				0,
 				0,
-				array(
-					'Testing' => (object) array('title' => 'Testing', 'id' => '1'),
-					'Testing2' => (object) array('title' => 'Testing2', 'id' => '2'),
-					'Testing3' => (object) array('title' => 'Testing3', 'id' => '3'),
-					'Testing4' => (object) array('title' => 'Testing4', 'id' => '4')
-				),
+				[
+					'Testing'  => (object) ['title' => 'Testing', 'id' => '1'],
+					'Testing2' => (object) ['title' => 'Testing2', 'id' => '2'],
+					'Testing3' => (object) ['title' => 'Testing3', 'id' => '3'],
+					'Testing4' => (object) ['title' => 'Testing4', 'id' => '4']
+				],
 				null,
-			),
+			],
 
 			// Testing 'UnexistingClass' type, index='title' without specific offset or limit
-			array(
+			[
 				'title',
 				'#__dbtest',
 				'title',
 				'UnexistingClass',
 				0,
 				0,
-				array(),
+				[],
 				'InvalidArgumentException',
-			),
-		);
+			],
+		];
 	}
 
 	/**

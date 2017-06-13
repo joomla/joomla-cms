@@ -36,54 +36,54 @@ class JDatabaseExporterMysqliTest extends TestCase
 		$this->dbo->expects($this->any())
 			->method('getTableColumns')
 			->willReturn(
-				array(
-					'id' => (object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
+				[
+					'id' => (object) [
+						'Field'      => 'id',
+						'Type'       => 'int(11) unsigned',
+						'Collation'  => null,
+						'Null'       => 'NO',
+						'Key'        => 'PRI',
+						'Default'    => '',
+						'Extra'      => 'auto_increment',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
-					),
-					'title' => (object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
+						'Comment'    => '',
+					],
+					'title' => (object) [
+						'Field'      => 'title',
+						'Type'       => 'varchar(255)',
+						'Collation'  => 'utf8_general_ci',
+						'Null'       => 'NO',
+						'Key'        => '',
+						'Default'    => '',
+						'Extra'      => '',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
-					),
-				)
+						'Comment'    => '',
+					],
+				]
 			);
 
 		$this->dbo->expects($this->any())
 			->method('getTableKeys')
-			->willReturn(array(
-				(object) array(
-					'Table' => 'jos_test',
-					'Non_unique' => '0',
-					'Key_name' => 'PRIMARY',
+			->willReturn([
+				(object) [
+					'Table'        => 'jos_test',
+					'Non_unique'   => '0',
+					'Key_name'     => 'PRIMARY',
 					'Seq_in_index' => '1',
-					'Column_name' => 'id',
-					'Collation' => 'A',
-					'Cardinality' => '2695',
-					'Sub_part' => '',
-					'Packed' => '',
-					'Null' => '',
-					'Index_type' => 'BTREE',
-					'Comment' => '',
-				)
-			));
+					'Column_name'  => 'id',
+					'Collation'    => 'A',
+					'Cardinality'  => '2695',
+					'Sub_part'     => '',
+					'Packed'       => '',
+					'Null'         => '',
+					'Index_type'   => 'BTREE',
+					'Comment'      => '',
+				]
+			]);
 
 		$this->dbo->expects($this->any())
 			->method('loadObjectList')
-			->willReturnCallback(array($this, 'callbackLoadObjectList'));
+			->willReturnCallback([$this, 'callbackLoadObjectList']);
 	}
 
 	/**
@@ -107,7 +107,7 @@ class JDatabaseExporterMysqliTest extends TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -204,14 +204,14 @@ class JDatabaseExporterMysqliTest extends TestCase
 			->withStructure(true);
 
 		$this->assertEquals(
-			array(
+			[
 				'  <table_structure name="#__test">',
 				'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
 				'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
 				'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" ' .
 				'Null="" Index_type="BTREE" Comment="" />',
 				'  </table_structure>'
-			),
+			],
 			TestReflection::invoke($instance, 'buildXmlStructure')
 		);
 	}
@@ -287,7 +287,7 @@ class JDatabaseExporterMysqliTest extends TestCase
 		);
 
 		$this->assertSame(
-			array('jos_foobar'),
+			['jos_foobar'],
 			TestReflection::getValue($instance, 'from'),
 			'The from method should convert a string input to an array.'
 		);

@@ -38,7 +38,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	protected function setup()
 	{
 		// Set up the database object mock.
-		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = $this->getMockDatabase('Postgresql', ['getTableSequences'], '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->dbo->expects($this->any())
 			->method('getPrefix')
@@ -47,48 +47,48 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$this->dbo->expects($this->any())
 			->method('getTableColumns')
 			->willReturn(
-				array(
-					(object) array(
+				[
+					(object) [
 						'column_name' => 'id',
-						'type' => 'integer',
-						'null' => 'NO',
-						'default' => 'nextval(\'jos_dbtest_id_seq\'::regclass)',
-						'comments' => '',
-					),
-					(object) array(
+						'type'        => 'integer',
+						'null'        => 'NO',
+						'default'     => 'nextval(\'jos_dbtest_id_seq\'::regclass)',
+						'comments'    => '',
+					],
+					(object) [
 						'column_name' => 'title',
-						'type' => 'character varying(50)',
-						'null' => 'NO',
-						'default' => 'NULL',
-						'comments' => '',
-					),
-					(object) array(
+						'type'        => 'character varying(50)',
+						'null'        => 'NO',
+						'default'     => 'NULL',
+						'comments'    => '',
+					],
+					(object) [
 						'column_name' => 'start_date',
-						'type' => 'timestamp without time zone',
-						'null' => 'NO',
-						'default' => 'NULL',
-						'comments' => '',
-					),
-					(object) array(
+						'type'        => 'timestamp without time zone',
+						'null'        => 'NO',
+						'default'     => 'NULL',
+						'comments'    => '',
+					],
+					(object) [
 						'column_name' => 'description',
-						'type' => 'text',
-						'null' => 'NO',
-						'default' => 'NULL',
-						'comments' => '',
-					)
-				)
+						'type'        => 'text',
+						'null'        => 'NO',
+						'default'     => 'NULL',
+						'comments'    => '',
+					]
+				]
 			);
 
 		$this->dbo->expects($this->any())
 			->method('getTableKeys')
-			->willReturn(array(
-				(object) array(
-					'idxName' => 'jos_dbtest_pkey',
+			->willReturn([
+				(object) [
+					'idxName'   => 'jos_dbtest_pkey',
 					'isPrimary' => 'TRUE',
-					'isUnique' => 'TRUE',
-					'Query' => 'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)',
-				)
-			));
+					'isUnique'  => 'TRUE',
+					'Query'     => 'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)',
+				]
+			]);
 
 		// Check if database is at least 9.1.0
 		$this->dbo->expects($this->any())
@@ -110,29 +110,29 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$this->dbo->expects($this->any())
 			->method('getTableSequences')
 			->willReturn(
-				array(
-					(object) array(
-						'sequence' => 'jos_dbtest_id_seq',
-						'schema' => 'public',
-						'table' => 'jos_dbtest',
-						'column' => 'id',
-						'data_type' => 'bigint',
-						'start_value' => $start_val,
+				[
+					(object) [
+						'sequence'      => 'jos_dbtest_id_seq',
+						'schema'        => 'public',
+						'table'         => 'jos_dbtest',
+						'column'        => 'id',
+						'data_type'     => 'bigint',
+						'start_value'   => $start_val,
 						'minimum_value' => '1',
 						'maximum_value' => '9223372036854775807',
-						'increment' => '1',
-						'cycle_option' => 'NO',
-					)
-				)
+						'increment'     => '1',
+						'cycle_option'  => 'NO',
+					]
+				]
 			);
 
 		$this->dbo->expects($this->any())
 			->method('loadObjectList')
-			->willReturn(array());
+			->willReturn([]);
 
 		$this->dbo->expects($this->any())
 			->method('getTableList')
-			->willReturn(array('jos_dbtest'));
+			->willReturn(['jos_dbtest']);
 	}
 
 	/**
@@ -310,7 +310,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		}
 
 		$this->assertEquals(
-			array(
+			[
 				'  <table_structure name="#__test">',
 				'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 				$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
@@ -320,7 +320,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 				'   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
 				'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />',
 				'  </table_structure>'
-			),
+			],
 			TestReflection::invoke($instance, 'buildXmlStructure')
 		);
 	}
@@ -395,7 +395,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		);
 
 		$this->assertAttributeEquals(
-			array('jos_foobar'),
+			['jos_foobar'],
 			'from',
 			$instance,
 			'The from method should convert a string input to an array.'
