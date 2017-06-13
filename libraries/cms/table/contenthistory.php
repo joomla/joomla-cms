@@ -127,12 +127,12 @@ class JTableContenthistory extends JTable
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = (is_int($subValue) || is_bool($subValue) || $subValue === null) ? (string) $subValue : $subValue;
+					$object->$subName = is_int($subValue) || is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = (is_int($value) || is_bool($value) || $value === null) ? (string) $value : $value;
+				$object->$name = is_int($value) || is_bool($value) || $value === null ? (string) $value : $value;
 			}
 		}
 
