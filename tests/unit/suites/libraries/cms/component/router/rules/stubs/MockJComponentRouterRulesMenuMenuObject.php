@@ -50,6 +50,7 @@ class MockJComponentRouterRulesMenuMenuObject
 			'component_id' => '22',
 			'component'    => 'com_content',
 			'parent_id'    => '0', 
+			'access'       => '1',
 			'query'        => array('option' => 'com_content', 'view' => 'featured'));
 
 		$this->items[48] = (object) array(
@@ -65,6 +66,7 @@ class MockJComponentRouterRulesMenuMenuObject
 			'component_id' => '22', 
 			'component'    => 'com_content',
 			'parent_id'    => '47', 
+			'access'       => '1',
 			'query'        => array('option' => 'com_content', 'view' => 'categories', 'id' => '14'));
 
 		$this->items[49] = (object) array(
@@ -80,6 +82,7 @@ class MockJComponentRouterRulesMenuMenuObject
 			'component_id' => '22', 
 			'component'    => 'com_content',
 			'parent_id'    => '47', 
+			'access'       => '1',
 			'query'        => array('option' => 'com_content', 'view' => 'category', 'id' => '20'));
 
 		$this->items[50] = (object) array(
@@ -95,6 +98,7 @@ class MockJComponentRouterRulesMenuMenuObject
 			'component_id' => '22', 
 			'component'    => 'com_content',
 			'parent_id'    => '47', 
+			'access'       => '1',
 			'query'        => array('option' => 'com_content', 'view' => 'categories', 'id' => '14'));
 		
 		$this->items[51] = (object) array(
@@ -110,6 +114,7 @@ class MockJComponentRouterRulesMenuMenuObject
 			'component_id' => '22', 
 			'component'    => 'com_content',
 			'parent_id'    => '0', 
+			'access'       => '1',
 			'query'        => array('option' => 'com_content', 'view' => 'featured'));
 	}
 

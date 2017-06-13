@@ -129,7 +129,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	public function casesPreprocess()
 	{
 		$cases   = array();
-		
+
 		// Check direct link to a simple view
 		$cases[] = array(array('option' => 'com_content', 'view' => 'featured'),
 			array('option' => 'com_content', 'view' => 'featured', 'Itemid' => '47'));
@@ -200,32 +200,49 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	}
 
 	/**
+	 * Cases for testPreprocessLanguage
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function casesPreprocessLanguage()
+	{
+		return array(
+			'empty query' => array(
+				array(),
+				array('Itemid' => '47'),
+			),
+			'Itemid given' => array(
+				array('Itemid' => '50'),
+				array('Itemid' => '50'),
+			),
+			'language given' => array(
+				array('lang' => 'en-GB'),
+				array('lang' => 'en-GB', 'Itemid' => '51'),
+			)
+		);
+	}
+	/**
 	 * Tests the preprocess() method
 	 *
 	 * @return  void
 	 *
+	 * @dataProvider  casesPreprocessLanguage
 	 * @since   3.5
 	 */
-	public function testPreprocessLanguage()
+	public function testPreprocessLanguage($input, $expected)
 	{
 		$this->saveFactoryState();
 
 		// Test if the default Itemid is used if everything else fails
+		/** @var JComponentRouterView $router */
 		$router = $this->object->get('router');
 		$router->menu->active = null;
-		$query = array();
-		$this->object->preprocess($query);
-		$this->assertEquals(array('Itemid' => '47'), $query);
 
-		// If we inject an item id and we have no active menu item we should get the injected item id
-		$query = array('Itemid' => '50');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('Itemid' => '50'), $query);
-
-		// Test if the correct default item is used based on the language
-		$query = array('lang' => 'en-GB');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('lang' => 'en-GB', 'Itemid' => '51'), $query);
+		// The argument here is by reference, so we'll validate the input matches expected
+		$this->object->preprocess($input);
+		$this->assertEquals($expected, $input);
 
 		$this->restoreFactoryState();
 	}
@@ -245,7 +262,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 				'categories' => array(14 => '48'),
 				'category' => array (20 => '49'))
 			), $this->object->get('lookup'));
-		
+
 		$this->object->runBuildLookUp('en-GB');
 		$this->assertEquals(array(
 			'*' => array(
