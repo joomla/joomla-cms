@@ -70,10 +70,10 @@ class PlgSearchNewsfeeds extends JPlugin
 			}
 		}
 
-		$sContent = $this->params->get('search_content', 1);
+		$sContent  = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
-		$limit = $this->params->def('search_limit', 50);
-		$state = [];
+		$limit     = $this->params->def('search_limit', 50);
+		$state     = [];
 
 		if ($sContent)
 		{
@@ -100,26 +100,26 @@ class PlgSearchNewsfeeds extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
-				$wheres2 = [];
+				$text      = $db->quote('%' . $db->escape($text, true) . '%', false);
+				$wheres2   = [];
 				$wheres2[] = 'a.name LIKE ' . $text;
 				$wheres2[] = 'a.link LIKE ' . $text;
-				$where = '(' . implode(') OR (', $wheres2) . ')';
+				$where     = '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
 			case 'all':
 			case 'any':
 			default:
-				$words = explode(' ', $text);
+				$words  = explode(' ', $text);
 				$wheres = [];
 
 				foreach ($words as $word)
 				{
-					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
-					$wheres2 = [];
+					$word      = $db->quote('%' . $db->escape($word, true) . '%', false);
+					$wheres2   = [];
 					$wheres2[] = 'a.name LIKE ' . $word;
 					$wheres2[] = 'a.link LIKE ' . $word;
-					$wheres[] = implode(' OR ', $wheres2);
+					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
 				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';

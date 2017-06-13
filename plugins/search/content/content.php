@@ -143,7 +143,7 @@ class PlgSearchContent extends JPlugin
 				break;
 		}
 
-		$rows = [];
+		$rows  = [];
 		$query = $db->getQuery(true);
 
 		// Search articles.
