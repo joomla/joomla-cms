@@ -40,7 +40,7 @@ class PlgSystemDebug extends JPlugin
 	 * @var    array
 	 * @since  3.1
 	 */
-	private $logEntries = array();
+	private $logEntries = [];
 
 	/**
 	 * Holds SHOW PROFILES of queries.
@@ -48,7 +48,7 @@ class PlgSystemDebug extends JPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $sqlShowProfiles = array();
+	private $sqlShowProfiles = [];
 
 	/**
 	 * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1.
@@ -56,7 +56,7 @@ class PlgSystemDebug extends JPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $sqlShowProfileEach = array();
+	private $sqlShowProfileEach = [];
 
 	/**
 	 * Holds all EXPLAIN EXTENDED for all queries.
@@ -64,7 +64,7 @@ class PlgSystemDebug extends JPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $explains = array();
+	private $explains = [];
 
 	/**
 	 * Holds total amount of executed queries.
@@ -88,7 +88,7 @@ class PlgSystemDebug extends JPlugin
 	 * @var    callable[]
 	 * @since  3.7.0
 	 */
-	private static $displayCallbacks = array();
+	private static $displayCallbacks = [];
 
 	/**
 	 * Constructor.
@@ -105,13 +105,13 @@ class PlgSystemDebug extends JPlugin
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
-			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+			JLog::addLogger(['text_file' => 'deprecated.php'], JLog::ALL, ['deprecated']);
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->params->get('log-everything'))
 		{
-			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+			JLog::addLogger(['text_file' => 'everything.php'], JLog::ALL, ['deprecated', 'databasequery'], true);
 		}
 
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
@@ -142,7 +142,7 @@ class PlgSystemDebug extends JPlugin
 		{
 			$priority = 0;
 
-			foreach ($this->params->get('log_priorities', array()) as $p)
+			foreach ($this->params->get('log_priorities', []) as $p)
 			{
 				$const = 'JLog::' . strtoupper($p);
 
@@ -158,12 +158,12 @@ class PlgSystemDebug extends JPlugin
 			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
 			$mode = $this->params->get('log_category_mode', 0);
 
-			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+			JLog::addLogger(['logger' => 'callback', 'callback' => [$this, 'logger']], $priority, $categories, $mode);
 		}
 
 		// Prepare disconnect handler for SQL profiling.
 		$db = JFactory::getDbo();
-		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
+		$db->addDisconnectHandler([$this, 'mysqlDisconnectHandler']);
 
 		// Log deprecated class aliases
 		foreach (JLoader::getDeprecatedAliases() as $deprecation)
@@ -194,15 +194,15 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
-			JHtml::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'plg_system_debug/debug.css', ['version' => 'auto', 'relative' => true]);
+			JHtml::_('script', 'plg_system_debug/debug.min.js', ['version' => 'auto', 'relative' => true]);
 		}
 
 		// Only if debugging is enabled for SQL query popovers.
 		if (JDEBUG && $this->isAuthorisedDisplayDebug())
 		{
 			JHtml::_('bootstrap.tooltip');
-			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
+			JHtml::_('bootstrap.popover', '.hasPopover', ['placement' => 'top']);
 		}
 	}
 
@@ -253,7 +253,7 @@ class PlgSystemDebug extends JPlugin
 		// Load language.
 		$this->loadLanguage();
 
-		$html = array();
+		$html = [];
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
@@ -400,7 +400,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @since   2.5
 	 */
-	protected function display($item, array $errors = array())
+	protected function display($item, array $errors = [])
 	{
 		$title = JText::_('PLG_DEBUG_' . strtoupper($item));
 
@@ -418,7 +418,7 @@ class PlgSystemDebug extends JPlugin
 			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br>';
 		}
 
-		$html = array();
+		$html = [];
 
 		$js = "Joomla.toggleContainer('dbg_container_" . $item . "');";
 
@@ -450,7 +450,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		$title = JText::_('PLG_DEBUG_' . strtoupper($name));
 
-		$html = array();
+		$html = [];
 
 		$js = "toggleContainer('dbg_container_" . $name . "');";
 
@@ -488,7 +488,7 @@ class PlgSystemDebug extends JPlugin
 			$session = $this->app->getSession()->all();
 		}
 
-		$html = array();
+		$html = [];
 		static $id;
 
 		if (!is_array($session))
@@ -561,7 +561,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayErrors()
 	{
-		$html = array();
+		$html = [];
 
 		$html[] = '<ol>';
 
@@ -597,13 +597,13 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayProfileInformation()
 	{
-		$html = array();
+		$html = [];
 
-		$htmlMarks = array();
+		$htmlMarks = [];
 
 		$totalTime = 0;
 		$totalMem = 0;
-		$marks = array();
+		$marks = [];
 
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
@@ -621,12 +621,12 @@ class PlgSystemDebug extends JPlugin
 				$mark->label
 			);
 
-			$marks[] = (object) array(
-				'time' => $mark->time,
+			$marks[] = (object) [
+				'time'   => $mark->time,
 				'memory' => $mark->memory,
-				'html' => $htmlMark,
-				'tip' => $mark->label
-			);
+				'html'   => $htmlMark,
+				'tip'    => $mark->label
+			];
 		}
 
 		$avgTime = $totalTime / count($marks);
@@ -669,17 +669,17 @@ class PlgSystemDebug extends JPlugin
 			$barClass .= " progress-$barClass";
 			$barClassMem .= " progress-$barClassMem";
 
-			$bars[] = (object) array(
+			$bars[] = (object) [
 				'width' => round($mark->time / ($totalTime / 100), 4),
 				'class' => $barClass,
-				'tip' => $mark->tip . ' ' . round($mark->time, 2) . ' ms'
-			);
+				'tip'   => $mark->tip . ' ' . round($mark->time, 2) . ' ms'
+			];
 
-			$barsMem[] = (object) array(
+			$barsMem[] = (object) [
 				'width' => round((float) $mark->memory / ($totalMem / 100), 4),
 				'class' => $barClassMem,
-				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
-			);
+				'tip'   => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
+			];
 
 			$htmlMarks[] = '<div>' . str_replace('badge-time', $labelClass, str_replace('badge-memory', $labelClassMem, $mark->html)) . '</div>';
 		}
@@ -786,15 +786,15 @@ class PlgSystemDebug extends JPlugin
 			return null;
 		}
 
-		$timings = $db->getTimings();
+		$timings    = $db->getTimings();
 		$callStacks = $db->getCallStacks();
 
 		$db->setDebug(false);
 
-		$selectQueryTypeTicker = array();
-		$otherQueryTypeTicker = array();
+		$selectQueryTypeTicker = [];
+		$otherQueryTypeTicker  = [];
 
-		$timing = array();
+		$timing  = [];
 		$maxtime = 0;
 
 		if (isset($timings[0]))
@@ -809,8 +809,8 @@ class PlgSystemDebug extends JPlugin
 				{
 					if (isset($timings[$id * 2 + 1]))
 					{
-						// Compute the query time: $timing[$k] = array( queryTime, timeBetweenQueries ).
-						$timing[$id] = array(($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000, $id > 0 ? ($timings[$id * 2] - $timings[$id * 2 - 1]) * 1000 : 0);
+						// Compute the query time: $timing[$k] = [queryTime, timeBetweenQueries].
+						$timing[$id] =[($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000, $id > 0 ? ($timings[$id * 2] - $timings[$id * 2 - 1]) * 1000 : 0];
 						$maxtime = max($maxtime, $timing[$id]['0']);
 					}
 				}
@@ -822,10 +822,10 @@ class PlgSystemDebug extends JPlugin
 			$totalBargraphTime = 1;
 		}
 
-		$bars = array();
-		$info = array();
+		$bars = [];
+		$info = [];
 		$totalQueryTime = 0;
-		$duplicates = array();
+		$duplicates = [];
 
 		foreach ($log as $id => $query)
 		{
@@ -833,7 +833,7 @@ class PlgSystemDebug extends JPlugin
 
 			if (!isset($duplicates[$did]))
 			{
-				$duplicates[$did] = array();
+				$duplicates[$did] = [];
 			}
 
 			$duplicates[$did][] = $id;
@@ -911,18 +911,18 @@ class PlgSystemDebug extends JPlugin
 					$barWidth = $minWidth;
 				}
 
-				$bars[$id] = (object) array(
+				$bars[$id] = (object) [
 					'class' => $barClass,
 					'width' => $barWidth,
-					'pre' => $barPre,
-					'tip' => sprintf('%.2f&nbsp;ms', $queryTime)
-				);
-				$info[$id] = (object) array(
-					'class' => $labelClass,
-					'explain' => $explain,
-					'profile' => $profile,
+					'pre'   => $barPre,
+					'tip'   => sprintf('%.2f&nbsp;ms', $queryTime)
+				];
+				$info[$id] = (object) [
+					'class'       => $labelClass,
+					'explain'     => $explain,
+					'profile'     => $profile,
 					'hasWarnings' => $hasWarnings
-				);
+				];
 			}
 		}
 
@@ -958,7 +958,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		$memoryUsageNow = memory_get_usage();
-		$list = array();
+		$list = [];
 
 		foreach ($log as $id => $query)
 		{
@@ -1100,9 +1100,9 @@ class PlgSystemDebug extends JPlugin
 				$htmlProfile = ($info[$id]->profile ? $info[$id]->profile : JText::_('PLG_DEBUG_NO_PROFILE'));
 
 				$htmlAccordions = JHtml::_(
-					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
+					'bootstrap.startAccordion', 'dbg_query_' . $id, [
 						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : ''
-					)
+					]
 				);
 
 				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $id)
@@ -1127,7 +1127,7 @@ class PlgSystemDebug extends JPlugin
 
 				if (isset($duplicates[$did]))
 				{
-					$dups = array();
+					$dups = [];
 
 					foreach ($duplicates[$did] as $dup)
 					{
@@ -1182,7 +1182,7 @@ class PlgSystemDebug extends JPlugin
 			$this->totalQueries = $db->getCount();
 		}
 
-		$html = array();
+		$html = [];
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
 			. sprintf(' <span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br>';
@@ -1194,7 +1194,7 @@ class PlgSystemDebug extends JPlugin
 
 			foreach ($duplicates as $dups)
 			{
-				$links = array();
+				$links = [];
 
 				foreach ($dups as $dup)
 				{
@@ -1227,7 +1227,7 @@ class PlgSystemDebug extends JPlugin
 
 			arsort($selectQueryTypeTicker);
 
-			$list = array();
+			$list = [];
 
 			foreach ($selectQueryTypeTicker as $query => $occurrences)
 			{
@@ -1245,7 +1245,7 @@ class PlgSystemDebug extends JPlugin
 
 			arsort($otherQueryTypeTicker);
 
-			$list = array();
+			$list = [];
 
 			foreach ($otherQueryTypeTicker as $query => $occurrences)
 			{
@@ -1273,7 +1273,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function renderBars(&$bars, $class = '', $id = null)
 	{
-		$html = array();
+		$html = [];
 
 		foreach ($bars as $i => $bar)
 		{
@@ -1321,7 +1321,7 @@ class PlgSystemDebug extends JPlugin
 			return null;
 		}
 
-		$html = array();
+		$html = [];
 
 		$html[] = '<table class="table table-striped dbg-query-table">';
 		$html[] = '<thead>';
@@ -1335,7 +1335,7 @@ class PlgSystemDebug extends JPlugin
 		$html[] = '</tr>';
 		$html[] = '</thead>';
 		$html[] = '<tbody>';
-		$durations = array();
+		$durations = [];
 
 		foreach ($table as $tr)
 		{
@@ -1477,16 +1477,16 @@ class PlgSystemDebug extends JPlugin
 				}
 				else
 				{
-					$this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
+					$this->sqlShowProfileEach[0] = [['Error' => 'MySql have_profiling = off']];
 				}
 			}
 			catch (Exception $e)
 			{
-				$this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
+				$this->sqlShowProfileEach[0] = [['Error' => $e->getMessage()]];
 			}
 		}
 
-		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
+		if (in_array($db->getServerType(), ['mysql', 'postgresql']))
 		{
 			$log = $db->getLog();
 
@@ -1503,7 +1503,7 @@ class PlgSystemDebug extends JPlugin
 					}
 					catch (Exception $e)
 					{
-						$this->explains[$k] = array(array('Error' => $e->getMessage()));
+						$this->explains[$k] = [['Error' => $e->getMessage()]];
 					}
 				}
 			}
@@ -1526,7 +1526,7 @@ class PlgSystemDebug extends JPlugin
 			return '<p>' . JText::_('JNONE') . '</p>';
 		}
 
-		$html = array();
+		$html = [];
 
 		$html[] = '<ul>';
 
@@ -1549,7 +1549,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayLanguageFilesLoaded()
 	{
-		$html = array();
+		$html = [];
 
 		$html[] = '<ul>';
 
@@ -1596,7 +1596,7 @@ class PlgSystemDebug extends JPlugin
 
 		ksort($orphans, SORT_STRING);
 
-		$guesses = array();
+		$guesses = [];
 
 		foreach ($orphans as $key => $occurance)
 		{
@@ -1607,7 +1607,7 @@ class PlgSystemDebug extends JPlugin
 
 				if (!isset($guesses[$file]))
 				{
-					$guesses[$file] = array();
+					$guesses[$file] = [];
 				}
 
 				// Prepare the key.
@@ -1654,7 +1654,7 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		$html = array();
+		$html = [];
 
 		foreach ($guesses as $file => $keys)
 		{
@@ -1682,7 +1682,7 @@ class PlgSystemDebug extends JPlugin
 
 		$query = preg_replace($newlineKeywords, '<br>&#160;&#160;\\0', $query);
 
-		$regex = array(
+		$regex = [
 
 			// Tables are identified by the prefix.
 			'/(=)/' => '<b class="dbg-operator">$1</b>',
@@ -1693,7 +1693,7 @@ class PlgSystemDebug extends JPlugin
 			// Tables are identified by the prefix.
 			'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/' => '<span class="dbg-table">$1</span>'
 
-		);
+		];
 
 		$query = preg_replace(array_keys($regex), array_values($regex), $query);
 
@@ -1715,7 +1715,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function renderBacktrace($error)
 	{
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
+		return JLayoutHelper::render('joomla.error.backtrace', ['backtrace' => $error->getTrace()]);
 	}
 
 	/**
@@ -1759,16 +1759,16 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayLogs()
 	{
-		$priorities = array(
+		$priorities = [
 			JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
-			JLog::ALERT => '<span class="badge badge-important">ALERT</span>',
-			JLog::CRITICAL => '<span class="badge badge-important">CRITICAL</span>',
-			JLog::ERROR => '<span class="badge badge-important">ERROR</span>',
-			JLog::WARNING => '<span class="badge badge-warning">WARNING</span>',
-			JLog::NOTICE => '<span class="badge badge-info">NOTICE</span>',
-			JLog::INFO => '<span class="badge badge-info">INFO</span>',
-			JLog::DEBUG => '<span class="badge">DEBUG</span>'
-		);
+			JLog::ALERT     => '<span class="badge badge-important">ALERT</span>',
+			JLog::CRITICAL  => '<span class="badge badge-important">CRITICAL</span>',
+			JLog::ERROR     => '<span class="badge badge-important">ERROR</span>',
+			JLog::WARNING   => '<span class="badge badge-warning">WARNING</span>',
+			JLog::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
+			JLog::INFO      => '<span class="badge badge-info">INFO</span>',
+			JLog::DEBUG     => '<span class="badge">DEBUG</span>',
+		];
 
 		$out = '';
 
@@ -1838,7 +1838,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			// Don't show everything logs if not selected.
-			if (!$showEverything && !in_array($entry->category, array('deprecated', 'databasequery')))
+			if (!$showEverything && !in_array($entry->category, ['deprecated', 'databasequery']))
 			{
 				continue;
 			}
@@ -1849,7 +1849,7 @@ class PlgSystemDebug extends JPlugin
 
 			if ($entry->callStack)
 			{
-				$out .= JHtml::_('bootstrap.startAccordion', 'dbg_logs_' . $count, array('active' => ''));
+				$out .= JHtml::_('bootstrap.startAccordion', 'dbg_logs_' . $count, ['active' => '']);
 				$out .= JHtml::_('bootstrap.addSlide', 'dbg_logs_' . $count, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_logs_backtrace_' . $count);
 				$out .= $this->renderCallStack($entry->callStack);
 				$out .= JHtml::_('bootstrap.endSlide');
@@ -1874,7 +1874,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	protected function renderCallStack(array $callStack = array())
+	protected function renderCallStack(array $callStack = [])
 	{
 		$htmlCallStack = '';
 

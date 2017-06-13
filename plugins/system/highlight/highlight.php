@@ -64,7 +64,7 @@ class PlgSystemHighlight extends JPlugin
 		// Clean the terms array.
 		$filter     = JFilterInput::getInstance();
 
-		$cleanTerms = array();
+		$cleanTerms = [];
 
 		foreach ($terms as $term)
 		{

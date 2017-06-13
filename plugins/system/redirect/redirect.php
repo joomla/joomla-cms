@@ -48,10 +48,10 @@ class PlgSystemRedirect extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Set the JError handler for E_ERROR to be the class' handleError method.
-		JError::setErrorHandling(E_ERROR, 'callback', array('PlgSystemRedirect', 'handleError'));
+		JError::setErrorHandling(E_ERROR, 'callback', ['PlgSystemRedirect', 'handleError']);
 
 		// Register the previously defined exception handler so we can forward errors to it
-		self::$previousExceptionHandler = set_exception_handler(array('PlgSystemRedirect', 'handleException'));
+		self::$previousExceptionHandler = set_exception_handler(['PlgSystemRedirect', 'handleException']);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class PlgSystemRedirect extends JPlugin
 			// Proxy to the previous exception handler if available, otherwise just render the error page
 			if (self::$previousExceptionHandler)
 			{
-				call_user_func_array(self::$previousExceptionHandler, array($error));
+				call_user_func_array(self::$previousExceptionHandler, [$error]);
 			}
 			else
 			{
@@ -119,11 +119,11 @@ class PlgSystemRedirect extends JPlugin
 
 		$uri = JUri::getInstance();
 
-		$url = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
-		$urlRel = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
+		$url = StringHelper::strtolower(rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'query', 'fragment'])));
+		$urlRel = StringHelper::strtolower(rawurldecode($uri->toString(['path', 'query', 'fragment'])));
 
-		$urlWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
-		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
+		$urlWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'fragment'])));
+		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(['path', 'fragment'])));
 
 		// Why is this (still) here?
 		if ((strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
@@ -163,7 +163,7 @@ class PlgSystemRedirect extends JPlugin
 		}
 
 		$possibleMatches = array_unique(
-			array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
+			[$url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery]
 		);
 
 		foreach ($possibleMatches as $match)
@@ -212,14 +212,14 @@ class PlgSystemRedirect extends JPlugin
 
 			if ((bool) $params->get('collect_urls', true))
 			{
-				$data = (object) array(
-					'id' => 0,
-					'old_url' => $url,
-					'referer' => $app->input->server->getString('HTTP_REFERER', ''),
-					'hits' => 1,
-					'published' => 0,
-					'created_date' => JFactory::getDate()->toSql()
-				);
+				$data = (object) [
+					'id'           => 0,
+					'old_url'      => $url,
+					'referer'      => $app->input->server->getString('HTTP_REFERER', ''),
+					'hits'         => 1,
+					'published'    => 0,
+					'created_date' => JFactory::getDate()->toSql(),
+				];
 
 				try
 				{

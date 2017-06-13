@@ -17,7 +17,7 @@ extract($displayData);
  * @var  array  $statsData  Array containing the data that will be sent to the stats server
  */
 
-$versionFields = array('php_version', 'db_version', 'cms_version');
+$versionFields = ['php_version', 'db_version', 'cms_version'];
 ?>
 <table class="table table-striped m-1-b js-pstats-data-details" style="display:none;">
 	<?php foreach ($statsData as $key => $value) : ?>

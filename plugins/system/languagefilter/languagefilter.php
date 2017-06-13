@@ -132,20 +132,20 @@ class PlgSystemLanguageFilter extends JPlugin
 			$router = $this->app->getRouter();
 
 			// Attach build rules for language SEF.
-			$router->attachBuildRule(array($this, 'preprocessBuildRule'), JRouter::PROCESS_BEFORE);
-			$router->attachBuildRule(array($this, 'buildRule'), JRouter::PROCESS_DURING);
+			$router->attachBuildRule([$this, 'preprocessBuildRule'], JRouter::PROCESS_BEFORE);
+			$router->attachBuildRule([$this, 'buildRule'], JRouter::PROCESS_DURING);
 
 			if ($this->mode_sef)
 			{
-				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), JRouter::PROCESS_AFTER);
+				$router->attachBuildRule([$this, 'postprocessSEFBuildRule'], JRouter::PROCESS_AFTER);
 			}
 			else
 			{
-				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), JRouter::PROCESS_AFTER);
+				$router->attachBuildRule([$this, 'postprocessNonSEFBuildRule'], JRouter::PROCESS_AFTER);
 			}
 
 			// Attach parse rules for language SEF.
-			$router->attachParseRule(array($this, 'parseRule'), JRouter::PROCESS_DURING);
+			$router->attachParseRule([$this, 'parseRule'], JRouter::PROCESS_DURING);
 		}
 	}
 
@@ -366,7 +366,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// Empty parts array when "index.php" is the only part left.
 					if (count($parts) === 1 && $parts[0] === 'index.php')
 					{
-						$parts = array();
+						$parts = [];
 					}
 
 					$uri->setPath(implode('/', $parts));
@@ -462,7 +462,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$uri->setPath('index.php/' . $uri->getPath());
 				}
 
-				$redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
+				$redirectUri = $uri->base() . $uri->toString(['path', 'query', 'fragment']);
 			}
 			else
 			{
@@ -491,7 +491,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 
 		// We have found our language and now need to set the cookie and the language value in our system
-		$array = array('lang' => $lang_code);
+		$array              = ['lang' => $lang_code];
 		$this->current_lang = $lang_code;
 
 		// Set the request var.
@@ -606,7 +606,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogin($user, $options = array())
+	public function onUserLogin($user, $options = [])
 	{
 		$menu = $this->app->getMenu();
 
@@ -737,7 +737,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$active                = $menu->getActive();
 			$levels                = JFactory::getUser()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$server                = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$server                = JUri::getInstance()->toString(['scheme', 'host', 'port']);
 			$is_home               = false;
 			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
 
@@ -762,9 +762,9 @@ class PlgSystemLanguageFilter extends JPlugin
 			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
-			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			if (class_exists($cName) && is_callable([$cName, 'getAssociations']))
 			{
-				$cassociations = call_user_func(array($cName, 'getAssociations'));
+				$cassociations = call_user_func([$cName, 'getAssociations']);
 			}
 
 			// For each language...
@@ -819,7 +819,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				foreach ($languages as $i => &$language)
 				{
-					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
+					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', ['hreflang' => $i]);
 				}
 
 				// Add x-default language tag

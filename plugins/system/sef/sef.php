@@ -67,12 +67,12 @@ class PlgSystemSef extends JPlugin
 			unset($doc->_links[$canonical]);
 
 			// Set the current canonical link but use the SEF system plugin domain field.
-			$canonical = $sefDomain . JUri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
+			$canonical = $sefDomain . JUri::getInstance($canonical)->toString(['path', 'query', 'fragment']);
 		}
 		// If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
 		else
 		{
-			$canonical = $sefDomain . JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+			$canonical = $sefDomain . JUri::getInstance()->toString(['path', 'query', 'fragment']);
 		}
 
 		// Add the canonical link.
@@ -117,7 +117,7 @@ class PlgSystemSef extends JPlugin
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
+		$attributes = ['href=', 'src=', 'srcset=', 'poster='];
 
 		foreach ($attributes as $attribute)
 		{
@@ -138,7 +138,7 @@ class PlgSystemSef extends JPlugin
 		}
 
 		// Replace all unknown protocols in onmouseover and onmouseout attributes.
-		$attributes = array('onmouseover=', 'onmouseout=');
+		$attributes = ['onmouseover=', 'onmouseout='];
 
 		foreach ($attributes as $attribute)
 		{
