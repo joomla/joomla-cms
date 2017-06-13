@@ -35,9 +35,9 @@ class PlgSearchCategories extends JPlugin
 	 */
 	public function onContentSearchAreas()
 	{
-		static $areas = array(
+		static $areas = [
 			'categories' => 'PLG_SEARCH_CATEGORIES_CATEGORIES'
-		);
+		];
 
 		return $areas;
 	}
@@ -69,14 +69,14 @@ class PlgSearchCategories extends JPlugin
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
 			{
-				return array();
+				return [];
 			}
 		}
 
 		$sContent = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
-		$state = array();
+		$state = [];
 
 		if ($sContent)
 		{
@@ -90,14 +90,14 @@ class PlgSearchCategories extends JPlugin
 
 		if (empty($state))
 		{
-			return array();
+			return [];
 		}
 
 		$text = trim($text);
 
 		if ($text === '')
 		{
-			return array();
+			return [];
 		}
 
 		/* TODO: The $where variable does not seem to be used at all
@@ -105,7 +105,7 @@ class PlgSearchCategories extends JPlugin
 		{
 			case 'exact':
 				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
-				$wheres2 = array();
+				$wheres2 = [];
 				$wheres2[] = 'a.title LIKE ' . $text;
 				$wheres2[] = 'a.description LIKE ' . $text;
 				$where = '(' . implode(') OR (', $wheres2) . ')';
@@ -115,11 +115,11 @@ class PlgSearchCategories extends JPlugin
 			case 'all';
 			default:
 				$words = explode(' ', $text);
-				$wheres = array();
+				$wheres = [];
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
-					$wheres2 = array();
+					$wheres2 = [];
 					$wheres2[] = 'a.title LIKE ' . $word;
 					$wheres2[] = 'a.description LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
@@ -147,7 +147,7 @@ class PlgSearchCategories extends JPlugin
 		$query = $db->getQuery(true);
 
 		$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
-			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+			. ' THEN ' . $query->concatenate([$query->castAsChar('a.id'), 'a.alias'], ':')
 			. ' ELSE a.id END AS slug';
 
 		$query->select('a.title, a.description AS text, a.created_time AS created')
@@ -175,18 +175,18 @@ class PlgSearchCategories extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$rows = array();
+			$rows = [];
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
-		$return = array();
+		$return = [];
 
 		if ($rows)
 		{
 			foreach ($rows as $i => $row)
 			{
 
-				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
+				if (searchHelper::checkNoHtml($row, $searchText, ['name', 'title', 'text']))
 				{
 					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);
 					$row->section = JText::_('JCATEGORY');

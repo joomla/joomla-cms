@@ -33,9 +33,9 @@ class PlgSearchNewsfeeds extends JPlugin
 	 */
 	public function onContentSearchAreas()
 	{
-		static $areas = array(
+		static $areas = [
 			'newsfeeds' => 'PLG_SEARCH_NEWSFEEDS_NEWSFEEDS'
-		);
+		];
 
 		return $areas;
 	}
@@ -66,14 +66,14 @@ class PlgSearchNewsfeeds extends JPlugin
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
 			{
-				return array();
+				return [];
 			}
 		}
 
 		$sContent = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
-		$state = array();
+		$state = [];
 
 		if ($sContent)
 		{
@@ -87,21 +87,21 @@ class PlgSearchNewsfeeds extends JPlugin
 
 		if (empty($state))
 		{
-			return array();
+			return [];
 		}
 
 		$text = trim($text);
 
 		if ($text === '')
 		{
-			return array();
+			return [];
 		}
 
 		switch ($phrase)
 		{
 			case 'exact':
 				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
-				$wheres2 = array();
+				$wheres2 = [];
 				$wheres2[] = 'a.name LIKE ' . $text;
 				$wheres2[] = 'a.link LIKE ' . $text;
 				$where = '(' . implode(') OR (', $wheres2) . ')';
@@ -111,12 +111,12 @@ class PlgSearchNewsfeeds extends JPlugin
 			case 'any':
 			default:
 				$words = explode(' ', $text);
-				$wheres = array();
+				$wheres = [];
 
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
-					$wheres2 = array();
+					$wheres2 = [];
 					$wheres2[] = 'a.name LIKE ' . $word;
 					$wheres2[] = 'a.link LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
@@ -148,18 +148,18 @@ class PlgSearchNewsfeeds extends JPlugin
 		$query = $db->getQuery(true);
 
 		$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
-			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+			. ' THEN ' . $query->concatenate([$query->castAsChar('a.id'), 'a.alias'], ':')
 			. ' ELSE a.id END AS slug';
 
 		$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
-			. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
+			. ' THEN ' . $query->concatenate([$query->castAsChar('c.id'), 'c.alias'], ':')
 			. ' ELSE c.id END AS catslug';
 
 		$query->select('a.name AS title')
 			->select($db->quote('') . ' AS created, a.link AS text')
 			->select($case_when)
 			->select($case_when1)
-			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), ' / ') . ' AS section')
+			->select($query->concatenate([$db->quote($searchNewsfeeds), 'c.title'], ' / ') . ' AS section')
 			->select($db->quote('1') . ' AS browsernav')
 			->from($db->quoteName('#__newsfeeds', 'a'))
 			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
@@ -182,7 +182,7 @@ class PlgSearchNewsfeeds extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$rows = array();
+			$rows = [];
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 

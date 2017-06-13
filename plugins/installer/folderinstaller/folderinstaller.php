@@ -32,7 +32,7 @@ class PlgInstallerFolderInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		$tab            = array();
+		$tab            = [];
 		$tab['name']    = 'folder';
 		$tab['label']   = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
 

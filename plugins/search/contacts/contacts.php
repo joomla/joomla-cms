@@ -33,9 +33,9 @@ class PlgSearchContacts extends JPlugin
 	 */
 	public function onContentSearchAreas()
 	{
-		static $areas = array(
+		static $areas = [
 			'contacts' => 'PLG_SEARCH_CONTACTS_CONTACTS'
-		);
+		];
 
 		return $areas;
 	}
@@ -68,14 +68,14 @@ class PlgSearchContacts extends JPlugin
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
 			{
-				return array();
+				return [];
 			}
 		}
 
 		$sContent  = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit     = $this->params->def('search_limit', 50);
-		$state     = array();
+		$state     = [];
 
 		if ($sContent)
 		{
@@ -89,14 +89,14 @@ class PlgSearchContacts extends JPlugin
 
 		if (empty($state))
 		{
-			return array();
+			return [];
 		}
 
 		$text = trim($text);
 
 		if ($text === '')
 		{
-			return array();
+			return [];
 		}
 
 		$section = JText::_('PLG_SEARCH_CONTACTS_CONTACTS');
@@ -123,19 +123,19 @@ class PlgSearchContacts extends JPlugin
 		$query = $db->getQuery(true);
 
 		$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
-			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+			. ' THEN ' . $query->concatenate([$query->castAsChar('a.id'), 'a.alias'], ':')
 			. ' ELSE a.id END AS slug';
 
 		$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
-			. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
+			. ' THEN ' . $query->concatenate([$query->castAsChar('c.id'), 'c.alias'], ':')
 			. ' ELSE c.id END AS catslug';
 
 		$query->select('a.name AS title')
 			->select($db->quote('') . ' AS created, a.con_position, a.misc')
 			->select($case_when)
 			->select($case_when1)
-			->select($query->concatenate(array('a.name', 'a.con_position', 'a.misc'), ',') . ' AS text')
-			->select($query->concatenate(array($db->quote($section), 'c.title'), ' / ') . ' AS section')
+			->select($query->concatenate(['a.name', 'a.con_position', 'a.misc'], ',') . ' AS text')
+			->select($query->concatenate([$db->quote($section), 'c.title'], ' / ') . ' AS section')
 			->select($db->quote('2') . ' AS browsernav')
 			->from($db->quoteName('#__contact_details', 'a'))
 			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
@@ -164,7 +164,7 @@ class PlgSearchContacts extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$rows = array();
+			$rows = [];
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 

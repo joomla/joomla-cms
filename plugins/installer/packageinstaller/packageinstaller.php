@@ -33,7 +33,7 @@ class PlgInstallerPackageInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		$tab            = array();
+		$tab            = [];
 		$tab['name']    = 'package';
 		$tab['label']   = JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 
