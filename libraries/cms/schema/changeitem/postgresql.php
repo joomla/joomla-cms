@@ -86,7 +86,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 				{
 					$type = '';
 
-					for ($i = 7; $i < count($wordArray); $i++)
+					for ($i = 7, $iMax = count($wordArray); $i < $iMax; $i++)
 					{
 						$type .= $wordArray[$i] . ' ';
 					}
