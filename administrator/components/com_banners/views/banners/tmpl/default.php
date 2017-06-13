@@ -156,7 +156,7 @@ if ($saveOrder)
 								<?php echo $item->client_name; ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED')); ?>
+								<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: JText::_('COM_BANNERS_UNLIMITED')); ?>
 							</td>
 							<td class="small hidden-phone">
 								<?php echo $item->clicks; ?> -

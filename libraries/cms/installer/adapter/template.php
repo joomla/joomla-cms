@@ -151,7 +151,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest(-1))
 			{
@@ -327,7 +327,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -544,7 +544,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		{
 			if (file_exists(JPATH_SITE . "/templates/$template/templateDetails.xml"))
 			{
-				if ($template == 'system')
+				if ($template === 'system')
 				{
 					// Ignore special system template
 					continue;
@@ -568,7 +568,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml"))
 			{
-				if ($template == 'system')
+				if ($template === 'system')
 				{
 					// Ignore special system template
 					continue;
