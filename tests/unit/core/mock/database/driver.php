@@ -35,10 +35,10 @@ class TestMockDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test, $driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
+	public static function create($test, $driver = '', array $extraMethods = [], $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
 		// Collect all the relevant methods in JDatabaseDriver.
-		$methods = array_merge($extraMethods, array(
+		$methods = array_merge($extraMethods, [
 			'connect',
 			'connected',
 			'disconnect',
@@ -95,33 +95,33 @@ class TestMockDatabaseDriver
 			'transactionStart',
 			'unlockTables',
 			'updateObject',
-		));
+		]);
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JDatabaseDriver' . $driver)
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
-			$mockObject, array(
-				'getNullDate' => $nullDate,
+			$mockObject, [
+				'getNullDate'   => $nullDate,
 				'getDateFormat' => $dateFormat
-			)
+			]
 		);
 
 		$test->assignMockCallbacks(
 			$mockObject,
-			array(
-				'escape' => array((is_callable(array($test, 'mockEscape')) ? $test : __CLASS__), 'mockEscape'),
-				'getQuery' => array((is_callable(array($test, 'mockGetQuery')) ? $test : __CLASS__), 'mockGetQuery'),
-				'quote' => array((is_callable(array($test, 'mockQuote')) ? $test : __CLASS__), 'mockQuote'),
-				'quoteName' => array((is_callable(array($test, 'mockQuoteName')) ? $test : __CLASS__), 'mockQuoteName'),
-				'setQuery' => array((is_callable(array($test, 'mockSetQuery')) ? $test : __CLASS__), 'mockSetQuery'),
-			)
+			[
+				'escape'    => [(is_callable([$test, 'mockEscape']) ? $test : __CLASS__), 'mockEscape'],
+				'getQuery'  => [(is_callable([$test, 'mockGetQuery']) ? $test : __CLASS__), 'mockGetQuery'],
+				'quote'     => [(is_callable([$test, 'mockQuote']) ? $test : __CLASS__), 'mockQuote'],
+				'quoteName' => [(is_callable([$test, 'mockQuoteName']) ? $test : __CLASS__), 'mockQuoteName'],
+				'setQuery'  => [(is_callable([$test, 'mockSetQuery']) ? $test : __CLASS__), 'mockSetQuery'],
+			]
 		);
 
 		return $mockObject;

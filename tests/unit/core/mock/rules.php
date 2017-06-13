@@ -26,23 +26,23 @@ class TestMockRules
 	public static function create($test)
 	{
 		// Mock all the public methods.
-		$methods = array(
+		$methods = [
 			'allow',
-		);
+		];
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JAccessRules')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
 
 		$test->assignMockCallbacks(
 			$mockObject,
-			array(
-				'allow' => array(get_called_class(), 'mockAllow'),
-			)
+			[
+				'allow' => [get_called_class(), 'mockAllow'],
+			]
 		);
 
 		return $mockObject;

@@ -26,15 +26,15 @@ class TestMockConfig
 	public static function create($test)
 	{
 		// Collect all the relevant methods in JConfig.
-		$methods = array(
+		$methods = [
 			'get',
 			'set'
-		);
+		];
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JConfig')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();

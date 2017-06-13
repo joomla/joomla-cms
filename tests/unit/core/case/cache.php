@@ -193,7 +193,7 @@ abstract class TestCaseCache extends TestCase
 	 */
 	public function testCacheLock()
 	{
-		$returning = (object) array('locklooped' => false, 'locked' => true);
+		$returning = (object) ['locklooped' => false, 'locked' => true];
 		$expected  = $this->logicalOr($this->equalTo($returning), $this->isFalse());
 		$result    = $this->handler->lock($this->id, $this->group, 3);
 		$data      = 'testData';

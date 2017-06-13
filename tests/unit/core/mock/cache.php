@@ -20,7 +20,7 @@ class TestMockCache
 	 * @var    array
 	 * @since  12.1
 	 */
-	public static $cache = array();
+	public static $cache = [];
 
 	/**
 	 * Creates and instance of the mock JApplication object.
@@ -32,30 +32,30 @@ class TestMockCache
 	 *
 	 * @since   12.1
 	 */
-	public static function create(TestCase $test, $data = array())
+	public static function create(TestCase $test, $data = [])
 	{
 		self::$cache = $data;
 
 		// Collect all the relevant methods in JConfig.
-		$methods = array(
+		$methods = [
 			'get',
 			'store',
-		);
+		];
 
 		// Build the mock object.
 		$mockObject = $test->getMockBuilder('JCache')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
 
 		$test->assignMockCallbacks(
 			$mockObject,
-			array(
-				'get' => array(get_called_class(), 'mockGet'),
-				'store' => array(get_called_class(), 'mockStore'),
-			)
+			[
+				'get'   => [get_called_class(), 'mockGet'],
+				'store' => [get_called_class(), 'mockStore'],
+			]
 		);
 
 		return $mockObject;

@@ -24,7 +24,7 @@ abstract class TestCaseDatabasePdomysql extends TestCaseDatabase
 	 * @var    array  The JDatabaseDriver options for the connection.
 	 * @since  3.4
 	 */
-	private static $_options = array('driver' => 'pdomysql');
+	private static $_options = ['driver' => 'pdomysql'];
 
 	/**
 	 * @var    JDatabaseDriverPdomysql  The saved database driver to be restored after these tests.

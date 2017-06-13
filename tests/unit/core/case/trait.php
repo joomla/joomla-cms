@@ -31,15 +31,15 @@ trait TestCaseTrait
 	 */
 	private $_stashedFactoryState = [
 		'application' => null,
-		'config' => null,
-		'container' => null,
-		'dates' => null,
-		'database' => null,
-		'session' => null,
-		'language' => null,
-		'document' => null,
-		'acl' => null,
-		'mailer' => null
+		'config'      => null,
+		'container'   => null,
+		'dates'       => null,
+		'database'    => null,
+		'session'     => null,
+		'language'    => null,
+		'document'    => null,
+		'acl'         => null,
+		'mailer'      => null
 	];
 
 	/**
@@ -160,7 +160,7 @@ trait TestCaseTrait
 	 *
 	 * @since   3.2
 	 */
-	public function getMockCmsApp($options = array(), $constructor = array())
+	public function getMockCmsApp($options = [], $constructor = [])
 	{
 		// Attempt to load the real class first.
 		class_exists('JApplicationCms');
@@ -192,7 +192,7 @@ trait TestCaseTrait
 	 *
 	 * @since   12.1
 	 */
-	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
+	public function getMockDatabase($driver = '', array $extraMethods = [], $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
 		// Attempt to load the real class first.
 		class_exists('JDatabaseDriver');
@@ -280,7 +280,7 @@ trait TestCaseTrait
 	 *
 	 * @since   12.1
 	 */
-	public function getMockSession($options = array())
+	public function getMockSession($options = [])
 	{
 		// Attempt to load the real class first.
 		class_exists('JSession');
@@ -297,7 +297,7 @@ trait TestCaseTrait
 	 *
 	 * @since   12.1
 	 */
-	public function getMockWeb($options = array())
+	public function getMockWeb($options = [])
 	{
 		// Attempt to load the real class first.
 		class_exists('JApplicationWeb');
@@ -367,7 +367,7 @@ trait TestCaseTrait
 	 */
 	protected function saveErrorHandlers()
 	{
-		$this->_stashedErrorState = array();
+		$this->_stashedErrorState = [];
 
 		// Handle optional usage of JError until removed.
 		if (class_exists('JError'))
@@ -421,11 +421,11 @@ trait TestCaseTrait
 	 */
 	protected function setErrorCallback($testName)
 	{
-		$callbackHandlers = array(
-			E_NOTICE => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
-			E_WARNING => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
-			E_ERROR => array('mode' => 'callback', 'options' => array($testName, 'errorCallback'))
-		);
+		$callbackHandlers = [
+			E_NOTICE  => ['mode' => 'callback', 'options' => [$testName, 'errorCallback']],
+			E_WARNING => ['mode' => 'callback', 'options' => [$testName, 'errorCallback']],
+			E_ERROR   => ['mode' => 'callback', 'options' => [$testName, 'errorCallback']]
+		];
 
 		$this->setErrorHandlers($callbackHandlers);
 	}

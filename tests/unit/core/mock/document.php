@@ -26,27 +26,27 @@ class TestMockDocument
 	public static function create($test)
 	{
 		// Collect all the relevant methods in JDatabase.
-		$methods = array(
+		$methods = [
 			'parse',
 			'render',
 			'test',
-		);
+		];
 
 		// Create the mock.
 		$mockObject = $test->getMockBuilder('JDocument')
 					->setMethods($methods)
-					->setConstructorArgs(array())
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
-			$mockObject, array(
+			$mockObject, [
 				'parse' => $mockObject,
 				// An additional 'test' method for confirming this object is successfully mocked.
-				'test' => 'ok'
-			)
+				'test'  => 'ok'
+			]
 		);
 
 		return $mockObject;

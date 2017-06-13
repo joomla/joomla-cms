@@ -46,11 +46,11 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	public static function setUpBeforeClass()
 	{
 		// We always want the default database test case to use an SQLite memory database.
-		$options = array(
-			'driver' => 'sqlite',
+		$options = [
+			'driver'   => 'sqlite',
 			'database' => ':memory:',
-			'prefix' => 'jos_'
-		);
+			'prefix'   => 'jos_'
+		];
 
 		try
 		{
@@ -137,10 +137,10 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	{
 		// Required given the use of InnoDB contraints.
 		return new PHPUnit_Extensions_Database_Operation_Composite(
-			array(
+			[
 				PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(),
 				PHPUnit_Extensions_Database_Operation_Factory::INSERT()
-			)
+			]
 		);
 	}
 

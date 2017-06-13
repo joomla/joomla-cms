@@ -24,14 +24,14 @@ class TestMockApplicationCli extends TestMockApplicationBase
 	public static function getMethods()
 	{
 		// Collect all the relevant methods in JApplicationCli.
-		$methods = array(
+		$methods = [
 			'get',
 			'execute',
 			'loadConfiguration',
 			'out',
 			'in',
 			'set',
-		);
+		];
 
 		return array_merge($methods, parent::getMethods());
 	}
@@ -46,7 +46,7 @@ class TestMockApplicationCli extends TestMockApplicationBase
 	 *
 	 * @since   12.2
 	 */
-	public static function create($test, $options = array())
+	public static function create($test, $options = [])
 	{
 		// Create the mock.
 		$mockObject = $test->getMockForAbstractClass(
