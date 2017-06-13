@@ -81,7 +81,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		?>
 		</article>
 		<?php $counter++; ?>
-		<?php if (($rowcount === $this->columns) or ($counter === $introcount)) : ?>
+		<?php if ($rowcount === $this->columns or $counter === $introcount) : ?>
 			<span class="row-separator"></span>
 			</div>
 		<?php endif; ?>
@@ -93,7 +93,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 
-<?php if ($this->params->get('maxLevel') != 0 && (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0)) : ?>
+<?php if ($this->params->get('maxLevel') != 0 && is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0) : ?>
 	<div class="cat-children">
 
 	<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>

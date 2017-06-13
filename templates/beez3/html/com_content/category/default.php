@@ -22,8 +22,8 @@ $pageSubHeading               = $this->params->get('page_subheading');
 ?>
 <section class="category-list<?php echo $this->pageclass_sfx;?>">
 <?php
-if ($this->params->get('show_page_heading')) : ?>
-<?php if ($this->params->get('show_page_heading') and ($showCategoryTitle === true or $pageSubHeading)) : ?>
+if ($showPageHeading = $this->params->get('show_page_heading')) : ?>
+<?php if ($showPageHeading and ($showCategoryTitle === true or $pageSubHeading)) : ?>
 <hgroup>
 <?php endif; ?>
 <h1>
