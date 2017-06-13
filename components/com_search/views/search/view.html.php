@@ -267,6 +267,7 @@ class SearchViewSearch extends JViewLegacy
 					$created = '';
 				}
 
+				$result->title   = StringHelper::str_ireplace($needle, $hl1 . $needle . $hl2, htmlspecialchars($result->title, ENT_COMPAT, 'UTF-8'));
 				$result->text    = JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;
