@@ -91,7 +91,7 @@ class PlgSystemUpdatenotification extends JPlugin
 			// Update the plugin parameters
 			$result = $db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(['com_plugins'], [0, 1]);
 		}
 		catch (Exception $exc)
 		{
@@ -122,7 +122,7 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		// Get any available updates
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates(array($eid), $cache_timeout);
+		$results = $updater->findUpdates([$eid], $cache_timeout);
 
 		// If there are no updates our job is done. We need BOTH this check AND the one below.
 		if (!$results)
@@ -131,7 +131,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 
 		// Get the update model and retrieve the Joomla! core updates
-		$model = new Update(array('ignore_request' => true));
+		$model = new Update(['ignore_request' => true]);
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
@@ -170,10 +170,10 @@ class PlgSystemUpdatenotification extends JPlugin
 		 * The plugins should modify the $uri object directly and return null.
 		 */
 
-		JFactory::getApplication()->triggerEvent('onBuildAdministratorLoginURL', array(&$uri));
+		JFactory::getApplication()->triggerEvent('onBuildAdministratorLoginURL', [&$uri]);
 
 		// Let's find out the email addresses to notify
-		$superUsers    = array();
+		$superUsers    = [];
 		$specificEmail = $this->params->get('email', '');
 
 		if (!empty($specificEmail))
@@ -224,7 +224,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		$mailFrom = $jConfig->get('mailfrom');
 		$fromName = $jConfig->get('fromname');
 
-		$substitutions = array(
+		$substitutions = [
 			'[NEWVERSION]'  => $newVersion,
 			'[CURVERSION]'  => $currentVersion,
 			'[SITENAME]'    => $sitename,
@@ -232,7 +232,7 @@ class PlgSystemUpdatenotification extends JPlugin
 			'[LINK]'        => $uri->toString(),
 			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
 			'\\n'           => "\n",
-		);
+		];
 
 		foreach ($substitutions as $k => $v)
 		{
@@ -244,7 +244,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		foreach ($superUsers as $superUser)
 		{
 			$mailer = JFactory::getMailer();
-			$mailer->setSender(array($mailFrom, $fromName));
+			$mailer->setSender([$mailFrom, $fromName]);
 			$mailer->addRecipient($superUser->email);
 			$mailer->setSubject($email_subject);
 			$mailer->setBody($email_body);
@@ -272,7 +272,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		if (!empty($email))
 		{
 			$temp   = explode(',', $email);
-			$emails = array();
+			$emails = [];
 
 			foreach ($temp as $entry)
 			{
@@ -284,18 +284,18 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 		else
 		{
-			$emails = array();
+			$emails = [];
 		}
 
 		// Get a list of groups which have Super User privileges
-		$ret = array();
+		$ret = [];
 
 		try
 		{
 			$rootId    = JTable::getInstance('Asset', 'JTable')->getRootId();
 			$rules     = JAccess::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin']->getData();
-			$groups    = array();
+			$groups    = [];
 
 			if (empty($rawGroups))
 			{
@@ -335,7 +335,7 @@ class PlgSystemUpdatenotification extends JPlugin
 				return $ret;
 			}
 
-			$userIDs = array();
+			$userIDs = [];
 
 			foreach ($rawUserIDs as $id)
 			{
@@ -352,11 +352,11 @@ class PlgSystemUpdatenotification extends JPlugin
 		{
 			$query = $db->getQuery(true)
 						->select(
-							array(
+							[
 								$db->qn('id'),
 								$db->qn('username'),
 								$db->qn('email'),
-							)
+							]
 						)->from($db->qn('#__users'))
 						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
 						->where($db->qn('block') . ' = 0')
@@ -388,7 +388,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
 		$conf = JFactory::getConfig();
 
@@ -398,11 +398,11 @@ class PlgSystemUpdatenotification extends JPlugin
 			{
 				try
 				{
-					$options = array(
+					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
+					];
 
 					$cache = JCache::getInstance('callback', $options);
 					$cache->clean();

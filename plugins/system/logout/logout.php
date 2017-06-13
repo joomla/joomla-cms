@@ -60,7 +60,7 @@ class PlgSystemLogout extends JPlugin
 			$this->app->input->cookie->set($hash, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
 			// Set the error handler for E_ALL to be the class handleError method.
-			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
+			JError::setErrorHandling(E_ALL, 'callback', ['PlgSystemLogout', 'handleError']);
 		}
 	}
 
@@ -74,7 +74,7 @@ class PlgSystemLogout extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserLogout($user, $options = array())
+	public function onUserLogout($user, $options = [])
 	{
 		if ($this->app->isClient('site'))
 		{

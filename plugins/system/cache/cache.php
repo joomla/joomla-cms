@@ -33,11 +33,11 @@ class PlgSystemCache extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Set the language in the class.
-		$options = array(
+		$options = [
 			'defaultgroup' => 'page',
 			'browsercache' => $this->params->get('browsercache', false),
 			'caching'      => false,
-		);
+		];
 
 		$this->_cache     = JCache::getInstance('page', $options);
 		$this->_cache_key = JUri::getInstance()->toString();
@@ -128,7 +128,7 @@ class PlgSystemCache extends JPlugin
 	protected function isExcluded()
 	{
 		// Check if menu items have been excluded
-		if ($exclusions = $this->params->get('exclude_menu_items', array()))
+		if ($exclusions = $this->params->get('exclude_menu_items', []))
 		{
 			// Get the current menu item
 			$active = JFactory::getApplication()->getMenu()->getActive();
@@ -143,13 +143,13 @@ class PlgSystemCache extends JPlugin
 		if ($exclusions = $this->params->get('exclude', ''))
 		{
 			// Normalize line endings
-			$exclusions = str_replace(array("\r\n", "\r"), "\n", $exclusions);
+			$exclusions = str_replace(["\r\n", "\r"], "\n", $exclusions);
 
 			// Split them
 			$exclusions = explode("\n", $exclusions);
 
 			// Get current path to match against
-			$path = JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+			$path = JUri::getInstance()->toString(['path', 'query', 'fragment']);
 
 			// Loop through each pattern
 			if ($exclusions)

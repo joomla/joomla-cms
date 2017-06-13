@@ -27,7 +27,7 @@ class PlgSystemLog extends JPlugin
 	 */
 	public function onUserLoginFailure($response)
 	{
-		$errorlog = array();
+		$errorlog = [];
 
 		switch ($response['status'])
 		{
@@ -55,7 +55,7 @@ class PlgSystemLog extends JPlugin
 				break;
 		}
 
-		JLog::addLogger(array(), JLog::INFO);
+		JLog::addLogger([], JLog::INFO);
 		JLog::add($errorlog['comment'], JLog::INFO, $errorlog['status']);
 	}
 }

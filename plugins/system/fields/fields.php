@@ -40,7 +40,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array())
+	public function onContentAfterSave($context, $item, $isNew, $data = [])
 	{
 		// Check if data is an array and the item has an id
 		if (!is_array($data) || empty($item->id))
@@ -77,10 +77,10 @@ class PlgSystemFields extends JPlugin
 		}
 
 		// Get the fields data
-		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
+		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : [];
 
 		// Loading the model
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\Field(['ignore_request' => true]);
 
 		// Loop over the fields
 		foreach ($fields as $field)
@@ -121,7 +121,7 @@ class PlgSystemFields extends JPlugin
 		$task = JFactory::getApplication()->input->getCmd('task');
 
 		// Skip fields save when we activate a user, because we will lose the saved data
-		if (in_array($task, array('activate', 'block', 'unblock')))
+		if (in_array($task, ['activate', 'block', 'unblock']))
 		{
 			return true;
 		}
@@ -153,7 +153,7 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\Field(['ignore_request' => true]);
 		$model->cleanupValues($context, $item->id);
 
 		return true;
@@ -218,7 +218,7 @@ class PlgSystemFields extends JPlugin
 		$input = JFactory::getApplication()->input;
 
 		// If we are on the save command we need the actual data
-		$jformData = $input->get('jform', array(), 'array');
+		$jformData = $input->get('jform', [], 'array');
 
 		if ($jformData && !$data)
 		{
@@ -342,11 +342,11 @@ class PlgSystemFields extends JPlugin
 			return FieldsHelper::render(
 				$context,
 				'fields.render',
-				array(
-					'item'            => $item,
-					'context'         => $context,
-					'fields'          => $fields
-				)
+				[
+					'item'    => $item,
+					'context' => $context,
+					'fields'  => $fields,
+				]
 			);
 		}
 
@@ -375,7 +375,7 @@ class PlgSystemFields extends JPlugin
 		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
 
 		// Adding the fields to the object
-		$item->jcfields = array();
+		$item->jcfields = [];
 
 		foreach ($fields as $key => $field)
 		{

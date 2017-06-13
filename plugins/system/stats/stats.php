@@ -98,7 +98,7 @@ class PlgSystemStats extends JPlugin
 		$this->loadLanguage();
 
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'plg_system_stats/stats.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'plg_system_stats/stats.js', ['version' => 'auto', 'relative' => true]);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class PlgSystemStats extends JPlugin
 
 		$this->sendStats();
 
-		echo json_encode(array('sent' => 1));
+		echo json_encode(['sent' => 1]);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class PlgSystemStats extends JPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
-		echo json_encode(array('sent' => 0));
+		echo json_encode(['sent' => 0]);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class PlgSystemStats extends JPlugin
 
 		$this->sendStats();
 
-		echo json_encode(array('sent' => 1));
+		echo json_encode(['sent' => 1]);
 	}
 
 	/**
@@ -207,10 +207,10 @@ class PlgSystemStats extends JPlugin
 		// User has not selected the mode. Show message.
 		if ((int) $this->params->get('mode') !== static::MODE_ALLOW_ALWAYS)
 		{
-			$data = array(
+			$data = [
 				'sent' => 0,
 				'html' => $this->getRenderer('message')->render($this->getLayoutData())
-			);
+			];
 
 			echo json_encode($data);
 
@@ -224,7 +224,7 @@ class PlgSystemStats extends JPlugin
 
 		$this->sendStats();
 
-		echo json_encode(array('sent' => 1));
+		echo json_encode(['sent' => 1]);
 	}
 
 	/**
@@ -251,7 +251,7 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	public function debug($layoutId, $data = array())
+	public function debug($layoutId, $data = [])
 	{
 		$data = array_merge($this->getLayoutData(), $data);
 
@@ -267,11 +267,11 @@ class PlgSystemStats extends JPlugin
 	 */
 	protected function getLayoutData()
 	{
-		return array(
+		return [
 			'plugin'       => $this,
 			'pluginParams' => $this->params,
 			'statsData'    => $this->getStatsData()
-		);
+		];
 	}
 
 	/**
@@ -285,10 +285,10 @@ class PlgSystemStats extends JPlugin
 	{
 		$template = JFactory::getApplication()->getTemplate();
 
-		return array(
+		return [
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
 			__DIR__ . '/layouts',
-		);
+		];
 	}
 
 	/**
@@ -318,14 +318,14 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function getStatsData()
 	{
-		return array(
+		return [
 			'unique_id'   => $this->getUniqueId(),
 			'php_version' => PHP_VERSION,
 			'db_type'     => $this->db->name,
 			'db_version'  => $this->db->getVersion(),
 			'cms_version' => JVERSION,
 			'server_os'   => php_uname('s') . ' ' . php_uname('r')
-		);
+		];
 	}
 
 	/**
@@ -418,7 +418,7 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	public function render($layoutId, $data = array())
+	public function render($layoutId, $data = [])
 	{
 		$data = array_merge($this->getLayoutData(), $data);
 
@@ -463,7 +463,7 @@ class PlgSystemStats extends JPlugin
 			// Update the plugin parameters
 			$result = $this->db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(['com_plugins'], [0, 1]);
 		}
 		catch (Exception $exc)
 		{
@@ -538,7 +538,7 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
 		foreach ($clearGroups as $group)
 		{
@@ -546,10 +546,10 @@ class PlgSystemStats extends JPlugin
 			{
 				try
 				{
-					$options = array(
+					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
-					);
+					];
 
 					$cache = JCache::getInstance('callback', $options);
 					$cache->clean();

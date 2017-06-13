@@ -62,7 +62,7 @@ class PlgSystemRemember extends JPlugin
 			// Check for the cookie
 			if ($this->app->input->cookie->get($cookieName))
 			{
-				$this->app->login(array('username' => ''), array('silent' => true));
+				$this->app->login(['username' => ''], ['silent' => true]);
 			}
 		}
 	}
