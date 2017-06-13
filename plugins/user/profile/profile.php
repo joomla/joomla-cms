@@ -436,7 +436,7 @@ class PlgUserProfile extends JPlugin
 			$usedOrdering = $db->loadColumn();
 
 			$tuples = [];
-			$order = 1;
+			$order  = 1;
 
 			foreach ($data['profile'] as $k => $v)
 			{
