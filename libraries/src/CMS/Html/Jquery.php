@@ -36,7 +36,7 @@ abstract class Jquery
 	 *
 	 * @since   3.0
 	 */
-	public static function framework($noConflict = true, $debug = null, $migrate = true)
+	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
@@ -55,7 +55,7 @@ abstract class Jquery
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			HtmlHelper::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
+			HtmlHelper::_('script', 'jui/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Check if we are loading Migrate
