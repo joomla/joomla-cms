@@ -71,7 +71,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 	 */
 	protected function getInput()
 	{
-		$html = array();
+		$html = [];
 
 		// Get the field options.
 		$options = (array) $this->getOptions();

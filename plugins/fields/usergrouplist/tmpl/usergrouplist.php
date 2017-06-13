@@ -18,7 +18,7 @@ if ($value == '')
 JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
 
 $value  = (array) $value;
-$texts  = array();
+$texts  = [];
 $groups = UsersHelper::getGroups();
 
 foreach ($groups as $group)

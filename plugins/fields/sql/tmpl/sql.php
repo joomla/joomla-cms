@@ -45,7 +45,7 @@ catch (Exception $e)
 	$items = $db->loadObjectlist();
 }
 
-$texts = array();
+$texts = [];
 
 foreach ($items as $item)
 {

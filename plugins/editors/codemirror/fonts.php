@@ -39,7 +39,7 @@ class JFormFieldFonts extends JFormFieldList
 	protected function getOptions()
 	{
 		$fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'));
-		$options = array();
+		$options = [];
 
 		foreach ($fonts as $key => $info)
 		{

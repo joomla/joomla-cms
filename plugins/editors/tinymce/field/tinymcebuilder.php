@@ -40,7 +40,7 @@ class JFormFieldTinymceBuilder extends JFormField
 	 * @var    array
 	 * @since  3.7.0
 	 */
-	protected $layoutData = array();
+	protected $layoutData = [];
 
 	/**
 	 * Method to get the data to be passed to the layout for rendering.
@@ -62,20 +62,20 @@ class JFormFieldTinymceBuilder extends JFormField
 
 		if (empty($data['value']))
 		{
-			$data['value'] = array();
+			$data['value'] = [];
 		}
 
 		// Get the plugin
 		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
 
-		$menus = array(
-			'edit'   => array('label' => 'Edit'),
-			'insert' => array('label' => 'Insert'),
-			'view'   => array('label' => 'View'),
-			'format' => array('label' => 'Format'),
-			'table'  => array('label' => 'Table'),
-			'tools'  => array('label' => 'Tools'),
-		);
+		$menus = [
+			'edit'   => ['label' => 'Edit'],
+			'insert' => ['label' => 'Insert'],
+			'view'   => ['label' => 'View'],
+			'format' => ['label' => 'Format'],
+			'table'  => ['label' => 'Table'],
+			'tools'  => ['label' => 'Tools'],
+		];
 
 		$data['menus']         = $menus;
 		$data['menubarSource'] = array_keys($menus);
@@ -91,7 +91,7 @@ class JFormFieldTinymceBuilder extends JFormField
 		}
 
 		// Prepare the forms for each set
-		$setsForms  = array();
+		$setsForms  = [];
 		$formsource = JPATH_PLUGINS . '/editors/tinymce/form/setoptions.xml';
 
 		// Preload an old params for B/C
@@ -109,7 +109,7 @@ class JFormFieldTinymceBuilder extends JFormField
 		}
 
 		// Collect already used groups
-		$groupsInUse = array();
+		$groupsInUse = [];
 
 		// Prepare the Set forms, for the set options
 		foreach (array_keys($data['setsNames']) as $num)
@@ -117,7 +117,7 @@ class JFormFieldTinymceBuilder extends JFormField
 			$formname = 'set.form.' . $num;
 			$control  = $this->name . '[setoptions][' . $num . ']';
 
-			$setsForms[$num] = JForm::getInstance($formname, $formsource, array('control' => $control));
+			$setsForms[$num] = JForm::getInstance($formname, $formsource, ['control' => $control]);
 
 			// Check whether we already have saved values or it first time or even old params
 			if (empty($this->value['setoptions'][$num]))
@@ -129,12 +129,12 @@ class JFormFieldTinymceBuilder extends JFormField
 				 * Set 0: for Administrator, Editor, Super Users (4,7,8)
 				 * Set 1: for Registered, Manager (2,6), all else are public
 				 */
-				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : array());
+				$formValues->access = !$num ? [4, 7, 8] : ($num === 1 ? [2, 6] : []);
 
 				// Assign Public to the new Set, but only when it not in use already
 				if (empty($formValues->access) && !in_array(1, $groupsInUse))
 				{
-					$formValues->access = array(1);
+					$formValues->access = [1];
 				}
 			}
 			else

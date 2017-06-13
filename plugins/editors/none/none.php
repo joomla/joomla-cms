@@ -28,7 +28,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::_('script', 'editors/none/none.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'editors/none/none.min.js', ['version' => 'auto', 'relative' => true]);
 	}
 
 	/**
@@ -106,7 +106,7 @@ class PlgEditorNone extends JPlugin
 	 * @return  string
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
-		$id = null, $asset = null, $author = null, $params = array())
+		$id = null, $asset = null, $author = null, $params = [])
 	{
 		if (empty($id))
 		{

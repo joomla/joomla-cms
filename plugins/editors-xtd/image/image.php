@@ -65,12 +65,12 @@ class PlgButtonImage extends JPlugin
 			$button->link    = $link;
 			$button->text    = JText::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name    = 'pictures';
-			$button->options = array(
+			$button->options = [
 				'height'     => '300px',
 				'width'      => '800px',
 				'bodyHeight' => '70',
 				'modalWidth' => '80',
-			);
+			];
 
 			return $button;
 		}
