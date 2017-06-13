@@ -259,7 +259,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 					"ALTER TABLE `jos_test` ADD COLUMN `alias` varchar(255) NOT NULL DEFAULT ''",
 				],
 				'getAlterTableSQL should add the new alias column.'
-			),
+			],
 			[
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				[
