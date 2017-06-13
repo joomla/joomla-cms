@@ -185,7 +185,7 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogin($user, $options = array())
+	public function onUserLogin($user, $options = [])
 	{
 		$instance = $this->_getUser($user, $options);
 
@@ -283,7 +283,7 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogout($user, $options = array())
+	public function onUserLogout($user, $options = [])
 	{
 		$my      = JFactory::getUser();
 		$session = JFactory::getSession();
@@ -351,7 +351,7 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	protected function _getUser($user, $options = array())
+	protected function _getUser($user, $options = [])
 	{
 		$instance = JUser::getInstance();
 		$id = (int) JUserHelper::getUserId($user['username']);
@@ -375,8 +375,8 @@ class PlgUserJoomla extends JPlugin
 		$instance->password_clear = $user['password_clear'];
 
 		// Result should contain an email (check).
-		$instance->email = $user['email'];
-		$instance->groups = array($defaultUserGroup);
+		$instance->email  = $user['email'];
+		$instance->groups = [$defaultUserGroup];
 
 		// If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] : $this->params->get('autoregister', 1);

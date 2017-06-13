@@ -61,7 +61,7 @@ class PlgUserProfile extends JPlugin
 	public function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, array('com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile')))
+		if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile']))
 		{
 			return true;
 		}
@@ -76,10 +76,10 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select(
-						array(
+						[
 							$db->qn('profile_key'),
 							$db->qn('profile_value'),
-						)
+						]
 					)
 					->from('#__user_profiles')
 					->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
@@ -90,7 +90,7 @@ class PlgUserProfile extends JPlugin
 				$results = $db->loadRowList();
 
 				// Merge the profile data.
-				$data->profile = array();
+				$data->profile = [];
 
 				foreach ($results as $v)
 				{
@@ -106,22 +106,22 @@ class PlgUserProfile extends JPlugin
 
 			if (!JHtml::isRegistered('users.url'))
 			{
-				JHtml::register('users.url', array(__CLASS__, 'url'));
+				JHtml::register('users.url', [__CLASS__, 'url']);
 			}
 
 			if (!JHtml::isRegistered('users.calendar'))
 			{
-				JHtml::register('users.calendar', array(__CLASS__, 'calendar'));
+				JHtml::register('users.calendar', [__CLASS__, 'calendar']);
 			}
 
 			if (!JHtml::isRegistered('users.tos'))
 			{
-				JHtml::register('users.tos', array(__CLASS__, 'tos'));
+				JHtml::register('users.tos', [__CLASS__, 'tos']);
 			}
 
 			if (!JHtml::isRegistered('users.dob'))
 			{
-				JHtml::register('users.dob', array(__CLASS__, 'dob'));
+				JHtml::register('users.dob', [__CLASS__, 'dob']);
 			}
 		}
 
@@ -232,7 +232,7 @@ class PlgUserProfile extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration')))
+		if (!in_array($name, ['com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration']))
 		{
 			return true;
 		}
@@ -241,7 +241,7 @@ class PlgUserProfile extends JPlugin
 		JForm::addFormPath(__DIR__ . '/profiles');
 		$form->loadFile('profile', false);
 
-		$fields = array(
+		$fields = [
 			'address1',
 			'address2',
 			'city',
@@ -254,7 +254,7 @@ class PlgUserProfile extends JPlugin
 			'aboutme',
 			'dob',
 			'tos',
-		);
+		];
 
 		// Change fields description when displayed in frontend or backend profile editing
 		$app = JFactory::getApplication();
@@ -435,7 +435,7 @@ class PlgUserProfile extends JPlugin
 			$db->setQuery($query);
 			$usedOrdering = $db->loadColumn();
 
-			$tuples = array();
+			$tuples = [];
 			$order = 1;
 
 			foreach ($data['profile'] as $k => $v)
