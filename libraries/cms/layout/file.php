@@ -466,7 +466,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('component', $component);
 
 		// Refresh include paths
-		$this->refreshIncludePaths();
+		$this->clearIncludePaths();
 	}
 
 	/**
@@ -572,7 +572,7 @@ class JLayoutFile extends JLayoutBase
 		$paths = array();
 
 		// (1 - highest priority) Received a custom high priority path
-		if (!is_null($this->basePath))
+		if ($this->basePath !== null)
 		{
 			$paths[] = rtrim($this->basePath, DIRECTORY_SEPARATOR);
 		}
