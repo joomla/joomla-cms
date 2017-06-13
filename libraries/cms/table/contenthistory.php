@@ -56,7 +56,7 @@ class JTableContenthistory extends JTable
 			'hits',
 			'path',
 		);
-		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
+		$this->convertToInt  = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 
 	/**
@@ -127,12 +127,12 @@ class JTableContenthistory extends JTable
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = (is_int($subValue) || is_bool($subValue) || $subValue === null) ? (string) $subValue : $subValue;
+					$object->$subName = is_int($subValue) || is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = (is_int($value) || is_bool($value) || $value === null) ? (string) $value : $value;
+				$object->$name = is_int($value) || is_bool($value) || $value === null ? (string) $value : $value;
 			}
 		}
 
@@ -163,7 +163,7 @@ class JTableContenthistory extends JTable
 	 */
 	public function getHashMatch()
 	{
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
@@ -189,7 +189,7 @@ class JTableContenthistory extends JTable
 		$result = true;
 
 		// Get the list of version_id values we want to save
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
