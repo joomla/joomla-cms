@@ -717,7 +717,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  boolean  True if is forced for the client, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function isHttpsForced($clientId = null)
 	{
