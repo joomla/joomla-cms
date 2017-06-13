@@ -362,8 +362,7 @@ class JHelperMedia
 
 			while (($entry = $d->read()) !== false)
 			{
-				if ($entry[0] !== '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
-					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false)
+				if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry))
 				{
 					$total_file++;
 				}

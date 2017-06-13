@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-
 /**
  * Utility class for Tabs elements.
  *
