@@ -9,6 +9,7 @@
 namespace Joomla\CMS\Helper;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 
@@ -93,7 +94,7 @@ class ContentHelper
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
 		$app = \JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(\JApplicationHelper::getHash('language'));
+		$langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
 
 		// No cookie - let's try to detect browser language or use site default
 		if (!$langCode)

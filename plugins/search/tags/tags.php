@@ -9,6 +9,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\Component\Tags\Site\Model\Tag;
+
 /**
  * Tags search plugin.
  *
@@ -171,8 +173,7 @@ class PlgSearchTags extends JPlugin
 		else
 		{
 			$final_items = $rows;
-			JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_tags/models');
-			$tag_model = JModelLegacy::getInstance('Tag', 'TagsModel');
+			$tag_model = new Tag;
 			$tag_model->getState();
 
 			foreach ($rows as $key => $row)
