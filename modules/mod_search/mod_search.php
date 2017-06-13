@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,5 +47,5 @@ if ($imagebutton)
 	$img = ModSearchHelper::getSearchImage($button_text);
 }
 
-$mitemid = $set_Itemid > 0 ? $set_Itemid : $app->input->get('Itemid');
+$mitemid = $set_Itemid > 0 ? $set_Itemid : $app->input->getInt('Itemid');
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

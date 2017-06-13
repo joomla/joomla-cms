@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	</fieldset>
 	<?php endif; ?>
 
-	<?php if ($this->items == false || $n == 0) : ?>
+	<?php if ($this->items === false || $n === 0) : ?>
 		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 
@@ -74,7 +74,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else : ?>
 				<li class="cat-list-row<?php echo $i % 2; ?> clearfix" >
-				<?php if (($item->type_alias == 'com_users.category') || ($item->type_alias == 'com_banners.category')) : ?>
+				<?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
 					<h3>
 						<?php echo $this->escape($item->core_title); ?>
 					</h3>

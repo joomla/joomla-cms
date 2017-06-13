@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -149,20 +149,6 @@ class UsersModelProfile extends JModelForm
 
 			$registry           = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
-
-			// Get the dispatcher and load the users plugins.
-			$dispatcher = JEventDispatcher::getInstance();
-			JPluginHelper::importPlugin('user');
-
-			// Trigger the data preparation event.
-			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.profile', $this->data));
-
-			// Check for errors encountered while preparing the data.
-			if (count($results) && in_array(false, $results, true))
-			{
-				$this->setError($dispatcher->getError());
-				$this->data = false;
-			}
 		}
 
 		return $this->data;
@@ -197,17 +183,17 @@ class UsersModelProfile extends JModelForm
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;
+		$username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
 
-		if ($this->loadFormData()->username)
+		if ($username)
 		{
-			$username = $this->loadFormData()->username;
 			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
-				|| trim($username) != $username);
+				|| trim($username) !== $username);
 		}
 
 		$this->setState('user.username.compliant', $isUsernameCompliant);
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -245,7 +231,7 @@ class UsersModelProfile extends JModelForm
 	{
 		$data = $this->getData();
 
-		$this->preprocessData('com_users.profile', $data);
+		$this->preprocessData('com_users.profile', $data, 'user');
 
 		return $data;
 	}
@@ -325,7 +311,7 @@ class UsersModelProfile extends JModelForm
 		// Unset the username if it should not be overwritten
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			unset($data['username']);
 		}
@@ -343,7 +329,7 @@ class UsersModelProfile extends JModelForm
 			// Get the current One Time Password (two factor auth) configuration
 			$otpConfig = $model->getOtpConfig($userId);
 
-			if ($twoFactorMethod != 'none')
+			if ($twoFactorMethod !== 'none')
 			{
 				// Run the plugins
 				FOFPlatform::getInstance()->importPlugin('twofactorauth');

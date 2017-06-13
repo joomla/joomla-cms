@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
 			// Initialize some option attributes.
-			$checked = in_array((string) $option->value, $checkedOptions) ? 'checked' : '';
+			$checked = in_array((string) $option->value, $checkedOptions, true) ? 'checked' : '';
 
 			// In case there is no stored value, use the option's default state.
 			$checked     = (!$hasValue && $option->checked) ? 'checked' : $checked;

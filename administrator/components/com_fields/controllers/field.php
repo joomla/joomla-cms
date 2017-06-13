@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -72,7 +72,15 @@ class FieldsControllerField extends JControllerForm
 			$app->setUserState($this->input->get('userstatevariable'), $data);
 		}
 
-		$app->redirect(base64_decode($this->input->get->getBase64('return')));
+		$redirectUrl = base64_decode($this->input->get->getBase64('return'));
+
+		// Don't redirect to an external URL.
+		If (!JUri::isInternal($redirectUrl))
+		{
+			$redirectUrl = 'index.php';
+		}
+
+		$app->redirect($redirectUrl);
 		$app->close();
 	}
 

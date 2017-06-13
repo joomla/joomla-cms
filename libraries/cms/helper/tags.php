@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -219,7 +219,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -307,7 +307,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -362,22 +362,37 @@ class JHelperTags extends JHelper
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
 	 * @param   JTableInterface  $table          JTable object of content table where delete occurred
-	 * @param   integer          $contentItemId  ID of the content item.
+	 * @param   integer|array    $contentItemId  ID of the content item. Or an array of key/value pairs with array key
+	 *                                           being a primary key name and value being the content item ID. Note
+	 *                                           multiple primary keys are not supported
 	 *
 	 * @return  boolean  true on success, false on failure
 	 *
 	 * @since   3.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function deleteTagData(JTableInterface $table, $contentItemId)
 	{
-		$result = $this->unTagItem($contentItemId, $table);
+		$key = $table->getKeyName();
 
-		/**
-		 * @var JTableCorecontent $ucmContentTable
-		 */
+		if (!is_array($contentItemId))
+		{
+			$contentItemId = array($key => $contentItemId);
+		}
+
+		// If we have multiple items for the content item primary key we currently don't support this so
+		// throw an InvalidArgumentException for now
+		if (count($contentItemId) != 1)
+		{
+			throw new InvalidArgumentException('Multiple primary keys are not supported as a content item id');
+		}
+
+		$result = $this->unTagItem($contentItemId[$key], $table);
+
+		/** @var JTableCorecontent $ucmContentTable */
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
-		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
+		return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
 	}
 
 	/**
@@ -414,9 +429,9 @@ class JHelperTags extends JHelper
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -517,13 +532,13 @@ class JHelperTags extends JHelper
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
-		$ntagsr = substr_count($tagId, ',') + 1;
-
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
 		$tagIds = ArrayHelper::toInteger($tagIds);
+
+		$ntagsr = count($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
@@ -577,8 +592,8 @@ class JHelperTags extends JHelper
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
-			// Join over categoris for get only published
-			->join('INNER', '#__categories AS tc ON tc.id = c.core_catid AND tc.published = 1')
+			// Join over categories for get only tags from published categories
+			->join('LEFT', '#__categories AS tc ON tc.id = c.core_catid')
 
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
@@ -586,7 +601,8 @@ class JHelperTags extends JHelper
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
-			->where('m.tag_id IN (' . implode(',', $tagIds) . ')');
+			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
+			->where('(c.core_catid = 0 OR tc.published = 1)');
 
 		// Optionally filter on language
 		if (empty($language))
@@ -594,9 +610,9 @@ class JHelperTags extends JHelper
 			$language = $languageFilter;
 		}
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -628,7 +644,7 @@ class JHelperTags extends JHelper
 		}
 
 		// Set up the order by using the option chosen
-		if ($orderByOption == 'match_count')
+		if ($orderByOption === 'match_count')
 		{
 			$orderBy = 'COUNT(m.tag_id)';
 		}
@@ -934,7 +950,7 @@ class JHelperTags extends JHelper
 		}
 
 		// Filter by parent_id
-		if (!empty($filters['parent_id']))
+		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');

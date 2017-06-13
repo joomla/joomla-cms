@@ -5,7 +5,7 @@
 	<creationDate>May 2010</creationDate>
 	<author>Andrea Tarr</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>3.0.0</version>
 	<description>TPL_HATHOR_XML_DESCRIPTION</description>
@@ -50,40 +50,46 @@
 				<field
 					name="showSiteName"
 					type="radio"
+					label="TPL_HATHOR_SHOW_SITE_NAME_LABEL"
+					description="TPL_HATHOR_SHOW_SITE_NAME_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="TPL_HATHOR_SHOW_SITE_NAME_LABEL"
-					description="TPL_HATHOR_SHOW_SITE_NAME_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="logoFile"
-					class=""
 					type="media"
-					default=""
 					label="TPL_HATHOR_LOGO_LABEL"
-					description="TPL_HATHOR_LOGO_DESC" />
+					description="TPL_HATHOR_LOGO_DESC" 
+					class=""
+					default=""
+				/>
 
 				<field
 					name="colourChoice"
 					type="list"
-					default="0"
 					label="TPL_HATHOR_COLOUR_CHOICE_LABEL"
 					description="TPL_HATHOR_COLOUR_CHOICE_DESC"
-					filter="word">
+					default="0"
+					filter="word"
+					>
 					<option value="">TPL_HATHOR_COLOUR_CHOICE_STANDARD</option>
 					<option value="highcontrast">TPL_HATHOR_COLOUR_CHOICE_HIGH_CONTRAST</option>
 					<option value="brown">TPL_HATHOR_COLOUR_CHOICE_BROWN</option>
 					<option value="blue">TPL_HATHOR_COLOUR_CHOICE_BLUE</option>
 				</field>
+
 				<field
 					name="boldText"
 					type="radio"
+					label="TPL_HATHOR_BOLD_TEXT_LABEL"
+					description="TPL_HATHOR_BOLD_TEXT_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="TPL_HATHOR_BOLD_TEXT_LABEL"
-					description="TPL_HATHOR_BOLD_TEXT_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

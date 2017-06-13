@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * Display method for the raw track data.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  BannersControllerTracks  This object to support chaining.
 	 *
@@ -79,12 +79,31 @@ class BannersControllerTracks extends JControllerLegacy
 			$model->setState('basename', $form['basename']);
 			$model->setState('compressed', $form['compressed']);
 
-			$config        = JFactory::getConfig();
-			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path   = $config->get('cookie_path', '/');
+			// Create one year cookies.
+			$cookieLifeTime = time() + 365 * 86400;
+			$cookieDomain   = $app->get('cookie_domain', '');
+			$cookiePath     = $app->get('cookie_path', '/');
+			$isHttpsForced  = $app->isHttpsForced();
 
-			setcookie(JApplicationHelper::getHash($this->context . '.basename'), $form['basename'], time() + 365 * 86400, $cookie_path, $cookie_domain);
-			setcookie(JApplicationHelper::getHash($this->context . '.compressed'), $form['compressed'], time() + 365 * 86400, $cookie_path, $cookie_domain);
+			$app->input->cookie->set(
+				JApplicationHelper::getHash($this->context . '.basename'),
+				$form['basename'],
+				$cookieLifeTime,
+				$cookiePath,
+				$cookieDomain,
+				$isHttpsForced,
+				true
+			);
+
+			$app->input->cookie->set(
+				JApplicationHelper::getHash($this->context . '.compressed'),
+				$form['compressed'],
+				$cookieLifeTime,
+				$cookiePath,
+				$cookieDomain,
+				$isHttpsForced,
+				true
+			);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
