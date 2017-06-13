@@ -7,21 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Model;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Model\Model;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 
 /**
  * Api Model
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaModelApi extends Model
+class Api extends Model
 {
 	/**
 	 * The local file adapter to work with.
 	 *
-	 * @var    MediaFileAdapterInterface
+	 * @var    AdapterInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $adapter = null;
@@ -29,21 +34,22 @@ class MediaModelApi extends Model
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		if (!isset($config['fileadapter']))
 		{
 			// Import Local file system plugin
-			JPluginHelper::importPlugin('filesystem');
+			PluginHelper::importPlugin('filesystem');
 
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 
 			$results = $app->triggerEvent('onFileSystemGetAdapters');
 
@@ -61,15 +67,15 @@ class MediaModelApi extends Model
 
 	/**
 	 * Returns the requested file or folder information. More information
-	 * can be found in MediaFileAdapterInterface::getFile().
+	 * can be found in AdapterInterface::getFile().
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
-	 * @see     MediaFileAdapterInterface::getFile()
+	 * @throws  \Exception
+	 * @see     AdapterInterface::getFile()
 	 */
 	public function getFile($path = '/')
 	{
@@ -78,16 +84,16 @@ class MediaModelApi extends Model
 
 	/**
 	 * Returns the folders and files for the given path. More information
-	 * can be found in MediaFileAdapterInterface::getFiles().
+	 * can be found in AdapterInterface::getFiles().
 	 *
 	 * @param   string  $path    The folder
 	 * @param   string  $filter  The filter
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
-	 * @see     MediaFileAdapterInterface::getFile()
+	 * @throws  \Exception
+	 * @see     AdapterInterface::getFile()
 	 */
 	public function getFiles($path = '/', $filter = '')
 	{
@@ -101,7 +107,7 @@ class MediaModelApi extends Model
 
 	/**
 	 * Creates a folder with the given name in the given path. More information
-	 * can be found in MediaFileAdapterInterface::createFolder().
+	 * can be found in AdapterInterface::createFolder().
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
@@ -109,8 +115,8 @@ class MediaModelApi extends Model
 	 * @return  string  The new file name
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
-	 * @see     MediaFileAdapterInterface::createFolder()
+	 * @throws  \Exception
+	 * @see     AdapterInterface::createFolder()
 	 */
 	public function createFolder($name, $path)
 	{
@@ -123,7 +129,7 @@ class MediaModelApi extends Model
 
 	/**
 	 * Creates a file with the given name in the given path with the data. More information
-	 * can be found in MediaFileAdapterInterface::createFile().
+	 * can be found in AdapterInterface::createFile().
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
@@ -132,8 +138,8 @@ class MediaModelApi extends Model
 	 * @return  string  The new file name
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
-	 * @see     MediaFileAdapterInterface::createFile()
+	 * @throws  \Exception
+	 * @see     AdapterInterface::createFile()
 	 */
 	public function createFile($name, $path, $data)
 	{
@@ -146,7 +152,7 @@ class MediaModelApi extends Model
 
 	/**
 	 * Updates the file with the given name in the given path with the data. More information
-	 * can be found in MediaFileAdapterInterface::updateFile().
+	 * can be found in AdapterInterface::updateFile().
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
@@ -155,8 +161,8 @@ class MediaModelApi extends Model
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
-	 * @see     MediaFileAdapterInterface::updateFile()
+	 * @throws  \Exception
+	 * @see     AdapterInterface::updateFile()
 	 */
 	public function updateFile($name, $path, $data)
 	{
@@ -165,15 +171,15 @@ class MediaModelApi extends Model
 
 	/**
 	 * Deletes the folder or file of the given path. More information
-	 * can be found in MediaFileAdapterInterface::delete().
+	 * can be found in AdapterInterface::delete().
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
-	 * @see     MediaFileAdapterInterface::delete()
+	 * @throws  \Exception
+	 * @see     AdapterInterface::delete()
 	 */
 	public function delete($path)
 	{
@@ -188,17 +194,17 @@ class MediaModelApi extends Model
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	private function getSafeName($name)
 	{
 		// Make the filename safe
-		$name = JFile::makeSafe($name);
+		$name = \JFile::makeSafe($name);
 
 		// Transform filename to punycode
-		$name = JStringPunycode::toPunycode($name);
+		$name = \JStringPunycode::toPunycode($name);
 
-		$extension = JFile::getExt($name);
+		$extension = \JFile::getExt($name);
 
 		if ($extension)
 		{
@@ -224,7 +230,7 @@ class MediaModelApi extends Model
 	 * @return void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
@@ -242,7 +248,7 @@ class MediaModelApi extends Model
 	 * @return void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function move($sourcePath, $destinationPath, $force = false)
 	{

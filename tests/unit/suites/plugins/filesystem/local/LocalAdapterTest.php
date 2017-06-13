@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
+
 /**
  * Test class for local file adapter.
  *
@@ -14,7 +16,7 @@
  * @subpackage  com_media
  * @since       __DEPLOY_VERSION__
  */
-class MediaFileAdapterLocalTest extends TestCaseDatabase
+class LocalAdapterTest extends TestCaseDatabase
 {
 	/**
 	 * The root folder to work from.
@@ -39,8 +41,6 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JLoader::register('JFile', JPATH_PLATFORM . '/joomla/filesystem/file.php');
 		JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 
-		JLoader::import('filesystem.local.adapter.adapter', JPATH_PLUGINS);
-
 		// Set up the temp root folder
 		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
@@ -59,7 +59,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 
 
 	/**
-	 * Test MediaFileAdapterLocal::getFile
+	 * Test LocalAdapter::getFile
 	 *
 	 * @return  void
 	 */
@@ -69,7 +69,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFile::write($this->root . 'test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the file from the root folder
 		$file = $adapter->getFile('test.txt');
@@ -92,23 +92,23 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getFile with an invalid path
+	 * Test LocalAdapter::getFile with an invalid path
 	 *
-	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
 	 *
 	 * @return  void
 	 */
 	public function testGetFileInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the file from the root folder
 		$adapter->getFile('invalid');
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getFiles
+	 * Test LocalAdapter::getFiles
 	 *
 	 * @return  void
 	 */
@@ -119,7 +119,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFolder::create($this->root . 'unit');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles();
@@ -156,7 +156,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getFiles with a filter
+	 * Test LocalAdapter::getFiles with a filter
 	 *
 	 * @return  void
 	 */
@@ -170,7 +170,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFolder::create($this->root . 'foo');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles('/', 'foo');
@@ -192,7 +192,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getFiles with a single file
+	 * Test LocalAdapter::getFiles with a single file
 	 *
 	 * @return  void
 	 */
@@ -202,7 +202,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFile::write($this->root . 'test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles('test.txt');
@@ -226,30 +226,30 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getFiles with an invalid path
+	 * Test LocalAdapter::getFiles with an invalid path
 	 *
-	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
 	 *
 	 * @return  void
 	 */
 	public function testGetFilesInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the file from the root folder
 		$adapter->getFiles('invalid');
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::createFolder
+	 * Test LocalAdapter::createFolder
 	 *
 	 * @return  void
 	 */
 	public function testCreateFolder()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the files from the root folder
 		$adapter->createFolder('unit', '/');
@@ -259,14 +259,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::createFile
+	 * Test LocalAdapter::createFile
 	 *
 	 * @return  void
 	 */
 	public function testCreateFile()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the files from the root folder
 		$adapter->createFile('unit.txt', '/', 'test');
@@ -279,7 +279,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::updateFile
+	 * Test LocalAdapter::updateFile
 	 *
 	 * @return  void
 	 */
@@ -289,7 +289,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFile::write($this->root . 'unit.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the files from the root folder
 		$adapter->updateFile('unit.txt', '/', 'test 2');
@@ -302,23 +302,23 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getFile with an invalid path
+	 * Test LocalAdapter::getFile with an invalid path
 	 *
-	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
 	 *
 	 * @return  void
 	 */
 	public function testUpdateFileInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the file from the root folder
 		$adapter->updateFile('invalid', '/', 'test');
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::delete
+	 * Test LocalAdapter::delete
 	 *
 	 * @return  void
 	 */
@@ -330,7 +330,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFile::write($this->root . 'unit/test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the files from the root folder
 		$adapter->delete('unit');
@@ -343,16 +343,16 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test MediaFileAdapterLocal::getFile with an invalid path
+	 * Test LocalAdapter::getFile with an invalid path
 	 *
-	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
 	 *
 	 * @return  void
 	 */
 	public function testDeleteInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		// Fetch the file from the root folder
 		$adapter->delete('invalid');
@@ -369,13 +369,13 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with a file
+	 * LocalAdapter::copy with a file
 	 *
 	 * @return void
 	 */
 	public function testFileCopy()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		$this->cleanRootFolder();
 
@@ -388,13 +388,13 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with a file to a folder
+	 * LocalAdapter::copy with a file to a folder
 	 *
 	 * @return void
 	 */
 	public function testFileCopyToFolder()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		$this->cleanRootFolder();
 
@@ -407,14 +407,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with a file without force condition
+	 * LocalAdapter::copy with a file without force condition
 	 * When destination already has a file with same name it will throw an exception
 	 *
 	 * @return void
 	 */
 	public function testFileCopyWithoutForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		$this->cleanRootFolder();
 
@@ -427,14 +427,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with a file with force condition
+	 * LocalAdapter::copy with a file with force condition
 	 * This will overwrite if file exists on destination
 	 *
 	 * @return void
 	 */
 	public function testFileCopyWithForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		$this->cleanRootFolder();
 
@@ -450,29 +450,29 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with invalid path
+	 * LocalAdapter::copy with invalid path
 	 *
-	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
 	 * @return void
 	 */
 	public function testFileCopyInvalidPath()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 
 		$this->cleanRootFolder();
 
-		$this->setExpectedException('MediaFileAdapterFilenotfoundexception');
+		$this->setExpectedException('\Joomla\Component\Media\Administrator\Adapter\FileNotFoundException');
 		$adapter->copy('invalid', 'invalid');
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with a folder
+	 * LocalAdapter::copy with a folder
 	 *
 	 * @return void
 	 */
 	public function testFolderCopy()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -487,7 +487,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with a folder without force condition
+	 * LocalAdapter::copy with a folder without force condition
 	 * When destination has the same folder, it will throw an exception
 	 *
 	 * @expectedException Exception
@@ -495,7 +495,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	 */
 	public function testFolderCopyWithoutForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -512,14 +512,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy with folder, force enabled
+	 * LocalAdapter::copy with folder, force enabled
 	 * It will silently overwrite files in destination
 	 *
 	 * @return void
 	 */
 	public function testFolderCopyWithForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -536,13 +536,13 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy a folder to a file
+	 * LocalAdapter::copy a folder to a file
 	 *
 	 * @return void
 	 */
 	public function testFolderCopyToFile()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -556,13 +556,13 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with a file
+	 * LocalAdapter::move with a file
 	 *
 	 * @return void
 	 */
 	public function testMoveFile()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -577,13 +577,13 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with a file to a folder
+	 * LocalAdapter::move with a file to a folder
 	 *
 	 * @return void
 	 */
 	public function testMoveFileToFolder()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -597,14 +597,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with a file, without force
+	 * LocalAdapter::move with a file, without force
 	 *
 	 * @expectedException Exception
 	 * @return void
 	 */
 	public function testMoveFileWithoutForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -619,14 +619,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with a file force enabled
+	 * LocalAdapter::move with a file force enabled
 	 * It will silently overwrite the file in destination
 	 *
 	 * @return void
 	 */
 	public function testMoveFileWithForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -643,13 +643,13 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with a folder
+	 * LocalAdapter::move with a folder
 	 *
 	 * @return void
 	 */
 	public function testMoveFolder()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		JFile::write($this->root . 'src-text.txt', 'some text here');
@@ -663,14 +663,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with a folder without force enabled
+	 * LocalAdapter::move with a folder without force enabled
 	 *
 	 * @expectedException Exception
 	 * @return void
 	 */
 	public function testMoveFolderWithoutForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -684,14 +684,14 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with a folder with force enabled
+	 * LocalAdapter::move with a folder with force enabled
 	 * It will silently overwrrite files and folders in the destination
 	 *
 	 * @return void
 	 */
 	public function testMoveFolderWithForce()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -707,28 +707,28 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
-	 * MediaFileAdapterLocal::move with an invalid path
+	 * LocalAdapter::move with an invalid path
 	 *
-	 * @expectedException MediaFileAdapterFilenotfoundexception
+	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
 	 * @return void
 	 */
 	public function testMoveInvalidPath()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
-		$this->setExpectedException('MediaFileAdapterFilenotfoundexception');
+		$this->setExpectedException('\Joomla\Component\Media\Administrator\Adapter\FileNotFoundException');
 		$adapter->move('invalid', 'invalid-new');
 	}
 
 	/**
-	 * MediaFileAdapterLocal::copy a folder to a file
+	 * LocalAdapter::copy a folder to a file
 	 *
 	 * @return void
 	 */
 	public function testMoveFolderToFile()
 	{
-		$adapter = new MediaFileAdapterLocal($this->root);
+		$adapter = new LocalAdapter($this->root);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root

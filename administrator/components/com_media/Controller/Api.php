@@ -1,17 +1,22 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  com_media
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Response\JsonResponse;
 
-JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.file');
 
 /**
  * Api Media Controller
@@ -20,7 +25,7 @@ JLoader::import('joomla.filesystem.file');
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaControllerApi extends Controller
+class Api extends Controller
 {
 	/**
 	 * Api endpoint for the media manager front end. The HTTP methods GET, PUT, POST and DELETE
@@ -89,9 +94,9 @@ class MediaControllerApi extends Controller
 		try
 		{
 			// Check token for requests which do modify files (all except get requests)
-			if ($method != 'get' && !JSession::checkToken('json'))
+			if ($method != 'get' && !\JSession::checkToken('json'))
 			{
-				throw new InvalidArgumentException(JText::_('JINVALID_TOKEN'), 403);
+				throw new \InvalidArgumentException(\JText::_('JINVALID_TOKEN'), 403);
 			}
 
 			// Gather the data according to the method
@@ -138,7 +143,7 @@ class MediaControllerApi extends Controller
 					$data = $this->getModel()->getFile($path);
 					break;
 				default:
-					throw new BadMethodCallException('Method not supported yet!');
+					throw new \BadMethodCallException('Method not supported yet!');
 			}
 
 			// Return the data
@@ -148,7 +153,7 @@ class MediaControllerApi extends Controller
 		{
 			$this->sendResponse($e, 404);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$errorCode = 500;
 
@@ -176,13 +181,13 @@ class MediaControllerApi extends Controller
 	protected function sendResponse($data = null, $responseCode = 200)
 	{
 		// Set the correct content type
-		JFactory::getApplication()->setHeader('Content-Type', 'application/json');
+		\JFactory::getApplication()->setHeader('Content-Type', 'application/json');
 
 		// Set the status code for the response
 		http_response_code($responseCode);
 
 		// Send the data
-		echo new JResponseJson($data);
+		echo new JsonResponse($data);
 	}
 
 	/**
@@ -196,7 +201,7 @@ class MediaControllerApi extends Controller
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Api', $prefix = 'MediaModel', $config = array())
+	public function getModel($name = 'Api', $prefix = 'Administrator', $config = array())
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -210,18 +215,18 @@ class MediaControllerApi extends Controller
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	private function checkContent($name, $mediaContent)
 	{
-		if (!JFactory::getUser()->authorise('core.create', 'com_media'))
+		if (!\JFactory::getUser()->authorise('core.create', 'com_media'))
 		{
-			throw new Exception(JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
+			throw new \Exception(\JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
 		}
 
-		$params = JComponentHelper::getParams('com_media');
+		$params = ComponentHelper::getParams('com_media');
 
-		$helper = new JHelperMedia;
+		$helper = new MediaHelper;
 		$serverlength = $this->input->server->get('CONTENT_LENGTH');
 
 		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
@@ -229,24 +234,24 @@ class MediaControllerApi extends Controller
 			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
 			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
 		{
-			throw new Exception(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+			throw new \Exception(\JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 		}
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid($name);
+		$tmpFile = \JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid($name);
 
-		if (!JFile::write($tmpFile, $mediaContent))
+		if (!\JFile::write($tmpFile, $mediaContent))
 		{
-			throw new Exception(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+			throw new \Exception(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
 		}
 
 		if (!$helper->canUpload(array('name' => $name, 'size' => count($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
 		{
-			JFile::delete($tmpFile);
+			\JFile::delete($tmpFile);
 
-			throw new Exception(JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
+			throw new \Exception(\JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
 		}
 
-		JFile::delete($tmpFile);
+		\JFile::delete($tmpFile);
 	}
 }

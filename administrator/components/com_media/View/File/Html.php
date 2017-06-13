@@ -7,18 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\View\File;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\View\HtmlView;
 
-JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.file');
 
 /**
  * View to edit an file.
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaViewFile extends HtmlView
+class Html extends HtmlView
 {
 
 	/**
@@ -32,20 +37,20 @@ class MediaViewFile extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		$this->form = $this->get('Form');
 
 		// The component params
-		$this->params = JComponentHelper::getParams('com_media');
+		$this->params = ComponentHelper::getParams('com_media');
 
 		$this->file         = $input->getString('path', null);
-		$this->fullFilePath = JUri::root() . $this->params->get('file_path', 'images') . $input->getString('path', null);
+		$this->fullFilePath = Uri::root() . $this->params->get('file_path', 'images') . $input->getString('path', null);
 
-		if (!$this->file && JFile::exists($this->fullFilePath))
+		if (!$this->file && \JFile::exists($this->fullFilePath))
 		{
 			// @todo error handling controller redirect files
-			throw new Exception('Image file does not exist');
+			throw new \Exception('Image file does not exist');
 		}
 
 		$this->addToolbar();
@@ -62,12 +67,12 @@ class MediaViewFile extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
+		ToolbarHelper::title(\JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
-		JToolbarHelper::apply('apply');
-		JToolbarHelper::save('save');
-		JToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
+		ToolbarHelper::apply('apply');
+		ToolbarHelper::save('save');
+		ToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
 
-		JToolbarHelper::cancel('cancel');
+		ToolbarHelper::cancel('cancel');
 	}
 }

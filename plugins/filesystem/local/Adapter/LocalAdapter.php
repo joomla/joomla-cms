@@ -1,25 +1,30 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_media
+ * @package     Joomla.Plugin
+ * @subpackage  Filesystem.Local
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Filesystem\Local\Adapter;
+
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.filesystem.file');
-JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
+use Joomla\Image\Image;
 
-JLoader::import('components.com_media.libraries.media.file.adapter.interface', JPATH_ADMINISTRATOR);
-JLoader::import('components.com_media.libraries.media.file.adapter.filenotfoundexception', JPATH_ADMINISTRATOR);
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.folder');
+
 /**
  * Local file adapter.
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaFileAdapterLocal implements MediaFileAdapterInterface
+class LocalAdapter implements AdapterInterface
 {
 	/**
 	 * The root path to gather file information from.
@@ -39,10 +44,10 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	{
 		if (!file_exists($rootPath))
 		{
-			throw new InvalidArgumentException;
+			throw new \InvalidArgumentException;
 		}
 
-		$this->rootPath = JPath::clean($rootPath, '/');
+		$this->rootPath = \JPath::clean($rootPath, '/');
 	}
 
 	/**
@@ -59,24 +64,24 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
+	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getFile($path = '/')
 	{
 		// Set up the path correctly
-		$basePath = JPath::clean($this->rootPath . '/' . $path);
+		$basePath = \JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
 		if (!file_exists($basePath))
 		{
-			throw new MediaFileAdapterFilenotfoundexception;
+			throw new FileNotFoundException;
 		}
 
 		return $this->getPathInformation($basePath);
@@ -96,25 +101,25 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
+	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path    The folder
 	 * @param   string  $filter  The filter
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getFiles($path = '/', $filter = '')
 	{
 		// Set up the path correctly
-		$basePath = JPath::clean($this->rootPath . '/' . $path);
+		$basePath = \JPath::clean($this->rootPath . '/' . $path);
 
 		// Check if file exists
 		if (!file_exists($basePath))
 		{
-			throw new MediaFileAdapterFilenotfoundexception;
+			throw new FileNotFoundException;
 		}
 
 		// Check if the path points to a file
@@ -127,15 +132,15 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$data = array();
 
 		// Read the folders
-		foreach (JFolder::folders($basePath, $filter) as $folder)
+		foreach (\JFolder::folders($basePath, $filter) as $folder)
 		{
-			$data[] = $this->getPathInformation(JPath::clean($basePath . '/' . $folder));
+			$data[] = $this->getPathInformation(\JPath::clean($basePath . '/' . $folder));
 		}
 
 		// Read the files
-		foreach (JFolder::files($basePath, $filter) as $file)
+		foreach (\JFolder::files($basePath, $filter) as $file)
 		{
-			$data[] = $this->getPathInformation(JPath::clean($basePath . '/' . $file));
+			$data[] = $this->getPathInformation(\JPath::clean($basePath . '/' . $file));
 		}
 
 		// Return the data
@@ -151,11 +156,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function createFolder($name, $path)
 	{
-		JFolder::create($this->rootPath . $path . '/' . $name);
+		\JFolder::create($this->rootPath . $path . '/' . $name);
 	}
 
 	/**
@@ -168,11 +173,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function createFile($name, $path, $data)
 	{
-		JFile::write($this->rootPath . $path . '/' . $name, $data);
+		\JFile::write($this->rootPath . $path . '/' . $name, $data);
 	}
 
 	/**
@@ -185,16 +190,16 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function updateFile($name, $path, $data)
 	{
-		if (!JFile::exists($this->rootPath . $path . '/' . $name))
+		if (!\JFile::exists($this->rootPath . $path . '/' . $name))
 		{
-			throw new MediaFileAdapterFilenotfoundexception;
+			throw new FileNotFoundException;
 		}
 
-		JFile::write($this->rootPath . $path . '/' . $name, $data);
+		\JFile::write($this->rootPath . $path . '/' . $name, $data);
 	}
 
 
@@ -206,32 +211,32 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function delete($path)
 	{
 		if (is_file($this->rootPath . $path))
 		{
-			if (!JFile::exists($this->rootPath . $path))
+			if (!\JFile::exists($this->rootPath . $path))
 			{
-				throw new MediaFileAdapterFilenotfoundexception;
+				throw new FileNotFoundException;
 			}
 
-			$success = JFile::delete($this->rootPath . $path);
+			$success = \JFile::delete($this->rootPath . $path);
 		}
 		else
 		{
-			if (!JFolder::exists($this->rootPath . $path))
+			if (!\JFolder::exists($this->rootPath . $path))
 			{
-				throw new MediaFileAdapterFilenotfoundexception;
+				throw new FileNotFoundException;
 			}
 
-			$success = JFolder::delete($this->rootPath . $path);
+			$success = \JFolder::delete($this->rootPath . $path);
 		}
 
 		if (!$success)
 		{
-			throw new Exception('Delete not possible!');
+			throw new \Exception('Delete not possible!');
 		}
 	}
 
@@ -251,14 +256,14 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 *
 	 * @param   string  $path  The folder
 	 *
-	 * @return  stdClass
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getPathInformation($path)
 	{
 		// Prepare the path
-		$path = JPath::clean($path, '/');
+		$path = \JPath::clean($path, '/');
 
 		// The boolean if it is a dir
 		$isDir = is_dir($path);
@@ -267,11 +272,11 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$modifiedDate = $this->getDate(filemtime($path));
 
 		// Set the values
-		$obj            = new stdClass;
+		$obj            = new \stdClass;
 		$obj->type      = $isDir ? 'dir' : 'file';
 		$obj->name      = basename($path);
 		$obj->path      = str_replace($this->rootPath, '/', $path);
-		$obj->extension = !$isDir ? JFile::getExt($obj->name) : '';
+		$obj->extension = !$isDir ? \JFile::getExt($obj->name) : '';
 		$obj->size      = !$isDir ? filesize($path) : 0;
 		$obj->mime_type = mime_content_type($path);
 		$obj->width     = 0;
@@ -279,14 +284,14 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		// Dates
 		$obj->create_date             = $createDate->format('c', true);
-		$obj->create_date_formatted   = $createDate->format(JText::_('DATE_FORMAT_LC5'), true);
+		$obj->create_date_formatted   = $createDate->format(\JText::_('DATE_FORMAT_LC5'), true);
 		$obj->modified_date           = $modifiedDate->format('c', true);
-		$obj->modified_date_formatted = $modifiedDate->format(JText::_('DATE_FORMAT_LC5'), true);
+		$obj->modified_date_formatted = $modifiedDate->format(\JText::_('DATE_FORMAT_LC5'), true);
 
-		if (strpos($obj->mime_type, 'image/') === 0 && JHelperMedia::isImage($obj->name))
+		if (strpos($obj->mime_type, 'image/') === 0 && MediaHelper::isImage($obj->name))
 		{
 			// Get the image properties
-			$props       = JImage::getImageFileProperties($path);
+			$props       = Image::getImageFileProperties($path);
 			$obj->width  = $props->width;
 			$obj->height = $props->height;
 		}
@@ -299,16 +304,16 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 *
 	 * @param   string  $date  The date to create a JDate from
 	 *
-	 * @return  JDate[]
+	 * @return  Date[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getDate($date = null)
 	{
-		$dateObj = JFactory::getDate($date);
+		$dateObj = \JFactory::getDate($date);
 
-		$timezone = JFactory::getApplication()->get('offset');
-		$user     = JFactory::getUser();
+		$timezone = \JFactory::getApplication()->get('offset');
+		$user     = \JFactory::getUser();
 
 		if ($user->id)
 		{
@@ -321,7 +326,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if ($timezone)
 		{
-			$dateObj->setTimezone(new DateTimeZone($timezone));
+			$dateObj->setTimezone(new \DateTimeZone($timezone));
 		}
 
 		return $dateObj;
@@ -339,7 +344,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws MediaFileAdapterFilenotfoundexception
+	 * @throws FileNotFoundException
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
@@ -349,7 +354,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (!file_exists($sourcePath))
 		{
-			throw new MediaFileAdapterFilenotfoundexception;
+			throw new FileNotFoundException;
 		}
 
 		// Check for existence of the file in destination
@@ -375,7 +380,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	private function copyFile($sourcePath, $destinationPath, $force = false)
 	{
@@ -387,12 +392,12 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (file_exists($destinationPath) && !$force)
 		{
-			throw new Exception('Copy file is not possible as destination file already exists');
+			throw new \Exception('Copy file is not possible as destination file already exists');
 		}
 
-		if (!JFile::copy($sourcePath, $destinationPath))
+		if (!\JFile::copy($sourcePath, $destinationPath))
 		{
-			throw new Exception('Copy file is not possible');
+			throw new \Exception('Copy file is not possible');
 		}
 	}
 
@@ -406,23 +411,23 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	private function copyFolder($sourcePath, $destinationPath, $force = false)
 	{
 		if (file_exists($destinationPath) && !$force)
 		{
-			throw new Exception('Copy folder is not possible as destination folder already exists');
+			throw new \Exception('Copy folder is not possible as destination folder already exists');
 		}
 
-		if (is_file($destinationPath) && !JFile::delete($destinationPath))
+		if (is_file($destinationPath) && !\JFile::delete($destinationPath))
 		{
-			throw new Exception('Copy folder is not possible as destination folder is a file and can not be deleted');
+			throw new \Exception('Copy folder is not possible as destination folder is a file and can not be deleted');
 		}
 
-		if (!JFolder::copy($sourcePath, $destinationPath, '', $force))
+		if (!\JFolder::copy($sourcePath, $destinationPath, '', $force))
 		{
-			throw new Exception('Copy folder is not possible');
+			throw new \Exception('Copy folder is not possible');
 		}
 	}
 
@@ -438,7 +443,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws MediaFileAdapterFilenotfoundexception
+	 * @throws FileNotFoundException
 	 */
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
@@ -448,7 +453,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (!file_exists($sourcePath))
 		{
-			throw new MediaFileAdapterFilenotfoundexception;
+			throw new FileNotFoundException;
 		}
 
 		if (is_dir($sourcePath))
@@ -471,7 +476,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	private function moveFile($sourcePath, $destinationPath, $force = false)
 	{
@@ -483,12 +488,12 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		if (file_exists($destinationPath) && !$force)
 		{
-			throw new Exception('Move file is not possible as destination file already exists');
+			throw new \Exception('Move file is not possible as destination file already exists');
 		}
 
-		if (!JFile::move($sourcePath, $destinationPath))
+		if (!\JFile::move($sourcePath, $destinationPath))
 		{
-			throw new Exception('Move file is not possible');
+			throw new \Exception('Move file is not possible');
 		}
 	}
 
@@ -502,41 +507,41 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	private function moveFolder($sourcePath, $destinationPath, $force = false)
 	{
 		if (file_exists($destinationPath) && !$force)
 		{
-			throw new Exception('Move folder is not possible as destination folder already exists');
+			throw new \Exception('Move folder is not possible as destination folder already exists');
 		}
 
-		if (is_file($destinationPath) && !JFile::delete($destinationPath))
+		if (is_file($destinationPath) && !\JFile::delete($destinationPath))
 		{
-			throw new Exception('Move folder is not possible as destination folder is a file and can not be deleted');
+			throw new \Exception('Move folder is not possible as destination folder is a file and can not be deleted');
 		}
 
 		if (is_dir($destinationPath))
 		{
 			// We need to bypass exception thrown in JFolder when destination exists
 			// So we only copy it in forced condition, then delete the source to simulate a move
-			if (!JFolder::copy($sourcePath, $destinationPath, '', true))
+			if (!\JFolder::copy($sourcePath, $destinationPath, '', true))
 			{
-				throw new Exception('Move folder to an existing destination failed');
+				throw new \Exception('Move folder to an existing destination failed');
 			}
 
 			// Delete the source
-			JFolder::delete($sourcePath);
+			\JFolder::delete($sourcePath);
 
 			return;
 		}
 
 		// Perform usual moves
-		$value = JFolder::move($sourcePath, $destinationPath);
+		$value = \JFolder::move($sourcePath, $destinationPath);
 
 		if ($value !== true)
 		{
-			throw new Exception($value);
+			throw new \Exception($value);
 		}
 	}
 }

@@ -6,8 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Component\Media\Administrator\View\Media;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\View\HtmlView;
 
 /**
@@ -15,7 +21,7 @@ use Joomla\CMS\View\HtmlView;
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaViewMedia extends HtmlView
+class Html extends HtmlView
 {
 	/**
 	 * Execute and display a template script.
@@ -44,45 +50,45 @@ class MediaViewMedia extends HtmlView
 	protected function prepareToolbar()
 	{
 		// Get the toolbar object instance
-		$bar  = JToolbar::getInstance('toolbar');
-		$user = JFactory::getUser();
+		$bar  = Toolbar::getInstance('toolbar');
+		$user = \JFactory::getUser();
 
 		// Set the title
-		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
+		ToolbarHelper::title(\JText::_('COM_MEDIA'), 'images mediamanager');
 
 		// Add the upload and create folder buttons
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			// Add the upload button
-			$layout = new JLayoutFile('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+			$layout = new FileLayout('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
+			ToolbarHelper::divider();
 
 			// Add the create folder button
-			$layout = new JLayoutFile('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+			$layout = new FileLayout('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'new');
-			JToolbarHelper::divider();
+			ToolbarHelper::divider();
 		}
 
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.delete');
+			$layout = new FileLayout('toolbar.delete');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'delete');
-			JToolbarHelper::divider();
+			ToolbarHelper::divider();
 		}
 
 		// Add the preferences button
 		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
 		{
-			JToolbarHelper::preferences('com_media');
-			JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_media');
+			ToolbarHelper::divider();
 		}
 
-		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+		ToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 }

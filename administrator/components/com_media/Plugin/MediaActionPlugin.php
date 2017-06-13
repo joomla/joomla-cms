@@ -7,14 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Plugin;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Media Manager Base Plugin for the media actions
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaActionPlugin extends JPlugin
+class MediaActionPlugin extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -29,14 +34,14 @@ class MediaActionPlugin extends JPlugin
 	 * The form event. Load additional parameters when available into the field form.
 	 * Only when the type of the form is of interest.
 	 *
-	 * @param   JForm     $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param   Form       $form  The form
+	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		// Check if it is the right form
 		if ($form->getName() != 'com_media.file')
@@ -66,7 +71,7 @@ class MediaActionPlugin extends JPlugin
 	 */
 	protected function loadJs()
 	{
-		JHtml::_(
+		\JHtml::_(
 		'script',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
 			array('version' => 'auto', 'relative' => true)
@@ -82,7 +87,7 @@ class MediaActionPlugin extends JPlugin
 	 */
 	protected function loadCss()
 	{
-		JHtml::_(
+		\JHtml::_(
 		'stylesheet',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.css',
 			array('version' => 'auto', 'relative' => true)

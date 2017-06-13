@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Adapter;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface MediaFileAdapterInterface
+interface AdapterInterface
 {
 	/**
 	 * Returns the requested file or folder. The returned object
@@ -30,14 +32,14 @@ interface MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
+	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getFile($path = '/');
 
@@ -55,15 +57,15 @@ interface MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * If the path doesn't exist a MediaFileAdapterFilenotfoundexception is thrown.
+	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
 	 * @param   string  $path    The folder
 	 * @param   string  $filter  The filter
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getFiles($path = '/', $filter = '');
 
@@ -76,7 +78,7 @@ interface MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function createFolder($name, $path);
 
@@ -90,7 +92,7 @@ interface MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function createFile($name, $path, $data);
 
@@ -104,7 +106,7 @@ interface MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function updateFile($name, $path, $data);
 
@@ -116,7 +118,7 @@ interface MediaFileAdapterInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function delete($path);
 
@@ -130,7 +132,7 @@ interface MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function move($sourcePath, $destinationPath, $force = false);
 
@@ -144,7 +146,7 @@ interface MediaFileAdapterInterface
 	 * @return void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false);
 }

@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_media.libraries.media.plugin.mediaaction', JPATH_ADMINISTRATOR);
-
 /**
  * Media Manager Crop Action
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgMediaActionCrop extends MediaActionPlugin
+class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
 {
 	/**
 	 * Load the javascript files of the plugin.

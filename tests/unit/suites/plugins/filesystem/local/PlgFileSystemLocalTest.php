@@ -58,7 +58,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 		$plugin = array(
 			'name' => 'local',
 			'type' => 'filesystem',
-			'params' => new \JRegistry,
+			'params' => new \Joomla\Registry\Registry,
 		);
 
 		// Instantiate plugin
@@ -87,6 +87,6 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	public function testOnFileSystemGetAdapters()
 	{
 		$adapter = $this->pluginClass->onFileSystemGetAdapters();
-		self::assertInstanceOf('MediaFileAdapterLocal', $adapter);
+		self::assertInstanceOf(\Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::class, $adapter);
 	}
 }

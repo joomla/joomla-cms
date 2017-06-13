@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('filesystem.local.adapter.adapter', JPATH_PLUGINS);
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * FileSystem Local plugin.
@@ -17,7 +18,7 @@ JLoader::import('filesystem.local.adapter.adapter', JPATH_PLUGINS);
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFileSystemLocal extends JPlugin
+class PlgFileSystemLocal extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -30,16 +31,16 @@ class PlgFileSystemLocal extends JPlugin
 	/**
 	 * Returns a local media adapter to the caller which can be used to manipulate files
 	 *
-	 * @return   MediaFileAdapterLocal
+	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
 	public function onFileSystemGetAdapters()
 	{
 		// Compile the root path
-		$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
+		$root = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('file_path', 'images');
 		$root = rtrim($root) . '/';
 
-		return new MediaFileAdapterLocal($root);
+		return new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root);
 	}
 }
