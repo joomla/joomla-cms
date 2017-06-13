@@ -69,10 +69,10 @@ class PlgTwofactorauthTotp extends JPlugin
 			return false;
 		}
 
-		return (object) array(
+		return (object) [
 			'method' => $this->methodName,
 			'title'  => JText::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE')
-		);
+		];
 	}
 
 	/**
@@ -122,10 +122,10 @@ class PlgTwofactorauthTotp extends JPlugin
 		$html = @ob_get_clean();
 
 		// Return the form contents
-		return array(
+		return [
 			'method' => $this->methodName,
 			'form'   => $html
-		);
+		];
 	}
 
 	/**
@@ -150,7 +150,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		$input = JFactory::getApplication()->input;
 
 		// Load raw data
-		$rawData = $input->get('jform', array(), 'array');
+		$rawData = $input->get('jform', [], 'array');
 
 		if (!isset($rawData['twofactor']['totp']))
 		{
@@ -213,13 +213,13 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object) array(
+		$otpConfig = (object) [
 			'method'   => 'totp',
-			'config'   => array(
+			'config'   => [
 				'code' => $data['key']
-			),
-			'otep'     => array()
-		);
+			],
+			'otep'     => []
+		];
 
 		return $otpConfig;
 	}

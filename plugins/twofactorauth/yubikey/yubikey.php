@@ -68,10 +68,10 @@ class PlgTwofactorauthYubikey extends JPlugin
 			return false;
 		}
 
-		return (object) array(
+		return (object) [
 			'method' => $this->methodName,
 			'title'  => JText::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'),
-		);
+		];
 	}
 
 	/**
@@ -111,10 +111,10 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$html = @ob_get_clean();
 
 		// Return the form contents
-		return array(
+		return [
 			'method' => $this->methodName,
 			'form'   => $html,
-		);
+		];
 	}
 
 	/**
@@ -139,7 +139,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$input = JFactory::getApplication()->input;
 
 		// Load raw data
-		$rawData = $input->get('jform', array(), 'array');
+		$rawData = $input->get('jform', [], 'array');
 
 		if (!isset($rawData['twofactor']['yubikey']))
 		{
@@ -179,13 +179,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$yubikey      = substr($data['securitycode'], 0, -32);
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig    = (object) array(
+		$otpConfig    = (object) [
 			'method'  => $this->methodName,
-			'config'  => array(
+			'config'  => [
 				'yubikey' => $yubikey
-			),
-			'otep'    => array()
-		);
+			],
+			'otep'    => []
+		];
 
 		return $otpConfig;
 	}
@@ -249,13 +249,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 */
 	public function validateYubikeyOtp($otp)
 	{
-		$server_queue = array(
+		$server_queue = [
 			'api.yubico.com',
 			'api2.yubico.com',
 			'api3.yubico.com',
 			'api4.yubico.com',
 			'api5.yubico.com',
-		);
+		];
 
 		shuffle($server_queue);
 
@@ -315,7 +315,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		// Parse response
 		$lines = explode("\n", $response->body);
-		$data  = array();
+		$data  = [];
 
 		foreach ($lines as $line)
 		{

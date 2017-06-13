@@ -82,7 +82,7 @@ class JFormFieldTos extends JFormFieldRadio
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
-			$attribs          = array();
+			$attribs          = [];
 			$attribs['class'] = 'modal';
 			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
 

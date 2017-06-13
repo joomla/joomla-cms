@@ -53,7 +53,7 @@ class JFormFieldDob extends JFormFieldCalendar
 			if ($app->isClient('administrator') || $view === 'profile' || $view === 'registration')
 			{
 				$layout = new JLayoutFile('plugins.user.profile.fields.dob');
-				$info   = $layout->render(array('text' => $text));
+				$info   = $layout->render(['text' => $text]);
 				$label  = $info . $label;
 			}
 		}
