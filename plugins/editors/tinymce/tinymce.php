@@ -1168,7 +1168,7 @@ class PlgEditorTinymce extends JPlugin
 				'charmap', 'pastetext' , 'preview'
 			],
 			'toolbar2' => [],
-		);
+		];
 
 		$preset['advanced'] = [
 			'menu'     => ['edit', 'insert', 'view', 'format', 'table', 'tools'],
@@ -1193,7 +1193,7 @@ class PlgEditorTinymce extends JPlugin
 				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat',
 			],
 			'toolbar2' => [],
-		);
+		];
 
 		return $preset;
 	}
