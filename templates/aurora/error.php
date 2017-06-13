@@ -104,17 +104,17 @@ else
 					</a>
 					<div class="header-search float-right">
 						<?php // Display position-0 modules ?>
-						<?php echo $this->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
+						<?php echo $this->getBuffer('modules', 'position-0', ['style' => 'none']); ?>
 					</div>
 				</div>
 			</header>
 			<div class="navigation">
 				<?php // Display position-1 modules ?>
-				<?php echo $this->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
+				<?php echo $this->getBuffer('modules', 'position-1', ['style' => 'none']); ?>
 			</div>
 			<!-- Banner -->
 			<div class="banner">
-				<?php echo $this->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
+				<?php echo $this->getBuffer('modules', 'banner', ['style' => 'xhtml']); ?>
 			</div>
 			<div class="row">
 				<div id="content" class="col-md-12">
@@ -177,7 +177,7 @@ else
 	<div class="footer">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr>
-			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
+			<?php echo $this->getBuffer('modules', 'footer', ['style' => 'none']); ?>
 			<p class="float-right">
 				<a href="#top" id="back-top">
 					<?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?>
@@ -188,6 +188,6 @@ else
 			</p>
 		</div>
 	</div>
-	<?php echo $this->getBuffer('modules', 'debug', array('style' => 'none')); ?>
+	<?php echo $this->getBuffer('modules', 'debug', ['style' => 'none']); ?>
 </body>
 </html>
