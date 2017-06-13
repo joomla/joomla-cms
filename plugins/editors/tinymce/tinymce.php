@@ -686,6 +686,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$scriptOptions['rel_list'] = array(
+			array('title' => 'None', 'value' => ''),
 			array('title' => 'Alternate', 'value' => 'alternate'),
 			array('title' => 'Author', 'value' => 'author'),
 			array('title' => 'Bookmark', 'value' => 'bookmark'),
@@ -2015,6 +2016,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
+					array('title' => 'None', 'value' => ''),
 					array('title' => 'Alternate', 'value' => 'alternate'),
 					array('title' => 'Author', 'value' => 'author'),
 					array('title' => 'Bookmark', 'value' => 'bookmark'),
