@@ -597,13 +597,11 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayProfileInformation()
 	{
-		$html = [];
-
+		$html      = [];
 		$htmlMarks = [];
-
 		$totalTime = 0;
-		$totalMem = 0;
-		$marks = [];
+		$totalMem  = 0;
+		$marks     = [];
 
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
@@ -810,22 +808,22 @@ class PlgSystemDebug extends JPlugin
 					if (isset($timings[$id * 2 + 1]))
 					{
 						// Compute the query time: $timing[$k] = [queryTime, timeBetweenQueries].
-						$timing[$id] =[($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000, $id > 0 ? ($timings[$id * 2] - $timings[$id * 2 - 1]) * 1000 : 0];
-						$maxtime = max($maxtime, $timing[$id]['0']);
+						$timing[$id] = [($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000, $id > 0 ? ($timings[$id * 2] - $timings[$id * 2 - 1]) * 1000 : 0];
+						$maxtime     = max($maxtime, $timing[$id]['0']);
 					}
 				}
 			}
 		}
 		else
 		{
-			$startTime = null;
+			$startTime         = null;
 			$totalBargraphTime = 1;
 		}
 
-		$bars = [];
-		$info = [];
+		$bars           = [];
+		$info           = [];
 		$totalQueryTime = 0;
-		$duplicates = [];
+		$duplicates     = [];
 
 		foreach ($log as $id => $query)
 		{
