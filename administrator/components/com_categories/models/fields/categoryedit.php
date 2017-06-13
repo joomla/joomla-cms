@@ -119,7 +119,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ? $this->element['published'] : array(0, 1);
+		$published = $this->element['published'] ?: array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
@@ -293,7 +293,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					continue;
 				}
 
-				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
 					continue;
@@ -311,7 +311,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					continue;
 				}
 
-				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
 					continue;

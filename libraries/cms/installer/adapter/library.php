@@ -94,7 +94,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			$manifest = array();
 			$manifest['src'] = $this->parent->getPath('manifest');
@@ -233,7 +233,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -410,7 +410,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			}
 
 			// Check for a valid XML root tag.
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				JLog::add(JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 
