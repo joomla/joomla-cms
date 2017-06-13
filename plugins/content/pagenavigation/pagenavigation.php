@@ -104,10 +104,10 @@ class PlgContentPagenavigation extends JPlugin
 					$orderby = 'a.ordering';
 					break;
 				case 'author' :
-					$orderby = 'a.created_by_alias';
+					$orderby = 'a.created_by_alias, u.name';
 					break;
 				case 'rauthor' :
-					$orderby = 'a.created_by_alias DESC';
+					$orderby = 'a.created_by_alias DESC, u.name DESC';
 					break;
 				case 'front' :
 					$orderby = 'f.ordering';
@@ -136,8 +136,9 @@ class PlgContentPagenavigation extends JPlugin
 			$case_when1 .= ' ELSE ' . $c_id . ' END as catslug';
 			$query->select('a.id, a.title, a.catid, a.language,' . $case_when . ',' . $case_when1)
 				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->where(
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
+			$query->join('LEFT', '#__users AS u ON u.id = a.created_by');
+			$query->where(
 					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
 						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
 				);
