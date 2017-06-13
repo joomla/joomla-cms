@@ -119,7 +119,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ? $this->element['published'] : array(0, 1);
+		$published = $this->element['published'] ?: array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
@@ -293,7 +293,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					continue;
 				}
 
-				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
 					continue;
@@ -311,7 +311,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					continue;
 				}
 
-				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
 					continue;
@@ -413,8 +413,19 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			}
 		}
 		else
-			// Create a regular list.
 		{
+			// Create a regular list.
+			if (count($options) === 0)
+			{
+				// All Categories have been deleted, so we need a new category (This will create on save if selected).
+				$options[0]            = new stdClass;
+				$options[0]->value     = 'Uncategorised';
+				$options[0]->text      = 'Uncategorised';
+				$options[0]->level     = '1';
+				$options[0]->published = '1';
+				$options[0]->lft       = '1';
+			}
+
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 

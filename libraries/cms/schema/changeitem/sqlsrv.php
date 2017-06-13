@@ -4,7 +4,7 @@
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -121,7 +121,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) === 'integer' && stripos($type2, 'unsigned') === 0)
+		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = 'int';
 		}

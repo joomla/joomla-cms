@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -954,8 +954,8 @@ class JInstaller extends JAdapter
 		// Get the name of the sql file to process
 		foreach ($element->children() as $file)
 		{
-			$fCharset = (strtolower($file->attributes()->charset) === 'utf8') ? 'utf8' : '';
-			$fDriver = strtolower($file->attributes()->driver);
+			$fCharset = strtolower($file->attributes()->charset) === 'utf8' ? 'utf8' : '';
+			$fDriver  = strtolower($file->attributes()->driver);
 
 			if ($fDriver === 'mysqli' || $fDriver === 'pdomysql')
 			{
@@ -1331,7 +1331,7 @@ class JInstaller extends JAdapter
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
-			$path['type'] = ($file->getName() === 'folder') ? 'folder' : 'file';
+			$path['type'] = $file->getName() === 'folder' ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -1528,7 +1528,7 @@ class JInstaller extends JAdapter
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
-			$path['type'] = ($file->getName() === 'folder') ? 'folder' : 'file';
+			$path['type'] = $file->getName() === 'folder' ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -2224,7 +2224,7 @@ class JInstaller extends JAdapter
 		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
 
 		$name = $xml->getName();
-		if ($name !== 'extension' && $name !== 'metafile')
+		if ($name !=== 'extension' && $name !=== 'metafile')
 		{
 			unset($xml);
 

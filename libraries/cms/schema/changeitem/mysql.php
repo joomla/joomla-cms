@@ -4,7 +4,7 @@
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -63,7 +63,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		if (($command === 'UPDATE `#__UTF8_CONVERSION`'
 			|| $command === 'UPDATE #__UTF8_CONVERSION')
 			&& strtoupper($wordArray[2]) === 'SET'
-			&& stripos(str_replace('`', '', $wordArray[3]), 'converted') === 0)
+			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) === 'converted')
 		{
 			// Statement is special statement to reset conversion status
 			$this->queryType = 'UTF8CNV';
@@ -229,11 +229,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) === 'integer' && stripos($type2, 'unsigned') === 0)
+		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = 'int(10) unsigned';
 		}
-		elseif (stripos($type2, 'unsigned') === 0)
+		elseif (strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = $type1 . ' unsigned';
 		}

@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -335,7 +335,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 
-						if ($defaultLanguageNativeTitle != $installationLanguageNativeTitle)
+						if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
 						{
 							$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 						}
@@ -616,7 +616,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// Verify that it's not the default language for that client
 		$params = JComponentHelper::getParams('com_languages');
 
-		if ($params->get($client->name) == $element)
+		if ($params->get($client->name) === $element)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'), JLog::WARNING, 'jerror');
 
@@ -689,7 +689,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		{
 			$registry = new Registry($user->params);
 
-			if ($registry->get($param_name) == $element)
+			if ($registry->get($param_name) === $element)
 			{
 				$registry->set($param_name, '');
 				$query->clear()

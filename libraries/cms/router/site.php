@@ -95,7 +95,7 @@ class JRouterSite extends JRouter
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
 			// Also verify that it represents the same file from the server variable for entry script.
-			if (file_exists(JPATH_SITE . $matches[0]) && ($matches[0] == $relativeScriptPath))
+			if (file_exists(JPATH_SITE . $matches[0]) && ($matches[0] === $relativeScriptPath))
 			{
 				// Remove the entry point segments from the request path for proper routing.
 				$path = str_replace($matches[0], '', $path);
@@ -527,7 +527,7 @@ class JRouterSite extends JRouter
 		{
 			$item = $this->menu->getItem($query['Itemid']);
 
-			if (is_object($item) && $query['option'] == $item->component)
+			if (is_object($item) && $query['option'] === $item->component)
 			{
 				if (!$item->home)
 				{
@@ -554,7 +554,7 @@ class JRouterSite extends JRouter
 		}
 
 		// Unset unneeded query information
-		if (isset($item) && $query['option'] == $item->component)
+		if (isset($item) && $query['option'] === $item->component)
 		{
 			unset($query['Itemid']);
 		}
@@ -583,7 +583,7 @@ class JRouterSite extends JRouter
 		// Process the attached parse rules
 		$vars = parent::processParseRules($uri, $stage);
 
-		if ($stage == self::PROCESS_DURING)
+		if ($stage === self::PROCESS_DURING)
 		{
 			// Process the pagination support
 			if ($this->_mode == JROUTER_MODE_SEF)
@@ -614,7 +614,7 @@ class JRouterSite extends JRouter
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if ($stage == self::PROCESS_DURING)
+		if ($stage === self::PROCESS_DURING)
 		{
 			// Make sure any menu vars are used if no others are specified
 			$query = $uri->getQuery(true);
@@ -644,7 +644,7 @@ class JRouterSite extends JRouter
 		// Process the attached build rules
 		parent::processBuildRules($uri, $stage);
 
-		if ($stage == self::PROCESS_BEFORE)
+		if ($stage === self::PROCESS_BEFORE)
 		{
 			// Get the query data
 			$query = $uri->getQuery(true);
@@ -661,7 +661,7 @@ class JRouterSite extends JRouter
 			$uri->setQuery($query);
 		}
 
-		if ($stage == self::PROCESS_DURING)
+		if ($stage === self::PROCESS_DURING)
 		{
 			// Get the path data
 			$route = $uri->getPath();
@@ -702,7 +702,7 @@ class JRouterSite extends JRouter
 			{
 				$item = $this->menu->getItem($this->getVar('Itemid'));
 
-				if (isset($item) && $item->component == $option)
+				if (isset($item) && $item->component === $option)
 				{
 					$uri->setVar('Itemid', $item->id);
 				}

@@ -161,7 +161,7 @@ class ContactTableContact extends JTable
 		}
 
 		// Sanity check for user_id
-		if (!($this->user_id))
+		if (!$this->user_id)
 		{
 			$this->user_id = 0;
 		}

@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -353,20 +353,20 @@ abstract class JHtmlMenu
 	{
 		if ($level <= $maxlevel && @$children[$id])
 		{
+			if ($type)
+			{
+				$pre    = '<sup>|_</sup>&#160;';
+				$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
+			}
+			else
+			{
+				$pre    = '- ';
+				$spacer = '&#160;&#160;';
+			}
+
 			foreach ($children[$id] as $v)
 			{
 				$id = $v->id;
-
-				if ($type)
-				{
-					$pre = '<sup>|_</sup>&#160;';
-					$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
-				}
-				else
-				{
-					$pre = '- ';
-					$spacer = '&#160;&#160;';
-				}
 
 				if ($v->parent_id == 0)
 				{

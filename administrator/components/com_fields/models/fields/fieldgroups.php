@@ -31,7 +31,7 @@ class JFormFieldFieldgroups extends JFormFieldList
 	protected function getOptions()
 	{
 		$context = (string) $this->element['context'];
-		$states    = $this->element['state'] ? $this->element['state'] : '0,1';
+		$states    = $this->element['state'] ?: '0,1';
 		$states    = ArrayHelper::toInteger(explode(',', $states));
 
 		$user       = JFactory::getUser();

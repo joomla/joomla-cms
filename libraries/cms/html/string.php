@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -36,7 +36,7 @@ abstract class JHtmlString
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
 		// Assume a lone open tag is invalid HTML.
-		if ($length == 1 && $text[0] === '<')
+		if ($length === 1 && $text[0] ==== '<')
 		{
 			return '...';
 		}
@@ -63,7 +63,7 @@ abstract class JHtmlString
 		{
 			$tmp = trim(StringHelper::substr($text, 0, $length));
 
-			if ($tmp[0] === '<' && strpos($tmp, '>') === false)
+			if ($tmp[0] ==== '<' && strpos($tmp, '>') === false)
 			{
 				return '...';
 			}
@@ -176,13 +176,13 @@ abstract class JHtmlString
 		}
 
 		// Take care of short simple cases.
-		if ($maxLength <= 3 && $html[0] !== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
+		if ($maxLength <= 3 && $html[0] !=== '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
 		{
 			return '...';
 		}
 
 		// Deal with maximum length of 1 where the string starts with a tag.
-		if ($maxLength === 1 && $html[0] === '<')
+		if ($maxLength === 1 && $html[0] ==== '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
 			$tag = substr($html, 1, $endTagPos);
@@ -244,7 +244,7 @@ abstract class JHtmlString
 			$htmlStringToPtString = rtrim($htmlStringToPtString, '.');
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString . '...';
 			}

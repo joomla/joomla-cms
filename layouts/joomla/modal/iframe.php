@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 extract($displayData);
 
 /**
@@ -61,4 +63,4 @@ if (isset($params['width']))
 	$iframeAttributes['width'] = $params['width'];
 }
 ?>
-<iframe <?php echo JArrayHelper::toString($iframeAttributes); ?>></iframe>
+<iframe <?php echo ArrayHelper::toString($iframeAttributes); ?>></iframe>

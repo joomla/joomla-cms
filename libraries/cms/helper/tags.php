@@ -4,7 +4,7 @@
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -219,7 +219,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -307,7 +307,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
