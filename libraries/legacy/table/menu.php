@@ -55,7 +55,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Verify that the default home menu set to "all" languages" is not unset
-		if ($this->home == '1' && $this->language === '*' && ($array['language'] != '*'))
+		if ($this->home == '1' && $this->language === '*' && $array['language'] !== '*')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 
@@ -90,7 +90,7 @@ class JTableMenu extends JTableNested
 	public function check()
 	{
 		// Check for a title.
-		if (trim($this->title) == '')
+		if (trim($this->title) === '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
@@ -98,17 +98,17 @@ class JTableMenu extends JTableNested
 		}
 
 		// Check for a path.
-		if (trim($this->path) == '')
+		if (trim($this->path) === '')
 		{
 			$this->path = $this->alias;
 		}
 		// Check for params.
-		if (trim($this->params) == '')
+		if (trim($this->params) === '')
 		{
 			$this->params = '{}';
 		}
 		// Check for img.
-		if (trim($this->img) == '')
+		if (trim($this->img) === '')
 		{
 			$this->img = ' ';
 		}
@@ -117,7 +117,7 @@ class JTableMenu extends JTableNested
 		$this->home = (int) $this->home;
 
 		// Verify that the home item is a component.
-		if ($this->home && $this->type != 'component')
+		if ($this->home && $this->type !== 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
 

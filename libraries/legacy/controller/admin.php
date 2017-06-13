@@ -264,7 +264,7 @@ class JControllerAdmin extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
-		$inc = ($this->getTask() === 'orderup') ? -1 : 1;
+		$inc = $this->getTask() === 'orderup' ? -1 : 1;
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
