@@ -150,7 +150,7 @@ abstract class JPluginHelper
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
+		if (is_null($plugin) && $autocreate === true && is_null($dispatcher))
 		{
 			$defaults = true;
 		}

@@ -68,9 +68,9 @@ abstract class JHtml
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
-		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file = (count($parts) == 2 ? array_shift($parts) : '');
-		$func = array_shift($parts);
+		$prefix = count($parts) === 3 ? array_shift($parts) : 'JHtml';
+		$file   = count($parts) === 2 ? array_shift($parts) : '';
+		$func   = array_shift($parts);
 
 		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
 	}
@@ -97,7 +97,7 @@ abstract class JHtml
 		if (array_key_exists($key, static::$registry))
 		{
 			$function = static::$registry[$key];
-			$args = func_get_args();
+			$args     = func_get_args();
 
 			// Remove function name from arguments
 			array_shift($args);

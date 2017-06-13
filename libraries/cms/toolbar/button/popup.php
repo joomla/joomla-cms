@@ -46,7 +46,7 @@ class JToolbarButtonPopup extends JToolbarButton
 		$onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
-		if (strlen($title) == 0)
+		if (strlen($title) === 0)
 		{
 			$title = $text;
 		}

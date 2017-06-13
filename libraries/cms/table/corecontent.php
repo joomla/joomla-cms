@@ -89,21 +89,21 @@ class JTableCorecontent extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->core_title) == '')
+		if (trim($this->core_title) === '')
 		{
 			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
 
-		if (trim($this->core_alias) == '')
+		if (trim($this->core_alias) === '')
 		{
 			$this->core_alias = $this->core_title;
 		}
 
 		$this->core_alias = JApplicationHelper::stringURLSafe($this->core_alias);
 
-		if (trim(str_replace('-', '', $this->core_alias)) == '')
+		if (trim(str_replace('-', '', $this->core_alias)) === '')
 		{
 			$this->core_alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
@@ -278,8 +278,8 @@ class JTableCorecontent extends JTable
 	protected function storeUcmBase($updateNulls = false, $isNew = false)
 	{
 		// Store the ucm_base row
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db         = $this->getDbo();
+		$query      = $db->getQuery(true);
 		$languageId = JHelperContent::getLanguageId($this->core_language);
 
 		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
@@ -331,9 +331,9 @@ class JTableCorecontent extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		$pks = ArrayHelper::toInteger($pks);
+		$pks    = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
-		$state = (int) $state;
+		$state  = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
@@ -388,7 +388,7 @@ class JTableCorecontent extends JTable
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && count($pks) === $this->_db->getAffectedRows())
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)
