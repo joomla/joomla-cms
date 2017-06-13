@@ -168,7 +168,7 @@ class JPagination
 		}
 
 		// If we are viewing all records set the view all flag to true.
-		if ($limit === 0)
+		if ($limit == 0)
 		{
 			$this->viewall = true;
 		}
@@ -819,7 +819,7 @@ class JPagination
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
 
-			if ($i !== $this->pagesCurrent || $this->viewall)
+			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
 				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
