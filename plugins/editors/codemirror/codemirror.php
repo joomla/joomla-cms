@@ -65,7 +65,7 @@ class PlgEditorCodemirror extends JPlugin
 		// At this point, params can be modified by a plugin before going to the layout renderer.
 		JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', [&$this->params]);
 
-		$displayData = (object) ['params'  => $this->params];
+		$displayData = (object) ['params' => $this->params];
 
 		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
 		ob_start();
