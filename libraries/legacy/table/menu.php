@@ -47,7 +47,7 @@ class JTableMenu extends JTableNested
 	public function bind($array, $ignore = '')
 	{
 		// Verify that the default home menu is not unset
-		if ($this->home == '1' && $this->language === '*' && ($array['home'] == '0'))
+		if ($this->home == '1' && $this->language === '*' && $array['home'] == '0')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 
