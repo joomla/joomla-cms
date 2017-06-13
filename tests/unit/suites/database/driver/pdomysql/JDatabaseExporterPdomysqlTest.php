@@ -35,7 +35,7 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 
 		// Set up the database object mock.
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverPdomysql')
-					->setMethods(array(
+					->setMethods([
 						'getErrorNum',
 						'getPrefix',
 						'getTableColumns',
@@ -43,8 +43,8 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'quoteName',
 						'loadObjectList',
 						'setQuery',
-					))
-					->setConstructorArgs(array())
+					])
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
@@ -65,30 +65,30 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 			->method('getTableColumns')
 			->will(
 			$this->returnValue(
-				array(
-					(object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
+				[
+					(object) [
+						'Field'      => 'id',
+						'Type'       => 'int(11) unsigned',
+						'Collation'  => null,
+						'Null'       => 'NO',
+						'Key'        => 'PRI',
+						'Default'    => '',
+						'Extra'      => 'auto_increment',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+						'Comment'    => '',
 					),
-					(object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
+					(object) [
+						'Field'      => 'title',
+						'Type'       => 'varchar(255)',
+						'Collation'  => 'utf8_general_ci',
+						'Null'       => 'NO',
+						'Key'        => '',
+						'Default'    => '',
+						'Extra'      => '',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
-					),
-				)
+						'Comment'    => '',
+					],
+				]
 			)
 		);
 
@@ -98,22 +98,22 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 			->method('getTableKeys')
 			->will(
 			$this->returnValue(
-				array(
-					(object) array(
-						'Table' => 'jos_test',
-						'Non_unique' => '0',
-						'Key_name' => 'PRIMARY',
+				[
+					(object) [
+						'Table'        => 'jos_test',
+						'Non_unique'   => '0',
+						'Key_name'     => 'PRIMARY',
 						'Seq_in_index' => '1',
-						'Column_name' => 'id',
-						'Collation' => 'A',
-						'Cardinality' => '2695',
-						'Sub_part' => '',
-						'Packed' => '',
-						'Null' => '',
-						'Index_type' => 'BTREE',
-						'Comment' => '',
-					)
-				)
+						'Column_name'  => 'id',
+						'Collation'    => 'A',
+						'Cardinality'  => '2695',
+						'Sub_part'     => '',
+						'Packed'       => '',
+						'Null'         => '',
+						'Index_type'   => 'BTREE',
+						'Comment'      => '',
+					]
+				]
 			)
 		);
 
@@ -123,7 +123,7 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 			->method('quoteName')
 			->will(
 			$this->returnCallback(
-				array($this, 'callbackQuoteName')
+				[$this, 'callbackQuoteName']
 			)
 		);
 
@@ -133,7 +133,7 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 			->method('setQuery')
 			->will(
 			$this->returnCallback(
-				array($this, 'callbackSetQuery')
+				[$this, 'callbackSetQuery']
 			)
 		);
 
@@ -143,7 +143,7 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 			->method('loadObjectList')
 			->will(
 			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
+				[$this, 'callbackLoadObjectList']
 			)
 		);
 	}
@@ -172,7 +172,7 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -324,14 +324,14 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 		$this->assertThat(
 			TestReflection::invoke($instance, 'buildXmlStructure'),
 			$this->equalTo(
-				array(
+				[
 					'  <table_structure name="#__test">',
 					'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
 					'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
 					'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" ' .
 					'Null="" Index_type="BTREE" Comment="" />',
 					'  </table_structure>'
-				)
+				]
 			),
 			'buildXmlStructure has not returned the expected result.'
 		);
@@ -470,7 +470,7 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 
 			$this->assertThat(
 				TestReflection::getValue($instance, 'from'),
-				$this->equalTo(array('jos_foobar')),
+				$this->equalTo(['jos_foobar']),
 				'The from method should convert a string input to an array.'
 			);
 		}

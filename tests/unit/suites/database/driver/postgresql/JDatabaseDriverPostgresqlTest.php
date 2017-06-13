@@ -24,13 +24,14 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataTestEscape()
 	{
-		return array(
+		return [
 			/* ' will be escaped and become '' */
-			array("'%_abc123", false, '\'\'%_abc123'),
-			array("'%_abc123", true, '\'\'\%\_abc123'),
+			["'%_abc123", false, '\'\'%_abc123'],
+			["'%_abc123", true, '\'\'\%\_abc123'],
 			/* ' and \ will be escaped: the first become '', the latter \\ */
-			array("\'%_abc123", false, '\\\\\'\'%_abc123'),
-			array("\'%_abc123", true, '\\\\\'\'\%\_abc123'));
+			["\'%_abc123", false, '\\\\\'\'%_abc123'],
+			["\'%_abc123", true, '\\\\\'\'\%\_abc123']
+		];
 	}
 
 	/**
@@ -42,11 +43,12 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataTestGetEscaped()
 	{
-		return array(
+		return [
 			/* ' will be escaped and become '' */
-			array("'%_abc123", false), array("'%_abc123", true),
+			["'%_abc123", false], ["'%_abc123", true],
 			/* ' and \ will be escaped: the first become '', the latter \\ */
-			array("\'%_abc123", false), array("\'%_abc123", true));
+			["\'%_abc123", false] ["\'%_abc123", true]
+		];
 	}
 
 	/**
@@ -58,7 +60,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataTestTransactionRollback()
 	{
-		return array(array(null, 0), array('transactionSavepoint', 1));
+		return [[null, 0], ['transactionSavepoint', 1]];
 	}
 
 	/**
@@ -74,7 +76,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$obj->db_user = 'testName';
 		$obj->db_name = 'testDb';
 
-		return array(array($obj, false), array($obj, true));
+		return [[$obj, false], [$obj, true]];
 	}
 
 	/**
@@ -86,19 +88,20 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataTestReplacePrefix()
 	{
-		return array(
+		return [
 			/* no prefix inside, no change */
-			array('SELECT * FROM table', '#__', 'SELECT * FROM table'),
+			['SELECT * FROM table', '#__', 'SELECT * FROM table'],
 			/* the prefix inside double quote has to be changed */
-			array('SELECT * FROM "#__table"', '#__', 'SELECT * FROM "jos_table"'),
+			['SELECT * FROM "#__table"', '#__', 'SELECT * FROM "jos_table"'],
 			/* the prefix inside single quote hasn't to be changed */
-			array('SELECT * FROM \'#__table\'', '#__', 'SELECT * FROM \'#__table\''),
+			['SELECT * FROM \'#__table\'', '#__', 'SELECT * FROM \'#__table\''],
 			/* mixed quote case */
-			array('SELECT * FROM \'#__table\', "#__tableSecond"', '#__', 'SELECT * FROM \'#__table\', "jos_tableSecond"'),
+			['SELECT * FROM \'#__table\', "#__tableSecond"', '#__', 'SELECT * FROM \'#__table\', "jos_tableSecond"'],
 			/* the prefix used in sequence name (single quote) has to be changed */
-			array('SELECT * FROM currval(\'#__table_id_seq\'::regclass)', '#__', 'SELECT * FROM currval(\'jos_table_id_seq\'::regclass)'),
+			['SELECT * FROM currval(\'#__table_id_seq\'::regclass)', '#__', 'SELECT * FROM currval(\'jos_table_id_seq\'::regclass)'],
 			/* using another prefix */
-			array('SELECT * FROM "#!-_table"', '#!-_', 'SELECT * FROM "jos_table"'));
+			['SELECT * FROM "#!-_table"', '#!-_', 'SELECT * FROM "jos_table"']
+		];
 	}
 
 	/**
@@ -110,42 +113,46 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataTestQuoteName()
 	{
-		return array(
+		return [
 			/* test escape double quote */
-			array('protected`title', null, '"protected`title"'),
-			array('protected"title', null, '"protected""title"'),
-			array('protected]title', null, '"protected]title"'),
+			['protected`title', null, '"protected`title"'],
+			['protected"title', null, '"protected""title"'],
+			['protected]title', null, '"protected]title"'],
 			/* no dot inside var */
-			array('jos_dbtest', null, '"jos_dbtest"'),
+			['jos_dbtest', null, '"jos_dbtest"'],
 			/* a dot inside var */
-			array('public.jos_dbtest', null, '"public"."jos_dbtest"'),
+			['public.jos_dbtest', null, '"public"."jos_dbtest"'],
 			/* two dot inside var */
-			array('joomla_ut.public.jos_dbtest', null, '"joomla_ut"."public"."jos_dbtest"'),
+			['joomla_ut.public.jos_dbtest', null, '"joomla_ut"."public"."jos_dbtest"'],
 			/* using an array */
-			array(array('joomla_ut', 'dbtest'), null, array('"joomla_ut"', '"dbtest"')),
+			[['joomla_ut', 'dbtest'], null, ['"joomla_ut"', '"dbtest"']],
 			/* using an array with dotted name */
-			array(array('joomla_ut.dbtest', 'public.dbtest'), null, array('"joomla_ut"."dbtest"', '"public"."dbtest"')),
+			[['joomla_ut.dbtest', 'public.dbtest'], null, ['"joomla_ut"."dbtest"', '"public"."dbtest"']],
 			/* using an array with two dot in name */
-			array(array('joomla_ut.public.dbtest', 'public.dbtest.col'), null, array('"joomla_ut"."public"."dbtest"', '"public"."dbtest"."col"')),
+			[['joomla_ut.public.dbtest', 'public.dbtest.col'], null, ['"joomla_ut"."public"."dbtest"', '"public"."dbtest"."col"']],
 
 			/*** same tests with AS part ***/
-			array('jos_dbtest', 'test', '"jos_dbtest" AS "test"'),
-			array('public.jos_dbtest', 'tst', '"public"."jos_dbtest" AS "tst"'),
-			array('joomla_ut.public.jos_dbtest', 'tst', '"joomla_ut"."public"."jos_dbtest" AS "tst"'),
-			array(array('joomla_ut', 'dbtest'), array('j_ut', 'tst'), array('"joomla_ut" AS "j_ut"', '"dbtest" AS "tst"')),
-			array(
-				array('joomla_ut.dbtest', 'public.dbtest'),
-				array('j_ut_db', 'pub_tst'),
-				array('"joomla_ut"."dbtest" AS "j_ut_db"', '"public"."dbtest" AS "pub_tst"')),
-			array(
-				array('joomla_ut.public.dbtest', 'public.dbtest.col'),
-				array('j_ut_p_db', 'pub_tst_col'),
-				array('"joomla_ut"."public"."dbtest" AS "j_ut_p_db"', '"public"."dbtest"."col" AS "pub_tst_col"')),
+			['jos_dbtest', 'test', '"jos_dbtest" AS "test"'],
+			['public.jos_dbtest', 'tst', '"public"."jos_dbtest" AS "tst"'],
+			['joomla_ut.public.jos_dbtest', 'tst', '"joomla_ut"."public"."jos_dbtest" AS "tst"'],
+			[['joomla_ut', 'dbtest'), ['j_ut', 'tst'], ['"joomla_ut" AS "j_ut"', '"dbtest" AS "tst"']],
+			[
+				['joomla_ut.dbtest', 'public.dbtest'],
+				['j_ut_db', 'pub_tst'],
+				['"joomla_ut"."dbtest" AS "j_ut_db"', '"public"."dbtest" AS "pub_tst"']
+			],
+			[
+				['joomla_ut.public.dbtest', 'public.dbtest.col'],
+				['j_ut_p_db', 'pub_tst_col'],
+				['"joomla_ut"."public"."dbtest" AS "j_ut_p_db"', '"public"."dbtest"."col" AS "pub_tst_col"']
+			],
 			/* last test but with one null inside array */
-			array(
-				array('joomla_ut.public.dbtest', 'public.dbtest.col'),
-				array('j_ut_p_db', null),
-				array('"joomla_ut"."public"."dbtest" AS "j_ut_p_db"', '"public"."dbtest"."col"')));
+			[
+				['joomla_ut.public.dbtest', 'public.dbtest.col'],
+				['j_ut_p_db', null],
+				['"joomla_ut"."public"."dbtest" AS "j_ut_p_db"', '"public"."dbtest"."col"']
+			]
+		];
 	}
 
 	/**
@@ -181,7 +188,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$objCompFour->start_date = '1980-04-18 00:00:00';
 		$objCompFour->description = 'four';
 
-		return array(array(array($objCompOne, $objCompTwo, $objCompThree, $objCompFour)));
+		return [[[$objCompOne, $objCompTwo, $objCompThree, $objCompFour]]];
 	}
 
 	/**
@@ -193,13 +200,16 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function dataTestLoadNextRow()
 	{
-		return array(
-			array(
-				array(
-					array(1, 'Testing', '1980-04-18 00:00:00', 'one'),
-					array(2, 'Testing2', '1980-04-18 00:00:00', 'one'),
-					array(3, 'Testing3', '1980-04-18 00:00:00', 'three'),
-					array(4, 'Testing4', '1980-04-18 00:00:00', 'four'))));
+		return [
+			[
+				[
+					[1, 'Testing', '1980-04-18 00:00:00', 'one'],
+					[2, 'Testing2', '1980-04-18 00:00:00', 'one'],
+					[3, 'Testing3', '1980-04-18 00:00:00', 'three'],
+					[4, 'Testing4', '1980-04-18 00:00:00', 'four']
+				]
+			]
+		];
 	}
 
 	/**
@@ -300,7 +310,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testGetTableColumns()
 	{
-		$tableCol = array('id' => 'integer', 'title' => 'character varying', 'start_date' => 'timestamp without time zone', 'description' => 'text');
+		$tableCol = ['id' => 'integer', 'title' => 'character varying', 'start_date' => 'timestamp without time zone', 'description' => 'text'];
 
 		$this->assertEquals($tableCol, self::$driver->getTableColumns('jos_dbtest'));
 
@@ -346,7 +356,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$description->comments = '';
 
 		$this->assertEquals(
-			array('id' => $id, 'title' => $title, 'start_date' => $start_date, 'description' => $description),
+			['id' => $id, 'title' => $title, 'start_date' => $start_date, 'description' => $description],
 			self::$driver->getTableColumns('jos_dbtest', false)
 		);
 	}
@@ -382,7 +392,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$id->isUnique = 'f';
 		$id->Query = 'CREATE INDEX jos_assets_idx_parent_id ON jos_assets USING btree (parent_id)';
 
-		$this->assertEquals(array($pkey, $id, $lftrgt, $asset), self::$driver->getTableKeys('jos_assets'));
+		$this->assertEquals([$pkey, $id, $lftrgt, $asset], self::$driver->getTableKeys('jos_assets'));
 	}
 
 	/**
@@ -415,7 +425,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 			$seq->cycle_option = null;
 		}
 
-		$this->assertEquals(array($seq), self::$driver->getTableSequences('jos_dbtest'));
+		$this->assertEquals([$seq], self::$driver->getTableSequences('jos_dbtest'));
 	}
 
 	/**
@@ -427,17 +437,17 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testGetTableList()
 	{
-		$expected = array(
-			"0" => "jos_assets",
-			"1" => "jos_categories",
-			"2" => "jos_content",
-			"3" => "jos_core_log_searches",
-			"4" => "jos_dbtest",
-			"5" => "jos_extensions",
-			"6" => "jos_languages",
-			"7" => "jos_log_entries",
-			"8" => "jos_menu",
-			"9" => "jos_menu_types",
+		$expected = [
+			"0"  => "jos_assets",
+			"1"  => "jos_categories",
+			"2"  => "jos_content",
+			"3"  => "jos_core_log_searches",
+			"4"  => "jos_dbtest",
+			"5"  => "jos_extensions",
+			"6"  => "jos_languages",
+			"7"  => "jos_log_entries",
+			"8"  => "jos_menu",
+			"9"  => "jos_menu_types",
 			"10" => "jos_modules",
 			"11" => "jos_modules_menu",
 			"12" => "jos_schemas",
@@ -450,7 +460,8 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 			"19" => "jos_user_usergroup_map",
 			"20" => "jos_usergroups",
 			"21" => "jos_users",
-			"22" => "jos_viewlevels");
+			"22" => "jos_viewlevels"
+		];
 
 		$result = self::$driver->getTableList();
 
@@ -603,7 +614,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssoc();
 
-		$this->assertEquals(array('title' => 'Testing'), $result);
+		$this->assertEquals(['title' => 'Testing'], $result);
 	}
 
 	/**
@@ -622,7 +633,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$result = self::$driver->loadAssocList();
 
 		$this->assertEquals(
-			array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4')),
+			[['title' => 'Testing'], ['title' => 'Testing2'], ['title' => 'Testing3'], ['title' => 'Testing4']],
 			$result
 		);
 	}
@@ -642,7 +653,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadColumn();
 
-		$this->assertEquals(array('Testing', 'Testing2', 'Testing3', 'Testing4'), $result);
+		$this->assertEquals(['Testing', 'Testing2', 'Testing3', 'Testing4'], $result);
 	}
 
 	/**
@@ -844,7 +855,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObjectList();
 
-		$expected = array();
+		$expected = [];
 
 		$objCompare = new stdClass;
 		$objCompare->id = 1;
@@ -917,7 +928,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRow();
 
-		$this->assertEquals(array(3, 'Testing3', '1980-04-18 00:00:00', 'three'), $result);
+		$this->assertEquals([3, 'Testing3', '1980-04-18 00:00:00', 'three'], $result);
 	}
 
 	/**
@@ -936,7 +947,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRowList();
 
-		$this->assertEquals(array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'), array(2, 'Testing2', '1980-04-18 00:00:00', 'one')), $result);
+		$this->assertEquals([[1, 'Testing', '1980-04-18 00:00:00', 'one'], [2, 'Testing2', '1980-04-18 00:00:00', 'one']], $result);
 	}
 
 	/**
@@ -999,19 +1010,19 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function testSqlValue()
 	{
 		// Array of columns' description as that returned by getTableColumns
-		$tablCol = array(
-			'id' => 'integer',
-			'charVar' => 'character varying',
+		$tablCol = [
+			'id'        => 'integer',
+			'charVar'   => 'character varying',
 			'timeStamp' => 'timestamp without time zone',
-			'nullDate' => 'timestamp without time zone',
-			'txt' => 'text',
-			'boolTrue' => 'boolean',
+			'nullDate'  => 'timestamp without time zone',
+			'txt'       => 'text',
+			'boolTrue'  => 'boolean',
 			'boolFalse' => 'boolean',
-			'num' => 'numeric,',
-			'nullInt' => 'integer'
-		);
+			'num'       => 'numeric,',
+			'nullInt'   => 'integer'
+		];
 
-		$values = array();
+		$values = [];
 
 		// Object containing fields of integer, character varying, timestamp and text type
 		$tst = new JObject;
@@ -1091,7 +1102,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->setQuery($queryCheck);
 		$result = self::$driver->loadRow();
 
-		$expected = array(6, 'testTitle', '1970-01-01 00:00:00', 'testDescription');
+		$expected = [6, 'testTitle', '1970-01-01 00:00:00', 'testDescription'];
 
 		$this->assertEquals($expected, $result);
 	}

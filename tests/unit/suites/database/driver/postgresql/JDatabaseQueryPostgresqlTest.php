@@ -39,11 +39,11 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function dataTestNullDate()
 	{
-		return array(
+		return [
 			// Quoted, expected
-			array(true, "'_1970-01-01 00:00:00_'"),
-			array(false, "1970-01-01 00:00:00"),
-		);
+			[true, "'_1970-01-01 00:00:00_'"],
+			[false, "1970-01-01 00:00:00"],
+		];
 	}
 
 	/**
@@ -55,10 +55,10 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function dataTestQuote()
 	{
-		return array(
+		return [
 			// Text, escaped, expected
-			array('text', false, '\'text\''),
-		);
+			['text', false, '\'text\''],
+		];
 	}
 
 	/**
@@ -70,14 +70,14 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function dataTestJoin()
 	{
-		return array(
+		return [
 			// $type, $conditions
-			array('', 		'b ON b.id = a.id'),
-			array('INNER',	'b ON b.id = a.id'),
-			array('OUTER',	'b ON b.id = a.id'),
-			array('LEFT',	'b ON b.id = a.id'),
-			array('RIGHT',	'b ON b.id = a.id'),
-		);
+			['', 		'b ON b.id = a.id'],
+			['INNER',	'b ON b.id = a.id'],
+			['OUTER',	'b ON b.id = a.id'],
+			['LEFT',	'b ON b.id = a.id'],
+			['RIGHT',	'b ON b.id = a.id'],
+		];
 	}
 
 	/**
@@ -128,7 +128,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->dbo = $this->getMockDatabase('Postgresql', array(), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = $this->getMockDatabase('Postgresql', [], '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->_instance = new JDatabaseQueryPostgresql($this->dbo);
 	}
@@ -531,7 +531,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testClear_all()
 	{
-		$properties = array(
+		$properties = [
 			'select',
 			'delete',
 			'update',
@@ -551,7 +551,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			'noWait',
 			'offset',
 			'returning',
-		);
+		];
 
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
@@ -583,7 +583,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testClear_clause()
 	{
-		$clauses = array(
+		$clauses = [
 			'from',
 			'join',
 			'set',
@@ -599,7 +599,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			'noWait',
 			'offset',
 			'returning',
-		);
+		];
 
 		// Test each clause.
 		foreach ($clauses as $clause)
@@ -642,7 +642,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testClear_type()
 	{
-		$types = array(
+		$types = [
 			'select',
 			'delete',
 			'update',
@@ -653,9 +653,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			'noWait',
 			'offset',
 			'returning',
-		);
+		];
 
-		$clauses = array(
+		$clauses = [
 			'from',
 			'join',
 			'set',
@@ -665,7 +665,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			'order',
 			'columns',
 			'values',
-		);
+		];
 
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
@@ -713,9 +713,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertEquals('foo || bar', $q->concatenate(array('foo', 'bar')));
+		$this->assertEquals('foo || bar', $q->concatenate(['foo', 'bar']));
 
-		$this->assertEquals("foo || '_ and _' || bar", $q->concatenate(array('foo', 'bar'), ' and '));
+		$this->assertEquals("foo || '_ and _' || bar", $q->concatenate(['foo', 'bar'], ' and '));
 	}
 
 	/**
@@ -1003,7 +1003,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$this->assertEquals('SELECT foo,bar', trim($q->select));
 
-		$q->select(array('goo', 'car'));
+		$q->select(['goo', 'car']);
 
 		$this->assertEquals('SELECT foo,bar,goo,car', trim($q->select));
 	}
@@ -1024,13 +1024,13 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$this->assertEquals('WHERE foo = 1', trim($q->where));
 
 		// Add another column.
-		$q->where(array('bar = 2', 'goo = 3'));
+		$q->where(['bar = 2', 'goo = 3']);
 
 		$this->assertEquals('WHERE foo = 1 AND bar = 2 AND goo = 3', trim($q->where));
 
 		// Clear the where
 		$q->clear();
-		$q->where(array('bar = 2', 'goo = 3'), 'OR');
+		$q->where(['bar = 2', 'goo = 3'], 'OR');
 
 		$this->assertEquals('WHERE bar = 2 OR goo = 3', trim($q->where));
 	}
@@ -1180,12 +1180,12 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function seedDateAdd()
 	{
-		return array(
+		return [
 			// date, interval, datepart, expected
-			'Add date'		=> array('2008-12-31', '1', 'day', "timestamp '2008-12-31' + interval '1 day'"),
-			'Subtract date'	=> array('2008-12-31', '-1', 'day', "timestamp '2008-12-31' - interval '1 day'"),
-			'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31 23:59:59' + interval '1 day'"),
-		);
+			'Add date'		=> ['2008-12-31', '1', 'day', "timestamp '2008-12-31' + interval '1 day'"],
+			'Subtract date'	=> ['2008-12-31', '-1', 'day', "timestamp '2008-12-31' - interval '1 day'"],
+			'Add datetime'	=> ['2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31 23:59:59' + interval '1 day'"],
+		];
 	}
 
 	/**

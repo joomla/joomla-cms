@@ -28,7 +28,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @var    array  Selected sample data for tests.
 	 */
-	protected $sample = array(
+	protected $sample = [
 		'xml-id-field' =>
 			'<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
 		'xml-title-field' =>
@@ -37,7 +37,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			'<field Field="body" Type="mediumtext" Null="NO" Key="" Default="" Extra="" />',
 		'xml-primary-key' =>
 			'<key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />',
-	);
+	];
 
 	/**
 	 * Sets up the testing conditions
@@ -47,7 +47,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	public function setup()
 	{
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverMysqli')
-					->setMethods(array(
+					->setMethods([
 						'getErrorNum',
 						'getPrefix',
 						'getTableColumns',
@@ -56,8 +56,8 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 						'loadObjectList',
 						'quote',
 						'setQuery',
-					))
-					->setConstructorArgs(array())
+					])
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
@@ -78,30 +78,30 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			->method('getTableColumns')
 			->will(
 			$this->returnValue(
-				array(
-					'id' => (object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
+				[
+					'id' => (object) [
+						'Field'      => 'id',
+						'Type'       => 'int(11) unsigned',
+						'Collation'  => null,
+						'Null'       => 'NO',
+						'Key'        => 'PRI',
+						'Default'    => '',
+						'Extra'      => 'auto_increment',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
-					),
-					'title' => (object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
+						'Comment'    => '',
+					],
+					'title' => (object) [
+						'Field'      => 'title',
+						'Type'       => 'varchar(255)',
+						'Collation'  => 'utf8_general_ci',
+						'Null'       => 'NO',
+						'Key'        => '',
+						'Default'    => '',
+						'Extra'      => '',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
-					),
-				)
+						'Comment'    => '',
+					],
+				]
 			)
 		);
 
@@ -111,22 +111,22 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			->method('getTableKeys')
 			->will(
 			$this->returnValue(
-				array(
-					(object) array(
-						'Table' => 'jos_test',
-						'Non_unique' => '0',
-						'Key_name' => 'PRIMARY',
+				[
+					(object) [
+						'Table'        => 'jos_test',
+						'Non_unique'   => '0',
+						'Key_name'     => 'PRIMARY',
 						'Seq_in_index' => '1',
-						'Column_name' => 'id',
-						'Collation' => 'A',
-						'Cardinality' => '2695',
-						'Sub_part' => '',
-						'Packed' => '',
-						'Null' => '',
-						'Index_type' => 'BTREE',
-						'Comment' => '',
-					)
-				)
+						'Column_name'  => 'id',
+						'Collation'    => 'A',
+						'Cardinality'  => '2695',
+						'Sub_part'     => '',
+						'Packed'       => '',
+						'Null'         => '',
+						'Index_type'   => 'BTREE',
+						'Comment'      => '',
+					]
+				]
 			)
 		);
 
@@ -136,7 +136,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			->method('quoteName')
 			->will(
 			$this->returnCallback(
-				array($this, 'callbackQuoteName')
+				[$this, 'callbackQuoteName']
 			)
 		);
 
@@ -146,7 +146,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			->method('quote')
 			->will(
 			$this->returnCallback(
-				array($this, 'callbackQuote')
+				[$this, 'callbackQuote']
 			)
 		);
 
@@ -156,7 +156,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			->method('setQuery')
 			->will(
 			$this->returnCallback(
-				array($this, 'callbackSetQuery')
+				[$this, 'callbackSetQuery']
 			)
 		);
 
@@ -166,7 +166,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			->method('loadObjectList')
 			->will(
 			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
+				[$this, 'callbackLoadObjectList']
 			)
 		);
 	}
@@ -192,7 +192,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -247,41 +247,41 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 		$k2 = '<key Table="#__test" Non_unique="0" Key_name="idx_title" Seq_in_index="1"' .
 			' Column_name="title" Collation="A" Null="" Index_type="BTREE" Comment="" />';
 
-		return array(
-			array(
+		return [
+			[
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $f2 . $k1 . '</table_structure>'),
-				array(),
+				[],
 				'getAlterTableSQL should not change anything.'
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $f2 . $f3 . $k1 . '</table_structure>'),
-				array(
+				[
 					"ALTER TABLE `jos_test` ADD COLUMN `alias` varchar(255) NOT NULL DEFAULT ''",
-				),
+				],
 				'getAlterTableSQL should add the new alias column.'
 			),
-			array(
+			[
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
-				array(
+				[
 					"ALTER TABLE `jos_test` ADD UNIQUE KEY `idx_title` (`title`)",
-				),
+				],
 				'getAlterTableSQL should add the new key.'
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $k1 . '</table_structure>'),
-				array(
+				[
 					"ALTER TABLE `jos_test` DROP COLUMN `title`",
-				),
+				],
 				'getAlterTableSQL should remove the title column.'
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $f2 . '</table_structure>'),
-				array(
+				[
 					"ALTER TABLE `jos_test` DROP PRIMARY KEY",
-				),
+				],
 				'getAlterTableSQL should drop the old primary key.'
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -291,29 +291,29 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function dataGetColumnSql()
 	{
-		return array(
-			array(
+		return [
+			[
 				new SimpleXmlElement(
 					$this->sample['xml-id-field']
 				),
 				"`id` int(11) unsigned NOT NULL DEFAULT '' AUTO_INCREMENT",
 				'Typical primary key field',
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement(
 					$this->sample['xml-title-field']
 				),
 				"`title` varchar(50) NOT NULL DEFAULT ''",
 				'Typical text field',
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement(
 					$this->sample['xml-body-field']
 				),
 				"`body` mediumtext NOT NULL",
 				'Typical blob field',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -323,18 +323,18 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function dataGetKeySql()
 	{
-		return array(
-			array(
+		return [
+			[
 				// Keys come in arrays.
-				array(
+				[
 					new SimpleXmlElement(
 						$this->sample['xml-primary-key']
 					),
-				),
+				],
 				"primary key  (`id`)",
 				'Typical primary key index',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -454,7 +454,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			TestReflection::invoke($instance, 'getAddKeySQL', 'jos_test', array(new SimpleXmlElement($this->sample['xml-primary-key']))),
+			TestReflection::invoke($instance, 'getAddKeySQL', 'jos_test', [new SimpleXmlElement($this->sample['xml-primary-key'])]),
 			$this->equalTo(
 				"ALTER TABLE `jos_test` ADD PRIMARY KEY  (`id`)"
 			),
@@ -583,17 +583,17 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	{
 		$instance = new JDatabaseImporterMysqli;
 
-		$o1 = (object) array('Key_name' => 'id', 'foo' => 'bar1');
-		$o2 = (object) array('Key_name' => 'id', 'foo' => 'bar2');
-		$o3 = (object) array('Key_name' => 'title', 'foo' => 'bar3');
+		$o1 = (object) ['Key_name' => 'id', 'foo' => 'bar1'];
+		$o2 = (object) ['Key_name' => 'id', 'foo' => 'bar2'];
+		$o3 = (object) ['Key_name' => 'title', 'foo' => 'bar3'];
 
 		$this->assertThat(
-			TestReflection::invoke($instance, 'getKeyLookup', array($o1, $o2, $o3)),
+			TestReflection::invoke($instance, 'getKeyLookup', [$o1, $o2, $o3]),
 			$this->equalTo(
-				array(
-					'id' => array($o1, $o2),
-					'title' => array($o3)
-				)
+				[
+					'id'    => [$o1, $o2],
+					'title' => [$o3]
+				]
 			),
 			'getKeyLookup, using array input, did not yield the expected result.'
 		);
@@ -603,12 +603,12 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 		$o3 = new SimpleXmlElement('<key Key_name="title" foo="bar3" />');
 
 		$this->assertThat(
-			TestReflection::invoke($instance, 'getKeyLookup', array($o1, $o2, $o3)),
+			TestReflection::invoke($instance, 'getKeyLookup', [$o1, $o2, $o3]),
 			$this->equalTo(
-				array(
-					'id' => array($o1, $o2),
-					'title' => array($o3)
-				)
+				[
+					'id'    => [$o1, $o2],
+					'title' => ]$o3]
+				]
 			),
 			'getKeyLookup, using SimpleXmlElement input, did not yield the expected result.'
 		);

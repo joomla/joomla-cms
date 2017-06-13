@@ -32,7 +32,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	{
 		// Set up the database object mock.
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverPostgresql')
-					->setMethods(array(
+					->setMethods([
 						'getErrorNum',
 						'getPrefix',
 						'getTableColumns',
@@ -47,8 +47,8 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'loadObjectList',
 						'quote',
 						'setQuery',
-					))
-					->setConstructorArgs(array())
+					])
+					->setConstructorArgs([])
 					->setMockClassName('')
 					->disableOriginalConstructor()
 					->getMock();
@@ -69,22 +69,22 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		->method('getTableColumns')
 		->will(
 			$this->returnValue(
-				array(
-					'id' => (object) array(
-						'Field' => 'id',
-						'Type' => 'integer',
-						'Null' => 'NO',
-						'Default' => 'nextval(\'jos_dbtest_id_seq\'::regclass)',
+				[
+					'id' => (object) [
+						'Field'    => 'id',
+						'Type'     => 'integer',
+						'Null'     => 'NO',
+						'Default'  => 'nextval(\'jos_dbtest_id_seq\'::regclass)',
 						'Comments' => '',
-					),
-					'title' => (object) array(
-						'Field' => 'title',
-						'Type' => 'character varying(50)',
-						'Null' => 'NO',
-						'Default' => 'NULL',
+					],
+					'title' => (object) [
+						'Field'    => 'title',
+						'Type'     => 'character varying(50)',
+						'Null'     => 'NO',
+						'Default'  => 'NULL',
 						'Comments' => '',
-					),
-				)
+					],
+				]
 			)
 		);
 
@@ -94,20 +94,20 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		->method('getTableKeys')
 		->will(
 			$this->returnValue(
-				array(
-					(object) array(
-						'Index' => 'jos_dbtest_pkey',
+				[
+					(object) [
+						'Index'      => 'jos_dbtest_pkey',
 						'is_primary' => 'TRUE',
-						'is_unique' => 'TRUE',
-						'Query' => 'ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)',
-					),
-					(object) array(
-						'Index' => 'jos_dbtest_idx_name',
+						'is_unique'  => 'TRUE',
+						'Query'      => 'ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)',
+					],
+					(object) [
+						'Index'      => 'jos_dbtest_idx_name',
 						'is_primary' => 'FALSE',
-						'is_unique' => 'FALSE',
-						'Query' => 'CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)',
-					)
-				)
+						'is_unique'  => 'FALSE',
+						'Query'      => 'CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)',
+					]
+				]
 			)
 		);
 
@@ -138,20 +138,20 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		->method('getTableSequences')
 		->will(
 			$this->returnValue(
-			array(
-					(object) array(
-						'Name' => 'jos_dbtest_id_seq',
-						'Schema' => 'public',
-						'Table' => 'jos_dbtest',
-						'Column' => 'id',
-						'Type' => 'bigint',
-						'Start_Value' => $start_val,
-						'Min_Value' => '1',
-						'Max_Value' => '9223372036854775807',
-						'Increment' => '1',
+				[
+					(object) [
+						'Name'         => 'jos_dbtest_id_seq',
+						'Schema'       => 'public',
+						'Table'        => 'jos_dbtest',
+						'Column'       => 'id',
+						'Type'         => 'bigint',
+						'Start_Value'  => $start_val,
+						'Min_Value'    => '1',
+						'Max_Value'    => '9223372036854775807',
+						'Increment'    => '1',
 						'Cycle_option' => 'NO',
-					)
-				)
+					]
+				]
 			)
 		);
 
@@ -161,7 +161,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		->method('quoteName')
 		->will(
 			$this->returnCallback(
-				array($this, 'callbackQuoteName')
+				[$this, 'callbackQuoteName']
 			)
 		);
 
@@ -171,7 +171,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		->method('quote')
 		->will(
 			$this->returnCallback(
-				array($this, 'callbackQuote')
+				[$this, 'callbackQuote']
 			)
 		);
 
@@ -181,7 +181,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		->method('setQuery')
 		->will(
 			$this->returnCallback(
-				array($this, 'callbackSetQuery')
+				[$this, 'callbackSetQuery']
 			)
 		);
 
@@ -191,7 +191,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		->method('loadObjectList')
 		->will(
 			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
+				[$this, 'callbackLoadObjectList']
 			)
 		);
 	}
@@ -217,7 +217,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		return array('');
+		return [''];
 	}
 
 	/**
@@ -289,116 +289,116 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$changeSeq = "CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 " .
 			"START 1 NO CYCLE OWNED BY \"public.jos_dbtest.title\"";
 
-		return array(
-			array(
+		return [
+			[
 				new SimpleXmlElement('<table_structure name="#__dbtest">' . $s1 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
-				array(
-				),
+				[],
 				'getAlterTableSQL should not change anything.'
-			),
-			array(
+			],
+			[
 				// Add col
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $f3 . $k1 . $k2 . '</table_structure>'),
-				array(
+				[
 					'ALTER TABLE "jos_test" ADD COLUMN "alias" character varying(255) NOT NULL DEFAULT \'test\'',
-				),
+				],
 				'getAlterTableSQL should add the new alias column.'
-			),
-			array(
+			],
+			[
 				// Add idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k2 . $k3 . '</table_structure>'),
-				array('CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)',),
+				['CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)',],
 				'getAlterTableSQL should add the new key.'
-			),
-			array(
+			],
+			[
 				// Add unique idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k2 . $k4 . '</table_structure>'),
-				array(
+				[
 					'CREATE UNIQUE INDEX jos_dbtest_uidx_name ON jos_dbtest USING btree (name)',
-				),
+				],
 				'getAlterTableSQL should add the new unique key.'
-			),
-			array(
+			],
+			[
 				// Add sequence
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
-				array(
+				[
 					$addSequence,
-				),
+				],
 				'getAlterTableSQL should add the new sequence.'
-			),
-			array(
+			],
+			[
 				// Add pkey
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k2 . $pk . '</table_structure>'),
-				array(
+				[
 					'ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)',
-				),
+				],
 				'getAlterTableSQL should add the new sequence.'
-			),
-			array(
+			],
+			[
 				// Drop col
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $k1 . $k2 . '</table_structure>'),
-				array(
+				[
 					'ALTER TABLE "jos_test" DROP COLUMN "title"',
-				),
+				],
 				'getAlterTableSQL should remove the title column.'
-			),
-			array(
+			],
+			[
 				// Drop idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . '</table_structure>'),
-				array(
+				[
 					"DROP INDEX \"jos_dbtest_idx_name\""
-				),
+				],
 				'getAlterTableSQL should change sequence.'
-			),
-			array(
+			],
+			[
 				// Drop seq
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
-				array(
+				[
 					'DROP SEQUENCE "jos_dbtest_id_seq"',
-				),
+				],
 				'getAlterTableSQL should drop the sequence.'
-			),
-			array(
-			// Drop pkey
+			],
+			[
+				// Drop pkey
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k2 . '</table_structure>'),
-				array(
+				[
 					'ALTER TABLE ONLY "jos_test" DROP CONSTRAINT "jos_dbtest_pkey"',
-				),
+				],
 				'getAlterTableSQL should drop the old primary key.'
-			),
-			array(
+			],
+			[
 				// Change col
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2_def . $k1 . $k2 . '</table_structure>'),
-				array($changeCol,),
+				[$changeCol,],
 				'getAlterTableSQL should change title field.'
-			),
-			array(
+			],
+			[
 				// Change seq
 				new SimpleXmlElement('<table_structure name="#__test">' . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
-				array(
+				[
 					$changeSeq,
-					"DROP SEQUENCE \"jos_dbtest_id_seq\"",),
+					"DROP SEQUENCE \"jos_dbtest_id_seq\"",
+				],
 				'getAlterTableSQL should change sequence.'
-			),
-			array(
+			],
+			[
 				// Change idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k3 . '</table_structure>'),
-				array(
+				[
 					"CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)",
 					'DROP INDEX "jos_dbtest_idx_name"'
-				),
+				],
 				'getAlterTableSQL should change index.'
-			),
-			array(
+			],
+			[
 				// Change pkey
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $pk . $k2 . '</table_structure>'),
-				array(
+				[
 					'ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)',
 					'ALTER TABLE ONLY "jos_test" DROP CONSTRAINT "jos_dbtest_pkey"'
-				),
+				],
 				'getAlterTableSQL should change primary key.'
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -408,42 +408,43 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function dataGetColumnSql()
 	{
-		$sample = array(
-			'xml-id-field' => '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
+		$sample = [
+			'xml-id-field'    => '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
 			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
-			'xml-title-def' => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
-			'xml-body-field' => '<field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',);
+			'xml-title-def'   => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
+			'xml-body-field'  => '<field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
+		];
 
-		return array(
-			array(
+		return [
+			[
 				new SimpleXmlElement(
 					$sample['xml-id-field']
 				),
 				'"id" serial',
 				'Typical primary key field',
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement(
 					$sample['xml-title-field']
 				),
 				'"title" character varying(50) NOT NULL',
 				'Typical text field',
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement(
 					$sample['xml-body-field']
 				),
 				'"description" text NOT NULL',
 				'Typical blob field',
-			),
-			array(
+			],
+			[
 				new SimpleXmlElement(
 					$sample['xml-title-def']
 				),
 				'"title" character varying(50) NOT NULL DEFAULT \'this is a test\'',
 				'Typical text field with default value',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -543,10 +544,11 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
 
-		$sample = array(
+		$sample = [
 			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
-			'xml-title-def' => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
-			'xml-int-defnum' => '<field Field="title" Type="integer" Null="NO" Default="0" Comments="" />',);
+			'xml-title-def'   => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
+			'xml-int-defnum'  => '<field Field="title" Type="integer" Null="NO" Default="0" Comments="" />',
+		];
 
 		$this->assertThat(
 			TestReflection::invoke($instance, 'getAddColumnSQL', 'jos_test', new SimpleXmlElement($sample['xml-title-field'])),
@@ -787,17 +789,17 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	{
 		$instance = new JDatabaseImporterPostgresql;
 
-		$o1 = (object) array('Index' => 'id', 'foo' => 'bar1');
-		$o2 = (object) array('Index' => 'id', 'foo' => 'bar2');
-		$o3 = (object) array('Index' => 'title', 'foo' => 'bar3');
+		$o1 = (object) ['Index' => 'id', 'foo' => 'bar1'];
+		$o2 = (object) ['Index' => 'id', 'foo' => 'bar2'];
+		$o3 = (object) ['Index' => 'title', 'foo' => 'bar3'];
 
 		$this->assertThat(
-			TestReflection::invoke($instance, 'getIdxLookup', array($o1, $o2, $o3)),
+			TestReflection::invoke($instance, 'getIdxLookup', [$o1, $o2, $o3]),
 			$this->equalTo(
-				array(
-					'id' => array($o1, $o2),
-					'title' => array($o3)
-				)
+				[
+					'id'    => [$o1, $o2],
+					'title' => [$o3]
+				]
 			),
 			'getIdxLookup, using array input, did not yield the expected result.'
 		);
@@ -807,12 +809,12 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$o3 = new SimpleXmlElement('<key Index="title" foo="bar3" />');
 
 		$this->assertThat(
-			TestReflection::invoke($instance, 'getIdxLookup', array($o1, $o2, $o3)),
+			TestReflection::invoke($instance, 'getIdxLookup', [$o1, $o2, $o3]),
 			$this->equalTo(
-				array(
-					'id' => array($o1, $o2),
-					'title' => array($o3)
-				)
+				[
+					'id'    => [$o1, $o2],
+					'title' => [$o3]
+				]
 			),
 			'getIdxLookup, using SimpleXmlElement input, did not yield the expected result.'
 		);
