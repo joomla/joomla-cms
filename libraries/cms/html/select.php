@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -95,7 +95,7 @@ abstract class JHtmlSelect
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 
-		if (is_array($attribs) && func_num_args() == 3)
+		if (is_array($attribs) && func_num_args() === 3)
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
@@ -354,7 +354,7 @@ abstract class JHtmlSelect
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => null));
 
-		if (is_array($attribs) && func_num_args() == 5)
+		if (is_array($attribs) && func_num_args() === 5)
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);

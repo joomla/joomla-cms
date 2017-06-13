@@ -4,7 +4,7 @@
  * @subpackage  Plugin
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -150,7 +150,7 @@ abstract class JPluginHelper
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
+		if (is_null($plugin) && $autocreate === true && is_null($dispatcher))
 		{
 			$defaults = true;
 		}

@@ -187,8 +187,8 @@ if ($saveOrder)
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_CONTACT_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_CONTACT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>
