@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -68,7 +68,7 @@ class JFormRulePassword extends JFormRule
 		}
 
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -92,7 +92,7 @@ class JFormRulePassword extends JFormRule
 		// Set a variable to check if any errors are made in password
 		$validPassword = true;
 
-		if (strlen($valueTrim) != $valueLength)
+		if (strlen($valueTrim) !== $valueLength)
 		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),

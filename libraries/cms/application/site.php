@@ -527,7 +527,7 @@ final class JApplicationSite extends JApplicationCms
 			{
 				foreach ($templates as $tmpl)
 				{
-					if ($tmpl->template == $template_override)
+					if ($tmpl->template === $template_override)
 					{
 						$template = $tmpl;
 						break;
@@ -549,7 +549,7 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as $tmpl)
 			{
-				if ($tmpl->template == 'beez3')
+				if ($tmpl->template === 'beez3')
 				{
 					$template = $tmpl;
 					break;
@@ -748,7 +748,7 @@ final class JApplicationSite extends JApplicationCms
 				$template = $this->getTemplate(true);
 				$file     = $this->input->get('tmpl', 'index');
 
-				if (!$this->get('offline') && ($file == 'offline'))
+				if (!$this->get('offline') && $file === 'offline')
 				{
 					$this->set('themeFile', 'index.php');
 				}

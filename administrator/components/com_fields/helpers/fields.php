@@ -277,6 +277,8 @@ class FieldsHelper
 			return true;
 		}
 
+		$context = $parts[0] . '.' . $parts[1];
+
 		// When no fields available return here
 		$fields = self::getFields($parts[0] . '.' . $parts[1], new JObject);
 
@@ -403,10 +405,13 @@ class FieldsHelper
 		// On the front, sometimes the admin fields path is not included
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
+		$model = JModelLegacy::getInstance('Groups', 'FieldsModel', array('ignore_request' => true));
+		$model->setState('filter.context', $context);
+
 		// Looping through the groups
-		foreach ($fieldsPerGroup as $group_id => $groupFields)
+		foreach ($model->getItems() as $group)
 		{
-			if (!$groupFields)
+			if (empty($fieldsPerGroup[$group->id]))
 			{
 				continue;
 			}
@@ -414,49 +419,32 @@ class FieldsHelper
 			// Defining the field set
 			/** @var DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
-			$fieldset->setAttribute('name', 'fields-' . $group_id);
+			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
 			$fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
 
-			$label       = '';
-			$description = '';
+			$label       = $group->title;
+			$description = $group->description;
 
-			if ($group_id)
+			if (!$label)
 			{
-				$group = JTable::getInstance('Group', 'FieldsTable');
-				$group->load($group_id);
+				$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-				if ($group->id)
+				if (!JFactory::getLanguage()->hasKey($key))
 				{
-					$label       = $group->title;
-					$description = $group->description;
+					$key = 'JGLOBAL_FIELDS';
 				}
+
+				$label = $key;
 			}
 
-			if (!$label || !$description)
+			if (!$description)
 			{
-				$lang = JFactory::getLanguage();
+				$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
 
-				if (!$label)
+				if (JFactory::getLanguage()->hasKey($key))
 				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
-
-					if (!$lang->hasKey($key))
-					{
-						$key = 'JGLOBAL_FIELDS';
-					}
-
-					$label = $key;
-				}
-
-				if (!$description)
-				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
-
-					if ($lang->hasKey($key))
-					{
-						$description = $key;
-					}
+					$description = $key;
 				}
 			}
 
@@ -464,11 +452,11 @@ class FieldsHelper
 			$fieldset->setAttribute('description', strip_tags($description));
 
 			// Looping through the fields for that context
-			foreach ($groupFields as $field)
+			foreach ($fieldsPerGroup[$group->id] as $field)
 			{
 				try
 				{
-					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+					JFactory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
 					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data

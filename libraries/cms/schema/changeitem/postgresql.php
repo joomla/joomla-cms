@@ -4,7 +4,7 @@
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -112,7 +112,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 					case 'SET' :
 						$isNullable = $this->fixQuote('NO');
 
-						if (strtoupper($wordArray[7] . ' ' . $wordArray[8]) == 'NOT NULL')
+						if (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL')
 						{
 							$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
 							. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
@@ -141,7 +141,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 		}
 		elseif ($command === 'DROP INDEX')
 		{
-			if (strtoupper($wordArray[2] . $wordArray[3]) == 'IFEXISTS')
+			if (strtoupper($wordArray[2] . $wordArray[3]) === 'IFEXISTS')
 			{
 				$idx = $this->fixQuote($wordArray[4]);
 			}
@@ -155,7 +155,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			$this->checkQueryExpected = 0;
 			$this->msgElements = array($this->fixQuote($idx));
 		}
-		elseif ($command == 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
+		elseif ($command === 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) === 'CREATE UNIQUE INDEX'))
 		{
 			if ($wordArray[1] === 'UNIQUE')
 			{
@@ -174,9 +174,9 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			$this->msgElements = array($table, $idx);
 		}
 
-		if ($command == 'CREATE TABLE')
+		if ($command === 'CREATE TABLE')
 		{
-			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) == 'IFNOTEXISTS')
+			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) === 'IFNOTEXISTS')
 			{
 				$table = $this->fixQuote($wordArray[5]);
 			}
@@ -220,7 +220,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = 'unsigned int(10)';
 		}
