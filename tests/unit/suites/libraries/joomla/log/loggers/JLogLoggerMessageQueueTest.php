@@ -4,7 +4,7 @@
  * @subpackage  Log
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
  * @subpackage  Log
  * @since       11.1
  */
-class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
+class JLogLoggerMessageQueueTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var   mixed  The main application object from JFactory while we mock it out.

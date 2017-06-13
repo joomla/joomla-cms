@@ -4,7 +4,7 @@
  * @subpackage  Keychain
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Keychain
  * @since       12.3
  */
-class JKeychainTest extends PHPUnit_Framework_TestCase
+class JKeychainTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Set up the system by ensuring some files aren't there.

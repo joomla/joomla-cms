@@ -93,7 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
-								<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_DESCRIPTION'), $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
+								<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_DESCRIPTION'), $item->description ?: JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
 								<?php echo $this->escape($item->name); ?>
 								</span>
 									</label>
@@ -121,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $item->detailsurl; ?>
 								<?php if (isset($item->infourl)) : ?>
 									<br />
-									<a href="<?php echo $item->infourl; ?>" target="_blank"><?php echo $this->escape($item->infourl); ?></a>
+									<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
 								<?php endif; ?>
 							</span>
 								</td>

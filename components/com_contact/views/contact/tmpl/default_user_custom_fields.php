@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$params             = $this->params;
+$params             = $this->item->params;
 $presentation_style = $params->get('presentation_style');
 
 $displayGroups      = $params->get('show_user_custom_fields');
@@ -20,7 +20,7 @@ $userFieldGroups    = array();
 	<?php return; ?>
 <?php endif; ?>
 
-<?php foreach ($this->contactUser->fields as $field) : ?>
+<?php foreach ($this->contactUser->jcfields as $field) : ?>
 	<?php if (!in_array('-1', $displayGroups) && (!$field->group_id || !in_array($field->group_id, $displayGroups))) : ?>
 		<?php continue; ?>
 	<?php endif; ?>

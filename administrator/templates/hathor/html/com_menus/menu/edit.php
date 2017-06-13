@@ -42,7 +42,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo $this->form->getInput('menutype'); ?></li>
 
 				<li><?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?></li>
+			 	<?php echo $this->form->getInput('description'); ?></li>
+
+				<li><?php echo $this->form->getLabel('client_id'); ?>
+			 	<?php echo $this->form->getInput('client_id'); ?></li>				 
 			</ul>
 	</fieldset>
 </div>
