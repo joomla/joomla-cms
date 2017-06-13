@@ -607,7 +607,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 			$this->equalTo(
 				[
 					'id'    => [$o1, $o2],
-					'title' => ]$o3]
+					'title' => [$o3]
 				]
 			),
 			'getKeyLookup, using SimpleXmlElement input, did not yield the expected result.'
