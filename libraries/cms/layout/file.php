@@ -181,7 +181,7 @@ class JLayoutFile extends JLayoutBase
 
 			foreach ($suffixes as $suffix)
 			{
-				$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
+				$rawPath = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
 				$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 				if ($foundLayout = JPath::find($this->includePaths, $rawPath))
@@ -196,7 +196,7 @@ class JLayoutFile extends JLayoutBase
 		}
 
 		// Standard version
-		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+		$rawPath = str_replace('.', '/', $this->layoutId) . '.php';
 		$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 		$foundLayout = JPath::find($this->includePaths, $rawPath);
@@ -330,10 +330,10 @@ class JLayoutFile extends JLayoutBase
 	{
 		$lang = JFactory::getLanguage();
 
-		$langTag = $lang->getTag();
+		$langTag   = $lang->getTag();
 		$langParts = explode('-', $langTag);
 
-		$suffixes = array($langTag, $langParts[0]);
+		$suffixes   = array($langTag, $langParts[0]);
 		$suffixes[] = $lang->isRTL() ? 'rtl' : 'ltr';
 
 		$this->setSuffixes($suffixes);
@@ -655,7 +655,7 @@ class JLayoutFile extends JLayoutBase
 			$layoutId = $this->layoutId . '.' . $layoutId;
 		}
 
-		$sublayout = new static($layoutId, $this->basePath, $this->options);
+		$sublayout               = new static($layoutId, $this->basePath, $this->options);
 		$sublayout->includePaths = $this->includePaths;
 
 		return $sublayout->render($displayData);
