@@ -267,7 +267,7 @@ class PlgSystemDebug extends JPlugin
 		$html[] = "<script>function toggleContainer(name)
 		{
 			var e = document.getElementById(name);// MooTools might not be available ;)
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
+			e.style.display = (e.style.display === 'none') ? 'block' : 'none';
 		}</script>";
 
 		$html[] = '<div id="system-debug" class="profiler">';
@@ -1511,7 +1511,7 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
+		if (in_array($db->getServerType(), array('mysql', 'postgresql'), true))
 		{
 			$log = $db->getLog();
 
@@ -1672,7 +1672,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -1865,7 +1865,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			// Don't show everything logs if not selected.
-			if (!$showEverything && !in_array($entry->category, array('deprecated', 'databasequery')))
+			if (!$showEverything && !in_array($entry->category, array('deprecated', 'databasequery'), true))
 			{
 				continue;
 			}
@@ -1905,7 +1905,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		$htmlCallStack = '';
 
-		if (isset($callStack))
+		if ($callStack !== null)
 		{
 			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
