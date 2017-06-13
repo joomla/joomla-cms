@@ -168,7 +168,7 @@ class JPagination
 		}
 
 		// If we are viewing all records set the view all flag to true.
-		if ($limit === 0)
+		if ($limit == 0)
 		{
 			$this->viewall = true;
 		}
