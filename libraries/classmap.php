@@ -286,3 +286,5 @@ JLoader::registerAlias('JClientFtp',                        '\\Joomla\\CMS\\Clie
 JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Client\\FtpClient', '5.0');
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
 JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '5.0');
+
+JLoader::registerAlias('JFactory',                          '\\Joomla\\CMS\\Factory', '5.0');
