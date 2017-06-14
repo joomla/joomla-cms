@@ -281,3 +281,7 @@ JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JMicrodata',                        '\\Joomla\\CMS\\Microdata\\Microdata', '5.0');
 
 JLoader::registerAlias('JFactory',                          '\\Joomla\\CMS\\Factory', '5.0');
+
+JLoader::registerAlias('JMail',                             '\\Joomla\\CMS\\Mail\\Mail', '5.0');
+JLoader::registerAlias('JMailHelper',                       '\\Joomla\\CMS\\Mail\\MailHelper', '5.0');
+JLoader::registerAlias('JMailWrapperHelper',                '\\Joomla\\CMS\\Mail\\MailWrapper', '5.0');

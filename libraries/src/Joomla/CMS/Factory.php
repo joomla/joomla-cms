@@ -17,6 +17,8 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Mail;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -105,7 +107,7 @@ abstract class Factory
 	/**
 	 * Global mailer object
 	 *
-	 * @var    \JMail
+	 * @var    Mail
 	 * @since  11.1
 	 */
 	public static $mailer = null;
@@ -685,20 +687,20 @@ abstract class Factory
 		$fromname = $conf->get('fromname');
 		$mailer = $conf->get('mailer');
 
-		// Create a JMail object
-		$mail = \JMail::getInstance();
+		// Create a Mail object
+		$mail = Mail::getInstance();
 
 		// Clean the email address
-		$mailfrom = \JMailHelper::cleanLine($mailfrom);
+		$mailfrom = MailHelper::cleanLine($mailfrom);
 
 		// Set default sender without Reply-to if the mailfrom is a valid address
-		if (\JMailHelper::isEmailAddress($mailfrom))
+		if (MailHelper::isEmailAddress($mailfrom))
 		{
 			// Wrap in try/catch to catch phpmailerExceptions if it is throwing them
 			try
 			{
 				// Check for a false return value if exception throwing is disabled
-				if ($mail->setFrom($mailfrom, \JMailHelper::cleanLine($fromname), false) === false)
+				if ($mail->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false)
 				{
 					Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
 				}
