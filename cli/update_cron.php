@@ -53,9 +53,6 @@ class Updatecron extends \Joomla\CMS\Application\CliApplication
 	 */
 	protected function doExecute()
 	{
-		// Load an app which can be used later
-		JFactory::getApplication('site');
-
 		// Get the update cache time
 		$component = \Joomla\CMS\Component\ComponentHelper::getComponent('com_installer');
 
@@ -71,6 +68,22 @@ class Updatecron extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
-$app = \Joomla\CMS\Application\CliApplication::getInstance('Updatecron');
+// Set up the container
+JFactory::getContainer()->share(
+	'Updatecron',
+	function (\Joomla\DI\Container $container)
+	{
+		return new Updatecron(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('Updatecron');
 JFactory::$application = $app;
 $app->execute();

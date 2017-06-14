@@ -96,8 +96,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 * @since   2.5
 	 */
 	protected function doExecute()
-	{error_reporting(E_ALL);
-		ini_set('display_errors', 1);
+	{
 		// Print a blank line.
 		$this->out(JText::_('FINDER_CLI'));
 		$this->out('============================');
@@ -366,12 +365,9 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 
 		$this->out(JText::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
 	}
-
-	public function getTemplate(){echo new Exception();die;}
 }
 
 // Set up the container
-//JFactory::getContainer()->set
 JFactory::getContainer()->share(
 	'FinderCli',
 	function (\Joomla\DI\Container $container)

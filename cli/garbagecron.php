@@ -44,6 +44,22 @@ class GarbageCron extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
-$app = \Joomla\CMS\Application\CliApplication::getInstance('GarbageCron');
+// Set up the container
+JFactory::getContainer()->share(
+	'GarbageCron',
+	function (\Joomla\DI\Container $container)
+	{
+		return new GarbageCron(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('GarbageCron');
 JFactory::$application = $app;
 $app->execute();
