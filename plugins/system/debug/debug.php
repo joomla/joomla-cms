@@ -197,6 +197,12 @@ class PlgSystemDebug extends JPlugin
 			JHtml::_('stylesheet', 'cms/debug.css', array('version' => 'auto', 'relative' => true));
 		}
 
+		// Disable asset media version if needed.
+		if (JDEBUG && (int) $this->params->get('refresh_assets', 1) === 0)
+		{
+			$this->app->getDocument()->setMediaVersion(null);
+		}
+
 		// Only if debugging is enabled for SQL query popovers.
 		if (JDEBUG && $this->isAuthorisedDisplayDebug())
 		{
@@ -241,8 +247,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
-			&& substr($contents, 0, 50) === '<html><head><meta http-equiv="refresh" content="0;')
+		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
+			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -292,7 +298,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('queries');
 			}
 
-			if ($this->params->get('logs', 1) && !empty($this->logEntries))
+			if (!empty($this->logEntries) && $this->params->get('logs', 1))
 			{
 				$html[] = $this->display('logs');
 			}
@@ -378,7 +384,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		static $result = null;
 
-		if (!is_null($result))
+		if ($result !== null)
 		{
 			return $result;
 		}
@@ -873,13 +879,10 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if ($db->getServerType() === 'mysql')
+				if (isset($this->sqlShowProfileEach[$id]) && $db->getServerType() === 'mysql')
 				{
-					if (isset($this->sqlShowProfileEach[$id]))
-					{
-						$profileTable = $this->sqlShowProfileEach[$id];
-						$profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
-					}
+					$profileTable = $this->sqlShowProfileEach[$id];
+					$profile      = $this->tableToHtml($profileTable, $hasWarningsInProfile);
 				}
 
 				// How heavy should the string length count: 0 - 1.
@@ -990,8 +993,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$fromString = substr($query, 0, $whereStart);
-			$fromString = str_replace("\t", ' ', $fromString);
-			$fromString = str_replace("\n", ' ', $fromString);
+			$fromString = str_replace(array("\t","\n"), ' ', $fromString);
 			$fromString = trim($fromString);
 
 			// Initialise the select/other query type counts the first time.
@@ -1110,7 +1112,7 @@ class PlgSystemDebug extends JPlugin
 					$title = '<span class="dbg-noprofile">' . $title . '</span>';
 				}
 
-				$htmlProfile = ($info[$id]->profile ? $info[$id]->profile : JText::_('PLG_DEBUG_NO_PROFILE'));
+				$htmlProfile = $info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE');
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
@@ -1190,7 +1192,7 @@ class PlgSystemDebug extends JPlugin
 			$labelClass = 'label-warning';
 		}
 
-		if ($this->totalQueries == 0)
+		if ($this->totalQueries === 0)
 		{
 			$this->totalQueries = $db->getCount();
 		}
@@ -1618,7 +1620,7 @@ class PlgSystemDebug extends JPlugin
 			if (is_array($occurance) && isset($occurance[0]))
 			{
 				$info = $occurance[0];
-				$file = $info['file'] ? $info['file'] : '';
+				$file = $info['file'] ?: '';
 
 				if (!isset($guesses[$file]))
 				{
@@ -1730,59 +1732,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function renderBacktrace($error)
 	{
-		$backtrace = $error->getTrace();
-
-		$html = array();
-
-		if (is_array($backtrace))
-		{
-			$j = 1;
-
-			$html[] = '<table cellpadding="0" cellspacing="0">';
-			$html[] = '<thead>';
-			$html[] = '<tr>';
-			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
-			$html[] = '</tr>';
-
-			$html[] = '<tr>';
-			$html[] = '<th>#</th>';
-			$html[] = '<th>Function</th>';
-			$html[] = '<th>Location</th>';
-			$html[] = '</tr>';
-			$html[] = '</thead>';
-			$html[] = '<tbody>';
-
-			for ($i = count($backtrace) - 1; $i >= 0; $i--)
-			{
-				$link = '&#160;';
-
-				if (isset($backtrace[$i]['file']))
-				{
-					$link = $this->formatLink($backtrace[$i]['file'], $backtrace[$i]['line']);
-				}
-
-				$html[] = '<tr>';
-				$html[] = '<td>' . $j . '</td>';
-
-				if (isset($backtrace[$i]['class']))
-				{
-					$html[] = '<td>' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-				}
-				else
-				{
-					$html[] = '<td>' . $backtrace[$i]['function'] . '()</td>';
-				}
-
-				$html[] = '<td>' . $link . '</td>';
-
-				$html[] = '</tr>';
-				$j++;
-			}
-			$html[] = '</tbody>';
-			$html[] = '</table>';
-		}
-
-		return implode('', $html);
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
 	}
 
 	/**
@@ -1799,23 +1749,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function formatLink($file, $line = '')
 	{
-		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
-		$link .= $line ? ':' . $line : '';
-
-		if ($this->linkFormat)
-		{
-			$href = $this->linkFormat;
-			$href = str_replace('%f', $file, $href);
-			$href = str_replace('%l', $line, $href);
-
-			$html = '<a href="' . $href . '">' . $link . '</a>';
-		}
-		else
-		{
-			$html = $link;
-		}
-
-		return $html;
+		return JHtml::_('debug.xdebuglink', $file, $line);
 	}
 
 	/**
@@ -2037,7 +1971,7 @@ class PlgSystemDebug extends JPlugin
 
 			if (!$this->linkFormat)
 			{
-				$htmlCallStack .= '<div>[<a href="https://xdebug.org/docs/all_settings#file_link_format" target="_blank">';
+				$htmlCallStack .= '<div>[<a href="https://xdebug.org/docs/all_settings#file_link_format" target="_blank" rel="noopener noreferrer">';
 				$htmlCallStack .= JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 			}
 		}
@@ -2094,10 +2028,9 @@ class PlgSystemDebug extends JPlugin
 		{
 			if (isset($timings[$id * 2 + 1]))
 			{
-				$temp     = str_replace('`', '', $log[$id]);
-				$temp     = str_replace("\t", ' ', $temp);
-				$temp     = str_replace("\n", ' ', $temp);
-				$current .= str_replace("\r\n", ' ', $temp) . ";\n";
+				$temp = str_replace('`', '', $log[$id]);
+				$temp = str_replace(array("\t", "\n", "\r\n"), ' ', $temp);
+				$current .= $temp . ";\n";
 			}
 		}
 

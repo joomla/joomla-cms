@@ -50,7 +50,6 @@ class NewsfeedsModelCategories extends JModelList
 	 *
 	 * @since   1.6
 	 */
-
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();

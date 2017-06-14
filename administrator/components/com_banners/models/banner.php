@@ -235,7 +235,7 @@ class BannersModelBanner extends JModelAdmin
 		{
 			if ($record->state != -2)
 			{
-				return;
+				return false;
 			}
 
 			if (!empty($record->catid))

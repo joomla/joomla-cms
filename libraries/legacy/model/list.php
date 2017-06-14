@@ -4,7 +4,7 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -514,6 +514,13 @@ class JModelList extends JModelLegacy
 									{
 										$this->setState('list.direction', $fullDirection);
 									}
+									else
+									{
+										$this->setState('list.direction', $direction);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
 
 									unset($orderingParts[count($orderingParts) - 1]);
 
@@ -524,11 +531,22 @@ class JModelList extends JModelLegacy
 									{
 										$this->setState('list.ordering', $fullOrdering);
 									}
+									else
+									{
+										$this->setState('list.ordering', $ordering);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
+
 								}
 								else
 								{
 									$this->setState('list.ordering', $ordering);
 									$this->setState('list.direction', $direction);
+
+									// Fallback to the default value
+									$value = $ordering . ' ' . $direction;
 								}
 								break;
 
@@ -696,7 +714,7 @@ class JModelList extends JModelLegacy
 			}
 		}
 
-		if (($cur_state != $new_state) && $new_state !== null && ($resetPage))
+		if ($cur_state != $new_state && $new_state !== null && $resetPage)
 		{
 			$input->set('limitstart', 0);
 		}

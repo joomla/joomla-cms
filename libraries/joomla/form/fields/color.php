@@ -156,7 +156,7 @@ class JFormFieldColor extends JFormField
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -216,7 +216,11 @@ class JFormFieldColor extends JFormField
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
 		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
 
-		if (!!$color && $color[0] != '#' && strpos($color, 'in') !== 0 && $color != "transparent" && strpos($color, 'rgb') !== 0)
+		if (!$color || in_array($color, array('none', 'transparent')))
+		{
+			$color = 'none';
+		}
+		elseif ($color['0'] != '#' && $this->format == 'hex')
 		{
 			$color = '#' . $color;
 		}

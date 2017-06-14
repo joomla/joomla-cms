@@ -150,7 +150,7 @@ class AssociationsModelAssociations extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$type = null;
+		$type         = null;
 
 		list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'));
 
@@ -369,8 +369,7 @@ class AssociationsModelAssociations extends JModelList
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$tableAlias = in_array($extensionName, array('com_menus', 'com_categories')) ? 'a' : 'c';
-			$query->where($db->qn($tableAlias . '.level') . ' <= ' . ((int) $level + (int) $baselevel - 1));
+			$query->where($db->qn('a.level') . ' <= ' . ((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by menu type.
@@ -403,8 +402,11 @@ class AssociationsModelAssociations extends JModelList
 		// Add the group by clause
 		$query->group($db->qn($groupby));
 
-		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering') . ' ' . $this->getState('list.direction')));
+		// Add the list ordering clause
+		$listOrdering  = $this->state->get('list.ordering', 'id');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
+
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

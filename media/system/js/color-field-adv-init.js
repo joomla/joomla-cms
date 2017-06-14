@@ -6,12 +6,17 @@ jQuery(document).ready(function ($) {
 	$('.minicolors').each(function () {
 		$miniColors.push($(this).minicolors({
 			control: $(this).attr('data-control') || 'hue',
-			format: $(this).attr('data-validate') === 'color'
-				? 'hex'
-				: ($(this).attr('data-format') === 'rgba'
-					? 'rgb'
-					: $(this).attr('data-format'))
-				|| 'hex',
+			format: (() => {
+				if ($(this).attr('data-validate') === 'color')
+				{
+					return 'hex'
+				}
+				if ($(this).attr('data-format') === 'rgba')
+				{
+					return 'rgb'
+				}
+				return $(this).attr('data-format')
+			})(),
 			keywords: $(this).attr('data-keywords') || '',
 			opacity: $(this).attr('data-format') === 'rgba',
 			position: $(this).attr('data-position') || 'default',
@@ -48,8 +53,8 @@ jQuery(document).ready(function ($) {
 			$miniColors[lineNum].minicolors('settings', {
 				format: format == 'rgba' ? 'rgb' : format,
 				opacity: format == 'rgba'
-			})
-		})
+			});
+		});
 	});
 
 	// Convert number to hex

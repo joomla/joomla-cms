@@ -4,7 +4,7 @@
  * @subpackage  Twitter
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -102,17 +102,12 @@ class JTwitterOauthTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 */
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->application);
-		unset($this->client);
-		unset($this->oauth);
+		unset($this->backupServer, $this->options, $this->input, $this->application, $this->client, $this->oauth);
 	}
 
 	/**

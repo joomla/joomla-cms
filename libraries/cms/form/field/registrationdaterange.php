@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('predefinedlist');
 
 /**
- * Field to show a list of available user active statuses
+ * Registration Date Range field.
  *
  * @since  3.2
  */

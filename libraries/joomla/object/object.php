@@ -160,7 +160,7 @@ class JObject
 		// Check if only the string is requested
 		if ($error instanceof Exception && $toString)
 		{
-			return (string) $error;
+			return $error->getMessage();
 		}
 
 		return $error;

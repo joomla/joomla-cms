@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * WinCache cache storage handler
  *
- * @see    https://secure.php.net/manual/en/book.wincache.php
+ * @link   https://secure.php.net/manual/en/book.wincache.php
  * @since  11.1
  */
 class JCacheStorageWincache extends JCacheStorage
@@ -82,7 +82,7 @@ class JCacheStorageWincache extends JCacheStorage
 
 				if (isset($key['value_size']))
 				{
-					$item->updateSize($key['value_size'] / 1024);
+					$item->updateSize($key['value_size']);
 				}
 				else
 				{

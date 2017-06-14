@@ -50,7 +50,7 @@ if ($changeFormat)
 {
 	$format = $color[0] != '#' && strpos($color, 'rgb') === 0 ? (strpos($color, 'rgba') === 0 ? 'rgba' : 'rgb') : 'hex';
 }
-if (in_array($format, array('rgb', 'rgba')) && $validate != 'color')
+if (in_array($format, array('rgb', 'rgba'), true) && $validate !== 'color')
 {
 	$alpha = ($format === 'rgba');
 	$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
@@ -59,18 +59,19 @@ else
 {
 	$placeholder = '#rrggbb';
 }
-$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
-$class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
+$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'), true)) ? ' keywords' : ' ' . $format;
+$class        = ' class="' . trim('minicolors ' . $class) . ($validate === 'color' ? '' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $dataformat   = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
+$validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
+$hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
-$direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
+$direction    = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
@@ -82,10 +83,10 @@ JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'aut
 ?>
 <div class="color-picker-group">
 	<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-	echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo
-	$position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
-	$required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
-	$dataformat; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
+	echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint . $class .
+	$position . $control . $readonly . $disabled .
+	$required . $onchange . $autocomplete . $autofocus .
+	$dataformat . $keywords . $direction . $validate; ?>/>
 	<?php if ($changeFormat) : ?>
 		<div class="color-format-group">
 			<button class="color-format-btn <?php echo ($format == 'hex' ? 'active' : ''); ?>" type="button" data-format="hex">HEX</button>

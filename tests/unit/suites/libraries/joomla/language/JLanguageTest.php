@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 jimport('joomla.filesystem.folder');
@@ -22,7 +22,7 @@ if (!class_exists('En_GBLocalise'))
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguageTest extends PHPUnit_Framework_TestCase
+class JLanguageTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JLanguage
@@ -61,8 +61,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	protected function tearDown()
 	{
 		JFolder::delete(JPATH_TESTS . '/tmp/language');
-		unset($this->object);
-		unset($this->inspector);
+		unset($this->object, $this->inspector);
 		parent::tearDown();
 	}
 
@@ -739,22 +738,22 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testExists()
 	{
 		$this->assertFalse(
-			JLanguage::exists(null)
+			JLanguageHelper::exists(null)
 		);
 
 		$basePath = __DIR__ . '/data';
 
 		$this->assertTrue(
-			JLanguage::exists('en-GB', $basePath)
+			JLanguageHelper::exists('en-GB', $basePath)
 		);
 
 		$this->assertFalse(
-			JLanguage::exists('es-ES', $basePath)
+			JLanguageHelper::exists('es-ES', $basePath)
 		);
 	}
 
 	/**
-	 * Test...
+	 * Test parsing of language ini files
 	 *
 	 * @return void
 	 */
@@ -774,7 +773,11 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'Line: ' . __LINE__ . ' test that the strings were parsed correctly.'
 		);
 
-		$strings = $this->inspector->parse(__DIR__ . '/data/bad.ini');
+		/**
+		 * suppressor used as we know this will generate a warning message
+		 * syntax error, unexpected BOOL_TRUE in
+		 */
+		$strings = @$this->inspector->parse(__DIR__ . '/data/bad.ini');
 
 		$this->assertEquals(
 			$strings,

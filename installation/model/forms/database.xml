@@ -5,46 +5,50 @@
 			<field
 				name="db_type"
 				type="databaseconnection"
+				label="INSTL_DATABASE_TYPE_LABEL"
 				id="db_type"
 				class="inputbox"
-				label="INSTL_DATABASE_TYPE_LABEL"
 				supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
 				required="true"
 				default="mysqli"
 				filter="string"
 			/>
+
 			<field
 				name="db_host"
 				type="text"
+				label="INSTL_DATABASE_HOST_LABEL"
 				id="db_host"
 				class="inputbox"
-				label="INSTL_DATABASE_HOST_LABEL"
 				default="localhost"
 				required="true"
 			/>
+
 			<field
 				name="db_user"
 				type="text"
+				label="INSTL_DATABASE_USER_LABEL"
 				id="db_user"
 				class="inputbox"
-				label="INSTL_DATABASE_USER_LABEL"
 				required="true"
 			/>
+
 			<field
 				name="db_pass"
 				type="password"
+				label="INSTL_DATABASE_PASSWORD_LABEL"
 				id="db_pass"
 				class="inputbox"
-				label="INSTL_DATABASE_PASSWORD_LABEL"
 				autocomplete="off"
 				filter="raw"
 			/>
+
 			<field
 				name="db_name"
 				type="text"
+				label="INSTL_DATABASE_NAME_LABEL"
 				id="db_name"
 				class="inputbox"
-				label="INSTL_DATABASE_NAME_LABEL"
 				required="true"
 			/>
 		</fieldset>
@@ -54,21 +58,22 @@
 			<field
 				name="db_old"
 				type="radio"
+				label="INSTL_DATABASE_OLD_PROCESS_LABEL"
 				id="db_old"
 				class="btn-group"
-				label="INSTL_DATABASE_OLD_PROCESS_LABEL"
 				default="backup"
 				required="true"
-			>
+				>
 				<option value="backup">INSTL_DATABASE_FIELD_VALUE_BACKUP</option>
 				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
 			</field>
+
 			<field
 				name="db_prefix"
 				type="installation.prefix"
+				label="INSTL_DATABASE_PREFIX_LABEL"
 				id="db_prefix"
 				class="inputbox"
-				label="INSTL_DATABASE_PREFIX_LABEL"
 				required="true"
 				validate="installation.prefix"
 				message="INSTL_DATABASE_PREFIX_MSG"

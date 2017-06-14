@@ -67,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $item->count; ?>
 						</td>
 						<td>
-							<?php echo JHtml::_('number.bytes', $item->size*1024); ?>
+							<?php echo JHtml::_('number.bytes', $item->size); ?>
 						</td>
 					</tr>
 				<?php $i++; endforeach; ?>
