@@ -30,6 +30,11 @@ class ExceptionHandler
 	 */
 	public static function render($error)
 	{
+		if (\JFactory::getApplication()->isClient('cli'))
+		{
+			throw $error;
+		}
+
 		$expectedClass = PHP_MAJOR_VERSION >= 7 ? '\Throwable' : '\Exception';
 		$isException   = $error instanceof $expectedClass;
 
@@ -76,7 +81,7 @@ class ExceptionHandler
 				 * If a type doesn't exist for that format, we try to use the format from the application's JInput object
 				 * Lastly, if all else fails, we default onto the HTML format to at least render something
 				 */
-				if (\JFactory::getApplication()->isClient('cli'))
+				if (\JFactory::$document)
 				{
 					// We're probably in an CLI environment
 					$format = \JFactory::getDocument()->getType();
