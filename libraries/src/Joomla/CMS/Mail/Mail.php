@@ -1,11 +1,15 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Mail
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Mail;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,12 +18,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JMail extends PHPMailer
+class Mail extends \PHPMailer
 {
 	/**
-	 * JMail instances container.
+	 * Mail instances container.
 	 *
-	 * @var    JMail[]
+	 * @var    Mail[]
 	 * @since  11.3
 	 */
 	protected static $instances = array();
@@ -49,7 +53,7 @@ class JMail extends PHPMailer
 		// Configure a callback function to handle errors when $this->edebug() is called
 		$this->Debugoutput = function ($message, $level)
 		{
-			JLog::add(sprintf('Error in JMail API: %s', $message), JLog::ERROR, 'mail');
+			Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
 		};
 
 		// If debug mode is enabled then set SMTPDebug to the maximum level
@@ -68,10 +72,10 @@ class JMail extends PHPMailer
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
 	 *
-	 * @param   string   $id          The id string for the JMail instance [optional]
+	 * @param   string   $id          The id string for the Mail instance [optional]
 	 * @param   boolean  $exceptions  Flag if Exceptions should be thrown [optional]
 	 *
-	 * @return  JMail  The global JMail object
+	 * @return  Mail  The global Mail object
 	 *
 	 * @since   11.1
 	 */
@@ -79,7 +83,7 @@ class JMail extends PHPMailer
 	{
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new JMail($exceptions);
+			self::$instances[$id] = new Mail($exceptions);
 		}
 
 		return self::$instances[$id];
@@ -88,19 +92,19 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  boolean|JException  Boolean true if successful, boolean false if the `mailonline` configuration is set to 0,
+	 * @return  boolean|\JException  Boolean true if successful, boolean false if the `mailonline` configuration is set to 0,
 	 *                              or a JException object if the mail function does not exist or sending the message fails.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function Send()
 	{
-		if (JFactory::getConfig()->get('mailonline', 1))
+		if (Factory::getConfig()->get('mailonline', 1))
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+				return \JError::raiseNotice(500, \JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
 			}
 
 			try
@@ -108,7 +112,7 @@ class JMail extends PHPMailer
 				// Try sending with default settings
 				$result = parent::send();
 			}
-			catch (phpmailerException $e)
+			catch (\phpmailerException $e)
 			{
 				$result = false;
 
@@ -126,7 +130,7 @@ class JMail extends PHPMailer
 						// Try it again with TLS turned off
 						$result = parent::send();
 					}
-					catch (phpmailerException $e)
+					catch (\phpmailerException $e)
 					{
 						// Keep false for B/C compatibility
 						$result = false;
@@ -136,13 +140,13 @@ class JMail extends PHPMailer
 
 			if ($result == false)
 			{
-				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+				$result = \JError::raiseNotice(500, \JText::_($this->ErrorInfo));
 			}
 
 			return $result;
 		}
 
-		JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(\JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 
 		return false;
 	}
@@ -167,10 +171,10 @@ class JMail extends PHPMailer
 				return false;
 			}
 		}
-		catch (phpmailerException $e)
+		catch (\phpmailerException $e)
 		{
 			// The parent method will have already called the logging callback, just log our deprecated error handling message
-			JLog::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', JLog::WARNING, 'deprecated');
+			Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
 			return false;
 		}
@@ -183,10 +187,10 @@ class JMail extends PHPMailer
 	 *                        <code>array([0] => email Address, [1] => Name)</code>
 	 *                        or as a string
 	 *
-	 * @return  JMail|boolean  Returns this object for chaining on success or boolean false on failure.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function setSender($from)
 	{
@@ -199,24 +203,24 @@ class JMail extends PHPMailer
 				if (isset($from[2]))
 				{
 					// If it is an array with entries, use them
-					$result = $this->setFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]), (bool) $from[2]);
+					$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]), (bool) $from[2]);
 				}
 				else
 				{
-					$result = $this->setFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
+					$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
 				}
 			}
 			elseif (is_string($from))
 			{
 				// If it is a string we assume it is just the address
-				$result = $this->setFrom(JMailHelper::cleanLine($from));
+				$result = $this->setFrom(MailHelper::cleanLine($from));
 			}
 			else
 			{
 				// If it is neither, we log a message and throw an exception
-				JLog::add(JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), JLog::WARNING, 'jerror');
+				Log::add(\JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-				throw new UnexpectedValueException(sprintf('Invalid email Sender: %s, JMail::setSender(%s)', $from));
+				throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, Mail::setSender(%s)', $from));
 			}
 
 			// Check for boolean false return if exception handling is disabled
@@ -225,10 +229,10 @@ class JMail extends PHPMailer
 				return false;
 			}
 		}
-		catch (phpmailerException $e)
+		catch (\phpmailerException $e)
 		{
 			// The parent method will have already called the logging callback, just log our deprecated error handling message
-			JLog::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', JLog::WARNING, 'deprecated');
+			Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
 			return false;
 		}
@@ -241,13 +245,13 @@ class JMail extends PHPMailer
 	 *
 	 * @param   string  $subject  Subject of the email
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return  Mail  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
 	public function setSubject($subject)
 	{
-		$this->Subject = JMailHelper::cleanLine($subject);
+		$this->Subject = MailHelper::cleanLine($subject);
 
 		return $this;
 	}
@@ -257,7 +261,7 @@ class JMail extends PHPMailer
 	 *
 	 * @param   string  $content  Body of the email
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return  Mail  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -267,7 +271,7 @@ class JMail extends PHPMailer
 		 * Filter the Body
 		 * TODO: Check for XSS
 		 */
-		$this->Body = JMailHelper::cleanText($content);
+		$this->Body = MailHelper::cleanText($content);
 
 		return $this;
 	}
@@ -279,10 +283,10 @@ class JMail extends PHPMailer
 	 * @param   mixed   $name       Either a string or array of strings [name(s)]
 	 * @param   string  $method     The parent method's name.
 	 *
-	 * @return  JMail|boolean  Returns this object for chaining on success or boolean false on failure.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	protected function add($recipient, $name = '', $method = 'addAddress')
 	{
@@ -297,13 +301,13 @@ class JMail extends PHPMailer
 
 				if ($combined === false)
 				{
-					throw new InvalidArgumentException("The number of elements for each array isn't equal.");
+					throw new \InvalidArgumentException("The number of elements for each array isn't equal.");
 				}
 
 				foreach ($combined as $recipientEmail => $recipientName)
 				{
-					$recipientEmail = JMailHelper::cleanLine($recipientEmail);
-					$recipientName = JMailHelper::cleanLine($recipientName);
+					$recipientEmail = MailHelper::cleanLine($recipientEmail);
+					$recipientName = MailHelper::cleanLine($recipientName);
 
 					// Wrapped in try/catch if PHPMailer is configured to throw exceptions
 					try
@@ -314,10 +318,10 @@ class JMail extends PHPMailer
 							return false;
 						}
 					}
-					catch (phpmailerException $e)
+					catch (\phpmailerException $e)
 					{
 						// The parent method will have already called the logging callback, just log our deprecated error handling message
-						JLog::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', JLog::WARNING, 'deprecated');
+						Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
 						return false;
 					}
@@ -325,11 +329,11 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				$name = JMailHelper::cleanLine($name);
+				$name = MailHelper::cleanLine($name);
 
 				foreach ($recipient as $to)
 				{
-					$to = JMailHelper::cleanLine($to);
+					$to = MailHelper::cleanLine($to);
 
 					// Wrapped in try/catch if PHPMailer is configured to throw exceptions
 					try
@@ -340,10 +344,10 @@ class JMail extends PHPMailer
 							return false;
 						}
 					}
-					catch (phpmailerException $e)
+					catch (\phpmailerException $e)
 					{
 						// The parent method will have already called the logging callback, just log our deprecated error handling message
-						JLog::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', JLog::WARNING, 'deprecated');
+						Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
 						return false;
 					}
@@ -352,7 +356,7 @@ class JMail extends PHPMailer
 		}
 		else
 		{
-			$recipient = JMailHelper::cleanLine($recipient);
+			$recipient = MailHelper::cleanLine($recipient);
 
 			// Wrapped in try/catch if PHPMailer is configured to throw exceptions
 			try
@@ -363,10 +367,10 @@ class JMail extends PHPMailer
 					return false;
 				}
 			}
-			catch (phpmailerException $e)
+			catch (\phpmailerException $e)
 			{
 				// The parent method will have already called the logging callback, just log our deprecated error handling message
-				JLog::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', JLog::WARNING, 'deprecated');
+				Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
 				return false;
 			}
@@ -381,7 +385,7 @@ class JMail extends PHPMailer
 	 * @param   mixed  $recipient  Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name       Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail|boolean  Returns this object for chaining.
+	 * @return  Mail|boolean  Returns this object for chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -396,7 +400,7 @@ class JMail extends PHPMailer
 	 * @param   mixed  $cc    Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail|boolean  Returns this object for chaining on success or boolean false on failure.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -417,7 +421,7 @@ class JMail extends PHPMailer
 	 * @param   mixed  $bcc   Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail|boolean  Returns this object for chaining on success or boolean false on failure.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -441,10 +445,10 @@ class JMail extends PHPMailer
 	 * @param   mixed   $type         The mime type
 	 * @param   string  $disposition  The disposition of the attachment
 	 *
-	 * @return  JMail|boolean  Returns this object for chaining on success or boolean false on failure.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   12.2
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
 	{
@@ -460,7 +464,7 @@ class JMail extends PHPMailer
 				{
 					if (!empty($name) && count($path) != count($name))
 					{
-						throw new InvalidArgumentException('The number of attachments must be equal with the number of name');
+						throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
 					}
 
 					foreach ($path as $key => $file)
@@ -486,10 +490,10 @@ class JMail extends PHPMailer
 					return false;
 				}
 			}
-			catch (phpmailerException $e)
+			catch (\phpmailerException $e)
 			{
 				// The parent method will have already called the logging callback, just log our deprecated error handling message
-				JLog::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', JLog::WARNING, 'deprecated');
+				Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
 				return false;
 			}
@@ -501,7 +505,7 @@ class JMail extends PHPMailer
 	/**
 	 * Unset all file attachments from the email
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return  Mail  Returns this object for chaining.
 	 *
 	 * @since   12.2
 	 */
@@ -517,7 +521,7 @@ class JMail extends PHPMailer
 	 *
 	 * @param   integer  $index  The numerical index of the attachment to remove
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return  Mail  Returns this object for chaining.
 	 *
 	 * @since   12.2
 	 */
@@ -537,7 +541,7 @@ class JMail extends PHPMailer
 	 * @param   mixed  $replyto  Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name     Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail|boolean  Returns this object for chaining on success or boolean false on failure.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -551,7 +555,7 @@ class JMail extends PHPMailer
 	 *
 	 * @param   boolean  $ishtml  Boolean true or false.
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return  Mail  Returns this object for chaining.
 	 *
 	 * @since   12.3
 	 */
@@ -574,7 +578,7 @@ class JMail extends PHPMailer
 	public function isSendmail()
 	{
 		// Prefer the Joomla configured sendmail path and default to the configured PHP path otherwise
-		$sendmail = JFactory::getConfig()->get('sendmail', ini_get('sendmail_path'));
+		$sendmail = Factory::getConfig()->get('sendmail', ini_get('sendmail_path'));
 
 		// And if we still don't have a path, then use the system default for Linux
 		if (empty($sendmail))
@@ -678,7 +682,7 @@ class JMail extends PHPMailer
 		$replyTo = null, $replyToName = null)
 	{
 		// Create config object
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		$this->setSubject($subject);
 		$this->setBody($body);
@@ -764,10 +768,10 @@ class JMail extends PHPMailer
 	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
-		$subject = JText::sprintf('JLIB_MAIL_USER_SUBMITTED', $type);
+		$subject = \JText::sprintf('JLIB_MAIL_USER_SUBMITTED', $type);
 
-		$message = sprintf(JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_('JLIB_MAIL_MSG') . "\n";
+		$message = sprintf(\JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
+		$message .= \JText::_('JLIB_MAIL_MSG') . "\n";
 
 		if ($this->addRecipient($adminEmail) === false)
 		{
