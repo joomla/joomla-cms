@@ -47,7 +47,7 @@ if ($lang->isRtl())
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 		<div class="j-toggle-sidebar-header">
-		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
+		<h3><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
 		</div>
 		<div id="treeview" class="sidebar">
 			<div id="media-tree_tree" class="tree-holder">
@@ -84,7 +84,7 @@ if ($lang->isRtl())
 		<!-- File Upload Form -->
 		<div id="collapseUpload" class="collapse">
 			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
-				<div id="uploadform">
+				<div id="uploadform" class="uploadform">
 					<fieldset id="upload-noflash" class="actions">
 							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 								<input required type="file" id="upload-file" name="Filedata[]" multiple /> <button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
@@ -127,9 +127,9 @@ echo JHtml::_(
 	'bootstrap.renderModal',
 	'imagePreview',
 	array(
-		'title' => JText::_('COM_MEDIA_PREVIEW'),
+		'title'  => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 	),
 	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="../media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
 );
@@ -138,9 +138,9 @@ echo JHtml::_(
 	'bootstrap.renderModal',
 	'videoPreview',
 	array(
-		'title' => JText::_('COM_MEDIA_PREVIEW'),
+		'title'  => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 	),
 	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );

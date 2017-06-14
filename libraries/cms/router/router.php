@@ -4,7 +4,7 @@
  * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -636,7 +636,7 @@ class JRouter
 
 		foreach ($this->_rules['build' . $stage] as $rule)
 		{
-			call_user_func_array($rule, array(&$this, &$uri));
+			$rule($this, $uri);
 		}
 	}
 
@@ -667,7 +667,7 @@ class JRouter
 	 */
 	protected function createUri($url)
 	{
-		if (!is_array($url) && substr($url, 0, 1) != '&')
+		if (!is_array($url) && substr($url, 0, 1) !== '&')
 		{
 			return new JUri($url);
 		}

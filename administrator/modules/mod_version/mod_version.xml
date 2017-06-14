@@ -26,25 +26,24 @@
 				<field
 					name="format"
 					type="list"
-					default="short"
 					label="MOD_VERSION_FORMAT_LABEL"
-					description="MOD_VERSION_FORMAT_DESC">
-					<option
-						value="short">MOD_VERSION_FORMAT_SHORT</option>
-					<option
-						value="long">MOD_VERSION_FORMAT_LONG</option>
+					description="MOD_VERSION_FORMAT_DESC"
+					default="short"
+					>
+					<option value="short">MOD_VERSION_FORMAT_SHORT</option>
+					<option value="long">MOD_VERSION_FORMAT_LONG</option>
 				</field>
+
 				<field
 					name="product"
 					type="radio"
+					label="MOD_VERSION_PRODUCT_LABEL"
+					description="MOD_VERSION_PRODUCT_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_VERSION_PRODUCT_LABEL"
-					description="MOD_VERSION_PRODUCT_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
@@ -52,14 +51,16 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 			</fieldset>
 		</fields>
 	</config>

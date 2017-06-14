@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.5.6</version>
+	<version>4.5.7</version>
 	<creationDate>2005-2017</creationDate>
 	<author>Ephox Corporation</author>
 	<authorEmail>N/A</authorEmail>
@@ -23,22 +23,26 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
-				<field name="configuration" type="tinymcebuilder" hiddenLabel="true" />
+				<field 
+				       name="configuration" 
+				       type="tinymcebuilder" 
+				       hiddenLabel="true" 
+				 />
 			</fieldset>
 
 			<fieldset name="advanced" label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS">
 				<field
 					name="sets_amount"
 					type="number"
+					label="PLG_TINY_FIELD_NUMBER_OF_SETS_LABEL"
+					description="PLG_TINY_FIELD_NUMBER_OF_SETS_DESC"
 					filter="int"
 					validate="number"
 					min="3"
-					label="PLG_TINY_FIELD_NUMBER_OF_SETS_LABEL"
-					description="PLG_TINY_FIELD_NUMBER_OF_SETS_DESC"
 					default="3"
 				/>
+
 				<field
 					name="html_height"
 					type="text"

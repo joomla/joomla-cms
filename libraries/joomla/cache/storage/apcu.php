@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APCu cache storage handler
  *
- * @see    https://secure.php.net/manual/en/ref.apcu.php
+ * @link   https://secure.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
 class JCacheStorageApcu extends JCacheStorage
@@ -96,7 +96,7 @@ class JCacheStorageApcu extends JCacheStorage
 					$item = $data[$group];
 				}
 
-				$item->updateSize($key['mem_size'] / 1024);
+				$item->updateSize($key['mem_size']);
 
 				$data[$group] = $item;
 			}

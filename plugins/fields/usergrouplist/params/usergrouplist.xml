@@ -7,7 +7,7 @@
 				type="list"
 				label="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_LABEL"
 				description="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_DESC"
-			>
+				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>

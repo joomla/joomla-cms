@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @see    https://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @link   https://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  * @since  12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
@@ -167,7 +167,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
-				call_user_func_array($h, array( &$this));
+				$h($this);
 			}
 
 			sqlsrv_close($this->connection);
