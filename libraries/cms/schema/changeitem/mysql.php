@@ -4,7 +4,7 @@
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -60,10 +60,10 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
 
 		// Check for special update statement to reset utf8mb4 conversion status
-		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
-			|| $command == 'UPDATE #__UTF8_CONVERSION')
-			&& strtoupper($wordArray[2]) == 'SET'
-			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) == 'converted')
+		if (($command === 'UPDATE `#__UTF8_CONVERSION`'
+			|| $command === 'UPDATE #__UTF8_CONVERSION')
+			&& strtoupper($wordArray[2]) === 'SET'
+			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) === 'converted')
 		{
 			// Statement is special statement to reset conversion status
 			$this->queryType = 'UTF8CNV';
@@ -76,13 +76,13 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
-			if ($alterCommand == 'ADD COLUMN')
+			if ($alterCommand === 'ADD COLUMN')
 			{
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
-			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY')
+			elseif ($alterCommand === 'ADD INDEX' || $alterCommand === 'ADD KEY')
 			{
 				if ($pos = strpos($wordArray[5], '('))
 				{
@@ -97,7 +97,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif ($alterCommand == 'ADD UNIQUE')
+			elseif ($alterCommand === 'ADD UNIQUE')
 			{
 				$idxIndexName = 5;
 
@@ -105,7 +105,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				{
 					$addCmdCheck = strtoupper($wordArray[5]);
 
-					if ($addCmdCheck == 'INDEX' || $addCmdCheck == 'KEY')
+					if ($addCmdCheck === 'INDEX' || $addCmdCheck === 'KEY')
 					{
 						$idxIndexName = 6;
 					}
@@ -124,7 +124,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif ($alterCommand == 'DROP INDEX' || $alterCommand == 'DROP KEY')
+			elseif ($alterCommand === 'DROP INDEX' || $alterCommand === 'DROP KEY')
 			{
 				$index = $this->fixQuote($wordArray[5]);
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
@@ -132,7 +132,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif ($alterCommand == 'DROP COLUMN')
+			elseif ($alterCommand === 'DROP COLUMN')
 			{
 				$index = $this->fixQuote($wordArray[5]);
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
@@ -140,7 +140,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif (strtoupper($wordArray[3]) == 'MODIFY')
+			elseif (strtoupper($wordArray[3]) === 'MODIFY')
 			{
 				// Kludge to fix problem with "integer unsigned"
 				$type = $wordArray[5];
@@ -161,7 +161,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
-			elseif (strtoupper($wordArray[3]) == 'CHANGE')
+			elseif (strtoupper($wordArray[3]) === 'CHANGE')
 			{
 				// Kludge to fix problem with "integer unsigned"
 				$type = $wordArray[6];
@@ -184,9 +184,9 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			}
 		}
 
-		if ($command == 'CREATE TABLE')
+		if ($command === 'CREATE TABLE')
 		{
-			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) == 'IFNOTEXISTS')
+			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) === 'IFNOTEXISTS')
 			{
 				$table = $wordArray[5];
 			}
@@ -229,11 +229,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = 'int(10) unsigned';
 		}
-		elseif (strtolower(substr($type2, 0, 8)) == 'unsigned')
+		elseif (strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = $type1 . ' unsigned';
 		}

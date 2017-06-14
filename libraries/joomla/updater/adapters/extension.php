@@ -332,7 +332,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$byName = false;
 
-					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Design_of_JUpdate
+					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
 					JLog::add(
 						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
 						JLog::WARNING, 'deprecated'

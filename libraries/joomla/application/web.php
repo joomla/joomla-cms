@@ -117,7 +117,8 @@ class JApplicationWeb extends JApplicationBase
 		'Accept-Ranges',
 		'Content-Range',
 		'Age',
-		'Expires'
+		'Expires',
+		'Clear-Site-Data',
 	);
 
 	/**
