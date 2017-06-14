@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -60,6 +60,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		self::$cache['prefixes']   = TestReflection::getValue('JLoader', 'prefixes');
 		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
 		self::$cache['classAliases'] = TestReflection::getValue('JLoader', 'classAliases');
+		self::$cache['classAliasesInverse'] = TestReflection::getValue('JLoader', 'classAliasesInverse');
+		self::$cache['extensionRootFolders'] = TestReflection::getValue('JLoader', 'extensionRootFolders');
 	}
 
 	/**
@@ -77,6 +79,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		TestReflection::setValue('JLoader', 'prefixes', self::$cache['prefixes']);
 		TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
 		TestReflection::setValue('JLoader', 'classAliases', self::$cache['classAliases']);
+		TestReflection::setValue('JLoader', 'classAliasesInverse', self::$cache['classAliasesInverse']);
+		TestReflection::setValue('JLoader', 'extensionRootFolders', self::$cache['extensionRootFolders']);
 	}
 
 	/**
@@ -93,7 +97,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 			'jfactory' => array('joomla.jfactory', null, null, false, 'JFactory does not exist so should not load properly', true),
 			'fred.factory' => array('fred.factory', null, null, false, 'fred.factory does not exist', true),
 			'bogus' => array('bogusload', JPATH_TEST_STUBS, '', true, 'bogusload.php should load properly', false),
-			'helper' => array('joomla.user.helper', null, '', true, 'userhelper should load properly', true));
+			'class.loader' => array('cms.class.loader', null, '', true, 'class loader should load properly', true));
 	}
 
 	/**
@@ -107,7 +111,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	{
 		return array(
 			'fred.factory' => array('fred.factory', false, 'fred.factory does not exist'),
-			'browser' => array('joomla.environment.browser', true, 'JBrowser should load properly'));
+			'classloader' => array('cms.class.loader', true, 'JClassLoader should load properly'));
 	}
 
 	/**
@@ -280,6 +284,28 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Tests the JLoader::registerAlias method if the alias is loaded when the original class is loaded.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testAliasInstanceOf()
+	{
+		// Normally register the class
+		JLoader::register('JLoaderAliasStub', JPATH_TEST_STUBS . '/loaderoveralias/jloaderaliasstub.php');
+
+		// Register the alias
+		JLoader::registerAlias('JLoaderAliasStubAlias', 'JLoaderAliasStub');
+
+		$object = new JLoaderAliasStub;
+
+		$this->assertTrue(
+			$object instanceof JLoaderAliasStubAlias
+		);
+	}
+
+	/**
 	 * Tests the JLoader::load method.
 	 *
 	 * @return  void
@@ -294,6 +320,58 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('JoomlaPatchTester'), 'Tests that a class with multiple parts is loaded from the correct path.');
 		$this->assertTrue(class_exists('JoomlaTester'), 'Tests that a class with a single part is loaded from a folder (legacy behavior).');
 		$this->assertFalse(class_exists('JoomlaNotPresent'), 'Tests that a non-existing class is not found.');
+	}
+
+	/**
+	 * Tests if JLoader can autoload a component.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadComponentClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Component\\Foo\\Administrator\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a module.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadModuleClass()
+	{
+		JLoader::registerExtensionRootFolder('Site', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Module\\FooBar\\Site\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadPluginClass()
+	{
+		JLoader::registerExtensionRootFolder('', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Plugin\\Test\\Foo\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader fails to autoload an extension which doesn't exist.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadNotExistingExtensionClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertFalse(class_exists('Vendor\\Component\\Fooinvalid\\Administrator\\Helper\\Bar'));
 	}
 
 	/**

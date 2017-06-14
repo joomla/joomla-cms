@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -172,9 +172,9 @@ abstract class JHtmlFilter
 			);
 
 			// Populate the toggle button.
-			$html .= '<button class="btn jform-rightbtn" type="button" onclick="jQuery(\'[id=&quot;tax-'
-				. $bk . '&quot;]\').each(function(){this.click();});"><span class="icon-checkbox-partial"></span> '
-				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr/>';
+			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
+				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fa fa-square" aria-hidden="true"></span> '
+				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -183,15 +183,11 @@ abstract class JHtmlFilter
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
-				$html .= '<div class="control-group">';
-				$html .= '<div class="controls">';
-				$html .= '<label class="checkbox" tax-'
-					. $bk . '>';
-				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $bk . '"' . $checked . '>';
-				$html .= $nv->title;
+				$html .= '<div class="form-check">';
+				$html .= '<label class="form-check-label" tax-' . $bk . '>';
+				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
+					. $bk . '"' . $checked . '> ' . $nv->title;
 				$html .= '</label>';
-				$html .= '</div>';
 				$html .= '</div>';
 			}
 			$html .= JHtml::_('bootstrap.endSlide');
@@ -369,7 +365,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
-		$html .= '<div class="filter-branch' . $classSuffix . ' control-group clearfix">';
+		$html .= '<div class="filter-branch' . $classSuffix . '">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
@@ -393,16 +389,19 @@ abstract class JHtmlFilter
 			}
 
 			// Build a node.
-			$html .= '<div class="controls finder-selects">';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
+			$html .= '<div class="control-group">';
+			$html .= '<div class="control-label">';
+			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
-			$html .= '<br>';
+			$html .= '</div>';
+			$html .= '<div class="controls">';
 			$html .= JHtml::_(
 				'select.genericlist',
-				$branches[$bk]->nodes, 't[]', 'class="inputbox advancedSelect"', 'id', 'title', $active,
+				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
 				'tax-' . JFilterOutput::stringUrlSafe($bv->title)
 			);
+			$html .= '</div>';
 			$html .= '</div>';
 		}
 

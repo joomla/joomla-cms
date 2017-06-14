@@ -195,9 +195,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				if ( !isset($response->success) || !$response->success)
 				{
-					foreach ($response->errorCodes as $error)
+					if (is_array($response->errorCodes))
 					{
-						throw new RuntimeException($error, 403);
+						foreach ($response->errorCodes as $error)
+						{
+							throw new RuntimeException($error, 403);
+						}
 					}
 
 					return false;

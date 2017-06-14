@@ -17,27 +17,6 @@ $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
 if ($data['view'] instanceof MenusViewItems || $data['view'] instanceof MenusViewMenus)
 {
-	$doc = JFactory::getDocument();
-
-	$doc->addStyleDeclaration("
-		/* Fixed filter field in search bar */
-		.js-stools .js-stools-menutype,
-		.js-stools .js-stools-client_id {
-			float: left;
-			margin-right: 10px;
-			min-width: 220px;
-		}
-		html[dir=rtl] .js-stools .js-stools-menutype,
-		html[dir=rtl] .js-stools .js-stools-client_id {
-			float: right;
-			margin-left: 10px
-			margin-right: 0;
-		}
-		.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
-			padding: 3px 0;
-		}
-	");
-
 	// Client selector doesn't have to activate the filter bar.
 	unset($data['view']->activeFilters['client_id']);
 
@@ -69,12 +48,12 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		<div class="js-stools-container-bar">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
-		<div class="js-stools-container-list hidden-phone hidden-tablet">
+		<div class="js-stools-container-list hidden-sm-down">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
+	<div class="js-stools-container-filters hidden-xs-down clearfix<?php echo $filtersClass; ?>">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
 	</div>
 </div>

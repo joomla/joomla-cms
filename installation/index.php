@@ -17,7 +17,7 @@ define('JOOMLA_MINIMUM_PHP', '5.5.9');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
-	die('Your host needs to use PHP ' . JOOMLA_MINIMUM_PHP . ' or higher to run this version of Joomla!');
+	die(str_replace('{{PHP_VERSION}}', JOOMLA_MINIMUM_PHP, file_get_contents(dirname(__FILE__) . '/template/incompatible.html')));
 }
 
 /**

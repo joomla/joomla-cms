@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_DATABASE'); ?></h3>
-	<hr class="hr-condensed" />
+	<hr>
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group">

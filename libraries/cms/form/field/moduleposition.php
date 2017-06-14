@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('text');
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Module Position field.
  *
@@ -82,7 +84,7 @@ class JFormFieldModulePosition extends JFormFieldText
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -106,7 +108,7 @@ class JFormFieldModulePosition extends JFormFieldText
 
 				if (isset($clientName))
 				{
-					$client = JApplicationHelper::getClientInfo($clientName, true);
+					$client = ApplicationHelper::getClientInfo($clientName, true);
 					$clientId = $client->id;
 				}
 			}

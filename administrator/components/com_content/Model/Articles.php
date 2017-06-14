@@ -43,6 +43,7 @@ class Articles extends ListModel
 				'state', 'a.state',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
+				'modified', 'a.modified',
 				'created_by', 'a.created_by',
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
@@ -55,7 +56,8 @@ class Articles extends ListModel
 				'author_id',
 				'category_id',
 				'level',
-				'tag'
+				'tag',
+				'rating_count', 'rating',
 			);
 
 			if (\JLanguageAssociations::isEnabled())
@@ -96,30 +98,6 @@ class Articles extends ListModel
 		{
 			$this->context .= '.' . $forcedLanguage;
 		}
-
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-		$this->setState('filter.access', $access);
-
-		$authorId = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$this->setState('filter.author_id', $authorId);
-
-		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$this->setState('filter.category_id', $categoryId);
-
-		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
-		$this->setState('filter.level', $level);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -177,7 +155,7 @@ class Articles extends ListModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
+					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
 					', a.publish_up, a.publish_down'
 			)
 		);
@@ -215,6 +193,7 @@ class Articles extends ListModel
 			'a.created',
 			'a.created_by',
 			'a.created_by_alias',
+			'a.modified',
 			'a.ordering',
 			'a.featured',
 			'a.language',
@@ -263,7 +242,7 @@ class Articles extends ListModel
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.published');
+		$published = (string) $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
@@ -350,14 +329,8 @@ class Articles extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.fullordering', 'a.id');
-		$orderDirn = '';
-
-		if (empty($orderCol))
-		{
-			$orderCol  = $this->state->get('list.ordering', 'a.id');
-			$orderDirn = $this->state->get('list.direction', 'DESC');
-		}
+		$orderCol  = $this->state->get('list.ordering', 'a.id');
+		$orderDirn = $this->state->get('list.direction', 'DESC');
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 

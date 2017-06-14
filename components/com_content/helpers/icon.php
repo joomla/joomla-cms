@@ -153,9 +153,9 @@ abstract class JHtmlIcon
 		$date   = JHtml::_('date', $article->created);
 		$author = $article->created_by_alias ?: $article->author;
 
-		$overlib .= '&lt;br /&gt;';
+		$overlib .= '&lt;br&gt;';
 		$overlib .= $date;
-		$overlib .= '&lt;br /&gt;';
+		$overlib .= '&lt;br&gt;';
 		$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
 		$text = JLayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'overlib' => $overlib, 'legacy' => $legacy));

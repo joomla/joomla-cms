@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Installer\Administrator\Model\Update;
+
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
 
@@ -128,11 +130,8 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		// Unfortunately Joomla! MVC doesn't allow us to autoload classes
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
-
 		// Get the update model and retrieve the Joomla! core updates
-		$model = JModelLegacy::getInstance('Update', 'InstallerModel');
+		$model = new Update(array('ignore_request' => true));
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
@@ -226,12 +225,13 @@ class PlgSystemUpdatenotification extends JPlugin
 		$fromName = $jConfig->get('fromname');
 
 		$substitutions = array(
-			'[NEWVERSION]' => $newVersion,
-			'[CURVERSION]' => $currentVersion,
-			'[SITENAME]'   => $sitename,
-			'[URL]'        => JUri::base(),
-			'[LINK]'       => $uri->toString(),
-			'\\n'          => "\n",
+			'[NEWVERSION]'  => $newVersion,
+			'[CURVERSION]'  => $currentVersion,
+			'[SITENAME]'    => $sitename,
+			'[URL]'         => JUri::base(),
+			'[LINK]'        => $uri->toString(),
+			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
+			'\\n'           => "\n",
 		);
 
 		foreach ($substitutions as $k => $v)

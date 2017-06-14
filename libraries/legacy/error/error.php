@@ -4,7 +4,7 @@
  * @subpackage  Error
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -582,7 +582,7 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			echo "<br><b>jos-$level_human</b>: "
+			echo "<br><strong>jos-$level_human</strong>: "
 				. $error->get('message') . "<br>\n"
 				. (JDEBUG ? nl2br($trace) : '');
 		}
@@ -635,7 +635,7 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			echo "<br><b>J$level_human</b>: " . $error->get('message') . "<br>\n";
+			echo "<br><strong>J$level_human</strong>: " . $error->get('message') . "<br>\n";
 
 			if ($info != null)
 			{
@@ -680,7 +680,7 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			jexit("<br><b>J$level_human</b>: " . $error->get('message') . "<br>\n");
+			jexit("<br><strong>J$level_human</strong>: " . $error->get('message') . "<br>\n");
 		}
 		else
 		{

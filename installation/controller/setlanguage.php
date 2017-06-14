@@ -55,7 +55,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 		$model = new InstallationModelSetup;
 
 		// Get the posted values from the request and validate them.
-		$data   = $this->input->post->get('jform', [], 'array');
+		$data   = $this->getInput()->post->get('jform', [], 'array');
 		$return = $model->validate($data, 'preinstall');
 
 		$r = new stdClass;
@@ -67,7 +67,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 			 * The validate method enqueued all messages for us, so we just need to
 			 * redirect back to the site setup screen.
 			 */
-			$r->view = $this->input->getWord('view', 'site');
+			$r->view = $this->getInput()->getWord('view', 'site');
 			$app->sendJsonResponse($r);
 		}
 
@@ -78,7 +78,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 		JFactory::$language = JLanguage::getInstance($return['language']);
 
 		// Redirect to the page.
-		$r->view = $this->input->getWord('view', 'site');
+		$r->view = $this->getInput()->getWord('view', 'site');
 		$app->sendJsonResponse($r);
 	}
 }

@@ -15,6 +15,6 @@ $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 ?>
 <button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm">
-	<span class="icon-question-sign"></span>
+	<span class="icon-question-sign" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>

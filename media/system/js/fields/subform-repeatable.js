@@ -128,6 +128,7 @@
 
 		// tell everyone about the new row
 		this.$container.trigger('subform-row-add', $row);
+		Joomla.Event.dispatch($row.get(0), 'joomla:updated');
 		return $row;
 	};
 
@@ -141,6 +142,7 @@
 
 		// tell everyoune about the row will be removed
 		this.$container.trigger('subform-row-remove', $row);
+		Joomla.Event.dispatch($row.get(0), 'joomla:removed');
 		$row.remove();
 	};
 
@@ -216,28 +218,11 @@
 				$el.show().addClass('fix-chosen');
 			});
 		}
-
-		// colorpicker
-		if($.fn.minicolors){
-			$row.find('.minicolors input').each(function(){
-				$(this).minicolors('destroy', $(this));
-			});
-		}
 	};
 
 	// method for hack the scripts that can be related
 	// to the one of field that in given $row
 	$.subformRepeatable.prototype.fixScripts = function($row){
-		//color picker
-		$row.find('.minicolors').each(function() {
-			var $el = $(this);
-			$el.minicolors({
-				control: $el.attr('data-control') || 'hue',
-				position: $el.attr('data-position') || 'right',
-				theme: 'bootstrap'
-			});
-		});
-
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
 				var $el = $(this),

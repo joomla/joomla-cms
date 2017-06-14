@@ -104,20 +104,6 @@ class Html extends HtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Levels filter - Used in Hathor.
-		$this->f_levels = array(
-			\JHtml::_('select.option', '1', \JText::_('J1')),
-			\JHtml::_('select.option', '2', \JText::_('J2')),
-			\JHtml::_('select.option', '3', \JText::_('J3')),
-			\JHtml::_('select.option', '4', \JText::_('J4')),
-			\JHtml::_('select.option', '5', \JText::_('J5')),
-			\JHtml::_('select.option', '6', \JText::_('J6')),
-			\JHtml::_('select.option', '7', \JText::_('J7')),
-			\JHtml::_('select.option', '8', \JText::_('J8')),
-			\JHtml::_('select.option', '9', \JText::_('J9')),
-			\JHtml::_('select.option', '10', \JText::_('J10')),
-		);
-
 		$this->addToolbar();
 		$this->sidebar = \JHtmlSidebar::render();
 

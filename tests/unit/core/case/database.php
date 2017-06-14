@@ -3,7 +3,7 @@
  * @package    Joomla.Test
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
@@ -173,7 +173,6 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		JFactory::$session = $this->_stashedFactoryState['session'];
 		JFactory::$language = $this->_stashedFactoryState['language'];
 		JFactory::$document = $this->_stashedFactoryState['document'];
-		JFactory::$acl = $this->_stashedFactoryState['acl'];
 		JFactory::$mailer = $this->_stashedFactoryState['mailer'];
 	}
 
@@ -193,7 +192,6 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		$this->_stashedFactoryState['session'] = JFactory::$session;
 		$this->_stashedFactoryState['language'] = JFactory::$language;
 		$this->_stashedFactoryState['document'] = JFactory::$document;
-		$this->_stashedFactoryState['acl'] = JFactory::$acl;
 		$this->_stashedFactoryState['mailer'] = JFactory::$mailer;
 	}
 

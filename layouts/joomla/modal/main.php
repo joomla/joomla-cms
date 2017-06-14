@@ -52,7 +52,7 @@ if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
 
 $modalAttributes = array(
 	'tabindex' => '-1',
-	'class'    => implode(' ', $modalClasses)
+	'class'    => 'joomla-modal ' .implode(' ', $modalClasses)
 );
 
 if (isset($params['backdrop']))
@@ -67,21 +67,11 @@ if (isset($params['keyboard']))
 
 if (isset($params['url']))
 {
-	$script[] = ';jQuery(document).ready(function() {';
-	$script[] = 'window.jModalClose = function() { jQuery(".modal.fade.show").modal("hide"); }; ';
-	$script[] = '   jQuery("#' . $selector . '").on("show.bs.modal", function() {';
-	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
-	// Script for destroying and reloading the iframe
-	$script[] = "       var modalBody = jQuery(this).find('.modal-body');";
-	$script[] = "       modalBody.find('iframe').remove();";
-	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
-	$script[] = '   });';
-	$script[] = '});';
-
-	JFactory::getDocument()->addScriptDeclaration(implode('', $script));
+	$url = 'data-url="' . $params['url'] . '"';
+	$iframeHtml = htmlspecialchars(JLayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
-<div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?>>
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?> <?php echo isset($url) ? $url : ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
 	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
 		<div class="modal-content">
 			<?php

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -17,20 +17,21 @@ $this->language  = $doc->language;
 $this->direction = $doc->direction;
 $input           = $app->input;
 
-// Add JavaScript Frameworks
+// Add JavaScript
 JHtml::_('bootstrap.framework');
-$doc->addScriptVersion(JUri::root() . 'media/vendor/flying-focus-a11y/js/flying-focus.min.js');
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
+JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
 
 // Load specific language related CSS
 $languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheetVersion($languageCss);
+	JHtml::_('stylesheet', $languageCss, ['version' => 'auto']);
 }
 
 // Load custom.css
@@ -38,7 +39,7 @@ $customCss = 'templates/' . $this->template . '/css/custom.css';
 
 if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$doc->addStyleSheetVersion($customCss);
+	JHtml::_('stylesheet', $customCss, ['version' => 'auto']);
 }
 
 // Detecting Active Variables
@@ -62,7 +63,9 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="head" />
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
@@ -74,7 +77,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 	</noscript>
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?> closed">
+	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
@@ -91,25 +94,32 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="text-center">
-					<div class="menu-collapse hidden-lg-up">
-						<a id="menu-collapse" class="menu-toggle" href="#">
-							<span class="fa fa-bars fa-fw">
+				<div class="d-flex justify-content-end">
+					<div class="d-flex col">
+						<div class="menu-collapse">
+							<a id="menu-collapse" class="menu-toggle" href="#">
+								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
-							</span>
-						</a>
+							</a>
+						</div>
+
+						<div class="container-title">
+							<jdoc:include type="modules" name="title" />
+						</div>
 					</div>
 
-					<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
-						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
-						<span class="icon-out-2 small"></span>
-					</a>
-
-					<nav>
-						<ul class="nav">
+					<div class="ml-auto">
+						<ul class="nav text-center">
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+									<span class="fa fa-external-link" aria-hidden="true"></span>
+									<span class="sr-only"><?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?></span>
+								</a>
+							</li>
 							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
-									<span class="fa fa-envelope"><span class="sr-only"><?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?></span>
+									<span class="fa fa-envelope-o" aria-hidden="true"></span>
+									<span class="sr-only"><?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?></span>
 									<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
 									<?php if ($countUnread > 0) : ?>
 										<span class="badge badge-pill badge-success"><?php echo $countUnread; ?></span>
@@ -119,19 +129,12 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php
 								try
 								{
-									JLoader::register('PostinstallDispatcher', JPATH_ADMINISTRATOR . '/components/com_postinstall/dispatcher.php');
-									$oldScope = $app->scope;
-									$app->scope = 'com_postinstall';
-									$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
-									$dispatcher = new PostinstallDispatcher($namespace, JFactory::getApplication());
-
-									$messages_model = $dispatcher->getFactory()->createModel('Messages', 'Administrator', array('ignore_request' => true));
-
-									$messages       = $messages_model->getItems();
+									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(['ignore_request' => true]);
+									$messages      = $messagesModel->getItems();
 								}
 								catch (RuntimeException $e)
 								{
-									$messages = array();
+									$messages = [];
 
 									// Still render the error message from the Exception object
 									JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -141,7 +144,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
-									<span class="fa fa-bell"></span>
+									<span class="fa fa-bell-o" aria-hidden="true"></span>
 									<?php if (count($messages) > 0) : ?>
 										<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
 									<?php endif; ?>
@@ -150,7 +153,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 									<div class="list-group">
 										<?php if (empty($messages)) : ?>
 										<p class="list-group-item text-center">
-											<b><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></b>
+											<strong><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
 										</p>
 										<?php endif; ?>
 										<?php foreach ($messages as $message) : ?>
@@ -167,13 +170,12 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php endif; ?>
 							<li class="nav-item dropdown header-profile">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-									<span class="fa fa-user">
-										<span class="sr-only"><?php echo JText::_('TPL_ATUM_ADMIN_USER_MENU'); ?></span>
-									</span>
+									<span class="fa fa-user-o" aria-hidden="true"></span>
+									<span class="sr-only"><?php echo JText::_('TPL_ATUM_ADMIN_USER_MENU'); ?></span>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
 									<div class="dropdown-item header-profile-user">
-										<span class="fa fa-user"></span>
+										<span class="fa fa-user" aria-hidden="true"></span>
 										<?php echo $user->name; ?>
 									</div>
 									<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
@@ -184,20 +186,11 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 								</div>
 							</li>
 						</ul>
-					</nav>
+					</div>
 
 				</div>
 			</div>
 		</header>
-		<div class="container-title">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-12">
-						<jdoc:include type="modules" name="title" />
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<?php // container-fluid ?>
 		<div class="container-fluid container-main">

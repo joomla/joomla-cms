@@ -36,7 +36,7 @@ if ($multiple)
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
-<div class="row-fluid">
+<div class="row">
 	<div class="subform-repeatable-wrapper subform-layout">
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"

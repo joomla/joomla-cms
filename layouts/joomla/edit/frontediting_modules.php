@@ -30,7 +30,7 @@ $editUrl = JUri::base() . 'administrator/index.php?option=com_modules&task=modul
 
 if ($parameters->get('redirect_edit', 'site') === 'site')
 {
-	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
+	$editUrl = JUri::base() . 'index.php?option=com_config&view=modules&id=' . (int) $mod->id . $redirectUri;
 	$target  = '_self';
 }
 

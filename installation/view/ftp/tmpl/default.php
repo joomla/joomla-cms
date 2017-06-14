@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
-	<hr class="hr-condensed" />
+	<hr>
 	<div class="form-group">
 		<?php echo $this->form->getLabel('ftp_enable'); ?>
 		<?php echo $this->form->getInput('ftp_enable'); ?>

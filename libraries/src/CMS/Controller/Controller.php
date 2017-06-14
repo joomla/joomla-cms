@@ -14,7 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\LegacyFactory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\View\View;
+use Joomla\CMS\View\AbstractView;
 
 /**
  * Base class for a Joomla Controller
@@ -730,7 +730,15 @@ class Controller implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			$prefix = $this->model_prefix;
+			// We need this ugly code to deal with non-namespaced MVC code
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->model_prefix;
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
@@ -816,7 +824,7 @@ class Controller implements ControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  View  Reference to the view or an error.
+	 * @return  AbstractView  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -836,7 +844,15 @@ class Controller implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			$prefix = $this->getName() . 'View';
+			// We need this ugly code to deal with non-namespaced MVC code
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->getName() . 'View';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))
@@ -847,19 +863,7 @@ class Controller implements ControllerInterface
 			}
 			else
 			{
-				$response = 500;
-
-				/*
-				 * With URL rewriting enabled on the server, all client requests for non-existent files are being
-				 * forwarded to Joomla.  Return a 404 response here and assume the client was requesting a non-existent
-				 * file for which there is no view type that matches the file's extension (the most likely scenario).
-				 */
-				if (\JFactory::getApplication()->get('sef_rewrite'))
-				{
-					$response = 404;
-				}
-
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), $response);
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
 			}
 		}
 

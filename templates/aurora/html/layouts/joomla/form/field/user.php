@@ -48,7 +48,7 @@ extract($displayData);
 
 // Set the link for the user selection page
 $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
-	. ($required ? 1 : 0) . '&amp;field={field-user-id}&amp;ismoo=0'
+	. ($required ? 1 : 0) . '&amp;field={field-user-id}'
 	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
@@ -58,7 +58,10 @@ if (JText::_('JLIB_FORM_SELECT_USER') === htmlspecialchars($userName, ENT_COMPAT
 	$userName = '';
 }
 
-JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+if (!$readonly)
+{
+	JHtml::_('script', 'system/fields/fielduser.min.js', ['version' => 'auto', 'relative' => true]);
+}
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <div class="field-user-wrapper"
@@ -84,16 +87,18 @@ JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 
 			<?php echo JHtml::_(
 				'bootstrap.renderModal',
 				'userModal_' . $id,
-				array(
+				[
 					'title'  => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
-					'footer' => '<a type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
-				)
+					'footer' => '<a type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
+				]
 			); ?>
 		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
-	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
-		class="field-user-input <?php echo $class ? (string) $class : ''?>"
-		data-onchange="<?php echo $this->escape($onchange); ?>"/>
+	<?php if (!$readonly) : ?>
+		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
+			class="field-user-input <?php echo $class ? (string) $class : ''?>"
+			data-onchange="<?php echo $this->escape($onchange); ?>"/>
+	<?php endif; ?>
 </div>

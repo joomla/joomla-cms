@@ -51,7 +51,7 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get array of selected languages
-		$lids = $this->input->get('cid', [], 'array');
+		$lids = $this->getInput()->get('cid', [], 'array');
 		$lids = ArrayHelper::toInteger($lids, []);
 
 		if (!$lids)

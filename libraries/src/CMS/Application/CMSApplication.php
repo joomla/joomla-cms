@@ -11,8 +11,16 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Pathway\Pathway;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -24,73 +32,9 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-abstract class CmsApplication extends WebApplication implements ContainerAwareInterface
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ContainerAwareTrait;
-
-	/**
-	 * Constant defining an enqueued emergency message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_EMERGENCY = 'emergency';
-
-	/**
-	 * Constant defining an enqueued alert message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_ALERT = 'alert';
-
-	/**
-	 * Constant defining an enqueued critical message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_CRITICAL = 'critical';
-
-	/**
-	 * Constant defining an enqueued error message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_ERROR = 'error';
-
-	/**
-	 * Constant defining an enqueued warning message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_WARNING = 'warning';
-
-	/**
-	 * Constant defining an enqueued notice message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_NOTICE = 'notice';
-
-	/**
-	 * Constant defining an enqueued info message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_INFO = 'info';
-
-	/**
-	 * Constant defining an enqueued debug message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_DEBUG = 'debug';
+	use ContainerAwareTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -143,7 +87,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The profiler instance
 	 *
-	 * @var    \JProfiler
+	 * @var    Profiler
 	 * @since  3.2
 	 */
 	protected $profiler = null;
@@ -182,7 +126,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			$this->profiler = \JProfiler::getInstance('Application');
+			$this->profiler = Profiler::getInstance('Application');
 		}
 
 		// Enable sessions by default.
@@ -196,6 +140,8 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		{
 			$this->config->set('session_name', $this->getName());
 		}
+
+		$this->createExtensionNamespaceMap();
 	}
 
 	/**
@@ -214,7 +160,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
+			$session->set('user', new User);
 		}
 
 		// TODO: At some point we need to get away from having session data always in the db.
@@ -372,7 +318,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 
 		// Trigger the onBeforeExecute event.
 		$this->triggerEvent(
@@ -548,6 +494,8 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
+
+			static::$instances[$name]->loadIdentity(\JFactory::getUser());
 		}
 
 		return static::$instances[$name];
@@ -559,7 +507,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JMenu
+	 * @return  AbstractMenu
 	 *
 	 * @since   3.2
 	 */
@@ -576,7 +524,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 			$options['app'] = $this;
 		}
 
-		return \JMenu::getInstance($name, $options);
+		return AbstractMenu::getInstance($name, $options);
 	}
 
 	/**
@@ -630,7 +578,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JPathway
+	 * @return  Pathway
 	 *
 	 * @since   3.2
 	 */
@@ -641,7 +589,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 			$name = $this->getName();
 		}
 
-		return \JPathway::getInstance($name, $options);
+		return Pathway::getInstance($name, $options);
 	}
 
 	/**
@@ -761,7 +709,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		}
 
 		// Build our language object
-		$lang = \JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
+		$lang = Language::getInstance($this->get('language'), $this->get('debug_lang'));
 
 		// Load the language to the API
 		$this->loadLanguage($lang);
@@ -776,11 +724,11 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		$user = \JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
 
-		if (!\JPluginHelper::isEnabled('editors', $editor))
+		if (!PluginHelper::isEnabled('editors', $editor))
 		{
 			$editor = $this->get('editor');
 
-			if (!\JPluginHelper::isEnabled('editors', $editor))
+			if (!PluginHelper::isEnabled('editors', $editor))
 			{
 				$editor = 'none';
 			}
@@ -789,10 +737,10 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		$this->set('editor', $editor);
 
 		// Load the behaviour plugins
-		\JPluginHelper::importPlugin('behaviour');
+		PluginHelper::importPlugin('behaviour');
 
 		// Trigger the onAfterInitialise event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
 	}
 
@@ -820,6 +768,33 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	public function isSite()
 	{
 		return $this->isClient('site');
+	}
+
+	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  boolean  True if is forced for the client, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+		$forceSsl = (int) $this->get('force_ssl');
+
+		if ($clientId === 0 && $forceSsl === 2)
+		{
+			return true;
+		}
+
+		if ($clientId === 1 && $forceSsl >= 1)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -869,21 +844,21 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function login($credentials, $options = array())
 	{
-		// Get the global \JAuthentication object.
-		$authenticate = \JAuthentication::getInstance();
+		// Get the global Authentication object.
+		$authenticate = Authentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.
-		\JPluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('user');
 
-		if ($response->status === \JAuthentication::STATUS_SUCCESS)
+		if ($response->status === Authentication::STATUS_SUCCESS)
 		{
 			/*
 			 * Validate that the user should be able to login (different to being authenticated).
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
-			$denied_states = \JAuthentication::STATUS_EXPIRED | \JAuthentication::STATUS_DENIED;
+			$denied_states = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
@@ -901,10 +876,10 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 					// Return the error.
 					switch ($authorisation->status)
 					{
-						case \JAuthentication::STATUS_EXPIRED:
+						case Authentication::STATUS_EXPIRED:
 							return \JError::raiseWarning('102002', \JText::_('JLIB_LOGIN_EXPIRED'));
 
-						case \JAuthentication::STATUS_DENIED:
+						case Authentication::STATUS_DENIED:
 							return \JError::raiseWarning('102003', \JText::_('JLIB_LOGIN_DENIED'));
 
 						default:
@@ -952,7 +927,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		}
 
 		// If status is success, any error will have been raised by the user plugin
-		if ($response->status !== \JAuthentication::STATUS_SUCCESS)
+		if ($response->status !== Authentication::STATUS_SUCCESS)
 		{
 			$this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
 		}
@@ -993,7 +968,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		}
 
 		// Import the user plugin group.
-		\JPluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
@@ -1029,49 +1004,6 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function redirect($url, $status = 303)
 	{
-		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
-		if (func_num_args() > 1)
-		{
-			$args = func_get_args();
-
-			/*
-			 * Do some checks on the $args array, values below correspond to legacy redirect() method
-			 *
-			 * $args[0] = $url
-			 * $args[1] = Message to enqueue
-			 * $args[2] = Message type
-			 * $args[3] = $status (previously moved)
-			 */
-			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
-			{
-				// Log that passing the message to the function is deprecated
-				$this->getLogger()->warning(
-					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
-					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
-					. '::redirect().',
-					array('category' => 'deprecated')
-				);
-
-				$message = $args[1];
-
-				// Set the message type if present
-				if (isset($args[2]) && !empty($args[2]))
-				{
-					$type = $args[2];
-				}
-				else
-				{
-					$type = 'message';
-				}
-
-				// Enqueue the message
-				$this->enqueueMessage($message, $type);
-
-				// Reset the $moved variable
-				$status = isset($args[3]) ? (boolean) $args[3] : false;
-			}
-		}
-
 		// Persist messages if they exist.
 		if (count($this->messageQueue))
 		{
@@ -1112,7 +1044,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		$this->document->parse($this->docOptions);
 
 		// Trigger the onBeforeRender event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
 
 		$caching = false;
@@ -1161,7 +1093,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 		}
 
 		// Trigger the onAfterRoute event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
 	}
 
@@ -1229,7 +1161,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getFormToken($forceNew = false)
 	{
-		/** @var \JSession $session */
+		/** @var Session $session */
 		$session = $this->getSession();
 
 		return $session->getFormToken();
@@ -1248,9 +1180,24 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkToken($method = 'post')
 	{
-		/** @var \JSession $session */
+		/** @var Session $session */
 		$session = $this->getSession();
 
 		return $session->checkToken($method);
+	}
+
+	/**
+	 * Flag if the application instance is a CLI or web based application.
+	 *
+	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.
+	 *
+	 * @return  boolean
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  5.0  Will be removed without replacements
+	 */
+	public function isCli()
+	{
+		return false;
 	}
 }

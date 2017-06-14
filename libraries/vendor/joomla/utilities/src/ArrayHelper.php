@@ -29,8 +29,8 @@ final class ArrayHelper
 	/**
 	 * Function to convert array to integer values
 	 *
-	 * @param   array  $array    The source array to convert
-	 * @param   mixed  $default  A default value (int|array) to assign if $array is not an array
+	 * @param   array      $array    The source array to convert
+	 * @param   int|array  $default  A default value to assign if $array is not an array
 	 *
 	 * @return  array
 	 *
@@ -45,7 +45,7 @@ final class ArrayHelper
 
 		if ($default === null)
 		{
-			return array();
+			return [];
 		}
 
 		if (is_array($default))
@@ -53,7 +53,7 @@ final class ArrayHelper
 			return static::toInteger($default, null);
 		}
 
-		return array((int) $default);
+		return [(int) $default];
 	}
 
 	/**
@@ -100,7 +100,7 @@ final class ArrayHelper
 	 */
 	public static function toString(array $array, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
 	{
-		$output = array();
+		$output = [];
 
 		foreach ($array as $key => $item)
 		{
@@ -141,7 +141,7 @@ final class ArrayHelper
 			return self::arrayFromObject($p_obj, $recurse, $regex);
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -159,7 +159,7 @@ final class ArrayHelper
 	{
 		if (is_object($item))
 		{
-			$result = array();
+			$result = [];
 
 			foreach (get_object_vars($item) as $k => $v)
 			{
@@ -181,7 +181,7 @@ final class ArrayHelper
 
 		if (is_array($item))
 		{
-			$result = array();
+			$result = [];
 
 			foreach ($item as $k => $v)
 			{
@@ -192,6 +192,100 @@ final class ArrayHelper
 		}
 
 		return $item;
+	}
+
+	/**
+	 * Adds a column to an array of arrays or objects
+	 *
+	 * @param   array   $array    The source array
+	 * @param   array   $column   The array to be used as new column
+	 * @param   string  $colName  The index of the new column or name of the new object property
+	 * @param   string  $keyCol   The index of the column or name of object property to be used for mapping with the new column
+	 *
+	 * @return  array  An array with the new column added to the source array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see     https://secure.php.net/manual/en/language.types.array.php
+	 */
+	public static function addColumn(array $array, array $column, $colName, $keyCol = null)
+	{
+		$result = array();
+
+		foreach ($array as $i => $item)
+		{
+			$value = null;
+
+			if (!isset($keyCol))
+			{
+				$value = static::getValue($column, $i);
+			}
+			else
+			{
+				// Convert object to array
+				$subject = is_object($item) ? static::fromObject($item) : $item;
+
+				if (isset($subject[$keyCol]) && is_scalar($subject[$keyCol]))
+				{
+					$value = static::getValue($column, $subject[$keyCol]);
+				}
+			}
+
+			// Add the column
+			if (is_object($item))
+			{
+				if (isset($colName))
+				{
+					$item->$colName = $value;
+				}
+			}
+			else
+			{
+				if (isset($colName))
+				{
+					$item[$colName] = $value;
+				}
+				else
+				{
+					$item[] = $value;
+				}
+			}
+
+			$result[$i] = $item;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Remove a column from an array of arrays or objects
+	 *
+	 * @param   array   $array    The source array
+	 * @param   string  $colName  The index of the column or name of object property to be removed
+	 *
+	 * @return  array  Column of values from the source array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see     https://secure.php.net/manual/en/language.types.array.php
+	 */
+	public static function dropColumn(array $array, $colName)
+	{
+		$result = array();
+
+		foreach ($array as $i => $item)
+		{
+			if (is_object($item) && isset($item->$colName))
+			{
+				unset($item->$colName);
+			}
+			elseif (is_array($item) && isset($item[$colName]))
+			{
+				unset($item[$colName]);
+			}
+
+			$result[$i] = $item;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -206,12 +300,18 @@ final class ArrayHelper
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   1.0
-	 * @see     http://php.net/manual/en/language.types.array.php
-	 * @see     http://php.net/manual/en/function.array-column.php
+	 * @see     https://secure.php.net/manual/en/language.types.array.php
+	 * @see     https://secure.php.net/manual/en/function.array-column.php
 	 */
 	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
-		$result = array();
+		// As of PHP 7, array_column() supports an array of objects so we'll use that
+		if (PHP_VERSION_ID >= 70000)
+		{
+			return array_column($array, $valueCol, $keyCol);
+		}
+
+		$result = [];
 
 		foreach ($array as $item)
 		{
@@ -247,7 +347,7 @@ final class ArrayHelper
 	 * Utility function to return a value from a named array or a specified default
 	 *
 	 * @param   array|\ArrayAccess  $array    A named array or object that implements ArrayAccess
-	 * @param   string              $name     The key to search for
+	 * @param   string              $name     The key to search for (this can be an array index or a dot separated key sequence as in Registry)
 	 * @param   mixed               $default  The default value to give if no key found
 	 * @param   string              $type     Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
 	 *
@@ -268,6 +368,15 @@ final class ArrayHelper
 		if (isset($array[$name]))
 		{
 			$result = $array[$name];
+		}
+		elseif (strpos($name, '.'))
+		{
+			list($name, $subset) = explode('.', $name, 2);
+
+			if (isset($array[$name]) && is_array($array[$name]))
+			{
+				return static::getValue($array[$name], $subset, $default, $type);
+			}
 		}
 
 		// Handle the default case
@@ -301,7 +410,7 @@ final class ArrayHelper
 			case 'ARRAY':
 				if (!is_array($result))
 				{
-					$result = array($result);
+					$result = [$result];
 				}
 				break;
 
@@ -351,7 +460,7 @@ final class ArrayHelper
 	 */
 	public static function invert(array $array)
 	{
-		$return = array();
+		$return = [];
 
 		foreach ($array as $base => $values)
 		{
@@ -410,8 +519,8 @@ final class ArrayHelper
 	 */
 	public static function pivot(array $source, $key = null)
 	{
-		$result  = array();
-		$counter = array();
+		$result  = [];
+		$counter = [];
 
 		foreach ($source as $index => $value)
 		{
@@ -449,16 +558,16 @@ final class ArrayHelper
 			if (empty($counter[$resultKey]))
 			{
 				// The first time around we just assign the value to the key.
-				$result[$resultKey] = $resultValue;
+				$result[$resultKey]  = $resultValue;
 				$counter[$resultKey] = 1;
 			}
 			elseif ($counter[$resultKey] == 1)
 			{
 				// If there is a second time, we convert the value into an array.
-				$result[$resultKey] = array(
+				$result[$resultKey] = [
 					$result[$resultKey],
 					$resultValue,
-				);
+				];
 				$counter[$resultKey]++;
 			}
 			else
@@ -490,7 +599,7 @@ final class ArrayHelper
 	{
 		if (!is_array($locale) || !is_array($locale[0]))
 		{
-			$locale = array($locale);
+			$locale = [$locale];
 		}
 
 		$sortCase      = (array) $caseSensitive;
@@ -559,7 +668,7 @@ final class ArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @see     http://php.net/manual/en/function.array-unique.php
+	 * @see     https://secure.php.net/manual/en/function.array-unique.php
 	 * @since   1.0
 	 */
 	public static function arrayUnique(array $array)

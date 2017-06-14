@@ -41,7 +41,7 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
  *
  * @since  3.0
  */
-class DeletefilesCli extends JApplicationCli
+class DeletefilesCli extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Entry point for CLI script
@@ -53,8 +53,8 @@ class DeletefilesCli extends JApplicationCli
 	protected function doExecute()
 	{
 		// Import the dependencies
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
+		JLoader::import('joomla.filesystem.file');
+		JLoader::import('joomla.filesystem.folder');
 
 		// We need the update script
 		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -66,4 +66,4 @@ class DeletefilesCli extends JApplicationCli
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
-JApplicationCli::getInstance('DeletefilesCli')->execute();
+\Joomla\CMS\Application\CliApplication::getInstance('DeletefilesCli')->execute();

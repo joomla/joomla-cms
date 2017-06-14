@@ -14,28 +14,28 @@ defined('_JEXEC') or die;
  *
  * @since  3.2
  */
-class UsersRouter extends JComponentRouterView
+class UsersRouter extends \JComponentRouterView
 {
 	/**
 	 * Users Component router constructor
 	 *
-	 * @param   JApplicationCms  $app   The application object
-	 * @param   JMenu            $menu  The menu object to work with
+	 * @param   \JApplicationCms  $app   The application object
+	 * @param   \JMenu            $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
-		$this->registerView(new JComponentRouterViewconfiguration('login'));
-		$profile = new JComponentRouterViewconfiguration('profile');
+		$this->registerView(new \JComponentRouterViewconfiguration('login'));
+		$profile = new \JComponentRouterViewconfiguration('profile');
 		$profile->addLayout('edit');
 		$this->registerView($profile);
-		$this->registerView(new JComponentRouterViewconfiguration('registration'));
-		$this->registerView(new JComponentRouterViewconfiguration('remind'));
-		$this->registerView(new JComponentRouterViewconfiguration('reset'));
+		$this->registerView(new \JComponentRouterViewconfiguration('registration'));
+		$this->registerView(new \JComponentRouterViewconfiguration('remind'));
+		$this->registerView(new \JComponentRouterViewconfiguration('reset'));
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new JComponentRouterRulesMenu($this));
-		$this->attachRule(new JComponentRouterRulesStandard($this));
-		$this->attachRule(new JComponentRouterRulesNomenu($this));
+		$this->attachRule(new \JComponentRouterRulesMenu($this));
+		$this->attachRule(new \JComponentRouterRulesStandard($this));
+		$this->attachRule(new \JComponentRouterRulesNomenu($this));
 	}
 }

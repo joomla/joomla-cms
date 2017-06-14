@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.3
  */
-class TagsRouter extends JComponentRouterBase
+class TagsRouter extends \JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_tags component
@@ -32,7 +32,7 @@ class TagsRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$params = JComponentHelper::getParams('com_tags');
+		$params = \JComponentHelper::getParams('com_tags');
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
@@ -145,12 +145,15 @@ class TagsRouter extends JComponentRouterBase
 		{
 			$vars['view'] = $segments[0];
 			$vars['id']   = $this->fixSegment($segments[$count - 1]);
+			unset($segments[0]);
+			unset($segments[$count - 1]);
 
 			return $vars;
 		}
 
 		$vars['id'] = $this->fixSegment($segments[0]);
 		$vars['view'] = 'tag';
+		unset($segments[0]);
 
 		return $vars;
 	}
@@ -166,7 +169,7 @@ class TagsRouter extends JComponentRouterBase
 	*/
 	protected function fixSegment($segment)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Try to find tag id
 		$alias = str_replace(':', '-', $segment);

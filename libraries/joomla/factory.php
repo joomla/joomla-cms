@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Language;
 use Joomla\DI\Container;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
@@ -85,15 +86,6 @@ abstract class JFactory
 	 * @since  11.1
 	 */
 	public static $document = null;
-
-	/**
-	 * Global ACL object
-	 *
-	 * @var    JAccess
-	 * @since  11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
-	 */
-	public static $acl = null;
 
 	/**
 	 * Global database object
@@ -276,13 +268,13 @@ abstract class JFactory
 	/**
 	 * Get a user object.
 	 *
-	 * Returns the global {@link JUser} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link User} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   integer  $id  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
-	 * @return  JUser object
+	 * @return  User object
 	 *
-	 * @see     JUser
+	 * @see     User
 	 * @since   11.1
 	 */
 	public static function getUser($id = null)
@@ -291,15 +283,15 @@ abstract class JFactory
 
 		if (is_null($id))
 		{
-			if (!($instance instanceof JUser))
+			if (!($instance instanceof User))
 			{
-				$instance = JUser::getInstance();
+				$instance = User::getInstance();
 			}
 		}
 		// Check if we have a string as the id or if the numeric id is the current instance
-		elseif (!($instance instanceof JUser) || is_string($id) || $instance->id !== $id)
+		elseif (!($instance instanceof User) || is_string($id) || $instance->id !== $id)
 		{
-			$instance = JUser::getInstance($id);
+			$instance = User::getInstance($id);
 		}
 
 		return $instance;
@@ -308,13 +300,13 @@ abstract class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns the global {@link JCacheController} object
+	 * Returns the global {@link CacheController} object
 	 *
 	 * @param   string  $group    The cache group name
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCacheController object
+	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
 	 * @see     JCache
 	 * @since   11.1
@@ -337,7 +329,7 @@ abstract class JFactory
 			$options['storage'] = $storage;
 		}
 
-		$cache = JCache::getInstance($handler, $options);
+		$cache = \Joomla\CMS\Cache\Cache::getInstance($handler, $options);
 
 		self::$cache[$hash] = $cache;
 
@@ -394,98 +386,12 @@ abstract class JFactory
 	}
 
 	/**
-	 * Reads a XML file.
-	 *
-	 * @param   string   $data    Full path and file name.
-	 * @param   boolean  $isFile  true to load a file or false to load a string.
-	 *
-	 * @return  mixed    JXMLElement or SimpleXMLElement on success or false on error.
-	 *
-	 * @see     JXMLElement
-	 * @since   11.1
-	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXML directly.
-	 */
-	public static function getXml($data, $isFile = true)
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
-
-		$class = 'SimpleXMLElement';
-
-		if (class_exists('JXMLElement'))
-		{
-			$class = 'JXMLElement';
-		}
-
-		// Disable libxml errors and allow to fetch error information as needed
-		libxml_use_internal_errors(true);
-
-		if ($isFile)
-		{
-			// Try to load the XML file
-			$xml = simplexml_load_file($data, $class);
-		}
-		else
-		{
-			// Try to load the XML string
-			$xml = simplexml_load_string($data, $class);
-		}
-
-		if ($xml === false)
-		{
-			JLog::add(JText::_('JLIB_UTIL_ERROR_XML_LOAD'), JLog::WARNING, 'jerror');
-
-			if ($isFile)
-			{
-				JLog::add($data, JLog::WARNING, 'jerror');
-			}
-
-			foreach (libxml_get_errors() as $error)
-			{
-				JLog::add($error->message, JLog::WARNING, 'jerror');
-			}
-		}
-
-		return $xml;
-	}
-
-	/**
-	 * Get an editor object.
-	 *
-	 * @param   string  $editor  The editor to load, depends on the editor plugins that are installed
-	 *
-	 * @return  JEditor instance of JEditor
-	 *
-	 * @since   11.1
-	 * @throws  BadMethodCallException
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use JEditor directly
-	 */
-	public static function getEditor($editor = null)
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JEditor directly.', JLog::WARNING, 'deprecated');
-
-		if (!class_exists('JEditor'))
-		{
-			throw new BadMethodCallException('JEditor not found');
-		}
-
-		// Get the editor configuration setting
-		if (is_null($editor))
-		{
-			$conf = self::getConfig();
-			$editor = $conf->get('editor');
-		}
-
-		return JEditor::getInstance($editor);
-	}
-
-	/**
 	 * Return the {@link JDate} object
 	 *
 	 * @param   mixed  $time      The initial time for the JDate object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
-	 * @return  JDate object
+	 * @return  \Joomla\CMS\Date\Date object
 	 *
 	 * @see     JDate
 	 * @since   11.1
@@ -510,13 +416,13 @@ abstract class JFactory
 				if (!class_exists($classname))
 				{
 					// The class does not exist, default to JDate
-					$classname = 'JDate';
+					$classname = 'Joomla\\CMS\\Date\\Date';
 				}
 			}
 			else
 			{
 				// No tag, so default to JDate
-				$classname = 'JDate';
+				$classname = 'Joomla\\CMS\\Date\\Date';
 			}
 		}
 
@@ -596,7 +502,11 @@ abstract class JFactory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session);
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
 
 		return $container;
 	}
@@ -622,8 +532,13 @@ abstract class JFactory
 		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
+		// The session handler needs a JInput object, we can inject it without having a hard dependency to an application instance
+		$input = self::$application ? self::getApplication()->input : new JInput;
+
 		$sessionHandler = new JSessionHandlerJoomla($options);
-		$session        = JSession::getInstance($handler, $options, $sessionHandler);
+		$sessionHandler->input = $input;
+
+		$session = JSession::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{

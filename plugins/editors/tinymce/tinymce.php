@@ -51,7 +51,6 @@ class PlgEditorTinymce extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('behavior.core');
-		JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
 		JHtml::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
 	}
@@ -153,7 +152,7 @@ class PlgEditorTinymce extends JPlugin
 				$app->setUserState('plg_editors_tinymce.config_legacy_warn_count', ++$config_warn_count);
 			}
 
-			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author);
+			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author, $params);
 		}
 
 		if (empty($id))
@@ -674,6 +673,9 @@ class PlgEditorTinymce extends JPlugin
 			// Drag and drop specific
 			'dndEnabled' => $dragdrop,
 			'dndPath'    => JUri::root() . 'media/editors/tinymce/js/dragdrop/plugin.min.js',
+
+			// Disable TinyMCE Branding
+			'branding'	=> false,
 			)
 		);
 
@@ -1229,6 +1231,7 @@ class PlgEditorTinymce extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
 	 * @param   string   $asset    The object asset
 	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string
 	 *
@@ -1236,7 +1239,8 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @deprecated 4.0
 	 */
-	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	private function onDisplayLegacy(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
@@ -1274,6 +1278,9 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
+		// Set editor to readonly mode
+		$textarea->readonly = !empty($params['readonly']);
+
 		// Render Editor markup
 		$editor = '<div class="editor js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
@@ -1288,6 +1295,12 @@ class PlgEditorTinymce extends JPlugin
 			if (!empty($btns['names']))
 			{
 				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			}
+
+			// Set editor to readonly mode
+			if (!empty($params['readonly']))
+			{
+				$options['tinyMCE'][$fieldName]['readonly'] = 1;
 			}
 
 			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;

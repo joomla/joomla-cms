@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/banner.php');
+use Joomla\Component\Banners\Site\Helper\BannerHelper;
+
 $baseurl = JUri::base();
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">

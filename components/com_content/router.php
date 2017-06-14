@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Routing class of com_content
  *
  * @since  3.3
  */
-class ContentRouter extends JComponentRouterView
+class ContentRouter extends \JComponentRouterView
 {
 	protected $noIDs = false;
 
@@ -26,26 +28,26 @@ class ContentRouter extends JComponentRouterView
 	 */
 	public function __construct($app = null, $menu = null)
 	{
-		$params = JComponentHelper::getParams('com_content');
+		$params = ComponentHelper::getParams('com_content');
 		$this->noIDs = (bool) $params->get('sef_ids');
-		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories = new \JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
-		$category = new JComponentRouterViewconfiguration('category');
+		$category = new \JComponentRouterViewconfiguration('category');
 		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
 		$this->registerView($category);
-		$article = new JComponentRouterViewconfiguration('article');
+		$article = new \JComponentRouterViewconfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');
 		$this->registerView($article);
-		$this->registerView(new JComponentRouterViewconfiguration('archive'));
-		$this->registerView(new JComponentRouterViewconfiguration('featured'));
-		$this->registerView(new JComponentRouterViewconfiguration('form'));
+		$this->registerView(new \JComponentRouterViewconfiguration('archive'));
+		$this->registerView(new \JComponentRouterViewconfiguration('featured'));
+		$this->registerView(new \JComponentRouterViewconfiguration('form'));
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new JComponentRouterRulesMenu($this));
-		$this->attachRule(new JComponentRouterRulesStandard($this));
-		$this->attachRule(new JComponentRouterRulesNomenu($this));
+		$this->attachRule(new \JComponentRouterRulesMenu($this));
+		$this->attachRule(new \JComponentRouterRulesStandard($this));
+		$this->attachRule(new \JComponentRouterRulesNomenu($this));
 	}
 
 	/**
@@ -58,7 +60,7 @@ class ContentRouter extends JComponentRouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = JCategories::getInstance($this->getName())->get($id);
+		$category = \JCategories::getInstance($this->getName())->get($id);
 
 		if ($category)
 		{
@@ -104,7 +106,7 @@ class ContentRouter extends JComponentRouterView
 	{
 		if (!strpos($id, ':'))
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('alias'))
 				->from($dbquery->qn('#__content'))
@@ -136,7 +138,7 @@ class ContentRouter extends JComponentRouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = JCategories::getInstance($this->getName())->get($query['id']);
+			$category = \JCategories::getInstance($this->getName())->get($query['id']);
 
 			foreach ($category->getChildren() as $child)
 			{
@@ -185,7 +187,7 @@ class ContentRouter extends JComponentRouterView
 	{
 		if ($this->noIDs)
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('id'))
 				->from($dbquery->qn('#__content'))

@@ -18,11 +18,6 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 defined('IS_WIN') or define('IS_WIN', ($os === 'WIN') ? true : false);
 defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
 
-/**
- * @deprecated 13.3  Use IS_UNIX instead
- */
-defined('IS_MAC') or define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
-
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
 {
@@ -43,6 +38,11 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
+
+// Register the extension root paths.
+JLoader::registerExtensionRootFolder('', JPATH_SITE);
+JLoader::registerExtensionRootFolder('Site', JPATH_SITE);
+JLoader::registerExtensionRootFolder('Administrator', JPATH_ADMINISTRATOR);
 
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
@@ -87,11 +87,6 @@ if (!interface_exists('JsonSerializable'))
 	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
-// Add deprecated constants
-// @deprecated 4.0
-define('JPATH_ISWIN', IS_WIN);
-define('JPATH_ISMAC', IS_MAC);
-
 // Register the PasswordHash library.
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 
@@ -99,3 +94,9 @@ JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 // @deprecated  4.0
 JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
+
+// Can be removed when the move of all core fields to namespace is finished
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/joomla/form/fields');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rule');
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/cms/form/rule');

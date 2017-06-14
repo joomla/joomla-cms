@@ -9,7 +9,6 @@
 namespace Joomla\Image\Filter;
 
 use Joomla\Image\ImageFilter;
-use InvalidArgumentException;
 
 /**
  * Image Filter class adjust the brightness of an image.
@@ -26,14 +25,14 @@ class Brightness extends ImageFilter
 	 * @return  void
 	 *
 	 * @since   1.0
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Validate that the brightness value exists and is an integer.
 		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !is_int($options[IMG_FILTER_BRIGHTNESS]))
 		{
-			throw new InvalidArgumentException('No valid brightness value was given.  Expected integer.');
+			throw new \InvalidArgumentException('No valid brightness value was given.  Expected integer.');
 		}
 
 		// Perform the brightness filter.

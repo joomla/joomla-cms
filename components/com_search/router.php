@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.3
  */
-class SearchRouter extends JComponentRouterBase
+class SearchRouter extends \JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_search component

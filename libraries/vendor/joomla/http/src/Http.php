@@ -10,6 +10,7 @@ namespace Joomla\Http;
 
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * HTTP client class.
@@ -231,6 +232,25 @@ class Http
 	public function patch($url, $data, array $headers = [], $timeout = null)
 	{
 		return $this->makeTransportRequest('PATCH', $url, $data, $headers, $timeout);
+	}
+
+	/**
+	 * Send a request to a remote server based on a PSR-7 RequestInterface object.
+	 *
+	 * @param   RequestInterface  $request  The PSR-7 request object.
+	 *
+	 * @return  Response
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function sendRequest(RequestInterface $request)
+	{
+		return $this->makeTransportRequest(
+			$request->getMethod(),
+			new Uri((string) $request->getUri()),
+			$request->getBody()->getContents(),
+			$request->getHeaders()
+		);
 	}
 
 	/**

@@ -1937,25 +1937,3 @@ class JClientFtp
 		return true;
 	}
 }
-
-/**
- * Deprecated class placeholder. You should use JClientFtp instead.
- *
- * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
- */
-class JFTP extends JClientFtp
-{
-	/**
-	 * JFTP object constructor
-	 *
-	 * @param   array  $options  Associative array of options to set
-	 *
-	 * @since   11.1
-	 */
-	public function __construct(array $options = array())
-	{
-		JLog::add('JFTP is deprecated. Use JClientFtp instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($options);
-	}
-}

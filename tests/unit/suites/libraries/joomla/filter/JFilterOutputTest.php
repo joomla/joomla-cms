@@ -4,7 +4,7 @@
  * @subpackage  Filter
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -159,6 +159,30 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(
 			'&&george&amp;mary&#3son',
 			JFilterOutput::ampReplace('&&george&mary&#3son'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&&george&amp;mary&#3son&amp;this=that',
+			JFilterOutput::ampReplace('index.php?&&george&mary&#3son&this=that'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&&george&amp;mary&#3son&&&this=that',
+			JFilterOutput::ampReplace('index.php?&&george&mary&#3son&&&this=that'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&amp;this="this &amp; and that"',
+			JFilterOutput::ampReplace('index.php?&this="this & and that"'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&amp;this="this &amp; &amp; &&amp; and that"',
+			JFilterOutput::ampReplace('index.php?&this="this &amp; & &&amp; and that"'),
 			'Should replace single ampersands with HTML entity'
 		);
 	}

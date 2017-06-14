@@ -49,7 +49,7 @@ JS
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE'); ?></h3>
-	<hr class="hr-condensed" />
+	<hr>
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_DESC'); ?></p>
 	<div class="form-group">
 		<?php echo $this->form->getLabel('activateMultilanguage'); ?>
@@ -69,7 +69,7 @@ JS
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_ADMINISTRATOR'); ?></h3>
-	<hr class="hr-condensed" />
+	<hr>
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
 	<table class="table table-striped table-sm">
 		<thead>
@@ -110,7 +110,7 @@ JS
 		</tbody>
 	</table>
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_FRONTEND'); ?></h3>
-	<hr class="hr-condensed" />
+	<hr>
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?></p>
 	<table class="table table-striped table-sm">
 		<thead>

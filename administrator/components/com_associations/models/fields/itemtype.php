@@ -8,7 +8,7 @@
  */
 defined('JPATH_BASE') or die;
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 JFormHelper::loadFieldClass('groupedlist');
 
 /**

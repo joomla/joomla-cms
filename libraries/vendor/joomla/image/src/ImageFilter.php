@@ -8,6 +8,7 @@
 
 namespace Joomla\Image;
 
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -19,17 +20,13 @@ use Psr\Log\LoggerAwareInterface;
  */
 abstract class ImageFilter implements LoggerAwareInterface
 {
+	use LoggerAwareTrait;
+
 	/**
 	 * @var    resource  The image resource handle.
 	 * @since  1.0
 	 */
 	protected $handle;
-
-	/**
-	 * @var    LoggerInterface  Logger object
-	 * @since  1.0
-	 */
-	protected $logger = null;
 
 	/**
 	 * Class constructor.
@@ -45,12 +42,9 @@ abstract class ImageFilter implements LoggerAwareInterface
 		// Verify that image filter support for PHP is available.
 		if (!function_exists('imagefilter'))
 		{
-			// @codeCoverageIgnoreStart
 			$this->getLogger()->error('The imagefilter function for PHP is not available.');
 
 			throw new \RuntimeException('The imagefilter function for PHP is not available.');
-
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Make sure the file handle is valid.
@@ -83,22 +77,6 @@ abstract class ImageFilter implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets a logger instance on the object
-	 *
-	 * @param   LoggerInterface  $logger  A PSR-3 compliant logger.
-	 *
-	 * @return  Image  This object for message chaining.
-	 *
-	 * @since   1.0
-	 */
-	public function setLogger(LoggerInterface $logger)
-	{
-		$this->logger = $logger;
-
-		return $this;
-	}
-
-	/**
 	 * Method to apply a filter to an image resource.
 	 *
 	 * @param   array  $options  An array of options for the filter.
@@ -107,5 +85,5 @@ abstract class ImageFilter implements LoggerAwareInterface
 	 *
 	 * @since   1.0
 	 */
-	abstract public function execute(array $options = array());
+	abstract public function execute(array $options = []);
 }

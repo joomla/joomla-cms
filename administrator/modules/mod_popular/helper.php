@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Component\Content\Administrator\Model\Articles;
 use Joomla\Registry\Registry;
 
 /**
@@ -22,24 +22,21 @@ abstract class ModPopularHelper
 	/**
 	 * Get a list of the most popular articles.
 	 *
-	 * @param   Registry             &$params  The module parameters.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   Registry  &$params  The module parameters.
+	 * @param   Articles  $model    The model.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(Registry &$params, MvcFactoryInterface $factory)
+	public static function getList(Registry &$params, Articles $model)
 	{
 		$user = JFactory::getUser();
-
-		// Get an instance of the generic articles model
-		$model = $factory->createModel('Articles', 'Administrator', array('ignore_request' => true));
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
 				' a.created, a.hits');
 
 		// Set Ordering filter
-		$model->setState('list.fullordering', 'a.hits DESC');
+		$model->setState('list.ordering', 'a.hits');
 		$model->setState('list.direction', 'DESC');
 
 		// Set Category Filter

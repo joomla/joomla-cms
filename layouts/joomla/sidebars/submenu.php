@@ -59,7 +59,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div class="filter-select hidden-sm-down">
 				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
-					<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
+					<label for="<?php echo $filter['name']; ?>" class="sr-only"><?php echo $filter['label']; ?></label>
 					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="custom-select" onchange="this.form.submit()">
 						<?php if (!$filter['noDefault']) : ?>
 							<option value=""><?php echo $filter['label']; ?></option>

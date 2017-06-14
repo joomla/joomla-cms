@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocumentRendererRSS is a feed that implements RSS 2.0 Specification
  *
- * @see    http://www.rssboard.org/rss-specification
+ * @link   http://www.rssboard.org/rss-specification
  * @since  3.5
  *
  * @property-read  JDocumentFeed  $_doc  Reference to the JDocument object that instantiated the renderer
@@ -42,6 +42,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 	public function render($name = '', $params = null, $content = null)
 	{
 		$app = JFactory::getApplication();
+		$tz  = new DateTimeZone($app->get('offset'));
 
 		$data = $this->_doc;
 

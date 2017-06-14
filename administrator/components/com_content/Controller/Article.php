@@ -136,7 +136,7 @@ class Article extends Form
 
 		// Set the model
 		/** @var ContentModelArticle $model */
-		$model = $this->getModel('Article', '', array());
+		$model = $this->getModel('Article', 'Administrator', array());
 
 		// Preset the redirect
 		$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));

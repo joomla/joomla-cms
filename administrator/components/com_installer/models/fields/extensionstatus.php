@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('InstallerHelper', JPATH_ADMINISTRATOR . '/components/com_installer/helpers/installer.php');
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 JFormHelper::loadFieldClass('list');
 

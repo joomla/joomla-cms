@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -104,7 +106,7 @@ class AdministratorApplication extends CMSApplication
 		$document->setBuffer($contents, 'component');
 
 		// Trigger the onAfterDispatch event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterDispatch');
 	}
 
@@ -257,7 +259,7 @@ class AdministratorApplication extends CMSApplication
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && \JLanguageHelper::exists($lang))
+			if ($lang && LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -269,11 +271,11 @@ class AdministratorApplication extends CMSApplication
 		}
 
 		// One last check to make sure we have something
-		if (!\JLanguageHelper::exists($options['language']))
+		if (!LanguageHelper::exists($options['language']))
 		{
 			$lang = $this->get('language', 'en-GB');
 
-			if (\JLanguageHelper::exists($lang))
+			if (LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -447,7 +449,7 @@ class AdministratorApplication extends CMSApplication
 		}
 
 		// Trigger the onAfterRoute event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
 	}
 

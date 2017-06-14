@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Event;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -30,7 +32,7 @@ class Captcha implements DispatcherAwareInterface
 	/**
 	 * Captcha Plugin object
 	 *
-	 * @var	   \JPlugin
+	 * @var	   CMSPlugin
 	 * @since  2.5
 	 */
 	private $_captcha;
@@ -221,7 +223,7 @@ class Captcha implements DispatcherAwareInterface
 		require_once $path;
 
 		// Get the plugin
-		$plugin = \JPluginHelper::getPlugin('captcha', $this->_name);
+		$plugin = PluginHelper::getPlugin('captcha', $this->_name);
 
 		if (!$plugin)
 		{

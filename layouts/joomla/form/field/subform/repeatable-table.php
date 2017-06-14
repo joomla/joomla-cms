@@ -68,7 +68,7 @@ else
 }
 ?>
 
-<div class="row-fluid">
+<div class="row">
 	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"

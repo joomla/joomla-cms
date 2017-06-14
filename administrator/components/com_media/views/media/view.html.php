@@ -6,15 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\View\HtmlView;
+
 /**
- * HTML View class for the Media component
+ * Media List View
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
-class MediaViewMedia extends JViewLegacy
+class MediaViewMedia extends HtmlView
 {
 	/**
 	 * Execute and display a template script.
@@ -23,76 +24,45 @@ class MediaViewMedia extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
-		$config = JComponentHelper::getParams('com_media');
-
-		if (!$app->isClient('administrator'))
-		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
-
-			return;
-		}
-
-		/*
-		 * Display form for FTP credentials?
-		 * Don't set them here, as there are other functions called before this one if there is any file write operation
-		 */
-		$ftp = !JClientHelper::hasCredentials('ftp');
-
-		$session           = JFactory::getSession();
-		$state             = $this->get('state');
-		$this->session     = $session;
-		$this->config      = &$config;
-		$this->state       = &$state;
-		$this->require_ftp = $ftp;
-		$this->folders_id  = ' id="media-tree"';
-		$this->folders     = $this->get('folderTree');
-
-		$this->sidebar = JHtmlSidebar::render();
-
-		// Set the toolbar
-		$this->addToolbar();
+		// Prepare the toolbar
+		$this->prepareToolbar();
 
 		parent::display($tpl);
 	}
 
 	/**
-	 * Add the page title and toolbar.
+	 * Prepare the toolbar.
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addToolbar()
+	protected function prepareToolbar()
 	{
 		// Get the toolbar object instance
 		$bar  = JToolbar::getInstance('toolbar');
 		$user = JFactory::getUser();
 
-		// Set the titlebar text
+		// Set the title
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
-		// Add an upload button
+		// Add the upload and create folder buttons
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.uploadmedia');
+			// Add the upload button
+			$layout = new JLayoutFile('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
-		}
 
-		// Add a create folder button
-		if ($user->authorise('core.create', 'com_media'))
-		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.newfolder');
+			// Add the create folder button
+			$layout = new JLayoutFile('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'create');
+			$bar->appendButton('Custom', $layout->render(array()), 'new');
 			JToolbarHelper::divider();
 		}
 
@@ -100,13 +70,13 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.deletemedia');
+			$layout = new JLayoutFile('toolbar.delete');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'delete');
 			JToolbarHelper::divider();
 		}
 
-		// Add a preferences button
+		// Add the preferences button
 		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
 		{
 			JToolbarHelper::preferences('com_media');
@@ -114,30 +84,5 @@ class MediaViewMedia extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
-	}
-
-	/**
-	 * Display a folder level
-	 *
-	 * @param   array  $folder  Array with folder data
-	 *
-	 * @return  string
-	 *
-	 * @since   1.0
-	 */
-	protected function getFolderLevel($folder)
-	{
-		$this->folders_id = null;
-		$txt              = null;
-
-		if (isset($folder['children']) && count($folder['children']))
-		{
-			$tmp           = $this->folders;
-			$this->folders = $folder;
-			$txt           = $this->loadTemplate('folders');
-			$this->folders = $tmp;
-		}
-
-		return $txt;
 	}
 }

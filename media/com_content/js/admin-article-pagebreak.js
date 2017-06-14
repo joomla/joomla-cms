@@ -22,7 +22,7 @@
 		title  = (title != '') ? 'title="' + title + '"' : '';
 		alt    = (alt != '') ? 'alt="' + alt + '"' : '';
 
-		tag = '<hr class="system-pagebreak" ' + title + ' ' + alt + '/>';
+		tag = '<hr class="system-pagebreak" ' + title + ' ' + alt + '>';
 
 		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
 		window.parent.jModalClose();

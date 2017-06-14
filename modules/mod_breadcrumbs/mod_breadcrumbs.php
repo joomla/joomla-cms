@@ -16,8 +16,6 @@ JLoader::register('ModBreadCrumbsHelper', __DIR__ . '/helper.php');
 $list  = ModBreadCrumbsHelper::getList($params);
 $count = count($list);
 
-// Set the default separator
-$separator = ModBreadCrumbsHelper::setSeparator($params->get('separator'));
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));

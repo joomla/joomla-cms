@@ -132,7 +132,15 @@ class JDocumentError extends JDocument
 			$status = 500;
 		}
 
-		JFactory::getApplication()->setHeader('status',  $status . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
+		$errorReporting = JFactory::getConfig()->get('error_reporting');
+
+		if ($errorReporting === "development" || $errorReporting === "maximum")
+		{
+			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
+		}
+
+		JFactory::getApplication()->setHeader('status', $status);
+
 		$file = 'error.php';
 
 		// Check template
@@ -213,6 +221,12 @@ class JDocumentError extends JDocument
 			return;
 		}
 
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $this->_error->getTrace()));
+		// The back trace
+		$backtrace = $this->_error->getTrace();
+
+		// Add the position of the actual file
+		array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => ''));
+
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
 	}
 }

@@ -111,7 +111,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -238,7 +238,7 @@ class JFormFieldModal_Menu extends JFormField
 		if ($this->allowSelect)
 		{
 			$html .= '<a'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' element-invisible' : '') . '"'
+				. ' class="btn btn-primary hasTooltip' . ($value ? ' sr-only' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -252,7 +252,7 @@ class JFormFieldModal_Menu extends JFormField
 		if ($this->allowNew)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' element-invisible' : '') . '"'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? ' sr-only' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -266,7 +266,7 @@ class JFormFieldModal_Menu extends JFormField
 		if ($this->allowEdit)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' element-invisible') . '"'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' sr-only') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -280,7 +280,7 @@ class JFormFieldModal_Menu extends JFormField
 		if ($this->allowClear)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary' . ($value ? '' : ' element-invisible') . '"'
+				. ' class="btn btn-secondary' . ($value ? '' : ' sr-only') . '"'
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'

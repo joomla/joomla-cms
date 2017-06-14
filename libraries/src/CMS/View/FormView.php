@@ -11,7 +11,7 @@ namespace Joomla\CMS\View;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Component\ComponentHelper;
+use Joomla\CMS\Component\ComponentHelper;
 /**
  * Base class for a Joomla Form View
  *

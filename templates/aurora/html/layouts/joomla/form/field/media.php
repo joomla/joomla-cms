@@ -86,7 +86,7 @@ if ($showPreview)
 $url    = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;ismoo=0&amp;folder=' . $folder);
+	. '&amp;fieldid={field-media-id}&amp;folder=' . $folder);
 ?>
 <div class="field-media-wrapper"
 	data-basepath="<?php echo JUri::root(); ?>"
@@ -108,18 +108,18 @@ $url    = ($readonly ? ''
 	// Render the modal
 	echo JHtml::_('bootstrap.renderModal',
 		'imageModal_'. $id,
-		array(
+		[
 			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<button class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
-		)
+			'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
+		]
 	);
 
-	JHtml::_('script', 'media/mediafield.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'media/mediafield.min.js', ['version' => 'auto', 'relative' => true]);
 	?>
 	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">
-		<span rel="popover" class="add-on pop-helper field-media-preview"
+		<span rel="popover" class="input-group-addon pop-helper field-media-preview"
 			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
 			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
 			<span class="icon-eye" aria-hidden="true"></span>
@@ -129,8 +129,8 @@ $url    = ($readonly ? ''
 	<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>/>
 		<?php if ($disabled != true) : ?>
-			<a class="btn add-on button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
+			<a class="btn input-group-addon button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
+			<a class="btn icon-remove hasTooltip input-group-addon button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
 		<?php endif; ?>
 	</div>
 	<?php if ($showPreview && !$showAsTooltip) : ?>
