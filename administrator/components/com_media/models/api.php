@@ -102,7 +102,11 @@ class MediaModelApi extends Model
 	 */
 	public function getFile($adapter, $path = '/')
 	{
-		return $this->getAdapter($adapter)->getFile($path);
+		// Add adapter info to the file returned
+		$file = $this->getAdapter($adapter)->getFile($path);
+		$file->path = $adapter . ":" . $file->path;
+
+		return $file;
 	}
 
 	/**
@@ -121,7 +125,15 @@ class MediaModelApi extends Model
 	 */
 	public function getFiles($adapter, $path = '/', $filter = '')
 	{
-		return $this->getAdapter($adapter)->getFiles($path, $filter);
+		// Add adapter info to all the files to be returned
+		$files = $this->getAdapter($adapter)->getFiles($path, $filter);
+
+		foreach ($files as $file)
+		{
+			$file->path = $adapter . ":" . $file->path;
+		}
+
+		return $files;
 	}
 
 	/**
