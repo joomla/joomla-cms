@@ -4,7 +4,7 @@
  * @subpackage  OAuth
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -113,11 +113,7 @@ class JOAuth1ClientTest extends TestCase
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		$this->restoreFactoryState();
-		unset($this->options);
-		unset($this->client);
-		unset($this->input);
-		unset($this->application);
-		unset($this->object);
+		unset($this->options, $this->client, $this->input, $this->application, $this->object);
 	}
 
 	/**

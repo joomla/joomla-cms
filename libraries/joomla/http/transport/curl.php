@@ -29,7 +29,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @see     https://secure.php.net/manual/en/function.curl-setopt.php
+	 * @link    https://secure.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */

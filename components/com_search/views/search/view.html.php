@@ -163,7 +163,8 @@ class SearchViewSearch extends JViewLegacy
 				$row = &$results[$i]->text;
 
 				// Doing HTML entity decoding here, just in case we get any HTML entities here.
-				$row          = html_entity_decode($row, ENT_NOQUOTES | ENT_HTML401, 'UTF-8');
+				$quoteStyle   = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_NOQUOTES | ENT_HTML401 : ENT_NOQUOTES;
+				$row          = html_entity_decode($row, $quoteStyle, 'UTF-8');
 				$row          = SearchHelper::prepareSearchContent($row, $needle);
 				$searchWords  = array_values(array_unique($searchWords));
 				$lowerCaseRow = $mbString ? mb_strtolower($row) : StringHelper::strtolower($row);
@@ -266,6 +267,7 @@ class SearchViewSearch extends JViewLegacy
 					$created = '';
 				}
 
+				$result->title   = StringHelper::str_ireplace($needle, $hl1 . $needle . $hl2, htmlspecialchars($result->title, ENT_COMPAT, 'UTF-8'));
 				$result->text    = JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;

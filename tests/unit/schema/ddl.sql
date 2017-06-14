@@ -327,6 +327,7 @@ CREATE TABLE `jos_menu_types` (
 
 CREATE TABLE `jos_modules` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `asset_id` INTEGER NOT NULL DEFAULT '0',
   `title` TEXT NOT NULL DEFAULT '',
   `note` TEXT NOT NULL DEFAULT '',
   `content` TEXT NOT NULL DEFAULT '',

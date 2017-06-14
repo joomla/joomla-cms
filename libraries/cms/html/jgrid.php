@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -66,11 +66,11 @@ abstract class JHtmlJGrid
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-micro' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="btn btn-micro' . ($active_class === 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '"></span>';
+			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
 		}
 		else
@@ -79,7 +79,7 @@ abstract class JHtmlJGrid
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
-			if ($active_class == 'protected')
+			if ($active_class === 'protected')
 			{
 				$html[] = '<span class="icon-lock"></span>';
 			}

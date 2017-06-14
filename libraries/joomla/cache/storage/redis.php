@@ -235,7 +235,7 @@ class JCacheStorageRedis extends JCacheStorage
 						$item = $data[$group];
 					}
 
-					$item->updateSize(strlen($key)*8/1024);
+					$item->updateSize(strlen($key)*8);
 					$data[$group] = $item;
 				}
 			}

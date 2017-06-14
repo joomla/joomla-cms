@@ -197,6 +197,12 @@ class PlgSystemDebug extends JPlugin
 			JHtml::_('stylesheet', 'cms/debug.css', array('version' => 'auto', 'relative' => true));
 		}
 
+		// Disable asset media version if needed.
+		if (JDEBUG && (int) $this->params->get('refresh_assets', 1) === 0)
+		{
+			$this->app->getDocument()->setMediaVersion(null);
+		}
+
 		// Only if debugging is enabled for SQL query popovers.
 		if (JDEBUG && $this->isAuthorisedDisplayDebug())
 		{
@@ -241,8 +247,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
-			&& substr($contents, 0, 50) === '<html><head><meta http-equiv="refresh" content="0;')
+		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
+			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -292,7 +298,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('queries');
 			}
 
-			if ($this->params->get('logs', 1) && !empty($this->logEntries))
+			if (!empty($this->logEntries) && $this->params->get('logs', 1))
 			{
 				$html[] = $this->display('logs');
 			}
@@ -378,7 +384,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		static $result = null;
 
-		if (!is_null($result))
+		if ($result !== null)
 		{
 			return $result;
 		}
@@ -873,13 +879,10 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if ($db->getServerType() === 'mysql')
+				if (isset($this->sqlShowProfileEach[$id]) && $db->getServerType() === 'mysql')
 				{
-					if (isset($this->sqlShowProfileEach[$id]))
-					{
-						$profileTable = $this->sqlShowProfileEach[$id];
-						$profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
-					}
+					$profileTable = $this->sqlShowProfileEach[$id];
+					$profile      = $this->tableToHtml($profileTable, $hasWarningsInProfile);
 				}
 
 				// How heavy should the string length count: 0 - 1.
@@ -990,8 +993,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$fromString = substr($query, 0, $whereStart);
-			$fromString = str_replace("\t", ' ', $fromString);
-			$fromString = str_replace("\n", ' ', $fromString);
+			$fromString = str_replace(array("\t","\n"), ' ', $fromString);
 			$fromString = trim($fromString);
 
 			// Initialise the select/other query type counts the first time.
@@ -1110,7 +1112,7 @@ class PlgSystemDebug extends JPlugin
 					$title = '<span class="dbg-noprofile">' . $title . '</span>';
 				}
 
-				$htmlProfile = ($info[$id]->profile ? $info[$id]->profile : JText::_('PLG_DEBUG_NO_PROFILE'));
+				$htmlProfile = $info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE');
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
@@ -1190,7 +1192,7 @@ class PlgSystemDebug extends JPlugin
 			$labelClass = 'label-warning';
 		}
 
-		if ($this->totalQueries == 0)
+		if ($this->totalQueries === 0)
 		{
 			$this->totalQueries = $db->getCount();
 		}
@@ -1618,7 +1620,7 @@ class PlgSystemDebug extends JPlugin
 			if (is_array($occurance) && isset($occurance[0]))
 			{
 				$info = $occurance[0];
-				$file = $info['file'] ? $info['file'] : '';
+				$file = $info['file'] ?: '';
 
 				if (!isset($guesses[$file]))
 				{
@@ -2026,10 +2028,9 @@ class PlgSystemDebug extends JPlugin
 		{
 			if (isset($timings[$id * 2 + 1]))
 			{
-				$temp     = str_replace('`', '', $log[$id]);
-				$temp     = str_replace("\t", ' ', $temp);
-				$temp     = str_replace("\n", ' ', $temp);
-				$current .= str_replace("\r\n", ' ', $temp) . ";\n";
+				$temp = str_replace('`', '', $log[$id]);
+				$temp = str_replace(array("\t", "\n", "\r\n"), ' ', $temp);
+				$current .= $temp . ";\n";
 			}
 		}
 

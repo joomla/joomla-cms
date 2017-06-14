@@ -4,7 +4,7 @@
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -247,7 +247,7 @@ class JControllerAdmin extends JControllerLegacy
 		}
 
 		$extension = $this->input->get('extension');
-		$extensionURL = ($extension) ? '&extension=' . $extension : '';
+		$extensionURL = $extension ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 
