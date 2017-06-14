@@ -4,7 +4,7 @@
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -129,7 +129,7 @@ class JHelperContenthistory extends JHelper
 
 		if ($historyRow = $historyTable->getHashMatch())
 		{
-			if (!$versionName || ($historyRow->version_note == $versionName))
+			if (!$versionName || ($historyRow->version_note === $versionName))
 			{
 				return true;
 			}

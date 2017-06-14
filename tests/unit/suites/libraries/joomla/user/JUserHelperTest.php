@@ -4,7 +4,7 @@
  * @subpackage  User
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -86,8 +86,6 @@ class JUserHelperTest extends TestCaseDatabase
 	 *                    with indices 'code', 'msg', and
 	 *                    'info', empty, if no error occurred
 	 *
-	 * @see ... (link to where the group and error structures are
-	 *      defined)
 	 * @return array
 	 */
 	public function casesGetUserGroups()
@@ -381,7 +379,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @see     https://github.com/joomla/joomla-cms/pull/5551
+	 * @link    https://github.com/joomla/joomla-cms/pull/5551
 	 */
 	public function testVerifyPasswordWithNoSalt()
 	{

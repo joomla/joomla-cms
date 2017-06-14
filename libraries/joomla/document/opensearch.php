@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * OpenSearch class, provides an easy interface to display an OpenSearch document
  *
- * @see    http://www.opensearch.org/
+ * @link   http://www.opensearch.org/
  * @since  11.1
  */
 class JDocumentOpensearch extends JDocument

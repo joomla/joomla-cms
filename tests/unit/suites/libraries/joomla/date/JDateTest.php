@@ -542,6 +542,44 @@ class JDateTest extends TestCase
 	}
 
 	/**
+	 * Testing the Constructor for now when not using UTC
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.1
+	 * @covers  JDate::__construct
+	 */
+	public function test__constructForNowWhenNotUsingUTC()
+	{
+		$jdate   = new JDate('now', new DateTimeZone('US/Central'));
+		$phpdate = new DateTime('now', new DateTimeZone('US/Central'));
+
+		$this->assertSame(
+			$jdate->format('D m/d/Y H:i', true),
+			$phpdate->format('D m/d/Y H:i')
+		);
+	}
+
+	/**
+	 * Testing the Constructor for now when using UTC
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.1
+	 * @covers  JDate::__construct
+	 */
+	public function test__constructForNowWhenUsingUTC()
+	{
+		$jdate   = new JDate('now', new DateTimeZone('UTC'));
+		$phpdate = new DateTime('now', new DateTimeZone('UTC'));
+
+		$this->assertSame(
+			$jdate->format('D m/d/Y H:i'),
+			$phpdate->format('D m/d/Y H:i')
+		);
+	}
+
+	/**
 	 * Testing the Constructor
 	 *
 	 * @param   string  $date      The date.

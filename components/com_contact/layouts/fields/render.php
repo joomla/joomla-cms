@@ -61,8 +61,8 @@ if (!$isMail)
 // Loop through the fields and print them
 foreach ($fields as $field)
 {
-	// If the value is empty dp nothing
-	if (!isset($field->value) || !$field->value)
+	// If the value is empty do nothing
+	if (empty($field->value) && !$isMail)
 	{
 		continue;
 	}
@@ -75,3 +75,4 @@ if (!$isMail)
 	// Close the container
 	echo '</dl>';
 }
+
