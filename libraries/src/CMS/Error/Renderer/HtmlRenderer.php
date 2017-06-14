@@ -40,7 +40,7 @@ class HtmlRenderer extends AbstractRenderer
 	{
 		$app = \JFactory::getApplication();
 
-		$template =  $app->getTemplate();
+		$template = $app->getTemplate();
 
 		// Push the error object into the document
 		$this->getDocument()->setError($error);
