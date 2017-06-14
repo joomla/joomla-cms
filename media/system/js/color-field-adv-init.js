@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
 	$('.minicolors').each(function () {
 		$miniColors.push($(this).minicolors({
 			control: $(this).attr('data-control') || 'hue',
-			format: (() => {
+			format: (function() {
 				if ($(this).attr('data-validate') === 'color')
 				{
 					return 'hex'
