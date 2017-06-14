@@ -865,6 +865,17 @@ class JControllerForm extends JControllerLegacy
 
 		$recordId = $this->input->getInt($urlVar);
 
+		if (!$this->allowEdit($data, $key))
+		{
+			$app->redirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+			$app->close();
+		}
+
 		// Populate the row id from the session.
 		$data[$key] = $recordId;
 
