@@ -133,13 +133,13 @@ class JHelperMedia
 	 *
 	 * @param   array    $file       File information
 	 * @param   string   $component  The option name for the component storing the parameters
-	 * @param   boolean  $checkMime  With this option you can disable all mime checks
+	 * @param   boolean  $checkMime  If false, disable all mime checks
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media', $checkMime = ture)
+	public function canUpload($file, $component = 'com_media', $checkMime = true)
 	{
 		$app    = JFactory::getApplication();
 		$params = JComponentHelper::getParams($component);
@@ -223,7 +223,7 @@ class JHelperMedia
 						$mime = $this->getMimeType($file['tmp_name'], true);
 
 						// Did we get anything useful?
-						if ($mime != false)
+						if ($mime !== false)
 						{
 							$result = $this->checkMimeType($mime, $component);
 
@@ -260,7 +260,7 @@ class JHelperMedia
 					$mime = $this->getMimeType($file['tmp_name'], false);
 
 					// Did we get anything useful?
-					if ($mime != false)
+					if ($mime !== false)
 					{
 						$result = $this->checkMimeType($mime, $component);
 
