@@ -1,6 +1,6 @@
 <template>
     <div class="media-modal-backdrop" @click="close()">
-        <div class="modal" @click.stop>
+        <div class="modal" @click.stop style="display: block">
             <div class="modal-dialog" :class="modalClass" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -23,10 +23,6 @@
 
 <style>
     /** TODO DN extract styles **/
-    .modal {
-        display: block;
-    }
-
     .modal-body {
         width: auto;
         padding: 15px;
@@ -47,7 +43,6 @@
 
 <script>
     // TODO DN: transition and advanced styling
-    // TODO DN: perhaps use a better modal than the b2 modal
     import * as types from "./../../store/mutation-types";
     export default {
         name: 'media-modal',
