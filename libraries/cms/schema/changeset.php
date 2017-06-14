@@ -4,7 +4,7 @@
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -93,7 +93,7 @@ class JSchemaChangeset
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
-		if ($this->db->getServerType() == 'mysql')
+		if ($this->db->getServerType() === 'mysql')
 		{
 			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(

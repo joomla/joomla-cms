@@ -151,7 +151,7 @@ class PlgEditorTinymce extends JPlugin
 				$app->setUserState('plg_editors_tinymce.config_legacy_warn_count', ++$config_warn_count);
 			}
 
-			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author);
+			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author, $params);
 		}
 
 		if (empty($id))
@@ -686,6 +686,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$scriptOptions['rel_list'] = array(
+			array('title' => 'None', 'value' => ''),
 			array('title' => 'Alternate', 'value' => 'alternate'),
 			array('title' => 'Author', 'value' => 'author'),
 			array('title' => 'Bookmark', 'value' => 'bookmark'),
@@ -760,7 +761,7 @@ class PlgEditorTinymce extends JPlugin
 				// Set some vars
 				$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ?: null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
@@ -801,7 +802,7 @@ class PlgEditorTinymce extends JPlugin
 					icon: \"" . $icon . "\",
 					onclick: function () {";
 
-				if ($button->get('modal') || $href)
+				if ($href || $button->get('modal'))
 				{
 					$tempConstructor .= "
 							var modalOptions = {
@@ -823,21 +824,21 @@ class PlgEditorTinymce extends JPlugin
 					if ($onclick && ($button->get('modal') || $href))
 					{
 						$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						" . $onclick . '
+							';
 					}
 				}
 				else
 				{
 					$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						" . $onclick . '
+							';
 				}
 
-				$tempConstructor .= "
+				$tempConstructor .= '
 					}
 				});
-			})();";
+			})();';
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name . ' | ';
@@ -1213,6 +1214,7 @@ class PlgEditorTinymce extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
 	 * @param   string   $asset    The object asset
 	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string
 	 *
@@ -1220,7 +1222,8 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @deprecated 4.0
 	 */
-	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	private function onDisplayLegacy(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
@@ -1258,6 +1261,9 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
+		// Set editor to readonly mode
+		$textarea->readonly = !empty($params['readonly']);
+
 		// Render Editor markup
 		$editor = '<div class="editor js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
@@ -1272,6 +1278,12 @@ class PlgEditorTinymce extends JPlugin
 			if (!empty($btns['names']))
 			{
 				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			}
+
+			// Set editor to readonly mode
+			if (!empty($params['readonly']))
+			{
+				$options['tinyMCE'][$fieldName]['readonly'] = 1;
 			}
 
 			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
@@ -2004,6 +2016,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
+					array('title' => 'None', 'value' => ''),
 					array('title' => 'Alternate', 'value' => 'alternate'),
 					array('title' => 'Author', 'value' => 'author'),
 					array('title' => 'Bookmark', 'value' => 'bookmark'),

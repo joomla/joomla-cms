@@ -4,7 +4,7 @@
  * @subpackage  Filter
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -416,6 +416,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				array('images/system', '/var/www/html/index.html'),
 				'From generic cases'
 			),
+			'path_06' => array(
+				'path',
+				'/var/www/html/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'/var/www/html/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'From generic cases'
+			),
 			'user_01' => array(
 				'username',
 				'&<f>r%e\'d',
@@ -432,6 +438,18 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'username',
 				array('&<f>r%e\'d', '$user69'),
 				array('fred', '$user69'),
+				'From generic cases'
+			),
+			'user_04' => array(
+				'username',
+				'фамилия',
+				'фамилия',
+				'From generic cases'
+			),
+			'user_05' => array(
+				'username',
+				'Φρεντ',
+				'Φρεντ',
 				'From generic cases'
 			),
 			'trim_01' => array(
@@ -520,8 +538,8 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'unknown_03' => array(
 				'',
-				array("key" => "Value", "key2" => "This&That", "key2" => "This&amp;That"),
-				array("key" => "Value", "key2" => "This&That", "key2" => "This&That"),
+				array("key" => "Value", "key2" => "This&amp;That"),
+				array("key" => "Value", "key2" => "This&That"),
 				'From generic cases'
 			),
 			'unknown_04' => array(
@@ -546,6 +564,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'<em><strong>Fred</strong></em>',
+				'From generic cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'<em><strong>Φρεντ</strong></em>',
 				'From generic cases'
 			),
 			'Malformed Nested tags' => array(
@@ -685,6 +709,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'Fred',
 				'From specific cases'
 			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
+				'From specific cases'
+			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
@@ -746,7 +776,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'<scrip &nbsp; t>alert(\'test\');</scrip t>',
 				'alert(\'test\');',
 				'From generic cases'
-			),
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -802,6 +832,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
+				'From specific cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
 				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
@@ -942,6 +978,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'Fred',
 				'From specific cases'
 			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
+				'From specific cases'
+			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
@@ -1048,6 +1090,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
+				'From specific cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
 				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
@@ -1246,6 +1294,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'<img src="xxx" height="zzz" />',
 				'Test empty alt attribute'
 			),
+			'infinte_loop_c' => array(
+				'string',
+				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
+				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
+				'Test correct position of close quote in UTF-8 value'
+			),
 			'quotes_in_text' => array(
 				'string',
 				$quotesInText1,
@@ -1303,7 +1357,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'tracker25558e' => array(
 				'string',
 				'<b><script<b></b><alert(1)</script </b>',
-				'<b>script<b></b>alert(1)/script</b>',
+				'<b>script<b></b>alert(1)/script </b>',
 				'Test mal-formed element from 25558e'
 			),
 			'security_20110329a' => array(
@@ -1318,6 +1372,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'<div>Hello</div>',
 				'Generic test case for HTML cleaning'
 			),
+			'html_02' => array(
+				'html',
+				'<br/>',
+				'<br />',
+				'Generic test case for HTML cleaning'
+			),
 			'tracker26439a' => array(
 				'string',
 				'<p>equals quote =" inside valid tag</p>',
@@ -1329,6 +1389,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				"<p>equals quote =' inside valid tag</p>",
 				"<p>equals quote =' inside valid tag</p>",
 				'Test single quote equals inside valid tag'
+			),
+			'invalid_utf8_byte_sequence' => array(
+				'html',
+				"<p>Invalid \xC2\xFF\x80char</p>",
+				"<p>Invalid char</p>",
+				"Test for invalid UTF-8 byte sequence",
 			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
@@ -1478,7 +1544,180 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'<img class="one two" />',
 				'<img />',
 				'From specific cases'
+			),
+			'tracker15673' => array(
+				'raw',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'From generic cases'
+			),
+			'tracker15673a' => array(
+				'string',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'From generic cases'
+			),
+			'tracker15673b' => array(
+				'string',
+				'<h3>Инженеры</h3>
+<ul>
+<li>Агасиев Т.А. "Программная система для автоматизированной настройки параметров алгоритмов оптимизации"<br />(<a class="text" href="/pub/diplom_labors/2016/2016_Agasiev_T_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Agasiev_T_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Логунова А.О. "Исследование и разработка программного обеспечения определения параметров электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Спасёнов А.Ю. "Разработка экспериментального программного комплекса анализа и интерпретации электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_prezentation.pdf">презентация</a>)</li>
+<li>Щетинин В.Н. "Имитационное моделирование эксперимента EXPERT физики радиоактивных пучков"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Елфимова О.Т. "Разработка системы отделения космического аппарата "Метеор-М" в системе MSC.Adams" <br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Ранкова А.В. "Исследование и разработка методов и алгоритмов распознавания и селекции наземных стационарных объектов"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+</ul>',
+				'<h3>Инженеры</h3>
+<ul>
+<li>Агасиев Т.А. "Программная система для автоматизированной настройки параметров алгоритмов оптимизации"<br />(<a href="/pub/diplom_labors/2016/2016_Agasiev_T_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Agasiev_T_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Логунова А.О. "Исследование и разработка программного обеспечения определения параметров электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Спасёнов А.Ю. "Разработка экспериментального программного комплекса анализа и интерпретации электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_prezentation.pdf">презентация</a>)</li>
+<li>Щетинин В.Н. "Имитационное моделирование эксперимента EXPERT физики радиоактивных пучков"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Елфимова О.Т. "Разработка системы отделения космического аппарата "Метеор-М" в системе MSC.Adams" <br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Ранкова А.В. "Исследование и разработка методов и алгоритмов распознавания и селекции наземных стационарных объектов"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+</ul>',
+				'From generic cases'
+			),
+			'tracker15673c' => array(
+				'raw',
+				'<h3>Инженеры</h3>
+<ul>
+<li>Агасиев Т.А. "Программная система для автоматизированной настройки параметров алгоритмов оптимизации"<br />(<a class="text" href="/pub/diplom_labors/2016/2016_Agasiev_T_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Agasiev_T_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Логунова А.О. "Исследование и разработка программного обеспечения определения параметров электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Спасёнов А.Ю. "Разработка экспериментального программного комплекса анализа и интерпретации электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_prezentation.pdf">презентация</a>)</li>
+<li>Щетинин В.Н. "Имитационное моделирование эксперимента EXPERT физики радиоактивных пучков"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Елфимова О.Т. "Разработка системы отделения космического аппарата "Метеор-М" в системе MSC.Adams" <br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Ранкова А.В. "Исследование и разработка методов и алгоритмов распознавания и селекции наземных стационарных объектов"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+</ul>',
+				'<h3>Инженеры</h3>
+<ul>
+<li>Агасиев Т.А. "Программная система для автоматизированной настройки параметров алгоритмов оптимизации"<br />(<a class="text" href="/pub/diplom_labors/2016/2016_Agasiev_T_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Agasiev_T_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Логунова А.О. "Исследование и разработка программного обеспечения определения параметров электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Logunova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Спасёнов А.Ю. "Разработка экспериментального программного комплекса анализа и интерпретации электрокардиограмм"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Spasenov_A_prezentation.pdf">презентация</a>)</li>
+<li>Щетинин В.Н. "Имитационное моделирование эксперимента EXPERT физики радиоактивных пучков"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Shhetinin_V_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Елфимова О.Т. "Разработка системы отделения космического аппарата "Метеор-М" в системе MSC.Adams" <br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Elfimova_O_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+<li>Ранкова А.В. "Исследование и разработка методов и алгоритмов распознавания и селекции наземных стационарных объектов"<br />(<a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Rankova_A_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
+</ul>',
+				'From generic cases'
+			),
+			'tracker15673d' => array(
+				'raw',
+				'<li><strong>Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°</strong>. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°-Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð° Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ñ‘Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°, Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°-Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</li>
+</ol>
+<p>Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ñ‘Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°: Ð°Ð°Ð°Ð°Ð°Ð°.Ð°Ð°Ð°Ð°Ð°Ð°, Qiwi, Webmoney Ð° Ð°.Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</p>
+<p>{lang ru} <iframe src="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" width="100%" height="439" allowfullscreen="allowfullscreen"></iframe> {/lang}
+<script type="application/ld+json">{
+  "@context": "http://schema.org",
+  "@type": "VideoObject",
+  "name": "Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°",
+  "description": "Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ñ‘Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°.",
+  "thumbnailUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "uploadDate": "2015-02-16T12:15:30+12:15",
+  "duration": "PT10M51S",
+  "embedUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}</script>
+</p>',
+				'<li><strong>Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°</strong>. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°-Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð° Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ñ‘Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°, Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°-Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</li>
+</ol>
+<p>Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ñ‘Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°: Ð°Ð°Ð°Ð°Ð°Ð°.Ð°Ð°Ð°Ð°Ð°Ð°, Qiwi, Webmoney Ð° Ð°.Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</p>
+<p>{lang ru} <iframe src="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" width="100%" height="439" allowfullscreen="allowfullscreen"></iframe> {/lang}
+<script type="application/ld+json">{
+  "@context": "http://schema.org",
+  "@type": "VideoObject",
+  "name": "Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°",
+  "description": "Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ñ‘Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°.",
+  "thumbnailUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "uploadDate": "2015-02-16T12:15:30+12:15",
+  "duration": "PT10M51S",
+  "embedUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}</script>
+</p>',
+				'From generic cases'
+			),
+			'tracker15673e' => array(
+				'raw',
+				'<li><strong>Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°</strong>. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°-Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð° Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ñ‘Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°, Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°-Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</li>
+</ol>
+<p>Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ñ‘Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°: Ð°Ð°Ð°Ð°Ð°Ð°.Ð°Ð°Ð°Ð°Ð°Ð°, Qiwi, Webmoney Ð° Ð°.Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</p>
+<p>{lang ru} <iframe src="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" width="100%" height="439" allowfullscreen="allowfullscreen"></iframe> {/lang}
+<script type="application/ld+json">{
+  "@context": "http://schema.org",
+  "@type": "VideoObject",
+  "name": "Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°",
+  "description": "Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ñ‘Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°.",
+  "thumbnailUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "uploadDate": "2015-02-16T12:15:30+12:15",
+  "duration": "PT10M51S",
+  "embedUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}</script>
+</p>',
+				'<li><strong>Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°</strong>. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°-Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð° Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð°Ð°Ð°Ñ‘Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°, Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°-Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°, Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° â€“ Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</li>
+</ol>
+<p>Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ñ‘Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°: Ð°Ð°Ð°Ð°Ð°Ð°.Ð°Ð°Ð°Ð°Ð°Ð°, Qiwi, Webmoney Ð° Ð°.Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð° Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°, Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°.</p>
+<p>{lang ru} <iframe src="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" width="100%" height="439" allowfullscreen="allowfullscreen"></iframe> {/lang}
+<script type="application/ld+json">{
+  "@context": "http://schema.org",
+  "@type": "VideoObject",
+  "name": "Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°",
+  "description": "Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ñ‘Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°. Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°Ð°Ð° Ð°Ð°Ð°Ð°Ð°Ð°.",
+  "thumbnailUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "uploadDate": "2015-02-16T12:15:30+12:15",
+  "duration": "PT10M51S",
+  "embedUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}</script>
+</p>',
+				'From generic cases'
+			),
+			'tracker15673f' => array(
+				'raw',
+				'<a rel="new" href="#"></a>',
+				'<a rel="new" href="#"></a>',
+				'From generic cases'
+			),
+			'tracker15673g' => array(
+				'string',
+				'<a rel="new" href="#"></a>',
+				'<a rel="new" href="#"></a>',
+				'From generic cases'
+			),
+			'tracker15673h' => array(
+				'raw',
+				'<hr id="system-readmore" />',
+				'<hr id="system-readmore" />',
+				'From generic cases'
+			),
+			'tracker15673i' => array(
+				'string',
+				'<hr id="system-readmore" />',
+				'<hr id="system-readmore" />',
+				'From generic cases'
+			),
+			'tracker15673j' => array(
+				'string',
+				'<p style="text-align: justify;"><strong>Nafta nebo baterie? Za nás jednoznačně to druhé. Před pár dny jsme si vyzvedli nový elektromobil. Nyní jej testujeme a zatím můžeme říct jedno - pozor, toto vozítko je vysoce návykové!</strong></p>',
+				'<p style="text-align: justify;"><strong>Nafta nebo baterie? Za nás jednoznačně to druhé. Před pár dny jsme si vyzvedli nový elektromobil. Nyní jej testujeme a zatím můžeme říct jedno - pozor, toto vozítko je vysoce návykové!</strong></p>',
+				'From generic cases'
+			),
+			'tracker15673k' => array(
+				'string',
+				'<p style="text-align: justify;"><a href="http://www.example.com" target="_blank" rel="noopener noreferrer">Auta.</a> </p>',
+				'<p style="text-align: justify;"><a href="http://www.example.com" target="_blank" rel="noopener noreferrer">Auta.</a> </p>',
+				'From generic cases'
 			)
+
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 

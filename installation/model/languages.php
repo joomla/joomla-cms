@@ -135,10 +135,12 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function install($lids)
 	{
+		$installerBase = new JInstaller;
+
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
-			$installer = new JInstaller;
+			$installer = clone $installerBase;
 
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
@@ -401,7 +403,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getPath()
 	{
-		if (is_null($this->path))
+		if ($this->path === null)
 		{
 			$client     = $this->getClient();
 			$this->path = JLanguageHelper::getLanguagePath($client->path);
@@ -702,14 +704,11 @@ class InstallationModelLanguages extends JModelBase
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
 		{
-			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				if (!$tableLanguage->publish())
-				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
-					continue;
-				}
+				continue;
 			}
 		}
 

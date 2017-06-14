@@ -243,7 +243,7 @@ class FieldsHelper
 		 */
 		if ($parts = self::extract($context))
 		{
-			// Trying to render the layout on the component fom the context
+			// Trying to render the layout on the component from the context
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
@@ -276,6 +276,8 @@ class FieldsHelper
 		{
 			return true;
 		}
+
+		$context = $parts[0] . '.' . $parts[1];
 
 		// When no fields available return here
 		$fields = self::getFields($parts[0] . '.' . $parts[1], new JObject);
@@ -403,10 +405,13 @@ class FieldsHelper
 		// On the front, sometimes the admin fields path is not included
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
-		// Looping trough the groups
-		foreach ($fieldsPerGroup as $group_id => $groupFields)
+		$model = JModelLegacy::getInstance('Groups', 'FieldsModel', array('ignore_request' => true));
+		$model->setState('filter.context', $context);
+
+		// Looping through the groups
+		foreach ($model->getItems() as $group)
 		{
-			if (!$groupFields)
+			if (empty($fieldsPerGroup[$group->id]))
 			{
 				continue;
 			}
@@ -414,61 +419,44 @@ class FieldsHelper
 			// Defining the field set
 			/** @var DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
-			$fieldset->setAttribute('name', 'fields-' . $group_id);
+			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
 			$fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
 
-			$label       = '';
-			$description = '';
+			$label       = $group->title;
+			$description = $group->description;
 
-			if ($group_id)
+			if (!$label)
 			{
-				$group = JTable::getInstance('Group', 'FieldsTable');
-				$group->load($group_id);
+				$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-				if ($group->id)
+				if (!JFactory::getLanguage()->hasKey($key))
 				{
-					$label       = $group->title;
-					$description = $group->description;
+					$key = 'JGLOBAL_FIELDS';
 				}
+
+				$label = $key;
 			}
 
-			if (!$label || !$description)
+			if (!$description)
 			{
-				$lang = JFactory::getLanguage();
+				$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
 
-				if (!$label)
+				if (JFactory::getLanguage()->hasKey($key))
 				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
-
-					if (!$lang->hasKey($key))
-					{
-						$key = 'JGLOBAL_FIELDS';
-					}
-
-					$label = $key;
-				}
-
-				if (!$description)
-				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
-
-					if ($lang->hasKey($key))
-					{
-						$description = $key;
-					}
+					$description = $key;
 				}
 			}
 
 			$fieldset->setAttribute('label', $label);
 			$fieldset->setAttribute('description', strip_tags($description));
 
-			// Looping trough the fields for that context
-			foreach ($groupFields as $field)
+			// Looping through the fields for that context
+			foreach ($fieldsPerGroup[$group->id] as $field)
 			{
 				try
 				{
-					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+					JFactory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
 					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
@@ -485,7 +473,7 @@ class FieldsHelper
 				}
 			}
 
-			// When he field set is empty, then remove it
+			// When the field set is empty, then remove it
 			if (!$fieldset->hasChildNodes())
 			{
 				$fieldsNode->removeChild($fieldset);
@@ -504,7 +492,7 @@ class FieldsHelper
 			$data->id = JFactory::getApplication()->input->getInt('id');
 		}
 
-		// Looping trough the fields again to set the value
+		// Looping through the fields again to set the value
 		if (!isset($data->id) || !$data->id)
 		{
 			return true;

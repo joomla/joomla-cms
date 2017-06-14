@@ -2,9 +2,9 @@
 <metafile
 	version="3.7"
 	client="installation">
-	<name>Georgian (ქართული)</name>
-	<version>3.7.0</version>
-	<creationDate>February 2017</creationDate>
+	<name>Georgian (ka-GE)</name>
+	<version>3.7.3</version>
+	<creationDate>June 2017</creationDate>
 	<author>Georgian Translation Team</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -13,7 +13,7 @@
 	</files>
 	<metadata>
 		<name>Georgian (Georgia)</name>
-		<nativeName>ქართული (Georgia)</nativeName>
+		<nativeName>ქართული (საქართველო)</nativeName>
 		<tag>ka-GE</tag>
 		<rtl>0</rtl>
 	</metadata>

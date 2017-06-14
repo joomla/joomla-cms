@@ -193,8 +193,8 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
-								<?php echo JText::_(($this->options['db_old'] == 'remove') ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
+							<span class="label label-<?php echo $this->options['db_old'] === 'remove' ? 'important' : 'success'; ?>">
+								<?php echo JText::_($this->options['db_old'] === 'remove' ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
 					</tr>

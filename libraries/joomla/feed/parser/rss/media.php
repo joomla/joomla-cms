@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RSS Feed Parser Namespace handler for MediaRSS.
  *
- * @see    http://video.search.yahoo.com/mrss
+ * @link   http://video.search.yahoo.com/mrss
  * @since  12.3
  */
 class JFeedParserRssMedia implements JFeedParserNamespace
