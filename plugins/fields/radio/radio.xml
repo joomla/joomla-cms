@@ -24,25 +24,25 @@
 				<field
 					name="options"
 					type="subform" 
+					label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_LABEL"
+					description="PLG_FIELDS_RADIO_PARAMS_OPTIONS_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list" 
 					multiple="true"
-					description="PLG_FIELDS_RADIO_PARAMS_OPTIONS_DESC"
-					label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_LABEL"
-				>
+					>
 					<form hidden="true" name="list_templates_modal" repeat="true">
 						<field
 							name="name"
+							type="text"
 							label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_NAME_LABEL"
 							size="30"
-							type="text"
 						/>
 	
 						<field
 							name="value"
+							type="text"
 							label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_VALUE_LABEL"
 							size="30"
-							type="text"
 						/>
 					</form>
 				</field>

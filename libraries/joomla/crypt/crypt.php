@@ -153,7 +153,7 @@ class JCrypt
 	 * @return  boolean  Always returns true since 3.3
 	 *
 	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
-	 * @see     https://github.com/ircmaxell/password_compat/blob/master/version-test.php
+	 * @link    https://github.com/ircmaxell/password_compat/blob/master/version-test.php
 	 * @since   3.2
 	 * @deprecated  4.0
 	 */

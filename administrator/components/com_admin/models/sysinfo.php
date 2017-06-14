@@ -482,18 +482,13 @@ class AdminModelSysInfo extends JModelLegacy
 				'authorUrl'    => 'unknown',
 			);
 
-			$manifest = json_decode($extension->manifest_cache);
-
-			if (!$manifest instanceof stdClass)
-			{
-				continue;
-			}
+			$manifest = new Registry($extension->manifest_cache);
 
 			$extraData = array(
-				'author'       => $manifest->author,
-				'version'      => $manifest->version,
-				'creationDate' => $manifest->creationDate,
-				'authorUrl'    => $manifest->authorUrl,
+				'author'       => $manifest->get('author', ''),
+				'version'      => $manifest->get('version', ''),
+				'creationDate' => $manifest->get('creationDate', ''),
+				'authorUrl'    => $manifest->get('authorUrl', '')
 			);
 
 			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);

@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$listOrder        = $this->escape($this->state->get('list.fullordering'));
+$listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin');
 $colSpan          = 5;

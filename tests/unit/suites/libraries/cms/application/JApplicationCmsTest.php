@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -127,9 +127,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$_SERVER = $this->backupServer;
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -447,7 +445,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303', true, null),
 			$this->class->headers[0]
 		);
 
@@ -517,7 +515,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303', true, null),
 			$this->class->headers[0]
 		);
 
@@ -583,7 +581,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// The redirect gives a 303 error code
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303', true, null),
 			$this->class->headers[0]
 		);
 
@@ -701,7 +699,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array('HTTP/1.1 301 Moved Permanently', true, null),
+			array('HTTP/1.1 301', true, null),
 			$this->class->headers[0]
 		);
 

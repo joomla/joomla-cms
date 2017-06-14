@@ -1135,7 +1135,11 @@
 		}
 
 		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
-			JoomlaCalendar.init(".field-calendar", row);
+			elements = row.querySelectorAll(".field-calendar");
+
+			for (i = 0; i < elements.length; i++) {
+				JoomlaCalendar.init(elements[i]);
+			}
 		});
 
 		/** B/C related code
