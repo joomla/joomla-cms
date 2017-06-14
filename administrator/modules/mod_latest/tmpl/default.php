@@ -15,13 +15,13 @@ JHtml::_('bootstrap.tooltip');
 	<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
 			<div class="row-fluid">
-				<div class="span8">
+				<div class="span8 truncate">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', false, 'cb', $item->publish_up, $item->publish_down); ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 
-					<strong class="row-title break-word">
+					<strong class="row-title" title="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 						<?php if ($item->link) : ?>
 							<a href="<?php echo $item->link; ?>">
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>

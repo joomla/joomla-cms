@@ -149,9 +149,9 @@ class ContactViewContact extends JViewLegacy
 		 */
 		$item->email_raw = $item->email_to;
 
-		if ($item->email_to && $params->get('show_email'))
+		if ($item->email_to && $item->params->get('show_email'))
 		{
-			$item->email_to = JHtml::_('email.cloak', $item->email_to, (bool) $params->get('add_mailto_link', true));
+			$item->email_to = JHtml::_('email.cloak', $item->email_to, (bool) $item->params->get('add_mailto_link', true));
 		}
 
 		if ($item->params->get('show_street_address') || $item->params->get('show_suburb') || $item->params->get('show_state')
@@ -272,10 +272,10 @@ class ContactViewContact extends JViewLegacy
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid), false);
 			}
 
-			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
+			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
 		}
 
 		// Process the content plugins

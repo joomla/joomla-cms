@@ -4,7 +4,7 @@
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -288,17 +288,14 @@ class JToolbar
 	 */
 	public function addButtonPath($path)
 	{
-		// Just force path to array.
-		settype($path, 'array');
-
 		// Loop through the path directories.
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) !== DIRECTORY_SEPARATOR)
 			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
