@@ -194,11 +194,29 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 		$this->out('Number of strings: ' . count($toc), true);
 
 		// JSON encode the file and write it to JPATH_ADMINISTRATOR/help/en-GB/toc.json
-		file_put_contents(JPATH_ADMINISTRATOR . '/help/en-GB/toc.json', json_encode($toc));
+		file_put_contents(JPATH_ADMINISTRATOR . '/help/toc.json', json_encode($toc));
 
 		$this->out('Help Screen TOC written', true);
 	}
 }
 
-// Instantiate the application and execute it
-\Joomla\CMS\Application\CliApplication::getInstance('MediawikiCli')->execute();
+
+// Set up the container
+JFactory::getContainer()->share(
+	'MediawikiCli',
+	function (\Joomla\DI\Container $container)
+	{
+		return new MediawikiCli(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('MediawikiCli');
+JFactory::$application = $app;
+$app->execute();
