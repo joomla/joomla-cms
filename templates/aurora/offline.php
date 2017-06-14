@@ -23,11 +23,11 @@ $fullWidth = 1;
 JHtml::_('bootstrap.framework');
 
 // Add template js
-JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Add Stylesheets
-JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
 
 // Template color
 if ($this->params->get('templateColor'))
@@ -53,10 +53,10 @@ if ($this->params->get('templateColor'))
 }
 
 // Check for a custom CSS file
-JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
 
 // Check for a custom js file
-JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);

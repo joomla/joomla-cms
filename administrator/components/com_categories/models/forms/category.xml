@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Categories\Administrator\Field">
 
 	<field
 		name="id"
@@ -260,7 +260,7 @@
 				description="COM_CATEGORIES_FIELD_IMAGE_DESC"
 			/>
 
-			<field 
+			<field
 				name="image_alt"
 				type="text"
 				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
