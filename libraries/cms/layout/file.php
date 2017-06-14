@@ -73,7 +73,7 @@ class JLayoutFile extends JLayoutBase
 		$this->setOptions($options);
 
 		// Main properties
-		$this->setLayout($layoutId);
+		$this->setLayoutId($layoutId);
 		$this->basePath = $basePath;
 
 		// Init Enviroment
@@ -181,7 +181,7 @@ class JLayoutFile extends JLayoutBase
 
 			foreach ($suffixes as $suffix)
 			{
-				$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
+				$rawPath = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
 				$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 				if ($foundLayout = JPath::find($this->includePaths, $rawPath))
@@ -196,7 +196,7 @@ class JLayoutFile extends JLayoutBase
 		}
 
 		// Standard version
-		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+		$rawPath = str_replace('.', '/', $this->layoutId) . '.php';
 		$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 		$foundLayout = JPath::find($this->includePaths, $rawPath);
@@ -330,10 +330,10 @@ class JLayoutFile extends JLayoutBase
 	{
 		$lang = JFactory::getLanguage();
 
-		$langTag = $lang->getTag();
+		$langTag   = $lang->getTag();
 		$langParts = explode('-', $langTag);
 
-		$suffixes = array($langTag, $langParts[0]);
+		$suffixes   = array($langTag, $langParts[0]);
 		$suffixes[] = $lang->isRTL() ? 'rtl' : 'ltr';
 
 		$this->setSuffixes($suffixes);
@@ -466,7 +466,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('component', $component);
 
 		// Refresh include paths
-		$this->refreshIncludePaths();
+		$this->clearIncludePaths();
 	}
 
 	/**
@@ -501,7 +501,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('client', $client);
 
 		// Refresh include paths
-		$this->refreshIncludePaths();
+		$this->clearIncludePaths();
 	}
 
 	/**
@@ -572,7 +572,7 @@ class JLayoutFile extends JLayoutBase
 		$paths = array();
 
 		// (1 - highest priority) Received a custom high priority path
-		if (!is_null($this->basePath))
+		if ($this->basePath !== null)
 		{
 			$paths[] = rtrim($this->basePath, DIRECTORY_SEPARATOR);
 		}
@@ -655,7 +655,7 @@ class JLayoutFile extends JLayoutBase
 			$layoutId = $this->layoutId . '.' . $layoutId;
 		}
 
-		$sublayout = new static($layoutId, $this->basePath, $this->options);
+		$sublayout               = new static($layoutId, $this->basePath, $this->options);
 		$sublayout->includePaths = $this->includePaths;
 
 		return $sublayout->render($displayData);
