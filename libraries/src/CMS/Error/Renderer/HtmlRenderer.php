@@ -40,13 +40,7 @@ class HtmlRenderer extends AbstractRenderer
 	{
 		$app = \JFactory::getApplication();
 
-		$template = null;
-
-		if ($app instanceof CMSApplication)
-		{
-			// Get the current template from the application
-			$template = $app->getTemplate();
-		}
+		$template =  $app->getTemplate();
 
 		// Push the error object into the document
 		$this->getDocument()->setError($error);
