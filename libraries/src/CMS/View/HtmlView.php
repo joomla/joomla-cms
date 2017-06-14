@@ -10,6 +10,7 @@ namespace Joomla\CMS\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Model\Model;
 
 /**
@@ -434,7 +435,7 @@ class HtmlView extends AbstractView
 		}
 		else
 		{
-			$component = \JApplicationHelper::getComponentName();
+			$component = ApplicationHelper::getComponentName();
 		}
 
 		$app = \JFactory::getApplication();

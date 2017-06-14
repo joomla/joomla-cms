@@ -60,7 +60,7 @@ if (JText::_('JLIB_FORM_SELECT_USER') === htmlspecialchars($userName, ENT_COMPAT
 
 if (!$readonly)
 {
-	JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/fields/fielduser.min.js', ['version' => 'auto', 'relative' => true]);
 }
 ?>
 <?php // Create a dummy text field with the user name. ?>
@@ -87,11 +87,11 @@ if (!$readonly)
 			<?php echo JHtml::_(
 				'bootstrap.renderModal',
 				'userModal_' . $id,
-				array(
+				[
 					'title'  => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
-					'footer' => '<a type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
-				)
+					'footer' => '<a type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
+				]
 			); ?>
 		<?php endif; ?>
 	</div>

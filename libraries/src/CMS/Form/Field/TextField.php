@@ -19,7 +19,7 @@ use Joomla\CMS\Form\FormField;
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  11.1
  */
-class Text extends FormField
+class TextField extends FormField
 {
 	/**
 	 * The form field type.

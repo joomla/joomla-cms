@@ -4,6 +4,7 @@
 		<field
 			name="context"
 			type="fieldcontexts"
+			filtermode="selector"
 			onchange="this.form.submit();"
 		/>
 	</fieldset>
