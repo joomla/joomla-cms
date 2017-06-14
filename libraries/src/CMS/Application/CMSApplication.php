@@ -140,8 +140,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			$this->config->set('session_name', $this->getName());
 		}
-
-		$this->createExtensionNamespaceMap();
 	}
 
 	/**
@@ -1025,6 +1023,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function render()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Setup the document options.
 		$this->docOptions['template'] = $this->get('theme');
 		$this->docOptions['file']     = $this->get('themeFile', 'index.php');
