@@ -2169,7 +2169,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/user/wrapper',
 			'/libraries/joomla/user',
 			'/libraries/legacy/access',
-			'/libraries/legacy/application',
 			'/libraries/legacy/controller',
 			'/libraries/legacy/model',
 			'/libraries/legacy/view',
