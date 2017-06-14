@@ -316,6 +316,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		PluginHelper::importPlugin('system');
 
 		// Trigger the onBeforeExecute event.
@@ -1023,8 +1025,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function render()
 	{
-		$this->createExtensionNamespaceMap();
-
 		// Setup the document options.
 		$this->docOptions['template'] = $this->get('theme');
 		$this->docOptions['file']     = $this->get('themeFile', 'index.php');
