@@ -91,10 +91,12 @@ jQuery(function() {";
 		<div id="advancedSearch" class="collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' in'; ?>">
 			<hr />
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
-				<div class="advanced-search-tip">
-					<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
+				<div id="search-query-explained">
+					<div class="advanced-search-tip">
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
+					</div>
+					<hr />
 				</div>
-				<hr />
 			<?php endif; ?>
 			<div id="finder-filter-window">
 				<?php echo JHtml::_('filter.select', $this->query, $this->params); ?>

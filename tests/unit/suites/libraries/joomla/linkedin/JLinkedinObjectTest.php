@@ -4,7 +4,7 @@
  * @subpackage  Linkedin
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
@@ -75,9 +75,7 @@ class JLinkedinObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->client);
-		unset($this->options);
-		unset($this->object);
+		unset($this->client, $this->options, $this->object);
 	}
 
 	/**
