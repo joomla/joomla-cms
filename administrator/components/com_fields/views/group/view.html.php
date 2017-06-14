@@ -75,9 +75,7 @@ class FieldsViewGroup extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		JFactory::getApplication()->input->set('hidemainmenu', true);
@@ -164,5 +162,7 @@ class FieldsViewGroup extends JViewLegacy
 		{
 			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS_EDIT');
 	}
 }

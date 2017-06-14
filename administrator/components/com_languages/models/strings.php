@@ -164,5 +164,4 @@ class LanguagesModelStrings extends JModelLegacy
 
 		return $results;
 	}
-
 }

@@ -21,6 +21,7 @@ if (empty($fieldSets))
 $ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
 $ignoreFields    = $displayData->get('ignore_fields') ?: array();
 $extraFields     = $displayData->get('extra_fields') ?: array();
+$tabName         = $displayData->get('tab_name') ?: 'myTab';
 
 if (!empty($displayData->hiddenFieldsets))
 {
@@ -39,10 +40,10 @@ if ($displayData->get('show_options', 1))
 	foreach ($fieldSets as $name => $fieldSet)
 	{
 		// Ensure any fieldsets we don't want to show are skipped (including repeating formfield fieldsets)
-		if ((isset($fieldSet->repeat) && $fieldSet->repeat == true)
+		if ((isset($fieldSet->repeat) && $fieldSet->repeat === true)
 			|| in_array($name, $ignoreFieldsets)
-			|| (!empty($configFieldsets) && in_array($name, $configFieldsets))
-			|| (!empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets))
+			|| (!empty($configFieldsets) && in_array($name, $configFieldsets, true))
+			|| (!empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets, true))
 		)
 		{
 			continue;
@@ -62,7 +63,7 @@ if ($displayData->get('show_options', 1))
 			$label = JText::_($label);
 		}
 
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, $label);
+		echo JHtml::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
 
 		if (isset($fieldSet->description) && trim($fieldSet->description))
 		{
@@ -81,7 +82,7 @@ else
 	$html[] = '<div style="display:none;">';
 	foreach ($fieldSets as $name => $fieldSet)
 	{
-		if (in_array($name, $ignoreFieldsets))
+		if (in_array($name, $ignoreFieldsets, true))
 		{
 			continue;
 		}

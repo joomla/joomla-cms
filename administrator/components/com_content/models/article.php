@@ -414,7 +414,7 @@ class ContentModelArticle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data))
@@ -449,6 +449,38 @@ class ContentModelArticle extends JModelAdmin
 		$this->preprocessData('com_content.article', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.7.0
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (JFactory::getApplication()->isClient('administrator') && !JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_by']))
+			{
+				unset($data['created_by']);
+			}
+
+			if (isset($data['modified_by']))
+			{
+				unset($data['modified_by']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 
 	/**
@@ -735,7 +767,6 @@ class ContentModelArticle extends JModelAdmin
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
 				$fieldset->addAttribute('name', 'item_associations');
-				$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 
 				foreach ($languages as $language)
 				{

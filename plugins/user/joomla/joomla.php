@@ -101,77 +101,77 @@ class PlgUserJoomla extends JPlugin
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
-		if ($isnew)
+		if (!$isnew || !$mail_to_user)
 		{
-			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			// The method check here ensures that if running as a CLI Application we don't get any errors
-			if (method_exists($this->app, 'isClient') && $this->app->isClient('administrator'))
-			{
-				if ($mail_to_user)
-				{
-					$lang = JFactory::getLanguage();
-					$defaultLocale = $lang->getTag();
-
-					/**
-					 * Look for user language. Priority:
-					 * 	1. User frontend language
-					 * 	2. User backend language
-					 */
-					$userParams = new Registry($user['params']);
-					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
-
-					if ($userLocale != $defaultLocale)
-					{
-						$lang->setLanguage($userLocale);
-					}
-
-					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
-
-					// Compute the mail subject.
-					$emailSubject = JText::sprintf(
-						'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
-						$user['name'],
-						$config = $this->app->get('sitename')
-					);
-
-					// Compute the mail body.
-					$emailBody = JText::sprintf(
-						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-						$user['name'],
-						$this->app->get('sitename'),
-						JUri::root(),
-						$user['username'],
-						$user['password_clear']
-					);
-
-					// Assemble the email data...the sexy way!
-					$mail = JFactory::getMailer()
-						->setSender(
-							array(
-								$this->app->get('mailfrom'),
-								$this->app->get('fromname')
-							)
-						)
-						->addRecipient($user['email'])
-						->setSubject($emailSubject)
-						->setBody($emailBody);
-
-					// Set application language back to default if we changed it
-					if ($userLocale != $defaultLocale)
-					{
-						$lang->setLanguage($defaultLocale);
-					}
-
-					if (!$mail->Send())
-					{
-						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
-					}
-				}
-			}
+			return;
 		}
-		else
+
+		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
+		// The method check here ensures that if running as a CLI Application we don't get any errors
+		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
 		{
-			// Existing user - nothing to do...yet.
+			return;
+		}
+
+		// Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
+		if (strpos($this->app->get('mailfrom'), '@') === false)
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+			return;
+		}
+
+		$lang = JFactory::getLanguage();
+		$defaultLocale = $lang->getTag();
+
+		/**
+		 * Look for user language. Priority:
+		 * 	1. User frontend language
+		 * 	2. User backend language
+		 */
+		$userParams = new Registry($user['params']);
+		$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
+
+		if ($userLocale !== $defaultLocale)
+		{
+			$lang->setLanguage($userLocale);
+		}
+
+		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
+
+		// Compute the mail subject.
+		$emailSubject = JText::sprintf(
+			'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
+			$user['name'],
+			$this->app->get('sitename')
+		);
+
+		// Compute the mail body.
+		$emailBody = JText::sprintf(
+			'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
+			$user['name'],
+			$this->app->get('sitename'),
+			JUri::root(),
+			$user['username'],
+			$user['password_clear']
+		);
+
+		$res = JFactory::getMailer()->sendMail(
+			$this->app->get('mailfrom'),
+			$this->app->get('fromname'),
+			$user['email'],
+			$emailSubject,
+			$emailBody
+		);
+
+		if ($res === false)
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+		}
+
+		// Set application language back to default if we changed it
+		if ($userLocale !== $defaultLocale)
+		{
+			$lang->setLanguage($defaultLocale);
 		}
 	}
 
@@ -253,12 +253,17 @@ class PlgUserJoomla extends JPlugin
 		$instance->setLastVisit();
 
 		// Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		$cookie_domain = $this->app->get('cookie_domain', '');
-		$cookie_path   = $this->app->get('cookie_path', '/');
-
 		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set('joomla_user_state', 'logged_in', 0, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set(
+				'joomla_user_state',
+				'logged_in',
+				0,
+				$this->app->get('cookie_path', '/'),
+				$this->app->get('cookie_domain', ''),
+				$this->app->isHttpsForced(),
+				true
+			);
 		}
 
 		return true;
@@ -322,12 +327,9 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		$cookie_domain = $this->app->get('cookie_domain', '');
-		$cookie_path   = $this->app->get('cookie_path', '/');
-
 		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set('joomla_user_state', '', time() - 86400, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 		}
 
 		return true;

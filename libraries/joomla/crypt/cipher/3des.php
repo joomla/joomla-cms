@@ -13,20 +13,20 @@ defined('JPATH_PLATFORM') or die;
  * JCrypt cipher for Triple DES encryption, decryption and key generation.
  *
  * @since       12.1
- * @deprecated  4.0   Without replacment use JCryptCipherCrypto
+ * @deprecated  4.0   Without replacement use JCryptCipherCrypto
  */
 class JCryptCipher3Des extends JCryptCipherMcrypt
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
-	 * @see    https://secure.php.net/manual/en/mcrypt.ciphers.php
+	 * @link   https://secure.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  12.1
 	 */
 	protected $type = MCRYPT_3DES;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
-	 * @see    https://secure.php.net/manual/en/mcrypt.constants.php
+	 * @link   https://secure.php.net/manual/en/mcrypt.constants.php
 	 * @since  12.1
 	 */
 	protected $mode = MCRYPT_MODE_CBC;

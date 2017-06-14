@@ -121,7 +121,7 @@ class CacheController extends JControllerLegacy
 
 			foreach ($mCache->getAll() as $cache)
 			{
-				if ((int) $mCache->clean($cache->group) !== 1)
+				if ($mCache->clean($cache->group) === false)
 				{
 					$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
 					$allCleared = false;

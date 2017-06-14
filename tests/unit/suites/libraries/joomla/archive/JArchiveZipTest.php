@@ -4,7 +4,7 @@
  * @subpackage  Archive
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/JArchiveTestCase.php';
@@ -41,7 +41,7 @@ class JArchiveZipTest extends JArchiveTestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

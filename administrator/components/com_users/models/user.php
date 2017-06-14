@@ -243,7 +243,7 @@ class UsersModelUser extends JModelAdmin
 
 			foreach ($myNewGroups as $group)
 			{
-				$stillSuperAdmin = ($stillSuperAdmin) ? ($stillSuperAdmin) : JAccess::checkGroup($group, 'core.admin');
+				$stillSuperAdmin = $stillSuperAdmin ?: JAccess::checkGroup($group, 'core.admin');
 			}
 
 			if (!$stillSuperAdmin)

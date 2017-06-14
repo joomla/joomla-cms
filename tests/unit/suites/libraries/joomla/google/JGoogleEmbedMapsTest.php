@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -62,14 +62,12 @@ class JGoogleEmbedMapsTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->uri);
-		unset($this->object);
+		unset($this->options, $this->uri, $this->object);
 		parent::tearDown();
 	}
 
@@ -754,9 +752,9 @@ class JGoogleEmbedMapsTest extends TestCase
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
 	$query = parse_url($url, PHP_URL_QUERY);
-	
+
 	parse_str($query, $params);
-	
+
 	$address = strtolower($params['address']);
 
 	switch ($address)

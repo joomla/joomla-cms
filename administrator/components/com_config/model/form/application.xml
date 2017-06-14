@@ -7,9 +7,9 @@
 		<field
 			name="cache_handler"
 			type="cachehandler"
-			default=""
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
+			default=""
 			filter="word"
 		/>
 
@@ -32,7 +32,7 @@
 			default="1"
 			showon="cache_handler:memcache"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -46,7 +46,7 @@
 			default="0"
 			showon="cache_handler:memcache"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -85,7 +85,7 @@
 			default="1"
 			showon="cache_handler:memcached"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -99,7 +99,7 @@
 			default="0"
 			showon="cache_handler:memcached"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -138,7 +138,7 @@
 			default="1"
 			filter="integer"
 			showon="cache_handler:redis"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -211,7 +211,7 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -223,7 +223,7 @@
 			description="COM_CONFIG_FIELD_CACHE_DESC"
 			default="2"
 			filter="integer"
-		>
+			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
@@ -282,9 +282,9 @@
 		<field
 			name="dbprefix"
 			type="text"
-			default="jos_"
 			label="COM_CONFIG_FIELD_DATABASE_PREFIX_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_PREFIX_DESC"
+			default="jos_"
 			filter="string"
 			size="10"
 		/>
@@ -298,12 +298,12 @@
 		<field
 			name="debug"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -311,31 +311,29 @@
 		<field
 			name="debug_lang"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>
 
-	<fieldset
-		name="ftp"
-		label="CONFIG_FTP_SETTINGS_LABEL">
+	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
 
 		<field
 			name="ftp_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -390,8 +388,8 @@
 			name="ftp_root"
 			type="text"
 			label="COM_CONFIG_FIELD_FTP_ROOT_LABEL"
-			showon="ftp_enable:1"
 			description="COM_CONFIG_FIELD_FTP_ROOT_DESC"
+			showon="ftp_enable:1"
 			filter="string"
 			size="50"
 		/>
@@ -405,12 +403,12 @@
 		<field
 			name="proxy_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -470,10 +468,10 @@
 		<field
 			name="offset"
 			type="timezone"
-			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
 			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC"
-		>
+			default="UTC"
+			>
 			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
 		</field>
 
@@ -491,7 +489,7 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -505,7 +503,7 @@
 			default="0"
 			filter="integer"
 			showon="mailonline:1"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -560,7 +558,7 @@
 			default="mail"
 			filter="word"
 			showon="mailonline:1"
-		>
+			>
 			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
 			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
 			<option value="smtp">COM_CONFIG_FIELD_VALUE_SMTP</option>
@@ -612,7 +610,7 @@
 			default="none"
 			showon="mailonline:1[AND]mailer:smtp"
 			filter="word"
-		>
+			>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="ssl">COM_CONFIG_FIELD_VALUE_SSL</option>
 			<option value="tls">COM_CONFIG_FIELD_VALUE_TLS</option>
@@ -627,7 +625,7 @@
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -686,7 +684,7 @@
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 			default=""
-		>
+			>
 			<option value="">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
 			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
@@ -706,12 +704,12 @@
 		<field
 			name="MetaAuthor"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -719,12 +717,12 @@
 		<field
 			name="MetaVersion"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
 			description="COM_CONFIG_FIELD_METAVERSION_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -738,12 +736,12 @@
 		<field
 			name="sef"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -751,13 +749,13 @@
 		<field
 			name="sef_rewrite"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
 			showon="sef:1"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -765,13 +763,13 @@
 		<field
 			name="sef_suffix"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
 			showon="sef:1"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -779,13 +777,13 @@
 		<field
 			name="unicodeslugs"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
 			showon="sef:1"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -793,11 +791,11 @@
 		<field
 			name="sitename_pagetitles"
 			type="list"
-			default="0"
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
 			<option value="0">JNO</option>
@@ -821,12 +819,12 @@
 		<field
 			name="gzip"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -834,11 +832,11 @@
 		<field
 			name="error_reporting"
 			type="list"
-			default="default"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
+			default="default"
 			filter="cmd"
-		>
+			>
 			<option value="default">COM_CONFIG_FIELD_VALUE_SYSTEM_DEFAULT</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="simple">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
@@ -849,11 +847,11 @@
 		<field
 			name="force_ssl"
 			type="list"
-			default="-1"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
+			default="-1"
 			filter="integer"
-		>
+			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_ADMINISTRATOR_ONLY</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_ENTIRE_SITE</option>
@@ -945,7 +943,7 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -969,12 +967,12 @@
 		<field
 			name="offline"
 			type="radio"
-			class="btn-group btn-group-yesno btn-group-reversed"
-			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
+			class="btn-group btn-group-yesno btn-group-reversed"
+			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -982,12 +980,12 @@
 		<field
 			name="display_offline_message"
 			type="list"
-			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
+			default="1"
 			filter="integer"
 			showon="offline:1"
-		>
+			>
 			<option value="0">JHIDE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_LANGUAGE</option>
@@ -1015,11 +1013,11 @@
 		<field
 			name="frontediting"
 			type="list"
-			default="1"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
+			default="1"
 			filter="integer"
-		>
+			>
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
 			<option value="1">COM_CONFIG_FRONTEDITING_MODULES</option>
 			<option value="0">JNONE</option>
@@ -1028,42 +1026,42 @@
 		<field
 			name="editor"
 			type="plugins"
-			folder="editors"
-			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
+			folder="editors"
+			default="tinymce"
 			filter="cmd"
 		/>
 
 		<field
 			name="captcha"
 			type="plugins"
-			folder="captcha"
-			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
+			folder="captcha"
+			default="0"
 			filter="cmd"
-		>
+			>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
 		<field
 			name="access"
 			type="accesslevel"
-			default="1"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
+			default="1"
 			filter="integer"
 		/>
 
 		<field
 			name="list_limit"
 			type="list"
-			default="20"
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_DESC"
+			default="20"
 			filter="integer"
-		>
+			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
@@ -1079,11 +1077,11 @@
 		<field
 			name="feed_limit"
 			type="list"
-			default="10"
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_DESC"
+			default="10"
 			filter="integer"
-		>
+			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
@@ -1097,11 +1095,11 @@
 		<field
 			name="feed_email"
 			type="list"
-			default="none"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
+			default="none"
 			filter="word"
-		>
+			>
 			<option value="author">COM_CONFIG_FIELD_VALUE_AUTHOR_EMAIL</option>
 			<option value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NO_EMAIL</option>
@@ -1169,7 +1167,7 @@
 			translate_label="false"
 			validate="rules"
 			filter="rules"
-		>
+			>
 			<action
 				name="core.login.site"
 				title="JACTION_LOGIN_SITE"
@@ -1189,6 +1187,11 @@
 				name="core.admin"
 				title="JACTION_ADMIN_GLOBAL"
 				description="COM_CONFIG_ACTION_ADMIN_DESC"
+			/>
+			<action
+				name="core.options"
+				title="JACTION_OPTIONS"
+				description="COM_CONFIG_ACTION_OPTIONS_DESC"
 			/>
 			<action
 				name="core.manage"

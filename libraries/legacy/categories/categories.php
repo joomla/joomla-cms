@@ -4,7 +4,7 @@
  * @subpackage  Categories
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -99,15 +99,17 @@ class JCategories
 	 */
 	public function __construct($options)
 	{
-		$this->_extension = $options['extension'];
-		$this->_table = $options['table'];
-		$this->_field = (isset($options['field']) && $options['field']) ? $options['field'] : 'catid';
-		$this->_key = (isset($options['key']) && $options['key']) ? $options['key'] : 'id';
-		$this->_statefield = (isset($options['statefield'])) ? $options['statefield'] : 'state';
-		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
-		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
-		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
+		$this->_extension  = $options['extension'];
+		$this->_table      = $options['table'];
+		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
+		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
+		$this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
+
+		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
+		$options['published']   = isset($options['published']) ? $options['published'] : 1;
+		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
 		$options['currentlang'] = JLanguageMultilang::isEnabled() ? JFactory::getLanguage()->getTag() : 0;
+
 		$this->_options = $options;
 
 		return true;
@@ -125,7 +127,7 @@ class JCategories
 	 */
 	public static function getInstance($extension, $options = array())
 	{
-		$hash = md5($extension . serialize($options));
+		$hash = md5(strtolower($extension) . serialize($options));
 
 		if (isset(self::$instances[$hash]))
 		{
@@ -241,12 +243,6 @@ class JCategories
 		if ($this->_options['published'] == 1)
 		{
 			$query->where('c.published = 1');
-
-			$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-				'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-				' AND parent.published != 1 GROUP BY cat.id) ';
-			$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
-				->where('badcats.id is null');
 		}
 
 		$query->order('c.lft');

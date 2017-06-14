@@ -115,6 +115,16 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
+		// Categories store the images differently so lets re-map it so the display is correct
+		if ($items && $items[0]->type_alias === 'com_content.category')
+		{
+			foreach ($items as $row)
+			{
+				$core_params = json_decode($row->core_params);
+				$row->core_images = json_encode(array('image_intro' => $core_params->image, 'image_intro_alt' => $core_params->image_alt));
+			}
+		}
+
 		$this->state      = $state;
 		$this->items      = $items;
 		$this->children   = $children;
@@ -219,7 +229,7 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] != 'com_tags')
+			if ($menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}

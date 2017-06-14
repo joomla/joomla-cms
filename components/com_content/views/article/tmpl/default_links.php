@@ -48,20 +48,20 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 					{
 						case 1:
 							// Open in a new window
-							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" target="_blank"  rel="nofollow">' .
+							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" target="_blank" rel="nofollow noopener noreferrer">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
 							break;
 
 						case 2:
 							// Open in a popup window
 							$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600';
-							echo "<a href=\"" . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . "\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\">" .
+							echo "<a href=\"" . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . "\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\" rel=\"noopener noreferrer\">" .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
 							break;
 						case 3:
 							// Open in a modal window
 							JHtml::_('behavior.modal', 'a.modal');
-							echo '<a class="modal" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '"  rel="{handler: \'iframe\', size: {x:600, y:600}}">' .
+							echo '<a class="modal" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '"  rel="{handler: \'iframe\', size: {x:600, y:600}} noopener noreferrer">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
 							break;
 
