@@ -90,9 +90,6 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
-
-		// Set up the environment
-		$this->input->set('format', 'raw');
 	}
 
 	/**
