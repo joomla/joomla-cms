@@ -57,7 +57,7 @@ class SiteRouter extends Router
 	 */
 	public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
 	{
-		$this->app  = $app ?: CMSApplication::getInstance('site');
+		$this->app  = $app ?: \JFactory::getApplication();
 		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules
