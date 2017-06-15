@@ -409,8 +409,8 @@ class FieldsHelper
 		$model->setState('filter.context', $context);
 
 		/**
-		 * $model->getItems() would only return existant groups, but we also
-		 * have the 'default' group with id 0 with isn't existant in the database,
+		 * $model->getItems() would only return existing groups, but we also
+		 * have the 'default' group with id 0 which is not in the database,
 		 * so we create it virtually here.
 		 */
 		$defaultGroup = new \stdClass;
