@@ -867,13 +867,13 @@ class JControllerForm extends JControllerLegacy
 
 		if (!$this->allowEdit($data, $key))
 		{
-			$app->redirect(
+			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
 			);
-			$app->close();
+			$this->redirect();
 		}
 
 		// Populate the row id from the session.
@@ -894,8 +894,8 @@ class JControllerForm extends JControllerLegacy
 		{
 			$app->enqueueMessage($model->getError(), 'error');
 
-			$app->redirect($redirectUrl);
-			$app->close();
+			$this->setRedirect($redirectUrl);
+			$this->redirect();
 		}
 
 		// Test whether the data is valid.
@@ -926,7 +926,7 @@ class JControllerForm extends JControllerLegacy
 			$app->setUserState($this->option . '.edit.' . $this->context . '.data', $validData);
 		}
 
-		$app->redirect($redirectUrl);
-		$app->close();
+		$this->setRedirect($redirectUrl);
+		$this->redirect();
 	}
 }
