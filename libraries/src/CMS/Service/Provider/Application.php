@@ -37,7 +37,7 @@ class Application implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->share(
-			'AdministratorApplication',
+			'JApplicationAdministrator',
 			function (Container $container)
 			{
 				$app = new AdministratorApplication(null, null, null, $container);
@@ -58,7 +58,7 @@ class Application implements ServiceProviderInterface
 		);
 
 		$container->share(
-			'SiteApplication',
+			'JApplicationSite',
 			function (Container $container)
 			{
 				$app = new SiteApplication(null, null, null, $container);

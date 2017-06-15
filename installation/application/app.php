@@ -48,4 +48,4 @@ JFactory::$container = (new \Joomla\DI\Container)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
 
 // Instantiate and execute the application
-JFactory::getContainer()->get('InstallationApplicationWeb')->execute();
+JFactory::getApplication('web', [], 'InstallationApplication')->execute();
