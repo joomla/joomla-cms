@@ -289,6 +289,10 @@ class JDate extends DateTime
 		}
 
 		// If the returned time should not be local use GMT.
+
+		// In PR 16714 I tried to make the two $local == false comparisons type-safe, as it is supposed to be a boolean.
+		// Unfortunately the Travis Tests were failing.
+		// todo: Check if the tests do not provide the correct boolean parameter, but maybe pass null.
 		if ($local == false && !empty(self::$gmt))
 		{
 			parent::setTimezone(self::$gmt);
