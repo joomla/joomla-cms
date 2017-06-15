@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\String\StringHelper;
 
 /**
@@ -58,7 +59,7 @@ class SiteRouter extends Router
 	public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
 	{
 		$this->app  = $app ?: \JFactory::getApplication();
-		$this->menu = $menu ?: $this->app->getMenu();
+		$this->menu = $menu ?: $this->app->getContainer()->get(MenuFactoryInterface::class)->createMenu('site', ['app' => $this->app]);
 
 		// Add core rules
 		if ($this->app->get('force_ssl') == 2)
