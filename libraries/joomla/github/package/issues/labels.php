@@ -94,7 +94,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		$response = $this->client->post($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 201)
+		if ($response->code !== 201)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);

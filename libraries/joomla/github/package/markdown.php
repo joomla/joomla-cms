@@ -60,7 +60,7 @@ class JGithubPackageMarkdown extends JGithubPackage
 		$response = $this->client->post($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);

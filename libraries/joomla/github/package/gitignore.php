@@ -67,7 +67,7 @@ class JGithubPackageGitignore extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path), $headers);
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error   = json_decode($response->body);

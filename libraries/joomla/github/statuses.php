@@ -38,7 +38,7 @@ class JGithubStatuses extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/statuses/' . $sha;
 
-		if (!in_array($state, array('pending', 'success', 'error', 'failure')))
+		if (!in_array($state, array('pending', 'success', 'error', 'failure'), true))
 		{
 			throw new InvalidArgumentException('State must be one of pending, success, error or failure.');
 		}
@@ -62,7 +62,7 @@ class JGithubStatuses extends JGithubObject
 		$response = $this->client->post($this->fetchUrl($path), json_encode($data));
 
 		// Validate the response code.
-		if ($response->code != 201)
+		if ($response->code !== 201)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -94,7 +94,7 @@ class JGithubStatuses extends JGithubObject
 		$response = $this->client->get($this->fetchUrl($path));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);

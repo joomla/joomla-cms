@@ -64,7 +64,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->post($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 201)
+		if ($response->code !== 201)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -109,7 +109,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->post($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 201)
+		if ($response->code !== 201)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -167,7 +167,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->patch($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -198,7 +198,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -231,7 +231,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -264,7 +264,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -294,7 +294,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$path = '/repos/' . $user . '/' . $repo . '/pulls';
 
 		// If a state exists append it as an option.
-		if ($state != 'open')
+		if ($state !== 'open')
 		{
 			$path .= '?state=' . $state;
 		}
@@ -303,7 +303,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -334,11 +334,11 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path));
 
 		// Validate the response code.
-		if ($response->code == 204)
+		if ($response->code === 204)
 		{
 			return true;
 		}
-		elseif ($response->code == 404)
+		elseif ($response->code === 404)
 		{
 			return false;
 		}
@@ -379,7 +379,7 @@ class JGithubPackagePulls extends JGithubPackage
 		$response = $this->client->put($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);

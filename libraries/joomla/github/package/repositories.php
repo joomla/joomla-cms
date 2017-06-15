@@ -106,7 +106,7 @@ class JGithubPackageRepositories extends JGithubPackage
 		}
 
 		// Sort direction default: when using full_name: asc, otherwise desc.
-		$direction = ($direction) ? : (('full_name' == $sort) ? 'asc' : 'desc');
+		$direction = ($direction) ? : (($sort === 'full_name') ? 'asc' : 'desc');
 
 		if (false == in_array($direction, array('asc', 'desc')))
 		{

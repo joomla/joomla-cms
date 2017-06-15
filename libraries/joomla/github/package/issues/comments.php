@@ -67,7 +67,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 		// Build the request path.
 		$path = '/repos/' . $owner . '/' . $repo . '/issues/comments';
 
-		if (false == in_array($sort, array('created', 'updated')))
+		if (in_array($sort, array('created', 'updated')) === false)
 		{
 			throw new UnexpectedValueException(
 				sprintf(
@@ -76,7 +76,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 			);
 		}
 
-		if (false == in_array($direction, array('asc', 'desc')))
+		if (in_array($direction, array('asc', 'desc')) === false)
 		{
 			throw new UnexpectedValueException(
 				sprintf(

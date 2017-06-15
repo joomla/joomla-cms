@@ -35,7 +35,7 @@ class JGithubPackageSearch extends JGithubPackage
 	 */
 	public function issues($owner, $repo, $state, $keyword)
 	{
-		if (false == in_array($state, array('open', 'close')))
+		if (in_array($state, array('open', 'close'), true) === false)
 		{
 			throw new UnexpectedValueException('State must be either "open" or "closed"');
 		}

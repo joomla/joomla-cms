@@ -84,7 +84,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				throw $e;
 			}
 
-			if ($jdata->body != '')
+			if ($jdata->body !== '')
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
@@ -114,7 +114,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 
 		foreach ($links as $link)
 		{
-			if ($link->attributes()->rel == $type)
+			if ($link->attributes()->rel === $type)
 			{
 				return (string) $link->attributes()->href;
 			}

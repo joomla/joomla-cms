@@ -95,7 +95,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 
 		if ($permission)
 		{
-			if (false == in_array($permission, array('pull', 'push', 'admin')))
+			if (in_array($permission, array('pull', 'push', 'admin'), true) === false)
 			{
 				throw new UnexpectedValueException('Permissions must be either "pull", "push", or "admin".');
 			}
@@ -137,7 +137,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 
 		if ($permission)
 		{
-			if (false == in_array($permission, array('pull', 'push', 'admin')))
+			if (in_array($permission, array('pull', 'push', 'admin')) === false)
 			{
 				throw new UnexpectedValueException('Permissions must be either "pull", "push", or "admin".');
 			}

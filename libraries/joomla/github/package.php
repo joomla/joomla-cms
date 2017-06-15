@@ -41,12 +41,12 @@ abstract class JGithubPackage extends JGithubObject
 	 */
 	public function __get($name)
 	{
-		if (false == in_array($name, $this->packages))
+		if (in_array($name, $this->packages, true) === false)
 		{
 			throw new RuntimeException(sprintf('%1$s - Unknown package %2$s', __METHOD__, $name));
 		}
 
-		if (false == isset($this->$name))
+		if (isset($this->$name) === false)
 		{
 			$className = 'JGithubPackage' . ucfirst($this->name) . ucfirst($name);
 

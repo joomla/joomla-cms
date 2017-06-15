@@ -806,7 +806,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			throw new RuntimeException('Invalid json received geocoding address: ' . $response->body . '.');
 		}
 
-		if ($data['status'] != 'OK')
+		if ($data['status'] !== 'OK')
 		{
 			if (!empty($data['error_message']))
 			{

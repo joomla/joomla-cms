@@ -162,7 +162,7 @@ class JGithubPackageRepositoriesStatistics  extends JGithubPackage
 	 */
 	protected function processResponse(JHttpResponse $response, $expectedCode = 200, $decode = true)
 	{
-		if (202 == $response->code)
+		if ($response->code === 202)
 		{
 			throw new \DomainException(
 				'GitHub is building the statistics data. Please try again in a few moments.',

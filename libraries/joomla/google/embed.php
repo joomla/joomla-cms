@@ -54,7 +54,7 @@ abstract class JGoogleEmbed
 	 */
 	public function isSecure()
 	{
-		return $this->uri->getScheme() == 'https';
+		return $this->uri->getScheme() === 'https';
 	}
 
 	/**

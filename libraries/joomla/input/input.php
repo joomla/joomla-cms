@@ -309,7 +309,7 @@ class JInput implements Serializable, Countable
 	 */
 	public function __call($name, $arguments)
 	{
-		if (substr($name, 0, 3) == 'get')
+		if (substr($name, 0, 3) === 'get')
 		{
 			$filter = substr($name, 3);
 

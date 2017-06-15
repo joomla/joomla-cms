@@ -55,7 +55,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($rPath));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -86,7 +86,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);

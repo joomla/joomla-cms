@@ -65,7 +65,7 @@ class JGoogleDataPlusComments extends JGoogleData
 			}
 
 			// Check if max is specified.
-			if ($max != 20)
+			if ($max !== 20)
 			{
 				$url .= (strpos($url, '?') === false) ? '?maxResults=' : '&maxResults=';
 				$url .= $max;
