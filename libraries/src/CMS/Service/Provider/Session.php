@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die;
 use InvalidArgumentException;
 use JFactory;
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
@@ -53,9 +52,10 @@ class Session implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$config = JFactory::getConfig();
+					$app    = JFactory::getApplication();
 
 					// Generate a session name.
-					$name = ApplicationHelper::getHash($config->get('session_name', get_class(JFactory::getApplication())));
+					$name = ApplicationHelper::getHash($config->get('session_name', get_class($app)));
 
 					// Calculate the session lifetime.
 					$lifetime = (($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900);
@@ -66,12 +66,12 @@ class Session implements ServiceProviderInterface
 						'expire' => $lifetime
 					);
 
-					if (JFactory::getApplication()->isClient('site') && $config->get('force_ssl') == 2)
+					if ($app->isClient('site') && $config->get('force_ssl') == 2)
 					{
 						$options['force_ssl'] = true;
 					}
 
-					if (JFactory::getApplication()->isClient('administrator') && $config->get('force_ssl') >= 1)
+					if ($app->isClient('administrator') && $config->get('force_ssl') >= 1)
 					{
 						$options['force_ssl'] = true;
 					}
@@ -198,9 +198,9 @@ class Session implements ServiceProviderInterface
 							throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
 					}
 
-					$input = JFactory::getApplication()->input;
+					$input = $app->input;
 
-					if (JFactory::getApplication()->isClient('cli'))
+					if ($app->isClient('cli'))
 					{
 						$storage = new RuntimeStorage;
 					}
@@ -211,9 +211,9 @@ class Session implements ServiceProviderInterface
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 
-					if (JFactory::getApplication() instanceof CMSApplication)
+					if (method_exists($app, 'afterSessionStart'))
 					{
-						$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));
+						$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
 					}
 
 					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
