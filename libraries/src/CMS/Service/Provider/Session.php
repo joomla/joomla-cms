@@ -200,7 +200,7 @@ class Session implements ServiceProviderInterface
 
 					$input = JFactory::getApplication()->input;
 
-					if (JFactory::getApplication()->isCli())
+					if (JFactory::getApplication()->isClient('cli'))
 					{
 						$storage = new RuntimeStorage;
 					}
