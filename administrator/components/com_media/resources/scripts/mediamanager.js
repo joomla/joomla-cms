@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Event from './app/Event';
 import App from "./components/app.vue";
+import Disk from "./components/tree/disk.vue";
 import Tree from "./components/tree/tree.vue";
 import TreeItem from "./components/tree/item.vue";
 import Toolbar from "./components/toolbar/toolbar.vue";
@@ -18,6 +19,7 @@ import store from './store/store';
 Vue.use(Translate);
 
 // Register the vue components
+Vue.component('media-disk', Disk);
 Vue.component('media-tree', Tree);
 Vue.component('media-tree-item', TreeItem);
 Vue.component('media-toolbar', Toolbar);

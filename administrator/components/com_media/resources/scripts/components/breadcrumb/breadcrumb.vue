@@ -1,8 +1,5 @@
 <template>
     <ol class="media-breadcrumb breadcrumb mr-auto">
-        <li class="breadcrumb-item">
-            <a @click.stop.prevent="goTo('/')">Home</a>
-        </li>
         <li class="breadcrumb-item" v-for="crumb in crumbs">
             <a @click.stop.prevent="goTo(crumb.path)">{{ crumb.name }}</a>
         </li>
@@ -35,6 +32,9 @@
         methods: {
             /* Go to a path */
             goTo: function (path) {
+                if(path.indexOf(':', path.length - 1) !== -1) {
+                    path += '/';
+                }
                 this.$store.dispatch('getContents', path);
             },
         },
