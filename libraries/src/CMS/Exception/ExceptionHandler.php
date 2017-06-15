@@ -80,10 +80,9 @@ class ExceptionHandler
 				 * If a type doesn't exist for that format, we try to use the format from the application's JInput object
 				 * Lastly, if all else fails, we default onto the HTML format to at least render something
 				 */
-				if ($isCli)
+				if (\JFactory::$document)
 				{
-					// We're probably in an CLI environment
-					$format = \JFactory::getDocument()->getType();
+					$format = \JFactory::$document->getType();
 				}
 				else
 				{
@@ -120,8 +119,6 @@ class ExceptionHandler
 					$app->setBody($data);
 
 					echo $app->toString();
-
-					$app->close(0);
 				}
 
 				// This return is needed to ensure the test suite does not trigger the non-Exception handling below
