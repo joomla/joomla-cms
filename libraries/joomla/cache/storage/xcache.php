@@ -46,7 +46,7 @@ class JCacheStorageXcache extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		// Make sure XCache is configured properly
-		if (static::isSupported() == false)
+		if (static::isSupported() === false)
 		{
 			return false;
 		}
@@ -73,7 +73,7 @@ class JCacheStorageXcache extends JCacheStorage
 	public function getAll()
 	{
 		// Make sure XCache is configured properly
-		if (static::isSupported() == false)
+		if (static::isSupported() === false)
 		{
 			return array();
 		}
@@ -88,7 +88,7 @@ class JCacheStorageXcache extends JCacheStorage
 		{
 			$namearr = explode('-', $key['name']);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			if ($namearr !== false && $namearr[0] === $secret && $namearr[1] === 'cache')
 			{
 				$group = $namearr[2];
 
@@ -124,7 +124,7 @@ class JCacheStorageXcache extends JCacheStorage
 	public function store($id, $group, $data)
 	{
 		// Make sure XCache is configured properly
-		if (static::isSupported() == false)
+		if (static::isSupported() === false)
 		{
 			return false;
 		}
@@ -145,7 +145,7 @@ class JCacheStorageXcache extends JCacheStorage
 	public function remove($id, $group)
 	{
 		// Make sure XCache is configured properly
-		if (static::isSupported() == false)
+		if (static::isSupported() === false)
 		{
 			return false;
 		}
@@ -176,7 +176,7 @@ class JCacheStorageXcache extends JCacheStorage
 	public function clean($group, $mode = null)
 	{
 		// Make sure XCache is configured properly
-		if (static::isSupported() == false)
+		if (static::isSupported() === false)
 		{
 			return true;
 		}
@@ -187,7 +187,7 @@ class JCacheStorageXcache extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
 			{
 				xcache_unset($key['name']);
 			}
@@ -211,7 +211,7 @@ class JCacheStorageXcache extends JCacheStorage
 			$xcache_admin_enable_auth = ini_get('xcache.admin.enable_auth');
 
 			// Some extensions ini variables are reported as strings
-			if ($xcache_admin_enable_auth == 'Off')
+			if ($xcache_admin_enable_auth === 'Off')
 			{
 				return true;
 			}

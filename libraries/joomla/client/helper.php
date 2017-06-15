@@ -58,7 +58,7 @@ class JClientHelper
 			}
 
 			// If user and pass are not set in global config lets see if they are in the session
-			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == ''))
+			if ($options['enabled'] == true && ($options['user'] === '' || $options['pass'] === ''))
 			{
 				$session = JFactory::getSession();
 				$options['user'] = $session->get($client . '.user', null, 'JClientHelper');
@@ -66,7 +66,7 @@ class JClientHelper
 			}
 
 			// If user or pass are missing, disable this client
-			if ($options['user'] == '' || $options['pass'] == '')
+			if ($options['user'] === '' || $options['pass'] === '')
 			{
 				$options['enabled'] = false;
 			}
@@ -168,7 +168,7 @@ class JClientHelper
 			// The client is disabled in global config, so let's pretend we are OK
 			$return = true;
 		}
-		elseif ($options['user'] != '' && $options['pass'] != '')
+		elseif ($options['user'] !== '' && $options['pass'] !== '')
 		{
 			// Login credentials are available in global config
 			$return = true;
@@ -180,7 +180,7 @@ class JClientHelper
 			$user = $session->get($client . '.user', null, 'JClientHelper');
 			$pass = $session->get($client . '.pass', null, 'JClientHelper');
 
-			if ($user != '' && $pass != '')
+			if ($user !== '' && $pass !== '')
 			{
 				$return = true;
 			}
@@ -210,7 +210,7 @@ class JClientHelper
 		$user = $input->post->getString('username', null);
 		$pass = $input->post->getString('password', null);
 
-		if ($user != '' && $pass != '')
+		if ($user !== '' && $pass !== '')
 		{
 			// Add credentials to the session
 			if (self::setCredentials($client, $user, $pass))

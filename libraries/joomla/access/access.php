@@ -1071,7 +1071,7 @@ class JAccess
 		$user      = JUser::getInstance($userId);
 		$root_user = JFactory::getConfig()->get('root_user');
 
-		if ($root_user && ($root_user == $user->username || $root_user == $user->id))
+		if ($root_user && ($root_user === $user->username || $root_user == $user->id))
 		{
 			// Find the super user levels.
 			foreach (self::$viewLevels as $level => $rule)

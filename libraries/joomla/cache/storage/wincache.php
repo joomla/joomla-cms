@@ -67,7 +67,7 @@ class JCacheStorageWincache extends JCacheStorage
 			$name    = $key['key_name'];
 			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			if ($namearr !== false && $namearr[0] === $secret && $namearr[1] === 'cache')
 			{
 				$group = $namearr[2];
 
@@ -149,7 +149,7 @@ class JCacheStorageWincache extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
 			{
 				wincache_ucache_delete($key['key_name']);
 			}

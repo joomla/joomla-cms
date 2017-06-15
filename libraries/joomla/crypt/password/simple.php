@@ -132,7 +132,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	public function verify($password, $hash)
 	{
 		// Check if the hash is a blowfish hash.
-		if (substr($hash, 0, 4) == '$2a$' || substr($hash, 0, 4) == '$2y$')
+		if (substr($hash, 0, 4) === '$2a$' || substr($hash, 0, 4) === '$2y$')
 		{
 			$type = '$2a$';
 
@@ -145,7 +145,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		}
 
 		// Check if the hash is an MD5 hash.
-		if (substr($hash, 0, 3) == '$1$')
+		if (substr($hash, 0, 3) === '$1$')
 		{
 			return JCrypt::timingSafeCompare(crypt($password, $hash), $hash);
 		}

@@ -43,7 +43,7 @@ class JArchive
 		$ext = JFile::getExt(strtolower($archivename));
 
 		// Check if a tar is embedded...gzip/bzip2 can just be plain files!
-		if (JFile::getExt(JFile::stripExt(strtolower($archivename))) == 'tar')
+		if (JFile::getExt(JFile::stripExt(strtolower($archivename))) === 'tar')
 		{
 			$untar = true;
 		}

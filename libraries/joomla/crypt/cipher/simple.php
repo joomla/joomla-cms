@@ -31,7 +31,7 @@ class JCryptCipherSimple implements JCryptCipher
 	public function decrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->type != 'simple')
+		if ($key->type !== 'simple')
 		{
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
 		}
@@ -72,7 +72,7 @@ class JCryptCipherSimple implements JCryptCipher
 	public function encrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->type != 'simple')
+		if ($key->type !== 'simple')
 		{
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
 		}

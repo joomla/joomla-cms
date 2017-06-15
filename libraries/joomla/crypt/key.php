@@ -66,7 +66,7 @@ class JCryptKey
 	 */
 	public function __get($name)
 	{
-		if ($name == 'type')
+		if ($name === 'type')
 		{
 			return $this->type;
 		}

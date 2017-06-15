@@ -446,7 +446,7 @@ class JApplicationDaemon extends JApplicationCli
 		$file = $this->config->get('application_pid_file');
 
 		// Change the user id for the process id file if necessary.
-		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid)))
+		if ($uid && (fileowner($file) !== $uid) && (!@ chown($file, $uid)))
 		{
 			JLog::add('Unable to change user ownership of the process id file.', JLog::ERROR);
 
@@ -454,7 +454,7 @@ class JApplicationDaemon extends JApplicationCli
 		}
 
 		// Change the group id for the process id file if necessary.
-		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid)))
+		if ($gid && (filegroup($file) !== $gid) && (!@ chgrp($file, $gid)))
 		{
 			JLog::add('Unable to change group ownership of the process id file.', JLog::ERROR);
 
@@ -468,7 +468,7 @@ class JApplicationDaemon extends JApplicationCli
 		}
 
 		// Change the user id for the process necessary.
-		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
+		if ($uid && (posix_getuid($file) !== $uid) && (!@ posix_setuid($uid)))
 		{
 			JLog::add('Unable to change user ownership of the proccess.', JLog::ERROR);
 
@@ -476,7 +476,7 @@ class JApplicationDaemon extends JApplicationCli
 		}
 
 		// Change the group id for the process necessary.
-		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
+		if ($gid && (posix_getgid($file) !== $gid) && (!@ posix_setgid($gid)))
 		{
 			JLog::add('Unable to change group ownership of the proccess.', JLog::ERROR);
 
@@ -746,7 +746,7 @@ class JApplicationDaemon extends JApplicationCli
 		}
 
 		// Only read the pid for the parent file.
-		if ($this->parentId == $this->processId)
+		if ($this->parentId === $this->processId)
 		{
 			// Read the contents of the process id file as an integer.
 			$fp = fopen($this->config->get('application_pid_file'), 'r');

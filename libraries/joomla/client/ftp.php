@@ -352,7 +352,7 @@ class JClientFtp
 		}
 
 		// If we are already logged in, continue :)
-		if ($this->_responseCode == 503)
+		if ($this->_responseCode === 503)
 		{
 			return true;
 		}
@@ -608,7 +608,7 @@ class JClientFtp
 	public function chmod($path, $mode)
 	{
 		// If no filename is given, we assume the current directory is the target
-		if ($path == '')
+		if ($path === '')
 		{
 			$path = '.';
 		}
@@ -905,7 +905,7 @@ class JClientFtp
 		fclose($this->_dataconn);
 
 		// Let's try to cleanup some line endings if it is ascii
-		if ($mode == FTP_ASCII)
+		if ($mode === FTP_ASCII)
 		{
 			$os = 'UNIX';
 
@@ -1552,7 +1552,7 @@ class JClientFtp
 		}
 
 		// If only raw output is requested we are done
-		if ($type == 'raw')
+		if ($type === 'raw')
 		{
 			return $data;
 		}
@@ -1564,7 +1564,7 @@ class JClientFtp
 		}
 
 		// If the server returned the number of results in the first response, let's dump it
-		if (strtolower(substr($contents[0], 0, 6)) == 'total ')
+		if (strtolower(substr($contents[0], 0, 6)) === 'total ')
 		{
 			array_shift($contents);
 
@@ -1604,7 +1604,7 @@ class JClientFtp
 		}
 
 		// Here is where it is going to get dirty....
-		if ($osType == 'UNIX' || $osType == 'MAC')
+		if ($osType === 'UNIX' || $osType === 'MAC')
 		{
 			foreach ($contents as $file)
 			{
@@ -1628,18 +1628,18 @@ class JClientFtp
 				}
 
 				// If we just want files, do not add a folder
-				if ($type == 'files' && $tmp_array['type'] == 1)
+				if ($type === 'files' && $tmp_array['type'] == 1)
 				{
 					continue;
 				}
 
 				// If we just want folders, do not add a file
-				if ($type == 'folders' && $tmp_array['type'] == 0)
+				if ($type === 'folders' && $tmp_array['type'] == 0)
 				{
 					continue;
 				}
 
-				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..')
+				if (is_array($tmp_array) && $tmp_array['name'] !== '.' && $tmp_array['name'] !== '..')
 				{
 					$dir_list[] = $tmp_array;
 				}
@@ -1653,7 +1653,7 @@ class JClientFtp
 
 				if (@preg_match($regexp, $file, $regs))
 				{
-					$fType = (int) ($regs[7] == '<DIR>');
+					$fType = (int) ($regs[7] === '<DIR>');
 					$timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
 
 					// $tmp_array['line'] = $regs[0];
@@ -1669,17 +1669,17 @@ class JClientFtp
 					$tmp_array['name'] = $regs[8];
 				}
 				// If we just want files, do not add a folder
-				if ($type == 'files' && $tmp_array['type'] == 1)
+				if ($type === 'files' && $tmp_array['type'] == 1)
 				{
 					continue;
 				}
 				// If we just want folders, do not add a file
-				if ($type == 'folders' && $tmp_array['type'] == 0)
+				if ($type === 'folders' && $tmp_array['type'] == 0)
 				{
 					continue;
 				}
 
-				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..')
+				if (is_array($tmp_array) && $tmp_array['name'] !== '.' && $tmp_array['name'] !== '..')
 				{
 					$dir_list[] = $tmp_array;
 				}
@@ -1828,7 +1828,7 @@ class JClientFtp
 		$this->_responseMsg = $parts[0];
 
 		// If it's not 227, we weren't given an IP and port, which means it failed.
-		if ($this->_responseCode != '227')
+		if ($this->_responseCode !== '227')
 		{
 			JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_PASSIVE_IP_OBTAIN', $this->_responseMsg), JLog::WARNING, 'jerror');
 

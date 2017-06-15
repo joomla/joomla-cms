@@ -59,7 +59,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	protected function getConnection()
 	{
-		if (static::isSupported() == false)
+		if (static::isSupported() === false)
 		{
 			return false;
 		}
@@ -169,7 +169,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function contains($id, $group)
 	{
-		if (static::isConnected() == false)
+		if (static::isConnected() === false)
 		{
 			return false;
 		}
@@ -190,7 +190,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		if (static::isConnected() == false)
+		if (static::isConnected() === false)
 		{
 			return false;
 		}
@@ -207,7 +207,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function getAll()
 	{
-		if (static::isConnected() == false)
+		if (static::isConnected() === false)
 		{
 			return false;
 		}
@@ -222,7 +222,7 @@ class JCacheStorageRedis extends JCacheStorage
 			{
 				$namearr = explode('-', $key);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($namearr !== false && $namearr[0] === $secret && $namearr[1] === 'cache')
 				{
 					$group = $namearr[2];
 
@@ -257,7 +257,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
-		if (static::isConnected() == false)
+		if (static::isConnected() === false)
 		{
 			return false;
 		}
@@ -279,7 +279,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
-		if (static::isConnected() == false)
+		if (static::isConnected() === false)
 		{
 			return false;
 		}
@@ -302,7 +302,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		if (static::isConnected() == false)
+		if (static::isConnected() === false)
 		{
 			return false;
 		}
@@ -318,12 +318,12 @@ class JCacheStorageRedis extends JCacheStorage
 
 		foreach ($allKeys as $key)
 		{
-			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode == 'group')
+			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode === 'group')
 			{
 				static::$_redis->delete($key);
 			}
 
-			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode != 'group')
+			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode !== 'group')
 			{
 				static::$_redis->delete($key);
 			}
