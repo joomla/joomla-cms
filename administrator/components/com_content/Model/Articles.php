@@ -193,6 +193,7 @@ class Articles extends ListModel
 			'a.created',
 			'a.created_by',
 			'a.created_by_alias',
+			'a.modified',
 			'a.ordering',
 			'a.featured',
 			'a.language',

@@ -59,7 +59,7 @@ class MediaHelper
 	 *
 	 * @since   3.7.2
 	 */
-	private function getMimeType($file, $isImage = false)
+	public static function getMimeType($file, $isImage = false)
 	{
 		// If we can't detect anything mime is false
 		$mime = false;
@@ -97,7 +97,7 @@ class MediaHelper
 		// If we can't detect the mime try it again
 		if ($mime === 'application/octet-stream' && $isImage === true)
 		{
-			$mime = $this->getMimeType($file, false);
+			$mime = static::getMimeType($file, false);
 		}
 
 		// We have a mime here
@@ -219,7 +219,7 @@ class MediaHelper
 				if (!empty($file['tmp_name']))
 				{
 					// Get the mime type this is an image file
-					$mime = $this->getMimeType($file['tmp_name'], true);
+					$mime = static::getMimeType($file['tmp_name'], true);
 
 					// Did we get anything useful?
 					if ($mime != false)
@@ -252,7 +252,7 @@ class MediaHelper
 			elseif (!in_array($filetype, $ignored))
 			{
 				// Get the mime type this is not an image file
-				$mime = $this->getMimeType($file['tmp_name'], false);
+				$mime = static::getMimeType($file['tmp_name'], false);
 
 				// Did we get anything useful?
 				if ($mime != false)

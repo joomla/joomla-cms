@@ -7,14 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
 /**
- * Media file adapter file not found exception.
+ * Media Manager Component Controller
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaFileAdapterFilenotfoundexception extends Exception
+class Controller extends \Joomla\CMS\Controller\Controller
 {
-
+	/**
+	 * The default view.
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $default_view = 'media';
 }

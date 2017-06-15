@@ -7,13 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Adapter;
+
 defined('_JEXEC') or die;
 
 /**
- * Media Manager Component Controller
+ * Media file adapter file not found exception.
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaController extends JControllerLegacy
+class FileNotFoundException extends \Exception
 {
 }

@@ -7,16 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Model;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Model\Form;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * File Model
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaModelFile extends Form
+class File extends Form
 {
 	/**
 	 * Method to get the record form.
@@ -24,13 +27,13 @@ class MediaModelFile extends Form
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		JPluginHelper::importPlugin('media-action');
+		PluginHelper::importPlugin('media-action');
 
 		// Get the form.
 		$form = $this->loadForm('com_media.file', 'file', array('control' => 'jform', 'load_data' => $loadData));

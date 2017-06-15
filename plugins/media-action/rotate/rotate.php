@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_media.libraries.media.plugin.mediaaction', JPATH_ADMINISTRATOR);
-
 /**
  * Media Manager Rotate Action
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgMediaActionRotate extends MediaActionPlugin
+class PlgMediaActionRotate extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
 {
 	/**
 	 * Load the javascript files of the plugin.
