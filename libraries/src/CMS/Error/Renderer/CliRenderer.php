@@ -47,7 +47,7 @@ class CliRenderer extends AbstractRenderer
 	}
 
 	/**
-	 * returns a trace for the given error.
+	 * Returns a trace for the given error.
 	 *
 	 * @param   \Throwable|\Exception  $error  The error
 	 *
