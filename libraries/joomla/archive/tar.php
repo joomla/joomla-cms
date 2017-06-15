@@ -97,7 +97,7 @@ class JArchiveTar implements JArchiveExtractable
 		{
 			$type = strtolower($this->_metadata[$i]['type']);
 
-			if ($type == 'file' || $type == 'unix file')
+			if ($type === 'file' || $type === 'unix file')
 			{
 				$buffer = $this->_metadata[$i]['data'];
 				$path = JPath::clean($destination . '/' . $this->_metadata[$i]['name']);
@@ -224,7 +224,7 @@ class JArchiveTar implements JArchiveExtractable
 						(($mode & 0x100) ? 'x' : '-') . (($mode & 0x040) ? 'r' : '-') . (($mode & 0x020) ? 'w' : '-') . (($mode & 0x010) ? 'x' : '-') .
 						(($mode & 0x004) ? 'r' : '-') . (($mode & 0x002) ? 'w' : '-') . (($mode & 0x001) ? 'x' : '-');
 				}
-				elseif (chr($info['typeflag']) == 'L' && $info['filename'] == '././@LongLink')
+				elseif (chr($info['typeflag']) === 'L' && $info['filename'] === '././@LongLink')
 				{
 					// GNU tar ././@LongLink support - the filename is actually in the contents,
 					// setting a variable here so we can test in the next loop

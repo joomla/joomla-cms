@@ -83,7 +83,7 @@ class JCacheStorageApc extends JCacheStorage
 
 			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			if ($namearr !== false && $namearr[0] === $secret && $namearr[1] === 'cache')
 			{
 				$group = $namearr[2];
 
@@ -173,7 +173,7 @@ class JCacheStorageApc extends JCacheStorage
 				$internalKey = $key['key'];
 			}
 
-			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
 			{
 				apc_delete($internalKey);
 			}

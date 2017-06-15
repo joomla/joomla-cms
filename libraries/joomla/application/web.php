@@ -306,7 +306,7 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') !== 'ob_gzhandler'))
 		{
 			$this->compress();
 		}
@@ -394,7 +394,7 @@ class JApplicationWeb extends JApplicationBase
 		// Iterate through the encodings and attempt to compress the data using any found supported encodings.
 		foreach ($encodings as $encoding)
 		{
-			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
+			if (($supported[$encoding] === 'gz') || ($supported[$encoding] === 'deflate'))
 			{
 				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
 				// @codeCoverageIgnoreStart
@@ -406,7 +406,7 @@ class JApplicationWeb extends JApplicationBase
 
 				// Attempt to gzip encode the data with an optimal level 4.
 				$data = $this->getBody();
-				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
+				$gzdata = gzencode($data, 4, ($supported[$encoding] === 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
 				// If there was a problem encoding the data just try the next encoding scheme.
 				// @codeCoverageIgnoreStart
@@ -518,7 +518,7 @@ class JApplicationWeb extends JApplicationBase
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
 			// We just need the prefix since we have a path relative to the root.
-			if ($url[0] == '/')
+			if ($url[0] === '/')
 			{
 				$url = $prefix . $url;
 			}
@@ -665,7 +665,7 @@ class JApplicationWeb extends JApplicationBase
                  * If ($keys && $replace) it's a replacement and previous have been deleted
                  * if($keys && !in_array...) it's a multiple value header
                  */
-		$single = in_array($name, $this->singleValueResponseHeaders);
+		$single = in_array($name, $this->singleValueResponseHeaders, true);
 		if ($value && (!$keys || ($keys && ($replace || !$single))))
 		{
 			// Add the header to the internal array.
@@ -717,7 +717,7 @@ class JApplicationWeb extends JApplicationBase
 			$val = array();
 			foreach ($this->response->headers as $header)
 			{
-				if ('status' == strtolower($header['name']))
+				if ('status' === strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
 					$this->header('HTTP/1.1 ' . (int) $header['value'], true);
@@ -871,7 +871,7 @@ class JApplicationWeb extends JApplicationBase
 	protected function detectRequestUri()
 	{
 		// First we need to detect the URI scheme.
-		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) !== 'off'))
 		{
 			$scheme = 'https://';
 		}
@@ -1002,7 +1002,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**
@@ -1089,7 +1089,7 @@ class JApplicationWeb extends JApplicationBase
 		$session = JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
 
-		if ($session->getState() == 'expired')
+		if ($session->getState() === 'expired')
 		{
 			$session->restart();
 		}
@@ -1149,7 +1149,7 @@ class JApplicationWeb extends JApplicationBase
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
 
-		if ($siteUri != '')
+		if ($siteUri !== '')
 		{
 			$uri = JUri::getInstance($siteUri);
 			$path = $uri->toString(array('path'));

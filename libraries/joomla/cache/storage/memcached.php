@@ -79,7 +79,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			static::$_db = new Memcached($this->_hash);
 			$servers = static::$_db->getServerList();
 
-			if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
+			if ($servers && ($servers[0]['host'] !== $host || $servers[0]['port'] !== (int) $port))
 			{
 				static::$_db->resetServerList();
 				$servers = array();
@@ -193,7 +193,7 @@ class JCacheStorageMemcached extends JCacheStorage
 
 				$namearr = explode('-', $key->name);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($namearr !== false && $namearr[0] === $secret && $namearr[1] === 'cache')
 				{
 					$group = $namearr[2];
 
@@ -281,7 +281,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		{
 			foreach ($index as $key => $value)
 			{
-				if ($value->name == $cache_id)
+				if ($value->name === $cache_id)
 				{
 					unset($index[$key]);
 					static::$_db->set($this->_hash . '-index', $index, 0);
@@ -323,7 +323,7 @@ class JCacheStorageMemcached extends JCacheStorage
 
 			foreach ($index as $key => $value)
 			{
-				if (strpos($value->name, $prefix) === 0 xor $mode != 'group')
+				if (strpos($value->name, $prefix) === 0 xor $mode !== 'group')
 				{
 					static::$_db->delete($value->name);
 					unset($index[$key]);

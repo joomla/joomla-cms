@@ -65,7 +65,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	public function decrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->type != $this->keyType)
+		if ($key->type !== $this->keyType)
 		{
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
 		}
@@ -90,7 +90,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	public function encrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->type != $this->keyType)
+		if ($key->type !== $this->keyType)
 		{
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
 		}

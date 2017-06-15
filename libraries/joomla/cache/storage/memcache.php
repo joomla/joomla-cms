@@ -174,7 +174,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 				$namearr = explode('-', $key->name);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($namearr !== false && $namearr[0] === $secret && $namearr[1] === 'cache')
 				{
 					$group = $namearr[2];
 
@@ -262,7 +262,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		{
 			foreach ($index as $key => $value)
 			{
-				if ($value->name == $cache_id)
+				if ($value->name === $cache_id)
 				{
 					unset($index[$key]);
 					static::$_db->set($this->_hash . '-index', $index, 0, 0);
@@ -304,7 +304,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 			foreach ($index as $key => $value)
 			{
-				if (strpos($value->name, $prefix) === 0 xor $mode != 'group')
+				if (strpos($value->name, $prefix) === 0 xor $mode !== 'group')
 				{
 					static::$_db->delete($value->name);
 					unset($index[$key]);

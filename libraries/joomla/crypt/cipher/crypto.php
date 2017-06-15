@@ -30,7 +30,7 @@ class JCryptCipherCrypto implements JCryptCipher
 	public function decrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->type != 'crypto')
+		if ($key->type !== 'crypto')
 		{
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected crypto.');
 		}
@@ -68,7 +68,7 @@ class JCryptCipherCrypto implements JCryptCipher
 	public function encrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->type != 'crypto')
+		if ($key->type !== 'crypto')
 		{
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected crypto.');
 		}

@@ -49,34 +49,34 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		foreach ($pattern as $segment)
 		{
 			// Match a splat with no variable.
-			if ($segment == '*')
+			if ($segment === '*')
 			{
 				$regex[] = '.*';
 			}
 			// Match a splat and capture the data to a named variable.
-			elseif ($segment[0] == '*')
+			elseif ($segment[0] === '*')
 			{
 				$vars[] = substr($segment, 1);
 				$regex[] = '(.*)';
 			}
 			// Match an escaped splat segment.
-			elseif ($segment[0] == '\\' && $segment[1] == '*')
+			elseif ($segment[0] === '\\' && $segment[1] === '*')
 			{
 				$regex[] = '\*' . preg_quote(substr($segment, 2));
 			}
 			// Match an unnamed variable without capture.
-			elseif ($segment == ':')
+			elseif ($segment === ':')
 			{
 				$regex[] = '[^/]*';
 			}
 			// Match a named variable and capture the data.
-			elseif ($segment[0] == ':')
+			elseif ($segment[0] === ':')
 			{
 				$vars[] = substr($segment, 1);
 				$regex[] = '([^/]*)';
 			}
 			// Match a segment with an escaped variable character prefix.
-			elseif ($segment[0] == '\\' && $segment[1] == ':')
+			elseif ($segment[0] === '\\' && $segment[1] === ':')
 			{
 				$regex[] = preg_quote(substr($segment, 1));
 			}
@@ -136,7 +136,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		$route = trim(parse_url($route, PHP_URL_PATH), ' /');
 
 		// If the route is empty then simply return the default route.  No parsing necessary.
-		if ($route == '')
+		if ($route === '')
 		{
 			return $this->default;
 		}

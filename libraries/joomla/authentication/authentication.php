@@ -157,7 +157,7 @@ class JAuthentication extends JObject
 			// Make sure we haven't already attached this array as an observer
 			foreach ($this->observers as $check)
 			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				if (is_array($check) && $check['event'] === $observer['event'] && $check['handler'] === $observer['handler'])
 				{
 					return;
 				}
