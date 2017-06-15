@@ -1,14 +1,26 @@
 <?php
 /**
- * @package    Joomla.Platform
+ * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Mail;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
@@ -17,12 +29,12 @@ use Joomla\Registry\Registry;
  *
  * @since  11.1
  */
-abstract class JFactory
+abstract class Factory
 {
 	/**
 	 * Global application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  11.1
 	 */
 	public static $application = null;
@@ -30,7 +42,7 @@ abstract class JFactory
 	/**
 	 * Global cache object
 	 *
-	 * @var    JCache
+	 * @var    Cache
 	 * @since  11.1
 	 */
 	public static $cache = null;
@@ -38,13 +50,13 @@ abstract class JFactory
 	/**
 	 * Global configuraiton object
 	 *
-	 * @var    JConfig
+	 * @var    \JConfig
 	 * @since  11.1
 	 */
 	public static $config = null;
 
 	/**
-	 * Container for JDate instances
+	 * Container for Date instances
 	 *
 	 * @var    array
 	 * @since  11.3
@@ -54,7 +66,7 @@ abstract class JFactory
 	/**
 	 * Global session object
 	 *
-	 * @var    JSession
+	 * @var    Session
 	 * @since  11.1
 	 */
 	public static $session = null;
@@ -62,7 +74,7 @@ abstract class JFactory
 	/**
 	 * Global language object
 	 *
-	 * @var   JLanguage
+	 * @var   Language
 	 * @since  11.1
 	 */
 	public static $language = null;
@@ -70,7 +82,7 @@ abstract class JFactory
 	/**
 	 * Global document object
 	 *
-	 * @var    JDocument
+	 * @var    \JDocument
 	 * @since  11.1
 	 */
 	public static $document = null;
@@ -78,7 +90,7 @@ abstract class JFactory
 	/**
 	 * Global ACL object
 	 *
-	 * @var    JAccess
+	 * @var    Access
 	 * @since  11.1
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 */
@@ -87,7 +99,7 @@ abstract class JFactory
 	/**
 	 * Global database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  11.1
 	 */
 	public static $database = null;
@@ -95,7 +107,7 @@ abstract class JFactory
 	/**
 	 * Global mailer object
 	 *
-	 * @var    JMail
+	 * @var    Mail
 	 * @since  11.1
 	 */
 	public static $mailer = null;
@@ -103,17 +115,17 @@ abstract class JFactory
 	/**
 	 * Get an application object.
 	 *
-	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link CMSApplication} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   mixed   $id      A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 * @param   string  $prefix  Application prefix
 	 *
-	 * @return  JApplicationCms object
+	 * @return  CMSApplication object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
 	{
@@ -121,10 +133,10 @@ abstract class JFactory
 		{
 			if (!$id)
 			{
-				throw new Exception('Application Instantiation Error', 500);
+				throw new \Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplicationCms::getInstance($id);
+			self::$application = CMSApplication::getInstance($id);
 		}
 
 		return self::$application;
@@ -133,7 +145,7 @@ abstract class JFactory
 	/**
 	 * Get a configuration object
 	 *
-	 * Returns the global {@link JConfig} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link \JConfig} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $file       The path to the configuration file
 	 * @param   string  $type       The type of the configuration file
@@ -162,13 +174,13 @@ abstract class JFactory
 	/**
 	 * Get a session object.
 	 *
-	 * Returns the global {@link JSession} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Session} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   array  $options  An array containing session options
 	 *
-	 * @return  JSession object
+	 * @return  Session object
 	 *
-	 * @see     JSession
+	 * @see     Session
 	 * @since   11.1
 	 */
 	public static function getSession(array $options = array())
@@ -204,11 +216,11 @@ abstract class JFactory
 	/**
 	 * Get a document object.
 	 *
-	 * Returns the global {@link JDocument} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link \JDocument} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JDocument object
+	 * @return  \JDocument object
 	 *
-	 * @see     JDocument
+	 * @see     \JDocument
 	 * @since   11.1
 	 */
 	public static function getDocument()
@@ -285,7 +297,7 @@ abstract class JFactory
 			$options['storage'] = $storage;
 		}
 
-		$cache = \Joomla\CMS\Cache\Cache::getInstance($handler, $options);
+		$cache = Cache::getInstance($handler, $options);
 
 		self::$cache[$hash] = $cache;
 
@@ -295,20 +307,20 @@ abstract class JFactory
 	/**
 	 * Get an authorization object
 	 *
-	 * Returns the global {@link JAccess} object, only creating it
+	 * Returns the global {@link Access} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JAccess object
+	 * @return  Access object
 	 *
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
 	 */
 	public static function getAcl()
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated. Use Access directly.', Log::WARNING, 'deprecated');
 
 		if (!self::$acl)
 		{
-			self::$acl = new JAccess;
+			self::$acl = new Access;
 		}
 
 		return self::$acl;
@@ -317,11 +329,11 @@ abstract class JFactory
 	/**
 	 * Get a database object.
 	 *
-	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link \JDatabaseDriver} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  \JDatabaseDriver
 	 *
-	 * @see     JDatabaseDriver
+	 * @see     \JDatabaseDriver
 	 * @since   11.1
 	 */
 	public static function getDbo()
@@ -337,9 +349,9 @@ abstract class JFactory
 	/**
 	 * Get a mailer object.
 	 *
-	 * Returns the global {@link JMail} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link \JMail} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JMail object
+	 * @return  \JMail object
 	 *
 	 * @see     JMail
 	 * @since   11.1
@@ -365,19 +377,19 @@ abstract class JFactory
 	 * @return  mixed  SimplePie parsed object on success, false on failure.
 	 *
 	 * @since   11.1
-	 * @throws  BadMethodCallException
+	 * @throws  \BadMethodCallException
 	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
 		if (!class_exists('JSimplepieFactory'))
 		{
-			throw new BadMethodCallException('JSimplepieFactory not found');
+			throw new \BadMethodCallException('JSimplepieFactory not found');
 		}
 
-		JLog::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply SimplePie instead.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply SimplePie instead.', Log::WARNING, 'deprecated');
 
-		return JSimplepieFactory::getFeedParser($url, $cache_time);
+		return \JSimplepieFactory::getFeedParser($url, $cache_time);
 	}
 
 	/**
@@ -395,7 +407,7 @@ abstract class JFactory
 	 */
 	public static function getXml($data, $isFile = true)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', Log::WARNING, 'deprecated');
 
 		$class = 'SimpleXMLElement';
 
@@ -420,16 +432,16 @@ abstract class JFactory
 
 		if ($xml === false)
 		{
-			JLog::add(JText::_('JLIB_UTIL_ERROR_XML_LOAD'), JLog::WARNING, 'jerror');
+			Log::add(\JText::_('JLIB_UTIL_ERROR_XML_LOAD'), Log::WARNING, 'jerror');
 
 			if ($isFile)
 			{
-				JLog::add($data, JLog::WARNING, 'jerror');
+				Log::add($data, Log::WARNING, 'jerror');
 			}
 
 			foreach (libxml_get_errors() as $error)
 			{
-				JLog::add($error->message, JLog::WARNING, 'jerror');
+				Log::add($error->message, Log::WARNING, 'jerror');
 			}
 		}
 
@@ -441,19 +453,19 @@ abstract class JFactory
 	 *
 	 * @param   string  $editor  The editor to load, depends on the editor plugins that are installed
 	 *
-	 * @return  JEditor instance of JEditor
+	 * @return  Editor instance of Editor
 	 *
 	 * @since   11.1
-	 * @throws  BadMethodCallException
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use JEditor directly
+	 * @throws  \BadMethodCallException
+	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use Editor directly
 	 */
 	public static function getEditor($editor = null)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JEditor directly.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated. Use JEditor directly.', Log::WARNING, 'deprecated');
 
 		if (!class_exists('JEditor'))
 		{
-			throw new BadMethodCallException('JEditor not found');
+			throw new \BadMethodCallException('JEditor not found');
 		}
 
 		// Get the editor configuration setting
@@ -463,36 +475,36 @@ abstract class JFactory
 			$editor = $conf->get('editor');
 		}
 
-		return JEditor::getInstance($editor);
+		return Editor::getInstance($editor);
 	}
 
 	/**
-	 * Return a reference to the {@link JUri} object
+	 * Return a reference to the {@link Uri} object
 	 *
 	 * @param   string  $uri  Uri name.
 	 *
-	 * @return  JUri object
+	 * @return  Uri object
 	 *
-	 * @see     JUri
+	 * @see     Uri
 	 * @since   11.1
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JUri directly.
 	 */
 	public static function getUri($uri = 'SERVER')
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JUri directly.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated. Use JUri directly.', Log::WARNING, 'deprecated');
 
-		return JUri::getInstance($uri);
+		return Uri::getInstance($uri);
 	}
 
 	/**
-	 * Return the {@link \Joomla\CMS\Date\Date} object
+	 * Return the {@link Date} object
 	 *
 	 * @param   mixed  $time      The initial time for the JDate object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
-	 * @return  \Joomla\CMS\Date\Date object
+	 * @return  Date object
 	 *
-	 * @see     JDate
+	 * @see     Date
 	 * @since   11.1
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
@@ -514,18 +526,18 @@ abstract class JFactory
 
 				if (!class_exists($classname))
 				{
-					// The class does not exist, default to JDate
+					// The class does not exist, default to Date
 					$classname = 'Joomla\\CMS\\Date\\Date';
 				}
 			}
 			else
 			{
-				// No tag, so default to JDate
+				// No tag, so default to Date
 				$classname = 'Joomla\\CMS\\Date\\Date';
 			}
 		}
 
-		$key = $time . '-' . ($tzOffset instanceof DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
+		$key = $time . '-' . ($tzOffset instanceof \DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
 
 		if (!isset(self::$dates[$classname][$key]))
 		{
@@ -583,7 +595,7 @@ abstract class JFactory
 	 *
 	 * @param   array  $options  An array containing session options
 	 *
-	 * @return  JSession object
+	 * @return  Session object
 	 *
 	 * @since   11.1
 	 */
@@ -597,12 +609,12 @@ abstract class JFactory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		// The session handler needs a JInput object, we can inject it without having a hard dependency to an application instance
-		$input = self::$application ? self::getApplication()->input : new JInput;
+		$input = self::$application ? self::getApplication()->input : new \JInput;
 
-		$sessionHandler = new JSessionHandlerJoomla($options);
+		$sessionHandler = new \JSessionHandlerJoomla($options);
 		$sessionHandler->input = $input;
 
-		$session = JSession::getInstance($handler, $options, $sessionHandler);
+		$session = Session::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{
@@ -615,9 +627,9 @@ abstract class JFactory
 	/**
 	 * Create an database object
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  \JDatabaseDriver
 	 *
-	 * @see     JDatabaseDriver
+	 * @see     \JDatabaseDriver
 	 * @since   11.1
 	 */
 	protected static function createDbo()
@@ -636,9 +648,9 @@ abstract class JFactory
 
 		try
 		{
-			$db = JDatabaseDriver::getInstance($options);
+			$db = \JDatabaseDriver::getInstance($options);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			if (!headers_sent())
 			{
@@ -656,9 +668,9 @@ abstract class JFactory
 	/**
 	 * Create a mailer object
 	 *
-	 * @return  JMail object
+	 * @return  \JMail object
 	 *
-	 * @see     JMail
+	 * @see     \JMail
 	 * @since   11.1
 	 */
 	protected static function createMailer()
@@ -675,27 +687,27 @@ abstract class JFactory
 		$fromname = $conf->get('fromname');
 		$mailer = $conf->get('mailer');
 
-		// Create a JMail object
-		$mail = JMail::getInstance();
+		// Create a Mail object
+		$mail = Mail::getInstance();
 
 		// Clean the email address
-		$mailfrom = JMailHelper::cleanLine($mailfrom);
+		$mailfrom = MailHelper::cleanLine($mailfrom);
 
 		// Set default sender without Reply-to if the mailfrom is a valid address
-		if (JMailHelper::isEmailAddress($mailfrom))
+		if (MailHelper::isEmailAddress($mailfrom))
 		{
 			// Wrap in try/catch to catch phpmailerExceptions if it is throwing them
 			try
 			{
 				// Check for a false return value if exception throwing is disabled
-				if ($mail->setFrom($mailfrom, JMailHelper::cleanLine($fromname), false) === false)
+				if ($mail->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false)
 				{
-					JLog::add(__METHOD__ . '() could not set the sender data.', JLog::WARNING, 'mail');
+					Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
 				}
 			}
-			catch (phpmailerException $e)
+			catch (\phpmailerException $e)
 			{
-				JLog::add(__METHOD__ . '() could not set the sender data.', JLog::WARNING, 'mail');
+				Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
 			}
 		}
 
@@ -739,9 +751,9 @@ abstract class JFactory
 	/**
 	 * Create a document object
 	 *
-	 * @return  JDocument object
+	 * @return  \JDocument object
 	 *
-	 * @see     JDocument
+	 * @see     \JDocument
 	 * @since   11.1
 	 */
 	protected static function createDocument()
@@ -751,7 +763,7 @@ abstract class JFactory
 		$input = self::getApplication()->input;
 		$type = $input->get('format', 'html', 'cmd');
 
-		$version = new JVersion;
+		$version = new Version;
 
 		$attributes = array(
 			'charset'      => 'utf-8',
@@ -762,7 +774,7 @@ abstract class JFactory
 			'mediaversion' => $version->getMediaVersion(),
 		);
 
-		return JDocument::getInstance($type, $attributes);
+		return \JDocument::getInstance($type, $attributes);
 	}
 
 	/**
@@ -773,18 +785,18 @@ abstract class JFactory
 	 * @param   string   $ua           UA User agent to use
 	 * @param   boolean  $uamask       User agent masking (prefix Mozilla)
 	 *
-	 * @return  JStream
+	 * @return  \JStream
 	 *
-	 * @see     JStream
+	 * @see     \JStream
 	 * @since   11.1
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = null, $uamask = false)
 	{
-		jimport('joomla.filesystem.stream');
+		\JLoader::import('joomla.filesystem.stream');
 
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
-		$version = new JVersion;
+		$version = new Version;
 
 		// Set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
@@ -792,8 +804,8 @@ abstract class JFactory
 
 		if ($use_prefix)
 		{
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-			$SCPOptions = JClientHelper::getCredentials('scp');
+			$FTPOptions = \JClientHelper::getCredentials('ftp');
+			$SCPOptions = \JClientHelper::getCredentials('scp');
 
 			if ($FTPOptions['enabled'] == 1 && $use_network)
 			{
@@ -812,11 +824,11 @@ abstract class JFactory
 				$prefix = JPATH_ROOT . '/';
 			}
 
-			$retval = new JStream($prefix, JPATH_ROOT, $context);
+			$retval = new \JStream($prefix, JPATH_ROOT, $context);
 		}
 		else
 		{
-			$retval = new JStream('', '', $context);
+			$retval = new \JStream('', '', $context);
 		}
 
 		return $retval;
