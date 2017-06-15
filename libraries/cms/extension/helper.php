@@ -439,6 +439,7 @@ class JExtensionHelper
 
 		return self::$whereConditionCore;
 	}
+
 	/**
 	 * Gets the where condition for database queries for installed non-core
 	 * extensions.
@@ -492,7 +493,7 @@ class JExtensionHelper
 	 * Note that this causes an extra database query to the extensions table
 	 * to get the IDs, so it is only economic if you need this array of IDs later
 	 * in the code. Using function getWhereConditionNonCore() to get a where clause to
-	 * restrict your queries to core extensions will not cause such an extra read
+	 * restrict your queries to non-core extensions will not cause such an extra read
 	 * of the database and so is more economic if you query the database only 1 time
 	 * and so not using the primary key will cause less performance loss than doing
 	 * an additional query.
@@ -544,7 +545,7 @@ class JExtensionHelper
 	 * Note that this causes an extra database query to the extensions table
 	 * to get the IDs, so it is only economic if you need this list of IDs later
 	 * in the code or more than 1 time. Using function getWhereConditionNonCore() to
-	 * get a where clause to restrict your queries to core extensions will not
+	 * get a where clause to restrict your queries to non-core extensions will not
 	 * cause such an extra read of the database and so is more economic if you
 	 * query the database only 1 time and so not using the primary key will cause
 	 * less performance loss than doing an additional query.
