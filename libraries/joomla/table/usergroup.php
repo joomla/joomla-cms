@@ -38,7 +38,7 @@ class JTableUsergroup extends JTable
 	public function check()
 	{
 		// Validate the title.
-		if ((trim($this->title)) == '')
+		if ((trim($this->title)) === '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 

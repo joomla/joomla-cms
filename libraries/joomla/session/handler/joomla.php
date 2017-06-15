@@ -125,12 +125,12 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 
 		$config = JFactory::getConfig();
 
-		if ($config->get('cookie_domain', '') != '')
+		if ($config->get('cookie_domain', '') !== '')
 		{
 			$cookie['domain'] = $config->get('cookie_domain');
 		}
 
-		if ($config->get('cookie_path', '') != '')
+		if ($config->get('cookie_path', '') !== '')
 		{
 			$cookie['path'] = $config->get('cookie_path');
 		}

@@ -42,7 +42,7 @@ class JTableUpdatesite extends JTable
 	public function check()
 	{
 		// Check for valid name
-		if (trim($this->name) == '' || trim($this->location) == '')
+		if (trim($this->name) === '' || trim($this->location) === '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 

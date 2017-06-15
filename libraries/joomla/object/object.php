@@ -117,7 +117,7 @@ class JObject
 		{
 			foreach ($vars as $key => $value)
 			{
-				if ('_' == substr($key, 0, 1))
+				if (substr($key, 0, 1) === '_')
 				{
 					unset($vars[$key]);
 				}

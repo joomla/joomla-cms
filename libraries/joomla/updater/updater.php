@@ -286,7 +286,7 @@ class JUpdater extends JAdapter
 					$extraId  = (int) $extraUpdateSite['update_site_id'];
 
 					// Do not try to fetch the same update site twice
-					if (($thisId == $extraId) || ($thisUrl == $extraUrl))
+					if (($thisId === $extraId) || ($thisUrl === $extraUrl))
 					{
 						continue;
 					}
@@ -342,7 +342,7 @@ class JUpdater extends JAdapter
 							$extension->load($eid);
 							$data = json_decode($extension->manifest_cache, true);
 
-							if (version_compare($current_update->version, $data['version'], $operator) == 1)
+							if (version_compare($current_update->version, $data['version'], $operator) === true)
 							{
 								$current_update->extension_id = $eid;
 								$retVal[] = $current_update;
@@ -359,7 +359,7 @@ class JUpdater extends JAdapter
 						$update->load($uid);
 
 						// If there is an update, check that the version is newer then replaces
-						if (version_compare($current_update->version, $update->version, $operator) == 1)
+						if (version_compare($current_update->version, $update->version, $operator) === true)
 						{
 							$retVal[] = $current_update;
 						}

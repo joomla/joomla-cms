@@ -118,7 +118,7 @@ abstract class JOpenstreetmapObject
 		}
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 

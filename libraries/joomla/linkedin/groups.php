@@ -55,7 +55,7 @@ class JLinkedinGroups extends JLinkedinObject
 		}
 
 		// Check if count is specified.
-		if ($count != 5)
+		if ($count !== 5)
 		{
 			$data['count'] = $count;
 		}
@@ -120,7 +120,7 @@ class JLinkedinGroups extends JLinkedinObject
 		}
 
 		// Check if count is specified.
-		if ($count != 5)
+		if ($count !== 5)
 		{
 			$data['count'] = $count;
 		}
@@ -196,7 +196,7 @@ class JLinkedinGroups extends JLinkedinObject
 		}
 
 		// Check if count is specified.
-		if ($count != 5)
+		if ($count !== 5)
 		{
 			$data['count'] = $count;
 		}

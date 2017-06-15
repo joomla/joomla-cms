@@ -71,7 +71,7 @@ abstract class JUserHelper
 			// Set the group data for the user object in the session.
 			$temp = JFactory::getUser();
 
-			if ($temp->id == $userId)
+			if ($temp->id === (int) $userId)
 			{
 				$temp->groups = $user->groups;
 			}
@@ -131,7 +131,7 @@ abstract class JUserHelper
 		// Set the group data for the user object in the session.
 		$temp = JFactory::getUser();
 
-		if ($temp->id == $userId)
+		if ($temp->id ===  (int) $userId)
 		{
 			$temp->groups = $user->groups;
 		}
@@ -185,7 +185,7 @@ abstract class JUserHelper
 			// Set the group data for the user object in the session.
 			$temp = JFactory::getUser();
 
-			if ($temp->id == $userId)
+			if ($temp->id === (int) $userId)
 			{
 				$temp->groups = $user->groups;
 			}
@@ -337,7 +337,7 @@ abstract class JUserHelper
 
 			$rehash = true;
 		}
-		elseif ($hash[0] == '$')
+		elseif ($hash[0] === '$')
 		{
 			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 			JCrypt::hasStrongPasswordSupport();
@@ -346,7 +346,7 @@ abstract class JUserHelper
 			// Uncomment this line if we actually move to bcrypt.
 			$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 		}
-		elseif (substr($hash, 0, 8) == '{SHA256}')
+		elseif (substr($hash, 0, 8) === '{SHA256}')
 		{
 			// Check the password
 			$parts     = explode(':', $hash);

@@ -85,7 +85,7 @@ class JKeychain extends \Joomla\Registry\Registry
 			// Traverse the registry to find the correct node for the result.
 			for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++)
 			{
-				if (!isset($node->{$nodes[$i]}) && ($i != $n))
+				if (!isset($node->{$nodes[$i]}) && ($i !== $n))
 				{
 					$node->{$nodes[$i]} = new stdClass;
 				}

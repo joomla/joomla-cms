@@ -79,7 +79,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 */
 	public function validateResponse($url, $response)
 	{
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 

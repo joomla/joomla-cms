@@ -219,11 +219,11 @@ class JOAuth2Client
 			$token = $this->refreshToken($token['refresh_token']);
 		}
 
-		if (!$this->getOption('authmethod') || $this->getOption('authmethod') == 'bearer')
+		if (!$this->getOption('authmethod') || $this->getOption('authmethod') === 'bearer')
 		{
 			$headers['Authorization'] = 'Bearer ' . $token['access_token'];
 		}
-		elseif ($this->getOption('authmethod') == 'get')
+		elseif ($this->getOption('authmethod') === 'get')
 		{
 			if (strpos($url, '?'))
 			{

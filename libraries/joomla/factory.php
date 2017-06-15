@@ -274,7 +274,7 @@ abstract class JFactory
 			return self::$cache[$hash];
 		}
 
-		$handler = ($handler == 'function') ? 'callback' : $handler;
+		$handler = ($handler === 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
 
@@ -501,7 +501,7 @@ abstract class JFactory
 		$language = self::getLanguage();
 		$locale = $language->getTag();
 
-		if (!isset($classname) || $locale != $mainLocale)
+		if (!isset($classname) || $locale !== $mainLocale)
 		{
 			// Store the locale for future reference
 			$mainLocale = $locale;
@@ -564,7 +564,7 @@ abstract class JFactory
 		$name = 'JConfig' . $namespace;
 
 		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
+		if ($type === 'PHP' && class_exists($name))
 		{
 			// Create the JConfig object
 			$config = new $name;
@@ -602,7 +602,7 @@ abstract class JFactory
 
 		$session = JSession::getInstance($handler, $options, $sessionHandler);
 
-		if ($session->getState() == 'expired')
+		if ($session->getState() === 'expired')
 		{
 			$session->restart();
 		}
@@ -663,15 +663,15 @@ abstract class JFactory
 	{
 		$conf = self::getConfig();
 
-		$smtpauth = ($conf->get('smtpauth') == 0) ? null : 1;
-		$smtpuser = $conf->get('smtpuser');
-		$smtppass = $conf->get('smtppass');
-		$smtphost = $conf->get('smtphost');
+		$smtpauth   = $conf->get('smtpauth') == 0 ? null : 1;
+		$smtpuser   = $conf->get('smtpuser');
+		$smtppass   = $conf->get('smtppass');
+		$smtphost   = $conf->get('smtphost');
 		$smtpsecure = $conf->get('smtpsecure');
-		$smtpport = $conf->get('smtpport');
-		$mailfrom = $conf->get('mailfrom');
-		$fromname = $conf->get('fromname');
-		$mailer = $conf->get('mailer');
+		$smtpport   = $conf->get('smtpport');
+		$mailfrom   = $conf->get('mailfrom');
+		$fromname   = $conf->get('fromname');
+		$mailer     = $conf->get('mailer');
 
 		// Create a JMail object
 		$mail = JMail::getInstance();
