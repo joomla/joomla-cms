@@ -1280,6 +1280,7 @@
 	</fieldset>
 
 	<fieldset
+		addfieldprefix="Joomla\Component\Config\Administrator\Field"
 		name="filters"
 		label="COM_CONFIG_TEXT_FILTERS"
 		description="COM_CONFIG_TEXT_FILTERS_DESC">
