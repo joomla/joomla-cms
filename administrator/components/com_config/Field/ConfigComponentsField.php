@@ -7,18 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Administrator\Field;
+
 defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('List');
+\JFormHelper::loadFieldClass('List');
 
 /**
  * Text Filters form field.
  *
  * @since  3.7.0
  */
-class JFormFieldConfigComponents extends JFormFieldList
+class ConfigComponentsField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -37,7 +39,7 @@ class JFormFieldConfigComponents extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('name AS text, element AS value')
 			->from('#__extensions')
@@ -48,21 +50,21 @@ class JFormFieldConfigComponents extends JFormFieldList
 
 		if ($items)
 		{
-			$lang = JFactory::getLanguage();
+			$lang = \JFactory::getLanguage();
 
 			foreach ($items as &$item)
 			{
 				// Load language
 				$extension = $item->value;
 
-				if (JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml'))
+				if (\JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml'))
 				{
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 					// Translate component name
-					$item->text = JText::_($item->text);
+					$item->text = \JText::_($item->text);
 				}
 				else
 				{

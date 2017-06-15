@@ -6,7 +6,7 @@
 		</message>
 	</layout>
 	<fields name="request">
-		<fieldset name="request" addfieldpath="administrator/components/com_config/model/field">
+		<fieldset name="request" addfieldprefix="Joomla\Component\Config\Administrator\Field">
 			<field
 				name="component"
 				type="configComponents"
