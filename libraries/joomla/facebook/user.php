@@ -126,7 +126,7 @@ class JFacebookUser extends JFacebookObject
 			$extra_fields = '?filter=' . $filter;
 		}
 
-		if ($location == true)
+		if ($location === true)
 		{
 			$extra_fields .= (strpos($extra_fields, '?') === false) ? '?with=location' : '&with=location';
 		}
@@ -181,7 +181,7 @@ class JFacebookUser extends JFacebookObject
 	{
 		$extra_fields = '';
 
-		if ($redirect == false)
+		if ($redirect === false)
 		{
 			$extra_fields = '?redirect=false';
 		}
@@ -226,7 +226,7 @@ class JFacebookUser extends JFacebookObject
 	 */
 	public function getNotifications($user, $read = null, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		if ($read == true)
+		if ($read === true)
 		{
 			$read = '?include_read=1';
 		}
@@ -538,7 +538,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @param   mixed   $user     Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $link     Link URL.
-	 * @param   strin   $message  Link message.
+	 * @param   string   $message  Link message.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *

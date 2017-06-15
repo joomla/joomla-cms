@@ -178,7 +178,7 @@ class JFeedParserAtom extends JFeedParser
 	protected function initialise()
 	{
 		// Read the version attribute.
-		$this->version = ($this->stream->getAttribute('version') == '0.3') ? '0.3' : '1.0';
+		$this->version = ($this->stream->getAttribute('version') === '0.3') ? '0.3' : '1.0';
 
 		// We want to move forward to the first element after the root element.
 		$this->moveToNextElement();

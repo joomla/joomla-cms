@@ -36,7 +36,7 @@ class JFormRuleNumber extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// Check if the field is required.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		// If the value is empty and the field is not required return True.
 		if (($value === '' || $value === null) && ! $required)

@@ -36,14 +36,14 @@ class JFormRuleCalendar extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
 			return true;
 		}
 
-		if (strtolower($value) == 'now')
+		if (strtolower($value) === 'now')
 		{
 			return true;
 		}

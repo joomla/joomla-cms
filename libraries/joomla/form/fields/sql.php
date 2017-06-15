@@ -299,7 +299,7 @@ class JFormFieldSQL extends JFormFieldList
 		{
 			foreach ($items as $item)
 			{
-				if ($this->translate == true)
+				if ($this->translate === true)
 				{
 					$options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
 				}

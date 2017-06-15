@@ -40,7 +40,7 @@ class JFormRuleUrl extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -51,7 +51,7 @@ class JFormRuleUrl extends JFormRule
 
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
-		if ($element['schemes'] == '')
+		if ($element['schemes'] === '')
 		{
 			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais', 'url',
 				'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');

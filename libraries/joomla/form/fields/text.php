@@ -100,7 +100,7 @@ class JFormFieldText extends JFormField
 
 			case 'dirname':
 				$value = (string) $value;
-				$this->dirname = ($value == $name || $value == 'true' || $value == '1');
+				$this->dirname = ($value == $name || $value === 'true' || $value === '1');
 				break;
 
 			case 'inputmode':
@@ -152,7 +152,7 @@ class JFormFieldText extends JFormField
 			}
 
 			// Set the dirname.
-			$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
+			$dirname = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
@@ -175,7 +175,7 @@ class JFormFieldText extends JFormField
 			$component = JFactory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
-			if ($component == 'com_menus')
+			if ($component === 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
 				$uri       = new JUri($link);
@@ -192,7 +192,7 @@ class JFormFieldText extends JFormField
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') === 'com_menus')
 			{
 				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
@@ -222,7 +222,7 @@ class JFormFieldText extends JFormField
 		foreach ($this->element->children() as $option)
 		{
 			// Only add <option /> elements.
-			if ($option->getName() != 'option')
+			if ($option->getName() !== 'option')
 			{
 				continue;
 			}

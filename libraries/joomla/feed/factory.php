@@ -50,7 +50,7 @@ class JFeedFactory
 			$connector 	= JHttpFactory::getHttp($options);
 			$feed 		= $connector->get($uri);
 
-			if ($feed->code != 200)
+			if ($feed->code !== 200)
 			{
 				throw new RuntimeException('Unable to open the feed.');
 			}

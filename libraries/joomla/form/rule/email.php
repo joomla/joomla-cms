@@ -45,7 +45,7 @@ class JFormRuleEmail extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -53,7 +53,7 @@ class JFormRuleEmail extends JFormRule
 		}
 
 		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
-		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
+		$tld = ((string) $element['tld'] === 'tld' || (string) $element['tld'] === 'required');
 
 		if ($tld)
 		{
@@ -62,7 +62,7 @@ class JFormRuleEmail extends JFormRule
 		}
 
 		// Determine if the multiple attribute is present
-		$multiple = ((string) $element['multiple'] == 'true' || (string) $element['multiple'] == 'multiple');
+		$multiple = ((string) $element['multiple'] === 'true' || (string) $element['multiple'] === 'multiple');
 
 		if (!$multiple)
 		{
@@ -93,7 +93,7 @@ class JFormRuleEmail extends JFormRule
 		}
 
 		// Check if we should test for uniqueness. This only can be used if multiple is not true
-		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
+		$unique = ((string) $element['unique'] === 'true' || (string) $element['unique'] === 'unique');
 
 		if ($unique && !$multiple)
 		{

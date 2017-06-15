@@ -59,7 +59,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 
 			foreach ($supported as $support)
 			{
-				if (in_array($support, $available))
+				if (in_array($support, $available, true))
 				{
 					$options[$support] = JText::_(ucfirst($support));
 				}

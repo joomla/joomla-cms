@@ -40,7 +40,7 @@ class JFormFieldLanguage extends JFormFieldList
 		// Initialize some field attributes.
 		$client = (string) $this->element['client'];
 
-		if ($client != 'site' && $client != 'administrator')
+		if ($client !== 'site' && $client !== 'administrator')
 		{
 			$client = 'site';
 		}

@@ -864,7 +864,7 @@ class JFilterInput extends InputFilter
 			}
 
 			// Remove every '<' character if '>' does not exists or we have '<>'
-			if ($tagOpenStartOffset !== false && $tagOpenEndOffset === false || $tagOpenStartOffset + 1 == $tagOpenEndOffset)
+			if ($tagOpenStartOffset !== false && $tagOpenEndOffset === false || $tagOpenStartOffset + 1 === $tagOpenEndOffset)
 			{
 				$offset++;
 
@@ -1120,7 +1120,7 @@ class JFilterInput extends InputFilter
 			 * Closing quote should be "/>, ">, "<space>, or " at the end of the string
 			 */
 			$quote = substr($matches[0][0], -1);
-			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
+			$pregMatch = ($quote === '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
 			// Get the portion after attribute value
 			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))

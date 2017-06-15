@@ -74,19 +74,19 @@ class JFeed implements ArrayAccess, Countable
 	public function __set($name, $value)
 	{
 		// Ensure that setting a date always sets a JDate instance.
-		if ((($name == 'updatedDate') || ($name == 'publishedDate')) && !($value instanceof JDate))
+		if ((($name === 'updatedDate') || ($name === 'publishedDate')) && !($value instanceof JDate))
 		{
 			$value = new JDate($value);
 		}
 
 		// Validate that any authors that are set are instances of JFeedPerson or null.
-		if (($name == 'author') && (!($value instanceof JFeedPerson) || ($value === null)))
+		if (($name === 'author') && (!($value instanceof JFeedPerson) || ($value === null)))
 		{
 			throw new InvalidArgumentException('JFeed "author" must be of type JFeedPerson. ' . gettype($value) . 'given.');
 		}
 
 		// Disallow setting categories or contributors directly.
-		if (($name == 'categories') || ($name == 'contributors'))
+		if (($name === 'categories') || ($name === 'contributors'))
 		{
 			throw new InvalidArgumentException('Cannot directly set JFeed property "' . $name . '".');
 		}

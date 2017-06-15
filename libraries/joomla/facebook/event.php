@@ -413,7 +413,7 @@ class JFacebookEvent extends JFacebookObject
 	{
 		$extra_fields = '';
 
-		if ($redirect == false)
+		if ($redirect === false)
 		{
 			$extra_fields = '?redirect=false';
 		}

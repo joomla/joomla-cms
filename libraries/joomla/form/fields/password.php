@@ -135,7 +135,7 @@ class JFormFieldPassword extends JFormField
 			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
 			$meter       = (string) $this->element['strengthmeter'];
-			$this->meter = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$this->meter = ($meter === 'true' || $meter === 'on' || $meter === '1');
 		}
 
 		return $return;

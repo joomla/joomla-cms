@@ -44,7 +44,7 @@ class JFormFieldInteger extends JFormFieldList
 		$step = (int) $this->element['step'];
 
 		// Sanity checks.
-		if ($step == 0)
+		if ($step === 0)
 		{
 			// Step of 0 will create an endless loop.
 			return $options;

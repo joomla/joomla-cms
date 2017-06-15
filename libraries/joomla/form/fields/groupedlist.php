@@ -88,13 +88,13 @@ class JFormFieldGroupedList extends JFormField
 					foreach ($element->children() as $option)
 					{
 						// Only add <option /> elements.
-						if ($option->getName() != 'option')
+						if ($option->getName() !== 'option')
 						{
 							continue;
 						}
 
 						$disabled = (string) $option['disabled'];
-						$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+						$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 
 						// Create a new option object based on the <option /> element.
 						$tmp = JHtml::_(
