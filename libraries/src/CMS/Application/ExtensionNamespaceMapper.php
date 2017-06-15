@@ -30,6 +30,6 @@ trait ExtensionNamespaceMapper
 	{
 		JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
 		$extensionPsr4Loader = new \JNamespacePsr4Map;
-		$extensionPsr4Loader->ensureMapFileExists();
+		$extensionPsr4Loader->load();
 	}
 }
