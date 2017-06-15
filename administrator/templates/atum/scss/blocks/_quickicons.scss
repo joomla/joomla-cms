@@ -15,7 +15,6 @@
     margin-bottom: 15px;
     overflow: hidden;
     color: $white-offset;
-    text-align: left;
     background-color: $atum-template-color-light;
     border-radius: $border-radius;
 
@@ -56,7 +55,7 @@
       font-size: 1.2rem;
 
       &.j-links-link {
-        padding-left: 1rem;
+        padding: 0 1rem;
 
       }
 
