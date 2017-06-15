@@ -252,12 +252,29 @@ class JExtensionHelper
 	protected static $whereConditionCore = '';
 
 	/**
+	 * The static where clause condition for non-core extensions based
+	 * on columns `type`, `element`, `folder` (if used) and `client_id`.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $whereConditionNonCore = '';
+
+	/**
 	 * Array of IDs of installed core extensions
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $coreExtensionsIds = array();
+
+	/**
+	 * Array of IDs of installed non-core extensions
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $nonCoreExtensionsIds = array();
 
 	/**
 	 * Init the static where clause condition for core extensions
@@ -290,7 +307,37 @@ class JExtensionHelper
 	}
 
 	/**
-	 * Init the array of core extensions IDs
+	 * Init the static where clause condition for non-core extensions
+	 * based on columns `type`, `element`, `folder` (if used) and
+	 * `client_id`.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function initWhereConditionNonCore()
+	{
+		$db = JFactory::getDbo();
+
+		foreach (self::$coreExtensions as $extension)
+		{
+			self::$whereConditionNonCore .= '(' . $db->qn('type') . ' <> ' . $db->q($extension[0])
+				. ' OR ' . $db->qn('element') . ' <> ' . $db->q($extension[1])
+				. ' OR ' . $db->qn('client_id') . ' <> ' . $db->q($extension[3]);
+
+			if ($extension[2] !== '')
+			{
+				self::$whereConditionNonCore .= ' OR ' . $db->qn('folder') . ' <> ' . $db->q($extension[2]);
+			}
+
+			self::$whereConditionNonCore .= ') AND ';
+		}
+
+		self::$whereConditionNonCore .= '1 = 1';
+	}
+
+	/**
+	 * Init the array of installed core extensions IDs
 	 * This function can be called to rebuild the array
 	 * e.g. after a discovery installation.
 	 *
@@ -324,6 +371,40 @@ class JExtensionHelper
 	}
 
 	/**
+	 * Init the array of installed non-core extensions IDs
+	 * This function can be called to rebuild the array
+	 * e.g. after a discovery installation.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function initNonCoreExtensionsIds()
+	{
+		if (self::$whereConditionNonCore === '')
+		{
+			self::initWhereConditionNonCore();
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('extension_id'))
+			->from($db->qn('#__extensions'))
+			->where(self::$whereConditionNonCore);
+
+		// Get the IDs in ascending order
+		$query->order($db->qn('extension_id') . ' ASC');
+
+		self::$nonCoreExtensionsIds = $db->setQuery($query)->loadColumn();
+
+		if (self::$nonCoreExtensionsIds === null)
+		{
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'), 2000);
+		}
+	}
+
+	/**
 	 * Gets the core extensions.
 	 *
 	 * @return  array  Array with core extensions.
@@ -338,7 +419,8 @@ class JExtensionHelper
 	}
 
 	/**
-	 * Gets the where condition for database queries for core extensions.
+	 * Gets the where condition for database queries for installed core
+	 * extensions.
 	 * In opposite to using the list of IDs as returned by functions
 	 * getCoreExtensionsIds and getCoreExtensionsIdsList, this does not
 	 * result in an extra query to the database just for getting the IDs.
@@ -356,6 +438,27 @@ class JExtensionHelper
 		}
 
 		return self::$whereConditionCore;
+	}
+	/**
+	 * Gets the where condition for database queries for installed non-core
+	 * extensions.
+	 * In opposite to using the list of IDs as returned by functions
+	 * getNonCoreExtensionsIds and getNonCoreExtensionsIdsList, this does not
+	 * result in an extra query to the database just for getting the IDs.
+	 *
+	 * @return  string  The where condition for restricting queries on the
+	 *                  extensions table to non-core extensions.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getWhereConditionNonCore()
+	{
+		if (self::$whereConditionNonCore === '')
+		{
+			self::initWhereConditionNonCore();
+		}
+
+		return self::$whereConditionNonCore;
 	}
 
 	/**
@@ -384,9 +487,33 @@ class JExtensionHelper
 	}
 
 	/**
+	 * Gets the IDs of installed non-core extensions.
+	 *
+	 * Note that this causes an extra database query to the extensions table
+	 * to get the IDs, so it is only economic if you need this array of IDs later
+	 * in the code. Using function getWhereConditionNonCore() to get a where clause to
+	 * restrict your queries to core extensions will not cause such an extra read
+	 * of the database and so is more economic if you query the database only 1 time
+	 * and so not using the primary key will cause less performance loss than doing
+	 * an additional query.
+	 *
+	 * @return  array  Array of non-core extension IDs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNonCoreExtensionsIds()
+	{
+		if (!isset(self::$nonCoreExtensionsIds[0]))
+		{
+			self::initNonCoreExtensionsIds();
+		}
+
+		return self::$nonCoreExtensionsIds;
+	}
+
+	/**
 	 * Gets the IDs of installed core extensions as comma-separated list which
-	 * can be used as condition in SQL statements like "WHERE extension_id IN (1,2,3)"
-	 * or "WHERE extension_id NOT IN (1,2,3)".
+	 * can be used as condition in SQL statements like "WHERE extension_id IN (1,2,3)".
 	 *
 	 * Note that this causes an extra database query to the extensions table
 	 * to get the IDs, so it is only economic if you need this list of IDs later
@@ -408,6 +535,32 @@ class JExtensionHelper
 		}
 
 		return implode(',', self::$coreExtensionsIds);
+	}
+
+	/**
+	 * Gets the IDs of installed non-core extensions as comma-separated list which
+	 * can be used as condition in SQL statements like "WHERE extension_id IN (1,2,3)".
+	 *
+	 * Note that this causes an extra database query to the extensions table
+	 * to get the IDs, so it is only economic if you need this list of IDs later
+	 * in the code or more than 1 time. Using function getWhereConditionNonCore() to
+	 * get a where clause to restrict your queries to core extensions will not
+	 * cause such an extra read of the database and so is more economic if you
+	 * query the database only 1 time and so not using the primary key will cause
+	 * less performance loss than doing an additional query.
+	 *
+	 * @return  string  Comma-separated list of non-core extension IDs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNonCoreExtensionsIdsList()
+	{
+		if (!isset(self::$nonCoreExtensionsIds[0]))
+		{
+			self::initNonCoreExtensionsIds();
+		}
+
+		return implode(',', self::$nonCoreExtensionsIds);
 	}
 
 	/**
