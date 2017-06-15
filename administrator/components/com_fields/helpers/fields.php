@@ -408,10 +408,12 @@ class FieldsHelper
 		$model = JModelLegacy::getInstance('Groups', 'FieldsModel', array('ignore_request' => true));
 		$model->setState('filter.context', $context);
 
-		// $model->getItems() would only return existant groups, but we also
-		// have the 'default' group with id 0 with isn't existant in the database,
-		// so we create it virtually here.
-		$defaultGroup = new \stdClass();
+		/**
+		 * $model->getItems() would only return existant groups, but we also
+		 * have the 'default' group with id 0 with isn't existant in the database,
+		 * so we create it virtually here.
+		 */
+		$defaultGroup = new \stdClass;
 		$defaultGroup->id = 0;
 		$defaultGroup->title = '';
 		$defaultGroup->description = '';
