@@ -243,13 +243,13 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	public function dateAdd($date, $interval, $datePart)
 	{
 		// SQLite does not support microseconds as a separate unit. Convert the interval to seconds
-		if (strcasecmp($datePart, 'microseconds') == 0)
+		if (strcasecmp($datePart, 'microseconds') === 0)
 		{
 			$interval = .001 * $interval;
 			$datePart = 'seconds';
 		}
 
-		if (substr($interval, 0, 1) != '-')
+		if (substr($interval, 0, 1) !== '-')
 		{
 			return "datetime('" . $date . "', '+" . $interval . " " . $datePart . "')";
 		}

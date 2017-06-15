@@ -204,7 +204,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if (!$file->isFile() || $file->getExtension() != 'php')
+			if (!$file->isFile() || $file->getExtension() !== 'php')
 			{
 				continue;
 			}
@@ -352,15 +352,15 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			$lenEndString = strlen($endString);
 			$testEnd = substr($sql, $i, $lenEndString);
 
-			if ($current == '"' || $current == "'" || $current2 == '--'
-				|| ($current2 == '/*' && $current3 != '/*!' && $current3 != '/*+')
-				|| ($current == '#' && $current3 != '#__')
-				|| ($comment && $testEnd == $endString))
+			if ($current === '"' || $current === "'" || $current2 === '--'
+				|| ($current2 === '/*' && $current3 !== '/*!' && $current3 !== '/*+')
+				|| ($current === '#' && $current3 !== '#__')
+				|| ($comment && $testEnd === $endString))
 			{
 				// Check if quoted with previous backslash
 				$n = 2;
 
-				while (substr($sql, $i - $n + 1, 1) == '\\' && $n < $i)
+				while (substr($sql, $i - $n + 1, 1) === '\\' && $n < $i)
 				{
 					$n++;
 				}
@@ -389,17 +389,17 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					else
 					{
 						$open = true;
-						if ($current2 == '--')
+						if ($current2 === '--')
 						{
 							$endString = "\n";
 							$comment = true;
 						}
-						elseif ($current2 == '/*')
+						elseif ($current2 === '/*')
 						{
 							$endString = '*/';
 							$comment = true;
 						}
-						elseif ($current == '#')
+						elseif ($current === '#')
 						{
 							$endString = "\n";
 							$comment = true;
@@ -421,7 +421,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				$start = $i + 1;
 			}
 
-			if (($current == ';' && !$open) || $i == $end - 1)
+			if (($current === ';' && !$open) || $i == $end - 1)
 			{
 				if ($start <= $i)
 				{
@@ -838,7 +838,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					 * When the last part of the old collation is not _ci we have a charset_collationType format,
 					 * something like utf8_bin. Therefore the new collation only has *two* parts.
 					 */
-					if ($ci != 'ci')
+					if ($ci !== 'ci')
 					{
 						$newCollation = $charset . '_' . $ci;
 					}
@@ -850,7 +850,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					continue;
 				}
 
-				$null = $col->Null == 'YES' ? 'NULL' : 'NOT NULL';
+				$null = $col->Null === 'YES' ? 'NULL' : 'NOT NULL';
 				$default = is_null($col->Default) ? '' : "DEFAULT '" . $this->q($col->Default) . "'";
 				$columnMods[] = "MODIFY COLUMN `{$col->Field}` {$col->Type} CHARACTER SET $charset COLLATE $newCollation $null $default";
 			}
@@ -1379,7 +1379,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Ignore any internal fields.
-			if ($k[0] == '_')
+			if ($k[0] === '_')
 			{
 				continue;
 			}
@@ -2009,7 +2009,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql{$l} === '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

@@ -72,7 +72,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
 
-		if ($data->getLanguage() != '')
+		if ($data->getLanguage() !== '')
 		{
 			$feed .= " xml:lang=\"" . $data->getLanguage() . "\"";
 		}
@@ -100,12 +100,12 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 		$feed .= "	<id>" . str_replace(' ', '%20', $data->getBase()) . "</id>\n";
 		$feed .= "	<updated>" . htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
 
-		if ($data->editor != '')
+		if ($data->editor !== '')
 		{
 			$feed .= "	<author>\n";
 			$feed .= "		<name>" . $data->editor . "</name>\n";
 
-			if ($data->editorEmail != '')
+			if ($data->editorEmail !== '')
 			{
 				$feed .= "		<email>" . htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
 			}
@@ -136,7 +136,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 			$feed .= "		<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
 			$feed .= "		<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . $itemlink . "\"/>\n";
 
-			if ($data->items[$i]->date == '')
+			if ($data->items[$i]->date === '')
 			{
 				$data->items[$i]->date = $now->toUnix();
 			}
@@ -157,7 +157,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 
 			$feed .= "		<id>" . $itemGuid . "</id>\n";
 
-			if ($data->items[$i]->author != '')
+			if ($data->items[$i]->author !== '')
 			{
 				$feed .= "		<author>\n";
 				$feed .= "			<name>" . htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8') . "</name>\n";

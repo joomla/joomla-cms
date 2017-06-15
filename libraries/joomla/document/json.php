@@ -69,7 +69,7 @@ class JDocumentJson extends JDocument
 
 		$app->allowCache(false);
 
-		if ($this->_mime == 'application/json')
+		if ($this->_mime === 'application/json')
 		{
 			// Browser other than Internet Explorer < 10
 			$app->setHeader('Content-Disposition', 'attachment; filename="' . $this->getName() . '.json"', true);

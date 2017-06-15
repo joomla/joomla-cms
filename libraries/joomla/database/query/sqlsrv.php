@@ -451,9 +451,9 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			$lenEndString = strlen($endString);
 			$testEnd      = substr($string, $i, $lenEndString);
 
-			if ($current == '[' || $current == '"' || $current == "'" || $current2 == '--'
-				|| ($current2 == '/*') || ($current == '#' && $current3 != '#__')
-				|| ($lenEndString && $testEnd == $endString))
+			if ($current === '[' || $current === '"' || $current === "'" || $current2 === '--'
+				|| ($current2 === '/*') || ($current === '#' && $current3 !== '#__')
+				|| ($lenEndString && $testEnd === $endString))
 			{
 				if ($open)
 				{
@@ -470,12 +470,12 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 							$start = $i + 1;
 							$comment = false;
 						}
-						elseif ($current == "'" || $current == ']' || $current == '"')
+						elseif ($current === "'" || $current === ']' || $current === '"')
 						{
 							// Check for escaped quote like '', ]] or ""
 							$n = 1;
 
-							while ($i + $n < $length && $string[$i + $n] == $current)
+							while ($i + $n < $length && $string[$i + $n] === $current)
 							{
 								$n++;
 							}
@@ -503,17 +503,17 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				{
 					$open = true;
 
-					if ($current == '#' || $current2 == '--')
+					if ($current === '#' || $current2 === '--')
 					{
 						$endString = "\n";
 						$comment = true;
 					}
-					elseif ($current2 == '/*')
+					elseif ($current2 === '/*')
 					{
 						$endString = '*/';
 						$comment = true;
 					}
-					elseif ($current == '[')
+					elseif ($current === '[')
 					{
 						$endString = ']';
 					}
@@ -533,17 +533,17 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			}
 			elseif (!$open)
 			{
-				if ($current == '(')
+				if ($current === '(')
 				{
 					$openC++;
 					$previous = $current;
 				}
-				elseif ($current == ')')
+				elseif ($current === ')')
 				{
 					$openC--;
 					$previous = $current;
 				}
-				elseif ($current == '.')
+				elseif ($current === '.')
 				{
 					if ($i === $start && $colIdx > 0 && !isset($column[$colIdx]))
 					{
@@ -608,7 +608,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				}
 			}
 
-			if (($current == ',' && !$open && $openC == 0) || $i == $length - 1)
+			if (($current === ',' && !$open && $openC === 0) || $i === $length - 1)
 			{
 				if ($start < $i && !$comment)
 				{
@@ -659,7 +659,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		{
 			$size = count($column);
 
-			if ($size == 0)
+			if ($size === 0)
 			{
 				continue;
 			}
@@ -682,17 +682,17 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			$length   = strlen($lastWord);
 			$lastChar = $lastWord[$length - 1];
 
-			if ($lastChar == '*')
+			if ($lastChar === '*')
 			{
 				// Skip on wildcard
 				continue;
 			}
 
-			if ($lastChar == ')'
-				|| ($size == 1 && $lastChar == "'")
-				|| $lastWord[0] == '@'
-				|| $lastWord == 'NULL'
-				|| $lastWord == 'END'
+			if ($lastChar === ')'
+				|| ($size == 1 && $lastChar === "'")
+				|| $lastWord[0] === '@'
+				|| $lastWord === 'NULL'
+				|| $lastWord === 'END'
 				|| is_numeric($lastWord))
 			{
 				/* Ends with:
@@ -708,7 +708,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				continue;
 			}
 
-			if ($size == 1)
+			if ($size === 1)
 			{
 				continue;
 			}
@@ -720,7 +720,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				|| ($size > 2 && $lastChar2 === '.' && isset($operators[substr($column[$size - 3], -1)])))
 			{
 				// Ignore plus signs if column start with them
-				if ($size != 2 || ltrim($column[0], '+') !== '' || $column[1][0] === "'")
+				if ($size !== 2 || ltrim($column[0], '+') !== '' || $column[1][0] === "'")
 				{
 					// If operator exists before last word then alias is required for subquery
 					$columns[$i][] = 'AS';
