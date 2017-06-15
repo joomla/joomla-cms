@@ -233,12 +233,7 @@ class JComponentHelper
 		$whiteListTags        = array_unique($whiteListTags);
 		$whiteListAttributes  = array_unique($whiteListAttributes);
 
-		// Unfiltered assumes first priority.
-		if ($unfiltered)
-		{
-			// Dont apply filtering.
-		}
-		else
+		if (!$unfiltered)
 		{
 			// Custom blacklist precedes Default blacklist
 			if ($customList)

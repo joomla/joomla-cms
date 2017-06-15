@@ -67,8 +67,8 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			$updateElement = $this->manifest->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -278,7 +278,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -724,6 +724,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 
 		// Note: For templates, libraries and packages their unique name is their key.
 		// This means they come out the same way they came in.
+
 		return $db->loadResult();
 	}
 

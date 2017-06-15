@@ -112,7 +112,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 				$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 				$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-				if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+				if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 				{
 					if (!$this->parent->copyFiles(array($path)))
 					{
@@ -362,7 +362,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
+		if (!$row->load((int) $id) || $row->element === '')
 		{
 			JLog::add(JText::_('ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 

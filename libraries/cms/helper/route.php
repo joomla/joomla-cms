@@ -134,7 +134,7 @@ class JHelperRoute
 		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// $this->extension may not be set if coming from a static method, check it
-		if (is_null($this->extension))
+		if ($this->extension === null)
 		{
 			$this->extension = $app->input->getCmd('option');
 		}
@@ -180,7 +180,7 @@ class JHelperRoute
 						 * $language != * can override existing entries
 						 * $language == * cannot override existing entries
 						 */
-						if (!isset(static::$lookup[$language][$view][$item->query['id']]) || $item->language !== '*')
+						if ($item->language !== '*' || !isset(static::$lookup[$language][$view][$item->query['id']]))
 						{
 							static::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}
