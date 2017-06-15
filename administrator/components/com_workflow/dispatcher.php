@@ -16,7 +16,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
  *
  * @since  __DEPLOY_VERSION__
  */
-class WorkflowDispacher extends Dispatcher
+class WorkflowDispatcher extends Dispatcher
 {
 	/**
 	 * The extension namespace
@@ -25,5 +25,5 @@ class WorkflowDispacher extends Dispatcher
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $namespace = 'Joomla\\Component\\Workfow';
+	protected $namespace = 'Joomla\\Component\\Workflow';
 }
