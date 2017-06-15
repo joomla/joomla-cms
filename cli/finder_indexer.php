@@ -36,14 +36,7 @@ if (!defined('_JDEFINES'))
 define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
-
-// Import the configuration.
-require_once JPATH_CONFIGURATION . '/configuration.php';
-
-// System configuration.
-$config = new JConfig;
-define('JDEBUG', $config->debug);
+require_once JPATH_BASE . '/includes/framework.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);

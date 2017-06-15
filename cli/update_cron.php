@@ -31,10 +31,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
-
-// Load the configuration
-require_once JPATH_CONFIGURATION . '/configuration.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 /**
  * This script will fetch the update information for all extensions and store

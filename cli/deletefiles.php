@@ -22,7 +22,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
