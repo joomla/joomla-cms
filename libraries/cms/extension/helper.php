@@ -293,7 +293,7 @@ class JExtensionHelper
 		{
 			self::$whereConditionCore .= $db->qn('type') . ' = ' . $db->q($extension[0])
 				. ' AND ' . $db->qn('element') . ' = ' . $db->q($extension[1])
-				. ' AND ' . $db->qn('client_id') . ' = ' . $db->q($extension[3]);
+				. ' AND ' . $db->qn('client_id') . ' = ' . $extension[3];
 
 			if ($extension[2] !== '')
 			{
@@ -323,7 +323,7 @@ class JExtensionHelper
 		{
 			self::$whereConditionNonCore .= '(' . $db->qn('type') . ' <> ' . $db->q($extension[0])
 				. ' OR ' . $db->qn('element') . ' <> ' . $db->q($extension[1])
-				. ' OR ' . $db->qn('client_id') . ' <> ' . $db->q($extension[3]);
+				. ' OR ' . $db->qn('client_id') . ' <> ' . $extension[3];
 
 			if ($extension[2] !== '')
 			{
