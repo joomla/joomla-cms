@@ -194,7 +194,7 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 		$this->out('Number of strings: ' . count($toc), true);
 
 		// JSON encode the file and write it to JPATH_ADMINISTRATOR/help/en-GB/toc.json
-		file_put_contents(JPATH_ADMINISTRATOR . '/help/toc.json', json_encode($toc));
+		file_put_contents(JPATH_ADMINISTRATOR . '/help/en-GB/toc.json', json_encode($toc));
 
 		$this->out('Help Screen TOC written', true);
 	}
