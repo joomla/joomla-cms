@@ -7,16 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Administrator\Model;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Model\Model;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Media View Model
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaModelMedia extends Model
+class Media extends Model
 {
 	/**
 	 * Obtain list of supported providers
@@ -27,13 +31,13 @@ class MediaModelMedia extends Model
 	 */
 	public function getProviders()
 	{
-		$providerInfo = Joomla\CMS\Plugin\PluginHelper::getPlugin('filesystem');
+		$providerInfo = PluginHelper::getPlugin('filesystem');
 		$results      = array();
 
 		foreach ($providerInfo as $provider)
 		{
-			$params            = new Joomla\Registry\Registry($provider->params);
-			$info              = new stdClass;
+			$params            = new Registry($provider->params);
+			$info              = new \stdClass;
 			$info->name        = $provider->name;
 			$info->displayName = $params->get('display_name');
 			$results[]         = $info;
