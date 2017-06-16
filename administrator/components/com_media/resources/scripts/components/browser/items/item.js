@@ -9,7 +9,6 @@ export default {
     render: function (createElement, context) {
 
         const store = context.parent.$store;
-        const selectedItems = store.state.selectedItems;
         const item = context.props.item;
 
         /**
@@ -43,9 +42,9 @@ export default {
          * @param event
          */
         function handleClick(event) {
-            var e = new Event('onMediaFileSelected');
+            var e = createEvent('onMediaFileSelected');
             e.item = item;
-	        window.parent.document.dispatchEvent(e);
+            window.parent.document.dispatchEvent(e);
 
             // Handle clicks when the item was not selected
             if (!isSelected()) {
@@ -63,6 +62,23 @@ export default {
                 store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 store.commit(types.SELECT_BROWSER_ITEM, item);
             }
+        }
+
+        /**
+         * Create an event
+         * @param eventName
+         */
+        function createEvent(eventName) {
+            if (typeof(Event) === 'function') {
+                // Modern browsers
+                var event = new Event(eventName);
+            } else {
+                // IE
+                var event = document.createEvent('Event');
+                event.initEvent(eventName, true, true);
+            }
+
+            return event;
         }
 
         return createElement('div', {
