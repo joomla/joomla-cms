@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+
+    <fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+
+        <field
+                name="id"
+                type="text"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                description="JGLOBAL_FIELD_ID_DESC"
+                default="0"
+                class="readonly"
+                size="10"
+                readonly="true"
+        />
+
+        <field
+                name="title"
+                type="text"
+                label="COM_WORKFLOW_FIELD_NAME_LABEL"
+                description="COM_WORKFLOW_FIELD_NAME_DESC"
+                class="input-xxlarge input-large-text"
+                size="40"
+                required="true"
+        />
+
+        <field
+                name="description"
+                type="textarea"
+                label="COM_WORKFLOW_FIELD_DESC_LABEL"
+                description="COM_WORKFLOW_FIELD_DESC_DESC"
+                class="input-xxlarge input-large-text"
+        />
+
+    </fieldset>
+
+    <fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
+        <field
+                name="default"
+                type="radio"
+                label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
+                description="COM_WORKFLOW_FIELD_IS_DEFAULT_DESC"
+                class="switcher"
+                default="1"
+                required="true"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field
+                name="categoryList"
+                type="category"
+                label="COM_WORKFLOW_FIELD_CATEGORY_LIST_LABEL"
+                description="COM_CONTACT_FIELD_CATEGORY_LIST_DESC"
+                default="0"
+                showon="default:0"
+        />
+    </fieldset>
+
+</form>

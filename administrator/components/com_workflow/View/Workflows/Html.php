@@ -15,7 +15,7 @@ use Joomla\CMS\View\HtmlView;
 /**
  * Workflows view class for the Workflow package.
  *
- * @since  1.6
+ * @since  4.0
  */
 class Html extends HtmlView
 {
@@ -31,10 +31,9 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-//		$this->workflows = $this->get('Items');
-//		$this->pagination = $this->get('Pagination');
-//		$this->state = $this->get('State');
-//		$this->addToolbar();
+		$this->workflows = $this->get('Items');
+		$this->state = $this->get('State');
+		$this->addToolbar();
 		return parent::display($tpl);
 	}
 
@@ -47,12 +46,7 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(JText::_('COM_PROVE_LIST_EMAILS'), 'address contact');
+		\JToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
 		\JToolbarHelper::addNew('workflow.add');
-		\JToolbarHelper::publish('workflows.publish', 'JTOOLBAR_PUBLISH', true);
-		\JToolbarHelper::unpublish('workflows.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		\JToolbarHelper::trash('workflows.trash');
-		\JToolBarHelper::deleteList('Are you sure ?', 'workflows.delete');
-		\JToolbarHelper::archiveList('workflows.archive');
 	}
 }

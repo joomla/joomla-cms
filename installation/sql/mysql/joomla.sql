@@ -2107,25 +2107,27 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
 
----
---- Table structure for table `#__workflows`
----
+--
+-- Dumping data for table `#__workflows`
+--
 
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) NOT NULL,
+  `asset_id` int(10) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `extension` varchar(255) NOT NULL,
+  `category_id` int(10) DEFAULT NULL,
   `default` tinyint(1) NOT NULL,
-  `created` datetime NOT NULL,
+  `created` datetime NOT NULL DEFAULT NOW(),
   `created_by` int(10) NOT NULL,
-  `modified` datetime NOT NULL,
+  `modified` datetime NOT NULL DEFAULT NOW(),
   `modified_by` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   KEY `title` (`title`(191)),
   KEY `extension` (`extension`(191)),
+  KEY `category_id` (`category_id`),
   KEY `default` (`default`),
   KEY `created` (`created`),
   KEY `created_by` (`created_by`),
@@ -2133,9 +2135,9 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   KEY `modified_by` (`modified_by`)
 ) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
 
----
---- Table structure for table `#__workflow_status`
----
+--
+-- Dumping data for table `#__workflow_status`
+--
 
 CREATE TABLE IF NOT EXISTS `#__workflow_status` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -2151,9 +2153,9 @@ CREATE TABLE IF NOT EXISTS `#__workflow_status` (
   KEY `default` (`default`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
 
----
---- Table structure for table `#__workflow_transitions`
----
+--
+-- Dumping data for table `#__workflow_transitions`
+--
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `title` varchar(255) NOT NULL,
