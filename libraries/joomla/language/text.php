@@ -201,7 +201,7 @@ class JText
 			return '';
 		}
 
-		if ($count == 1)
+		if ($count === 1)
 		{
 			// Default to the normal sprintf handling.
 			$args[0] = $lang->_($string);

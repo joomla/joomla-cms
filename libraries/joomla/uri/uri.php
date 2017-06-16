@@ -60,10 +60,10 @@ class JUri extends Uri
 		if (empty(static::$instances[$uri]))
 		{
 			// Are we obtaining the URI from the server?
-			if ($uri == 'SERVER')
+			if ($uri === 'SERVER')
 			{
 				// Determine if the request was over SSL (HTTPS).
-				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) !== 'off'))
 				{
 					$https = 's://';
 				}
@@ -141,7 +141,7 @@ class JUri extends Uri
 			$uri = static::getInstance();
 			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
-			if (trim($live_site) != '')
+			if (trim($live_site) !== '')
 			{
 				$uri = static::getInstance($live_site);
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
@@ -149,7 +149,7 @@ class JUri extends Uri
 
 				if (defined('JPATH_BASE') && defined('JPATH_ADMINISTRATOR'))
 				{
-					if (JPATH_BASE == JPATH_ADMINISTRATOR)
+					if (JPATH_BASE === JPATH_ADMINISTRATOR)
 					{
 						static::$base['path'] .= '/administrator';
 					}

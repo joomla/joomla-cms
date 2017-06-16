@@ -125,7 +125,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		}
 
 		// If the time field is missing or the date field isn't only the date we need to rework it.
-		if ((strlen($entry->date) != 10) || !isset($entry->time))
+		if ((strlen($entry->date) !== 10) || !isset($entry->time))
 		{
 			// Get the date and time strings in GMT.
 			$entry->datetime = $entry->date->toISO8601();

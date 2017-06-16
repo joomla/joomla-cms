@@ -42,7 +42,7 @@ class JTableExtension extends JTable
 	public function check()
 	{
 		// Check for valid name
-		if (trim($this->name) == '' || trim($this->element) == '')
+		if (trim($this->name) === '' || trim($this->element) === '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 

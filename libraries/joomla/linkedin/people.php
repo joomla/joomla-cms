@@ -127,7 +127,7 @@ class JLinkedinPeople extends JLinkedinObject
 			$data['start'] = $start;
 		}
 		// Check if count is specified.
-		if ($count != 500)
+		if ($count !== 500)
 		{
 			$data['count'] = $count;
 		}
@@ -294,37 +294,37 @@ class JLinkedinPeople extends JLinkedinObject
 			{
 				if ($facet[$i])
 				{
-					if ($i == 0)
+					if ($i === 0)
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
 
-					if ($i == 1)
+					if ($i === 1)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
 
-					if ($i == 2)
+					if ($i === 2)
 					{
 						$data['facet'][] = 'network,' . $facet[$i];
 					}
 
-					if ($i == 3)
+					if ($i === 3)
 					{
 						$data['facet'][] = 'language,' . $facet[$i];
 					}
 
-					if ($i == 4)
+					if ($i === 4)
 					{
 						$data['facet'][] = 'current-company,' . $facet[$i];
 					}
 
-					if ($i == 5)
+					if ($i === 5)
 					{
 						$data['facet'][] = 'past-company,' . $facet[$i];
 					}
 
-					if ($i == 6)
+					if ($i === 6)
 					{
 						$data['facet'][] = 'school,' . $facet[$i];
 					}
@@ -339,7 +339,7 @@ class JLinkedinPeople extends JLinkedinObject
 		}
 
 		// Check if count is specified.
-		if ($count != 10)
+		if ($count !== 10)
 		{
 			$data['count'] = $count;
 		}

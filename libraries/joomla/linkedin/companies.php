@@ -204,32 +204,32 @@ class JLinkedinCompanies extends JLinkedinObject
 			{
 				if ($facet[$i])
 				{
-					if ($i == 0)
+					if ($i === 0)
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
 
-					if ($i == 1)
+					if ($i === 1)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
 
-					if ($i == 2)
+					if ($i === 2)
 					{
 						$data['facet'][] = 'network,' . $facet[$i];
 					}
 
-					if ($i == 3)
+					if ($i === 3)
 					{
 						$data['facet'][] = 'company-size,' . $facet[$i];
 					}
 
-					if ($i == 4)
+					if ($i === 4)
 					{
 						$data['facet'][] = 'num-followers-range,' . $facet[$i];
 					}
 
-					if ($i == 5)
+					if ($i === 5)
 					{
 						$data['facet'][] = 'fortune,' . $facet[$i];
 					}

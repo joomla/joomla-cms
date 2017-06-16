@@ -316,7 +316,7 @@ class JUpdate extends JObject
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
 				if (isset($this->currentUpdate->targetplatform->name)
-					&& $product == $this->currentUpdate->targetplatform->name
+					&& $product === $this->currentUpdate->targetplatform->name
 					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) 
 					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) >= $this->currentUpdate->targetplatform->min_dev_level)
@@ -366,7 +366,7 @@ class JUpdate extends JObject
 					{
 						if (isset($this->latest))
 						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
+							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') === true)
 							{
 								$this->latest = $this->currentUpdate;
 							}
@@ -417,7 +417,7 @@ class JUpdate extends JObject
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 
-		if ($tag == 'tag')
+		if ($tag === 'tag')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 

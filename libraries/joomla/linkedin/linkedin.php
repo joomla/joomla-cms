@@ -107,7 +107,7 @@ class JLinkedin
 
 		if (class_exists($class))
 		{
-			if (false == isset($this->$name))
+			if (isset($this->$name) === false)
 			{
 				$this->$name = new $class($this->options, $this->client, $this->oauth);
 			}

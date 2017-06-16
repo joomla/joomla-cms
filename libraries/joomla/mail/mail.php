@@ -98,7 +98,7 @@ class JMail extends PHPMailer
 	{
 		if (JFactory::getConfig()->get('mailonline', 1))
 		{
-			if (($this->Mailer == 'mail') && !function_exists('mail'))
+			if (($this->Mailer === 'mail') && !function_exists('mail'))
 			{
 				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
 			}
@@ -635,7 +635,7 @@ class JMail extends PHPMailer
 		$this->Password = $pass;
 		$this->Port = $port;
 
-		if ($secure == 'ssl' || $secure == 'tls')
+		if ($secure === 'ssl' || $secure === 'tls')
 		{
 			$this->SMTPSecure = $secure;
 		}

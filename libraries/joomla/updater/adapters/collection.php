@@ -124,7 +124,7 @@ class JUpdaterCollection extends JUpdateAdapter
 					{
 						$attrs[$col] = '';
 
-						if ($col == 'CLIENT')
+						if ($col === 'CLIENT')
 						{
 							$attrs[$col] = 'site';
 						}
@@ -171,7 +171,7 @@ class JUpdaterCollection extends JUpdateAdapter
 
 				// Set this to ourselves as a default
 				// validate that we can install the extension
-				if ($product == $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', JVERSION))
+				if ($product === $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', JVERSION))
 				{
 					$update->bind($values);
 					$this->updates[] = $update;
@@ -234,7 +234,7 @@ class JUpdaterCollection extends JUpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 

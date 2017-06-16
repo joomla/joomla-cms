@@ -71,7 +71,7 @@ class JLinkedinOauth extends JOAuth1Client
 		$response = $this->oauthRequest($path, 'GET', $parameters, $data);
 
 		// Verify response
-		if ($response->code == 200)
+		if ($response->code === 200)
 		{
 			return true;
 		}
@@ -99,7 +99,7 @@ class JLinkedinOauth extends JOAuth1Client
 			$code = 200;
 		}
 
-		if (strpos($url, '::(~)') === false && $response->code != $code)
+		if (strpos($url, '::(~)') === false && $response->code !== $code)
 		{
 			if ($error = json_decode($response->body))
 			{

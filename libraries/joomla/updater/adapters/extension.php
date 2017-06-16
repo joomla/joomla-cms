@@ -61,17 +61,17 @@ class JUpdaterExtension extends JUpdateAdapter
 					$this->currentUpdate->$name = '';
 				}
 
-				if ($name == 'TARGETPLATFORM')
+				if ($name === 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
 
-				if ($name == 'PHP_MINIMUM')
+				if ($name === 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
 
-				if ($name == 'SUPPORTED_DATABASES')
+				if ($name === 'SUPPORTED_DATABASES')
 				{
 					$this->currentUpdate->supported_databases = $attrs;
 				}
@@ -116,7 +116,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				 *
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
-				if ($product == $this->currentUpdate->targetplatform['NAME']
+				if ($product === $this->currentUpdate->targetplatform['NAME']
 					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
@@ -224,7 +224,7 @@ class JUpdaterExtension extends JUpdateAdapter
 						if (isset($this->latest))
 						{
 							// We already have a possible update. Check the version.
-							if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
+							if (version_compare($this->currentUpdate->version, $this->latest->version, '>') === true)
 							{
 								$this->latest = $this->currentUpdate;
 							}
@@ -265,12 +265,12 @@ class JUpdaterExtension extends JUpdateAdapter
 			$this->currentUpdate->$tag .= $data;
 		}
 
-		if ($tag == 'PHP_MINIMUM')
+		if ($tag === 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
 		}
 
-		if ($tag == 'TAG')
+		if ($tag === 'TAG')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 		}
@@ -307,7 +307,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 

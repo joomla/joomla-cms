@@ -178,11 +178,11 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 		{
 			foreach ($members as $member)
 			{
-				if ($member['type'] == 'node')
+				if ($member['type'] === 'node')
 				{
 					$member_list .= '<member type="' . $member['type'] . '" role="' . $member['role'] . '" ref="' . $member['ref'] . '"/>';
 				}
-				elseif ($member['type'] == 'way')
+				elseif ($member['type'] === 'way')
 				{
 					$member_list .= '<member type="' . $member['type'] . '" ref="' . $member['ref'] . '"/>';
 				}
@@ -218,7 +218,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function readElement($element, $id)
 	{
-		if ($element != 'node' && $element != 'way' && $element != 'relation')
+		if ($element !== 'node' && $element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a node, a way or a relation');
 		}
@@ -249,7 +249,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function updateElement($element, $xml, $id)
 	{
-		if ($element != 'node' && $element != 'way' && $element != 'relation')
+		if ($element !== 'node' && $element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a node, a way or a relation');
 		}
@@ -292,7 +292,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function deleteElement($element, $id, $version, $changeset, $latitude = null, $longitude = null)
 	{
-		if ($element != 'node' && $element != 'way' && $element != 'relation')
+		if ($element !== 'node' && $element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a node, a way or a relation');
 		}
@@ -343,7 +343,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function historyOfElement($element, $id)
 	{
-		if ($element != 'node' && $element != 'way' && $element != 'relation')
+		if ($element !== 'node' && $element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a node, a way or a relation');
 		}
@@ -374,7 +374,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function versionOfElement($element, $id, $version)
 	{
-		if ($element != 'node' && $element != 'way' && $element != 'relation')
+		if ($element !== 'node' && $element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a node, a way or a relation');
 		}
@@ -404,7 +404,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function multiFetchElements($element, $params)
 	{
-		if ($element != 'nodes' && $element != 'ways' && $element != 'relations')
+		if ($element !== 'nodes' && $element !== 'ways' && $element !== 'relations')
 		{
 			throw new DomainException('Element should be nodes, ways or relations');
 		}
@@ -437,7 +437,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function relationsForElement($element, $id)
 	{
-		if ($element != 'node' && $element != 'way' && $element != 'relation')
+		if ($element !== 'node' && $element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a node, a way or a relation');
 		}
@@ -490,7 +490,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function fullElement($element, $id)
 	{
-		if ($element != 'way' && $element != 'relation')
+		if ($element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a way or a relation');
 		}
@@ -522,7 +522,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 */
 	public function redaction($element, $id, $version, $redaction_id)
 	{
-		if ($element != 'node' && $element != 'way' && $element != 'relation')
+		if ($element !== 'node' && $element !== 'way' && $element !== 'relation')
 		{
 			throw new DomainException('Element should be a node, a way or a relation');
 		}

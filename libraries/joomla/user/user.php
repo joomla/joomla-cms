@@ -371,7 +371,7 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			elseif ($this->username && $this->username == $rootUser)
+			elseif ($this->username && $this->username === $rootUser)
 			{
 				$this->isRoot = true;
 			}
@@ -621,7 +621,7 @@ class JUser extends JObject
 
 			// Not all controllers check the password, although they should.
 			// Hence this code is required:
-			if (isset($array['password2']) && $array['password'] != $array['password2'])
+			if (isset($array['password2']) && $array['password'] !== $array['password2'])
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
@@ -649,7 +649,7 @@ class JUser extends JObject
 			// Updating an existing user
 			if (!empty($array['password']))
 			{
-				if ($array['password'] != $array['password2'])
+				if ($array['password'] !== $array['password2'])
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 
@@ -764,13 +764,13 @@ class JUser extends JObject
 
 			$iAmRehashingSuperadmin = false;
 
-			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && $oldUser->password != $this->password)
+			if (($my->id === 0 && !$isNew) && $this->id === $oldUser->id && $oldUser->authorise('core.admin') && $this->password !== $oldUser->password)
 			{
 				$iAmRehashingSuperadmin = true;
 			}
 
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			if ($iAmSuperAdmin !== true && $iAmRehashingSuperadmin !== true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && JAccess::check($this->id, 'core.admin'))
@@ -778,7 +778,7 @@ class JUser extends JObject
 					throw new RuntimeException('User not Super Administrator');
 				}
 
-				if ($this->groups != null)
+				if (!$this->groups != null)
 				{
 					// I am not a Super Admin and I'm trying to make one.
 					foreach ($this->groups as $groupId)
@@ -812,7 +812,7 @@ class JUser extends JObject
 				$this->id = $table->get('id');
 			}
 
-			if ($my->id == $table->id)
+			if ($my->id === (int) $table->id)
 			{
 				$registry = new Registry($table->params);
 				$my->setParameters($registry);
@@ -897,7 +897,7 @@ class JUser extends JObject
 		$this->setProperties($table->getProperties());
 
 		// The user is no longer a guest
-		if ($this->id != 0)
+		if ($this->id !== 0)
 		{
 			$this->guest = 0;
 		}

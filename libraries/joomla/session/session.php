@@ -394,7 +394,7 @@ class JSession implements IteratorAggregate
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if (!$file->isFile() || $file->getExtension() != 'php')
+			if (!$file->isFile() || $file->getExtension() !== 'php')
 			{
 				continue;
 			}
@@ -428,7 +428,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function isActive()
 	{
-		return (bool) ($this->getState() == 'active');
+		return (bool) ($this->getState() === 'active');
 	}
 
 	/**

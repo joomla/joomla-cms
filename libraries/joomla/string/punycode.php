@@ -69,7 +69,7 @@ abstract class JStringPunycode
 	{
 		$parsed = UriHelper::parse_url($uri);
 
-		if (!isset($parsed['host']) || $parsed['host'] == '')
+		if (!isset($parsed['host']) || $parsed['host'] === '')
 		{
 			// If there is no host we do not need to convert it.
 			return $uri;
@@ -140,7 +140,7 @@ abstract class JStringPunycode
 
 		$parsed = UriHelper::parse_url($uri);
 
-		if (!isset($parsed['host']) || $parsed['host'] == '')
+		if (!isset($parsed['host']) || $parsed['host'] === '')
 		{
 			// If there is no host we do not need to convert it.
 			return $uri;

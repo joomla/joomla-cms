@@ -69,7 +69,7 @@ class JTwitterOAuth extends JOAuth1Client
 		$response = $this->oauthRequest($path, 'GET', $parameters);
 
 		// Verify response
-		if ($response->code == 200)
+		if ($response->code === 200)
 		{
 			return true;
 		}
@@ -115,7 +115,7 @@ class JTwitterOAuth extends JOAuth1Client
 	 */
 	public function validateResponse($url, $response)
 	{
-		if (strpos($url, 'verify_credentials') === false && $response->code != 200)
+		if (strpos($url, 'verify_credentials') === false && $response->code !== 200)
 		{
 			$error = json_decode($response->body);
 

@@ -321,7 +321,7 @@ class JLanguage
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
 		// Detect empty string
-		if ($string == '')
+		if ($string === '')
 		{
 			return '';
 		}
@@ -717,14 +717,14 @@ class JLanguage
 
 		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
 		// with $default set to true
-		if (!$this->debug && ($lang != $this->default) && $default)
+		if (!$this->debug && ($lang !== $this->default) && $default)
 		{
 			$this->load($extension, $basePath, $this->default, false, true);
 		}
 
 		$path = JLanguageHelper::getLanguagePath($basePath, $lang);
 
-		$internal = $extension == 'joomla' || $extension == '';
+		$internal = $extension === 'joomla' || $extension === '';
 		$filename = $internal ? $lang : $lang . '.' . $extension;
 		$filename = "$path/$filename.ini";
 
@@ -753,7 +753,7 @@ class JLanguage
 					$filename = "$path/$filename.ini";
 
 					// If the one we tried is different than the new name, try again
-					if ($oldFilename != $filename)
+					if ($oldFilename !== $filename)
 					{
 						$result = $this->loadLanguage($filename, $extension, false);
 					}
@@ -890,7 +890,7 @@ class JLanguage
 		foreach ($file as $lineNumber => $line)
 		{
 			// Avoid BOM error as BOM is OK when using parse_ini.
-			if ($lineNumber == 0)
+			if ($lineNumber === 0)
 			{
 				$line = str_replace("\xEF\xBB\xBF", '', $line);
 			}
@@ -898,7 +898,7 @@ class JLanguage
 			$line = trim($line);
 
 			// Ignore comment lines.
-			if (!strlen($line) || $line['0'] == ';')
+			if (!strlen($line) || $line['0'] === ';')
 			{
 				continue;
 			}
@@ -921,7 +921,7 @@ class JLanguage
 			}
 
 			// Check for odd number of double quotes.
-			if (substr_count($line, '"') % 2 != 0)
+			if (substr_count($line, '"') % 2 !== 0)
 			{
 				$errors[] = $realNumber;
 				continue;
@@ -937,7 +937,7 @@ class JLanguage
 			// Check that the key is not in the blacklist.
 			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
 
-			if (in_array($key, $blacklist))
+			if (in_array($key, $blacklist, true))
 			{
 				$errors[] = $realNumber;
 			}
@@ -1006,7 +1006,7 @@ class JLanguage
 			$class = @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ($class != 'JLanguage' && $class != 'JText')
+			if ($class !== 'JLanguage' && $class !== 'JText')
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;

@@ -219,7 +219,7 @@ class JLog
 				$callback = $options['callback'];
 				$options['callback'] = spl_object_hash($options['callback']);
 			}
-			elseif (is_array($options['callback']) && count($options['callback']) == 2 && is_object($options['callback'][0]))
+			elseif (is_array($options['callback']) && count($options['callback']) === 2 && is_object($options['callback'][0]))
 			{
 				$callback = $options['callback'];
 				$options['callback'] = spl_object_hash($options['callback'][0]) . '::' . $options['callback'][1];
