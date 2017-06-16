@@ -829,7 +829,7 @@ class JControllerForm extends JControllerLegacy
 				// Check if there is a return value
 				$return = $this->input->get('return', null, 'base64');
 
-				if (!is_null($return))
+				if (!is_null($return) && JUri::isInternal(base64_decode($return)))
 				{
 					$url = base64_decode($return);
 				}
