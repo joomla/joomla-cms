@@ -347,7 +347,7 @@ class FieldsHelper
 				if (cat.val() == '" . $assignedCatids . "')return;
 				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
-				element.form.submit();
+				Joomla.submitform('field.storeform', element.form);
 			}
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
