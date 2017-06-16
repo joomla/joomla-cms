@@ -394,11 +394,11 @@ class JDocument
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
-		if ($name == 'generator')
+		if ($name === 'generator')
 		{
 			$result = $this->getGenerator();
 		}
-		elseif ($name == 'description')
+		elseif ($name === 'description')
 		{
 			$result = $this->getDescription();
 		}
@@ -429,11 +429,11 @@ class JDocument
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
-		if ($name == 'generator')
+		if ($name === 'generator')
 		{
 			$this->setGenerator($content);
 		}
-		elseif ($name == 'description')
+		elseif ($name === 'description')
 		{
 			$this->setDescription($content);
 		}

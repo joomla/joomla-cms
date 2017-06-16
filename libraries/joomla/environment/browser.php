@@ -264,7 +264,7 @@ class JBrowser
 
 				/* Due to changes in Opera UA, we need to check Version/xx.yy,
 				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/ */
-				if ($this->majorVersion == 9 && $this->minorVersion >= 80)
+				if ($this->majorVersion === 9 && $this->minorVersion >= 80)
 				{
 					$this->identifyBrowserVersion();
 				}
@@ -591,14 +591,14 @@ class JBrowser
 			{
 				$wildcard_match = true;
 
-				if ($type != 'image')
+				if ($type !== 'image')
 				{
 					return true;
 				}
 			}
 
 			// Deal with Mozilla pjpeg/jpeg issue
-			if ($this->isBrowser('mozilla') && ($mimetype == 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
+			if ($this->isBrowser('mozilla') && ($mimetype === 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
 			{
 				return true;
 			}
@@ -609,7 +609,7 @@ class JBrowser
 			}
 		}
 
-		if ($type != 'image')
+		if ($type !== 'image')
 		{
 			return false;
 		}
@@ -679,6 +679,6 @@ class JBrowser
 			'deprecated'
 		);
 
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 }

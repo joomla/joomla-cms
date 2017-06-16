@@ -84,8 +84,8 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 				$column = $oldFields[$fName];
 
 				// Test whether there is a change.
-				$change = ((string) $field['Type'] != $column->Type) || ((string) $field['Null'] != $column->Null)
-					|| ((string) $field['Default'] != $column->Default) || ((string) $field['Extra'] != $column->Extra);
+				$change = ((string) $field['Type'] !== $column->Type) || ((string) $field['Null'] !== $column->Null)
+					|| ((string) $field['Default'] !== $column->Default) || ((string) $field['Extra'] !== $column->Extra);
 
 				if ($change)
 				{
@@ -124,16 +124,16 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 				$oldCount = count($oldLookup[$name]);
 
 				// There is a key on this field in the old and new tables. Are they the same?
-				if ($newCount == $oldCount)
+				if ($newCount === $oldCount)
 				{
 					// Need to loop through each key and do a fine grained check.
 					for ($i = 0; $i < $newCount; $i++)
 					{
-						$same = (((string) $newLookup[$name][$i]['Non_unique'] == $oldLookup[$name][$i]->Non_unique)
-							&& ((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name)
-							&& ((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index)
-							&& ((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation)
-							&& ((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type));
+						$same = (((string) $newLookup[$name][$i]['Non_unique'] === $oldLookup[$name][$i]->Non_unique)
+							&& ((string) $newLookup[$name][$i]['Column_name'] === $oldLookup[$name][$i]->Column_name)
+							&& ((string) $newLookup[$name][$i]['Seq_in_index'] === $oldLookup[$name][$i]->Seq_in_index)
+							&& ((string) $newLookup[$name][$i]['Collation'] === $oldLookup[$name][$i]->Collation)
+							&& ((string) $newLookup[$name][$i]['Index_type'] === $oldLookup[$name][$i]->Index_type));
 
 						/*
 						Debug.
@@ -189,7 +189,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 		// Any keys left are orphans.
 		foreach ($oldLookup as $name => $keys)
 		{
-			if (strtoupper($name) == 'PRIMARY')
+			if (strtoupper($name) === 'PRIMARY')
 			{
 				$alters[] = $this->getDropPrimaryKeySql($table);
 			}
@@ -243,7 +243,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 
 		$sql = $this->db->quoteName($fName) . ' ' . $fType;
 
-		if ($fNull == 'NO')
+		if ($fNull === 'NO')
 		{
 			if (in_array($fType, $blobs) || $fDefault === null)
 			{
@@ -381,7 +381,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 		$kColumn    = (string) $columns[0]['Column_name'];
 		$prefix     = '';
 
-		if ($kName == 'PRIMARY')
+		if ($kName === 'PRIMARY')
 		{
 			$prefix = 'PRIMARY ';
 		}
@@ -393,7 +393,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 		$nColumns = count($columns);
 		$kColumns = array();
 
-		if ($nColumns == 1)
+		if ($nColumns === 1)
 		{
 			$kColumns[] = $this->db->quoteName($kColumn);
 		}
@@ -405,7 +405,7 @@ class JDatabaseImporterPdomysql extends JDatabaseImporter
 			}
 		}
 
-		$sql = $prefix . 'KEY ' . ($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
+		$sql = $prefix . 'KEY ' . ($kName !== 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
 
 		return $sql;
 	}

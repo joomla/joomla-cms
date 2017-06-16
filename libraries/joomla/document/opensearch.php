@@ -82,13 +82,13 @@ class JDocumentOpensearch extends JDocument
 				$path = str_replace('\\', '/', $path);
 				$favicon = new JOpenSearchImage;
 
-				if ($path == '')
+				if ($path === '')
 				{
 					$favicon->data = JUri::base() . 'favicon.ico';
 				}
 				else
 				{
-					if ($path[0] == '/')
+					if ($path[0] === '/')
 					{
 						$path = substr($path, 1);
 					}
@@ -161,7 +161,7 @@ class JDocumentOpensearch extends JDocument
 			$elUrl->setAttribute('type', $url->type);
 
 			// Results is the default value so we don't need to add it
-			if ($url->rel != 'results')
+			if ($url->rel !== 'results')
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}

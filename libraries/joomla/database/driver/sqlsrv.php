@@ -530,7 +530,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				continue;
 			}
 
-			if ($k[0] == '_')
+			if ($k[0] === '_')
 			{
 				// Internal field
 				continue;

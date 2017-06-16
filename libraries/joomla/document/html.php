@@ -284,7 +284,7 @@ class JDocumentHtml extends JDocument
 		{
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
-				$booldog = $type1 == 'http-equiv' ? true : false;
+				$booldog = $type1 === 'http-equiv' ? true : false;
 
 				foreach ($data1 as $name2 => $data2)
 				{
@@ -454,7 +454,7 @@ class JDocumentHtml extends JDocument
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type == 'modules')
+		if ($this->_caching == true && $type === 'modules')
 		{
 			$cache = JFactory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
@@ -741,7 +741,7 @@ class JDocumentHtml extends JDocument
 				$name = isset($attribs['name']) ? $attribs['name'] : null;
 
 				// Separate buffers to be executed first and last
-				if ($type == 'module' || $type == 'modules')
+				if ($type === 'module' || $type === 'modules')
 				{
 					$template_tags_first[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}

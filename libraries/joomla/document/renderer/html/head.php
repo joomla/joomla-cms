@@ -88,11 +88,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		{
 			foreach ($tag as $name => $content)
 			{
-				if ($type == 'http-equiv' && !($document->isHtml5() && $name == 'content-type'))
+				if ($type === 'http-equiv' && !($document->isHtml5() && $name === 'content-type'))
 				{
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
-				elseif ($type != 'http-equiv' && !empty($content))
+				elseif ($type !== 'http-equiv' && !empty($content))
 				{
 					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
@@ -212,7 +212,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
+			if ($document->_mime !== 'text/html')
 			{
 				$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
 			}
@@ -220,7 +220,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $content . $lnEnd;
 
 			// See above note
-			if ($document->_mime != 'text/html')
+			if ($document->_mime !== 'text/html')
 			{
 				$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
 			}
@@ -337,7 +337,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
+			if ($document->_mime !== 'text/html')
 			{
 				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
 			}
@@ -345,7 +345,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $content . $lnEnd;
 
 			// See above note
-			if ($document->_mime != 'text/html')
+			if ($document->_mime !== 'text/html')
 			{
 				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
 			}

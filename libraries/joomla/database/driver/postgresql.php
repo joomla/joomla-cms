@@ -909,11 +909,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'boolean':
 				$val = 'NULL';
 
-				if ($field_value == 't')
+				if ($field_value === 't')
 				{
 					$val = 'TRUE';
 				}
-				elseif ($field_value == 'f')
+				elseif ($field_value === 'f')
 				{
 					$val = 'FALSE';
 				}
@@ -929,7 +929,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'smallint':
 			case 'serial':
 			case 'numeric,':
-				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
+				$val = $field_value === '' ? 'NULL' : $field_value;
 				break;
 
 			case 'date':
@@ -1130,7 +1130,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Ignore any internal fields or primary keys with value 0.
-			if (($k[0] == '_') || ($k == $key && (($v === 0) || ($v === '0'))))
+			if (($k[0] === '_') || ($k == $key && (($v === 0) || ($v === '0'))))
 			{
 				continue;
 			}
@@ -1448,7 +1448,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			// Only process scalars that are not internal fields.
-			if (is_array($v) or is_object($v) or $k[0] == '_')
+			if (is_array($v) or is_object($v) or $k[0] === '_')
 			{
 				continue;
 			}
