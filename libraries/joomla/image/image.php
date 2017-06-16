@@ -125,7 +125,7 @@ class JImage
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if (is_resource($source) && (get_resource_type($source) == 'gd'))
+		if (is_resource($source) && (get_resource_type($source) === 'gd'))
 		{
 			$this->handle = &$source;
 		}
@@ -264,7 +264,7 @@ class JImage
 				// Desired thumbnail size
 				$size = explode('x', strtolower($thumbSize));
 
-				if (count($size) != 2)
+				if (count($size) !== 2)
 				{
 					throw new InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
 				}
@@ -549,7 +549,7 @@ class JImage
 	public function isLoaded()
 	{
 		// Make sure the resource handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) !== 'gd'))
 		{
 			return false;
 		}
@@ -726,7 +726,7 @@ class JImage
 		$offset->x = $offset->y = 0;
 
 		// Center image if needed and create the new truecolor image handle.
-		if ($scaleMethod == self::SCALE_FIT)
+		if ($scaleMethod === self::SCALE_FIT)
 		{
 			// Get the offsets
 			$offset->x = round(($width - $dimensions->width) / 2);
@@ -874,7 +874,7 @@ class JImage
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
 
 		// Make background transparent if no external background color is provided.
-		if ($background == -1)
+		if ($background === -1)
 		{
 			// Allow transparency for the new image handle.
 			imagealphablending($handle, false);
@@ -1069,7 +1069,7 @@ class JImage
 				$rx = ($width > 0) ? ($this->getWidth() / $width) : 0;
 				$ry = ($height > 0) ? ($this->getHeight() / $height) : 0;
 
-				if ($scaleMethod != self::SCALE_OUTSIDE)
+				if ($scaleMethod !== self::SCALE_OUTSIDE)
 				{
 					$ratio = max($rx, $ry);
 				}

@@ -39,7 +39,7 @@ class JGithubPackageDataRefs extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -71,7 +71,7 @@ class JGithubPackageDataRefs extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -111,7 +111,7 @@ class JGithubPackageDataRefs extends JGithubPackage
 		$response = $this->client->post($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 201)
+		if ($response->code !== 201)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -158,7 +158,7 @@ class JGithubPackageDataRefs extends JGithubPackage
 		$response = $this->client->patch($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);

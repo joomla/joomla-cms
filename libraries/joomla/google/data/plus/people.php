@@ -102,7 +102,7 @@ class JGoogleDataPlusPeople extends JGoogleData
 			}
 
 			// Check if max is specified.
-			if ($max != 10)
+			if ($max !== 10)
 			{
 				$url .= '&maxResults=' . $max;
 			}
@@ -150,7 +150,7 @@ class JGoogleDataPlusPeople extends JGoogleData
 			}
 
 			// Check if max is specified.
-			if ($max != 10)
+			if ($max !== 10)
 			{
 				$url .= (strpos($url, '?') === false) ? '?maxResults=' : '&maxResults=';
 				$url .= $max;

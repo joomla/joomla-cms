@@ -115,7 +115,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 			$params['access_type'] = 'offline';
 		}
 
-		if ($params['access_type'] == 'offline' && $this->client->getOption('userefresh') === null)
+		if ($params['access_type'] === 'offline' && $this->client->getOption('userefresh') === null)
 		{
 			$this->client->setOption('userefresh', true);
 		}

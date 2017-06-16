@@ -371,7 +371,7 @@ class JGrid
 			unset($this->specialRows['footer'][array_search($id, $this->specialRows['footer'])]);
 		}
 
-		if ($this->activeRow == $id)
+		if ($this->activeRow === $id)
 		{
 			end($this->rows);
 			$this->activeRow = key($this->rows);
@@ -462,7 +462,7 @@ class JGrid
 	 */
 	protected function renderAttributes($attributes)
 	{
-		if (count((array) $attributes) == 0)
+		if (count((array) $attributes) === 0)
 		{
 			return '';
 		}

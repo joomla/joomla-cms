@@ -63,7 +63,7 @@ class JGithubPackageIssuesAssignees extends JGithubPackage
 		{
 			$response = $this->client->get($this->fetchUrl($path));
 
-			if (204 == $response->code)
+			if ($response->code === 204)
 			{
 				return true;
 			}
@@ -72,7 +72,7 @@ class JGithubPackageIssuesAssignees extends JGithubPackage
 		}
 		catch (DomainException $e)
 		{
-			if (isset($response->code) && 404 == $response->code)
+			if (isset($response->code) && $response->code === 404)
 			{
 				return false;
 			}

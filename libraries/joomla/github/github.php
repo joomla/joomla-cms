@@ -106,12 +106,12 @@ class JGithub
 	 */
 	public function __get($name)
 	{
-		if (false == in_array($name, $this->packages))
+		if (in_array($name, $this->packages, true) === false)
 		{
 			// Check for a legacy class
-			if (in_array($name, $this->legacyPackages))
+			if (in_array($name, $this->legacyPackages, true))
 			{
-				if (false == isset($this->$name))
+				if (isset($this->$name) === false)
 				{
 					$className = 'JGithub' . ucfirst($name);
 
@@ -124,7 +124,7 @@ class JGithub
 			throw new RuntimeException(sprintf('%1$s - Unknown package %2$s', __METHOD__, $name));
 		}
 
-		if (false == isset($this->$name))
+		if (isset($this->$name) === false)
 		{
 			$className = 'JGithubPackage' . ucfirst($name);
 

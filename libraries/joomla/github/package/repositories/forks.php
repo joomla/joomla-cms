@@ -51,7 +51,7 @@ class JGithubPackageRepositoriesForks extends JGithubPackage
 		$response = $this->client->post($this->fetchUrl($path), $data);
 
 		// Validate the response code.
-		if ($response->code != 202)
+		if ($response->code !== 202)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
@@ -83,7 +83,7 @@ class JGithubPackageRepositoriesForks extends JGithubPackage
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code !== 200)
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);

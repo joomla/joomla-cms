@@ -97,7 +97,7 @@ class JGoogleDataPicasa extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$time = $time ? $time : time();
-			$title = $title != '' ? $title : date('F j, Y');
+			$title = $title !== '' ? $title : date('F j, Y');
 			$xml = new SimpleXMLElement('<entry></entry>');
 			$xml->addAttribute('xmlns', 'http://www.w3.org/2005/Atom');
 			$xml->addChild('title', $title);

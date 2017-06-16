@@ -116,7 +116,7 @@ abstract class JGithubObject
 	protected function processResponse(JHttpResponse $response, $expectedCode = 200, $decode = true)
 	{
 		// Validate the response code.
-		if ($response->code == $expectedCode)
+		if ($response->code === $expectedCode)
 		{
 			return ($decode) ? json_decode($response->body) : $response->body;
 		}

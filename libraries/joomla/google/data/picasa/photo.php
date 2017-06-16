@@ -84,7 +84,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				throw $e;
 			}
 
-			if ($jdata->body != '')
+			if ($jdata->body !== '')
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}

@@ -104,7 +104,7 @@ class JHttpFactory
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if ($file->isFile() && $file->getExtension() == 'php')
+			if ($file->isFile() && $file->getExtension() === 'php')
 			{
 				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
 			}

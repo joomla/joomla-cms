@@ -121,7 +121,7 @@ abstract class JGoogleData
 
 		if ($data && array_key_exists('items', $data))
 		{
-			if ($maxpages != 1 && array_key_exists('nextPageToken', $data))
+			if ($maxpages !== 1 && array_key_exists('nextPageToken', $data))
 			{
 				$data['items'] = array_merge($data['items'], $this->listGetData($url, $maxpages - 1, $data['nextPageToken']));
 			}

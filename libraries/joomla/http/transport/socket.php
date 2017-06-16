@@ -241,7 +241,7 @@ class JHttpTransportSocket implements JHttpTransport
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())
 		{
-			$port = ($uri->getScheme() == 'https') ? 443 : 80;
+			$port = ($uri->getScheme() === 'https') ? 443 : 80;
 		}
 
 		// Use the set port.

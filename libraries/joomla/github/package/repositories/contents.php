@@ -179,7 +179,7 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 */
 	public function getArchiveLink($owner, $repo, $archive_format = 'zipball', $ref = '')
 	{
-		if (false == in_array($archive_format, array('tarball', 'zipball')))
+		if (in_array($archive_format, array('tarball', 'zipball'), true) === false)
 		{
 			throw new UnexpectedValueException('Archive format must be either "tarball" or "zipball".');
 		}
