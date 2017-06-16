@@ -46,7 +46,8 @@ class JFormFieldList extends JFormField
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		if ((string) $this->readonly === '1' || (string) $this->readonly === 'true'
+			|| (string) $this->disabled === '1' || (string) $this->disabled === 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
@@ -58,7 +59,7 @@ class JFormFieldList extends JFormField
 		$options = (array) $this->getOptions();
 
 		// Create a read-only list (no name) with hidden input(s) to store the value(s).
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
+		if ((string) $this->readonly === '1' || (string) $this->readonly === 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 
@@ -120,17 +121,17 @@ class JFormFieldList extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
+			$text  = trim((string) $option) !== '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-			$disabled = $disabled || ($this->readonly && $value != $this->value);
+			$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
+			$disabled = $disabled || ($this->readonly && $value !== $this->value);
 
 			$checked = (string) $option['checked'];
-			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+			$checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
 			$selected = (string) $option['selected'];
-			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
+			$selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
 			$tmp = array(
 					'value'    => $value,
@@ -157,7 +158,7 @@ class JFormFieldList extends JFormField
 			$component  = JFactory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
-			if ($component == 'com_menus')
+			if ($component === 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
 				$uri       = new JUri($link);
@@ -174,7 +175,7 @@ class JFormFieldList extends JFormField
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') === 'com_menus')
 			{
 				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
@@ -240,7 +241,7 @@ class JFormFieldList extends JFormField
 	 */
 	public function __get($name)
 	{
-		if ($name == 'options')
+		if ($name === 'options')
 		{
 			return $this->getOptions();
 		}

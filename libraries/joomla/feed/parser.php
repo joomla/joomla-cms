@@ -151,7 +151,7 @@ abstract class JFeedParser
 		$method = 'handle' . ucfirst($el->getName());
 
 		// If we are dealing with an item then it is feed entry time.
-		if ($el->getName() == $this->entryElementName)
+		if ($el->getName() === $this->entryElementName)
 		{
 			// Create a new feed entry for the item.
 			$entry = new JFeedEntry;

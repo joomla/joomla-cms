@@ -71,7 +71,7 @@ class JPath
 
 			while ($file = readdir($dh))
 			{
-				if ($file != '.' && $file != '..')
+				if ($file !== '.' && $file !== '..')
 				{
 					$fullpath = $path . '/' . $file;
 
@@ -172,7 +172,7 @@ class JPath
 
 		$path = self::clean($path);
 
-		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
+		if ((JPATH_ROOT !== '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			throw new Exception('JPath::check Snooping out of bounds @ ' . $path, 20);
 		}
@@ -206,7 +206,7 @@ class JPath
 		}
 		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 		// If dealing with a UNC path don't forget to prepend the path with a backslash.
-		elseif (($ds == '\\') && substr($path, 0, 2) == '\\\\')
+		elseif (($ds === '\\') && substr($path, 0, 2) === '\\\\')
 		{
 			$path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
 		}
@@ -258,7 +258,7 @@ class JPath
 			$fileObject->write($test, $blank, false);
 
 			// Test ownership
-			$return = (fileowner($test) == fileowner($path));
+			$return = (fileowner($test) === fileowner($path));
 
 			// Delete the test file
 			$fileObject->delete($test);
@@ -310,7 +310,7 @@ class JPath
 			 * non-registered directories are not accessible via directory
 			 * traversal attempts.
 			 */
-			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
+			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) === $path)
 			{
 				return $fullname;
 			}

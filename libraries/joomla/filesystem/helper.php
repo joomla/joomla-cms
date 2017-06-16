@@ -32,12 +32,12 @@ class JFilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'http') && ($sch !== 'https') && ($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}
 
-		if (($sch == 'http') || ($sch == 'https'))
+		if (($sch === 'http') || ($sch === 'https'))
 		{
 			$headers = get_headers($url, 1);
 
@@ -49,7 +49,7 @@ class JFilesystemHelper
 			return $headers['Content-Length'];
 		}
 
-		if (($sch == 'ftp') || ($sch == 'ftps'))
+		if (($sch === 'ftp') || ($sch === 'ftps'))
 		{
 			$server = parse_url($url, PHP_URL_HOST);
 			$port = parse_url($url, PHP_URL_PORT);
@@ -103,7 +103,7 @@ class JFilesystemHelper
 			$ftpsize = ftp_size($ftpid, $path);
 			ftp_close($ftpid);
 
-			if ($ftpsize == -1)
+			if ($ftpsize === -1)
 			{
 				return false;
 			}
@@ -127,7 +127,7 @@ class JFilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}
@@ -310,7 +310,7 @@ class JFilesystemHelper
 		static $max_size = false;
 		static $output_type = true;
 
-		if ($max_size === false || $output_type != $unit_output)
+		if ($max_size === false || $output_type !== $unit_output)
 		{
 			$max_size   = self::parseSize(ini_get('post_max_size'));
 			$upload_max = self::parseSize(ini_get('upload_max_filesize'));

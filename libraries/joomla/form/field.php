@@ -356,7 +356,7 @@ abstract class JFormField
 		{
 			$parts = Normalise::fromCamelCase(get_called_class(), true);
 
-			if ($parts[0] == 'J')
+			if ($parts[0] === 'J')
 			{
 				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
@@ -494,7 +494,7 @@ abstract class JFormField
 
 			case 'autocomplete':
 				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
+				$value = ($value === 'on' || $value === '') ? 'on' : $value;
 				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
 
@@ -565,7 +565,7 @@ abstract class JFormField
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid JFormField XML element.
-		if ((string) $element->getName() != 'field')
+		if ((string) $element->getName() !== 'field')
 		{
 			return false;
 		}
@@ -597,10 +597,10 @@ abstract class JFormField
 
 		// Allow for repeatable elements
 		$repeat = (string) $element['repeat'];
-		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
+		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
+		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
@@ -680,7 +680,7 @@ abstract class JFormField
 			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
 			$id .= '-' . $repeatCounter;
 
-			if (strtolower($this->type) == 'radio')
+			if (strtolower($this->type) === 'radio')
 			{
 				$id .= '-';
 			}
@@ -746,7 +746,7 @@ abstract class JFormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(

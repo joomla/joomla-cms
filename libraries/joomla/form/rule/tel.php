@@ -36,7 +36,7 @@ class JFormRuleTel extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -62,15 +62,15 @@ class JFormRuleTel extends JFormRule
 		{
 			$plan = (string) $element['plan'];
 
-			if ($plan == 'northamerica' || $plan == 'us')
+			if ($plan === 'northamerica' || $plan === 'us')
 			{
 				$plan = 'NANP';
 			}
-			elseif ($plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan)
+			elseif ($plan === 'International' || $plan === 'int' || $plan === 'missdn' || !$plan)
 			{
 				$plan = 'ITU-T';
 			}
-			elseif ($plan == 'IETF')
+			elseif ($plan === 'IETF')
 			{
 				$plan = 'EPP';
 			}

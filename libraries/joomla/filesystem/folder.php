@@ -82,7 +82,7 @@ abstract class JFolder
 				switch (filetype($sfid))
 				{
 					case 'dir':
-						if ($file != '.' && $file != '..')
+						if ($file !== '.' && $file !== '..')
 						{
 							$ret = self::copy($sfid, $dfid, null, $force);
 
@@ -120,7 +120,7 @@ abstract class JFolder
 				switch (filetype($sfid))
 				{
 					case 'dir':
-						if ($file != '.' && $file != '..')
+						if ($file !== '.' && $file !== '..')
 						{
 							$ret = self::copy($sfid, $dfid, null, $force, $use_streams);
 
@@ -612,7 +612,7 @@ abstract class JFolder
 
 		while (($file = readdir($handle)) !== false)
 		{
-			if ($file != '.' && $file != '..' && !in_array($file, $exclude)
+			if ($file !== '.' && $file !== '..' && !in_array($file, $exclude)
 				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				// Compute the fullpath

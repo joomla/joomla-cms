@@ -413,7 +413,7 @@ class JForm
 		// Process each found fieldset.
 		foreach ($sets as $set)
 		{
-			if ((string) $set['hidden'] == 'true')
+			if ((string) $set['hidden'] === 'true')
 			{
 				continue;
 			}
@@ -743,7 +743,7 @@ class JForm
 		if (empty($this->xml))
 		{
 			// If no XPath query is set to search for fields, and we have a <form />, set it and return.
-			if (!$xpath && ($data->getName() == 'form'))
+			if (!$xpath && ($data->getName() === 'form'))
 			{
 				$this->xml = $data;
 
@@ -767,7 +767,7 @@ class JForm
 		{
 			$elements = $data->xpath($xpath);
 		}
-		elseif ($data->getName() == 'form')
+		elseif ($data->getName() === 'form')
 		{
 			$elements = $data->children();
 		}
@@ -1314,10 +1314,10 @@ class JForm
 					// Check if we have a localised date format
 					$translateFormat = (string) $element['translateformat'];
 
-					if ($translateFormat && $translateFormat != 'false')
+					if ($translateFormat && $translateFormat !== 'false')
 					{
 						$showTime = (string) $element['showtime'];
-						$showTime = ($showTime && $showTime != 'false');
+						$showTime = ($showTime && $showTime !== 'false');
 						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
 						$date     = date_parse_from_format($format, $value);
 						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
@@ -1356,10 +1356,10 @@ class JForm
 					// Check if we have a localised date format
 					$translateFormat = (string) $element['translateformat'];
 
-					if ($translateFormat && $translateFormat != 'false')
+					if ($translateFormat && $translateFormat !== 'false')
 					{
 						$showTime = (string) $element['showtime'];
-						$showTime = ($showTime && $showTime != 'false');
+						$showTime = ($showTime && $showTime !== 'false');
 						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
 						$date     = date_parse_from_format($format, $value);
 						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
@@ -1421,7 +1421,7 @@ class JForm
 					$protocol = 'http';
 
 					// If it looks like an internal link, then add the root.
-					if (substr($value, 0, 9) == 'index.php')
+					if (substr($value, 0, 9) === 'index.php')
 					{
 						$value = JUri::root() . $value;
 					}
@@ -1446,7 +1446,7 @@ class JForm
 					}
 
 					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
-					elseif (substr($value, 0, 1) != '/')
+					elseif (substr($value, 0, 1) !== '/')
 					{
 						$value = JUri::root(true) . '/' . $value;
 					}
@@ -1554,7 +1554,7 @@ class JForm
 				// otherwise filter using JFilterInput. All HTML code is filtered by default.
 				else
 				{
-					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+					$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 					if (($value === '' || $value === null) && ! $required)
 					{
@@ -1892,7 +1892,7 @@ class JForm
 		{
 			$default = (string) ($element['default'] ? $element['default'] : $element->default);
 
-			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
+			if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate == '1'))
 			{
 				$lang = JFactory::getLanguage();
 
@@ -2027,7 +2027,7 @@ class JForm
 		$valid = true;
 
 		// Check if the field is required.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if ($required)
 		{
@@ -2174,7 +2174,7 @@ class JForm
 			$forms[$name] = new JForm($name, $options);
 
 			// Load the data.
-			if (substr($data, 0, 1) == '<')
+			if (substr($data, 0, 1) === '<')
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
