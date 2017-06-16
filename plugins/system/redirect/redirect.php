@@ -199,10 +199,10 @@ class PlgSystemRedirect extends JPlugin
 				}
 
 				$destination = JUri::isInternal($redirect->new_url) ? JRoute::_($redirect->new_url) : $redirect->new_url;
-				
+
 				// Clear messageQueue before redirect.
 				$app->getMessageQueue(true);
-				
+
 				$app->redirect($destination, (int) $redirect->header);
 			}
 
