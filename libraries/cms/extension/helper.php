@@ -261,14 +261,14 @@ class JExtensionHelper
 	 *
 	 * @param   string   $type       The extension's type.
 	 * @param   string   $element    The extension's element name.
-	 * @param   string   $folder     The extension's folder.
-	 * @param   integer  $client_id  The extension's client ID.
+	 * @param   integer  $client_id  The extension's client ID. Default 0.
+	 * @param   string   $folder     The extension's folder. Default ''.
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function checkIfCoreExtension($type, $element, $folder, $client_id)
+	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
 	{
 		if (in_array(array($type, $element, $folder, $client_id), self::$coreExtensions))
 		{
