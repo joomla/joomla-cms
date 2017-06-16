@@ -114,7 +114,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 
 		foreach ($links as $link)
 		{
-			if ($link->attributes()->rel === $type)
+			if ($link->attributes()->rel == $type)
 			{
 				return (string) $link->attributes()->href;
 			}
