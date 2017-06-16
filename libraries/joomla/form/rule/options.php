@@ -82,7 +82,7 @@ class JFormRuleOptions extends JFormRule
 		else
 		{
 			// In this case value must be a string
-			return in_array((string) $value, $options, true);
+			return in_array((string) $value, $options, false);
 		}
 	}
 }

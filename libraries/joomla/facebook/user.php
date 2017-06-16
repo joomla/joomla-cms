@@ -538,7 +538,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @param   mixed   $user     Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $link     Link URL.
-	 * @param   string   $message  Link message.
+	 * @param   string  $message  Link message.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
