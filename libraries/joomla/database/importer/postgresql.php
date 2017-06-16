@@ -234,7 +234,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		// Any keys left are orphans.
 		foreach ($oldLookup as $name => $keys)
 		{
-			if ($oldLookup[$name][0]->is_primary === 'TRUE')
+			if ($oldLookup[$name][0]->is_primary == 'TRUE')
 			{
 				$alters[] = $this->getDropPrimaryKeySql($table, $oldLookup[$name][0]->Index);
 			}
@@ -358,7 +358,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 		if ($fNull === 'NO')
 		{
-			if (in_array($fType, $blobs) || $fDefault === null)
+			if (in_array($fType, $blobs, true) || $fDefault === null)
 			{
 				$query .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET NOT NULL' .
 						",\nALTER COLUMN " . $this->db->quoteName($fName) . ' DROP DEFAULT';
