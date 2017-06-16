@@ -305,12 +305,10 @@ class ContentControllerArticle extends JControllerForm
 				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
 
-			$return = base64_encode('index.php?Itemid=' . $menuitem . $lang);
-
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_(base64_decode($return)));
+				$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang));
 			}
 		}
 		else
