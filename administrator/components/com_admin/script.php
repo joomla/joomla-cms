@@ -2048,7 +2048,6 @@ class JoomlaInstallerScript
 			'/libraries/framework',
 			'/libraries/phpmailer/language',
 			'/libraries/phpmailer',
-			'/media/editors/codemirror/css',
 			'/media/editors/codemirror/js',
 			// Joomla! 3.4.1
 			'/administrator/components/com_config/views',
