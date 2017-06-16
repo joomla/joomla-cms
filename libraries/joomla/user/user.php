@@ -367,7 +367,7 @@ class JUser extends JObject
 			$rootUser = JFactory::getConfig()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
-			if (is_numeric($rootUser) && $this->id > 0 && $this->id === (int) $rootUser)
+			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
 			{
 				$this->isRoot = true;
 			}
