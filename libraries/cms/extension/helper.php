@@ -270,11 +270,6 @@ class JExtensionHelper
 	 */
 	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
 	{
-		if (in_array(array($type, $element, $folder, $client_id), self::$coreExtensions))
-		{
-			return true;
-		}
-
-		return false;
+		return in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
 	}
 }
