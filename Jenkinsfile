@@ -11,14 +11,12 @@ pipeline {
       }
     }
     stage('Testing-PHP56') {
-      agent {
-        docker 'rdeutz/docker-php56'
-      }
-      steps {
-        sh 'echo $(date)'
-        sh 'phpunit'
-        sh 'echo $(date)'
-      }
+        environment {
+            PHPVERSION = 'php56'
+        }
+        node('php56') {
+            sh "docker-compose run --rm test bash build/jenkins/unit-tests.sh"
+        }
     }
     stage('Testing-Javascript') {
       agent {
