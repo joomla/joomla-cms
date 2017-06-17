@@ -11,16 +11,14 @@ pipeline {
       }
     }
     stage('Testing-PHP56') {
-        agent {
-            node {
-                label 'php56'
-            }
-        }
         environment {
             PHPVERSION = 'php56'
         }
+        agent {
+            label 'php56'
+        }
         steps {
-            sh "docker-compose run --rm test bash build/jenkins/unit-tests.sh"
+            sh 'docker-compose run --rm test bash build/jenkins/unit-tests.sh'
         }
     }
     stage('Testing-Javascript') {
