@@ -47,7 +47,7 @@ class JToolbarButtonStandard extends JToolbarButton
 
 		if ($name === 'apply' || $name === 'new')
 		{
-			$options['btnClass'] .= 'btn-success';
+			$options['btnClass'] .= ' btn-success';
 			$options['class'] .= ' icon-white';
 		}
 
