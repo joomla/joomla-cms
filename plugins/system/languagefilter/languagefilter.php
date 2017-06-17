@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -853,7 +854,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			// Create a cookie with one year lifetime.
 			$this->app->input->cookie->set(
-				JApplicationHelper::getHash('language'),
+				ApplicationHelper::getHash('language'),
 				$languageCode,
 				time() + 365 * 86400,
 				$this->app->get('cookie_path', '/'),
@@ -881,7 +882,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Is is set to use a year language cookie in plugin params, get the user language from the cookie.
 		if ((int) $this->params->get('lang_cookie', 0) === 1)
 		{
-			$languageCode = $this->app->input->cookie->get(JApplicationHelper::getHash('language'));
+			$languageCode = $this->app->input->cookie->get(ApplicationHelper::getHash('language'));
 		}
 		// Else get the user language from the session.
 		else
