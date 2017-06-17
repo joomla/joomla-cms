@@ -11,21 +11,21 @@ pipeline {
       }
     }
     stage('Testing PHP') {
-        steps {
-            parallel(
-              php55: {
-                echo "I'm on the other block"
-              },
-              php56: {
-                  agent {
+        parallel {
+            stage('php55') {
+                steps {
+                    echo "Testing PHP 55"
+                }
+            }
+            stage('php56') {
+                agent {
                     docker 'rdeutz/docker-php56'
-                  }
-                  steps {
+                }
+                steps {
                     sh 'echo $(date)'
                     sh 'phpunit'
-                  }
-              }
-            )
+                }
+            }
         }
     }
     stage('Testing-Javascript') {
