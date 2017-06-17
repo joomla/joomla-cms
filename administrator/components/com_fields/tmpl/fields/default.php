@@ -117,7 +117,7 @@ if ($saveOrder)
 										</div>
 									</td>
 									<td>
-										<div class="float-left break-word">
+										<div class="break-word">
 											<?php if ($item->checked_out) : ?>
 												<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'fields.', $canCheckin); ?>
 											<?php endif; ?>

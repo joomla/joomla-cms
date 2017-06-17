@@ -122,7 +122,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 							</div>
 						</td>
 						<td class="has-context">
-							<div class="float-left">
+							<div>
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
