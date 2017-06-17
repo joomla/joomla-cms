@@ -10,21 +10,15 @@ pipeline {
         sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
-    stage('Testing PHP') {
-        steps {
-            parallel (
-                php55: {
-                    node {
-                        sh "echo building on php55 now"
-                    }
-                },
-                php56: {
-                    node {
-                        sh "echo building on php56 now"
-                    }
-                }
-            )
-         }
+    stage('Testing-PHP56') {
+      agent {
+        docker 'rdeutz/docker-php56'
+      }
+      steps {
+        sh 'echo $(date)'
+        sh 'phpunit'
+        sh 'echo $(date)'
+      }
     }
     stage('Testing-Javascript') {
       agent {
