@@ -31,6 +31,9 @@ class UserCest
 
 		$I->amOnPage(Administrator\UserManagerPage::$url);
 		$I->checkForPhpNoticesOrWarnings();
+
+		$I->waitForText(Administrator\UserManagerPage::$pageTitleText);
+
 		$I->click(Administrator\UserManagerPage::$newButton);
 
 		$I->waitForElement(Administrator\UserManagerPage::$accountDetailsTab);
@@ -42,6 +45,40 @@ class UserCest
 		$I->waitForText(Administrator\UserManagerPage::$pageTitleText);
 		$I->see(Administrator\UserManagerPage::$successMessage, Administrator\AdminPage::$systemMessageContainer);
 
+		$I->checkForPhpNoticesOrWarnings();
+	}
+
+	/**
+	 * Edit an user
+	 *
+	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @depends createUser
+	 *
+	 * @return  void
+	 */
+	public function editUser(\AcceptanceTester $I)
+	{
+		$I->comment('I am going to edit an user');
+		$I->doAdministratorLogin();
+
+		$I->amOnPage(Administrator\UserManagerPage::$url);
+		$I->waitForText(Administrator\UserManagerPage::$pageTitleText);
+
+		$I->click(Administrator\UserManagerPage::$userCheckbox);
+		$I->click(Administrator\UserManagerPage::$editButton);
+
+		$I->waitForElement(Administrator\UserManagerPage::$accountDetailsTab);
+		$I->checkForPhpNoticesOrWarnings();
+
+		$this->fillUserForm($I, \Shared\UserCredentials::$name, \Shared\UserCredentials::$username, \Shared\UserCredentials::$password, \Shared\UserCredentials::$email);
+
+		$I->click(Administrator\UserManagerPage::$saveButton);
+		$I->waitForText(Administrator\UserManagerPage::$pageTitleText);
+
+		$I->see(Administrator\UserManagerPage::$successMessage, Administrator\AdminPage::$systemMessageContainer);
 		$I->checkForPhpNoticesOrWarnings();
 	}
 

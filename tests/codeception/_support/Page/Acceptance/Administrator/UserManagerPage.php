@@ -43,6 +43,22 @@ class UserManagerPage extends AdminPage
 	public static $newButton = ['class' => 'button-new'];
 
 	/**
+	 * Edit Button
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $editButton = ['class' => 'button-edit'];
+
+	/**
+	 * Locator for the id
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $userCheckbox = ['id' => 'cb1'];
+
+	/**
 	 * Save Button
 	 *
 	 * @var    string
