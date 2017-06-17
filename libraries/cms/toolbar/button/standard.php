@@ -54,6 +54,9 @@ class JToolbarButtonStandard extends JToolbarButton
 			$options['btnClass'] = 'btn btn-small';
 		}
 
+		// Add the button name class
+		$options['btnClass'] .= ' button-' . $name; 
+
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.standard');
 
