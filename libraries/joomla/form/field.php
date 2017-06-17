@@ -1074,7 +1074,7 @@ abstract class JFormField
 			'spellcheck'    => $this->spellcheck,
 			'validate'      => $this->validate,
 			'value'         => $this->value,
-			'dataAttribute' => !empty($this->dataAttributeValues) ? ' ' . implode(' ', $this->dataAttributeValues) : '';
+			'dataAttribute' => !empty($this->dataAttributeValues) ? ' ' . implode(' ', $this->dataAttributeValues) : ''
 		);
 	}
 
