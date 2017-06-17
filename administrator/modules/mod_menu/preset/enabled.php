@@ -243,6 +243,18 @@ if ($user->authorise('core.manage', 'com_content'))
 		$this->getParent();
 	}
 
+	$this->addChild(
+		new JMenuNode(
+			JText::_('MOD_MENU_COM_CONTENT_WORKFLOW_MANAGER'), 'index.php?option=com_workflow&extension=com_content'
+		),
+		$createContent
+	);
+
+	if ($createContent)
+	{
+		$this->getParent();
+	}
+
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured'));
 
 	if ($comFieldsEnabled && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))

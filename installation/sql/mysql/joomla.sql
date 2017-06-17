@@ -2113,8 +2113,8 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
+  `asset_id` int(10) DEFAULT NULL, # TODO replace with real value
+  `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `extension` varchar(255) NOT NULL,
   `category_id` int(10) DEFAULT NULL,
@@ -2125,7 +2125,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `modified_by` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
-  KEY `title` (`title`(191)),
+  KEY `name` (`name`(191)),
   KEY `extension` (`extension`(191)),
   KEY `category_id` (`category_id`),
   KEY `default` (`default`),
@@ -2142,13 +2142,13 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 CREATE TABLE IF NOT EXISTS `#__workflow_status` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `workflow_id` int(10) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `condition` enum('-1','0','1') NOT NULL,
   `access` int(10) NOT NULL,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`),
-  KEY `title` (`title`(191)),
+  KEY `name` (`name`(191)),
   KEY `access` (`access`),
   KEY `default` (`default`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -2158,12 +2158,12 @@ CREATE TABLE IF NOT EXISTS `#__workflow_status` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
-  `title` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `asset_id` int(10) NOT NULL,
   `description` text NOT NULL,
   `current_state_id` int(10) NOT NULL,
   `new_state_id` int(10) NOT NULL,
-  KEY `title` (`title`(191)),
+  KEY `name` (`name`(191)),
   KEY `asset_id` (`asset_id`),
   KEY `current_state_id` (`current_state_id`),
   KEY `new_state_id` (`new_state_id`)

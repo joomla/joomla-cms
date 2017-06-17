@@ -32,8 +32,8 @@ class Html extends HtmlView
 	public function display($tpl = null)
 	{
 		$this->workflows = $this->get('Items');
-		$this->state = $this->get('State');
 		$this->addToolbar();
+
 		return parent::display($tpl);
 	}
 
@@ -48,5 +48,7 @@ class Html extends HtmlView
 	{
 		\JToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
 		\JToolbarHelper::addNew('workflow.add');
+		\JToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
+		\JToolbarHelper::editList('workflow.edit');
 	}
 }

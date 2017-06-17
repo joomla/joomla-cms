@@ -29,22 +29,7 @@ class Workflow extends Table
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
-		$this->typeAlias = 'com_workflow.title';
+		$this->typeAlias = 'com_workflow.name';
 		parent::__construct('#__workflows', 'id', $db);
-	}
-
-	/**
-	 * Method to delete a node and, optionally, its child nodes from the table.
-	 *
-	 * @param   integer  $pk        The primary key of the node to delete.
-	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	public function delete($pk = null, $children = false)
-	{
-		return parent::delete($pk, $children);
 	}
 }

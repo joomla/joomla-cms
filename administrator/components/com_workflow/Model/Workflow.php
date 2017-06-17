@@ -22,19 +22,28 @@ class Workflow extends Admin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  $data  The form data.
+	 * @param   array $data The form data.
 	 *
-	 * @return  boolean  True on success.
+	 * @return   boolean  True on success.
 	 *
-	 * @since   4.0
+	 * @since 4.0
 	 */
 	public function save($data)
 	{
-		$data['extension'] = 'com_content';
-		$data['asset_id'] = 1;
-		$data['created_by'] = 1;
-		$data['modified_by'] = 1;
-		parent::save($data);
+		$user = \JFactory::getUser();
+		$app = \JFactory::getApplication();
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$data['extension'] = $extension;
+		$data['asset_id'] = 0;
+		$data['created_by'] = $user->get('id');
+		$data['modified_by'] = $user->get('id');
+
+		if ($data['default'] == '1')
+		{
+			$data['category_id'] = -1;
+		}
+
+		return parent::save($data);
 	}
 
 	/**
@@ -43,9 +52,9 @@ class Workflow extends Admin
 	 * @param   array   $data     Data for the form.
 	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A JForm object on success, false on failure
+	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   4.0
+	 * @since 4.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -58,10 +67,12 @@ class Workflow extends Admin
 				'load_data' => $loadData
 			)
 		);
+
 		if (empty($form))
 		{
 			return false;
 		}
+
 		return $form;
 	}
 
@@ -69,9 +80,9 @@ class Workflow extends Admin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed  The data for the form.
+	 * @return mixed  The data for the form.
 	 *
-	 * @since   4.0
+	 * @since 4.0
 	 */
 	protected function loadFormData()
 	{
