@@ -15,7 +15,7 @@ pipeline {
             node {
                 label 'php56'
             }
-        },
+        }
         environment {
             PHPVERSION = 'php56'
         }
