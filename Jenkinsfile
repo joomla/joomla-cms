@@ -15,7 +15,7 @@ pipeline {
             PHPVERSION = 'php56'
         }
         steps {
-            sh 'docker-compose run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'build/jenkins/docker-compose run --rm test bash build/jenkins/unit-tests.sh'
         }
     }
     stage('Testing-Javascript') {
