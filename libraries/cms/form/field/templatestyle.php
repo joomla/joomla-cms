@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -105,7 +105,7 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			// Get the clientName template.
 			$this->clientName = $this->element['client'] ? (string) $this->element['client'] : 'site';

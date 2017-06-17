@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -82,7 +82,7 @@ class JFormFieldLimitbox extends JFormFieldList
 			asort($limits);
 
 			// Add an option to show all?
-			$showAll = isset($this->element['showall']) ? ($this->element['showall'] == 'true') : true;
+			$showAll = isset($this->element['showall']) ? $this->element['showall'] === 'true' : true;
 
 			if ($showAll)
 			{

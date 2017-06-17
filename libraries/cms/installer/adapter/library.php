@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -94,7 +94,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			$manifest = array();
 			$manifest['src'] = $this->parent->getPath('manifest');
@@ -112,7 +112,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 				$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 				$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-				if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+				if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 				{
 					if (!$this->parent->copyFiles(array($path)))
 					{
@@ -233,7 +233,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -362,7 +362,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
+		if (!$row->load((int) $id) || $row->element === '')
 		{
 			JLog::add(JText::_('ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 
@@ -410,7 +410,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			}
 
 			// Check for a valid XML root tag.
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				JLog::add(JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 

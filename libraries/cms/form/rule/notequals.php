@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -47,7 +47,7 @@ class JFormRuleNotequals extends JFormRule
 			throw new UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
 		}
 
-		if (is_null($input))
+		if ($input === null)
 		{
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
