@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API User class for the Joomla Platform.
  *
- * @see         http://developers.facebook.com/docs/reference/api/user/
+ * @link        http://developers.facebook.com/docs/reference/api/user/
  * @since       13.1
  * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */

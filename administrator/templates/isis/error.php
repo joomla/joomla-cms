@@ -79,9 +79,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet" />
 	<?php endif; ?>
 	<?php // Load specific language related CSS ?>
-	<?php $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
-	<?php if (is_file($file)) : ?>
-		<link href="<?php echo $file; ?>" rel="stylesheet" />
+	<?php $file = '/administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
+	<?php if (is_file(JPATH_ROOT . $file)) : ?>
+		<link href="<?php echo JUri::root(true) . $file; ?>" rel="stylesheet" />
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" rel="stylesheet" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
@@ -192,7 +192,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
 		</div>
 	</header>
-	<?php if ((!$statusFixed) && ($this->getInstance()->countModules('status'))) : ?>
+	<?php if (!$statusFixed && $this->getInstance()->countModules('status')) : ?>
 		<!-- Begin Status Module -->
 		<div id="status" class="navbar status-top hidden-phone">
 			<div class="btn-toolbar">

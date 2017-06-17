@@ -139,7 +139,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
 
-		if (!in_array($item->access, $levels) or (in_array($item->access, $levels) and (!in_array($item->category_access, $levels))))
+		if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels))))
 		{
 			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
@@ -175,7 +175,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		$feed_display_order = $params->get('feed_display_order', 'des');
 
-		if ($feed_display_order == 'asc')
+		if ($feed_display_order === 'asc')
 		{
 			$this->rssDoc->reverseItems();
 		}
@@ -240,7 +240,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this newsfeed
-		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] != 'newsfeed' || $id != $this->item->id))
+		if ($menu && ($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] !== 'newsfeed' || $id != $this->item->id))
 		{
 			// If this is not a single newsfeed menu item, set the page title to the newsfeed title
 			if ($this->item->name)
@@ -251,7 +251,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
 
-			while (($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $category->id) && $category->id > 1)
+			while (($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

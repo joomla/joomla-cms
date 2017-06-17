@@ -42,6 +42,13 @@ BDD Testing with Gherkin and Codeception
 Create a .feature using command `tests/codeception/vendor/bin/codecept generate:feature acceptance content`
 
 File `content.feature` contains,
+=======
+What is this?
+---------------------
+* This is a Joomla! 3.x installation/upgrade package.
+* Joomla's [Official website](https://www.joomla.org).
+* Joomla! 3.7 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.7_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 ```gherkin
 Feature: content
@@ -91,13 +98,30 @@ Generate snippets of .feature file using command `tests/codeception/vendor/bin/c
 Copy the all snippets and put in stepobject file
 
 Create a stepobject file using command `tests/codeception/vendor/bin/codecept generate:stepobject acceptance Administrator/content`
+=======
+Is Joomla! for you?
+---------------------
+* Joomla! is [the right solution for most content web projects](https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More).
+* View Joomla's [core features here](https://www.joomla.org/core-features.html).
+* Try it out for yourself in our [online demo](https://demo.joomla.org).
+
+How to find a Joomla! translation?
+---------------------
+* Repository of [accredited language packs](https://community.joomla.org/translations.html).
+* You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
+* Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site)
+
+Learn Joomla!
+---------------------
+* Read ['Getting Started with Joomla!'](https://docs.joomla.org/Special:MyLanguage/J3.x:Getting_Started_with_Joomla!) to learn the basics.
+* Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Special:MyLanguage/Portal:Beginners).
 
 Define your step file path in `acceptance.suit.yml file` 
-
 For Example `- Step\Acceptance\Administrator\Content`
 
 ### Installation
-
+=======
+Is it easy to change the layout display?
 1. Clone this repository using command below or download source from [here](https://github.com/joomla-projects/gsoc16_browser-automated-tests/archive/staging.zip)
 
     ```bash
@@ -168,6 +192,31 @@ Note: If you are running Windows Insiders builds, then you need to set Microsoft
 Do you have suggestions?
 ---
 Please create an issue here https://github.com/joomla-projects/gsoc16_browser-automated-tests/issues we will be happy to discuss and improve project.
+=======
+Where can you get support and help?
+---------------------
+* [The Joomla! Documentation](https://docs.joomla.org/Special:MyLanguage/Main_Page);
+* [Frequently Asked Questions](https://docs.joomla.org/Special:MyLanguage/Category:FAQ) (FAQ);
+* Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here);
+* Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html);
+* Post questions at [our forums](https://forum.joomla.org);
+* [Joomla Resources Directory](https://resources.joomla.org/) (JRD).
+
+Do you already have a Joomla! site that isn't built with Joomla! 3.x?
+---------------------
+* What's [new in Joomla! 3.x](https://www.joomla.org/3)?
+* What are the [main differences between 2.5 and 3.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
+* How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_2.5_to_3.x_Step_by_Step_Migration).
+* How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_1.5_to_3.x_Step_by_Step_Migration).
+
+Do you want to improve Joomla?
+--------------------
+* Where to [request a feature](https://issues.joomla.org/)?
+* How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org/)?
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
+* Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
+* Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
+>>>>>>> upstream/staging
 
 Mentors
 ---
@@ -178,6 +227,6 @@ Mentors
 Copyright
 ---------------------
 * Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
-* [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
+* [Special Thanks](https://docs.joomla.org/Special:MyLanguage/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
-* See [License details](https://docs.joomla.org/Joomla_Licenses)
+* See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

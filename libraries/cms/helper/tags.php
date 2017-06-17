@@ -4,7 +4,7 @@
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -211,7 +211,7 @@ class JHelperTags extends JHelper
 			foreach ($tags as $key => $tag)
 			{
 				// User is not allowed to create tags, so don't create.
-				if (strpos($tag, '#new#') !== false && !$canCreate)
+				if (!$canCreate && strpos($tag, '#new#') !== false)
 				{
 					continue;
 				}
@@ -219,7 +219,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -307,7 +307,7 @@ class JHelperTags extends JHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -429,9 +429,9 @@ class JHelperTags extends JHelper
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -532,13 +532,13 @@ class JHelperTags extends JHelper
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
-		$ntagsr = substr_count($tagId, ',') + 1;
-
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
 		$tagIds = ArrayHelper::toInteger($tagIds);
+
+		$ntagsr = count($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
@@ -610,9 +610,9 @@ class JHelperTags extends JHelper
 			$language = $languageFilter;
 		}
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -644,7 +644,7 @@ class JHelperTags extends JHelper
 		}
 
 		// Set up the order by using the option chosen
-		if ($orderByOption == 'match_count')
+		if ($orderByOption === 'match_count')
 		{
 			$orderBy = 'COUNT(m.tag_id)';
 		}
@@ -950,7 +950,7 @@ class JHelperTags extends JHelper
 		}
 
 		// Filter by parent_id
-		if (!empty($filters['parent_id']))
+		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');

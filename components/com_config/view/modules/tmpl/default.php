@@ -44,7 +44,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<!-- Begin Content -->
 		<div class="span12">
 
-			<div class="btn-toolbar">
+			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary"
 						onclick="Joomla.submitbutton('config.save.modules.apply')">

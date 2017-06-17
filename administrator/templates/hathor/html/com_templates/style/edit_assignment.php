@@ -31,7 +31,7 @@ $user = JFactory::getUser();
 					<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 				</button>
 				<div class="clr"></div>
-				<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
+				<h3><?php echo $type->title ?: $type->menutype; ?></h3>
 
 				<?php foreach ($type->links as $link) : ?>
 					<li class="menu-link">

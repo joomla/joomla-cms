@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -173,7 +173,7 @@ abstract class JInstallerHelper
 		 */
 		$dirList = array_merge((array) JFolder::files($extractdir, ''), (array) JFolder::folders($extractdir, ''));
 
-		if (count($dirList) == 1)
+		if (count($dirList) === 1)
 		{
 			if (JFolder::exists($extractdir . '/' . $dirList[0]))
 			{
@@ -193,7 +193,7 @@ abstract class JInstallerHelper
 		 */
 		$retval['type'] = self::detectType($extractdir);
 
-		if ($retval['type'] || $alwaysReturnArray)
+		if ($alwaysReturnArray || $retval['type'])
 		{
 			return $retval;
 		}
@@ -233,7 +233,7 @@ abstract class JInstallerHelper
 				continue;
 			}
 
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				unset($xml);
 				continue;

@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -113,7 +113,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php endif; ?>
 					</td>
 					<td class="nowrap hidden-phone">
-						<?php echo $item->created_by_alias ? $item->created_by_alias : $item->user_name; ?>
+						<?php echo $item->created_by_alias ?: $item->user_name; ?>
 					</td>
 					<td class="nowrap hidden-phone">
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>

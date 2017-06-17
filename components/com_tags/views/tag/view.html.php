@@ -116,8 +116,7 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		// Categories store the images differently so lets re-map it so the display is correct
-		$count = count($items);
-		if ($count > 0 && $items[0]->type_alias === 'com_content.category')
+		if ($items && $items[0]->type_alias === 'com_content.category')
 		{
 			foreach ($items as $row)
 			{
@@ -230,7 +229,7 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] != 'com_tags')
+			if ($menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}

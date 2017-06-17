@@ -1011,7 +1011,24 @@ class JForm
 			return true;
 		}
 
-		// We couldn't find a fieldset to add the field to so we are adding it at root level
+		// We couldn't find a fieldset to add the field. Now we are checking, if we have set only a group
+		if (!empty($group))
+		{
+			$fields = &$this->findGroup($group);
+
+			// If an appropriate fields element was found for the group, add the element.
+			if (isset($fields[0]) && ($fields[0] instanceof SimpleXMLElement))
+			{
+				self::addNode($fields[0], $element);
+			}
+
+			// Synchronize any paths found in the load.
+			$this->syncPaths();
+
+			return true;
+		}
+
+		// We couldn't find a parent so we are adding it at root level
 
 		// Add field to the form.
 		self::addNode($this->xml, $element);
@@ -1873,7 +1890,7 @@ class JForm
 		 */
 		if ($value === null)
 		{
-			$default = (string) $element['default'];
+			$default = (string) ($element['default'] ? $element['default'] : $element->default);
 
 			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
 			{

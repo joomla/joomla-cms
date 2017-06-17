@@ -849,7 +849,7 @@ ENDDATA;
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			throw new RuntimeException(('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+			throw new RuntimeException('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB', 500);
 		}
 
 		// If there is no uploaded file, we have a problem...
@@ -924,7 +924,7 @@ ENDDATA;
 		$username = isset($credentials['username']) ? $credentials['username'] : null;
 		$user     = JFactory::getUser();
 
-		if ($user->username != $username)
+		if (strtolower($user->username) != strtolower($username))
 		{
 			return false;
 		}

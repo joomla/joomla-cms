@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-$isSingleTag = (count($this->item) == 1);
+$isSingleTag = count($this->item) === 1;
 ?>
 <div class="tag-category<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -25,7 +25,7 @@ $isSingleTag = (count($this->item) == 1);
 		</h2>
 	<?php endif; ?>
 	<?php // We only show a tag description if there is a single tag. ?>
-	<?php if (count($this->item) == 1 && ($this->params->get('tag_list_show_tag_image', 1) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
+	<?php if (count($this->item) === 1 && ($this->params->get('tag_list_show_tag_image', 1) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 		<div class="category-desc">
 			<?php $images = json_decode($this->item[0]->images); ?>
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>

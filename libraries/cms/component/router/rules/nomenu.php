@@ -4,7 +4,7 @@
  * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -98,7 +98,7 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 		{
 			$item = $this->router->menu->getItem($query['Itemid']);
 
-			if (!isset($query['option']) || ($item && $item->query['option'] == $query['option']))
+			if (!isset($query['option']) || ($item && $item->query['option'] === $query['option']))
 			{
 				$menu_found = true;
 			}
