@@ -21,10 +21,9 @@
   },
   "require-dev": {
 	"codeception/codeception": "~2.2",
-	"joomla-projects/joomla-browser": "v3.6.5.1",
-	"joomla-projects/selenium-server-standalone": "v3.3.0",
-	"codegyre/robo": "~0.6",
-	"joomla-projects/robo": "dev-master",
+	"joomla-projects/joomla-browser": "~v3",
+	"joomla-projects/selenium-server-standalone": "~v3",
+    "consolidation/robo": "^1.0.0",
 	"fzaninotto/faker": "^1.5",
 	"joomla-projects/jorobo": "~0.6"
   }

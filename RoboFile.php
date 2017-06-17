@@ -32,7 +32,6 @@ if (!defined('JPATH_BASE'))
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use \joomla_projects\robo\loadTasks;
 	use \Joomla\Jorobo\Tasks\loadTasks;
 
 	/**
@@ -120,14 +119,14 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (empty($this->configuration->cmsPath))
 		{
-			return $this->testsPath . 'joomla-cms3';
+			return $this->testsPath . 'joomla-cms';
 		}
 
 		if (!file_exists(dirname($this->configuration->cmsPath)))
 		{
 			$this->say("CMS path written in local configuration does not exists or is not readable");
 
-			return $this->testsPath . 'joomla-cms3';
+			return $this->testsPath . 'joomla-cms';
 		}
 
 		return $this->configuration->cmsPath;
@@ -189,7 +188,7 @@ class RoboFile extends \Robo\Tasks
 		{
 			$this->say("Renaming htaccess.txt to .htaccess");
 			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/codeception/joomla-cms3/,g" -in-place tests/codeception/joomla-cms3/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/codeception/joomla-cms,g" -in-place tests/codeception/joomla-cms/.htaccess');
 		}
 	}
 
@@ -279,16 +278,7 @@ class RoboFile extends \Robo\Tasks
 			$this->_exec("START java.exe -jar " . $this->getWebDriver() . ' tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
 		}
 
-		if ($this->isWindows())
-		{
-			sleep(3);
-		}
-		else
-		{
-			$this->taskWaitForSeleniumStandaloneServer()
-				->run()
-				->stopOnFail();
-		}
+		sleep(3);
 	}
 
 	/**
@@ -307,7 +297,6 @@ class RoboFile extends \Robo\Tasks
 		$this->say("Running tests");
 
 		$this->createTestingSite($opts['use-htaccess']);
-		$this->createDatabase();
 
 		$this->getComposer();
 		$this->taskComposerInstall($this->testsPath . 'composer.phar')->run();
@@ -336,75 +325,12 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		$this->taskCodecept($pathToCodeception)
+		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/content.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/users.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/users_frontend.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/banner.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/extensions.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/category.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/administrator/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/frontend/')
+			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
 			->run()
 			->stopOnFail();
 	}
@@ -641,34 +567,5 @@ class RoboFile extends \Robo\Tasks
 		}
 
 		return $this->suiteConfig;
-	}
-
-	private function createDatabase()
-	{
-		$suiteConfig = $this->getSuiteConfig();
-
-		$host   = $suiteConfig['modules']['config']['JoomlaBrowser']['database host'];
-		$user   = $suiteConfig['modules']['config']['JoomlaBrowser']['database user'];
-		$pass   = $suiteConfig['modules']['config']['JoomlaBrowser']['database password'];
-		$dbName = $suiteConfig['modules']['config']['JoomlaBrowser']['database name'];
-
-		// Create connection
-		$connection = new mysqli($host, $user, $pass);
-		// Check connection
-		if ($connection->connect_error)
-		{
-			$this->yell("Connection failed: " . $connection->connect_error);
-		}
-
-		// Create database
-		$sql = "CREATE DATABASE IF NOT EXISTS {$dbName}";
-		if ($connection->query($sql) === true)
-		{
-			$this->say("Database {$dbName} created successfully");
-		}
-		else
-		{
-			$this->yell("Error creating database: " . $connection->error);
-		}
 	}
 }

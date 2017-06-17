@@ -157,7 +157,7 @@ Desktop.ini
 # System Test related files
 tests/codeception/acceptance.suite.yml
 tests/codeception/_support/_generated/*TesterActions.php
-tests/codeception/joomla-cms3*
+tests/codeception/joomla-cms*
 tests/codeception/_output*
 selenium-server-standalone.jar
 selenium.log
