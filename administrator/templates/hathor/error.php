@@ -54,7 +54,10 @@ $app = JFactory::getApplication();
 					<?php $this->setError($this->_error->getPrevious()); ?>
 					<?php while ($loop === true) : ?>
 						<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-						<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+						<p>
+							<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+							<br/><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
+						</p>
 						<?php echo $this->renderBacktrace(); ?>
 						<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 					<?php endwhile; ?>
