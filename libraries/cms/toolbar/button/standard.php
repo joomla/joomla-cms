@@ -40,18 +40,15 @@ class JToolbarButtonStandard extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = JText::_($text);
-		$options['class'] = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
+		$options['text']     = JText::_($text);
+		$options['class']    = $this->fetchIconClass($name);
+		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
+		$options['btnClass'] = 'btn btn-small button-' . $name;
 
 		if ($name === 'apply' || $name === 'new')
 		{
-			$options['btnClass'] = 'btn btn-small btn-success';
+			$options['btnClass'] .= 'btn-success';
 			$options['class'] .= ' icon-white';
-		}
-		else
-		{
-			$options['btnClass'] = 'btn btn-small';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
