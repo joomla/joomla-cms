@@ -592,21 +592,8 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-
-		// Check the session for previously entered form data, providing it has an ID and it is the same.
-		$itemData = (array) $this->getItem();
-		$sessionData = (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
-
-		// Only merge if there is a session and itemId or itemid is null.
-		if (isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
-			|| is_null($itemData['id']))
-		{
-			$data = array_merge($itemData, $sessionData);
-		}
-		else
-		{
-			$data = $itemData;
-		}
+		// Check the session for previously entered form data.
+		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
 		if ($this->getItem()->id == 0)
@@ -689,8 +676,7 @@ class MenusModelItem extends JModelAdmin
 		{
 
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id !== (int) $this->getState('item.id')
-				|| MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && is_null($table->id))
+			if (MenusHelper::getLinkKey($table->link) != MenusHelper::getLinkKey($link))
 			{
 				$table->link = $link;
 			}
