@@ -11,6 +11,11 @@ pipeline {
       }
     }
     stage('Testing-PHP56') {
+        agent {
+            node {
+                label 'php56'
+            }
+        },
         environment {
             PHPVERSION = 'php56'
         }
