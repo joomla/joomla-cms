@@ -161,7 +161,7 @@ $assoc = JLanguageAssociations::isEnabled();
 									</div>
 								</td>
 								<td class="has-context">
-									<div class="float-left break-word">
+									<div class="break-word">
 										<?php if ($item->checked_out) : ?>
 											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>

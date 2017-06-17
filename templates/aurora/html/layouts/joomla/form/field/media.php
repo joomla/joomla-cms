@@ -108,14 +108,14 @@ $url    = ($readonly ? ''
 	// Render the modal
 	echo JHtml::_('bootstrap.renderModal',
 		'imageModal_'. $id,
-		array(
+		[
 			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
-		)
+			'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
+		]
 	);
 
-	JHtml::_('script', 'media/mediafield.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'media/mediafield.min.js', ['version' => 'auto', 'relative' => true]);
 	?>
 	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">
