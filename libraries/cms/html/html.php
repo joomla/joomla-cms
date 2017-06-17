@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -68,9 +68,9 @@ abstract class JHtml
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
-		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file = (count($parts) == 2 ? array_shift($parts) : '');
-		$func = array_shift($parts);
+		$prefix = count($parts) === 3 ? array_shift($parts) : 'JHtml';
+		$file   = count($parts) === 2 ? array_shift($parts) : '';
+		$func   = array_shift($parts);
 
 		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
 	}
@@ -97,7 +97,7 @@ abstract class JHtml
 		if (array_key_exists($key, static::$registry))
 		{
 			$function = static::$registry[$key];
-			$args = func_get_args();
+			$args     = func_get_args();
 
 			// Remove function name from arguments
 			array_shift($args);
@@ -211,7 +211,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @see     https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
@@ -884,7 +884,7 @@ abstract class JHtml
 			$tip = $text;
 		}
 
-		if ($class == 'hasTip')
+		if ($class === 'hasTip')
 		{
 			// Still using MooTools tooltips!
 			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
@@ -921,10 +921,10 @@ abstract class JHtml
 		$result = '';
 
 		// Don't process empty strings
-		if ($content != '' || $title != '')
+		if ($content !== '' || $title !== '')
 		{
 			// Split title into title and content if the title contains '::' (old Mootools format).
-			if ($content == '' && !(strpos($title, '::') === false))
+			if ($content === '' && !(strpos($title, '::') === false))
 			{
 				list($title, $content) = explode('::', $title, 2);
 			}
@@ -937,17 +937,17 @@ abstract class JHtml
 			}
 
 			// Use only the content if no title is given.
-			if ($title == '')
+			if ($title === '')
 			{
 				$result = $content;
 			}
 			// Use only the title, if title and text are the same.
-			elseif ($title == $content)
+			elseif ($title === $content)
 			{
 				$result = '<strong>' . $title . '</strong>';
 			}
 			// Use a formatted string combining the title and content.
-			elseif ($content != '')
+			elseif ($content !== '')
 			{
 				$result = '<strong>' . $title . '</strong><br />' . $content;
 			}
@@ -1012,12 +1012,12 @@ abstract class JHtml
 			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
-		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled     = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-		$autocomplete = isset($attribs['autocomplete']) && $attribs['autocomplete'] == '';
-		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] == '';
-		$required     = isset($attribs['required']) && $attribs['required'] == '';
-		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
+		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] === 'readonly';
+		$disabled     = isset($attribs['disabled']) && $attribs['disabled'] === 'disabled';
+		$autocomplete = isset($attribs['autocomplete']) && $attribs['autocomplete'] === '';
+		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] === '';
+		$required     = isset($attribs['required']) && $attribs['required'] === '';
+		$filter       = isset($attribs['filter']) && $attribs['filter'] === '';
 		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
 		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : true;
 		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : false;
@@ -1035,7 +1035,7 @@ abstract class JHtml
 		$singleHeader = ($singleHeader) ? "1" : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
+		if ($value && $value !== JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
@@ -1088,11 +1088,8 @@ abstract class JHtml
 	 */
 	public static function addIncludePath($path = '')
 	{
-		// Force path to array
-		settype($path, 'array');
-
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			if (!empty($dir) && !in_array($dir, static::$includePaths))
 			{
@@ -1126,7 +1123,7 @@ abstract class JHtml
 		foreach ($array as $k => $v)
 		{
 			// Don't encode either of these types
-			if (is_null($v) || is_resource($v))
+			if ($v === null || is_resource($v))
 			{
 				continue;
 			}

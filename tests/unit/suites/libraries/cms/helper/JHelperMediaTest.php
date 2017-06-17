@@ -4,7 +4,7 @@
  * @subpackage  Media
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -176,12 +176,6 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testCanUpload($file, $expected)
 	{
-		/*
-		 * We need to skip the test because of a security fix a component configuration is needed and we can't mock a
-		 * static call to a method
-		 */
-        $this->markTestSkipped('Skipped because of static call in the class under test');
-
 	    $canUpload = $this->object->canUpload($file);
 		$this->assertEquals($canUpload, $expected);
 	}

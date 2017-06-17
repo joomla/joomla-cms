@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Base class for rendering a display layout
  * loaded from from a layout file
  *
- * @see    https://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @link   https://docs.joomla.org/Special:MyLanguage/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0
  */
 class JLayoutFile extends JLayoutBase
@@ -572,7 +572,7 @@ class JLayoutFile extends JLayoutBase
 		$paths = array();
 
 		// (1 - highest priority) Received a custom high priority path
-		if (!is_null($this->basePath))
+		if ($this->basePath !== null)
 		{
 			$paths[] = rtrim($this->basePath, DIRECTORY_SEPARATOR);
 		}

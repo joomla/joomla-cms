@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class PlgSystemLogout extends JPlugin
 {
 	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.7.3
+	 */
+	protected $app;
+
+	/**
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
@@ -36,16 +44,18 @@ class PlgSystemLogout extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$app   = JFactory::getApplication();
-		$input = $app->input;
+		// If we are on admin don't process.
+		if (!$this->app->isClient('site'))
+		{
+			return;
+		}
+
 		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
 
-		if ($app->isClient('site') && $input->cookie->getString($hash))
+		if ($this->app->input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
-			$cookie_domain = $app->get('cookie_domain', '');
-			$cookie_path   = $app->get('cookie_path', '/');
-			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
+			$this->app->input->cookie->set($hash, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
 			// Set the error handler for E_ALL to be the class handleError method.
 			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
@@ -64,16 +74,18 @@ class PlgSystemLogout extends JPlugin
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		$app = JFactory::getApplication();
-
-		if ($app->isClient('site'))
+		if ($this->app->isClient('site'))
 		{
 			// Create the cookie.
-			$hash = JApplicationHelper::getHash('PlgSystemLogout');
-
-			$cookie_domain = $app->get('cookie_domain', '');
-			$cookie_path   = $app->get('cookie_path', '/');
-			setcookie($hash, true, time() + 86400, $cookie_path, $cookie_domain);
+			$this->app->input->cookie->set(
+				JApplicationHelper::getHash('PlgSystemLogout'),
+				true,
+				time() + 86400,
+				$this->app->get('cookie_path', '/'),
+				$this->app->get('cookie_domain', ''),
+				$this->app->isHttpsForced(),
+				true
+			);
 		}
 
 		return true;

@@ -22,8 +22,8 @@ $frontEndUri = JUri::getInstance(JUri::root());
 $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
 
 // Color Params
-$background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
-$color_is_light = ($background_color && colorIsLight($background_color));
+$background_color = $this->params->get('loginBackgroundColor') ?: '';
+$color_is_light   = $background_color && colorIsLight($background_color);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -39,7 +39,7 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Load custom.css
 JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
@@ -57,6 +57,7 @@ function colorIsLight($color)
 	$r = hexdec(substr($color, 1, 2));
 	$g = hexdec(substr($color, 3, 2));
 	$b = hexdec(substr($color, 5, 2));
+
 	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 	return $yiq >= 200;

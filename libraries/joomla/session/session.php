@@ -449,7 +449,7 @@ class JSession implements IteratorAggregate
 	 * @param   JInput            $input       JInput object for the session to use.
 	 * @param   JEventDispatcher  $dispatcher  Dispatcher object for the session to use.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   12.2
 	 */
@@ -943,7 +943,7 @@ class JSession implements IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     http://shiflett.org/articles/the-truth-about-sessions
+	 * @link    http://shiflett.org/articles/the-truth-about-sessions
 	 * @since   11.1
 	 */
 	protected function _validate($restart = false)

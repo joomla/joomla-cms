@@ -28,7 +28,7 @@
 					type="list"
 					label="PLG_RECAPTCHA_VERSION_LABEL"
 					description="PLG_RECAPTCHA_VERSION_DESC"
-					default="1.0"
+					default="2.0"
 					size="1"
 					>
 					<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
