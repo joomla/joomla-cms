@@ -190,4 +190,28 @@ class ContentModelForm extends ContentModelArticle
 
 		return parent::save($data);
 	}
+
+	/**
+	 * Allows preprocessing of the JForm object.
+	 *
+	 * @param   JForm   $form   The form object
+	 * @param   array   $data   The data to be merged into the form object
+	 * @param   string  $group  The plugin group to be executed
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		$params = $this->getState()->get('params');
+
+		if ($params && $params->get('enable_category') == 1)
+		{
+			$form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
+			$form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
+		return parent::preprocessForm($form, $data, $group);
+	}
 }

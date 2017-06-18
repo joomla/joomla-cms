@@ -193,7 +193,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__splitSqlExpression()
 	{
@@ -261,7 +261,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  JDatabaseQuerySqlsrv
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__fixSelectAliases()
 	{
@@ -403,7 +403,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  JDatabaseQuerySqlsrv
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__fixGroupColumns()
 	{

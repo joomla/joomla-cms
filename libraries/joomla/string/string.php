@@ -53,7 +53,7 @@ abstract class JString extends StringHelper
 	 *
 	 * @return  mixed  Associative array or false if badly formed URL.
 	 *
-	 * @see     http://us3.php.net/manual/en/function.parse-url.php
+	 * @link    http://us3.php.net/manual/en/function.parse-url.php
 	 * @since   11.1
 	 * @deprecated  4.0 (CMS) - Use {@link \Joomla\Uri\UriHelper::parse_url()} instead.
 	 */

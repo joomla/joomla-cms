@@ -40,7 +40,7 @@ abstract class MultilangstatusHelper
 	/**
 	 * Method to get the number of published language switcher modules.
 	 *
-	 * @return  integer.
+	 * @return  integer
 	 */
 	public static function getLangswitchers()
 	{

@@ -23,7 +23,7 @@ class JFormRuleTel extends JFormRule
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
@@ -44,12 +44,12 @@ class JFormRuleTel extends JFormRule
 		}
 
 		/*
-		 * @see http://www.nanpa.com/
-		 * @see http://tools.ietf.org/html/rfc4933
-		 * @see http://www.itu.int/rec/T-REC-E.164/en
+		 * @link http://www.nanpa.com/
+		 * @link http://tools.ietf.org/html/rfc4933
+		 * @link http://www.itu.int/rec/T-REC-E.164/en
 		 *
 		 * Regex by Steve Levithan
-		 * @see http://blog.stevenlevithan.com/archives/validate-phone-number
+		 * @link http://blog.stevenlevithan.com/archives/validate-phone-number
 		 * @note that valid ITU-T and EPP must begin with +.
 		 */
 		$regexarray = array(

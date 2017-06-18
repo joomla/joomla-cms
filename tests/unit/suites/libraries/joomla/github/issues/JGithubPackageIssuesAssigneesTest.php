@@ -157,5 +157,4 @@ class JGithubPackageIssuesAssigneesTest extends \PHPUnit\Framework\TestCase
 			$this->equalTo(false)
 		);
 	}
-
 }

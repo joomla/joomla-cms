@@ -136,5 +136,4 @@ class JGithubPackageMarkdownTest extends \PHPUnit\Framework\TestCase
 			$this->equalTo('')
 		);
 	}
-
 }

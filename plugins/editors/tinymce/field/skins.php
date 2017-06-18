@@ -14,7 +14,6 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the TinyMCE editor.
  * Generates the list of options for available skins.
  *
  * @package     Joomla.Plugin

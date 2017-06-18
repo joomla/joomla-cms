@@ -208,6 +208,14 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				false,
 				'Plain',
 			),
+			'Do not split within a tag' => array(
+				'Some text is <div class="test"><span><i>Plain</i></span></div>',
+				20,
+				true,
+				true,
+				'Some text is...',
+			),
+
 		);
 	}
 

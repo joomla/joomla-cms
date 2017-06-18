@@ -31,11 +31,12 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="email_new_fe"
+				<field 
+					name="email_new_fe"
 					type="radio"
-					class="btn-group btn-group-yesno"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
+					class="btn-group btn-group-yesno"
 					default="1"
 					>
 					<option value="1">JYES</option>

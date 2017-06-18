@@ -122,5 +122,4 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=updatesites', false));
 	}
-
 }

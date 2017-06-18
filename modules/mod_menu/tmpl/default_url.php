@@ -41,6 +41,7 @@ if ($item->menu_image)
 if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
+	$attributes['rel'] = 'noopener noreferrer';
 }
 elseif ($item->browserNav == 2)
 {
@@ -49,4 +50,4 @@ elseif ($item->browserNav == 2)
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8')), $linktype, $attributes);
+echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);

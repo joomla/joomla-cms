@@ -4,7 +4,7 @@
  * @subpackage  Session
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -139,5 +139,4 @@ class JSessionStorageMemcacheTest extends \PHPUnit\Framework\TestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-
 }

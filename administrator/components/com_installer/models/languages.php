@@ -113,14 +113,27 @@ class InstallerModelLanguages extends JModelList
 	{
 		$updateSite = $this->getUpdateSite();
 
-		$jhttp = new JHttp;
-		$response = $jhttp->get($updateSite);
+		$http = new JHttp;
+
+		try
+		{
+			$response = $http->get($updateSite);
+		}
+		catch (RuntimeException $e)
+		{
+			$response = null;
+		}
+
+		if ($response === null || $response->code !== 200)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+
+			return;
+		}
 
 		$updateSiteXML = simplexml_load_string($response->body);
-
-		$languages = array();
-
-		$search = strtolower($this->getState('filter.search'));
+		$languages     = array();
+		$search        = strtolower($this->getState('filter.search'));
 
 		foreach ($updateSiteXML->extension as $extension)
 		{
@@ -166,8 +179,9 @@ class InstallerModelLanguages extends JModelList
 
 		// Count the non-paginated list
 		$this->languageCount = count($languages);
+		$limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
 
-		return array_slice($languages, $this->getStart(), $this->getState('list.limit'));
+		return array_slice($languages, $this->getStart(), $limit);
 	}
 
 	/**
@@ -236,5 +250,4 @@ class InstallerModelLanguages extends JModelList
 	{
 		return strcmp($lang1->name, $lang2->name);
 	}
-
 }

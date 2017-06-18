@@ -64,7 +64,7 @@ $attributes = array(
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$list,
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
 	$required ? 'required aria-required="true"' : '',
