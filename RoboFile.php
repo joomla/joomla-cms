@@ -475,7 +475,7 @@ class RoboFile extends \Robo\Tasks
 		if ($browser == 'chrome')
 		{
 			$driver['type'] = 'webdriver.chrome.driver';
-			$driver['args'] = '--no-sandbox';
+			//$driver['args'] = '--no-sandbox';
 		}
 		elseif ($browser == 'firefox')
 		{
@@ -495,7 +495,6 @@ class RoboFile extends \Robo\Tasks
 		{
 			$driver['type'] = 'webdriver.ie.driver';
 		}
-
 		// Check if we have a path for this browser and OS in the codeception settings
 		if (isset($codeceptMainConfig['webdrivers'][$browser][$this->getOs()]))
 		{
@@ -511,7 +510,7 @@ class RoboFile extends \Robo\Tasks
 
 		$driver['path'] = $driverPath;
 
-		return '-D' . implode('=', $driver);
+		return '-D' . implode('=', $driver) . ' -Dwebdriver.chrome.args="--disable-logging"';
 	}
 
 	/**
