@@ -57,7 +57,8 @@ $ tests/codeception/vendor/bin/robo run:test
 $ tests\codeception\vendor\bin\robo run:test
 ```
 
-If you want to see the steps then you can use `--steps` option of codeception. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
+If you want to see the steps then you can use `--steps` option of codeception. 
+Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)
 
 **Note**: You can modify the timeout time by setting the value of the **TIMEOUT** constant lower for fast machines and higher for slow computers.
 The constant located in the file `tests/codeception/acceptance/_bootstrap.php`
