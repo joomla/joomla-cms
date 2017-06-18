@@ -55,7 +55,19 @@ class ContentControllerArticle extends JControllerForm
 		{
 			// Redirect to the return page.
 			$this->setRedirect($this->getReturnPage());
+
+			return;
 		}
+
+		// Redirect to the edit screen.
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_item . '&a_id=0'
+				. $this->getRedirectToItemAppend(), false
+			)
+		);
+
+		return true;
 	}
 
 	/**
