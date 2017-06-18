@@ -579,11 +579,11 @@ class JHtmlTest extends TestCase
 	public function testScript()
 	{
 		// These are some paths to pass to JHtml for testing purposes.
-		$urlpath = 'test1/';
-		$urlfilename = 'script1.js';
+		$urlpath = 'test' . uniqid() . '/';
+		$urlfilename = 'script' . uniqid() . '.js';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
