@@ -20,7 +20,6 @@ pipeline {
         parallel(
           PHP53: {
             sh 'export PHPVERSION=php53;docker-compose -f build/jenkins/docker-compose.yml run --rm --project-name=php53 test bash build/jenkins/unit-tests.sh'
-
           },
           PHP54: {
             sh 'export PHPVERSION=php54;docker-compose -f build/jenkins/docker-compose.yml run --rm --project-name=php54 test bash build/jenkins/unit-tests.sh'
