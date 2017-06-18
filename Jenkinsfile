@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('System test') {
       agent {
-        docker 'joomlaprojects/joomla-systemtests'
+        docker 'joomlaprojects/docker-systemtests'
       }
       steps {
         sh 'bash build/jenkins/system-tests.sh'
