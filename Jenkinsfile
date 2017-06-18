@@ -18,26 +18,23 @@ pipeline {
       steps {
         // You can only use the parallel step if it's the *only* step in the stage.
         parallel(
-          COMPOSE: {
-            sh 'docker-compose --help'
-          },
           PHP53: {
-            sh 'export PHPVERSION=php53;/usr/local/bin/docker-compose --project-name php53 -f build/jenkins/docker-compose.yml run --rm  test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php53;/usr/local/bin/docker-compose --project-name php53-$BUILD_ID -f build/jenkins/docker-compose.yml run --rm  test bash build/jenkins/unit-tests.sh'
           },
           PHP54: {
-            sh 'export PHPVERSION=php54;/usr/local/bin/docker-compose --project-name php54 -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php54;/usr/local/bin/docker-compose --project-name php54-$BUILD_ID -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP55: {
-            sh 'export PHPVERSION=php55;/usr/local/bin/docker-compose --project-name php55 -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php55;/usr/local/bin/docker-compose --project-name php55-$BUILD_ID -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP56: {
-            sh 'export PHPVERSION=php56;/usr/local/bin/docker-compose --project-name php56 -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php56;/usr/local/bin/docker-compose --project-name php56-$BUILD_ID -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP70: {
-            sh 'export PHPVERSION=php70;/usr/local/bin/docker-compose --project-name php70 -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php70;/usr/local/bin/docker-compose --project-name php70-$BUILD_ID -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP71: {
-            sh 'export PHPVERSION=php71;/usr/local/bin/docker-compose --project-name php71 -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php71;/usr/local/bin/docker-compose --project-name php71-$BUILD_ID -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           }
         )
       }
