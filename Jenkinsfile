@@ -9,7 +9,7 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
+        sh '#/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
 
@@ -24,6 +24,18 @@ pipeline {
           },
           PHP54: {
             sh 'export PHPVERSION=php54 && docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+          },
+          PHP55: {
+            sh 'export PHPVERSION=php55 && docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+          },
+          PHP56: {
+            sh 'export PHPVERSION=php56 && docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+          },
+          PHP70: {
+            sh 'export PHPVERSION=php70 && docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+          },
+          PHP71: {
+            sh 'export PHPVERSION=php71 && docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           }
         )
       }
