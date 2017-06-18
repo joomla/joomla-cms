@@ -3,15 +3,19 @@
 pipeline {
   agent any
   stages {
+
     stage('System test') {
       agent {
-        docker 'joomlaprojects/docker-systemtests'
-        args  '--user 0'
+        docker {
+           image 'joomlaprojects/docker-systemtests'
+           args  '--user 0'
+        }
       }
       steps {
         sh 'bash build/jenkins/system-tests.sh'
       }
     }
+
     stage('codestyles') {
       agent {
         docker 'rdeutz/docker-phpcs'
