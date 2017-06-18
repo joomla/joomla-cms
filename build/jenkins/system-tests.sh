@@ -1,9 +1,6 @@
 #!/bin/bash
 # Script for preparing the system tests in Joomla!
 
-# Path to the Joomla! installation
-BASE="/opt/src"
-
 # Start apache
 service apache2 restart
 
@@ -19,7 +16,7 @@ sleep 3 # give fluxbox some time to start
 # Composer install in tests folder
 cd tests/codeception
 composer install
-cd $BASE
+cd ../..
 
 # Run the tests
 cp RoboFile.dist.ini RoboFile.ini
