@@ -121,13 +121,7 @@ class FieldsModelGroups extends JModelList
 		$user = JFactory::getUser();
 
 		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.title, a.checked_out, a.checked_out_time, a.note' .
-				', a.state, a.access, a.created, a.created_by, a.ordering, a.language'
-			)
-		);
+		$query->select($this->getState('list.select', 'a.*'));
 		$query->from('#__fields_groups AS a');
 
 		// Join over the language

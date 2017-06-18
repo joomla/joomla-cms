@@ -40,7 +40,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Load custom.css
 JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
@@ -52,7 +52,7 @@ $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
-$cpanel   = ($option === 'com_cpanel');
+$cpanel   = $option === 'com_cpanel';
 
 $hidden = $app->input->get('hidemainmenu');
 
@@ -63,7 +63,7 @@ foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
 
-	if (strlen($output))
+	if ($output !== '')
 	{
 		$showSubmenu = true;
 		break;
@@ -76,10 +76,10 @@ $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 // Header classes
-$navbar_color = $this->params->get('templateColor') ? $this->params->get('templateColor') : '';
-$header_color = ($displayHeader && $this->params->get('headerColor')) ? $this->params->get('headerColor') : '';
-$navbar_is_light = ($navbar_color && colorIsLight($navbar_color));
-$header_is_light = ($header_color && colorIsLight($header_color));
+$navbar_color    = $this->params->get('templateColor') ?: '';
+$header_color    = $displayHeader && $this->params->get('headerColor') ? $this->params->get('headerColor') : '';
+$navbar_is_light = $navbar_color && colorIsLight($navbar_color);
+$header_is_light = $header_color && colorIsLight($header_color);
 
 if ($displayHeader)
 {
@@ -99,6 +99,7 @@ function colorIsLight($color)
 	$r = hexdec(substr($color, 1, 2));
 	$g = hexdec(substr($color, 3, 2));
 	$b = hexdec(substr($color, 5, 2));
+
 	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 	return $yiq >= 200;
@@ -247,7 +248,7 @@ if ($this->params->get('linkColor'))
 		</div>
 	</header>
 <?php endif; ?>
-<?php if ((!$statusFixed) && ($this->countModules('status'))) : ?>
+<?php if (!$statusFixed && $this->countModules('status')) : ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar status-top hidden-phone">
 		<div class="btn-toolbar">
@@ -313,7 +314,7 @@ if ($this->params->get('linkColor'))
 		</footer>
 	<?php endif; ?>
 </div>
-<?php if (($statusFixed) && ($this->countModules('status'))) : ?>
+<?php if ($statusFixed && $this->countModules('status')) : ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">

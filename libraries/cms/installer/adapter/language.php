@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -167,7 +167,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			foreach ($files as $file)
 			{
-				if ((string) $file->attributes()->file == 'meta')
+				if ((string) $file->attributes()->file === 'meta')
 				{
 					$this->core = true;
 					break;
@@ -199,7 +199,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update tag detected
-			if ($this->parent->isUpgrade() || $updateElement)
+			if ($updateElement || $this->parent->isUpgrade())
 			{
 				// Transfer control to the update function
 				return $this->update();
@@ -335,7 +335,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 
-						if ($defaultLanguageNativeTitle != $installationLanguageNativeTitle)
+						if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
 						{
 							$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 						}
@@ -366,7 +366,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			{
 				JLog::add(
 					JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
-					JLog::WARNING,
+					JLog::NOTICE,
 					'jerror'
 				);
 			}
@@ -483,7 +483,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		{
 			foreach ($xml->files->children() as $file)
 			{
-				if ((string) $file->attributes()->file == 'meta')
+				if ((string) $file->attributes()->file === 'meta')
 				{
 					$this->core = true;
 					break;
@@ -616,7 +616,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// Verify that it's not the default language for that client
 		$params = JComponentHelper::getParams('com_languages');
 
-		if ($params->get($client->name) == $element)
+		if ($params->get($client->name) === $element)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'), JLog::WARNING, 'jerror');
 
@@ -674,7 +674,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
 
-		if ($client->name == 'administrator')
+		if ($client->name === 'administrator')
 		{
 			$param_name = 'admin_language';
 		}
@@ -689,7 +689,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		{
 			$registry = new Registry($user->params);
 
-			if ($registry->get($param_name) == $element)
+			if ($registry->get($param_name) === $element)
 			{
 				$registry->set($param_name, '');
 				$query->clear()

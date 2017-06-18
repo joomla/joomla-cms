@@ -19,7 +19,7 @@ $text    = empty($displayData['text']) ? '' : ('<span>' . $displayData['text'] .
 <div class="row-fluid"<?php echo $id; ?>>
 	<div class="span12">
 		<a href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<span class="icon-<?php echo $displayData['image']; ?>"></span> <?php echo $text; ?>
+			<span class="icon-<?php echo $displayData['image']; ?>" aria-hidden="true"></span> <?php echo $text; ?>
 		</a>
 	</div>
 </div>

@@ -37,7 +37,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	/**
 	 * Method for closing the template.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -49,7 +49,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	/**
 	 * Method for closing a file.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */

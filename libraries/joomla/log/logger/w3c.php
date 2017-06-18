@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This class is designed to build log files based on the W3C specification.
  *
- * @see    https://www.w3.org/TR/WD-logfile.html
+ * @link   https://www.w3.org/TR/WD-logfile.html
  * @since  11.1
  */
 class JLogLoggerW3c extends JLogLoggerFormattedtext

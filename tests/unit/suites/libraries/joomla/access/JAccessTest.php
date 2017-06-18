@@ -4,7 +4,7 @@
  * @subpackage  Access
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 jimport('joomla.filesystem.path');
@@ -69,6 +69,7 @@ class JAccessTest extends TestCaseDatabase
 		return array(
 			'valid_manager_admin_login' => array(44, 'core.login.admin', 1, true, 'Line:' . __LINE__ . ' Administrator group can login to admin'),
 			'valid_manager_login' => array(44, 'core.admin', 1, false, 'Line:' . __LINE__ . ' Administrator group cannot login to admin core'),
+			// TODO: Check these tests (duplicate keys, only the last of the duplicates gets executed)
 			'super_user_admin' => array(42, 'core.admin', 3, true, 'Line:' . __LINE__ . ' Super User group can do anything'),
 			'super_user_admin' => array(42, 'core.admin', null, true, 'Line:' . __LINE__ . ' Null asset should default to root'),
 			'publisher_delete_banner' => array(

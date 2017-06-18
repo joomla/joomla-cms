@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -151,11 +151,11 @@ class JFormFieldEditor extends JFormFieldTextarea
 			case 'buttons':
 				$value = (string) $value;
 
-				if ($value == 'true' || $value == 'yes' || $value == '1')
+				if ($value === 'true' || $value === 'yes' || $value === '1')
 				{
 					$this->buttons = true;
 				}
-				elseif ($value == 'false' || $value == 'no' || $value == '0')
+				elseif ($value === 'false' || $value === 'no' || $value === '0')
 				{
 					$this->buttons = false;
 				}
@@ -185,7 +185,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -198,7 +198,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			$this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
 			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
@@ -210,11 +210,11 @@ class JFormFieldEditor extends JFormFieldTextarea
 			$hide       = (string) $this->element['hide'];
 			$editorType = (string) $this->element['editor'];
 
-			if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1')
+			if ($buttons === 'true' || $buttons === 'yes' || $buttons === '1')
 			{
 				$this->buttons = true;
 			}
-			elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
+			elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0')
 			{
 				$this->buttons = false;
 			}
@@ -296,7 +296,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 			}
 
 			// Create the JEditor instance based on the given editor.
-			if (is_null($editor))
+			if ($editor === null)
 			{
 				$editor = JFactory::getConfig()->get('editor');
 			}

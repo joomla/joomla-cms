@@ -24,10 +24,10 @@
 				<field
 					name="schemes"
 					type="list"
-					multiple="true"
 					label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
 					description="PLG_FIELDS_URL_PARAMS_SCHEMES_DESC"
-				>
+					multiple="true"
+					>
 					<option value="http">HTTP</option>
 					<option value="https">HTTPS</option>
 					<option value="ftp">FTP</option>
@@ -40,11 +40,11 @@
 				<field
 					name="relative"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
 					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 					description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

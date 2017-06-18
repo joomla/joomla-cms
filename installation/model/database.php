@@ -157,14 +157,11 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Workaround for UPPERCASE table prefix for postgresql
-		if ($options->db_type == 'postgresql')
+		if ($options->db_type === 'postgresql' && strtolower($options->db_prefix) !== $options->db_prefix)
 		{
-			if (strtolower($options->db_prefix) != $options->db_prefix)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
-				return false;
-			}
+			return false;
 		}
 
 		// Get a database object.
@@ -641,12 +638,9 @@ class InstallationModelDatabase extends JModelBase
 			$dblocalise = 'sql/' . $type . '/localise.sql';
 		}
 
-		if (is_file($dblocalise))
+		if (is_file($dblocalise) && !$this->populateDatabase($db, $dblocalise))
 		{
-			if (!$this->populateDatabase($db, $dblocalise))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
@@ -824,7 +818,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
@@ -877,7 +871,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
@@ -1106,7 +1100,7 @@ class InstallationModelDatabase extends JModelBase
 				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
 				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
 				 */
-				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				if (!$db->hasUTF8mb4Support() && stripos($query, 'CONVERT TO CHARACTER SET utf8 ') !== false)
 				{
 					continue;
 				}
@@ -1190,18 +1184,18 @@ class InstallationModelDatabase extends JModelBase
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($query[$i] == ';' && !$in_string)
+			if (!$in_string && $query[$i] === ';')
 			{
 				$queries[] = substr($query, 0, $i);
 				$query     = substr($query, $i + 1);
 				$i         = 0;
 			}
 
-			if ($in_string && ($query[$i] == $in_string) && $buffer[1] != "\\")
+			if ($in_string && $query[$i] == $in_string && $buffer[1] !== '\\')
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] === '"' || $query[$i] === "'") && (!isset($buffer[0]) || $buffer[0] !== '\\'))
 			{
 				$in_string = $query[$i];
 			}

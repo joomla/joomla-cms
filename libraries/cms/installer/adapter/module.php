@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -93,7 +93,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -130,7 +130,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest(-1))
 			{
@@ -305,7 +305,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -517,7 +517,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		if (!$this->extension->load((int) $id) || !strlen($this->extension->element))
+		if (!$this->extension->load((int) $id) || $this->extension->element === '')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 

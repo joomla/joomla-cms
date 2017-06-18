@@ -15,8 +15,8 @@ defined('_JEXEC') or die;
 /**
  * Checks if the installation is affected by the issue with content languages access in 3.4.0
  *
- * @see     https://github.com/joomla/joomla-cms/pull/6172
- * @see     https://github.com/joomla/joomla-cms/pull/6194
+ * @link    https://github.com/joomla/joomla-cms/pull/6172
+ * @link    https://github.com/joomla/joomla-cms/pull/6194
  *
  * @return  boolean
  *
