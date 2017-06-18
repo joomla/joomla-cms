@@ -36,7 +36,7 @@ abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 
-		$this->outputPath = __DIR__ . '/output';
+		$this->outputPath = __DIR__ . '/output/' . uniqid();
 
 		if (!is_dir($this->outputPath))
 		{
