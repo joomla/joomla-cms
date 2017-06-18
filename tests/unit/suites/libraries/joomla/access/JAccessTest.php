@@ -483,11 +483,9 @@ class JAccessTest extends TestCaseDatabase
 
 		$this->object = new JAccess;
 
-		// Make sure previous test files are cleaned up
-		$this->_cleanupTestFiles();
-
 		// Make some test files and folders
 		$this->outputPath = JPath::clean(JPATH_TESTS . '/tmp/access/' . uniqid());
+
 		mkdir($this->outputPath, 0777, true);
 	}
 
