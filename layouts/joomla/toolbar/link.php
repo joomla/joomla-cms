@@ -12,9 +12,8 @@ defined('JPATH_BASE') or die;
 $doTask = $displayData['doTask'];
 $class  = $displayData['class'];
 $text   = $displayData['text'];
-$margin = (strpos($doTask, 'index.php?option=com_config') === false) ? '' : ' ml-auto';
 ?>
-<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-outline-danger btn-sm<?php echo $margin; ?>">
+<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-outline-danger btn-sm">
 	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>
