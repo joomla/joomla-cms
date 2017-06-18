@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 namespace Helper;
+
 use Codeception\Configuration;
 use Codeception\Module;
 
@@ -21,6 +22,12 @@ use Codeception\Module;
  */
 class Acceptance extends Module
 {
+	/**
+	 * Array of the configuration settings
+	 *
+	 * @var      array
+	 * @since    __DEPLOY_VERSION__
+	 */
 	protected static $acceptanceSuiteConfiguration = [];
 
 	/**

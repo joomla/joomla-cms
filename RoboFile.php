@@ -3,15 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  RoboFile
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * This is joomla project's console command file for Robo.li task runner.
  *
- * Download robo.phar from http://robo.li/robo.phar and type in the root of the repo: $ php robo.phar
- * Or do: $ composer update, and afterwards you will be able to execute robo like $ php libraries/vendor/bin/robo
+ * Or do: $ composer install, and afterwards you will be able to execute robo like
+ * $ ./libraries/vendor/bin/robo
  *
  * @see         http://robo.li/
  */
@@ -23,7 +23,7 @@ if (!defined('JPATH_BASE'))
 }
 
 /**
- * Modern php task runner for Joomla! Browser Automated Tests execution
+ * System Test (Codeception) test execution for Joomla!
  *
  * @package  RoboFile
  *
@@ -32,13 +32,13 @@ if (!defined('JPATH_BASE'))
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use \joomla_projects\robo\loadTasks;
 	use \Joomla\Jorobo\Tasks\loadTasks;
 
 	/**
 	 * Path to the codeception tests folder
 	 *
 	 * @var   string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $testsPath = 'tests/codeception/';
 
@@ -68,7 +68,6 @@ class RoboFile extends \Robo\Tasks
 	 * RoboFile constructor.
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
 	 */
 	public function __construct()
 	{
@@ -92,7 +91,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (!file_exists($configurationFile))
 		{
-			$this->say("No local configuration file");
+			$this->say('No local configuration file');
 
 			return null;
 		}
@@ -120,29 +119,17 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (empty($this->configuration->cmsPath))
 		{
-			return $this->testsPath . 'joomla-cms3';
+			return $this->testsPath . 'joomla-cms';
 		}
 
 		if (!file_exists(dirname($this->configuration->cmsPath)))
 		{
-			$this->say("CMS path written in local configuration does not exists or is not readable");
+			$this->say('CMS path written in local configuration does not exists or is not readable');
 
-			return $this->testsPath . 'joomla-cms3';
+			return $this->testsPath . 'joomla-cms';
 		}
 
 		return $this->configuration->cmsPath;
-	}
-
-	/**
-	 * Build the Joomla CMS
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  bool  This is allways true
-	 */
-	public function build()
-	{
-		return true;
 	}
 
 	/**
@@ -172,8 +159,6 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-		$this->build();
-
 		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git'];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
@@ -187,17 +172,17 @@ class RoboFile extends \Robo\Tasks
 		// Optionally uses Joomla default htaccess file. Used by TravisCI
 		if ($useHtaccess == true)
 		{
-			$this->say("Renaming htaccess.txt to .htaccess");
+			$this->say('Renaming htaccess.txt to .htaccess');
 			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/codeception/joomla-cms3/,g" -in-place tests/codeception/joomla-cms3/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/codeception/joomla-cms,g" -in-place tests/codeception/joomla-cms/.htaccess');
 		}
 	}
 
 	/**
-	 * Copy the joomla installation excluding folders
+	 * Copy the Joomla installation excluding folders
 	 *
-	 * @param   string $dst     Target folder
-	 * @param   array  $exclude Exclude list of folders
+	 * @param   string  $dst      Target folder
+	 * @param   array   $exclude  Exclude list of folders
 	 *
 	 * @throws  Exception
 	 *
@@ -279,16 +264,7 @@ class RoboFile extends \Robo\Tasks
 			$this->_exec("START java.exe -jar " . $this->getWebDriver() . ' tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
 		}
 
-		if ($this->isWindows())
-		{
-			sleep(3);
-		}
-		else
-		{
-			$this->taskWaitForSeleniumStandaloneServer()
-				->run()
-				->stopOnFail();
-		}
+		sleep(3);
 	}
 
 	/**
@@ -307,7 +283,6 @@ class RoboFile extends \Robo\Tasks
 		$this->say("Running tests");
 
 		$this->createTestingSite($opts['use-htaccess']);
-		$this->createDatabase();
 
 		$this->getComposer();
 		$this->taskComposerInstall($this->testsPath . 'composer.phar')->run();
@@ -336,75 +311,12 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		$this->taskCodecept($pathToCodeception)
+		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/content.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/users.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/users_frontend.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/banner.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/extensions.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/category.feature')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/administrator/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/frontend/')
+			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
 			->run()
 			->stopOnFail();
 	}
@@ -412,19 +324,18 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Executes a specific Selenium System Tests in your machine
 	 *
-	 * @param   string $pathToTestFile Optional name of the test to be run
-	 * @param   string $suite          Optional name of the suite containing the tests, Acceptance by default.
+	 * @param   string  $pathToTestFile  Optional name of the test to be run
+	 * @param   string  $suite           Optional name of the suite containing the tests, Acceptance by default.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
-	 * @return  mixed
+	 * @return  void
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-
 		$path = 'tests/codeception/vendor/bin/codecept';
 		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) : $path . ' build');
 
@@ -525,7 +436,9 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Check if local OS is Windows
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function isWindows()
 	{
@@ -533,11 +446,13 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
-	 * Return the correct path for Windows
+	 * Return the correct path for Windows (needed by CMD)
 	 *
-	 * @param   string $path - The linux path
+	 * @param   string  $path  Linux path
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getWindowsPath($path)
 	{
@@ -549,7 +464,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  string the webdriver string to use with selenium
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getWebdriver()
 	{
@@ -603,7 +518,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return string
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getOs()
 	{
@@ -611,27 +526,25 @@ class RoboFile extends \Robo\Tasks
 
 		if (strpos(strtolower($os), 'windows') !== false)
 		{
-			$os = 'windows';
-		}
-		// Who have thought that Mac is actually Darwin???
-		elseif (strpos(strtolower($os), 'darwin') !== false)
-		{
-			$os = 'mac';
-		}
-		else
-		{
-			$os = 'linux';
+			return  'windows';
 		}
 
-		return $os;
+		if (strpos(strtolower($os), 'darwin') !== false)
+		{
+			return 'mac';
+		}
+
+		return 'linux';
 	}
 
 	/**
 	 * Get the suite configuration
 	 *
-	 * @param string $suite
+	 * @param   string  $suite  Name of the test suite
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getSuiteConfig($suite = 'acceptance')
 	{
@@ -641,34 +554,5 @@ class RoboFile extends \Robo\Tasks
 		}
 
 		return $this->suiteConfig;
-	}
-
-	private function createDatabase()
-	{
-		$suiteConfig = $this->getSuiteConfig();
-
-		$host   = $suiteConfig['modules']['config']['JoomlaBrowser']['database host'];
-		$user   = $suiteConfig['modules']['config']['JoomlaBrowser']['database user'];
-		$pass   = $suiteConfig['modules']['config']['JoomlaBrowser']['database password'];
-		$dbName = $suiteConfig['modules']['config']['JoomlaBrowser']['database name'];
-
-		// Create connection
-		$connection = new mysqli($host, $user, $pass);
-		// Check connection
-		if ($connection->connect_error)
-		{
-			$this->yell("Connection failed: " . $connection->connect_error);
-		}
-
-		// Create database
-		$sql = "CREATE DATABASE IF NOT EXISTS {$dbName}";
-		if ($connection->query($sql) === true)
-		{
-			$this->say("Database {$dbName} created successfully");
-		}
-		else
-		{
-			$this->yell("Error creating database: " . $connection->error);
-		}
 	}
 }

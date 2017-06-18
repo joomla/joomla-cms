@@ -35,6 +35,38 @@ class UserManagerPage extends AdminPage
 	public static $pageTitleText = "Users";
 
 	/**
+	 * New User Button
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $newButton = ['class' => 'button-new'];
+
+	/**
+	 * Edit Button
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $editButton = ['class' => 'button-edit'];
+
+	/**
+	 * Locator for the id
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $userCheckbox = ['id' => 'cb1'];
+
+	/**
+	 * Save Button
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $saveButton = ['class' => 'button-save'];
+
+	/**
 	 * Locator for user's name input field
 	 *
 	 * @var    array
@@ -42,6 +74,20 @@ class UserManagerPage extends AdminPage
 	 */
 	public static $nameField = ['id' => 'jform_name'];
 
+	/**
+	 * Locator for the success message
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $successMessage = 'User saved.';
+
+	/**
+	 * Account details
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static $accountDetailsTab = ['xpath' => "//a[@href='#details']"];
 
 	/**
@@ -147,29 +193,4 @@ class UserManagerPage extends AdminPage
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $noItems = ['class' => 'alert-no-items'];
-
-	/**
-	 * Method is a page object to fill user form with given information and prepare to save user.
-	 *
-	 * @param   string  $name      User's name
-	 * @param   string  $username  User's username
-	 * @param   string  $password  User's password
-	 * @param   string  $email     User's email
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void  The user's form will be filled with given detail
-	 */
-	public function fillUserForm($name, $username, $password, $email)
-	{
-		$I = $this;
-
-		$I->click(self::$accountDetailsTab);
-		$I->waitForElementVisible(self::$nameField, 30);
-		$I->fillField(self::$nameField, $name);
-		$I->fillField(self::$usernameField, $username);
-		$I->fillField(self::$passwordField, $password);
-		$I->fillField(self::$password2Field, $password);
-		$I->fillField(self::$emailField, $email);
-	}
 }
