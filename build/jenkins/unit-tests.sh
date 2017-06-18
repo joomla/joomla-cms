@@ -21,4 +21,6 @@ mysql -u root joomla_ut -h mysql -pjoomla_ut < "$BASE/tests/unit/schema/mysql.sq
 psql -c 'create database joomla_ut;'  -U postgres -h "postgres" > /dev/null
 psql -U "postgres" -h "postgres" -d joomla_ut -a -f "$BASE/tests/unit/schema/postgresql.sql" > /dev/null
 
+echo "Testing $PHPVERSION"
+
 phpunit -c $BASE/jenkins-phpunit.xml
