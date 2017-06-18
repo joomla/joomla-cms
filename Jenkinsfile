@@ -18,6 +18,9 @@ pipeline {
       steps {
         // You can only use the parallel step if it's the *only* step in the stage.
         parallel(
+          COMPOSE: {
+            sh 'docker-compose --version'
+          },
           PHP53: {
             sh 'export PHPVERSION=php53;/usr/local/bin/docker-compose -f build/jenkins/docker-compose.yml run --rm --project-name php53 test bash build/jenkins/unit-tests.sh'
           },
