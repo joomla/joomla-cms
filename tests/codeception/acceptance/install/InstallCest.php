@@ -8,7 +8,7 @@
  */
 
 /**
- * Installer
+ * Install Joomla
  *
  * @since  __DEPLOY_VERSION__
  */

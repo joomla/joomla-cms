@@ -34,14 +34,3 @@ modules:
             MicrosoftEdgeInsiders: false                  # set this to true, if you are on Windows Insiders
 
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
-gherkin:
-    contexts:
-        default:
-            - Step\Acceptance\Administrator\Login
-            - Step\Acceptance\Administrator\User
-            - Step\Acceptance\Site\UsersFrontend
-            - Step\Acceptance\Administrator\Content
-            - Step\Acceptance\Administrator\Category
-            - Step\Acceptance\Administrator\Admin
-            - Step\Acceptance\Administrator\Extension
-            - Step\Acceptance\Administrator\Banner

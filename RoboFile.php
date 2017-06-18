@@ -3,15 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  RoboFile
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * This is joomla project's console command file for Robo.li task runner.
  *
- * Download robo.phar from http://robo.li/robo.phar and type in the root of the repo: $ php robo.phar
- * Or do: $ composer update, and afterwards you will be able to execute robo like $ php libraries/vendor/bin/robo
+ * Or do: $ composer install, and afterwards you will be able to execute robo like
+ * $ ./libraries/vendor/bin/robo
  *
  * @see         http://robo.li/
  */
@@ -23,7 +23,7 @@ if (!defined('JPATH_BASE'))
 }
 
 /**
- * Modern php task runner for Joomla! Browser Automated Tests execution
+ * System Test (Codeception) test execution for Joomla!
  *
  * @package  RoboFile
  *
@@ -38,6 +38,7 @@ class RoboFile extends \Robo\Tasks
 	 * Path to the codeception tests folder
 	 *
 	 * @var   string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $testsPath = 'tests/codeception/';
 
@@ -67,7 +68,6 @@ class RoboFile extends \Robo\Tasks
 	 * RoboFile constructor.
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
 	 */
 	public function __construct()
 	{
@@ -91,7 +91,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (!file_exists($configurationFile))
 		{
-			$this->say("No local configuration file");
+			$this->say('No local configuration file');
 
 			return null;
 		}
@@ -124,24 +124,12 @@ class RoboFile extends \Robo\Tasks
 
 		if (!file_exists(dirname($this->configuration->cmsPath)))
 		{
-			$this->say("CMS path written in local configuration does not exists or is not readable");
+			$this->say('CMS path written in local configuration does not exists or is not readable');
 
 			return $this->testsPath . 'joomla-cms';
 		}
 
 		return $this->configuration->cmsPath;
-	}
-
-	/**
-	 * Build the Joomla CMS
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  bool  This is allways true
-	 */
-	public function build()
-	{
-		return true;
 	}
 
 	/**
@@ -171,8 +159,6 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-		$this->build();
-
 		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git'];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
@@ -186,17 +172,17 @@ class RoboFile extends \Robo\Tasks
 		// Optionally uses Joomla default htaccess file. Used by TravisCI
 		if ($useHtaccess == true)
 		{
-			$this->say("Renaming htaccess.txt to .htaccess");
+			$this->say('Renaming htaccess.txt to .htaccess');
 			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/codeception/joomla-cms,g" -in-place tests/codeception/joomla-cms/.htaccess');
 		}
 	}
 
 	/**
-	 * Copy the joomla installation excluding folders
+	 * Copy the Joomla installation excluding folders
 	 *
-	 * @param   string $dst     Target folder
-	 * @param   array  $exclude Exclude list of folders
+	 * @param   string  $dst      Target folder
+	 * @param   array   $exclude  Exclude list of folders
 	 *
 	 * @throws  Exception
 	 *
@@ -338,19 +324,18 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Executes a specific Selenium System Tests in your machine
 	 *
-	 * @param   string $pathToTestFile Optional name of the test to be run
-	 * @param   string $suite          Optional name of the suite containing the tests, Acceptance by default.
+	 * @param   string  $pathToTestFile  Optional name of the test to be run
+	 * @param   string  $suite           Optional name of the suite containing the tests, Acceptance by default.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
-	 * @return  mixed
+	 * @return  void
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-
 		$path = 'tests/codeception/vendor/bin/codecept';
 		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) : $path . ' build');
 
@@ -451,7 +436,9 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Check if local OS is Windows
 	 *
-	 * @return bool
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function isWindows()
 	{
@@ -459,11 +446,13 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
-	 * Return the correct path for Windows
+	 * Return the correct path for Windows (needed by CMD)
 	 *
-	 * @param   string $path - The linux path
+	 * @param   string  $path  Linux path
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getWindowsPath($path)
 	{
@@ -475,7 +464,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  string the webdriver string to use with selenium
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getWebdriver()
 	{
@@ -529,7 +518,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return string
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getOs()
 	{
@@ -537,27 +526,25 @@ class RoboFile extends \Robo\Tasks
 
 		if (strpos(strtolower($os), 'windows') !== false)
 		{
-			$os = 'windows';
-		}
-		// Who have thought that Mac is actually Darwin???
-		elseif (strpos(strtolower($os), 'darwin') !== false)
-		{
-			$os = 'mac';
-		}
-		else
-		{
-			$os = 'linux';
+			return  'windows';
 		}
 
-		return $os;
+		if (strpos(strtolower($os), 'darwin') !== false)
+		{
+			return 'mac';
+		}
+
+		return 'linux';
 	}
 
 	/**
 	 * Get the suite configuration
 	 *
-	 * @param string $suite
+	 * @param   string  $suite  Name of the test suite
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getSuiteConfig($suite = 'acceptance')
 	{

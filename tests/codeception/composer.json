@@ -20,11 +20,11 @@
 	"php": ">=5.3.10"
   },
   "require-dev": {
-	"codeception/codeception": "~2.2",
+	"codeception/codeception": "~2.3",
 	"joomla-projects/joomla-browser": "~v3",
 	"joomla-projects/selenium-server-standalone": "~v3",
     "consolidation/robo": "^1.0.0",
-	"fzaninotto/faker": "^1.5",
+	"fzaninotto/faker": "^1.6",
 	"joomla-projects/jorobo": "~0.6"
   }
 }
