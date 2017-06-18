@@ -17,7 +17,7 @@ use Page\Acceptance\Administrator;
 class UserCest
 {
 	/**
-	 * Create an user
+	 * Create a user
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
@@ -27,7 +27,7 @@ class UserCest
 	 */
 	public function createUser(\AcceptanceTester $I)
 	{
-		$I->comment('I am going to create an user');
+		$I->comment('I am going to create a user');
 		$I->doAdministratorLogin();
 
 		$I->amOnPage(Administrator\UserManagerPage::$url);
@@ -50,7 +50,7 @@ class UserCest
 	}
 
 	/**
-	 * Edit an user
+	 * Edit a user
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
@@ -62,7 +62,7 @@ class UserCest
 	 */
 	public function editUser(\AcceptanceTester $I)
 	{
-		$I->comment('I am going to edit an user');
+		$I->comment('I am going to edit a user');
 		$I->doAdministratorLogin();
 
 		$I->amOnPage(Administrator\UserManagerPage::$url);
