@@ -1,3 +1,5 @@
+#!groovy
+
 pipeline {
   agent any
   stages {
@@ -74,7 +76,6 @@ pipeline {
             sleep 3 && \
             (fluxbox &) && \
             cd tests/javascript && npm install --no-optional && cd ../.. && \
-            (firefox &) && \
             tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
         '''
         sh 'echo $(date)'
