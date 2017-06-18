@@ -8,7 +8,7 @@ BASE="/opt/src"
 service apache2 restart
 
 # Start Xvfb
-bash /etc/init.d/xvfb start
+Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset &
 sleep 1 # give xvfb some time to start
 
 # Start Fluxbox
