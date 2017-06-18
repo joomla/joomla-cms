@@ -1,8 +1,14 @@
+#!/bin/bash
+# Script for preparing the system tests in Joomla!
+
+# Path to the Joomla! installation
+BASE="/opt/src"
+
 # Start apache
-sudo service apache2 restart
+service apache2 restart
 
 # Start Xvfb
-sudo bash /etc/init.d/xvfb start
+bash /etc/init.d/xvfb start
 sleep 1 # give xvfb some time to start
 
 # Start Fluxbox
@@ -10,8 +16,10 @@ fluxbox &
 sleep 3 # give fluxbox some time to start
 
 # Composer install in tests folder
-tests/codeception/composer install
+cd tests/codeception
+composer install
+cd $BASE
 
 # Run the tests
-sudo cp RoboFile.dist.ini RoboFile.ini
-sudo cp tests/codeception/acceptance.suite.dist.yml tests/codeception/acceptance.suite.yml
+cp RoboFile.dist.ini RoboFile.ini
+cp tests/codeception/acceptance.suite.dist.yml tests/codeception/acceptance.suite.yml
