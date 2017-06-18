@@ -19,23 +19,23 @@ pipeline {
         // You can only use the parallel step if it's the *only* step in the stage.
         parallel(
           PHP53: {
-            sh 'export PHPVERSION=php53;docker-compose -f build/jenkins/docker-compose.yml run --rm --name=php53 test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php53;docker-compose -f build/jenkins/docker-compose.yml run --rm -p=php53 test bash build/jenkins/unit-tests.sh'
 
           },
           PHP54: {
-            sh 'export PHPVERSION=php54;docker-compose -f build/jenkins/docker-compose.yml run --rm --name=php54 test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php54;docker-compose -f build/jenkins/docker-compose.yml run --rm -p=php54 test bash build/jenkins/unit-tests.sh'
           },
           PHP55: {
-            sh 'export PHPVERSION=php55;docker-compose -f build/jenkins/docker-compose.yml run --rm --name=php55 test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php55;docker-compose -f build/jenkins/docker-compose.yml run --rm -p=php55 test bash build/jenkins/unit-tests.sh'
           },
           PHP56: {
-            sh 'export PHPVERSION=php56;docker-compose -f build/jenkins/docker-compose.yml run --rm --name=php56 test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php56;docker-compose -f build/jenkins/docker-compose.yml run --rm -p=php56 test bash build/jenkins/unit-tests.sh'
           },
           PHP70: {
-            sh 'export PHPVERSION=php70;docker-compose -f build/jenkins/docker-compose.yml run --rm --name=php70 test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php70;docker-compose -f build/jenkins/docker-compose.yml run --rm -p=php70 test bash build/jenkins/unit-tests.sh'
           },
           PHP71: {
-            sh 'export PHPVERSION=php71;docker-compose -f build/jenkins/docker-compose.yml run --rm --name=php71 test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php71;docker-compose -f build/jenkins/docker-compose.yml run --rm -p=php71 test bash build/jenkins/unit-tests.sh'
           }
         )
       }
