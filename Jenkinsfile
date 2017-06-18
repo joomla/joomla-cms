@@ -13,7 +13,6 @@ pipeline {
       }
     }
 
-
     stage("Testing PHP") {
       steps {
         // You can only use the parallel step if it's the *only* step in the stage.
