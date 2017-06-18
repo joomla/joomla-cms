@@ -40,7 +40,7 @@ abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 
 		if (!is_dir($this->outputPath))
 		{
-			mkdir($this->outputPath, 0777);
+			mkdir($this->outputPath, 0777, true);
 		}
 
 		if (! is_dir($this->outputPath))
