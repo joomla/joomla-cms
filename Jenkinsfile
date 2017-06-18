@@ -19,22 +19,23 @@ pipeline {
         // You can only use the parallel step if it's the *only* step in the stage.
         parallel(
           PHP53: {
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run -e PHPVERSION=php53 --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php53;docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+
           },
           PHP54: {
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run -e PHPVERSION=php54 --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php54;docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP55: {
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run -e PHPVERSION=php55 --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php55;docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP56: {
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run -e PHPVERSION=php56 --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php56;docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP70: {
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run -e PHPVERSION=php70 --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php70;docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           },
           PHP71: {
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run -e PHPVERSION=php71 --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php71;docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           }
         )
       }
