@@ -3,7 +3,7 @@
 pipeline {
   agent any
   stages {
-    stage('codestyles') {
+    stage('System test') {
       agent {
         docker 'joomlaprojects/joomla-systemtests'
       }
