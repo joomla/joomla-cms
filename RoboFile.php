@@ -475,6 +475,7 @@ class RoboFile extends \Robo\Tasks
 		if ($browser == 'chrome')
 		{
 			$driver['type'] = 'webdriver.chrome.driver';
+			$driver['args'] = '--no-sandbox';
 		}
 		elseif ($browser == 'firefox')
 		{
