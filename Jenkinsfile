@@ -5,6 +5,14 @@ pipeline {
   stages {
     stage('codestyles') {
       agent {
+        docker 'joomlaprojects/joomla-systemtests'
+      }
+      steps {
+        sh 'bash build/jenkins/system-tests.sh'
+      }
+    }
+    stage('codestyles') {
+      agent {
         docker 'rdeutz/docker-phpcs'
       }
       steps {
