@@ -344,7 +344,7 @@ abstract class AbstractUri implements UriInterface
 
 		if ($parts === false)
 		{
-			throw new \RuntimeException('Could not parse the requested URI');
+			throw new \RuntimeException(sprintf('Could not parse the requested URI %s', $uri));
 		}
 
 		$retval = ($parts) ? true : false;

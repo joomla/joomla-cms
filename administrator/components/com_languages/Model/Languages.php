@@ -123,7 +123,7 @@ class Languages extends ListModel
 			->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
 
 		// Filter on the published state.
-		$published = $this->getState('filter.published');
+		$published = (string) $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{

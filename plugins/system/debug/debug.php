@@ -1177,7 +1177,7 @@ class PlgSystemDebug extends JPlugin
 			$labelClass = 'badge-warning';
 		}
 
-		if ($this->totalQueries == 0)
+		if ($this->totalQueries === 0)
 		{
 			$this->totalQueries = $db->getCount();
 		}

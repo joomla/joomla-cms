@@ -85,9 +85,7 @@ class Html extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			\JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Display a warning if the fields system plugin is disabled
@@ -181,11 +179,6 @@ class Html extends HtmlView
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences($component);
-		}
-
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
 			ToolbarHelper::deleteList('', 'fields.delete', 'JTOOLBAR_EMPTY_TRASH');
@@ -193,6 +186,11 @@ class Html extends HtmlView
 		elseif ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::trash('fields.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			ToolbarHelper::preferences($component);
 		}
 
 		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS');

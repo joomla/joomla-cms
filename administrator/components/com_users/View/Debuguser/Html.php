@@ -10,6 +10,7 @@ namespace Joomla\Component\Users\Administrator\View\Debuguser;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\View\HtmlView;
 
@@ -84,7 +85,7 @@ class Html extends HtmlView
 		// Access check.
 		if (!\JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
-			throw new \JUserAuthorizationexception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		\JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');

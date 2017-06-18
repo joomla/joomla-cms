@@ -25,14 +25,47 @@
 				<field
 					name="showHere"
 					type="radio"
-					class="switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC"
+					class="switcher"
 					default="1"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
+				<field
+					name="showHome"
+					type="radio"
+					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC"
+					class="switcher"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="homeText"
+					type="text"
+					label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC"
+					showon="showHome:1"
+				/>
+
+				<field
+					name="showLast"
+					type="radio"
+					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC"
+					default="1"
+					class="switcher"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
 			</fieldset>
 		</fields>
 	</config>

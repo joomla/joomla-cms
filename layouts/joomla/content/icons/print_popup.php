@@ -18,7 +18,7 @@ $legacy = $displayData['legacy'];
 		<?php // Checks template image directory for image, if none found default are loaded ?>
 		<?php echo JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true); ?>
 	<?php else : ?>
-		<span class="fa fa-print"></span>
+		<span class="fa fa-print" aria-hidden="true"></span>
 		<?php echo JText::_('JGLOBAL_PRINT'); ?>
 	<?php endif; ?>
 <?php else : ?>

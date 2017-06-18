@@ -146,7 +146,7 @@ class Links extends ListModel
 		$query->from($db->quoteName('#__redirect_links', 'a'));
 
 		// Filter by published state
-		$state = $this->getState('filter.state');
+		$state = (string) $this->getState('filter.state');
 
 		if (is_numeric($state))
 		{

@@ -32,7 +32,7 @@ class Featured extends Articles
 	 * @param   string  $ordering   The field to order on.
 	 * @param   string  $direction  The direction to order on.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

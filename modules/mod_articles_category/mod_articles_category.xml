@@ -384,9 +384,9 @@
 				<field
 					name="show_date_field"
 					type="list"
-					default="created"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_DESC"
+					default="created"
 					>
 					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
 					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
@@ -396,9 +396,9 @@
 				<field
 					name="show_date_format"
 					type="text"
-					default="Y-m-d H:i:s"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELDFORMAT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELDFORMAT_DESC"
+					default="Y-m-d H:i:s"
 				/>
 
 				<field

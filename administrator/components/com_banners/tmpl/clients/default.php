@@ -112,7 +112,7 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 										</div>
 									</td>
 									<td class="nowrap has-context">
-										<div class="float-left">
+										<div>
 											<?php if ($item->checked_out) : ?>
 												<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
 											<?php endif; ?>

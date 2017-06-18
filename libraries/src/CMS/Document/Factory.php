@@ -64,7 +64,7 @@ class Factory implements FactoryInterface
 	 * @param   \JDocument  $document  The JDocument instance to attach to the renderer
 	 * @param   string      $type      The renderer type to instantiate
 	 *
-	 * @return  \JDocumentRenderer
+	 * @return  RendererInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

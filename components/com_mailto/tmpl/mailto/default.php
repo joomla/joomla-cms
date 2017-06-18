@@ -29,7 +29,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 ?>
 
-<div id="mailto-window">
+<div id="mailto-window" class="p-2">
 	<h2>
 		<?php echo JText::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
 	</h2>
@@ -39,39 +39,52 @@ JFactory::getDocument()->addScriptDeclaration("
 	</div>
 
 	<form action="<?php echo JUri::base() ?>index.php" id="mailtoForm" method="post">
-		<div class="formelm">
-			<label for="mailto_field"><?php echo JText::_('COM_MAILTO_EMAIL_TO'); ?></label>
-			<input type="text" id="mailto_field" name="mailto" class="inputbox" size="25" value="<?php echo $this->escape($data->mailto); ?>">
+		<div class="control-group">
+			<div class="control-label">
+				<label for="mailto_field"><?php echo JText::_('COM_MAILTO_EMAIL_TO'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="mailto_field" name="mailto" class="form-control" value="<?php echo $this->escape($data->mailto); ?>">
+			</div>
 		</div>
-		<div class="formelm">
-			<label for="sender_field">
-			<?php echo JText::_('COM_MAILTO_SENDER'); ?></label>
-			<input type="text" id="sender_field" name="sender" class="inputbox" value="<?php echo $this->escape($data->sender); ?>" size="25">
+		<div class="control-group">
+			<div class="control-label">
+				<label for="sender_field"><?php echo JText::_('COM_MAILTO_SENDER'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="sender_field" name="sender" class="form-control" value="<?php echo $this->escape($data->sender); ?>">
+			</div>
 		</div>
-		<div class="formelm">
-			<label for="from_field">
-			<?php echo JText::_('COM_MAILTO_YOUR_EMAIL'); ?></label>
-			<input type="text" id="from_field" name="from" class="inputbox" value="<?php echo $this->escape($data->from); ?>" size="25">
+		<div class="control-group">
+			<div class="control-label">
+				<label for="from_field"><?php echo JText::_('COM_MAILTO_YOUR_EMAIL'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="from_field" name="from" class="form-control" value="<?php echo $this->escape($data->from); ?>">
+			</div>
 		</div>
-		<div class="formelm">
-			<label for="subject_field">
-			<?php echo JText::_('COM_MAILTO_SUBJECT'); ?></label>
-			<input type="text" id="subject_field" name="subject" class="inputbox" value="<?php echo $this->escape($data->subject); ?>" size="25">
+		<div class="control-group">
+				<div class="control-label">
+			<label for="subject_field"><?php echo JText::_('COM_MAILTO_SUBJECT'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="subject_field" name="subject" class="form-control" value="<?php echo $this->escape($data->subject); ?>">
+			</div>
 		</div>
-		<p>
-			<button class="button" onclick="return Joomla.submitbutton('send');">
-				<?php echo JText::_('COM_MAILTO_SEND'); ?>
-			</button>
-			<button class="button" onclick="window.close();return false;">
+		<div class="control-group">
+			<button class="btn btn-secondary" onclick="window.close();return false;">
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
-		</p>
+			<button class="btn btn-success" onclick="return Joomla.submitbutton('send');">
+				<?php echo JText::_('COM_MAILTO_SEND'); ?>
+			</button>
+		</div>
+
 		<input type="hidden" name="layout" value="<?php echo htmlspecialchars($this->getLayout(), ENT_COMPAT, 'UTF-8'); ?>">
 		<input type="hidden" name="option" value="com_mailto">
 		<input type="hidden" name="task" value="send">
 		<input type="hidden" name="tmpl" value="component">
 		<input type="hidden" name="link" value="<?php echo $data->link; ?>">
 		<?php echo JHtml::_('form.token'); ?>
-
 	</form>
 </div>

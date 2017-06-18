@@ -44,7 +44,7 @@ class Template extends Controller
 	/**
 	 * Method for closing the template.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -56,7 +56,7 @@ class Template extends Controller
 	/**
 	 * Method for closing a file.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */

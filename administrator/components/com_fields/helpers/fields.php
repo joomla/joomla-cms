@@ -493,7 +493,7 @@ class FieldsHelper
 
 		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
 
-		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
+		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'modules'
 			&& JFactory::getApplication()->isClient('site'))
 		{
 			// Modules on front end editing don't have data and an id set

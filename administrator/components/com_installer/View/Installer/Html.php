@@ -56,7 +56,7 @@ class Html extends HtmlView
 	{
 		parent::__construct($config);
 
-		$this->_addPath('template', $this->_basePath . '/views/installer/tmpl');
+		$this->_addPath('template', $this->_basePath . '/tmpl/installer');
 		$this->_addPath('template', JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/com_installer/installer');
 	}
 

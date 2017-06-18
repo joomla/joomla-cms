@@ -183,6 +183,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $disconnectHandlers = array();
 
 	/**
+	 * Database factory
+	 *
+	 * @var    JDatabaseFactory
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $factory;
+
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -252,6 +260,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['driver']   = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysqli';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
+		$options['factory']  = (isset($options['factory'])) ? $options['factory'] : new JDatabaseFactory;
 
 		// If the selected driver is `mysql`, switch to one of the other available MySQL drivers.
 		if ($options['driver'] === 'mysql')
@@ -298,27 +307,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// If we already have a database connector instance for these options then just use that.
 		if (empty(self::$instances[$signature]))
 		{
-			// Derive the class name from the driver.
-			$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
-
-			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
-			if (!class_exists($class))
-			{
-				throw new JDatabaseExceptionUnsupported(sprintf('Unable to load Database Driver: %s', $options['driver']));
-			}
-
-			// Create our new JDatabaseDriver connector based on the options given.
-			try
-			{
-				$instance = new $class($options);
-			}
-			catch (RuntimeException $e)
-			{
-				throw new JDatabaseExceptionConnecting(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
-			}
-
 			// Set the new connector to the global instances based on signature.
-			self::$instances[$signature] = $instance;
+			self::$instances[$signature] = $options['factory']->getDriver($options['driver'], $options);
 		}
 
 		return self::$instances[$signature];
@@ -493,6 +483,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		// Set class options.
 		$this->options = $options;
+
+		// Register the database factory
+		$this->factory = isset($options['factory']) ? $options['factory'] : new JDatabaseFactory;
 	}
 
 	/**
@@ -1078,20 +1071,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function getExporter()
 	{
-		// Derive the class name from the driver.
-		$class = 'JDatabaseExporter' . ucfirst($this->name);
-
-		// Make sure we have an exporter class for this driver.
-		if (!class_exists($class))
-		{
-			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new JDatabaseExceptionUnsupported('Database Exporter not found.');
-		}
-
-		$o = new $class;
-		$o->setDbo($this);
-
-		return $o;
+		return $this->factory->getExporter($this->name, $this);
 	}
 
 	/**
@@ -1104,20 +1084,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function getImporter()
 	{
-		// Derive the class name from the driver.
-		$class = 'JDatabaseImporter' . ucfirst($this->name);
-
-		// Make sure we have an importer class for this driver.
-		if (!class_exists($class))
-		{
-			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new JDatabaseExceptionUnsupported('Database Importer not found');
-		}
-
-		$o = new $class;
-		$o->setDbo($this);
-
-		return $o;
+		return $this->factory->getImporter($this->name, $this);
 	}
 
 	/**
@@ -1202,17 +1169,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if ($new)
 		{
-			// Derive the class name from the driver.
-			$class = 'JDatabaseQuery' . ucfirst($this->name);
-
-			// Make sure we have a query class for this driver.
-			if (!class_exists($class))
-			{
-				// If it doesn't exist we are at an impasse so throw an exception.
-				throw new JDatabaseExceptionUnsupported('Database Query Class not found.');
-			}
-
-			return new $class($this);
+			return $this->factory->getQuery($this->name, $this);
 		}
 		else
 		{
@@ -1233,18 +1190,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function getIterator($column = null, $class = 'stdClass')
 	{
-		// Derive the class name from the driver.
-		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
-
-		// Make sure we have an iterator class for this driver.
-		if (!class_exists($iteratorClass))
-		{
-			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new JDatabaseExceptionUnsupported(sprintf('class *%s* is not defined', $iteratorClass));
-		}
-
-		// Return a new iterator
-		return new $iteratorClass($this->execute(), $column, $class);
+		return $this->factory->getIterator($this->name, $this, $column, $class);
 	}
 
 	/**

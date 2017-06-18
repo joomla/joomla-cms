@@ -231,7 +231,7 @@ class Plugins extends ListModel
 		}
 
 		// Filter by published state.
-		$published = $this->getState('filter.enabled');
+		$published = (string) $this->getState('filter.enabled');
 
 		if (is_numeric($published))
 		{

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
-JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
 //JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -26,7 +26,7 @@ JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<jdoc:include type="head" />
 </head>
-<body class="contentpane modal">
+<body>
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>

@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -114,9 +114,6 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
-
-		// Include MooTools framework
-		static::framework();
 
 		// Load the new jQuery code
 		static::formvalidator();
@@ -275,12 +272,8 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/multiselect.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Attach multiselect to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"document.addEventListener('DOMContentLoaded', function() {
-				Joomla.JMultiSelect('" . $id . "');
-			});"
-		);
+		// Pass the required options to the javascript
+		JFactory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$id] = true;
@@ -630,6 +623,7 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('jquery.framework');
+		JHtml::_('behavior.polyfill', array('xpath'));
 		JHtml::_('script', 'system/tabs-state.min.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
 	}
@@ -670,7 +664,7 @@ abstract class JHtmlBehavior
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			JHtml::_('script', 'vendor/polyfills/polyfill.' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'system/polyfill-' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;

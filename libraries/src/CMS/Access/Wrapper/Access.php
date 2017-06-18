@@ -15,9 +15,8 @@ use Joomla\CMS\Access\Access as StaticAccess;
 /**
  * Wrapper class for Access
  *
- * @package     Joomla.Platform
- * @subpackage  User
  * @since       3.4
+ * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
  */
 class Access
 {
@@ -28,6 +27,7 @@ class Access
 	 *
 	 * @see     StaticAccess::clearStatics
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function clearStatics()
 	{
@@ -45,6 +45,7 @@ class Access
 	 *
 	 * @see     StaticAccess::check()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function check($userId, $action, $asset = null)
 	{
@@ -62,6 +63,7 @@ class Access
 	 *
 	 * @see     StaticAccess::checkGroup()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function checkGroup($groupId, $action, $asset = null)
 	{
@@ -78,6 +80,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getAssetRules
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function getAssetRules($asset, $recursive = false)
 	{
@@ -94,6 +97,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getGroupsByUser()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function getGroupsByUser($userId, $recursive = true)
 	{
@@ -110,6 +114,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getUsersByGroup()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function getUsersByGroup($groupId, $recursive = false)
 	{
@@ -125,6 +130,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getAuthorisedViewLevels()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function getAuthorisedViewLevels($userId)
 	{
@@ -158,6 +164,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getActionsFromFile()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function getActionsFromFile($file, $xpath = '/access/section[@name=\'component\']/')
 	{
@@ -174,6 +181,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getActionsFromData()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Access\Access` directly
 	 */
 	public function getActionsFromData($data, $xpath = '/access/section[@name=\'component\']/')
 	{

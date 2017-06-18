@@ -110,6 +110,60 @@ class ModuleAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Custom discover method
+	 *
+	 * @return  array  Extension list of extensions available
+	 *
+	 * @since   3.1
+	 */
+	public function discover()
+	{
+		$results = array();
+		$site_list = \JFolder::folders(JPATH_SITE . '/modules');
+		$admin_list = \JFolder::folders(JPATH_ADMINISTRATOR . '/modules');
+		$site_info = ApplicationHelper::getClientInfo('site', true);
+		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
+
+		foreach ($site_list as $module)
+		{
+			if (file_exists(JPATH_SITE . "/modules/$module/$module.xml"))
+			{
+				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+				$extension = Table::getInstance('extension');
+				$extension->set('type', 'module');
+				$extension->set('client_id', $site_info->id);
+				$extension->set('element', $module);
+				$extension->set('folder', '');
+				$extension->set('name', $module);
+				$extension->set('state', -1);
+				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
+				$results[] = clone $extension;
+			}
+		}
+
+		foreach ($admin_list as $module)
+		{
+			if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml"))
+			{
+				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+				$extension = Table::getInstance('extension');
+				$extension->set('type', 'module');
+				$extension->set('client_id', $admin_info->id);
+				$extension->set('element', $module);
+				$extension->set('folder', '');
+				$extension->set('name', $module);
+				$extension->set('state', -1);
+				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
+				$results[] = clone $extension;
+			}
+		}
+
+		return $results;
+	}
+
+	/**
 	 * Method to finalise the installation processing
 	 *
 	 * @return  void
@@ -143,6 +197,109 @@ class ModuleAdapter extends InstallerAdapter
 				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_COPY_SETUP'));
 			}
 		}
+	}
+
+	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseUninstall()
+	{
+		$db = $this->parent->getDbo();
+
+		// Remove the schema version
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $this->extension->extension_id);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Let's delete all the module copies for the type we are uninstalling
+		$query->clear()
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($this->extension->element))
+			->where($db->quoteName('client_id') . ' = ' . (int) $this->extension->client_id);
+		$db->setQuery($query);
+
+		try
+		{
+			$modules = $db->loadColumn();
+		}
+		catch (\RuntimeException $e)
+		{
+			$modules = [];
+		}
+
+		// Do we have any module copies?
+		if (count($modules))
+		{
+			// Ensure the list is sane
+			$modules = ArrayHelper::toInteger($modules);
+			$modID = implode(',', $modules);
+
+			// Wipe out any items assigned to menus
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $e->getMessage()), \JLog::WARNING, 'jerror');
+				$retval = false;
+			}
+
+			// Wipe out any instances in the modules table
+			/** @var \JTableModule $module */
+			$module = Table::getInstance('Module');
+
+			foreach ($modules as $modInstanceId)
+			{
+				$module->load($modInstanceId);
+
+				if (!$module->delete())
+				{
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $module->getError()), \JLog::WARNING, 'jerror');
+					$retval = false;
+				}
+			}
+		}
+
+		// Now we will no longer need the module object, so let's delete it and free up memory
+		$this->extension->delete($this->extension->extension_id);
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($this->extension->element))
+			->where($db->quote('client_id') . ' = ' . $this->extension->client_id);
+		$db->setQuery($query);
+
+		try
+		{
+			// Clean up any other ones that might exist as well
+			$db->execute();
+		}
+		catch (\RuntimeException $e)
+		{
+			// Ignore the error...
+		}
+
+		// Remove the installation folder
+		if (!\JFolder::delete($this->parent->getPath('extension_root')))
+		{
+			// \JFolder should raise an error
+			$retval = false;
+		}
+
+		return $retval;
 	}
 
 	/**
@@ -247,6 +404,49 @@ class ModuleAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Refreshes the extension table cache
+	 *
+	 * @return  boolean  Result of operation, true if updated, false on failure.
+	 *
+	 * @since   3.1
+	 */
+	public function refreshManifestCache()
+	{
+		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->extension->manifest_cache = json_encode($manifest_details);
+		$this->parent->extension->name = $manifest_details['name'];
+
+		if ($this->parent->extension->store())
+		{
+			return true;
+		}
+		else
+		{
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+
+			return false;
+		}
+	}
+
+	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function removeExtensionFiles()
+	{
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages, $this->extension->client_id);
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -297,6 +497,42 @@ class ModuleAdapter extends InstallerAdapter
 		}
 
 		$this->parent->setPath('extension_root', $basePath . '/modules/' . $this->element);
+	}
+
+	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function setupUninstall()
+	{
+		// Get the extension root path
+		$element = $this->extension->element;
+		$client  = ApplicationHelper::getClientInfo($this->extension->client_id);
+
+		if ($client === false)
+		{
+			throw new \RuntimeException(
+				\JText::sprintf(
+					'JLIB_INSTALLER_ERROR_MOD_UNINSTALL_UNKNOWN_CLIENT',
+					$this->extension->client_id
+				)
+			);
+		}
+
+		$this->parent->setPath('extension_root', $client->path . '/modules/' . $element);
+
+		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
+
+		// Get the module's manifest objecct
+		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
+		$this->parent->findManifest();
+		$this->setManifest($this->parent->getManifest());
+
+		// Attempt to load the language file; might have uninstall strings
+		$this->loadLanguage(($this->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $element);
 	}
 
 	/**
@@ -419,308 +655,6 @@ class ModuleAdapter extends InstallerAdapter
 
 			$module->store();
 		}
-	}
-
-	/**
-	 * Custom discover method
-	 *
-	 * @return  array  Extension list of extensions available
-	 *
-	 * @since   3.1
-	 */
-	public function discover()
-	{
-		$results = array();
-		$site_list = \JFolder::folders(JPATH_SITE . '/modules');
-		$admin_list = \JFolder::folders(JPATH_ADMINISTRATOR . '/modules');
-		$site_info = ApplicationHelper::getClientInfo('site', true);
-		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
-
-		foreach ($site_list as $module)
-		{
-			if (file_exists(JPATH_SITE . "/modules/$module/$module.xml"))
-			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'module');
-				$extension->set('client_id', $site_info->id);
-				$extension->set('element', $module);
-				$extension->set('folder', '');
-				$extension->set('name', $module);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = clone $extension;
-			}
-		}
-
-		foreach ($admin_list as $module)
-		{
-			if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml"))
-			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'module');
-				$extension->set('client_id', $admin_info->id);
-				$extension->set('element', $module);
-				$extension->set('folder', '');
-				$extension->set('name', $module);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = clone $extension;
-			}
-		}
-
-		return $results;
-	}
-
-	/**
-	 * Refreshes the extension table cache
-	 *
-	 * @return  boolean  Result of operation, true if updated, false on failure.
-	 *
-	 * @since   3.1
-	 */
-	public function refreshManifestCache()
-	{
-		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
-
-		if ($this->parent->extension->store())
-		{
-			return true;
-		}
-		else
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-	}
-
-	/**
-	 * Custom uninstall method
-	 *
-	 * @param   integer  $id  The id of the module to uninstall
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function uninstall($id)
-	{
-		$retval = true;
-		$db     = $this->db;
-
-		// First order of business will be to load the module object table from the database.
-		// This should give us the necessary information to proceed.
-		if (!$this->extension->load((int) $id) || !strlen($this->extension->element))
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Is the module we are trying to uninstall a core one?
-		// Because that is not a good idea...
-		if ($this->extension->protected)
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $this->extension->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * Does this extension have a parent package?
-		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
-		 */
-		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Get the extension root path
-		$element = $this->extension->element;
-		$client  = ApplicationHelper::getClientInfo($this->extension->client_id);
-
-		if ($client === false)
-		{
-			$this->parent->abort(
-				\JText::sprintf(
-					'JLIB_INSTALLER_ERROR_MOD_UNINSTALL_UNKNOWN_CLIENT',
-					$this->extension->client_id
-				)
-			);
-
-			return false;
-		}
-
-		$this->parent->setPath('extension_root', $client->path . '/modules/' . $element);
-
-		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
-
-		// Get the module's manifest objecct
-		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
-		$this->parent->findManifest();
-		$this->setManifest($this->parent->getManifest());
-
-		// Attempt to load the language file; might have uninstall strings
-		$this->loadLanguage(($this->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $element);
-
-		// If there is an manifest class file, let's load it
-		$this->scriptElement = $this->getManifest()->scriptfile;
-		$manifestScript      = (string) $this->getManifest()->scriptfile;
-
-		if ($manifestScript)
-		{
-			$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
-
-			// Set the class name
-			$classname = $element . 'InstallerScript';
-
-			\JLoader::register($classname, $manifestScriptFile);
-
-			if (class_exists($classname))
-			{
-				// Create a new instance
-				$this->parent->manifestClass = new $classname($this);
-
-				// And set this so we can copy it later
-				$this->manifest_script = $manifestScript;
-			}
-		}
-
-		try
-		{
-			$this->triggerManifestScript('uninstall');
-		}
-		catch (\RuntimeException $e)
-		{
-			// Ignore errors for now
-		}
-
-		if (!($this->getManifest() instanceof \SimpleXMLElement))
-		{
-			// Make sure we delete the folders
-			\JFolder::delete($this->parent->getPath('extension_root'));
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Let's run the uninstall queries for the module
-		try
-		{
-			$this->parseQueries();
-		}
-		catch (\RuntimeException $e)
-		{
-			// Install failed, rollback changes
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
-			$retval = false;
-		}
-
-		// Remove the schema version
-		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
-		$db->setQuery($query);
-		$db->execute();
-
-		// Remove other files
-		$this->parent->removeFiles($this->getManifest()->media);
-		$this->parent->removeFiles($this->getManifest()->languages, $this->extension->client_id);
-
-		// Let's delete all the module copies for the type we are uninstalling
-		$query->clear()
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote($this->extension->element))
-			->where($db->quoteName('client_id') . ' = ' . (int) $this->extension->client_id);
-		$db->setQuery($query);
-
-		try
-		{
-			$modules = $db->loadColumn();
-		}
-		catch (\RuntimeException $e)
-		{
-			$modules = array();
-		}
-
-		// Do we have any module copies?
-		if (count($modules))
-		{
-			// Ensure the list is sane
-			$modules = ArrayHelper::toInteger($modules);
-			$modID = implode(',', $modules);
-
-			// Wipe out any items assigned to menus
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)), \JLog::WARNING, 'jerror');
-				$retval = false;
-			}
-
-			// Wipe out any instances in the modules table
-			/** @var \JTableModule $module */
-			$module = Table::getInstance('Module');
-
-			foreach ($modules as $modInstanceId)
-			{
-				$module->load($modInstanceId);
-
-				if (!$module->delete())
-				{
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $module->getError()), \JLog::WARNING, 'jerror');
-					$retval = false;
-				}
-			}
-		}
-
-		// Now we will no longer need the module object, so let's delete it and free up memory
-		$this->extension->delete($this->extension->extension_id);
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote($this->extension->element))
-			->where($db->quote('client_id') . ' = ' . $this->extension->client_id);
-		$db->setQuery($query);
-
-		try
-		{
-			// Clean up any other ones that might exist as well
-			$db->execute();
-		}
-		catch (\RuntimeException $e)
-		{
-			// Ignore the error...
-		}
-
-		// Remove the installation folder
-		if (!\JFolder::delete($this->parent->getPath('extension_root')))
-		{
-			// \JFolder should raise an error
-			$retval = false;
-		}
-
-		return $retval;
 	}
 
 	/**

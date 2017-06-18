@@ -8,6 +8,7 @@
  */
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
+use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\View\AbstractView;
 
 defined('_JEXEC') or die;
@@ -33,7 +34,7 @@ class Text extends AbstractView
 		// Access check.
 		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new \JUserAuthorizationexception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('Content-Type: text/plain; charset=utf-8');

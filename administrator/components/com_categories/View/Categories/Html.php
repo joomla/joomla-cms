@@ -216,11 +216,6 @@ class Html extends HtmlView
 			\JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		}
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			\JToolbarHelper::preferences($component);
-		}
-
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
@@ -228,6 +223,11 @@ class Html extends HtmlView
 		elseif ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::trash('categories.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			\JToolbarHelper::preferences($component);
 		}
 
 		// Compute the ref_key if it does exist in the component

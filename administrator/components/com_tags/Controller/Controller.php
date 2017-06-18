@@ -20,6 +20,14 @@ use Joomla\CMS\Controller\Controller as BaseController;
 class Controller extends BaseController
 {
 	/**
+	 * The default view.
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $default_view = 'tags';
+	
+	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached

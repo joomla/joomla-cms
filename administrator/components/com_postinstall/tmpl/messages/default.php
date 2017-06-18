@@ -41,7 +41,7 @@ $params = array('params' => json_encode($param));
 		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
 		<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
         <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
-			<span class="icon icon-eye-open"></span>
+			<span class="icon icon-eye-open" aria-hidden="true"></span>
 			<?php echo JText::_('COM_POSTINSTALL_BTN_RESET'); ?>
 		</a>
 	</div>

@@ -74,6 +74,7 @@
   background-color: $atum-container-main-bg;
 
   @include media-breakpoint-down(md) {
+    padding-left: 50px;
     // 50px - 3px which is the header bottom border
     margin-top: 47px;
   }

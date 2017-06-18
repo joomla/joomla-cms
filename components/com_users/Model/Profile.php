@@ -140,7 +140,6 @@ class Profile extends Form
 
 			// Set the base user data.
 			$this->data->email1 = $this->data->get('email');
-			$this->data->email2 = $this->data->get('email');
 
 			// Override the base user data with any data in the session.
 			$temp = (array) \JFactory::getApplication()->getUserState('com_users.edit.profile.data', array());

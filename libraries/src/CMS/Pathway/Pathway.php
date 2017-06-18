@@ -20,37 +20,28 @@ defined('JPATH_PLATFORM') or die;
 class Pathway
 {
 	/**
-	 * @var    array  Array to hold the pathway item objects
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $pathway
+	 * Array to hold the pathway item objects
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_pathway = array();
+	protected $pathway = array();
 
 	/**
-	 * @var    integer  Integer number of items in the pathway
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $count
+	 * Integer number of items in the pathway
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_count = 0;
+	protected $count = 0;
 
 	/**
-	 * JPathway instances container.
+	 * Pathway instances container.
 	 *
 	 * @var    Pathway[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
-
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  The class options.
-	 *
-	 * @since   1.5
-	 */
-	public function __construct($options = array())
-	{
-	}
 
 	/**
 	 * Returns a Pathway object
@@ -76,7 +67,7 @@ class Pathway
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->exists($classname))
+			if (\JFactory::getContainer()->has($classname))
 			{
 				self::$instances[$client] = \JFactory::getContainer()->get($classname);
 			}
@@ -98,10 +89,8 @@ class Pathway
 	 */
 	public function getPathway()
 	{
-		$pw = $this->_pathway;
-
 		// Use array_values to reset the array keys numerically
-		return array_values($pw);
+		return array_values($this->pathway);
 	}
 
 	/**
@@ -115,10 +104,10 @@ class Pathway
 	 */
 	public function setPathway($pathway)
 	{
-		$oldPathway = $this->_pathway;
+		$oldPathway = $this->pathway;
 
 		// Set the new pathway.
-		$this->_pathway = array_values((array) $pathway);
+		$this->pathway = array_values((array) $pathway);
 
 		return array_values($oldPathway);
 	}
@@ -135,7 +124,7 @@ class Pathway
 		$names = array();
 
 		// Build the names array using just the names of each pathway item
-		foreach ($this->_pathway as $item)
+		foreach ($this->pathway as $item)
 		{
 			$names[] = $item->name;
 		}
@@ -158,10 +147,10 @@ class Pathway
 	{
 		$ret = false;
 
-		if ($this->_pathway[] = $this->makeItem($name, $link))
+		if ($this->pathway[] = $this->makeItem($name, $link))
 		{
 			$ret = true;
-			$this->_count++;
+			$this->count++;
 		}
 
 		return $ret;
@@ -181,9 +170,9 @@ class Pathway
 	{
 		$ret = false;
 
-		if (isset($this->_pathway[$id]))
+		if (isset($this->pathway[$id]))
 		{
-			$this->_pathway[$id]->name = $name;
+			$this->pathway[$id]->name = $name;
 			$ret = true;
 		}
 
@@ -196,24 +185,7 @@ class Pathway
 	 * @param   string  $name  Name of the item
 	 * @param   string  $link  Link to the item
 	 *
-	 * @return  Pathway  Pathway item object
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use makeItem() instead
-	 * @codeCoverageIgnore
-	 */
-	protected function _makeItem($name, $link)
-	{
-		return $this->makeItem($name, $link);
-	}
-
-	/**
-	 * Create and return a new pathway object.
-	 *
-	 * @param   string  $name  Name of the item
-	 * @param   string  $link  Link to the item
-	 *
-	 * @return  Pathway  Pathway item object
+	 * @return  \stdClass  Pathway item object
 	 *
 	 * @since   3.1
 	 */

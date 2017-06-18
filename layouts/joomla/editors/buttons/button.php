@@ -21,6 +21,6 @@ if ($button->get('name')) :
 	$title   = ($button->get('title')) ? $button->get('title') : $button->get('text');
 ?>
 <a href="<?php echo $href; ?>" role="button" class="<?php echo $class; ?>" <?php echo $button->get('modal') ? 'data-toggle="modal"' : '' ?> title="<?php echo $title; ?>" <?php echo $onclick; ?>>
-	<span class="icon-<?php echo $button->get('name'); ?>"></span> <?php echo $button->get('text'); ?>
+	<span class="icon-<?php echo $button->get('name'); ?>" aria-hidden="true"></span> <?php echo $button->get('text'); ?>
 </a>
 <?php endif; ?>
