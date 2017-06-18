@@ -19,22 +19,16 @@ pipeline {
         // You can only use the parallel step if it's the *only* step in the stage.
         parallel(
           PHP53: {
-            environment {
-                PHPVERSION = 'php53'
-            }
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php53 && docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
 
           },
           PHP54: {
-            environment {
-                PHPVERSION = 'php54'
-            }
-            sh 'docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
+            sh 'export PHPVERSION=php54 && docker-compose -f build/jenkins/docker-compose.yml run --rm test bash build/jenkins/unit-tests.sh'
           }
         )
       }
     }
-    
+
     stage('Testing-Javascript') {
       agent {
         docker {
