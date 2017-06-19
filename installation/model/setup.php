@@ -136,9 +136,7 @@ class InstallationModelSetup extends JModelBase
 		unset($return['admin_password2']);
 
 		// Store the options in the session.
-		$vars = $this->storeOptions($return);
-
-		return $vars;
+		return $this->storeOptions($return);
 	}
 
 	/**
@@ -272,14 +270,14 @@ class InstallationModelSetup extends JModelBase
 			// Check for default MB language.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
+			$option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
 			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
-			$option->state  = (ini_get('mbstring.func_overload') == 0);
+			$option->state  = ini_get('mbstring.func_overload') == 0;
 			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
 			$options[] = $option;
 		}
@@ -332,7 +330,7 @@ class InstallationModelSetup extends JModelBase
 
 		foreach ($options as $option)
 		{
-			if (is_null($option->notice))
+			if ($option->notice === null)
 			{
 				$result = ($result && $option->state);
 			}

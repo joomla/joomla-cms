@@ -173,8 +173,7 @@ class SiteMenu extends AbstractMenu
 			}
 			elseif ($values[$key] === null)
 			{
-				unset($attributes[$key]);
-				unset($values[$key]);
+				unset($attributes[$key], $values[$key]);
 			}
 
 			// Filter by access level if not set
@@ -185,8 +184,7 @@ class SiteMenu extends AbstractMenu
 			}
 			elseif ($values[$key] === null)
 			{
-				unset($attributes[$key]);
-				unset($values[$key]);
+				unset($attributes[$key], $values[$key]);
 			}
 		}
 

@@ -822,7 +822,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->bogusPath);
-		unset($this->bogusFullPath);
+		unset($this->bogusPath, $this->bogusFullPath);
 	}
 }

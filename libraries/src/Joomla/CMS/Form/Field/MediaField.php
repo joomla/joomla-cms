@@ -188,7 +188,7 @@ class MediaField extends FormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
@@ -236,7 +236,7 @@ class MediaField extends FormField
 
 		$asset = $this->asset;
 
-		if ($asset == '')
+		if ($asset === '')
 		{
 			$asset = \JFactory::getApplication()->input->get('option');
 		}
