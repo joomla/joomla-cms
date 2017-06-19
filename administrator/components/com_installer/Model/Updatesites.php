@@ -404,13 +404,13 @@ class Updatesites extends Installer
 	 */
 	public function getJoomlaUpdateSitesNames($ids = array())
 	{
-		$db  = $this->getDbo();
+		$db = $this->getDbo();
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('update_site_id', 'name')))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+			->select($db->quoteName(array('update_site_id', 'name')))
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
 		$db->setQuery($query);
 		$updateSitesNames = $db->loadObjectList('update_site_id');
 

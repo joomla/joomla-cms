@@ -72,7 +72,7 @@ class Html extends InstallerViewDefault
 	{
 		$canDo = ContentHelper::getActions('com_installer');
 
-		if ($canDo->get('core.edit'))
+		if ($canDo->get('core.admin'))
 		{
 			ToolbarHelper::editList('updatesite.edit');
 		}
