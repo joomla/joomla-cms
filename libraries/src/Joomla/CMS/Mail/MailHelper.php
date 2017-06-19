@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Mail
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Mail;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-abstract class JMailHelper
+abstract class MailHelper
 {
 	/**
 	 * Cleans single line inputs.
@@ -30,7 +31,7 @@ abstract class JMailHelper
 	 */
 	public static function cleanLine($value)
 	{
-		$value = JStringPunycode::emailToPunycode($value);
+		$value = \JStringPunycode::emailToPunycode($value);
 
 		return trim(preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
 	}
@@ -158,7 +159,7 @@ abstract class JMailHelper
 		foreach ($domain_array as $domain)
 		{
 			// Convert domain to punycode
-			$domain = JStringPunycode::toPunycode($domain);
+			$domain = \JStringPunycode::toPunycode($domain);
 
 			// Must be something
 			if (!$domain)

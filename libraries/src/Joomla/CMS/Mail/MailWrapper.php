@@ -1,22 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Mail
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Mail;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Wrapper class for JMailHelper
+ * Wrapper class for MailHelper
  *
  * @package     Joomla.Platform
  * @subpackage  Mail
  * @since       3.4
+ * @deprecated  4.0 Will be removed without replacement
  */
-class JMailWrapperHelper
+class MailWrapper
 {
 	/**
 	 * Helper wrapper method for cleanLine
@@ -25,12 +27,12 @@ class JMailWrapperHelper
 	 *
 	 * @return  string  Cleaned string.
 	 *
-	 * @see     JMailHelper::cleanLine()
+	 * @see     MailHelper::cleanLine()
 	 * @since   3.4
 	 */
 	public function cleanLine($value)
 	{
-		return JMailHelper::cleanLine($value);
+		return MailHelper::cleanLine($value);
 	}
 
 	/**
@@ -40,12 +42,12 @@ class JMailWrapperHelper
 	 *
 	 * @return  string  Cleaned multi-line string.
 	 *
-	 * @see     JMailHelper::cleanText()
+	 * @see     MailHelper::cleanText()
 	 * @since   3.4
 	 */
 	public function cleanText($value)
 	{
-		return JMailHelper::cleanText($value);
+		return MailHelper::cleanText($value);
 	}
 
 	/**
@@ -55,12 +57,12 @@ class JMailWrapperHelper
 	 *
 	 * @return  string  Cleaned email body string.
 	 *
-	 * @see     JMailHelper::cleanBody()
+	 * @see     MailHelper::cleanBody()
 	 * @since   3.4
 	 */
 	public function cleanBody($body)
 	{
-		return JMailHelper::cleanBody($body);
+		return MailHelper::cleanBody($body);
 	}
 
 	/**
@@ -70,12 +72,12 @@ class JMailWrapperHelper
 	 *
 	 * @return  string  Cleaned email subject string.
 	 *
-	 * @see     JMailHelper::cleanSubject()
+	 * @see     MailHelper::cleanSubject()
 	 * @since   3.4
 	 */
 	public function cleanSubject($subject)
 	{
-		return JMailHelper::cleanSubject($subject);
+		return MailHelper::cleanSubject($subject);
 	}
 
 	/**
@@ -85,12 +87,12 @@ class JMailWrapperHelper
 	 *
 	 * @return  mixed   email address string or boolean false if injected headers are present
 	 *
-	 * @see     JMailHelper::cleanAddress()
+	 * @see     MailHelper::cleanAddress()
 	 * @since   3.4
 	 */
 	public function cleanAddress($address)
 	{
-		return JMailHelper::cleanAddress($address);
+		return MailHelper::cleanAddress($address);
 	}
 
 	/**
@@ -100,11 +102,11 @@ class JMailWrapperHelper
 	 *
 	 * @return boolean  True if string has the correct format; false otherwise.
 	 *
-	 * @see     JMailHelper::isEmailAddress()
+	 * @see     MailHelper::isEmailAddress()
 	 * @since   3.4
 	 */
 	public function isEmailAddress($email)
 	{
-		return JMailHelper::isEmailAddress($email);
+		return MailHelper::isEmailAddress($email);
 	}
 }

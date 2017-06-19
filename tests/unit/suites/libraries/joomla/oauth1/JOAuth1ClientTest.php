@@ -113,11 +113,7 @@ class JOAuth1ClientTest extends TestCase
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		$this->restoreFactoryState();
-		unset($this->options);
-		unset($this->client);
-		unset($this->input);
-		unset($this->application);
-		unset($this->object);
+		unset($this->options, $this->client, $this->input, $this->application, $this->object);
 	}
 
 	/**

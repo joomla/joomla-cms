@@ -85,11 +85,11 @@ class PostgresqlChangeItem extends ChangeItem
 			}
 			elseif ($alterCommand === 'ALTER COLUMN')
 			{
-				if (strtoupper($wordArray[6]) == 'TYPE')
+				if (strtoupper($wordArray[6]) === 'TYPE')
 				{
 					$type = '';
 
-					for ($i = 7; $i < count($wordArray); $i++)
+					for ($i = 7, $iMax = count($wordArray); $i < $iMax; $i++)
 					{
 						$type .= $wordArray[$i] . ' ';
 					}
@@ -111,9 +111,9 @@ class PostgresqlChangeItem extends ChangeItem
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 				}
-				elseif (strtoupper($wordArray[7] . ' ' . $wordArray[8]) == 'NOT NULL')
+				elseif (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL')
 				{
-					if (strtoupper($wordArray[6]) == 'SET')
+					if (strtoupper($wordArray[6]) === 'SET')
 					{
 						// SET NOT NULL
 						$isNullable = $this->fixQuote('NO');
@@ -134,7 +134,7 @@ class PostgresqlChangeItem extends ChangeItem
 				}
 				elseif (strtoupper($wordArray[7]) === 'DEFAULT')
 				{
-					if (strtoupper($wordArray[6]) == 'SET')
+					if (strtoupper($wordArray[6]) === 'SET')
 					{
 						$isNullDef = 'IS NOT NULL';
 					}
@@ -156,7 +156,7 @@ class PostgresqlChangeItem extends ChangeItem
 		}
 		elseif ($command === 'DROP INDEX')
 		{
-			if (strtoupper($wordArray[2] . $wordArray[3]) == 'IFEXISTS')
+			if (strtoupper($wordArray[2] . $wordArray[3]) === 'IFEXISTS')
 			{
 				$idx = $this->fixQuote($wordArray[4]);
 			}
@@ -170,7 +170,7 @@ class PostgresqlChangeItem extends ChangeItem
 			$this->checkQueryExpected = 0;
 			$this->msgElements = array($this->fixQuote($idx));
 		}
-		elseif ($command == 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
+		elseif ($command === 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) === 'CREATE UNIQUE INDEX'))
 		{
 			if ($wordArray[1] === 'UNIQUE')
 			{
@@ -189,9 +189,9 @@ class PostgresqlChangeItem extends ChangeItem
 			$this->msgElements = array($table, $idx);
 		}
 
-		if ($command == 'CREATE TABLE')
+		if ($command === 'CREATE TABLE')
 		{
-			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) == 'IFNOTEXISTS')
+			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) === 'IFNOTEXISTS')
 			{
 				$table = $this->fixQuote($wordArray[5]);
 			}
@@ -235,7 +235,7 @@ class PostgresqlChangeItem extends ChangeItem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
 			$result = 'unsigned int(10)';
 		}

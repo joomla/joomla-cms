@@ -14,7 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Observer\Tags;
-use Joomla\CMS\Table\Observer\ContentHistory;
+use Joomla\CMS\Table\Observer\ContentHistory as ContentHistoryObserver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -39,7 +39,7 @@ class Content extends Table
 		parent::__construct('#__content', 'id', $db);
 
 		Tags::createObserver($this, array('typeAlias' => 'com_content.article'));
-		ContentHistory::createObserver($this, array('typeAlias' => 'com_content.article'));
+		ContentHistoryObserver::createObserver($this, array('typeAlias' => 'com_content.article'));
 
 		// Set the alias since the column is called state
 		$this->setColumnAlias('published', 'state');
