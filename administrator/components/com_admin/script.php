@@ -1988,6 +1988,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/category.php',
 			'/libraries/legacy/view/categoryfeed.php',
 			'/libraries/legacy/view/legacy.php',
+			'/libraries/legacy/web/client.php',
+			'/libraries/legacy/web/web.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2185,6 +2187,7 @@ class JoomlaInstallerScript
 			'/libraries/legacy/controller',
 			'/libraries/legacy/model',
 			'/libraries/legacy/view',
+			'/libraries/legacy/web',
 		);
 
 		jimport('joomla.filesystem.file');
