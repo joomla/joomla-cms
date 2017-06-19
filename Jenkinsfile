@@ -56,7 +56,6 @@ pipeline {
       agent {
         docker {
             image 'joomlaprojects/docker-systemtests'
-            args  '--privileged'
         }
       }
       steps {
