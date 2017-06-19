@@ -295,13 +295,12 @@ JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Clie
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
 JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
 
-JLoader::registerAlias('JImage',                            '\\Joomla\\Image\\Image', '5.0');
 JLoader::registerAlias('JImageFilter',                      '\\Joomla\\Image\\ImageFilter', '5.0');
-JLoader::registerAlias('JImageFilterBackgroundfill',        '\\Joomla\\Image\\Backgroundfill', '5.0');
-JLoader::registerAlias('JImageFilterBrightness',            '\\Joomla\\Image\\Brightness', '5.0');
-JLoader::registerAlias('JImageFilterContrast',              '\\Joomla\\Image\\Contrast', '5.0');
-JLoader::registerAlias('JImageFilterEdgedetect',            '\\Joomla\\Image\\Edgedetect', '5.0');
-JLoader::registerAlias('JImageFilterEmboss',                '\\Joomla\\Image\\Emboss', '5.0');
-JLoader::registerAlias('JImageFilterNegate',                '\\Joomla\\Image\\Negate', '5.0');
-JLoader::registerAlias('JImageFilterSketchy',               '\\Joomla\\Image\\Sketchy', '5.0');
-JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\Image\\Smooth', '5.0');
+JLoader::registerAlias('JImageFilterBackgroundfill',        '\\Joomla\\Image\\Filter\\Backgroundfill', '5.0');
+JLoader::registerAlias('JImageFilterBrightness',            '\\Joomla\\Image\\Filter\\Brightness', '5.0');
+JLoader::registerAlias('JImageFilterContrast',              '\\Joomla\\Image\\Filter\\Contrast', '5.0');
+JLoader::registerAlias('JImageFilterEdgedetect',            '\\Joomla\\Image\\Filter\\Edgedetect', '5.0');
+JLoader::registerAlias('JImageFilterEmboss',                '\\Joomla\\Image\\Filter\\Emboss', '5.0');
+JLoader::registerAlias('JImageFilterNegate',                '\\Joomla\\Image\\Filter\\Negate', '5.0');
+JLoader::registerAlias('JImageFilterSketchy',               '\\Joomla\\Image\\Filter\\Sketchy', '5.0');
+JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\Image\\Filter\\Smooth', '5.0');
