@@ -6,7 +6,7 @@ service apache2 restart
 
 # Start Xvfb
 export DISPLAY=:0
-Xvfb -screen 0 1024x768x24 -ac +extension RANDR &
+Xvfb -screen 0 1280x1024x24 -ac +extension RANDR &
 sleep 1 # give xvfb some time to start
 
 # Start Fluxbox
