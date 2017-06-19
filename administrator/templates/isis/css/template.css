@@ -7954,6 +7954,9 @@ ul.manager .height-50 .icon-folder-2 {
 #mediamanager-form .thumbnails .imgTotal {
 	line-height: 120px;
 }
+#mediamanager-form .icon-search::before {
+	padding-right: 10px;
+}
 #mediamanager-form .height-50 {
 	background-color: #fafafa;
 	height: 77px;

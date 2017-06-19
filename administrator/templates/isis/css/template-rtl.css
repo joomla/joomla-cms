@@ -7954,6 +7954,9 @@ ul.manager .height-50 .icon-folder-2 {
 #mediamanager-form .thumbnails .imgTotal {
 	line-height: 120px;
 }
+#mediamanager-form .icon-search::before {
+	padding-right: 10px;
+}
 #mediamanager-form .height-50 {
 	background-color: #fafafa;
 	height: 77px;
@@ -9989,6 +9992,8 @@ a.grid_true {
 #mediamanager-form .thumbnails-media .thumbnail {
 	margin-left: 18px !important;
 	margin-right: 0;
+	direction: ltr;
+	text-align: center;
 }
 .thumbnails-media .imgThumb label::before,
 .thumbnails-media .imgThumb .imgThumbInside::before {
@@ -10008,8 +10013,9 @@ a.grid_true {
 .thumbnails-media .imgDetails {
 	border-radius: 3px 0;
 	border-width: 1px 0 0 1px;
-	left: auto;
-	right: 0;
+	left: 0;
+	right: 5px;
+	direction: ltr;
 }
 .subform-table-layout td {
 	padding-left: 10px;
