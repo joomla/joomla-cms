@@ -8,7 +8,7 @@ pipeline {
       agent {
         docker {
            image 'joomlaprojects/docker-systemtests'
-           args  '--user 0'
+           args  '--user 0 --cap-add=SYS_ADMIN'
         }
       }
       steps {
