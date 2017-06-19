@@ -43,9 +43,7 @@ class ModulesViewModules extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// We do not need the Page and the Language filters when filtering by administrator

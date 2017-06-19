@@ -215,7 +215,7 @@ class TagsHelper extends CMSHelper
 			foreach ($tags as $key => $tag)
 			{
 				// User is not allowed to create tags, so don't create.
-				if (strpos($tag, '#new#') !== false && !$canCreate)
+				if (!$canCreate && strpos($tag, '#new#') !== false)
 				{
 					continue;
 				}
@@ -223,7 +223,7 @@ class TagsHelper extends CMSHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -311,7 +311,7 @@ class TagsHelper extends CMSHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -433,9 +433,9 @@ class TagsHelper extends CMSHelper
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -614,9 +614,9 @@ class TagsHelper extends CMSHelper
 			$language = $languageFilter;
 		}
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -648,7 +648,7 @@ class TagsHelper extends CMSHelper
 		}
 
 		// Set up the order by using the option chosen
-		if ($orderByOption == 'match_count')
+		if ($orderByOption === 'match_count')
 		{
 			$orderBy = 'COUNT(m.tag_id)';
 		}
@@ -954,7 +954,7 @@ class TagsHelper extends CMSHelper
 		}
 
 		// Filter by parent_id
-		if (!empty($filters['parent_id']))
+		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = Table::getInstance('Tag', 'TagsTable');

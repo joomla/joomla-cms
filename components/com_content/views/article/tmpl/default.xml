@@ -14,14 +14,16 @@
 		<fieldset name="request"
 			addfieldpath="/administrator/components/com_content/models/fields">
 
-			<field name="id" type="modal_article"
+			<field 
+				name="id" 
+				type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
+				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 				required="true"
 				select="true"
 				new="true"
 				edit="true"
 				clear="true"
-				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 			/>
 		</fieldset>
 	</fields>
@@ -58,8 +60,8 @@
 		<field 
 			name="show_intro" 
 			type="list"
-			description="JGLOBAL_SHOW_INTRO_DESC"
 			label="JGLOBAL_SHOW_INTRO_LABEL"
+			description="JGLOBAL_SHOW_INTRO_DESC"
 			useglobal="true"
 			>
 			<option value="1">JSHOW</option>

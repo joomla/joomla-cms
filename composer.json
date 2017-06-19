@@ -12,10 +12,10 @@
         "vendor-dir": "libraries/vendor"
     },
     "support": {
-        "issues":"https://issues.joomla.org",
-        "irc":"http://irc.lc/freenode/joomla/",
-        "forum":"https://forum.joomla.org/",
-        "docs":"https://docs.joomla.org"
+        "issues": "https://issues.joomla.org",
+        "irc": "https://irc.lc/freenode/joomla/",
+        "forum": "https://forum.joomla.org/",
+        "docs": "https://docs.joomla.org"
     },
     "require": {
         "php": ">=5.3.10",

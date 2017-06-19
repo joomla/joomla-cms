@@ -22,7 +22,7 @@ $options = array(
 			'id'       => $this->referenceId,
 		);
 ?>
-<button id="toogle-left-panel" class="btn btn-small" 
+<button id="toogle-left-panel" class="btn btn-small"
 		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
 		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
@@ -51,7 +51,7 @@ $options = array(
 					<?php echo $this->form->getInput('itemlanguage'); ?>
 				</div>
 				<iframe id="target-association" name="target-association"
-					data-url="<?php echo $this->defaultTargetSrc; ?>"
+					src="<?php echo $this->defaultTargetSrc; ?>"
 					height="400" width="400"
 					data-action="<?php echo $this->targetAction; ?>"
 					data-item="<?php echo $this->typeName; ?>"

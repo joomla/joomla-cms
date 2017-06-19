@@ -134,7 +134,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		// Sanity check, make sure the type is set by taking the adapter name from the class name
 		if (!$this->type)
 		{
-			$this->type = strtolower(str_replace('JInstallerAdapter', '', get_called_class()));
+			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
+			$reflection = new \ReflectionClass(get_called_class());
+			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
 		}
 	}
 
@@ -226,8 +228,8 @@ abstract class InstallerAdapter extends \JAdapterInstance
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -459,7 +461,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 */
 	protected function doDatabaseTransactions()
 	{
-		$route = $this->route == 'discover_install' ? 'install' : $this->route;
+		$route = $this->route === 'discover_install' ? 'install' : $this->route;
 
 		// Let's run the install queries for the component
 		if (isset($this->getManifest()->{$route}->sql))
@@ -469,7 +471,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 			if ($result === false)
 			{
 				// Only rollback if installing
-				if ($route == 'install')
+				if ($route === 'install')
 				{
 					throw new \RuntimeException(
 						\JText::sprintf(
@@ -679,7 +681,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		}
 
 		// If we are on the update route, run any custom setup routines
-		if ($this->route == 'update')
+		if ($this->route === 'update')
 		{
 			try
 			{
@@ -857,7 +859,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 				$this->parent->setSchemaVersion($this->getManifest()->update->schemas, $this->extension->extension_id);
 			}
 		}
-		elseif ($this->route == 'update')
+		elseif ($this->route === 'update')
 		{
 			if ($this->getManifest()->update)
 			{
@@ -1020,7 +1022,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 				case 'postflight' :
 					if ($this->parent->manifestClass->$method($this->route, $this) === false)
 					{
-						if ($method != 'postflight')
+						if ($method !== 'postflight')
 						{
 							// Clean and close the output buffer
 							ob_end_clean();
@@ -1042,7 +1044,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 				case 'update' :
 					if ($this->parent->manifestClass->$method($this) === false)
 					{
-						if ($method != 'uninstall')
+						if ($method !== 'uninstall')
 						{
 							// Clean and close the output buffer
 							ob_end_clean();
@@ -1064,7 +1066,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		$this->extensionMessage .= ob_get_clean();
 
 		// If in postflight or uninstall, set the message for display
-		if (($method == 'uninstall' || $method == 'postflight') && $this->extensionMessage != '')
+		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '')
 		{
 			$this->parent->set('extension_message', $this->extensionMessage);
 		}

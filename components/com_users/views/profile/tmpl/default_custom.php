@@ -24,7 +24,7 @@ if (isset($fieldsets['params']))
 	unset($fieldsets['params']);
 }
 
-$tmp          = isset($this->data->fields) ? $this->data->fields : array();
+$tmp          = isset($this->data->jcfields) ? $this->data->jcfields : array();
 $customFields = array();
 
 foreach ($tmp as $customField)
@@ -36,7 +36,7 @@ foreach ($tmp as $customField)
 	<?php $fields = $this->form->getFieldset($group); ?>
 	<?php if (count($fields)) : ?>
 		<fieldset id="users-profile-custom-<?php echo $group; ?>" class="users-profile-custom-<?php echo $group; ?>">
-			<?php if (isset($fieldset->label) && strlen($legend = trim(JText::_($fieldset->label)))) : ?>
+			<?php if (isset($fieldset->label) && ($legend = trim(JText::_($fieldset->label))) !== '') : ?>
 				<legend><?php echo $legend; ?></legend>
 			<?php endif; ?>
 			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
