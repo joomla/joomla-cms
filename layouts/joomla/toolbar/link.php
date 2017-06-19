@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-$id     = $displayData['id'];
+$id     = isset($displayData['id']) ? $displayData['id'] : '';
 $doTask = $displayData['doTask'];
 $class  = $displayData['class'];
 $text   = $displayData['text'];

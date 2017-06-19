@@ -28,7 +28,7 @@ echo JHtml::_(
 	)
 );
 
-$id = $displayData['id'];
+$id = isset($displayData['id']) ? $displayData['id'] : '';
 
 ?>
 <button <?php echo $id; ?> onclick="jQuery('#versionsModal').modal('show')" class="btn btn-sm btn-outline-primary" data-toggle="modal" title="<?php echo $displayData['title']; ?>">

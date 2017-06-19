@@ -19,8 +19,8 @@ defined('JPATH_BASE') or die;
  *                                  - text      string  Button text
  */
 
-$id       = $displayData['id'];
 $selector = $displayData['selector'];
+$id       = isset($displayData['id']) ? $displayData['id'] : '';
 $class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-secondary btn-sm';
 $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';

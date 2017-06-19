@@ -21,7 +21,7 @@ if (preg_match('/Joomla.submitbutton/', $displayData['doTask']))
 	JFactory::getDocument()->addScriptOptions('keySave', $options);
 }
 
-$id       = $displayData['id'];
+$id       = isset($displayData['id']) ? $displayData['id'] : '';
 $doTask   = $displayData['doTask'];
 $class    = $displayData['class'];
 $text     = $displayData['text'];
