@@ -21,7 +21,7 @@ cd tests/codeception
 composer install
 cd ../..
 
-./tests/codeception/vendor/bin/selenium-server-standalone -Dwebdriver.chrome.driver=tests/codeception/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/chromedriver_linux_64
+./tests/codeception/vendor/bin/selenium-server-standalone -Dwebdriver.chrome.driver=tests/codeception/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/chromedriver_linux_64 -Dwebdriver.chrome.args="--no-sandbox" &
 
 # Run the tests
 cp RoboFile.dist.ini RoboFile.ini
