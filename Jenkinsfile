@@ -22,7 +22,7 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh '#/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
+        sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
 
@@ -50,7 +50,19 @@ pipeline {
           }
         )
       }
+      post {
+        always {
+         // Spin down containers no matter what happens
+         sh 'export PHPVERSION=php53;/usr/local/bin/docker-compose --project-name php53-$BUILD_ID -f build/jenkins/docker-compose.yml down'
+         sh 'export PHPVERSION=php54;/usr/local/bin/docker-compose --project-name php54-$BUILD_ID -f build/jenkins/docker-compose.yml down'
+         sh 'export PHPVERSION=php55;/usr/local/bin/docker-compose --project-name php55-$BUILD_ID -f build/jenkins/docker-compose.yml down'
+         sh 'export PHPVERSION=php56;/usr/local/bin/docker-compose --project-name php56-$BUILD_ID -f build/jenkins/docker-compose.yml down'
+         sh 'export PHPVERSION=php70;/usr/local/bin/docker-compose --project-name php70-$BUILD_ID -f build/jenkins/docker-compose.yml down'
+         sh 'export PHPVERSION=php71;/usr/local/bin/docker-compose --project-name php71-$BUILD_ID -f build/jenkins/docker-compose.yml down'
+        }
+      }
     }
+
 
     stage('Testing-Javascript') {
       agent {
