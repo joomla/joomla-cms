@@ -222,12 +222,12 @@ class TagsViewTag extends JViewLegacy
 		if ($this->tags_title)
 		{
 			$this->params->def('page_heading', $this->tags_title);
-			$title = (!$title ? $this->tags_title : $title);
+			$title = !$title ? $this->tags_title : $title;
 		}
 		elseif ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-			$title = (!$title ? $this->params->get('page_title', $menu->title) : $title);
+			$title = !$title ? $this->params->get('page_title', $menu->title) : $title;
 
 			if ($menu->query['option'] !== 'com_tags')
 			{
