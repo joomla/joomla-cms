@@ -24,6 +24,7 @@
         "joomla/di": "~1.2",
         "joomla/event": "~1.1",
         "joomla/filter": "^1.3.2",
+        "joomla/image": "dev-master",
         "joomla/ldap": "~1.1",
         "joomla/registry": "^1.4.5",
         "joomla/session": "~1.3",
