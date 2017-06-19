@@ -289,6 +289,6 @@ JLoader::registerAlias('JMailWrapperHelper',                '\\Joomla\\CMS\\Mail
 JLoader::registerAlias('JClientHelper',                     '\\Joomla\\CMS\\Client\\ClientHelper', '5.0');
 JLoader::registerAlias('JClientWrapperHelper',              '\\Joomla\\CMS\\Client\\ClienWrapper', '5.0');
 JLoader::registerAlias('JClientFtp',                        '\\Joomla\\CMS\\Client\\FtpClient', '5.0');
-JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Client\\FtpClient', '5.0');
+JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Client\\FtpClient', '4.0');
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
-JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '5.0');
+JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
