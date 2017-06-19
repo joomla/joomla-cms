@@ -14,7 +14,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Class to manipulate an image.
  *
- * @since  11.3
+ * @since       11.3
  * @deprecated  5.0 Use the class \Joomla\Image\Image instead
  */
 class JImage extends \Joomla\Image\Image
