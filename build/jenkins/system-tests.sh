@@ -13,6 +13,8 @@ sleep 1 # give xvfb some time to start
 fluxbox &
 sleep 3 # give fluxbox some time to start
 
+google-chrome
+
 # Move folder to /tests
 ln -s $(pwd) /tests/www
 
