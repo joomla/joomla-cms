@@ -494,7 +494,6 @@ class RoboFile extends \Robo\Tasks
 		{
 			$driver['type'] = 'webdriver.ie.driver';
 		}
-
 		// Check if we have a path for this browser and OS in the codeception settings
 		if (isset($codeceptMainConfig['webdrivers'][$browser][$this->getOs()]))
 		{
