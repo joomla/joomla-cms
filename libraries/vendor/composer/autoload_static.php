@@ -64,6 +64,7 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
             'Joomla\\Http\\' => 12,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\' => 13,
+            'Joomla\\Database\\' => 16,
             'Joomla\\Data\\' => 12,
             'Joomla\\DI\\' => 10,
             'Joomla\\Crypt\\' => 13,
@@ -181,6 +182,10 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
         'Joomla\\Event\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
+        ),
+        'Joomla\\Database\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/database/src',
         ),
         'Joomla\\Data\\' => 
         array (

@@ -571,7 +571,6 @@ abstract class JFactory
 		$database = $conf->get('db');
 		$prefix = $conf->get('dbprefix');
 		$driver = $conf->get('dbtype');
-		$debug = $conf->get('debug');
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
@@ -588,8 +587,6 @@ abstract class JFactory
 
 			jexit('Database Error: ' . $e->getMessage());
 		}
-
-		$db->setDebug($debug);
 
 		return $db;
 	}
