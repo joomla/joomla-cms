@@ -14,11 +14,12 @@ fluxbox &
 sleep 3 # give fluxbox some time to start
 
 # Move folder to /tests
+rm -r /tests/www
 ln -s $(pwd) /tests/www
 
 # Composer install in tests folder
 cd tests/codeception
-composer update
+composer install
 cd ../..
 
 # Run the tests
