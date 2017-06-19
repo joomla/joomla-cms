@@ -73,7 +73,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '22-May-2017';
+	const RELDATE = '13-June-2017';
 
 	/**
 	 * Release time.
@@ -81,7 +81,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '10:18';
+	const RELTIME = '18:32';
 
 	/**
 	 * Release timezone.
@@ -146,7 +146,7 @@ final class Version
 	 */
 	public function isInDevelopmentState()
 	{
-		return strtolower(self::DEV_STATUS) != 'stable';
+		return strtolower(self::DEV_STATUS) !== 'stable';
 	}
 
 	/**

@@ -57,7 +57,7 @@ class ContentHistory extends Table
 			'hits',
 			'path',
 		);
-		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
+		$this->convertToInt  = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 
 	/**
@@ -81,7 +81,7 @@ class ContentHistory extends Table
 		}
 
 		// Modify author and date only when not toggling Keep Forever
-		if (is_null($this->get('keep_forever')))
+		if ($this->get('keep_forever') === null)
 		{
 			$this->set('editor_user_id', \JFactory::getUser()->id);
 			$this->set('save_date', \JFactory::getDate()->toSql());
@@ -128,12 +128,12 @@ class ContentHistory extends Table
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = (is_int($subValue) || is_bool($subValue) || is_null($subValue)) ? (string) $subValue : $subValue;
+					$object->$subName = is_int($subValue) || is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = (is_int($value) || is_bool($value) || is_null($value)) ? (string) $value : $value;
+				$object->$name = is_int($value) || is_bool($value) || $value === null ? (string) $value : $value;
 			}
 		}
 
@@ -164,7 +164,7 @@ class ContentHistory extends Table
 	 */
 	public function getHashMatch()
 	{
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
@@ -190,7 +190,7 @@ class ContentHistory extends Table
 		$result = true;
 
 		// Get the list of version_id values we want to save
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
@@ -202,7 +202,7 @@ class ContentHistory extends Table
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions
-		if (count($idsToSave) == (int) $maxVersions)
+		if (count($idsToSave) === (int) $maxVersions)
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);

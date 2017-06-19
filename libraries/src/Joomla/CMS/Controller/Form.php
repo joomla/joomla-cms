@@ -256,18 +256,11 @@ class Form extends Controller
 		// Build an array of item contexts to check
 		$contexts = array();
 
+		$option = isset($this->extension) ? $this->extension : $this->option;
+
 		foreach ($cid as $id)
 		{
 			// If we're coming from com_categories, we need to use extension vs. option
-			if (isset($this->extension))
-			{
-				$option = $this->extension;
-			}
-			else
-			{
-				$option = $this->option;
-			}
-
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
 		}
 

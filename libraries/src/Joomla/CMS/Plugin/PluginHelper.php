@@ -45,7 +45,7 @@ abstract class PluginHelper
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}
@@ -92,7 +92,7 @@ abstract class PluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this the right plugin?
-				if ($p->type == $type)
+				if ($p->type === $type)
 				{
 					$result[] = $p;
 				}
@@ -103,7 +103,7 @@ abstract class PluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this plugin in the right group?
-				if ($p->type == $type && $p->name == $plugin)
+				if ($p->type === $type && $p->name === $plugin)
 				{
 					$result = $p;
 					break;
@@ -151,12 +151,12 @@ abstract class PluginHelper
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
+		if ($plugin === null && $autocreate === true && $dispatcher === null)
 		{
 			$defaults = true;
 		}
 
-		if (!isset($loaded[$type]) || !$defaults)
+		if (!$defaults || !isset($loaded[$type]))
 		{
 			$results = null;
 
@@ -166,7 +166,7 @@ abstract class PluginHelper
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++)
 			{
-				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin))
+				if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin))
 				{
 					static::import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;

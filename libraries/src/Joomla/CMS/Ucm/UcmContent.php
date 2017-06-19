@@ -142,7 +142,7 @@ class UcmContent extends UcmBase
 
 		foreach ($common as $i => $field)
 		{
-			if ($field && $field != 'null' && array_key_exists($field, $original))
+			if ($field && $field !== 'null' && array_key_exists($field, $original))
 			{
 				$ucmData['common'][$i] = $original[$field];
 			}
@@ -154,7 +154,7 @@ class UcmContent extends UcmBase
 
 			foreach ($special as $i => $field)
 			{
-				if ($field && $field != 'null' && array_key_exists($field, $original))
+				if ($field && $field !== 'null' && array_key_exists($field, $original))
 				{
 					$ucmData['special'][$i] = $original[$field];
 				}

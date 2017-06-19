@@ -529,7 +529,7 @@ final class SiteApplication extends CMSApplication
 			{
 				foreach ($templates as $tmpl)
 				{
-					if ($tmpl->template == $template_override)
+					if ($tmpl->template === $template_override)
 					{
 						$template = $tmpl;
 						break;
@@ -551,7 +551,7 @@ final class SiteApplication extends CMSApplication
 
 			foreach ($templates as $tmpl)
 			{
-				if ($tmpl->template == 'beez3')
+				if ($tmpl->template === 'beez3')
 				{
 					$template = $tmpl;
 					break;
@@ -624,7 +624,7 @@ final class SiteApplication extends CMSApplication
 			}
 		}
 
-		if ($this->getLanguageFilter() && empty($options['language']))
+		if (empty($options['language']) && $this->getLanguageFilter())
 		{
 			// Detect cookie language
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
@@ -648,7 +648,7 @@ final class SiteApplication extends CMSApplication
 			}
 		}
 
-		if ($this->getDetectBrowser() && empty($options['language']))
+		if (empty($options['language']) && $this->getDetectBrowser())
 		{
 			// Detect browser language
 			$lang = \JLanguageHelper::detectLanguage();
@@ -750,7 +750,7 @@ final class SiteApplication extends CMSApplication
 				$template = $this->getTemplate(true);
 				$file     = $this->input->get('tmpl', 'index');
 
-				if (!$this->get('offline') && ($file == 'offline'))
+				if ($file === 'offline' && !$this->get('offline'))
 				{
 					$this->set('themeFile', 'index.php');
 				}

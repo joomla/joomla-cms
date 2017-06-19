@@ -107,12 +107,7 @@ class JTwitterOauthTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->application);
-		unset($this->client);
-		unset($this->oauth);
+		unset($this->backupServer, $this->options, $this->input, $this->application, $this->client, $this->oauth);
 	}
 
 	/**

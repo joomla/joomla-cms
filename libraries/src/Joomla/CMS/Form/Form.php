@@ -1898,7 +1898,7 @@ class Form
 		 */
 		if ($value === null)
 		{
-			$default = (string) $element['default'];
+			$default = (string) ($element['default'] ? $element['default'] : $element->default);
 
 			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
 			{

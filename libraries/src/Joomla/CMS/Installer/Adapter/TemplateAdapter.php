@@ -115,7 +115,7 @@ class TemplateAdapter extends InstallerAdapter
 			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -158,7 +158,7 @@ class TemplateAdapter extends InstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest(-1))
 			{
@@ -334,7 +334,7 @@ class TemplateAdapter extends InstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -416,7 +416,7 @@ class TemplateAdapter extends InstallerAdapter
 		// This should give us the necessary information to proceed.
 		$row = Table::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
+		if (!$row->load((int) $id) || $row->element === '')
 		{
 			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'), \JLog::WARNING, 'jerror');
 
@@ -551,7 +551,7 @@ class TemplateAdapter extends InstallerAdapter
 		{
 			if (file_exists(JPATH_SITE . "/templates/$template/templateDetails.xml"))
 			{
-				if ($template == 'system')
+				if ($template === 'system')
 				{
 					// Ignore special system template
 					continue;
@@ -575,7 +575,7 @@ class TemplateAdapter extends InstallerAdapter
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml"))
 			{
-				if ($template == 'system')
+				if ($template === 'system')
 				{
 					// Ignore special system template
 					continue;
