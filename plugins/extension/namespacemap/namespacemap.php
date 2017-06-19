@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Installer\Installer as JInstaller;
+
 /**
  * Joomla! namespace map updater.
  *
@@ -16,6 +19,30 @@ defined('_JEXEC') or die;
  */
 class PlgExtensionNamespacemap extends JPlugin
 {
+	/**
+	 * The namespace map file creator
+	 *
+	 * @var JNamespacePsr4Map
+	 */
+	private $fileCreator = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   DispatcherInterface  &$subject  The object to observe
+	 * @param   array                $config    An optional associative array of configuration settings.
+	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
+	 *                                         (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		$this->fileCreator = new JNamespacePsr4Map;
+
+		parent::__construct($subject, $config);
+	}
+
 	/**
 	 * Handle post extension install update sites
 	 *
@@ -31,7 +58,7 @@ class PlgExtensionNamespacemap extends JPlugin
 		// Update / Create new map
 		if ($eid)
 		{
-			JNamespacePsr4Map::create();
+			$this->fileCreator->create();
 		}
 	}
 
@@ -53,7 +80,7 @@ class PlgExtensionNamespacemap extends JPlugin
 		if ($eid && $removed)
 		{
 			// Update / Create new map
-			JNamespacePsr4Map::create();
+			$this->fileCreator->create();
 		}
 	}
 
@@ -72,7 +99,7 @@ class PlgExtensionNamespacemap extends JPlugin
 		if ($eid)
 		{
 			// Update / Create new map
-			JNamespacePsr4Map::create();
+			$this->fileCreator->create();
 		}
 	}
 
@@ -91,7 +118,7 @@ class PlgExtensionNamespacemap extends JPlugin
 		if ($eid)
 		{
 			// Update / Create new map
-			JNamespacePsr4Map::create();
+			$this->fileCreator->create();
 		}
 	}
 }

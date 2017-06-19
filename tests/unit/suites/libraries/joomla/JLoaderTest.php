@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -61,6 +61,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
 		self::$cache['classAliases'] = TestReflection::getValue('JLoader', 'classAliases');
 		self::$cache['classAliasesInverse'] = TestReflection::getValue('JLoader', 'classAliasesInverse');
+		self::$cache['extensionRootFolders'] = TestReflection::getValue('JLoader', 'extensionRootFolders');
 	}
 
 	/**
@@ -79,6 +80,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
 		TestReflection::setValue('JLoader', 'classAliases', self::$cache['classAliases']);
 		TestReflection::setValue('JLoader', 'classAliasesInverse', self::$cache['classAliasesInverse']);
+		TestReflection::setValue('JLoader', 'extensionRootFolders', self::$cache['extensionRootFolders']);
 	}
 
 	/**

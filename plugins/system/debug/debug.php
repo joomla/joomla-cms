@@ -1193,7 +1193,7 @@ class PlgSystemDebug extends CMSPlugin
 			$labelClass = 'badge-warning';
 		}
 
-		if ($this->totalQueries == 0)
+		if ($this->totalQueries === 0)
 		{
 			$this->totalQueries = $this->db->getCount();
 		}

@@ -4,12 +4,14 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('groupedlist');
+
+use Joomla\CMS\Application\ApplicationHelper;
 
 /**
  * Supports a select grouped list of template styles
@@ -130,7 +132,7 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 		$lang = JFactory::getLanguage();
 
 		// Get the client and client_id.
-		$client = JApplicationHelper::getClientInfo($this->clientName, true);
+		$client = ApplicationHelper::getClientInfo($this->clientName, true);
 
 		// Get the template.
 		$template = $this->template;

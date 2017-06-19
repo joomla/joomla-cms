@@ -19,7 +19,7 @@ use Joomla\String\StringHelper;
 /**
  * Content table
  *
- * @since       1.5
+ * @since  1.5
  */
 class Content extends Table
 {

@@ -15,12 +15,23 @@ Joomla = window.Joomla || {};
 
 		/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
 		function closest(el, selector) {
+			var matchesFn;
+
+			// find vendor prefix
+			['matches', 'msMatchesSelector'].some(function(fn) {
+				if (typeof document.body[fn] == 'function') {
+					matchesFn = fn;
+					return true;
+				}
+				return false;
+			})
+
 			var parent;
 
 			// traverse parents
 			while (el) {
 				parent = el.parentElement;
-				if (parent && parent['matches'](selector)) {
+				if (parent && parent[matchesFn](selector)) {
 					return parent;
 				}
 				el = parent;
@@ -129,8 +140,8 @@ Joomla = window.Joomla || {};
 				}
 			}
 
-			// If com_cpanel - close menu
-			if (document.body.classList.contains('com_cpanel')) {
+			// If com_cpanel or com_media - close menu
+			if (document.body.classList.contains('com_cpanel') || document.body.classList.contains('com_media')) {
 			    var menuChildOpen = mainNav.querySelectorAll('.open');
 
 				for (var i = 0; i < menuChildOpen.length; i++) {

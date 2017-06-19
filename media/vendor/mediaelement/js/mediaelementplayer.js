@@ -16,33 +16,274 @@ var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
 var minDoc = _dereq_(1);
 
+var doccy;
+
 if (typeof document !== 'undefined') {
-    module.exports = document;
+    doccy = document;
 } else {
-    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
 
     if (!doccy) {
         doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
     }
-
-    module.exports = doccy;
 }
+
+module.exports = doccy;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"1":1}],3:[function(_dereq_,module,exports){
 (function (global){
+var win;
+
 if (typeof window !== "undefined") {
-    module.exports = window;
+    win = window;
 } else if (typeof global !== "undefined") {
-    module.exports = global;
+    win = global;
 } else if (typeof self !== "undefined"){
-    module.exports = self;
+    win = self;
 } else {
-    module.exports = {};
+    win = {};
 }
+
+module.exports = win;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(_dereq_,module,exports){
+(function (root) {
+
+  // Store setTimeout reference so promise-polyfill will be unaffected by
+  // other code modifying setTimeout (like sinon.useFakeTimers())
+  var setTimeoutFunc = setTimeout;
+
+  function noop() {}
+  
+  // Polyfill for Function.prototype.bind
+  function bind(fn, thisArg) {
+    return function () {
+      fn.apply(thisArg, arguments);
+    };
+  }
+
+  function Promise(fn) {
+    if (typeof this !== 'object') throw new TypeError('Promises must be constructed via new');
+    if (typeof fn !== 'function') throw new TypeError('not a function');
+    this._state = 0;
+    this._handled = false;
+    this._value = undefined;
+    this._deferreds = [];
+
+    doResolve(fn, this);
+  }
+
+  function handle(self, deferred) {
+    while (self._state === 3) {
+      self = self._value;
+    }
+    if (self._state === 0) {
+      self._deferreds.push(deferred);
+      return;
+    }
+    self._handled = true;
+    Promise._immediateFn(function () {
+      var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+      if (cb === null) {
+        (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
+        return;
+      }
+      var ret;
+      try {
+        ret = cb(self._value);
+      } catch (e) {
+        reject(deferred.promise, e);
+        return;
+      }
+      resolve(deferred.promise, ret);
+    });
+  }
+
+  function resolve(self, newValue) {
+    try {
+      // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
+      if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.');
+      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+        var then = newValue.then;
+        if (newValue instanceof Promise) {
+          self._state = 3;
+          self._value = newValue;
+          finale(self);
+          return;
+        } else if (typeof then === 'function') {
+          doResolve(bind(then, newValue), self);
+          return;
+        }
+      }
+      self._state = 1;
+      self._value = newValue;
+      finale(self);
+    } catch (e) {
+      reject(self, e);
+    }
+  }
+
+  function reject(self, newValue) {
+    self._state = 2;
+    self._value = newValue;
+    finale(self);
+  }
+
+  function finale(self) {
+    if (self._state === 2 && self._deferreds.length === 0) {
+      Promise._immediateFn(function() {
+        if (!self._handled) {
+          Promise._unhandledRejectionFn(self._value);
+        }
+      });
+    }
+
+    for (var i = 0, len = self._deferreds.length; i < len; i++) {
+      handle(self, self._deferreds[i]);
+    }
+    self._deferreds = null;
+  }
+
+  function Handler(onFulfilled, onRejected, promise) {
+    this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+    this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+    this.promise = promise;
+  }
+
+  /**
+   * Take a potentially misbehaving resolver function and make sure
+   * onFulfilled and onRejected are only called once.
+   *
+   * Makes no guarantees about asynchrony.
+   */
+  function doResolve(fn, self) {
+    var done = false;
+    try {
+      fn(function (value) {
+        if (done) return;
+        done = true;
+        resolve(self, value);
+      }, function (reason) {
+        if (done) return;
+        done = true;
+        reject(self, reason);
+      });
+    } catch (ex) {
+      if (done) return;
+      done = true;
+      reject(self, ex);
+    }
+  }
+
+  Promise.prototype['catch'] = function (onRejected) {
+    return this.then(null, onRejected);
+  };
+
+  Promise.prototype.then = function (onFulfilled, onRejected) {
+    var prom = new (this.constructor)(noop);
+
+    handle(this, new Handler(onFulfilled, onRejected, prom));
+    return prom;
+  };
+
+  Promise.all = function (arr) {
+    var args = Array.prototype.slice.call(arr);
+
+    return new Promise(function (resolve, reject) {
+      if (args.length === 0) return resolve([]);
+      var remaining = args.length;
+
+      function res(i, val) {
+        try {
+          if (val && (typeof val === 'object' || typeof val === 'function')) {
+            var then = val.then;
+            if (typeof then === 'function') {
+              then.call(val, function (val) {
+                res(i, val);
+              }, reject);
+              return;
+            }
+          }
+          args[i] = val;
+          if (--remaining === 0) {
+            resolve(args);
+          }
+        } catch (ex) {
+          reject(ex);
+        }
+      }
+
+      for (var i = 0; i < args.length; i++) {
+        res(i, args[i]);
+      }
+    });
+  };
+
+  Promise.resolve = function (value) {
+    if (value && typeof value === 'object' && value.constructor === Promise) {
+      return value;
+    }
+
+    return new Promise(function (resolve) {
+      resolve(value);
+    });
+  };
+
+  Promise.reject = function (value) {
+    return new Promise(function (resolve, reject) {
+      reject(value);
+    });
+  };
+
+  Promise.race = function (values) {
+    return new Promise(function (resolve, reject) {
+      for (var i = 0, len = values.length; i < len; i++) {
+        values[i].then(resolve, reject);
+      }
+    });
+  };
+
+  // Use polyfill for setImmediate for performance gains
+  Promise._immediateFn = (typeof setImmediate === 'function' && function (fn) { setImmediate(fn); }) ||
+    function (fn) {
+      setTimeoutFunc(fn, 0);
+    };
+
+  Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
+    if (typeof console !== 'undefined' && console) {
+      console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
+    }
+  };
+
+  /**
+   * Set the immediate function to execute callbacks
+   * @param fn {function} Function to execute
+   * @deprecated
+   */
+  Promise._setImmediateFn = function _setImmediateFn(fn) {
+    Promise._immediateFn = fn;
+  };
+
+  /**
+   * Change the function to execute on unhandled rejection
+   * @param {function} fn Function to execute on unhandled rejection
+   * @deprecated
+   */
+  Promise._setUnhandledRejectionFn = function _setUnhandledRejectionFn(fn) {
+    Promise._unhandledRejectionFn = fn;
+  };
+  
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Promise;
+  } else if (!root.Promise) {
+    root.Promise = Promise;
+  }
+
+})(this);
+
+},{}],5:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51,13 +292,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _en = _dereq_(14);
+var _en = _dereq_(15);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -309,7 +550,7 @@ if (typeof mejsL10n !== 'undefined') {
 
 exports.default = i18n;
 
-},{"14":14,"21":21,"6":6}],5:[function(_dereq_,module,exports){
+},{"15":15,"22":22,"7":7}],6:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -326,17 +567,17 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _media2 = _dereq_(22);
+var _media2 = _dereq_(23);
 
-var _renderer = _dereq_(7);
+var _renderer = _dereq_(8);
 
-var _constants = _dereq_(19);
+var _constants = _dereq_(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -366,7 +607,6 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	options = Object.assign(t.defaults, options);
 
 	t.mediaElement = _document2.default.createElement(options.fakeNodeName);
-	t.mediaElement.options = options;
 
 	var id = idOrNode,
 	    error = false;
@@ -378,23 +618,89 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 		id = idOrNode.id;
 	}
 
+	if (t.mediaElement.originalNode === undefined || t.mediaElement.originalNode === null) {
+		return null;
+	}
+
+	t.mediaElement.options = options;
 	id = id || 'mejs_' + Math.random().toString().slice(2);
 
-	if (t.mediaElement.originalNode !== undefined && t.mediaElement.originalNode !== null && t.mediaElement.appendChild) {
-		t.mediaElement.originalNode.setAttribute('id', id + '_from_mejs');
+	t.mediaElement.originalNode.setAttribute('id', id + '_from_mejs');
 
-		var tagName = t.mediaElement.originalNode.tagName.toLowerCase();
-		if (['video', 'audio'].indexOf(tagName) > -1 && !t.mediaElement.originalNode.getAttribute('preload')) {
-			t.mediaElement.originalNode.setAttribute('preload', 'none');
+	var tagName = t.mediaElement.originalNode.tagName.toLowerCase();
+	if (['video', 'audio'].indexOf(tagName) > -1 && !t.mediaElement.originalNode.getAttribute('preload')) {
+		t.mediaElement.originalNode.setAttribute('preload', 'none');
+	}
+
+	t.mediaElement.originalNode.parentNode.insertBefore(t.mediaElement, t.mediaElement.originalNode);
+
+	t.mediaElement.appendChild(t.mediaElement.originalNode);
+
+	var processURL = function processURL(url, type) {
+		if (_mejs2.default.html5media.mediaTypes.indexOf(type) > -1 && _window2.default.location.protocol === 'https:' && _constants.IS_IOS) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function () {
+				if (this.readyState === 4 && this.status === 200) {
+					var _url = _window2.default.URL || _window2.default.webkitURL,
+					    blobUrl = _url.createObjectURL(this.response);
+					t.mediaElement.originalNode.setAttribute('src', blobUrl);
+					return blobUrl;
+				}
+				return url;
+			};
+			xhr.open('GET', url);
+			xhr.responseType = 'blob';
+			xhr.send();
 		}
 
-		t.mediaElement.originalNode.parentNode.insertBefore(t.mediaElement, t.mediaElement.originalNode);
+		return url;
+	};
 
-		t.mediaElement.appendChild(t.mediaElement.originalNode);
-	} else {}
+	var mediaFiles = void 0;
+
+	if (sources !== null) {
+		mediaFiles = sources;
+	} else if (t.mediaElement.originalNode !== null) {
+
+		mediaFiles = [];
+
+		switch (t.mediaElement.originalNode.nodeName.toLowerCase()) {
+			case 'iframe':
+				mediaFiles.push({
+					type: '',
+					src: t.mediaElement.originalNode.getAttribute('src')
+				});
+				break;
+			case 'audio':
+			case 'video':
+				var _sources = t.mediaElement.originalNode.children.length,
+				    nodeSource = t.mediaElement.originalNode.getAttribute('src');
+
+				if (nodeSource) {
+					var node = t.mediaElement.originalNode,
+					    type = (0, _media2.formatType)(nodeSource, node.getAttribute('type'));
+					mediaFiles.push({
+						type: type,
+						src: processURL(nodeSource, type)
+					});
+				}
+
+				for (var i = 0; i < _sources; i++) {
+					var n = t.mediaElement.originalNode.children[i];
+					if (n.tagName.toLowerCase() === 'source') {
+						var src = n.getAttribute('src'),
+						    _type = (0, _media2.formatType)(src, n.getAttribute('type'));
+						mediaFiles.push({ type: _type, src: processURL(src, _type) });
+					}
+				}
+				break;
+		}
+	}
 
 	t.mediaElement.id = id;
 	t.mediaElement.renderers = {};
+	t.mediaElement.events = {};
+	t.mediaElement.promises = [];
 	t.mediaElement.renderer = null;
 	t.mediaElement.rendererName = null;
 
@@ -434,9 +740,8 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 
 		var rendererArray = t.mediaElement.options.renderers.length ? t.mediaElement.options.renderers : _renderer.renderer.order;
 
-		for (var i = 0, total = rendererArray.length; i < total; i++) {
-
-			var index = rendererArray[i];
+		for (var _i = 0, total = rendererArray.length; _i < total; _i++) {
+			var index = rendererArray[_i];
 
 			if (index === rendererName) {
 				var rendererList = _renderer.renderer.renderers;
@@ -449,9 +754,7 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 				t.mediaElement.renderers[newRendererType.name] = newRenderer;
 				t.mediaElement.renderer = newRenderer;
 				t.mediaElement.rendererName = rendererName;
-
 				newRenderer.show();
-
 				return true;
 			}
 		}
@@ -483,8 +786,8 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 				errorContent += '<img src="' + poster + '" width="100%" height="100%" alt="' + _mejs2.default.i18n.t('mejs.download-file') + '">';
 			}
 
-			for (var i = 0, total = urlList.length; i < total; i++) {
-				var url = urlList[i];
+			for (var _i2 = 0, total = urlList.length; _i2 < total; _i2++) {
+				var url = urlList[_i2];
 				errorContent += '<a href="' + url.src + '" data-type="' + url.type + '"><span>' + _mejs2.default.i18n.t('mejs.download-file') + ': ' + url.src + '</span></a>';
 			}
 		}
@@ -543,21 +846,21 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 				type: value ? (0, _media2.getTypeFromFile)(value) : ''
 			});
 		} else if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src !== undefined) {
-			var src = (0, _media2.absolutizeUrl)(value.src),
-			    type = value.type,
+			var _src = (0, _media2.absolutizeUrl)(value.src),
+			    _type2 = value.type,
 			    media = Object.assign(value, {
-				src: src,
-				type: (type === '' || type === null || type === undefined) && src ? (0, _media2.getTypeFromFile)(src) : type
+				src: _src,
+				type: (_type2 === '' || _type2 === null || _type2 === undefined) && _src ? (0, _media2.getTypeFromFile)(_src) : _type2
 			});
 			mediaFiles.push(media);
 		} else if (Array.isArray(value)) {
-			for (var i = 0, total = value.length; i < total; i++) {
+			for (var _i3 = 0, total = value.length; _i3 < total; _i3++) {
 
-				var _src = (0, _media2.absolutizeUrl)(value[i].src),
-				    _type = value[i].type,
-				    _media = Object.assign(value[i], {
-					src: _src,
-					type: (_type === '' || _type === null || _type === undefined) && _src ? (0, _media2.getTypeFromFile)(_src) : _type
+				var _src2 = (0, _media2.absolutizeUrl)(value[_i3].src),
+				    _type3 = value[_i3].type,
+				    _media = Object.assign(value[_i3], {
+					src: _src2,
+					type: (_type3 === '' || _type3 === null || _type3 === undefined) && _src2 ? (0, _media2.getTypeFromFile)(_src2) : _type3
 				});
 
 				mediaFiles.push(_media);
@@ -587,14 +890,7 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 			return;
 		}
 
-		t.mediaElement.changeRenderer(renderInfo.rendererName, mediaFiles);
-
-		if (t.mediaElement.renderer === undefined || t.mediaElement.renderer === null) {
-			event = (0, _general.createEvent)('error', t.mediaElement);
-			event.message = 'Error creating renderer';
-			t.mediaElement.dispatchEvent(event);
-			t.mediaElement.createErrorMessage(mediaFiles);
-		}
+		return t.mediaElement.changeRenderer(renderInfo.rendererName, mediaFiles);
 	},
 	    assignMethods = function assignMethods(methodName) {
 		t.mediaElement[methodName] = function () {
@@ -604,7 +900,26 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 
 			if (t.mediaElement.renderer !== undefined && t.mediaElement.renderer !== null && typeof t.mediaElement.renderer[methodName] === 'function') {
 				try {
-					t.mediaElement.renderer[methodName](args);
+					if (methodName === 'play') {
+						if (t.mediaElement.promises.length) {
+							Promise.all(t.mediaElement.promises).then(function () {
+								setTimeout(function () {
+									t.mediaElement.renderer[methodName](args);
+								}, 250);
+							}).catch(function (e) {
+								if (t.mediaElement.renderer === undefined || t.mediaElement.renderer === null) {
+									var event = (0, _general.createEvent)('error', t.mediaElement);
+									event.message = e;
+									t.mediaElement.dispatchEvent(event);
+									t.mediaElement.createErrorMessage(mediaFiles);
+								}
+							});
+						} else {
+							t.mediaElement.renderer[methodName](args);
+						}
+					} else {
+						t.mediaElement.renderer[methodName](args);
+					}
 				} catch (e) {
 					t.mediaElement.createErrorMessage();
 				}
@@ -617,15 +932,13 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	t.mediaElement.getSrc = getSrc;
 	t.mediaElement.setSrc = setSrc;
 
-	for (var i = 0, total = props.length; i < total; i++) {
-		assignGettersSetters(props[i]);
+	for (var _i4 = 0, total = props.length; _i4 < total; _i4++) {
+		assignGettersSetters(props[_i4]);
 	}
 
-	for (var _i = 0, _total = methods.length; _i < _total; _i++) {
-		assignMethods(methods[_i]);
+	for (var _i5 = 0, _total = methods.length; _i5 < _total; _i5++) {
+		assignMethods(methods[_i5]);
 	}
-
-	t.mediaElement.events = {};
 
 	t.mediaElement.addEventListener = function (eventName, callback) {
 		t.mediaElement.events[eventName] = t.mediaElement.events[eventName] || [];
@@ -649,9 +962,9 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 			return true;
 		}
 
-		for (var _i2 = 0; _i2 < callbacks.length; _i2++) {
-			if (callbacks[_i2] === callback) {
-				t.mediaElement.events[eventName].splice(_i2, 1);
+		for (var _i6 = 0; _i6 < callbacks.length; _i6++) {
+			if (callbacks[_i6] === callback) {
+				t.mediaElement.events[eventName].splice(_i6, 1);
 				return true;
 			}
 		}
@@ -659,89 +972,36 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	};
 
 	t.mediaElement.dispatchEvent = function (event) {
-
 		var callbacks = t.mediaElement.events[event.type];
-
 		if (callbacks) {
-			for (var _i3 = 0; _i3 < callbacks.length; _i3++) {
-				callbacks[_i3].apply(null, [event]);
+			for (var _i7 = 0; _i7 < callbacks.length; _i7++) {
+				callbacks[_i7].apply(null, [event]);
 			}
 		}
 	};
-
-	var processURL = function processURL(url, type) {
-
-		if (_mejs2.default.html5media.mediaTypes.indexOf(type) > -1 && _window2.default.location.protocol === 'https:' && _constants.IS_IOS && !_window2.default.MSStream) {
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function () {
-				if (this.readyState === 4 && this.status === 200) {
-					var _url = _window2.default.URL || _window2.default.webkitURL,
-					    blobUrl = _url.createObjectURL(this.response);
-					t.mediaElement.originalNode.setAttribute('src', blobUrl);
-					return blobUrl;
-				}
-				return url;
-			};
-			xhr.open('GET', url);
-			xhr.responseType = 'blob';
-			xhr.send();
-		}
-
-		return url;
-	};
-
-	var mediaFiles = void 0;
-
-	if (sources !== null) {
-		mediaFiles = sources;
-	} else if (t.mediaElement.originalNode !== null) {
-
-		mediaFiles = [];
-
-		switch (t.mediaElement.originalNode.nodeName.toLowerCase()) {
-			case 'iframe':
-				mediaFiles.push({
-					type: '',
-					src: t.mediaElement.originalNode.getAttribute('src')
-				});
-
-				break;
-			case 'audio':
-			case 'video':
-				var _sources = t.mediaElement.originalNode.childNodes.length,
-				    nodeSource = t.mediaElement.originalNode.getAttribute('src');
-
-				if (nodeSource) {
-					var node = t.mediaElement.originalNode,
-					    type = (0, _media2.formatType)(nodeSource, node.getAttribute('type'));
-					mediaFiles.push({
-						type: type,
-						src: processURL(nodeSource, type)
-					});
-				}
-
-				for (var _i4 = 0; _i4 < _sources; _i4++) {
-					var n = t.mediaElement.originalNode.childNodes[_i4];
-					if (n.nodeType === Node.ELEMENT_NODE && n.tagName.toLowerCase() === 'source') {
-						var src = n.getAttribute('src'),
-						    _type2 = (0, _media2.formatType)(src, n.getAttribute('type'));
-						mediaFiles.push({ type: _type2, src: processURL(src, _type2) });
-					}
-				}
-				break;
-		}
-	}
 
 	if (mediaFiles.length) {
 		t.mediaElement.src = mediaFiles;
 	}
 
-	if (t.mediaElement.options.success) {
-		t.mediaElement.options.success(t.mediaElement, t.mediaElement.originalNode);
-	}
+	if (t.mediaElement.promises.length) {
+		Promise.all(t.mediaElement.promises).then(function () {
+			if (t.mediaElement.options.success) {
+				t.mediaElement.options.success(t.mediaElement, t.mediaElement.originalNode);
+			}
+		}).catch(function () {
+			if (error && t.mediaElement.options.error) {
+				t.mediaElement.options.error(t.mediaElement, t.mediaElement.originalNode);
+			}
+		});
+	} else {
+		if (t.mediaElement.options.success) {
+			t.mediaElement.options.success(t.mediaElement, t.mediaElement.originalNode);
+		}
 
-	if (error && t.mediaElement.options.error) {
-		t.mediaElement.options.error(t.mediaElement, t.mediaElement.originalNode);
+		if (error && t.mediaElement.options.error) {
+			t.mediaElement.options.error(t.mediaElement, t.mediaElement.originalNode);
+		}
 	}
 
 	return t.mediaElement;
@@ -751,7 +1011,7 @@ _window2.default.MediaElement = MediaElement;
 
 exports.default = MediaElement;
 
-},{"19":19,"2":2,"21":21,"22":22,"3":3,"6":6,"7":7}],6:[function(_dereq_,module,exports){
+},{"2":2,"20":20,"22":22,"23":23,"3":3,"7":7,"8":8}],7:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -766,7 +1026,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mejs = {};
 
-mejs.version = '4.1.2';
+mejs.version = '4.1.3';
 
 mejs.html5media = {
 	properties: ['volume', 'src', 'currentTime', 'muted', 'duration', 'paused', 'ended', 'buffered', 'error', 'networkState', 'readyState', 'seeking', 'seekable', 'currentSrc', 'preload', 'bufferedBytes', 'bufferedTime', 'initialTime', 'startOffsetTime', 'defaultPlaybackRate', 'playbackRate', 'played', 'autoplay', 'loop', 'controls'],
@@ -774,7 +1034,7 @@ mejs.html5media = {
 
 	methods: ['load', 'play', 'pause', 'canPlayType'],
 
-	events: ['loadstart', 'progress', 'suspend', 'abort', 'error', 'emptied', 'stalled', 'play', 'pause', 'loadedmetadata', 'loadeddata', 'waiting', 'playing', 'canplay', 'canplaythrough', 'seeking', 'seeked', 'timeupdate', 'ended', 'ratechange', 'durationchange', 'volumechange'],
+	events: ['loadstart', 'durationchange', 'loadedmetadata', 'loadeddata', 'progress', 'canplay', 'canplaythrough', 'suspend', 'abort', 'error', 'emptied', 'stalled', 'play', 'playing', 'pause', 'waiting', 'seeking', 'seeked', 'timeupdate', 'ended', 'ratechange', 'volumechange'],
 
 	mediaTypes: ['audio/mp3', 'audio/ogg', 'audio/oga', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/x-pn-wav', 'audio/mpeg', 'audio/mp4', 'video/mp4', 'video/webm', 'video/ogg', 'video/ogv']
 };
@@ -783,7 +1043,7 @@ _window2.default.mejs = mejs;
 
 exports.default = mejs;
 
-},{"3":3}],7:[function(_dereq_,module,exports){
+},{"3":3}],8:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -795,7 +1055,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -897,7 +1157,7 @@ var renderer = exports.renderer = new Renderer();
 
 _mejs2.default.Renderers = renderer;
 
-},{"6":6}],8:[function(_dereq_,module,exports){
+},{"7":7}],9:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
@@ -908,21 +1168,21 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _i18n = _dereq_(4);
+var _i18n = _dereq_(5);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _player = _dereq_(16);
+var _player = _dereq_(17);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _constants = _dereq_(19);
+var _constants = _dereq_(20);
 
 var Features = _interopRequireWildcard(_constants);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _dom = _dereq_(20);
+var _dom = _dereq_(21);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1094,7 +1354,7 @@ Object.assign(_player2.default.prototype, {
 			t.media.setSize(screen.width, screen.height);
 		}
 
-		var layers = t.layers.childNodes,
+		var layers = t.layers.children,
 		    total = layers.length;
 		for (var _i = 0; _i < total; _i++) {
 			layers[_i].style.width = '100%';
@@ -1152,7 +1412,7 @@ Object.assign(_player2.default.prototype, {
 				t.media.setSize(t.normalWidth, t.normalHeight);
 			}
 
-			var layers = t.layers.childNodes,
+			var layers = t.layers.children,
 			    total = layers.length;
 			for (var _i2 = 0; _i2 < total; _i2++) {
 				layers[_i2].style.width = t.normalWidth + 'px';
@@ -1179,24 +1439,24 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"19":19,"2":2,"20":20,"21":21,"3":3,"4":4}],9:[function(_dereq_,module,exports){
+},{"17":17,"2":2,"20":20,"21":21,"22":22,"3":3,"5":5}],10:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player = _dereq_(17);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _i18n = _dereq_(4);
+var _i18n = _dereq_(5);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _dom = _dereq_(20);
+var _dom = _dereq_(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1272,26 +1532,26 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"2":2,"20":20,"21":21,"4":4}],10:[function(_dereq_,module,exports){
+},{"17":17,"2":2,"21":21,"22":22,"5":5}],11:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player = _dereq_(17);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _i18n = _dereq_(4);
+var _i18n = _dereq_(5);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _constants = _dereq_(19);
+var _constants = _dereq_(20);
 
-var _time = _dereq_(24);
+var _time = _dereq_(25);
 
-var _dom = _dereq_(20);
+var _dom = _dereq_(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1721,20 +1981,20 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"19":19,"2":2,"20":20,"24":24,"4":4}],11:[function(_dereq_,module,exports){
+},{"17":17,"2":2,"20":20,"21":21,"25":25,"5":5}],12:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player = _dereq_(17);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _time = _dereq_(24);
+var _time = _dereq_(25);
 
-var _dom = _dereq_(20);
+var _dom = _dereq_(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1795,8 +2055,16 @@ Object.assign(_player2.default.prototype, {
 			currentTime = 0;
 		}
 
+		var timecode = (0, _time.secondsToTimeCode)(currentTime, t.options.alwaysShowHours, t.options.showTimecodeFrameCount, t.options.framesPerSecond, t.options.secondsDecimalLength);
+
+		if (timecode.length > 5) {
+			(0, _dom.addClass)(t.container, t.options.classPrefix + 'long-video');
+		} else {
+			(0, _dom.removeClass)(t.container, t.options.classPrefix + 'long-video');
+		}
+
 		if (t.controls.querySelector('.' + t.options.classPrefix + 'currenttime')) {
-			t.controls.querySelector('.' + t.options.classPrefix + 'currenttime').innerText = (0, _time.secondsToTimeCode)(currentTime, t.options.alwaysShowHours, t.options.showTimecodeFrameCount, t.options.framesPerSecond, t.options.secondsDecimalLength);
+			t.controls.querySelector('.' + t.options.classPrefix + 'currenttime').innerText = timecode;
 		}
 	},
 	updateDuration: function updateDuration() {
@@ -1815,7 +2083,9 @@ Object.assign(_player2.default.prototype, {
 		var timecode = (0, _time.secondsToTimeCode)(duration, t.options.alwaysShowHours, t.options.showTimecodeFrameCount, t.options.framesPerSecond, t.options.secondsDecimalLength);
 
 		if (timecode.length > 5) {
-			(0, _dom.toggleClass)(t.container, t.options.classPrefix + 'long-video');
+			(0, _dom.addClass)(t.container, t.options.classPrefix + 'long-video');
+		} else {
+			(0, _dom.removeClass)(t.container, t.options.classPrefix + 'long-video');
 		}
 
 		if (t.controls.querySelector('.' + t.options.classPrefix + 'duration') && duration > 0) {
@@ -1824,30 +2094,30 @@ Object.assign(_player2.default.prototype, {
 	}
 });
 
-},{"16":16,"2":2,"20":20,"24":24}],12:[function(_dereq_,module,exports){
+},{"17":17,"2":2,"21":21,"25":25}],13:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _i18n = _dereq_(4);
+var _i18n = _dereq_(5);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _player = _dereq_(16);
+var _player = _dereq_(17);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _time = _dereq_(24);
+var _time = _dereq_(25);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _dom = _dereq_(20);
+var _dom = _dereq_(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1984,7 +2254,7 @@ Object.assign(_player2.default.prototype, {
 
 		for (var _i7 = 0, _total5 = inEvents.length; _i7 < _total5; _i7++) {
 			player.chaptersButton.addEventListener(inEvents[_i7], function () {
-				if (this.querySelector('.' + t.options.classPrefix + 'chapters-selector-list').childNodes.length) {
+				if (this.querySelector('.' + t.options.classPrefix + 'chapters-selector-list').children.length) {
 					(0, _dom.removeClass)(this.querySelector('.' + t.options.classPrefix + 'chapters-selector'), t.options.classPrefix + 'offscreen');
 				}
 			});
@@ -2564,26 +2834,26 @@ _mejs2.default.TrackFormatParser = {
 	}
 };
 
-},{"16":16,"2":2,"20":20,"21":21,"24":24,"4":4,"6":6}],13:[function(_dereq_,module,exports){
+},{"17":17,"2":2,"21":21,"22":22,"25":25,"5":5,"7":7}],14:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _player = _dereq_(16);
+var _player = _dereq_(17);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _i18n = _dereq_(4);
+var _i18n = _dereq_(5);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _constants = _dereq_(19);
+var _constants = _dereq_(20);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _dom = _dereq_(20);
+var _dom = _dereq_(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2718,6 +2988,17 @@ Object.assign(_player2.default.prototype, {
 
 			e.preventDefault();
 			e.stopPropagation();
+		},
+		    toggleMute = function toggleMute() {
+			if (media.muted) {
+				positionVolumeHandle(0);
+				(0, _dom.removeClass)(mute, t.options.classPrefix + 'mute');
+				(0, _dom.addClass)(mute, t.options.classPrefix + 'unmute');
+			} else {
+				positionVolumeHandle(media.volume);
+				(0, _dom.removeClass)(mute, t.options.classPrefix + 'unmute');
+				(0, _dom.addClass)(mute, t.options.classPrefix + 'mute');
+			}
 		};
 
 		mute.addEventListener('mouseenter', function (e) {
@@ -2817,15 +3098,7 @@ Object.assign(_player2.default.prototype, {
 
 		media.addEventListener('volumechange', function (e) {
 			if (!mouseIsDown) {
-				if (media.muted) {
-					positionVolumeHandle(0);
-					(0, _dom.removeClass)(mute, t.options.classPrefix + 'mute');
-					(0, _dom.addClass)(mute, t.options.classPrefix + 'unmute');
-				} else {
-					positionVolumeHandle(media.volume);
-					(0, _dom.removeClass)(mute, t.options.classPrefix + 'unmute');
-					(0, _dom.addClass)(mute, t.options.classPrefix + 'mute');
-				}
+				toggleMute();
 			}
 			updateVolumeSlider(e);
 		});
@@ -2835,8 +3108,9 @@ Object.assign(_player2.default.prototype, {
 			if (!modified) {
 				setTimeout(function () {
 					rendered = true;
-					if (player.options.startVolume === 0) {
+					if (player.options.startVolume === 0 || media.originalNode.muted) {
 						media.setMuted(true);
+						player.options.startVolume = 0;
 					}
 					media.setVolume(player.options.startVolume);
 					t.setControlsSize();
@@ -2847,8 +3121,9 @@ Object.assign(_player2.default.prototype, {
 		media.addEventListener('loadedmetadata', function () {
 			setTimeout(function () {
 				if (!modified && !rendered) {
-					if (player.options.startVolume === 0) {
+					if (player.options.startVolume === 0 || media.originalNode.muted) {
 						media.setMuted(true);
+						player.options.startVolume = 0;
 					}
 					media.setVolume(player.options.startVolume);
 					t.setControlsSize();
@@ -2857,27 +3132,19 @@ Object.assign(_player2.default.prototype, {
 			}, 250);
 		});
 
-		if (player.options.startVolume === 0) {
+		if (player.options.startVolume === 0 || media.originalNode.muted) {
 			media.setMuted(true);
+			player.options.startVolume = 0;
+			toggleMute();
 		}
 
-		media.setVolume(player.options.startVolume);
-
 		t.container.addEventListener('controlsresize', function () {
-			if (media.muted) {
-				positionVolumeHandle(0);
-				(0, _dom.removeClass)(mute, t.options.classPrefix + 'mute');
-				(0, _dom.addClass)(mute, t.options.classPrefix + 'unmute');
-			} else {
-				positionVolumeHandle(media.volume);
-				(0, _dom.removeClass)(mute, t.options.classPrefix + 'unmute');
-				(0, _dom.addClass)(mute, t.options.classPrefix + 'mute');
-			}
+			toggleMute();
 		});
 	}
 });
 
-},{"16":16,"19":19,"2":2,"20":20,"21":21,"4":4}],14:[function(_dereq_,module,exports){
+},{"17":17,"2":2,"20":20,"21":21,"22":22,"5":5}],15:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2967,14 +3234,14 @@ var EN = exports.EN = {
 	"mejs.yiddish": "Yiddish"
 };
 
-},{}],15:[function(_dereq_,module,exports){
+},{}],16:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -2988,7 +3255,7 @@ if (typeof jQuery !== 'undefined') {
 	_mejs2.default.$ = _window2.default.ender = _window2.default.$ = ender;
 }
 
-},{"3":3,"6":6}],16:[function(_dereq_,module,exports){
+},{"3":3,"7":7}],17:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3008,27 +3275,27 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _mediaelement = _dereq_(5);
+var _mediaelement = _dereq_(6);
 
 var _mediaelement2 = _interopRequireDefault(_mediaelement);
 
-var _i18n = _dereq_(4);
+var _i18n = _dereq_(5);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _constants = _dereq_(19);
+var _constants = _dereq_(20);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _time = _dereq_(24);
+var _time = _dereq_(25);
 
-var _media = _dereq_(22);
+var _media = _dereq_(23);
 
-var _dom = _dereq_(20);
+var _dom = _dereq_(21);
 
 var dom = _interopRequireWildcard(_dom);
 
@@ -3269,6 +3536,13 @@ var MediaElementPlayer = function () {
 
 		t.options = Object.assign({}, config, o);
 
+		if (t.options.loop && !t.media.getAttribute('loop')) {
+			t.media.loop = true;
+			t.node.loop = true;
+		} else if (t.media.loop) {
+			t.options.loop = true;
+		}
+
 		if (!t.options.timeFormat) {
 			t.options.timeFormat = 'mm:ss';
 			if (t.options.alwaysShowHours) {
@@ -3367,34 +3641,32 @@ var MediaElementPlayer = function () {
 				dom.addClass(t.container, t.options.classPrefix + 'hide-cues');
 
 				var cloneNode = t.node.cloneNode(),
-				    children = t.node.childNodes,
+				    children = t.node.children,
 				    mediaFiles = [],
 				    tracks = [];
 
 				for (var i = 0, total = children.length; i < total; i++) {
 					var childNode = children[i];
 
-					if (childNode && childNode.nodeType !== Node.TEXT_NODE) {
-						(function () {
-							switch (childNode.tagName.toLowerCase()) {
-								case 'source':
-									var elements = {};
-									Array.prototype.slice.call(childNode.attributes).forEach(function (item) {
-										elements[item.name] = item.value;
-									});
-									elements.type = (0, _media.formatType)(elements.src, elements.type);
-									mediaFiles.push(elements);
-									break;
-								case 'track':
-									childNode.mode = 'hidden';
-									tracks.push(childNode);
-									break;
-								default:
-									cloneNode.appendChild(childNode);
-									break;
-							}
-						})();
-					}
+					(function () {
+						switch (childNode.tagName.toLowerCase()) {
+							case 'source':
+								var elements = {};
+								Array.prototype.slice.call(childNode.attributes).forEach(function (item) {
+									elements[item.name] = item.value;
+								});
+								elements.type = (0, _media.formatType)(elements.src, elements.type);
+								mediaFiles.push(elements);
+								break;
+							case 'track':
+								childNode.mode = 'hidden';
+								tracks.push(childNode);
+								break;
+							default:
+								cloneNode.appendChild(childNode);
+								break;
+						}
+					})();
 				}
 
 				t.node.remove();
@@ -3588,7 +3860,7 @@ var MediaElementPlayer = function () {
 			var t = this;
 
 			t.killControlsTimer();
-			t.controlsEnabled = true;
+			t.controlsEnabled = false;
 			t.hideControls(false, true);
 		}
 	}, {
@@ -4059,7 +4331,7 @@ var MediaElementPlayer = function () {
 					t.media.setSize(parentWidth, newHeight);
 				}
 
-				var layerChildren = t.layers.childNodes;
+				var layerChildren = t.layers.children;
 				for (var i = 0, total = layerChildren.length; i < total; i++) {
 					layerChildren[i].style.width = '100%';
 					layerChildren[i].style.height = '100%';
@@ -4165,7 +4437,7 @@ var MediaElementPlayer = function () {
 			t.container.style.width = width;
 			t.container.style.height = height;
 
-			var layers = t.layers.childNodes;
+			var layers = t.layers.children;
 			for (var i = 0, total = layers.length; i < total; i++) {
 				layers[i].style.width = width;
 				layers[i].style.height = height;
@@ -4206,7 +4478,7 @@ var MediaElementPlayer = function () {
 				var event = (0, _general.createEvent)('controlsresize', t.container);
 				t.container.dispatchEvent(event);
 			} else {
-				var children = t.controls.childNodes;
+				var children = t.controls.children;
 				var minWidth = 0;
 
 				for (var _i = 0, _total = children.length; _i < _total; _i++) {
@@ -4223,11 +4495,11 @@ var MediaElementPlayer = function () {
 			var t = this;
 
 			if (t.featurePosition[key] !== undefined) {
-				var child = t.controls.childNodes[t.featurePosition[key] - 1];
+				var child = t.controls.children[t.featurePosition[key] - 1];
 				child.parentNode.insertBefore(element, child.nextSibling);
 			} else {
 				t.controls.appendChild(element);
-				var children = t.controls.childNodes;
+				var children = t.controls.children;
 				for (var i = 0, total = children.length; i < total; i++) {
 					if (element == children[i]) {
 						t.featurePosition[key] = i;
@@ -4815,7 +5087,7 @@ exports.default = MediaElementPlayer;
 	}
 })(_mejs2.default.$);
 
-},{"19":19,"2":2,"20":20,"21":21,"22":22,"24":24,"3":3,"4":4,"5":5,"6":6}],17:[function(_dereq_,module,exports){
+},{"2":2,"20":20,"21":21,"22":22,"23":23,"25":25,"3":3,"5":5,"6":6,"7":7}],18:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4833,21 +5105,21 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _i18n = _dereq_(4);
+var _i18n = _dereq_(5);
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _renderer = _dereq_(7);
+var _renderer = _dereq_(8);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _constants = _dereq_(19);
+var _constants = _dereq_(20);
 
-var _media = _dereq_(22);
+var _media = _dereq_(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5229,7 +5501,7 @@ if (hasFlash) {
 	_renderer.renderer.add(FlashMediaElementAudioOggRenderer);
 }
 
-},{"19":19,"2":2,"21":21,"22":22,"3":3,"4":4,"6":6,"7":7}],18:[function(_dereq_,module,exports){
+},{"2":2,"20":20,"22":22,"23":23,"3":3,"5":5,"7":7,"8":8}],19:[function(_dereq_,module,exports){
 'use strict';
 
 var _window = _dereq_(3);
@@ -5240,15 +5512,15 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _renderer = _dereq_(7);
+var _renderer = _dereq_(8);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
-var _constants = _dereq_(19);
+var _constants = _dereq_(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5355,13 +5627,13 @@ _window2.default.HtmlMediaElement = _mejs2.default.HtmlMediaElement = HtmlMediaE
 
 _renderer.renderer.add(HtmlMediaElement);
 
-},{"19":19,"2":2,"21":21,"3":3,"6":6,"7":7}],19:[function(_dereq_,module,exports){
+},{"2":2,"20":20,"22":22,"3":3,"7":7,"8":8}],20:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.cancelFullScreen = exports.requestFullScreen = exports.isFullScreen = exports.FULLSCREEN_EVENT_NAME = exports.HAS_NATIVE_FULLSCREEN_ENABLED = exports.HAS_TRUE_NATIVE_FULLSCREEN = exports.HAS_IOS_FULLSCREEN = exports.HAS_MS_NATIVE_FULLSCREEN = exports.HAS_MOZ_NATIVE_FULLSCREEN = exports.HAS_WEBKIT_NATIVE_FULLSCREEN = exports.HAS_NATIVE_FULLSCREEN = exports.SUPPORTS_NATIVE_HLS = exports.SUPPORT_POINTER_EVENTS = exports.HAS_MSE = exports.IS_STOCK_ANDROID = exports.IS_SAFARI = exports.IS_FIREFOX = exports.IS_CHROME = exports.IS_EDGE = exports.IS_IE = exports.IS_ANDROID = exports.IS_IOS = exports.IS_IPHONE = exports.IS_IPAD = exports.UA = exports.NAV = undefined;
+exports.cancelFullScreen = exports.requestFullScreen = exports.isFullScreen = exports.FULLSCREEN_EVENT_NAME = exports.HAS_NATIVE_FULLSCREEN_ENABLED = exports.HAS_TRUE_NATIVE_FULLSCREEN = exports.HAS_IOS_FULLSCREEN = exports.HAS_MS_NATIVE_FULLSCREEN = exports.HAS_MOZ_NATIVE_FULLSCREEN = exports.HAS_WEBKIT_NATIVE_FULLSCREEN = exports.HAS_NATIVE_FULLSCREEN = exports.SUPPORTS_NATIVE_HLS = exports.SUPPORT_POINTER_EVENTS = exports.HAS_MSE = exports.IS_STOCK_ANDROID = exports.IS_SAFARI = exports.IS_FIREFOX = exports.IS_CHROME = exports.IS_EDGE = exports.IS_IE = exports.IS_ANDROID = exports.IS_IOS = exports.IS_IPOD = exports.IS_IPHONE = exports.IS_IPAD = exports.UA = exports.NAV = undefined;
 
 var _window = _dereq_(3);
 
@@ -5371,7 +5643,7 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -5379,9 +5651,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var NAV = exports.NAV = _window2.default.navigator;
 var UA = exports.UA = NAV.userAgent.toLowerCase();
-var IS_IPAD = exports.IS_IPAD = /ipad/i.test(UA);
-var IS_IPHONE = exports.IS_IPHONE = /iphone/i.test(UA);
-var IS_IOS = exports.IS_IOS = IS_IPHONE || IS_IPAD;
+var IS_IPAD = exports.IS_IPAD = /ipad/i.test(UA) && !_window2.default.MSStream;
+var IS_IPHONE = exports.IS_IPHONE = /iphone/i.test(UA) && !_window2.default.MSStream;
+var IS_IPOD = exports.IS_IPOD = /ipod/i.test(UA) && !_window2.default.MSStream;
+var IS_IOS = exports.IS_IOS = /ipad|iphone|ipod/i.test(UA) && !_window2.default.MSStream;
 var IS_ANDROID = exports.IS_ANDROID = /android/i.test(UA);
 var IS_IE = exports.IS_IE = /(trident|microsoft)/i.test(NAV.appName);
 var IS_EDGE = exports.IS_EDGE = 'msLaunchUri' in NAV && !('documentMode' in _document2.default);
@@ -5500,6 +5773,7 @@ exports.cancelFullScreen = cancelFullScreen;
 
 _mejs2.default.Features = _mejs2.default.Features || {};
 _mejs2.default.Features.isiPad = IS_IPAD;
+_mejs2.default.Features.isiPod = IS_IPOD;
 _mejs2.default.Features.isiPhone = IS_IPHONE;
 _mejs2.default.Features.isiOS = _mejs2.default.Features.isiPhone || _mejs2.default.Features.isiPad;
 _mejs2.default.Features.isAndroid = IS_ANDROID;
@@ -5524,7 +5798,7 @@ _mejs2.default.Features.isFullScreen = isFullScreen;
 _mejs2.default.Features.requestFullScreen = requestFullScreen;
 _mejs2.default.Features.cancelFullScreen = cancelFullScreen;
 
-},{"2":2,"3":3,"6":6}],20:[function(_dereq_,module,exports){
+},{"2":2,"3":3,"7":7}],21:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5548,43 +5822,14 @@ var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function TinyPromise(handler) {
-	var thens = [];
-	var state = -1;
-	var result = void 0;
-	var then = void 0;
-
-	function done(value) {
-		for (result = value; then = thens.shift();) {
-			then[state] && then[state](result);
-		}
-	}
-
-	handler(function (value) {
-		return done(value, state = 0);
-	}, function (value) {
-		return done(value, state = 1);
-	});
-
-	return {
-		then: function then() {
-			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-				args[_key] = arguments[_key];
-			}
-
-			~state ? args[state] && args[state](result) : thens.push(args);
-		}
-	};
-}
-
 function loadScript(url) {
-	return TinyPromise(function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		var script = _document2.default.createElement('script');
 		script.src = url;
 		script.async = true;
@@ -5779,7 +6024,7 @@ _mejs2.default.Utils.visible = visible;
 _mejs2.default.Utils.ajax = ajax;
 _mejs2.default.Utils.loadScript = loadScript;
 
-},{"2":2,"3":3,"6":6}],21:[function(_dereq_,module,exports){
+},{"2":2,"3":3,"7":7}],22:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5793,7 +6038,7 @@ exports.createEvent = createEvent;
 exports.isNodeAfter = isNodeAfter;
 exports.isString = isString;
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -5915,7 +6160,7 @@ _mejs2.default.Utils.createEvent = createEvent;
 _mejs2.default.Utils.isNodeAfter = isNodeAfter;
 _mejs2.default.Utils.isString = isString;
 
-},{"6":6}],22:[function(_dereq_,module,exports){
+},{"7":7}],23:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5929,11 +6174,11 @@ exports.getTypeFromFile = getTypeFromFile;
 exports.getExtension = getExtension;
 exports.normalizeExtension = normalizeExtension;
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
-var _general = _dereq_(21);
+var _general = _dereq_(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6038,12 +6283,16 @@ _mejs2.default.Utils.getTypeFromFile = getTypeFromFile;
 _mejs2.default.Utils.getExtension = getExtension;
 _mejs2.default.Utils.normalizeExtension = normalizeExtension;
 
-},{"21":21,"6":6}],23:[function(_dereq_,module,exports){
+},{"22":22,"7":7}],24:[function(_dereq_,module,exports){
 'use strict';
 
 var _document = _dereq_(2);
 
 var _document2 = _interopRequireDefault(_document);
+
+var _promisePolyfill = _dereq_(4);
+
+var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6164,7 +6413,30 @@ if (/firefox/i.test(navigator.userAgent)) {
 	};
 }
 
-},{"2":2}],24:[function(_dereq_,module,exports){
+if (!window.Promise) {
+	window.Promise = _promisePolyfill2.default;
+}
+
+(function (constructor) {
+	if (constructor && constructor.prototype && constructor.prototype.children === null) {
+		Object.defineProperty(constructor.prototype, 'children', {
+			get: function get() {
+				var i = 0,
+				    node = void 0,
+				    nodes = this.childNodes,
+				    children = [];
+				while (node = nodes[i++]) {
+					if (node.nodeType === 1) {
+						children.push(node);
+					}
+				}
+				return children;
+			}
+		});
+	}
+})(window.Node || window.Element);
+
+},{"2":2,"4":4}],25:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6176,7 +6448,7 @@ exports.timeCodeToSeconds = timeCodeToSeconds;
 exports.calculateTimeFormat = calculateTimeFormat;
 exports.convertSMPTEtoSeconds = convertSMPTEtoSeconds;
 
-var _mejs = _dereq_(6);
+var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
@@ -6399,4 +6671,4 @@ _mejs2.default.Utils.timeCodeToSeconds = timeCodeToSeconds;
 _mejs2.default.Utils.calculateTimeFormat = calculateTimeFormat;
 _mejs2.default.Utils.convertSMPTEtoSeconds = convertSMPTEtoSeconds;
 
-},{"6":6}]},{},[23,5,4,14,18,17,15,16,8,9,10,11,12,13]);
+},{"7":7}]},{},[24,6,5,15,19,18,16,17,9,10,11,12,13,14]);

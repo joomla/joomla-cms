@@ -15,9 +15,8 @@ use Joomla\CMS\Language\Transliterate;
 /**
  * Wrapper class for Transliterate
  *
- * @package     Joomla.Platform
- * @subpackage  Language
  * @since       3.4
+ * @deprecated  4.0  Use `Joomla\CMS\Language\Transliterate` directly
  */
 class TransliterateWrapper
 {
@@ -31,6 +30,7 @@ class TransliterateWrapper
 	 *
 	 * @see     Transliterate::utf8_latin_to_ascii()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Language\Transliterate` directly
 	 */
 	public function utf8_latin_to_ascii($string, $case = 0)
 	{
