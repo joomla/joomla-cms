@@ -848,6 +848,8 @@ final class JApplicationSite extends JApplicationCms
 		{
 			$this->template = new stdClass;
 			$this->template->template = $template;
+			$this->template->id = null;
+			$this->template->home = 0;
 
 			if ($styleParams instanceof Registry)
 			{
