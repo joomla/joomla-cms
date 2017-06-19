@@ -3,6 +3,7 @@
 
 # Start apache
 service apache2 restart
+service mysql start
 
 # Start Xvfb
 export DISPLAY=:0
