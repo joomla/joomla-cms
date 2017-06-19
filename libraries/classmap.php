@@ -294,3 +294,14 @@ JLoader::registerAlias('JClientFtp',                        '\\Joomla\\CMS\\Clie
 JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Client\\FtpClient', '4.0');
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
 JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
+
+JLoader::registerAlias('JImage',                            '\\Joomla\\Image\\Image', '5.0');
+JLoader::registerAlias('JImageFilter',                      '\\Joomla\\Image\\ImageFilter', '5.0');
+JLoader::registerAlias('JImageFilterBackgroundfill',        '\\Joomla\\Image\\Backgroundfill', '5.0');
+JLoader::registerAlias('JImageFilterBrightness',            '\\Joomla\\Image\\Brightness', '5.0');
+JLoader::registerAlias('JImageFilterContrast',              '\\Joomla\\Image\\Contrast', '5.0');
+JLoader::registerAlias('JImageFilterEdgedetect',            '\\Joomla\\Image\\Edgedetect', '5.0');
+JLoader::registerAlias('JImageFilterEmboss',                '\\Joomla\\Image\\Emboss', '5.0');
+JLoader::registerAlias('JImageFilterNegate',                '\\Joomla\\Image\\Negate', '5.0');
+JLoader::registerAlias('JImageFilterSketchy',               '\\Joomla\\Image\\Sketchy', '5.0');
+JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\Image\\Smooth', '5.0');
