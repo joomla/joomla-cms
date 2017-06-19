@@ -2190,6 +2190,11 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		// Set flag in database if the update is partly done.
+		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+			. ' SET converted = ' . ($converted - 2)
+		)->execute();
+
 		// Step 3: Drop indexes later to be added again at step 4
 		$fileName3 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql';
 
@@ -2250,7 +2255,8 @@ class JoomlaInstallerScript
 
 		// Set flag in database if the update is done.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+			. ' SET converted = ' . $converted
+		)->execute();
 	}
 
 	/**
