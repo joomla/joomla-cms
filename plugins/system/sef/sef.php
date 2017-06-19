@@ -83,6 +83,7 @@ class PlgSystemSef extends JPlugin
 	 * AutoCorrect SEF url so there is no content-duplicates
 	 *
 	 * @return  void
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAfterRoute()
