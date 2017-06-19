@@ -12,7 +12,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Controller\Admin;
 
-
+/**
+ * The first example class, this is in the same
+ * package as declared at the start of file but
+ * this example has a defined subpackage
+ *
+ * @since  4.0
+ */
 class Workflows extends Admin
 {
 
