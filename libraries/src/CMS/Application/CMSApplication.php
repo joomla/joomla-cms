@@ -140,8 +140,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			$this->config->set('session_name', $this->getName());
 		}
-
-		$this->createExtensionNamespaceMap();
 	}
 
 	/**
@@ -318,6 +316,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		PluginHelper::importPlugin('system');
 
 		// Trigger the onBeforeExecute event.

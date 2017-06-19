@@ -1646,5 +1646,185 @@
             "joomla",
             "oauth2"
         ]
+    },
+    {
+        "name": "psr/link",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/link.git",
+            "reference": "eea8e8662d5cd3ae4517c9b864493f59fca95562"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/link/zipball/eea8e8662d5cd3ae4517c9b864493f59fca95562",
+            "reference": "eea8e8662d5cd3ae4517c9b864493f59fca95562",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-10-28T16:06:13+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Link\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interfaces for HTTP links",
+        "keywords": [
+            "http",
+            "http-link",
+            "link",
+            "psr",
+            "psr-13",
+            "rest"
+        ]
+    },
+    {
+        "name": "fig/link-util",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/link-util.git",
+            "reference": "1a07821801a148be4add11ab0603e4af55a72fac"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/link-util/zipball/1a07821801a148be4add11ab0603e4af55a72fac",
+            "reference": "1a07821801a148be4add11ab0603e4af55a72fac",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.0",
+            "psr/link": "~1.0@dev"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.1",
+            "squizlabs/php_codesniffer": "^2.3.1"
+        },
+        "time": "2016-10-17T18:31:11+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Fig\\Link\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common utility implementations for HTTP links",
+        "keywords": [
+            "http",
+            "http-link",
+            "link",
+            "psr",
+            "psr-13",
+            "rest"
+        ]
+    },
+    {
+        "name": "symfony/web-link",
+        "version": "v3.3.2",
+        "version_normalized": "3.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/web-link.git",
+            "reference": "9c1c9d4b34daa843b340ea305a639affc9b46a61"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/web-link/zipball/9c1c9d4b34daa843b340ea305a639affc9b46a61",
+            "reference": "9c1c9d4b34daa843b340ea305a639affc9b46a61",
+            "shasum": ""
+        },
+        "require": {
+            "fig/link-util": "^1.0",
+            "php": ">=5.5.9",
+            "psr/link": "^1.0"
+        },
+        "require-dev": {
+            "symfony/event-dispatcher": "^2.8|^3.0",
+            "symfony/http-foundation": "^2.8|^3.0",
+            "symfony/http-kernel": "^2.8|^3.0"
+        },
+        "suggest": {
+            "symfony/http-kernel": ""
+        },
+        "time": "2017-04-12T14:15:58+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\WebLink\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kévin Dunglas",
+                "email": "dunglas@gmail.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony WebLink Component",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "dns-prefetch",
+            "http",
+            "http2",
+            "link",
+            "performance",
+            "prefetch",
+            "preload",
+            "prerender",
+            "psr13",
+            "push"
+        ]
     }
 ]

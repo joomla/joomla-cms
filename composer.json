@@ -59,10 +59,13 @@
         "joomla/string": "~2.0@dev",
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
+        "fig/link-util": "~1.0",
         "ircmaxell/password-compat": "1.*",
         "paragonie/random_compat": "~2.0",
         "phpmailer/phpmailer": "~6.0@rc",
+        "psr/link": "~1.0",
         "symfony/polyfill-php56": "~1.0",
+        "symfony/web-link": "3.3.*",
         "symfony/yaml": "2.*"
     },
     "require-dev": {
