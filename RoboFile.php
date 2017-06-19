@@ -509,7 +509,7 @@ class RoboFile extends \Robo\Tasks
 
 		$driver['path'] = $driverPath;
 
-		return '-D' . implode('=', $driver) . ' -Dwebdriver.chrome.args=--no-sandbox';
+		return '-D' . implode('=', $driver) . ' -Dwebdriver.chrome.args="--no-sandbox"';
 	}
 
 	/**
