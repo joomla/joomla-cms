@@ -53,22 +53,22 @@ class JFormFieldModalAssociation extends JFormField
 		// Select custom association button
 		$html[] = '<a'
 			. ' id="select-change"'
-			. ' class="btn' . ($value ? '' : ' hidden') . '"'
+			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
 			. ' data-select="' . JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="icon-file" aria-hidden="true"></span>'
+			. '<span class="icon-file" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
 			. '</a>';
 
 		// Clear association button
 		$html[] = '<button'
- 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+ 				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
  				. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
  				. ' id="remove-assoc">'
- 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
+ 				. '<span class="icon-remove" aria-hidden="true"></span> ' . JText::_('JCLEAR')
  				. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';
