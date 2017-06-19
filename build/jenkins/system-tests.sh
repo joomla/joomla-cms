@@ -13,8 +13,6 @@ sleep 1 # give xvfb some time to start
 fluxbox &
 sleep 3 # give fluxbox some time to start
 
-google-chrome --no-sandbox &
-
 # Move folder to /tests
 ln -s $(pwd) /tests/www
 
@@ -22,6 +20,8 @@ ln -s $(pwd) /tests/www
 cd tests/codeception
 composer install
 cd ../..
+
+./tests/codeception/vendor/bin/selenium-server-standalone -Dwebdriver.chrome.driver=tests/codeception/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/chromedriver_linux_64 -Dwebdriver.chrome.args="--no-sandbox"
 
 # Run the tests
 cp RoboFile.dist.ini RoboFile.ini
