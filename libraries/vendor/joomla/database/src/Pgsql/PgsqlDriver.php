@@ -51,7 +51,7 @@ class PgsqlDriver extends PdoDriver
 	 * @var    string
 	 * @since  1.5.0
 	 */
-	protected static $dbMinimum = '8.3.18';
+	protected static $dbMinimum = '9.2.0';
 
 	/**
 	 * Operator used for concatenation
@@ -329,16 +329,10 @@ class PgsqlDriver extends PdoDriver
 		{
 			$name = [
 				's.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type',
-				'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option'
+				'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option', 'info.start_value'
 			];
 
-			$as = ['sequence', 'schema', 'table', 'column', 'data_type', 'minimum_value', 'maximum_value', 'increment', 'cycle_option'];
-
-			if (version_compare($this->getVersion(), '9.1.0') >= 0)
-			{
-				$name[] .= 'info.start_value';
-				$as[] .= 'start_value';
-			}
+			$as = ['sequence', 'schema', 'table', 'column', 'data_type', 'minimum_value', 'maximum_value', 'increment', 'cycle_option', 'start_value'];
 
 			// Get the details columns information.
 			$query = $this->getQuery(true)

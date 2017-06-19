@@ -157,56 +157,6 @@ class PostgresqlQuery extends DatabaseQuery implements LimitableInterface, Prepa
 		switch ($this->type)
 		{
 			case 'select':
-				if ($this->selectRowNumber && $this->selectRowNumber['native'] === false)
-				{
-					// Workaround for postgresql version less than 8.4.0
-					try
-					{
-						$this->db->setQuery('CREATE TEMP SEQUENCE ROW_NUMBER')->execute();
-					}
-					catch (ExecutionFailureException $e)
-					{
-						// Do nothing, sequence exists
-					}
-
-					$orderBy          = $this->selectRowNumber['orderBy'];
-					$orderColumnAlias = $this->selectRowNumber['orderColumnAlias'];
-
-					$columns = "nextval('ROW_NUMBER') - 1 AS $orderColumnAlias";
-
-					if ($this->select === null)
-					{
-						$query = PHP_EOL . "SELECT 1"
-							. (string) $this->from
-							. (string) $this->where;
-					}
-					else
-					{
-						$tmpOffset    = $this->offset;
-						$tmpLimit     = $this->limit;
-						$this->offset = 0;
-						$this->limit  = 0;
-						$tmpOrder     = $this->order;
-						$this->order  = null;
-						$query        = parent::__toString();
-						$columns      = "w.*, $columns";
-						$this->order  = $tmpOrder;
-						$this->offset = $tmpOffset;
-						$this->limit  = $tmpLimit;
-					}
-
-					// Add support for second order by, offset and limit
-					$query = PHP_EOL . "SELECT $columns FROM (" . $query . PHP_EOL . "ORDER BY $orderBy"
-						. PHP_EOL . ") w,(SELECT setval('ROW_NUMBER', 1)) AS r";
-
-					if ($this->order)
-					{
-						$query .= (string) $this->order;
-					}
-
-					break;
-				}
-
 				$query .= (string) $this->select;
 				$query .= (string) $this->from;
 
@@ -833,37 +783,5 @@ class PostgresqlQuery extends DatabaseQuery implements LimitableInterface, Prepa
 	public function findInSet($value, $set)
 	{
 		return " $value = ANY (string_to_array($set, ',')::integer[]) ";
-	}
-
-	/**
-	 * Return the number of the current row.
-	 *
-	 * Usage:
-	 * $query->select('id');
-	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
-	 * $query->from('#__content');
-	 *
-	 * @param   string  $orderBy           An expression of ordering for window function.
-	 * @param   string  $orderColumnAlias  An alias for new ordering column.
-	 *
-	 * @return  $this
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \RuntimeException
-	 */
-	public function selectRowNumber($orderBy, $orderColumnAlias)
-	{
-		$this->validateRowNumber($orderBy, $orderColumnAlias);
-
-		if (version_compare($this->db->getVersion(), '8.4.0', 'ge'))
-		{
-			$this->selectRowNumber['native'] = true;
-
-			$this->select("ROW_NUMBER() OVER (ORDER BY $orderBy) AS $orderColumnAlias");
-		}
-
-		$this->selectRowNumber['native'] = false;
-
-		return $this;
 	}
 }

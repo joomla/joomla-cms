@@ -89,16 +89,6 @@ class PostgresqlImporter extends DatabaseImporter
 				// The field exists, check it's the same.
 				$column = $oldSeq[$kSeqName][0];
 
-				// For older database version that doesn't support these fields use default values
-				if (version_compare($this->db->getVersion(), '9.1.0') < 0)
-				{
-					$column->Min_Value    = '1';
-					$column->Max_Value    = '9223372036854775807';
-					$column->Increment    = '1';
-					$column->Cycle_option = 'NO';
-					$column->Start_Value  = '1';
-				}
-
 				// Test whether there is a change.
 				$change = ((string) $vSeq[0]['Type'] != $column->Type)
 					|| ((string) $vSeq[0]['Start_Value'] != $column->Start_Value)
@@ -263,16 +253,6 @@ class PostgresqlImporter extends DatabaseImporter
 	 */
 	protected function getAddSequenceSql(\SimpleXMLElement $field)
 	{
-		/* For older database version that doesn't support these fields use default values */
-		if (version_compare($this->db->getVersion(), '9.1.0') < 0)
-		{
-			$field['Min_Value']    = '1';
-			$field['Max_Value']    = '9223372036854775807';
-			$field['Increment']    = '1';
-			$field['Cycle_option'] = 'NO';
-			$field['Start_Value']  = '1';
-		}
-
 		$sql = 'CREATE SEQUENCE ' . (string) $field['Name']
 			. ' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . $field['Min_Value']
 			. ' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value']
@@ -293,16 +273,6 @@ class PostgresqlImporter extends DatabaseImporter
 	 */
 	protected function getChangeSequenceSql(\SimpleXMLElement $field)
 	{
-		/* For older database version that doesn't support these fields use default values */
-		if (version_compare($this->db->getVersion(), '9.1.0') < 0)
-		{
-			$field['Min_Value']    = '1';
-			$field['Max_Value']    = '9223372036854775807';
-			$field['Increment']    = '1';
-			$field['Cycle_option'] = 'NO';
-			$field['Start_Value']  = '1';
-		}
-
 		$sql = 'ALTER SEQUENCE ' . (string) $field['Name']
 			. ' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . (string) $field['Min_Value']
 			. ' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value']

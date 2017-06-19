@@ -67,11 +67,6 @@ class PostgresqlExporter extends DatabaseExporter
 
 			foreach ($sequences as $sequence)
 			{
-				if (version_compare($this->db->getVersion(), '9.1.0') < 0)
-				{
-					$sequence->start_value = null;
-				}
-
 				$buffer[] = '   <sequence Name="' . $sequence->sequence . '"' . ' Schema="' . $sequence->schema . '"' .
 					' Table="' . $sequence->table . '"' . ' Column="' . $sequence->column . '"' . ' Type="' . $sequence->data_type . '"' .
 					' Start_Value="' . $sequence->start_value . '"' . ' Min_Value="' . $sequence->minimum_value . '"' .
