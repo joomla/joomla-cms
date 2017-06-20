@@ -25,8 +25,8 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should assign task to form.task.value', function () {
 			expect(form.task.value).toEqual('article.add');
 		});
-		it('should set attribute novalidate to false', function () {
-			expect($(form)).toHaveAttr('novalidate', 'false');
+		it('should set attribute "novalidate"', function () {
+			expect($(form)).toHaveAttr('novalidate', '');
 		});
 		it('should add input submit button to DOM', function () {
 			expect($('#adminForm')).toContainElement('input[type="submit"]');
