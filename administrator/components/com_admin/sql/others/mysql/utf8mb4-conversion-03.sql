@@ -12,25 +12,8 @@
 --
 
 --
--- Step 3.1: Search for duplication strings in unicode collation and update weight for first one
---
-
-UPDATE `#__finder_terms` AS old_terms INNER JOIN (
-	SELECT MIN(term_id) AS term_id, ROUND(SUM(`weight`), 8) AS `weight`, COUNT(*) AS `count`
-	FROM `#__finder_terms` GROUP BY term COLLATE utf8mb4_unicode_ci HAVING `count` > 1) AS new_terms
-	ON old_terms.term_id = new_terms.term_id SET old_terms.`weight` = new_terms.`weight`;
-
---
--- Step 3.2: Search for duplication strings in unicode collation and remove all except first one
---
-
-DELETE old_terms FROM `#__finder_terms` AS old_terms INNER JOIN (
-	SELECT MIN(term_id) AS term_id, term COLLATE utf8mb4_unicode_ci AS term2, COUNT(*) AS `count`
-	FROM `#__finder_terms` GROUP BY term2 HAVING `count` > 1) AS new_terms
-	ON old_terms.term COLLATE utf8mb4_unicode_ci = new_terms.term AND old_terms.term_id != new_terms.term_id;
-
---
--- Step 3.3: Convert #__finder_xxx tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
+-- Step 3.1: Convert #__finder_xxx tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
+-- except #__finder_terms table, this will be converted later.
 --
 
 ALTER TABLE `#__finder_filters` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -53,14 +36,14 @@ ALTER TABLE `#__finder_links_termse` CONVERT TO CHARACTER SET utf8mb4 COLLATE ut
 ALTER TABLE `#__finder_links_termsf` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_taxonomy` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_taxonomy_map` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE `#__finder_terms` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_terms_common` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_tokens` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_tokens_aggregate` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_types` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 --
--- Step 3.4: Set default character set and collation for #__finder_xxx tables.
+-- Step 3.2: Set default character set and collation for #__finder_xxx tables
+-- except #__finder_terms table.
 --
 
 ALTER TABLE `#__finder_filters` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -83,8 +66,49 @@ ALTER TABLE `#__finder_links_termse` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8m
 ALTER TABLE `#__finder_links_termsf` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_taxonomy` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_taxonomy_map` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE `#__finder_terms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_terms_common` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_tokens` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_tokens_aggregate` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_types` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--
+-- Step 3.3: Clean up temporary tables.
+--
+
+DROP TABLE IF EXISTS `#__finder_terms_new`;
+DROP TABLE IF EXISTS `#__finder_terms_old`;
+
+--
+-- Step 3.4: Create a copy of structure and indexes for #__finder_terms table.
+--
+
+CREATE TABLE `#__finder_terms_new` LIKE `#__finder_terms`;
+
+--
+-- Step 3.5: Convert #__finder_terms_new table to utf8mb4 chracter set with utf8mb4_unicode_ci collation.
+--
+
+ALTER TABLE `#__finder_terms_new` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__finder_terms_new` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--
+-- Step 3.6: Copy data to #__finder_terms_new table.
+--
+
+INSERT INTO `#__finder_terms_new` (
+  `term_id`, `term`, `stem`, `common`, `phrase`, `weight`, `soundex`, `links`, `language`
+) SELECT `term_id`, `term`, `stem`, `common`, `phrase`, `weight`, `soundex`, `links`, `language`
+  FROM `#__finder_terms`
+  ON DUPLICATE KEY UPDATE `weight` = `#__finder_terms_new`.`weight` + VALUES(`weight`);
+
+--
+-- Step 3.7: Swap tables.
+--
+
+RENAME TABLE `#__finder_terms` TO `#__finder_terms_old`, `#__finder_terms_new` TO `#__finder_terms`;
+
+--
+-- Step 3.8: Remove old table.
+--
+
+DROP TABLE `#__finder_terms_old`;
