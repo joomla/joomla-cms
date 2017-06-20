@@ -19,7 +19,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			spyOnEvent('#adminForm', 'submit');
 			form.removeChild = jasmine.createSpy('removeChild');
 
-			Joomla.submitform('article.add', form, true);
+			Joomla.submitform('article.add', form, false);
 		});
 
 		it('should assign task to form.task.value', function () {
