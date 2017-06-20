@@ -413,6 +413,23 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	}
 
 	/**
+	 * Method to get the database connection collation in use by sampling a text field of a table in the database.
+	 *
+	 * @return  mixed  The collation in use by the database connection (string) or boolean false if not supported.
+	 *
+	 * @since   1.0
+	 * @throws  \RuntimeException
+	 */
+	public function getConnectionCollation()
+	{
+
+		$this->connect();
+
+		return $this->setQuery('SELECT @@collation_connection;')->loadResult();
+
+	}
+	
+	/**
 	 * Return the query string to create new Database.
 	 *
 	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
