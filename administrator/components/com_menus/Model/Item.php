@@ -188,7 +188,7 @@ class Item extends Admin
 		{
 			if (!$parentId = $table->getRootId())
 			{
-				$this->setError($db->getErrorMsg());
+				$this->setError($table->getError());
 
 				return false;
 			}

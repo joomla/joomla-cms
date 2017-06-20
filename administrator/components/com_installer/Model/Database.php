@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Version;
+use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Registry\Registry;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -282,9 +283,7 @@ class Database extends Installer
 	{
 		$db = \JFactory::getDbo();
 
-		$serverType = $db->getServerType();
-
-		if ($serverType != 'mysql')
+		if (!$db instanceof UTF8MB4SupportInterface)
 		{
 			return;
 		}

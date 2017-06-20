@@ -16,16 +16,16 @@ $lang = JFactory::getLanguage();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', array('version' => 'auto'));
+JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 
-// Add Stylesheets
-JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative' => true));
+// Load template CSS file
+JHtml::_('stylesheet', 'template.min.css', ['version' => 'auto', 'relative' => true]);
 
-// Load custom.css
+// Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-JHtml::_('stylesheet', ltrim($this->baseurl, '/') . '/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');

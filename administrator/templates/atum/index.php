@@ -19,17 +19,17 @@ $input           = $app->input;
 
 // Add JavaScript
 JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', array('version' => 'auto'));
-JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
+JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
-// Add Stylesheets
-JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative' => true));
+// Load template CSS file
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
-// Load custom.css
+// Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-JHtml::_('stylesheet', ltrim($this->baseurl, '/') . '/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
@@ -118,12 +118,12 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php
 								try
 								{
-									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(array('ignore_request' => true));
+									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(['ignore_request' => true]);
 									$messages      = $messagesModel->getItems();
 								}
 								catch (RuntimeException $e)
 								{
-									$messages = array();
+									$messages = [];
 
 									// Still render the error message from the Exception object
 									JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');

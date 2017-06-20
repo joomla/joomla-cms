@@ -20,7 +20,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="register-require-user"
 					type="spacer"
@@ -271,6 +271,7 @@
 					<option value="1">JOPTION_OPTIONAL</option>
 					<option value="0">JDISABLED</option>
 				</field>
+
 				<field
 					name="profile-require_favoritebook"
 					type="list"
@@ -292,6 +293,7 @@
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
+
 				<field
 					name="profile-require_dob"
 					type="list"
