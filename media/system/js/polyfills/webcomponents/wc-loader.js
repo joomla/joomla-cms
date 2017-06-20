@@ -10,21 +10,26 @@ var check = function () {
 	return true;
 };
 var es6Shim = "(()=>{'use strict';if(!window.customElements)return;const a=window.HTMLElement,b=window.customElements.define,c=window.customElements.get,d=new Map,e=new Map;let f=!1,g=!1;window.HTMLElement=function(){if(!f){const j=d.get(this.constructor),k=c.call(window.customElements,j);g=!0;const l=new k;return l}f=!1;},window.HTMLElement.prototype=a.prototype;Object.defineProperty(window,'customElements',{value:window.customElements,configurable:!0,writable:!0}),Object.defineProperty(window.customElements,'define',{value:(j,k)=>{const l=k.prototype,m=class extends a{constructor(){super(),Object.setPrototypeOf(this,l),g||(f=!0,k.call(this)),g=!1;}},n=m.prototype;m.observedAttributes=k.observedAttributes,n.connectedCallback=l.connectedCallback,n.disconnectedCallback=l.disconnectedCallback,n.attributeChangedCallback=l.attributeChangedCallback,n.adoptedCallback=l.adoptedCallback,d.set(k,j),e.set(j,k),b.call(window.customElements,j,m);},configurable:!0,writable:!0}),Object.defineProperty(window.customElements,'get',{value:(j)=>e.get(j),configurable:!0,writable:!0});})()";
-/* Trick so ES6 code won't throw in IE11 */
+/* Trick so ES5 code won't throw with evergreen browsers */
 if (check()) (new Function(es6Shim))();
-
-/* IE has issues with Events */
-function CustomEvent(event, params) {params = params || { bubbles: false, cancelable: false, detail: undefined };var evt = document.createEvent('CustomEvent');evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);return evt;}CustomEvent.prototype = window.CustomEvent.prototype;window.CustomEvent = CustomEvent;
 
 /* Load webcomponents async */
 var loadWC = function() {
 	if (Joomla.getOptions && typeof Joomla.getOptions === "function") {
-		var wc = Joomla.getOptions('webcomponents', {});
-		for (var p in wc) {
+		var el, p, wc = Joomla.getOptions('webcomponents', {});
+		for (p in wc) {
 			if (wc.hasOwnProperty(p)) {
-				var el = document.createElement('script');
-				el.src = wc[p];
-				document.head.appendChild(el);
+				if (wc[p].match(/.js/)) {
+					el = document.createElement('script');
+					el.src = wc[p];
+				} else if (wc[p].match(/.html/)) {
+					el = document.createElement('link');
+					el.setAttribute('href', wc[p]);
+					el.setAttribute('rel', 'import');
+				}
+				if (el) {
+					document.head.appendChild(el);
+				}
 			}
 		}
 	}
@@ -50,7 +55,7 @@ if (!('content' in document.createElement('template')) || !window.Promise || !Ar
 if (polyfills.length) {
 	var script = document.querySelector('script[src*="' + name +'"]'),
 	    newScript = document.createElement('script'),
-	    replacement = 'webcomponents-' + polyfills.join('-') + '.js';
+	    replacement = 'webcomponents-' + polyfills.join('-') + '.min.js';
 	newScript.src = script.src.replace(name, replacement);
 
 	if (document.readyState === 'loading' && ('import' in document.createElement('link'))) {

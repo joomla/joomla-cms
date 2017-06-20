@@ -322,22 +322,15 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			typeMessages = messages[ type ];
 
 			// Create the alert box
-			messagesBox = document.createElement( 'div' );
+			messagesBox = document.createElement( 'joomla-alert' );
 
 			// Message class
-			alertClass = (type == 'notice') ? 'alert-info' : 'alert-' + type;
-			alertClass = (type == 'message') ? 'alert-success' : alertClass;
-			alertClass = (type == 'error') ? 'alert-danger' : alertClass;
+			alertClass = (type == 'notice') ? 'info' : type;
+			alertClass = (type == 'message') ? 'success' : alertClass;
+			alertClass = (type == 'error') ? 'danger' : alertClass;
 
-			messagesBox.className = 'alert ' + alertClass;
-
-			// Close button
-			var buttonWrapper = document.createElement( 'button' );
-			buttonWrapper.setAttribute('type', 'button');
-			buttonWrapper.setAttribute('data-dismiss', 'alert');
-			buttonWrapper.className = 'close';
-			buttonWrapper.innerHTML = '×';
-			messagesBox.appendChild( buttonWrapper );
+			messagesBox.setAttribute('level', alertClass);
+			messagesBox.setAttribute('dismiss', 'true');
 
 			// Title
 			title = Joomla.JText._( type );

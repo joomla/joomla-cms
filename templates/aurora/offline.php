@@ -26,6 +26,10 @@ JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 JHtml::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
 
+// Alerts progressive enhancement
+JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+
 // Template color
 if ($this->params->get('templateColor'))
 {

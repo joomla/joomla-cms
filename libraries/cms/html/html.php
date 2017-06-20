@@ -733,6 +733,7 @@ abstract class JHtml
 	 * @param   array  $options    The relative, version, detect browser and detect debug options
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @return  void
 	 */
 	public static function webcomponent($component = [], $options = [])
 	{

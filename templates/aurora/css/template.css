@@ -10059,5 +10059,3 @@ iframe {
 
 .badge-association[href]:focus, .badge-association[href]:hover {
   background-color: #4b5257; }
-
-joomla-button{cursor:pointer;}joomla-button[type=button]{-webkit-appearance:none}[type=buttons]>.btn input[type=checkbox],[type=buttons]>.btn input[type=radio],[type=buttons]>.btn-group>.btn input[type=checkbox],[type=buttons]>.btn-group>.btn input[type=radio]{position:absolute;clip:rect(0,0,0,0);pointer-events:none}

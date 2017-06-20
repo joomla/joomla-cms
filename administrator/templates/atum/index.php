@@ -30,8 +30,6 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 JHtml::_('webcomponent', ['joomla-alert' => 'system/alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
-JHtml::_('webcomponent', ['joomla-button' => 'system/button.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
-JHtml::_('webcomponent', ['joomla-tabs' => 'system/tabs.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));

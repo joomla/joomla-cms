@@ -43,17 +43,11 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Method to load the MooTools framework into the document head
-	 *
-	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
-	 *
-	 * @param   boolean  $extras  Flag to determine whether to load MooTools More in addition to Core
-	 * @param   mixed    $debug   Is debugging mode on? [optional]
+	 * Method to load the web components loader into the document head
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
-	 * @deprecated 4.0 Update scripts to jquery
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function wcpolyfill()
 	{
@@ -62,7 +56,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'vendor/joomla/wc-loader.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/polyfills/webcomponents/wc-loader.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 		static::$loaded[__METHOD__] = true;
 	}
 
