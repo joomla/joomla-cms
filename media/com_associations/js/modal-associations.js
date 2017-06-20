@@ -15,8 +15,12 @@ Joomla = window.Joomla || {};
 			// @TODO function should not be global, move it to Joomla
 			window['jSelectAssociation_' + itemId] = function(id) {
 				var target = document.getElementById('target-association');
-				document.getElementById('target-association').src = target.getAttribute('data-editurl') +
-					'&task=' + target.getAttribute('data-item') + '.edit' + '&id=' + id;
+
+				if (target)
+				{
+					target.src = target.getAttribute('data-editurl') +
+						'&task=' + target.getAttribute('data-item') + '.edit' + '&id=' + id;
+				}
 				jQuery('#associationSelect' + itemId + 'Modal').modal('hide');
 			}
 		}
