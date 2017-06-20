@@ -42,6 +42,11 @@ class ContentHelper extends \JHelperContent
 			$vName == 'categories'
 		);
 		\JHtmlSidebar::addEntry(
+			\JText::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
+			'index.php?option=com_workflow&extension=com_content',
+			$vName == 'workflows'
+		);
+		\JHtmlSidebar::addEntry(
 			\JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'

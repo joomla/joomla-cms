@@ -20,15 +20,15 @@ use Joomla\CMS\Controller\Form;
  *
  * @since  4.0
  */
-class Workflow extends Form
+class Status extends Form
 {
 	/**
-	 * The extension for which the categories apply.
+	 * The workflow for which is that status
 	 *
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $extension;
+	protected $workflowID;
 
 	/**
 	 * Constructor.
@@ -45,9 +45,9 @@ class Workflow extends Form
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		if (empty($this->extension))
+		if (empty($this->workflowID))
 		{
-			$this->extension = $this->input->get('extension', 'com_content');
+			$this->workflowID = $this->input->get('workflow_id', 1);
 		}
 	}
 
@@ -64,7 +64,7 @@ class Workflow extends Form
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowID;
 
 		return $append;
 	}
@@ -80,7 +80,7 @@ class Workflow extends Form
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowID;
 
 		return $append;
 	}

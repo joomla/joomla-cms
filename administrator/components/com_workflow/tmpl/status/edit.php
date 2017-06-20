@@ -20,10 +20,9 @@ $input = $app->input;
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
-$this->form->setFieldAttribute('category_id', 'extension', 'com_content');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=status&workflow_id=' . $input->getCmd('workflow_id') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -35,8 +34,7 @@ $this->form->setFieldAttribute('category_id', 'extension', 'com_content');
 			<div class="col-md-9">
 				<div class="row">
 					<div class="col-md-6">
-						<?php echo $this->form->renderField('description'); ?>
-						<?php echo $this->form->renderField('category_id'); ?>
+						<?php echo $this->form->renderField('condition'); ?>
 					</div>
 				</div>
 			</div>

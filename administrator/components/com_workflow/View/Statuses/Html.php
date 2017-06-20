@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Workflows;
+namespace Joomla\Component\Workflow\Administrator\View\Statuses;
 
 defined('_JEXEC') or die;
 
@@ -32,7 +32,7 @@ class Html extends HtmlView
 	public function display($tpl = null)
 	{
 		$this->state         = $this->get('State');
-		$this->workflows     = $this->get('Items');
+		$this->statuses      = $this->get('Items');
 		$this->sidebar       = \JHtmlSidebar::render();
 		$this->addToolbar();
 
@@ -49,8 +49,8 @@ class Html extends HtmlView
 	protected function addToolbar()
 	{
 		\JToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
-		\JToolbarHelper::addNew('workflow.add');
-		\JToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
-		\JToolbarHelper::editList('workflow.edit');
+		\JToolbarHelper::addNew('status.add');
+		\JToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'statuses.delete');
+		\JToolbarHelper::editList('status.edit');
 	}
 }
