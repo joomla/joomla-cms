@@ -45,6 +45,12 @@ class LinkButton extends ToolbarButton
 		$options['text']   = \JText::_($text);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($url);
+		$options['id']     = $this->fetchId('Link', $name);
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new FileLayout('joomla.toolbar.link');
