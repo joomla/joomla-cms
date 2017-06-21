@@ -33,7 +33,7 @@ class Association extends Form
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'),2);
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
 
 		$id = $this->input->get('id', 0, 'int');
 
