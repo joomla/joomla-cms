@@ -667,9 +667,6 @@ class JUser extends JObject
 				}
 
 				$array['password'] = $this->userHelper->hashPassword($array['password']);
-
-				// Reset the change password flag
-				$array['requireReset'] = 0;
 			}
 			else
 			{
