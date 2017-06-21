@@ -79,14 +79,23 @@ class  Statuses extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
+
+		$select = $db->quoteName(
+					array(
+						'id',
+						'name',
+						'condition'
+					)
+				);
+
 		$query
-			->select('id, name, condition')
-			->from('#__workflow_status');
+			->select($select)
+			->from($db->quoteName('#__workflow_status'));
 
 		// Filter by extension
-		if ($workflowID = $this->getState('filter.workflow_id'))
+		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where('workflow_id = ' . $workflowID);
+			$query->where($db->quoteName('workflow_id') . ' = ' . $workflowID);
 		}
 
 		return $query;
