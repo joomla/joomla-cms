@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    3.7.3
  */
 class AdminPage extends \AcceptanceTester
 {
@@ -22,7 +22,7 @@ class AdminPage extends \AcceptanceTester
 	 * The element id which contains system messages.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $systemMessageContainer = ['id' => 'system-message-container'];
 
@@ -30,7 +30,7 @@ class AdminPage extends \AcceptanceTester
 	 * The element id which contains page title in administrator header.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $pageTitle = ['class' => 'page-title'];
 
@@ -38,7 +38,7 @@ class AdminPage extends \AcceptanceTester
 	 * Locator for page title
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $title = ['id' => 'jform_title'];
 
@@ -46,7 +46,7 @@ class AdminPage extends \AcceptanceTester
 	 * Locator for search input field
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $filterSearch = ['id' => 'filter_search'];
 
@@ -54,7 +54,7 @@ class AdminPage extends \AcceptanceTester
 	 * Locator for status filter under search tool
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $filterPublished = 'filter_published';
 
@@ -62,7 +62,7 @@ class AdminPage extends \AcceptanceTester
 	 * Locator for search button icon
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $iconSearch = ['class' => 'icon-search'];
 
@@ -70,7 +70,7 @@ class AdminPage extends \AcceptanceTester
 	 * Locator for the Tabs in Edit View
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"];
 
@@ -78,7 +78,7 @@ class AdminPage extends \AcceptanceTester
 	 * Locator for the Check All checkbox
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $checkAll = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
 
@@ -87,7 +87,7 @@ class AdminPage extends \AcceptanceTester
 	 *
 	 * @param   string $keyword The keyword to search
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -105,7 +105,7 @@ class AdminPage extends \AcceptanceTester
 	 *
 	 * @param   string $keyword The username of user
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void  Checkbox for given username will be checked.
 	 */
@@ -125,7 +125,7 @@ class AdminPage extends \AcceptanceTester
 	 * @param   string $title   The webpage title
 	 * @param   string $message The unpublish successful message
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -142,7 +142,7 @@ class AdminPage extends \AcceptanceTester
 	 *
 	 * @param   string $title Page Title text
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -157,7 +157,7 @@ class AdminPage extends \AcceptanceTester
 	 *
 	 * @param   string $button The full name of the button
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -236,7 +236,7 @@ class AdminPage extends \AcceptanceTester
 	 *
 	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -254,7 +254,7 @@ class AdminPage extends \AcceptanceTester
 	 * @param   string $selectId The id of the <select> element
 	 * @param   string $option   The text in the <option> to be selected in the chosen selector
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -275,7 +275,7 @@ class AdminPage extends \AcceptanceTester
 	/**
 	 * Function to Logout from Administrator Panel in Joomla!
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -310,7 +310,7 @@ class AdminPage extends \AcceptanceTester
 	 * @param   array $expectedTabs Expected Tabs on the Page
 	 * @param   array $tabsLocator  Locator for the Tabs in Edit View
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -337,7 +337,7 @@ class AdminPage extends \AcceptanceTester
 	 *
 	 * @param   string $item The item Name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -356,7 +356,7 @@ class AdminPage extends \AcceptanceTester
 	 * @param   string $item      The item name
 	 * @param   string $pageTitle The page title
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -374,7 +374,7 @@ class AdminPage extends \AcceptanceTester
 	/**
 	 * Assure the search tools are displayed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */

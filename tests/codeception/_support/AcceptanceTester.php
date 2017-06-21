@@ -25,7 +25,7 @@
  *
  * @SuppressWarnings(PHPMD)
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.3
  */
 class AcceptanceTester extends \Codeception\Actor
 {
@@ -37,7 +37,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param   string  $page  Optional, if not given checks will be done in the current page
 	 *
 	 * @note    doAdminLogin() before
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */

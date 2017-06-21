@@ -15,7 +15,7 @@ use Codeception\Module\Db;
  *
  * @package  Codeception\Module
  *
- * @since    __DEPLOY_VERSION__
+ * @since    3.7.3
  */
 class JoomlaDb extends Db
 {
@@ -23,7 +23,7 @@ class JoomlaDb extends Db
 	 * The table prefix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $prefix;
 
@@ -32,7 +32,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function _initialize()
 	{
@@ -50,7 +50,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  integer The last insert id
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function haveInDatabase($table, array $data)
 	{
@@ -67,7 +67,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  mixed|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function findInDatabase($table, $criteria = [])
 	{
@@ -84,7 +84,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  mixed|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function dontSeeInDatabase($table, $criteria = [])
 	{
@@ -102,7 +102,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function grabFromDatabase($table, $column, $criteria = null)
 	{
@@ -120,7 +120,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  mixed|bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function seeNumRecords($expectedNumber, $table, array $criteria = [])
 	{
@@ -137,7 +137,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  int
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.3
 	 */
 	public function grabNumRecords($table, array $criteria = [])
 	{
@@ -153,7 +153,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	protected function addPrefix($table)
 	{

@@ -12,7 +12,7 @@ use Page\Acceptance\Administrator;
 /**
  * Frontend User Tests
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.3
  */
 class UserCest
 {
