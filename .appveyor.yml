@@ -115,5 +115,4 @@ before_test:
   - ps: sqlcmd -S "$sqlInstance" -U "sa" -P "Password12!" -i $env:APPVEYOR_BUILD_FOLDER\tests\unit\schema\sqlsrv.sql
 
 test_script:
-  - ps: cd C:\projects\joomla-cms
-  - ps: libraries/vendor/bin/phpunit -c appveyor-phpunit.xml
+  - cmd: cd C:\projects\joomla-cms libraries/vendor/bin/phpunit -c appveyor-phpunit.xml
