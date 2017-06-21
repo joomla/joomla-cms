@@ -288,15 +288,16 @@ class JCategories
 
 			$query->join('LEFT', $queryjoin);
 			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
+			
+			// Group by
+			$query->group(
+				'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+				 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
+				 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+				 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
+			);
 		}
 
-		// Group by
-		$query->group(
-			'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
-			 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-			 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
-		);
 
 		// Get the results
 		$db->setQuery($query);
