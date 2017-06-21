@@ -516,7 +516,7 @@
 			if (ev.shiftKey) {
 				ev.preventDefault();
 				this.cellClick(self._nav_now, ev);
-				self.close()
+				self.close();
 			}
 		}
 		if (K === 27) {                                // KEY esc (close);
@@ -819,6 +819,23 @@
 		var exita = this.wrapper.querySelector('[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			e.preventDefault();
+			if (!self.dateClicked) {
+				if (self.inputField.value) {
+					if (self.params.dateType !== 'gregorian') {
+						self.inputField.setAttribute('data-local-value', self.inputField.value);
+					}
+					if (typeof self.dateClicked === 'undefined') {
+						// value needs to be validated
+						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType)
+							.print(self.params.dateFormat, 'gregorian', false));
+					} else {
+						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false));
+					}
+				} else {
+					self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+				}
+				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType);
+			}
 			self.close();
 		});
 
