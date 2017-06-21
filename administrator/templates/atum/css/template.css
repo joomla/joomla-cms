@@ -8668,22 +8668,27 @@ legend {
     margin-left: 10px; } }
     .header .navbar-brand span {
       margin-left: .4rem; }
+  .header .nav {
+    margin-right: -7.5px; }
   .header .nav-item + .nav-item {
     margin-left: 1px; }
   .header .nav-item {
     background-color: #102335; }
   .header .nav-link {
     position: relative;
-    padding: 0 8px;
+    padding: 0;
     line-height: 48px; }
     .header .nav-link .fa {
-      width: 30px;
+      width: 50px;
       height: 23px;
       font-size: 1.1rem;
       line-height: 23px;
       color: #fefefe;
       vertical-align: middle;
       transition: all .2s ease-in-out; }
+    .header .nav-link .fa-external-link {
+      position: relative;
+      left: 2px; }
     .header .nav-link .badge {
       position: absolute;
       top: 4px;

@@ -12,6 +12,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -893,14 +895,19 @@ class Installer extends \JAdapter
 
 		$update_count = 0;
 
+		$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
+
 		// Process each query in the $queries array (children of $tagName).
 		foreach ($queries as $query)
 		{
-			$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
-
 			try
 			{
-				$db->execute();
+				if ($isUtf8mb4Db)
+				{
+					$query = $db->convertUtf8mb4QueryToUtf8($query);
+				}
+
+				$db->setQuery($query)->execute();
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
@@ -980,14 +987,19 @@ class Installer extends \JAdapter
 					return 0;
 				}
 
+				$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
+
 				// Process each query in the $queries array (split out of sql file).
 				foreach ($queries as $query)
 				{
-					$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
-
 					try
 					{
-						$db->execute();
+						if ($isUtf8mb4Db)
+						{
+							$query = $db->convertUtf8mb4QueryToUtf8($query);
+						}
+
+						$db->setQuery($query)->execute();
 					}
 					catch (\JDatabaseExceptionExecuting $e)
 					{
@@ -1133,10 +1145,18 @@ class Installer extends \JAdapter
 						->from('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
-					$version = $db->loadResult();
 
-					// No version - use initial version.
-					if (!$version)
+					try
+					{
+						$version = $db->loadResult();
+
+						// No version - use initial version.
+						if (!$version)
+						{
+							$version = '0.0.0';
+						}
+					}
+					catch (ExecutionFailureException $e)
 					{
 						$version = '0.0.0';
 					}
@@ -1164,14 +1184,19 @@ class Installer extends \JAdapter
 								continue;
 							}
 
+							$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
+
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
-								$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
-
 								try
 								{
-									$db->execute();
+									if ($isUtf8mb4Db)
+									{
+										$query = $db->convertUtf8mb4QueryToUtf8($query);
+									}
+
+									$db->setQuery($query)->execute();
 								}
 								catch (\JDatabaseExceptionExecuting $e)
 								{
@@ -1195,14 +1220,22 @@ class Installer extends \JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->execute())
+					try
 					{
+						$db->execute();
+
 						$query->clear()
 							->insert($db->quoteName('#__schemas'))
 							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
 							->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->execute();
+					}
+					catch (ExecutionFailureException $e)
+					{
+						\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+
+						return false;
 					}
 				}
 			}

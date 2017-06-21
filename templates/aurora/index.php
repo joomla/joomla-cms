@@ -42,28 +42,6 @@ JHtml::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 // Load optional RTL Bootstrap CSS
 //JHtml::_('bootstrap.loadCss', false, $this->direction);
 
-// Adjusting content width
-if ($this->countModules('sidebar-left') && $this->countModules('sidebar-right'))
-{
-	$col = $this->params->get('sidebarLeftWidth', 3) + $this->params->get('sidebarLeftWidth', 3);
-	$col = 12 - $col;
-	$col = 'col-md-' . $col;
-}
-elseif (!$this->countModules('sidebar-left') && $this->countModules('sidebar-right'))
-{
-	$col = 12 - $this->params->get('sidebarRightWidth', 3);
-	$col = 'col-md-' . $col;
-}
-elseif ($this->countModules('sidebar-left') && !$this->countModules('sidebar-right'))
-{
-	$col = 12 - $this->params->get('sidebarLeftWidth', 3);
-	$col = 'col-md-' . $col;
-}
-else
-{
-	$col = 'col-md-12';
-}
-
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
@@ -159,7 +137,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				</div>
 			<?php endif; ?>
 
-			<main id="content" role="main" class="<?php echo $col; ?> content">
+			<main id="content" role="main" class="col content">
 
 				<?php if ($this->countModules('main-top')) : ?>
 					<div class="row">

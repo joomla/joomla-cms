@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\UTF8MB4SupportInterface;
+
 /**
  * Script file of Joomla CMS
  *
@@ -1347,7 +1349,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_weblinks/models/fields/index.html',
 			'/plugins/user/joomla/postinstall/actions.php',
 			'/plugins/user/joomla/postinstall/index.html',
-			'/media/com_finder/js/finder.js',
 			'/media/com_finder/js/highlighter.js',
 			'/libraries/joomla/registry/format.php',
 			'/libraries/joomla/registry/index.html',
@@ -1454,7 +1455,6 @@ class JoomlaInstallerScript
 			'/libraries/phpmailer/pop.php',
 			'/libraries/phpmailer/smtp.php',
 			'/media/editors/codemirror/css/ambiance.css',
-			'/media/editors/codemirror/css/codemirror.css',
 			'/media/editors/codemirror/css/configuration.css',
 			'/media/editors/codemirror/css/index.html',
 			'/media/editors/codemirror/js/brace-fold.js',
@@ -2050,9 +2050,7 @@ class JoomlaInstallerScript
 			'/libraries/framework',
 			'/libraries/phpmailer/language',
 			'/libraries/phpmailer',
-			'/media/editors/codemirror/css',
 			'/media/editors/codemirror/js',
-			'/media/com_banners',
 			// Joomla! 3.4.1
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
@@ -2070,7 +2068,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch',
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
-			'/administrator/components/com_media/models/forms',
 			'/media/editors/codemirror/mode/kotlin',
 			'/media/editors/tinymce/plugins/compat3x',
 			'/plugins/editors/tinymce/fields',
@@ -2191,16 +2188,6 @@ class JoomlaInstallerScript
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
 			}
 		}
-
-		/*
-		 * Needed for updates post-3.4
-		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
-		 */
-		if (!JFile::exists(JPATH_ROOT . '/administrator/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml'))
-		{
-			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
-		}
 	}
 
 	/**
@@ -2264,7 +2251,7 @@ class JoomlaInstallerScript
 			if (!$asset->store())
 			{
 				// Install failed, roll back changes
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
 				return false;
 			}
@@ -2346,10 +2333,7 @@ class JoomlaInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		// This is only required for MySQL databases
-		$serverType = $db->getServerType();
-
-		if ($serverType != 'mysql')
+		if (!($db instanceof UTF8MB4SupportInterface))
 		{
 			return;
 		}

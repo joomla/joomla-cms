@@ -1189,8 +1189,7 @@ class Nested extends Table
 		if (empty($sibling))
 		{
 			// Error message set in getNode method.
-			$query->_unlock($this->_db);
-			$this->_locked = false;
+			$this->_unlock();
 
 			return false;
 		}
