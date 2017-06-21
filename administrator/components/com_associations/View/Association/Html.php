@@ -82,7 +82,7 @@ class Html extends HtmlView
 		$input      = $this->app->input;
 		$this->referenceId = $input->get('id', 0, 'int');
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'));
+		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'), 2);
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
@@ -116,12 +116,33 @@ class Html extends HtmlView
 
 		$this->referenceLanguage = $reference[$languageField];
 
-		$options = array(
-			'option'    => $typeName === 'category' ? 'com_categories' : $extensionName,
-			'view'      => $typeName,
-			'extension' => $extensionName,
-			'tmpl'      => 'component',
-		);
+		// Check for special case category
+		$typeNameExploded = explode('.', $typeName);
+		if (array_pop($typeNameExploded) === 'category')
+		{
+			$this->typeName = 'category';
+
+			if ($typeNameExploded)
+			{
+				$extensionName .= '.' . implode('.', $typeNameExploded);
+			}
+
+			$options = array(
+				'option'    => 'com_categories',
+				'view'      => 'category',
+				'extension' => $extensionName,
+				'tmpl'      => 'component',
+			);
+		}
+		else
+		{
+			$options = array(
+				'option'    => $extensionName,
+				'view'      => $typeName,
+				'extension' => $extensionName,
+				'tmpl'      => 'component',
+			);
+		}
 
 		// Reference and target edit links.
 		$this->editUri = 'index.php?' . http_build_query($options);
@@ -138,7 +159,7 @@ class Html extends HtmlView
 			$this->targetAction     = $matches[2];
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
-			$task                   = $typeName . '.' . $this->targetAction;
+			$task                   = $this->typeName . '.' . $this->targetAction;
 			$this->defaultTargetSrc = \JRoute::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
