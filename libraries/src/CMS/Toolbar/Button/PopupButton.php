@@ -62,6 +62,12 @@ class PopupButton extends ToolbarButton
 		$options['title']  = \JText::_($title);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($url);
+		$options['id']     = $this->fetchId('Popup', $name);
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new FileLayout('joomla.toolbar.popup');

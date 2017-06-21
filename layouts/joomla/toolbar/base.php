@@ -9,9 +9,5 @@
 
 defined('JPATH_BASE') or die;
 
-$id     = $displayData['id'];
-$margin = (strpos($id, 'toolbar-options') === false) ? '' : ' ml-auto';
 ?>
-<div class="btn-wrapper<?php echo $margin; ?>" <?php echo $id; ?>>
-	<?php echo $displayData['action']; ?>
-</div>
+<?php echo $displayData['action']; ?>

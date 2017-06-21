@@ -73,18 +73,10 @@ abstract class ToolbarButton
 		/*
 		 * Initialise some variables
 		 */
-		$id = call_user_func_array(array(&$this, 'fetchId'), $definition);
 		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
-
-		// Build id attribute
-		if ($id)
-		{
-			$id = ' id="' . $id . '"';
-		}
 
 		// Build the HTML Button
 		$options = array();
-		$options['id'] = $id;
 		$options['action'] = $action;
 
 		$layout = new FileLayout('joomla.toolbar.base');
