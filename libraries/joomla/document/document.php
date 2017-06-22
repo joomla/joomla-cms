@@ -428,7 +428,7 @@ class JDocument
 		{
 			$content = array_pop($content);
 		}
-		
+
 		// B/C old http_equiv parameter.
 		if (!is_string($attribute))
 		{
