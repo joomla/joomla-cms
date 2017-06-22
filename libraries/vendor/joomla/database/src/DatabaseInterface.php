@@ -119,6 +119,17 @@ interface DatabaseInterface
 	public function getConnection();
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver.
+	 *
+	 * If the connector doesn't support reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConnectionCollation();
+
+	/**
 	 * Get the total number of SQL statements executed by the database driver.
 	 *
 	 * @return  integer

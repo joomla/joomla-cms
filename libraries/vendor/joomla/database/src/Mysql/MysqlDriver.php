@@ -262,6 +262,21 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	}
 
 	/**
+	 * Method to get the database connection collation in use by sampling a text field of a table in the database.
+	 *
+	 * @return  mixed  The collation in use by the database connection (string) or boolean false if not supported.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		return $this->setQuery('SELECT @@collation_connection;')->loadResult();
+	}
+
+	/**
 	 * Return the query string to create new Database.
 	 *
 	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
@@ -275,7 +290,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	{
 		if ($utf)
 		{
-			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+			$charset   = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
 			$collation = $charset . '_unicode_ci';
 
 			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '` COLLATE `' . $collation . '`';
