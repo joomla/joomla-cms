@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Updater;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
+\JLoader::import('joomla.base.adapterinstance');
 
 /**
  * UpdateAdapter class.
  *
  * @since  11.1
  */
-abstract class JUpdateAdapter extends JAdapterInstance
+abstract class UpdateAdapter extends \JAdapterInstance
 {
 	/**
 	 * Resource handle for the XML Parser
@@ -82,9 +86,9 @@ abstract class JUpdateAdapter extends JAdapterInstance
 	 * @var    int
 	 * @since  14.1
 	 *
-	 * @see    JUpdater
+	 * @see    Updater
 	 */
-	protected $minimum_stability = JUpdater::STABILITY_STABLE;
+	protected $minimum_stability = Updater::STABILITY_STABLE;
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -152,7 +156,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Do nothing
 		}
@@ -187,7 +191,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		{
 			$name = $db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Do nothing
 		}
@@ -200,9 +204,9 @@ abstract class JUpdateAdapter extends JAdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  bool|JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  bool|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	protected function getUpdateSiteResponse($options = array())
 	{
@@ -242,10 +246,10 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		// JHttp transport throws an exception when there's no response.
 		try
 		{
-			$http = JHttpFactory::getHttp();
+			$http = \JHttpFactory::getHttp();
 			$response = $http->get($url, array(), 20);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$response = null;
 		}
@@ -256,9 +260,9 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		// Log the time it took to load this update site's information
 		$endTime = microtime(true);
 		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
-		JLog::add(
+		Log::add(
 			"Loading information from update site #{$this->updateSiteId} with name " .
-			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", JLog::INFO, 'updater'
+			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", Log::INFO, 'updater'
 		);
 
 		if ($response === null || $response->code !== 200)
@@ -271,10 +275,9 @@ abstract class JUpdateAdapter extends JAdapterInstance
 				return $this->getUpdateSiteResponse($options);
 			}
 
-			// Log the exact update site name and URL which could not be loaded
-			JLog::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, JLog::WARNING, 'updater');
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
+			// Log the exact update site name and URL which could not be loadedJLog::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, JLog::WARNING, 'updater');
+			$app = Factory::getApplication();
+			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
 
 			return false;
 		}

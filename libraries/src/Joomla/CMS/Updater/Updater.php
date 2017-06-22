@@ -1,26 +1,30 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Updater;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.path');
-jimport('joomla.base.adapter');
-jimport('joomla.utilities.arrayhelper');
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.folder');
+\JLoader::import('joomla.filesystem.path');
+\JLoader::import('joomla.base.adapter');
+\JLoader::import('joomla.utilities.arrayhelper');
 
 /**
  * Updater Class
  *
  * @since  11.1
  */
-class JUpdater extends JAdapter
+class Updater extends \JAdapter
 {
 	/**
 	 * Development snapshots, nightly builds, pre-release versions and so on
@@ -63,7 +67,7 @@ class JUpdater extends JAdapter
 	const STABILITY_STABLE = 4;
 
 	/**
-	 * @var    JUpdater  JUpdater instance container.
+	 * @var    Updater  Updater instance container.
 	 * @since  11.3
 	 */
 	protected static $instance;
@@ -71,19 +75,22 @@ class JUpdater extends JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @since   11.1
+	 * @param   string  $basepath       Base Path of the adapters
+	 * @param   string  $classprefix    Class prefix of adapters
+	 * @param   string  $adapterfolder  Name of folder to append to base path
+	 *
+	 * @since   3.1
 	 */
-	public function __construct()
+	public function __construct($basepath = __DIR__, $classprefix = '\\Joomla\\CMS\\Updater\\Adapter', $adapterfolder = 'Adapter')
 	{
-		// Adapter base path, class prefix
-		parent::__construct(__DIR__, 'JUpdater');
+		parent::__construct($basepath, $classprefix, $adapterfolder);
 	}
 
 	/**
 	 * Returns a reference to the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JUpdater  An installer object
+	 * @return  Updater  An installer object
 	 *
 	 * @since   11.1
 	 */
@@ -91,7 +98,7 @@ class JUpdater extends JAdapter
 	{
 		if (!isset(self::$instance))
 		{
-			self::$instance = new JUpdater;
+			self::$instance = new Updater;
 		}
 
 		return self::$instance;
@@ -154,7 +161,7 @@ class JUpdater extends JAdapter
 			{
 				$retval = true;
 
-				/** @var JTableUpdate $update */
+				/** @var \JTableUpdate $update */
 				foreach ($updateObjects as $update)
 				{
 					$update->check();
@@ -182,9 +189,9 @@ class JUpdater extends JAdapter
 	 */
 	public function update($id)
 	{
-		$updaterow = JTable::getInstance('update');
+		$updaterow = Table::getInstance('update');
 		$updaterow->load($id);
-		$update = new JUpdate;
+		$update = new Update;
 
 		if ($update->loadFromXml($updaterow->detailsurl))
 		{
@@ -265,7 +272,7 @@ class JUpdater extends JAdapter
 		$updateSite['minimum_stability'] = $minimum_stability;
 
 		// Get the update information from the remote update XML document
-		/** @var JUpdateAdapter $adapter */
+		/** @var UpdateAdapter $adapter */
 		$adapter       = $this->_adapters[ $updateSite['type']];
 		$update_result = $adapter->findUpdate($updateSite);
 
@@ -302,16 +309,16 @@ class JUpdater extends JAdapter
 
 			if (array_key_exists('updates', $update_result) && count($update_result['updates']))
 			{
-				/** @var JTableUpdate $current_update */
+				/** @var \JTableUpdate $current_update */
 				foreach ($update_result['updates'] as $current_update)
 				{
 					$current_update->extra_query = $updateSite['extra_query'];
 
-					/** @var JTableUpdate $update */
-					$update = JTable::getInstance('update');
+					/** @var \JTableUpdate $update */
+					$update = Table::getInstance('update');
 
-					/** @var JTableExtension $extension */
-					$extension = JTable::getInstance('extension');
+					/** @var \JTableExtension $extension */
+					$extension = Table::getInstance('extension');
 
 					$uid = $update
 						->find(
@@ -383,7 +390,7 @@ class JUpdater extends JAdapter
 	 */
 	private function getSitesWithUpdates($timestamp = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT update_site_id')
@@ -422,7 +429,7 @@ class JUpdater extends JAdapter
 	private function updateLastCheckTimestamp($updateSiteId)
 	{
 		$timestamp = time();
-		$db        = JFactory::getDbo();
+		$db        = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__update_sites'))
