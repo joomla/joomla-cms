@@ -17,7 +17,6 @@ defined('JPATH_PLATFORM') or die;
 \JLoader::import('joomla.filesystem.folder');
 \JLoader::import('joomla.filesystem.path');
 \JLoader::import('joomla.base.adapter');
-\JLoader::import('joomla.utilities.arrayhelper');
 
 /**
  * Updater Class
