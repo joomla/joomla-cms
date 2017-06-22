@@ -294,3 +294,15 @@ JLoader::registerAlias('JClientFtp',                        '\\Joomla\\CMS\\Clie
 JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Client\\FtpClient', '4.0');
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
 JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
+
+JLoader::registerAlias('JCrypt',                             '\\Joomla\\CMS\\Crypt\\Crypt', '5.0');
+JLoader::registerAlias('JCryptCipher',                       '\\Joomla\\CMS\\Crypt\\CryptCipher', '5.0');
+JLoader::registerAlias('JCryptKey',                          '\\Joomla\\CMS\\Crypt\\CryptKey', '5.0');
+JLoader::registerAlias('JCryptPassword',                     '\\Joomla\\CMS\\Crypt\\CryptPassword', '4.0');
+JLoader::registerAlias('JCryptCipherBlowfish',               '\\Joomla\\CMS\\Crypt\\Cipher\\BlowfishCipher', '4.0');
+JLoader::registerAlias('JCryptCipherCrypto',                 '\\Joomla\\CMS\\Crypt\\Cipher\\CryptoCipher', '5.0');
+JLoader::registerAlias('JCryptCipherMcrypt',                 '\\Joomla\\CMS\\Crypt\\Cipher\\McryptCipher', '4.0');
+JLoader::registerAlias('JCryptCipherRijndael256',            '\\Joomla\\CMS\\Crypt\\Cipher\\Rijndael256Cipher', '4.0');
+JLoader::registerAlias('JCryptCipherSimple',                 '\\Joomla\\CMS\\Crypt\\Cipher\\SimpleCipher', '4.0');
+JLoader::registerAlias('JCryptCipher3Des',                   '\\Joomla\\CMS\\Crypt\\Cipher\\TrippleDesCipher', '4.0');
+JLoader::registerAlias('JCryptPasswordSimple',               '\\Joomla\\CMS\\Crypt\\Password\\SimpleCryptPassword', '4.0');

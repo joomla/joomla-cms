@@ -1,28 +1,29 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Crypt\Cipher;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JCrypt cipher for Triple DES encryption, decryption and key generation.
+ * Crypt cipher for Blowfish encryption, decryption and key generation.
  *
  * @since       12.1
- * @deprecated  4.0   Without replacement use JCryptCipherCrypto
+ * @deprecated  4.0   Without replacment use CryptoCipher
  */
-class JCryptCipher3Des extends JCryptCipherMcrypt
+class BlowfishCipher extends McryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
 	 * @link   https://secure.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  12.1
 	 */
-	protected $type = MCRYPT_3DES;
+	protected $type = MCRYPT_BLOWFISH;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
@@ -35,5 +36,5 @@ class JCryptCipher3Des extends JCryptCipherMcrypt
 	 * @var    string  The JCrypt key type for validation.
 	 * @since  12.1
 	 */
-	protected $keyType = '3des';
+	protected $keyType = 'blowfish';
 }

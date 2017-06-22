@@ -1,39 +1,44 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Crypt\Cipher;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Crypt\CryptCipher;
+use Joomla\CMS\Crypt\CryptKey;
+
 /**
- * JCrypt cipher for Simple encryption, decryption and key generation.
+ * Crypt cipher for Simple encryption, decryption and key generation.
  *
  * @since       12.1
  * @deprecated  4.0 (CMS)
  */
-class JCryptCipherSimple implements JCryptCipher
+class SimpleCipher implements CryptCipher
 {
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string     $data  The encrypted string to decrypt.
-	 * @param   JCryptKey  $key   The key[/pair] object to use for decryption.
+	 * @param   string    $data  The encrypted string to decrypt.
+	 * @param   CryptKey  $key   The key[/pair] object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
-	public function decrypt($data, JCryptKey $key)
+	public function decrypt($data, CryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != 'simple')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
 		}
 
 		$decrypted = '';
@@ -61,20 +66,20 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string     $data  The data string to encrypt.
-	 * @param   JCryptKey  $key   The key[/pair] object to use for encryption.
+	 * @param   string    $data  The data string to encrypt.
+	 * @param   CryptKey  $key   The key[/pair] object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
-	public function encrypt($data, JCryptKey $key)
+	public function encrypt($data, CryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != 'simple')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
 		}
 
 		$encrypted = '';
@@ -104,17 +109,17 @@ class JCryptCipherSimple implements JCryptCipher
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  JCryptKey
+	 * @return  CryptKey
 	 *
 	 * @since   12.1
 	 */
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key[/pair] object.
-		$key = new JCryptKey('simple');
+		$key = new CryptKey('simple');
 
 		// Just a random key of a given length.
-		$key->private = JCrypt::genRandomBytes(256);
+		$key->private = Crypt::genRandomBytes(256);
 		$key->public  = $key->private;
 
 		return $key;

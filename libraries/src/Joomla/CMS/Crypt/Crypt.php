@@ -1,29 +1,33 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Crypt;
+
+use Joomla\CMS\Crypt\Cipher\SimpleCipher;
+use Joomla\CMS\Log\Log;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JCrypt is a Joomla Platform class for handling basic encryption/decryption of data.
+ * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
  * @since  12.1
  */
-class JCrypt
+class Crypt
 {
 	/**
-	 * @var    JCryptCipher  The encryption cipher object.
+	 * @var    CryptCipher  The encryption cipher object.
 	 * @since  12.1
 	 */
 	private $_cipher;
 
 	/**
-	 * @var    JCryptKey  The encryption key[/pair)].
+	 * @var    CryptKey  The encryption key[/pair)].
 	 * @since  12.1
 	 */
 	private $_key;
@@ -32,18 +36,18 @@ class JCrypt
 	 * Object Constructor takes an optional key to be used for encryption/decryption. If no key is given then the
 	 * secret word from the configuration object is used.
 	 *
-	 * @param   JCryptCipher  $cipher  The encryption cipher object.
-	 * @param   JCryptKey     $key     The encryption key[/pair)].
+	 * @param   CryptCipher  $cipher  The encryption cipher object.
+	 * @param   CryptKey     $key     The encryption key[/pair)].
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(JCryptCipher $cipher = null, JCryptKey $key = null)
+	public function __construct(CryptCipher $cipher = null, CryptKey $key = null)
 	{
 		// Set the encryption key[/pair)].
 		$this->_key = $key;
 
 		// Set the encryption cipher.
-		$this->_cipher = isset($cipher) ? $cipher : new JCryptCipherSimple;
+		$this->_cipher = isset($cipher) ? $cipher : new SimpleCipher;
 	}
 
 	/**
@@ -54,7 +58,7 @@ class JCrypt
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function decrypt($data)
 	{
@@ -62,7 +66,7 @@ class JCrypt
 		{
 			return $this->_cipher->decrypt($data, $this->_key);
 		}
-		catch (InvalidArgumentException $e)
+		catch (\InvalidArgumentException $e)
 		{
 			return false;
 		}
@@ -87,7 +91,7 @@ class JCrypt
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  JCryptKey
+	 * @return  CryptKey
 	 *
 	 * @since   12.1
 	 */
@@ -99,13 +103,13 @@ class JCrypt
 	/**
 	 * Method to set the encryption key[/pair] object.
 	 *
-	 * @param   JCryptKey  $key  The key object to set.
+	 * @param   CryptKey  $key  The key object to set.
 	 *
-	 * @return  JCrypt
+	 * @return  Crypt
 	 *
 	 * @since   12.1
 	 */
-	public function setKey(JCryptKey $key)
+	public function setKey(CryptKey $key)
 	{
 		$this->_key = $key;
 
@@ -160,7 +164,7 @@ class JCrypt
 	public static function hasStrongPasswordSupport()
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated without replacement.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated without replacement.', Log::WARNING, 'deprecated');
 
 		if (!defined('PASSWORD_DEFAULT'))
 		{
@@ -182,7 +186,7 @@ class JCrypt
 	 *
 	 * @since   3.5
 	 * @ref     mbstring.func_overload
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function safeStrlen($str)
 	{
@@ -199,7 +203,7 @@ class JCrypt
 
 			if ($length === false)
 			{
-				throw new RuntimeException('mb_strlen() failed unexpectedly');
+				throw new \RuntimeException('mb_strlen() failed unexpectedly');
 			}
 
 			return $length;

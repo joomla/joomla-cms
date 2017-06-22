@@ -1,21 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Crypt\Cipher;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Crypt\CryptCipher;
+use Joomla\CMS\Crypt\CryptKey;
+
 /**
- * JCrypt cipher for mcrypt algorithm encryption, decryption and key generation.
+ * Crypt cipher for mcrypt algorithm encryption, decryption and key generation.
  *
  * @since       12.1
- * @deprecated  4.0   Without replacment use JCryptCipherCrypto
+ * @deprecated  4.0   Without replacment use CryptoCipher
  */
-abstract class JCryptCipherMcrypt implements JCryptCipher
+abstract class McryptCipher implements CryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
@@ -32,7 +37,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	protected $mode;
 
 	/**
-	 * @var    string  The JCrypt key type for validation.
+	 * @var    string  The Crypt key type for validation.
 	 * @since  12.1
 	 */
 	protected $keyType;
@@ -41,33 +46,33 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 * Constructor.
 	 *
 	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function __construct()
 	{
 		if (!is_callable('mcrypt_encrypt'))
 		{
-			throw new RuntimeException('The mcrypt extension is not available.');
+			throw new \RuntimeException('The mcrypt extension is not available.');
 		}
 	}
 
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string     $data  The encrypted string to decrypt.
-	 * @param   JCryptKey  $key   The key object to use for decryption.
+	 * @param   string    $data  The encrypted string to decrypt.
+	 * @param   CryptKey  $key   The key object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
-	public function decrypt($data, JCryptKey $key)
+	public function decrypt($data, CryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != $this->keyType)
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
 		}
 
 		// Decrypt the data.
@@ -79,20 +84,20 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string     $data  The data string to encrypt.
-	 * @param   JCryptKey  $key   The key object to use for encryption.
+	 * @param   string    $data  The data string to encrypt.
+	 * @param   CryptKey  $key   The key object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
-	public function encrypt($data, JCryptKey $key)
+	public function encrypt($data, CryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != $this->keyType)
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
 		}
 
 		// Encrypt the data.
@@ -106,25 +111,25 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  JCryptKey
+	 * @return  CryptKey
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key object.
-		$key = new JCryptKey($this->keyType);
+		$key = new CryptKey($this->keyType);
 
 		// Generate an initialisation vector based on the algorithm.
 		$key->public = mcrypt_create_iv(mcrypt_get_iv_size($this->type, $this->mode), MCRYPT_DEV_URANDOM);
 
 		// Get the salt and password setup.
-		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 16);
+		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack('h*', md5(Crypt::genRandomBytes())), 0, 16);
 
 		if (!isset($options['password']))
 		{
-			throw new InvalidArgumentException('Password is not set.');
+			throw new \InvalidArgumentException('Password is not set.');
 		}
 
 		// Generate the derived key.

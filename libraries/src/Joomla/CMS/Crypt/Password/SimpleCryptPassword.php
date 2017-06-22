@@ -1,13 +1,17 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Crypt\Password;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Crypt\CryptPassword;
 
 /**
  * Joomla Platform Password Crypter
@@ -15,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       12.2
  * @deprecated  4.0  Use PHP 5.5's native password hashing API
  */
-class JCryptPasswordSimple implements JCryptPassword
+class SimpleCryptPassword implements CryptPassword
 {
 	/**
 	 * @var    integer  The cost parameter for hashing algorithms.
@@ -40,7 +44,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @return  mixed  The hashed password or false if the password is too long.
 	 *
 	 * @since   12.2
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function create($password, $type = null)
@@ -53,11 +57,11 @@ class JCryptPasswordSimple implements JCryptPassword
 		switch ($type)
 		{
 			case '$2a$':
-			case JCryptPassword::BLOWFISH:
+			case CryptPassword::BLOWFISH:
 
 				$type = '$2a$';
 
-				if (JCrypt::hasStrongPasswordSupport())
+				if (Crypt::hasStrongPasswordSupport())
 				{
 					$type = '$2y$';
 				}
@@ -66,20 +70,20 @@ class JCryptPasswordSimple implements JCryptPassword
 
 				return crypt($password, $salt);
 
-			case JCryptPassword::MD5:
+			case CryptPassword::MD5:
 				$salt = $this->getSalt(12);
 
 				$salt = '$1$' . $salt;
 
 				return crypt($password, $salt);
 
-			case JCryptPassword::JOOMLA:
+			case CryptPassword::JOOMLA:
 				$salt = $this->getSalt(32);
 
 				return md5($password . $salt) . ':' . $salt;
 
 			default:
-				throw new InvalidArgumentException(sprintf('Hash type %s is not supported', $type));
+				throw new \InvalidArgumentException(sprintf('Hash type %s is not supported', $type));
 				break;
 		}
 	}
@@ -113,7 +117,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	{
 		$bytes = ceil($length * 6 / 8);
 
-		$randomData = str_replace('+', '.', base64_encode(JCrypt::genRandomBytes($bytes)));
+		$randomData = str_replace('+', '.', base64_encode(Crypt::genRandomBytes($bytes)));
 
 		return substr($randomData, 0, $length);
 	}
@@ -136,7 +140,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			$type = '$2a$';
 
-			if (JCrypt::hasStrongPasswordSupport())
+			if (Crypt::hasStrongPasswordSupport())
 			{
 				$type = '$2y$';
 			}
@@ -147,7 +151,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		// Check if the hash is an MD5 hash.
 		if (substr($hash, 0, 3) == '$1$')
 		{
-			return JCrypt::timingSafeCompare(crypt($password, $hash), $hash);
+			return Crypt::timingSafeCompare(crypt($password, $hash), $hash);
 		}
 
 		// Check if the hash is a Joomla hash.
@@ -161,7 +165,7 @@ class JCryptPasswordSimple implements JCryptPassword
 			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
 			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
 
-			return JCrypt::timingSafeCompare($hash, $testcrypt);
+			return Crypt::timingSafeCompare($hash, $testcrypt);
 		}
 
 		return false;
