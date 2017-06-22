@@ -78,14 +78,15 @@ header {
 @supports (display: grid) {
   body {
     display: grid;
-    grid-template-areas:  ". head head head head ."
-                          ". banner banner banner banner ."
-                          ". top-a top-a top-a top-a ."
-                          ". top-b top-b top-b top-b ."
-                          ". main main main main ."
-                          ". bot-a bot-a bot-a bot-a ."
-                          ". bot-b bot-b bot-b bot-b ."
-                          ". footer footer footer footer .";
+    grid-template-areas:
+      ". head head head head ."
+      ". banner banner banner banner ."
+      ". top-a top-a top-a top-a ."
+      ". top-b top-b top-b top-b ."
+      ". main main main main ."
+      ". bot-a bot-a bot-a bot-a ."
+      ". bot-b bot-b bot-b bot-b ."
+      ". footer footer footer footer .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: $aurora-grid-gutter;
     > div {
@@ -106,14 +107,15 @@ header {
       grid-column: full-start / full-end;
     }
     @include media-breakpoint-down(xs) {
-      grid-template-areas:  ". head head head head ."
-                            ". banner banner banner banner ."
-                            ". main main main main ."
-                            ". top-a top-a top-a top-a ."
-                            ". top-b top-b top-b top-b ."
-                            ". bot-a bot-a bot-a bot-a ."
-                            ". bot-b bot-b bot-b bot-b ."
-                            ". footer footer footer footer .";
+      grid-template-areas:
+        ". head head head head ."
+        ". banner banner banner banner ."
+        ". main main main main ."
+        ". top-a top-a top-a top-a ."
+        ". top-b top-b top-b top-b ."
+        ". bot-a bot-a bot-a bot-a ."
+        ". bot-b bot-b bot-b bot-b ."
+        ". footer footer footer footer .";
     }
   }
 
