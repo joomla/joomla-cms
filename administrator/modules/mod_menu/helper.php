@@ -52,7 +52,7 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$result = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;
@@ -112,7 +112,7 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$components = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Parse the list of extensions.
@@ -209,7 +209,7 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$menuItems = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $menuItems;
