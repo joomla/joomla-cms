@@ -47,7 +47,7 @@ class Status extends Form
 
 		if (empty($this->workflowID))
 		{
-			$this->workflowID = $this->input->get('workflow_id', 1);
+			$this->workflowID = $this->input->get('workflow_id');
 		}
 	}
 

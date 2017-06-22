@@ -36,7 +36,7 @@ class Controller extends BaseController
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $extension;
+	protected $extension = "";
 
 	/**
 	 * Constructor.
@@ -102,9 +102,6 @@ class Controller extends BaseController
 
 			// Push document object into the view.
 			$view->document = $document;
-
-			// Load the submenu.
-			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();
 		}
 

@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
  * Workflows view class for the Workflow package.
@@ -33,7 +34,16 @@ class Html extends HtmlView
 	{
 		$this->state         = $this->get('State');
 		$this->workflows     = $this->get('Items');
+
+		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
 		$this->addToolbar();
 
 		return parent::display($tpl);

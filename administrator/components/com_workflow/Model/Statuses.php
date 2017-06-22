@@ -95,9 +95,8 @@ class  Statuses extends ListModel
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where($db->quoteName('workflow_id') . ' = ' . $workflowID);
+			$query->where('workflow_id = ' . $db->quote($workflowID));
 		}
-
 		return $query;
 	}
 }

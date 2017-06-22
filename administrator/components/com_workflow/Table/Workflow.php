@@ -29,7 +29,7 @@ class Workflow extends Table
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
-		$this->typeAlias = 'com_workflow.name';
+		$this->typeAlias = 'com_workflow.title';
 		parent::__construct('#__workflows', 'id', $db);
 	}
 }

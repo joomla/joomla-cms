@@ -18,24 +18,25 @@ class WorkflowHelper extends ContentHelper
 	 * Configure the Linkbar.
 	 *
 	 * @param   string  $vName      The name of the active view.
-	 * @param   string  $extension  The name of extension given.
+	 * @param   string  $workflowID  The name of extension given.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0
 	 */
-	public static function addSubmenu($vName, $extension)
+	public static function addSubmenu($vName)
 	{
+		$name = explode(".", $vName);
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_WORKFLOW_SUBMENU_STATUS'),
-			'index.php?option=com_workflow&view=status&extension=' . $extension,
-			$vName == 'status'
+			'index.php?option=com_workflow&view=statuses&workflow_id=' . $name[1],
+			$name[0] == 'statuses`'
 		);
 
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_WORKFLOW_SUBMENU_TRANSITIONS'),
-			'index.php?option=com_workflow&view=transitions&extension=' . $extension,
-			$vName == 'transitions'
+			'index.php?option=com_workflow&view=transitions&workflow_id=' . $name[1],
+			$name[0] == 'transitions'
 		);
 	}
 }

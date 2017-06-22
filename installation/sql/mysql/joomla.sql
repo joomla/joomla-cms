@@ -516,6 +516,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Postinstall'),
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Workflow'),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (104, 0, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (105, 0, 'FOF', 'library', 'fof', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -644,8 +645,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(802, 0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(803, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Workflow');
+(802, 0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, '');
 -- --------------------------------------------------------
 
 --
@@ -2114,7 +2114,7 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT NULL, # TODO replace with real value
-  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `extension` varchar(255) NOT NULL,
   `category_id` int(10) DEFAULT NULL,
@@ -2125,7 +2125,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `modified_by` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
-  KEY `name` (`name`(191)),
+  KEY `title` (`title`(191)),
   KEY `extension` (`extension`(191)),
   KEY `category_id` (`category_id`),
   KEY `default` (`default`),
@@ -2142,13 +2142,13 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 CREATE TABLE IF NOT EXISTS `#__workflow_status` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `workflow_id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `condition` enum('-1','0','1') NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `condition` enum('1','2','3') NOT NULL,
   `access` int(10) NOT NULL,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`),
-  KEY `name` (`name`(191)),
+  KEY `title` (`title`(191)),
   KEY `access` (`access`),
   KEY `default` (`default`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -2158,12 +2158,12 @@ CREATE TABLE IF NOT EXISTS `#__workflow_status` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
-  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `asset_id` int(10) NOT NULL,
   `description` text NOT NULL,
   `current_state_id` int(10) NOT NULL,
   `new_state_id` int(10) NOT NULL,
-  KEY `name` (`name`(191)),
+  KEY `title` (`title`(191)),
   KEY `asset_id` (`asset_id`),
   KEY `current_state_id` (`current_state_id`),
   KEY `new_state_id` (`new_state_id`)

@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Statuses;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Workflows view class for the Workflow package.
@@ -33,7 +34,16 @@ class Html extends HtmlView
 	{
 		$this->state         = $this->get('State');
 		$this->statuses      = $this->get('Items');
+
+		WorkflowHelper::addSubmenu("statuses." . $this->state->get("fiter.workflow_id"));
 		$this->sidebar       = \JHtmlSidebar::render();
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
 		$this->addToolbar();
 
 		return parent::display($tpl);
