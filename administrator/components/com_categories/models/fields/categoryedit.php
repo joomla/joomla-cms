@@ -192,8 +192,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$subQuery->where('access IN (' . $groups . ')');
 		}
 
-		$query->from('(' . (string) $subQuery . ') AS a')
-			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->from('(' . (string) $subQuery . ') AS a');
 		$query->order('a.lft ASC');
 
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
