@@ -356,7 +356,7 @@ class Associations extends ListModel
 		}
 		elseif ($typeNameExploded = explode('.', $typeName))
 		{
-			if (count ($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category')
+			if (count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category')
 			{
 				$section = implode('.', $typeNameExploded);
 				$query->where($db->qn('a.extension') . ' = ' . $db->quote($extensionName . '.' . $section));
