@@ -13,14 +13,15 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 	var $element = $('#validatejs');
 
 	describe('Validate', function () {
-		var ob = {
-			'JLIB_FORM_CONTAINS_INVALID_FIELDS': '',
-			'JLIB_FORM_FIELD_REQUIRED_VALUE': '',
-			'JLIB_FORM_FIELD_REQUIRED_CHECK': '',
-			'JLIB_FORM_FIELD_INVALID_VALUE': ''
-		};
 
 		beforeAll(function () {
+			var ob = {
+				'JLIB_FORM_CONTAINS_INVALID_FIELDS': '',
+				'JLIB_FORM_FIELD_REQUIRED_VALUE': '',
+				'JLIB_FORM_FIELD_REQUIRED_CHECK': '',
+				'JLIB_FORM_FIELD_INVALID_VALUE': ''
+			};
+
 			Joomla.JText.load(ob);
 			renderFn = Joomla.renderMessages;
 			jtxtFn = Joomla.JText._;
