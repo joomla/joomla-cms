@@ -170,6 +170,19 @@ class SqliteDriver extends PdoDriver
 	}
 
 	/**
+	 * Method to get the database connection collation in use by sampling a text field of a table in the database.
+	 *
+	 * @return  mixed  The collation in use by the database connection (string) or boolean false if not supported.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function getConnectionCollation()
+	{
+		return $this->charset;
+	}
+
+	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
 	 * Note: Doesn't appear to have support in SQLite
