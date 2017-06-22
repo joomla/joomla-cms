@@ -275,7 +275,8 @@ abstract class UpdateAdapter extends \JAdapterInstance
 				return $this->getUpdateSiteResponse($options);
 			}
 
-			// Log the exact update site name and URL which could not be loadedJLog::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, JLog::WARNING, 'updater');
+			// Log the exact update site name and URL which could not be loaded
+			Log::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, Log::WARNING, 'updater');
 			$app = Factory::getApplication();
 			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
 
