@@ -12,9 +12,11 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Document\Opensearch\OpensearchUrl;
+use Joomla\CMS\Document\Opensearch\OpensearchImage;
 
 /**
- * OpenSearch class, provides an easy interface to display an OpenSearch document
+ * Opensearch class, provides an easy interface to display an Opensearch document
  *
  * @link   http://www.opensearch.org/
  * @since  11.1
@@ -67,7 +69,7 @@ class OpensearchDocument extends Document
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
-		$update = new OpenSearchUrl;
+		$update = new OpensearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
 		$update->template = \JRoute::_(Uri::getInstance());
@@ -84,7 +86,7 @@ class OpensearchDocument extends Document
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$favicon = new OpenSearchImage;
+				$favicon = new OpensearchImage;
 
 				if ($path == '')
 				{
@@ -130,11 +132,11 @@ class OpensearchDocument extends Document
 			$xml->formatOutput = true;
 		}
 
-		// The OpenSearch Namespace
+		// The Opensearch Namespace
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
 
 		// Create the root element
-		$elOs = $xml->createElementNs($osns, 'OpenSearchDescription');
+		$elOs = $xml->createElementNs($osns, 'OpensearchDescription');
 
 		$elShortName = $xml->createElementNs($osns, 'ShortName');
 		$elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName)));
@@ -197,15 +199,15 @@ class OpensearchDocument extends Document
 	}
 
 	/**
-	 * Adds a URL to the OpenSearch description.
+	 * Adds a URL to the Opensearch description.
 	 *
-	 * @param   OpenSearchUrl  $url  The url to add to the description.
+	 * @param   OpensearchUrl  $url  The url to add to the description.
 	 *
 	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addUrl(OpenSearchUrl $url)
+	public function addUrl(OpensearchUrl $url)
 	{
 		$this->_urls[] = $url;
 
@@ -213,104 +215,18 @@ class OpensearchDocument extends Document
 	}
 
 	/**
-	 * Adds an image to the OpenSearch description.
+	 * Adds an image to the Opensearch description.
 	 *
-	 * @param   OpenSearchImage  $image  The image to add to the description.
+	 * @param   OpensearchImage  $image  The image to add to the description.
 	 *
 	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addImage(OpenSearchImage $image)
+	public function addImage(OpensearchImage $image)
 	{
 		$this->_images[] = $image;
 
 		return $this;
 	}
-}
-
-/**
- * OpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
- *
- * @since  11.1
- */
-class OpenSearchUrl
-{
-	/**
-	 * Type item element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $type = 'text/html';
-
-	/**
-	 * Rel item element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $rel = 'results';
-
-	/**
-	 * Template item element. Has to contain the {searchTerms} parameter to work.
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $template;
-}
-
-/**
- * OpenSearchImage is an internal class that stores Images for the OpenSearch Description
- *
- * @since  11.1
- */
-class OpenSearchImage
-{
-	/**
-	 * The images MIME type
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $type = '';
-
-	/**
-	 * URL of the image or the image as base64 encoded value
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $data = '';
-
-	/**
-	 * The image's width
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $width;
-
-	/**
-	 * The image's height
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $height;
 }
