@@ -848,7 +848,7 @@ class Category extends Admin
 		{
 			if (!$parentId = $this->table->getRootId())
 			{
-				$this->setError($db->getErrorMsg());
+				$this->setError($this->table->getError());
 
 				return false;
 			}

@@ -49,6 +49,12 @@ class StandardButton extends ToolbarButton
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
 		$options['group']  = $group;
+		$options['id']     = $this->fetchId('Standard', $name);
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		switch ($name)
 		{

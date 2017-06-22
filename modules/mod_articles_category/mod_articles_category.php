@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 // Include the helper functions only once
 JLoader::register('ModArticlesCategoryHelper', __DIR__ . '/helper.php');
 
+use Joomla\CMS\Helper\ModuleHelper;
+
 $input = JFactory::getApplication()->input;
 
 // Prep for Normal or Dynamic Modes
@@ -58,7 +60,7 @@ $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;
 
-$list = JModuleHelper::moduleCache($module, $params, $cacheparams);
+$list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
 if (!empty($list))
 {
@@ -87,5 +89,5 @@ if (!empty($list))
 		}
 	}
 
-	require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
+	require ModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
 }

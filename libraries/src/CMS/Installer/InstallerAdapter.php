@@ -484,13 +484,7 @@ abstract class InstallerAdapter
 				// Only rollback if installing
 				if ($route == 'install')
 				{
-					throw new \RuntimeException(
-						\JText::sprintf(
-							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$this->parent->getDbo()->stderr(true)
-						)
-					);
+					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 
 				return false;
@@ -887,13 +881,7 @@ abstract class InstallerAdapter
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions())
 			{
-				throw new \RuntimeException(
-					\JText::sprintf(
-						'JLIB_INSTALLER_ABORT_SQL_ERROR',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-						$this->db->stderr(true)
-					)
-				);
+				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 			}
 
 			// Set the schema version to be the latest update version
@@ -911,13 +899,7 @@ abstract class InstallerAdapter
 				if ($result === false)
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(
-						\JText::sprintf(
-							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$this->db->stderr(true)
-						)
-					);
+					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 			}
 		}

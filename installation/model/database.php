@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -84,7 +88,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   array  $options  The options to use for configuration.
 	 *
-	 * @return  JDatabaseDriver|boolean  Database object on success, boolean false on failure
+	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -238,10 +242,10 @@ class InstallationModelDatabase extends JModelBase
 			 * PDO MySQL: [1049] Unknown database 'database_name'
 			 * PostgreSQL: Error connecting to PGSQL database
 			 */
-			if ($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			if ($type == 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
 			{
 				/*
-				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
+				 * Now we're really getting insane here; we're going to try building a new database driver without the database name
 				 * in order to trick the connection into creating the database
 				 */
 				$altDBoptions = array(
@@ -253,7 +257,7 @@ class InstallationModelDatabase extends JModelBase
 					'select'   => $options->db_select,
 				);
 
-				$altDB = JDatabaseDriver::getInstance($altDBoptions);
+				$altDB = DatabaseDriver::getInstance($altDBoptions);
 
 				// Try to create the database now using the alternate driver
 				try
@@ -288,7 +292,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
-		if (!$db->isMinimumVersion())
+		if (!version_compare($db->getVersion(), $db->getMinimum()))
 		{
 			throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
 		}
@@ -323,7 +327,7 @@ class InstallationModelDatabase extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (ExecutionFailureException $e)
 			{
 				throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
 			}
@@ -338,7 +342,7 @@ class InstallationModelDatabase extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (ExecutionFailureException $e)
 				{
 					throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
 				}
@@ -461,20 +465,13 @@ class InstallationModelDatabase extends JModelBase
 		$options = ArrayHelper::toObject($options);
 
 		// Check database type.
-		$type = $options->db_type;
+		$serverType = $db->getServerType();
 
 		// Set the character set to UTF-8 for pre-existing databases.
 		$this->setDatabaseCharset($db, $options->db_name);
 
 		// Set the appropriate schema script based on UTF-8 support.
-		if ($db->getServerType() === 'mysql')
-		{
-			$schema = 'sql/mysql/joomla.sql';
-		}
-		else
-		{
-			$schema = 'sql/' . $type . '/joomla.sql';
-		}
+		$schema = JPATH_INSTALLATION . '/sql/' . $serverType . '/joomla.sql';
 
 		// Check if the schema is a valid file
 		if (!is_file($schema))
@@ -494,8 +491,6 @@ class InstallationModelDatabase extends JModelBase
 		$query = $db->getQuery(true);
 
 		// MySQL only: Attempt to update the table #__utf8_conversion.
-		$serverType = $db->getServerType();
-
 		if ($serverType === 'mysql')
 		{
 			$query->clear()
@@ -507,7 +502,7 @@ class InstallationModelDatabase extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (ExecutionFailureException $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -516,18 +511,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Attempt to update the table #__schema.
-		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
-
-		if ($serverType === 'mysql')
-		{
-			$pathPart .= 'mysql/';
-		}
-		else
-		{
-			$pathPart .= $type . '/';
-		}
-
-		$files = JFolder::files($pathPart, '\.sql$');
+		$files = JFolder::files(JPATH_ADMINISTRATOR . "/components/com_admin/sql/updates/$serverType/", '\.sql$');
 
 		if (empty($files))
 		{
@@ -561,7 +545,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (ExecutionFailureException $e)
 		{
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -600,14 +584,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		if ($serverType === 'mysql')
-		{
-			$dblocalise = 'sql/mysql/localise.sql';
-		}
-		else
-		{
-			$dblocalise = 'sql/' . $type . '/localise.sql';
-		}
+		$dblocalise = JPATH_INSTALLATION . '/sql/' . $serverType . '/localise.sql';
 
 		if (is_file($dblocalise))
 		{
@@ -622,12 +599,11 @@ class InstallationModelDatabase extends JModelBase
 
 		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
 		{
-			// Build the language parameters for the language manager.
-			$params = array();
-
 			// Set default administrator/site language to sample data values.
-			$params['administrator'] = 'en-GB';
-			$params['site']          = 'en-GB';
+			$params = [
+				'administrator' => 'en-GB',
+				'site'          => 'en-GB',
+			];
 
 			if (in_array($options->language, $languages['admin']))
 			{
@@ -688,14 +664,7 @@ class InstallationModelDatabase extends JModelBase
 		$options = ArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
-		$type = $options->db_type;
-
-		if ($db->getServerType() === 'mysql')
-		{
-			$type = 'mysql';
-		}
-
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
+		$data = JPATH_INSTALLATION . '/sql/' . $db->getServerType() . '/' . $options->sample_file;
 
 		// Attempt to import the database schema if one is chosen.
 		if ($options->sample_file != '')
@@ -720,14 +689,14 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Sample data tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db              Database connector object $db*.
-	 * @param   string           $sampleFileName  The sample dats filename.
+	 * @param   DatabaseInterface  $db              Database connector object $db*.
+	 * @param   string             $sampleFileName  The sample dats filename.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postInstallSampleData($db, $sampleFileName = '')
+	protected function postInstallSampleData(DatabaseInterface $db, $sampleFileName = '')
 	{
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
@@ -748,7 +717,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @since   3.6.1
 	 */
-	public function installCmsData($options)
+	public function installCmsData(array $options)
 	{
 		// Attempt to create the database tables.
 		if (!$this->createTables($options))
@@ -768,13 +737,13 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Cms tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseInterface  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
-	protected function postInstallCmsData($db)
+	protected function postInstallCmsData(DatabaseInterface $db)
 	{
 		// Update the cms data user ids.
 		$this->updateUserIds($db);
@@ -786,13 +755,13 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to update the user id of sql data content to the new rand user id.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseInterface  $db  Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.6.1
 	 */
-	protected function updateUserIds($db)
+	protected function updateUserIds(DatabaseInterface $db)
 	{
 		// Create the ID for the root user.
 		$userId = self::getUserId();
@@ -828,7 +797,7 @@ class InstallationModelDatabase extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (ExecutionFailureException $e)
 				{
 					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
@@ -839,14 +808,16 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to update the dates of sql data content to the current date.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseInterface  $db  Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.7.0
 	 */
-	protected function updateDates($db)
+	protected function updateDates(DatabaseInterface $db)
 	{
+		$retval = true;
+
 		// Get the current date.
 		$currentDate = JFactory::getDate()->toSql();
 		$nullDate    = $db->getNullDate();
@@ -888,25 +859,29 @@ class InstallationModelDatabase extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (ExecutionFailureException $e)
 				{
 					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+					$retval = false;
 				}
 			}
 		}
+
+		return $retval;
 	}
 
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string           $prefix  Database table prefix.
+	 * @param   DatabaseInterface  $db      Database driver.
+	 * @param   string             $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since    3.1
+	 * @since   3.1
 	 */
-	public function backupDatabase($db, $prefix)
+	public function backupDatabase(DatabaseInterface $db, $prefix)
 	{
 		$return = true;
 		$backup = 'bak_' . $prefix;
@@ -929,7 +904,7 @@ class InstallationModelDatabase extends JModelBase
 					{
 						$db->dropTable($backupTable, true);
 					}
-					catch (RuntimeException $e)
+					catch (ExecutionFailureException $e)
 					{
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
 
@@ -941,7 +916,7 @@ class InstallationModelDatabase extends JModelBase
 					{
 						$db->renameTable($table, $backupTable, $backup, $prefix);
 					}
-					catch (RuntimeException $e)
+					catch (ExecutionFailureException $e)
 					{
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
 
@@ -957,16 +932,16 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   JDatabaseDriver  $db       JDatabase object.
-	 * @param   JObject          $options  JObject coming from "initialise" function to pass user
-	 *                                     and database name to database driver.
-	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
+	 * @param   DatabaseInterface  $db       Database driver.
+	 * @param   JObject            $options  JObject coming from "initialise" function to pass user
+	 *                                       and database name to database driver.
+	 * @param   boolean            $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function createDb($db, $options, $utf)
+	public function createDb(DatabaseInterface $db, $options, $utf)
 	{
 		// Build the create database query.
 		try
@@ -986,14 +961,14 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string           $prefix  Database table prefix.
+	 * @param   DatabaseInterface  $db      Database driver.
+	 * @param   string             $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function deleteDatabase($db, $prefix)
+	public function deleteDatabase(DatabaseInterface $db, $prefix)
 	{
 		$return = true;
 
@@ -1012,7 +987,7 @@ class InstallationModelDatabase extends JModelBase
 					{
 						$db->dropTable($table);
 					}
-					catch (RuntimeException $e)
+					catch (ExecutionFailureException $e)
 					{
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'error');
 
@@ -1028,21 +1003,21 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to import a database schema from a file.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabase object.
-	 * @param   string           $schema  Path to the schema file.
+	 * @param   DatabaseInterface  $db      Database driver.
+	 * @param   string             $schema  Path to the schema file.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function populateDatabase($db, $schema)
+	public function populateDatabase(DatabaseInterface $db, $schema)
 	{
 		$return = true;
 
 		// Get the contents of the schema file.
 		if (!($buffer = file_get_contents($schema)))
 		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_READING_SQL_FILE'), 'error');
 
 			return false;
 		}
@@ -1064,13 +1039,16 @@ class InstallationModelDatabase extends JModelBase
 				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
 				 * necessary, so there's no need to check the conditions in JInstaller.
 				 */
-				$query = $db->convertUtf8mb4QueryToUtf8($query);
+				if ($db instanceof UTF8MB4SupportInterface)
+				{
+					$query = $db->convertUtf8mb4QueryToUtf8($query);
+				}
 
 				/**
 				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
 				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
 				 */
-				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				if (!($db instanceof UTF8MB4SupportInterface) || (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 ')))
 				{
 					continue;
 				}
@@ -1082,7 +1060,7 @@ class InstallationModelDatabase extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (ExecutionFailureException $e)
 				{
 					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -1097,21 +1075,18 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to set the database character set to UTF-8.
 	 *
-	 * @param   JDatabaseDriver  $db    JDatabaseDriver object.
-	 * @param   string           $name  Name of the database to process.
+	 * @param   DatabaseInterface  $db    Database driver.
+	 * @param   string             $name  Name of the database to process.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function setDatabaseCharset($db, $name)
+	public function setDatabaseCharset(DatabaseInterface $db, $name)
 	{
-		// Run the create database query.
-		$db->setQuery($db->getAlterDbCharacterSet($name));
-
 		try
 		{
-			$db->execute();
+			$db->alterDbCharacterSet($name);
 		}
 		catch (RuntimeException $e)
 		{

@@ -20,7 +20,7 @@ if (JFactory::getConfig()->get('shared_session', '0'))
 	if ($params->get('show_loggedin_users', 1))
 	{
 		$output[] = '<li class="px-2">'
-			. '<span class="mr-1 badge badge-pill badge-default">' . $total_users . '</span>'
+			. '<span class="mr-1 ml-1 badge badge-pill badge-default">' . $total_users . '</span>'
 			. JText::plural('MOD_STATUS_TOTAL_USERS', $total_users)
 			. '</li>';
 	}
@@ -31,7 +31,7 @@ else
 	if ($params->get('show_loggedin_users', 1))
 	{
 		$output[] = '<li class="px-2">'
-			. '<span class="mr-1 badge badge-pill badge-default">' . $online_num . '</span>'
+			. '<span class="mr-1 ml-1 badge badge-pill badge-default">' . $online_num . '</span>'
 			. JText::plural('MOD_STATUS_USERS', $online_num)
 			. '</li>';
 	}
@@ -40,7 +40,7 @@ else
 	if ($params->get('show_loggedin_users_admin', 1))
 	{
 		$output[] = '<li class="px-2">'
-			. '<span class="mr-1 badge badge-pill badge-default">' . $count . '</span>'
+			. '<span class="mr-1 ml-1 badge badge-pill badge-default">' . $count . '</span>'
 			. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
 			. '</li>';
 	}

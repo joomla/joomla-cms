@@ -463,9 +463,7 @@ class FileAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			// Install failed, roll back changes
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', $db->stderr(true)));
-
+			// Install failed, rollback changes - error logged by the installer
 			return false;
 		}
 		$id = $db->loadResult();

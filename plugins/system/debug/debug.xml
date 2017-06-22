@@ -11,6 +11,7 @@
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="debug">debug.php</filename>
+		<filename>debugmonitor.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_debug.ini</language>
