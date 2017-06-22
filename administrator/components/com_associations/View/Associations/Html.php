@@ -86,7 +86,7 @@ class Html extends HtmlView
 		{
 			$type = null;
 
-			list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'));
+			list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
 
 			$extension = AssociationsHelper::getSupportedExtension($extensionName);
 
