@@ -81,6 +81,11 @@ class HttpFactory
 		{
 			$class = __NAMESPACE__ . '\\Transport\\' . ucfirst($adapter) . 'Transport';
 
+			if (!class_exists($class))
+			{
+				$class = 'JHttpTransport' . ucfirst($type);
+			}
+
 			if (class_exists($class) && $class::isSupported())
 			{
 				return new $class($options);
