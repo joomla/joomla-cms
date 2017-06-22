@@ -96,7 +96,7 @@ class JFormTest extends TestCaseDatabase
 
 		// The default path is the class file folder/forms
 		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/fields';
+		$valid = JPATH_PLATFORM . '/joomla/form/fields';
 
 		$this->assertThat(
 			in_array($valid, $paths),
