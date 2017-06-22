@@ -83,7 +83,7 @@ class HttpFactory
 
 			if (!class_exists($class))
 			{
-				$class = 'JHttpTransport' . ucfirst($type);
+				$class = 'JHttpTransport' . ucfirst($adapter);
 			}
 
 			if (class_exists($class) && $class::isSupported())
