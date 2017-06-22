@@ -137,6 +137,9 @@ abstract class Factory
 			}
 
 			self::$application = CMSApplication::getInstance($id);
+
+			// Attach a delegated JLog object to the application
+			self::$application->setLogger(Log::createDelegatedLogger());
 		}
 
 		return self::$application;
