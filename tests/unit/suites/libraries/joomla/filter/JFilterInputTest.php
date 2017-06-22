@@ -290,6 +290,30 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				array(true, false, true, false, true, false, false),
 				'From generic cases'
 			),
+			'string1' => array(
+				'string',
+				'string>passed>ok',
+				'string>passed>ok',
+				'From generic cases'
+			),
+			'string2' => array(
+				'string',
+				'string<passed<ok',
+				'string<passed<ok',
+				'From generic cases'
+			),
+			'string3' => array(
+				'string',
+				'string<>number',
+				'string<>number',
+				'From generic cases'
+			),
+			'string4' => array(
+				'string',
+				'string><number',
+				'string><number',
+				'From generic cases'
+			),
 			'word_01' => array(
 				'word',
 				$input,
