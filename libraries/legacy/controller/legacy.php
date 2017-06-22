@@ -132,6 +132,14 @@ class JControllerLegacy extends JObject
 	protected static $instance;
 
 	/**
+	 * Instance container containing the include paths.
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected static $includePaths = array();
+
+	/**
 	 * Instance container containing the views.
 	 *
 	 * @var    JViewLegacy[]
@@ -270,6 +278,31 @@ class JControllerLegacy extends JObject
 			$backuppath = $basePath . '/' . $backupfile;
 		}
 
+		$includePaths = static::$includePaths;
+		if (count($includePaths))
+		{
+			if (array_key_exists('model_path', $config))
+			{
+				$config['model_path'] = (array) $config['model_path'];
+			}
+			else
+			{
+				$config['model_path'] = array(JPATH_COMPONENT . '/models');
+			}
+			if (array_key_exists('view_path', $config))
+			{
+				$config['view_path'] = (array) $config['view_path'];
+			}
+			else
+			{
+				$config['view_path'] = array(JPATH_COMPONENT . '/views');
+			}
+			foreach ($includePaths as $includePath)
+			{
+				array_unshift($config['model_path'], $includePath . '/models');
+				array_unshift($config['view_path'], $includePath . '/views');
+			}
+		}
 		// Get the controller class name.
 		$class = ucfirst($prefix) . 'Controller' . ucfirst($type);
 
@@ -285,7 +318,25 @@ class JControllerLegacy extends JObject
 			{
 				require_once $backuppath;
 			}
-			else
+			// If path is not exist then find another from include paths
+			elseif (count($includePaths))
+			{
+				if ($type)
+				{
+					$file = 'controllers/' . $file;
+				}
+				foreach ($includePaths as $includePath)
+				{
+					$path = $includePath . '/' . $file;
+					if (file_exists($path))
+					{
+						require_once $path;
+						$config['base_path'] = $includePath;
+						break;
+					}
+				}
+			}
+			if (!class_exists($class))
 			{
 				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
@@ -458,6 +509,30 @@ class JControllerLegacy extends JObject
 	}
 
 	/**
+	 * Add one or more controller paths, in LIFO order.
+	 *
+	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
+	 *
+	 * @return array
+	 */
+	public static function addIncludePath($path)
+	{
+		settype($path, 'array');
+		jimport('joomla.filesystem.folder');
+		foreach ($path as $includePath)
+		{
+			// For only exists path
+			if (!in_array($includePath, static::$includePaths) && JFolder::exists($includePath))
+			{
+				array_unshift(static::$includePaths, JPath::clean($includePath));
+			}
+		}
+
+		return static::$includePaths;
+
+	}
+
+	/**
 	 * Add one or more view paths to the controller's stack, in LIFO order.
 	 *
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
@@ -593,6 +668,9 @@ class JControllerLegacy extends JObject
 				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
 			}
 		}
+		// Real base path
+		$pattern             = '#(/(views?/)?[a-zA-z0-9]+/view\.' . $type . '\.php)$#i';
+		$config['base_path'] = preg_replace($pattern, '', str_replace('\\', '/', $path));
 
 		return new $viewClass($config);
 	}
