@@ -11,11 +11,11 @@ namespace Joomla\CMS\Crypt;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JCrypt cipher interface.
+ * Crypt cipher interface.
  *
  * @since  12.1
  */
-interface CryptCipher
+interface CipherInterface
 {
 	/**
 	 * Method to decrypt a data string.

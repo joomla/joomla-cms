@@ -296,7 +296,7 @@ JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\Lda
 JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
 
 JLoader::registerAlias('JCrypt',                             '\\Joomla\\CMS\\Crypt\\Crypt', '5.0');
-JLoader::registerAlias('JCryptCipher',                       '\\Joomla\\CMS\\Crypt\\CryptCipher', '5.0');
+JLoader::registerAlias('JCryptCipher',                       '\\Joomla\\CMS\\Crypt\\CipherInterface', '5.0');
 JLoader::registerAlias('JCryptKey',                          '\\Joomla\\CMS\\Crypt\\CryptKey', '5.0');
 JLoader::registerAlias('JCryptPassword',                     '\\Joomla\\CMS\\Crypt\\CryptPassword', '4.0');
 JLoader::registerAlias('JCryptCipherBlowfish',               '\\Joomla\\CMS\\Crypt\\Cipher\\BlowfishCipher', '4.0');

@@ -10,8 +10,8 @@ namespace Joomla\CMS\Crypt\Cipher;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Crypt\CipherInterface;
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Crypt\CryptCipher;
 use Joomla\CMS\Crypt\Key;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\CMS\Crypt\Key;
  * @since       12.1
  * @deprecated  4.0   Without replacment use CryptoCipher
  */
-abstract class McryptCipher implements CryptCipher
+abstract class McryptCipher implements CipherInterface
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.

@@ -10,8 +10,8 @@ namespace Joomla\CMS\Crypt\Cipher;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Crypt\CipherInterface;
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Crypt\CryptCipher;
 use Joomla\CMS\Crypt\Key;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\CMS\Crypt\Key;
  * @since       12.1
  * @deprecated  4.0 (CMS)
  */
-class SimpleCipher implements CryptCipher
+class SimpleCipher implements CipherInterface
 {
 	/**
 	 * Method to decrypt a data string.

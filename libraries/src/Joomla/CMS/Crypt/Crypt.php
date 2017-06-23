@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
 class Crypt
 {
 	/**
-	 * @var    CryptCipher  The encryption cipher object.
+	 * @var    CipherInterface  The encryption cipher object.
 	 * @since  12.1
 	 */
 	private $_cipher;
@@ -36,12 +36,12 @@ class Crypt
 	 * Object Constructor takes an optional key to be used for encryption/decryption. If no key is given then the
 	 * secret word from the configuration object is used.
 	 *
-	 * @param   CryptCipher  $cipher  The encryption cipher object.
-	 * @param   Key     $key     The encryption key[/pair)].
+	 * @param   CipherInterface  $cipher  The encryption cipher object.
+	 * @param   Key              $key     The encryption key[/pair)].
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(CryptCipher $cipher = null, Key $key = null)
+	public function __construct(CipherInterface $cipher = null, Key $key = null)
 	{
 		// Set the encryption key[/pair)].
 		$this->_key = $key;
