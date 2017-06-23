@@ -27,7 +27,7 @@ class Crypt
 	private $_cipher;
 
 	/**
-	 * @var    CryptKey  The encryption key[/pair)].
+	 * @var    Key  The encryption key[/pair)].
 	 * @since  12.1
 	 */
 	private $_key;
@@ -37,11 +37,11 @@ class Crypt
 	 * secret word from the configuration object is used.
 	 *
 	 * @param   CryptCipher  $cipher  The encryption cipher object.
-	 * @param   CryptKey     $key     The encryption key[/pair)].
+	 * @param   Key     $key     The encryption key[/pair)].
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(CryptCipher $cipher = null, CryptKey $key = null)
+	public function __construct(CryptCipher $cipher = null, Key $key = null)
 	{
 		// Set the encryption key[/pair)].
 		$this->_key = $key;
@@ -91,7 +91,7 @@ class Crypt
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  CryptKey
+	 * @return  Key
 	 *
 	 * @since   12.1
 	 */
@@ -103,13 +103,13 @@ class Crypt
 	/**
 	 * Method to set the encryption key[/pair] object.
 	 *
-	 * @param   CryptKey  $key  The key object to set.
+	 * @param   Key  $key  The key object to set.
 	 *
 	 * @return  Crypt
 	 *
 	 * @since   12.1
 	 */
-	public function setKey(CryptKey $key)
+	public function setKey(Key $key)
 	{
 		$this->_key = $key;
 

@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.1
  */
-class CryptKey
+class Key
 {
 	/**
 	 * @var    string  The private key.

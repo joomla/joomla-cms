@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Crypt\CryptCipher;
-use Joomla\CMS\Crypt\CryptKey;
+use Joomla\CMS\Crypt\Key;
 
 /**
  * Crypt cipher for Simple encryption, decryption and key generation.
@@ -26,14 +26,14 @@ class SimpleCipher implements CryptCipher
 	 * Method to decrypt a data string.
 	 *
 	 * @param   string    $data  The encrypted string to decrypt.
-	 * @param   CryptKey  $key   The key[/pair] object to use for decryption.
+	 * @param   Key  $key   The key[/pair] object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
 	 * @throws  \InvalidArgumentException
 	 */
-	public function decrypt($data, CryptKey $key)
+	public function decrypt($data, Key $key)
 	{
 		// Validate key.
 		if ($key->type != 'simple')
@@ -67,14 +67,14 @@ class SimpleCipher implements CryptCipher
 	 * Method to encrypt a data string.
 	 *
 	 * @param   string    $data  The data string to encrypt.
-	 * @param   CryptKey  $key   The key[/pair] object to use for encryption.
+	 * @param   Key  $key   The key[/pair] object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   12.1
 	 * @throws  \InvalidArgumentException
 	 */
-	public function encrypt($data, CryptKey $key)
+	public function encrypt($data, Key $key)
 	{
 		// Validate key.
 		if ($key->type != 'simple')
@@ -109,14 +109,14 @@ class SimpleCipher implements CryptCipher
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  CryptKey
+	 * @return  Key
 	 *
 	 * @since   12.1
 	 */
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key[/pair] object.
-		$key = new CryptKey('simple');
+		$key = new Key('simple');
 
 		// Just a random key of a given length.
 		$key->private = Crypt::genRandomBytes(256);

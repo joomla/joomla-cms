@@ -11,7 +11,7 @@ namespace Joomla\CMS\Crypt\Cipher;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Crypt\CryptCipher;
-use Joomla\CMS\Crypt\CryptKey;
+use Joomla\CMS\Crypt\Key;
 
 /**
  * Crypt cipher for encryption, decryption and key generation via the php-encryption library.
@@ -24,14 +24,14 @@ class CryptoCipher implements CryptCipher
 	 * Method to decrypt a data string.
 	 *
 	 * @param   string    $data  The encrypted string to decrypt.
-	 * @param   CryptKey  $key   The key object to use for decryption.
+	 * @param   Key  $key   The key object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   3.5
 	 * @throws  \RuntimeException
 	 */
-	public function decrypt($data, CryptKey $key)
+	public function decrypt($data, Key $key)
 	{
 		// Validate key.
 		if ($key->type != 'crypto')
@@ -62,14 +62,14 @@ class CryptoCipher implements CryptCipher
 	 * Method to encrypt a data string.
 	 *
 	 * @param   string    $data  The data string to encrypt.
-	 * @param   CryptKey  $key   The key object to use for encryption.
+	 * @param   Key  $key   The key object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   3.5
 	 * @throws  \RuntimeException
 	 */
-	public function encrypt($data, CryptKey $key)
+	public function encrypt($data, Key $key)
 	{
 		// Validate key.
 		if ($key->type != 'crypto')
@@ -97,7 +97,7 @@ class CryptoCipher implements CryptCipher
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  CryptKey
+	 * @return  Key
 	 *
 	 * @since   3.5
 	 * @throws  \RuntimeException
@@ -105,7 +105,7 @@ class CryptoCipher implements CryptCipher
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key object.
-		$key = new CryptKey('crypto');
+		$key = new Key('crypto');
 
 		// Generate the encryption key.
 		try

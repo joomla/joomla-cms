@@ -21,32 +21,32 @@ interface CryptCipher
 	 * Method to decrypt a data string.
 	 *
 	 * @param   string    $data  The encrypted string to decrypt.
-	 * @param   CryptKey  $key   The key[/pair] object to use for decryption.
+	 * @param   Key  $key   The key[/pair] object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
 	 */
-	public function decrypt($data, CryptKey $key);
+	public function decrypt($data, Key $key);
 
 	/**
 	 * Method to encrypt a data string.
 	 *
 	 * @param   string    $data  The data string to encrypt.
-	 * @param   CryptKey  $key   The key[/pair] object to use for encryption.
+	 * @param   Key  $key   The key[/pair] object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   12.1
 	 */
-	public function encrypt($data, CryptKey $key);
+	public function encrypt($data, Key $key);
 
 	/**
 	 * Method to generate a new encryption key[/pair] object.
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  CryptKey
+	 * @return  Key
 	 *
 	 * @since   12.1
 	 */
