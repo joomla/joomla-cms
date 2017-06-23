@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\Updater;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for

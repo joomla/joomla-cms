@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Updater;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
