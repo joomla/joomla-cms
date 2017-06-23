@@ -1,21 +1,27 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Updater;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Version;
+
 /**
- * Update class. It is used by JUpdater::update() to install an update. Use JUpdater::findUpdates() to find updates for
+ * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for
  * an extension.
  *
  * @since  11.1
  */
-class JUpdate extends JObject
+class Update extends \JObject
 {
 	/**
 	 * Update manifest `<name>` element
@@ -180,7 +186,7 @@ class JUpdate extends JObject
 	/**
 	 * Object containing the latest update data
 	 *
-	 * @var    stdClass
+	 * @var    \stdClass
 	 * @since  12.1
 	 */
 	protected $latest;
@@ -196,9 +202,9 @@ class JUpdate extends JObject
 	 * @var    int
 	 * @since  14.1
 	 *
-	 * @see    JUpdater
+	 * @see    Updater
 	 */
-	protected $minimum_stability = JUpdater::STABILITY_STABLE;
+	protected $minimum_stability = Updater::STABILITY_STABLE;
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -251,7 +257,7 @@ class JUpdate extends JObject
 		{
 			// This is a new update; create a current update
 			case 'UPDATE':
-				$this->currentUpdate = new stdClass;
+				$this->currentUpdate = new \stdClass;
 				break;
 
 			// Don't do anything
@@ -264,7 +270,7 @@ class JUpdate extends JObject
 
 				if (!isset($this->currentUpdate->$name))
 				{
-					$this->currentUpdate->$name = new stdClass;
+					$this->currentUpdate->$name = new \stdClass;
 				}
 
 				$this->currentUpdate->$name->_data = '';
@@ -297,15 +303,15 @@ class JUpdate extends JObject
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
-				$product = strtolower(JFilterInput::getInstance()->clean(JVersion::PRODUCT, 'cmd'));
+				$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
 				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
 				if (isset($this->currentUpdate->targetplatform->min_dev_level) || isset($this->currentUpdate->targetplatform->max_dev_level))
 				{
-					JLog::add(
+					Log::add(
 						'Support for the min_dev_level and max_dev_level attributes of an update\'s <targetplatform> tag is deprecated and'
 						. ' will be removed in 4.0. The full version should be specified in the version attribute and may optionally be a regexp.',
-						JLog::WARNING,
+						Log::WARNING,
 						'deprecated'
 					);
 				}
@@ -319,9 +325,9 @@ class JUpdate extends JObject
 					&& $product == $this->currentUpdate->targetplatform->name
 					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) 
-					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) >= $this->currentUpdate->targetplatform->min_dev_level)
+					|| $this->get('jversion.dev_level', Version::DEV_LEVEL) >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) 
-					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) <= $this->currentUpdate->targetplatform->max_dev_level))
+					|| $this->get('jversion.dev_level', Version::DEV_LEVEL) <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					$phpMatch = false;
 
@@ -336,7 +342,7 @@ class JUpdate extends JObject
 					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
 					if (isset($this->currentUpdate->supported_databases))
 					{
-						$db           = JFactory::getDbo();
+						$db           = Factory::getDbo();
 						$dbType       = strtolower($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
@@ -434,21 +440,21 @@ class JUpdate extends JObject
 	 * Loads an XML file from a URL.
 	 *
 	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see JUpdater}
+	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see Updater}
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
 	{
-		$http = JHttpFactory::getHttp();
+		$http = \JHttpFactory::getHttp();
 
 		try
 		{
 			$response = $http->get($url);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$response = null;
 		}
@@ -456,7 +462,7 @@ class JUpdate extends JObject
 		if ($response === null || $response->code !== 200)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
-			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
+			Log::add(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -470,12 +476,12 @@ class JUpdate extends JObject
 
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
-			JLog::add(
+			Log::add(
 				sprintf(
 					'XML error: %s at line %d', xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
 				),
-				JLog::WARNING, 'updater'
+				Log::WARNING, 'updater'
 			);
 
 			return false;
@@ -498,13 +504,13 @@ class JUpdate extends JObject
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = 'JUpdater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{
 			return constant($constant);
 		}
 
-		return JUpdater::STABILITY_STABLE;
+		return Updater::STABILITY_STABLE;
 	}
 }

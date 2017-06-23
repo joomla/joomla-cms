@@ -1,22 +1,29 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Updater\Adapter;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.updater.updateadapter');
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Updater\UpdateAdapter;
+use Joomla\CMS\Version;
 
 /**
  * Collection Update Adapter Class
  *
  * @since  11.1
  */
-class JUpdaterCollection extends JUpdateAdapter
+class CollectionAdapter extends UpdateAdapter
 {
 	/**
 	 * Root of the tree
@@ -114,7 +121,7 @@ class JUpdaterCollection extends JUpdateAdapter
 				}
 				break;
 			case 'EXTENSION':
-				$update = JTable::getInstance('update');
+				$update = Table::getInstance('update');
 				$update->set('update_site_id', $this->updateSiteId);
 
 				foreach ($this->updatecols as $col)
@@ -131,7 +138,7 @@ class JUpdaterCollection extends JUpdateAdapter
 					}
 				}
 
-				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
+				$client = ApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
 
 				if (isset($client->id))
 				{
@@ -145,10 +152,10 @@ class JUpdaterCollection extends JUpdateAdapter
 				}
 
 				// Only add the update if it is on the same platform and release as we are
-				$ver = new JVersion;
+				$ver = new Version;
 
 				// Lower case and remove the exclamation mark
-				$product = strtolower(JFilterInput::getInstance()->clean($ver::PRODUCT, 'cmd'));
+				$product = strtolower(InputFilter::getInstance()->clean($ver::PRODUCT, 'cmd'));
 
 				/*
 				 * Set defaults, the extension file should clarify in case but it may be only available in one version
@@ -241,10 +248,10 @@ class JUpdaterCollection extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			JLog::add('Error parsing url: ' . $this->_url, JLog::WARNING, 'updater');
+			Log::add('Error parsing url: ' . $this->_url, Log::WARNING, 'updater');
 
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
+			$app = Factory::getApplication();
+			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}
