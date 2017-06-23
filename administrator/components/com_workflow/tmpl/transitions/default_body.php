@@ -10,26 +10,25 @@
  * @since       4.0
  */
 defined('_JEXEC') or die('Restricted Access');
+
+$workflowID = $this->escape($this->state->get('filter.workflow_id'));
+
 ?>
-<?php foreach ($this->workflows as $i => $item):
-	$link = JRoute::_('index.php?option=com_workflow&view=statuses&workflow_id=' . $item->id);
-	$edit = JRoute::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
+<?php foreach ($this->transitions as $i => $item):
+	$link = JRoute::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . $workflowID);
 	?>
 	<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->id; ?>">
 		<td class="order nowrap text-center hidden-sm-down">
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 		</td>
 		<td>
-			<a href="<?php echo $link; ?>"><?php echo $item->title; ?></a>
+			<a href="<?php echo $link ?>"><?php echo $item->title; ?></a>
 		</td>
 		<td class="text-center">
-			<a href="<?php echo $edit; ?>"><?php echo \JText::_('COM_WORKFLOW_EDIT'); ?></a>
+			<?php echo $item->from_status_id; ?>
 		</td>
 		<td class="text-center">
-			<?php echo $item->created; ?>
-		</td>
-		<td class="text-center">
-			<?php echo $item->modified; ?>
+			<?php echo $item->to_status_id; ?>
 		</td>
 		<td class="text-right">
 			<?php echo $item->id; ?>

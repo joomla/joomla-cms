@@ -1,9 +1,9 @@
 <?php
 /**
- * Items Model for a Prove Component.
+ * Items Model for a Workflow Component.
  *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -19,9 +19,15 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php echo JText::_('COM_WORKFLOW_TITLE'); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
+		<?php echo JText::_('COM_WORKFLOW_EDIT'); ?>
+	</th>
+	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_CREATION_DATE'); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_MODIFICATION_DATE'); ?>
+	</th>
+	<th style="width:10%" class="nowrap text-right hidden-sm-down">
+		<?php echo JText::_('COM_WORKFLOW_ID'); ?>
 	</th>
 </tr>

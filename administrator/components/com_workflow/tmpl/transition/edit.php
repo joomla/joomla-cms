@@ -22,7 +22,7 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=status&workflow_id=' . $input->getCmd('workflow_id') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transition&workflow_id=' . $input->getCmd('workflow_id') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -31,16 +31,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_WORKFLOW_BASIC_TAB') : JText::_('COM_WORKFLOW_EDIT_TAB')); ?>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-6">
-						<?php echo $this->form->renderField('condition'); ?>
+						<?php echo $this->form->renderField('from'); ?>
+						<?php echo $this->form->renderField('to'); ?>
 					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php echo $this->form->renderField('default'); ?>
 				</div>
 			</div>
 		</div>
@@ -49,6 +45,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<?php echo $this->form->getInput('workflow_id'); ?>
-	<input type="hidden" name="task" value="status.edit" />
+	<input type="hidden" name="task" value="transition.edit" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

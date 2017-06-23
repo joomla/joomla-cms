@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Statuses;
+namespace Joomla\Component\Workflow\Administrator\View\Transitions;
 
 defined('_JEXEC') or die;
 
@@ -32,10 +32,10 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->state         = $this->get('State');
-		$this->statuses      = $this->get('Items');
+		$this->state            = $this->get('State');
+		$this->transitions      = $this->get('Items');
 
-		WorkflowHelper::addSubmenu("statuses." . $this->state->get("filter.workflow_id"));
+		WorkflowHelper::addSubmenu("transitions." . $this->state->get("filter.workflow_id"));
 		$this->sidebar       = \JHtmlSidebar::render();
 
 		// Check for errors.
@@ -59,8 +59,8 @@ class Html extends HtmlView
 	protected function addToolbar()
 	{
 		\JToolbarHelper::title(\JText::_('COM_WORKFLOW_STATUSES_LIST'), 'address contact');
-		\JToolbarHelper::addNew('status.add');
-		\JToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'statuses.delete');
-		\JToolbarHelper::editList('status.edit');
+		\JToolbarHelper::addNew('transition.add');
+		\JToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
+		\JToolbarHelper::editList('transition.edit');
 	}
 }

@@ -2158,15 +2158,19 @@ CREATE TABLE IF NOT EXISTS `#__workflow_status` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `asset_id` int(10) NOT NULL,
   `description` text NOT NULL,
-  `current_state_id` int(10) NOT NULL,
-  `new_state_id` int(10) NOT NULL,
+  `from_status_id` int(10) NOT NULL,
+  `to_status_id` int(10) NOT NULL,
+  `workflow_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `title` (`title`(191)),
   KEY `asset_id` (`asset_id`),
-  KEY `current_state_id` (`current_state_id`),
-  KEY `new_state_id` (`new_state_id`)
+  KEY `from_status_id` (`from_status_id`),
+  KEY `to_status_id` (`to_status_id`),
+  KEY `workflow_id` (`workflow_id`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- ALTER TABLE `#__content` CHANGE `state` `state` INT(10) NOT NULL DEFAULT '0';

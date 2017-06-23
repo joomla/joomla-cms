@@ -17,7 +17,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  1.6
  */
-class Status extends Table
+class Transition extends Table
 {
 
 	/**
@@ -29,6 +29,6 @@ class Status extends Table
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
-		parent::__construct('#__workflow_status', 'id', $db);
+		parent::__construct('#__workflow_transitions', 'id', $db);
 	}
 }

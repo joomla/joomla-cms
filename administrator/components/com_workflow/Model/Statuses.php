@@ -83,7 +83,7 @@ class  Statuses extends ListModel
 		$select = $db->quoteName(
 					array(
 						'id',
-						'name',
+						'title',
 						'condition'
 					)
 				);
@@ -97,6 +97,7 @@ class  Statuses extends ListModel
 		{
 			$query->where('workflow_id = ' . $db->quote($workflowID));
 		}
+
 		return $query;
 	}
 }

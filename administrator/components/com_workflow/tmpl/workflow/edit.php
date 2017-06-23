@@ -51,6 +51,6 @@ $this->form->setFieldAttribute('category_id', 'extension', 'com_content');
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<?php echo $this->form->getInput('extension'); ?>
-	<input type="hidden" name="task" value="item.edit" />
+	<input type="hidden" name="task" value="workflow.edit" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

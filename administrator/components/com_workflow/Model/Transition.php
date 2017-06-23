@@ -22,7 +22,7 @@ use Joomla\CMS\Model\Admin;
  *
  * @since  4.0
  */
-class Status extends Admin
+class Transition extends Admin
 {
 
 	/**
@@ -38,7 +38,7 @@ class Status extends Admin
 	{
 		$app = \JFactory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'cmd');
-		$data['access'] = 0;
+		$data['asset_id'] = -1;
 		$data['workflow_id'] = (int) $workflowID;
 
 		return parent::save($data);
@@ -58,8 +58,8 @@ class Status extends Admin
 	{
 		// Get the form.
 		$form = $this->loadForm(
-			'com_workflow.status',
-			'status',
+			'com_workflow.transition',
+			'transition',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData
@@ -86,7 +86,7 @@ class Status extends Admin
 	{
 		// Check the session for previously entered form data.
 		$data = \JFactory::getApplication()->getUserState(
-			'com_workflow.edit.status.data',
+			'com_workflow.edit.transition.data',
 			array()
 		);
 
