@@ -476,6 +476,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'123.567',
 				'From generic cases'
 			),
+			'string_02' => array(
+				'string',
+				'em>',
+				'em>',
+				'From generic cases'
+			),
 			'string_single_quote' => array(
 				'string',
 				"this is a 'test' of ?",
@@ -552,6 +558,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em',
 				'em',
+				'From generic cases'
+			),
+			'tag_02' => array(
+				'',
+				'em>',
+				'em>',
 				'From generic cases'
 			),
 			'Kill script' => array(
@@ -1365,6 +1377,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				"<img src='<img src='///'/> ",
 				"<img src=\"'&lt;img\" src=\"'///'/\" /> ",
 				'From specific cases'
+			),
+			'decode_01' => array(
+				'',
+				'<div&#x003e;Hello &quot;Joomla&quot;&#60;/div>',
+				'<div>Hello "Joomla"</div>',
+				'Generic test case for decode string with HTML cleaning'
 			),
 			'html_01' => array(
 				'html',
