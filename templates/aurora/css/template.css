@@ -8614,6 +8614,9 @@ legend {
   .header .site-description {
     font-size: 1rem;
     color: #fefefe; }
+  @media (max-width: 991px) {
+    .header .navbar {
+      display: block; } }
   .header .navbar-brand {
     position: relative;
     display: inline-block;
@@ -8734,14 +8737,21 @@ header {
   .container-top-b,
   .container-bottom-a,
   .container-bottom-b {
-    flex-direction: column; } }
+    flex-direction: column; }
+    .container-top-a > div,
+    .container-top-b > div,
+    .container-bottom-a > div,
+    .container-bottom-b > div {
+      flex: 0 1 auto; } }
 
 .container-main > div {
   margin: 7.5px; }
 
 @media (max-width: 575px) {
   .container-main {
-    flex-direction: column; } }
+    flex-direction: column; }
+    .container-main > div {
+      flex: 0 1 auto; } }
 
 .container-component {
   flex: 1; }

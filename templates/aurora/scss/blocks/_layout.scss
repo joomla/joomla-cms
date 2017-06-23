@@ -32,6 +32,9 @@ header {
   }
   @include media-breakpoint-down(xs) {
     flex-direction: column;
+    > div {
+      flex: 0 1 auto;
+    }
   }
 }
 
@@ -41,6 +44,9 @@ header {
   }
   @include media-breakpoint-down(xs) {
     flex-direction: column;
+    > div {
+      flex: 0 1 auto;
+    }
   }
 }
 
