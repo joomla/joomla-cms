@@ -555,12 +555,21 @@
 
   var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<"};
 
-  function findMatchingBracket(cm, where, strict, config) {
+  function findMatchingBracket(cm, where, config) {
     var line = cm.getLineHandle(where.line), pos = where.ch - 1;
-    var match = (pos >= 0 && matching[line.text.charAt(pos)]) || matching[line.text.charAt(++pos)];
+    var afterCursor = config && config.afterCursor
+    if (afterCursor == null)
+      afterCursor = /(^| )cm-fat-cursor($| )/.test(cm.getWrapperElement().className)
+
+    // A cursor is defined as between two characters, but in in vim command mode
+    // (i.e. not insert mode), the cursor is visually represented as a
+    // highlighted box on top of the 2nd character. Otherwise, we allow matches
+    // from before or after the cursor.
+    var match = (!afterCursor && pos >= 0 && matching[line.text.charAt(pos)]) ||
+        matching[line.text.charAt(++pos)];
     if (!match) return null;
     var dir = match.charAt(1) == ">" ? 1 : -1;
-    if (strict && (dir > 0) != (pos == where.ch)) return null;
+    if (config && config.strict && (dir > 0) != (pos == where.ch)) return null;
     var style = cm.getTokenTypeAt(Pos(where.line, pos + 1));
 
     var found = scanForBracket(cm, Pos(where.line, pos + (dir > 0 ? 1 : 0)), dir, style || null, config);
@@ -608,7 +617,7 @@
     var maxHighlightLen = cm.state.matchBrackets.maxHighlightLineLength || 1000;
     var marks = [], ranges = cm.listSelections();
     for (var i = 0; i < ranges.length; i++) {
-      var match = ranges[i].empty() && findMatchingBracket(cm, ranges[i].head, false, config);
+      var match = ranges[i].empty() && findMatchingBracket(cm, ranges[i].head, config);
       if (match && cm.getLine(match.from.line).length <= maxHighlightLen) {
         var style = match.match ? "CodeMirror-matchingbracket" : "CodeMirror-nonmatchingbracket";
         marks.push(cm.markText(match.from, Pos(match.from.line, match.from.ch + 1), {className: style}));
@@ -652,8 +661,17 @@
   });
 
   CodeMirror.defineExtension("matchBrackets", function() {matchBrackets(this, true);});
-  CodeMirror.defineExtension("findMatchingBracket", function(pos, strict, config){
-    return findMatchingBracket(this, pos, strict, config);
+  CodeMirror.defineExtension("findMatchingBracket", function(pos, config, oldConfig){
+    // Backwards-compatibility kludge
+    if (oldConfig || typeof config == "boolean") {
+      if (!oldConfig) {
+        config = config ? {strict: true} : null
+      } else {
+        oldConfig.strict = config
+        config = oldConfig
+      }
+    }
+    return findMatchingBracket(this, pos, config)
   });
   CodeMirror.defineExtension("scanForBracket", function(pos, dir, style, config){
     return scanForBracket(this, pos, dir, style, config);
@@ -2142,11 +2160,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       cfg = cfg || {};
       var scope = cfg.scope;
       if (!option) {
-        throw Error('Unknown option: ' + name);
+        return new Error('Unknown option: ' + name);
       }
       if (option.type == 'boolean') {
         if (value && value !== true) {
-          throw Error('Invalid argument: ' + name + '=' + value);
+          return new Error('Invalid argument: ' + name + '=' + value);
         } else if (value !== false) {
           // Boolean options are set to true if value is not defined.
           value = true;
@@ -2174,7 +2192,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       cfg = cfg || {};
       var scope = cfg.scope;
       if (!option) {
-        throw Error('Unknown option: ' + name);
+        return new Error('Unknown option: ' + name);
       }
       if (option.callback) {
         var local = cm && option.callback(undefined, cm);
@@ -2717,9 +2735,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
     RegisterController.prototype = {
       pushText: function(registerName, operator, text, linewise, blockwise) {
-        if (linewise && text.charAt(0) == '\n') {
-          text = text.slice(1) + '\n';
-        }
         if (linewise && text.charAt(text.length - 1) !== '\n'){
           text += '\n';
         }
@@ -2841,7 +2856,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           }
         }
         if (bestMatch.keys.slice(-11) == '<character>') {
-          inputState.selectedCharacter = lastChar(keys);
+          var character = lastChar(keys);
+          if (!character) return {type: 'none'};
+          inputState.selectedCharacter = character;
         }
         return {type: 'full', command: bestMatch};
       },
@@ -3567,16 +3584,16 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var ch = cursor.ch;
         var lineText = cm.getLine(line);
         var symbol;
-        do {
-          symbol = lineText.charAt(ch++);
+        for (; ch < lineText.length; ch++) {
+          symbol = lineText.charAt(ch);
           if (symbol && isMatchableSymbol(symbol)) {
-            var style = cm.getTokenTypeAt(Pos(line, ch));
+            var style = cm.getTokenTypeAt(Pos(line, ch + 1));
             if (style !== "string" && style !== "comment") {
               break;
             }
           }
-        } while (symbol);
-        if (symbol) {
+        }
+        if (ch < lineText.length) {
           var matched = cm.findMatchingBracket(Pos(line, ch));
           return matched.to;
         } else {
@@ -3917,7 +3934,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       enterMacroRecordMode: function(cm, actionArgs) {
         var macroModeState = vimGlobalState.macroModeState;
         var registerName = actionArgs.selectedCharacter;
-        macroModeState.enterMacroRecordMode(cm, registerName);
+        if (vimGlobalState.registerController.isValidRegister(registerName)) {
+          macroModeState.enterMacroRecordMode(cm, registerName);
+        }
       },
       toggleOverwrite: function(cm) {
         if (!cm.state.overwrite) {
@@ -4435,7 +4454,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
     }
     function lastChar(keys) {
-      var match = /^.*(<[\w\-]+>)$/.exec(keys);
+      var match = /^.*(<[^>]+>)$/.exec(keys);
       var selectedCharacter = match ? match[1] : keys.slice(-1);
       if (selectedCharacter.length > 1){
         switch(selectedCharacter){
@@ -4446,6 +4465,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             selectedCharacter=' ';
             break;
           default:
+            selectedCharacter='';
             break;
         }
       }
@@ -6028,13 +6048,18 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // If no value is provided, then we assume this is a get.
         if (!optionIsBoolean && value === undefined || forceGet) {
           var oldValue = getOption(optionName, cm, setCfg);
-          if (oldValue === true || oldValue === false) {
+          if (oldValue instanceof Error) {
+            showConfirm(cm, oldValue.message);
+          } else if (oldValue === true || oldValue === false) {
             showConfirm(cm, ' ' + (oldValue ? '' : 'no') + optionName);
           } else {
             showConfirm(cm, '  ' + optionName + '=' + oldValue);
           }
         } else {
-          setOption(optionName, value, cm, setCfg);
+          var setOptionReturn = setOption(optionName, value, cm, setCfg);
+          if (setOptionReturn instanceof Error) {
+            showConfirm(cm, setOptionReturn.message);
+          }
         }
       },
       setlocal: function (cm, params) {
@@ -6233,6 +6258,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         if (tokens.length) {
           regexPart = tokens[0];
           replacePart = tokens[1];
+          if (regexPart && regexPart[regexPart.length - 1] === '$') {
+            regexPart = regexPart.slice(0, regexPart.length - 1) + '\\n';
+            replacePart = replacePart ? replacePart + '\n' : '\n';
+          }
           if (replacePart !== undefined) {
             if (getOption('pcre')) {
               replacePart = unescapeRegexReplace(replacePart);
@@ -6652,7 +6681,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
      * Listens for changes made in insert mode.
      * Should only be active in insert mode.
      */
-    function onChange(_cm, changeObj) {
+    function onChange(cm, changeObj) {
       var macroModeState = vimGlobalState.macroModeState;
       var lastChange = macroModeState.lastInsertModeChanges;
       if (!macroModeState.isPlaying) {
@@ -6665,7 +6694,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               lastChange.changes = [];
               lastChange.maybeReset = false;
             }
-            lastChange.changes.push(text);
+            if (cm.state.overwrite && !/\n/.test(text)) {
+                lastChange.changes.push([text]);
+            } else {
+                lastChange.changes.push(text);
+            }
           }
           // Change objects may be chained with next.
           changeObj = changeObj.next;
@@ -6847,9 +6880,13 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           var change = changes[j];
           if (change instanceof InsertModeKey) {
             CodeMirror.lookupKey(change.keyName, 'vim-insert', keyHandler);
-          } else {
+          } else if (typeof change == "string") {
             var cur = cm.getCursor();
             cm.replaceRange(change, cur, cur);
+          } else {
+            var start = cm.getCursor();
+            var end = offsetCursor(start, 0, change[0].length);
+            cm.replaceRange(change[0], start, end);
           }
         }
       }
