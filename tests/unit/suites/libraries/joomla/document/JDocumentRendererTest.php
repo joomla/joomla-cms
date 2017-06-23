@@ -52,8 +52,7 @@ class JDocumentRendererTest extends \PHPUnit\Framework\TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->object);
+		unset($this->backupServer, $this->object);
 		parent::tearDown();
 	}
 

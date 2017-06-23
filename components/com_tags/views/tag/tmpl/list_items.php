@@ -46,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</fieldset>
 	<?php endif; ?>
 
-	<?php if ($this->items == false || $n == 0) : ?>
+	<?php if ($this->items === false || $n === 0) : ?>
 		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="category table table-striped table-bordered table-hover">
@@ -58,11 +58,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</th>
 					<?php if ($date = $this->params->get('tag_list_show_date')) : ?>
 						<th id="categorylist_header_date">
-							<?php if ($date == 'created') : ?>
+							<?php if ($date === 'created') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
-							<?php elseif ($date == 'modified') : ?>
+							<?php elseif ($date === 'modified') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
-							<?php elseif ($date == 'published') : ?>
+							<?php elseif ($date === 'published') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
 							<?php endif; ?>
 						</th>

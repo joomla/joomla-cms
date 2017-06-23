@@ -530,7 +530,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Add the default fields directory
-		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
@@ -592,7 +592,7 @@ class ModulesModelModule extends JModelAdmin
 		$app = JFactory::getApplication();
 
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
+		$data = $app->getUserState('com_modules.edit.module.data', array());
 
 		if (empty($data))
 		{
@@ -853,8 +853,8 @@ class ModulesModelModule extends JModelAdmin
 				$helpKey = trim((string) $help[0]['key']);
 				$helpURL = trim((string) $help[0]['url']);
 
-				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+				$this->helpKey = $helpKey ?: $this->helpKey;
+				$this->helpURL = $helpURL ?: $this->helpURL;
 			}
 		}
 

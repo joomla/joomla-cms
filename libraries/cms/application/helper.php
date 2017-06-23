@@ -89,7 +89,7 @@ class JApplicationHelper
 		}
 		else
 		{
-			if ($language == '*' || $language == '')
+			if ($language === '*' || $language === '')
 			{
 				$languageParams = JComponentHelper::getParams('com_languages');
 				$language = $languageParams->get('site');
@@ -141,7 +141,7 @@ class JApplicationHelper
 		}
 
 		// If no client id has been passed return the whole array
-		if (is_null($id))
+		if ($id === null)
 		{
 			return self::$_clients;
 		}
@@ -255,7 +255,7 @@ class JApplicationHelper
 		 *
 		 * Should be 'metafile'.
 		 */
-		if ($xml->getName() != 'metafile')
+		if ($xml->getName() !== 'metafile')
 		{
 			unset($xml);
 
