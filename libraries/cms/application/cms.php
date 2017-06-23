@@ -463,7 +463,7 @@ class JApplicationCms extends JApplicationWeb
 	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if ($this->_messageQueue)
+		if (!$this->_messageQueue)
 		{
 			$session = JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
