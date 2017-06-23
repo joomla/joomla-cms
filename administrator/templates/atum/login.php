@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app  = JFactory::getApplication();
-$doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
@@ -46,9 +47,9 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
 // Set some meta data
-$doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
-$doc->setMetaData('theme-color', '#1c3d5c');
+$this->setMetaData('theme-color', '#1c3d5c');
 
 ?>
 <!DOCTYPE html>

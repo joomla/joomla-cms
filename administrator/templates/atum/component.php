@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $lang = JFactory::getLanguage();
-$doc  = JFactory::getDocument();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
