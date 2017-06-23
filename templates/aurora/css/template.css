@@ -8620,6 +8620,9 @@ legend {
   .header .site-description {
     font-size: 1rem;
     color: #fefefe; }
+  @media (max-width: 991px) {
+    .header .navbar {
+      display: block; } }
   .header .navbar-brand {
     position: relative;
     display: inline-block;
