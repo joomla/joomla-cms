@@ -23,8 +23,8 @@ class CryptoCipher implements CipherInterface
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string    $data  The encrypted string to decrypt.
-	 * @param   Key  $key   The key object to use for decryption.
+	 * @param   string  $data  The encrypted string to decrypt.
+	 * @param   Key     $key   The key object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
@@ -61,8 +61,8 @@ class CryptoCipher implements CipherInterface
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string    $data  The data string to encrypt.
-	 * @param   Key  $key   The key object to use for encryption.
+	 * @param   string  $data  The data string to encrypt.
+	 * @param   Key     $key   The key object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
