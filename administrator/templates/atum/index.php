@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$lang            = JFactory::getLanguage();
-$user            = JFactory::getUser();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
-$input           = $app->input;
+/** @var JDocumentHtml $this */
+
+$app   = JFactory::getApplication();
+$lang  = JFactory::getLanguage();
+$user  = JFactory::getUser();
+$input = $app->input;
 
 // Add JavaScript
 JHtml::_('bootstrap.framework');
@@ -55,9 +54,9 @@ $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Set some meta data
-$doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
-$doc->setMetaData('theme-color', '#1c3d5c');
+$this->setMetaData('theme-color', '#1c3d5c');
 
 ?>
 <!DOCTYPE html>
