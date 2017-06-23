@@ -21,6 +21,12 @@
     color: $white-offset;
   }
 
+  .navbar {
+    @include media-breakpoint-down(md) {
+      display: block;
+    }
+  }
+
   .navbar-brand {
     position: relative;
     display: inline-block;
@@ -89,6 +95,7 @@
 
   .navbar-toggler {
     color: $white-offset;
+    cursor: default;
     border: 1px solid $white-offset;
 
     .fa {

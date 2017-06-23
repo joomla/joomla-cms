@@ -8620,6 +8620,9 @@ legend {
   .header .site-description {
     font-size: 1rem;
     color: #fefefe; }
+  @media (max-width: 991px) {
+    .header .navbar {
+      display: block; } }
   .header .navbar-brand {
     position: relative;
     display: inline-block;
@@ -8666,6 +8669,7 @@ legend {
       text-decoration: none; }
   .header .navbar-toggler {
     color: #fefefe;
+    cursor: default;
     border: 1px solid #fefefe; }
     .header .navbar-toggler .fa {
       font-size: 24px; }

@@ -50,6 +50,12 @@ class ConfirmButton extends ToolbarButton
 		$options['msg']    = \JText::_($msg, true);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['msg'], $name, $task, $list);
+		$options['id']     = $this->fetchId('Confirm', $name);
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new FileLayout('joomla.toolbar.confirm');

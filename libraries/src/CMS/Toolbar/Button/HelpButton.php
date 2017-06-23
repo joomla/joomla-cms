@@ -45,6 +45,12 @@ class HelpButton extends ToolbarButton
 		$options = array();
 		$options['text']   = \JText::_('JTOOLBAR_HELP');
 		$options['doTask'] = $this->_getCommand($ref, $com, $override, $component);
+		$options['id']     = $this->fetchId();
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new FileLayout('joomla.toolbar.help');
