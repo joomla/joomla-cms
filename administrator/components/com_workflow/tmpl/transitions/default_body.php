@@ -25,10 +25,10 @@ $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 			<a href="<?php echo $link ?>"><?php echo $item->title; ?></a>
 		</td>
 		<td class="text-center">
-			<?php echo $item->from_status_id; ?>
+			<?php echo $item->from_status; ?>
 		</td>
 		<td class="text-center">
-			<?php echo $item->to_status_id; ?>
+			<?php echo $item->to_status; ?>
 		</td>
 		<td class="text-right">
 			<?php echo $item->id; ?>

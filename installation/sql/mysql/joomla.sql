@@ -2160,7 +2160,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_status` (
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `asset_id` int(10) NOT NULL,
+  `asset_id` int(10) DEFAULT NULL, # TODO replace with real value
   `description` text NOT NULL,
   `from_status_id` int(10) NOT NULL,
   `to_status_id` int(10) NOT NULL,
