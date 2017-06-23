@@ -18,8 +18,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
 
-\JLoader::import('joomla.updater.updateadapter');
-
 /**
  * Collection Update Adapter Class
  *

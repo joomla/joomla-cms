@@ -19,8 +19,6 @@ use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
 
-\JLoader::import('joomla.updater.updateadapter');
-
 /**
  * Extension class for updater
  *
