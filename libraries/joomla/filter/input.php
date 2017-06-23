@@ -318,12 +318,12 @@ class JFilterInput extends InputFilter
 					// Iterate through the array
 					foreach ($source as $eachString)
 					{
-						$result[] = (string) $this->remove($this->decode((string) $eachString));
+						$result[] = (string) $this->remove($this->decode((string) $eachString), true);
 					}
 				}
 				else
 				{
-					$result = (string) $this->remove($this->decode((string) $source));
+					$result = (string) $this->remove($this->decode((string) $source), true);
 				}
 
 				break;
@@ -761,34 +761,41 @@ class JFilterInput extends InputFilter
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @param   string  $source  Input string to be 'cleaned'
+	 * @param   string   $source        Input string to be 'cleaned'
+	 * @param   boolean  $stripAllTags  If true then remove all html tags.
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
 	 * @since       11.1
 	 * @deprecated  4.0 Use JFilterInput::remove() instead
 	 */
-	protected function _remove($source)
+	protected function _remove($source, $stripAllTags = false)
 	{
-		return $this->remove($source);
+		return $this->remove($source, $stripAllTags);
 	}
 
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @param   string  $source  Input string to be 'cleaned'
+	 * @param   string   $source        Input string to be 'cleaned'
+	 * @param   boolean  $stripAllTags  If true then remove all html tags.
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
 	 * @since   3.5
 	 */
-	protected function remove($source)
+	protected function remove($source, $stripAllTags = false)
 	{
 		// Check for invalid UTF-8 byte sequence
 		if (!preg_match('//u', $source))
 		{
 			// String contains invalid byte sequence, remove it
 			$source = htmlspecialchars_decode(htmlspecialchars($source, ENT_IGNORE, 'UTF-8'));
+		}
+
+		if ($stripAllTags)
+		{
+			return strip_tags($source);
 		}
 
 		// Iteration provides nested tag protection
@@ -844,13 +851,13 @@ class JFilterInput extends InputFilter
 
 		while ($offset < $length)
 		{
-			// Remove every '>' character which exists before related '<'
+			// Escape '>' character which exists before related '<'
 			if ($tagOpenEndOffset !== false && ($tagOpenStartOffset === false || $tagOpenEndOffset < $tagOpenStartOffset))
 			{
-				$result .= substr($source, $offset, $tagOpenEndOffset - $offset);
+				$result .= substr($source, $offset, $tagOpenEndOffset - $offset) . '&gt;';
 				$offset  = $tagOpenEndOffset + 1;
 
-				// Search for new close tag
+				// Search for a new close tag
 				$tagOpenEndOffset = strpos($source, '>', $offset);
 
 				continue;
@@ -863,17 +870,6 @@ class JFilterInput extends InputFilter
 				$offset  = $tagOpenStartOffset;
 			}
 
-			// Remove every '<' character if '>' does not exists or we have '<>'
-			if ($tagOpenStartOffset !== false && $tagOpenEndOffset === false || $tagOpenStartOffset + 1 == $tagOpenEndOffset)
-			{
-				$offset++;
-
-				// Search for new open tag
-				$tagOpenStartOffset = strpos($source, '<', $offset);
-
-				continue;
-			}
-
 			// There is no more tags
 			if ($tagOpenStartOffset === false && $tagOpenEndOffset === false)
 			{
@@ -883,13 +879,54 @@ class JFilterInput extends InputFilter
 				break;
 			}
 
+			// Escape every '<' character if '>' does not exists
+			if ($tagOpenStartOffset !== false && $tagOpenEndOffset === false)
+			{
+				$result .= substr($source, $offset, $tagOpenStartOffset - $offset) . '&lt;';
+				$offset  = $tagOpenStartOffset + 1;
+
+				// Search for a new open tag
+				$tagOpenStartOffset = strpos($source, '<', $offset);
+
+				continue;
+			}
+
+			// Is this the end of text or do we have a whitespace after '<'?
+			if ($tagOpenStartOffset + 1 === $length || ctype_space($source[$tagOpenStartOffset + 1]))
+			{
+				// At this point this is not html tag indicator.
+				$result .= substr($source, $offset, $tagOpenStartOffset - $offset) . '&lt;';
+				$offset  = $tagOpenStartOffset + 1;
+
+				// Search for a new open tag position
+				$tagOpenStartOffset = strpos($source, '<', $offset);
+
+				continue;
+			}
+
+			// Check if we have only indicators <>.
+			if ($tagOpenStartOffset + 1 === $tagOpenEndOffset)
+			{
+				$result .= substr($source, $offset, $tagOpenStartOffset - $offset) . '&lt;&gt;';
+				$offset  = $tagOpenStartOffset + 2;
+
+				// Search for a new open tag position
+				$tagOpenStartOffset = strpos($source, '<', $offset);
+
+				// Search for a new close tag
+				$tagOpenEndOffset = strpos($source, '>', $offset);
+
+				continue;
+			}
+
 			// Check for mal-formed tag where we have a second '<' before the '>'
 			$nextOpenStartOffset = strpos($source, '<', $tagOpenStartOffset + 1);
 
 			if ($nextOpenStartOffset !== false && $nextOpenStartOffset < $tagOpenEndOffset)
 			{
-				// At this point we have a mal-formed tag, skip previous '<'
-				$offset++;
+				// At this point we have a mal-formed tag, escape previous '<'
+				$result .= substr($source, $offset, $tagOpenStartOffset - $offset) . '&lt;';
+				$offset  = $tagOpenStartOffset + 1;
 
 				// Set a new open tag position
 				$tagOpenStartOffset = $nextOpenStartOffset;
@@ -1199,7 +1236,7 @@ class JFilterInput extends InputFilter
 		// Convert hex
 		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m)
 		{
-			return utf8_encode(chr('0x' . $m[1]));
+			return utf8_encode(chr(hexdec($m[1])));
 		}, $source
 		);
 

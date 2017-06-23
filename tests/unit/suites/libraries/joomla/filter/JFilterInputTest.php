@@ -290,6 +290,30 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				array(true, false, true, false, true, false, false),
 				'From generic cases'
 			),
+			'string1' => array(
+				'string',
+				'string>passed>ok',
+				'string>passed>ok',
+				'From generic cases'
+			),
+			'string2' => array(
+				'string',
+				'string<passed<ok',
+				'string',
+				'From generic cases'
+			),
+			'string3' => array(
+				'string',
+				'string<>number',
+				'stringnumber',
+				'From generic cases'
+			),
+			'string4' => array(
+				'string',
+				'string><number',
+				'string>',
+				'From generic cases'
+			),
 			'word_01' => array(
 				'word',
 				$input,
@@ -551,9 +575,46 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'tag_01' => array(
 				'',
 				'<em',
-				'em',
+				'&lt;em',
 				'From generic cases'
 			),
+			'tag_02' => array(
+				'',
+				'em>',
+				'em&gt;',
+				'From generic cases'
+			),
+			'tag_03' => array(
+				'',
+				'<>',
+				'&lt;&gt;',
+				'From generic cases'
+			),
+			'tag_04' => array(
+				'',
+				'< >',
+				'&lt; &gt;',
+				'From generic cases'
+			),
+			'tag_05' => array(
+				'',
+				'<< >>',
+				'&lt;&lt; &gt;&gt;',
+				'From generic cases'
+			),
+			'tag_06' => array(
+				'',
+				'a << b',
+				'a &lt;&lt; b',
+				'From generic cases'
+			),
+			'tag_07' => array(
+				'',
+				'a<<b',
+				'a&lt;&lt;b',
+				'From generic cases'
+			),
+
 			'Kill script' => array(
 				'',
 				'<img src="javascript:alert();" />',
@@ -575,7 +636,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
-				'<em>strongFred</strong></em>',
+				'<em>&lt;strongFred</strong></em>',
 				'From generic cases'
 			),
 			'Unquoted Attribute Without Space' => array(
@@ -627,15 +688,15 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'From generic cases'
 			),
 			'tracker9725' => array(
-				'string',
+				'',
 				'<img class="one two" />',
 				'<img class="one two" />',
 				'Test for recursion with single tags - From generic cases'
 			),
 			'missing_quote' => array(
-				'string',
+				'',
 				'<img height="123 />',
-				'img height="123 /&gt;"',
+				'&lt;img height="123 /&gt;"',
 				'From generic cases'
 			),
 		);
@@ -718,7 +779,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
-				'strongFred',
+				'&lt;strongFred',
 				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
@@ -765,14 +826,14 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
-				'string',
+				'',
 				'<img class="one two" />',
 				'',
 				'From specific cases'
 			),
 			'tracker24258' => array(
 				// Test for recursion on attributes
-				'string',
+				'',
 				'<scrip &nbsp; t>alert(\'test\');</scrip t>',
 				'alert(\'test\');',
 				'From generic cases'
@@ -843,7 +904,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
-				'strongFred',
+				'&lt;strongFred',
 				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
@@ -890,37 +951,37 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
-				'string',
+				'',
 				'<img class="one two" />',
 				'<img />',
 				'From specific cases'
 			),
 			'security_20110329a' => array(
-				'string',
+				'',
 				"<img src='<img src='///'/> ",
 				'<img /> ',
 				'From specific cases'
 			),
 			'security_20110329b' => array(
-				'string',
+				'',
 				$security20110329bString,
 				'<img /> ',
 				'From specific cases'
 			),
 			'hanging_quote' => array(
-				'string',
+				'',
 				"<img src=\' />",
 				'<img />',
 				'From specific cases'
 			),
 			'hanging_quote2' => array(
-				'string',
+				'',
 				'<img src slkdjls " this is "more " stuff',
-				'img src slkdjls " this is "more " stuff',
+				'&lt;img src slkdjls " this is "more " stuff',
 				'From specific cases'
 			),
 			'hanging_quote3' => array(
-				'string',
+				'',
 				"<img src=\"\'\" />",
 				'<img />',
 				'From specific cases'
@@ -987,7 +1048,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
-				'strongFred',
+				'&lt;strongFred',
 				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
@@ -1034,7 +1095,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
-				'string',
+				'',
 				'<img class="one two" />',
 				'',
 				'From specific cases'
@@ -1101,7 +1162,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
-				'strongFred',
+				'&lt;strongFred',
 				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
@@ -1148,14 +1209,14 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
-				'string',
+				'',
 				'<img class="one two" />',
 				'<img class="one two" />',
 				'From specific cases'
 			),
 			'class with no =' => array(
 				// Test for recursion with single tags
-				'string',
+				'',
 				'<img class />',
 				'<img />',
 				'From specific cases'
@@ -1219,13 +1280,13 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'security_tracker_24802_b' => array(
 				'',
 				'<img src="<img src=x"/onerror=alert(1)"//>"',
-				'img src="&lt;img src=x&quot;/onerror=alert(1)&quot;//&gt;"',
+				'&lt;img src="&lt;img src=x&quot;/onerror=alert(1)&quot;//&gt;"',
 				'From specific cases'
 			),
 			'security_tracker_24802_c' => array(
 				'',
 				'<img src="<img src=x"/onerror=alert(1)"//>',
-				'img src="&lt;img src=x&quot;/onerror=alert(1)&quot;//&gt;"',
+				'&lt;img src="&lt;img src=x&quot;/onerror=alert(1)&quot;//&gt;"',
 				'From specific cases'
 			),
 			'security_tracker_24802_d' => array(
@@ -1237,134 +1298,140 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'security_tracker_24802_e' => array(
 				'',
 				'<img src=<img src=x"/onerror=alert(1)//">',
-				'img src=<img src="x/onerror=alert(1)//" />',
+				'&lt;img src=<img src="x/onerror=alert(1)//" />',
 				'From specific cases'
 			),
 			'empty_alt' => array(
-				'string',
+				'',
 				'<img alt="" src="my_source" />',
 				'<img alt="" src="my_source" />',
 				'Test empty alt attribute'
 			),
 			'disabled_no_equals_a' => array(
-				'string',
+				'',
 				'<img disabled src="my_source" />',
 				'<img src="my_source" />',
 				'Test empty alt attribute'
 			),
 			'disabled_no_equals_b' => array(
-				'string',
+				'',
 				'<img alt="" disabled src="aaa" />',
 				'<img alt="" src="aaa" />',
 				'Test empty alt attribute'
 			),
 			'disabled_no_equals_c' => array(
-				'string',
+				'',
 				'<img disabled />',
 				'<img />',
 				'Test empty alt attribute'
 			),
 			'disabled_no_equals_d' => array(
-				'string',
+				'',
 				'<img height="300" disabled />',
 				'<img height="300" />',
 				'Test empty alt attribute'
 			),
 			'disabled_no_equals_e' => array(
-				'string',
+				'',
 				'<img height disabled />',
 				'<img />',
 				'Test empty alt attribute'
 			),
 			'test_nested' => array(
-				'string',
+				'',
 				'<img src="<img src=x"/onerror=alert(1)//>" />',
 				'<img src="&lt;img src=x&quot;/onerror=alert(1)//&gt;" />',
 				'Test empty alt attribute'
 			),
 			'infinte_loop_a' => array(
-				'string',
+				'',
 				'<img src="x" height = "zzz" />',
 				'<img src="x" height="zzz" />',
 				'Test empty alt attribute'
 			),
 			'infinte_loop_b' => array(
-				'string',
+				'',
 				'<img src = "xxx" height = "zzz" />',
 				'<img src="xxx" height="zzz" />',
 				'Test empty alt attribute'
 			),
 			'infinte_loop_c' => array(
-				'string',
+				'',
 				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
 				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
 				'Test correct position of close quote in UTF-8 value'
 			),
 			'quotes_in_text' => array(
-				'string',
+				'',
 				$quotesInText1,
 				$quotesInText2,
 				'Test valid nested tag'
 			),
 			'normal_nested' => array(
-				'string',
+				'',
 				$normalNested1,
 				$normalNested2,
 				'Test valid nested tag'
 			),
 			'hanging_quote' => array(
-				'string',
+				'',
 				"<img src=\' />",
 				'<img src="" />',
 				'From specific cases'
 			),
 			'hanging_quote2' => array(
-				'string',
+				'',
 				'<img src slkdjls " this is "more " stuff',
-				'img src slkdjls " this is "more " stuff',
+				'&lt;img src slkdjls " this is "more " stuff',
 				'From specific cases'
 			),
 			'hanging_quote3' => array(
-				'string',
+				'',
 				"<img src=\"\' />",
-				'img src="\\\' /&gt;"',
+				'&lt;img src="\\\' /&gt;"',
 				'From specific cases'
 			),
 			'tracker25558a' => array(
-				'string',
+				'',
 				'<SCRIPT SRC=http://jeffchannell.com/evil.js#<B />',
-				'SCRIPT SRC=http://jeffchannell.com/evil.js#<B />',
+				'&lt;SCRIPT SRC=http://jeffchannell.com/evil.js#<B />',
 				'Test mal-formed element from 25558a'
 			),
 			'tracker25558b' => array(
-				'string',
+				'',
 				'<IMG STYLE="xss:expression(alert(\'XSS\'))" />',
 				'<IMG STYLE="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558c' => array(
-				'string',
+				'',
 				'<IMG STYLE="xss:expr/*XSS*/ession(alert(\'XSS\'))" />',
 				'<IMG STYLE="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558d' => array(
-				'string',
+				'',
 				'<IMG STYLE="xss:expr/*XSS*/ess/*another comment*/ion(alert(\'XSS\'))" />',
 				'<IMG STYLE="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558e' => array(
-				'string',
+				'',
 				'<b><script<b></b><alert(1)</script </b>',
-				'<b>script<b></b>alert(1)/script </b>',
+				'<b>&lt;script<b></b>&lt;alert(1)&lt;/script </b>',
 				'Test mal-formed element from 25558e'
 			),
 			'security_20110329a' => array(
-				'string',
+				'',
 				"<img src='<img src='///'/> ",
 				"<img src=\"'&lt;img\" src=\"'///'/\" /> ",
 				'From specific cases'
+			),
+			'decode_01' => array(
+				'',
+				'<div&#x003e;Hello &quot;Joomla&quot;&#60;/div>',
+				'<div>Hello "Joomla"</div>',
+				'Generic test case for decode string with HTML cleaning'
 			),
 			'html_01' => array(
 				'html',
@@ -1379,13 +1446,13 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'Generic test case for HTML cleaning'
 			),
 			'tracker26439a' => array(
-				'string',
+				'',
 				'<p>equals quote =" inside valid tag</p>',
 				'<p>equals quote =" inside valid tag</p>',
 				'Test quote equals inside valid tag'
 			),
 			'tracker26439b' => array(
-				'string',
+				'',
 				"<p>equals quote =' inside valid tag</p>",
 				"<p>equals quote =' inside valid tag</p>",
 				'Test single quote equals inside valid tag'
@@ -1486,13 +1553,13 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
-				'string',
+				'',
 				'<img class="one two" />',
 				'',
 				'From specific cases'
 			),
 			'security_20110328' => array(
-				'string',
+				'',
 				$security20110328String,
 				' ',
 				'From specific cases'
@@ -1540,7 +1607,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 		$casesSpecific = array(
 			'tracker9725' => array(
 				// Test for recursion with single tags
-				'string',
+				'',
 				'<img class="one two" />',
 				'<img />',
 				'From specific cases'
@@ -1558,7 +1625,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'From generic cases'
 			),
 			'tracker15673a' => array(
-				'string',
+				'',
 				'<ul>
 <li><a href="../">презентация</a>)</li>
 <li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
@@ -1570,7 +1637,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'From generic cases'
 			),
 			'tracker15673b' => array(
-				'string',
+				'',
 				'<h3>Инженеры</h3>
 <ul>
 <li>Агасиев Т.А. "Программная система для автоматизированной настройки параметров алгоритмов оптимизации"<br />(<a class="text" href="/pub/diplom_labors/2016/2016_Agasiev_T_rpz.pdf" target="_blank" rel="noopener noreferrer">диплом</a>, <a style="color: maroon;" href="/pub/diplom_labors/2016/2016_Agasiev_T_prezentation.pdf" target="_blank" rel="noopener noreferrer">презентация</a>)</li>
@@ -1688,7 +1755,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'From generic cases'
 			),
 			'tracker15673g' => array(
-				'string',
+				'',
 				'<a rel="new" href="#"></a>',
 				'<a rel="new" href="#"></a>',
 				'From generic cases'
@@ -1700,19 +1767,19 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'From generic cases'
 			),
 			'tracker15673i' => array(
-				'string',
+				'',
 				'<hr id="system-readmore" />',
 				'<hr id="system-readmore" />',
 				'From generic cases'
 			),
 			'tracker15673j' => array(
-				'string',
+				'',
 				'<p style="text-align: justify;"><strong>Nafta nebo baterie? Za nás jednoznačně to druhé. Před pár dny jsme si vyzvedli nový elektromobil. Nyní jej testujeme a zatím můžeme říct jedno - pozor, toto vozítko je vysoce návykové!</strong></p>',
 				'<p style="text-align: justify;"><strong>Nafta nebo baterie? Za nás jednoznačně to druhé. Před pár dny jsme si vyzvedli nový elektromobil. Nyní jej testujeme a zatím můžeme říct jedno - pozor, toto vozítko je vysoce návykové!</strong></p>',
 				'From generic cases'
 			),
 			'tracker15673k' => array(
-				'string',
+				'',
 				'<p style="text-align: justify;"><a href="http://www.example.com" target="_blank" rel="noopener noreferrer">Auta.</a> </p>',
 				'<p style="text-align: justify;"><a href="http://www.example.com" target="_blank" rel="noopener noreferrer">Auta.</a> </p>',
 				'From generic cases'
