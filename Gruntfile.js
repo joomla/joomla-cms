@@ -216,9 +216,6 @@ module.exports = function(grunt) {
 			options: {
 				config: 'scss-lint.yml',
 				reporterOutput: 'scss-lint-report.xml',
-				exclude: [
-					'<%= folder.siteTemplate %>/scss/blocks/_css-grid.scss',
-				]
 			}
 		},
 
