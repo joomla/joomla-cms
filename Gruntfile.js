@@ -215,7 +215,10 @@ module.exports = function(grunt) {
 			],
 			options: {
 				config: 'scss-lint.yml',
-				reporterOutput: 'scss-lint-report.xml'
+				reporterOutput: 'scss-lint-report.xml',
+				exclude: [
+					'<%= folder.siteTemplate %>/scss/blocks/_css-grid.scss',
+				]
 			}
 		},
 
@@ -470,7 +473,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('compile', 'Compiles the stylesheet files.', function() {
 		grunt.task.run([
 			'uglify:templates',
-			// 'scsslint',
+			'scsslint',
 			'sass:dist',
 			'postcss',
 			'cssmin:adminTemplate',

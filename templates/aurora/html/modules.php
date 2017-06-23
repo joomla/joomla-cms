@@ -36,7 +36,6 @@ function modChrome_no($module, &$params, &$attribs)
 
 function modChrome_default($module, &$params, &$attribs)
 {
-	// var_dump($module);
 	$modulePos	   = $module->position;
 	$moduleTag     = $params->get('module_tag', 'div');
 	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));

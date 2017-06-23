@@ -2,6 +2,8 @@ fail_on_violations: true
 
 scss:
   config_file: .scss-lint.yml
+  exclude:
+    - "templates/aurora/scss/blocks/_css-grid.scss"
 
 jshint:
   enabled: false
