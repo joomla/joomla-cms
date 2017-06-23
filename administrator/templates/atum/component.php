@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
 
-// Output as HTML5
-$this->setHtml5(true);
-
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
