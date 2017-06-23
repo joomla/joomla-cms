@@ -636,3 +636,4 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 class JInstallerTemplate extends JInstallerAdapterTemplate
 {
 }
+
