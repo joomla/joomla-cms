@@ -24,10 +24,10 @@ $extraFields     = $displayData->get('extra_fields') ?: array();
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
 
 // These are required to preserve data on save when fields are not displayed.
-$hiddenFieldsets = $displayData->hiddenFieldsets ?: array();
+$hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: array();
 
 // These are required to configure showing and hiding fields in the editor.
-$configFieldsets = $displayData->configFieldsets ?: array();
+$configFieldsets = $displayData->get('configFieldsets') ?: array();
 
 // Handle the hidden fieldsets when show_options is set false
 if (!$displayData->get('show_options', 1))
