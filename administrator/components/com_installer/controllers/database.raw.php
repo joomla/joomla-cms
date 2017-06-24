@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class InstallerControllerDatabase extends JControllerLegacy
 {
 	/**
-	 * Tries to make a full database dump
+	 * Generate a full database dump
 	 *
 	 * @return  void
 	 *
@@ -30,17 +30,43 @@ class InstallerControllerDatabase extends JControllerLegacy
 			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		$hash = $this->input->get('hash');
+
 		$model = $this->getModel('database');
 
-		$host = JUri::getInstance()->getHost();
+		$result = $model->dump($hash);
 
-		$dump = $model->getDump();
+		echo (new JResponseJson($result));
+	}
+
+	public function zip()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$hash = $this->input->get('hash');
+
+		$model = $this->getModel('database');
+
+		$result = $model->zip($hash);
+
+		echo (new JResponseJson($result));
+	}
+
+	public function download()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$host = JUri::getInstance()->getHost();
 
 		JFactory::getApplication()->setHeader('Pragma', 'public')
 			->setHeader('Content-Type', 'application/zip')
 			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '-dump.zip')
 			->setHeader('Content-Length', strlen($dump));
-
-		echo $dump;
 	}
 }

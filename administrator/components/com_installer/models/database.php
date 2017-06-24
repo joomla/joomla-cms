@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -83,11 +84,13 @@ class InstallerModelDatabase extends InstallerModel
 	/**
 	 * Create a full database dump.
 	 *
+	 * @param   string  $hash  A unique hash to generate the dump in multiple steps
+	 *
 	 * @return string  The dump string
 	 *
 	 * @throws RuntimeException
 	 */
-	public function getDump()
+	public function dump($hash = '')
 	{
 		jimport('joomla.filesystem.path');
 		jimport('joomla.filesystem.file');
@@ -95,29 +98,88 @@ class InstallerModelDatabase extends InstallerModel
 		$app = JFactory::getApplication();
 		$now = JFactory::getDate();
 
-		$path = JPath::check($app->get('tmp_path', JPATH_ROOT . '/tmp'));
+		if (StringHelper::strlen($hash) != 20)
+		{
+			$hash = JUserHelper::genRandomPassword(20);
+		}
+
+		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
 
 		if (!is_writable($path))
 		{
 			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
 		}
 
-		$tables = $this->getDbo()->getTableList();
+		$file = JPath::check($path . '/' . $hash . '.php');
+
+		// Create the file with a die
+		if (!JFile::exists($file))
+		{
+			$this->prepareDump($hash);
+		}
+
+		$tables = (array) $app->getUserState('installer.dump.' . $hash . '.tables', array());
 
 		$list = $this->getDbo()->getTableCreate($tables);
 
-		// Holds the whole dump content
-		$dump = '';
+		$max_execute = ini_get('max_execution_time') / 2;
 
-		foreach ($list as $table => $command)
+		$handle = fopen($file, 'a+');
+
+		while ($max_execute > 1 && !empty($tables))
 		{
-			$dump .= $command . ";\n\n";
+			$starttime = microtime(1);
+
+			if (!$app->getUserState('installer.dump.' . $hash . '.current'))
+			{
+				$table = reset($tables);
+
+				$create = $list[$table];
+
+				$app->setUserState('installer.dump.' . $hash . '.current', $table);
+
+				$command = "\n\n" . $create . ';';
+
+				fwrite($handle, $command);
+
+				$query = $this->getDbo()->getQuery(true);
+
+				$query->select('COUNT(*)')->from($query->qn($table));
+
+				$num_rows = (int) $this->getDbo()->setQuery($query)->loadResult();
+
+				$app->setUserState('installer.dump.' . $hash . '.max_rows', $num_rows);
+				$app->setUserState('installer.dump.' . $hash . '.cur_rows', 0);
+
+				$endtime = microtime(1);
+
+				$max_execute -= ceil($endtime - $starttime);
+
+				continue;
+			}
+			// All rows loaded, get the next table
+			elseif ((int) $app->getUserState('installer.dump.' . $hash . '.cur_rows') >= (int) $app->getUserState('installer.dump.' . $hash . '.max_rows'))
+			{
+				$app->setUserState('installer.dump.' . $hash . '.current', '');
+
+				array_shift($tables);
+
+				$app->setUserState('installer.dump.' . $hash . '.tables', $tables);
+
+				continue;
+			}
+
+			$table = $app->getUserState('installer.dump.' . $hash . '.current');
+			$cur_rows = (int) $app->getUserState('installer.dump.' . $hash . '.cur_rows');
+			$max_rows = (int) $app->getUserState('installer.dump.' . $hash . '.max_rows');
 
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select('*')->from($query->quoteName($table));
+			$query->select('*')->from($query->quoteName($table))->setLimit(100, $cur_rows);
 
 			$rows = $this->getDbo()->setQuery($query)->loadAssocList();
+
+			$app->setUserState('installer.dump.' . $hash . '.cur_rows', $cur_rows + 100);
 
 			if (!empty($rows))
 			{
@@ -134,40 +196,67 @@ class InstallerModelDatabase extends InstallerModel
 					$query->values(implode(',', $query->quote($row)));
 				}
 
-				$dump .= (string) $query . ";\n\n";
+				$command = "\n\n" . (string) $query . ';';
+
+				fwrite($handle, $command);
 			}
+
+			$endtime = microtime(1);
+
+			$max_execute -= ceil($endtime - $starttime);
 		}
 
-		// Try to zip the dumpand return it
-		$zip = JArchive::getAdapter('zip');
+		$result = array(
+			'hash' => $hash,
+			'finished' => !count($tables),
+			'percent' => 100 - round(count($tables) * 100 / $app->getUserState('installer.dump.' . $hash . '.num_tables'))
+		);
 
-		$file = array();
+		return $result;
+	}
 
-		$host = JUri::getInstance()->getHost();
+	public function zip($hash)
+	{
+		jimport('joomla.filesystem.path');
+		jimport('joomla.filesystem.file');
 
-		$file['name'] = JApplicationHelper::stringURLSafe($host) . '-' . JFilterOutput::stringURLSafe($now->toSql()) . '.sql';
-		$file['data'] = $dump;
-		$file['time'] = $now->toUnix();
+		$app = JFactory::getApplication();
+		$now = JFactory::getDate();
 
-		$filename = JUserHelper::genRandomPassword(20);
-
-		if (!$zip->create($path . '/' . $filename . '.zip', array($file)))
+		if (StringHelper::strlen($hash) != 20)
 		{
-			// Cleanup broken files
-			if (JFile::exists($path . '/' . $filename . '.zip'))
-			{
-				JFile::delete($path . '/' . $filename . '.zip');
-			}
-
-			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_ZIP_CREATION'), 500);
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		// Zip is created, so let's load the content and return it
-		$content = file_get_contents($path . '/' . $filename . '.zip');
+		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
 
-		JFile::delete($path . '/' . $filename . '.zip');
+		if (!is_writable($path))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
+		}
 
-		return $content;
+		$file = JPath::check($path . '/' . $hash . '.php');
+
+		if (!JFile::exists($file))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
+		}
+	}
+
+	protected function prepareDump($hash)
+	{
+		$app = JFactory::getApplication();
+
+		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
+
+		$file = JPath::check($path . '/' . $hash . '.php');
+
+		JFile::write($file, '-- <?php die; ?>');
+
+		$tables = $this->getDbo()->getTableList();
+
+		$app->setUserState('installer.dump.' . $hash . '.tables', $tables);
+		$app->setUserState('installer.dump.' . $hash . '.num_tables', count($tables));
 	}
 
 	/**

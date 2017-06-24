@@ -74,4 +74,13 @@ defined('_JEXEC') or die;
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>
+	<?php if ($this->canDo->get('core.admin')) :
+		$params = array(
+			'title' => JText::_('COM_INSTALLER_TOOLBAR_DATABASE_DUMP')
+		);
+
+		$body = $this->loadTemplate('modal');
+
+		echo JHtml::_('bootstrap.renderModal', 'installer-dump-modal', $params, $body);
+	endif; ?>
 </div>
