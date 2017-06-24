@@ -25,7 +25,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 		
 		if (self !== top) {
-			window.top.setTimeout('window.parent.location.reload()', 1000);
+			window.top.setTimeout('window.parent.location = \"index.php?option=com_redirect&view=links\"', 1000);
 			window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
 		}
 	};
