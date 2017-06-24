@@ -302,7 +302,8 @@ class InstallationModelConfiguration extends JModelBase
 				$db->quoteName('registerDate'),
 				$db->quoteName('lastvisitDate'),
 				$db->quoteName('activation'),
-				$db->quoteName('params')
+				$db->quoteName('params'),
+				$db->quoteName('lastResetTime')
 			);
 			$query->clear()
 				->insert('#__users', true)
@@ -311,7 +312,7 @@ class InstallationModelConfiguration extends JModelBase
 					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
-					$db->quote('0') . ', ' . $db->quote('')
+					$db->quote('0') . ', ' . $db->quote('') . ', ' . $db->quote($nullDate)
 				);
 		}
 
