@@ -6,20 +6,21 @@
 
 -- Step 1: If there is any user-defined menu and menu type "main" for the site
 -- (client_id = 0), then change the menu type for the menu, any module and the
--- menu type to something hopefully not being used yet.
+-- menu type to something very likely not being used yet and just within the
+-- max. length of 24 characters.
 UPDATE "#__menu"
-   SET "menutype" = 'main_is_reserved'
+   SET "menutype" = 'main_is_reserved_133C585'
  WHERE "client_id" = 0
    AND "menutype" = 'main'
    AND (SELECT COUNT("id") FROM "#__menu_types" WHERE "client_id" = 0 AND "menutype" = 'main') > 0;
 
 UPDATE "#__modules"
-   SET "params" = REPLACE("params",'"menutype":"main"','"menutype":"main_is_reserved"')
+   SET "params" = REPLACE("params",'"menutype":"main"','"menutype":"main_is_reserved_133C585"')
  WHERE "client_id" = 0
    AND (SELECT COUNT("id") FROM "#__menu_types" WHERE "client_id" = 0 AND "menutype" = 'main') > 0;
 
 UPDATE "#__menu_types"
-   SET "menutype" = 'main_is_reserved'
+   SET "menutype" = 'main_is_reserved_133C585'
  WHERE "client_id" = 0 
    AND "menutype" = 'main';
 
