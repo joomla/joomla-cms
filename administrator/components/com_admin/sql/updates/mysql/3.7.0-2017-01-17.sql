@@ -55,4 +55,4 @@ UPDATE `#__menu`
 -- for the admin, for which we changed the menutype of the menu items in step 3.
 DELETE FROM `#__menu_types`
  WHERE `client_id` = 1
-   AND `menutype` = IN ('main', 'menu');
+   AND `menutype` IN ('main', 'menu');
