@@ -74,7 +74,7 @@ class RedirectViewLinks extends JViewLegacy
 				'link',
 				'#plugin' . $this->redirectPluginId . 'Modal',
 				JText::_('COM_REDIRECT_SYSTEM_PLUGIN'),
-				'role="button" class="label alert-link" data-toggle="modal" title="' . JText::_('COM_REDIRECT_SYSTEM_PLUGIN') . '" id="title-' . $this->redirectPluginId . '"'
+				'role="button" class="alert-link" data-toggle="modal" title="' . JText::_('COM_REDIRECT_SYSTEM_PLUGIN') . '" id="title-' . $this->redirectPluginId . '"'
 			);
 
 			if ($this->enabled && !$this->collect_urls_enabled)
