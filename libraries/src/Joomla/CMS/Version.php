@@ -146,7 +146,7 @@ final class Version
 	 */
 	public function isInDevelopmentState()
 	{
-		return strtolower(self::DEV_STATUS) != 'stable';
+		return strtolower(self::DEV_STATUS) !== 'stable';
 	}
 
 	/**

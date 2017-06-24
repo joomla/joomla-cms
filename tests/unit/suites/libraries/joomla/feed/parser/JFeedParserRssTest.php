@@ -573,8 +573,7 @@ class JFeedParserRssTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->_instance);
-		unset($this->_reader);
+		unset($this->_instance, $this->_reader);
 
 		parent::tearDown();
 	}
