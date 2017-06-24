@@ -72,9 +72,23 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	 */
 	public function __construct(array $options)
 	{
+		/**
+		 * sql_mode to MySql 5.7.8+ default strict mode.
+		 *
+		 * @link https://dev.mysql.com/doc/relnotes/mysql/5.7/en/news-5-7-8.html#mysqld-5-7-8-sql-mode
+		 */
+		$sqlModes = [
+			'ONLY_FULL_GROUP_BY',
+			'STRICT_TRANS_TABLES',
+			'ERROR_FOR_DIVISION_BY_ZERO',
+			'NO_AUTO_CREATE_USER',
+			'NO_ENGINE_SUBSTITUTION',
+		];
+
 		// Get some basic values from the options.
-		$options['driver']	= 'mysql';
-		$options['charset'] = (isset($options['charset'])) ? $options['charset'] : 'utf8';
+		$options['driver']   = 'mysql';
+		$options['charset']  = isset($options['charset']) ? $options['charset'] : 'utf8';
+		$options['sqlModes'] = isset($options['sqlModes']) ? (array) $options['sqlModes'] : $sqlModes;
 
 		$this->charset = $options['charset'];
 
@@ -140,6 +154,12 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 				$this->options['charset'] = 'utf8';
 				parent::connect();
 			}
+		}
+
+		// If needed, set the sql modes.
+		if ($this->options['sqlModes'] !== [])
+		{
+			$this->connection->query('SET @@SESSION.sql_mode = \'' . implode(',', $this->options['sqlModes']) . '\';');
 		}
 
 		$this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
