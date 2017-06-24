@@ -50,15 +50,8 @@ UPDATE "#__menu"
 
 -- Step 5: For the standard admin menu items of menutype "main" there is no record
 -- in the menutype table on a clean Joomla installation. If there is one, it is a
--- mistake and it should be deleted, but here we rename it so the admin can see
--- it and delete it then. This is also to be done with menu type "menu" for the
--- admin which we renamed before in step 3.
-UPDATE "#__menu_types"
-   SET "menutype" = 'main_to_be_deleted'
+-- mistake and it should be deleted. This is also the case with menu type "menu"
+-- for the admin which we renamed before in step 3.
+DELETE FROM "#__menu_types"
  WHERE "client_id" = 1
-   AND "menutype" = 'main';
-
-UPDATE "#__menu_types"
-   SET "menutype" = 'menu_to_be_deleted'
- WHERE "client_id" = 1
-   AND "menutype" = 'menu';
+   AND "menutype" = IN ('main', 'menu');
