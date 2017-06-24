@@ -10,7 +10,7 @@
 /**
  * Install Joomla
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.3
  */
 class InstallCest
 {
@@ -19,7 +19,7 @@ class InstallCest
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */

@@ -689,8 +689,7 @@ class MenusModelItem extends JModelAdmin
 		{
 
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id !== (int) $this->getState('item.id')
-				|| MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && is_null($table->id))
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) 
 			{
 				$table->link = $link;
 			}

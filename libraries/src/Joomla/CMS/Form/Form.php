@@ -2205,7 +2205,7 @@ class Form
 
 			if (empty($data))
 			{
-				throw new \InvalidArgumentException(sprintf('Form::getInstance(name, *%s*)', gettype($data)));
+				throw new \InvalidArgumentException(sprintf('Form::getInstance(%s, *%s*)', $name, gettype($data)));
 			}
 
 			// Instantiate the form.
