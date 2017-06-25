@@ -132,8 +132,8 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 
 INSERT INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `description`, `client_id`) VALUES
 (1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0),
-(2, 0, 'usermenu', 'User Menu', 'A Menu for logged-in Users', 0),
-(3, 0, 'main', 'Admin Main Menu', 'The main menu for the backend', 1);
+(2, 0, 'main', 'Admin Main Menu', 'The main menu for the backend', 1),
+(3, 0, 'usermenu', 'User Menu', 'A Menu for logged-in Users', 0);
 
 --
 -- Dumping data for table `#__modules`
