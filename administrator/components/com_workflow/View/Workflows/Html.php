@@ -37,6 +37,13 @@ class Html extends HtmlView
 	protected $state;
 
 	/**
+	 * The pagination object
+	 *
+	 * @var  \JPagination
+	 */
+	protected $pagination;
+
+	/**
 	 * The HTML for displaying sidebar
 	 *
 	 * @var     string
@@ -63,6 +70,7 @@ class Html extends HtmlView
 
 		$this->state         = $this->get('State');
 		$this->workflows     = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 
 		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
