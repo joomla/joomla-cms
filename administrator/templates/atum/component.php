@@ -9,27 +9,22 @@
 
 defined('_JEXEC') or die;
 
-$lang = JFactory::getLanguage();
-$doc  = JFactory::getDocument();
+/** @var JDocumentHtml $this */
 
-// Output as HTML5
-$this->setHtml5(true);
+$lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 
-// Add Stylesheets
+// Load template CSS file
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
-// Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
+// Load custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
-
-// Load custom.css
-JHtml::_('stylesheet', 'custom.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'administrator/language/' . $this->language->getTag() . '/' . $this->language->getTag() . '.css', array('version' => 'auto'));
 ?>
 
 <!DOCTYPE html>

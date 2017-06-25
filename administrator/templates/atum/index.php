@@ -9,38 +9,26 @@
 
 defined('_JEXEC') or die;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$lang            = JFactory::getLanguage();
-$user            = JFactory::getUser();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
-$input           = $app->input;
+/** @var JDocumentHtml $this */
+
+$app   = JFactory::getApplication();
+$lang  = JFactory::getLanguage();
+$user  = JFactory::getUser();
+$input = $app->input;
 
 // Add JavaScript
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
-// Add Stylesheets
+// Load template CSS file
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
+
+// Load custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	JHtml::_('stylesheet', $languageCss, ['version' => 'auto']);
-}
-
-// Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
-
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	JHtml::_('stylesheet', $customCss, ['version' => 'auto']);
-}
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
@@ -55,9 +43,9 @@ $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Set some meta data
-$doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
-$doc->setMetaData('theme-color', '#1c3d5c');
+$this->setMetaData('theme-color', '#1c3d5c');
 
 ?>
 <!DOCTYPE html>

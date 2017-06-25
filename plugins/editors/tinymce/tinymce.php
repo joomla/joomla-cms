@@ -726,7 +726,6 @@ class PlgEditorTinymce extends JPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		$doc->addStyleDeclaration('.mce-in { padding: 5px 10px !important;}');
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
@@ -2067,7 +2066,6 @@ class PlgEditorTinymce extends JPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;

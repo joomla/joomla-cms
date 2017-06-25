@@ -22,7 +22,7 @@ $options = array(
 			'id'       => $this->referenceId,
 		);
 ?>
-<button id="toogle-left-panel" class="btn btn-sm"
+<button id="toogle-left-panel" class="btn btn-sm btn-secondary"
 		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
 		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>

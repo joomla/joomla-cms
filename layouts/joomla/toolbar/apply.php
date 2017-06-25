@@ -21,12 +21,13 @@ if (preg_match('/Joomla.submitbutton/', $displayData['doTask']))
 	JFactory::getDocument()->addScriptOptions('keySave', $options);
 }
 
+$id       = isset($displayData['id']) ? $displayData['id'] : '';
 $doTask   = $displayData['doTask'];
 $class    = $displayData['class'];
 $text     = $displayData['text'];
 $btnClass = $displayData['btnClass'];
 ?>
-<button onclick="<?php echo $doTask; ?>" class="<?php echo $btnClass; ?>">
+<button<?php echo $id; ?> onclick="<?php echo $doTask; ?>" class="<?php echo $btnClass; ?>">
 	<span class="<?php echo trim($class); ?>"></span>
 	<?php echo $text; ?>
 </button>
