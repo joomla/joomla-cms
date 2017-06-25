@@ -26,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php
 			if ($this->redirectPluginId)
 			{
-				$link = JRoute::_('index.php?option=com_plugins&amp;client_id=0&amp;task=plugin.edit&amp;extension_id=' . $this->redirectPluginId . '&amp;tmpl=component&amp;layout=modal');
+				$link = JRoute::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->redirectPluginId . '&tmpl=component&layout=modal');
 
 				echo JHtml::_(
 					'bootstrap.renderModal',
