@@ -13,22 +13,14 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', '.advancedSelect', null, array('disable_search_threshold' => 0 ));
 
-$app = JFactory::getApplication();
-$input = $app->input;
-
 // In case of modal
-$isModal = $input->get('layout') == 'modal' ? true : false;
+$isModal = $this->input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
-$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
-$workflowID = $input->getCmd('workflow_id');
-$fromStatusSql     = 'SELECT `id` AS `value`, `title` AS `from_status_id` FROM #__workflow_status WHERE workflow_id=' . $workflowID;
-$toStatusSql     = 'SELECT `id` AS `value`, `title` AS `to_status_id` FROM #__workflow_status WHERE workflow_id=' . $workflowID;
-$this->form->setFieldAttribute('from_status_id', 'query', $fromStatusSql);
-$this->form->setFieldAttribute('to_status_id', 'query', $toStatusSql);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transition&workflow_id=' . $workflowID . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transition&workflow_id=' . $this->workflowID . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -37,13 +29,30 @@ $this->form->setFieldAttribute('to_status_id', 'query', $toStatusSql);
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_WORKFLOW_BASIC_TAB') : JText::_('COM_WORKFLOW_EDIT_TAB')); ?>
 		<div class="row">
-			<div class="col-md-6">
-				<?php echo $this->form->renderField('description'); ?>
-			</div>
-			<div class="col-md-6">
-				<div class="card card-block card-light">
-					<?php echo $this->form->renderField('from_status_id'); ?>
-					<?php echo $this->form->renderField('to_status_id'); ?>
+			<div class="col-md-12">
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('description'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('description'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('from_status_id'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('from_status_id'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('to_status_id'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('to_status_id'); ?>
+					</div>
 				</div>
 			</div>
 		</div>

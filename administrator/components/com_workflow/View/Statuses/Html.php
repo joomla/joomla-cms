@@ -20,6 +20,29 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  */
 class Html extends HtmlView
 {
+	/**
+	 * An array of statuses
+	 *
+	 * @var     array
+	 * @since   4.0
+	 */
+	protected $statuses;
+
+	/**
+	 * The model state
+	 *
+	 * @var     object
+	 * @since   4.0
+	 */
+	protected $state;
+
+	/**
+	 * The HTML for displaying sidebar
+	 *
+	 * @var     string
+	 * @since   4.0
+	 */
+	protected $sidebar;
 
 	/**
 	 * Display the view
@@ -32,17 +55,18 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
 		$this->state         = $this->get('State');
 		$this->statuses      = $this->get('Items');
 
 		WorkflowHelper::addSubmenu("statuses." . $this->state->get("filter.workflow_id"));
 		$this->sidebar       = \JHtmlSidebar::render();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
-		}
 
 		$this->addToolbar();
 

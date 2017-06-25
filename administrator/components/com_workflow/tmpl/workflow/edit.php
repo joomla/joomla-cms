@@ -20,7 +20,6 @@ $input = $app->input;
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
-$this->form->setFieldAttribute('category_id', 'extension', 'com_content');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
@@ -32,17 +31,22 @@ $this->form->setFieldAttribute('category_id', 'extension', 'com_content');
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_WORKFLOW_BASIC_TAB') : JText::_('COM_WORKFLOW_EDIT_TAB')); ?>
 		<div class="row">
-			<div class="col-md-9">
-				<div class="row">
-					<div class="col-md-6">
-						<?php echo $this->form->renderField('description'); ?>
-						<?php echo $this->form->renderField('category_id'); ?>
+			<div class="col-md-12">
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('description'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('description'); ?>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php echo $this->form->renderField('default'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('default'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('default'); ?>
+					</div>
 				</div>
 			</div>
 		</div>

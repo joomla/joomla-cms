@@ -20,6 +20,29 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
  */
 class Html extends HtmlView
 {
+	/**
+	 * An array of workflows
+	 *
+	 * @var     array
+	 * @since   4.0
+	 */
+	protected $workflows;
+
+	/**
+	 * The model state
+	 *
+	 * @var     object
+	 * @since   4.0
+	 */
+	protected $state;
+
+	/**
+	 * The HTML for displaying sidebar
+	 *
+	 * @var     string
+	 * @since   4.0
+	 */
+	protected $sidebar;
 
 	/**
 	 * Display the view
@@ -32,17 +55,18 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
 		$this->state         = $this->get('State');
 		$this->workflows     = $this->get('Items');
 
 		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
-		}
 
 		$this->addToolbar();
 

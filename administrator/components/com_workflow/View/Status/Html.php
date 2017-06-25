@@ -19,9 +19,20 @@ use Joomla\CMS\View\HtmlView;
  */
 class Html extends HtmlView
 {
-
+	/**
+	 * From object to generate fields
+	 *
+	 * @var     \JForm
+	 * @since   4.0
+	 */
 	protected $form;
 
+	/**
+	 * Items array
+	 *
+	 * @var     object
+	 * @since   4.0
+	 */
 	protected $item;
 
 	/**
@@ -35,15 +46,16 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Get the Data
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
+
+		// Get the Data
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+
 
 		// Set the toolbar
 		$this->addToolBar();

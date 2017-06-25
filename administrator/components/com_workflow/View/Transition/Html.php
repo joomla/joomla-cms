@@ -10,7 +10,9 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * View class to add or edit Workflow
@@ -19,10 +21,46 @@ use Joomla\CMS\View\HtmlView;
  */
 class Html extends HtmlView
 {
-
+	/**
+	 * From object to generate fields
+	 *
+	 * @var     \JForm
+	 * @since   4.0
+	 */
 	protected $form;
 
+	/**
+	 * Items array
+	 *
+	 * @var     object
+	 * @since   4.0
+	 */
 	protected $item;
+
+	/**
+	 * That is object of Application
+	 *
+	 * @var     CMSApplication
+	 * @since   4.0
+	 */
+	protected $app;
+
+	/**
+	 * The application input object.
+	 *
+	 * @var    Input
+	 * @since  1.0
+	 */
+	protected $input;
+
+	/**
+	 * The ID of current workflow
+	 *
+	 * @var     integer
+	 * @since   4.0
+	 */
+	protected $workflowID;
+
 
 	/**
 	 * Display item view
@@ -35,15 +73,27 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Get the Data
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
+
+		$this->app = \JFactory::getApplication();
+		$this->input = $this->app->input;
+
+		// Get the Data
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+
+		// Get the ID of workflow
+		$this->workflowID = $this->input->getCmd("workflow_id");
+
+		// Set the form selects sql
+		$sqlStatusesFrom = WorkflowHelper::getStatusesSQL('from_status_id', $this->workflowID);
+		$sqlStatusesTo = WorkflowHelper::getStatusesSQL('to_status_id', $this->workflowID);
+		$this->form->setFieldAttribute('from_status_id', 'query', $sqlStatusesFrom);
+		$this->form->setFieldAttribute('to_status_id', 'query', $sqlStatusesTo);
 
 		// Set the toolbar
 		$this->addToolBar();
