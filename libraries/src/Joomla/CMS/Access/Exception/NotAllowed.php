@@ -15,6 +15,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.6.3
  */
-class Notallowed extends \RuntimeException
+class NotAllowed extends \RuntimeException
 {
 }

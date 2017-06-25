@@ -75,7 +75,7 @@ JLoader::registerAlias('JAccess',                           '\\Joomla\\CMS\\Acce
 JLoader::registerAlias('JAccessRule',                       '\\Joomla\\CMS\\Access\\Rule', '5.0');
 JLoader::registerAlias('JAccessRules',                      '\\Joomla\\CMS\\Access\\Rules', '5.0');
 JLoader::registerAlias('JAccessWrapperAccess',              '\\Joomla\\CMS\\Access\\Wrapper\\Access', '4.0');
-JLoader::registerAlias('JAccessExceptionNotallowed',        '\\Joomla\\CMS\\Access\\Exception\\Notallowed', '5.0');
+JLoader::registerAlias('JAccessExceptionNotallowed',        '\\Joomla\\CMS\\Access\\Exception\\NotAllowed', '5.0');
 JLoader::registerAlias('JRule',                             '\\Joomla\\CMS\\Access\\Rule', '5.0');
 JLoader::registerAlias('JRules',                            '\\Joomla\\CMS\\Access\\Rules', '5.0');
 
