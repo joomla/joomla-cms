@@ -533,12 +533,13 @@ SET IDENTITY_INSERT "#__menu" OFF;
 SET IDENTITY_INSERT "#__menu_types" ON;
 
 INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id") VALUES
-(2, 0, 'usermenu', 'User Menu', 'A Menu for logged-in Users', 0),
-(3, 0, 'top', 'Top', 'Links for major types of users', 0),
-(4, 0, 'aboutjoomla', 'About Joomla', 'All about Joomla!', 0),
-(5, 0, 'parks', 'Australian Parks', 'Main menu for a site about Australian parks', 0),
-(6, 0, 'mainmenu', 'Main Menu', 'Simple Home Menu', 0),
-(7, 0, 'fruitshop', 'Fruit Shop', 'Menu for the sample shop site.', 0);
+(2, 0, 'main', 'Admin Main Menu', 'The main menu for the backend', 1),
+(3, 0, 'usermenu', 'User Menu', 'A Menu for logged-in Users', 0),
+(4, 0, 'top', 'Top', 'Links for major types of users', 0),
+(5, 0, 'aboutjoomla', 'About Joomla', 'All about Joomla!', 0),
+(6, 0, 'parks', 'Australian Parks', 'Main menu for a site about Australian parks', 0),
+(7, 0, 'mainmenu', 'Main Menu', 'Simple Home Menu', 0),
+(8, 0, 'fruitshop', 'Fruit Shop', 'Menu for the sample shop site.', 0);
 
 SET IDENTITY_INSERT "#__menu_types" OFF;
 
