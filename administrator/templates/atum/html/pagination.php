@@ -110,7 +110,7 @@ function pagination_list_render($list)
 		}
 	}
 
-	$html = '<ul class="pagination pagination-sm">';
+	$html = '<ul class="pagination pagination-sm justify-content-center">';
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];
 
