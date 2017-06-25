@@ -408,8 +408,19 @@ class FieldsHelper
 		$model = JModelLegacy::getInstance('Groups', 'FieldsModel', array('ignore_request' => true));
 		$model->setState('filter.context', $context);
 
+		/**
+		 * $model->getItems() would only return existing groups, but we also
+		 * have the 'default' group with id 0 which is not in the database,
+		 * so we create it virtually here.
+		 */
+		$defaultGroup = new \stdClass;
+		$defaultGroup->id = 0;
+		$defaultGroup->title = '';
+		$defaultGroup->description = '';
+		$iterateGroups = array_merge(array($defaultGroup), $model->getItems());
+
 		// Looping through the groups
-		foreach ($model->getItems() as $group)
+		foreach ($iterateGroups as $group)
 		{
 			if (empty($fieldsPerGroup[$group->id]))
 			{

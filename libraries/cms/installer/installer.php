@@ -1061,7 +1061,7 @@ class JInstaller extends JAdapter
 					}
 				}
 
-				if (strlen($schemapath))
+				if ($schemapath !== '')
 				{
 					$files = str_replace('.sql', '', JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
@@ -1137,7 +1137,7 @@ class JInstaller extends JAdapter
 					}
 				}
 
-				if (strlen($schemapath))
+				if ($schemapath !== '')
 				{
 					$files = str_replace('.sql', '', JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
@@ -1629,7 +1629,7 @@ class JInstaller extends JAdapter
 		 * allowOverwrite flag.
 		 */
 
-		if (is_null($overwrite) || !is_bool($overwrite))
+		if ($overwrite === null || !is_bool($overwrite))
 		{
 			$overwrite = $this->overwrite;
 		}
@@ -1943,7 +1943,7 @@ class JInstaller extends JAdapter
 				// Is it a valid Joomla installation manifest file?
 				$manifest = $this->isManifest($file);
 
-				if (!is_null($manifest))
+				if ($manifest !== null)
 				{
 					// If the root method attribute is set to upgrade, allow file overwrite
 					if ((string) $manifest->attributes()->method === 'upgrade')
@@ -2223,7 +2223,9 @@ class JInstaller extends JAdapter
 
 		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
 
-		if ($xml->getName() !== 'extension' && $xml->getName() !== 'metafile')
+		$name = $xml->getName();
+
+		if ($name !== 'extension' && $name !== 'metafile')
 		{
 			unset($xml);
 

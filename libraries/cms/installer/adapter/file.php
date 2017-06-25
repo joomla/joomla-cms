@@ -122,7 +122,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
