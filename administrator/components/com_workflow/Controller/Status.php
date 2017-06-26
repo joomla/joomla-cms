@@ -33,10 +33,10 @@ class Status extends Form
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                 $config   An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   \CMSApplication        $app      The JApplication for the dispatcher
-	 * @param   \JInput               $input    Input
+	 * @param   \CMSApplication      $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
