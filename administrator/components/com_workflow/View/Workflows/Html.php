@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Workflows view class for the Workflow package.
@@ -39,7 +40,8 @@ class Html extends HtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var     \JPagination
+	 * @since   4.0
 	 */
 	protected $pagination;
 
@@ -90,9 +92,9 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
-		\JToolbarHelper::addNew('workflow.add');
-		\JToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
-		\JToolbarHelper::editList('workflow.edit');
+		ToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
+		ToolbarHelper::addNew('workflow.add');
+		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
+		ToolbarHelper::editList('workflow.edit');
 	}
 }

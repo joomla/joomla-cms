@@ -12,7 +12,8 @@
 defined('_JEXEC') or die('Restricted Access');
 ?>
 <?php foreach ($this->workflows as $i => $item):
-	$link = JRoute::_('index.php?option=com_workflow&view=statuses&workflow_id=' . $item->id);
+	$statuese = JRoute::_('index.php?option=com_workflow&view=statuses&workflow_id=' . $item->id);
+	$transitions = JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id);
 	$edit = JRoute::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
 	?>
 	<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->id; ?>">
@@ -20,10 +21,13 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 		</td>
 		<td>
-			<a href="<?php echo $link; ?>"><?php echo $item->title; ?></a>
+			<a href="<?php echo $edit; ?>"><?php echo $item->title; ?></a>
 		</td>
 		<td class="text-center">
-			<a href="<?php echo $edit; ?>"><?php echo \JText::_('COM_WORKFLOW_EDIT'); ?></a>
+			<a href="<?php echo $statuese; ?>"><?php echo \JText::_('COM_WORKFLOW_STATUS'); ?></a>
+		</td>
+		<td class="text-center">
+			<a href="<?php echo $statuese; ?>"><?php echo \JText::_('COM_WORKFLOW_TRANSITION'); ?></a>
 		</td>
 		<td class="text-center">
 			<?php echo $item->created; ?>

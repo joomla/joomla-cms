@@ -35,13 +35,13 @@ class WorkflowHelper extends ContentHelper
 	{
 		$name = explode(".", $vName);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_WORKFLOW_SUBMENU_STATUS'),
+			\JText::_('COM_WORKFLOW_STATUS'),
 			'index.php?option=com_workflow&view=statuses&workflow_id=' . $name[1],
 			$name[0] == 'statuses`'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_WORKFLOW_SUBMENU_TRANSITIONS'),
+			\JText::_('COM_WORKFLOW_TRANSITIONS'),
 			'index.php?option=com_workflow&view=transitions&workflow_id=' . $name[1],
 			$name[0] == 'transitions'
 		);

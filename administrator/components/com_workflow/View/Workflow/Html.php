@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class to add or edit Workflow
@@ -71,9 +72,9 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_WORKFLOWS_ADD') : \JText::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');
+		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_WORKFLOWS_ADD') : \JText::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			[
 				['apply', 'workflow.apply'],
 				['save', 'workflow.save'],
@@ -81,6 +82,6 @@ class Html extends HtmlView
 			],
 			'btn-success'
 		);
-		\JToolbarHelper::cancel('workflow.cancel');
+		ToolbarHelper::cancel('workflow.cancel');
 	}
 }

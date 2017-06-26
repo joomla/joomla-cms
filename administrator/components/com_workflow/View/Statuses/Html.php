@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Workflows view class for the Workflow package.
@@ -45,6 +46,14 @@ class Html extends HtmlView
 	protected $sidebar;
 
 	/**
+	 * The pagination object
+	 *
+	 * @var     \JPagination
+	 * @since   4.0
+	 */
+	protected $pagination;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -63,6 +72,7 @@ class Html extends HtmlView
 
 		$this->state         = $this->get('State');
 		$this->statuses      = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 
 		WorkflowHelper::addSubmenu("statuses." . $this->state->get("filter.workflow_id"));
 		$this->sidebar       = \JHtmlSidebar::render();
@@ -82,9 +92,9 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(\JText::_('COM_WORKFLOW_STATUSES_LIST'), 'address contact');
-		\JToolbarHelper::addNew('status.add');
-		\JToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'statuses.delete');
-		\JToolbarHelper::editList('status.edit');
+		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATUSES_LIST'), 'address contact');
+		ToolbarHelper::addNew('status.add');
+		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'statuses.delete');
+		ToolbarHelper::editList('status.edit');
 	}
 }

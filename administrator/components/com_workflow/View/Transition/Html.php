@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class to add or edit Workflow
@@ -111,9 +112,9 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_TRANSITION_ADD') : \JText::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
+		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_TRANSITION_ADD') : \JText::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			[
 				['apply', 'transition.apply'],
 				['save', 'transition.save'],
@@ -121,6 +122,7 @@ class Html extends HtmlView
 			],
 			'btn-success'
 		);
-		\JToolbarHelper::cancel('transition.cancel');
+		ToolbarHelper::cancel('transition.cancel');
+		ToolbarHelper::divider();
 	}
 }

@@ -14,6 +14,7 @@ defined('_JEXEC') or die('Restricted Access');
 JHtml::_('behavior.tooltip');
 
 $workflowID = $this->escape($this->state->get('filter.workflow_id'));
+$columns = 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -29,12 +30,19 @@ $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 				<?php else: ?>
 					<table class="table table-striped" id="emailList">
 						<thead><?php echo $this->loadTemplate('head');?></thead>
+						<tfoot>
+							<tr>
+								<td colspan="<?php echo $columns; ?>">
+									<?php echo $this->pagination->getListFooter(); ?>
+								</td>
+							</tr>
+						</tfoot>
 						<tbody class="js-draggable"><?php echo $this->loadTemplate('body');?></tbody>
 					</table>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<input type="hidden" name="workflow_id" value="<?php echo $workflowID ?>"
+				<input type="hidden" name="workflow_id" value="<?php echo $workflowID ?>">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>
