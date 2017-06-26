@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Crypt;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       12.2
  * @deprecated  4.0  Use PHP 5.5's native password hashing API
  */
-interface JCryptPassword
+interface CryptPassword
 {
 	const BLOWFISH = '$2y$';
 

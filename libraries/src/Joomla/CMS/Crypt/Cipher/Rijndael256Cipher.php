@@ -1,21 +1,22 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Crypt\Cipher;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JCrypt cipher for Rijndael 256 encryption, decryption and key generation.
+ * Crypt cipher for Rijndael 256 encryption, decryption and key generation.
  *
  * @since       12.1
- * @deprecated  4.0   Without replacment use JCryptCipherCrypto
+ * @deprecated  4.0   Without replacment use CryptoCipher
  */
-class JCryptCipherRijndael256 extends JCryptCipherMcrypt
+class Rijndael256Cipher extends McryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
