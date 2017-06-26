@@ -145,7 +145,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php if ($this->collect_urls_enabled) : ?>
 				<span class="enabled"><?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?></span>
 			<?php else : ?>
-				<span class="enabled"><?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?></span>
+				<?php $link = $link = JHtml::_(
+					'link',
+					'index.php?option=com_plugins&filter_search=redirect',
+					JText::_('COM_REDIRECT_SYSTEM_PLUGIN')
+				); ?>
+				<span class="enabled"><?php echo JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link); ?></span>
 			<?php endif; ?>
 		<?php else : ?>
 			<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
