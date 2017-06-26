@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       12.1
  * @deprecated  4.0   Without replacement use CryptoCipher
  */
-class TrippleDesCipher extends McryptCipher
+class TripleDesCipher extends McryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
