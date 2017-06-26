@@ -12,7 +12,7 @@ use Page\Acceptance\Administrator;
 /**
  * Administrator User Tests
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.3
  */
 class UserCest
 {
@@ -21,7 +21,7 @@ class UserCest
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -54,7 +54,7 @@ class UserCest
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @depends createUser
 	 *
@@ -92,7 +92,7 @@ class UserCest
 	 * @param   string            $password  User's password
 	 * @param   string            $email     User's email
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void  The user's form will be filled with given detail
 	 */

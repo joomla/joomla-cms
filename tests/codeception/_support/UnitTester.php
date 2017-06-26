@@ -25,7 +25,7 @@
  *
  * @SuppressWarnings(PHPMD)
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.3
  */
 class UnitTester extends \Codeception\Actor
 {

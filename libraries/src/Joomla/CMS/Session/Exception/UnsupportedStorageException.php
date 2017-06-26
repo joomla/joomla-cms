@@ -6,15 +6,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Ucm;
+namespace Joomla\CMS\Session\Exception;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Interface to handle UCM
+ * Exception class defining an unsupported session storage object
  *
- * @since  3.1
+ * @since  3.6.3
  */
-interface Ucm
+class UnsupportedStorageException extends \RuntimeException
 {
 }

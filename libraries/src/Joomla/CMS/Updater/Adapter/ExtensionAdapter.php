@@ -1,22 +1,30 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Updater\Adapter;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.updater.updateadapter');
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Updater\UpdateAdapter;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Version;
 
 /**
  * Extension class for updater
  *
  * @since  11.1
  */
-class JUpdaterExtension extends JUpdateAdapter
+class ExtensionAdapter extends UpdateAdapter
 {
 	/**
 	 * Start element parser callback.
@@ -43,7 +51,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		switch ($name)
 		{
 			case 'UPDATE':
-				$this->currentUpdate = JTable::getInstance('update');
+				$this->currentUpdate = Table::getInstance('update');
 				$this->currentUpdate->update_site_id = $this->updateSiteId;
 				$this->currentUpdate->detailsurl = $this->_url;
 				$this->currentUpdate->folder = '';
@@ -98,15 +106,15 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			case 'UPDATE':
 				// Lower case and remove the exclamation mark
-				$product = strtolower(JFilterInput::getInstance()->clean(JVersion::PRODUCT, 'cmd'));
+				$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
 				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
 				if (isset($this->currentUpdate->targetplatform->min_dev_level) || isset($this->currentUpdate->targetplatform->max_dev_level))
 				{
-					JLog::add(
+					Log::add(
 						'Support for the min_dev_level and max_dev_level attributes of an update\'s <targetplatform> tag is deprecated and'
 						. ' will be removed in 4.0. The full version should be specified in the version attribute and may optionally be a regexp.',
-						JLog::WARNING,
+						Log::WARNING,
 						'deprecated'
 					);
 				}
@@ -118,8 +126,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				 */
 				if ($product == $this->currentUpdate->targetplatform['NAME']
 					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || Version::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || Version::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
@@ -129,7 +137,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					else
 					{
 						// Notify the user of the potential update
-						$msg = JText::sprintf(
+						$msg = \JText::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
@@ -137,7 +145,7 @@ class JUpdaterExtension extends JUpdateAdapter
 							PHP_VERSION
 						);
 
-						JFactory::getApplication()->enqueueMessage($msg, 'warning');
+						Factory::getApplication()->enqueueMessage($msg, 'warning');
 
 						$phpMatch = false;
 					}
@@ -147,7 +155,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
 					if (isset($this->currentUpdate->supported_databases))
 					{
-						$db           = JFactory::getDbo();
+						$db           = Factory::getDbo();
 						$dbType       = strtoupper($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
@@ -161,29 +169,29 @@ class JUpdaterExtension extends JUpdateAdapter
 							if (!$dbMatch)
 							{
 								// Notify the user of the potential update
-								$dbMsg = JText::sprintf(
+								$dbMsg = \JText::sprintf(
 									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 									$this->currentUpdate->name,
 									$this->currentUpdate->version,
-									JText::_($db->name),
+									\JText::_($db->name),
 									$dbVersion,
 									$minumumVersion
 								);
 
-								JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+								Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
 							}
 						}
 						else
 						{
 							// Notify the user of the potential update
-							$dbMsg = JText::sprintf(
+							$dbMsg = \JText::sprintf(
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								JText::_($db->name)
+								\JText::_($db->name)
 							);
 
-							JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
 						}
 					}
 					else
@@ -314,10 +322,10 @@ class JUpdaterExtension extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			JLog::add('Error parsing url: ' . $this->_url, JLog::WARNING, 'updater');
+			Log::add('Error parsing url: ' . $this->_url, Log::WARNING, 'updater');
 
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
+			$app = Factory::getApplication();
+			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}
@@ -333,9 +341,9 @@ class JUpdaterExtension extends JUpdateAdapter
 					$byName = false;
 
 					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
-					JLog::add(
+					Log::add(
 						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
-						JLog::WARNING, 'deprecated'
+						Log::WARNING, 'deprecated'
 					);
 				}
 				else
@@ -343,7 +351,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					$byName = true;
 				}
 
-				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
+				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 
@@ -369,13 +377,13 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = 'JUpdater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{
 			return constant($constant);
 		}
 
-		return JUpdater::STABILITY_STABLE;
+		return Updater::STABILITY_STABLE;
 	}
 }

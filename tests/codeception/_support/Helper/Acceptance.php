@@ -18,7 +18,7 @@ use Codeception\Module;
  *
  * @package  Codeception\Module
  *
- * @since    __DEPLOY_VERSION__
+ * @since    3.7.3
  */
 class Acceptance extends Module
 {
@@ -26,7 +26,7 @@ class Acceptance extends Module
 	 * Array of the configuration settings
 	 *
 	 * @var      array
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.3
 	 */
 	protected static $acceptanceSuiteConfiguration = [];
 
@@ -35,7 +35,7 @@ class Acceptance extends Module
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function getSuiteConfiguration()
 	{

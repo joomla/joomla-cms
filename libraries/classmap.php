@@ -295,6 +295,12 @@ JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Clie
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
 JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
 
+JLoader::registerAlias('JUpdate',                           '\\Joomla\\CMS\\Updater\\Update', '5.0');
+JLoader::registerAlias('JUpdateAdapter',                    '\\Joomla\\CMS\\Updater\\UpdateAdapter', '5.0');
+JLoader::registerAlias('JUpdater',                          '\\Joomla\\CMS\\Updater\\Updater', '5.0');
+JLoader::registerAlias('JUpdaterCollection',                '\\Joomla\\CMS\\Updater\\Adapter\\CollectionAdapter', '5.0');
+JLoader::registerAlias('JUpdaterExtension',                 '\\Joomla\\CMS\\Updater\\Adapter\\ExtensionAdapter', '5.0');
+
 JLoader::registerAlias('JCrypt',                             '\\Joomla\\CMS\\Crypt\\Crypt', '5.0');
 JLoader::registerAlias('JCryptCipher',                       '\\Joomla\\CMS\\Crypt\\CipherInterface', '5.0');
 JLoader::registerAlias('JCryptKey',                          '\\Joomla\\CMS\\Crypt\\CryptKey', '5.0');
