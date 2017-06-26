@@ -102,6 +102,7 @@ Desktop.ini
 /libraries/vendor/defuse/php-encryption/composer.json
 /libraries/vendor/defuse/php-encryption/README.md
 /libraries/vendor/defuse/php-encryption/test.sh
+/libraries/vendor/joomla/*/.appveyor.yml
 /libraries/vendor/joomla/*/.gitattributes
 /libraries/vendor/joomla/*/.github
 /libraries/vendor/joomla/*/.gitignore
@@ -117,6 +118,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/phpunit.travis.xml
+/libraries/vendor/joomla/*/phpunit.appveyor.xml
 /libraries/vendor/joomla/*/README.md
 /libraries/vendor/leafo/lessphp/docs
 /libraries/vendor/leafo/lessphp/tests

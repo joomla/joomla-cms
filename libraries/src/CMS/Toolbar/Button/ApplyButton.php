@@ -45,9 +45,15 @@ class ApplyButton extends ToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = \JText::_($text);
-		$options['class'] = $this->fetchIconClass($name);
+		$options['text']   = \JText::_($text);
+		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
+		$options['id']     = $this->fetchId('Apply', $name);
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		if ($name == 'apply' || $name == 'save')
 		{

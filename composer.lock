@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b613ddcdbbd75d0a8efe5d925be06ddf",
+    "content-hash": "10560c35ef6f15c6e6e131496083aa52",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -461,6 +461,65 @@
                 "joomla"
             ],
             "time": "2017-05-27T01:08:49+00:00"
+        },
+        {
+            "name": "joomla/database",
+            "version": "dev-2.0-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/database.git",
+                "reference": "a96ebad17c104412f086b1479826a5d226ff29fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/a96ebad17c104412f086b1479826a5d226ff29fb",
+                "reference": "a96ebad17c104412f086b1479826a5d226ff29fb",
+                "shasum": ""
+            },
+            "require": {
+                "joomla/event": "~2.0@dev",
+                "php": "^5.5.9|~7.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "joomla/di": "~1.0|~2.0",
+                "joomla/registry": "^1.4.5|~2.0",
+                "joomla/test": "~1.0",
+                "phpunit/dbunit": "~1.3|~2.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "suggest": {
+                "ext-mysqli": "To connect to a MySQL database via MySQLi",
+                "ext-pdo": "To connect to a MySQL, Oracle, PostgreSQL, or SQLite database via PDO",
+                "ext-pgsql": "To connect to a PostgreSQL database",
+                "ext-sqlsrv": "To connect to a SQL Server database",
+                "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
+                "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.0-dev": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Database Package",
+            "homepage": "https://github.com/joomla-framework/database",
+            "keywords": [
+                "database",
+                "framework",
+                "joomla"
+            ],
+            "time": "2017-06-23T19:02:37+00:00"
         },
         {
             "name": "joomla/di",
@@ -954,12 +1013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed"
+                "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
-                "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
+                "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
                 "shasum": ""
             },
             "require": {
@@ -1010,7 +1069,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2017-06-01T16:00:13+00:00"
+            "time": "2017-05-27T01:20:50+00:00"
         },
         {
             "name": "joomla/string",
@@ -1084,12 +1143,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3"
+                "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
-                "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
+                "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
                 "shasum": ""
             },
             "require": {
@@ -1122,7 +1181,7 @@
                 "joomla",
                 "uri"
             ],
-            "time": "2017-06-04T09:37:41+00:00"
+            "time": "2017-05-27T01:23:06+00:00"
         },
         {
             "name": "joomla/utilities",
@@ -1216,7 +1275,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-03-13T16:22:52+00:00"
+            "time": "2016-11-07T23:38:38+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1236,24 +1295,8 @@
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "doctrine/annotations": "1.2.*",
-                "jms/serializer": "0.16.*",
                 "phpdocumentor/phpdocumentor": "2.*",
-                "phpunit/phpunit": "4.8.*",
-                "symfony/debug": "2.8.*",
-                "symfony/filesystem": "2.8.*",
-                "symfony/translation": "2.8.*",
-                "symfony/yaml": "2.8.*",
-                "zendframework/zend-cache": "2.5.1",
-                "zendframework/zend-config": "2.5.1",
-                "zendframework/zend-eventmanager": "2.5.1",
-                "zendframework/zend-filter": "2.5.1",
-                "zendframework/zend-i18n": "2.5.1",
-                "zendframework/zend-json": "2.5.1",
-                "zendframework/zend-math": "2.5.1",
-                "zendframework/zend-serializer": "2.5.*",
-                "zendframework/zend-servicemanager": "2.5.*",
-                "zendframework/zend-stdlib": "2.5.1"
+                "phpunit/phpunit": "4.*"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset",
@@ -1291,7 +1334,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-03-15T19:32:56+00:00"
+            "time": "2017-01-09T10:18:14+00:00"
         },
         {
             "name": "psr/container",
@@ -1669,16 +1712,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.20",
+            "version": "v2.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "93ccdde79f4b079c7558da4656a3cb1c50c68e02"
+                "reference": "322a8c2dfbca15ad6b1b27e182899f98ec0e0153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/93ccdde79f4b079c7558da4656a3cb1c50c68e02",
-                "reference": "93ccdde79f4b079c7558da4656a3cb1c50c68e02",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/322a8c2dfbca15ad6b1b27e182899f98ec0e0153",
+                "reference": "322a8c2dfbca15ad6b1b27e182899f98ec0e0153",
                 "shasum": ""
             },
             "require": {
@@ -1714,7 +1757,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-05-01T14:31:55+00:00"
+            "time": "2017-01-21T16:40:50+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
@@ -2689,23 +2732,23 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "1.4.3",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "7f066a26a962dbe58ddea9f72a4e82874a3975a4"
+                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/7f066a26a962dbe58ddea9f72a4e82874a3975a4",
-                "reference": "7f066a26a962dbe58ddea9f72a4e82874a3975a4",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/13edfd8706462032c2f52b4b862974dd46b71c9e",
+                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.3 || ^7.0"
+                "php": ">=5.3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
+                "phpunit/phpunit": "~4.8"
             },
             "type": "library",
             "extra": {
@@ -2737,7 +2780,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2017-05-22T07:24:03+00:00"
+            "time": "2015-12-08T07:14:41+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -3563,6 +3606,7 @@
         "joomla/controller": 20,
         "joomla/crypt": 20,
         "joomla/data": 20,
+        "joomla/database": 20,
         "joomla/di": 20,
         "joomla/event": 20,
         "joomla/http": 20,

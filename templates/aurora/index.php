@@ -11,7 +11,8 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 
-$app = JFactory::getApplication();
+$app  = JFactory::getApplication();
+$lang = JFactory::getLanguage();
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -30,17 +31,17 @@ JHtml::_('bootstrap.framework');
 // Add template js
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
-// Add Stylesheets
-JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
-
-// Check for a custom CSS file
-JHtml::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
-
-// Check for a custom js file
+// Load custom Javascript file
 JHtml::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 
-// Load optional RTL Bootstrap CSS
-//JHtml::_('bootstrap.loadCss', false, $this->direction);
+// Load template CSS file
+JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+
+// Load custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+
+// Load specific language related CSS
+JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))

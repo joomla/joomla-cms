@@ -11,6 +11,7 @@ namespace Joomla\CMS\Schema\ChangeItem;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
@@ -279,7 +280,7 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$fixedType = str_replace(';', '', $type);
 
-		if ($this->db->hasUTF8mb4Support())
+		if ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
 		{
 			$uType = strtoupper($fixedType);
 

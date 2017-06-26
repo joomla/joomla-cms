@@ -31,6 +31,7 @@ return array(
     'Joomla\\Http\\' => array($vendorDir . '/joomla/http/src'),
     'Joomla\\Filter\\' => array($vendorDir . '/joomla/filter/src'),
     'Joomla\\Event\\' => array($vendorDir . '/joomla/event/src'),
+    'Joomla\\Database\\' => array($vendorDir . '/joomla/database/src'),
     'Joomla\\Data\\' => array($vendorDir . '/joomla/data/src'),
     'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
     'Joomla\\Crypt\\' => array($vendorDir . '/joomla/crypt/src'),
