@@ -104,13 +104,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->http);
-		unset($this->input);
-		unset($this->application);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->http, $this->input, $this->application, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 

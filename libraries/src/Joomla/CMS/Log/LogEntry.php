@@ -30,6 +30,14 @@ class LogEntry
 	public $category;
 
 	/**
+	 * The message context.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $context;
+
+	/**
 	 * The date the message was logged.
 	 * @var    Date
 	 * @since  11.1
@@ -81,10 +89,11 @@ class LogEntry
 	 * @param   int     $priority  Message priority based on {$this->priorities}.
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
+	 * @param   array   $context   An optional array with additional message context.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($message, $priority = Log::INFO, $category = '', $date = null)
+	public function __construct($message, $priority = Log::INFO, $category = '', $date = null, array $context = array())
 	{
 		$this->message = (string) $message;
 
@@ -95,6 +104,7 @@ class LogEntry
 		}
 
 		$this->priority = $priority;
+		$this->context  = $context;
 
 		// Sanitize category if it exists.
 		if (!empty($category))

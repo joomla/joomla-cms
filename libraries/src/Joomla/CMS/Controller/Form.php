@@ -256,18 +256,11 @@ class Form extends Controller
 		// Build an array of item contexts to check
 		$contexts = array();
 
+		$option = isset($this->extension) ? $this->extension : $this->option;
+
 		foreach ($cid as $id)
 		{
 			// If we're coming from com_categories, we need to use extension vs. option
-			if (isset($this->extension))
-			{
-				$option = $this->extension;
-			}
-			else
-			{
-				$option = $this->option;
-			}
-
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
 		}
 
@@ -487,6 +480,13 @@ class Form extends Controller
 		if ($recordId)
 		{
 			$append .= '&' . $urlVar . '=' . $recordId;
+		}
+
+		$return = $this->input->get('return', null, 'base64');
+
+		if ($return)
+		{
+			$append .= '&return=' . $return;
 		}
 
 		return $append;
@@ -824,13 +824,19 @@ class Form extends Controller
 				$this->releaseEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 
+				$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend();
+
+				// Check if there is a return value
+				$return = $this->input->get('return', null, 'base64');
+
+				if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+				{
+					$url = base64_decode($return);
+				}
+
 				// Redirect to the list screen.
-				$this->setRedirect(
-					\JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. $this->getRedirectToListAppend(), false
-					)
-				);
+				$this->setRedirect(\JRoute::_($url, false));
 				break;
 		}
 
