@@ -99,7 +99,24 @@ class MediaControllerFile extends JControllerLegacy
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
 		{
-			$file['name']     = JFile::makeSafe($file['name']);
+			// Try transiterating the file name, else use the basic JFile::makeSafe() method
+			if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+			{
+				// Remove any trailing dots, as those aren't ever valid file names.
+				$file['name'] = rtrim($file['name'], '.');
+
+				// Using iconv to ignore characters that can't be transliterated
+				$file['name'] = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $file['name']));
+
+				$regex        = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+
+				$file['name'] = trim(preg_replace($regex, '', $file['name']));
+			}
+			else
+			{
+				$file['name'] = JFile::makeSafe($file['name']);
+			}
+
 			$file['name']     = str_replace(' ', '-', $file['name']);
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
