@@ -90,11 +90,43 @@ class Database extends Installer
 	 */
 	public function getItems()
 	{
-		$folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from(
+				$db->quoteName(
+					'#__schemas',
+					's'
+				)
+			)->join(
+				'INNER',
+				$db->quoteName(
+					'#__extensions', 'e'
+				) . ' ON (' . $db->quoteName(
+					's.extension_id'
+				) . ' = ' . $db->quoteName(
+					'e.extension_id'
+				) . ')'
+			);
+
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+
+		$changeSetList = array();
 
 		try
 		{
-			$changeSet = ChangeSet::getInstance($this->getDbo(), $folder);
+			foreach ($result as $index => $result)
+			{
+				if (strcmp($result->element, 'joomla') == 0)
+				{
+					$result->element = 'com_admin';
+				}
+
+				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
+
+				$changeSetList[$index] = new ChangeSet($db, $folderTmp);
+			}
 		}
 		catch (\RuntimeException $e)
 		{
@@ -103,7 +135,7 @@ class Database extends Installer
 			return false;
 		}
 
-		return $changeSet;
+		return $changeSetList;
 	}
 
 	/**
@@ -130,10 +162,9 @@ class Database extends Installer
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('version_id')
-			->from($db->quoteName('#__schemas'))
-			->where('extension_id = 700');
+			->from($db->quoteName('#__schemas'));
 		$db->setQuery($query);
-		$result = $db->loadResult();
+		$result = $db->loadObjectList();
 
 		return $result;
 	}

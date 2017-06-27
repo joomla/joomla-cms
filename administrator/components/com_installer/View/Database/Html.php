@@ -35,18 +35,18 @@ class Html extends InstallerViewDefault
 		$app = \JFactory::getApplication();
 
 		// Get data from the model.
-		$this->changeSet     = $this->get('Items');
-		$this->errors        = $this->changeSet->check();
-		$this->results       = $this->changeSet->getStatus();
-		$this->schemaVersion = $this->get('SchemaVersion');
-		$this->updateVersion = $this->get('UpdateVersion');
-		$this->filterParams  = $this->get('DefaultTextFilters');
-		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : \JText::_('JNONE');
-		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : \JText::_('JNONE');
-		$this->pagination    = $this->get('Pagination');
-		$this->errorCount    = count($this->errors);
+		$this->changeSet        = $this->get('Items');
+		$this->errors           = $this->changeSet[0]->check();
+		$this->results          = $this->changeSet[0]->getStatus();
+		$this->schemaVersion    = $this->get('SchemaVersion');
+		$this->updateVersion    = $this->get('UpdateVersion');
+		$this->filterParams     = $this->get('DefaultTextFilters');
+		$this->schemaVersion    = ($this->schemaVersion) ? $this->schemaVersion : \JText::_('JNONE');
+		$this->updateVersion    = ($this->updateVersion) ? $this->updateVersion : \JText::_('JNONE');
+		$this->pagination       = $this->get('Pagination');
+		$this->errorCount       = count($this->errors);
 
-		if ($this->schemaVersion != $this->changeSet->getSchema())
+		if ($this->schemaVersion[0]->version_id != $this->changeSet[0]->getSchema())
 		{
 			$this->errorCount++;
 		}
@@ -67,6 +67,7 @@ class Html extends InstallerViewDefault
 		}
 		else
 		{
+			// Database Core Errors
 			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
 		}
 

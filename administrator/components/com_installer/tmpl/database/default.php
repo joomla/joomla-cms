@@ -29,8 +29,8 @@ defined('_JEXEC') or die;
 									<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 								<?php endif; ?>
 
-								<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->getSchema()); ?></li>
+								<?php if ($this->schemaVersion != $this->changeSet[0]->getSchema()) : ?>
+									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion[0]->version_id, $this->changeSet[0]->getSchema()); ?></li>
 								<?php endif; ?>
 
 								<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
@@ -51,11 +51,18 @@ defined('_JEXEC') or die;
 						</fieldset>
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('3rd Party Extensions Database Problems')); ?>
+						<div class="control-group">
+							<fieldset class="panelform">
+
+							</fieldset>
+						</div>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
+						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 						<div class="control-group">
 							<fieldset class="panelform">
 								<ul>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
+									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion[0]->version_id); ?></li>
 									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->updateVersion); ?></li>
 									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
 									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results['ok'])); ?></li>
