@@ -252,12 +252,7 @@ class JLanguage
 			 * -a getSearchDisplayCharactersNumber method
 			 */
 
-			// Override custom transliterate method with native php function if enabled
-			if (function_exists('transliterator_transliterate') && function_exists('iconv'))
-			{
-				$this->transliterator = null;
-			}
-			elseif (method_exists($class, 'transliterate'))
+			if (method_exists($class, 'transliterate'))
 			{
 				$this->transliterator = array($class, 'transliterate');
 			}
@@ -400,23 +395,20 @@ class JLanguage
 	 */
 	public function transliterate($string)
 	{
+		// Override custom and core transliterate method with native php function if enabled
+		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+		{
+			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
+		}
+
 		if ($this->transliterator !== null)
 		{
 			return call_user_func($this->transliterator, $string);
 		}
 
-		// Try transiterating with native php function if enabled
-		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
-		{
-			$string = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
-		}
-		else
-		{
-			$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
-			$string = StringHelper::strtolower($string);
-		}
+		$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
 
-		return $string;
+		return StringHelper::strtolower($string);
 	}
 
 	/**
