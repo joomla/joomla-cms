@@ -28,43 +28,70 @@ class JRoute
 	private static $_router = array();
 
 	/**
+	 * Translates an internal Joomla URL to a humanly readable URL. This method builds links for the current active client.
+	 *
+	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
+	 * @param   boolean  $xhtml  Replace & by &amp; for XML compliance.
+	 * @param   integer  $ssl    Secure state for the resolved URI.
+	 *                             0: (default) No change, use the protocol currently used in the request
+	 *                             1: Make URI secure using global secure site URI.
+	 *                             2: Make URI unsecure using the global unsecure site URI.
+	 *
+	 * @return  string  The translated humanly readable URL.
+	 *
+	 * @since   11.1
+	 */
+	public static function _($url, $xhtml = true, $ssl = null)
+	{
+		try
+		{
+			return static::link(null, $url, $xhtml, $ssl);
+		}
+		catch (RuntimeException $e)
+		{
+			// Before __DEPLOY_VERSION__ this method failed silently on router error. This B/C will be removed in Joomla 4.0.
+			return null;
+		}
+	}
+
+	/**
 	 * Translates an internal Joomla URL to a humanly readable URL.
 	 *
+	 * @param   string   $client  The client name for which to build the link. NULL to use active client.
 	 * @param   string   $url     Absolute or Relative URI to Joomla resource.
 	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
 	 * @param   integer  $ssl     Secure state for the resolved URI.
 	 *                              0: (default) No change, use the protocol currently used in the request
 	 *                              1: Make URI secure using global secure site URI.
 	 *                              2: Make URI unsecure using the global unsecure site URI.
-	 * @param   string   $client  The client name for which to build the link. NULL to use active client.
 	 *
 	 * @return  string  The translated humanly readable URL.
 	 *
-	 * @since   11.1
+	 * @throws  RuntimeException
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function _($url, $xhtml = true, $ssl = null, $client = null)
+	public static function link($client, $url, $xhtml = true, $ssl = null)
 	{
-		// Get the target client name.
-		if (!isset($client))
+		// If we cannot process this $url exit early.
+		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
-			$client = JFactory::getApplication()->getName();
+			return $url;
 		}
 
 		// Get the router instance.
+		$app    = JFactory::getApplication();
+		$client = $client ?: $app->getName();
+
 		if (!isset(self::$_router[$client]))
 		{
-			self::$_router[$client] = JFactory::getApplication()->getRouter($client);
+			self::$_router[$client] = $app->getRouter($client);
 		}
 
 		// Make sure that we have our router
 		if (!self::$_router[$client])
 		{
-			return null;
-		}
-
-		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
-		{
-			return $url;
+			throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 		}
 
 		// Build route.
@@ -122,14 +149,8 @@ class JRoute
 	 */
 	public static function __callStatic($name, $arguments)
 	{
-		if (count($arguments))
-		{
-			$xhtml = isset($arguments[1]) ? $arguments[1] : true;
-			$ssl   = isset($arguments[2]) ? $arguments[2] : null;
+		array_unshift($arguments, $name);
 
-			return static::_($arguments[0], $xhtml, $ssl, $name);
-		}
-
-		return null;
+		return forward_static_call_array(array('JRoute', 'link'), $arguments);
 	}
 }

@@ -142,7 +142,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		$this->app->item_associations = $this->params->get('item_associations', 0);
 
 		// We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
-		$router = $this->app->isClient('site') ? $this->app->getRouter() : JApplicationCms::getInstance('site')->getRouter('site');
+		$router = JApplicationCms::getInstance('site')->getRouter('site');
 
 		// Attach build rules for language SEF.
 		$router->attachBuildRule(array($this, 'preprocessBuildRule'), JRouter::PROCESS_BEFORE);
