@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JImageInspector.php';
@@ -19,6 +19,35 @@ require_once __DIR__ . '/stubs/JImageFilterInspector.php';
  */
 class JImageTest extends TestCase
 {
+	/**
+	 * @var  string  TestFile-path for JPG file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFile;
+
+	/**
+	 * @var  string  TestFile-path for GIF file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFileGif;
+
+	/**
+	 * @var  string  TestFile-path for BMP file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFileBmp;
+
+	/**
+	 * @var  string  TestFile-path for PNG file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFilePng;
+
+
 	/**
 	 * Setup for testing.
 	 *
@@ -51,15 +80,12 @@ class JImageTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->testFile);
-		unset($this->testFileGif);
-		unset($this->testFilePng);
-		unset($this->testFileBmp);
+		unset($this->testFile, $this->testFileGif, $this->testFilePng, $this->testFileBmp);
 		parent::tearDown();
 	}
 
@@ -367,15 +393,15 @@ class JImageTest extends TestCase
 		$b = JImage::getImageFileProperties($outFileGif);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertSame($a->width, $b->width);
+		$this->assertSame($a->height, $b->height);
+		$this->assertSame($a->attributes, $b->attributes);
+		$this->assertSame($a->bits, $b->bits);
+		$this->assertSame($a->channels, $b->channels);
 
 		// Assert that the properties that should be different are different.
-		$this->assertTrue($b->mime == 'image/gif');
-		$this->assertTrue($b->type == IMAGETYPE_GIF);
+		$this->assertSame($b->mime, 'image/gif');
+		$this->assertEquals($b->type, IMAGETYPE_GIF);
 
 		// Clean up after ourselves.
 		unlink($outFileGif);
@@ -402,15 +428,15 @@ class JImageTest extends TestCase
 		$b = JImage::getImageFileProperties($outFilePng);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
+		$this->assertSame($a->width, $b->width);
+		$this->assertSame($a->height, $b->height);
+		$this->assertSame($a->attributes, $b->attributes);
+		$this->assertSame($a->bits, $b->bits);
 
 		// Assert that the properties that should be different are different.
-		$this->assertTrue($b->mime == 'image/png');
-		$this->assertTrue($b->type == IMAGETYPE_PNG);
-		$this->assertTrue($b->channels == null);
+		$this->assertSame($b->mime, 'image/png');
+		$this->assertEquals($b->type, IMAGETYPE_PNG);
+		$this->assertNull($b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFilePng);
@@ -439,13 +465,13 @@ class JImageTest extends TestCase
 		$b = JImage::getImageFileProperties($outFileJpg);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->mime == $b->mime);
-		$this->assertTrue($a->type == $b->type);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertSame($a->width, $b->width);
+		$this->assertSame($a->height, $b->height);
+		$this->assertSame($a->attributes, $b->attributes);
+		$this->assertSame($a->bits, $b->bits);
+		$this->assertSame($a->mime, $b->mime);
+		$this->assertSame($a->type, $b->type);
+		$this->assertSame($a->channels, $b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFileJpg);
@@ -474,13 +500,13 @@ class JImageTest extends TestCase
 		$b = JImage::getImageFileProperties($outFileDefault);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->mime == $b->mime);
-		$this->assertTrue($a->type == $b->type);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertSame($a->width, $b->width);
+		$this->assertSame($a->height, $b->height);
+		$this->assertSame($a->attributes, $b->attributes);
+		$this->assertSame($a->bits, $b->bits);
+		$this->assertSame($a->mime, $b->mime);
+		$this->assertSame($a->type, $b->type);
+		$this->assertSame($a->channels, $b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFileDefault);
@@ -520,7 +546,7 @@ class JImageTest extends TestCase
 		// Create a new JImageInspector object from the image handle.
 		$image = new JImageInspector($imageHandle);
 
-		$this->assertTrue(($image->getHeight() == 42), 'Line: ' . __LINE__);
+		$this->assertSame($image->getHeight(), 42, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -555,7 +581,7 @@ class JImageTest extends TestCase
 		// Create a new JImageInspector object from the image handle.
 		$image = new JImageInspector($imageHandle);
 
-		$this->assertTrue(($image->getWidth() == 108), 'Line: ' . __LINE__);
+		$this->assertSame($image->getWidth(), 108, 'Line: ' . __LINE__);
 	}
 
 	/**

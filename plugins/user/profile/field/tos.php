@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,10 +51,10 @@ class JFormFieldTos extends JFormFieldRadio
 
 		// Add CSS and JS for the TOS field
 		$doc = JFactory::getDocument();
-		$css = "#jform_profile_tos {width: 18em; margin: 0 !important; padding: 0 2px !important;}
-				#jform_profile_tos input {margin:0 5px 0 0 !important; width:10px !important;}
-				#jform_profile_tos label {margin:0 15px 0 0 !important; width:auto;}
-				";
+		$css = '#jform_profile_tos {width: 18em; margin: 0 !important; padding: 0 2px !important;}
+				#jform_profile_tos input {margin: 0 5px 0 0 !important; width: 10px !important;}
+				#jform_profile_tos label {margin: 0 15px 0 0 !important; width: auto;}
+				';
 		$doc->addStyleDeclaration($css);
 		JHtml::_('behavior.modal');
 
@@ -101,7 +101,7 @@ class JFormFieldTos extends JFormFieldRadio
 
 			$current_lang = JFactory::getLanguage()->getTag();
 
-			if (isset($tosassociated) && $current_lang != $article->language && array_key_exists($current_lang, $tosassociated))
+			if (isset($tosassociated) && $current_lang !== $article->language && array_key_exists($current_lang, $tosassociated))
 			{
 				$url  = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
 				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $tosassociated[$current_lang]->language), $text, $attribs);

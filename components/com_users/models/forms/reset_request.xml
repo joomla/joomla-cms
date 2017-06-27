@@ -4,10 +4,10 @@
 		<field 
 			name="email"
 			type="text"
-			class="validate-username"
-			description="COM_USERS_FIELD_PASSWORD_RESET_DESC"
-			filter="email"
 			label="COM_USERS_FIELD_PASSWORD_RESET_LABEL"
+			description="COM_USERS_FIELD_PASSWORD_RESET_DESC"
+			class="validate-username"
+			filter="email"
 			required="true"
 			size="30"
 		/>

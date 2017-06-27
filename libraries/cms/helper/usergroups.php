@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -99,7 +99,7 @@ final class JHelperUsergroups
 	 */
 	public static function getInstance()
 	{
-		if (null === static::$instance)
+		if (static::$instance === null)
 		{
 			// Only here to avoid code style issues...
 			$groups = array();
@@ -165,7 +165,7 @@ final class JHelperUsergroups
 	 */
 	public function has($id)
 	{
-		return (array_key_exists($id, $this->groups) && false !== $this->groups[$id]);
+		return (array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
 	}
 
 	/**
@@ -189,7 +189,7 @@ final class JHelperUsergroups
 	 */
 	public function total()
 	{
-		if (null === $this->total)
+		if ($this->total === null)
 		{
 			$db = JFactory::getDbo();
 
@@ -197,7 +197,7 @@ final class JHelperUsergroups
 				->select('count(id)')
 				->from('#__usergroups');
 
-			$db->setQuery($query, 0, 1);
+			$db->setQuery($query);
 
 			$this->total = (int) $db->loadResult();
 		}
@@ -257,7 +257,7 @@ final class JHelperUsergroups
 
 		$groups = $db->loadObjectList('id');
 
-		$this->groups = $groups ? $groups : array();
+		$this->groups = $groups ?: array();
 		$this->populateGroupsData();
 
 		return $this;
@@ -307,6 +307,11 @@ final class JHelperUsergroups
 		}
 
 		$parentGroup = $this->has($parentId) ? $this->get($parentId) : $this->load($parentId);
+
+		if (!property_exists($parentGroup, 'path'))
+		{
+			$parentGroup = $this->populateGroupData($parentGroup);
+		}
 
 		$group->path = array_merge($parentGroup->path, array($group->id));
 		$group->level = count($group->path) - 1;

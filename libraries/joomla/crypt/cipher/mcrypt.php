@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,14 +19,14 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
-	 * @see    https://secure.php.net/manual/en/mcrypt.ciphers.php
+	 * @link   https://secure.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  12.1
 	 */
 	protected $type;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
-	 * @see    https://secure.php.net/manual/en/mcrypt.constants.php
+	 * @link   https://secure.php.net/manual/en/mcrypt.constants.php
 	 * @since  12.1
 	 */
 	protected $mode;
@@ -120,7 +120,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 		$key->public = mcrypt_create_iv(mcrypt_get_iv_size($this->type, $this->mode), MCRYPT_DEV_URANDOM);
 
 		// Get the salt and password setup.
-		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack("h*", md5(JCrypt::genRandomBytes())), 0, 16);
+		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 16);
 
 		if (!isset($options['password']))
 		{
@@ -144,8 +144,8 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 *
 	 * @return  string  The derived key.
 	 *
-	 * @see     https://en.wikipedia.org/wiki/PBKDF2
-	 * @see     http://www.ietf.org/rfc/rfc2898.txt
+	 * @link    https://en.wikipedia.org/wiki/PBKDF2
+	 * @link    http://www.ietf.org/rfc/rfc2898.txt
 	 * @since   12.1
 	 */
 	public function pbkdf2($p, $s, $kl, $c = 10000, $a = 'sha256')

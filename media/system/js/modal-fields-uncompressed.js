@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	window.processModalParent = function (fieldPrefix, id, title, catid, url, language, object)
 	{
@@ -101,7 +101,7 @@
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	window.processModalEdit = function (element, fieldPrefix, action, itemType, task, formId, idFieldId, titleFieldId)
 	{
@@ -156,7 +156,6 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					jQuery('#' + modalId + ' iframe').addClass('hidden');
 				}
 
 				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
@@ -180,7 +179,7 @@
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	window.processModalSelect = function(itemType, fieldPrefix, id, title, catid, object, url, language) {
 		window.processModalParent(fieldPrefix, id, title, catid, url, language, object);

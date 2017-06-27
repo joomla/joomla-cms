@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 
 <?php echo $this->loadTemplate('items'); ?>
 
-<?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
+<?php if (!empty($this->children[$this->category->id]) && $this->maxLevel != 0) : ?>
 <div class="cat-children">
 	<h3><?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?></h3>
 	<?php echo $this->loadTemplate('children'); ?>

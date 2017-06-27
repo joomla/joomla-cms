@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,6 +47,19 @@ class JTableExtension extends JTable
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
+		}
+
+		if (!$this->extension_id)
+		{
+			if (!$this->custom_data)
+			{
+				$this->custom_data = '';
+			}
+
+			if (!$this->system_data)
+			{
+				$this->system_data = '';
+			}
 		}
 
 		return true;

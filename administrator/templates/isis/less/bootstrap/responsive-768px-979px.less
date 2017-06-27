@@ -1,0 +1,192 @@
+//
+// Responsive: Tablet to desktop
+// --------------------------------------------------
+
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+  // Fixed grid
+  #grid > .core(@gridColumnWidth768, @gridGutterWidth768);
+
+  // Fluid grid
+   .row-fluid {
+    width: 100%;
+    *zoom: 1;
+  }
+  .row-fluid:before,
+  .row-fluid:after {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+  .row-fluid:after {
+    clear: both;
+  }
+  .row-fluid [class*="span"] {
+    display: block;
+    width: 100%;
+    min-height: 28px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    margin-left: 2.76243094%;
+    *margin-left: 2.70923945%;
+  }
+  .row-fluid [class*="span"]:first-child {
+    margin-left: 0;
+  }
+  .row-fluid .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 2.76243094%;
+  }
+  .row-fluid .span12 {
+    width: 100%;
+    *width: 99.94680851%;
+  }
+  .row-fluid .span11 {
+    width: 91.43646409%;
+    *width: 91.3832726%;
+  }
+  .row-fluid .span10 {
+    width: 82.87292818%;
+    *width: 82.81973669%;
+  }
+  .row-fluid .span9 {
+    width: 74.30939227%;
+    *width: 74.25620078%;
+  }
+  .row-fluid .span8 {
+    width: 65.74585635%;
+    *width: 65.69266486%;
+  }
+  .row-fluid .span7 {
+    width: 57.18232044%;
+    *width: 57.12912895%;
+  }
+  .row-fluid .span6 {
+    width: 48.61878453%;
+    *width: 48.56559304%;
+  }
+  .row-fluid .span5 {
+    width: 40.05524862%;
+    *width: 40.00205713%;
+  }
+  .row-fluid .span4 {
+    width: 31.49171271%;
+    *width: 31.43852122%;
+  }
+  .row-fluid .span3 {
+    width: 22.9281768%;
+    *width: 22.87498531%;
+  }
+  .row-fluid .span2 {
+    width: 14.36464088%;
+    *width: 14.31144939%;
+  }
+  .row-fluid .span1 {
+    width: 5.80110497%;
+    *width: 5.74791348%;
+  }
+  .row-fluid .offset12 {
+    margin-left: 105.52486188%;
+    *margin-left: 105.4184789%;
+  }
+  .row-fluid .offset12:first-child {
+    margin-left: 102.76243094%;
+    *margin-left: 102.65604796%;
+  }
+  .row-fluid .offset11 {
+    margin-left: 96.96132597%;
+    *margin-left: 96.85494299%;
+  }
+  .row-fluid .offset11:first-child {
+    margin-left: 94.19889503%;
+    *margin-left: 94.09251205%;
+  }
+  .row-fluid .offset10 {
+    margin-left: 88.39779006%;
+    *margin-left: 88.29140708%;
+  }
+  .row-fluid .offset10:first-child {
+    margin-left: 85.63535912%;
+    *margin-left: 85.52897614%;
+  }
+  .row-fluid .offset9 {
+    margin-left: 79.83425414%;
+    *margin-left: 79.72787116%;
+  }
+  .row-fluid .offset9:first-child {
+    margin-left: 77.0718232%;
+    *margin-left: 76.96544023%;
+  }
+  .row-fluid .offset8 {
+    margin-left: 71.27071823%;
+    *margin-left: 71.16433525%;
+  }
+  .row-fluid .offset8:first-child {
+    margin-left: 68.50828729%;
+    *margin-left: 68.40190431%;
+  }
+  .row-fluid .offset7 {
+    margin-left: 62.70718232%;
+    *margin-left: 62.60079934%;
+  }
+  .row-fluid .offset7:first-child {
+    margin-left: 59.94475138%;
+    *margin-left: 59.8383684%;
+  }
+  .row-fluid .offset6 {
+    margin-left: 54.14364641%;
+    *margin-left: 54.03726343%;
+  }
+  .row-fluid .offset6:first-child {
+    margin-left: 51.38121547%;
+    *margin-left: 51.27483249%;
+  }
+  .row-fluid .offset5 {
+    margin-left: 45.5801105%;
+    *margin-left: 45.47372752%;
+  }
+  .row-fluid .offset5:first-child {
+    margin-left: 42.81767956%;
+    *margin-left: 42.71129658%;
+  }
+  .row-fluid .offset4 {
+    margin-left: 37.01657459%;
+    *margin-left: 36.91019161%;
+  }
+  .row-fluid .offset4:first-child {
+    margin-left: 34.25414365%;
+    *margin-left: 34.14776067%;
+  }
+  .row-fluid .offset3 {
+    margin-left: 28.45303867%;
+    *margin-left: 28.3466557%;
+  }
+  .row-fluid .offset3:first-child {
+    margin-left: 25.69060773%;
+    *margin-left: 25.58422476%;
+  }
+  .row-fluid .offset2 {
+    margin-left: 19.88950276%;
+    *margin-left: 19.78311978%;
+  }
+  .row-fluid .offset2:first-child {
+    margin-left: 17.12707182%;
+    *margin-left: 17.02068884%;
+  }
+  .row-fluid .offset1 {
+    margin-left: 11.32596685%;
+    *margin-left: 11.21958387%;
+  }
+  .row-fluid .offset1:first-child {
+    margin-left: 8.56353591%;
+    *margin-left: 8.45715293%;
+  }
+
+  // Input grid
+  #grid > .input(@gridColumnWidth768, @gridGutterWidth768);
+
+  // No need to reset .thumbnails here since it's the same @gridGutterWidth
+
+}

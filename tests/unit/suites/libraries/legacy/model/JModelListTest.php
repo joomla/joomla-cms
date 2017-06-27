@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/listmodeltest.php';
@@ -40,6 +40,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session = $this->getMockSession();
 
 		$this->object = new JModelList(array("filter_fields" => array("field1", "field2")));
 	}
@@ -437,7 +438,7 @@ class JModelListTest extends TestCaseDatabase
 
 		TestReflection::setValue($object, '__state_set', true);
 
-		$this->assertSame(false, $object->getItems());
+		$this->assertFalse($object->getItems());
 	}
 
 	/**

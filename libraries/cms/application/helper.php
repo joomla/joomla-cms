@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -89,7 +89,7 @@ class JApplicationHelper
 		}
 		else
 		{
-			if ($language == '*' || $language == '')
+			if ($language === '*' || $language === '')
 			{
 				$languageParams = JComponentHelper::getParams('com_languages');
 				$language = $languageParams->get('site');
@@ -141,7 +141,7 @@ class JApplicationHelper
 		}
 
 		// If no client id has been passed return the whole array
-		if (is_null($id))
+		if ($id === null)
 		{
 			return self::$_clients;
 		}
@@ -255,7 +255,7 @@ class JApplicationHelper
 		 *
 		 * Should be 'metafile'.
 		 */
-		if ($xml->getName() != 'metafile')
+		if ($xml->getName() !== 'metafile')
 		{
 			unset($xml);
 
@@ -267,8 +267,8 @@ class JApplicationHelper
 		$data['name'] = (string) $xml->name;
 		$data['type'] = $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;

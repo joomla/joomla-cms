@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -37,7 +37,7 @@ abstract class JHtmlNumber
 	 * @return  string   The number of bytes in the proper units.
 	 *
 	 * @since   1.6
-	 * @see     https://en.wikipedia.org/wiki/Binary_prefix
+	 * @link    https://en.wikipedia.org/wiki/Binary_prefix
 	 */
 	public static function bytes($bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{
@@ -58,7 +58,7 @@ abstract class JHtmlNumber
 			{
 				$oBase  = $iec && strpos($oUnit, 'i') === false ? 1000 : 1024;
 				$factor = pow($oBase, stripos('BKMGTPEZY', $oUnit[0]));
-				$oBytes = $oBytes * $factor;
+				$oBytes *= $factor;
 			}
 		}
 
@@ -91,7 +91,7 @@ abstract class JHtmlNumber
 			$i      = array_search($unit, $stdSuffixes, true);
 			$suffix = $unit;
 		}
-		elseif ($unit == 'binary')
+		elseif ($unit === 'binary')
 		{
 			$base   = 1024;
 			$i      = (int) floor(log($oBytes, $base));
@@ -105,6 +105,8 @@ abstract class JHtmlNumber
 			$suffix = $stdSuffixes[$i];
 		}
 
-		return round($oBytes / pow($base, $i), (int) $precision) . ' ' . $suffix;
+		return number_format(
+			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')
+		) . ' ' . $suffix;
 	}
 }

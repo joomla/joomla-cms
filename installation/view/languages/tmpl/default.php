@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ $version = new JVersion;
   						</td>
 						<td class="center">
 						<?php // Display a Note if language pack version is not equal to Joomla version ?>
-						<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
+						<?php if (strpos($language->version, $version::RELEASE) !== 0  || strpos($language->version, $currentShortVersion) !== 0) : ?>
 							<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 						<?php else : ?>
 							<span class="label label-success"><?php echo $language->version; ?></span>

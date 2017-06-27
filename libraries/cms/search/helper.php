@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class JSearchHelper
 				->from($db->quoteName('#__core_log_searches'))
 				->where($db->quoteName('search_term') . ' = ' . $db->quote($search_term));
 			$db->setQuery($query);
-			$hits = intval($db->loadResult());
+			$hits = (int) $db->loadResult();
 
 			// Reset the $query object
 			$query->clear();

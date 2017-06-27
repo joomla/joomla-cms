@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -101,6 +101,14 @@ class JInstaller extends JAdapter
 	 * @since  3.1
 	 */
 	protected $redirect_url = null;
+
+	/**
+	 * Flag if the uninstall process was triggered by uninstalling a package
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
+	protected $packageUninstall = false;
 
 	/**
 	 * JInstaller instance container.
@@ -223,6 +231,32 @@ class JInstaller extends JAdapter
 	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
+	}
+
+	/**
+	 * Get whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function isPackageUninstall()
+	{
+		return $this->packageUninstall;
+	}
+
+	/**
+	 * Set whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @param   boolean  $uninstall  True if a package triggered the uninstall, false otherwise
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function setPackageUninstall($uninstall)
+	{
+		$this->packageUninstall = $uninstall;
 	}
 
 	/**
@@ -359,9 +393,8 @@ class JInstaller extends JAdapter
 					break;
 
 				case 'query':
-					// Placeholder in case this is necessary in the future
-					// $stepval is always false because if this step was called it invariably failed
-					$stepval = false;
+					// Execute the query.
+					$stepval = $this->parseSQLFiles($step['script']);
 					break;
 
 				case 'extension':
@@ -859,7 +892,7 @@ class JInstaller extends JAdapter
 		// Get the array of query nodes to process
 		$queries = $element->children();
 
-		if (count($queries) == 0)
+		if (count($queries) === 0)
 		{
 			// No queries to process
 			return 0;
@@ -906,11 +939,12 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$queries = array();
 		$db = & $this->_db;
+
+		// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+		if ($db->getServerType() === 'mysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -920,15 +954,15 @@ class JInstaller extends JAdapter
 		// Get the name of the sql file to process
 		foreach ($element->children() as $file)
 		{
-			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
-			$fDriver = strtolower($file->attributes()->driver);
+			$fCharset = strtolower($file->attributes()->charset) === 'utf8' ? 'utf8' : '';
+			$fDriver  = strtolower($file->attributes()->driver);
 
-			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
+			if ($fDriver === 'mysqli' || $fDriver === 'pdomysql')
 			{
 				$fDriver = 'mysql';
 			}
 
-			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
+			if ($fCharset === 'utf8' && $fDriver == $dbDriver)
 			{
 				$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
 
@@ -953,7 +987,7 @@ class JInstaller extends JAdapter
 				// Create an array of queries from the sql file
 				$queries = JDatabaseDriver::splitSql($buffer);
 
-				if (count($queries) == 0)
+				if (count($queries) === 0)
 				{
 					// No queries to process
 					return 0;
@@ -1009,7 +1043,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1027,7 +1061,7 @@ class JInstaller extends JAdapter
 					}
 				}
 
-				if (strlen($schemapath))
+				if ($schemapath !== '')
 				{
 					$files = str_replace('.sql', '', JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
@@ -1074,9 +1108,10 @@ class JInstaller extends JAdapter
 
 			if (count($schemapaths))
 			{
+				// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1090,7 +1125,7 @@ class JInstaller extends JAdapter
 					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
 					$uDriver = strtolower($attrs['type']);
 
-					if ($uDriver == 'mysqli' || $uDriver == 'pdomysql')
+					if ($uDriver === 'mysqli' || $uDriver === 'pdomysql')
 					{
 						$uDriver = 'mysql';
 					}
@@ -1102,7 +1137,7 @@ class JInstaller extends JAdapter
 					}
 				}
 
-				if (strlen($schemapath))
+				if ($schemapath !== '')
 				{
 					$files = str_replace('.sql', '', JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
@@ -1142,7 +1177,7 @@ class JInstaller extends JAdapter
 							// Create an array of queries from the sql file
 							$queries = JDatabaseDriver::splitSql($buffer);
 
-							if (count($queries) == 0)
+							if (count($queries) === 0)
 							{
 								// No queries to process
 								continue;
@@ -1296,7 +1331,7 @@ class JInstaller extends JAdapter
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
-			$path['type'] = ($file->getName() == 'folder') ? 'folder' : 'file';
+			$path['type'] = $file->getName() === 'folder' ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -1304,7 +1339,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1386,11 +1421,11 @@ class JInstaller extends JAdapter
 			// We will only install language files where a core language pack
 			// already exists.
 
-			if ((string) $file->attributes()->tag != '')
+			if ((string) $file->attributes()->tag !== '')
 			{
 				$path['src'] = $source . '/' . $file;
 
-				if ((string) $file->attributes()->client != '')
+				if ((string) $file->attributes()->client !== '')
 				{
 					// Override the client
 					$langclient = JApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
@@ -1420,7 +1455,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1493,7 +1528,7 @@ class JInstaller extends JAdapter
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
-			$path['type'] = ($file->getName() == 'folder') ? 'folder' : 'file';
+			$path['type'] = $file->getName() === 'folder' ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -1501,7 +1536,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1594,7 +1629,7 @@ class JInstaller extends JAdapter
 		 * allowOverwrite flag.
 		 */
 
-		if (is_null($overwrite) || !is_bool($overwrite))
+		if ($overwrite === null || !is_bool($overwrite))
 		{
 			$overwrite = $this->overwrite;
 		}
@@ -1625,7 +1660,7 @@ class JInstaller extends JAdapter
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
 					// It's okay if the manifest already exists
-					if ($this->getPath('manifest') == $filesource)
+					if ($this->getPath('manifest') === $filesource)
 					{
 						continue;
 					}
@@ -1639,9 +1674,9 @@ class JInstaller extends JAdapter
 				else
 				{
 					// Copy the folder or file to the new location.
-					if ($filetype == 'folder')
+					if ($filetype === 'folder')
 					{
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
+						if (!JFolder::copy($filesource, $filedest, null, $overwrite))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
 
@@ -1652,7 +1687,7 @@ class JInstaller extends JAdapter
 					}
 					else
 					{
-						if (!(JFile::copy($filesource, $filedest, null)))
+						if (!JFile::copy($filesource, $filedest, null))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
 
@@ -1722,7 +1757,7 @@ class JInstaller extends JAdapter
 		// Get the array of file nodes to process
 		$files = $element->children();
 
-		if (count($files) == 0)
+		if (count($files) === 0)
 		{
 			// No files to process
 			return true;
@@ -1797,7 +1832,7 @@ class JInstaller extends JAdapter
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
 
-			if ($file->getName() == 'language' && (string) $file->attributes()->tag != '')
+			if ($file->getName() === 'language' && (string) $file->attributes()->tag !== '')
 			{
 				if ($source)
 				{
@@ -1908,17 +1943,17 @@ class JInstaller extends JAdapter
 				// Is it a valid Joomla installation manifest file?
 				$manifest = $this->isManifest($file);
 
-				if (!is_null($manifest))
+				if ($manifest !== null)
 				{
 					// If the root method attribute is set to upgrade, allow file overwrite
-					if ((string) $manifest->attributes()->method == 'upgrade')
+					if ((string) $manifest->attributes()->method === 'upgrade')
 					{
 						$this->upgrade = true;
 						$this->overwrite = true;
 					}
 
 					// If the overwrite option is set, allow file overwriting
-					if ((string) $manifest->attributes()->overwrite == 'true')
+					if ((string) $manifest->attributes()->overwrite === 'true')
 					{
 						$this->overwrite = true;
 					}
@@ -1968,7 +2003,7 @@ class JInstaller extends JAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			return;
 		}
@@ -2188,7 +2223,9 @@ class JInstaller extends JAdapter
 
 		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
 
-		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
+		$name = $xml->getName();
+
+		if ($name !== 'extension' && $name !== 'metafile')
 		{
 			unset($xml);
 
@@ -2200,10 +2237,10 @@ class JInstaller extends JAdapter
 		$data['name'] = (string) $xml->name;
 
 		// Check if we're a language. If so use metafile.
-		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
+		$data['type'] = $xml->getName() === 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
@@ -2277,7 +2314,7 @@ class JInstaller extends JAdapter
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if (!$file->isFile() || $file->getExtension() != 'php')
+			if (!$file->isFile() || $file->getExtension() !== 'php')
 			{
 				continue;
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APCu cache storage handler
  *
- * @see    https://secure.php.net/manual/en/ref.apcu.php
+ * @link   https://secure.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
 class JCacheStorageApcu extends JCacheStorage
 {
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		return apcu_exists($this->_getCacheId($id, $group));
+	}
+
 	/**
 	 * Get cached data by ID and group
 	 *
@@ -81,7 +96,7 @@ class JCacheStorageApcu extends JCacheStorage
 					$item = $data[$group];
 				}
 
-				$item->updateSize($key['mem_size'] / 1024);
+				$item->updateSize($key['mem_size']);
 
 				$data[$group] = $item;
 			}

@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -44,9 +44,9 @@ abstract class JPluginHelper
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
@@ -91,7 +91,7 @@ abstract class JPluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this the right plugin?
-				if ($p->type == $type)
+				if ($p->type === $type)
 				{
 					$result[] = $p;
 				}
@@ -102,7 +102,7 @@ abstract class JPluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this plugin in the right group?
-				if ($p->type == $type && $p->name == $plugin)
+				if ($p->type === $type && $p->name === $plugin)
 				{
 					$result = $p;
 					break;
@@ -150,12 +150,12 @@ abstract class JPluginHelper
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
+		if ($plugin === null && $autocreate === true && $dispatcher === null)
 		{
 			$defaults = true;
 		}
 
-		if (!isset($loaded[$type]) || !$defaults)
+		if (!$defaults || !isset($loaded[$type]))
 		{
 			$results = null;
 
@@ -165,7 +165,7 @@ abstract class JPluginHelper
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++)
 			{
-				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin))
+				if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin))
 				{
 					static::import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
@@ -252,7 +252,7 @@ abstract class JPluginHelper
 						}
 
 						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) ($plugin));
+						new $className($dispatcher, (array) $plugin);
 					}
 				}
 			}
@@ -295,26 +295,30 @@ abstract class JPluginHelper
 		/** @var JCacheControllerCallback $cache */
 		$cache = JFactory::getCache('com_plugins', 'callback');
 
-		static::$plugins = $cache->get(
-			function () use ($levels)
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
-					->from('#__extensions')
-					->where('enabled = 1')
-					->where('type = ' . $db->quote('plugin'))
-					->where('state IN (0,1)')
-					->where('access IN (' . $levels . ')')
-					->order('ordering');
-				$db->setQuery($query);
+		$loader = function () use ($levels)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
+				->from('#__extensions')
+				->where('enabled = 1')
+				->where('type = ' . $db->quote('plugin'))
+				->where('state IN (0,1)')
+				->where('access IN (' . $levels . ')')
+				->order('ordering');
+			$db->setQuery($query);
 
-				return $db->loadObjectList();
-			},
-			array(),
-			md5($levels),
-			false
-		);
+			return $db->loadObjectList();
+		};
+
+		try
+		{
+			static::$plugins = $cache->get($loader, array(), md5($levels), false);
+		}
+		catch (JCacheException $cacheException)
+		{
+			static::$plugins = $loader();
+		}
 
 		return static::$plugins;
 	}
