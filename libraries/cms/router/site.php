@@ -177,16 +177,8 @@ class JRouterSite extends JRouter
 			}
 		}
 
-		$basePath = JUri::base(true);
-
-		// If the site router is called from administrator client.
-		if (JPATH_BASE == JPATH_ADMINISTRATOR)
-		{
-			$basePath = str_replace('/administrator', '', $basePath);
-		}
-
-		// Add basepath to the uri
-		$uri->setPath($basePath . '/' . $route);
+		// Add frontend basepath to the uri
+		$uri->setPath(JUri::root(true) . '/' . $route);
 
 		return $uri;
 	}

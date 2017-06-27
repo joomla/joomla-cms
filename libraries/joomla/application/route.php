@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Route handling class
  *
+ * @method  static string site($url, $xhtml = true, $ssl = null)           Create a frontend route.
+ * @method  static string administrator($url, $xhtml = true, $ssl = null)  Create a backend route.
+ *
  * @since  11.1
  */
 class JRoute
@@ -19,7 +22,7 @@ class JRoute
 	/**
 	 * The route object so we don't have to keep fetching it.
 	 *
-	 * @var    JRouter
+	 * @var    JRouter[]
 	 * @since  12.2
 	 */
 	private static $_router = array();
@@ -27,38 +30,36 @@ class JRoute
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL.
 	 *
-	 * @param   string   $url           Absolute or Relative URI to Joomla resource.
-	 * @param   boolean  $xhtml         Replace & by &amp; for XML compliance.
-	 * @param   integer  $ssl           Secure state for the resolved URI.
-	 *                                    0: (default) No change, use the protocol currently used in the request
-	 *                                    1: Make URI secure using global secure site URI.
-	 *                                    2: Make URI unsecure using the global unsecure site URI.
-	 * @param   string   $forcedClient  Force route for a specific client.
-	 *                                    null: (default) don't force client.
-	 *                                    site: force site (frontend) client.
-	 *                                    administrator: force administrator (backend) client.
+	 * @param   string   $url     Absolute or Relative URI to Joomla resource.
+	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   integer  $ssl     Secure state for the resolved URI.
+	 *                              0: (default) No change, use the protocol currently used in the request
+	 *                              1: Make URI secure using global secure site URI.
+	 *                              2: Make URI unsecure using the global unsecure site URI.
+	 * @param   string   $client  The client name for which to build the link. NULL to use active client.
 	 *
-	 * @return string The translated humanly readable URL.
+	 * @return  string  The translated humanly readable URL.
 	 *
 	 * @since   11.1
 	 */
-	public static function _($url, $xhtml = true, $ssl = null, $forcedClient = null)
+	public static function _($url, $xhtml = true, $ssl = null, $client = null)
 	{
-		// Get the router.
-		$app = JFactory::getApplication();
+		// Get the target client name.
+		if (!isset($client))
+		{
+			$client = JFactory::getApplication()->getName();
+		}
 
-		// Check which client we are using.
-		$client = isset($forcedClient) ? $forcedClient : $app->getName();
-
+		// Get the router instance.
 		if (!isset(self::$_router[$client]))
 		{
-			self::$_router[$client] = $app->getRouter($client);
+			self::$_router[$client] = JFactory::getApplication()->getRouter($client);
+		}
 
-			// Make sure that we have our router
-			if (!self::$_router[$client])
-			{
-				return;
-			}
+		// Make sure that we have our router
+		if (!self::$_router[$client])
+		{
+			return null;
 		}
 
 		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
@@ -67,8 +68,7 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = self::$_router[$client]->build($url);
-
+		$uri    = self::$_router[$client]->build($url);
 		$scheme = array('path', 'query', 'fragment');
 
 		/*
@@ -84,7 +84,7 @@ class JRoute
 
 			if (!is_array($host_port))
 			{
-				$uri2 = JUri::getInstance();
+				$uri2      = JUri::getInstance();
 				$host_port = array($uri2->getHost(), $uri2->getPort());
 			}
 
@@ -106,5 +106,30 @@ class JRoute
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Magic method to provide short access to the clients' route functions "site" and "administrator".
+	 * - To build a route for site:          <var>JRoute::site($url)</var>.
+	 * - To build a route for administrator: <var>JRoute::administrator($url)</var>
+	 *
+	 * @param   string  $name       The called method name
+	 * @param   array   $arguments  The method arguments
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function __callStatic($name, $arguments)
+	{
+		if (count($arguments))
+		{
+			$xhtml = isset($arguments[1]) ? $arguments[1] : true;
+			$ssl   = isset($arguments[2]) ? $arguments[2] : null;
+
+			return static::_($arguments[0], $xhtml, $ssl, $name);
+		}
+
+		return null;
 	}
 }
