@@ -116,6 +116,13 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @since  3.3
 	 */
 	protected $_jsonEncode = array();
+	
+	/**
+         * Counter of calls of _lock() method
+         * 
+         * @var integer 
+         */
+        protected static $_locks_counter = 0;
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -191,6 +198,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$this->_observers = new JObserverUpdater($this);
 		JObserverMapper::attachAllObservers($this);
 	}
+	
 
 	/**
 	 * Implement JObservableInterface:
@@ -1633,7 +1641,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Method to lock the database table for writing.
+	 * Method to lock the database tables for writing.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1642,8 +1650,32 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	protected function _lock()
 	{
-		$this->_db->lockTable($this->_tbl);
-		$this->_locked = true;
+                // Check if locks counter is not out of range
+                if (self::$_locks_counter < 0)
+                {
+                        self::$_locks_counter   = 0;
+                }
+                
+                // Lock all tables only if this is first call of _lock() on any of JTable instances
+                if (!self::$_locks_counter)
+                {
+                        $lockTables         = array();
+                        
+                        foreach ($this->_getTablesForLocking() as $tableName => $lockingParams)
+                        {
+                                $parts      = preg_split('/\s+AS\s+/i', $tableName);
+                                $name       = trim($parts[0], '`');
+                                $tableAlias = !empty($parts[1]) ? trim($parts[1], '`') : null;
+                                
+                                $lockTables[]   = $this->_db->qn($name, $tableAlias) . ' ' . $lockingParams;
+                        }
+                        
+                        $this->_db->setQuery('LOCK TABLES ' . implode(', ', $lockTables))->execute();
+                }
+                
+                $this->_locked      = true;
+                
+		self::$_locks_counter++;
 
 		return true;
 	}
@@ -1698,7 +1730,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	}
 
 	/**
-	 * Method to unlock the database table for writing.
+	 * Method to unlock the database tables for writing.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1706,9 +1738,38 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	protected function _unlock()
 	{
-		$this->_db->unlockTables();
-		$this->_locked = false;
+                self::$_locks_counter--;
+                
+                // Check if locks counter is not out of range
+                if (self::$_locks_counter < 0)
+                {
+                        self::$_locks_counter   = 0;
+                }
+                
+                // If number of locks equals to number of unlocks - unlock tables for writing
+                if (self::$_locks_counter == 0)
+                {
+                        $this->_db->unlockTables();
+                        $this->_locked          = false;
+                }
 
 		return true;
 	}
+	
+	/**
+         * Method to get all tables that need to be locked in complex database procedures
+         * 
+         * @return string
+         */
+        protected function _getTablesForLocking() {
+                $tables         = array($this->_tbl => 'WRITE');
+                
+                // If we are tracking assets, lock assets table
+                if ($this->_trackAssets)
+                {
+                        $tables['#__assets']        = 'WRITE';
+                }
+                
+                return $tables;
+        }
 }
