@@ -55,7 +55,7 @@
 
 				<field
 					name="siteTitle" 
-					type="text" 
+					type="color" 
 					default=""
 					label="JGLOBAL_TITLE"
 					description="JFIELD_ALT_PAGE_TITLE_LABEL"
