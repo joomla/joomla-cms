@@ -27,7 +27,7 @@ if (!defined('JPATH_BASE'))
  *
  * @package  RoboFile
  *
- * @since    __DEPLOY_VERSION__
+ * @since    3.7.3
  */
 class RoboFile extends \Robo\Tasks
 {
@@ -38,7 +38,7 @@ class RoboFile extends \Robo\Tasks
 	 * Path to the codeception tests folder
 	 *
 	 * @var   string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	private $testsPath = 'tests/codeception/';
 
@@ -46,13 +46,13 @@ class RoboFile extends \Robo\Tasks
 	 * Local configuration parameters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	private $configuration = array();
 
 	/**
 	 * @var array | null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	private $suiteConfig;
 
@@ -60,14 +60,14 @@ class RoboFile extends \Robo\Tasks
 	 * Path to the local CMS test folder
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $cmsPath = null;
 
 	/**
 	 * RoboFile constructor.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function __construct()
 	{
@@ -81,7 +81,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Get (optional) configuration from an external file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  \stdClass|null
 	 */
@@ -111,7 +111,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Get the correct CMS root path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  string
 	 */
@@ -137,7 +137,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @param   bool $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -186,7 +186,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -233,7 +233,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Downloads Composer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -249,7 +249,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Runs Selenium Standalone Server.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -274,7 +274,7 @@ class RoboFile extends \Robo\Tasks
 	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
 	 *                        - 'env': set a specific environment to get configuration from
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  mixed
 	 */
@@ -327,7 +327,7 @@ class RoboFile extends \Robo\Tasks
 	 * @param   string  $pathToTestFile  Optional name of the test to be run
 	 * @param   string  $suite           Optional name of the suite containing the tests, Acceptance by default.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 *
 	 * @return  void
 	 */
@@ -438,7 +438,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	private function isWindows()
 	{
@@ -452,7 +452,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	private function getWindowsPath($path)
 	{
@@ -464,7 +464,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  string the webdriver string to use with selenium
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function getWebdriver()
 	{
@@ -518,7 +518,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	private function getOs()
 	{
@@ -544,7 +544,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	private function getSuiteConfig($suite = 'acceptance')
 	{

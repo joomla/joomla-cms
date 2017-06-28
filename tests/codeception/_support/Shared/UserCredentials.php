@@ -12,7 +12,7 @@ namespace Shared;
 /**
  * Credentials for the user accounts
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.3
  */
 class UserCredentials
 {
@@ -20,7 +20,7 @@ class UserCredentials
 	 * Name of the user
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $name = 'Test User';
 
@@ -28,7 +28,7 @@ class UserCredentials
 	 * Username
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $username = 'testuser';
 
@@ -36,7 +36,7 @@ class UserCredentials
 	 * Password
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $password = 'secure42';
 
@@ -44,7 +44,7 @@ class UserCredentials
 	 * Email of the user
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	public static $email = 'noreply@joomla.org';
 }

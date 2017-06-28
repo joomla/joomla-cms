@@ -295,6 +295,24 @@ JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Clie
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
 JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
 
+JLoader::registerAlias('JUpdate',                           '\\Joomla\\CMS\\Updater\\Update', '5.0');
+JLoader::registerAlias('JUpdateAdapter',                    '\\Joomla\\CMS\\Updater\\UpdateAdapter', '5.0');
+JLoader::registerAlias('JUpdater',                          '\\Joomla\\CMS\\Updater\\Updater', '5.0');
+JLoader::registerAlias('JUpdaterCollection',                '\\Joomla\\CMS\\Updater\\Adapter\\CollectionAdapter', '5.0');
+JLoader::registerAlias('JUpdaterExtension',                 '\\Joomla\\CMS\\Updater\\Adapter\\ExtensionAdapter', '5.0');
+
+JLoader::registerAlias('JCrypt',                             '\\Joomla\\CMS\\Crypt\\Crypt', '5.0');
+JLoader::registerAlias('JCryptCipher',                       '\\Joomla\\CMS\\Crypt\\CipherInterface', '5.0');
+JLoader::registerAlias('JCryptKey',                          '\\Joomla\\CMS\\Crypt\\Key', '5.0');
+JLoader::registerAlias('JCryptPassword',                     '\\Joomla\\CMS\\Crypt\\CryptPassword', '4.0');
+JLoader::registerAlias('JCryptCipherBlowfish',               '\\Joomla\\CMS\\Crypt\\Cipher\\BlowfishCipher', '4.0');
+JLoader::registerAlias('JCryptCipherCrypto',                 '\\Joomla\\CMS\\Crypt\\Cipher\\CryptoCipher', '5.0');
+JLoader::registerAlias('JCryptCipherMcrypt',                 '\\Joomla\\CMS\\Crypt\\Cipher\\McryptCipher', '4.0');
+JLoader::registerAlias('JCryptCipherRijndael256',            '\\Joomla\\CMS\\Crypt\\Cipher\\Rijndael256Cipher', '4.0');
+JLoader::registerAlias('JCryptCipherSimple',                 '\\Joomla\\CMS\\Crypt\\Cipher\\SimpleCipher', '4.0');
+JLoader::registerAlias('JCryptCipher3Des',                   '\\Joomla\\CMS\\Crypt\\Cipher\\TripleDesCipher', '4.0');
+JLoader::registerAlias('JCryptPasswordSimple',               '\\Joomla\\CMS\\Crypt\\Password\\SimpleCryptPassword', '4.0');
+
 JLoader::registerAlias('JImageFilter',                      '\\Joomla\\Image\\ImageFilter', '5.0');
 JLoader::registerAlias('JImageFilterBackgroundfill',        '\\Joomla\\Image\\Filter\\Backgroundfill', '5.0');
 JLoader::registerAlias('JImageFilterBrightness',            '\\Joomla\\Image\\Filter\\Brightness', '5.0');

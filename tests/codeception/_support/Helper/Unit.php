@@ -16,7 +16,7 @@ namespace Helper;
  *
  * @package  Codeception\Module
  *
- * @since    __DEPLOY_VERSION__
+ * @since    3.7.3
  */
 class Unit extends \Codeception\Module
 {
