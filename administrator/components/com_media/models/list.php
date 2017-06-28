@@ -112,6 +112,7 @@ class MediaModelList extends JModelLegacy
 
 		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+		$params = JComponentHelper::getParams('com_media');
 
 		$images  = array ();
 		$folders = array ();
@@ -145,7 +146,7 @@ class MediaModelList extends JModelLegacy
 					$tmp->size = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
-					$params = JComponentHelper::getParams('com_media');
+					
 	  				$image_extensions = ['jpg','png','gif','xcf','odg','bmp','jpeg','ico'];
           				$image_extensions = array_merge ($image_extensions,explode(',',$params->get('image_extensions')));
           				// image
