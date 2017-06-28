@@ -82,15 +82,14 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="d-flex justify-content-end">
+				<div class="d-flex row justify-content-end">
+					<div class="menu-collapse">
+						<a id="menu-collapse" class="menu-toggle" href="#">
+							<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
+						</a>
+					</div>
 					<div class="d-flex col">
-						<div class="menu-collapse">
-							<a id="menu-collapse" class="menu-toggle" href="#">
-								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
-							</a>
-						</div>
-
 						<div class="container-title">
 							<jdoc:include type="modules" name="title" />
 						</div>
