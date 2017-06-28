@@ -3,7 +3,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function() {
+Joomla = window.Joomla || {};
+
+(function(Joomla) {
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
@@ -27,4 +29,4 @@
 
 	});
 
-})();
+})(Joomla);

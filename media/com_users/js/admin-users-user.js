@@ -3,13 +3,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function() {
+Joomla = window.Joomla || {};
+
+(function(Joomla) {
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		Joomla.twoFactorMethodChange = function(e)
-		{
+		Joomla.twoFactorMethodChange = function(e) {
 			var method = document.getElementById('jform_twofactor_method');
 
 			if (method) {
@@ -33,4 +34,4 @@
 
 	});
 
-})();
+})(Joomla);
