@@ -18,7 +18,7 @@
 
   .page-title {
     display: inline-block;
-    margin: 0 46px;
+    margin: 0 5px;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
@@ -49,10 +49,6 @@
     span {
       margin-left: .4rem;
     }
-  }
-
-  .nav {
-    margin-right: -7.5px;
   }
 
   .nav-item + .nav-item {
@@ -159,10 +155,6 @@
 
 // Mobile Toggle
 .menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin-left: -7.5px;
   font-size: 2rem;
   text-align: center;
 

@@ -175,7 +175,7 @@ class Html extends HtmlView
 		// Prepare the toolbar.
 		\JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
 			\JToolbarHelper::addNew('category.add');
 		}
@@ -266,12 +266,12 @@ class Html extends HtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft' => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
 			'a.published' => \JText::_('JSTATUS'),
-			'a.title' => \JText::_('JGLOBAL_TITLE'),
-			'a.access' => \JText::_('JGRID_HEADING_ACCESS'),
-			'language' => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => \JText::_('JGRID_HEADING_ID')
+			'a.title'     => \JText::_('JGLOBAL_TITLE'),
+			'a.access'    => \JText::_('JGRID_HEADING_ACCESS'),
+			'language'    => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => \JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

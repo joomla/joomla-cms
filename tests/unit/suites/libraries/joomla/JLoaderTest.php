@@ -93,8 +93,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	public function casesImport()
 	{
 		return array(
-			'factory' => array('joomla.factory', null, null, true, 'factory should load properly', true),
-			'jfactory' => array('joomla.jfactory', null, null, false, 'JFactory does not exist so should not load properly', true),
 			'fred.factory' => array('fred.factory', null, null, false, 'fred.factory does not exist', true),
 			'bogus' => array('bogusload', JPATH_TEST_STUBS, '', true, 'bogusload.php should load properly', false),
 			'class.loader' => array('cms.class.loader', null, '', true, 'class loader should load properly', true));
@@ -878,7 +876,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->bogusPath);
-		unset($this->bogusFullPath);
+		unset($this->bogusPath, $this->bogusFullPath);
 	}
 }
