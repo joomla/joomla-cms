@@ -212,7 +212,7 @@ class JToolbar
 	{
 		$signature = md5($type);
 
-		if (isset($this->_buttons[$signature]) && $new === false)
+		if ($new === false && isset($this->_buttons[$signature]))
 		{
 			return $this->_buttons[$signature];
 		}

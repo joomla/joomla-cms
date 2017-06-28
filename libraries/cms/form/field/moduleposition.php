@@ -95,7 +95,7 @@ class JFormFieldModulePosition extends JFormFieldText
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			// Get the client id.
 			$clientId = $this->element['client_id'];

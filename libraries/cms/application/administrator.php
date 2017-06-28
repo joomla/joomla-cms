@@ -365,7 +365,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$config = $db->loadObject();
 
 		// Check if auto_purge value set
-		if (is_object($config) and $config->cfg_name === 'auto_purge')
+		if (is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
 		}

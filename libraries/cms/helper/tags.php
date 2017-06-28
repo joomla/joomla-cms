@@ -211,7 +211,7 @@ class JHelperTags extends JHelper
 			foreach ($tags as $key => $tag)
 			{
 				// User is not allowed to create tags, so don't create.
-				if (strpos($tag, '#new#') !== false && !$canCreate)
+				if (!$canCreate && strpos($tag, '#new#') !== false)
 				{
 					continue;
 				}

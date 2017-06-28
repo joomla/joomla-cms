@@ -73,7 +73,7 @@ class JTwitterHelpTest extends TestCase
 	/**
 	 * @var  JTwitterOAuth  Test-Object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $oauth;
 
