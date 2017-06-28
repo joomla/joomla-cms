@@ -255,8 +255,9 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0 &&
-			strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
+		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
+			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
+		)
 		{
 			echo $contents;
 
@@ -344,8 +345,8 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Add a display callback to be rendered with the debug console.
 	 *
-	 * @param   string   $name     The name of the callable, this is used to generate the section title.
-	 * @param   callable $callable The callback function to be added.
+	 * @param   string    $name      The name of the callable, this is used to generate the section title.
+	 * @param   callable  $callable  The callback function to be added.
 	 *
 	 * @return  boolean
 	 *
@@ -368,7 +369,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Remove a registered display callback
 	 *
-	 * @param   string $name The name of the callable.
+	 * @param   string  $name  The name of the callable.
 	 *
 	 * @return  boolean
 	 *
@@ -384,7 +385,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Method to check if the current user is allowed to see the debug information or not.
 	 *
-	 * @return  boolean  True is access is allowed.
+	 * @return  boolean  True  is access is allowed.
 	 *
 	 * @since   3.0
 	 */
@@ -420,8 +421,8 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * General display method.
 	 *
-	 * @param   string $item   The item to display.
-	 * @param   array  $errors Errors occurred during execution.
+	 * @param   string  $item    The item to display.
+	 * @param   array   $errors  Errors occurred during execution.
 	 *
 	 * @return  string
 	 *
@@ -466,8 +467,8 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Display method for callback functions.
 	 *
-	 * @param   string   $name     The name of the callable.
-	 * @param   callable $callable The callable function.
+	 * @param   string    $name      The name of the callable.
+	 * @param   callable  $callable  The callable function.
 	 *
 	 * @return  string
 	 *
@@ -500,9 +501,9 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * Called recursively.
 	 *
-	 * @param   string  $key     A session key.
-	 * @param   mixed   $session The session array, initially null.
-	 * @param   integer $id      Used to identify the DIV for the JavaScript toggling code.
+	 * @param   string   $key      A session key.
+	 * @param   mixed    $session  The session array, initially null.
+	 * @param   integer  $id       Used to identify the DIV for the JavaScript toggling code.
 	 *
 	 * @return  string
 	 *
@@ -1108,7 +1109,8 @@ class PlgSystemDebug extends JPlugin
 						}
 
 						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
-						$htmlTiming          .= ' <span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
+						$htmlTiming          .= ' <span class="dbg-query-rowsnumber">'
+							. JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
 
@@ -1291,9 +1293,9 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Render the bars.
 	 *
-	 * @param   array   &$bars Array of bar data
-	 * @param   string  $class Optional class for items
-	 * @param   integer $id    Id if the bar to highlight
+	 * @param   array    &$bars  Array of bar data
+	 * @param   string   $class  Optional class for items
+	 * @param   integer  $id     Id if the bar to highlight
 	 *
 	 * @return  string
 	 *
@@ -1335,8 +1337,8 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Render an HTML table based on a multi-dimensional array.
 	 *
-	 * @param   array   $table        An array of tabular data.
-	 * @param   boolean &$hasWarnings Changes value to true if warnings are displayed, otherwise untouched
+	 * @param   array    $table         An array of tabular data.
+	 * @param   boolean  &$hasWarnings  Changes value to true if warnings are displayed, otherwise untouched
 	 *
 	 * @return  string
 	 *
@@ -1467,7 +1469,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Disconnect handler for database to collect profiling and explain information.
 	 *
-	 * @param   JDatabaseDriver &$db Database object.
+	 * @param   JDatabaseDriver  &$db  Database object.
 	 *
 	 * @return  void
 	 *
@@ -1700,7 +1702,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Simple highlight for SQL queries.
 	 *
-	 * @param   string $query The query to highlight.
+	 * @param   string  $query  The query to highlight.
 	 *
 	 * @return  string
 	 *
@@ -1739,7 +1741,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * Stolen from JError to prevent it's removal.
 	 *
-	 * @param   Exception $error The Exception object to be rendered.
+	 * @param   Exception  $error  The Exception object to be rendered.
 	 *
 	 * @return  string     Rendered backtrace.
 	 *
@@ -1755,8 +1757,8 @@ class PlgSystemDebug extends JPlugin
 	 * Formats a link with a special value xdebug.file_link_format
 	 * from the php.ini file.
 	 *
-	 * @param   string $file The full path to the file.
-	 * @param   string $line The line number.
+	 * @param   string  $file  The full path to the file.
+	 * @param   string  $line  The line number.
 	 *
 	 * @return  string
 	 *
@@ -1900,7 +1902,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Renders call stack and back trace in HTML.
 	 *
-	 * @param   array $callStack The call stack and back trace array.
+	 * @param   array  $callStack  The call stack and back trace array.
 	 *
 	 * @return  string  The call stack and back trace in HMTL format.
 	 *
@@ -1997,7 +1999,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Pretty print JSON with colors.
 	 *
-	 * @param   string $json The json raw string.
+	 * @param   string  $json  The json raw string.
 	 *
 	 * @return  string  The json string pretty printed.
 	 *
