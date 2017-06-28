@@ -1,15 +1,19 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Help\Help;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -17,7 +21,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class JFormFieldHelpsite extends JFormFieldList
+class HelpsiteField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -37,7 +41,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	protected function getOptions()
 	{
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $this->value));
+		$options = array_merge(parent::getOptions(), Help::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $this->value));
 
 		return $options;
 	}
@@ -51,7 +55,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		JHtml::_('script', 'system/helpsite.js', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('script', 'system/helpsite.js', array('version' => 'auto', 'relative' => true));
 
 		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
 
@@ -63,7 +67,7 @@ class JFormFieldHelpsite extends JFormFieldList
 						rel="' . $this->id . '"
 						showDefault="' . $showDefault . '"
 					>
-					<span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
+					<span>' . \JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
 					</button>';
 
 		return $html . $button;

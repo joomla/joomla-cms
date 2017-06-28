@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Content Type field.
  *
  * @since  3.1
  */
-class JFormFieldContenttype extends JFormFieldList
+class ContenttypeField extends \JFormFieldList
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -60,8 +64,8 @@ class JFormFieldContenttype extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$lang = JFactory::getLanguage();
-		$db    = JFactory::getDbo();
+		$lang = Factory::getLanguage();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.type_id AS value, a.type_title AS text, a.type_alias AS alias')
 			->from('#__content_types AS a')
@@ -75,7 +79,7 @@ class JFormFieldContenttype extends JFormFieldList
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return array();
 		}
@@ -98,7 +102,7 @@ class JFormFieldContenttype extends JFormFieldList
 
 			if ($lang->hasKey($option->string))
 			{
-				$option->text = JText::_($option->string);
+				$option->text = \JText::_($option->string);
 			}
 
 		}

@@ -1,20 +1,25 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Form\Field;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\UCM\UCMType;
 
 /**
  * Ordering field.
  *
  * @since  3.2
  */
-class JFormFieldOrdering extends JFormField
+class OrderingField extends FormField
 {
 	/**
 	 * The form field type.
@@ -78,18 +83,18 @@ class JFormFieldOrdering extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
 
@@ -128,13 +133,13 @@ class JFormFieldOrdering extends JFormField
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ($this->readonly)
 		{
-			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $itemId ? 0 : 1);
+			$html[] = \JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $itemId ? 0 : 1);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
 		}
 		else
 		{
 			// Create a regular list.
-			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1);
+			$html[] = \JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1);
 		}
 
 		return implode($html);
@@ -143,14 +148,14 @@ class JFormFieldOrdering extends JFormField
 	/**
 	 * Builds the query for the ordering list.
 	 *
-	 * @return  JDatabaseQuery  The query for the ordering form field
+	 * @return  \JDatabaseQuery  The query for the ordering form field
 	 *
 	 * @since   3.2
 	 */
 	protected function getQuery()
 	{
 		$categoryId   = (int) $this->form->getValue('catid');
-		$ucmType      = new JUcmType;
+		$ucmType      = new UCMType;
 		$ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 
@@ -165,7 +170,7 @@ class JFormFieldOrdering extends JFormField
 			$title    = $ucmMapCommon[0]->core_title;
 		}
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))

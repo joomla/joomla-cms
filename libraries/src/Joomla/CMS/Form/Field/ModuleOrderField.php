@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Form\Field;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Session\Session;
 
 /**
  * Module Order field.
  *
  * @since  1.6
  */
-class JFormFieldModuleOrder extends JFormField
+class ModuleOrderField extends FormField
 {
 	/**
 	 * The form field type.
@@ -78,18 +82,18 @@ class JFormFieldModuleOrder extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.6.3
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 
@@ -128,7 +132,7 @@ class JFormFieldModuleOrder extends JFormField
 			'ordering' => $this->form->getValue('ordering'),
 			'clientId' => $this->form->getValue('client_id'),
 			'name'     => $this->name,
-			'token'    => JSession::getFormToken() . '=1',
+			'token'    => Session::getFormToken() . '=1',
 			'element'  => $this->form->getName() . '_' . $this->linked
 		);
 
