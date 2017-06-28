@@ -45,7 +45,10 @@ class JRoute
 	{
 		try
 		{
-			return static::link(null, $url, $xhtml, $ssl);
+			$app    = JFactory::getApplication();
+			$client = $app->getName();
+
+			return static::link($client, $url, $xhtml, $ssl);
 		}
 		catch (RuntimeException $e)
 		{
@@ -56,8 +59,9 @@ class JRoute
 
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL.
+	 * NOTE: To build link for active client instead of a specific client, you can use <var>JRoute::_()</var>
 	 *
-	 * @param   string   $client  The client name for which to build the link. NULL to use active client.
+	 * @param   string   $client  The client name for which to build the link.
 	 * @param   string   $url     Absolute or Relative URI to Joomla resource.
 	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
 	 * @param   integer  $ssl     Secure state for the resolved URI.
@@ -79,17 +83,16 @@ class JRoute
 			return $url;
 		}
 
-		// Get the router instance.
-		$app    = JFactory::getApplication();
-		$client = $client ?: $app->getName();
-
-		if (!isset(self::$_router[$client]))
+		// Get the router instance, only attempt when a client name is given.
+		if ($client && !isset(self::$_router[$client]))
 		{
+			$app = JFactory::getApplication();
+
 			self::$_router[$client] = $app->getRouter($client);
 		}
 
 		// Make sure that we have our router
-		if (!self::$_router[$client])
+		if (!isset(self::$_router[$client]))
 		{
 			throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 		}
