@@ -8646,7 +8646,7 @@ legend {
     background-image: linear-gradient(to right, #59afff 0%, #59daff 100%); }
   .header .page-title {
     display: inline-block;
-    margin: 0 46px;
+    margin: 0 5px;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: 48px;
@@ -8668,8 +8668,6 @@ legend {
     margin-left: 10px; } }
     .header .navbar-brand span {
       margin-left: .4rem; }
-  .header .nav {
-    margin-right: -7.5px; }
   .header .nav-item + .nav-item {
     margin-left: 1px; }
   .header .nav-item {
@@ -8730,10 +8728,6 @@ legend {
       margin-top: 48px; } }
 
 .menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin-left: -7.5px;
   font-size: 2rem;
   text-align: center; }
   .menu-collapse a {
