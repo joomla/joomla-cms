@@ -25,11 +25,73 @@ class Workflow extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
-	 * @since   1.0
+	 * @since   4.0
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_workflow.title';
 		parent::__construct('#__workflows', 'id', $db);
 	}
+
+	/**
+	 * Deletes workflow with transition and statuses.
+	 *
+	 * @param   int  $pk Extension ids to delete.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 *
+	 * @throws  \Exception on ACL error
+	 */
+	public function delete($pk = null)
+	{
+		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		{
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
+		$db  = $this->getDbo();
+		$app = \JFactory::getApplication();
+
+		// Delete the update site from all tables.
+		try
+		{
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__workflow_status'))
+				->where($db->qn('workflow_id') . ' = ' . (int) $pk);
+			$db->setQuery($query);
+			$db->execute();
+
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__workflow_transitions'))
+				->where($db->qn('workflow_id') . ' = ' . (int) $pk);
+			$db->setQuery($query);
+			$db->execute();
+
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__workflows'))
+				->where($db->qn('id') . ' = ' . (int) $pk);
+			$db->setQuery($query);
+			$db->execute();
+
+		}
+		catch (\RuntimeException $e)
+		{
+			// Gets the update site names.
+			$query = $db->getQuery(true)
+				->select($db->qn(array('id', 'title')))
+				->from($db->qn('#__workflows'))
+				->where($db->qn('id') . ' = ' . (int) $pk);
+			$db->setQuery($query);
+			$workflows = $db->loadObjectList();
+
+			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflows[$pk]->title, $e->getMessage()), 'error');
+
+			return;
+		}
+
+		$app->enqueueMessage(\JText::plural('COM_WORKFLOW_N_ITEMS_DELETED_1', 1), 'message');
+	}
+
 }
