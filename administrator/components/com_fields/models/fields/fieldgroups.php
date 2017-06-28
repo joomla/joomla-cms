@@ -44,6 +44,7 @@ class JFormFieldFieldgroups extends JFormFieldList
 		$query->where('state IN (' . implode(',', $states) . ')');
 		$query->where('context = ' . $db->quote($context));
 		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->order('ordering asc, id asc');
 
 		$db->setQuery($query);
 		$options = $db->loadObjectList();

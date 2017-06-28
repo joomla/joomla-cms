@@ -78,8 +78,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// If there is a matching extension mark this as an update
 				$this->setRoute('update');
@@ -173,7 +173,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -356,7 +356,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	{
 		$element = parent::getElement($element);
 
-		if (substr($element, 0, 4) !== 'com_')
+		if (strpos($element, 'com_') !== 0)
 		{
 			$element = 'com_' . $element;
 		}
