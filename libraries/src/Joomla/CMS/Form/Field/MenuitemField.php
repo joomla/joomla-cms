@@ -1,15 +1,19 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('groupedlist');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('groupedlist');
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -19,7 +23,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
  *
  * @since  1.6
  */
-class JFormFieldMenuitem extends JFormFieldGroupedList
+class MenuitemField extends \JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -130,18 +134,18 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
 
@@ -171,13 +175,13 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		$menuType = $this->menuType;
 
 		// Get the menu items.
-		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
+		$items = \MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
 
 		// Build group for a specific menu type.
 		if ($menuType)
 		{
 			// If the menutype is empty, group the items by menutype.
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
@@ -188,7 +192,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			{
 				$menuTitle = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$menuTitle = $menuType;
 			}
@@ -211,7 +215,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 					$lang = '';
 				}
 
-				$groups[$menuTitle][] = JHtml::_('select.option',
+				$groups[$menuTitle][] = \JHtml::_('select.option',
 								$link->value, $levelPrefix . $link->text . $lang,
 								'value',
 								'text',
@@ -243,7 +247,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 						$lang = '';
 					}
 
-					$groups[$menu->title][] = JHtml::_('select.option',
+					$groups[$menu->title][] = \JHtml::_('select.option',
 										$link->value, $levelPrefix . $link->text . $lang,
 										'value',
 										'text',

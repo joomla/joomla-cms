@@ -1,24 +1,30 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * List of Tags field.
  *
  * @since  3.1
  */
-class JFormFieldTag extends JFormFieldList
+class TagField extends \JFormFieldList
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -54,7 +60,7 @@ class JFormFieldTag extends JFormFieldList
 		parent::__construct();
 
 		// Load com_tags config
-		$this->comParams = JComponentHelper::getParams('com_tags');
+		$this->comParams = ComponentHelper::getParams('com_tags');
 	}
 
 	/**
@@ -74,12 +80,12 @@ class JFormFieldTag extends JFormFieldList
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
 			// Load the ajax-chosen customised field
-			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
+			\JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
 		}
 
 		if (!is_array($this->value) && !empty($this->value))
 		{
-			if ($this->value instanceof JHelperTags)
+			if ($this->value instanceof TagsHelper)
 			{
 				if (empty($this->value->tags))
 				{
@@ -111,19 +117,19 @@ class JFormFieldTag extends JFormFieldList
 	protected function getOptions()
 	{
 		$published = $this->element['published']?: array(0, 1);
-		$app       = JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Limit Options in multilanguage
-		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && Multilanguage::isEnabled())
 		{
-			$lang = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
+			$lang = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
 			if ($lang == 'current_language')
 			{
@@ -167,7 +173,7 @@ class JFormFieldTag extends JFormFieldList
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return array();
 		}
@@ -196,7 +202,7 @@ class JFormFieldTag extends JFormFieldList
 		}
 		else
 		{
-			$options = JHelperTags::convertPathsToNames($options);
+			$options = TagsHelper::convertPathsToNames($options);
 		}
 
 		return $options;

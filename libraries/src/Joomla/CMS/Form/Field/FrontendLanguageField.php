@@ -1,15 +1,19 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Provides a list of published content languages with home pages
@@ -17,7 +21,7 @@ JFormHelper::loadFieldClass('list');
  * @see    JFormFieldLanguage for a select list of application languages.
  * @since  3.5
  */
-class JFormFieldFrontend_Language extends JFormFieldList
+class FrontendLanguageField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -37,7 +41,7 @@ class JFormFieldFrontend_Language extends JFormFieldList
 	protected function getOptions()
 	{
 		// Get the database object and a new query object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('a.lang_code AS value, a.title AS text')
@@ -59,20 +63,17 @@ class JFormFieldFrontend_Language extends JFormFieldList
 		{
 			$languages = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$languages = array();
 
-			if (JFactory::getUser()->authorise('core.admin'))
+			if (Factory::getUser()->authorise('core.admin'))
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
 		// Merge any additional options in the XML definition.
-		return array_merge(
-			parent::getOptions(),
-			$languages
-		);
+		return array_merge(parent::getOptions(), $languages);
 	}
 }

@@ -1,15 +1,18 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Provides a list of content languages
@@ -17,7 +20,7 @@ JFormHelper::loadFieldClass('list');
  * @see    JFormFieldLanguage for a select list of application languages.
  * @since  1.6
  */
-class JFormFieldContentlanguage extends JFormFieldList
+class ContentlanguageField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -36,6 +39,6 @@ class JFormFieldContentlanguage extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		return array_merge(parent::getOptions(), JHtml::_('contentlanguage.existing'));
+		return array_merge(parent::getOptions(), \JHtml::_('contentlanguage.existing'));
 	}
 }

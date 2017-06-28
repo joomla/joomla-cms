@@ -1,22 +1,28 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('text');
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('text');
 
 /**
  * Module Position field.
  *
  * @since  1.6
  */
-class JFormFieldModulePosition extends JFormFieldText
+class ModulePositionField extends \JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -80,18 +86,18 @@ class JFormFieldModulePosition extends JFormFieldText
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
 
@@ -106,12 +112,12 @@ class JFormFieldModulePosition extends JFormFieldText
 
 				if (isset($clientName))
 				{
-					$client = JApplicationHelper::getClientInfo($clientName, true);
+					$client = ApplicationHelper::getClientInfo($clientName, true);
 					$clientId = $client->id;
 				}
 			}
 
-			if (!isset($clientId) && $this->form instanceof JForm)
+			if (!isset($clientId) && $this->form instanceof Form)
 			{
 				$clientId = $this->form->getValue('client_id');
 			}
@@ -132,7 +138,7 @@ class JFormFieldModulePosition extends JFormFieldText
 	protected function getInput()
 	{
 		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal');
+		\JHtml::_('behavior.modal', 'a.modal');
 
 		// Build the script.
 		$script = array();
@@ -142,7 +148,7 @@ class JFormFieldModulePosition extends JFormFieldText
 		$script[] = '	}';
 
 		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		Factory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
 		$html = array();
@@ -152,9 +158,9 @@ class JFormFieldModulePosition extends JFormFieldText
 		// The current user display field.
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
-			. '<a class="btn modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
+			. '<a class="btn modal" title="' . \JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
 			. '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
+			. \JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);

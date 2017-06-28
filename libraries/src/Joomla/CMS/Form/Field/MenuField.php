@@ -1,25 +1,29 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Form\Field;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
-JFormHelper::loadFieldClass('GroupedList');
+FormHelper::loadFieldClass('GroupedList');
 
 /**
  * Supports an HTML select list of menus
  *
  * @since  1.6
  */
-class JFormFieldMenu extends JFormFieldGroupedList
+class MenuField extends \JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -35,7 +39,7 @@ class JFormFieldMenu extends JFormFieldGroupedList
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
@@ -43,7 +47,7 @@ class JFormFieldMenu extends JFormFieldGroupedList
 		$accessType = (string) $this->element['accesstype'];
 		$showAll    = (string) $this->element['showAll'] == 'true';
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 			->from($db->quoteName('#__menu_types'))
@@ -58,7 +62,7 @@ class JFormFieldMenu extends JFormFieldGroupedList
 
 		if ($accessType)
 		{
-			$user = JFactory::getUser();
+			$user = Factory::getUser();
 
 			foreach ($menus as $key => $menu)
 			{
@@ -92,7 +96,7 @@ class JFormFieldMenu extends JFormFieldGroupedList
 		{
 			$opts[] = (object) array(
 				'value'     => 'main',
-				'text'      => JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
+				'text'      => \JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
 				'client_id' => 1,
 			);
 		}
@@ -109,7 +113,7 @@ class JFormFieldMenu extends JFormFieldGroupedList
 			foreach ($options as $option)
 			{
 				// If client id is not specified we group the items.
-				$label = ($option->client_id == 1 ? JText::_('JADMINISTRATOR') : JText::_('JSITE'));
+				$label = ($option->client_id == 1 ? \JText::_('JADMINISTRATOR') : \JText::_('JSITE'));
 
 				$groups[$label][] = $option;
 			}

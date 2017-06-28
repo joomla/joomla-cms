@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('groupedlist');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Chrome Styles field.
  *
  * @since  3.0
  */
-class JFormFieldChromeStyle extends JFormFieldGroupedList
+class ChromeStyleField extends \JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -39,8 +43,8 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		$groups = array();
 
 		// Add Module Style Field
-		$tmp = '---' . JText::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
-		$groups[$tmp][] = JHtml::_('select.option', '0', JText::_('JLIB_FORM_VALUE_INHERITED'));
+		$tmp = '---' . \JText::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
+		$groups[$tmp][] = \JHtml::_('select.option', '0', \JText::_('JLIB_FORM_VALUE_INHERITED'));
 
 		$templateStyles = $this->getTemplateModuleStyles();
 
@@ -52,7 +56,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 
 			foreach ($styles as $style)
 			{
-				$tmp = JHtml::_('select.option', $template . '-' . $style, $style);
+				$tmp = \JHtml::_('select.option', $template . '-' . $style, $style);
 				$groups[$template][] = $tmp;
 			}
 		}
@@ -108,7 +112,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 	 */
 	protected function getSystemTemplate()
 	{
-		$template = new stdClass;
+		$template = new \stdClass;
 		$template->element = 'system';
 		$template->name    = 'system';
 		$template->enabled = 1;
@@ -125,7 +129,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 	 */
 	protected function getTemplates()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);

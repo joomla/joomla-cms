@@ -1,22 +1,27 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('groupedlist');
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Supports a select grouped list of template styles
  *
  * @since  1.6
  */
-class JFormFieldTemplatestyle extends JFormFieldGroupedList
+class TemplatestyleField extends \JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -90,18 +95,18 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
 
@@ -127,16 +132,16 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 	protected function getGroups()
 	{
 		$groups = array();
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Get the client and client_id.
-		$client = JApplicationHelper::getClientInfo($this->clientName, true);
+		$client = ApplicationHelper::getClientInfo($this->clientName, true);
 
 		// Get the template.
 		$template = $this->template;
 
 		// Get the database object and a new query object.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Build the query.
@@ -167,7 +172,7 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 				$template = $style->template;
 				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
 					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
-				$name = JText::_($style->name);
+				$name = \JText::_($style->name);
 
 				// Initialize the group if necessary.
 				if (!isset($groups[$name]))
@@ -175,7 +180,7 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 					$groups[$name] = array();
 				}
 
-				$groups[$name][] = JHtml::_('select.option', $style->id, $style->title);
+				$groups[$name][] = \JHtml::_('select.option', $style->id, $style->title);
 			}
 		}
 

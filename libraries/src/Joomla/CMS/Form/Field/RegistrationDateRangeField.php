@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('predefinedlist');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('predefinedlist');
 
 /**
  * Registration Date Range field.
  *
  * @since  3.2
  */
-class JFormFieldRegistrationDateRange extends JFormFieldPredefinedList
+class RegistrationDateRangeField extends \JFormFieldPredefinedList
 {
 	/**
 	 * The form field type.
@@ -45,7 +49,7 @@ class JFormFieldRegistrationDateRange extends JFormFieldPredefinedList
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   JForm  $form  The form to attach to the form field object.
+	 * @param   Form  $form  The form to attach to the form field object.
 	 *
 	 * @since   11.1
 	 */
@@ -54,7 +58,7 @@ class JFormFieldRegistrationDateRange extends JFormFieldPredefinedList
 		parent::__construct($form);
 
 		// Load the required language
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('com_users', JPATH_ADMINISTRATOR);
 	}
 }
