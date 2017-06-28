@@ -109,7 +109,7 @@ class MediaModelList extends JModelLegacy
 
 		// Get current path from request
 		$current = (string) $this->getState('folder');
-        $params = JComponentHelper::getParams('com_media');
+        	$params = JComponentHelper::getParams('com_media');
 
 		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
