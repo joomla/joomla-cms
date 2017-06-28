@@ -35,6 +35,14 @@ class JCacheStorageFile extends JCacheStorage
 	protected $_locked_files = array();
 
 	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportRawData = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters
@@ -94,12 +102,13 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param   boolean  $rawData    If true then method returns unserialized data
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
-	public function get($id, $group, $checkTime = true)
+	public function get($id, $group, $checkTime = true, $rawData = false)
 	{
 		$path  = $this->_getFilePath($id, $group);
 		$close = false;
@@ -133,7 +142,14 @@ class JCacheStorageFile extends JCacheStorage
 					if ($data !== false)
 					{
 						// Remove the initial die() statement
-						return str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
+						$data = substr($data, 33);
+
+						if ($rawData)
+						{
+							return unserialize($data);
+						}
+
+						return $data;
 					}
 				}
 			}
@@ -174,18 +190,24 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param   string   $id       The cache data ID
+	 * @param   string   $group    The cache data group
+	 * @param   string   $data     The data to store in cache
+	 * @param   boolean  $rawData  If true then method treats $data as unserialized
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public function store($id, $group, $data)
+	public function store($id, $group, $data, $rawData = false)
 	{
 		$path  = $this->_getFilePath($id, $group);
 		$close = false;
+
+		if ($rawData)
+		{
+			$data = serialize($data);
+		}
 
 		// Prepend a die string
 		$data = '<?php die("Access Denied"); ?>#x#' . $data;

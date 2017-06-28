@@ -198,14 +198,15 @@ class JCache
 	/**
 	 * Get cached data by ID and group
 	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
+	 * @param   string   $id       The cache data ID
+	 * @param   string   $group    The cache data group
+	 * @param   boolean  $rawData  If true then method returns unserialized data
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
-	public function get($id, $group = null)
+	public function get($id, $group = null, $rawData = false)
 	{
 		if (!$this->getCaching())
 		{
@@ -215,7 +216,25 @@ class JCache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->get($id, $group, $this->_options['checkTime']);
+		// Get the storage
+		$handler = $this->_getStorage();
+
+		if ($handler->supportRawData())
+		{
+			$data = $handler->get($id, $group, $this->_options['checkTime'], $rawData);
+		}
+		else
+		{
+			// For B/C, handler does not support raw data
+			$data = $handler->get($id, $group, $this->_options['checkTime']);
+
+			if ($rawData)
+			{
+				return $data !== false ? unserialize(trim($data)) : false;
+			}
+		}
+
+		return $data;
 	}
 
 	/**
@@ -238,15 +257,16 @@ class JCache
 	/**
 	 * Store the cached data by ID and group
 	 *
-	 * @param   mixed   $data   The data to store
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
+	 * @param   mixed    $data     The data to store
+	 * @param   string   $id       The cache data ID
+	 * @param   string   $group    The cache data group
+	 * @param   boolean  $rawData  If true then method treats $data as unserialized
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public function store($data, $id, $group = null)
+	public function store($data, $id, $group = null, $rawData = false)
 	{
 		if (!$this->getCaching())
 		{
@@ -257,7 +277,15 @@ class JCache
 		$group = $group ?: $this->_options['defaultgroup'];
 
 		// Get the storage and store the cached data
-		return $this->_getStorage()->store($id, $group, $data);
+		$handler = $this->_getStorage();
+
+		if (!$handler->supportRawData() && $rawData)
+		{
+			// For B/C with custom handlers
+			return $handler->store($id, $group, serialize($data));
+		}
+
+		return $handler->store($id, $group, $data, $rawData);
 	}
 
 	/**

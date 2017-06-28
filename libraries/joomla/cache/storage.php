@@ -26,6 +26,14 @@ class JCacheStorage
 	protected $rawname;
 
 	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportRawData = false;
+
+	/**
 	 * Time that the cache storage handler was instantiated
 	 *
 	 * @var    integer
@@ -197,12 +205,13 @@ class JCacheStorage
 	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param   boolean  $rawData    If true then method returns unserialized data
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
-	public function get($id, $group, $checkTime = true)
+	public function get($id, $group, $checkTime = true, $rawData = false)
 	{
 		return false;
 	}
@@ -222,15 +231,16 @@ class JCacheStorage
 	/**
 	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param   string   $id       The cache data ID
+	 * @param   string   $group    The cache data group
+	 * @param   string   $data     The data to store in cache
+	 * @param   boolean  $rawData  If true then method treats $data as unserialized
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public function store($id, $group, $data)
+	public function store($id, $group, $data, $rawData = false)
 	{
 		return true;
 	}
@@ -290,6 +300,18 @@ class JCacheStorage
 	public function gc()
 	{
 		return true;
+	}
+
+	/**
+	 * Test whether storage support raw means unserialized data.
+	 *
+	 * @return   boolean  True on success, false otherwise
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function supportRawData()
+	{
+		return $this->supportRawData;
 	}
 
 	/**
