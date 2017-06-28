@@ -256,8 +256,7 @@ class PlgSystemDebug extends JPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
-		)
+			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -1773,7 +1772,7 @@ class PlgSystemDebug extends JPlugin
 	 * Store log messages so they can be displayed later.
 	 * This function is passed log entries by JLogLoggerCallback.
 	 *
-	 * @param   JLogEntry $entry A log entry.
+	 * @param   JLogEntry  $entry  A log entry.
 	 *
 	 * @return  void
 	 *
@@ -1816,9 +1815,9 @@ class PlgSystemDebug extends JPlugin
 			$logEntriesDatabasequery = count(
 				array_filter(
 					$this->logEntries, function ($logEntry)
-				{
-					return $logEntry->category === 'databasequery';
-				}
+					{
+						return $logEntry->category === 'databasequery';
+					}
 				)
 			);
 			$logEntriesTotal         -= $logEntriesDatabasequery;
@@ -1828,9 +1827,9 @@ class PlgSystemDebug extends JPlugin
 		$logEntriesDeprecated = count(
 			array_filter(
 				$this->logEntries, function ($logEntry)
-			{
-				return $logEntry->category === 'deprecated';
-			}
+				{
+					return $logEntry->category === 'deprecated';
+				}
 			)
 		);
 		$showDeprecated       = $this->params->get('log-deprecated', 0);
