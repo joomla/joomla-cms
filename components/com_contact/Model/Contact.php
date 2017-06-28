@@ -365,7 +365,14 @@ class Contact extends Form
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		PluginHelper::importPlugin('user');
-		$form = new \JForm('com_users.profile');
+
+		// Get the form.
+		\JForm::addFormPath(JPATH_SITE . '/components/com_users/models/forms');
+		\JForm::addFieldPath(JPATH_SITE . '/components/com_users/models/fields');
+		\JForm::addFormPath(JPATH_SITE . '/components/com_users/model/form');
+		\JForm::addFieldPath(JPATH_SITE . '/components/com_users/model/field');
+
+		$form = \JForm::getInstance('com_users.profile', 'profile');
 
 		// Trigger the form preparation event.
 		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));

@@ -121,7 +121,7 @@ class CategoryeditField extends \JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ? $this->element['published'] : array(0, 1);
+		$published = $this->element['published'] ?: array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
@@ -143,9 +143,8 @@ class CategoryeditField extends \JFormFieldList
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
-		$db = \JFactory::getDbo();
+		$db   = \JFactory::getDbo();
 		$user = \JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
@@ -188,7 +187,12 @@ class CategoryeditField extends \JFormFieldList
 		}
 
 		// Filter categories on User Access Level
-		$subQuery->where('access IN (' . $groups . ')');
+		// Filter by access level on categories.
+		if (!$user->authorise('core.admin'))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$subQuery->where('access IN (' . $groups . ')');
+		}
 
 		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
@@ -259,9 +263,6 @@ class CategoryeditField extends \JFormFieldList
 			}
 		}
 
-		// Get the current user object.
-		$user = \JFactory::getUser();
-
 		// For new items we want a list of categories you are allowed to create in.
 		if ($oldCat == 0)
 		{
@@ -295,7 +296,7 @@ class CategoryeditField extends \JFormFieldList
 					continue;
 				}
 
-				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
 					continue;
@@ -313,7 +314,7 @@ class CategoryeditField extends \JFormFieldList
 					continue;
 				}
 
-				if ($option->level != 0 && isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
 					continue;
@@ -415,8 +416,19 @@ class CategoryeditField extends \JFormFieldList
 			}
 		}
 		else
-			// Create a regular list.
 		{
+			// Create a regular list.
+			if (count($options) === 0)
+			{
+				// All Categories have been deleted, so we need a new category (This will create on save if selected).
+				$options[0]            = new \stdClass;
+				$options[0]->value     = 'Uncategorised';
+				$options[0]->text      = 'Uncategorised';
+				$options[0]->level     = '1';
+				$options[0]->published = '1';
+				$options[0]->lft       = '1';
+			}
+
 			$html[] = \JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 

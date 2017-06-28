@@ -92,7 +92,7 @@ class ApplicationHelper
 		}
 		else
 		{
-			if ($language == '*' || $language == '')
+			if ($language === '*' || $language === '')
 			{
 				$languageParams = ComponentHelper::getParams('com_languages');
 				$language = $languageParams->get('site');
@@ -144,7 +144,7 @@ class ApplicationHelper
 		}
 
 		// If no client id has been passed return the whole array
-		if (is_null($id))
+		if ($id === null)
 		{
 			return self::$_clients;
 		}

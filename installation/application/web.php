@@ -10,9 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
@@ -21,7 +22,7 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.1
  */
-final class InstallationApplicationWeb extends JApplicationCms
+final class InstallationApplicationWeb extends CMSApplication
 {
 	/**
 	 * Class constructor.
@@ -135,7 +136,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 				$guess = trim($guess);
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -269,7 +270,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function fetchController($task)
 	{
-		if (is_null($task))
+		if ($task === null)
 		{
 			$task = 'default';
 		}
@@ -305,7 +306,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Check that it's a localise file.
-		if ($xml->getName() != 'localise')
+		if ($xml->getName() !== 'localise')
 		{
 			return false;
 		}
@@ -398,7 +399,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$requestLang = $this->input->getCmd('lang', null);
 
-			if (!is_null($requestLang))
+			if ($requestLang !== null)
 			{
 				$options['language'] = $requestLang;
 			}

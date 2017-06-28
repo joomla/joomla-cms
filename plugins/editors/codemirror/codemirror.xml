@@ -41,10 +41,10 @@
 				<field
 					name="codeFolding"
 					type="radio"
-					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
-					default="0"
+					class="switcher"
+					default="1"
 					filter="options"
 					>
 					<option value="0">JOFF</option>
@@ -54,9 +54,9 @@
 				<field
 					name="markerGutter"
 					type="radio"
-					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
+					class="switcher"
 					default="1"
 					filter="options"
 					>
@@ -80,10 +80,10 @@
 				<field
 					name="activeLine"
 					type="radio"
-					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
-					default="0"
+					class="switcher"
+					default="1"
 					filter="options"
 					>
 					<option value="0">JOFF</option>
@@ -227,16 +227,9 @@
 					type="hidden"
 					default="media/editors/codemirror/mode/%N/%N"
 				/>
-
 			</fieldset>
 
-
-			<fieldset
-				name="appearance"
-				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
-				addfieldpath="plugins/editors/codemirror"
-				>
-
+			<fieldset name="appearance" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL" addfieldpath="plugins/editors/codemirror">
 				<field
 					name="theme"
 					type="filelist"
@@ -326,9 +319,7 @@
 					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>
 					<option value="overlay">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY</option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

@@ -15,6 +15,7 @@ use Joomla\CMS\Mvc\Factory\LegacyFactory;
 use Joomla\CMS\Mvc\Factory\MvcFactory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -37,7 +38,7 @@ abstract class Model extends \JObject
 	/**
 	 * Database Connector
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.0
 	 */
 	protected $_db;
@@ -411,7 +412,7 @@ abstract class Model extends \JObject
 	/**
 	 * Method to get the database driver object
 	 *
-	 * @return  \JDatabaseDriver
+	 * @return  DatabaseDriver
 	 *
 	 * @since   3.0
 	 */
@@ -595,7 +596,7 @@ abstract class Model extends \JObject
 	/**
 	 * Method to set the database driver object
 	 *
-	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver based object
+	 * @param   DatabaseDriver  $db  A DatabaseDriver based object
 	 *
 	 * @return  void
 	 *
@@ -636,8 +637,8 @@ abstract class Model extends \JObject
 		$conf = \JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
+			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
+			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
 			'result' => true,
 		);
 
