@@ -116,7 +116,7 @@ class Field extends Admin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $name) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
+				list($title, $name) = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
 				$data['title'] = $title;
 				$data['label'] = $title;
 				$data['name'] = $name;

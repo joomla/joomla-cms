@@ -234,7 +234,7 @@ function pagination_item_inactive(&$item)
 	}
 
 	// Check if the item is the active page
-	if (isset($item->active) && ($item->active))
+	if (isset($item->active) && $item->active)
 	{
 		return '<li class="page-item active hidden-sm-down"><a class="page-link">' . $item->text . '</a></li>';
 	}

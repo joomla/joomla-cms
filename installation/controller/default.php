@@ -42,7 +42,7 @@ class InstallationControllerDefault extends JControllerBase
 		$vFormat = $app->getDocument()->getType();
 		$lName   = $this->getInput()->getWord('layout', 'default');
 
-		if (strcmp($vName, $defaultView) == 0)
+		if (strcmp($vName, $defaultView) === 0)
 		{
 			$this->getInput()->set('view', $defaultView);
 		}
@@ -82,7 +82,7 @@ class InstallationControllerDefault extends JControllerBase
 				break;
 		}
 
-		if ($vName != $defaultView && ($checkOptions && empty($options)))
+		if ($vName !== $defaultView && $checkOptions && empty($options))
 		{
 			$app->redirect('index.php');
 		}

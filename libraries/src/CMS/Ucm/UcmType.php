@@ -168,7 +168,7 @@ class UcmType implements Ucm
 			$tableFromType = json_decode($type->table);
 			$tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
 
-			if ($tableNameFromType == $tableName)
+			if ($tableNameFromType === $tableName)
 			{
 				return $type;
 			}

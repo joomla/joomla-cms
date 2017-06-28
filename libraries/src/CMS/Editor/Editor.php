@@ -130,7 +130,7 @@ class Editor implements DispatcherAwareInterface
 	public function initialise()
 	{
 		// Check if editor is already loaded
-		if (is_null(($this->_editor)))
+		if ($this->_editor === null)
 		{
 			return;
 		}
@@ -150,7 +150,7 @@ class Editor implements DispatcherAwareInterface
 
 		$document = \JFactory::getDocument();
 
-		if (method_exists($document, 'addCustomTag') && !empty($return))
+		if (!empty($return) && method_exists($document, 'addCustomTag'))
 		{
 			$document->addCustomTag($return);
 		}
@@ -182,7 +182,7 @@ class Editor implements DispatcherAwareInterface
 		$this->_loadEditor($params);
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
+		if ($this->_editor === null)
 		{
 			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
@@ -273,7 +273,7 @@ class Editor implements DispatcherAwareInterface
 		$this->_loadEditor();
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
+		if ($this->_editor === null)
 		{
 			return '';
 		}
@@ -441,7 +441,7 @@ class Editor implements DispatcherAwareInterface
 	protected function _loadEditor($config = array())
 	{
 		// Check whether editor is already loaded
-		if (!is_null(($this->_editor)))
+		if ($this->_editor !== null)
 		{
 			return false;
 		}

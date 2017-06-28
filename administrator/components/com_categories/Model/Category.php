@@ -385,8 +385,14 @@ class Category extends Admin
 		// Get the component form if it exists
 		$name = 'category' . ($section ? ('.' . $section) : '');
 
-		// Looking first in the component models/forms folder
-		$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+		// Looking first in the component forms folder
+		$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+
+		// Looking in the component models/forms folder (J! 3)
+		if (!file_exists($path))
+		{
+			$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+		}
 
 		// Old way: looking in the component folder
 		if (!file_exists($path))
@@ -490,7 +496,7 @@ class Category extends Admin
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 
-		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
 			$table->newTags = $data['tags'];
 		}
