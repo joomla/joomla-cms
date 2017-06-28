@@ -272,7 +272,7 @@ class PlgSystemDebug extends JPlugin
 		$html[] = "<script>function toggleContainer(name)
 		{
 			var e = document.getElementById(name);// MooTools might not be available ;)
-			e.style.display = (e.style.display === 'none') ? 'block' : 'none';
+			e.style.display = e.style.display === 'none' ? 'block' : 'none';
 		}</script>";
 
 		$html[] = '<div id="system-debug" class="profiler">';
@@ -384,7 +384,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Method to check if the current user is allowed to see the debug information or not.
 	 *
-	 * @return  boolean  True  is access is allowed.
+	 * @return  boolean  True  if access is allowed.
 	 *
 	 * @since   3.0
 	 */
