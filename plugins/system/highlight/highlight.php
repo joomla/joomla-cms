@@ -36,6 +36,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Set the variables.
+		$doc = JFactory::getDocument();
 		$input = JFactory::getApplication()->input;
 		$extension = $input->get('option', '', 'cmd');
 
@@ -46,7 +47,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Check if the highlighter should be activated in this environment.
-		if (JFactory::getDocument()->getType() !== 'html' || $input->get('tmpl', '', 'cmd') === 'component')
+		if ($doc->getType() !== 'html' || $input->get('tmpl', '', 'cmd') === 'component')
 		{
 			return true;
 		}
@@ -72,12 +73,11 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		JHtml::_('behavior.highlighter', $cleanTerms);
+		JHtml::_('behavior.highlight', $cleanTerms);
 
 		// Adjust the component buffer.
-		$doc = JFactory::getDocument();
 		$buf = $doc->getBuffer('component');
-		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
+		$buf = '<div class="js-highlighter" >' . $buf . '</div>';
 		$doc->setBuffer($buf, 'component');
 
 		return true;
