@@ -199,7 +199,7 @@ class SqliteDriver extends PdoDriver
 		$this->connect();
 
 		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
+		$tables = (array) $tables;
 
 		return $tables;
 	}
@@ -245,9 +245,9 @@ class SqliteDriver extends PdoDriver
 				$columns[$field->NAME] = (object) [
 					'Field'   => $field->NAME,
 					'Type'    => $field->TYPE,
-					'Null'    => ($field->NOTNULL == '1' ? 'NO' : 'YES'),
+					'Null'    => $field->NOTNULL == '1' ? 'NO' : 'YES',
 					'Default' => $field->DFLT_VALUE,
-					'Key'     => ($field->PK != '0' ? 'PRI' : ''),
+					'Key'     => $field->PK != '0' ? 'PRI' : '',
 				];
 			}
 		}
@@ -441,7 +441,7 @@ class SqliteDriver extends PdoDriver
 	 */
 	public static function isSupported()
 	{
-		return class_exists('\\PDO') && class_exists('\\SQLite3') && in_array('sqlite', \PDO::getAvailableDrivers());
+		return class_exists('\\PDO') && class_exists('\\SQLite3') && in_array('sqlite', \PDO::getAvailableDrivers(), true);
 	}
 
 	/**

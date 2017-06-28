@@ -69,7 +69,7 @@ class QueryElement
 	 */
 	public function __toString()
 	{
-		if (substr($this->name, -2) == '()')
+		if (substr($this->name, -2) === '()')
 		{
 			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
 		}
