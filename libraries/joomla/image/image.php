@@ -20,6 +20,22 @@ use Joomla\CMS\Log\Log;
 class JImage extends \Joomla\Image\Image
 {
 	/**
+	 * Class constructor.
+	 *
+	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
+	 *
+	 * @since   11.3
+	 * @throws  RuntimeException
+	 */
+	public function __construct($source = null)
+	{
+		// Inject the PSR-3 compatible logger in for forward compatibility
+		$this->setLogger(Log::createDelegatedLogger());
+
+		parent::__construct($source);
+	}
+
+	/**
 	 * Method to get an image filter instance of a specified type.
 	 *
 	 * @param   string  $type  The image filter type to get.
