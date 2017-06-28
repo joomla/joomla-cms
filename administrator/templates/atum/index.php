@@ -21,25 +21,14 @@ JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
-// Add Stylesheets
+// Load template CSS file
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
+
+// Load custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	JHtml::_('stylesheet', $languageCss, ['version' => 'auto']);
-}
-
-// Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
-
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	JHtml::_('stylesheet', $customCss, ['version' => 'auto']);
-}
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
