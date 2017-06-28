@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d472cf18c91a0a58ca1be609221936a",
+    "content-hash": "a6380af008eca8beb719bac4ba07fa97",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -437,16 +437,16 @@
         },
         {
             "name": "joomla/image",
-            "version": "dev-master",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/image.git",
-                "reference": "c497f9e106d9074a099e103add509bebffdae961"
+                "reference": "d5a76037add34f95e970e9d8c8a449feeb781286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/image/zipball/c497f9e106d9074a099e103add509bebffdae961",
-                "reference": "c497f9e106d9074a099e103add509bebffdae961",
+                "url": "https://api.github.com/repos/joomla-framework/image/zipball/d5a76037add34f95e970e9d8c8a449feeb781286",
+                "reference": "d5a76037add34f95e970e9d8c8a449feeb781286",
                 "shasum": ""
             },
             "require": {
@@ -481,7 +481,7 @@
                 "image",
                 "joomla"
             ],
-            "time": "2017-06-19 15:47:08"
+            "time": "2017-06-28T14:14:15+00:00"
         },
         {
             "name": "joomla/input",
@@ -2893,9 +2893,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "joomla/image": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
