@@ -240,7 +240,7 @@ class JEditor extends JObject
 	public function initialise()
 	{
 		// Check if editor is already loaded
-		if (is_null(($this->_editor)))
+		if ($this->_editor === null)
 		{
 			return;
 		}
@@ -261,7 +261,7 @@ class JEditor extends JObject
 
 		$document = JFactory::getDocument();
 
-		if (method_exists($document, 'addCustomTag') && !empty($return))
+		if (!empty($return) && method_exists($document, 'addCustomTag'))
 		{
 			$document->addCustomTag($return);
 		}
@@ -293,7 +293,7 @@ class JEditor extends JObject
 		$this->_loadEditor($params);
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
+		if ($this->_editor === null)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
 
@@ -349,7 +349,7 @@ class JEditor extends JObject
 		$this->_loadEditor();
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
+		if ($this->_editor === null)
 		{
 			return;
 		}
@@ -517,7 +517,7 @@ class JEditor extends JObject
 	protected function _loadEditor($config = array())
 	{
 		// Check whether editor is already loaded
-		if (!is_null(($this->_editor)))
+		if ($this->_editor !== null)
 		{
 			return;
 		}

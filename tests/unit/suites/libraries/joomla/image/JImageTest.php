@@ -22,28 +22,28 @@ class JImageTest extends TestCase
 	/**
 	 * @var  string  TestFile-path for JPG file
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $testFile;
 
 	/**
 	 * @var  string  TestFile-path for GIF file
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $testFileGif;
 
 	/**
 	 * @var  string  TestFile-path for BMP file
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $testFileBmp;
 
 	/**
 	 * @var  string  TestFile-path for PNG file
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $testFilePng;
 

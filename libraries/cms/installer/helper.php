@@ -193,7 +193,7 @@ abstract class JInstallerHelper
 		 */
 		$retval['type'] = self::detectType($extractdir);
 
-		if ($retval['type'] || $alwaysReturnArray)
+		if ($alwaysReturnArray || $retval['type'])
 		{
 			return $retval;
 		}
