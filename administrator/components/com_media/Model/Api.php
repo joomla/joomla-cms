@@ -120,8 +120,6 @@ class Api extends Model
 	 */
 	public function createFolder($name, $path)
 	{
-		$name = $this->getSafeName($name);
-
 		$this->adapter->createFolder($name, $path);
 
 		return $name;
@@ -143,8 +141,6 @@ class Api extends Model
 	 */
 	public function createFile($name, $path, $data)
 	{
-		$name = $this->getSafeName($name);
-
 		$this->adapter->createFile($name, $path, $data);
 
 		return $name;
@@ -184,39 +180,6 @@ class Api extends Model
 	public function delete($path)
 	{
 		$this->adapter->delete($path);
-	}
-
-	/**
-	 * Creates a safe file name for the given name.
-	 *
-	 * @param   string  $name  The filename
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
-	 */
-	private function getSafeName($name)
-	{
-		// Make the filename safe
-		$name = \JFile::makeSafe($name);
-
-		// Transform filename to punycode
-		$name = \JStringPunycode::toPunycode($name);
-
-		$extension = \JFile::getExt($name);
-
-		if ($extension)
-		{
-			$extension = '.' . strtolower($extension);
-		}
-
-		// Transform filename to punycode, then neglect other than non-alphanumeric characters & underscores.
-		// Also transform extension to lowercase.
-		$nameWithoutExtension = substr($name, 0, strlen($name) - strlen($extension));
-		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $nameWithoutExtension) . $extension;
-
-		return $name;
 	}
 
 	/**
