@@ -116,6 +116,7 @@ class Api extends Controller
 					$name         = $content->getString('name');
 					$mediaContent = base64_decode($content->get('content', '', 'raw'));
 
+					$name = $this->getSafeName($name);
 					if ($mediaContent)
 					{
 						$this->checkContent($name, $mediaContent);
@@ -245,6 +246,7 @@ class Api extends Controller
 			throw new \Exception(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
 		}
 
+		$name = $this->getSafeName($name);
 		if (!$helper->canUpload(array('name' => $name, 'size' => count($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
 		{
 			\JFile::delete($tmpFile);
@@ -253,5 +255,38 @@ class Api extends Controller
 		}
 
 		\JFile::delete($tmpFile);
+	}
+
+	/**
+	 * Creates a safe file name for the given name.
+	 *
+	 * @param   string  $name  The filename
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	private function getSafeName($name)
+	{
+		// Make the filename safe
+		$name = \JFile::makeSafe($name);
+
+		// Transform filename to punycode
+		$name = \JStringPunycode::toPunycode($name);
+
+		$extension = \JFile::getExt($name);
+
+		if ($extension)
+		{
+			$extension = '.' . strtolower($extension);
+		}
+
+		// Transform filename to punycode, then neglect other than non-alphanumeric characters & underscores.
+		// Also transform extension to lowercase.
+		$nameWithoutExtension = substr($name, 0, strlen($name) - strlen($extension));
+		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $nameWithoutExtension) . $extension;
+
+		return $name;
 	}
 }
