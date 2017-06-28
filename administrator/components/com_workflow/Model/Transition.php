@@ -36,6 +36,33 @@ class Transition extends Admin
 	 */
 	public function save($data)
 	{
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+		$isNew      = true;
+
+		if ($pk > 0)
+		{
+			$isNew = false;
+		}
+
+		if ($data['to_status_id'] == $data['from_status_id'])
+		{
+			return false;
+		}
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__workflow_transitions'))
+			->where($db->qn('from_status_id') . ' = ' . $db->escape($data['from_status_id'])
+				. ' AND ' . $db->qn('to_status_id') . ' = ' . $db->escape($data['to_status_id']));
+		$db->setQuery($query);
+		$checkDupliaction = $db->loadResult();
+
+		if (!empty($checkDupliaction))
+		{
+			return false;
+		}
+
 		$app = \JFactory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'cmd');
 		$data['asset_id'] = -1;

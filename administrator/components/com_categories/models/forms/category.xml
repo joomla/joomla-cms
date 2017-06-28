@@ -133,6 +133,17 @@
 	</field>
 
 	<field
+			name="workflow_id"
+			type="sql"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			default="1"
+			class="custom-select-color-state"
+			size="1"
+	        query="SELECT id AS value, title AS workflow_id FROM #__workflows"
+	/>
+
+	<field
 		name="buttonspacer"
 		type="spacer"
 		label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
