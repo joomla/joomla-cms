@@ -314,7 +314,8 @@ JLoader::registerAlias('JCryptCipherSimple',                 '\\Joomla\\CMS\\Cry
 JLoader::registerAlias('JCryptCipher3Des',                   '\\Joomla\\CMS\\Crypt\\Cipher\\TripleDesCipher', '4.0');
 JLoader::registerAlias('JCryptPasswordSimple',               '\\Joomla\\CMS\\Crypt\\Password\\SimpleCryptPassword', '4.0');
 
-JLoader::registerAlias('JImageFilter',                      '\\Joomla\\Image\\ImageFilter', '5.0');
+JLoader::registerAlias('JImage',                            '\\Joomla\\CMS\\Image\\ImageFilter', '5.0');
+JLoader::registerAlias('JImageFilter',                      '\\Joomla\\CMS\\Image\\ImageFilter', '5.0');
 JLoader::registerAlias('JImageFilterBackgroundfill',        '\\Joomla\\Image\\Filter\\Backgroundfill', '5.0');
 JLoader::registerAlias('JImageFilterBrightness',            '\\Joomla\\Image\\Filter\\Brightness', '5.0');
 JLoader::registerAlias('JImageFilterContrast',              '\\Joomla\\Image\\Filter\\Contrast', '5.0');
