@@ -384,7 +384,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Method to check if the current user is allowed to see the debug information or not.
 	 *
-	 * @return  boolean  True  if access is allowed.
+	 * @return  boolean  True if access is allowed.
 	 *
 	 * @since   3.0
 	 */
@@ -1130,8 +1130,8 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
-						                          'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '',
-					                          )
+						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '',
+					)
 				);
 
 				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $id)
