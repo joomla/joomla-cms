@@ -120,7 +120,15 @@ abstract class FinderIndexer
 		// Set up query template for addTokensToDb
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
 			->columns(
-				$db->quoteName(array('term', 'stem', 'common', 'phrase', 'weight', 'context', 'language'))
+				array(
+					$db->quoteName('term'),
+					$db->quoteName('stem'),
+					$db->quoteName('common'),
+					$db->quoteName('phrase'),
+					$db->quoteName('weight'),
+					$db->quoteName('context'),
+					$db->quoteName('language')
+				)
 			);
 	}
 
@@ -301,9 +309,8 @@ abstract class FinderIndexer
 				->update($db->quoteName('#__finder_terms', 't'))
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
 				->set('t.links = t.links - 1')
-				->where('m.link_id = ' . $db->quote((int) $linkId));
+				->where($db->quoteName('m.link_id') .' = ' . (int) $linkId);
 			$db->setQuery($query)->execute();
-
 
 			// Remove all records from the mapping tables.
 			$query->clear()
@@ -322,9 +329,8 @@ abstract class FinderIndexer
 		$query->clear()
 			->delete($db->quoteName('#__finder_links'))
 			->delete($db->quoteName('#__finder_links'))
-			->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
+			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query)->execute();
-
 
 		// Remove the taxonomy maps.
 		FinderIndexerTaxonomy::removeMaps($linkId);
