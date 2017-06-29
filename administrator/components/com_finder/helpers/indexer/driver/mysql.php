@@ -26,7 +26,6 @@ jimport('joomla.filesystem.file');
  */
 class FinderIndexerDriverMysql extends FinderIndexer
 {
-
 	/**
 	 * Method to index a content item.
 	 *
