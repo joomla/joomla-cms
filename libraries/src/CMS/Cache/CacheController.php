@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Cache;
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -115,9 +117,9 @@ class CacheController
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getApplication()->getContainer()->exists($class))
+		if (Factory::$application && Factory::getApplication()->getContainer()->exists($class))
 		{
-			return \JFactory::getApplication()->getContainer()->get($class);
+			return Factory::getApplication()->getContainer()->get($class);
 		}
 
 		return new $class($options);

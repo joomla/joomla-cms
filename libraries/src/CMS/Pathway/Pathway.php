@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Pathway;
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -67,7 +69,7 @@ class Pathway
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getApplication()->getContainer()->has($classname))
+			if (Factory::$application && Factory::getApplication()->getContainer()->has($classname))
 			{
 				self::$instances[$client] = \JFactory::getApplication()->getContainer()->get($classname);
 			}

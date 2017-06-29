@@ -10,7 +10,7 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Factory;
@@ -34,9 +34,9 @@ class SiteRouter extends Router
 	protected $componentRouters = array();
 
 	/**
-	 * The SiteApplication object
+	 * Current Application-Object
 	 *
-	 * @var    SiteApplication
+	 * @var    CMSApplication
 	 * @since  3.4
 	 */
 	protected $app;
@@ -52,12 +52,12 @@ class SiteRouter extends Router
 	/**
 	 * Class constructor
 	 *
-	 * @param   SiteApplication  $app   SiteApplication Object
-	 * @param   AbstractMenu     $menu  JMenu object
+	 * @param   CMSApplication  $app   JApplicationCms Object
+	 * @param   AbstractMenu    $menu  JMenu object
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(SiteApplication $app = null, AbstractMenu $menu = null)
+	public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
 	{
 		$this->app  = $app ?: Factory::getApplication()->getContainer()->get('SiteApplication');
 		$this->menu = $menu ?: $this->app->getMenu();
