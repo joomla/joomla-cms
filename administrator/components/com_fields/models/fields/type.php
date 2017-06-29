@@ -86,7 +86,6 @@ class JFormFieldType extends JFormFieldList
 		$uri->setVar('view', null);
 		$uri->setVar('layout', null);
 
-
 		JFactory::getDocument()->addScriptDeclaration("
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
@@ -98,7 +97,8 @@ class JFormFieldType extends JFormFieldList
 				element.form.action='" . $uri . "';
 				element.form.submit();
 			}
-		");
+		"
+		);
 
 		return $options;
 	}
