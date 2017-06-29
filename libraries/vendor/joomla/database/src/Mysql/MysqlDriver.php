@@ -97,7 +97,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		 * and we cannot connect to it unless we know if it supports utf8mb4, which requires us knowing the server version. Because of this
 		 * chicken and egg issue, we _assume_ it's supported and we'll just catch any problems at connection time.
 		 */
-		$this->utf8mb4 = $options['charset'] == 'utf8mb4';
+		$this->utf8mb4 = $options['charset'] === 'utf8mb4';
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -188,7 +188,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		$beginningOfQuery = substr($query, 0, 12);
 		$beginningOfQuery = strtoupper($beginningOfQuery);
 
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE'), true))
 		{
 			return $query;
 		}
@@ -206,7 +206,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	 */
 	public static function isSupported()
 	{
-		return class_exists('\\PDO') && in_array('mysql', \PDO::getAvailableDrivers());
+		return class_exists('\\PDO') && in_array('mysql', \PDO::getAvailableDrivers(), true);
 	}
 
 	/**
@@ -337,7 +337,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		$result = [];
 
 		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
+		$tables = (array) $tables;
 
 		foreach ($tables as $table)
 		{
@@ -375,7 +375,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.

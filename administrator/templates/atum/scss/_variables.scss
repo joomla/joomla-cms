@@ -1,6 +1,6 @@
 // Global
-$atum-template-color:              #0d1321 !default;
-$atum-template-color-light:        #1c3d5c !default;
+$atum-template-color-dark:         #0d1321 !default;
+$atum-template-color:              #1c3d5c !default;
 $atum-container-main-bg:           #f2f2f2 !default;
 $atum-border-color:                #ccc !default;
 $atum-box-shadow:                  0 0 3px rgba(0,0,0,.04) !default;
@@ -41,7 +41,7 @@ $atum-sidebar-child-bg:            #0f2131;
 
 // Fonts
 $font-family-base:                 Arial, sans-serif;
-$atum-inverted-text-color:         $atum-template-color;
+$atum-inverted-text-color:         $atum-template-color-dark;
 $font-size-root:                   14px;
 $font-size-h1:                     1.857rem;
 $font-size-h2:                     1.571rem;
@@ -67,7 +67,7 @@ $atum-card-title-bg:               $atum-block-header-bg;
 $atum-card-title-icon-bg:          $atum-block-header-bg;
 $atum-card-title-icon-bg-hover:    darken($atum-card-title-bg, 2%);
 $card-bg-color-light:              #f8f8f8;
-$card-bg-color-dark:               $atum-template-color;
+$card-bg-color-dark:               $atum-template-color-dark;
 $card-border-color:                $atum-border-color;
 
 // Alerts

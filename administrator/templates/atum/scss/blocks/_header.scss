@@ -4,7 +4,7 @@
   position: relative;
   z-index: 5;
   height: $header-height;
-  background: $atum-template-color-light;
+  background: $atum-template-color;
 
   &::after {
     position: absolute;
@@ -56,7 +56,7 @@
   }
 
   .nav-item {
-    background-color: darken($atum-template-color-light, 10%);
+    background-color: darken($atum-template-color, 10%);
   }
 
   .nav-link {

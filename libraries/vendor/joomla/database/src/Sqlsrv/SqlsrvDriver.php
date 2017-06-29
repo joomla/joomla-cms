@@ -83,11 +83,11 @@ class SqlsrvDriver extends DatabaseDriver
 	public function __construct(array $options)
 	{
 		// Get some basic values from the options.
-		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user']     = (isset($options['user'])) ? $options['user'] : '';
-		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
-		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
+		$options['host']     = isset($options['host']) ? $options['host'] : 'localhost';
+		$options['user']     = isset($options['user']) ? $options['user'] : '';
+		$options['password'] = isset($options['password']) ? $options['password'] : '';
+		$options['database'] = isset($options['database']) ? $options['database'] : '';
+		$options['select']   = isset($options['select']) ? (bool) $options['select'] : true;
 
 		// Finalize initialisation
 		parent::__construct($options);
@@ -364,7 +364,7 @@ class SqlsrvDriver extends DatabaseDriver
 	{
 		$this->connect();
 
-		return sqlsrv_num_rows($cursor ? $cursor : $this->cursor);
+		return sqlsrv_num_rows($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -396,7 +396,7 @@ class SqlsrvDriver extends DatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		else
@@ -519,13 +519,13 @@ class SqlsrvDriver extends DatabaseDriver
 				continue;
 			}
 
-			if ($k[0] == '_')
+			if ($k[0] === '_')
 			{
 				// Internal field
 				continue;
 			}
 
-			if ($k == $key && $key == 0)
+			if ($k === $key && $key == 0)
 			{
 				continue;
 			}
@@ -601,7 +601,7 @@ class SqlsrvDriver extends DatabaseDriver
 		$options = [];
 
 		// SQLSrv_num_rows requires a static or keyset cursor.
-		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
+		if (strncmp(strtoupper(ltrim($sql)), 'SELECT', strlen('SELECT')) === 0)
 		{
 			$options = ['Scrollable' => SQLSRV_CURSOR_KEYSET];
 		}
@@ -742,7 +742,7 @@ class SqlsrvDriver extends DatabaseDriver
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql{$l} === '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
@@ -941,7 +941,7 @@ class SqlsrvDriver extends DatabaseDriver
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
+		return sqlsrv_fetch_array($cursor ?: $this->cursor, SQLSRV_FETCH_NUMERIC);
 	}
 
 	/**
@@ -955,7 +955,7 @@ class SqlsrvDriver extends DatabaseDriver
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
+		return sqlsrv_fetch_array($cursor ?: $this->cursor, SQLSRV_FETCH_ASSOC);
 	}
 
 	/**
@@ -970,7 +970,7 @@ class SqlsrvDriver extends DatabaseDriver
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		return sqlsrv_fetch_object($cursor ?: $this->cursor, $class);
 	}
 
 	/**
@@ -1007,8 +1007,8 @@ class SqlsrvDriver extends DatabaseDriver
 		$this->connect();
 
 		$table = $this->replacePrefix((string) $table);
-		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS" . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
-			" ORDER BY ORDINAL_POSITION";
+		$sql = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS' . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
+			' ORDER BY ORDINAL_POSITION';
 		$this->setQuery($sql);
 
 		return (bool) $this->loadResult();

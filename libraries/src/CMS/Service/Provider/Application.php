@@ -12,7 +12,9 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use JFactory;
-use JLog;
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Log\Log;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -38,7 +40,7 @@ class Application implements ServiceProviderInterface
 			'JApplicationAdministrator',
 			function (Container $container)
 			{
-				$app = new \JApplicationAdministrator(null, null, null, $container);
+				$app = new AdministratorApplication(null, null, null, $container);
 
 				// The session service provider needs JFactory::$application, set it if still null
 				if (JFactory::$application === null)
@@ -47,7 +49,7 @@ class Application implements ServiceProviderInterface
 				}
 
 				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger(JLog::createDelegatedLogger());
+				$app->setLogger(Log::createDelegatedLogger());
 				$app->setSession($container->get('Joomla\Session\SessionInterface'));
 
 				return $app;
@@ -59,7 +61,7 @@ class Application implements ServiceProviderInterface
 			'JApplicationSite',
 			function (Container $container)
 			{
-				$app = new \JApplicationSite(null, null, null, $container);
+				$app = new SiteApplication(null, null, null, $container);
 
 				// The session service provider needs JFactory::$application, set it if still null
 				if (JFactory::$application === null)
@@ -68,7 +70,7 @@ class Application implements ServiceProviderInterface
 				}
 
 				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger(JLog::createDelegatedLogger());
+				$app->setLogger(Log::createDelegatedLogger());
 				$app->setSession($container->get('Joomla\Session\SessionInterface'));
 
 				return $app;

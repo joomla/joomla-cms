@@ -101,11 +101,11 @@ class PostgresqlDriver extends DatabaseDriver
 	 */
 	public function __construct(array $options)
 	{
-		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user']     = (isset($options['user'])) ? $options['user'] : '';
-		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
-		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['port']     = (isset($options['port'])) ? $options['port'] : null;
+		$options['host']     = isset($options['host']) ? $options['host'] : 'localhost';
+		$options['user']     = isset($options['user']) ? $options['user'] : '';
+		$options['password'] = isset($options['password']) ? $options['password'] : '';
+		$options['database'] = isset($options['database']) ? $options['database'] : '';
+		$options['port']     = isset($options['port']) ? $options['port'] : null;
 
 		// Finalize initialization
 		parent::__construct($options);
@@ -148,7 +148,7 @@ class PostgresqlDriver extends DatabaseDriver
 		 */
 
 		// Check for empty port
-		if (!($this->options['port']))
+		if (!$this->options['port'])
 		{
 			// Port is empty or not set via options, check for port annotation (:) in the host string
 			$tmp = substr(strstr($this->options['host'], ':'), 1);
@@ -165,7 +165,7 @@ class PostgresqlDriver extends DatabaseDriver
 				$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
 
 				// This will take care of the following notation: ":5432"
-				if ($this->options['host'] == '')
+				if ($this->options['host'] === '')
 				{
 					$this->options['host'] = 'localhost';
 				}
@@ -408,21 +408,21 @@ class PostgresqlDriver extends DatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->type);
+				$result[$field->column_name] = preg_replace('/[(0-9)]/', '', $field->type);
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->type), "character varying"))
+				if (stristr(strtolower($field->type), 'character varying'))
 				{
-					$field->Default = "";
+					$field->Default = '';
 				}
 
-				if (stristr(strtolower($field->type), "text"))
+				if (stristr(strtolower($field->type), 'text'))
 				{
-					$field->Default = "";
+					$field->Default = '';
 				}
 
 				// Do some dirty translation to MySQL output.
@@ -445,7 +445,7 @@ class PostgresqlDriver extends DatabaseDriver
 		// Change Postgresql's NULL::* type with PHP's null one
 		foreach ($fields as $field)
 		{
-			if (preg_match("/^NULL::*/", $field->Default))
+			if (preg_match('/^NULL::*/', $field->Default))
 			{
 				$field->Default = null;
 			}
@@ -471,7 +471,7 @@ class PostgresqlDriver extends DatabaseDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if (!in_array($table, $tableList))
+		if (!in_array($table, $tableList, true))
 		{
 			return false;
 		}
@@ -532,7 +532,7 @@ class PostgresqlDriver extends DatabaseDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if (!in_array($table, $tableList))
+		if (!in_array($table, $tableList, true))
 		{
 			return false;
 		}
@@ -773,7 +773,7 @@ class PostgresqlDriver extends DatabaseDriver
 		$tableList = $this->getTableList();
 
 		// Origin Table does not exist
-		if (!in_array($oldTable, $tableList))
+		if (!in_array($oldTable, $tableList, true))
 		{
 			// Origin Table not found
 			throw new \RuntimeException('Table not found in PostgreSQL database.');
@@ -918,11 +918,11 @@ class PostgresqlDriver extends DatabaseDriver
 			case 'boolean':
 				$val = 'NULL';
 
-				if ($field_value == 't')
+				if ($field_value === 't' || $field_value === true || $field_value === 1 || $field_value === '1')
 				{
 					$val = 'TRUE';
 				}
-				elseif ($field_value == 'f')
+				elseif ($field_value === 'f' || $field_value === false || $field_value === 0 || $field_value === '0')
 				{
 					$val = 'FALSE';
 				}
@@ -937,7 +937,7 @@ class PostgresqlDriver extends DatabaseDriver
 			case 'smallint':
 			case 'serial':
 			case 'numeric,':
-				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
+				$val = $field_value === '' ? 'NULL' : $field_value;
 				break;
 
 			case 'date':
@@ -1056,7 +1056,7 @@ class PostgresqlDriver extends DatabaseDriver
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		return pg_fetch_row($cursor ? $cursor : $this->cursor);
+		return pg_fetch_row($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -1070,7 +1070,7 @@ class PostgresqlDriver extends DatabaseDriver
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		return pg_fetch_assoc($cursor ? $cursor : $this->cursor);
+		return pg_fetch_assoc($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -1142,7 +1142,7 @@ class PostgresqlDriver extends DatabaseDriver
 			}
 
 			// Ignore any internal fields or primary keys with value 0.
-			if (($k[0] == "_") || ($k == $key && (($v === 0) || ($v === '0'))))
+			if (($k[0] === '_') || ($k == $key && (($v === 0) || ($v === '0'))))
 			{
 				continue;
 			}
@@ -1311,7 +1311,7 @@ class PostgresqlDriver extends DatabaseDriver
 			{
 				$sql = explode('currval', $sql);
 
-				for ($nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($sql); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
@@ -1324,7 +1324,7 @@ class PostgresqlDriver extends DatabaseDriver
 			{
 				$sql = explode('nextval', $sql);
 
-				for ($nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($sql); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
@@ -1337,7 +1337,7 @@ class PostgresqlDriver extends DatabaseDriver
 			{
 				$sql = explode('setval', $sql);
 
-				for ($nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($sql); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
@@ -1347,7 +1347,7 @@ class PostgresqlDriver extends DatabaseDriver
 
 			$explodedQuery = explode('\'', $sql);
 
-			for ($nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2)
+			for ($nIndex = 0, $nIndexMax = count($explodedQuery); $nIndex < $nIndexMax; $nIndex += 2)
 			{
 				if (strpos($explodedQuery[$nIndex], $prefix))
 				{
@@ -1456,13 +1456,13 @@ class PostgresqlDriver extends DatabaseDriver
 			}
 
 			// Only process scalars that are not internal fields.
-			if (is_array($v) || is_object($v) || $k[0] == '_')
+			if (is_array($v) || is_object($v) || $k[0] === '_')
 			{
 				continue;
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if (in_array($k, $key))
+			if (in_array($k, $key, true))
 			{
 				$key_val = $this->sqlValue($columns, $k, $v);
 				$where[] = $this->quoteName($k) . '=' . $key_val;
@@ -1500,6 +1500,6 @@ class PostgresqlDriver extends DatabaseDriver
 		}
 
 		// Set the query and execute the update.
-		return $this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)))->execute();
+		return $this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)))->execute();
 	}
 }
