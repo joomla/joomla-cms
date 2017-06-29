@@ -200,13 +200,15 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
+/** @var \Joomla\DI\Container $container */
+$container = require_once JPATH_LIBRARIES . '/container.php';
 
 // Set up the container
-JFactory::getContainer()->share(
+$container->share(
 	'MediawikiCli',
 	function (\Joomla\DI\Container $container)
 	{
-		return new MediawikiCli(
+		$app = new MediawikiCli(
 			null,
 			null,
 			null,
@@ -214,9 +216,11 @@ JFactory::getContainer()->share(
 			$container->get(\Joomla\Event\DispatcherInterface::class),
 			$container
 		);
+
+		JFactory::$application = $app;
+
+		return $app;
 	},
 	true
 );
-$app = JFactory::getContainer()->get('MediawikiCli');
-JFactory::$application = $app;
-$app->execute();
+$container->get('MediawikiCli')->execute();
