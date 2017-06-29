@@ -34,14 +34,15 @@
 
 	</fieldset>
 
-	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
+	<fieldset name="params"
+	          label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 				name="from_status_id"
 				type="sql"
 				label="COM_WORKFLOW_FROM_STATUS"
 				description="COM_WORKFLOW_FROM_STATUS_DESC"
 				query="SELECT id AS value, title AS from_status_id FROM #__workflow_status"
-		        required="true"
+				required="true"
 		/>
 
 		<field
@@ -50,8 +51,28 @@
 				label="COM_WORKFLOW_TO_STATUS"
 				description="COM_WORKFLOW_TO_STATUS_DESC"
 				query="SELECT id AS value, title AS to_status_id FROM #__workflow_status"
-		        required="true"
+				required="true"
 		/>
 
+	</fieldset>
+
+	<fieldset
+			name="permissions"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			description="JCONFIG_PERMISSIONS_DESC"
+	>
+		<field name="asset_id"
+		       type="hidden"
+		       filter="unset"/>
+		<field
+				name="rules"
+				type="rules"
+				label="JCONFIG_PERMISSIONS_LABEL"
+				class="inputbox"
+				validate="rules"
+				filter="rules"
+				component="com_workflow"
+				section="transition"
+		/>
 	</fieldset>
 </form>

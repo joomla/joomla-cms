@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params" addfieldprefix="Joomla\Component\Content\Administrator\Field">
+		<fieldset name="workflow" label="COM_CONTENT_WORKFLOWS">
+			<field
+					name="workflow_id"
+					type="sql"
+					label="COM_CONTENT_WORKFLOWS"
+					default="1"
+					class="custom-select-color-state"
+					size="1"
+					query="SELECT id AS value, title AS workflow_id FROM #__workflows"
+			/>
+		</fieldset>
+	</fields>
+
+</form>

@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted Access');
 			<a href="<?php echo $statuese; ?>"><?php echo \JText::_('COM_WORKFLOW_STATUS'); ?></a>
 		</td>
 		<td class="text-center">
-			<a href="<?php echo $statuese; ?>"><?php echo \JText::_('COM_WORKFLOW_TRANSITION'); ?></a>
+			<a href="<?php echo $transitions; ?>"><?php echo \JText::_('COM_WORKFLOW_TRANSITION'); ?></a>
 		</td>
 		<td class="text-center">
 			<?php echo $item->created; ?>

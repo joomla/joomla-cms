@@ -53,8 +53,13 @@ class Transition extends Admin
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_status_id') . ' = ' . $db->escape($data['from_status_id'])
-				. ' AND ' . $db->qn('to_status_id') . ' = ' . $db->escape($data['to_status_id']));
+			->where($db->qn('from_status_id') . ' = ' . (int) $data['from_status_id'] . ' AND ' . $db->qn('to_status_id') . ' = ' . (int) $data['to_status_id']);
+
+		if (!$isNew)
+		{
+			$query->andWhere($db->qn('id') . ' <> ' . (int) $data['id']);
+		}
+
 		$db->setQuery($query);
 		$checkDupliaction = $db->loadResult();
 
@@ -65,7 +70,6 @@ class Transition extends Admin
 
 		$app = \JFactory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'cmd');
-		$data['asset_id'] = -1;
 		$data['workflow_id'] = (int) $workflowID;
 
 		return parent::save($data);

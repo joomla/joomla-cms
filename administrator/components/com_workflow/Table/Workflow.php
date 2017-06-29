@@ -36,7 +36,7 @@ class Workflow extends Table
 	/**
 	 * Deletes workflow with transition and statuses.
 	 *
-	 * @param   int  $pk Extension ids to delete.
+	 * @param   int  $pk  Extension ids to delete.
 	 *
 	 * @return  void
 	 *

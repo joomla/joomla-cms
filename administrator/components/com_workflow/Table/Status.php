@@ -35,7 +35,7 @@ class Status extends Table
 	/**
 	 * Deletes workflow with transition and statuses.
 	 *
-	 * @param   int  $pk Extension ids to delete.
+	 * @param   int  $pk  Extension ids to delete.
 	 *
 	 * @return  void
 	 *
@@ -58,8 +58,7 @@ class Status extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__workflow_transitions'))
-				->where($db->qn('to_status_id') . ' = ' . (int) $pk
-				. ' OR ' . $db->qn('from_status_id') . ' = ' . (int) $pk);
+				->where($db->qn('to_status_id') . ' = ' . (int) $pk . ' OR ' . $db->qn('from_status_id') . ' = ' . (int) $pk);
 			$db->setQuery($query);
 			$db->execute();
 
