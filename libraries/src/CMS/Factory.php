@@ -57,14 +57,6 @@ abstract class Factory
 	public static $config = null;
 
 	/**
-	 * Global container object
-	 *
-	 * @var    Container
-	 * @since  4.0
-	 */
-	public static $container = null;
-
-	/**
 	 * Container for Date instances
 	 *
 	 * @var    array
@@ -182,25 +174,6 @@ abstract class Factory
 		}
 
 		return self::$config;
-	}
-
-	/**
-	 * Get a container object
-	 *
-	 * Returns the global service container object, only creating it if it doesn't already exist.
-	 *
-	 * @return  Container
-	 *
-	 * @since   4.0
-	 */
-	public static function getContainer()
-	{
-		if (!self::$container)
-		{
-			self::$container = self::createContainer();
-		}
-
-		return self::$container;
 	}
 
 	/**
@@ -489,28 +462,6 @@ abstract class Factory
 		}
 
 		return $registry;
-	}
-
-	/**
-	 * Create a container object
-	 *
-	 * @return  Container
-	 *
-	 * @since   4.0
-	 */
-	protected static function createContainer()
-	{
-		$container = (new Container)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
-
-		return $container;
 	}
 
 	/**
