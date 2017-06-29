@@ -14,6 +14,7 @@ use Joomla\Application\AbstractCliApplication;
 use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
 use Joomla\Application\Cli\Output\Stdout;
+use Joomla\CMS\Factory;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -215,6 +216,18 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	public function getSession()
 	{
 		return $this->container->get(SessionInterface::class);
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLanguage()
+	{
+		return Factory::getLanguage();
 	}
 
 	/**
