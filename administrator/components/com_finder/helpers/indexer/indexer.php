@@ -298,7 +298,7 @@ abstract class FinderIndexer
 		{
 			// Update the link counts for the terms.
 			$query->clear()
-				->update($db->quoteName('#__finder_terms', 't' ))
+				->update($db->quoteName('#__finder_terms', 't'))
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
 				->set('t.links = t.links - 1')
 				->where('m.link_id = ' . $db->quote((int) $linkId));
