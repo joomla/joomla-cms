@@ -309,7 +309,7 @@ abstract class FinderIndexer
 				->update($db->quoteName('#__finder_terms', 't'))
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
 				->set('t.links = t.links - 1')
-				->where($db->quoteName('m.link_id') .' = ' . (int) $linkId);
+				->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query)->execute();
 
 			// Remove all records from the mapping tables.
