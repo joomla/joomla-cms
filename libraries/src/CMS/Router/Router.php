@@ -366,10 +366,10 @@ class Router
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   \Joomla\CMS\Uri\Uri   &$uri   The URI to parse
-	 * @param   string                $stage  The stage that should be processed.
-	 *                                        Possible values: 'preprocess', 'postprocess'
-	 *                                        and '' for the main parse stage
+	 * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI to parse
+	 * @param   string               $stage  The stage that should be processed.
+	 *                                       Possible values: 'preprocess', 'postprocess'
+	 *                                       and '' for the main parse stage
 	 *
 	 * @return  void
 	 *
@@ -391,10 +391,10 @@ class Router
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   \Joomla\CMS\Uri\Uri   &$uri   The URI
-	 * @param   string                $stage  The stage that should be processed.
-	 *                                        Possible values: 'preprocess', 'postprocess'
-	 *                                        and '' for the main build stage
+	 * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI
+	 * @param   string               $stage  The stage that should be processed.
+	 *                                       Possible values: 'preprocess', 'postprocess'
+	 *                                       and '' for the main build stage
 	 *
 	 * @return  void
 	 *
