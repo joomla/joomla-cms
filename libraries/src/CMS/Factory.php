@@ -352,9 +352,9 @@ abstract class Factory
 	{
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('JDatabaseDriver'))
+			if (self::getApplication()->getContainer()->exists('JDatabaseDriver'))
 			{
-				self::$database = self::getContainer()->get('JDatabaseDriver');
+				self::$database = self::getApplication()->getContainer()->get('JDatabaseDriver');
 			}
 			else
 			{

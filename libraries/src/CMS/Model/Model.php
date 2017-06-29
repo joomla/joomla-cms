@@ -214,9 +214,9 @@ abstract class Model extends \JObject
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($modelClass))
+		if (\JFactory::getApplication()->getContainer()->exists($modelClass))
 		{
-			return \JFactory::getContainer()->get($modelClass);
+			return \JFactory::getApplication()->getContainer()->get($modelClass);
 		}
 
 		return new $modelClass($config);

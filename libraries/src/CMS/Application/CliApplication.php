@@ -68,7 +68,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 			$this->close();
 		}
 
-		$container = $container ?: \JFactory::getContainer();
+		$container = $container ?: new Container;
 		$this->setContainer($container);
 
 		$this->input    = $input ?: new \JInputCli;
@@ -215,6 +215,11 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 */
 	public function getSession()
 	{
+		if (!$this->container->has(SessionInterface::class))
+		{
+			return null;
+		}
+
 		return $this->container->get(SessionInterface::class);
 	}
 

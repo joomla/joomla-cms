@@ -83,7 +83,7 @@ class Authentication extends \JObject
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = \JFactory::getContainer()->get('dispatcher');
+			$dispatcher = \JFactory::getApplication()->getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);

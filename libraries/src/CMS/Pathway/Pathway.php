@@ -67,9 +67,9 @@ class Pathway
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->has($classname))
+			if (\JFactory::getApplication()->getContainer()->has($classname))
 			{
-				self::$instances[$client] = \JFactory::getContainer()->get($classname);
+				self::$instances[$client] = \JFactory::getApplication()->getContainer()->get($classname);
 			}
 			else
 			{

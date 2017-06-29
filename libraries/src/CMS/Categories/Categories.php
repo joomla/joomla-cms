@@ -153,9 +153,9 @@ class Categories
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($classname))
+		if (\JFactory::getApplication()->getContainer()->exists($classname))
 		{
-			self::$instances[$hash] = \JFactory::getContainer()->get($classname);
+			self::$instances[$hash] = \JFactory::getApplication()->getContainer()->get($classname);
 		}
 		else
 		{

@@ -2210,7 +2210,7 @@ class Form
 			}
 
 			// Instantiate the form.
-			$forms[$name] = \JFactory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
+			$forms[$name] = \JFactory::getApplication()->getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
 			if (substr($data, 0, 1) == '<')

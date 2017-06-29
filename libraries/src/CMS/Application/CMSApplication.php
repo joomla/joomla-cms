@@ -487,12 +487,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			if (!$container)
-			{
-				$container = \JFactory::getContainer();
-			}
-
-			if ($container->exists($classname))
+			if ($container && $container->exists($classname))
 			{
 				static::$instances[$name] = $container->get($classname);
 			}

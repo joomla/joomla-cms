@@ -300,9 +300,9 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($tableClass))
+		if (\JFactory::getApplication()->getContainer()->exists($tableClass))
 		{
-			return \JFactory::getContainer()->get($tableClass);
+			return \JFactory::getApplication()->getContainer()->get($tableClass);
 		}
 
 		// Instantiate a new table class and return it.
