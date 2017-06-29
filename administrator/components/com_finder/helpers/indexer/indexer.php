@@ -328,7 +328,6 @@ abstract class FinderIndexer
 		// Delete the link from the index.
 		$query->clear()
 			->delete($db->quoteName('#__finder_links'))
-			->delete($db->quoteName('#__finder_links'))
 			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query)->execute();
 
