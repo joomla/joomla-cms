@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 <div id="installer-database" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-		<?php if (!empty($this->sidebar)) { ?>
+		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<?php } ?>
+		<?php endif; ?>
 		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php if ($this->errorCount === 0) : ?>
