@@ -12,10 +12,12 @@ defined('_JEXEC') or die;
 <div id="installer-warnings" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
+			<?php if (!empty($this->sidebar)) { ?>
 			<div id="j-sidebar-container" class="col-md-2">
 				<?php echo $this->sidebar; ?>
 			</div>
-			<div class="col-md-10">
+			<?php } ?>
+			<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 				<div id="j-main-container" class="j-main-container">
 					<?php if (count($this->messages)) : ?>
 						<?php foreach ($this->messages as $message) : ?>

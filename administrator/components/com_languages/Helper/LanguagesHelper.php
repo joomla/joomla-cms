@@ -29,21 +29,7 @@ class LanguagesHelper
 	 */
 	public static function addSubmenu($vName, $client = 0)
 	{
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
-			'index.php?option=com_languages&view=installed',
-			$vName == 'installed'
-		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
-			'index.php?option=com_languages&view=languages',
-			$vName == 'languages'
-		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
-			'index.php?option=com_languages&view=overrides',
-			$vName == 'overrides'
-		);
+
 	}
 
 	/**

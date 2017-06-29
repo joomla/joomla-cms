@@ -24,10 +24,12 @@ $colSpan = $clientId === 1 ? 5 : 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
+		<?php if (!empty($this->sidebar)) { ?>
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<div class="col-md-10">
+		<?php } ?>
+		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>

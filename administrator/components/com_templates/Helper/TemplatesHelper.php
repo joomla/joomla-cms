@@ -26,16 +26,7 @@ class TemplatesHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_TEMPLATES_SUBMENU_STYLES'),
-			'index.php?option=com_templates&view=styles',
-			$vName == 'styles'
-		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
-			'index.php?option=com_templates&view=templates',
-			$vName == 'templates'
-		);
+
 	}
 
 	/**

@@ -36,13 +36,11 @@ class ContactHelper extends ContentHelper
 			'index.php?option=com_contact&view=contacts',
 			$vName == 'contacts'
 		);
-
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_CONTACT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
-
 		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
 		{
 			\JHtmlSidebar::addEntry(

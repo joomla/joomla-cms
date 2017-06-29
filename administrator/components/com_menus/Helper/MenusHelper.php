@@ -36,16 +36,7 @@ class MenusHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_MENUS_SUBMENU_MENUS'),
-			'index.php?option=com_menus&view=menus',
-			$vName == 'menus'
-		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_MENUS_SUBMENU_ITEMS'),
-			'index.php?option=com_menus&view=items',
-			$vName == 'items'
-		);
+
 	}
 
 	/**
