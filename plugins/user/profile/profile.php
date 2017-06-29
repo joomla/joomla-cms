@@ -70,7 +70,7 @@ class PlgUserProfile extends JPlugin
 		{
 			$userId = isset($data->id) ? $data->id : 0;
 
-			if (!isset($data->profile) and $userId > 0)
+			if (!isset($data->profile) && $userId > 0)
 			{
 				// Load the profile data from the database.
 				$db = JFactory::getDbo();
@@ -146,7 +146,7 @@ class PlgUserProfile extends JPlugin
 			// Convert website URL to utf8 for display
 			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
 
-			if (substr($value, 0, 4) === 'http')
+			if (strpos($value, 'http') === 0)
 			{
 				return '<a href="' . $value . '">' . $value . '</a>';
 			}
@@ -380,13 +380,10 @@ class PlgUserProfile extends JPlugin
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
 
-		if (($task === 'register') && $tosenabled && $tosarticle && ($option === 'com_users'))
+		// Check that the tos is checked.
+		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
-			// Check that the tos is checked.
-			if (!$data['profile']['tos'])
-			{
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
-			}
+			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}
 
 		return true;

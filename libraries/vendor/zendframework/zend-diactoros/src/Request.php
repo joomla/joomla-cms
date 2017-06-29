@@ -22,7 +22,7 @@ use Psr\Http\Message\UriInterface;
  */
 class Request implements RequestInterface
 {
-    use MessageTrait, RequestTrait;
+    use RequestTrait;
 
     /**
      * @param null|string|UriInterface $uri URI for the request, if any.
@@ -67,9 +67,7 @@ class Request implements RequestInterface
         }
 
         $header = $this->headerNames[strtolower($header)];
-        $value  = $this->headers[$header];
-        $value  = is_array($value) ? $value : [$value];
 
-        return $value;
+        return $this->headers[$header];
     }
 }

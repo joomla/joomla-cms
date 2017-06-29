@@ -104,7 +104,7 @@ class LanguageAdapter extends InstallerAdapter
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
 
-		if ($client->name == 'administrator')
+		if ($client->name === 'administrator')
 		{
 			$param_name = 'admin_language';
 		}
@@ -119,7 +119,7 @@ class LanguageAdapter extends InstallerAdapter
 		{
 			$registry = new Registry($user->params);
 
-			if ($registry->get($param_name) == $element)
+			if ($registry->get($param_name) === $element)
 			{
 				$registry->set($param_name, '');
 				$query->clear()
@@ -224,7 +224,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Verify that it's not the default language for that client
 		$params = ComponentHelper::getParams('com_languages');
 
-		if ($params->get($client->name) == $this->extension->element)
+		if ($params->get($client->name) === $this->extension->element)
 		{
 			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'));
 		}
@@ -362,7 +362,7 @@ class LanguageAdapter extends InstallerAdapter
 
 			foreach ($files as $file)
 			{
-				if ((string) $file->attributes()->file == 'meta')
+				if ((string) $file->attributes()->file === 'meta')
 				{
 					$this->core = true;
 					break;
@@ -394,7 +394,7 @@ class LanguageAdapter extends InstallerAdapter
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update tag detected
-			if ($this->parent->isUpgrade() || $updateElement)
+			if ($updateElement || $this->parent->isUpgrade())
 			{
 				// Transfer control to the update function
 				return $this->update();
@@ -532,7 +532,7 @@ class LanguageAdapter extends InstallerAdapter
 						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 
-						if ($defaultLanguageNativeTitle != $installationLanguageNativeTitle)
+						if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
 						{
 							$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 						}
@@ -681,7 +681,7 @@ class LanguageAdapter extends InstallerAdapter
 		{
 			foreach ($xml->files->children() as $file)
 			{
-				if ((string) $file->attributes()->file == 'meta')
+				if ((string) $file->attributes()->file === 'meta')
 				{
 					$this->core = true;
 					break;

@@ -63,8 +63,7 @@ class JToolbarButtonLinkTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-		unset($this->toolbar);
-		unset($this->object);
+		unset($this->toolbar, $this->object);
 
 		parent::tearDown();
 	}

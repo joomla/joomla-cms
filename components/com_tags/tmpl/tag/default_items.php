@@ -65,7 +65,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	</fieldset>
 	<?php endif; ?>
 
-	<?php if ($this->items == false || $n == 0) : ?>
+	<?php if ($this->items === false || $n === 0) : ?>
 		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 
@@ -75,7 +75,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<li class="list-group-item-danger">
 			<?php else : ?>
 				<li class="list-group-item list-group-item-action">
-				<?php if (($item->type_alias == 'com_users.category') || ($item->type_alias == 'com_banners.category')) : ?>
+				<?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
 					<h3 class="mb-0">
 						<?php echo $this->escape($item->core_title); ?>
 					</h3>

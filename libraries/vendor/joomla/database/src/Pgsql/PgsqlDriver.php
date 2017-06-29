@@ -71,11 +71,11 @@ class PgsqlDriver extends PdoDriver
 	public function __construct($options)
 	{
 		$options['driver']   = 'pgsql';
-		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user']     = (isset($options['user'])) ? $options['user'] : '';
-		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
-		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['port']     = (isset($options['port'])) ? $options['port'] : null;
+		$options['host']     = isset($options['host']) ? $options['host'] : 'localhost';
+		$options['user']     = isset($options['user']) ? $options['user'] : '';
+		$options['password'] = isset($options['password']) ? $options['password'] : '';
+		$options['database'] = isset($options['database']) ? $options['database'] : '';
+		$options['port']     = isset($options['port']) ? $options['port'] : null;
 
 		// Finalize initialization
 		parent::__construct($options);
@@ -219,21 +219,21 @@ class PgsqlDriver extends PdoDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->type);
+				$result[$field->column_name] = preg_replace('/[(0-9)]/', '', $field->type);
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->type), "character varying"))
+				if (stristr(strtolower($field->type), 'character varying'))
 				{
-					$field->Default = "";
+					$field->Default = '';
 				}
 
-				if (stristr(strtolower($field->type), "text"))
+				if (stristr(strtolower($field->type), 'text'))
 				{
-					$field->Default = "";
+					$field->Default = '';
 				}
 
 				// Do some dirty translation to MySQL output.
@@ -256,7 +256,7 @@ class PgsqlDriver extends PdoDriver
 		// Change Postgresql's NULL::* type with PHP's null one
 		foreach ($fields as $field)
 		{
-			if (preg_match("/^NULL::*/", $field->Default))
+			if (preg_match('/^NULL::*/', $field->Default))
 			{
 				$field->Default = null;
 			}
@@ -282,7 +282,7 @@ class PgsqlDriver extends PdoDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if (in_array($table, $tableList))
+		if (in_array($table, $tableList, true))
 		{
 			// Get the details columns information.
 			$this->setQuery('
@@ -341,7 +341,7 @@ class PgsqlDriver extends PdoDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if (in_array($table, $tableList))
+		if (in_array($table, $tableList, true))
 		{
 			$name = [
 				's.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type',
@@ -407,7 +407,7 @@ class PgsqlDriver extends PdoDriver
 		$tableList = $this->getTableList();
 
 		// Origin Table does not exist
-		if (!in_array($oldTable, $tableList))
+		if (!in_array($oldTable, $tableList, true))
 		{
 			// Origin Table not found
 			throw new \RuntimeException('Table not found in Postgresql database.');
@@ -483,14 +483,15 @@ class PgsqlDriver extends PdoDriver
 			case 'boolean':
 				$val = 'NULL';
 
-				if ($field_value == 't')
+				if ($field_value === 't' || $field_value === true || $field_value === 1 || $field_value === '1')
 				{
 					$val = 'TRUE';
 				}
-				elseif ($field_value == 'f')
+				elseif ($field_value === 'f' || $field_value === false || $field_value === 0 || $field_value === '0')
 				{
 					$val = 'FALSE';
 				}
+
 				break;
 
 			case 'bigint':
@@ -502,7 +503,7 @@ class PgsqlDriver extends PdoDriver
 			case 'smallint':
 			case 'serial':
 			case 'numeric,':
-				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
+				$val = $field_value === '' ? 'NULL' : $field_value;
 				break;
 
 			case 'date':
@@ -632,19 +633,19 @@ class PgsqlDriver extends PdoDriver
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			// Skip columns that don't exist in the table.
-			if (! array_key_exists($k, $columns))
+			if (!array_key_exists($k, $columns))
 			{
 				continue;
 			}
 
 			// Only process non-null scalars.
-			if (is_array($v) or is_object($v) or $v === null)
+			if (is_array($v) || is_object($v) || $v === null)
 			{
 				continue;
 			}
 
 			// Ignore any internal fields or primary keys with value 0.
-			if (($k[0] == "_") || ($k == $key && (($v === 0) || ($v === '0'))))
+			if (($k[0] === '_') || ($k == $key && (($v === 0) || ($v === '0'))))
 			{
 				continue;
 			}
@@ -701,7 +702,7 @@ class PgsqlDriver extends PdoDriver
 	 */
 	public static function isSupported()
 	{
-		return class_exists('\\PDO') && in_array('pgsql', \PDO::getAvailableDrivers());
+		return class_exists('\\PDO') && in_array('pgsql', \PDO::getAvailableDrivers(), true);
 	}
 
 	/**
@@ -814,7 +815,7 @@ class PgsqlDriver extends PdoDriver
 			{
 				$sql = explode('currval', $sql);
 
-				for ($nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($sql); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
@@ -827,7 +828,7 @@ class PgsqlDriver extends PdoDriver
 			{
 				$sql = explode('nextval', $sql);
 
-				for ($nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($sql); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
@@ -840,7 +841,7 @@ class PgsqlDriver extends PdoDriver
 			{
 				$sql = explode('setval', $sql);
 
-				for ($nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($sql); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
@@ -850,7 +851,7 @@ class PgsqlDriver extends PdoDriver
 
 			$explodedQuery = explode('\'', $sql);
 
-			for ($nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2)
+			for ($nIndex = 0, $nIndexMax = count($explodedQuery); $nIndex < $nIndexMax; $nIndex += 2)
 			{
 				if (strpos($explodedQuery[$nIndex], $prefix))
 				{
@@ -925,13 +926,13 @@ class PgsqlDriver extends PdoDriver
 			}
 
 			// Only process scalars that are not internal fields.
-			if (is_array($v) or is_object($v) or $k[0] == '_')
+			if (is_array($v) || is_object($v) || $k[0] === '_')
 			{
 				continue;
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if (in_array($k, $key))
+			if (in_array($k, $key, true))
 			{
 				$key_val = $this->sqlValue($columns, $k, $v);
 				$where[] = $this->quoteName($k) . '=' . $key_val;
@@ -967,7 +968,7 @@ class PgsqlDriver extends PdoDriver
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
+		$this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)));
 
 		return $this->execute();
 	}

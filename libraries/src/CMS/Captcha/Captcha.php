@@ -144,7 +144,7 @@ class Captcha implements DispatcherAwareInterface
 	public function display($name, $id, $class = '')
 	{
 		// Check if captcha is already loaded.
-		if (is_null($this->_captcha))
+		if ($this->_captcha === null)
 		{
 			return '';
 		}
@@ -182,7 +182,7 @@ class Captcha implements DispatcherAwareInterface
 	public function checkAnswer($code)
 	{
 		// Check if captcha is already loaded
-		if (is_null(($this->_captcha)))
+		if ($this->_captcha === null)
 		{
 			return false;
 		}

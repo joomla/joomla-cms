@@ -264,6 +264,12 @@ class Item extends Form
 		$task     = $this->getTask();
 		$context  = 'com_menus.edit.item';
 
+		// Set the menutype should we need it.
+		if ($data['menutype'] !== '')
+		{
+			$app->input->set('menutype', $data['menutype']);
+		}
+
 		// Determine the name of the primary key for the data.
 		if (empty($key))
 		{
@@ -543,6 +549,7 @@ class Item extends Form
 		}
 
 		unset($data['request']);
+		
 		$data['type'] = $title;
 
 		if ($this->input->get('fieldtype') == 'type')
