@@ -168,9 +168,9 @@ class JAdapter extends JObject
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (JFactory::getContainer()->exists($class))
+		if (\Joomla\CMS\Factory::getApplication()->getContainer()->exists($class))
 		{
-			$this->_adapters[$name] = JFactory::getContainer()->get($class);
+			$this->_adapters[$name] = \Joomla\CMS\Factory::getApplication()->getContainer()->get($class);
 		}
 		else
 		{
