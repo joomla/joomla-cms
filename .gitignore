@@ -101,6 +101,7 @@ Desktop.ini
 /libraries/vendor/defuse/php-encryption/.php_cs
 /libraries/vendor/defuse/php-encryption/composer.json
 /libraries/vendor/defuse/php-encryption/README.md
+/libraries/vendor/defuse/php-encryption/psalm.xml
 /libraries/vendor/defuse/php-encryption/test.sh
 /libraries/vendor/joomla/*/.appveyor.yml
 /libraries/vendor/joomla/*/.gitattributes

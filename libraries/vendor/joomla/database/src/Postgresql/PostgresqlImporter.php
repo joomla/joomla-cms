@@ -90,16 +90,16 @@ class PostgresqlImporter extends DatabaseImporter
 				$column = $oldSeq[$kSeqName][0];
 
 				// Test whether there is a change.
-				$change = ((string) $vSeq[0]['Type'] != $column->Type)
-					|| ((string) $vSeq[0]['Start_Value'] != $column->Start_Value)
-					|| ((string) $vSeq[0]['Min_Value'] != $column->Min_Value)
-					|| ((string) $vSeq[0]['Max_Value'] != $column->Max_Value)
-					|| ((string) $vSeq[0]['Increment'] != $column->Increment)
-					|| ((string) $vSeq[0]['Cycle_option'] != $column->Cycle_option)
-					|| ((string) $vSeq[0]['Table'] != $column->Table)
-					|| ((string) $vSeq[0]['Column'] != $column->Column)
-					|| ((string) $vSeq[0]['Schema'] != $column->Schema)
-					|| ((string) $vSeq[0]['Name'] != $column->Name);
+				$change = ((string) $vSeq[0]['Type'] !== $column->Type)
+					|| ((string) $vSeq[0]['Start_Value'] !== $column->Start_Value)
+					|| ((string) $vSeq[0]['Min_Value'] !== $column->Min_Value)
+					|| ((string) $vSeq[0]['Max_Value'] !== $column->Max_Value)
+					|| ((string) $vSeq[0]['Increment'] !== $column->Increment)
+					|| ((string) $vSeq[0]['Cycle_option'] !== $column->Cycle_option)
+					|| ((string) $vSeq[0]['Table'] !== $column->Table)
+					|| ((string) $vSeq[0]['Column'] !== $column->Column)
+					|| ((string) $vSeq[0]['Schema'] !== $column->Schema)
+					|| ((string) $vSeq[0]['Name'] !== $column->Name);
 
 				if ($change)
 				{
@@ -135,8 +135,8 @@ class PostgresqlImporter extends DatabaseImporter
 				$column = $oldFields[$fName];
 
 				// Test whether there is a change.
-				$change = ((string) $field['Type'] != $column->Type) || ((string) $field['Null'] != $column->Null)
-					|| ((string) $field['Default'] != $column->Default);
+				$change = ((string) $field['Type'] !== $column->Type) || ((string) $field['Null'] !== $column->Null)
+					|| ((string) $field['Default'] !== $column->Default);
 
 				if ($change)
 				{
@@ -176,12 +176,12 @@ class PostgresqlImporter extends DatabaseImporter
 				$oldCount = count($oldLookup[$name]);
 
 				// There is a key on this field in the old and new tables. Are they the same?
-				if ($newCount == $oldCount)
+				if ($newCount === $oldCount)
 				{
 					for ($i = 0; $i < $newCount; $i++)
 					{
 						// Check only query field -> different query means different index
-						$same = ((string) $newLookup[$name][$i]['Query'] == $oldLookup[$name][$i]->Query);
+						$same = ((string) $newLookup[$name][$i]['Query'] === $oldLookup[$name][$i]->Query);
 
 						if (!$same)
 						{
@@ -215,7 +215,7 @@ class PostgresqlImporter extends DatabaseImporter
 		// Any keys left are orphans.
 		foreach ($oldLookup as $name => $keys)
 		{
-			if ($oldLookup[$name][0]->is_primary == 'TRUE')
+			if ($oldLookup[$name][0]->is_primary === 'TRUE')
 			{
 				$alters[] = $this->getDropPrimaryKeySql($table, $oldLookup[$name][0]->Index);
 			}
@@ -256,7 +256,7 @@ class PostgresqlImporter extends DatabaseImporter
 		$sql = 'CREATE SEQUENCE ' . (string) $field['Name']
 			. ' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . $field['Min_Value']
 			. ' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value']
-			. (((string) $field['Cycle_option'] == 'NO') ? ' NO' : '') . ' CYCLE'
+			. (((string) $field['Cycle_option'] === 'NO') ? ' NO' : '') . ' CYCLE'
 			. ' OWNED BY ' . $this->db->quoteName((string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']);
 
 		return $sql;
@@ -322,9 +322,9 @@ class PostgresqlImporter extends DatabaseImporter
 
 		$sql = ' TYPE ' . $fType;
 
-		if ($fNull == 'NO')
+		if ($fNull === 'NO')
 		{
-			if (in_array($fType, $blobs) || $fDefault === null)
+			if ($fDefault === null || in_array($fType, $blobs, true))
 			{
 				$sql .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET NOT NULL'
 					. ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' DROP DEFAULT';
@@ -386,9 +386,9 @@ class PostgresqlImporter extends DatabaseImporter
 		{
 			$sql = $this->db->quoteName($fName) . ' ' . $fType;
 
-			if ($fNull == 'NO')
+			if ($fNull === 'NO')
 			{
-				if (in_array($fType, $blobs) || $fDefault === null)
+				if ($fDefault === null || in_array($fType, $blobs, true))
 				{
 					$sql .= ' NOT NULL';
 				}

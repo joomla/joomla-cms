@@ -723,13 +723,13 @@ class PostgresqlQuery extends DatabaseQuery implements LimitableInterface, Prepa
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		if (substr($interval, 0, 1) != '-')
+		if (substr($interval, 0, 1) !== '-')
 		{
-			return "timestamp '" . $date . "' + interval '" . $interval . " " . $datePart . "'";
+			return "timestamp '" . $date . "' + interval '" . $interval . ' ' . $datePart . "'";
 		}
 		else
 		{
-			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
+			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . ' ' . $datePart . "'";
 		}
 	}
 
