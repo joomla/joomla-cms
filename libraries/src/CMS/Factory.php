@@ -118,7 +118,7 @@ abstract class Factory
 	public static function getApplication()
 	{
 		if (!self::$application)
-		{echo new \Exception();die;
+		{
 			throw new \Exception('Application Instantiation Error', 500);
 		}
 
