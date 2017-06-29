@@ -50,9 +50,6 @@ class JToolbarButtonConfirmTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
-		$this->toolbar = JToolbar::getInstance();
-		$this->object  = $this->toolbar->loadButtonType('confirm');
-
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
@@ -61,6 +58,9 @@ class JToolbarButtonConfirmTest extends TestCaseDatabase
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
+
+		$this->toolbar = JToolbar::getInstance();
+		$this->object  = $this->toolbar->loadButtonType('confirm');
 	}
 
 	/**

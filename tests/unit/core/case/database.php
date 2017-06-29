@@ -168,7 +168,6 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	{
 		JFactory::$application = $this->_stashedFactoryState['application'];
 		JFactory::$config = $this->_stashedFactoryState['config'];
-		JFactory::$container = $this->_stashedFactoryState['container'];
 		JFactory::$dates = $this->_stashedFactoryState['dates'];
 		JFactory::$session = $this->_stashedFactoryState['session'];
 		JFactory::$language = $this->_stashedFactoryState['language'];
@@ -187,7 +186,6 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	{
 		$this->_stashedFactoryState['application'] = JFactory::$application;
 		$this->_stashedFactoryState['config'] = JFactory::$config;
-		$this->_stashedFactoryState['container'] = JFactory::$container;
 		$this->_stashedFactoryState['dates'] = JFactory::$dates;
 		$this->_stashedFactoryState['session'] = JFactory::$session;
 		$this->_stashedFactoryState['language'] = JFactory::$language;

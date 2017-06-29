@@ -108,23 +108,17 @@ abstract class Factory
 	/**
 	 * Get an application object.
 	 *
-	 * Returns the global {@link CMSApplication} object, only creating it if it doesn't already exist.
-	 *
-	 * @param   mixed      $id         A client identifier or name.
-	 * @param   array      $config     An optional associative array of configuration settings.
-	 * @param   string     $prefix     Application prefix
-	 * @param   Container  $container  An optional dependency injection container to inject into the application.
+	 * Returns the global {@link CMSApplication} object.
 	 *
 	 * @return  CMSApplication object
 	 *
-	 * @see     JApplication
 	 * @since   11.1
 	 * @throws  \Exception
 	 */
-	public static function getApplication($id = null, array $config = array(), $prefix = 'JApplication', Container $container = null)
+	public static function getApplication()
 	{
 		if (!self::$application)
-		{
+		{echo new \Exception();die;
 			throw new \Exception('Application Instantiation Error', 500);
 		}
 

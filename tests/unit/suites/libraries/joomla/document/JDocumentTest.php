@@ -10,7 +10,7 @@
 /**
  * Test class for JDocument.
  */
-class JDocumentTest extends \PHPUnit\Framework\TestCase
+class JDocumentTest extends TestCase
 {
 	/**
 	 * @var  JDocument
@@ -24,6 +24,8 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		parent::setUp();
+
+		\Joomla\CMS\Factory::$application = $this->getMockCmsApp();
 
 		$this->object = new JDocument;
 	}

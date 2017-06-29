@@ -14,7 +14,7 @@
  * @subpackage  Toolbar
  * @since       3.0
  */
-class JToolbarButtonCustomTest extends \PHPUnit\Framework\TestCase
+class JToolbarButtonCustomTest extends TestCaseDatabase
 {
 	/**
 	 * Toolbar object
@@ -43,6 +43,8 @@ class JToolbarButtonCustomTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		parent::setUp();
+
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->toolbar = JToolbar::getInstance();
 		$this->object  = $this->toolbar->loadButtonType('custom');

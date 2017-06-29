@@ -14,7 +14,7 @@
  * @subpackage  Toolbar
  * @since       3.0
  */
-class JToolbarButtonLinkTest extends TestCase
+class JToolbarButtonLinkTest extends TestCaseDatabase
 {
 	/**
 	 * Toolbar object
@@ -44,12 +44,12 @@ class JToolbarButtonLinkTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->toolbar = JToolbar::getInstance();
-		$this->object  = $this->toolbar->loadButtonType('link');
-
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+
+		$this->toolbar = JToolbar::getInstance();
+		$this->object  = $this->toolbar->loadButtonType('link');
 	}
 
 	/**

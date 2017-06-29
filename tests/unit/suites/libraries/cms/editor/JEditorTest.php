@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/EditorObserver.php';
  * @subpackage  Editor
  * @since       3.0
  */
-class JEditorTest extends \PHPUnit\Framework\TestCase
+class JEditorTest extends TestCase
 {
 	/**
 	 * Object under test
@@ -36,6 +36,8 @@ class JEditorTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function setUp()
 	{
+		\Joomla\CMS\Factory::$application = $this->getMockCmsApp();
+
 		$this->object = new JEditor;
 	}
 

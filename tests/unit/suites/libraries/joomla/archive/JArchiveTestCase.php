@@ -54,6 +54,8 @@ abstract class JArchiveTestCase extends TestCase
 
 		// We need a configuration with a tmp_path set
 		JFactory::$config = new Registry(['tmp_path' => __DIR__ . '/output']);
+
+		\Joomla\CMS\Factory::$application = $this->getMockCmsApp();
 	}
 
 	/**

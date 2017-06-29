@@ -32,13 +32,13 @@ class JToolbarTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$this->object = new JToolbar('toolbar');
-
 		parent::setUp();
 
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+
+		$this->object = new JToolbar('toolbar');
 	}
 
 	/**

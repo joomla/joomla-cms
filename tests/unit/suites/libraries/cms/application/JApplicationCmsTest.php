@@ -109,6 +109,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
+		$this->class->setContainer($this->getContainer());
 
 		JFactory::$application = $this->class;
 	}
