@@ -133,17 +133,7 @@ abstract class Factory
 	{
 		if (!self::$application)
 		{
-			if (!$id)
-			{
-				throw new \Exception('Application Instantiation Error', 500);
-			}
-
-			$container = $container ?: self::getContainer();
-
-			self::$application = CMSApplication::getInstance($id, $prefix, $container);
-
-			// Attach a delegated JLog object to the application
-			self::$application->setLogger(Log::createDelegatedLogger());
+			throw new \Exception('Application Instantiation Error', 500);
 		}
 
 		return self::$application;
