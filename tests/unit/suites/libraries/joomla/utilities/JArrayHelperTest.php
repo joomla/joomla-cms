@@ -784,6 +784,7 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 				false,
 				array(5, 6)
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
 			'by casesensitive string ascending' => array(
 				$input2,
 				'string',
@@ -1008,6 +1009,7 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 				'Should be sorted by the string,integer field in descending,ascending order with casesensitive comparisons',
 				false
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
 			'by casesensitive string ascending' => array(
 				$input3,
 				'string',

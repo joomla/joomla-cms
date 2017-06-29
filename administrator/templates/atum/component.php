@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 
-$lang = JFactory::getLanguage();
+$lang = \Joomla\CMS\Factory::getLanguage();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -24,7 +24,7 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'administrator/language/' . $this->language->getTag() . '/' . $this->language->getTag() . '.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 ?>
 
 <!DOCTYPE html>

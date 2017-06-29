@@ -65,8 +65,8 @@ class OracleDriver extends PdoDriver
 	public function __construct(array $options)
 	{
 		$options['driver']     = 'oci';
-		$options['charset']    = (isset($options['charset'])) ? $options['charset'] : 'AL32UTF8';
-		$options['dateformat'] = (isset($options['dateformat'])) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
+		$options['charset']    = isset($options['charset']) ? $options['charset']   : 'AL32UTF8';
+		$options['dateformat'] = isset($options['dateformat']) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		$this->charset    = $options['charset'];
 		$this->dateformat = $options['dateformat'];
@@ -234,7 +234,7 @@ class OracleDriver extends PdoDriver
 		$query->bind(':type', 'TABLE');
 
 		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
+		$tables = (array) $tables;
 
 		foreach ($tables as $table)
 		{
@@ -515,7 +515,7 @@ class OracleDriver extends PdoDriver
 	 */
 	public static function isSupported()
 	{
-		return class_exists('\\PDO') && in_array('oci', \PDO::getAvailableDrivers());
+		return class_exists('\\PDO') && in_array('oci', \PDO::getAvailableDrivers(), true);
 	}
 
 	/**
@@ -578,7 +578,7 @@ class OracleDriver extends PdoDriver
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql{$l} === '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

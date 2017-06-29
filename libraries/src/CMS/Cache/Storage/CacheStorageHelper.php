@@ -64,7 +64,7 @@ class CacheStorageHelper
 	 */
 	public function updateSize($size)
 	{
-		$this->size = number_format((float) $this->size + (float) $size, 2, \JText::_('DECIMALS_SEPARATOR'), \JText::_('THOUSANDS_SEPARATOR'));
+		$this->size += $size;
 		$this->count++;
 	}
 }

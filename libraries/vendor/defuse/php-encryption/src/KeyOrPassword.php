@@ -10,8 +10,15 @@ final class KeyOrPassword
     const SECRET_TYPE_KEY      = 1;
     const SECRET_TYPE_PASSWORD = 2;
 
-    private $secret_type = null;
-    private $secret      = null;
+    /**
+     * @var int
+     */
+    private $secret_type = 0;
+
+    /**
+     * @var Key|string
+     */
+    private $secret;
 
     /**
      * Initializes an instance of KeyOrPassword from a key.
@@ -43,6 +50,7 @@ final class KeyOrPassword
      *
      * @param string $salt
      *
+     * @throws Ex\CryptoException
      * @throws Ex\EnvironmentIsBrokenException
      *
      * @return DerivedKeys
@@ -54,6 +62,9 @@ final class KeyOrPassword
         }
 
         if ($this->secret_type === self::SECRET_TYPE_KEY) {
+            if (!($this->secret instanceof Key)) {
+                throw new Ex\CryptoException('Expected a Key object');
+            }
             $akey = Core::HKDF(
                 Core::HASH_FUNCTION_NAME,
                 $this->secret->getRawBytes(),
@@ -70,6 +81,9 @@ final class KeyOrPassword
             );
             return new DerivedKeys($akey, $ekey);
         } elseif ($this->secret_type === self::SECRET_TYPE_PASSWORD) {
+            if (!\is_string($this->secret)) {
+                throw new Ex\CryptoException('Expected a string');
+            }
             /* Our PBKDF2 polyfill is vulnerable to a DoS attack documented in
              * GitHub issue #230. The fix is to pre-hash the password to ensure
              * it is short. We do the prehashing here instead of in pbkdf2() so

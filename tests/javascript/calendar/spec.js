@@ -25,8 +25,12 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 			expect($('body')).toContainElement('.js-calendar');
 		});
 
+		it('Calendar should be hidden', function () {
+			expect($('.js-calendar').css('display')).toEqual('none');
+		});
+
 		it('Should appear on button click', function () {
-			$('#jform_created_btn').click();
+			$('#jform_created_btn').trigger('click');
 
 			expect($('.js-calendar').css('display')).toEqual('block');
 		});
