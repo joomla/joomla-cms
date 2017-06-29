@@ -100,15 +100,17 @@ class Categories
 	 */
 	public function __construct($options)
 	{
-		$this->_extension = $options['extension'];
-		$this->_table = $options['table'];
-		$this->_field = (isset($options['field']) && $options['field']) ? $options['field'] : 'catid';
-		$this->_key = (isset($options['key']) && $options['key']) ? $options['key'] : 'id';
-		$this->_statefield = (isset($options['statefield'])) ? $options['statefield'] : 'state';
-		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
-		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
-		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
+		$this->_extension  = $options['extension'];
+		$this->_table      = $options['table'];
+		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
+		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
+		$this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
+
+		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
+		$options['published']   = isset($options['published']) ? $options['published'] : 1;
+		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
 		$options['currentlang'] = Multilanguage::isEnabled() ? \JFactory::getLanguage()->getTag() : 0;
+
 		$this->_options = $options;
 
 		return true;
@@ -295,15 +297,15 @@ class Categories
 
 			$query->join('LEFT', $queryjoin);
 			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
-		}
 
-		// Group by
-		$query->group(
-			'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+			// Group by
+			$query->group(
+				'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
 			 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
 			 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
 			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
-		);
+			);
+		}
 
 		// Get the results
 		$db->setQuery($query);

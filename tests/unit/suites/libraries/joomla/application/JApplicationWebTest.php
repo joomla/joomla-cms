@@ -121,8 +121,7 @@ class JApplicationWebTest extends TestCase
 		TestReflection::setValue('JApplicationWeb', 'instance', null);
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->class);
+		unset($this->backupServer, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

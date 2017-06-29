@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Schema;
 
+use Joomla\Database\UTF8MB4SupportInterface;
+
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
@@ -94,7 +96,7 @@ class ChangeSet
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
-		if ($this->db->getServerType() == 'mysql')
+		if ($this->db->getServerType() === 'mysql')
 		{
 			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = ChangeItem::getInstance(
@@ -107,7 +109,7 @@ class ChangeSet
 			$tmpSchemaChangeItem->checkStatus = 0;
 
 			// Set the check query
-			if ($this->db->hasUTF8mb4Support())
+			if ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
 			{
 				$converted = 2;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';

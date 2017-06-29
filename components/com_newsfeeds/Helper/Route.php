@@ -38,7 +38,7 @@ abstract class Route
 			$link .= '&catid=' . $catid;
 		}
 
-		if ($language && $language != '*' && Multilanguage::isEnabled())
+		if ($language && $language !== '*' && Multilanguage::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 		}
@@ -74,7 +74,7 @@ abstract class Route
 			// Create the link
 			$link = 'index.php?option=com_newsfeeds&view=category&id=' . $id;
 
-			if ($language && $language != '*' && Multilanguage::isEnabled())
+			if ($language && $language !== '*' && Multilanguage::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 			}

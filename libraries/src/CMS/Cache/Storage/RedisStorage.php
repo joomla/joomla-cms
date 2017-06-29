@@ -221,7 +221,7 @@ class RedisStorage extends CacheStorage
 						$item = $data[$group];
 					}
 
-					$item->updateSize(strlen($key)*8/1024);
+					$item->updateSize(strlen($key)*8);
 					$data[$group] = $item;
 				}
 			}

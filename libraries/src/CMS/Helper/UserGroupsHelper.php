@@ -100,7 +100,7 @@ final class UserGroupsHelper
 	 */
 	public static function getInstance()
 	{
-		if (null === static::$instance)
+		if (static::$instance === null)
 		{
 			// Only here to avoid code style issues...
 			$groups = array();
@@ -166,7 +166,7 @@ final class UserGroupsHelper
 	 */
 	public function has($id)
 	{
-		return (array_key_exists($id, $this->groups) && false !== $this->groups[$id]);
+		return (array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
 	}
 
 	/**
@@ -190,7 +190,7 @@ final class UserGroupsHelper
 	 */
 	public function total()
 	{
-		if (null === $this->total)
+		if ($this->total === null)
 		{
 			$db = \JFactory::getDbo();
 

@@ -16,5 +16,4 @@ defined('_JEXEC') or die;
  */
 abstract class NewsfeedsHelperRoute extends \Joomla\Component\Newsfeeds\Site\Helper\Route
 {
-
 }

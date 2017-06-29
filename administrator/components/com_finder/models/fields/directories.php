@@ -51,8 +51,8 @@ class JFormFieldDirectories extends JFormFieldList
 			JPATH_SITE . '/language',
 			JPATH_SITE . '/modules',
 			JPATH_THEMES,
-			JFactory::getApplication()->get('log_path'),
-			JFactory::getApplication()->get('tmp_path')
+			JFactory::getApplication()->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
+			JFactory::getApplication()->get('tmp_path', JPATH_ROOT . '/tmp')
 		);
 
 		// Get the base directories.

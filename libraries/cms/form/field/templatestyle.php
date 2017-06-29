@@ -107,7 +107,7 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			// Get the clientName template.
 			$this->clientName = $this->element['client'] ? (string) $this->element['client'] : 'site';

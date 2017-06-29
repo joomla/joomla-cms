@@ -11,10 +11,16 @@ defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 
-$com_path = JPATH_SITE . '/components/com_content/';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
-JLoader::register('ContentHelperRoute', $com_path . 'helpers/route.php');
-JModelLegacy::addIncludePath($com_path . 'models', 'ContentModel');
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Site\Model\Articles;
+use Joomla\Component\Content\Site\Model\Article;
+use Joomla\Component\Content\Site\Model\Categories;
+
 
 /**
  * Helper for mod_articles_category
@@ -38,7 +44,7 @@ abstract class ModArticlesCategoryHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$articles = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = JFactory::getApplication();
@@ -51,8 +57,8 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('filter.published', 1);
 
 		// Access filter
-		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
+		$authorised = Access::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
 		$articles->setState('filter.access', $access);
 
 		// Prep for Normal or Dynamic Modes
@@ -83,7 +89,7 @@ abstract class ModArticlesCategoryHelper
 								if (!$catid)
 								{
 									// Get an instance of the generic article model
-									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
+									$article = new Article(array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -130,7 +136,7 @@ abstract class ModArticlesCategoryHelper
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
 			{
 				// Get an instance of the generic categories model
-				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+				$categories = new Categories(array('ignore_request' => true));
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
@@ -178,7 +184,7 @@ abstract class ModArticlesCategoryHelper
 				$articles->setState('list.ordering', $ordering);
 				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
 
-				if (!JPluginHelper::isEnabled('content', 'vote'))
+				if (!PluginHelper::isEnabled('content', 'vote'))
 				{
 					$articles->setState('list.ordering', 'a.ordering');
 				}
@@ -490,7 +496,7 @@ abstract class ModArticlesCategoryHelper
 		{
 			foreach ($grouped as $group => $items)
 			{
-				$date                      = new JDate($group);
+				$date                      = new Date($group);
 				$formatted_group           = $date->format($month_year_format);
 				$grouped[$formatted_group] = $items;
 

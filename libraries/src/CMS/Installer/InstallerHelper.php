@@ -176,7 +176,7 @@ abstract class InstallerHelper
 		 */
 		$dirList = array_merge((array) \JFolder::files($extractdir, ''), (array) \JFolder::folders($extractdir, ''));
 
-		if (count($dirList) == 1)
+		if (count($dirList) === 1)
 		{
 			if (\JFolder::exists($extractdir . '/' . $dirList[0]))
 			{
@@ -196,7 +196,7 @@ abstract class InstallerHelper
 		 */
 		$retval['type'] = self::detectType($extractdir);
 
-		if ($retval['type'] || $alwaysReturnArray)
+		if ($alwaysReturnArray || $retval['type'])
 		{
 			return $retval;
 		}
@@ -236,7 +236,7 @@ abstract class InstallerHelper
 				continue;
 			}
 
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				unset($xml);
 				continue;
