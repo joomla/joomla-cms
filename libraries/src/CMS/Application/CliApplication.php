@@ -106,8 +106,8 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 * @return  CliApplication
 	 *
 	 * @since       11.1
-	 * @deprecated  5.0 Load the app through the container
-	 * @throws  \RuntimeException
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Get the application trough the container of the global application
 	 */
 	public static function getInstance($name = null)
 	{

@@ -100,8 +100,9 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since   11.3
-	 * @throws  \RuntimeException
+	 * @since       11.3
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Get the application trough the container of the global application
 	 */
 	public static function getInstance($name = null)
 	{
