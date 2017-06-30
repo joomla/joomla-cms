@@ -37,7 +37,7 @@ class TestMockContainer
 					->setMethods($methods)
 					->getMock();
 
-		// @Todo mock the container
+		// @Todo mock the container functions
 		$container = require JPATH_LIBRARIES . '/container.php';
 
 		$test->assignMockCallbacks(

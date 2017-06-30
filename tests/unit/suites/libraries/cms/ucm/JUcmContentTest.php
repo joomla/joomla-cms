@@ -36,7 +36,7 @@ class JUcmContentTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockWeb();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->object = new JUcmContent(JTable::getInstance('Content'), 'com_content.article');
 	}
