@@ -32,6 +32,12 @@ class JModelItemTest extends TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+
 		// Create mock of abstract class JModelForm to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelItem');
 	}
@@ -48,6 +54,10 @@ class JModelItemTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->object);
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
