@@ -10,7 +10,7 @@ namespace Joomla\CMS;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Language;
@@ -19,7 +19,6 @@ use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseDriver;
-use Joomla\DI\Container;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -34,7 +33,7 @@ abstract class Factory
 	/**
 	 * Global application object
 	 *
-	 * @var    CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  11.1
 	 */
 	public static $application = null;
@@ -108,9 +107,7 @@ abstract class Factory
 	/**
 	 * Get the global application object.
 	 *
-	 * Returns the global {@link CMSApplication} object.
-	 *
-	 * @return  CMSApplication object
+	 * @return  CMSApplicationInterface object
 	 *
 	 * @since   11.1
 	 * @throws  \Exception
