@@ -8905,13 +8905,11 @@ header {
     display: grid;
     grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
-    grid-gap: 15px; }
+    grid-gap: 0 15px; }
     body > div {
       width: auto;
       max-width: none;
-      margin: 0; }
-    body .container-banner {
-      grid-gap: 0; }
+      margin: 0 0 15px; }
     body .container-top-a > div,
     body .container-top-b > div,
     body .container-bottom-a > div,
@@ -8925,10 +8923,14 @@ header {
         grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ."; } }
   header {
     margin-bottom: 0; }
+    header + div:not(.container-banner) {
+      margin-top: 15px; }
   .container-banner {
-    margin-bottom: -15px; }
+    margin: 0 0 15px; }
+    .container-banner p {
+      margin-bottom: 0; }
   .container-main {
-    margin: -7.5px; } }
+    margin: -7.5px -7.5px 7.5px; } }
 
 header {
   grid-area: head; }
