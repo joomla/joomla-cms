@@ -6,20 +6,21 @@
 
 -- Step 1: If there is any user-defined menu and menu type "main" for the site
 -- (client_id = 0), then change the menu type for the menu, any module and the
--- menu type to something hopefully not being used yet.
+-- menu type to something very likely not being used yet and just within the
+-- max. length of 24 characters.
 UPDATE "#__menu"
-   SET "menutype" = 'main_is_reserved'
+   SET "menutype" = 'main_is_reserved_133C585'
  WHERE "client_id" = 0
    AND "menutype" = 'main'
    AND (SELECT COUNT("id") FROM "#__menu_types" WHERE "client_id" = 0 AND "menutype" = 'main') > 0;
 
 UPDATE "#__modules"
-   SET "params" = REPLACE("params",'"menutype":"main"','"menutype":"main_is_reserved"')
+   SET "params" = REPLACE("params",'"menutype":"main"','"menutype":"main_is_reserved_133C585"')
  WHERE "client_id" = 0
    AND (SELECT COUNT("id") FROM "#__menu_types" WHERE "client_id" = 0 AND "menutype" = 'main') > 0;
 
 UPDATE "#__menu_types"
-   SET "menutype" = 'main_is_reserved'
+   SET "menutype" = 'main_is_reserved_133C585'
  WHERE "client_id" = 0 
    AND "menutype" = 'main';
 
@@ -50,15 +51,8 @@ UPDATE "#__menu"
 
 -- Step 5: For the standard admin menu items of menutype "main" there is no record
 -- in the menutype table on a clean Joomla installation. If there is one, it is a
--- mistake and it should be deleted, but here we rename it so the admin can see
--- it and delete it then. This is also to be done with menu type "menu" for the
--- admin which we renamed before in step 3.
-UPDATE "#__menu_types"
-   SET "menutype" = 'main_to_be_deleted'
+-- mistake and it should be deleted. This is also the case with menu type "menu"
+-- for the admin, for which we changed the menutype of the menu items in step 3.
+DELETE FROM "#__menu_types"
  WHERE "client_id" = 1
-   AND "menutype" = 'main';
-
-UPDATE "#__menu_types"
-   SET "menutype" = 'menu_to_be_deleted'
- WHERE "client_id" = 1
-   AND "menutype" = 'menu';
+   AND "menutype" IN ('main', 'menu');
