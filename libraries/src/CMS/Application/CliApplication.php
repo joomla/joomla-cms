@@ -215,11 +215,6 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 */
 	public function getSession()
 	{
-		if (!$this->container->has(SessionInterface::class))
-		{
-			return null;
-		}
-
 		return $this->container->get(SessionInterface::class);
 	}
 
