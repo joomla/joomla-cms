@@ -226,39 +226,6 @@ class Api extends Model
 	}
 
 	/**
-	 * Creates a safe file name for the given name.
-	 *
-	 * @param   string  $name  The filename
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
-	 */
-	private function getSafeName($name)
-	{
-		// Make the filename safe
-		$name = \JFile::makeSafe($name);
-
-		// Transform filename to punycode
-		$name = \JStringPunycode::toPunycode($name);
-
-		$extension = \JFile::getExt($name);
-
-		if ($extension)
-		{
-			$extension = '.' . strtolower($extension);
-		}
-
-		// Transform filename to punycode, then neglect other than non-alphanumeric characters & underscores.
-		// Also transform extension to lowercase.
-		$nameWithoutExtension = substr($name, 0, strlen($name) - strlen($extension));
-		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $nameWithoutExtension) . $extension;
-
-		return $name;
-	}
-
-	/**
 	 * Copies file or folder from source path to destination path
 	 * If forced, existing files/folders would be overwritten
 	 *

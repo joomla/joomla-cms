@@ -1260,7 +1260,7 @@ abstract class Admin extends Form
 				$associations[$table->language] = (int) $table->$key;
 			}
 
-			if ((count($associations)) > 1)
+			if (count($associations) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));

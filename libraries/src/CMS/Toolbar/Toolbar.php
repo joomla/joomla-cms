@@ -258,7 +258,7 @@ class Toolbar
 	{
 		$signature = md5($type);
 
-		if (isset($this->_buttons[$signature]) && $new === false)
+		if ($new === false && isset($this->_buttons[$signature]))
 		{
 			return $this->_buttons[$signature];
 		}
@@ -313,17 +313,14 @@ class Toolbar
 			'deprecated'
 		);
 
-		// Just force path to array.
-		settype($path, 'array');
-
 		// Loop through the path directories.
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) !== DIRECTORY_SEPARATOR)
 			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;

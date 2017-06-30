@@ -97,7 +97,7 @@ class InstallationHtmlHelper
 		$tab    = '<span class="badge badge-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
 		$active = $num == $view ? ' active' : '';
 
-		if ($view + 1 == $num)
+		if ($view + 1 === $num)
 		{
 			$tab = '<a class="nav-link' . $active . '" href="#" onclick="Install.submitform();">' . $tab . '</a>';
 		}
@@ -125,7 +125,7 @@ class InstallationHtmlHelper
 	 */
 	private static function getTabNumber($id, $tabs)
 	{
-		$num = (int) array_search($id, $tabs);
+		$num = (int) array_search($id, $tabs, true);
 		$num++;
 
 		return $num;

@@ -212,7 +212,7 @@ class Html extends HtmlView
 			$this->params->def('page_heading', \JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && ($menu->query['option'] != 'com_tags'))
+		if ($menu && $menu->query['option'] !== 'com_tags')
 		{
 			$this->params->set('page_subheading', $menu->title);
 		}

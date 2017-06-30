@@ -19,7 +19,6 @@ JLoader::registerAlias('JRegistryFormatPhp',                '\\Joomla\\Registry\
 JLoader::registerAlias('JRegistryFormatXml',                '\\Joomla\\Registry\\Format\\Xml', '5.0');
 JLoader::registerAlias('JStringInflector',                  '\\Joomla\\String\\Inflector', '5.0');
 JLoader::registerAlias('JStringNormalise',                  '\\Joomla\\String\\Normalise', '5.0');
-JLoader::registerAlias('JApplicationWebClient',             '\\Joomla\\Application\\Web\\WebClient', '5.0');
 JLoader::registerAlias('JData',                             '\\Joomla\\Data\\DataObject', '5.0');
 JLoader::registerAlias('JDataSet',                          '\\Joomla\\Data\\DataSet', '5.0');
 JLoader::registerAlias('JDataDumpable',                     '\\Joomla\\Data\\DumpableInterface', '5.0');
@@ -32,8 +31,11 @@ JLoader::registerAlias('JApplicationCms',                   '\\Joomla\\CMS\\Appl
 JLoader::registerAlias('JApplicationDaemon',                '\\Joomla\\CMS\\Application\\DaemonApplication', '5.0');
 JLoader::registerAlias('JApplicationSite',                  '\\Joomla\\CMS\\Application\\SiteApplication', '5.0');
 JLoader::registerAlias('JApplicationWeb',                   '\\Joomla\\CMS\\Application\\WebApplication', '5.0');
+JLoader::registerAlias('JApplicationWebClient',             '\\Joomla\\Application\\Web\\WebClient', '5.0');
 JLoader::registerAlias('JDaemon',                           '\\Joomla\\CMS\\Application\\DaemonApplication', '5.0');
 JLoader::registerAlias('JCli',                              '\\Joomla\\CMS\\Application\\CliApplication', '5.0');
+JLoader::registerAlias('JWeb',                              '\\Joomla\\CMS\\Application\\WebApplication', '4.0');
+JLoader::registerAlias('JWebClient',                        '\\Joomla\\Application\\Web\\WebClient', '4.0');
 
 JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\Model\\Admin', '5.0');
 JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\Model\\Form', '5.0');
@@ -280,5 +282,69 @@ JLoader::registerAlias('JFormRuleRules',                    '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormRuleTel',                      '\\Joomla\\CMS\\Form\\Rule\\TelRule', '5.0');
 JLoader::registerAlias('JFormRuleUrl',                      '\\Joomla\\CMS\\Form\\Rule\\UrlRule', '5.0');
 JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form\\Rule\\UsernameRule', '5.0');
+JLoader::registerAlias('JFormFieldText',                    '\\Joomla\\CMS\\Form\\Field\\Text', '5.0');
 
 JLoader::registerAlias('JMicrodata',                        '\\Joomla\\CMS\\Microdata\\Microdata', '5.0');
+
+JLoader::registerAlias('JDatabaseDriver',                   '\\Joomla\\Database\\DatabaseDriver', '5.0');
+JLoader::registerAlias('JDatabaseExporter',                 '\\Joomla\\Database\\DatabaseExporter', '5.0');
+JLoader::registerAlias('JDatabaseFactory',                  '\\Joomla\\Database\\DatabaseFactory', '5.0');
+JLoader::registerAlias('JDatabaseImporter',                 '\\Joomla\\Database\\DatabaseImporter', '5.0');
+JLoader::registerAlias('JDatabaseInterface',                '\\Joomla\\Database\\DatabaseInterface', '5.0');
+JLoader::registerAlias('JDatabaseIterator',                 '\\Joomla\\Database\\DatabaseIterator', '5.0');
+JLoader::registerAlias('JDatabaseQuery',                    '\\Joomla\\Database\\DatabaseQuery', '5.0');
+JLoader::registerAlias('JDatabaseDriverMysqli',             '\\Joomla\\Database\\Mysqli\\MysqliDriver', '5.0');
+JLoader::registerAlias('JDatabaseDriverOracle',             '\\Joomla\\Database\\Oracle\\OracleDriver', '5.0');
+JLoader::registerAlias('JDatabaseDriverPdo',                '\\Joomla\\Database\\Pdo\\PdoDriver', '5.0');
+JLoader::registerAlias('JDatabaseDriverPdomysql',           '\\Joomla\\Database\\Mysql\\MysqlDriver', '5.0');
+JLoader::registerAlias('JDatabaseDriverPostgresql',         '\\Joomla\\Database\\Postgresql\\PostgresqlDriver', '5.0');
+JLoader::registerAlias('JDatabaseDriverSqlazure',           '\\Joomla\\Database\\Sqlazure\\SqlazureDriver', '5.0');
+JLoader::registerAlias('JDatabaseDriverSqlite',             '\\Joomla\\Database\\Sqlite\\SqliteDriver', '5.0');
+JLoader::registerAlias('JDatabaseDriverSqlsrv',             '\\Joomla\\Database\\Sqlsrv\\SqlsrvDriver', '5.0');
+JLoader::registerAlias('JDatabaseExceptionConnecting',      '\\Joomla\\Database\\Exception\\ConnectionFailureException', '5.0');
+JLoader::registerAlias('JDatabaseExceptionExecuting',       '\\Joomla\\Database\\Exception\\ExecutionFailureException', '5.0');
+JLoader::registerAlias('JDatabaseExceptionUnsupported',     '\\Joomla\\Database\\Exception\\UnsupportedAdapterException', '5.0');
+JLoader::registerAlias('JDatabaseExporterMysqli',           '\\Joomla\\Database\\Mysqli\\MysqliExporter', '5.0');
+JLoader::registerAlias('JDatabaseExporterPdomysql',         '\\Joomla\\Database\\Mysql\\MysqlExporter', '5.0');
+JLoader::registerAlias('JDatabaseExporterPostgresql',       '\\Joomla\\Database\\Postgresql\\PostgresqlExporter', '5.0');
+JLoader::registerAlias('JDatabaseImporterMysqli',           '\\Joomla\\Database\\Mysqli\\MysqliImporter', '5.0');
+JLoader::registerAlias('JDatabaseImporterPdomysql',         '\\Joomla\\Database\\Mysql\\MysqlImporter', '5.0');
+JLoader::registerAlias('JDatabaseImporterPostgresql',       '\\Joomla\\Database\\Postgresql\\PostgresqlImporter', '5.0');
+JLoader::registerAlias('JDatabaseIteratorMysqli',           '\\Joomla\\Database\\Mysqli\\MysqliIterator', '5.0');
+JLoader::registerAlias('JDatabaseIteratorOracle',           '\\Joomla\\Database\\Oracle\\OracleIterator', '5.0');
+JLoader::registerAlias('JDatabaseIteratorPdo',              '\\Joomla\\Database\\Pdo\\PdoIterator', '5.0');
+JLoader::registerAlias('JDatabaseIteratorPdomysql',         '\\Joomla\\Database\\Mysql\\MysqlIterator', '5.0');
+JLoader::registerAlias('JDatabaseIteratorPostgresql',       '\\Joomla\\Database\\Postgresql\\PostgresqlIterator', '5.0');
+JLoader::registerAlias('JDatabaseIteratorSqlazure',         '\\Joomla\\Database\\Sqlazure\\SqlazureIterator', '5.0');
+JLoader::registerAlias('JDatabaseIteratorSqlite',           '\\Joomla\\Database\\Sqlite\\SqliteIterator', '5.0');
+JLoader::registerAlias('JDatabaseIteratorSqlsrv',           '\\Joomla\\Database\\Sqlsrv\\SqlsrvIterator', '5.0');
+JLoader::registerAlias('JDatabaseQueryElement',             '\\Joomla\\Database\\Query\\QueryElement', '5.0');
+JLoader::registerAlias('JDatabaseQueryLimitable',           '\\Joomla\\Database\\Query\\LimitableInterface', '5.0');
+JLoader::registerAlias('JDatabaseQueryPreparable',          '\\Joomla\\Database\\Query\\PreparableInterface', '5.0');
+JLoader::registerAlias('JDatabaseQueryMysqli',              '\\Joomla\\Database\\Mysqli\\MysqliQuery', '5.0');
+JLoader::registerAlias('JDatabaseQueryOracle',              '\\Joomla\\Database\\Oracle\\OracleQuery', '5.0');
+JLoader::registerAlias('JDatabaseQueryPdo',                 '\\Joomla\\Database\\Pdo\\PdoQuery', '5.0');
+JLoader::registerAlias('JDatabaseQueryPdomysql',            '\\Joomla\\Database\\Mysql\\MysqlQuery', '5.0');
+JLoader::registerAlias('JDatabaseQueryPostgresql',          '\\Joomla\\Database\\Postgresql\\PostgresqlQuery', '5.0');
+JLoader::registerAlias('JDatabaseQuerySqlazure',            '\\Joomla\\Database\\Sqlazure\\SqlazureQuery', '5.0');
+JLoader::registerAlias('JDatabaseQuerySqlite',              '\\Joomla\\Database\\Sqlite\\SqliteQuery', '5.0');
+JLoader::registerAlias('JDatabaseQuerySqlsrv',              '\\Joomla\\Database\\Sqlsrv\\SqlsrvQuery', '5.0');
+
+JLoader::registerAlias('JFactory',                          '\\Joomla\\CMS\\Factory', '5.0');
+
+JLoader::registerAlias('JMail',                             '\\Joomla\\CMS\\Mail\\Mail', '5.0');
+JLoader::registerAlias('JMailHelper',                       '\\Joomla\\CMS\\Mail\\MailHelper', '5.0');
+JLoader::registerAlias('JMailWrapperHelper',                '\\Joomla\\CMS\\Mail\\MailWrapper', '5.0');
+
+JLoader::registerAlias('JClientHelper',                     '\\Joomla\\CMS\\Client\\ClientHelper', '5.0');
+JLoader::registerAlias('JClientWrapperHelper',              '\\Joomla\\CMS\\Client\\ClienWrapper', '5.0');
+JLoader::registerAlias('JClientFtp',                        '\\Joomla\\CMS\\Client\\FtpClient', '5.0');
+JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Client\\FtpClient', '4.0');
+JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
+JLoader::registerAlias('JLDAP',                             '\\Joomla\\Ldap\\LdapClient', '4.0');
+
+JLoader::registerAlias('JUpdate',                           '\\Joomla\\CMS\\Updater\\Update', '5.0');
+JLoader::registerAlias('JUpdateAdapter',                    '\\Joomla\\CMS\\Updater\\UpdateAdapter', '5.0');
+JLoader::registerAlias('JUpdater',                          '\\Joomla\\CMS\\Updater\\Updater', '5.0');
+JLoader::registerAlias('JUpdaterCollection',                '\\Joomla\\CMS\\Updater\\Adapter\\CollectionAdapter', '5.0');
+JLoader::registerAlias('JUpdaterExtension',                 '\\Joomla\\CMS\\Updater\\Adapter\\ExtensionAdapter', '5.0');

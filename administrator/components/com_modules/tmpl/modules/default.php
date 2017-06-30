@@ -83,7 +83,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
-					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->position ? $item->position : 'none'; ?>">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->position ?: 'none'; ?>">
 						<td class="order nowrap text-center hidden-sm-down">
 							<?php
 							$iconClass = '';
@@ -122,7 +122,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 							</div>
 						</td>
 						<td class="has-context">
-							<div class="float-left">
+							<div>
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
@@ -184,8 +184,8 @@ $colSpan = $clientId === 1 ? 8 : 10;
 				'bootstrap.renderModal',
 				'collapseModal',
 				array(
-					'title' => JText::_('COM_MODULES_BATCH_OPTIONS'),
-					'footer' => $this->loadTemplate('batch_footer')
+					'title'  => JText::_('COM_MODULES_BATCH_OPTIONS'),
+					'footer' => $this->loadTemplate('batch_footer'),
 				),
 				$this->loadTemplate('batch_body')
 			); ?>

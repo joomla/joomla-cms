@@ -18,7 +18,7 @@
 
   .page-title {
     display: inline-block;
-    margin: 0 0 0 46px;
+    margin: 0 5px;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
@@ -61,17 +61,22 @@
 
   .nav-link {
     position: relative;
-    padding: 0 8px;
+    padding: 0;
     line-height: $header-height;
 
     .fa {
-      width: 30px;
+      width: $header-height + 2px;
       height: 23px;
       font-size: 1.1rem;
       line-height: 23px;
       color: $white-offset;
       vertical-align: middle;
       transition: all .2s ease-in-out;
+    }
+
+    .fa-external-link { // Position correct
+      position: relative;
+      left: 2px;
     }
 
     .badge {
@@ -150,10 +155,6 @@
 
 // Mobile Toggle
 .menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin-left: -7.5px;
   font-size: 2rem;
   text-align: center;
 

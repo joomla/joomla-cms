@@ -10,6 +10,7 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 /**
@@ -60,15 +61,22 @@ class InputFilter extends BaseInputFilter
 				// Get the database driver
 				$db = \JFactory::getDbo();
 
-				// This trick is required to let the driver determine the utf-8 multibyte support
-				$db->connect();
+				if ($db instanceof UTF8MB4SupportInterface)
+				{
+					// This trick is required to let the driver determine the utf-8 multibyte support
+					$db->connect();
 
-				// And now we can decide if we should strip USCs
-				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
+					// And now we can decide if we should strip USCs
+					$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
+				}
+				else
+				{
+					$this->stripUSC = 1;
+				}
 			}
 			catch (\RuntimeException $e)
 			{
-				// Could not connect to MySQL. Strip USC to be on the safe side.
+				// Could not connect to the database. Strip USC to be on the safe side.
 				$this->stripUSC = 1;
 			}
 		}

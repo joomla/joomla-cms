@@ -60,9 +60,11 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
-		static::$loaded[__METHOD__] = true;
 
-		return;
+		// Add core and base uri paths so javascript scripts can use them.
+		JFactory::getDocument()->addScriptOptions('system.paths', array('root' => JUri::root(true), 'base' => JUri::base(true)));
+
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -456,11 +458,7 @@ JS
 		static::core();
 
 		// Add keepalive script options.
-		$options = array(
-			'interval' => $refreshTime * 1000,
-			'uri'      => JRoute::_($uri),
-		);
-		JFactory::getDocument()->addScriptOptions('system.keepalive', $options);
+		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
 
 		// Add script.
 		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
@@ -646,17 +644,12 @@ JS
 	 */
 	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
 	{
-		if (is_null($polyfillTypes))
+		if ($polyfillTypes === null)
 		{
-			return false;
+			return;
 		}
 
-		if (!is_array($polyfillTypes))
-		{
-			$polyfillTypes = array($polyfillTypes);
-		}
-
-		foreach ($polyfillTypes as $polyfillType)
+		foreach ((array) $polyfillTypes as $polyfillType)
 		{
 			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
 

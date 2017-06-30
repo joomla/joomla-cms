@@ -93,7 +93,7 @@ class JFormFieldOrdering extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			$this->contentType = (string) $this->element['content_type'];
 		}

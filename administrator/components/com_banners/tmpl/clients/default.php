@@ -27,7 +27,7 @@ $user       = JFactory::getUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$params     = (isset($this->state->params)) ? $this->state->params : new JObject;
+$params     = isset($this->state->params) ? $this->state->params : new JObject;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -112,7 +112,7 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 										</div>
 									</td>
 									<td class="nowrap has-context">
-										<div class="float-left">
+										<div>
 											<?php if ($item->checked_out) : ?>
 												<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
 											<?php endif; ?>
