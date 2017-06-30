@@ -59,7 +59,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		$mockObject->expects($test->any())->method('getMenu')->will($test->returnValue(TestMockMenu::create($test)));
 
 		// Mock calls to JApplicationCms::getContainer();
-		$mockObject->expects($test->any())->method('getContainer')->will($test->returnValue(self::getContainer()));
+		$mockObject->expects($test->any())->method('getContainer')->will($test->returnValue(TestMockContainer::create($test)));
 
 		return parent::addBehaviours($test, $mockObject, $options);
 	}
@@ -110,17 +110,5 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		);
 
 		return self::addBehaviours($test, $mockObject, $options);
-	}
-
-	/**
-	 * Returns a ready container.
-	 *
-	 * @return  \Joomla\DI\Container
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getContainer()
-	{
-		return require JPATH_LIBRARIES . '/container.php';
 	}
 }

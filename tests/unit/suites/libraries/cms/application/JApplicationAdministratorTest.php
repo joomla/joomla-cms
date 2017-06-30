@@ -106,7 +106,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		$this->class = new JApplicationAdministrator($this->getMockInput(), $config);
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
-		$this->class->setContainer(TestMockApplicationCms::getContainer());
+		$this->class->setContainer($this->getMockContainer());
 		TestReflection::setValue('JApplicationCms', 'instances', array('administrator' => $this->class));
 
 		JFactory::$application = $this->class;

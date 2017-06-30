@@ -106,7 +106,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 		$this->class = new JApplicationSite($this->getMockInput(), $config);
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
-		$this->class->setContainer(TestMockApplicationCms::getContainer());
+		$this->class->setContainer($this->getMockContainer());
 		TestReflection::setValue('JApplicationCms', 'instances', array('site' => $this->class));
 
 		JFactory::$application = $this->class;

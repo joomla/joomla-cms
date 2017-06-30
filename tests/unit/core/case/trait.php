@@ -218,6 +218,21 @@ trait TestCaseTrait
 	}
 
 	/**
+	 * Gets a mock container object.
+	 *
+	 * @return  \Joomla\DI\Container
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMockContainer()
+	{
+		// Attempt to load the class first.
+		class_exists(\Joomla\DI\Container::class);
+
+		return TestMockContainer::create($this);
+	}
+
+	/**
 	 * Gets a mock document object.
 	 *
 	 * @return  JDocument
