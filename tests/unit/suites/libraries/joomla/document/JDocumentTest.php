@@ -25,6 +25,8 @@ class JDocumentTest extends TestCase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
 		\Joomla\CMS\Factory::$application = $this->getMockCmsApp();
 
 		$this->object = new JDocument;
@@ -38,6 +40,9 @@ class JDocumentTest extends TestCase
 	{
 		JDocument::$_buffer = null;
 		unset($this->object);
+
+		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 

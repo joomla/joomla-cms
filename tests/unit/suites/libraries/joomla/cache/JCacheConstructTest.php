@@ -30,7 +30,25 @@ class JCacheTest_Construct extends TestCase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
 		JFactory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * Tears down the fixture.
+	 *
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

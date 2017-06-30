@@ -44,6 +44,8 @@ class JToolbarButtonStandardTest extends TestCase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
 		JFactory::$application = $this->getMockCmsApp();
 
 		$this->toolbar = JToolbar::getInstance();
@@ -61,6 +63,9 @@ class JToolbarButtonStandardTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->toolbar, $this->object);
+
+		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 

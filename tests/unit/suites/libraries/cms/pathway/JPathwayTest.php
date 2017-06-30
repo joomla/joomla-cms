@@ -37,6 +37,8 @@ class JPathwayTest extends TestCase
 
 		parent::setUp();
 
+		$this->saveFactoryState();
+
 		JFactory::$application = $this->getMockCmsApp();
 	}
 
@@ -50,6 +52,8 @@ class JPathwayTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->fixture);
+
+		$this->restoreFactoryState();
 
 		parent::tearDown();
 	}

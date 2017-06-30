@@ -21,14 +21,34 @@ class JCacheControllerCallbackTest_Callback extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
 		require_once dirname(__DIR__) . '/storage/JCacheStorageMock.php';
 
 		require_once __DIR__ . '/JCacheControllerCallback.helper.php';
 
 		// Some tests are affected by the output of the logger, so we clear the logger here.
 		JLog::setInstance(null);
-		
+
 		JFactory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * Tears down the fixture.
+	 *
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

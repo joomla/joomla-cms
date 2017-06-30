@@ -36,6 +36,10 @@ class JEditorTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
 		\Joomla\CMS\Factory::$application = $this->getMockCmsApp();
 
 		$this->object = new JEditor;
@@ -52,6 +56,9 @@ class JEditorTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->object);
+
+		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 
