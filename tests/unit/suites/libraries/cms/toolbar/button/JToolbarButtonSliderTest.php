@@ -14,7 +14,7 @@
  * @subpackage  Toolbar
  * @since       3.0
  */
-class JToolbarButtonSliderTest extends TestCaseDatabase
+class JToolbarButtonSliderTest extends TestCase
 {
 	/**
 	 * Toolbar object
