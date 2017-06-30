@@ -36,48 +36,52 @@ class Application implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->share(
-			'AdministratorApplication',
-			function (Container $container)
-			{
-				$app = new AdministratorApplication(null, null, null, $container);
-
-				// The session service provider needs JFactory::$application, set it if still null
-				if (Factory::$application === null)
+		$container->alias('JApplicationAdministrator', AdministratorApplication::class)
+			->alias('AdministratorApplication', AdministratorApplication::class)
+			->share(
+				AdministratorApplication::class,
+				function (Container $container)
 				{
-					Factory::$application = $app;
-				}
+					$app = new AdministratorApplication(null, null, null, $container);
 
-				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger(Log::createDelegatedLogger());
-				$app->setSession($container->get('Joomla\Session\SessionInterface'));
-				$app->loadIdentity(Factory::getUser());
+					// The session service provider needs JFactory::$application, set it if still null
+					if (Factory::$application === null)
+					{
+						Factory::$application = $app;
+					}
 
-				return $app;
-			},
-			true
-		);
+					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+					$app->setLogger(Log::createDelegatedLogger());
+					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->loadIdentity(Factory::getUser());
 
-		$container->share(
-			'SiteApplication',
-			function (Container $container)
-			{
-				$app = new SiteApplication(null, null, null, $container);
+					return $app;
+				},
+				true
+			);
 
-				// The session service provider needs JFactory::$application, set it if still null
-				if (Factory::$application === null)
+		$container->alias('JApplicationSite', SiteApplication::class)
+			->alias('SiteApplication', SiteApplication::class)
+			->share(
+				SiteApplication::class,
+				function (Container $container)
 				{
-					Factory::$application = $app;
-				}
+					$app = new SiteApplication(null, null, null, $container);
 
-				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger(Log::createDelegatedLogger());
-				$app->setSession($container->get('Joomla\Session\SessionInterface'));
-				$app->loadIdentity(Factory::getUser());
+					// The session service provider needs JFactory::$application, set it if still null
+					if (Factory::$application === null)
+					{
+						Factory::$application = $app;
+					}
 
-				return $app;
-			},
-			true
-		);
+					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+					$app->setLogger(Log::createDelegatedLogger());
+					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->loadIdentity(Factory::getUser());
+
+					return $app;
+				},
+				true
+			);
 	}
 }

@@ -32,7 +32,7 @@ $container = require JPATH_LIBRARIES . '/container.php';
 JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
 // Get the application from the container
-$app = $container->get('AdministratorApplication');
+$app = $container->get(\Joomla\CMS\Application\AdministratorApplication::class);
 
 // Execute the application.
 $app->execute();
