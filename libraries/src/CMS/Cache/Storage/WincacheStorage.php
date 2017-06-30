@@ -85,7 +85,7 @@ class WincacheStorage extends CacheStorage
 
 				if (isset($key['value_size']))
 				{
-					$item->updateSize($key['value_size'] / 1024);
+					$item->updateSize($key['value_size']);
 				}
 				else
 				{

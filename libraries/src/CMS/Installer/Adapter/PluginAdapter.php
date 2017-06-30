@@ -99,7 +99,7 @@ class PluginAdapter extends InstallerAdapter
 			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -129,7 +129,7 @@ class PluginAdapter extends InstallerAdapter
 		parent::createExtensionRoot();
 
 		// If we're updating at this point when there is always going to be an extension_root find the old XML files
-		if ($this->route == 'update')
+		if ($this->route === 'update')
 		{
 			// Create a new installer because findManifest sets stuff; side effects!
 			$tmpInstaller = new Installer;
@@ -172,7 +172,7 @@ class PluginAdapter extends InstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest(-1))
 			{
@@ -402,7 +402,7 @@ class PluginAdapter extends InstallerAdapter
 	protected function setupUninstall()
 	{
 		// Get the plugin folder so we can properly build the plugin path
-		if (trim($this->extension->folder) == '')
+		if (trim($this->extension->folder) === '')
 		{
 			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
 		}
@@ -432,14 +432,14 @@ class PluginAdapter extends InstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
 			$this->extension->state = 0;
 			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = ('editors' == $this->extension->folder) ? 1 : 0;
+			$this->extension->enabled = 'editors' === $this->extension->folder ? 1 : 0;
 			$this->extension->params = $this->parent->getParams();
 
 			if (!$this->extension->store())
@@ -491,7 +491,7 @@ class PluginAdapter extends InstallerAdapter
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
-			if ($this->group == 'editors')
+			if ($this->group === 'editors')
 			{
 				$this->extension->enabled = 1;
 			}
@@ -536,7 +536,7 @@ class PluginAdapter extends InstallerAdapter
 				$file = \JFile::stripExt($file);
 
 				// Ignore example plugins
-				if ($file == 'example' || $manifest_details === false)
+				if ($file === 'example' || $manifest_details === false)
 				{
 					continue;
 				}
@@ -568,7 +568,7 @@ class PluginAdapter extends InstallerAdapter
 					);
 					$file = \JFile::stripExt($file);
 
-					if ($file == 'example' || $manifest_details === false)
+					if ($file === 'example' || $manifest_details === false)
 					{
 						continue;
 					}

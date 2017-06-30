@@ -181,7 +181,7 @@ class MenuType extends Table
 	public function delete($pk = null)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = is_null($pk) ? $this->$k : $pk;
 
 		// If no primary key is given, return false.
 		if ($pk !== null)

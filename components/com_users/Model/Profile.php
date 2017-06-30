@@ -193,12 +193,12 @@ class Profile extends Form
 		if ($username)
 		{
 			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
-				|| trim($username) != $username);
+				|| trim($username) !== $username);
 		}
 
 		$this->setState('user.username.compliant', $isUsernameCompliant);
 
-		if (!ComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !ComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -316,7 +316,7 @@ class Profile extends Form
 		// Unset the username if it should not be overwritten
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
-		if (!ComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !ComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			unset($data['username']);
 		}
@@ -334,7 +334,7 @@ class Profile extends Form
 			// Get the current One Time Password (two factor auth) configuration
 			$otpConfig = $model->getOtpConfig($userId);
 
-			if ($twoFactorMethod != 'none')
+			if ($twoFactorMethod !== 'none')
 			{
 				// Run the plugins
 				PluginHelper::importPlugin('twofactorauth');

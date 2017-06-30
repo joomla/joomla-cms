@@ -8519,7 +8519,7 @@ small,
 .footer .back-top {
   padding: 8px 11px;
   color: #fff;
-  background: #0d1321;
+  background: #1c3d5c;
   border-radius: 3px; }
 
 .form-control {
@@ -8663,6 +8663,7 @@ legend {
       text-decoration: none; }
   .header .navbar-toggler {
     color: #fefefe;
+    cursor: default;
     border: 1px solid #fefefe; }
     .header .navbar-toggler .fa {
       font-size: 24px; }
@@ -9161,7 +9162,7 @@ header {
   .nav.nav-tabs .nav-link {
     position: relative;
     padding: .75em 1em;
-    color: #0d1321;
+    color: #1c3d5c;
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;

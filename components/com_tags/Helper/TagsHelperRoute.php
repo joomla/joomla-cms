@@ -50,7 +50,7 @@ class TagsHelperRoute extends RouteHelper
 
 			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
 			{
-				if ($routerMethod == 'getCategoryRoute')
+				if ($routerMethod === 'getCategoryRoute')
 				{
 					$link = $routerClass::$routerMethod($contentItemId, $language);
 				}
@@ -61,7 +61,7 @@ class TagsHelperRoute extends RouteHelper
 			}
 		}
 
-		if ($link == '')
+		if ($link === '')
 		{
 			// Create a fallback link in case we can't find the component router
 			$router = new RouteHelper;
@@ -162,7 +162,7 @@ class TagsHelperRoute extends RouteHelper
 			{
 				foreach ($items as $item)
 				{
-					if (isset($item->query) && isset($item->query['view']))
+					if (isset($item->query, $item->query['view']))
 					{
 						$lang = ($item->language != '' ? $item->language : '*');
 

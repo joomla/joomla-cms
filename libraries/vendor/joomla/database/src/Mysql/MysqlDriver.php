@@ -72,9 +72,23 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	 */
 	public function __construct(array $options)
 	{
+		/**
+		 * sql_mode to MySql 5.7.8+ default strict mode.
+		 *
+		 * @link https://dev.mysql.com/doc/relnotes/mysql/5.7/en/news-5-7-8.html#mysqld-5-7-8-sql-mode
+		 */
+		$sqlModes = [
+			'ONLY_FULL_GROUP_BY',
+			'STRICT_TRANS_TABLES',
+			'ERROR_FOR_DIVISION_BY_ZERO',
+			'NO_AUTO_CREATE_USER',
+			'NO_ENGINE_SUBSTITUTION',
+		];
+
 		// Get some basic values from the options.
-		$options['driver']	= 'mysql';
-		$options['charset'] = (isset($options['charset'])) ? $options['charset'] : 'utf8';
+		$options['driver']   = 'mysql';
+		$options['charset']  = isset($options['charset']) ? $options['charset'] : 'utf8';
+		$options['sqlModes'] = isset($options['sqlModes']) ? (array) $options['sqlModes'] : $sqlModes;
 
 		$this->charset = $options['charset'];
 
@@ -83,7 +97,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		 * and we cannot connect to it unless we know if it supports utf8mb4, which requires us knowing the server version. Because of this
 		 * chicken and egg issue, we _assume_ it's supported and we'll just catch any problems at connection time.
 		 */
-		$this->utf8mb4 = $options['charset'] == 'utf8mb4';
+		$this->utf8mb4 = $options['charset'] === 'utf8mb4';
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -142,6 +156,12 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 			}
 		}
 
+		// If needed, set the sql modes.
+		if ($this->options['sqlModes'] !== [])
+		{
+			$this->connection->query('SET @@SESSION.sql_mode = \'' . implode(',', $this->options['sqlModes']) . '\';');
+		}
+
 		$this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
 	}
@@ -168,7 +188,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		$beginningOfQuery = substr($query, 0, 12);
 		$beginningOfQuery = strtoupper($beginningOfQuery);
 
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE'), true))
 		{
 			return $query;
 		}
@@ -186,7 +206,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	 */
 	public static function isSupported()
 	{
-		return class_exists('\\PDO') && in_array('mysql', \PDO::getAvailableDrivers());
+		return class_exists('\\PDO') && in_array('mysql', \PDO::getAvailableDrivers(), true);
 	}
 
 	/**
@@ -262,6 +282,21 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	}
 
 	/**
+	 * Method to get the database connection collation in use by sampling a text field of a table in the database.
+	 *
+	 * @return  mixed  The collation in use by the database connection (string) or boolean false if not supported.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		return $this->setQuery('SELECT @@collation_connection;')->loadResult();
+	}
+
+	/**
 	 * Return the query string to create new Database.
 	 *
 	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
@@ -275,7 +310,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 	{
 		if ($utf)
 		{
-			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+			$charset   = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
 			$collation = $charset . '_unicode_ci';
 
 			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '` COLLATE `' . $collation . '`';
@@ -302,7 +337,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		$result = [];
 
 		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
+		$tables = (array) $tables;
 
 		foreach ($tables as $table)
 		{
@@ -340,7 +375,7 @@ class MysqlDriver extends PdoDriver implements UTF8MB4SupportInterface
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.

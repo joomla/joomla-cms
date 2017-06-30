@@ -103,15 +103,29 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	public function __construct(array $options)
 	{
+		/**
+		 * sql_mode to MySql 5.7.8+ default strict mode.
+		 *
+		 * @link https://dev.mysql.com/doc/relnotes/mysql/5.7/en/news-5-7-8.html#mysqld-5-7-8-sql-mode
+		 */
+		$sqlModes = [
+			'ONLY_FULL_GROUP_BY',
+			'STRICT_TRANS_TABLES',
+			'ERROR_FOR_DIVISION_BY_ZERO',
+			'NO_AUTO_CREATE_USER',
+			'NO_ENGINE_SUBSTITUTION',
+		];
+
 		// Get some basic values from the options.
-		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user']     = (isset($options['user'])) ? $options['user'] : 'root';
-		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
-		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
-		$options['port']     = (isset($options['port'])) ? (int) $options['port'] : null;
-		$options['socket']   = (isset($options['socket'])) ? $options['socket'] : null;
-		$options['utf8mb4']  = (isset($options['utf8mb4'])) ? (bool) $options['utf8mb4'] : false;
+		$options['host']     = isset($options['host']) ? $options['host'] : 'localhost';
+		$options['user']     = isset($options['user']) ? $options['user'] : 'root';
+		$options['password'] = isset($options['password']) ? $options['password'] : '';
+		$options['database'] = isset($options['database']) ? $options['database'] : '';
+		$options['select']   = isset($options['select']) ? (bool) $options['select'] : true;
+		$options['port']     = isset($options['port']) ? (int) $options['port'] : null;
+		$options['socket']   = isset($options['socket']) ? $options['socket'] : null;
+		$options['utf8mb4']  = isset($options['utf8mb4']) ? (bool) $options['utf8mb4'] : false;
+		$options['sqlModes'] = isset($options['sqlModes']) ? (array) $options['sqlModes'] : $sqlModes;
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -228,6 +242,12 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 			);
 		}
 
+		// If needed, set the sql modes.
+		if ($this->options['sqlModes'] !== [])
+		{
+			$this->connection->query('SET @@SESSION.sql_mode = \'' . implode(',', $this->options['sqlModes']) . '\';');
+		}
+
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))
 		{
@@ -264,7 +284,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		$beginningOfQuery = substr($query, 0, 12);
 		$beginningOfQuery = strtoupper($beginningOfQuery);
 
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE'), true))
 		{
 			return $query;
 		}
@@ -413,6 +433,21 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	}
 
 	/**
+	 * Method to get the database connection collation in use by sampling a text field of a table in the database.
+	 *
+	 * @return  mixed  The collation in use by the database connection (string) or boolean false if not supported.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		return $this->setQuery('SELECT @@collation_connection;')->loadResult();
+	}
+
+	/**
 	 * Return the query string to create new Database.
 	 *
 	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
@@ -426,7 +461,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	{
 		if ($utf)
 		{
-			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+			$charset   = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
 			$collation = $charset . '_unicode_ci';
 
 			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '` COLLATE `' . $collation . '`';
@@ -446,7 +481,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	public function getNumRows($cursor = null)
 	{
-		return mysqli_num_rows($cursor ? $cursor : $this->cursor);
+		return mysqli_num_rows($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -466,7 +501,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		$result = [];
 
 		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
+		$tables = (array) $tables;
 
 		foreach ($tables as $table)
 		{
@@ -505,7 +540,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		else
@@ -668,7 +703,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 					$bindParams = array();
 					$bindParams[] = &$typeString;
 
-					for ($i = 0; $i < count($params); $i++)
+					for ($i = 0, $iMax = count($params); $i < $iMax; $i++)
 					{
 						$bindParams[] = &$params[$i];
 					}
@@ -1007,7 +1042,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		return mysqli_fetch_row($cursor ? $cursor : $this->cursor);
+		return mysqli_fetch_row($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -1021,7 +1056,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		return mysqli_fetch_assoc($cursor ? $cursor : $this->cursor);
+		return mysqli_fetch_assoc($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -1036,7 +1071,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	protected function fetchObject($cursor = null, $class = '\\stdClass')
 	{
-		return mysqli_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		return mysqli_fetch_object($cursor ?: $this->cursor, $class);
 	}
 
 	/**

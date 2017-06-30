@@ -96,7 +96,7 @@ class ChangeSet
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
-		if ($this->db->getServerType() == 'mysql')
+		if ($this->db->getServerType() === 'mysql')
 		{
 			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = ChangeItem::getInstance(

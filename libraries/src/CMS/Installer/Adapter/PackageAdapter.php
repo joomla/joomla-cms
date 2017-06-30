@@ -69,8 +69,8 @@ class PackageAdapter extends InstallerAdapter
 			$updateElement = $this->manifest->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -281,7 +281,7 @@ class PackageAdapter extends InstallerAdapter
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -505,7 +505,7 @@ class PackageAdapter extends InstallerAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
 		}
@@ -622,7 +622,7 @@ class PackageAdapter extends InstallerAdapter
 				case 'update':
 					if ($this->parent->manifestClass->$method($this) === false)
 					{
-						if ($method != 'uninstall')
+						if ($method !== 'uninstall')
 						{
 							// The script failed, rollback changes
 							throw new \RuntimeException(
@@ -642,7 +642,7 @@ class PackageAdapter extends InstallerAdapter
 		$this->extensionMessage .= ob_get_clean();
 
 		// If in postflight or uninstall, set the message for display
-		if (($method == 'uninstall' || $method == 'postflight') && $this->extensionMessage != '')
+		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '')
 		{
 			$this->parent->set('extension_message', $this->extensionMessage);
 		}
@@ -699,6 +699,7 @@ class PackageAdapter extends InstallerAdapter
 
 		// Note: For templates, libraries and packages their unique name is their key.
 		// This means they come out the same way they came in.
+
 		return $db->loadResult();
 	}
 

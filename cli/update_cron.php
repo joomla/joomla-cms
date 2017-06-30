@@ -31,10 +31,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
-
-// Load the configuration
-require_once JPATH_CONFIGURATION . '/configuration.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 /**
  * This script will fetch the update information for all extensions and store
@@ -53,9 +50,6 @@ class Updatecron extends \Joomla\CMS\Application\CliApplication
 	 */
 	protected function doExecute()
 	{
-		// Load an app which can be used later
-		JFactory::getApplication('site');
-
 		// Get the update cache time
 		$component = \Joomla\CMS\Component\ComponentHelper::getComponent('com_installer');
 
@@ -71,4 +65,22 @@ class Updatecron extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
-\Joomla\CMS\Application\CliApplication::getInstance('Updatecron')->execute();
+// Set up the container
+JFactory::getContainer()->share(
+	'Updatecron',
+	function (\Joomla\DI\Container $container)
+	{
+		return new Updatecron(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('Updatecron');
+JFactory::$application = $app;
+$app->execute();

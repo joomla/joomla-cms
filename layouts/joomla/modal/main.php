@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 // Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
 JHtml::_('bootstrap.tooltip');
 
@@ -71,7 +73,7 @@ if (isset($params['url']))
 	$iframeHtml = htmlspecialchars(JLayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
-<div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?> <?php echo isset($url) ? $url : ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo isset($url) ? $url : ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
 	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
 		<div class="modal-content">
 			<?php
