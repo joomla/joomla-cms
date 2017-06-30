@@ -125,24 +125,24 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ?: 0) . ', '
-				. (double) ($item->sale_price ?: 0)
-			);
+					$db->quote($item->url) . ', '
+					. $db->quote($item->route) . ', '
+					. $db->quote($item->title) . ', '
+					. $db->quote($item->description) . ', '
+					. $query->currentTimestamp() . ', '
+					. '1, '
+					. (int) $item->state . ', '
+					. (int) $item->access . ', '
+					. $db->quote($item->language) . ', '
+					. (int) $item->type_id . ', '
+					. $db->quote(serialize($item)) . ', '
+					. $db->quote($item->publish_start_date) . ', '
+					. $db->quote($item->publish_end_date) . ', '
+					. $db->quote($item->start_date) . ', '
+					. $db->quote($item->end_date) . ', '
+					. (double) ($item->list_price ?: 0) . ', '
+					. (double) ($item->sale_price ?: 0)
+				);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -582,7 +582,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				// Insert the tokens into the database.
 				$query->insert($db->quoteName('#__finder_tokens'))
 					->columns(
-					array(
+						array(
 						$db->quoteName('term'),
 						$db->quoteName('stem'),
 						$db->quoteName('common'),
@@ -590,8 +590,8 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 						$db->quoteName('weight'),
 						$db->quoteName('context'),
 						$db->quoteName('language')
-					)
-				);
+						)
+					);
 				$db->setQuery($query);
 				$db->execute();
 

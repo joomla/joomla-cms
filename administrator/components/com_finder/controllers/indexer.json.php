@@ -83,6 +83,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			// Send the response.
 			$this->sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
@@ -213,6 +214,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			// Send the response.
 			$this->sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
@@ -262,6 +264,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			// Send the response.
 			$this->sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
