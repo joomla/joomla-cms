@@ -106,7 +106,7 @@ abstract class Factory
 	public static $mailer = null;
 
 	/**
-	 * Get an application object.
+	 * Get the global application object.
 	 *
 	 * Returns the global {@link CMSApplication} object.
 	 *

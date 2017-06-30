@@ -15,7 +15,7 @@
  *
  * @since       12.3
  */
-class JModelAdminTest extends TestCaseDatabase
+class JModelAdminTest extends TestCase
 {
 	/**
 	 * @var    JModelAdmin
@@ -32,6 +32,8 @@ class JModelAdminTest extends TestCaseDatabase
 	 */
 	public function setUp()
 	{
+		JFactory::$application = $this->getMockCmsApp();
+
 		// Create mock of abstract class JModelAdmin to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelAdmin');
 	}
