@@ -99,6 +99,7 @@ class InstallerModelDatabase extends InstallerModel
 
 			return false;
 		}
+
 		return $changeSet;
 	}
 
@@ -310,15 +311,18 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			// Table messed up somehow, clear it
 			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
-				. ';')->execute();
+				. ';'
+			)->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)->execute();
 		}
 		elseif ($count == 0)
 		{
 			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)->execute();
 		}
 	}
 }
