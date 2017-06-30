@@ -39,7 +39,7 @@ JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
 /** @var \Joomla\DI\Container $container */
 $container = require JPATH_LIBRARIES . '/container.php';
 
-// register installation specific service providers
+// Register installation specific service providers
 $container->registerServiceProvider(new InstallationServiceProviderApplication);
 $container->registerServiceProvider(new InstallationServiceProviderSession);
 
