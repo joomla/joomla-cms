@@ -165,22 +165,7 @@ trait TestCaseTrait
 		// Attempt to load the real class first.
 		class_exists('JApplicationCms');
 
-		$app = TestMockApplicationCms::create($this, $options, $constructor);
-		$app->method('getContainer')->willReturn($this->getContainer());
-
-		return $app;
-	}
-
-	/**
-	 * Returns a ready container.
-	 *
-	 * @return  \Joomla\DI\Container
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getContainer()
-	{
-		return require JPATH_LIBRARIES . '/container.php';
+		return TestMockApplicationCms::create($this, $options, $constructor);
 	}
 
 	/**
@@ -317,10 +302,7 @@ trait TestCaseTrait
 		// Attempt to load the real class first.
 		class_exists('JApplicationWeb');
 
-		$app = TestMockApplicationWeb::create($this, $options);
-		$app->method('getContainer')->willReturn($this->getContainer());
-
-		return $app;
+		return TestMockApplicationWeb::create($this, $options);
 	}
 
 	/**

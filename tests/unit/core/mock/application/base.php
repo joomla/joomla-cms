@@ -31,7 +31,6 @@ class TestMockApplicationBase
 			'loadDispatcher',
 			'loadIdentity',
 			'getDispatcher',
-			'getContainer',
 		);
 	}
 
