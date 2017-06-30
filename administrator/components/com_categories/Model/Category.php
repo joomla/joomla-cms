@@ -145,7 +145,7 @@ class Category extends Admin
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		$parentId = $app->input->getInt('parent_id');
 		$this->setState('category.parent_id', $parentId);

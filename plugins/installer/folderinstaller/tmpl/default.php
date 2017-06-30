@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
-$app = JFactory::getApplication('administrator');
+$app = JFactory::getApplication();
 ?>
 
 <legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>

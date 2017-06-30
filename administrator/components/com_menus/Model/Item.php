@@ -695,7 +695,7 @@ class Item extends Admin
 		{
 
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) 
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
 				$table->link = $link;
 			}
@@ -942,7 +942,7 @@ class Item extends Admin
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');

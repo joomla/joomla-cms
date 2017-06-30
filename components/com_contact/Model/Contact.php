@@ -62,7 +62,7 @@ class Contact extends Form
 	protected function populateState()
 	{
 		/** @var SiteApplication $app */
-		$app = \JFactory::getApplication('site');
+		$app = \JFactory::getApplication();
 
 		$this->setState('contact.id', $app->input->getInt('id'));
 		$this->setState('params', $app->getParams());

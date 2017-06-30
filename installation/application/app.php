@@ -36,16 +36,15 @@ JLoader::registerPrefix('Installation', JPATH_INSTALLATION);
 // Register the application's router due to non-standard include
 JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
 
-// Instantiate the dependency injection container
-JFactory::$container = (new \Joomla\DI\Container)
-	->registerServiceProvider(new InstallationServiceProviderApplication)
-	->registerServiceProvider(new InstallationServiceProviderSession)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
+/** @var \Joomla\DI\Container $container */
+$container = require JPATH_LIBRARIES . '/container.php';
 
-// Instantiate and execute the application
-JFactory::getApplication('web', [], 'InstallationApplication')->execute();
+// register installation specific service providers
+$container->registerServiceProvider(new InstallationServiceProviderApplication);
+$container->registerServiceProvider(new InstallationServiceProviderSession);
+
+// Get the application from the container
+$app = $container->get('InstallationApplicationWeb');
+
+// Execute the application.
+$app->execute();
