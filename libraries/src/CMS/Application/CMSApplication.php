@@ -473,7 +473,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @since       3.2
 	 * @throws      \RuntimeException
-	 * @deprecated  5.0 Use the application from the container
+	 * @deprecated  5.0 Use the application trough the container of the global application
 	 */
 	public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
 	{
