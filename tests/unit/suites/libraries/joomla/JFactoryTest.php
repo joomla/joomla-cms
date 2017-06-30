@@ -30,7 +30,7 @@ class JFactoryTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		\Joomla\CMS\Factory::$application = $this->getMockCmsApp();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**

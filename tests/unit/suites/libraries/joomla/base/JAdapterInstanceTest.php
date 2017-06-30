@@ -34,7 +34,8 @@ class JAdapterInstanceTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$database = $this->getMockDatabase();
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$database    = $this->getMockDatabase();
 	}
 
 	/**

@@ -15,8 +15,24 @@
  *
  * @since       11.1
  */
-class JCacheTest_Construct extends \PHPUnit\Framework\TestCase
+class JCacheTest_Construct extends TestCase
 {
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		JFactory::$application = $this->getMockCmsApp();
+	}
+
 	/**
 	 * Test...
 	 *

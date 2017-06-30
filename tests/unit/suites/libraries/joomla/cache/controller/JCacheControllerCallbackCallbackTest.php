@@ -11,7 +11,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  */
-class JCacheControllerCallbackTest_Callback extends \PHPUnit\Framework\TestCase
+class JCacheControllerCallbackTest_Callback extends TestCase
 {
 
 	/**
@@ -27,6 +27,8 @@ class JCacheControllerCallbackTest_Callback extends \PHPUnit\Framework\TestCase
 
 		// Some tests are affected by the output of the logger, so we clear the logger here.
 		JLog::setInstance(null);
+		
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**

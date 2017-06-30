@@ -36,6 +36,8 @@ class JPathwayTest extends TestCase
 		$this->fixture = new JPathway;
 
 		parent::setUp();
+
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**

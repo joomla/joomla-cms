@@ -65,7 +65,7 @@ class DeletefilesCli extends \Joomla\CMS\Application\CliApplication
 }
 
 /** @var \Joomla\DI\Container $container */
-$container = require_once JPATH_LIBRARIES . '/container.php';
+$container = require JPATH_LIBRARIES . '/container.php';
 
 // Set up the container
 $container->share(
@@ -87,4 +87,9 @@ $container->share(
 	},
 	true
 );
-$container->get('DeletefilesCli')->execute();
+
+// Get the application from the container
+$app = $container->get('DeletefilesCli');
+
+// Execute the application.
+$app->execute();

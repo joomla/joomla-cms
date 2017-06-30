@@ -188,9 +188,9 @@ class JArchive
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\Joomla\CMS\Factory::getApplication()->getContainer()->exists($class))
+			if (JFactory::getApplication()->getContainer()->exists($class))
 			{
-				self::$adapters[$type] = \Joomla\CMS\Factory::getApplication()->getContainer()->get($class);
+				self::$adapters[$type] = JFactory::getApplication()->getContainer()->get($class);
 			}
 			else
 			{

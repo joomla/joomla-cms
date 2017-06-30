@@ -168,7 +168,7 @@ class JAdapter extends JObject
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (JFactory::$application && JFactory::getApplication()->getContainer()->exists($class))
+		if (JFactory::getApplication()->getContainer()->exists($class))
 		{
 			$this->_adapters[$name] = JFactory::getApplication()->getContainer()->get($class);
 		}

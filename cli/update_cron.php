@@ -66,7 +66,7 @@ class Updatecron extends \Joomla\CMS\Application\CliApplication
 }
 
 /** @var \Joomla\DI\Container $container */
-$container = require_once JPATH_LIBRARIES . '/container.php';
+$container = require JPATH_LIBRARIES . '/container.php';
 
 // Set up the container
 $container->share(
@@ -88,4 +88,9 @@ $container->share(
 	},
 	true
 );
-$container->get('Updatecron')->execute();
+
+// Get the application from the container
+$app = $container->get('Updatecron');
+
+// Execute the application.
+$app->execute();
