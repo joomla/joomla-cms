@@ -37,7 +37,6 @@ class Application implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('JApplicationAdministrator', AdministratorApplication::class)
-			->alias('AdministratorApplication', AdministratorApplication::class)
 			->share(
 				AdministratorApplication::class,
 				function (Container $container)
@@ -61,7 +60,6 @@ class Application implements ServiceProviderInterface
 			);
 
 		$container->alias('JApplicationSite', SiteApplication::class)
-			->alias('SiteApplication', SiteApplication::class)
 			->share(
 				SiteApplication::class,
 				function (Container $container)
