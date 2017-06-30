@@ -12,8 +12,8 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use InvalidArgumentException;
-use JFactory;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
@@ -51,14 +51,13 @@ class Session implements ServiceProviderInterface
 				'Joomla\Session\SessionInterface',
 				function (Container $container)
 				{
-					$config = JFactory::getConfig();
-					$app    = JFactory::getApplication();
+					$app = Factory::getApplication();
 
 					// Generate a session name.
-					$name = ApplicationHelper::getHash($config->get('session_name', get_class($app)));
+					$name = ApplicationHelper::getHash($app->get('session_name', get_class($app)));
 
 					// Calculate the session lifetime.
-					$lifetime = (($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900);
+					$lifetime = (($app->get('lifetime')) ? $app->get('lifetime') * 60 : 900);
 
 					// Initialize the options for the Session object.
 					$options = array(
@@ -66,18 +65,18 @@ class Session implements ServiceProviderInterface
 						'expire' => $lifetime
 					);
 
-					if ($app->isClient('site') && $config->get('force_ssl') == 2)
+					if ($app->isClient('site') && $app->get('force_ssl') == 2)
 					{
 						$options['force_ssl'] = true;
 					}
 
-					if ($app->isClient('administrator') && $config->get('force_ssl') >= 1)
+					if ($app->isClient('administrator') && $app->get('force_ssl') >= 1)
 					{
 						$options['force_ssl'] = true;
 					}
 
 					// Set up the storage handler
-					$handlerType = $config->get('session_handler', 'filesystem');
+					$handlerType = $app->get('session_handler', 'filesystem');
 
 					switch ($handlerType)
 					{
@@ -102,13 +101,13 @@ class Session implements ServiceProviderInterface
 							break;
 
 						case 'database':
-							$handler = new Handler\DatabaseHandler(JFactory::getDbo());
+							$handler = new Handler\DatabaseHandler(Factory::getDbo());
 
 							break;
 
 						case 'filesystem':
 						case 'none':
-							$path = $config->get('session_filesystem_path', '');
+							$path = $app->get('session_filesystem_path', '');
 
 							// If no path is given, fall back to the system's temporary directory
 							if (empty($path))
@@ -126,10 +125,10 @@ class Session implements ServiceProviderInterface
 								throw new RuntimeException('Memcached is not supported on this system.');
 							}
 
-							$host = $config->get('session_memcached_server_host', 'localhost');
-							$port = $config->get('session_memcached_server_port', 11211);
+							$host = $app->get('session_memcached_server_host', 'localhost');
+							$port = $app->get('session_memcached_server_port', 11211);
 
-							$memcached = new Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
+							$memcached = new Memcached($app->get('session_memcached_server_id', 'joomla_cms'));
 							$memcached->addServer($host, $port);
 
 							$handler = new Handler\MemcachedHandler($memcached, array('ttl' => $lifetime));
@@ -145,10 +144,10 @@ class Session implements ServiceProviderInterface
 								throw new RuntimeException('Memcache is not supported on this system.');
 							}
 
-							$host = $config->get('session_memcache_server_host', 'localhost');
-							$port = $config->get('session_memcache_server_port', 11211);
+							$host = $app->get('session_memcache_server_host', 'localhost');
+							$port = $app->get('session_memcache_server_port', 11211);
 
-							$memcache = new Memcache($config->get('session_memcache_server_id', 'joomla_cms'));
+							$memcache = new Memcache($app->get('session_memcache_server_id', 'joomla_cms'));
 							$memcache->addserver($host, $port);
 
 							$handler = new Handler\MemcacheHandler($memcache, array('ttl' => $lifetime));
@@ -166,8 +165,8 @@ class Session implements ServiceProviderInterface
 
 							$redis = new Redis;
 							$redis->connect(
-								$config->get('session_redis_server_host', '127.0.0.1'),
-								$config->get('session_redis_server_port', 6379)
+								$app->get('session_redis_server_host', '127.0.0.1'),
+								$app->get('session_redis_server_port', 6379)
 							);
 
 							$handler = new Handler\RedisHandler($redis, array('ttl' => $lifetime));

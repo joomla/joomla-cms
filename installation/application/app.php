@@ -41,7 +41,6 @@ $container = require JPATH_LIBRARIES . '/container.php';
 
 // Register installation specific service providers
 $container->registerServiceProvider(new InstallationServiceProviderApplication);
-$container->registerServiceProvider(new InstallationServiceProviderSession);
 
 // Get the application from the container
 $app = $container->get('InstallationApplicationWeb');
