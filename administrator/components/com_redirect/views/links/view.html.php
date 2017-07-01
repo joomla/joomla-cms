@@ -64,7 +64,7 @@ class RedirectViewLinks extends JViewLegacy
 		// Show messages about the enabled plugin and if the plugin should collect URLs
 		if ($this->enabled && $this->collect_urls_enabled)
 		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+			$app->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
 		}
 		else
 		{
@@ -79,11 +79,11 @@ class RedirectViewLinks extends JViewLegacy
 
 			if ($this->enabled && !$this->collect_urls_enabled)
 			{
-				$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
+				$app->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link), 'notice');
 			}
 			else
 			{
-				$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
+				$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
 			}
 		}
 
