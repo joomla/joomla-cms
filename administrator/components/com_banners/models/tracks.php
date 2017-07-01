@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use \Joomla\Archive\Archive;
+use Joomla\Archive\Archive;
 
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
