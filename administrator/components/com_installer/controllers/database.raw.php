@@ -62,11 +62,39 @@ class InstallerControllerDatabase extends JControllerLegacy
 			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.path');
+
+		$app = JFactory::getApplication();
 		$host = JUri::getInstance()->getHost();
+
+		$hash = $this->input->get('hash');
+
+		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
+		$zipfile = JPath::check($path . '/' . $hash . '.zip');
+
+		if (!JFile::exists($zipfile))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
+		}
+
+		$handle = fopen($zipfile, 'rb');
 
 		JFactory::getApplication()->setHeader('Pragma', 'public')
 			->setHeader('Content-Type', 'application/zip')
-			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '-dump.zip')
-			->setHeader('Content-Length', strlen($dump));
+			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '.zip')
+			->setHeader('Content-Length', filesize($zipfile));
+
+		$sizelimit = 1024 * 1024;
+
+		while (!feof($handle))
+		{
+			echo fread($handle, $sizelimit);
+		}
+
+		fclose($handle);
+
+		JFile::delete($zipfile);
+
 	}
 }

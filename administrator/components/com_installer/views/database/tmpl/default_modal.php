@@ -47,13 +47,45 @@ $js = "
 						}
 						else
 						{
-							// Download
+							generateZip(data.data.hash);
 						}
 					}
 				}).
 				fail(function()
 				{
 					$('#installer-dump-modal').modal('hide');
+
+					// @TODO delete files
+				});
+			};
+
+			var generateZip = function(hash)
+			{
+				if (typeof hash == 'undefined')
+				{
+					$('#installer-dump-modal').modal('hide');
+
+					return false;
+				}
+
+				var link = 'index.php?option=com_installer&view=database&task=database.zip&format=raw&hash=' + hash;
+				var download = 'index.php?option=com_installer&view=database&task=database.download&format=raw&hash=' + hash;
+
+				$.getJSON(link)
+				.done(function(data)
+				{
+					if (data.success)
+					{
+						$('#installer-dump-modal').modal('hide');
+
+						location.href = download;
+					}
+				}).
+				fail(function()
+				{
+					$('#installer-dump-modal').modal('hide');
+
+					// @TODO delete files
 				});
 			};
 		});

@@ -221,7 +221,6 @@ class InstallerModelDatabase extends InstallerModel
 		jimport('joomla.filesystem.file');
 
 		$app = JFactory::getApplication();
-		$now = JFactory::getDate();
 
 		if (StringHelper::strlen($hash) != 20)
 		{
@@ -241,6 +240,26 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
 		}
+
+		$archive = new ZipArchive;
+
+		$zipfile = JPath::check($path . '/' . $hash . '.zip');
+
+		$archive->open($zipfile, ZipArchive::CREATE);
+
+		$filename = JApplicationHelper::stringURLSafe($app->get('db')) . '.sql';
+
+		$archive->addFile($file, $filename);
+
+		$archive->close();
+
+		JFile::delete($file);
+
+		$result = array(
+			'hash' => $hash
+		);
+
+		return $result;
 	}
 
 	protected function prepareDump($hash)
