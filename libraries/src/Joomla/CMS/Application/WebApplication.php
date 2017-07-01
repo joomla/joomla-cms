@@ -958,7 +958,7 @@ class WebApplication extends BaseApplication
 	 * @since   11.3
 	 * @throws  \RuntimeException
 	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
+	protected function fetchConfigurationData($file = '', $class = '\JConfig')
 	{
 		// Instantiate variables.
 		$config = array();
