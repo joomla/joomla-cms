@@ -117,7 +117,7 @@ class UsersModelUser extends JModelAdmin
 		if (JPluginHelper::isEnabled('user', 'joomla'))
 		{
 			$plugin = JPluginHelper::getPlugin('user', 'joomla');
-			$pluginParams = new Registry($plugin->params);
+			$pluginParams->loadString($plugin->params);
 		}
 
 		// Get the form.
@@ -131,7 +131,7 @@ class UsersModelUser extends JModelAdmin
 		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
-		if ($userId === 0 && $pluginParams->get('mail_to_user', 0) === 0)
+		if ($userId === 0 && $pluginParams->get('mail_to_user', '0') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
