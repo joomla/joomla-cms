@@ -15,7 +15,7 @@
     margin-bottom: 15px;
     overflow: hidden;
     color: $white-offset;
-    background-color: $atum-template-color-light;
+    background-color: $atum-template-color;
     border-radius: $border-radius;
 
     @include media-breakpoint-only(xs) {
@@ -25,13 +25,13 @@
       overflow: visible;
       color: $white;
       text-align: center;
-      background: $atum-template-color-light;
+      background: $atum-template-color;
       border-radius: 50%;
     }
 
     &.pulse {
       @include media-breakpoint-only(xs) {
-        box-shadow: 0 0 0 0 rgba($atum-template-color-light,.7);
+        box-shadow: 0 0 0 0 rgba($atum-template-color,.7);
         animation: pulse 1.25s infinite cubic-bezier(.66,0,0,1);
       }
     }
@@ -41,7 +41,7 @@
       text-decoration: none;
 
       &::before {
-        color: lighten($atum-template-color-light, 10%);
+        color: lighten($atum-template-color, 10%);
       }
 
     }
@@ -73,7 +73,7 @@
         font-size: 2.5rem;
         font-weight: normal;
         line-height: 4.7rem;
-        background-color: lighten($atum-template-color-light, 10%);
+        background-color: lighten($atum-template-color, 10%);
         border-right: 1px solid rgba($white,.15);
 
         @include media-breakpoint-only(xs) {
@@ -95,7 +95,7 @@
       right: -40px;
       font-family: FontAwesome;
       font-size: 10em;
-      color: lighten($atum-template-color-light, 5%);
+      color: lighten($atum-template-color, 5%);
       content: "\f1aa";
       transform: rotate(20deg);
 
