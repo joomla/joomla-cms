@@ -119,8 +119,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						</thead>
 						<tfoot>
 							<tr>
-								<td colspan="<?php echo $columns; ?>">
-								</td>
+								<td colspan="<?php echo $columns; ?>"><?php echo $this->pagination->getListFooter(); ?></td>
 							</tr>
 						</tfoot>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
@@ -249,8 +248,6 @@ $assoc = JLanguageAssociations::isEnabled();
 						); ?>
 					<?php endif; ?>
 				<?php endif; ?>
-
-				<?php echo $this->pagination->getListFooter(); ?>
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
