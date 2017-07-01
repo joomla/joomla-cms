@@ -240,7 +240,8 @@ class Container implements ContainerInterface
 	 * @param   string   $resourceName  The class name to build.
 	 * @param   boolean  $shared        True to create a shared resource.
 	 *
-	 * @return  mixed  An object if the class exists and false otherwise
+	 * @return  object|false  Instance of class specified by $resourceName with all dependencies injected.
+	 *                        Returns an object if the class exists and false otherwise
 	 *
 	 * @since   1.0
 	 * @throws  DependencyResolutionException if the object could not be built (due to missing information)
@@ -251,14 +252,14 @@ class Container implements ContainerInterface
 
 		$key = $this->resolveAlias($resourceName);
 
-		if (in_array($key, $buildStack))
+		if (in_array($key, $buildStack, true))
 		{
 			$buildStack = [];
 
 			throw new DependencyResolutionException("Can't resolve circular dependency");
 		}
 
-		array_push($buildStack, $key);
+		$buildStack[] = $key;
 
 		if ($this->has($key))
 		{
@@ -288,7 +289,8 @@ class Container implements ContainerInterface
 
 		$constructor = $reflection->getConstructor();
 
-		if (is_null($constructor))
+		// If there are no parameters, just return a new object.
+		if ($constructor === null)
 		{
 			// There is no constructor, just return a new object.
 			$callback = function () use ($key)
@@ -319,7 +321,8 @@ class Container implements ContainerInterface
 	 *
 	 * @param   string  $resourceName  The class name to build.
 	 *
-	 * @return  object  Instance of class specified by $resourceName with all dependencies injected.
+	 * @return  object|false  Instance of class specified by $resourceName with all dependencies injected.
+	 *                        Returns an object if the class exists and false otherwise
 	 *
 	 * @since   1.0
 	 */
@@ -341,19 +344,20 @@ class Container implements ContainerInterface
 	}
 
 	/**
-	 * Extend a defined service Closure by wrapping the existing one with a new Closure.  This
-	 * works very similar to a decorator pattern.  Note that this only works on service Closures
+	 * Extend a defined service Closure by wrapping the existing one with a new callable function.
+	 *
+	 * This works very similar to a decorator pattern.  Note that this only works on service Closures
 	 * that have been defined in the current Provider, not parent providers.
 	 *
 	 * @param   string    $resourceName  The unique identifier for the Closure or property.
-	 * @param   \Closure  $callable      A Closure to wrap the original service Closure.
+	 * @param   callable  $callable      A callable to wrap the original service Closure.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function extend($resourceName, \Closure $callable)
+	public function extend($resourceName, callable $callable)
 	{
 		$key = $this->resolveAlias($resourceName);
 		$resource = $this->getResource($key, true);
@@ -386,7 +390,7 @@ class Container implements ContainerInterface
 			$dependencyVarName = $param->getName();
 
 			// If we have a dependency, that means it has been type-hinted.
-			if (!is_null($dependency))
+			if ($dependency !== null)
 			{
 				$dependencyClassName = $dependency->getName();
 
@@ -438,11 +442,14 @@ class Container implements ContainerInterface
 	{
 		$key = $this->resolveAlias($key);
 
-		if ($this->has($key) && $this->isProtected($key))
+		$hasKey = $this->has($key);
+
+		if ($hasKey && $this->isProtected($key))
 		{
 			throw new ProtectedKeyException(sprintf("Key %s is protected and can't be overwritten.", $key));
 		}
-		elseif ($this->has($key) && $value === null)
+
+		if ($value === null && $hasKey)
 		{
 			unset($this->resources[$key]);
 
@@ -502,15 +509,20 @@ class Container implements ContainerInterface
 	 */
 	public function getResource($key, $bail = false)
 	{
-		if (isset($this->resources[$key]))
+		$key = $this->resolveAlias($key);
+		$raw = $this->getRaw($key);
+
+		if ($raw === null)
 		{
 			return $this->resources[$key];
 		}
-		elseif ($this->parent instanceof Container)
+
+		if ($this->parent instanceof Container)
 		{
 			return $this->parent->getResource($key);
 		}
-		elseif ($this->parent instanceof ContainerInterface && $this->parent->has($key))
+
+		if ($this->parent instanceof ContainerInterface && $this->parent->has($key))
 		{
 			return new Resource($this, $this->parent->get($key), Resource::SHARE | Resource::PROTECT);
 		}

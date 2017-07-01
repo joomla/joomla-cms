@@ -60,7 +60,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		// Toggle HTML5 validation
 		form.noValidate = !validate;
-		form.setAttribute('novalidate', !validate);
+
+		if (!validate) {
+			form.setAttribute('novalidate', '');
+		} else if (form.hasAttribute('novalidate')) {
+			form.removeAttribute('novalidate');
+		}
 
 		// Submit the form.
 		// Create the input type="submit"

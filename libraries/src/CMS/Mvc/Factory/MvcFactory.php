@@ -10,7 +10,7 @@ namespace Joomla\CMS\Mvc\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 
 /**
  * Factory to create MVC objects based on a namespace.
@@ -29,7 +29,7 @@ class MvcFactory implements MvcFactoryInterface
 	/**
 	 * The application.
 	 *
-	 * @var CmsApplication
+	 * @var CMSApplicationInterface
 	 */
 	private $application = null;
 
@@ -37,12 +37,12 @@ class MvcFactory implements MvcFactoryInterface
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string          $namespace    The namespace.
-	 * @param   CmsApplication  $application  The application
+	 * @param   string                   $namespace    The namespace.
+	 * @param   CMSApplicationInterface  $application  The application
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, CmsApplication $application)
+	public function __construct($namespace, CMSApplicationInterface $application)
 	{
 		$this->namespace   = $namespace;
 		$this->application = $application;

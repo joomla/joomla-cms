@@ -50,7 +50,7 @@ class NotequalsRule extends FormRule
 			throw new \UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
 		}
 
-		if (is_null($input))
+		if ($input === null)
 		{
 			throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}

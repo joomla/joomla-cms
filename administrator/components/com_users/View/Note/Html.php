@@ -98,13 +98,13 @@ class Html extends HtmlView
 		$toolbarButtons = [];
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || (count($user->getAuthorisedCategories('com_users', 'core.create')))))
+		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
 			$toolbarButtons[] = ['apply', 'note.apply'];
 			$toolbarButtons[] = ['save', 'note.save'];
 		}
 
-		if (!$checkedOut && (count($user->getAuthorisedCategories('com_users', 'core.create'))))
+		if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create')))
 		{
 			$toolbarButtons[] = ['save2new', 'note.save2new'];
 		}

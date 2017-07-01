@@ -10,7 +10,9 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\User;
 use Joomla\CMS\View\HtmlView;
 use Joomla\Registry\Registry;
 
@@ -96,7 +98,7 @@ class Html extends HtmlView
 	/**
 	 * The logged in user
 	 *
-	 * @var    \JUser|null
+	 * @var    User|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $user = null;
@@ -112,7 +114,7 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -130,7 +132,7 @@ class Html extends HtmlView
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
 
 		foreach ($item as $itemElement)
@@ -161,15 +163,15 @@ class Html extends HtmlView
 				// For some plugins.
 				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
-				\JFactory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				Factory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 
-				$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				// Write the results back into the body
@@ -273,28 +275,28 @@ class Html extends HtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
-		// Generate the tags title to use for page title, page heading and show tags title option
+		$app              = Factory::getApplication();
+		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
+		$title            = '';
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		// Highest priority for "Browser Page Title".
+		if ($menu)
+		{
+			$title = $menu->params->get('page_title', '');
+		}
 
 		if ($this->tags_title)
 		{
 			$this->params->def('page_heading', $this->tags_title);
-			$title = $this->tags_title;
+			$title = $title ?: $this->tags_title;
 		}
 		elseif ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-			$title = $this->params->get('page_title', $menu->title);
+			$title = $title ?: $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] != 'com_tags')
+			if ($menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}
@@ -367,7 +369,7 @@ class Html extends HtmlView
 
 		if (!empty($this->item))
 		{
-			$user   = \JFactory::getUser();
+			$user   = Factory::getUser();
 			$groups = $user->getAuthorisedViewLevels();
 
 			foreach ($this->item as $item)

@@ -124,6 +124,9 @@ $doNotPackage = array(
 	'tests',
 	'travisci-phpunit.xml',
 	'drone-package.json',
+	'codeception.yml',
+	'RoboFile.php',
+	'RoboFile.dist.ini',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',

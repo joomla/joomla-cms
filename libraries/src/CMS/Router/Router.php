@@ -366,12 +366,12 @@ class Router
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   \JUri   &$uri   The URI to parse
-	 * @param   string  $stage  The stage that should be processed.
-	 *                          Possible values: 'preprocess', 'postprocess'
-	 *                          and '' for the main parse stage
+	 * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI to parse
+	 * @param   string               $stage  The stage that should be processed.
+	 *                                       Possible values: 'preprocess', 'postprocess'
+	 *                                       and '' for the main parse stage
 	 *
-	 * @return  array  The array of processed URI variables
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -384,17 +384,17 @@ class Router
 
 		foreach ($this->rules['parse' . $stage] as $rule)
 		{
-			call_user_func_array($rule, array(&$this, &$uri));
+			$rule($this, $uri);
 		}
 	}
 
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   \JUri   &$uri   The URI
-	 * @param   string  $stage  The stage that should be processed.
-	 *                          Possible values: 'preprocess', 'postprocess'
-	 *                          and '' for the main build stage
+	 * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI
+	 * @param   string               $stage  The stage that should be processed.
+	 *                                       Possible values: 'preprocess', 'postprocess'
+	 *                                       and '' for the main build stage
 	 *
 	 * @return  void
 	 *
@@ -424,7 +424,7 @@ class Router
 	 */
 	protected function createUri($url)
 	{
-		if (!is_array($url) && substr($url, 0, 1) != '&')
+		if (!is_array($url) && substr($url, 0, 1) !== '&')
 		{
 			return new \JUri($url);
 		}

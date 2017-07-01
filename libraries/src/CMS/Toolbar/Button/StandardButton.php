@@ -45,11 +45,13 @@ class StandardButton extends ToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text']   = \JText::_($text);
-		$options['class']  = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
-		$options['group']  = $group;
-		$options['id']     = $this->fetchId('Standard', $name);
+
+		$options['text']     = \JText::_($text);
+		$options['class']    = $this->fetchIconClass($name);
+		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
+		$options['group']    = $group;
+		$options['id']       = $this->fetchId('Standard', $name);
+		$options['btnClass'] = 'button-' . $name;
 
 		if ($options['id'])
 		{
@@ -60,7 +62,7 @@ class StandardButton extends ToolbarButton
 		{
 			case 'apply':
 			case 'new':
-				$options['btnClass'] = 'btn btn-sm btn-success';
+				$options['btnClass'] .= ' btn btn-sm btn-success';
 				break;
 
 			case 'save':
@@ -68,23 +70,23 @@ class StandardButton extends ToolbarButton
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				$options['btnClass'] = 'btn btn-sm btn-outline-success';
+				$options['btnClass'] .= ' btn btn-sm btn-outline-success';
 				break;
 
 			case 'unpublish':
-				$options['btnClass'] = 'btn btn-sm btn-outline-danger';
+				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
 				break;
 
 			case 'featured':
-				$options['btnClass'] = 'btn btn-sm btn-outline-warning';
+				$options['btnClass'] .= ' btn btn-sm btn-outline-warning';
 				break;
 
 			case 'cancel':
-				$options['btnClass'] = 'btn btn-sm btn-danger';
+				$options['btnClass'] .= ' btn btn-sm btn-danger';
 				break;
 
 			default:
-				$options['btnClass'] = 'btn btn-sm btn-outline-primary';
+				$options['btnClass'] .= ' btn btn-sm btn-outline-primary';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout

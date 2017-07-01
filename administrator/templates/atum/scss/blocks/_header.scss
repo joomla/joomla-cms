@@ -4,7 +4,7 @@
   position: relative;
   z-index: 5;
   height: $header-height;
-  background: $atum-template-color-light;
+  background: $atum-template-color;
 
   &::after {
     position: absolute;
@@ -18,7 +18,7 @@
 
   .page-title {
     display: inline-block;
-    margin: 0 46px;
+    margin: 0 5px;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
@@ -51,16 +51,12 @@
     }
   }
 
-  .nav {
-    margin-right: -7.5px;
-  }
-
   .nav-item + .nav-item {
     margin-left: 1px;
   }
 
   .nav-item {
-    background-color: darken($atum-template-color-light, 10%);
+    background-color: darken($atum-template-color, 10%);
   }
 
   .nav-link {
@@ -159,10 +155,6 @@
 
 // Mobile Toggle
 .menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin-left: -7.5px;
   font-size: 2rem;
   text-align: center;
 

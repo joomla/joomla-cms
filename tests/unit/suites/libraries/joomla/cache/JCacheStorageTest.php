@@ -83,7 +83,6 @@ class JCacheStorageTest extends TestCase
 		$this->available = array(
 			'apc'       => JCacheStorageApc::isSupported(),
 			'apcu'      => JCacheStorageApcu::isSupported(),
-			'cachelite' => JCacheStorageCachelite::isSupported(),
 			'file'      => true,
 			'memcache'  => JCacheStorageMemcache::isSupported(),
 			'memcached' => JCacheStorageMemcached::isSupported(),
@@ -138,19 +137,6 @@ class JCacheStorageTest extends TestCase
 					'now' => time(),
 				),
 				($this->available['apcu'] ? 'JCacheStorageApcu' : false),
-			),
-			'defaultcachelite' => array(
-				'cachelite',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'cachebase' => JPATH_BASE . '/cache',
-					'caching' => true,
-					'now' => time(),
-				),
-				($this->available['cachelite'] ? 'JCacheStorageCachelite' : false),
 			),
 			'defaultfile' => array(
 				'file',

@@ -254,7 +254,7 @@ class User extends Admin
 
 			foreach ($myNewGroups as $group)
 			{
-				$stillSuperAdmin = ($stillSuperAdmin) ? ($stillSuperAdmin) : Access::checkGroup($group, 'core.admin');
+				$stillSuperAdmin = $stillSuperAdmin ?: Access::checkGroup($group, 'core.admin');
 			}
 
 			if (!$stillSuperAdmin)

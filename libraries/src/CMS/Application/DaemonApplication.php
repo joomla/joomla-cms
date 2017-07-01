@@ -159,7 +159,7 @@ abstract class DaemonApplication extends CliApplication
 		\JLog::add('Received signal: ' . $signal, \JLog::DEBUG);
 
 		// Let's make sure we have an application instance.
-		if (!is_subclass_of(static::$instance, 'CliApplication'))
+		if (!is_subclass_of(static::$instance, CliApplication::class))
 		{
 			\JLog::add('Cannot find the application instance.', \JLog::EMERGENCY);
 			throw new \RuntimeException('Cannot find the application instance.');

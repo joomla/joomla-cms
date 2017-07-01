@@ -67,7 +67,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 			$this->close();
 		}
 
-		$container = $container ?: new Container;
+		$container = $container ?: \JFactory::getContainer();
 		$this->setContainer($container);
 
 		$this->input    = $input ?: new \JInputCli;
@@ -90,6 +90,9 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
+
+		// Set up the environment
+		$this->input->set('format', 'cli');
 	}
 
 	/**
@@ -101,7 +104,8 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @return  CliApplication
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Load the app through the container
 	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($name = null)
