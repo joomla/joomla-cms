@@ -5991,6 +5991,7 @@ fieldset.radio.btn-group {
 }
 input.invalid {
 	border: 1px solid #9d261d;
+	background: #f2dede;
 }
 select.chzn-done.invalid + .chzn-container.chzn-container-single > a.chzn-single,
 select.chzn-done.invalid + .chzn-container.chzn-container-multi > ul.chzn-choices {
@@ -7036,6 +7037,11 @@ h6 {
 	font-size: 12px;
 	line-height: 14px;
 }
+.truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 .chzn-container .chzn-drop {
 	border-radius: 0 0 3px 3px;
 }
@@ -7289,7 +7295,6 @@ h6 {
 	max-height: 800px;
 }
 .form-horizontal .control-label {
-	width: auto;
 	padding-right: 5px;
 	text-align: left;
 }
@@ -7300,6 +7305,9 @@ h6 {
 	.form-horizontal .control-label .spacer hr {
 		width: 220px;
 	}
+}
+.form-horizontal .field-spacer>.control-label {
+	width: auto;
 }
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
@@ -7766,8 +7774,6 @@ ul.manager .height-50 .icon-folder-2 {
 .thumbnails-media .thumbnail *:before {
 	-webkit-transition: all 0.2s ease;
 	transition: all 0.2s ease;
-	-webkit-background-clip: padding-box;
-	background-clip: padding-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
@@ -7859,6 +7865,9 @@ ul.manager .height-50 .icon-folder-2 {
 	height: 26px;
 	width: 26px;
 }
+.thumbnails-media .imgPreview a {
+	width: 100%;
+}
 .thumbnails-media .imgDelete a.close {
 	background-color: #bd362f;
 	border-color: #bd362f rgba(0,0,0,0.2) rgba(0,0,0,0.2) #bd362f;
@@ -7886,12 +7895,13 @@ ul.manager .height-50 .icon-folder-2 {
 .thumbnails-media .imgDetails {
 	position: absolute;
 	left: 0;
+	text-align: left;
 	background-color: #fff;
 	border-color: rgba(0,0,0,0.2);
 	bottom: 0;
 	line-height: 26px;
 	border: 1px solid rgba(0,0,0,0.1);
-	border-width: 1px 1px 0 0;
+	border-width: 1px;
 	border-radius: 0 3px 0 0;
 	z-index: 1;
 }
@@ -7913,24 +7923,42 @@ ul.manager .height-50 .icon-folder-2 {
 .thumbnails-media .imgFolder + .imgDetails {
 	color: inherit;
 }
+.com_media .media a + a {
+	margin-left: -1px;
+}
+.com_media .tree-holder {
+	padding: 0 15px;
+}
 #folderframe.thumbnail {
 	border: 0;
 	box-shadow: none;
 	padding: 0;
 }
+#mediamanager-form {
+	margin: 0 -10px;
+}
 #mediamanager-form > .muted {
 	padding: 0px;
 }
 #mediamanager-form .checkbox {
+	padding-left: 30px;
 	margin-bottom: 15px;
+}
+#mediamanager-form .checkbox input {
+	margin-top: 3px;
 }
 #mediamanager-form .thumbnails .thumbnail {
 	height: 120px;
 	width: 120px;
 	margin: 0 18px 18px 0;
 }
-#mediamanager-form .thumbnails .imgThumb label {
+#mediamanager-form .thumbnails .imgThumb label,
+#mediamanager-form .thumbnails .imgTotal {
 	line-height: 120px;
+}
+#mediamanager-form .icon-search::before {
+	padding-right: 5px;
+	padding-left: 1px;
 }
 #mediamanager-form .height-50 {
 	background-color: #fafafa;
@@ -7959,6 +7987,9 @@ ul.manager .height-50 .icon-folder-2 {
 }
 #mediamanager-form .height-50 .icon-folder-2 {
 	font-size: 40px;
+}
+.uploadform {
+	margin-top: 20px;
 }
 body.modal-open {
 	-ms-overflow-style: none;
@@ -8324,6 +8355,10 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .j-sidebar-container .filter-select {
 	padding: 0 14px;
 }
+.j-toggle-sidebar-header h3 {
+	font-weight: normal;
+	padding: 0 15px;
+}
 .j-toggle-button-wrapper {
 	position: absolute;
 	display: block;
@@ -8405,11 +8440,11 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 #status {
 	background: #ebebeb;
-	border-top: 1px solid #d4d4d4;
+	border-top: 1px solid #dedede;
 	padding: 4px 10px;
-	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
+	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
+	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
 	color: #626262;
 }
 #status .btn-group {
@@ -8562,7 +8597,7 @@ td.nowrap.has-context {
 	padding: 0 10px;
 }
 #toolbar .btn-success {
-	width: 148px;
+	min-width: 148px;
 }
 #toolbar .btn-primary [class^="icon-"],
 #toolbar .btn-primary [class*=" icon-"],
@@ -8724,9 +8759,6 @@ ul.treeselect ul.dropdown-menu li {
 .tree-holder ul ul .file {
 	box-shadow: -3px 0 0 #3071a9;
 	border-left: 0;
-}
-.com_media .tree-holder {
-	padding: 0 10px;
 }
 .break-word {
 	word-break: break-all;

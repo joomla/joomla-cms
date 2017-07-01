@@ -641,4 +641,33 @@ class AssociationsHelper extends JHelperContent
 
 		return $helper->getTypeFieldName($typeName, $fieldName);
 	}
+
+	/**
+	 * Gets the language filter system plugin extension id.
+	 *
+	 * @return  int  The language filter system plugin extension id.
+	 *
+	 * @since   3.7.2
+	 */
+	public static function getLanguagefilterPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
+	}
 }

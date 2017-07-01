@@ -24,26 +24,26 @@
 				<field
 					name="directory"
 					type="folderlist"
+					label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
+					description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 					directory="images"
 					required="true"
 					hide_none="true"
 					hide_default="true"
 					recursive="true"
 					default="/"
-					label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
-					description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
-				>
+					>
 					<option value="/">/</option>
 				</field>
 	
 				<field
 					name="multiple"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
 					description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

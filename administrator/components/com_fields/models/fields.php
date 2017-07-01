@@ -214,8 +214,7 @@ class FieldsModelFields extends JModelList
 			$categories = array_unique($categories);
 
 			// Join over the assigned categories
-			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
+			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id');
 
 			if (in_array('0', $categories))
 			{
@@ -302,15 +301,9 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Add the list ordering clause
-		$listOrdering = $this->getState('list.fullordering', 'a.ordering');
-		$orderDirn    = '';
+		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
-		if (empty($listOrdering))
-		{
-			$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
-			$orderDirn     = $this->state->get('list.direction', 'DESC');
-		}
-	
 		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
 
 		return $query;
@@ -350,7 +343,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm/false  the JForm object or false
+	 * @return  JForm|false  the JForm object or false
 	 *
 	 * @since   3.7.0
 	 */

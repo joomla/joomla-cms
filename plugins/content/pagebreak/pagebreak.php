@@ -76,6 +76,11 @@ class PlgContentPagebreak extends JPlugin
 		// Simple performance check to determine whether bot should process further.
 		if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false)
 		{
+			if ($page > 0)
+			{
+				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+			}
+			
 			return true;
 		}
 
@@ -87,7 +92,7 @@ class PlgContentPagebreak extends JPlugin
 			$page = 0;
 		}
 
-		if ($params->get('intro_only') || $params->get('popup') || $full || $view !== 'article')
+		if ($full || $view !== 'article' || $params->get('intro_only') || $params->get('popup'))
 		{
 			$row->text = preg_replace($regex, '', $row->text);
 
@@ -139,19 +144,13 @@ class PlgContentPagebreak extends JPlugin
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
-			if ($title)
+			if ($title && $page && isset($matches[$page - 1], $matches[$page - 1][2]))
 			{
-				if ($page)
-				{
-					if ($page && @$matches[$page - 1][2])
-					{
-						$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
+				$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
-						if (@$attrs['title'])
-						{
-							$row->page_title = $attrs['title'];
-						}
-					}
+				if (isset($attrs['title']))
+				{
+					$row->page_title = $attrs['title'];
 				}
 			}
 
@@ -311,8 +310,8 @@ class PlgContentPagebreak extends JPlugin
 				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
 			$i++;
 		}
@@ -320,8 +319,8 @@ class PlgContentPagebreak extends JPlugin
 		if ($this->params->get('showall'))
 		{
 			$link      = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
 				. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
 		}
@@ -365,7 +364,7 @@ class PlgContentPagebreak extends JPlugin
 
 		if ($page > 0)
 		{
-			$page_prev = $page - 1 == 0 ? '' : $page - 1;
+			$page_prev = $page - 1 === 0 ? '' : $page - 1;
 
 			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_prev);
 

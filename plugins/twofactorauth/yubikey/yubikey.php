@@ -87,7 +87,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 */
 	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
 	{
-		if ($otpConfig->method == $this->methodName)
+		if ($otpConfig->method === $this->methodName)
 		{
 			// This method is already activated. Reuse the same Yubikey ID.
 			$yubikey = $otpConfig->config['yubikey'];
@@ -99,7 +99,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp    = $otpConfig->method != $this->methodName;
+		$new_totp    = $otpConfig->method !== $this->methodName;
 
 		// Start output buffering
 		@ob_start();
@@ -141,7 +141,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 */
 	public function onUserTwofactorApplyConfiguration($method)
 	{
-		if ($method != $this->methodName)
+		if ($method !== $this->methodName)
 		{
 			return false;
 		}
@@ -224,7 +224,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Check if we have the correct method
-		if ($otpConfig->method != $this->methodName)
+		if ($otpConfig->method !== $this->methodName)
 		{
 			return false;
 		}
@@ -239,7 +239,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$yubikey_valid = $otpConfig->config['yubikey'];
 		$yubikey       = substr($credentials['secretkey'], 0, -32);
 
-		$check = $yubikey == $yubikey_valid;
+		$check = $yubikey === $yubikey_valid;
 
 		if ($check)
 		{
@@ -355,13 +355,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the response - The OTP must match
-		if ($data['otp'] != $otp)
+		if ($data['otp'] !== $otp)
 		{
 			return false;
 		}
 
 		// Validate the response - The token must match
-		if ($data['nonce'] != $nonce)
+		if ($data['nonce'] !== $nonce)
 		{
 			return false;
 		}

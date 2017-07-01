@@ -232,7 +232,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function getFields($reload = false)
 	{
@@ -246,7 +246,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 			if (empty($fields))
 			{
-				throw new UnexpectedValueException(sprintf('No columns found for %s table', $name));
+				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
 			$cache = $fields;
@@ -590,7 +590,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -609,7 +609,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
-			throw new InvalidArgumentException(
+			throw new \InvalidArgumentException(
 				sprintf(
 					'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
 					get_class($this),
@@ -656,9 +656,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True if successful. False if row not found.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
-	 * @throws  UnexpectedValueException
+	 * @throws  \InvalidArgumentException
+	 * @throws  \RuntimeException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function load($keys = null, $reset = true)
 	{
@@ -692,14 +692,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			{
 				if ($keyCount > 1)
 				{
-					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
+					throw new \InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
 				}
 
 				$keys = array($this->getKeyName() => $keys);
 			}
 			else
 			{
-				throw new RuntimeException('No table keys defined.');
+				throw new \RuntimeException('No table keys defined.');
 			}
 		}
 
@@ -719,7 +719,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			// Check that $field is in the table.
 			if (!in_array($field, $fields))
 			{
-				throw new UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
+				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
@@ -945,7 +945,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
 	{
@@ -969,7 +969,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 
 			$this->$key = $pk[$key];
@@ -1026,7 +1026,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function checkOut($userId, $pk = null)
 	{
@@ -1059,7 +1059,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1092,7 +1092,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function checkIn($pk = null)
 	{
@@ -1125,7 +1125,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1196,7 +1196,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function hit($pk = null)
 	{
@@ -1228,7 +1228,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1295,7 +1295,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  integer  The next ordering value.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -1304,7 +1304,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		if (!property_exists($this, $orderingField))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
@@ -1357,7 +1357,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  mixed  Boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function reorder($where = '')
 	{
@@ -1366,7 +1366,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		if (!property_exists($this, $orderingField))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
@@ -1417,7 +1417,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function move($delta, $where = '')
 	{
@@ -1426,7 +1426,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		if (!property_exists($this, $orderingField))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
@@ -1639,7 +1639,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function _lock()
 	{

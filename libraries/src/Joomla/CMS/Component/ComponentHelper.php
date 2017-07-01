@@ -11,7 +11,7 @@ namespace Joomla\CMS\Component;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Component\Exception\MissingException;
+use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
 
 /**
@@ -163,11 +163,11 @@ class ComponentHelper
 			$filterData = $filters->$groupId;
 			$filterType = strtoupper($filterData->filter_type);
 
-			if ($filterType == 'NH')
+			if ($filterType === 'NH')
 			{
 				// Maximum HTML filtering.
 			}
-			elseif ($filterType == 'NONE')
+			elseif ($filterType === 'NONE')
 			{
 				// No HTML filtering.
 				$unfiltered = true;
@@ -203,13 +203,13 @@ class ComponentHelper
 
 				// Collect the blacklist or whitelist tags and attributes.
 				// Each list is cummulative.
-				if ($filterType == 'BL')
+				if ($filterType === 'BL')
 				{
 					$blackList           = true;
 					$blackListTags       = array_merge($blackListTags, $tempTags);
 					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
 				}
-				elseif ($filterType == 'CBL')
+				elseif ($filterType === 'CBL')
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -219,7 +219,7 @@ class ComponentHelper
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType == 'WL')
+				elseif ($filterType === 'WL')
 				{
 					$whiteList           = true;
 					$whiteListTags       = array_merge($whiteListTags, $tempTags);
@@ -236,12 +236,7 @@ class ComponentHelper
 		$whiteListTags        = array_unique($whiteListTags);
 		$whiteListAttributes  = array_unique($whiteListAttributes);
 
-		// Unfiltered assumes first priority.
-		if ($unfiltered)
-		{
-			// Dont apply filtering.
-		}
-		else
+		if (!$unfiltered)
 		{
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
@@ -306,7 +301,7 @@ class ComponentHelper
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @throws  MissingException
+	 * @throws  MissingComponentException
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -320,7 +315,7 @@ class ComponentHelper
 
 		if (empty($option))
 		{
-			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
@@ -359,7 +354,7 @@ class ComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option) || !file_exists($path))
 		{
-			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Load common and local language files.

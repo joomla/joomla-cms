@@ -515,6 +515,13 @@ class ListModel extends Model
 									{
 										$this->setState('list.direction', $fullDirection);
 									}
+									else
+									{
+										$this->setState('list.direction', $direction);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
 
 									unset($orderingParts[count($orderingParts) - 1]);
 
@@ -525,11 +532,22 @@ class ListModel extends Model
 									{
 										$this->setState('list.ordering', $fullOrdering);
 									}
+									else
+									{
+										$this->setState('list.ordering', $ordering);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
+
 								}
 								else
 								{
 									$this->setState('list.ordering', $ordering);
 									$this->setState('list.direction', $direction);
+
+									// Fallback to the default value
+									$value = $ordering . ' ' . $direction;
 								}
 								break;
 
@@ -697,7 +715,7 @@ class ListModel extends Model
 			}
 		}
 
-		if (($cur_state != $new_state) && $new_state !== null && ($resetPage))
+		if ($cur_state != $new_state && $new_state !== null && $resetPage)
 		{
 			$input->set('limitstart', 0);
 		}

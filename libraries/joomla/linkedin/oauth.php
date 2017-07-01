@@ -119,7 +119,7 @@ class JLinkedinOauth extends JOAuth1Client
 	 *
 	 * @return  JLinkedinOauth  This object for method chaining
 	 *
-	 * @see     https://developer.linkedin.com/documents/authentication
+	 * @link    https://developer.linkedin.com/documents/authentication
 	 * @since   13.1
 	 */
 	public function setScope($scope)
