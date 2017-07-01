@@ -93,7 +93,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		return array(
 			'fred.factory' => array('fred.factory', null, null, false, 'fred.factory does not exist', true),
 			'bogus' => array('bogusload', JPATH_TEST_STUBS, '', true, 'bogusload.php should load properly', false),
-			'class.loader' => array('cms.class.loader', null, '', true, 'class loader should load properly', true));
+		);
 	}
 
 	/**
@@ -107,7 +107,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	{
 		return array(
 			'fred.factory' => array('fred.factory', false, 'fred.factory does not exist'),
-			'classloader' => array('cms.class.loader', true, 'JClassLoader should load properly'));
+		);
 	}
 
 	/**
