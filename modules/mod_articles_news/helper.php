@@ -11,7 +11,10 @@ defined('_JEXEC') or die;
 
 JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
-JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Content\Site\Model\Articles;
 
 /**
  * Helper for mod_articles_news
@@ -32,7 +35,7 @@ abstract class ModArticlesNewsHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = JFactory::getApplication();
@@ -45,8 +48,8 @@ abstract class ModArticlesNewsHelper
 		$model->setState('filter.published', 1);
 
 		// Access filter
-		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
+		$authorised = Access::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
 		$model->setState('filter.access', $access);
 
 		// Category filter
@@ -103,7 +106,7 @@ abstract class ModArticlesNewsHelper
 			}
 			else
 			{
-				$item->link = new JUri(JRoute::_('index.php?option=com_users&view=login', false));
+				$item->link = new Uri(JRoute::_('index.php?option=com_users&view=login', false));
 				$item->link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
@@ -118,15 +121,15 @@ abstract class ModArticlesNewsHelper
 			if ($triggerEvents)
 			{
 				$item->text = '';
-				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 1));
+				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 0));
 
-				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
+				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
 				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
 				$item->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
 				$item->afterDisplayContent = trim(implode("\n", $results));
 			}
 			else

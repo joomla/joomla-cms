@@ -115,7 +115,7 @@ class JFormFieldCaptcha extends JFormField
 
 			if (strpos($this->class, 'required') === false)
 			{
-				$this->class = $this->class . ' required';
+				$this->class .= ' required';
 			}
 		}
 

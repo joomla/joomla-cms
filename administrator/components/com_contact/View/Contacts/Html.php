@@ -139,12 +139,12 @@ class Html extends HtmlView
 
 		\JToolbarHelper::title(\JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
 			\JToolbarHelper::addNew('contact.add');
 		}
 
-		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
 			\JToolbarHelper::editList('contact.edit');
 		}
@@ -202,15 +202,15 @@ class Html extends HtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => \JText::_('JSTATUS'),
-			'a.name' => \JText::_('JGLOBAL_TITLE'),
+			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => \JText::_('JSTATUS'),
+			'a.name'         => \JText::_('JGLOBAL_TITLE'),
 			'category_title' => \JText::_('JCATEGORY'),
-			'ul.name' => \JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
-			'a.featured' => \JText::_('JFEATURED'),
-			'a.access' => \JText::_('JGRID_HEADING_ACCESS'),
-			'a.language' => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => \JText::_('JGRID_HEADING_ID')
+			'ul.name'        => \JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
+			'a.featured'     => \JText::_('JFEATURED'),
+			'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+			'a.language'     => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => \JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

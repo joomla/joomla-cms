@@ -124,6 +124,7 @@ class Html extends HtmlView
 		$temp = clone $params;
 
 		$active = $app->getMenu()->getActive();
+		$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
 
 		if ($active)
 		{

@@ -9,9 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Document\Factory;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Document\PreloadManager;
+use Joomla\CMS\Document\PreloadManagerInterface;
 use Joomla\CMS\Document\RendererInterface;
+use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -227,6 +231,22 @@ class JDocument
 	protected $factory;
 
 	/**
+	 * Preload manager
+	 *
+	 * @var    PreloadManagerInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $preloadManager = null;
+
+	/**
+	 * The supported preload types
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $preloadTypes = ['preload', 'dns-prefetch', 'preconnect', 'prefetch', 'prerender'];
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
@@ -282,6 +302,15 @@ class JDocument
 		else
 		{
 			$this->setFactory(new Factory);
+		}
+
+		if (array_key_exists('preloadManager', $options))
+		{
+			$this->setPreloadManager($options['preloadManager']);
+		}
+		else
+		{
+			$this->setPreloadManager(new PreloadManager);
 		}
 	}
 
@@ -454,7 +483,7 @@ class JDocument
 	 * Adds a linked script to the page
 	 *
 	 * @param   string  $url      URL to the linked script.
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
@@ -637,7 +666,7 @@ class JDocument
 	 * Adds a linked stylesheet to the page
 	 *
 	 * @param   string  $url      URL to the linked style sheet
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
@@ -911,6 +940,34 @@ class JDocument
 	public function getMediaVersion()
 	{
 		return $this->mediaVersion;
+	}
+
+	/**
+	 * Set the preload manager
+	 *
+	 * @param   PreloadManagerInterface  $preloadManager  The preload manager service
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setPreloadManager(PreloadManagerInterface $preloadManager)
+	{
+		$this->preloadManager = $preloadManager;
+
+		return $this;
+	}
+
+	/**
+	 * Return the preload manager
+	 *
+	 * @return  PreloadManagerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getPreloadManager()
+	{
+		return $this->preloadManager;
 	}
 
 	/**
@@ -1215,5 +1272,79 @@ class JDocument
 
 		$app->mimeType = $this->_mime;
 		$app->charSet  = $this->_charset;
+
+		// Handle preloading for configured assets in web applications
+		if ($app instanceof AbstractWebApplication)
+		{
+			$this->preloadAssets();
+		}
+	}
+
+	/**
+	 * Generate the Link header for assets configured for preloading
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function preloadAssets()
+	{
+		// Process stylesheets first
+		foreach ($this->_styleSheets as $link => $properties)
+		{
+			if (empty($properties['options']['preload']))
+			{
+				continue;
+			}
+
+			foreach ($properties['options']['preload'] as $preloadMethod)
+			{
+				// Make sure the preload method is supported, special case for `dns-prefetch` to convert it to the right method name
+				if ($preloadMethod === 'dns-prefetch')
+				{
+					$this->getPreloadManager()->dnsPrefetch($link);
+				}
+				elseif (in_array($preloadMethod, $this->preloadTypes))
+				{
+					$this->getPreloadManager()->$preloadMethod($link);
+				}
+				else
+				{
+					throw new InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+				}
+			}
+		}
+
+		// Now process scripts
+		foreach ($this->_scripts as $link => $properties)
+		{
+			if (empty($properties['options']['preload']))
+			{
+				continue;
+			}
+
+			foreach ($properties['options']['preload'] as $preloadMethod)
+			{
+				// Make sure the preload method is supported, special case for `dns-prefetch` to convert it to the right method name
+				if ($preloadMethod === 'dns-prefetch')
+				{
+					$this->getPreloadManager()->dnsPrefetch($link);
+				}
+				elseif (in_array($preloadMethod, $this->preloadTypes))
+				{
+					$this->getPreloadManager()->$preloadMethod($link);
+				}
+				else
+				{
+					throw new InvalidArgumentException(sprintf('The "%s" method is not supported for preloading.', $preloadMethod), 500);
+				}
+			}
+		}
+
+		// Check if the manager's provider has links, if so add the Link header
+		if ($links = $this->getPreloadManager()->getLinkProvider()->getLinks())
+		{
+			JFactory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
+		}
 	}
 }

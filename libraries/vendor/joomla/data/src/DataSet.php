@@ -351,30 +351,19 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 	 * Note that this method will not return an associative array, otherwise it would be encoded into an object.
 	 * JSON decoders do not consistently maintain the order of associative keys, whereas they do maintain the order of arrays.
 	 *
-	 * @param   mixed  $serialized  An array of objects that have already been serialized that is used to infinite loops
-	 *                              (null on first call).
-	 *
 	 * @return  array  An array that can be serialised by json_encode().
 	 *
 	 * @since   1.0
 	 */
-	public function jsonSerialize($serialized = null)
+	public function jsonSerialize()
 	{
-		// Check if we should initialise the recursion tracker.
-		if ($serialized === null)
-		{
-			$serialized = [];
-		}
-
-		// Add this object to the serialized stack.
-		$serialized[] = spl_object_hash($this);
-		$return       = [];
+		$return = [];
 
 		// Iterate through the objects.
 		foreach ($this->objects as $object)
 		{
 			// Call the method for the object.
-			$return[] = json_encode($object);
+			$return[] = $object;
 		}
 
 		return $return;

@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
-require_once JPATH_TESTS . '/suites/libraries/joomla/database/stubs/nosqldriver.php';
 
 use Joomla\Registry\Registry;
 
@@ -115,7 +114,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceException()
 	{
-		JFactory::$database = $this->getMockDatabase('Nosql');
+		JFactory::$database = $this->getMockDatabase('Oracle');
 
 		FinderIndexer::getInstance();
 	}

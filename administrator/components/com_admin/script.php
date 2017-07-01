@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\UTF8MB4SupportInterface;
+
 /**
  * Script file of Joomla CMS
  *
@@ -1347,7 +1349,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_weblinks/models/fields/index.html',
 			'/plugins/user/joomla/postinstall/actions.php',
 			'/plugins/user/joomla/postinstall/index.html',
-			'/media/com_finder/js/finder.js',
 			'/media/com_finder/js/highlighter.js',
 			'/libraries/joomla/registry/format.php',
 			'/libraries/joomla/registry/index.html',
@@ -1454,7 +1455,6 @@ class JoomlaInstallerScript
 			'/libraries/phpmailer/pop.php',
 			'/libraries/phpmailer/smtp.php',
 			'/media/editors/codemirror/css/ambiance.css',
-			'/media/editors/codemirror/css/codemirror.css',
 			'/media/editors/codemirror/css/configuration.css',
 			'/media/editors/codemirror/css/index.html',
 			'/media/editors/codemirror/js/brace-fold.js',
@@ -1895,6 +1895,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/cache/storage/xcache.php',
 			'/libraries/joomla/date/date.php',
 			'/libraries/joomla/environment/browser.php',
+			'/libraries/joomla/factory.php',
+			'/libraries/joomla/filter/input.php',
+			'/libraries/joomla/filter/output.php',
+			'/libraries/joomla/filter/wrapper/output.php',
 			'/libraries/joomla/form/field.php',
 			'/libraries/joomla/form/form.php',
 			'/libraries/joomla/form/helper.php',
@@ -1929,6 +1933,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/log/logger/messagequeue.php',
 			'/libraries/joomla/log/logger/syslog.php',
 			'/libraries/joomla/log/logger/w3c.php',
+			'/libraries/joomla/mail/helper.php',
+			'/libraries/joomla/mail/language/phpmailer.lang-joomla.php',
+			'/libraries/joomla/mail/mail.php',
+			'/libraries/joomla/mail/wrapper/helper.php',
 			'/libraries/joomla/microdata/microdata.php',
 			'/libraries/joomla/microdata/types.json',
 			'/libraries/joomla/profiler/profiler.php',
@@ -1955,6 +1963,7 @@ class JoomlaInstallerScript
 			'/libraries/legacy/access/rules.php',
 			'/libraries/legacy/application/cli.php',
 			'/libraries/legacy/application/daemon.php',
+			'/libraries/legacy/categories/categories.php',
 			'/libraries/legacy/controller/admin.php',
 			'/libraries/legacy/controller/form.php',
 			'/libraries/legacy/controller/legacy.php',
@@ -1972,6 +1981,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/category.php',
 			'/libraries/legacy/view/categoryfeed.php',
 			'/libraries/legacy/view/legacy.php',
+			'/libraries/legacy/web/client.php',
+			'/libraries/legacy/web/web.php',
 			// Joomla 4.0
 			'/components/com_contact/models/forms/form.xml',
 		);
@@ -2050,9 +2061,7 @@ class JoomlaInstallerScript
 			'/libraries/framework',
 			'/libraries/phpmailer/language',
 			'/libraries/phpmailer',
-			'/media/editors/codemirror/css',
 			'/media/editors/codemirror/js',
-			'/media/com_banners',
 			// Joomla! 3.4.1
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
@@ -2070,7 +2079,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch',
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
-			'/administrator/components/com_media/models/forms',
 			'/media/editors/codemirror/mode/kotlin',
 			'/media/editors/tinymce/plugins/compat3x',
 			'/plugins/editors/tinymce/fields',
@@ -2154,6 +2162,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/language/wrapper',
 			'/libraries/joomla/log/logger',
 			'/libraries/joomla/log',
+			'/libraries/joomla/mail/language',
+			'/libraries/joomla/mail/wrapper',
+			'/libraries/joomla/mail',
 			'/libraries/joomla/microdata',
 			'/libraries/joomla/profiler',
 			'/libraries/joomla/table',
@@ -2161,10 +2172,11 @@ class JoomlaInstallerScript
 			'/libraries/joomla/user/wrapper',
 			'/libraries/joomla/user',
 			'/libraries/legacy/access',
-			'/libraries/legacy/application',
+			'/libraries/legacy/categories',
 			'/libraries/legacy/controller',
 			'/libraries/legacy/model',
 			'/libraries/legacy/view',
+			'/libraries/legacy/web',
 			// Joomla! 4.0
 			'/templates/beez3',
 			'/administrator/templates/isis',
@@ -2190,16 +2202,6 @@ class JoomlaInstallerScript
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
 			}
-		}
-
-		/*
-		 * Needed for updates post-3.4
-		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
-		 */
-		if (!JFile::exists(JPATH_ROOT . '/administrator/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml'))
-		{
-			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
 	}
 
@@ -2264,7 +2266,7 @@ class JoomlaInstallerScript
 			if (!$asset->store())
 			{
 				// Install failed, roll back changes
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
 				return false;
 			}
@@ -2346,10 +2348,7 @@ class JoomlaInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		// This is only required for MySQL databases
-		$serverType = $db->getServerType();
-
-		if ($serverType != 'mysql')
+		if (!($db instanceof UTF8MB4SupportInterface))
 		{
 			return;
 		}

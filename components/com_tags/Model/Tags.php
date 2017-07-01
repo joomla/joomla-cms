@@ -147,9 +147,9 @@ class Tags extends ListModel
 			$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = ContentHelper::getCurrentLanguage();
 			}
@@ -160,7 +160,7 @@ class Tags extends ListModel
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format == 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}

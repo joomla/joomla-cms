@@ -55,7 +55,7 @@ class InstallationViewInstallHtml extends JViewHtml
 		 * Prepare the tasks array
 		 * Note: The first character of the task *MUST* be capitalised or the application will not find the task
 		 */
-		$this->tasks[] = ($this->options['db_old'] == 'remove') ? 'Database_remove' : 'Database_backup';
+		$this->tasks[] = $this->options['db_old'] === 'remove' ? 'Database_remove' : 'Database_backup';
 		$this->tasks[] = 'Database';
 
 		if ($this->options['sample_file'])

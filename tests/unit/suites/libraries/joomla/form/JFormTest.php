@@ -91,19 +91,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddFieldPath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addFieldPath();
-
-		// The default path is the class file folder/forms
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/fields';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries fields path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addFieldPath(__DIR__);
 		$paths = JForm::addFieldPath();
@@ -124,19 +111,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddFormPath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addFormPath();
-
-		// The default path is the class file folder/forms
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/src/CMS/Form') . '/forms';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries forms path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addFormPath(__DIR__);
 		$paths = JForm::addFormPath();
@@ -157,19 +131,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddRulePath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addRulePath();
-
-		// The default path is the class file folder/rules
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/src/CMS/Form') . '/rules';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries rule path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addRulePath(__DIR__);
 		$paths = JForm::addRulePath();

@@ -17,6 +17,7 @@
 class JHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * Tests the constructor disallows any non array object
 	 *
 	 * @return  void
 	 *

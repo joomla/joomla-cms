@@ -209,7 +209,7 @@ class Tag extends ListModel
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format == 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}
@@ -263,7 +263,7 @@ class Tag extends ListModel
 	 */
 	public function getItem($pk = null)
 	{
-		if (!isset($this->item) ||$this->item === null)
+		if (!isset($this->item))
 		{
 			$this->item = false;
 

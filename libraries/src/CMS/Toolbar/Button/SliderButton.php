@@ -52,6 +52,12 @@ class SliderButton extends ToolbarButton
 		$options['name']    = $name;
 		$options['class']   = $this->fetchIconClass($name);
 		$options['onClose'] = '';
+		$options['id']      = $this->fetchId('Slider', $name);
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		$doTask = $this->_getCommand($url);
 		$options['doTask'] = 'Joomla.setcollapse(\'' . $doTask . '\', \'' . $name . '\', \'' . $height . '\');';
@@ -93,7 +99,7 @@ class SliderButton extends ToolbarButton
 	 */
 	private function _getCommand($url)
 	{
-		if (substr($url, 0, 4) !== 'http')
+		if (strpos($url, 'http') !== 0)
 		{
 			$url = \JUri::base() . $url;
 		}

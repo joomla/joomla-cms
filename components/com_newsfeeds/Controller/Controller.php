@@ -37,7 +37,7 @@ class Controller extends BaseController
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
-		if (\JFactory::getUser()->get('id') || ($this->input->getMethod() == 'POST' && $vName == 'category' ))
+		if (\JFactory::getUser()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category' ))
 		{
 			$cachable = false;
 		}

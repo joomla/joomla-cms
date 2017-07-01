@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Banners\Site\Helper\BannerHelper;
-
-$baseurl = JUri::base();
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
@@ -30,6 +28,7 @@ $baseurl = JUri::base();
 			<?php $height = $item->params->get('height'); ?>
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
 				<?php // Image based banner ?>
+				<?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : \JUri::base(); ?>
 				<?php $alt = $item->params->get('alt'); ?>
 				<?php $alt = $alt ?: $item->name; ?>
 				<?php $alt = $alt ?: JText::_('MOD_BANNERS_BANNER'); ?>
