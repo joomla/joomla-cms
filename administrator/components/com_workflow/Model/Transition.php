@@ -53,7 +53,9 @@ class Transition extends Admin
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_status_id') . ' = ' . (int) $data['from_status_id'] . ' AND ' . $db->qn('to_status_id') . ' = ' . (int) $data['to_status_id']);
+			->where(
+				$db->qn('from_status_id') . ' = ' . (int) $data['from_status_id'] . ' AND ' . $db->qn('to_status_id') . ' = ' . (int) $data['to_status_id']
+			);
 
 		if (!$isNew)
 		{
