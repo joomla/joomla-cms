@@ -1,17 +1,18 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  String
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\String;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Uri\UriHelper;
 
-JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.class.php');
+\JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.class.php');
 
 /**
  * Joomla Platform String Punycode Class
@@ -22,7 +23,7 @@ JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.
  *
  * @since  3.1.2
  */
-abstract class JStringPunycode
+abstract class PunycodeHelper
 {
 	/**
 	 * Transforms a UTF-8 string to a Punycode string
@@ -35,7 +36,7 @@ abstract class JStringPunycode
 	 */
 	public static function toPunycode($utfString)
 	{
-		$idn = new idna_convert;
+		$idn = new \idna_convert;
 
 		return $idn->encode($utfString);
 	}
@@ -51,7 +52,7 @@ abstract class JStringPunycode
 	 */
 	public static function fromPunycode($punycodeString)
 	{
-		$idn = new idna_convert;
+		$idn = new \idna_convert;
 
 		return $idn->decode($punycodeString);
 	}
