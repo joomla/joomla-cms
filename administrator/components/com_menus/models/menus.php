@@ -242,4 +242,40 @@ class MenusModelMenus extends JModelList
 
 		return $result;
 	}
+
+	/**
+	 * Return true if the menuid menutype is the reserved word 'main'.
+	 *
+	 * @param   integer  $id  The menu id field.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isMainMenuId($id)
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('menutype')
+			->from('#__menu')
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
+
+		try
+		{
+			$type = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
+
+		if ($type === 'main')
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 }
