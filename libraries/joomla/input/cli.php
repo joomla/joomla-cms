@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Input CLI Class
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  5.0  Use Joomla\Input\Cli instead
  */
 class JInputCli extends JInput
 {
@@ -21,6 +22,7 @@ class JInputCli extends JInput
 	 *
 	 * @var    string
 	 * @since  11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public $executable;
 
@@ -30,6 +32,7 @@ class JInputCli extends JInput
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public $args = array();
 
@@ -40,6 +43,7 @@ class JInputCli extends JInput
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function __construct(array $source = null, array $options = array())
 	{
@@ -65,6 +69,7 @@ class JInputCli extends JInput
 	 * @return  string  The serialized input.
 	 *
 	 * @since   12.1
+	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function serialize()
 	{
@@ -88,6 +93,7 @@ class JInputCli extends JInput
 	 * @return  JInput  The input object.
 	 *
 	 * @since   12.1
+	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function unserialize($input)
 	{
@@ -113,6 +119,7 @@ class JInputCli extends JInput
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	protected function parseArguments()
 	{
