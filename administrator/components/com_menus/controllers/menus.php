@@ -79,6 +79,13 @@ class MenusControllerMenus extends JControllerLegacy
 					unset($cids[$i]);
 					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
 				}
+
+				if ($model->isMainMenuId($id))
+				{
+					// Prune protected main menu item that you can't change.
+					unset($cids[$i]);
+					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+				}
 			}
 
 			if (count($cids) > 0)
