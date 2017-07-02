@@ -340,3 +340,9 @@ JLoader::registerAlias('JCryptCipherRijndael256',           '\\Joomla\\CMS\\Cryp
 JLoader::registerAlias('JCryptCipherSimple',                '\\Joomla\\CMS\\Crypt\\Cipher\\SimpleCipher', '4.0');
 JLoader::registerAlias('JCryptCipher3Des',                  '\\Joomla\\CMS\\Crypt\\Cipher\\TripleDesCipher', '4.0');
 JLoader::registerAlias('JCryptPasswordSimple',              '\\Joomla\\CMS\\Crypt\\Password\\SimpleCryptPassword', '4.0');
+
+JLoader::registerAlias('JInputCli',                         '\\Joomla\\CMS\\Input\\Cli', '5.0');
+JLoader::registerAlias('JInputCookie',                      '\\Joomla\\CMS\\Input\\Cookie', '5.0');
+JLoader::registerAlias('JInputFiles',                       '\\Joomla\\CMS\\Input\\Files', '5.0');
+JLoader::registerAlias('JInput',                            '\\Joomla\\CMS\\Input\\Input', '5.0');
+JLoader::registerAlias('JInputJSON',                        '\\Joomla\\CMS\\Input\\Json', '5.0');

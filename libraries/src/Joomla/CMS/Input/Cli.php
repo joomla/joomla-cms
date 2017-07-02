@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Input
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Input;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Input CLI Class
@@ -15,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  5.0  Use Joomla\Input\Cli instead
  */
-class JInputCli extends JInput
+class Cli extends Input
 {
 	/**
 	 * The executable that was called to run the CLI script.
@@ -53,7 +56,7 @@ class JInputCli extends JInput
 		}
 		else
 		{
-			$this->filter = JFilterInput::getInstance();
+			$this->filter = InputFilter::getInstance();
 		}
 
 		// Get the command line options
@@ -90,7 +93,7 @@ class JInputCli extends JInput
 	 *
 	 * @param   string  $input  The serialized input.
 	 *
-	 * @return  JInput  The input object.
+	 * @return  Input  The input object.
 	 *
 	 * @since   12.1
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
@@ -107,7 +110,7 @@ class JInputCli extends JInput
 		}
 		else
 		{
-			$this->filter = JFilterInput::getInstance();
+			$this->filter = InputFilter::getInstance();
 		}
 	}
 

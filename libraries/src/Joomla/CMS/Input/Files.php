@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Input
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Input;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Input Files Class
@@ -15,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  5.0  Use Joomla\Input\Files instead
  */
-class JInputFiles extends JInput
+class Files extends Input
 {
 	/**
 	 * The pivoted data from a $_FILES or compatible array.
@@ -44,7 +47,7 @@ class JInputFiles extends JInput
 		}
 		else
 		{
-			$this->filter = JFilterInput::getInstance();
+			$this->filter = InputFilter::getInstance();
 		}
 
 		// Set the data source.
@@ -84,7 +87,7 @@ class JInputFiles extends JInput
 			// Prevent returning an unsafe file unless speciffically requested
 			if ($filter != 'raw')
 			{
-				$isSafe = JFilterInput::isSafeFile($results);
+				$isSafe = InputFilter::isSafeFile($results);
 
 				if (!$isSafe)
 				{

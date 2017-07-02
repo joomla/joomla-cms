@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Input
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Input;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Input\Input;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Input Base Class
@@ -19,19 +20,19 @@ use Joomla\Input\Input;
  * @since       11.1
  * @deprecated  5.0  Use Joomla\Input\Input instead
  *
- * @property-read    JInput        $get
- * @property-read    JInput        $post
- * @property-read    JInput        $request
- * @property-read    JInput        $server
- * @property-read    JInputFiles   $files
- * @property-read    JInputCookie  $cookie
+ * @property-read    Input        $get
+ * @property-read    Input        $post
+ * @property-read    Input        $request
+ * @property-read    Input        $server
+ * @property-read    InputFiles   $files
+ * @property-read    InputCookie  $cookie
  */
-class JInput extends Input
+class Input extends \Joomla\Input\Input
 {
 	/**
 	 * Input objects
 	 *
-	 * @var    JInput[]
+	 * @var    Input[]
 	 * @since  11.1
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
@@ -50,7 +51,7 @@ class JInput extends Input
 	{
 		if (!isset($options['filter']))
 		{
-			$this->filter = JFilterInput::getInstance();
+			$this->filter = InputFilter::getInstance();
 		}
 
 		parent::__construct($source, $options);
@@ -73,7 +74,7 @@ class JInput extends Input
 			return $this->inputs[$name];
 		}
 
-		$className = 'JInput' . ucfirst($name);
+		$className = 'Input' . ucfirst($name);
 
 		if (class_exists($className))
 		{
@@ -86,7 +87,7 @@ class JInput extends Input
 
 		if (isset($GLOBALS[$superGlobal]))
 		{
-			$this->inputs[$name] = new JInput($GLOBALS[$superGlobal], $this->options);
+			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
 			return $this->inputs[$name];
 		}
@@ -191,7 +192,7 @@ class JInput extends Input
 	 *
 	 * @param   string  $input  The serialized input.
 	 *
-	 * @return  JInput  The input object.
+	 * @return  Input  The input object.
 	 *
 	 * @since   12.1
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
@@ -208,7 +209,7 @@ class JInput extends Input
 		}
 		else
 		{
-			$this->filter = JFilterInput::getInstance();
+			$this->filter = InputFilter::getInstance();
 		}
 	}
 }
