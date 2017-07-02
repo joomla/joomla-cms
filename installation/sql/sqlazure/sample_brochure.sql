@@ -155,7 +155,8 @@ SET IDENTITY_INSERT "#__menu" OFF;
 SET IDENTITY_INSERT "#__menu_types" ON;
 
 INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id") VALUES
-(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0);
+(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0),
+(2, 0, 'main', 'Admin Main Menu', 'The main menu for the backend', 1);
 
 SET IDENTITY_INSERT "#__menu_types" OFF;
 
