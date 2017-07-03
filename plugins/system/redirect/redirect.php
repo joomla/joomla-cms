@@ -109,7 +109,7 @@ class PlgSystemRedirect extends JPlugin
 			// Proxy to the previous exception handler if available, otherwise just render the error page
 			if (self::$previousExceptionHandler)
 			{
-				self::$previousExceptionHandler($error);
+				call_user_func_array(self::$previousExceptionHandler, array($error));
 			}
 			else
 			{
