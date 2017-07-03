@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 												),
 											0
 										); ?>">
-										<?php echo JText::_('COM_LISTS');?>
+										<?php echo JText::_($extension->name);?>
 										</span>
 											</label>
 										</td>
