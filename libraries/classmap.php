@@ -344,4 +344,4 @@ JLoader::registerAlias('JCryptPasswordSimple',              '\\Joomla\\CMS\\Cryp
 
 JLoader::registerAlias('JStringPunycode',                   '\\Joomla\\CMS\\String\\PunycodeHelper', '5.0');
 
-JLoader::registerAlias('JRoute',                            '\\Joomla\\CMS\\Application\\Route', '5.0');
+JLoader::registerAlias('JRoute',                            '\\Joomla\\CMS\\Router\\Route', '5.0');
