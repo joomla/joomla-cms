@@ -10,6 +10,7 @@ namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Model\ListModel;
@@ -379,20 +380,11 @@ class Categories extends ListModel
 		}
 
 		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$cName = ComponentHelper::getComponentHelperClassName($component);
 
-		if (file_exists($file))
+		if ($cName && is_callable(array($cName, 'countItems')))
 		{
-			$prefix = ucfirst($eName);
-			$cName = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
-			{
-				$cName::countItems($items, $section);
-			}
+			$cName::countItems($items, $section);
 		}
 	}
 }

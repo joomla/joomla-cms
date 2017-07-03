@@ -359,20 +359,11 @@ class Tags extends ListModel
 		}
 
 		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$cName = ComponentHelper::getComponentHelperClassName($component);
 
-		if (file_exists($file))
+		if ($cName && is_callable(array($cName, 'countTagItems')))
 		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
-			{
-				$cName::countTagItems($items, $extension);
-			}
+			$cName::countTagItems($items, $extension);
 		}
 	}
 }

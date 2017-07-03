@@ -10,6 +10,8 @@ defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Fields Contexts
  *
@@ -42,28 +44,19 @@ class JFormFieldFieldcontexts extends JFormFieldList
 	protected function getOptions()
 	{
 		$parts = explode('.', $this->value);
-		$eName = str_replace('com_', '', $parts[0]);
-		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $parts[0] . '/helpers/' . $eName . '.php');
+
+		$cName = ComponentHelper::getComponentHelperClassName($parts[0]);
+
 		$contexts = array();
 
-		if (!file_exists($file))
-		{
-			return array();
-		}
-
-		$prefix = ucfirst($eName);
-		$cName = $prefix . 'Helper';
-
-		JLoader::register($cName, $file);
-
-		if (class_exists($cName) && is_callable(array($cName, 'getContexts')))
+		if ($cName && is_callable(array($cName, 'getContexts')))
 		{
 			$contexts = $cName::getContexts();
 		}
 
 		if (!$contexts || !is_array($contexts) || count($contexts) == 1)
 		{
-			return array();
+			$contexts = array();
 		}
 
 		return $contexts;

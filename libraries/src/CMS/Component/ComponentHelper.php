@@ -558,4 +558,52 @@ class ComponentHelper
 
 		return 'com_' . strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
 	}
+
+	/**
+	 * Method to get helper class for a component
+	 *
+	 * @param   string  $option  The name of component to get helper class, for example com_content
+	 *
+	 * @return  bool|string  The class name if exists, false otherwise
+	 */
+	public static function getComponentHelperClassName($option)
+	{
+		jimport('joomla.filesystem.path');
+
+		// Check and make sure component exists to avoid warning
+		if (!self::isInstalled($option))
+		{
+			return false;
+		}
+
+		$componentName = str_replace('com_', '', $option);
+
+		// If this is a namespace component, try to find a helper namespace class
+		if ($componentNamespace = self::getComponent($option)->namespace)
+		{
+			$className = $componentNamespace . '\\Administrator\\Helper\\' . ucfirst($componentName) . 'Helper';
+
+			if (class_exists($className))
+			{
+				return $className;
+			}
+		}
+		else
+		{
+			$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/' . $componentName . '.php');
+
+			if (file_exists($file))
+			{
+				$className = ucfirst($componentName) . 'Helper';
+				\JLoader::register($className, $file);
+
+				if (class_exists($className))
+				{
+					return $className;
+				}
+			}
+		}
+
+		return false;
+	}
 }
