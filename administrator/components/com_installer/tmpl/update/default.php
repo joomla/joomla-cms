@@ -109,12 +109,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="hidden-sm-down text-center">
 										<?php if($item->changelogurl != null):?>
-										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal">Changelog</button>
+										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id?>">Changelog</button>
 
 										<?php
 										echo Jhtml::_(
 											'bootstrap.renderModal',
-											'changelog_modal',
+											'changelog_modal' . $item->extension_id,
 											array(
 												'title' => $item->version . " - " . $item->name,
 												'bodyHeight'  => '60',

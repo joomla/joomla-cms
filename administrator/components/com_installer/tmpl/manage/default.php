@@ -107,7 +107,29 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="hidden-sm-down text-center">
-									<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
+									<?php if($item->version != ''): ?>
+										<?php if($item->changelogurl != null): ?>
+											<a href="#changelog_modal<?php echo $item->extension_id; ?>" data-toggle="modal"><?php echo $item->version?></a>
+											<?php
+											echo Jhtml::_(
+												'bootstrap.renderModal',
+												'changelog_modal' . $item->extension_id,
+												array(
+													'title' => $item->version . " - " . $item->name,
+													'bodyHeight'  => '60',
+													'modalWidth'  => '60',
+												),
+												'<iframe src="' . $item->changelogurl . '"></iframe>');
+											?>
+										<?php else : ?>
+											<?php echo $item->version; ?>
+										<?php endif; ?>
+									<?php else:
+										echo '&#160;';
+									endif; ?>
+									<?php if ($item->changelogurl != null):?>
+										<i class="fa fa-info" aria-hidden="true"></i>
+									<?php endif; ?>
 								</td>
 								<td class="hidden-sm-down text-center">
 									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>

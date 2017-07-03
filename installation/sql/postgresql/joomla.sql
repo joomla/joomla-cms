@@ -472,6 +472,7 @@ CREATE TABLE IF NOT EXISTS "#__extensions" (
   "name" varchar(100) NOT NULL,
   "type" varchar(20) NOT NULL,
   "element" varchar(100) NOT NULL,
+  "changelogurl" text,
   "folder" varchar(100) NOT NULL,
   "client_id" smallint NOT NULL,
   "enabled" smallint DEFAULT 0 NOT NULL,
