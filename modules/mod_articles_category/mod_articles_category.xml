@@ -134,6 +134,15 @@
 				/>
 
 				<field
+						name="filter_tag"
+						type="tag"
+						description="JTAG_FIELD_SELECT_DESC"
+						label="JTAG"
+				>
+					<option value="">JNONE</option>
+				</field>
+
+				<field
 					name="author_filtering_type"
 					type="radio"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
