@@ -844,13 +844,13 @@ class JFilterInput extends InputFilter
 
 		while ($offset < $length)
 		{
-			// Remove every '>' character which exists before related '<'
+			// Preserve '>' character which exists before related '<'
 			if ($tagOpenEndOffset !== false && ($tagOpenStartOffset === false || $tagOpenEndOffset < $tagOpenStartOffset))
 			{
-				$result .= substr($source, $offset, $tagOpenEndOffset - $offset);
+				$result .= substr($source, $offset, $tagOpenEndOffset - $offset) . '>';
 				$offset  = $tagOpenEndOffset + 1;
 
-				// Search for new close tag
+				// Search for a new closing indicator
 				$tagOpenEndOffset = strpos($source, '>', $offset);
 
 				continue;
@@ -863,17 +863,6 @@ class JFilterInput extends InputFilter
 				$offset  = $tagOpenStartOffset;
 			}
 
-			// Remove every '<' character if '>' does not exists or we have '<>'
-			if ($tagOpenStartOffset !== false && $tagOpenEndOffset === false || $tagOpenStartOffset + 1 == $tagOpenEndOffset)
-			{
-				$offset++;
-
-				// Search for new open tag
-				$tagOpenStartOffset = strpos($source, '<', $offset);
-
-				continue;
-			}
-
 			// There is no more tags
 			if ($tagOpenStartOffset === false && $tagOpenEndOffset === false)
 			{
@@ -881,6 +870,17 @@ class JFilterInput extends InputFilter
 				$offset  = $length;
 
 				break;
+			}
+
+			// Remove every '<' character if '>' does not exists or we have '<>'
+			if ($tagOpenStartOffset !== false && $tagOpenEndOffset === false || $tagOpenStartOffset + 1 == $tagOpenEndOffset)
+			{
+				$offset++;
+
+				// Search for a new opening indicator
+				$tagOpenStartOffset = strpos($source, '<', $offset);
+
+				continue;
 			}
 
 			// Check for mal-formed tag where we have a second '<' before the '>'
@@ -891,7 +891,7 @@ class JFilterInput extends InputFilter
 				// At this point we have a mal-formed tag, skip previous '<'
 				$offset++;
 
-				// Set a new open tag position
+				// Set a new opening indicator position
 				$tagOpenStartOffset = $nextOpenStartOffset;
 
 				continue;
@@ -1199,7 +1199,7 @@ class JFilterInput extends InputFilter
 		// Convert hex
 		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m)
 		{
-			return utf8_encode(chr('0x' . $m[1]));
+			return utf8_encode(chr(hexdec($m[1])));
 		}, $source
 		);
 
