@@ -15,13 +15,12 @@ var warnedAbout = {};
 // List of warnings already given; public read only
 jQuery.migrateWarnings = [];
 
-// Set to true to prevent console output; migrateWarnings still maintained
+// Set to true to prevent console output
 // jQuery.migrateMute = false;
 
 // Show a message on the console so devs know we're active
-if ( window.console && window.console.log ) {
+if ( window.console && window.console.log && !jQuery.migrateMute) {
 	window.console.log( "JQMIGRATE: Migrate is installed" +
-		( jQuery.migrateMute ? "" : " with logging active" ) +
 		", version " + jQuery.migrateVersion );
 }
 
