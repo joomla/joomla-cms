@@ -49,6 +49,19 @@ abstract class JHtmlJquery
 			$debug = (boolean) JFactory::getConfig()->get('debug');
 		}
 
+		static::$loaded[__METHOD__] = true;
+
+		if ((boolean) JFactory::getConfig()->get('combine_jquery'))
+		{
+			$script = 'jquery'
+				. ($noConflict ? '.with-noconflict' : '')
+				. ($noConflict ? '.with-migrate' : '');
+
+			JHtml::_('script', 'jui/' . $script . '.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+
+			return;
+		}
+
 		JHtml::_('script', 'jui/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Check if we are loading in noConflict
@@ -62,8 +75,6 @@ abstract class JHtmlJquery
 		{
 			JHtml::_('script', 'jui/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
-
-		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
