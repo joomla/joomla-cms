@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 \JLoader::import('joomla.filesystem.file');
 
@@ -150,7 +151,7 @@ class Api extends Controller
 			// Return the data
 			$this->sendResponse($data);
 		}
-		catch (MediaFileAdapterFilenotfoundexception $e)
+		catch (FileNotFoundException $e)
 		{
 			$this->sendResponse($e, 404);
 		}
