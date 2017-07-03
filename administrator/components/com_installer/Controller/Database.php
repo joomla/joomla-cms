@@ -42,4 +42,44 @@ class Database extends Controller
 
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
 	}
+
+	public function fix3rd()
+	{
+		// Check for request forgeries
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+
+		// Get items to remove from the request.
+		$cid = $this->input->get('cid', array(), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			$this->app->getLogger()->warning(
+				\JText::_(
+					'COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'
+				), array('category' => 'jerror')
+			);
+		}
+		else
+		{
+			// Get the model.
+			$model = $this->getModel('database');
+
+			$model->fix($cid);
+
+			/*
+			// Remove the items.
+			if ($model->delete($cid))
+			{
+				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+			}
+			else
+			{
+				$this->setMessage($model->getError(), 'error');
+			}
+			*/
+
+		}
+
+		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
+	}
 }

@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.multiselect');
+
+JHtml::_('bootstrap.tooltip');
+
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+
 ?>
 <div id="installer-database" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
@@ -29,8 +36,8 @@ defined('_JEXEC') or die;
 									<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 								<?php endif; ?>
 
-								<?php if ($this->schemaVersion != $this->changeSet[0]->getSchema()) : ?>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion[0]->version_id, $this->changeSet[0]->getSchema()); ?></li>
+								<?php if ($this->schemaVersion != $this->changeSet[0]['changeset']->getSchema()) : ?>
+									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion[0]->version_id, $this->changeSet[0]['changeset']->getSchema()); ?></li>
 								<?php endif; ?>
 
 								<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
@@ -51,14 +58,89 @@ defined('_JEXEC') or die;
 						</fieldset>
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('3rd Party Extensions Database Problems')); ?>
-						<div class="control-group">
-							<fieldset class="panelform">
 
-							</fieldset>
+				<?php if ($this->errorCount3rd != 0) : ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other1', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL_3RD', $this->errorCount3rd)); ?>
+						<div class="control-group">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th style="width:1%" class="nowrap text-center"">
+										<?php echo JHtml::_('grid.checkall'); ?>
+									</th>
+									<th class="nowrap">
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
+									</th>
+									<th class="nowrap">
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
+									</th>
+									<th class="nowrap">
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
+									</th>
+									<th class="nowrap">
+										<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
+									</th>
+									<th class="nowrap">
+										<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
+									</th>
+									<th class="nowrap">
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
+									</th>
+								</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->changeSet as $i => $item) : ?>
+									<?php
+										$extension = $item['extension'];
+										$manifest = json_decode($extension->manifest_cache);
+
+									if (($i == 0) || strcmp($item['schema'], $extension->version_id) == 0)
+									{
+										continue;
+									};
+									?>
+									<tr class="row<?php echo $i % 2; ?>">
+										<td>
+											<?php echo JHtml::_('grid.id', $i, $extension->extension_id); ?>
+										</td>
+										<td>
+											<label for="cb<?php echo $i; ?>">
+										<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText',
+											JText::_('JGLOBAL_DESCRIPTION'),
+											JText::_($manifest->description) ?
+												JText::_($manifest->description) :
+												JText::_(
+													'COM_INSTALLER_MSG_UPDATE_NODESC'
+												),
+											0
+										); ?>">
+										<?php echo JText::_('COM_LISTS');?>
+										</span>
+											</label>
+										</td>
+										<td class="center">
+											<?php echo $extension->client_id; ?>
+										</td>
+										<td class="center">
+											<?php echo $extension->type; ?>
+										</td>
+										<td class="hidden-sm-down">
+											<span class="badge badge-warning"><?php echo $extension->version_id; ?></span>
+										</td>
+										<td>
+											<span class="badge badge-success"><?php echo $item['schema']; ?></span>
+										</td>
+										<td class="hidden-sm-down">
+											<?php echo $extension->folder; ?>N/A
+										</td>
+									</tr>
+								<?php endforeach; ?>
+								</tbody>
+							</table>
 						</div>
-						<?php echo JHtml::_('bootstrap.endTab'); ?>
-						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
+					<?php endif; ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 						<div class="control-group">
 							<fieldset class="panelform">
 								<ul>

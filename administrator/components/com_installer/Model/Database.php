@@ -57,30 +57,39 @@ class Database extends Installer
 	 *
 	 * @return  void|bool
 	 */
-	public function fix()
+	public function fix($extensionIdArray = null)
 	{
-		if (!$changeSet = $this->getItems())
+		if (!$changeSetList = $this->getItems($extensionIdArray))
 		{
 			return false;
 		}
 
-		$changeSet->fix();
-		$this->fixSchemaVersion($changeSet);
-		$this->fixUpdateVersion();
-		$installer = new \JoomlaInstallerScript;
-		$installer->deleteUnexistingFiles();
-		$this->fixDefaultTextFilters();
-
-		/*
-		 * Finally, if the schema updates succeeded, make sure the database is
-		 * converted to utf8mb4 or, if not suported by the server, compatible to it.
-		 */
-		$statusArray = $changeSet->getStatus();
-
-		if (count($statusArray['error']) == 0)
+		foreach ($changeSetList as $i => $changeSet)
 		{
-			$installer->convertTablesToUtf8mb4(false);
+			$changeSet['changeset']->fix();
+			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']->extension_id);
 		}
+
+		// If null it means it is Joomla! core database
+		if ($extensionIdArray == null)
+		{
+			$this->fixUpdateVersion();
+			$installer = new \JoomlaInstallerScript;
+			$installer->deleteUnexistingFiles();
+			$this->fixDefaultTextFilters();
+
+			/*
+			 * Finally, if the schema updates succeeded, make sure the database is
+			 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+			 */
+			$statusArray = $changeSet['changeset']->getStatus();
+
+			if (count($statusArray['error']) == 0)
+			{
+				$installer->convertTablesToUtf8mb4(false);
+			}
+		}
+
 	}
 
 	/**
@@ -88,7 +97,7 @@ class Database extends Installer
 	 *
 	 * @return  \Joomla\CMS\Schema\ChangeSet
 	 */
-	public function getItems()
+	public function getItems($extensionIdArray = null)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -109,6 +118,18 @@ class Database extends Installer
 				) . ')'
 			);
 
+		if ($extensionIdArray != null)
+		{
+			$whereQuery = array();
+
+			foreach ($extensionIdArray as $extension)
+			{
+				array_push($whereQuery, 'e.extension_id = ' . $extension);
+			}
+
+			$query->where($whereQuery);
+		}
+
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
@@ -125,7 +146,15 @@ class Database extends Installer
 
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
 
-				$changeSetList[$index] = new ChangeSet($db, $folderTmp);
+				$changeset = new ChangeSet($db, $folderTmp);
+
+				$changeSetList[$index] = array(
+					'changeset'         => $changeset,
+					'errors'            => $changeset->check(),
+					'results'           => $changeset->getStatus(),
+					'schema'            => $changeset->getSchema(),
+					'extension'         => $result
+				);
 			}
 		}
 		catch (\RuntimeException $e)
@@ -153,16 +182,19 @@ class Database extends Installer
 	/**
 	 * Get version from #__schemas table.
 	 *
+	 * @param   integer  $extensionId  id of the extensions.
+	 *
 	 * @return  mixed  the return value from the query, or null if the query fails.
 	 *
 	 * @throws \Exception
 	 */
-	public function getSchemaVersion()
+	public function getSchemaVersion($extensionId = 700)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('version_id')
-			->from($db->quoteName('#__schemas'));
+			->from($db->quoteName('#__schemas'))
+			->where('extension_id = ' . $extensionId);
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
@@ -172,17 +204,18 @@ class Database extends Installer
 	/**
 	 * Fix schema version if wrong.
 	 *
-	 * @param   \Joomla\CMS\Schema\ChangeSet  $changeSet  Schema change set.
+	 * @param   \Joomla\CMS\Schema\ChangeSet  $changeSet    Schema change set.
+	 * @param   integer                       $extensionId  id of the extensions.
 	 *
 	 * @return   mixed  string schema version if success, false if fail.
 	 */
-	public function fixSchemaVersion($changeSet)
+	public function fixSchemaVersion($changeSet, $extensionId = 700)
 	{
 		// Get correct schema version -- last file in array.
 		$schema = $changeSet->getSchema();
 
 		// Check value. If ok, don't do update.
-		if ($schema == $this->getSchemaVersion())
+		if ($schema == $this->getSchemaVersion($extensionId))
 		{
 			return $schema;
 		}
@@ -191,7 +224,7 @@ class Database extends Installer
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
-			->where($db->quoteName('extension_id') . ' = 700');
+			->where($db->quoteName('extension_id') . ' = ' . $extensionId);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -199,7 +232,7 @@ class Database extends Installer
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
-			->values('700, ' . $db->quote($schema));
+			->values($extensionId . ', ' . $db->quote($schema));
 		$db->setQuery($query);
 
 		try
@@ -231,12 +264,14 @@ class Database extends Installer
 	/**
 	 * Fix Joomla version in #__extensions table if wrong (doesn't equal \JVersion short version).
 	 *
+	 * @param   integer  $extensionId  id of the extension
+	 *
 	 * @return   mixed  string update version if success, false if fail.
 	 */
-	public function fixUpdateVersion()
+	public function fixUpdateVersion($extensionId = 700)
 	{
 		$table = new \Joomla\CMS\Table\Extension($this->getDbo());
-		$table->load('700');
+		$table->load($extensionId);
 		$cache = new Registry($table->manifest_cache);
 		$updateVersion = $cache->get('version');
 		$cmsVersion = new Version;

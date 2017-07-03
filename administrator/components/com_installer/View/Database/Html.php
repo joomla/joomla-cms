@@ -21,6 +21,13 @@ use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerVie
 class Html extends InstallerViewDefault
 {
 	/**
+	 * List pagination.
+	 *
+	 * @var \Joomla\CMS\Pagination\Pagination
+	 */
+	protected $pagination;
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
@@ -36,8 +43,8 @@ class Html extends InstallerViewDefault
 
 		// Get data from the model.
 		$this->changeSet        = $this->get('Items');
-		$this->errors           = $this->changeSet[0]->check();
-		$this->results          = $this->changeSet[0]->getStatus();
+		$this->errors           = $this->changeSet[0]['changeset']->check();
+		$this->results          = $this->changeSet[0]['changeset']->getStatus();
 		$this->schemaVersion    = $this->get('SchemaVersion');
 		$this->updateVersion    = $this->get('UpdateVersion');
 		$this->filterParams     = $this->get('DefaultTextFilters');
@@ -45,8 +52,19 @@ class Html extends InstallerViewDefault
 		$this->updateVersion    = ($this->updateVersion) ? $this->updateVersion : \JText::_('JNONE');
 		$this->pagination       = $this->get('Pagination');
 		$this->errorCount       = count($this->errors);
+		$this->filterForm       = $this->get('FilterForm');
+		$this->activeFilters    = $this->get('ActiveFilters');
+		$this->errorCount3rd    = 0;
 
-		if ($this->schemaVersion[0]->version_id != $this->changeSet[0]->getSchema())
+		foreach ($this->changeSet as $i => $changeset)
+		{
+			if ($i != 0 && strcmp($changeset['schema'], $changeset['extension']->version_id) != 0)
+			{
+				$this->errorCount3rd++;
+			}
+		}
+
+		if ($this->schemaVersion[0]->version_id != $this->changeSet[0]['changeset']->getSchema())
 		{
 			$this->errorCount++;
 		}
@@ -86,7 +104,16 @@ class Html extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page.
 		 */
-		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
+		if ($this->errorCount != 0)
+		{
+			ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
+		}
+
+		if ($this->errorCount3rd != 0)
+		{
+			ToolbarHelper::custom('database.fix3rd', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX_3RD', false);
+		}
+
 		ToolbarHelper::divider();
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
