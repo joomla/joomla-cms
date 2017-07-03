@@ -78,7 +78,7 @@
 				</field>
 
 				<field
-					name="filteringspacer1"
+					name="filteringspacer0"
 					type="spacer"
 					hr="true"
 				/>
@@ -128,7 +128,7 @@
 				/>
 
 				<field
-					name="filteringspacer2"
+					name="filteringspacer1"
 					type="spacer"
 					hr="true"
 				/>
@@ -141,6 +141,12 @@
 				>
 					<option value="">JNONE</option>
 				</field>
+
+				<field
+						name="filteringspacer2"
+						type="spacer"
+						hr="true"
+				/>
 
 				<field
 					name="author_filtering_type"
