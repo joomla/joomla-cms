@@ -344,6 +344,9 @@ JLoader::registerAlias('JCryptPasswordSimple',              '\\Joomla\\CMS\\Cryp
 
 JLoader::registerAlias('JStringPunycode',                   '\\Joomla\\CMS\\String\\PunycodeHelper', '5.0');
 
+JLoader::registerAlias('JBuffer',                           '\\Joomla\\CMS\\Utility\\BufferStreamHandler', '5.0');
+JLoader::registerAlias('JUtility',                          '\\Joomla\\CMS\\Utility\\Utility', '5.0');
+
 JLoader::registerAlias('JInputCli',                         '\\Joomla\\CMS\\Input\\Cli', '5.0');
 JLoader::registerAlias('JInputCookie',                      '\\Joomla\\CMS\\Input\\Cookie', '5.0');
 JLoader::registerAlias('JInputFiles',                       '\\Joomla\\CMS\\Input\\Files', '5.0');
