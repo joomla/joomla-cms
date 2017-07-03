@@ -65,19 +65,6 @@ class Database extends Controller
 			$model = $this->getModel('database');
 
 			$model->fix($cid);
-
-			/*
-			// Remove the items.
-			if ($model->delete($cid))
-			{
-				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
-			}
-			else
-			{
-				$this->setMessage($model->getError(), 'error');
-			}
-			*/
-
 		}
 
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));

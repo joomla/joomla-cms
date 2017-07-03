@@ -56,6 +56,8 @@ class Database extends Installer
 	/**
 	 * Fixes database problems.
 	 *
+	 * @param   array  $extensionIdArray list of the selected extensions to fix
+	 *
 	 * @return  void|bool
 	 */
 	public function fix($extensionIdArray = null)
@@ -95,6 +97,8 @@ class Database extends Installer
 
 	/**
 	 * Gets the changeset object.
+	 *
+	 * @param   array  $extensionIdArray list of the selected extensions to fix
 	 *
 	 * @return  \Joomla\CMS\Schema\ChangeSet
 	 */
