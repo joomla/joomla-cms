@@ -1,27 +1,31 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('predefinedlist');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('predefinedlist');
 
 /**
  * Field to show a list of available date ranges to filter on last visit date.
  *
  * @since  3.6
  */
-class JFormFieldLastvisitDateRange extends JFormFieldPredefinedList
+class LastvisitDateRangeField extends \JFormFieldPredefinedList
 {
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   JForm  $form  The form to attach to the form field object.
+	 * @param   Form  $form  The form to attach to the form field object.
 	 *
 	 * @since   11.1
 	 */
@@ -33,7 +37,7 @@ class JFormFieldLastvisitDateRange extends JFormFieldPredefinedList
 		$this->type = 'LastvisitDateRange';
 
 		// Load the required language
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('com_users', JPATH_ADMINISTRATOR);
 
 		// Set the pre-defined options

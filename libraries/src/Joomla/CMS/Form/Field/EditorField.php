@@ -1,15 +1,20 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('textarea');
+use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('textarea');
 
 /**
  * A textarea field for content creation
@@ -17,7 +22,7 @@ JFormHelper::loadFieldClass('textarea');
  * @see    JEditor
  * @since  1.6
  */
-class JFormFieldEditor extends JFormFieldTextarea
+class EditorField extends \JFormFieldTextarea
 {
 	/**
 	 * The form field type.
@@ -28,9 +33,9 @@ class JFormFieldEditor extends JFormFieldTextarea
 	public $type = 'Editor';
 
 	/**
-	 * The JEditor object.
+	 * The Editor object.
 	 *
-	 * @var    JEditor
+	 * @var    Editor
 	 * @since  1.6
 	 */
 	protected $editor;
@@ -183,18 +188,18 @@ class JFormFieldEditor extends JFormFieldTextarea
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
 
@@ -251,9 +256,9 @@ class JFormFieldEditor extends JFormFieldTextarea
 	}
 
 	/**
-	 * Method to get a JEditor object based on the form field.
+	 * Method to get a Editor object based on the form field.
 	 *
-	 * @return  JEditor  The JEditor object.
+	 * @return  Editor  The Editor object.
 	 *
 	 * @since   1.6
 	 */
@@ -270,7 +275,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 				$types = $this->editorType;
 
 				// Get the database object.
-				$db = JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				// Iterate over teh types looking for an existing editor.
 				foreach ($types as $element)
@@ -298,10 +303,10 @@ class JFormFieldEditor extends JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if ($editor === null)
 			{
-				$editor = JFactory::getConfig()->get('editor');
+				$editor = Factory::getConfig()->get('editor');
 			}
 
-			$this->editor = JEditor::getInstance($editor);
+			$this->editor = Editor::getInstance($editor);
 		}
 
 		return $this->editor;

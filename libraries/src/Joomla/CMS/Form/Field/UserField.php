@@ -1,20 +1,25 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Form\Field;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\User\User;
 
 /**
  * Field to select a user ID from a modal list.
  *
  * @since  1.6
  */
-class JFormFieldUser extends JFormField
+class UserField extends FormField
 {
 	/**
 	 * The form field type.
@@ -51,11 +56,11 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -63,14 +68,14 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @see     JFormField::setup()
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 
 		// If user can't access com_users the field should be readonly.
 		if ($return)
 		{
-			$this->readonly = !JFactory::getUser()->authorise('core.manage', 'com_users');
+			$this->readonly = !Factory::getUser()->authorise('core.manage', 'com_users');
 		}
 
 		return $return;
@@ -87,7 +92,7 @@ class JFormFieldUser extends JFormField
 	{
 		if (empty($this->layout))
 		{
-			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
 		return $this->getRenderer($this->layout)->render($this->getLayoutData());
@@ -107,17 +112,17 @@ class JFormFieldUser extends JFormField
 		$data = parent::getLayoutData();
 
 		// Initialize value
-		$name = JText::_('JLIB_FORM_SELECT_USER');
+		$name = \JText::_('JLIB_FORM_SELECT_USER');
 
 		if (is_numeric($this->value))
 		{
-			$name = JUser::getInstance($this->value)->name;
+			$name = User::getInstance($this->value)->name;
 		}
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) === 'CURRENT')
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
-			$current = JFactory::getUser();
+			$current = Factory::getUser();
 
 			$this->value = $current->id;
 
