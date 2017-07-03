@@ -95,7 +95,7 @@ class CategoryFeed extends HtmlView
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;
-			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+			$author      = $item->created_by_alias ?: $item->author;
 
 			if ($createdField)
 			{

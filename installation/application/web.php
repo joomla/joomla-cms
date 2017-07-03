@@ -10,16 +10,19 @@
 defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseInterface;
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
-use Joomla\DI\Container;
 
 /**
  * Joomla! Installation Application class.
  *
  * @since  3.1
  */
-final class InstallationApplicationWeb extends JApplicationCms
+final class InstallationApplicationWeb extends CMSApplication
 {
 	/**
 	 * Class constructor.
@@ -133,7 +136,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 				$guess = trim($guess);
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -267,7 +270,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function fetchController($task)
 	{
-		if (is_null($task))
+		if ($task === null)
 		{
 			$task = 'default';
 		}
@@ -303,7 +306,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Check that it's a localise file.
-		if ($xml->getName() != 'localise')
+		if ($xml->getName() !== 'localise')
 		{
 			return false;
 		}
@@ -319,23 +322,22 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Returns the installed language files in the administrative and
-	 * frontend area.
+	 * Returns the installed language files in the administrative and frontend area.
 	 *
-	 * @param   mixed  $db  JDatabaseDriver instance.
+	 * @param   DatabaseInterface  $db  Database driver.
 	 *
 	 * @return  array  Array with installed language packs in admin and site area.
 	 *
 	 * @since   3.1
 	 */
-	public function getLocaliseAdmin($db = false)
+	public function getLocaliseAdmin(DatabaseInterface $db = null)
 	{
 		$langfiles = array();
 
 		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			foreach (JLanguageHelper::getInstalledLanguages() as $clientId => $language)
+			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language)
 			{
 				$clientName = $clientId === 0 ? 'site' : 'admin';
 
@@ -348,8 +350,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
@@ -397,7 +399,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$requestLang = $this->input->getCmd('lang', null);
 
-			if (!is_null($requestLang))
+			if ($requestLang !== null)
 			{
 				$options['language'] = $requestLang;
 			}
@@ -423,7 +425,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			}
 			else
 			{
-				$options['language'] = JLanguageHelper::detectLanguage();
+				$options['language'] = LanguageHelper::detectLanguage();
 
 				if (empty($options['language']))
 				{

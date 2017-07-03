@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\View\Database;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerViewDefault;
 
 /**
@@ -39,7 +40,7 @@ class Html extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Set variables
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Get data from the model.
 		$this->changeSet        = $this->get('Items');

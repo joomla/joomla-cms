@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app  = JFactory::getApplication();
-$doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
@@ -18,24 +19,14 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 
-// Add Stylesheets
+// Load template CSS file
 JHtml::_('stylesheet', 'template.min.css', ['version' => 'auto', 'relative' => true]);
 
+// Load custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+
 // Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	JHtml::_('stylesheet', $languageCss, ['version' => 'auto']);
-}
-
-// Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
-
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	JHtml::_('stylesheet', $customCss, ['version' => 'auto']);
-}
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -46,9 +37,9 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
 // Set some meta data
-$doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
-$doc->setMetaData('theme-color', '#1c3d5c');
+$this->setMetaData('theme-color', '#1c3d5c');
 
 ?>
 <!DOCTYPE html>

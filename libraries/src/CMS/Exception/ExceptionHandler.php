@@ -32,6 +32,7 @@ class ExceptionHandler
 	{
 		$expectedClass = PHP_MAJOR_VERSION >= 7 ? '\Throwable' : '\Exception';
 		$isException   = $error instanceof $expectedClass;
+		$isCli         = false;
 
 		// In PHP 5, the $error object should be an instance of \Exception; PHP 7 should be a Throwable implementation
 		if ($isException)
@@ -63,8 +64,11 @@ class ExceptionHandler
 
 				$app = \JFactory::getApplication();
 
+				// Flag if we are on cli
+				$isCli = \JFactory::getApplication()->isClient('cli');
+
 				// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
-				if ($error->getCode() == '404' && $app->get('offline') == 1)
+				if (!$isCli && $error->getCode() == '404' && $app->get('offline') == 1)
 				{
 					$app->redirect('index.php');
 				}
@@ -78,8 +82,7 @@ class ExceptionHandler
 				 */
 				if (\JFactory::$document)
 				{
-					// We're probably in an CLI environment
-					$format = \JFactory::getDocument()->getType();
+					$format = \JFactory::$document->getType();
 				}
 				else
 				{
@@ -98,20 +101,25 @@ class ExceptionHandler
 
 				$data = $renderer->render($error);
 
-				// Do not allow cache
-				$app->allowCache(false);
-
 				// If nothing was rendered, just use the message from the Exception
 				if (empty($data))
 				{
 					$data = $error->getMessage();
 				}
 
-				$app->setBody($data);
+				if ($isCli)
+				{
+					echo $data;
+				}
+				else
+				{
+					// Do not allow cache
+					$app->allowCache(false);
 
-				echo $app->toString();
+					$app->setBody($data);
 
-				$app->close(0);
+					echo $app->toString();
+				}
 
 				// This return is needed to ensure the test suite does not trigger the non-Exception handling below
 				return;
@@ -127,7 +135,7 @@ class ExceptionHandler
 		}
 
 		// This isn't an Exception, we can't handle it.
-		if (!headers_sent())
+		if (!$isCli && !headers_sent())
 		{
 			header('HTTP/1.1 500 Internal Server Error');
 		}

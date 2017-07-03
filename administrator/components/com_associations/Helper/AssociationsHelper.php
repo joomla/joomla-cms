@@ -388,7 +388,8 @@ class AssociationsHelper extends ContentHelper
 			$title       = $helper->getTypeTitle($typeName);
 			$languageKey = $typeName;
 
-			if ($typeName === 'category')
+			$typeNameExploded = explode('.', $typeName);
+			if (array_pop($typeNameExploded) === 'category')
 			{
 				$languageKey = strtoupper($extensionName) . '_CATEGORIES';
 				$context     = 'category';

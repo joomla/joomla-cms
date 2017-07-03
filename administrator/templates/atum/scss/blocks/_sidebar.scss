@@ -17,7 +17,7 @@
   width: 250px;
   height: 100%;
   margin-left: 0;
-  background-color: $atum-template-color-light;
+  background-color: $atum-template-color;
   box-shadow: 0 3px 10px rgba(0,0,0,.5), inset -1px 0 0 rgba(0,0,0,.2);
   transition: all .3s ease;
   .sidebar-brand {
@@ -88,7 +88,7 @@
   overflow-x: visible;
   overflow-y: auto;
   list-style: none;
-  background-color: $atum-template-color-light;
+  background-color: $atum-template-color;
   opacity: 1;
   transition: all .3s ease;
   transition-delay: 0;
@@ -101,13 +101,13 @@
     z-index: -1;
     width: 250px;
     content: "";
-    background-color: $atum-template-color-light;
+    background-color: $atum-template-color;
     transition: all .3s ease;
   }
 
   // Parent items
   > li {
-    background-color: $atum-template-color-light;
+    background-color: $atum-template-color;
     border-bottom: 1px solid rgba(0,0,0,.15);
     &:first-of-type {
       border-top: 1px solid rgba(0,0,0,.15);
@@ -269,7 +269,7 @@
     left: 100% !important;
     height: auto;
     padding: 2px 0;
-    background-color: darken($atum-template-color-light, 6%);
+    background-color: darken($atum-template-color, 6%);
     border-radius: 0 $border-radius $border-radius 0;
     box-shadow: 0 0 8px rgba($black,.2);
 

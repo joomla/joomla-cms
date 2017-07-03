@@ -173,7 +173,7 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		// Block the possibility to set a tag as it own parent
-		if ($this->form->getName() == 'com_tags.tag')
+		if ($this->form->getName() === 'com_tags.tag')
 		{
 			$id   = (int) $this->form->getValue('id', 0);
 
@@ -234,11 +234,11 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	public function isNested()
 	{
-		if (is_null($this->isNested))
+		if ($this->isNested === null)
 		{
 			// If mode="nested" || ( mode not set & config = nested )
-			if ((isset($this->element['mode']) && $this->element['mode'] == 'nested')
-				|| (!isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0))
+			if (isset($this->element['mode']) && $this->element['mode'] === 'nested'
+				|| !isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0)
 			{
 				$this->isNested = true;
 			}
@@ -254,7 +254,7 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && $this->element['custom'] == 'deny')
+		if (isset($this->element['custom']) && $this->element['custom'] === 'deny')
 		{
 			return false;
 		}

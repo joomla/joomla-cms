@@ -82,6 +82,10 @@ Desktop.ini
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production
 # code must remain to ensure all libraries properly function
+/libraries/vendor/fig/link-util/test
+/libraries/vendor/fig/link-util/composer.json
+/libraries/vendor/fig/link-util/phpcs.xml
+/libraries/vendor/fig/link-util/README.md
 /libraries/vendor/ircmaxell/password-compat/test
 /libraries/vendor/ircmaxell/password-compat/.travis.yml
 /libraries/vendor/ircmaxell/password-compat/composer.json
@@ -97,7 +101,9 @@ Desktop.ini
 /libraries/vendor/defuse/php-encryption/.php_cs
 /libraries/vendor/defuse/php-encryption/composer.json
 /libraries/vendor/defuse/php-encryption/README.md
+/libraries/vendor/defuse/php-encryption/psalm.xml
 /libraries/vendor/defuse/php-encryption/test.sh
+/libraries/vendor/joomla/*/.appveyor.yml
 /libraries/vendor/joomla/*/.gitattributes
 /libraries/vendor/joomla/*/.github
 /libraries/vendor/joomla/*/.gitignore
@@ -113,6 +119,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/phpunit.travis.xml
+/libraries/vendor/joomla/*/phpunit.appveyor.xml
 /libraries/vendor/joomla/*/README.md
 /libraries/vendor/leafo/lessphp/docs
 /libraries/vendor/leafo/lessphp/tests
@@ -159,6 +166,8 @@ Desktop.ini
 /libraries/vendor/psr/http-message/CHANGELOG.md
 /libraries/vendor/psr/http-message/composer.json
 /libraries/vendor/psr/http-message/README.md
+/libraries/vendor/psr/link/composer.json
+/libraries/vendor/psr/link/README.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
@@ -170,6 +179,12 @@ Desktop.ini
 /libraries/vendor/symfony/polyfill-util/composer.json
 /libraries/vendor/symfony/polyfill-util/README.md
 /libraries/vendor/symfony/polyfill-util/TestListener.php
+/libraries/vendor/symfony/web-link/Tests
+/libraries/vendor/symfony/web-link/.gitignore
+/libraries/vendor/symfony/web-link/CHANGELOG.md
+/libraries/vendor/symfony/web-link/composer.json
+/libraries/vendor/symfony/web-link/phpunit.xml.dist
+/libraries/vendor/symfony/web-link/README.md
 /libraries/vendor/symfony/yaml/Tests
 /libraries/vendor/symfony/yaml/.gitignore
 /libraries/vendor/symfony/yaml/CHANGELOG.md
@@ -194,3 +209,18 @@ Desktop.ini
 /libraries/vendor/zendframework/zend-diactoros/CONTRIBUTING.md
 /libraries/vendor/zendframework/zend-diactoros/mkdocs.yml
 /libraries/vendor/zendframework/zend-diactoros/README.md
+
+# System Test related files
+tests/codeception/acceptance.suite.yml
+tests/codeception/_support/_generated/*TesterActions.php
+tests/codeception/joomla-cms*
+tests/codeception/_output*
+selenium-server-standalone.jar
+selenium.log
+tests/codeception/cache
+tests/codeception/_output
+tests/codeception/vendor
+composer.phar
+
+# Build related
+RoboFile.ini

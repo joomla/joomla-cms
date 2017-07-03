@@ -337,6 +337,12 @@ abstract class AbstractWebApplication extends AbstractApplication
 			}
 		}
 
+		// Make sure there is a status header already otherwise generate it from the response
+		if (!$this->getResponse()->hasHeader('Status'))
+		{
+			$this->setHeader('Status', $this->getResponse()->getStatusCode());
+		}
+
 		$this->sendHeaders();
 
 		echo $this->getBody();
@@ -687,7 +693,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.8.0
 	 */
 	protected function getHttpStatusValue($value)
 	{
@@ -815,7 +821,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @return  bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.8.0
 	 */
 	protected function isRedirectState($state)
 	{

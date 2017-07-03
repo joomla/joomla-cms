@@ -179,7 +179,7 @@ class Group extends Admin
 		// Check for non-super admin trying to save with super admin group
 		$iAmSuperAdmin = \JFactory::getUser()->authorise('core.admin');
 
-		if ((!$iAmSuperAdmin) && ($groupSuperAdmin))
+		if (!$iAmSuperAdmin && $groupSuperAdmin)
 		{
 			$this->setError(\JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
@@ -203,7 +203,7 @@ class Group extends Admin
 
 				foreach ($otherGroups as $otherGroup)
 				{
-					$otherSuperAdmin = ($otherSuperAdmin) ? $otherSuperAdmin : Access::checkGroup($otherGroup, 'core.admin');
+					$otherSuperAdmin = $otherSuperAdmin ?: Access::checkGroup($otherGroup, 'core.admin');
 				}
 
 				/**

@@ -16,5 +16,4 @@ defined('_JEXEC') or die;
  */
 class TagsHelperRoute extends \Joomla\Component\Tags\Site\Helper\TagsHelperRoute
 {
-
 }

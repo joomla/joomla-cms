@@ -27,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 ?>
-
+<?php if ($displayData->displayMenu || $displayData->displayFilters) : ?>
 <div id="j-toggle-sidebar-wrapper">
 	<div id="sidebar" class="sidebar">
 		<div class="sidebar-nav">
@@ -74,3 +74,4 @@ JFactory::getDocument()->addScriptDeclaration('
 	</div>
 	<div id="j-toggle-sidebar"></div>
 </div>
+<?php endif; ?>
