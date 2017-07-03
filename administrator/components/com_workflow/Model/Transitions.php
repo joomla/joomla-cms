@@ -80,19 +80,24 @@ class Transitions extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$select = 'transition.`id`, transition.`title`, f_status.`title` AS `from_status`, t_status.`title` AS `to_status`';
-		$joinTo = '#__workflow_status AS t_status ON t_status.`id` = transition.`to_status_id`';
-
+		$select = $db->quoteName(array(
+			'transition.id',
+			'transition.title',
+		));
+		$select[] = $db->qn('f_status.title') . ' AS ' . $db->qn('from_status');
+		$select[] = $db->qn('t_status.title') . ' AS ' . $db->qn('to_status');
+		$joinTo = $db->qn('#__workflow_status') . ' AS ' . $db->qn('t_status') . ' ON ' . $db->qn('t_status.id') . ' = ' . $db->qn('transition.to_status_id');
+		
 		$query
 			->select($select)
-			->from('#__workflow_transitions AS transition')
-			->leftJoin('#__workflow_status AS f_status ON f_status.`id` = transition.`from_status_id`')
+			->from($db->qn('#__workflow_transitions') . ' AS ' . $db->qn('transition'))
+			->leftJoin($db->qn('#__workflow_status') . ' AS ' . $db->qn('f_status') . ' ON ' . $db->qn('f_status.id') . ' = ' . $db->qn('transition.from_status_id'))
 			->leftJoin($joinTo);
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where('transition.workflow_id = ' . $db->quote($workflowID));
+			$query->where($db->qn('transition.workflow_id') . ' = ' . $workflowID);
 		}
 
 		return $query;

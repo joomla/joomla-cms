@@ -275,4 +275,31 @@ class ContentHelper extends \JHelperContent
 
 		return $contexts;
 	}
+
+	/**
+	 * Returns array of transitions
+	 *
+	 * @param   string  $state  State of item
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0
+	 */
+	public static function getTransitions($state, $catid)
+	{
+		$db = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+//		$query
+//			->select($db->qn('id'))
+
+		$query
+			->select($db->qn('id') . ' AS value, ' . $db->qn('title') . ' AS text')
+			->from($db->qn('#__workflow_transitions'))
+			->where($db->qn('from_status_id') . ' = ' . (int) $state);
+		$db->setQuery($query);
+		$results = $db->loadAssocList();
+
+		return $results;
+	}
 }

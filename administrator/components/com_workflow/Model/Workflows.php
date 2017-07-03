@@ -83,16 +83,22 @@ class  Workflows extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true);
+		$select = $db->quoteName(array(
+			'id',
+			'title',
+			'created',
+			'modified'
+		));
 		$query
-			->select('id, title, created, modified')
-			->from('#__workflows');
+			->select($select)
+			->from($db->qn('#__workflows'));
 
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where('extension = ' . $db->quote($extension));
+			$query->where($db->qn('extension') . ' = ' . $db->quote($db->escape($extension)));
 		}
 
 		return $query;
