@@ -10,6 +10,9 @@ namespace Joomla\CMS\Utility;
 
 defined('JPATH_PLATFORM') or die;
 
+// Register the stream
+stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+
 /**
  * Generic Buffer stream handler
  *
@@ -223,5 +226,3 @@ class BufferStreamHandler
 		return true;
 	}
 }
-// Register the stream
-stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
