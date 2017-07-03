@@ -74,7 +74,7 @@ class Input extends \Joomla\Input\Input
 			return $this->inputs[$name];
 		}
 
-		$className = 'Input' . ucfirst($name);
+		$className = '\\Joomla\\CMS\\Input\\' . ucfirst($name);
 
 		if (class_exists($className))
 		{
