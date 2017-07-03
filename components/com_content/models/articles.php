@@ -199,7 +199,7 @@ class ContentModelArticles extends JModelList
 					// Use created if publish_up is 0
 					'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-					'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+					'a.hits, a.xreference, a.featured, a.featured_up, a.featured_down, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
 			)
 		);
 
@@ -219,6 +219,8 @@ class ContentModelArticles extends JModelList
 			{
 				$query->where('a.featured = 1');
 			}
+			$query->where('(a.featured_up = ' . $nullDate . ' OR a.featured_up <= ' . $nowDate . ')')
+				->where('(a.featured_down = ' . $nullDate . ' OR a.featured_down >= ' . $nowDate . ')');
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{

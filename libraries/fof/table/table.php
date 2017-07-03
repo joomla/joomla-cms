@@ -3788,6 +3788,8 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 							"core_access"          => $this->getUcmCoreAlias('access'),
 							"core_params"          => $this->getUcmCoreAlias('params'),
 							"core_featured"        => $this->getUcmCoreAlias('featured'),
+							"core_featured_up"     => $this->getUcmCoreAlias('featured_up'),
+							"core_featured_down"   => $this->getUcmCoreAlias('featured_down'),
 							"core_metadata"        => $this->getUcmCoreAlias('metadata'),
 							"core_language"        => $this->getUcmCoreAlias('language'),
 							"core_images"          => $this->getUcmCoreAlias('images'),

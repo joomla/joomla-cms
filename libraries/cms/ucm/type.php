@@ -24,6 +24,8 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string  $core_access
  * @property-read  string  $core_params
  * @property-read  string  $core_featured
+ * @property-read  string  $core_featured_up
+ * @property-read  string  $core_featured_down
  * @property-read  string  $core_metadata
  * @property-read  string  $core_created_user_id
  * @property-read  string  $core_created_by_alias
