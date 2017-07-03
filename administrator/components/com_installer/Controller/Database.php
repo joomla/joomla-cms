@@ -43,6 +43,13 @@ class Database extends Controller
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
 	}
 
+	/**
+	 * Tries to fix missing 3rd party extensions database updates
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function fix3rd()
 	{
 		// Check for request forgeries
