@@ -215,7 +215,7 @@ module.exports = function(grunt) {
 			],
 			options: {
 				config: 'scss-lint.yml',
-				reporterOutput: 'scss-lint-report.xml'
+				reporterOutput: 'scss-lint-report.xml',
 			}
 		},
 
