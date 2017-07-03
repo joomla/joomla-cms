@@ -211,7 +211,7 @@ class Router
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function _($url, $xhtml = true, $ssl = null)
+	public function route($url, $xhtml = true, $ssl = null)
 	{
 		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{

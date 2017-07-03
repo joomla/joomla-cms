@@ -31,10 +31,10 @@ class Route
 	 * @return string The translated humanly readable URL.
 	 *
 	 * @since   11.1
-	 * @deprecated  Use \Joomla\CMS\Factory::getApplication()->getRouter()->_() instead
+	 * @deprecated  Use \Joomla\CMS\Factory::getApplication()->getRouter()->route() instead
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
 	{
-		return \Joomla\CMS\Factory::getApplication()->getRouter()->_($url, $xhtml, $ssl);
+		return \Joomla\CMS\Factory::getApplication()->getRouter()->route($url, $xhtml, $ssl);
 	}
 }
