@@ -521,7 +521,7 @@ abstract class JError
 	 * - Ignores the error
 	 *
 	 * @param   Exception  &$error   Exception object to handle
-	 * @param   array       $options  Handler options
+	 * @param   array      $options  Handler options
 	 *
 	 * @return  Exception   The exception object
 	 *
@@ -541,7 +541,7 @@ abstract class JError
 	 * - Echos the error message to output
 	 *
 	 * @param   Exception  &$error   Exception object to handle
-	 * @param   array       $options  Handler options
+	 * @param   array      $options  Handler options
 	 *
 	 * @return  Exception  The exception object
 	 *
@@ -617,7 +617,7 @@ abstract class JError
 	 * - Echos the error message to output as well as related info
 	 *
 	 * @param   Exception  &$error   Exception object to handle
-	 * @param   array       $options  Handler options
+	 * @param   array      $options  Handler options
 	 *
 	 * @return  Exception  The exception object
 	 *
@@ -663,7 +663,7 @@ abstract class JError
 	 * - Echos the error message to output and then dies
 	 *
 	 * @param   Exception  &$error   Exception object to handle
-	 * @param   array       $options  Handler options
+	 * @param   array      $options  Handler options
 	 *
 	 * @return  void  Calls die()
 	 *
@@ -704,7 +704,7 @@ abstract class JError
 	 * Enqueues the error message into the system queue
 	 *
 	 * @param   Exception  &$error   Exception object to handle
-	 * @param   array       $options  Handler options
+	 * @param   array      $options  Handler options
 	 *
 	 * @return  Exception  The exception object
 	 *
@@ -728,7 +728,7 @@ abstract class JError
 	 * Logs the error message to a system log file
 	 *
 	 * @param   Exception  &$error   Exception object to handle
-	 * @param   array       $options  Handler options
+	 * @param   array      $options  Handler options
 	 *
 	 * @return  Exception  The exception object
 	 *
@@ -765,7 +765,7 @@ abstract class JError
 	 * - Send the error object to a callback method for error handling
 	 *
 	 * @param   Exception  &$error   Exception object to handle
-	 * @param   array       $options  Handler options
+	 * @param   array      $options  Handler options
 	 *
 	 * @return  Exception  The exception object
 	 *
