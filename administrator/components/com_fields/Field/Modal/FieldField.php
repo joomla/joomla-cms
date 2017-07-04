@@ -3,17 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Field\Modal;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Fields Modal Field
  *
  * @since  __DEPLOY_VERSION__
  */
-class JFormFieldModal_Field extends JFormField
+class FieldField extends FormField
 {
 	protected $type = 'Modal_Field';
 
@@ -32,14 +37,14 @@ class JFormFieldModal_Field extends JFormField
 		}
 		else
 		{
-			$context = (string) JFactory::getApplication()->input->get('context', 'com_content');
+			$context = (string) Factory::getApplication()->input->get('context', 'com_content');
 		}
 
 		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
 		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
 		// Load language
-		JFactory::getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
 
 		// Build the script.
 		$script = array();
@@ -72,7 +77,7 @@ class JFormFieldModal_Field extends JFormField
 			$script[] = '	function jClearCategory(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
 			$script[] = '		document.getElementById(id + "_name").value = "' .
-				htmlspecialchars(JText::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
+				htmlspecialchars(\JText::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -82,7 +87,7 @@ class JFormFieldModal_Field extends JFormField
 		}
 
 		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		Factory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
 		$html = array();
@@ -96,7 +101,7 @@ class JFormFieldModal_Field extends JFormField
 
 		if ((int) $this->value > 0)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__fields'))
@@ -107,15 +112,15 @@ class JFormFieldModal_Field extends JFormField
 			{
 				$title = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage());
+				\JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 
 		if (empty($title))
 		{
-			$title = JText::_('COM_FIELDS_SELECT_A_FIELD');
+			$title = \JText::_('COM_FIELDS_SELECT_A_FIELD');
 		}
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -134,24 +139,24 @@ class JFormFieldModal_Field extends JFormField
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35">';
 		$html[] = '<a href="#modalCategory-' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"' . ' title="' .
-			JHtml::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . JText::_('JSELECT') . '</a>';
+			\JHtml::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . \JText::_('JSELECT') . '</a>';
 
 		// Edit field button
 		if ($allowEdit)
 		{
 			$html[] = '<a' . ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"' .
 					' href="index.php?option=com_fields&layout=modal&tmpl=component&task=field.edit&id=' . $value . '"' . ' target="_blank"' .
-					' title="' . JHtml::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT') .
+					' title="' . \JHtml::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . \JText::_('JACTION_EDIT') .
 					'</a>';
 
-			$html[] = JHtml::_(
+			$html[] = \JHtml::_(
 				'bootstrap.renderModal', 'modalCategory-' . $this->id,
 				array(
-					'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-					'title' => JText::_('COM_FIELDS_SELECT_A_FIELD'),
+					'url' => $link . '&amp;' . \JSession::getFormToken() . '=1"',
+					'title' => \JText::_('COM_FIELDS_SELECT_A_FIELD'),
 					'width' => '800px',
 					'height' => '300px',
-					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") .
+					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . \JText::_("JLIB_HTML_BEHAVIOR_CLOSE") .
 						'</button>'
 				)
 			);
@@ -161,7 +166,7 @@ class JFormFieldModal_Field extends JFormField
 		if ($allowClear)
 		{
 			$html[] = '<button' . ' id="' . $this->id . '_clear"' . ' class="btn' . ($value ? '' : ' hidden') . '"' .
-					' onclick="return jClearCategory(\'' . $this->id . '\')">' . '<span class="icon-remove"></span>' . JText::_('JCLEAR') .
+					' onclick="return jClearCategory(\'' . $this->id . '\')">' . '<span class="icon-remove"></span>' . \JText::_('JCLEAR') .
 					'</button>';
 		}
 
