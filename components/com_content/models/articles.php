@@ -294,7 +294,10 @@ class ContentModelArticles extends JModelList
 				break;
 
 			case 'only':
-				$query->where('a.featured = 1');
+				$query->where('a.featured = 1')
+					->where('(a.featured_up = ' . $nullDate . ' OR a.featured_up <= ' . $nowDate . ')')
+					->where('(a.featured_down = ' . $nullDate . ' OR a.featured_down >= ' . $nowDate . ')')
+					;
 				break;
 
 			case 'show':
