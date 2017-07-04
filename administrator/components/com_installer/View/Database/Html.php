@@ -55,7 +55,7 @@ class Html extends InstallerViewDefault
 		$this->errorCount       = count($this->errors);
 		$this->filterForm       = $this->get('FilterForm');
 		$this->activeFilters    = $this->get('ActiveFilters');
-		$this->errorCount3rd    = 0;
+		$this->errorCount3rd    = 1;
 
 		foreach ($this->changeSet as $i => $changeset)
 		{
@@ -80,14 +80,23 @@ class Html extends InstallerViewDefault
 			$this->errorCount++;
 		}
 
+		if ($this->errorCount3rd === 0)
+		{
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_3RD_OK'), 'info');
+		}
+		else
+		{
+			$app->enqueueMessage(\JText::plural('COM_INSTALLER_MSG_DATABASE_3RD_ERRORS', $this->errorCount3rd), 'warning');
+		}
+
 		if ($this->errorCount === 0)
 		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'info');
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_CORE_OK'), 'info');
 		}
 		else
 		{
 			// Database Core Errors
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
 		}
 
 		parent::display($tpl);

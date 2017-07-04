@@ -91,13 +91,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<tbody>
 								<?php foreach ($this->changeSet as $i => $item) : ?>
 									<?php
-										$extension = $item['extension'];
-										$manifest = json_decode($extension->manifest_cache);
+									$extension = $item['extension'];
+									$manifest = json_decode($extension->manifest_cache);
 
 									if (($i == 0) || strcmp($item['schema'], $extension->version_id) == 0)
 									{
 										continue;
 									};
+									\JFactory::getLanguage()->load(strtolower($extension->name) . '.sys');
 									?>
 									<tr class="row<?php echo $i % 2; ?>">
 										<td>
@@ -119,10 +120,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											</label>
 										</td>
 										<td class="center">
-											<?php echo $extension->client_id; ?>
+											<?php echo ($extension->client_id) ? JText::_('JADMINISTRATOR') : JText::_('JSITE'); ?>
 										</td>
 										<td class="center">
-											<?php echo $extension->type; ?>
+											<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 										</td>
 										<td class="hidden-sm-down">
 											<span class="badge badge-warning"><?php echo $extension->version_id; ?></span>
@@ -131,7 +132,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<span class="badge badge-success"><?php echo $item['schema']; ?></span>
 										</td>
 										<td class="hidden-sm-down">
-											<?php echo $extension->folder; ?>N/A
+											<?php echo $extension->folder ?: \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 										</td>
 									</tr>
 								<?php endforeach; ?>
