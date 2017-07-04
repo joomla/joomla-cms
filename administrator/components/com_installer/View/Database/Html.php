@@ -55,7 +55,7 @@ class Html extends InstallerViewDefault
 		$this->errorCount       = count($this->errors);
 		$this->filterForm       = $this->get('FilterForm');
 		$this->activeFilters    = $this->get('ActiveFilters');
-		$this->errorCount3rd    = 1;
+		$this->errorCount3rd    = 0;
 
 		foreach ($this->changeSet as $i => $changeset)
 		{
