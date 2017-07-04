@@ -6,18 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Field;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Fields Groups
  *
  * @since  3.7.0
  */
-class JFormFieldFieldgroups extends JFormFieldList
+class FieldgroupsField extends \JFormFieldList
 {
 	public $type = 'Fieldgroups';
 
@@ -34,10 +38,10 @@ class JFormFieldFieldgroups extends JFormFieldList
 		$states    = $this->element['state'] ?: '0,1';
 		$states    = ArrayHelper::toInteger(explode(',', $states));
 
-		$user       = JFactory::getUser();
+		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('title AS text, id AS value, state');
 		$query->from('#__fields_groups');

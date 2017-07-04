@@ -6,16 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Field;
+
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Fields Contexts
  *
  * @since  3.7.0
  */
-class JFormFieldFieldcontexts extends JFormFieldList
+class FieldcontextsField extends \JFormFieldList
 {
 	public $type = 'Fieldcontexts';
 
@@ -43,7 +47,7 @@ class JFormFieldFieldcontexts extends JFormFieldList
 	{
 		$parts = explode('.', $this->value);
 		$eName = str_replace('com_', '', $parts[0]);
-		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $parts[0] . '/helpers/' . $eName . '.php');
+		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $parts[0] . '/helpers/' . $eName . '.php');
 		$contexts = array();
 
 		if (!file_exists($file))
@@ -54,7 +58,7 @@ class JFormFieldFieldcontexts extends JFormFieldList
 		$prefix = ucfirst($eName);
 		$cName = $prefix . 'Helper';
 
-		JLoader::register($cName, $file);
+		\JLoader::register($cName, $file);
 
 		if (class_exists($cName) && is_callable(array($cName, 'getContexts')))
 		{

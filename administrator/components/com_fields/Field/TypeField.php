@@ -6,33 +6,39 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Field;
+
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Uri\Uri;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Fields Type
  *
  * @since  3.7.0
  */
-class JFormFieldType extends JFormFieldList
+class TypeField extends \JFormFieldList
 {
 	public $type = 'Type';
 
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.7.0
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 
@@ -52,11 +58,11 @@ class JFormFieldType extends JFormFieldList
 	{
 		$options = parent::getOptions();
 
-		$fieldTypes = FieldsHelper::getFieldTypes();
+		$fieldTypes = \FieldsHelper::getFieldTypes();
 
 		foreach ($fieldTypes as $fieldType)
 		{
-			$options[] = JHtml::_('select.option', $fieldType['type'], $fieldType['label']);
+			$options[] = \JHtml::_('select.option', $fieldType['type'], $fieldType['label']);
 		}
 
 		// Sorting the fields based on the text which is displayed
@@ -69,11 +75,11 @@ class JFormFieldType extends JFormFieldList
 		);
 
 		// Reload the page when the type changes
-		$uri = clone JUri::getInstance('index.php');
+		$uri = clone Uri::getInstance('index.php');
 
 		// Removing the catid parameter from the actual URL and set it as
 		// return
-		$returnUri = clone JUri::getInstance();
+		$returnUri = clone Uri::getInstance();
 		$returnUri->setVar('catid', null);
 		$uri->setVar('return', base64_encode($returnUri->toString()));
 
@@ -87,7 +93,7 @@ class JFormFieldType extends JFormFieldList
 		$uri->setVar('layout', null);
 
 
-		JFactory::getDocument()->addScriptDeclaration("
+		Factory::getDocument()->addScriptDeclaration("
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
 			});
