@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '3';
+	const DEV_LEVEL = '4-dev';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Stable';
+	const DEV_STATUS = 'Development';
 
 	/**
 	 * Build number.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '08:03';
+	const RELTIME = '14:00';
 
 	/**
 	 * Release timezone.
