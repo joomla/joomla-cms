@@ -62,6 +62,16 @@ class TagsViewTags extends JViewLegacy
 			$feeditem->date        = $date;
 			$feeditem->category    = 'All Tags';
 			$feeditem->author      = $author;
+			
+			if ($feedEmail === 'site')
+			{
+				$feeditem->authorEmail = $siteEmail;
+			}
+
+			if ($feedEmail === 'author')
+			{
+				$feeditem->authorEmail = $item->email;
+			}
 
 			// Loads item info into RSS array
 			$document->addItem($feeditem);
