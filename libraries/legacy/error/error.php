@@ -87,7 +87,7 @@ abstract class JError
 	/**
 	 * Array containing the error stack
 	 *
-	 * @var    JException[]
+	 * @var    Exception[]
 	 * @since  1.6
 	 * @deprecated  1.7
 	 */
@@ -115,7 +115,7 @@ abstract class JError
 	 *
 	 * @param   boolean  $unset  True to remove the error from the stack.
 	 *
-	 * @return  JException|boolean  Last JException object in the error stack or boolean false if none exist
+	 * @return  Exception|boolean  Last Exception object in the error stack or boolean false if none exist
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -144,7 +144,7 @@ abstract class JError
 	/**
 	 * Method for retrieving the exception stack
 	 *
-	 * @return  JException[]  Chronological array of errors that have been stored during script execution
+	 * @return  Exception[]  Chronological array of errors that have been stored during script execution
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -157,9 +157,9 @@ abstract class JError
 	}
 
 	/**
-	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
+	 * Method to add non-JError thrown Exceptions to the JError stack for debugging purposes
 	 *
-	 * @param   JException  &$e  Add an exception to the stack.
+	 * @param   Exception  &$e  Add an exception to the stack.
 	 *
 	 * @return  void
 	 *
@@ -174,7 +174,7 @@ abstract class JError
 	}
 
 	/**
-	 * Create a new JException object given the passed arguments
+	 * Create a new Exception object given the passed arguments
 	 *
 	 * @param   integer  $level      The error level - use any of PHP's own error levels for
 	 *                               this: E_ERROR, E_WARNING, E_NOTICE, E_USER_ERROR,
@@ -186,11 +186,11 @@ abstract class JError
 	 *                               like a database DSN).
 	 * @param   boolean  $backtrace  Add a stack backtrace to the exception.
 	 *
-	 * @return  JException
+	 * @return  Exception
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
-	 * @see         JException
+	 * @see         Exception
 	 */
 	public static function raise($level, $code, $msg, $info = null, $backtrace = false)
 	{
@@ -205,13 +205,13 @@ abstract class JError
 	/**
 	 * Throw an error
 	 *
-	 * @param   JException  &$exception  An exception to throw.
+	 * @param   Exception  &$exception  An exception to throw.
 	 *
-	 * @return  JException  A reference to the handled JException object
+	 * @return  Exception  A reference to the handled Exception object
 	 *
 	 * @since   1.6
 	 * @deprecated  1.7
-	 * @see     JException
+	 * @see     Exception
 	 */
 	public static function throwError(&$exception)
 	{
@@ -248,7 +248,7 @@ abstract class JError
 				'<br><strong>Error was</strong> <br>' . $exception->getMessage()
 			);
 		}
-		// We don't need to store the error, since JException already does that for us!
+		// We don't need to store the error, since Exception already does that for us!
 		// Remove loop check
 		$thrown = false;
 
@@ -264,7 +264,7 @@ abstract class JError
 	 *                         developer-relevant information that the user should
 	 *                         never see, like a database DSN).
 	 *
-	 * @return  JException  $error  The thrown JException object
+	 * @return  Exception  $error  The thrown Exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -286,7 +286,7 @@ abstract class JError
 	 *                         developer-relevant information that
 	 *                         the user should never see, like a database DSN).
 	 *
-	 * @return  JException  $error  The thrown JException object
+	 * @return  Exception  $error  The thrown Exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -308,7 +308,7 @@ abstract class JError
 	 *                         developer-relevant information that the user
 	 *                         should never see, like a database DSN).
 	 *
-	 * @return  JException  $error  The thrown JException object
+	 * @return  Exception  $error  The thrown Exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -361,7 +361,7 @@ abstract class JError
 	 * @param   string   $mode     The mode to use for the error handling.
 	 * @param   mixed    $options  Optional: Any options needed for the given mode.
 	 *
-	 * @return  boolean|JException  True on success or a JException object if failed.
+	 * @return  boolean|Exception  True on success or a Exception object if failed.
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -520,10 +520,10 @@ abstract class JError
 	 * Ignore error handler
 	 * - Ignores the error
 	 *
-	 * @param   JException  &$error   Exception object to handle
+	 * @param   Exception  &$error   Exception object to handle
 	 * @param   array       $options  Handler options
 	 *
-	 * @return  JException   The exception object
+	 * @return  Exception   The exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -540,10 +540,10 @@ abstract class JError
 	 * Echo error handler
 	 * - Echos the error message to output
 	 *
-	 * @param   JException  &$error   Exception object to handle
+	 * @param   Exception  &$error   Exception object to handle
 	 * @param   array       $options  Handler options
 	 *
-	 * @return  JException  The exception object
+	 * @return  Exception  The exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -616,10 +616,10 @@ abstract class JError
 	 * Verbose error handler
 	 * - Echos the error message to output as well as related info
 	 *
-	 * @param   JException  &$error   Exception object to handle
+	 * @param   Exception  &$error   Exception object to handle
 	 * @param   array       $options  Handler options
 	 *
-	 * @return  JException  The exception object
+	 * @return  Exception  The exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -662,7 +662,7 @@ abstract class JError
 	 * Die error handler
 	 * - Echos the error message to output and then dies
 	 *
-	 * @param   JException  &$error   Exception object to handle
+	 * @param   Exception  &$error   Exception object to handle
 	 * @param   array       $options  Handler options
 	 *
 	 * @return  void  Calls die()
@@ -703,10 +703,10 @@ abstract class JError
 	 * Message error handler
 	 * Enqueues the error message into the system queue
 	 *
-	 * @param   JException  &$error   Exception object to handle
+	 * @param   Exception  &$error   Exception object to handle
 	 * @param   array       $options  Handler options
 	 *
-	 * @return  JException  The exception object
+	 * @return  Exception  The exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -727,10 +727,10 @@ abstract class JError
 	 * Log error handler
 	 * Logs the error message to a system log file
 	 *
-	 * @param   JException  &$error   Exception object to handle
+	 * @param   Exception  &$error   Exception object to handle
 	 * @param   array       $options  Handler options
 	 *
-	 * @return  JException  The exception object
+	 * @return  Exception  The exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -764,10 +764,10 @@ abstract class JError
 	 * Callback error handler
 	 * - Send the error object to a callback method for error handling
 	 *
-	 * @param   JException  &$error   Exception object to handle
+	 * @param   Exception  &$error   Exception object to handle
 	 * @param   array       $options  Handler options
 	 *
-	 * @return  JException  The exception object
+	 * @return  Exception  The exception object
 	 *
 	 * @since   1.5
 	 * @deprecated  1.7
@@ -783,7 +783,7 @@ abstract class JError
 	/**
 	 * Display a custom error page and exit gracefully
 	 *
-	 * @param   JException  $error  Exception object
+	 * @param   Exception  $error  Exception object
 	 *
 	 * @return  void
 	 *

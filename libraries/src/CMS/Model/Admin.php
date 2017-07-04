@@ -1286,7 +1286,7 @@ abstract class Admin extends Form
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  boolean|\JException  Boolean true on success, false on failure, or \JException if no items are selected
+	 * @return  boolean|\Exception  Boolean true on success, false on failure, or \Exception if no items are selected
 	 *
 	 * @since   1.6
 	 */

@@ -24,7 +24,7 @@ class Html extends HtmlView
 	/**
 	 * True, if FTP settings should be shown, or an exception.
 	 *
-	 * @var boolean|\JException
+	 * @var boolean|\Exception
 	 */
 	protected $ftp = null;
 

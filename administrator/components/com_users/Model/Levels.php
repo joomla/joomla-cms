@@ -181,7 +181,7 @@ class Levels extends ListModel
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  Order position
 	 *
-	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
+	 * @return  boolean|\Exception  Boolean true on success, boolean false or \Exception instance on error
 	 */
 	public function saveorder($pks, $order)
 	{

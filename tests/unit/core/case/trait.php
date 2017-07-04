@@ -45,7 +45,7 @@ trait TestCaseTrait
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException  $error  The JException object from JError
+	 * @param   Exception  $error  The Exception object from JError
 	 *
 	 * @return  boolean  To not continue with JError processing
 	 *
@@ -115,9 +115,9 @@ trait TestCaseTrait
 	 * If a test expects a JError to be raised, it should call this setExpectedError first
 	 * If you don't call this method first, the test will fail.
 	 *
-	 * @param   JException  $error  The JException object from JError
+	 * @param   Exception  $error  The Exception object from JError
 	 *
-	 * @return  JException
+	 * @return  Exception
 	 *
 	 * @deprecated  13.1
 	 * @since       12.1
@@ -316,7 +316,7 @@ trait TestCaseTrait
 	 *
 	 * If passed without argument, the array is initialized if it hsn't been already
 	 *
-	 * @param   mixed  $error  The JException object to expect.
+	 * @param   mixed  $error  The Exception object to expect.
 	 *
 	 * @return  void
 	 *

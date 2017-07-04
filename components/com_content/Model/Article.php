@@ -70,7 +70,7 @@ class Article extends Item
 	 *
 	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  object|boolean|\JException  Menu item data object on success, boolean false or JException instance on error
+	 * @return  object|boolean|\Exception  Menu item data object on success, boolean false or Exception instance on error
 	 */
 	public function getItem($pk = null)
 	{

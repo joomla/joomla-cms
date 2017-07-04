@@ -844,7 +844,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean|\JException  True on success, false if failed or silent handling is configured, or a \JException object on authentication error.
+	 * @return  boolean|\Exception  True on success, false if failed or silent handling is configured, or a \Exception object on authentication error.
 	 *
 	 * @since   3.2
 	 */

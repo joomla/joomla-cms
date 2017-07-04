@@ -57,7 +57,7 @@ class PlgSystemRedirect extends JPlugin
 	/**
 	 * Method to handle an error condition from JError.
 	 *
-	 * @param   Exception  $error  The JException object to be handled.
+	 * @param   Exception  $error  The Exception object to be handled.
 	 *
 	 * @return  void
 	 *

@@ -142,7 +142,7 @@ class Menus extends Controller
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
-	 * @return  \JException|void  \JException instance on error
+	 * @return  \Exception|void  \Exception instance on error
 	 *
 	 * @since   1.6
 	 */

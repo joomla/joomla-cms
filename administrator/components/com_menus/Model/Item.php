@@ -1261,7 +1261,7 @@ class Item extends Admin
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
+	 * @return  boolean|\Exception  Boolean true on success, boolean false or \Exception instance on error
 	 *
 	 * @since   1.6
 	 */

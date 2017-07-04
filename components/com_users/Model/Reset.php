@@ -137,7 +137,7 @@ class Reset extends Form
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  \Exception | \JException | boolean
+	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
 	 */
@@ -236,7 +236,7 @@ class Reset extends Form
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  \Exception | \JException | boolean
+	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
 	 */
@@ -339,7 +339,7 @@ class Reset extends Form
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  \Exception | \JException | boolean
+	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
 	 */

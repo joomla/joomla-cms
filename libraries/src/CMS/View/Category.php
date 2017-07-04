@@ -101,7 +101,7 @@ class Category extends HtmlView
 	/**
 	 * Method with common display elements used in category list displays
 	 *
-	 * @return  boolean|\JException|void  Boolean false or \JException instance on error, nothing otherwise
+	 * @return  boolean|\Exception|void  Boolean false or \Exception instance on error, nothing otherwise
 	 *
 	 * @since   3.2
 	 */

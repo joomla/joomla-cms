@@ -383,7 +383,7 @@ class Module extends Admin
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean|\JException  Boolean true on success, \JException instance on error
+	 * @return  boolean|\Exception  Boolean true on success, \Exception instance on error
 	 *
 	 * @since   1.6
 	 * @throws  \Exception

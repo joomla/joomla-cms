@@ -32,7 +32,7 @@ class JCacheStorageTest extends TestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException  $error  The JException object from JError
+	 * @param   Exception  $error  The Exception object from JError
 	 *
 	 * @return  boolean  To not continue with JError processing
 	 */
