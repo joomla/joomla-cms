@@ -73,7 +73,8 @@ class Html extends HtmlView
 		$this->state            = $this->get('State');
 		$this->transitions      = $this->get('Items');
 		$this->pagination       = $this->get('Pagination');
-
+		var_dump($this->state);
+		die;
 		WorkflowHelper::addSubmenu("transitions." . $this->state->get("filter.workflow_id"));
 		$this->sidebar       = \JHtmlSidebar::render();
 

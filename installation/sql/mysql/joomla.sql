@@ -2115,7 +2115,8 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) DEFAULT NULL, # TODO replace with real value
+  `asset_id` int(10) DEFAULT 0, # TODO replace with real value
+  `condition` enum('1','2','3') NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `extension` varchar(255) NOT NULL,
@@ -2136,10 +2137,10 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 ) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `#__workflow_status`
+-- Dumping data for table `#__workflow_states`
 --
 
-CREATE TABLE IF NOT EXISTS `#__workflow_status` (
+CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `workflow_id` int(10) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -2160,16 +2161,16 @@ CREATE TABLE IF NOT EXISTS `#__workflow_status` (
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `asset_id` int(10) DEFAULT NULL, # TODO replace with real value
+  `asset_id` int(10) DEFAULT 0,
   `description` text NOT NULL,
-  `from_status_id` int(10) NOT NULL,
-  `to_status_id` int(10) NOT NULL,
+  `from_state_id` int(10) NOT NULL,
+  `to_state_id` int(10) NOT NULL,
   `workflow_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `title` (`title`(191)),
   KEY `asset_id` (`asset_id`),
-  KEY `from_status_id` (`from_status_id`),
-  KEY `to_status_id` (`to_status_id`),
+  KEY `from_state_id` (`from_state_id`),
+  KEY `to_state_id` (`to_state_id`),
   KEY `workflow_id` (`workflow_id`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
 

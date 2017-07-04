@@ -34,7 +34,7 @@ class Workflow extends Table
 	}
 
 	/**
-	 * Deletes workflow with transition and statuses.
+	 * Deletes workflow with transition and states.
 	 *
 	 * @param   int  $pk  Extension ids to delete.
 	 *
@@ -58,7 +58,7 @@ class Workflow extends Table
 		try
 		{
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflow_status'))
+				->delete($db->qn('#__workflow_states'))
 				->where($db->qn('workflow_id') . ' = ' . (int) $pk);
 			$db->setQuery($query);
 			$db->execute();

@@ -23,7 +23,7 @@ $columns = 6;
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php if (empty($this->statuses)) : ?>
+				<?php if (empty($this->states)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>

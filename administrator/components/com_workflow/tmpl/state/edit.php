@@ -22,7 +22,7 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=status&workflow_id=' . $input->getCmd('workflow_id') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=state&workflow_id=' . $input->getCmd('workflow_id') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -55,6 +55,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<?php echo $this->form->getInput('workflow_id'); ?>
-	<input type="hidden" name="task" value="status.edit" />
+	<input type="hidden" name="task" value="state.edit" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

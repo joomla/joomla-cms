@@ -44,7 +44,7 @@ class Transition extends Admin
 			$isNew = false;
 		}
 
-		if ($data['to_status_id'] == $data['from_status_id'])
+		if ($data['to_state_id'] == $data['from_state_id'])
 		{
 			return false;
 		}
@@ -54,7 +54,7 @@ class Transition extends Admin
 			->select($db->qn('id'))
 			->from($db->qn('#__workflow_transitions'))
 			->where(
-				$db->qn('from_status_id') . ' = ' . (int) $data['from_status_id'] . ' AND ' . $db->qn('to_status_id') . ' = ' . (int) $data['to_status_id']
+				$db->qn('from_state_id') . ' = ' . (int) $data['from_state_id'] . ' AND ' . $db->qn('to_state_id') . ' = ' . (int) $data['to_state_id']
 			);
 
 		if (!$isNew)

@@ -14,8 +14,8 @@ defined('_JEXEC') or die('Restricted Access');
 $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 
 ?>
-<?php foreach ($this->statuses as $i => $item):
-	$link = JRoute::_('index.php?option=com_workflow&task=status.edit&id=' . $item->id . '&workflow_id=' . $workflowID);
+<?php foreach ($this->states as $i => $item):
+	$link = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . $workflowID);
 	?>
 	<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->id; ?>">
 		<td class="order nowrap text-center hidden-sm-down">

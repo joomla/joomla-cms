@@ -40,18 +40,18 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 				</div>
 				<div class="control-group">
 					<div class="control-label">
-						<?php echo $this->form->getLabel('from_status_id'); ?>
+						<?php echo $this->form->getLabel('from_state_id'); ?>
 					</div>
 					<div class="controls">
-						<?php echo $this->form->getInput('from_status_id'); ?>
+						<?php echo $this->form->getInput('from_state_id'); ?>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="control-label">
-						<?php echo $this->form->getLabel('to_status_id'); ?>
+						<?php echo $this->form->getLabel('to_state_id'); ?>
 					</div>
 					<div class="controls">
-						<?php echo $this->form->getInput('to_status_id'); ?>
+						<?php echo $this->form->getInput('to_state_id'); ?>
 					</div>
 				</div>
 			</div>

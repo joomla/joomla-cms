@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php echo JText::_('COM_WORKFLOW_TITLE'); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
-		<?php echo JText::_('COM_WORKFLOW_STATUSES'); ?>
+		<?php echo JText::_('COM_WORKFLOW_STATES'); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_TRANSITIONS'); ?>
