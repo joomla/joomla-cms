@@ -183,7 +183,7 @@ class Reset extends Form
 		// Check the token and user id.
 		if (empty($token) || empty($userId))
 		{
-			return new \JException(\JText::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
+			return new \Exception(\JText::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
 		}
 
 		// Get the user object.
@@ -221,7 +221,7 @@ class Reset extends Form
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \JException(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Flush the user data from the session.
@@ -292,7 +292,7 @@ class Reset extends Form
 		}
 		catch (\RuntimeException $e)
 		{
-			return new \JException(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			return new \Exception(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 		}
 
 		// Check for a user.
@@ -446,7 +446,7 @@ class Reset extends Form
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \JException(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Assemble the password reset confirmation link.

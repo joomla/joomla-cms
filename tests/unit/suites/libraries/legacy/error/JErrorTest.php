@@ -94,7 +94,7 @@ class JErrorTest extends TestCase
 
 		JErrorInspector::manipulateStack(array('value1', 'value2', 'value3'));
 
-		$exception = new JException('This is the error message', 1056, 'error');
+		$exception = new Exception('This is the error message', 1056);
 
 		JError::addToStack($exception);
 

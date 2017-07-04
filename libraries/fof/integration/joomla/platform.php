@@ -134,7 +134,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 				else
 				{
                     $app = JFactory::getApplication();
-					$isCLI = $app instanceof JException || $app instanceof JApplicationCli;
+					$isCLI = $app instanceof Exception || $app instanceof JApplicationCli;
 				}
 			}
 			catch (Exception $e)

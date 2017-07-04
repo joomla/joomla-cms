@@ -166,7 +166,7 @@ abstract class JError
 	 * @since   1.6
 	 * @deprecated  1.7
 	 */
-	public static function addToStack(JException &$e)
+	public static function addToStack(Exception &$e)
 	{
 		JLog::add('JError::addToStack() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -197,7 +197,7 @@ abstract class JError
 		JLog::add('JError::raise() is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Build error object
-		$exception = new JException($msg, $code, $level, $info, $backtrace);
+		$exception = new Exception($msg, $code);
 
 		return self::throwError($exception);
 	}
