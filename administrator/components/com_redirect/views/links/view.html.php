@@ -77,6 +77,16 @@ class RedirectViewLinks extends JViewLegacy
 				'class="alert-link" data-toggle="modal" id="title-' . $this->redirectPluginId . '"'
 			);
 
+			// To be removed in Joomla 4
+			if (JFactory::getApplication()->getTemplate() === 'hathor')
+			{
+				$link = JHtml::_(
+					'link',
+					JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId()),
+					JText::_('COM_REDIRECT_SYSTEM_PLUGIN')
+				);
+			}
+
 			if ($this->enabled && !$this->collect_urls_enabled)
 			{
 				$app->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link), 'notice');
