@@ -14,7 +14,7 @@ $tparams = $this->item->params;
 
 ?>
 
-<div class="contact<?php echo $this->pageclass_sfx?; >">
+<div class="contact<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($tparams->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($tparams->get('page_heading')); ?>
