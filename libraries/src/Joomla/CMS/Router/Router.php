@@ -634,7 +634,7 @@ class Router
 
 		foreach ($this->_rules['build' . $stage] as $rule)
 		{
-			$rule($this, $uri);
+			call_user_func_array($rule, array(&$this, &$uri));
 		}
 	}
 

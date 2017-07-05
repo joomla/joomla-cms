@@ -105,6 +105,7 @@ $doNotPackage = array(
 	'.drone.yml',
 	'.github',
 	'.gitignore',
+	'.hound.yml',
 	'.php_cs',
 	'.travis.yml',
 	'README.md',

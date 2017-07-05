@@ -7,8 +7,8 @@ BASE="$1"
 # Abort travis execution if setup fails
 set -e
 
-# Disable xdebug on php 7.0.* and lower.
-if [[ ( $TRAVIS_PHP_VERSION = 5.* ) || ( $TRAVIS_PHP_VERSION = 7.0 ) ]]; then phpenv config-rm xdebug.ini; fi
+# Disable xdebug.
+phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 # Make sure all dev dependencies are installed
 composer install
@@ -27,6 +27,5 @@ if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add "$BASE/build/travis/
 if [[ $INSTALL_MEMCACHED == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcached.ini"; fi
 if [[ $INSTALL_APC == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini"; fi
 if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 5.* ]]; then printf "\n" | pecl install apcu-4.0.10 && phpenv config-add "$BASE/build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini"; fi
-if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 7.* ]]; then printf "\n" | pecl install apcu-beta && phpenv config-add "$BASE/build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini"; fi
-if [[ $INSTALL_APCU_BC_BETA == "yes" ]]; then printf "\n" | pecl install apcu_bc-beta; fi
+if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 7.* ]]; then printf "\n" | pecl install apcu && phpenv config-add "$BASE/build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini"; fi
 if [[ $INSTALL_REDIS == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/redis.ini"; fi
