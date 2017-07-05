@@ -189,7 +189,7 @@ abstract class JError
 	 * @return  JException
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0 Throw an Exception or enqueue the message to the application, eg. \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg)
+	 * @deprecated  4.0
 	 * @see         JException
 	 */
 	public static function raise($level, $code, $msg, $info = null, $backtrace = false)
