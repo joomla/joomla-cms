@@ -37,14 +37,15 @@ class Status extends Table
 	 *
 	 * @param   int  $pk  Extension ids to delete.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success.
 	 *
 	 * @since   4.0
 	 *
-	 * @throws  \Exception on ACL error
+	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
 	{
+		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
 		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
 		{
 			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
@@ -58,15 +59,12 @@ class Status extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__workflow_transitions'))
-				->where($db->qn('to_status_id') . ' = ' . (int) $pk . ' OR ' . $db->qn('from_status_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+				->where($db->qn('to_status_id') . ' = ' . (int) $pk, 'OR')
+				->where($db->qn('from_status_id') . ' = ' . (int) $pk);
 
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflow_status'))
-				->where($db->qn('id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+			$db->setQuery($query)->execute();
+
+			return parent::delete($pk);
 
 		}
 		catch (\RuntimeException $e)
@@ -76,14 +74,12 @@ class Status extends Table
 				->select($db->qn(array('id', 'title')))
 				->from($db->qn('#__workflows'))
 				->where($db->qn('id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$workflows = $db->loadObjectList();
+
+			$workflows = $db->setQuery($query)->loadObjectList();
 
 			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflows[$pk]->title, $e->getMessage()), 'error');
-
-			return;
 		}
 
-		$app->enqueueMessage(\JText::plural('COM_WORKFLOW_N_ITEMS_DELETED_1', 1), 'message');
+		return false;
 	}
 }
