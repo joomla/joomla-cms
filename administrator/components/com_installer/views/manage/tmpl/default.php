@@ -103,7 +103,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->name; ?>
 								</span>
 							</label>
-							<?php if ($item->extension_id > 9999 && $item->update_site_id === null && $item->update_site_id_pkg === null) : ?>
+							<?php if (JExtensionHelper::checkIfCoreExtension($item->type, $item->element, $item->client_id, $item->folder) === false && $item->update_site_id === null && $item->update_site_id_pkg === null) : ?>
 								<span class="badge badge-important bold hasTooltip"
 									title="<?php echo JText::_('COM_INSTALLER_UPDATE_NOT_SUPPORTED_DESC'); ?>">
 									<?php echo JText::_('COM_INSTALLER_UPDATE_NOT_SUPPORTED'); ?>
