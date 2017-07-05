@@ -69,11 +69,7 @@ class Workflow extends Table
 			$db->setQuery($query);
 			$db->execute();
 
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflows'))
-				->where($db->qn('id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+			return parent::delete($pk);
 
 		}
 		catch (\RuntimeException $e)
@@ -91,7 +87,7 @@ class Workflow extends Table
 			return;
 		}
 
-		$app->enqueueMessage(\JText::plural('COM_WORKFLOW_N_ITEMS_DELETED_1', 1), 'message');
+		return false;
 	}
 
 }

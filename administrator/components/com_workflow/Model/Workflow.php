@@ -106,4 +106,19 @@ class Workflow extends Admin
 		return $data;
 	}
 
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
+	 *
+	 * @since   4.0
+	 */
+	protected function canDelete($record)
+	{
+		// @TODO check here if the record can be deleted (no item is assigned to a status etc...)
+		return parent::canDelete($record);
+	}
+
 }
