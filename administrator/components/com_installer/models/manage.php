@@ -298,7 +298,7 @@ class InstallerModelManage extends InstallerModel
 			->select('2*e.protected+(1-e.protected)*e.enabled AS status')
 			->from('#__extensions AS e')
 			->leftJoin('#__update_sites_extensions AS u1 ON u1.extension_id = e.extension_id')
-			->leftJoin('#__update_sites_extensions AS u2 ON u2.extension_id = e.extension_id')
+			->leftJoin('#__update_sites_extensions AS u2 ON u2.extension_id = e.package_id')
  			->where('e.state = 0');
 
 		// Process select filters.
