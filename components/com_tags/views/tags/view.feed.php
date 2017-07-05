@@ -52,7 +52,7 @@ class TagsViewTags extends JViewLegacy
 			// Strip HTML from feed item description text
 			$description = $item->description;
 			$author      = $item->created_by_alias ?: $item->created_user_id;
-			$date        = ($item->created_time ? date('r', strtotime($item->created_time)) : '');
+			$date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
 
 			// Load individual item creator class
 			$feeditem = new JFeedItem;
@@ -62,7 +62,7 @@ class TagsViewTags extends JViewLegacy
 			$feeditem->date        = $date;
 			$feeditem->category    = 'All Tags';
 			$feeditem->author      = $author;
-			
+
 			if ($feedEmail === 'site')
 			{
 				$feeditem->authorEmail = $siteEmail;
