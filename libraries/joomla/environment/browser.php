@@ -271,12 +271,14 @@ class JBrowser
 			}
 
 			// Opera 15+
-			elseif (preg_match('/OPR[\/ ]([0-9.]+)/', $this->agent, $version))
+			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
-			elseif (preg_match('/Chrome[\/ ]([0-9.]+)|CrMo[\/ ]([0-9.]+)|CriOS[\/ ]([0-9.]+)/i', $this->agent, $version))
+			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->agent, $version)
+				|| preg_match('|CrMo[/ ]([0-9.]+)|', $this->agent, $version)
+				|| preg_match('|CriOS[/ ]([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('chrome');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
@@ -287,7 +289,9 @@ class JBrowser
 			{
 				$this->setBrowser('palm');
 			}
-			elseif ((preg_match('/MSIE ([0-9.]+)|Internet Explorer\/([0-9.]+)|Trident\/([0-9.]+)/i', $this->agent, $version)))
+			elseif (preg_match('|MSIE ([0-9.]+)|', $this->agent, $version)
+				|| preg_match('|Internet Explorer/([0-9.]+)|', $this->agent, $version)
+				|| preg_match('|Trident/([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('msie');
 
