@@ -13,19 +13,17 @@ defined('_JEXEC') or die;
  * Marker_class: Class based on the selection of text, none, or icons
  * jicon-text, jicon-none, jicon-icon
  */
-
-$tparams = $this->item->params;
-
 ?>
 <dl class="contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-	<?php if (($tparams->get('address_check') > 0) && ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
+	<?php if (($this->params->get('address_check') > 0) &&
+		($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
 		<dt>
-			<span class="<?php echo $tparams->get('marker_class'); ?>">
-				<?php echo $tparams->get('marker_address'); ?>
+			<span class="<?php echo $this->params->get('marker_class'); ?>">
+				<?php echo $this->params->get('marker_address'); ?>
 			</span>
 		</dt>
 
-		<?php if ($this->contact->address && $tparams->get('show_street_address')) : ?>
+		<?php if ($this->contact->address && $this->params->get('show_street_address')) : ?>
 			<dd>
 				<span class="contact-street" itemprop="streetAddress">
 					<?php echo nl2br($this->contact->address); ?>
@@ -34,7 +32,7 @@ $tparams = $this->item->params;
 			</dd>
 		<?php endif; ?>
 
-		<?php if ($this->contact->suburb && $tparams->get('show_suburb')) : ?>
+		<?php if ($this->contact->suburb && $this->params->get('show_suburb')) : ?>
 			<dd>
 				<span class="contact-suburb" itemprop="addressLocality">
 					<?php echo $this->contact->suburb; ?>
@@ -42,7 +40,7 @@ $tparams = $this->item->params;
 				</span>
 			</dd>
 		<?php endif; ?>
-		<?php if ($this->contact->state && $tparams->get('show_state')) : ?>
+		<?php if ($this->contact->state && $this->params->get('show_state')) : ?>
 			<dd>
 				<span class="contact-state" itemprop="addressRegion">
 					<?php echo $this->contact->state; ?>
@@ -50,7 +48,7 @@ $tparams = $this->item->params;
 				</span>
 			</dd>
 		<?php endif; ?>
-		<?php if ($this->contact->postcode && $tparams->get('show_postcode')) : ?>
+		<?php if ($this->contact->postcode && $this->params->get('show_postcode')) : ?>
 			<dd>
 				<span class="contact-postcode" itemprop="postalCode">
 					<?php echo $this->contact->postcode; ?>
@@ -58,7 +56,7 @@ $tparams = $this->item->params;
 				</span>
 			</dd>
 		<?php endif; ?>
-		<?php if ($this->contact->country && $tparams->get('show_country')) : ?>
+		<?php if ($this->contact->country && $this->params->get('show_country')) : ?>
 		<dd>
 			<span class="contact-country" itemprop="addressCountry">
 				<?php echo $this->contact->country; ?>
@@ -68,10 +66,10 @@ $tparams = $this->item->params;
 		<?php endif; ?>
 	<?php endif; ?>
 
-<?php if ($this->contact->email_to && $tparams->get('show_email')) : ?>
+<?php if ($this->contact->email_to && $this->params->get('show_email')) : ?>
 	<dt>
-		<span class="<?php echo $tparams->get('marker_class'); ?>" itemprop="email">
-			<?php echo nl2br($tparams->get('marker_email')); ?>
+		<span class="<?php echo $this->params->get('marker_class'); ?>" itemprop="email">
+			<?php echo nl2br($this->params->get('marker_email')); ?>
 		</span>
 	</dt>
 	<dd>
@@ -81,10 +79,10 @@ $tparams = $this->item->params;
 	</dd>
 <?php endif; ?>
 
-<?php if ($this->contact->telephone && $tparams->get('show_telephone')) : ?>
+<?php if ($this->contact->telephone && $this->params->get('show_telephone')) : ?>
 	<dt>
-		<span class="<?php echo $tparams->get('marker_class'); ?>">
-			<?php echo $tparams->get('marker_telephone'); ?>
+		<span class="<?php echo $this->params->get('marker_class'); ?>">
+			<?php echo $this->params->get('marker_telephone'); ?>
 		</span>
 	</dt>
 	<dd>
@@ -93,10 +91,10 @@ $tparams = $this->item->params;
 		</span>
 	</dd>
 <?php endif; ?>
-<?php if ($this->contact->fax && $tparams->get('show_fax')) : ?>
+<?php if ($this->contact->fax && $this->params->get('show_fax')) : ?>
 	<dt>
-		<span class="<?php echo $tparams->get('marker_class'); ?>">
-			<?php echo $tparams->get('marker_fax'); ?>
+		<span class="<?php echo $this->params->get('marker_class'); ?>">
+			<?php echo $this->params->get('marker_fax'); ?>
 		</span>
 	</dt>
 	<dd>
@@ -105,10 +103,10 @@ $tparams = $this->item->params;
 		</span>
 	</dd>
 <?php endif; ?>
-<?php if ($this->contact->mobile && $tparams->get('show_mobile')) : ?>
+<?php if ($this->contact->mobile && $this->params->get('show_mobile')) : ?>
 	<dt>
-		<span class="<?php echo $tparams->get('marker_class'); ?>">
-			<?php echo $tparams->get('marker_mobile'); ?>
+		<span class="<?php echo $this->params->get('marker_class'); ?>">
+			<?php echo $this->params->get('marker_mobile'); ?>
 		</span>
 	</dt>
 	<dd>
@@ -117,9 +115,9 @@ $tparams = $this->item->params;
 		</span>
 	</dd>
 <?php endif; ?>
-<?php if ($this->contact->webpage && $tparams->get('show_webpage')) : ?>
+<?php if ($this->contact->webpage && $this->params->get('show_webpage')) : ?>
 	<dt>
-		<span class="<?php echo $tparams->get('marker_class'); ?>">
+		<span class="<?php echo $this->params->get('marker_class'); ?>">
 		</span>
 	</dt>
 	<dd>
