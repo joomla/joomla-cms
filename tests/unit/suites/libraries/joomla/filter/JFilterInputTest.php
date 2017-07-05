@@ -1351,19 +1351,19 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'tracker25558b' => array(
 				'string',
 				'<IMG STYLE="xss:expression(alert(\'XSS\'))" />',
-				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'<IMG style="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558c' => array(
 				'string',
 				'<IMG STYLE="xss:expr/*XSS*/ession(alert(\'XSS\'))" />',
-				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'<IMG style="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558d' => array(
 				'string',
 				'<IMG STYLE="xss:expr/*XSS*/ess/*another comment*/ion(alert(\'XSS\'))" />',
-				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'<IMG style="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558e' => array(
