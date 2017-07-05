@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 103, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 105, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -82,7 +82,9 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (51, 18, 66, 67, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
 (52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
-(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}');
+(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
+(55, 1, 103, 104, 2, 'com_workflow', 'Transition', '{}'),
+(56, 55, 103, 104, 2, 'com_workflow.transition.1', 'Transition', '{}'),;
 
 -- --------------------------------------------------------
 
@@ -2120,6 +2122,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `description` text NOT NULL,
   `extension` varchar(255) NOT NULL,
   `default` tinyint(1) NOT NULL,
+  `condition` enum('1','2','3') NOT NULL,
   `created` datetime NOT NULL DEFAULT NOW(),
   `created_by` int(10) NOT NULL,
   `modified` datetime NOT NULL DEFAULT NOW(),

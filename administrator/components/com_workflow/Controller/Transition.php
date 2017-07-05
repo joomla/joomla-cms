@@ -26,9 +26,18 @@ class Transition extends Form
 	 * The workflow for which is that status
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since  4.0
 	 */
 	protected $workflowID;
+
+
+	/**
+	 * The workflow for which is that status
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $extension;
 
 	/**
 	 * Constructor.
@@ -38,7 +47,7 @@ class Transition extends Form
 	 * @param   \CMSApplication      $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since  1.6
+	 * @since  4.0
 	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
@@ -48,6 +57,7 @@ class Transition extends Form
 		if (empty($this->workflowID))
 		{
 			$this->workflowID = $this->input->get('workflow_id');
+			$this->extension = $this->input->get('extension');
 		}
 	}
 
@@ -64,7 +74,7 @@ class Transition extends Form
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&workflow_id=' . $this->workflowID;
+		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
 
 		return $append;
 	}
@@ -80,7 +90,7 @@ class Transition extends Form
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&workflow_id=' . $this->workflowID;
+		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
 
 		return $append;
 	}

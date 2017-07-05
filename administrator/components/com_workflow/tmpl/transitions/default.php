@@ -14,6 +14,7 @@ defined('_JEXEC') or die('Restricted Access');
 JHtml::_('behavior.tooltip');
 
 $workflowID = $this->escape($this->state->get('filter.workflow_id'));
+$extension = $this->escape($this->state->get('filter.extension'));
 $columns = 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transition'); ?>" method="post" name="adminForm" id="adminForm">
@@ -43,6 +44,7 @@ $columns = 6;
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<input type="hidden" name="workflow_id" value="<?php echo $workflowID ?>">
+				<input type="hidden" name="extension" value="<?php echo $extension ?>">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

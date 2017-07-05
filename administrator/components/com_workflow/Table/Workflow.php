@@ -70,6 +70,12 @@ class Workflow extends Table
 			$db->execute();
 
 			$query = $db->getQuery(true)
+				->delete($db->qn('#__asset_id'))
+				->where($db->qn('asset_id') . ' = ' . (int) $pk);
+			$db->setQuery($query);
+			$db->execute();
+
+			$query = $db->getQuery(true)
 				->delete($db->qn('#__workflows'))
 				->where($db->qn('id') . ' = ' . (int) $pk);
 			$db->setQuery($query);

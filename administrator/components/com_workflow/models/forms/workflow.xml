@@ -31,7 +31,7 @@
 
         <field
                 name="description"
-                type="textarea"
+                type="editor"
                 label="COM_WORKFLOW_FIELD_DESC_LABEL"
                 description="COM_WORKFLOW_FIELD_DESC_DESC"
                 class="input-xxlarge input-large-text"
@@ -46,11 +46,23 @@
                 label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
                 description="COM_WORKFLOW_FIELD_IS_DEFAULT_DESC"
                 class="switcher"
-                default="1"
+                default="0"
                 required="true"
         >
             <option value="0">JNO</option>
             <option value="1">JYES</option>
+        </field>
+
+        <field
+                name="condition"
+                type="list"
+                label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
+                description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+                required="true"
+        >
+            <option value="3">COM_WORKFLOW_PUBLISHED</option>
+            <option value="2">COM_WORKFLOW_UNPUBLISHED</option>
+            <option value="1">COM_WORKFLOW_TRASHED</option>
         </field>
 
         <field

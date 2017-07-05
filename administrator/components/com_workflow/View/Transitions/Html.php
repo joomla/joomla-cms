@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Transitions;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -75,6 +76,7 @@ class Html extends HtmlView
 		$this->pagination       = $this->get('Pagination');
 
 		WorkflowHelper::addSubmenu("transitions." . $this->state->get("filter.workflow_id"));
+		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
 
 

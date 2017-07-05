@@ -16,6 +16,11 @@ JHtml::_('behavior.tooltip');
 $extension = $this->escape($this->state->get('filter.extension'));
 
 $columns = 6;
+
+JHtml::_('formbehavior.chosen', 'select');
+
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -24,6 +29,10 @@ $columns = 6;
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
+				<?php
+					// Search tools bar
+					echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				?>
 				<?php if (empty($this->workflows)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

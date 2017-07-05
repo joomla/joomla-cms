@@ -43,8 +43,10 @@ class  Statuses extends ListModel
 	{
 		$app = \JFactory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.workflow_id', $workflowID);
+		$this->setState('filter.extension', $extension);
 
 		parent::populateState($ordering, $direction);
 
