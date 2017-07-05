@@ -100,7 +100,7 @@ $tparams = $this->item->params;
 		<?php if ($tparams->get('presentation_style') === 'tabs') : ?>
 			<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
 		<?php endif; ?>
-		<?php if ($tparams->get('presentation_style') === 'plain'):?>
+		<?php if ($tparams->get('presentation_style') === 'plain') : ?>
 			<?php  echo '<h3>'. JText::_('COM_CONTACT_EMAIL_FORM').'</h3>';  ?>
 		<?php endif; ?>
 		<?php  echo $this->loadTemplate('form');  ?>
@@ -135,7 +135,7 @@ $tparams = $this->item->params;
 		<?php if ($tparams->get('presentation_style') === 'tabs') : ?>
 			<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php endif; ?>
-		<?php if ($tparams->get('presentation_style') === 'plain'):?>
+		<?php if ($tparams->get('presentation_style') === 'plain') : ?>
 			<?php echo '<h3>'. JText::_('COM_CONTACT_PROFILE').'</h3>'; ?>
 		<?php endif; ?>
 
@@ -155,7 +155,7 @@ $tparams = $this->item->params;
 		<?php if ($tparams->get('presentation_style') === 'tabs') : ?>
 			<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
 		<?php endif; ?>
-		<?php if ($tparams->get('presentation_style') === 'plain'):?>
+		<?php if ($tparams->get('presentation_style') === 'plain') : ?>
 			<?php echo '<h3>'. JText::_('COM_CONTACT_OTHER_INFORMATION').'</h3>'; ?>
 		<?php endif; ?>
 
