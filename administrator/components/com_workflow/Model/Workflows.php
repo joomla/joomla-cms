@@ -22,6 +22,28 @@ use Joomla\CMS\Model\ListModel;
  */
 class  Workflows extends ListModel
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id',
+				'title',
+				'published',
+				'created_by'
+			);
+		}
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to auto-populate the model state.
@@ -86,20 +108,50 @@ class  Workflows extends ListModel
 		$db     = $this->getDbo();
 		$query  = $db->getQuery(true);
 		$select = $db->quoteName(array(
-			'id',
-			'title',
-			'created',
-			'modified'
+			'w.id',
+			'w.title',
+			'w.created',
+			'w.published',
+			'u.name'
 		));
+
 		$query
 			->select($select)
-			->from($db->qn('#__workflows'));
+			->from($db->quoteName('#__workflows', 'w'))
+			->leftJoin($db->quoteName('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('w.created_by'));
 
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension'))
 		{
 			$query->where($db->qn('extension') . ' = ' . $db->quote($db->escape($extension)));
 		}
+
+		// Filter by author
+		if ($author = $this->getState('filter.created_by'))
+		{
+			$query->where($db->qn('created_by') . ' = ' . $db->quote($db->escape($author)));
+		}
+
+		// Filter by condition
+		if ($condition = $this->getState('filter.state'))
+		{
+			$query->where($db->qn('publlished') . ' = ' . $db->quote($db->escape($condition)));
+		}
+
+		// Filter by search in title
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
+		{
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search);
+		}
+
+		// Add the list ordering clause.
+		$orderCol	= $this->state->get('list.ordering', 'id');
+		$orderDirn 	= $this->state->get('list.direction', 'asc');
+
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

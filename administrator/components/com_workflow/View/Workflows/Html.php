@@ -69,10 +69,13 @@ class Html extends HtmlView
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-
+		$app = \JFactory::getApplication();
+		$context = "com_workflow.list.admin.workflows";
 		$this->state         = $this->get('State');
 		$this->workflows     = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
 
 		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
@@ -96,5 +99,23 @@ class Html extends HtmlView
 		ToolbarHelper::addNew('workflow.add');
 		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		ToolbarHelper::editList('workflow.edit');
+		ToolbarHelper::publishList('workflow.publish');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'published' => \JText::_('JSTATUS'),
+			'title'     => \JText::_('JGLOBAL_TITLE'),
+			'created_by'    => \JText::_('JAUTHOR_ASC'),
+			'id'        => \JText::_('JGRID_HEADING_ID'),
+		);
 	}
 }

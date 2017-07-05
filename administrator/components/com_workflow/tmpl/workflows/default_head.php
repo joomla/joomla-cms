@@ -15,6 +15,9 @@ defined('_JEXEC') or die('Restricted Access');
 	<th style="width:1%" class="nowrap text-center hidden-sm-down">
 		<?php echo JHtml::_('grid.checkall'); ?>
 	</th>
+	<th style="width:1%" class="nowrap text-center hidden-sm-down">
+		<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'condition', $listDirn, $listOrder); ?>
+	</th>
 	<th style="width:10%" class="nowrap hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_TITLE'); ?>
 	</th>

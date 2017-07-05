@@ -31,7 +31,7 @@
 
         <field
                 name="description"
-                type="textarea"
+                type="editor"
                 label="COM_WORKFLOW_FIELD_DESC_LABEL"
                 description="COM_WORKFLOW_FIELD_DESC_DESC"
                 class="input-xxlarge input-large-text"
@@ -46,13 +46,22 @@
                 label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
                 description="COM_WORKFLOW_FIELD_IS_DEFAULT_DESC"
                 class="switcher"
-                default="1"
+                default="0"
                 required="true"
         >
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
 
+        <field
+                name="state"
+                type="status"
+                label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
+                description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+                onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
         <field
                 name="category_id"
                 type="category"

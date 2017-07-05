@@ -20,6 +20,9 @@ defined('_JEXEC') or die('Restricted Access');
 		<td class="order nowrap text-center hidden-sm-down">
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 		</td>
+		<td class="text-center">
+			<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', true); ?>
+		</td>
 		<td>
 			<a href="<?php echo $edit; ?>"><?php echo $item->title; ?></a>
 		</td>
