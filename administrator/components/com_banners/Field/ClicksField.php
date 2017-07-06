@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Banners\Administrator\Field;
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Form\FormField;
 
 /**
  * Clicks field.
  *
  * @since  1.6
  */
-class JFormFieldClicks extends JFormField
+class ClicksField extends FormField
 {
 	/**
 	 * The form field type.
@@ -38,6 +41,6 @@ class JFormFieldClicks extends JFormField
 		return '<div class="input-group"><input class="form-control type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly">'
 			. '<span class="input-group-btn"><a class="btn btn-secondary" ' . $onclick . '>'
-			. '<span class="icon-refresh" aria-hidden="true"></span> ' . JText::_('COM_BANNERS_RESET_CLICKS') . '</a></span></div>';
+			. '<span class="icon-refresh" aria-hidden="true"></span> ' . \JText::_('COM_BANNERS_RESET_CLICKS') . '</a></span></div>';
 	}
 }

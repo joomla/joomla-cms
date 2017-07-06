@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset name="details" addfieldpath="/administrator/components/com_banners/models/fields">
+<form addfieldprefix="Joomla\Component\Banners\Administrator\Field">
+	<fieldset name="details">
 		<field
 			name="id"
 			type="text"
