@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Extension Helper class.
  *
  * @since  __DEPLOY_VERSION__
+ *
+ * @deprecated  4.0  Replace class with a non static methods for better testing
  */
 class JExtensionHelper
 {
