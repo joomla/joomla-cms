@@ -41,7 +41,7 @@ abstract class ModMenuHelper
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
 		// Sqlsrv change
-		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
+		$query->group('a.id, a.asset_id, a.client_id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
 
 		$db->setQuery($query);
 
@@ -52,7 +52,9 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$result = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			$msg = JDEBUG ? $e->getMessage() : JText::_('JERROR_AN_ERROR_HAS_OCCURRED');
+			JFactory::getApplication()->enqueueMessage($msg, 'error');
 		}
 
 		return $result;
