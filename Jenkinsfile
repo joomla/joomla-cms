@@ -76,7 +76,7 @@ pipeline {
 
     stage('Cleanup') {
       steps {
-        deleteDir()
+        step([$class: 'WsCleanup'])
       }
     }
   }
