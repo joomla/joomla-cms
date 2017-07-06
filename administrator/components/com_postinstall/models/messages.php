@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ class PostinstallModelMessages extends FOFModel
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
-		return JText::_($extension->name);
+		return JText::_(strtoupper($extension->name));
 	}
 
 	/**
@@ -174,7 +174,7 @@ class PostinstallModelMessages extends FOFModel
 	}
 
 	/**
-	 * Get the drop-down options for the list of component with post-installation messages
+	 * Get the dropdown options for the list of component with post-installation messages
 	 *
 	 * @since 3.4
 	 *
@@ -193,16 +193,11 @@ class PostinstallModelMessages extends FOFModel
 
 		$options = array();
 
+		JFactory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
+
 		foreach ($extension_ids as $eid)
 		{
-			$extension_name = $this->getExtensionName($eid);
-
-			if ($extension_name == 'files_joomla')
-			{
-				$extension_name = JText::_('COM_POSTINSTALL_TITLE_JOOMLA');
-			}
-
-			$options[] = JHtml::_('select.option', $eid, $extension_name);
+			$options[] = JHtml::_('select.option', $eid, $this->getExtensionName($eid));
 		}
 
 		return $options;
@@ -230,13 +225,13 @@ class PostinstallModelMessages extends FOFModel
 	 * description_key     The JText language key for the main body (description) of this PIM
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_DESCRIPTION
 	 *
-	 * action_key		   The JText language key for the action button. Ignored and not required when type=message
-	 * 					   Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_ACTION
+	 * action_key          The JText language key for the action button. Ignored and not required when type=message
+	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_ACTION
 	 *
 	 * language_extension  The extension name which holds the language keys used above.
 	 *                     For example, com_foobar, mod_something, plg_system_whatever, tpl_mytemplate
 	 *
-	 * language_client_id  Should we load the front-end (0) or back-end (1) language keys?
+	 * language_client_id  Should we load the frontend (0) or backend (1) language keys?
 	 *
 	 * version_introduced  Which was the version of your extension where this message appeared for the first time?
 	 *                     Example: 3.2.1

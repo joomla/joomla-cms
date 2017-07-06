@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -129,7 +129,7 @@ class JHelperContenthistory extends JHelper
 
 		if ($historyRow = $historyTable->getHashMatch())
 		{
-			if (!$versionName || ($historyRow->version_note == $versionName))
+			if (!$versionName || ($historyRow->version_note === $versionName))
 			{
 				return true;
 			}
@@ -145,7 +145,7 @@ class JHelperContenthistory extends JHelper
 		// Load history_limit config from extension.
 		$aliasParts = explode('.', $this->typeAlias);
 
-		$context = (isset($aliasParts[1])) ? $aliasParts[1] : '';
+		$context = isset($aliasParts[1]) ? $aliasParts[1] : '';
 
 		$maxVersionsContext = JComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
 

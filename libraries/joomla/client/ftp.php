@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,19 +26,19 @@ if (!defined('CRLF'))
 	define('CRLF', "\r\n");
 }
 
-if (!defined("FTP_AUTOASCII"))
+if (!defined('FTP_AUTOASCII'))
 {
-	define("FTP_AUTOASCII", -1);
+	define('FTP_AUTOASCII', -1);
 }
 
-if (!defined("FTP_BINARY"))
+if (!defined('FTP_BINARY'))
 {
-	define("FTP_BINARY", 1);
+	define('FTP_BINARY', 1);
 }
 
-if (!defined("FTP_ASCII"))
+if (!defined('FTP_ASCII'))
 {
-	define("FTP_ASCII", 0);
+	define('FTP_ASCII', 0);
 }
 
 if (!defined('FTP_NATIVE'))
@@ -91,30 +91,31 @@ class JClientFtp
 
 	/**
 	 * @var    array  Array to hold ascii format file extensions
-	 * @since   12.1
+	 * @since  12.1
 	 */
 	protected $_autoAscii = array(
-		"asp",
-		"bat",
-		"c",
-		"cpp",
-		"csv",
-		"h",
-		"htm",
-		"html",
-		"shtml",
-		"ini",
-		"inc",
-		"log",
-		"php",
-		"php3",
-		"pl",
-		"perl",
-		"sh",
-		"sql",
-		"txt",
-		"xhtml",
-		"xml");
+		'asp',
+		'bat',
+		'c',
+		'cpp',
+		'csv',
+		'h',
+		'htm',
+		'html',
+		'shtml',
+		'ini',
+		'inc',
+		'log',
+		'php',
+		'php3',
+		'pl',
+		'perl',
+		'sh',
+		'sql',
+		'txt',
+		'xhtml',
+		'xml',
+	);
 
 	/**
 	 * Array to hold native line ending characters
@@ -193,7 +194,7 @@ class JClientFtp
 	 */
 	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = array(), $user = null, $pass = null)
 	{
-		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
+		$signature = $user . ':' . $pass . '@' . $host . ':' . $port;
 
 		// Create a new instance, or set the options of an existing one
 		if (!isset(static::$instances[$signature]) || !is_object(static::$instances[$signature]))
@@ -427,7 +428,7 @@ class JClientFtp
 		preg_match('/"[^"\r\n]*"/', $this->_response, $match);
 
 		// Return the cleaned path
-		return preg_replace("/\"/", "", $match[0]);
+		return preg_replace("/\"/", '', $match[0]);
 	}
 
 	/**
@@ -444,7 +445,7 @@ class JClientFtp
 		{
 			if (($ret = @ftp_systype($this->_conn)) === false)
 			{
-				JLog::add(JText::_('JLIB_CLIENT_ERROR_JFTP_SYS_BAD_RESPONSE_NATIVE'), JLog::WARNING, 'jerror');
+				JLog::add(JText::_('JLIB_CLIENT_ERROR_JFTP_SYST_BAD_RESPONSE_NATIVE'), JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -913,7 +914,7 @@ class JClientFtp
 				$os = 'WIN';
 			}
 
-			$buffer = preg_replace("/" . CRLF . "/", $this->_lineEndings[$os], $buffer);
+			$buffer = preg_replace('/' . CRLF . '/', $this->_lineEndings[$os], $buffer);
 		}
 
 		if (!$this->_verifyResponse(226))
@@ -965,7 +966,7 @@ class JClientFtp
 		$this->_mode($mode);
 
 		// Check to see if the local file can be opened for writing
-		$fp = fopen($local, "wb");
+		$fp = fopen($local, 'wb');
 
 		if (!$fp)
 		{
@@ -1059,7 +1060,7 @@ class JClientFtp
 		// Check to see if the local file exists and if so open it for reading
 		if (@ file_exists($local))
 		{
-			$fp = fopen($local, "rb");
+			$fp = fopen($local, 'rb');
 
 			if (!$fp)
 			{
@@ -1110,7 +1111,7 @@ class JClientFtp
 
 				$line = substr($line, $result);
 			}
-			while ($line != "");
+			while ($line != '');
 		}
 
 		fclose($fp);
@@ -1201,12 +1202,12 @@ class JClientFtp
 
 			$buffer = substr($buffer, $result);
 		}
-		while ($buffer != "");
+		while ($buffer != '');
 
 		// Close the data connection port [Data transfer complete]
 		fclose($this->_dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_WRITE_BAD_RESPONSE_TRANSFER', $this->_response, $remote), JLog::WARNING, 'jerror');
@@ -1295,7 +1296,7 @@ class JClientFtp
 		// Close the data connection port [Data transfer complete]
 		fclose($this->_dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_APPEND_BAD_RESPONSE_TRANSFER', $this->_response, $remote), 37);
@@ -1348,7 +1349,7 @@ class JClientFtp
 		{
 			@fclose($this->_dataconn);
 
-			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_BAD_RESPONSE_SIZE', $this->_response, $remote), 35);
+			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_SIZE_BAD_RESPONSE', $this->_response, $remote), 35);
 		}
 
 		return (int) substr($this->_responseMsg, 4);
@@ -1452,7 +1453,7 @@ class JClientFtp
 			return false;
 		}
 
-		$data = preg_split("/[" . CRLF . "]+/", $data, -1, PREG_SPLIT_NO_EMPTY);
+		$data = preg_split('/[' . CRLF . ']+/', $data, -1, PREG_SPLIT_NO_EMPTY);
 		$data = preg_replace('#^' . preg_quote(substr($path, 1), '#') . '[/\\\\]?#', '', $data);
 
 		if ($keys = array_merge(array_keys($data, '.'), array_keys($data, '..')))
@@ -1579,7 +1580,7 @@ class JClientFtp
 				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
 			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
 				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
-			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#'
+			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#',
 		);
 
 		// Find out the format of the directory listing by matching one of the regexps
@@ -1611,19 +1612,19 @@ class JClientFtp
 
 				if (@preg_match($regexp, $file, $regs))
 				{
-					$fType = (int) strpos("-dl", $regs[1]{0});
+					$fType = (int) strpos('-dl', $regs[1]{0});
 
 					// $tmp_array['line'] = $regs[0];
-					$tmp_array['type'] = $fType;
+					$tmp_array['type']   = $fType;
 					$tmp_array['rights'] = $regs[1];
 
 					// $tmp_array['number'] = $regs[2];
-					$tmp_array['user'] = $regs[3];
+					$tmp_array['user']  = $regs[3];
 					$tmp_array['group'] = $regs[4];
-					$tmp_array['size'] = $regs[5];
-					$tmp_array['date'] = @date("m-d", strtotime($regs[6]));
-					$tmp_array['time'] = $regs[7];
-					$tmp_array['name'] = $regs[9];
+					$tmp_array['size']  = $regs[5];
+					$tmp_array['date']  = @date('m-d', strtotime($regs[6]));
+					$tmp_array['time']  = $regs[7];
+					$tmp_array['name']  = $regs[9];
 				}
 
 				// If we just want files, do not add a folder
@@ -1738,7 +1739,7 @@ class JClientFtp
 		{
 			$this->_response .= fgets($this->_conn, 4096);
 		}
-		while (!preg_match("/^([0-9]{3})(-(.*" . CRLF . ")+\\1)? [^" . CRLF . "]+" . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
+		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
 
 		// Catch a timeout or bad response
 		if (!isset($parts[1]))
@@ -1812,7 +1813,7 @@ class JClientFtp
 		{
 			$this->_response .= fgets($this->_conn, 4096);
 		}
-		while (!preg_match("/^([0-9]{3})(-(.*" . CRLF . ")+\\1)? [^" . CRLF . "]+" . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
+		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\1)? [^' . CRLF . ']+' . CRLF . "$/", $this->_response, $parts) && time() < $endTime);
 
 		// Catch a timeout or bad response
 		if (!isset($parts[1]))
@@ -1916,7 +1917,7 @@ class JClientFtp
 	{
 		if ($mode == FTP_BINARY)
 		{
-			if (!$this->_putCmd("TYPE I", 200))
+			if (!$this->_putCmd('TYPE I', 200))
 			{
 				JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_MODE_BINARY', $this->_response), JLog::WARNING, 'jerror');
 
@@ -1925,7 +1926,7 @@ class JClientFtp
 		}
 		else
 		{
-			if (!$this->_putCmd("TYPE A", 200))
+			if (!$this->_putCmd('TYPE A', 200))
 			{
 				JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_MODE_ASCII', $this->_response), JLog::WARNING, 'jerror');
 

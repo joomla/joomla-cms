@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,7 +141,8 @@ class JLanguageTransliterate
 					'æ' => 'ae',
 					'µ' => 'u',
 					'ĕ' => 'e',
-					'œ' => 'oe');
+					'œ' => 'oe',
+				);
 			}
 
 			$string = str_replace(array_keys($UTF8_LOWER_ACCENTS), array_values($UTF8_LOWER_ACCENTS), $string);
@@ -254,7 +255,8 @@ class JLanguageTransliterate
 					'Ð' => 'Dh',
 					'Æ' => 'Ae',
 					'Ĕ' => 'E',
-					'Œ' => 'Oe');
+					'Œ' => 'Oe',
+				);
 			}
 
 			$string = str_replace(array_keys($UTF8_UPPER_ACCENTS), array_values($UTF8_UPPER_ACCENTS), $string);

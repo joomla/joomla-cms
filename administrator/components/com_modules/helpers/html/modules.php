@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/** 
+use Joomla\Utilities\ArrayHelper;
+
+/**
  * JHtml module helper class.
  *
  * @since  1.6
@@ -81,7 +83,7 @@ abstract class JHtmlModules
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states = array(
-			1 => array(
+			1  => array(
 				'unpublish',
 				'COM_MODULES_EXTENSION_PUBLISHED_ENABLED',
 				'COM_MODULES_HTML_UNPUBLISH_ENABLED',
@@ -90,7 +92,7 @@ abstract class JHtmlModules
 				'publish',
 				'publish',
 			),
-			0 => array(
+			0  => array(
 				'publish',
 				'COM_MODULES_EXTENSION_UNPUBLISHED_ENABLED',
 				'COM_MODULES_HTML_PUBLISH_ENABLED',
@@ -133,7 +135,6 @@ abstract class JHtmlModules
 	 *
 	 * @since   2.5
 	 */
-
 	public static function positions($clientId, $state = 1, $selectedPosition = '')
 	{
 		JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
@@ -167,7 +168,7 @@ abstract class JHtmlModules
 					}
 				}
 
-				$options = JArrayHelper::sortObjects($options, 'text');
+				$options = ArrayHelper::sortObjects($options, 'text');
 			}
 
 			$templateGroups[$template] = ModulesHelper::createOptionGroup(ucfirst($template), $options);

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -138,9 +138,9 @@ class JAdapter extends JObject
 		}
 
 		// Try to load the adapter object
-		require_once $fullpath;
-
 		$class = $this->_classprefix . ucfirst($name);
+
+		JLoader::register($class, $fullpath);
 
 		if (!class_exists($class))
 		{

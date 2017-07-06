@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -90,7 +90,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 		$uid = $update->find(
 			array(
 				'element' => $this->element,
-				'type' => $this->type
+				'type' => $this->type,
 			)
 		);
 
@@ -122,7 +122,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -197,7 +197,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected function setupInstallPaths()
 	{
 		// Set the file root path
-		if ($this->name == 'files_joomla')
+		if ($this->name === 'files_joomla')
 		{
 			// If we are updating the Joomla core, set the root path to the root of Joomla
 			$this->parent->setPath('extension_root', JPATH_ROOT);
@@ -304,6 +304,17 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		$retval = true;
 		$manifestFile = JPATH_MANIFESTS . '/files/' . $row->element . '.xml';
 
@@ -324,7 +335,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			}
 
 			// Check for a valid XML root tag.
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 
@@ -341,14 +352,10 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			{
 				$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
-				if (is_file($manifestScriptFile))
-				{
-					// Load the file
-					include_once $manifestScriptFile;
-				}
-
 				// Set the class name
 				$classname = $row->element . 'InstallerScript';
+
+				JLoader::register($classname, $manifestScriptFile);
 
 				if (class_exists($classname))
 				{
@@ -419,7 +426,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 					// Loop through all filenames elements
 					foreach ($eFiles->children() as $eFileName)
 					{
-						if ($eFileName->getName() == 'folder')
+						if ($eFileName->getName() === 'folder')
 						{
 							$folderList[] = $targetFolder . '/' . $eFileName;
 						}
@@ -553,7 +560,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 				// Check if folder exists, if not then add to the array for folder creation
 				if (!JFolder::exists($folderName))
 				{
-					array_push($this->folderList, $folderName);
+					$this->folderList[] = $folderName;
 				}
 			}
 
@@ -582,14 +589,14 @@ class JInstallerAdapterFile extends JInstallerAdapter
 					$path['dest'] = $targetFolder . '/' . $eFileName;
 					$path['type'] = 'file';
 
-					if ($eFileName->getName() == 'folder')
+					if ($eFileName->getName() === 'folder')
 					{
-						$folderName = $targetFolder . '/' . $eFileName;
-						array_push($this->folderList, $folderName);
-						$path['type'] = 'folder';
+						$folderName         = $targetFolder . '/' . $eFileName;
+						$this->folderList[] = $folderName;
+						$path['type']       = 'folder';
 					}
 
-					array_push($this->fileList, $path);
+					$this->fileList[] = $path;
 				}
 			}
 			else
@@ -601,7 +608,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 					$path['src'] = $sourceFolder . '/' . $file;
 					$path['dest'] = $targetFolder . '/' . $file;
 
-					array_push($this->fileList, $path);
+					$this->fileList[] = $path;
 				}
 			}
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,13 +114,13 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
+		if ($this->config->get('session') === null)
 		{
 			$this->config->set('session', true);
 		}
 
 		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
+		if ($this->config->get('session_name') === null)
 		{
 			$this->config->set('session_name', $this->getName());
 		}
@@ -145,7 +145,7 @@ class JApplicationCms extends JApplicationWeb
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 	}
@@ -180,27 +180,35 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$query->clear();
 
-			if ($session->isNew())
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
-				$db->setQuery($query);
-			}
-			else
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(
-						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
-						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
-					)
-					->values(
-						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
-					);
+			$time = $session->isNew() ? time() : $session->get('session.timer.start');
 
-				$db->setQuery($query);
+			$columns = array(
+				$db->quoteName('session_id'),
+				$db->quoteName('guest'),
+				$db->quoteName('time'),
+				$db->quoteName('userid'),
+				$db->quoteName('username'),
+			);
+
+			$values = array(
+				$db->quote($session->getId()),
+				(int) $user->guest,
+				$db->quote((int) $time),
+				(int) $user->id,
+				$db->quote($user->username),
+			);
+
+			if (!$this->get('shared_session', '0'))
+			{
+				$columns[] = $db->quoteName('client_id');
+				$values[] = (int) $this->getClientId();
 			}
+
+			$query->insert($db->quoteName('#__session'))
+				->columns($columns)
+				->values(implode(', ', $values));
+
+			$db->setQuery($query);
 
 			// If the insert failed, exit the application.
 			try
@@ -227,7 +235,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// Don't add empty messages.
-		if (!strlen(trim($msg)))
+		if (trim($msg) === '')
 		{
 			return;
 		}
@@ -264,7 +272,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 
@@ -324,7 +332,7 @@ class JApplicationCms extends JApplicationWeb
 				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
 				{
 					// Check short task version, must be on the same option of the view
-					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false)
 					{
 						// Not permitted task
 						$redirect = true;
@@ -333,7 +341,8 @@ class JApplicationCms extends JApplicationWeb
 			}
 			else
 			{
-				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+				if ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+					|| $this->input->getCmd('layout', '') !== $layout)
 				{
 					// Requested a different option/view/layout
 					$redirect = true;
@@ -436,7 +445,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $menu;
@@ -445,11 +454,13 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Get the system message queue.
 	 *
+	 * @param   boolean  $clear  Clear the messages currently attached to the application object
+	 *
 	 * @return  array  The system message queue.
 	 *
 	 * @since   3.2
 	 */
-	public function getMessageQueue()
+	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue))
@@ -463,8 +474,15 @@ class JApplicationCms extends JApplicationWeb
 				$session->set('application.queue', null);
 			}
 		}
+		
+		$messageQueue = $this->_messageQueue;
+		
+		if ($clear)
+		{
+			$this->_messageQueue = array();
+		}
 
-		return $this->_messageQueue;
+		return $messageQueue;
 	}
 
 	/**
@@ -502,7 +520,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $pathway;
@@ -532,7 +550,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $router;
@@ -577,7 +595,7 @@ class JApplicationCms extends JApplicationWeb
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->get($key, $default);
 		}
@@ -642,6 +660,9 @@ class JApplicationCms extends JApplicationWeb
 		// Register the language object with JFactory
 		JFactory::$language = $this->getLanguage();
 
+		// Load the library language files
+		$this->loadLibraryLanguage();
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
@@ -669,10 +690,11 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return ($this->getClientId() === 1);
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -681,10 +703,64 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return ($this->getClientId() === 0);
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  boolean  True if is forced for the client, false otherwise.
+	 *
+	 * @since   3.7.3
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+		$forceSsl = (int) $this->get('force_ssl');
+
+		if ($clientId === 0 && $forceSsl === 2)
+		{
+			return true;
+		}
+
+		if ($clientId === 1 && $forceSsl >= 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   3.7.0
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() === $identifier;
+	}
+
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.3
+	 */
+	protected function loadLibraryLanguage()
+	{
+		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -709,43 +785,24 @@ class JApplicationCms extends JApplicationWeb
 			return $this;
 		}
 
-		// Generate a session name.
-		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name'   => $name,
-			'expire' => $lifetime
-		);
-
-		switch ($this->getClientId())
-		{
-			case 0:
-				if ($this->get('force_ssl') == 2)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-
-			case 1:
-				if ($this->get('force_ssl') >= 1)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-		}
-
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
-		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
-		$session = JFactory::getSession($options);
+		/*
+		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
+		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
+		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
+		 * without a proper dependency injection container.
+		 */
+
+		$session = JFactory::getSession(
+			array(
+				'name'      => JApplicationHelper::getHash($this->get('session_name', get_class($this))),
+				'expire'    => $this->get('lifetime') ? $this->get('lifetime') * 60 : 900,
+				'force_ssl' => $this->isHttpsForced(),
+			)
+		);
+
 		$session->initialise($this->input, $this->dispatcher);
-		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db = JFactory::getDbo();
@@ -768,8 +825,8 @@ class JApplicationCms extends JApplicationWeb
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -802,8 +859,6 @@ class JApplicationCms extends JApplicationWeb
 	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -817,12 +872,11 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
+			$denied_states = JAuthentication::STATUS_EXPIRED | JAuthentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
-				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-
-				if (in_array($authorisation->status, $denied_states))
+				if ((int) $authorisation->status & $denied_states)
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
@@ -860,7 +914,7 @@ class JApplicationCms extends JApplicationWeb
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -921,8 +975,8 @@ class JApplicationCms extends JApplicationWeb
 		$parameters['username'] = $user->get('username');
 		$parameters['id'] = $user->get('id');
 
-		// Set clientid in the options array if it hasn't been set already.
-		if (!isset($options['clientid']))
+		// Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
+		if (!$this->get('shared_session', '0') && !isset($options['clientid']))
 		{
 			$options['clientid'] = $this->getClientId();
 		}
@@ -1053,7 +1107,7 @@ class JApplicationCms extends JApplicationWeb
 
 		$caching = false;
 
-		if ($this->isSite() && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1105,7 +1159,7 @@ class JApplicationCms extends JApplicationWeb
 	 * Sets the value of a user state variable.
 	 *
 	 * @param   string  $key    The path of the state.
-	 * @param   string  $value  The value of the variable.
+	 * @param   mixed   $value  The value of the variable.
 	 *
 	 * @return  mixed  The previous state, if one existed.
 	 *
@@ -1116,12 +1170,12 @@ class JApplicationCms extends JApplicationWeb
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->set($key, $value);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -1136,7 +1190,7 @@ class JApplicationCms extends JApplicationWeb
 	public function toString($compress = false)
 	{
 		// Don't compress something if the server is going to do it anyway. Waste of time.
-		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 		}

@@ -14,7 +14,7 @@
   var defaultTags = {
     script: [
       ["lang", /(javascript|babel)/i, "javascript"],
-      ["type", /^(?:text|application)\/(?:x-)?(?:java|ecma)script$|^$/i, "javascript"],
+      ["type", /^(?:text|application)\/(?:x-)?(?:java|ecma)script$|^module$|^$/i, "javascript"],
       ["type", /./, "text/plain"],
       [null, null, "javascript"]
     ],
@@ -46,7 +46,7 @@
 
   function getAttrValue(text, attr) {
     var match = text.match(getAttrRegexp(attr))
-    return match ? match[2] : ""
+    return match ? /^\s*(.*?)\s*$/.exec(match[2])[1] : ""
   }
 
   function getTagRegexp(tagName, anchored) {

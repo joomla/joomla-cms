@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,8 +112,12 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function doExecute()
 	{
+		// Get the language from the (login) form or user state
+		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
+
 		// Initialise the application
-		$this->initialiseApp(array('language' => $this->getUserState('application.lang')));
+		$this->initialiseApp($options);
 
 		// Test for magic quotes
 		if (get_magic_quotes_gpc())
@@ -263,7 +267,7 @@ class JApplicationAdministrator extends JApplicationCms
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -275,11 +279,11 @@ class JApplicationAdministrator extends JApplicationCms
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language']))
+		if (!JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->get('language', 'en-GB');
 
-			if (JLanguage::exists($lang))
+			if (JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -292,9 +296,6 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
-
-		// Load Library language
-		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -364,7 +365,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$config = $db->loadObject();
 
 		// Check if auto_purge value set
-		if (is_object($config) and $config->cfg_name == 'auto_purge')
+		if (is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
 		}
@@ -407,7 +408,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$component = $input->getCmd('option', 'com_login');
 		$file      = $input->getCmd('tmpl', 'index');
 
-		if ($component == 'com_login')
+		if ($component === 'com_login')
 		{
 			$file = 'login';
 		}
@@ -415,11 +416,10 @@ class JApplicationAdministrator extends JApplicationCms
 		$this->set('themeFile', $file . '.php');
 
 		// Safety check for when configuration.php root_user is in use.
-		$config = JFactory::getConfig();
-		$rootUser = $config->get('root_user');
+		$rootUser = $this->get('root_user');
 
 		if (property_exists('JConfig', 'root_user')
-			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+			&& (JFactory::getUser()->get('username') === $rootUser || JFactory::getUser()->id === (string) $rootUser))
 		{
 			$this->enqueueMessage(
 				JText::sprintf(
@@ -449,7 +449,7 @@ class JApplicationAdministrator extends JApplicationCms
 	{
 		$uri = JUri::getInstance();
 
-		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
+		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) !== 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');

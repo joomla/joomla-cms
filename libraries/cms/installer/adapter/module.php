@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -52,7 +52,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 				array(
 					'element'   => $this->element,
 					'type'      => $this->type,
-					'client_id' => $this->clientId
+					'client_id' => $this->clientId,
 				)
 			);
 		}
@@ -93,7 +93,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -120,7 +120,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => 'module',
-				'client_id' => $this->clientId
+				'client_id' => $this->clientId,
 			)
 		);
 
@@ -130,7 +130,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest(-1))
 			{
@@ -197,7 +197,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			if ($extension)
 			{
-				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
+				$source = $path ?: ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
 				$folder = (string) $this->getManifest()->files->attributes()->folder;
 
 				if ($folder && file_exists($path . '/' . $folder))
@@ -305,7 +305,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -396,7 +396,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'extension',
-					'extension_id' => $this->extension->extension_id
+					'extension_id' => $this->extension->extension_id,
 				)
 			);
 
@@ -517,7 +517,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		if (!$this->extension->load((int) $id) || !strlen($this->extension->element))
+		if (!$this->extension->load((int) $id) || $this->extension->element === '')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 
@@ -529,6 +529,17 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		if ($this->extension->protected)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $this->extension->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -569,14 +580,10 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		{
 			$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
 			// Set the class name
 			$classname = $element . 'InstallerScript';
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{

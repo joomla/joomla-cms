@@ -3,11 +3,11 @@
 	version="3.6"
 	client="installation">
 	<name>Greek</name>
-	<version>3.4.2</version>
+	<version>3.6.3</version>
 	<creationDate>2015-06-13</creationDate>
 	<author>Greek translation team : joomla.gr</author>
 	<copyright>Copyright (C) 2005 - 2013 joomla.gr και Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License έκδοση 2 ή νεότερη· δες LICENSE.txt</license>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>el-GR.ini</filename>
 	</files>

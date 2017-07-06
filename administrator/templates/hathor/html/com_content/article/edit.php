@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,17 +159,17 @@ JFactory::getDocument()->addScriptDeclaration("
 				</ul>
 			</fieldset>
 		<?php  endif; ?>
-		<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
+		<?php  $fieldSets = $this->form->getFieldsets(); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 				<?php
 					// If the parameter says to show the article options or if the parameters have never been set, we will
 					// show the article options.
 
-					if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))):
+					if ($params['show_article_options'] || ($params['show_article_options'] == '' && !empty($editoroptions))):
 
 					// Go through all the fieldsets except the configuration and basic-limited, which are
 					// handled separately below.
-					if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+					if ($name != 'editorConfig' && $name != 'basic-limited' && $name != 'item_associations' && $name != 'jmetadata') : ?>
 						<?php echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options'); ?>
 						<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 							<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
@@ -209,7 +209,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						</fieldset>
 				<?php endif ?>
 
-		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
+		<?php // The URL and images fields only show if the configuration is set to allow them.  ?>
 		<?php // This is for legacy reasons. ?>
 		<?php if ($params['show_urls_images_backend']) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
@@ -245,7 +245,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</fieldset>
 
 		<?php if ($assoc) : ?>
-			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 			<?php echo $this->loadTemplate('associations'); ?>
 		<?php endif; ?>
 

@@ -3,18 +3,51 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-$user   = JFactory::getUser();
 $params = JComponentHelper::getParams('com_media');
 $path   = 'file_path';
 
 JHtml::_('jquery.framework');
+JHtml::_('behavior.core');
 
-JFactory::getDocument()->addScriptDeclaration(
+$doc = JFactory::getDocument();
+
+// Need to override this core function because we use a different form id
+$doc->addScriptDeclaration(
+	"
+		Joomla.isChecked = function( isitchecked, form ) {
+			if ( typeof form  === 'undefined' ) {
+				form = document.getElementById( 'mediamanager-form' );
+			}
+
+			form.boxchecked.value += isitchecked ? 1 : -1;
+
+			// If we don't have a checkall-toggle, done.
+			if ( !form.elements[ 'checkall-toggle' ] ) return;
+
+			// Toggle main toggle checkbox depending on checkbox selection
+			var c = true,
+				i, e, n;
+
+			for ( i = 0, n = form.elements.length; i < n; i++ ) {
+				e = form.elements[ i ];
+
+				if ( e.type == 'checkbox' && e.name != 'checkall-toggle' && !e.checked ) {
+					c = false;
+					break;
+				}
+			}
+
+			form.elements[ 'checkall-toggle' ].checked = c;
+		};
+	"
+);
+
+$doc->addScriptDeclaration(
 	"
 		jQuery(document).ready(function($){
 			window.parent.document.updateUploader();
@@ -52,55 +85,49 @@ JFactory::getDocument()->addScriptDeclaration(
 	<div class="muted">
 		<p>
 			<span class="icon-folder"></span>
-			<?php if ($this->state->folder != '') : ?>
-				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images') . '/' . $this->state->folder; ?>
-			<?php else : ?>
-				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images'); ?>
-			<?php endif; ?>
+			<?php
+				echo $params->get($path, 'images'),
+					($this->state->folder != '') ? '/' . $this->state->folder : '';
+			?>
 		</p>
 	</div>
 
 	<div class="manager">
-	<table class="table table-striped table-condensed">
-	<thead>
-		<tr>
-			<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
-			<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
-			<th width="15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
-			<th width="8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
-		<?php if ($user->authorise('core.delete', 'com_media')):?>
-			<th width="8%"><?php echo JText::_('JACTION_DELETE'); ?></th>
-		<?php endif;?>
-		</tr>
-	</thead>
-	<tbody>
-		<?php echo $this->loadTemplate('up'); ?>
+		<table class="table table-striped table-condensed">
+		<thead>
+			<tr>
+				<?php if ($this->canDelete) : ?>
+					<th width="1%">
+						<?php echo JHtml::_('grid.checkall'); ?>
+					</th>
+				<?php endif; ?>
+				<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
+				<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
+				<th width="15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
+				<th width="8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
 
-		<?php for ($i = 0, $n = count($this->folders); $i < $n; $i++) :
-			$this->setFolder($i);
-			echo $this->loadTemplate('folder');
-		endfor; ?>
+				<?php if ($this->canDelete) : ?>
+					<th width="8%">
+						<?php echo JText::_('JACTION_DELETE'); ?>
+					</th>
+				<?php endif; ?>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+				echo $this->loadTemplate('up'),
+					$this->loadTemplate('folders'),
+					$this->loadTemplate('docs'),
+					$this->loadTemplate('videos'),
+					$this->loadTemplate('imgs');
+			?>
+		</tbody>
+		</table>
+	</div>
 
-		<?php for ($i = 0, $n = count($this->documents); $i < $n; $i++) :
-			$this->setDoc($i);
-			echo $this->loadTemplate('doc');
-		endfor; ?>
-
-		<?php for ($i = 0, $n = count($this->videos); $i < $n; $i++) :
-			$this->setVideo($i);
-			echo $this->loadTemplate('video');
-		endfor; ?>
-
-		<?php for ($i = 0, $n = count($this->images); $i < $n; $i++) :
-			$this->setImage($i);
-			echo $this->loadTemplate('img');
-		endfor; ?>
-
-	</tbody>
-	</table>
 	<input type="hidden" name="task" value="list" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />
+	<input type="hidden" name="boxchecked" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	</div>
 </form>

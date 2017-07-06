@@ -1,49 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset 
+		name="component"
+		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
 		<field
 			name="upload_extensions"
 			type="text"
-			size="50"
-			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS"
 			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC" />
+			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
+			size="50"
+			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS"
+		/>
 
 		<field
 			name="upload_maxsize"
-			type="text"
+			type="number"
+			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
+			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" 
+			validate="number"
+			min="0"
 			size="50"
 			default="10"
-			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
-			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" />
+		/>
 
-		<field name="spacer1" type="spacer" class="text"
+		<field
+			name="spacer1" 
+			type="spacer" 
 			label="COM_MEDIA_FOLDERS_PATH_LABEL"
+			class="text"
 		/>
 
 		<field
 			name="file_path"
 			type="text"
+			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
+			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC" 
 			size="50"
 			default="images"
-			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
-			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC" />
+		/>
 
 		<field
 			name="image_path"
 			type="text"
+			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
+			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC"
 			size="50"
 			default="images"
-			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
-			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC" />
+		/>
 
 		<field
 			name="restrict_uploads"
 			type="radio"
+			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
+			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
-			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -51,10 +63,11 @@
 		<field
 			name="check_mime"
 			type="radio"
+			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
+			description="COM_MEDIA_FIELD_CHECK_MIME_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
-			description="COM_MEDIA_FIELD_CHECK_MIME_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -62,33 +75,37 @@
 		<field
 			name="image_extensions"
 			type="text"
+			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			size="50"
 			default="bmp,gif,jpg,png"
-			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC" />
+		/>
 
 		<field
 			name="ignore_extensions"
 			type="text"
-			size="50"
 			label="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" />
+			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" 
+			size="50"
+		/>
 
 		<field
 			name="upload_mime"
 			type="text"
-			size="50"
-			default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC" />
+			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
+			size="50"
+			default="image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+		/>
 
 		<field
 			name="upload_mime_illegal"
 			type="text"
+			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
+			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC"
 			size="50"
 			default="text/html"
-			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" />
+		 />
 	</fieldset>
 
 	<fieldset
@@ -104,6 +121,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_media"
-			section="component" />
+			section="component"
+		 />
 	</fieldset>
 </config>

@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,7 +15,7 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
- * @since  11.1
+ * @since  1.6
  */
 class JFormFieldComponentlayout extends JFormField
 {
@@ -23,7 +23,7 @@ class JFormFieldComponentlayout extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $type = 'ComponentLayout';
 
@@ -32,7 +32,7 @@ class JFormFieldComponentlayout extends JFormField
 	 *
 	 * @return  string   The field input.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -191,8 +191,8 @@ class JFormFieldComponentlayout extends JFormField
 						foreach ($files as $i => $file)
 						{
 							// Remove layout files that exist in the component folder or that have XML files
-							if ((in_array(basename($file, '.php'), $component_layouts))
-								|| (in_array(basename($file, '.php'), $xml_files)))
+							if (in_array(basename($file, '.php'), $component_layouts)
+								|| in_array(basename($file, '.php'), $xml_files))
 							{
 								unset($files[$i]);
 							}

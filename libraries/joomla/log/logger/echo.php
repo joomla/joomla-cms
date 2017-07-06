@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,9 @@ defined('JPATH_PLATFORM') or die;
 class JLogLoggerEcho extends JLogLogger
 {
 	/**
-	 * @var    string  Value to use at the end of an echoed log entry to separate lines.
+	 * Value to use at the end of an echoed log entry to separate lines.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $line_separator = "\n";

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,9 +83,9 @@ class JStringWrapperPunycode
 	/**
 	 * Helper wrapper method for emailToPunycode
 	 *
-	 * @param   string  $email  The UTF-8 e-mail to transform.
+	 * @param   string  $email  The UTF-8 email to transform.
 	 *
-	 * @return string  The punycode e-mail.
+	 * @return string  The punycode email.
 	 *
 	 * @see     JStringPunycode::emailToPunycode()
 	 * @since   3.4
@@ -98,9 +98,9 @@ class JStringWrapperPunycode
 	/**
 	 * Helper wrapper method for emailToUTF8
 	 *
-	 * @param   string  $email  The punycode e-mail to transform.
+	 * @param   string  $email  The punycode email to transform.
 	 *
-	 * @return string  The punycode e-mail.
+	 * @return string  The punycode email.
 	 *
 	 * @see     JStringPunycode::emailToUTF8()
 	 * @since   3.4

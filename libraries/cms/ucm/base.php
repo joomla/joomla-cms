@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ class JUcmBase implements JUcm
 		}
 
 		$ucmId      = isset($data['ucm_id']) ? $data['ucm_id'] : null;
-		$primaryKey = $primaryKey ? $primaryKey : $ucmId;
+		$primaryKey = $primaryKey ?: $ucmId;
 
 		if (isset($primaryKey))
 		{
@@ -126,12 +126,12 @@ class JUcmBase implements JUcm
 	 */
 	public function mapBase($original, JUcmType $type = null)
 	{
-		$type = $type ? $type : $this->type;
+		$type = $type ?: $this->type;
 
 		$data = array(
 			'ucm_type_id' => $type->id,
 			'ucm_item_id' => $original[$type->primary_key],
-			'ucm_language_id' => JHelperContent::getLanguageId($original['language'])
+			'ucm_language_id' => JHelperContent::getLanguageId($original['language']),
 		);
 
 		return $data;

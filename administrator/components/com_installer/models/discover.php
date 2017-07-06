@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
@@ -164,6 +166,7 @@ class InstallerModelDiscover extends InstallerModel
 			if (!array_key_exists($key, $extensions))
 			{
 				// Put it into the table
+				$result->check();
 				$result->store();
 			}
 		}
@@ -189,7 +192,7 @@ class InstallerModelDiscover extends InstallerModel
 				$eid = array($eid);
 			}
 
-			JArrayHelper::toInteger($eid);
+			$eid = ArrayHelper::toInteger($eid);
 			$failed = false;
 
 			foreach ($eid as $id)
