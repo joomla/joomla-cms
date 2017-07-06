@@ -199,6 +199,11 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
+		if(!isset($options['tinyMCE']))
+		{
+			$options['tinyMCE'] = array();
+		}
+
 		if ($options['tinyMCE'][$fieldName])
 		{
 			$options['tinyMCE'][$fieldName] = array_merge($options['tinyMCE'][$fieldName], $params);
