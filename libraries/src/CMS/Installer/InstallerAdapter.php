@@ -23,6 +23,14 @@ defined('JPATH_PLATFORM') or die;
 abstract class InstallerAdapter
 {
 	/**
+	 * Changelog Url of an extensions
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 * */
+	protected $changelogurl = null;
+
+	/**
 	 * ID for the currently installed extension if present
 	 *
 	 * @var    integer
@@ -677,7 +685,7 @@ abstract class InstallerAdapter
 		// Set the extension's name and element
 		$this->name    = $this->getName();
 		$this->element = $this->getElement();
-
+		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 		/*
 		 * ---------------------------------------------------------------------------------------------
 		 * Extension Precheck and Setup Section
