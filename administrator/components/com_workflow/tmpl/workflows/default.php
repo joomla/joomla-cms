@@ -14,6 +14,8 @@ defined('_JEXEC') or die('Restricted Access');
 JHtml::_('behavior.tooltip');
 
 $extension = $this->escape($this->state->get('filter.extension'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 $columns = 6;
 
