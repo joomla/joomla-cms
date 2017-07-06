@@ -141,11 +141,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php echo $this->pagination->getListFooter(); ?>
 	<p class="footer-tip">
 		<?php if ($this->enabled && $this->collect_urls_enabled) : ?>
-			<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
 			<span class="enabled"><?php echo JText::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED')); ?></span>
 		<?php elseif ($this->enabled && !$this->collect_urls_enabled) : ?>
-			<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
-			<span class="enabled"><?php echo JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId()); ?></span>
+			<?php $link = JHtml::_(
+				'link',
+				JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId()),
+				JText::_('COM_REDIRECT_SYSTEM_PLUGIN')
+			);
+			?>
+			<span class="enabled"><?php echo JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link); ?></span>
 		<?php elseif (!$this->enabled) : ?>
 			<span class="disabled"><?php echo JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId()); ?></span>
 		<?php endif; ?>
