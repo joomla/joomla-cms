@@ -4,6 +4,7 @@ pipeline {
   agent any
 
   stages {
+
     stage('codestyles') {
       agent {
         docker 'joomlaprojects/docker-phpcs'
@@ -79,5 +80,5 @@ pipeline {
       }
     }
   }
-}
 
+}
