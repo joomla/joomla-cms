@@ -407,8 +407,8 @@ class JHtmlTest extends TestCase
 			'JHtml::image failed when we should get it from the media directory in path only mode'
 		);
 
-		$extension = 'testextension';
-		$element = 'element';
+		$extension = uniqid() . 'testextension';
+		$element = uniqid() . 'element';
 		$urlpath = 'path1/';
 		$urlfilename = 'image1.jpg';
 
@@ -498,16 +498,18 @@ class JHtmlTest extends TestCase
 			'JHtml::image with an absolute path'
 		);
 
-		mkdir(JPATH_ROOT . '/test', 0777, true);
-		file_put_contents(JPATH_ROOT . '/test/image.jpg', 'test');
+		$dir = JPATH_ROOT . '/' . uniqid();
+
+		mkdir($dir . '/test', 0777, true);
+		file_put_contents($dir . '/test/image.jpg', 'test');
 		$this->assertEquals(
 			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
 			'<img src="' . JUri::root(true) . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
 
-		unlink(JPATH_ROOT . '/test/image.jpg');
-		rmdir(JPATH_ROOT . '/test');
+		unlink($dir . '/test/image.jpg');
+		rmdir($dir . '/test');
 
 		$this->assertEquals(
 			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
