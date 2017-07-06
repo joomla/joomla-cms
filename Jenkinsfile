@@ -48,8 +48,6 @@ pipeline {
          sh 'export PHPVERSION=php56;/usr/local/bin/docker-compose --project-name php56-$BRANCH_NAME-$BUILD_NUMBER -f build/jenkins/docker-compose.yml down'
          sh 'export PHPVERSION=php70;/usr/local/bin/docker-compose --project-name php70-$BRANCH_NAME-$BUILD_NUMBER -f build/jenkins/docker-compose.yml down'
          sh 'export PHPVERSION=php71;/usr/local/bin/docker-compose --project-name php71-$BRANCH_NAME-$BUILD_NUMBER -f build/jenkins/docker-compose.yml down'
-
-         deleteDir()
         }
       }
     }
