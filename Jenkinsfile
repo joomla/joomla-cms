@@ -2,6 +2,7 @@
 
 pipeline {
   agent any
+
   stages {
     stage('codestyles') {
       agent {
@@ -50,7 +51,6 @@ pipeline {
       }
     }
 
-
     stage('Testing-Javascript') {
       agent {
         docker {
@@ -70,6 +70,12 @@ pipeline {
             tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
         '''
         sh 'echo $(date)'
+      }
+    }
+
+    stage('Cleanup') {
+      steps {
+        deleteDir()
       }
     }
   }
