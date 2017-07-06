@@ -686,6 +686,7 @@ abstract class InstallerAdapter
 		$this->name    = $this->getName();
 		$this->element = $this->getElement();
 		$this->changelogurl = (string) $this->getManifest()->changelogurl;
+
 		/*
 		 * ---------------------------------------------------------------------------------------------
 		 * Extension Precheck and Setup Section

@@ -761,9 +761,9 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// Add or update an entry to the extension table
-		$this->extension->name    = $this->name;
-		$this->extension->type    = 'component';
-		$this->extension->element = $this->element;
+		$this->extension->name         = $this->name;
+		$this->extension->type         = 'component';
+		$this->extension->element      = $this->element;
 		$this->extension->changelogurl = $this->changelogurl;
 
 		// If we are told to delete existing extension entries then do so.
