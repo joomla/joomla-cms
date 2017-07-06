@@ -520,8 +520,8 @@ class TemplateAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->type    = 'template';
-			$this->extension->element = $this->element;
+			$this->extension->type         = 'template';
+			$this->extension->element      = $this->element;
 
 			// There is no folder for templates
 			$this->extension->folder    = '';
@@ -537,6 +537,8 @@ class TemplateAdapter extends InstallerAdapter
 
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
+
+		$this->extension->changelogurl = $this->changelogurl;
 
 		if (!$this->extension->store())
 		{
