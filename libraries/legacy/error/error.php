@@ -289,7 +289,7 @@ abstract class JError
 	 * @return  JException  $error  The thrown JException object
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0 Use \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg, 'warning') instead
+	 * @deprecated  4.0 Use \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg, 'warning') when wou want to notify the UI
 	 * @see     JError::raise()
 	 */
 	public static function raiseWarning($code, $msg, $info = null)
@@ -311,7 +311,7 @@ abstract class JError
 	 * @return  JException  $error  The thrown JException object
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0 Use \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg, 'notice') instead
+	 * @deprecated  4.0 Use \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg, 'notice') when wou want to notify the UI
 	 * @see     JError::raise()
 	 */
 	public static function raiseNotice($code, $msg, $info = null)
