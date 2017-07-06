@@ -167,7 +167,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
-				$h($this);
+				call_user_func_array($h, array( &$this));
 			}
 
 			sqlsrv_close($this->connection);
