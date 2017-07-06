@@ -314,7 +314,7 @@ class JModelList extends JModelLegacy
 			$limit = $this->getState('list.limit');
 			$total = $this->getTotal();
 
-			if ($start > $total - $limit)
+			if ($start > $total)
 			{
 				$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
 			}
