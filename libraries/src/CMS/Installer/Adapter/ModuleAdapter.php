@@ -606,6 +606,7 @@ class ModuleAdapter extends InstallerAdapter
 			$this->extension->name    = $this->name;
 			$this->extension->type    = 'module';
 			$this->extension->element = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for modules
 			$this->extension->folder    = '';

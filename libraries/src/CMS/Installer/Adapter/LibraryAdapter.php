@@ -380,6 +380,7 @@ class LibraryAdapter extends InstallerAdapter
 		$this->extension->name = $this->name;
 		$this->extension->type = 'library';
 		$this->extension->element = $this->element;
+		$this->extension->changelogurl = $this->changelogurl;
 
 		// There is no folder for libraries
 		$this->extension->folder    = '';
