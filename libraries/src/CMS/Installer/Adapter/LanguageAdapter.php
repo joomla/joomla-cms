@@ -479,6 +479,7 @@ class LanguageAdapter extends InstallerAdapter
 		$row->set('name', $this->name);
 		$row->set('type', 'language');
 		$row->set('element', $this->tag);
+		$row->set('changelogurl', (string) $this->getManifest()->changelogurl);
 
 		// There is no folder for languages
 		$row->set('folder', '');
@@ -758,6 +759,7 @@ class LanguageAdapter extends InstallerAdapter
 		$row->set('type', 'language');
 		$row->set('element', $this->tag);
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
+		$row->set('changelogurl', (string) $this->getManifest()->changelogurl);
 
 		// Clean installed languages cache.
 		\JFactory::getCache()->clean('com_languages');
