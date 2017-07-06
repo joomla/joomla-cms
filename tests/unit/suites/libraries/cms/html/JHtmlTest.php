@@ -503,20 +503,22 @@ class JHtmlTest extends TestCase
 
 		mkdir($dir . '/test', 0777, true);
 		file_put_contents($dir . '/test/image.jpg', 'test');
-		$this->assertEquals(
-			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
-			'<img src="' . JUri::root(true) . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
-			'JHtml::image with an absolute path, URL does not start with http'
-		);
 
 		$this->assertEquals(
 			JHtml::image($id . '/test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
-			'<img src="/' . $id . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
+			'<img src="' . JUri::root(true) . '/' . $id . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
 
 		unlink($dir . '/test/image.jpg');
 		rmdir($dir . '/test');
+
+		$this->assertEquals(
+			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
+			'<img src="" alt="My Alt Text" width="150" height="150" />',
+			'JHtml::image with an absolute path, URL does not start with http'
+		);
+
 	}
 
 	/**
