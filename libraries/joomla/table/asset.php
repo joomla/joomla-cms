@@ -107,7 +107,7 @@ class JTableAsset extends JTableNested
 		{
 			// Get the JDatabaseQuery object
 			$query = $this->_db->getQuery(true)
-				->select('1')
+				->select('COUNT(*)')
 				->from($this->_db->quoteName($this->_tbl))
 				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 
