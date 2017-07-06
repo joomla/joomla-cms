@@ -1007,13 +1007,25 @@ ENDDATA;
 	 */
 	public function getExtensions($latest_version)
 	{
-		$db = $this->getDbo();
+		$coreExtensions = JExtensionHelper::getCoreExtensions();
+
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('*')
 			->from($db->qn('#__extensions'))
-			->where($db->qn('protected') . ' = ' . $db->q('0'))
-			->where($db->qn('extension_id') . ' > ' . $db->q('9999'));
+			->where($db->qn('protected') . ' = ' . $db->q('0'));
+
+		// Add condition to exclude core extensions
+		foreach ($coreExtensions as $coreExtension)
+		{
+			$query->where(
+				'(' . $db->qn('type') . ' <> ' . $db->q($extension[0])
+				. ' OR ' . $db->qn('element') . ' <> ' . $db->q($extension[1])
+				. ' OR ' . $db->qn('folder') . ' <> ' . $db->q($extension[2])
+				. ' OR ' . $db->qn('client_id') . ' <> ' . $extension[3] . ')'
+			);
+		}
 
 		$db->setQuery($query);
 
