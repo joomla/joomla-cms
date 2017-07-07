@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include dependencies.
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModSampledataHelper', __DIR__ . '/helper.php');
 
-$items = ModSampledataHelper::getList($params);
+$items = ModSampledataHelper::getList();
 require JModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));
