@@ -21,6 +21,9 @@ defined('_JEXEC') or die;
 // Reference global application object
 $app = JFactory::getApplication();
 
+// Prevent the api url from being indexed
+$app->setHeader('X-Robots-Tag', 'noindex');
+
 // JInput object
 $input = $app->input;
 
@@ -155,7 +158,6 @@ switch ($format)
 	// JSONinzed
 	case 'json' :
 
-		$app->setHeader('X-Robots-Tag', 'noindex');
 		$app->setHeader('Content-Type', 'application/json');
 
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
