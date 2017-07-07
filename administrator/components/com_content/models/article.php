@@ -108,7 +108,7 @@ class ContentModelArticle extends JModelAdmin
 
 				foreach ($fields as $field)
 				{
-					$fieldsData['com_fields'][$field->name] = $field->value;
+					$fieldsData['com_fields'][$field->name] = $field->rawvalue;
 				}
 			}
 
@@ -253,7 +253,7 @@ class ContentModelArticle extends JModelAdmin
 
 				foreach ($fields as $field)
 				{
-					$fieldsData['com_fields'][$field->name] = $field->value;
+					$fieldsData['com_fields'][$field->name] = $field->rawvalue;
 				}
 			}
 
