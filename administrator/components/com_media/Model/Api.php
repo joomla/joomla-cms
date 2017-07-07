@@ -15,6 +15,7 @@ use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 /**
  * Api Model
@@ -106,7 +107,7 @@ class Api extends Model
 	 */
 	public function getFile($adapter, $path = '/')
 	{
-		// Add adapter info to the file returned
+		// Add adapter prefix to the file returned
 		$file = $this->getAdapter($adapter)->getFile($path);
 		$file->path = $adapter . ":" . $file->path;
 
@@ -120,6 +121,7 @@ class Api extends Model
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The folder
 	 * @param   string  $filter   The filter
+	 * @param   array   $options  The options
 	 *
 	 * @return  \stdClass[]
 	 *
@@ -127,13 +129,20 @@ class Api extends Model
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFiles($adapter, $path = '/', $filter = '')
+	public function getFiles($adapter, $path = '/', $filter = '', $options = array())
 	{
-		// Add adapter info to all the files to be returned
+		// Add adapter prefix to all the files to be returned
 		$files = $this->getAdapter($adapter)->getFiles($path, $filter);
 
 		foreach ($files as $file)
 		{
+			// If requested add options
+			// Url is only can be provided for a file
+			if (isset($options['url']) && $options['url'] && $file->type == 'file')
+			{
+				$file->url = $this->getUrl($adapter, $file->path);
+			}
+
 			$file->path = $adapter . ":" . $file->path;
 		}
 
@@ -257,5 +266,22 @@ class Api extends Model
 	public function move($adapter, $sourcePath, $destinationPath, $force = false)
 	{
 		$this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
+	}
+
+	/**
+	 * Returns an url for serve media files from adapter.
+	 * Url must provide a valid image type to be displayed on Joomla! site.
+	 *
+	 * @param   string  $adapter  The adapter
+	 * @param   string  $path     The relative path for the file
+	 *
+	 * @return string  Permalink to the relative file
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws FileNotFoundException
+	 */
+	public function getUrl($adapter, $path)
+	{
+		return $this->getAdapter($adapter)->getUrl($path);
 	}
 }

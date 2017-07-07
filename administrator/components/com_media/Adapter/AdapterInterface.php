@@ -36,7 +36,7 @@ interface AdapterInterface
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -149,4 +149,17 @@ interface AdapterInterface
 	 * @throws  \Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false);
+
+	/**
+	 * Returns an url for serve media files from adapter.
+	 * Url must provide a valid image type to be displayed on Joomla! site.
+	 *
+	 * @param   string  $path  The path to file
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws FileNotFoundException
+	 */
+	public function getUrl($path);
 }
