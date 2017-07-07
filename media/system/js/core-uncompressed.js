@@ -10,7 +10,37 @@ Joomla = window.Joomla || {};
 Joomla.editors = Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {};
+Joomla.editors.instances = Joomla.editors.instances || {
+	/**
+	 * *****************************************************************
+	 * All Editors MUST register, per instance, the following callbacks:
+	 * *****************************************************************
+	 *
+	 * getValue         Type  Function  Should return the complete data from the editor
+	 *                                  Example: function () { return this.element.value; }
+	 * setValue         Type  Function  Should replace the complete data of the editor
+	 *                                  Example: function (text) { return this.element.value = text; }
+	 * replaceSelection Type  Function  Should replace the selected text of the editor
+	 *                                  If nothing selected, will insert the data at the cursor
+	 *                                  Example: function (text) { return insertAtCursor(this.element, text); }
+	 *
+	 * USAGE (assuming that jform_articletext is the textarea id)
+	 * {
+	 *   To get the current editor value:
+	 *      Joomla.editors.instances['jform_articletext'].getValue();
+	 *   To set the current editor value:
+	 *      Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
+	 *   To replace(selection) or insert a value at  the current editor cursor:
+	 *      replaceSelection: Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
+	 * }
+	 *
+	 * *********************************************************
+	 * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
+	 * *********************************************************
+	 *
+	 * jInsertEditorText() @deprecated 4.0
+	 */
+	};
 
 (function( Joomla, document ) {
 	"use strict";
@@ -30,7 +60,12 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		// Toggle HTML5 validation
 		form.noValidate = !validate;
-		form.setAttribute('novalidate', !validate)
+
+		if (!validate) {
+			form.setAttribute('novalidate', '');
+		} else if ( form.hasAttribute('novalidate') ) {
+			form.removeAttribute('novalidate');
+		}
 
 		// Submit the form.
 		// Create the input type="submit"
@@ -140,27 +175,32 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-				str, element, option;
+				str, element, option, counter = 0;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
 				str     = element.text || element.textContent;
 				option  = JSON.parse(str);
 
-				option ? Joomla.loadOptions(option) : null;
+				if (option) {
+					Joomla.loadOptions(option);
+					counter++;
+				}
 
 				element.className = element.className.replace(' new', ' loaded');
 			}
 
-			return;
+			if (counter) {
+				return;
+			}
 		}
 
 		// Initial loading
 		if (!Joomla.optionsStorage) {
-			Joomla.optionsStorage = options;
+			Joomla.optionsStorage = options || {};
 		}
 		// Merge with existing
-		else {
+		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
 					Joomla.optionsStorage[p] = options[p];

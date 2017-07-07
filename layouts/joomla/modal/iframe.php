@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 extract($displayData);
 
 /**
@@ -28,7 +30,7 @@ extract($displayData);
  *                             - width        string   width of the <iframe> containing the remote resource
  *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
  *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+ * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  *
  */
 
@@ -61,4 +63,4 @@ if (isset($params['width']))
 	$iframeAttributes['width'] = $params['width'];
 }
 ?>
-<iframe <?php echo JArrayHelper::toString($iframeAttributes); ?>></iframe>
+<iframe <?php echo ArrayHelper::toString($iframeAttributes); ?>></iframe>

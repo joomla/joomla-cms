@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -39,7 +39,7 @@ class JInstallerTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -129,7 +129,7 @@ class JInstallerTest extends TestCaseDatabase
 		$this->assertEquals(
 			$this->object->getRedirectUrl(),
 			'http://www.example.com',
-			'Get or Set Redirect Url failed'
+			'Get or Set Redirect URL failed'
 		);
 	}
 

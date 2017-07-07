@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since   3.7
  *
- * @see     https://developer.joomla.org/news/658-joomla4-manifesto.html
+ * @link    https://developer.joomla.org/news/658-joomla4-manifesto.html
  */
 function admin_postinstall_joomla40checks_condition()
 {
@@ -38,10 +38,15 @@ function admin_postinstall_joomla40checks_condition()
 		return true;
 	}
 
-	
 	if ($serverType == 'mysql' && version_compare($serverVersion, '5.5.3', 'lt'))
 	{
 		// MySQL minimum version is 5.5.3
+		return true;
+	}
+
+	if ($db->name === 'mysql')
+	{
+		// Using deprecated MySQL driver
 		return true;
 	}
 

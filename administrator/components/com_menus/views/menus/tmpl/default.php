@@ -70,19 +70,19 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap center">
-							<span class="icon-publish"></span>
+							<span class="icon-publish" aria-hidden="true"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 						</th>
 						<th width="10%" class="nowrap center">
-							<span class="icon-unpublish"></span>
+							<span class="icon-unpublish" aria-hidden="true"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 						</th>
 						<th width="10%" class="nowrap center">
-							<span class="icon-trash"></span>
+							<span class="icon-trash" aria-hidden="true"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 						</th>
 						<th width="20%" class="nowrap center">
-							<span class="icon-cube"></span>
+							<span class="icon-cube" aria-hidden="true"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">

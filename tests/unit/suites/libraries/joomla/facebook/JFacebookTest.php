@@ -4,7 +4,7 @@
  * @subpackage  Facebook
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -78,16 +78,13 @@ class JFacebookTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->client, $this->object);
 		parent::tearDown();
 	}
 

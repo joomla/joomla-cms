@@ -3,7 +3,7 @@
  * @package    Joomla.Test
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -27,6 +27,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 		return array(
 			array("'%_abc123[]", false, "''%_abc123[]"),
 			array("'%_abc123[]", true, "''[%][_]abc123[[]]"),
+			array("binary\000data", false, "binary' + CHAR(0) + N'data"),
 		);
 	}
 
@@ -35,7 +36,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestQuoteName()
 	{
@@ -93,7 +94,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestQuoteName
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testQuoteName($text, $asPart, $expected)
 	{

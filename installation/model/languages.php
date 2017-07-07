@@ -135,16 +135,18 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function install($lids)
 	{
+		$installerBase = new JInstaller;
+
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
-			$installer = new JInstaller;
+			$installer = clone $installerBase;
 
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
 			$language->load($id);
 
-			// Get the url to the XML manifest file of the selected language.
+			// Get the URL to the XML manifest file of the selected language.
 			$remote_manifest = $this->getLanguageManifest($id);
 
 			if (!$remote_manifest)
@@ -158,12 +160,12 @@ class InstallationModelLanguages extends JModelBase
 				continue;
 			}
 
-			// Based on the language XML manifest get the url of the package to download.
+			// Based on the language XML manifest get the URL of the package to download.
 			$package_url = $this->getPackageUrl($remote_manifest);
 
 			if (!$package_url)
 			{
-				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access.
+				// Could not find the URL, maybe the URL is wrong in the update server, or there is no internet access.
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
@@ -221,9 +223,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Finds the url of the package to download.
+	 * Finds the URL of the package to download.
 	 *
-	 * @param   string  $remote_manifest  Url to the manifest XML file of the remote package.
+	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
 	 *
 	 * @return  string|bool
 	 *
@@ -240,7 +242,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Download a language package from a URL and unpack it in the tmp folder.
 	 *
-	 * @param   string  $url  Url of the package.
+	 * @param   string  $url  URL of the package.
 	 *
 	 * @return  array|bool Package details or false on failure.
 	 *
@@ -401,7 +403,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getPath()
 	{
-		if (is_null($this->path))
+		if ($this->path === null)
 		{
 			$client     = $this->getClient();
 			$this->path = JLanguageHelper::getLanguagePath($client->path);
@@ -702,14 +704,11 @@ class InstallationModelLanguages extends JModelBase
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
 		{
-			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				if (!$tableLanguage->publish())
-				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
-					continue;
-				}
+				continue;
 			}
 		}
 

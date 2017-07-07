@@ -204,7 +204,7 @@ class TagsModelTag extends JModelList
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format == 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}
@@ -258,7 +258,7 @@ class TagsModelTag extends JModelList
 	 */
 	public function getItem($pk = null)
 	{
-		if (!isset($this->item) ||$this->item === null)
+		if (!isset($this->item))
 		{
 			$this->item = false;
 
@@ -280,12 +280,17 @@ class TagsModelTag extends JModelList
 					$table->load($id);
 
 					// Check published state.
-					if ($published = $this->getState('filter.published'))
+					if ($published = $this->getState('tag.state'))
 					{
 						if ($table->published != $published)
 						{
-							return $this->item;
+							continue;
 						}
+					}
+
+					if (!in_array($table->access, JFactory::getUser()->getAuthorisedViewLevels()))
+					{
+						continue;
 					}
 
 					// Convert the JTable to a clean JObject.
@@ -299,6 +304,11 @@ class TagsModelTag extends JModelList
 					return false;
 				}
 			}
+		}
+
+		if (!$this->item)
+		{
+			return JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
 		}
 
 		return $this->item;

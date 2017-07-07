@@ -4,7 +4,7 @@
  * @subpackage  Github
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Github
  * @since       12.3
  */
-class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
+class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.

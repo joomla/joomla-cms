@@ -57,7 +57,7 @@ class UsersModelLevel extends JModelAdmin
 				 * than the 'access' field they are on their own unfortunately.
 				 * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
 				 */
-				if ((strpos($table, $prefix) === 0) && (isset($fields['access'])))
+				if (strpos($table, $prefix) === 0 && isset($fields['access']))
 				{
 					// Lookup the distinct values of the field.
 					$query->clear('from')

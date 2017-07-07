@@ -20,7 +20,7 @@ class TagsController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
-	 * @param   mixed|boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
@@ -34,7 +34,7 @@ class TagsController extends JControllerLegacy
 		$vName = $this->input->get('view', 'tags');
 		$this->input->set('view', $vName);
 
-		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName == 'tags'))
+		if ($user->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'tags'))
 		{
 			$cachable = false;
 		}

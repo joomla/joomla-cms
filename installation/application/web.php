@@ -103,7 +103,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 				$guess = trim($guess);
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -143,7 +143,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			// Register the document object with JFactory.
 			JFactory::$document = $document;
 
-			if ($document->getType() == 'html')
+			if ($document->getType() === 'html')
 			{
 				// Set metadata
 				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
@@ -231,7 +231,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function fetchController($task)
 	{
-		if (is_null($task))
+		if ($task === null)
 		{
 			$task = 'default';
 		}
@@ -250,7 +250,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Returns the language code and help url set in the localise.xml file.
+	 * Returns the language code and help URL set in the localise.xml file.
 	 * Used for forcing a particular language in localised releases.
 	 *
 	 * @return  mixed  False on failure, array on success.
@@ -267,7 +267,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Check that it's a localise file.
-		if ($xml->getName() != 'localise')
+		if ($xml->getName() !== 'localise')
 		{
 			return false;
 		}
@@ -361,7 +361,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$requestLang = $this->input->getCmd('lang', null);
 
-			if (!is_null($requestLang))
+			if ($requestLang !== null)
 			{
 				$options['language'] = $requestLang;
 			}

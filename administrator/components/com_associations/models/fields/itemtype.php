@@ -54,7 +54,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 		}
 
 		// Sort by alpha order.
-		ksort($options, SORT_NATURAL);
+		uksort($options, 'strnatcmp');
 
 		// Add options to parent array.
 		return array_merge(parent::getGroups(), $options);

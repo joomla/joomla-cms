@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database iterator.
  *
- * @see         http://dev.mysql.com/doc/
+ * @link        http://dev.mysql.com/doc/
  * @since       12.1
- * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
+ * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseIteratorMysql extends JDatabaseIterator
 {

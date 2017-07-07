@@ -162,7 +162,7 @@
 }
 
 /* btn-group */
-.btn-group.btn-group-yesno > .btn, .btn-group > .btn + .dropdown-toggle {
+.btn-group.btn-group-yesno > .btn, .btn-group > .btn, .btn-group > .btn + .dropdown-toggle {
 	float: none;
 }
 
@@ -278,6 +278,8 @@ a.grid_true {
 
 @media (max-width: 767px) {
 	.j-sidebar-container {
+		position: relative;
+		padding: 0;
 		border-right: 0;
 		border-left: 0;
 	}
@@ -366,6 +368,8 @@ a.grid_true {
 #mediamanager-form .thumbnails-media .thumbnail {
     margin-left: 18px !important;
     margin-right: 0;
+    direction: ltr;
+    text-align: center;
 }
 .thumbnails-media .imgThumb label::before, .thumbnails-media .imgThumb .imgThumbInside::before {
 	left: 0;
@@ -381,9 +385,14 @@ a.grid_true {
 }
 .thumbnails-media .imgPreview a, .thumbnails-media .imgDetails {
     border-radius: 3px 0;
-    border-width: 1px 0 0 1px;
-    left: auto;
+    border-width: 1px;
+    left: 0;
     right: 0;
+    text-align: left;
+    direction: ltr;
+}
+.thumbnails-media .imgPreview a {
+	width: 100%;
 }
 
 /* SubForms (Table) */
@@ -403,5 +412,21 @@ a.grid_true {
 	}
 	.form-horizontal .controls {
 		margin-top: 0;
+	}
+}
+
+/* com_templates */
+.tree-holder {
+	ul {
+		ul {
+			padding-right: 15px;
+			box-shadow: 3px 0 0 rgba(0, 0, 0, 0.08);
+			padding-left: 0;
+			.folder-url, .file {
+				box-shadow: 3px 0 0 @linkColor;
+				border-right: 0;
+				border-left: 1px solid rgba(0, 0, 0, 0.08);
+			}
+		}
 	}
 }

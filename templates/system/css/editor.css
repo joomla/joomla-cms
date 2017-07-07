@@ -5,21 +5,21 @@
 
 body {
 	background: #fff;
-	font-family: Tahoma,Helvetica,Arial,sans-serif;
+	font-family: Tahoma, Helvetica, Arial, sans-serif;
 	line-height: 1.3em;
 	font-size: 76%;
 	color: #333;
 }
 
 h1 {
-	font-family:Helvetica ,Arial,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 16px;
 	font-weight: bold;
 	color: #666;
 }
 
 h2 {
-	font-family: Arial, Helvetica,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	font-weight: normal;
 	color: #333;
@@ -27,7 +27,7 @@ h2 {
 
 h3 {
   font-weight: bold;
-  font-family: Helvetica,Arial,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   color: #135cae;
 }
@@ -39,12 +39,14 @@ h4 {
 }
 
 a:link, a:visited {
-	color: #1B57B1; text-decoration: none;
+	color: #1B57B1; 
+	text-decoration: none;
 	font-weight: normal;
 }
 
 a:hover {
-	color: #00c;	text-decoration: underline;
+	color: #00c;	
+	text-decoration: underline;
 	font-weight: normal;
 }
 

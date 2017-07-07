@@ -69,5 +69,4 @@ class TemplatesViewStyle extends JViewLegacy
 		return $paramsList;
 
 	}
-
 }

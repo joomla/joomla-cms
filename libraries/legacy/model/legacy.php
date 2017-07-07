@@ -4,10 +4,12 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a Joomla Model
@@ -186,7 +188,7 @@ abstract class JModelLegacy extends JObject
 				return false;
 			}
 
-			JLoader::register($modelClass, $path);
+			require_once $path;
 
 			if (!class_exists($modelClass))
 			{
@@ -493,7 +495,7 @@ abstract class JModelLegacy extends JObject
 			return false;
 		}
 
-		$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
+		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
 		$typeId   = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
 
 		if ($historyTable->ucm_type_id != $typeId)
@@ -576,8 +578,8 @@ abstract class JModelLegacy extends JObject
 		$conf = JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
+			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
 			'result' => true,
 		);
 

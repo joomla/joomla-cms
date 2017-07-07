@@ -365,7 +365,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
@@ -421,7 +421,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 				// Add credentials to the session
 				if (!JClientHelper::setCredentials('ftp', $user, $pass))
 				{
-					JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+					JError::raiseWarning(500, JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
 				}
 			}
 		}
@@ -461,28 +461,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// The login fails?
 		if (!$result)
 		{
-			try
-			{
-				JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE_FAIL'), JLog::INFO, 'Update');
-			}
-			catch (RuntimeException $exception)
-			{
-				// Informational log only
-			}
-
 			JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_AUTH_INVALID_PASS'), 'warning');
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
 			return false;
-		}
-
-		try
-		{
-			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE'), JLog::INFO, 'Update');
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
 		}
 
 		// Redirect back to the actual finalise page

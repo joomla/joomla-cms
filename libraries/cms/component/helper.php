@@ -4,7 +4,7 @@
  * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -21,7 +21,7 @@ class JComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    array
+	 * @var    JComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -32,7 +32,7 @@ class JComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  stdClass   An object with the information for the component.
+	 * @return  JComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -46,19 +46,14 @@ class JComponentHelper
 			}
 			else
 			{
-				$result = new stdClass;
+				$result = new JComponentRecord;
 				$result->enabled = $strict ? false : true;
-				$result->params = new Registry;
+				$result->setParams(new Registry);
 			}
 		}
 		else
 		{
 			$result = static::$components[$option];
-		}
-
-		if (is_string($result->params))
-		{
-			static::$components[$option]->params = new Registry(static::$components[$option]->params);
 		}
 
 		return $result;
@@ -165,11 +160,11 @@ class JComponentHelper
 			$filterData = $filters->$groupId;
 			$filterType = strtoupper($filterData->filter_type);
 
-			if ($filterType == 'NH')
+			if ($filterType === 'NH')
 			{
 				// Maximum HTML filtering.
 			}
-			elseif ($filterType == 'NONE')
+			elseif ($filterType === 'NONE')
 			{
 				// No HTML filtering.
 				$unfiltered = true;
@@ -205,13 +200,13 @@ class JComponentHelper
 
 				// Collect the blacklist or whitelist tags and attributes.
 				// Each list is cummulative.
-				if ($filterType == 'BL')
+				if ($filterType === 'BL')
 				{
 					$blackList           = true;
 					$blackListTags       = array_merge($blackListTags, $tempTags);
 					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
 				}
-				elseif ($filterType == 'CBL')
+				elseif ($filterType === 'CBL')
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -221,7 +216,7 @@ class JComponentHelper
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType == 'WL')
+				elseif ($filterType === 'WL')
 				{
 					$whiteList           = true;
 					$whiteListTags       = array_merge($whiteListTags, $tempTags);
@@ -238,12 +233,7 @@ class JComponentHelper
 		$whiteListTags        = array_unique($whiteListTags);
 		$whiteListAttributes  = array_unique($whiteListAttributes);
 
-		// Unfiltered assumes first priority.
-		if ($unfiltered)
-		{
-			// Dont apply filtering.
-		}
-		else
+		if (!$unfiltered)
 		{
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
@@ -424,9 +414,27 @@ class JComponentHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
+	 * @note    As of 4.0 this method will be restructured to only load the data into memory
 	 */
 	protected static function load($option)
 	{
+		try
+		{
+			JLog::add(
+				sprintf(
+					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
+					__METHOD__,
+					__CLASS__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			// Informational log only
+		}
+
 		$loader = function ()
 		{
 			$db = JFactory::getDbo();
@@ -436,7 +444,7 @@ class JComponentHelper
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option');
+			return $db->loadObjectList('option', 'JComponentRecord');
 		};
 
 		/** @var JCacheControllerCallback $cache */
@@ -444,20 +452,7 @@ class JComponentHelper
 
 		try
 		{
-			$components = $cache->get($loader, array(), $option, false);
-
-			/**
-			 * Verify $components is an array, some cache handlers return an object even though
-			 * the original was a single object array.
-			 */
-			if (!is_array($components))
-			{
-				static::$components[$option] = $components;
-			}
-			else
-			{
-				static::$components = $components;
-			}
+			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
 		catch (JCacheException $e)
 		{
@@ -493,7 +488,7 @@ class JComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  array  The components property
+	 * @return  JComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */

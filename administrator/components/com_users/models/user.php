@@ -112,8 +112,13 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$plugin = JPluginHelper::getPlugin('user', 'joomla');
-		$pluginParams = new Registry($plugin->params);
+		$pluginParams = new Registry;
+		
+		if (JPluginHelper::isEnabled('user', 'joomla'))
+		{
+			$plugin = JPluginHelper::getPlugin('user', 'joomla');
+			$pluginParams->loadString($plugin->params);
+		}
 
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
@@ -126,7 +131,7 @@ class UsersModelUser extends JModelAdmin
 		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
-		if ($userId === 0 && $pluginParams->get('mail_to_user') === '0')
+		if ($userId === 0 && $pluginParams->get('mail_to_user', '0') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -211,20 +216,25 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin = $my->authorise('core.admin');
 
 		// User cannot modify own user groups
-		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
 		{
-			if ($data['groups'] != null)
-			{
-				// Form was probably tampered with
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+			// Form was probably tampered with
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
 
-				$data['groups'] = null;
-			}
+			$data['groups'] = null;
 		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+
+			return false;
+		}
+
+		// Make sure user groups is selected when add/edit an account
+		if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
 
 			return false;
 		}
@@ -238,7 +248,7 @@ class UsersModelUser extends JModelAdmin
 
 			foreach ($myNewGroups as $group)
 			{
-				$stillSuperAdmin = ($stillSuperAdmin) ? ($stillSuperAdmin) : JAccess::checkGroup($group, 'core.admin');
+				$stillSuperAdmin = $stillSuperAdmin ?: JAccess::checkGroup($group, 'core.admin');
 			}
 
 			if (!$stillSuperAdmin)
