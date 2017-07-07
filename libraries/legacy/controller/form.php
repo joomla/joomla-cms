@@ -911,33 +911,8 @@ class JControllerForm extends JControllerLegacy
 			$this->redirect();
 		}
 
-		// Test whether the data is valid.
-		$validData = $model->validate($form, $data);
-
-		// Check for validation errors.
-		if ($validData === false)
-		{
-			// Get the validation messages.
-			$errors = $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if ($errors[$i] instanceof Exception)
-				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
-				{
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
-		}
-		else
-		{
-			// Save the data in the session.
-			$app->setUserState($this->option . '.edit.' . $this->context . '.data', $validData);
-		}
+		// Save the data in the session.
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
