@@ -292,7 +292,7 @@ class Article extends Item
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseWarning(500, $e->getMessage());
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -316,7 +316,7 @@ class Article extends Item
 				}
 				catch (\RuntimeException $e)
 				{
-					\JError::raiseWarning(500, $e->getMessage());
+					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 					return false;
 				}
@@ -343,7 +343,7 @@ class Article extends Item
 					}
 					catch (\RuntimeException $e)
 					{
-						\JError::raiseWarning(500, $e->getMessage());
+						\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 						return false;
 					}
@@ -357,7 +357,7 @@ class Article extends Item
 			return true;
 		}
 
-		\JError::raiseWarning('SOME_ERROR_CODE', \JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
 
 		return false;
 	}

@@ -1300,7 +1300,7 @@ abstract class Admin extends Form
 
 		if (empty($pks))
 		{
-			return \JError::raiseWarning(500, \JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
+			return \JFactory::getApplication()->enqueueMessage(\JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 
 		$orderingField = $table->getColumnAlias('ordering');

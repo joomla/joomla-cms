@@ -1302,7 +1302,7 @@ class Item extends Admin
 		}
 		catch (\RuntimeException $e)
 		{
-			return \JError::raiseWarning(500, $e->getMessage());
+			return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		foreach ($items as &$item)
@@ -1321,7 +1321,7 @@ class Item extends Admin
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JError::raiseWarning(500, $e->getMessage());
+				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
 			unset($registry);
@@ -1632,7 +1632,7 @@ class Item extends Admin
 					{
 						// Prune items that you can't change.
 						unset($pks[$i]);
-						\JError::raiseWarning(403, \JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'));
+						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'), 'error');
 					}
 					else
 					{
@@ -1647,19 +1647,19 @@ class Item extends Admin
 						{
 							// Prune items that you can't change.
 							unset($pks[$i]);
-							\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 						}
 						elseif (!$table->check())
 						{
 							// Prune the items that failed pre-save checks.
 							unset($pks[$i]);
-							\JError::raiseWarning(403, $table->getError());
+							\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 						}
 						elseif (!$table->store())
 						{
 							// Prune the items that could not be stored.
 							unset($pks[$i]);
-							\JError::raiseWarning(403, $table->getError());
+							\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 						}
 					}
 				}
@@ -1705,7 +1705,7 @@ class Item extends Admin
 				if ($table->load($pk) && $table->home && $table->language == '*')
 				{
 					// Prune items that you can't change.
-					\JError::raiseWarning(403, \JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'), 'error');
 					unset($pks[$i]);
 					break;
 				}

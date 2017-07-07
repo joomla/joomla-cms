@@ -94,7 +94,7 @@ class Manage extends Installer
 	{
 		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
-			\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -133,7 +133,7 @@ class Manage extends Installer
 			if ($table->protected == 1)
 			{
 				$result = false;
-				\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 			}
 			else
 			{
@@ -200,7 +200,7 @@ class Manage extends Installer
 	{
 		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			\JError::raiseWarning(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}

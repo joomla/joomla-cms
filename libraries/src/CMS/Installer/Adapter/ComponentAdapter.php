@@ -1080,7 +1080,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				if (!$table->delete((int) $menuid))
 				{
-					\JError::raiseWarning(1, $table->getError());
+					\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 					$result = false;
 				}
@@ -1305,7 +1305,7 @@ class ComponentAdapter extends InstallerAdapter
 			if (!$menu_id)
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
-				\JError::raiseWarning(1, $table->getError());
+				\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 				return false;
 			}
@@ -1322,7 +1322,7 @@ class ComponentAdapter extends InstallerAdapter
 				if (!$table->bind($data) || !$table->check() || !$table->store())
 				{
 					// Install failed, warn user and rollback changes
-					\JError::raiseWarning(1, $table->getError());
+					\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 					return false;
 				}

@@ -52,7 +52,7 @@ class JFormFieldNewsfeeds extends JFormFieldList
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $db->getMessage());
+			JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Merge any additional options in the XML definition.

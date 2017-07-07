@@ -46,7 +46,7 @@ class Featured extends Articles
 
 		if (empty($ids))
 		{
-			\JError::raiseWarning(500, \JText::_('JERROR_NO_ITEMS_SELECTED'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -57,7 +57,7 @@ class Featured extends Articles
 			// Remove the items.
 			if (!$model->featured($ids, 0))
 			{
-				\JError::raiseWarning(500, $model->getError());
+				\JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
 			}
 		}
 

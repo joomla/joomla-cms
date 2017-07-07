@@ -74,7 +74,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Allow translation of custom admin menus
