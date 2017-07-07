@@ -184,7 +184,7 @@ class JFormFieldMedia extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
@@ -232,7 +232,7 @@ class JFormFieldMedia extends JFormField
 
 		$asset = $this->asset;
 
-		if ($asset == '')
+		if ($asset === '')
 		{
 			$asset = JFactory::getApplication()->input->get('option');
 		}
