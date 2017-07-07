@@ -2,7 +2,7 @@
     <div class="media-browser-image">
         <div class="media-browser-item-preview">
             <div class="image-brackground">
-                <div class="image-cropped" :style="{ backgroundImage: 'url(' + itemUrl + ')' }"
+                <div class="image-cropped" :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"
                  @dblclick="openEditView()"></div>
             </div>
         </div>
@@ -28,11 +28,8 @@
         props: ['item'],
         computed: {
             /* Get the item url */
-            itemUrl() {
-                // TODO should we use relative urls here?
-                const fileBaseUrl = Joomla.getOptions('com_media').fileBaseUrl || '/images';
-
-                return fileBaseUrl + this.item.path;
+            thumbUrl() {
+                return this.item.thumb_path;
             }
         },
         methods: {

@@ -11,7 +11,7 @@
 	<description>PLG_FILESYSTEM_LOCAL_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="local">local.php</filename>
-		<folder>adapter</folder>
+		<folder>Adapter</folder>
 	</files>
 
 	<languages>
