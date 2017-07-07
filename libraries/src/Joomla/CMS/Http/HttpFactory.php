@@ -123,10 +123,10 @@ class HttpFactory
 		sort($names);
 
 		// If curl is available set it to the first position
-		if ($key = array_search('CurlTransport', $names))
+		if ($key = array_search('Curl', $names))
 		{
 			unset($names[$key]);
-			array_unshift($names, 'CurlTransport');
+			array_unshift($names, 'Curl');
 		}
 
 		return $names;
