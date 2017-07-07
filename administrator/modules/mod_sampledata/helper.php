@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_sampledata
  *
- * @since  3.5
+ * @since  __DEPLOY_VERSION__
  */
 abstract class ModSampledataHelper
 {
@@ -20,6 +20,8 @@ abstract class ModSampledataHelper
 	 * Get a list of sampledata.
 	 *
 	 * @return  mixed  An array of sampledata, or false on error.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getList()
 	{
