@@ -40,7 +40,7 @@ class Featured extends Articles
 			{
 				// Prune items that you can't delete.
 				unset($ids[$i]);
-				\JError::raiseNotice(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
 			}
 		}
 

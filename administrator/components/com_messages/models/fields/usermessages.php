@@ -48,7 +48,7 @@ class JFormFieldUserMessages extends JFormFieldUser
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseNotice(500, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
 			return null;
 		}

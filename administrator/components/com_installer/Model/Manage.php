@@ -124,7 +124,7 @@ class Manage extends Installer
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
-					\JError::raiseNotice(403, \JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
 					unset($eid[$i]);
 					continue;
 				}

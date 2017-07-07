@@ -73,7 +73,7 @@ class Articles extends Admin
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				\JError::raiseNotice(403, \JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
 			}
 		}
 

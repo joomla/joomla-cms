@@ -1475,7 +1475,7 @@ class Item extends Admin
 
 			if ($all_language && !empty($associations))
 			{
-				\JError::raiseNotice(403, \JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
 			// Get associationskey for edited item
@@ -1626,7 +1626,7 @@ class Item extends Admin
 					if ($table->home == $value)
 					{
 						unset($pks[$i]);
-						\JError::raiseNotice(403, \JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
+						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALREADY_HOME'), 'notice');
 					}
 					elseif ($table->menutype == 'main')
 					{
@@ -1670,7 +1670,7 @@ class Item extends Admin
 					if (!$onehome)
 					{
 						$onehome = true;
-						\JError::raiseNotice(403, \JText::sprintf('COM_MENUS_ERROR_ONE_HOME'));
+						\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_MENUS_ERROR_ONE_HOME'), 'notice');
 					}
 				}
 			}
