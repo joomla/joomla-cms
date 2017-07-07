@@ -148,28 +148,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</div>
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
+
 				<?php if (($this->errorCount === 0) && ($this->errorCount3rd === 0)) :?>
 					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?> ?>
 				<?php endif; ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
-						<div class="control-group">
-							<fieldset class="panelform">
-								<ul>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->updateVersion); ?></li>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results['ok'])); ?></li>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->results['skipped'])); ?></li>
-								</ul>
-							</fieldset>
-						</div>
-						<?php echo JHtml::_('bootstrap.endTab'); ?>
-					<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
+					<div class="control-group">
+						<fieldset class="panelform">
+							<ul>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->updateVersion); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results['ok'])); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->results['skipped'])); ?></li>
+							</ul>
+						</fieldset>
+					</div>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-					<input type="hidden" name="task" value="">
-					<input type="hidden" name="boxchecked" value="0">
-					<?php echo JHtml::_('form.token'); ?>
-				</div>
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
+				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>
 	</form>
