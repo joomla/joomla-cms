@@ -406,6 +406,7 @@ class FileAdapter extends InstallerAdapter
 			$this->extension->name = $this->name;
 			$this->extension->type = 'file';
 			$this->extension->element = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for files so leave it blank
 			$this->extension->folder    = '';
