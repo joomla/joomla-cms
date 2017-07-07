@@ -1014,7 +1014,7 @@ ENDDATA;
 
 		$query->select('*')
 			->from($db->qn('#__extensions'))
-			->where($db->qn('protected') . ' = ' . $db->q('0'));
+			->where($db->qn('protected') . ' = 0');
 
 		// Add condition to exclude core extensions
 		foreach ($coreExtensions as $coreExtension)
