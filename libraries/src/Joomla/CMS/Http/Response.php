@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.3
  */
-class HttpResponse
+class Response
 {
 	/**
 	 * @var    integer  The server response code.

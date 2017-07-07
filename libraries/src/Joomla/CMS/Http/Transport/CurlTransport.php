@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Http\HttpTransport;
-use Joomla\CMS\Http\HttpResponse;
+use Joomla\CMS\Http\Response;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -57,7 +57,7 @@ class CurlTransport implements HttpTransport
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
@@ -246,7 +246,7 @@ class CurlTransport implements HttpTransport
 	 *                            as a string if the response has no errors.
 	 * @param   array   $info     The cURL request information.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
@@ -254,7 +254,7 @@ class CurlTransport implements HttpTransport
 	protected function getResponse($content, $info)
 	{
 		// Create the response object.
-		$return = new HttpResponse;
+		$return = new Response;
 
 		// Try to get header size
 		if (isset($info['header_size']))

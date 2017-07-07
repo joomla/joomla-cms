@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Http\HttpTransport;
-use Joomla\CMS\Http\HttpResponse;
+use Joomla\CMS\Http\Response;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -63,7 +63,7 @@ class StreamTransport implements HttpTransport
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
@@ -233,7 +233,7 @@ class StreamTransport implements HttpTransport
 	 * @param   array   $headers  The response headers as an array.
 	 * @param   string  $body     The response body as a string.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
@@ -241,7 +241,7 @@ class StreamTransport implements HttpTransport
 	protected function getResponse(array $headers, $body)
 	{
 		// Create the response object.
-		$return = new HttpResponse;
+		$return = new Response;
 
 		// Set the body for the response.
 		$return->body = $body;

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Http\HttpTransport;
-use Joomla\CMS\Http\HttpResponse;
+use Joomla\CMS\Http\Response;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -62,7 +62,7 @@ class SocketTransport implements HttpTransport
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
@@ -174,7 +174,7 @@ class SocketTransport implements HttpTransport
 	 *
 	 * @param   string  $content  The complete server response, including headers.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
@@ -182,7 +182,7 @@ class SocketTransport implements HttpTransport
 	protected function getResponse($content)
 	{
 		// Create the response object.
-		$return = new HttpResponse;
+		$return = new Response;
 
 		if (empty($content))
 		{

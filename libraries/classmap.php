@@ -184,7 +184,7 @@ JLoader::registerAlias('JFilterWrapperOutput',              '\\Joomla\\CMS\\Filt
 
 JLoader::registerAlias('JHttp',                             '\\Joomla\\CMS\\Http\\Http', '5.0');
 JLoader::registerAlias('JHttpFactory',                      '\\Joomla\\CMS\\Http\\HttpFactory', '5.0');
-JLoader::registerAlias('JHttpResponse',                     '\\Joomla\\CMS\\Http\\HttpResponse', '5.0');
+JLoader::registerAlias('JHttpResponse',                     '\\Joomla\\CMS\\Http\\Response', '5.0');
 JLoader::registerAlias('JHttpTransport',                    '\\Joomla\\CMS\\Http\\HttpTransport', '5.0');
 JLoader::registerAlias('JHttpTransportCurl',                '\\Joomla\\CMS\\Http\\Transport\\CurlTransport', '5.0');
 JLoader::registerAlias('JHttpTransportSocket',              '\\Joomla\\CMS\\Http\\Transport\\SocketTransport', '5.0');

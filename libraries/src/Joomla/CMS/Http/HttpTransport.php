@@ -39,7 +39,7 @@ interface HttpTransport
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */

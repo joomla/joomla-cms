@@ -87,7 +87,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */
@@ -120,7 +120,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */
@@ -153,7 +153,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */
@@ -187,7 +187,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */
@@ -221,7 +221,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */
@@ -254,7 +254,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */
@@ -287,7 +287,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   11.3
 	 */
@@ -321,7 +321,7 @@ class Http
 	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
-	 * @return  HttpResponse
+	 * @return  Response
 	 *
 	 * @since   12.2
 	 */
