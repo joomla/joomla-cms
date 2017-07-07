@@ -44,8 +44,8 @@ class Html extends InstallerViewDefault
 
 		// Get data from the model.
 		$this->changeSet        = $this->get('Items');
-		$this->errors           = $this->changeSet[0]['changeset']->check();
-		$this->results          = $this->changeSet[0]['changeset']->getStatus();
+		$this->errors           = $this->changeSet['core']['changeset']->check();
+		$this->results          = $this->changeSet['core']['changeset']->getStatus();
 		$this->schemaVersion    = $this->get('SchemaVersion');
 		$this->updateVersion    = $this->get('UpdateVersion');
 		$this->filterParams     = $this->get('DefaultTextFilters');
@@ -57,15 +57,21 @@ class Html extends InstallerViewDefault
 		$this->activeFilters    = $this->get('ActiveFilters');
 		$this->errorCount3rd    = 0;
 
+		//We need to check the errors in the changeset but exclude the core database
 		foreach ($this->changeSet as $i => $changeset)
 		{
-			if ($i != 0 && strcmp($changeset['schema'], $changeset['extension']->version_id) != 0)
+			if (strcmp($i, 'core') == 0)
+			{
+				continue;
+			}
+
+			if (strcmp($changeset['schema'], $changeset['extension']->version_id) != 0)
 			{
 				$this->errorCount3rd++;
 			}
 		}
 
-		if ($this->schemaVersion[0]->version_id != $this->changeSet[0]['changeset']->getSchema())
+		if ($this->schemaVersion != $this->changeSet['core']['changeset']->getSchema())
 		{
 			$this->errorCount++;
 		}

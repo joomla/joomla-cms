@@ -10,6 +10,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Version;
@@ -27,6 +28,23 @@ class Database extends Installer
 {
 	protected $_context = 'com_installer.discover';
 
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'name',
+				'client_id',
+				'client', 'client_translated',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
+				'e.extension_id',
+			);
+		}
+
+		parent::__construct($config, $factory);
+	}
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -41,15 +59,6 @@ class Database extends Installer
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
-		$this->setState('message', $app->getUserState('com_installer.message'));
-		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
-		$app->setUserState('com_installer.message', '');
-		$app->setUserState('com_installer.extension_message', '');
-
-		// Prepare the utf8mb4 conversion check table
-		$this->prepareUtf8mb4StatusTable();
-
 		parent::populateState($ordering, $direction);
 	}
 
@@ -135,8 +144,7 @@ class Database extends Installer
 			$query->where($whereQuery);
 		}
 
-		$db->setQuery($query);
-		$result = $db->loadObjectList();
+		$result = $this->_getList($query);
 
 		$changeSetList = array();
 
@@ -147,6 +155,7 @@ class Database extends Installer
 				if (strcmp($result->element, 'joomla') == 0)
 				{
 					$result->element = 'com_admin';
+					$index = 'core';
 				}
 
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
@@ -201,7 +210,7 @@ class Database extends Installer
 			->from($db->quoteName('#__schemas'))
 			->where('extension_id = ' . $extensionId);
 		$db->setQuery($query);
-		$result = $db->loadObjectList();
+		$result = $db->loadResult();
 
 		return $result;
 	}

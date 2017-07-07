@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
-
 JHtml::_('bootstrap.tooltip');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -25,9 +24,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php if ($this->errorCount === 0) : ?>
-					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
-				<?php else : ?>
+				<?php if($this->errorCount != 0) :?>
 					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
 					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
 						<fieldset class="panelform">
@@ -36,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 								<?php endif; ?>
 
-								<?php if ($this->schemaVersion != $this->changeSet[0]['changeset']->getSchema()) : ?>
+								<?php if ($this->schemaVersion != $this->changeSet['core']['changeset']->getSchema()) : ?>
 									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion[0]->version_id, $this->changeSet[0]['changeset']->getSchema()); ?></li>
 								<?php endif; ?>
 
@@ -59,8 +56,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 
+				<?php if (($this->errorCount3rd != 0) && ($this->errorCount === 0)) : ?>
+					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'otherproblems')); ?>
+				<?php endif; ?>
+
 				<?php if ($this->errorCount3rd != 0) : ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other1', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL_3RD', $this->errorCount3rd)); ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'otherproblems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL_3RD', $this->errorCount3rd)); ?>
+						<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 						<div class="control-group">
 							<table class="table table-striped">
 								<thead>
@@ -69,13 +71,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo JHtml::_('grid.checkall'); ?>
 									</th>
 									<th class="nowrap">
-										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 									</th>
 									<th class="nowrap">
-										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'location', $listDirn, $listOrder); ?>
 									</th>
 									<th class="nowrap">
-										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 									</th>
 									<th class="nowrap">
 										<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
@@ -86,6 +88,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<th class="nowrap">
 										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 									</th>
+									<th class="nowrap">
+										<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
+									</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -94,11 +99,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									$extension = $item['extension'];
 									$manifest = json_decode($extension->manifest_cache);
 
-									if (($i == 0) || strcmp($item['schema'], $extension->version_id) == 0)
+									if (($extension->extension_id == 700) || strcmp($item['schema'], $extension->version_id) == 0)
 									{
 										continue;
 									};
-									\JFactory::getLanguage()->load(strtolower($extension->name) . '.sys');
 									?>
 									<tr class="row<?php echo $i % 2; ?>">
 										<td>
@@ -115,15 +119,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 												),
 											0
 										); ?>">
-										<?php echo JText::_($extension->name);?>
+										<?php echo $extension->name;?>
 										</span>
 											</label>
 										</td>
 										<td class="center">
-											<?php echo ($extension->client_id) ? JText::_('JADMINISTRATOR') : JText::_('JSITE'); ?>
+											<?php echo $extension->client_translated;?>
 										</td>
 										<td class="center">
-											<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
+											<?php echo $extension->type_translated; ?>
 										</td>
 										<td class="hidden-sm-down">
 											<span class="badge badge-warning"><?php echo $extension->version_id; ?></span>
@@ -132,7 +136,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<span class="badge badge-success"><?php echo $item['schema']; ?></span>
 										</td>
 										<td class="hidden-sm-down">
-											<?php echo $extension->folder ?: \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+											<?php echo $extension->folder_translated; ?>
+										</td>
+										<td>
+											<?php echo $extension->extension_id; ?>
 										</td>
 									</tr>
 								<?php endforeach; ?>
@@ -140,12 +147,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</table>
 						</div>
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
-					<?php endif; ?>
+				<?php endif; ?>
+				<?php if (($this->errorCount === 0) && ($this->errorCount3rd === 0)) :?>
+					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?> ?>
+				<?php endif; ?>
 					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 						<div class="control-group">
 							<fieldset class="panelform">
 								<ul>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion[0]->version_id); ?></li>
+									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
 									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->updateVersion); ?></li>
 									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
 									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results['ok'])); ?></li>
