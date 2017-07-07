@@ -6,21 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_BASE') or die();
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
-
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Content Types Filter field for the Finder package.
  *
  * @since  3.6.0
  */
-class JFormFieldContentTypes extends JFormFieldList
+class ContenttypesField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -39,10 +41,10 @@ class JFormFieldContentTypes extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$lang    = JFactory::getLanguage();
+		$lang    = Factory::getLanguage();
 		$options = array();
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id', 'value'))
 			->select($db->quoteName('title', 'text'))
@@ -55,16 +57,16 @@ class JFormFieldContentTypes extends JFormFieldList
 		{
 			$contentTypes = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $db->getMessage());
+			\JError::raiseWarning(500, $db->getMessage());
 		}
 
 		// Translate.
 		foreach ($contentTypes as $contentType)
 		{
 			$key = FinderHelperLanguage::branchSingular($contentType->text);
-			$contentType->translatedText = $lang->hasKey($key) ? JText::_($key) : $contentType->text;
+			$contentType->translatedText = $lang->hasKey($key) ? \JText::_($key) : $contentType->text;
 		}
 
 		// Order by title.
@@ -73,7 +75,7 @@ class JFormFieldContentTypes extends JFormFieldList
 		// Convert the values to options.
 		foreach ($contentTypes as $contentType)
 		{
-			$options[] = JHtml::_('select.option', $contentType->value, $contentType->translatedText);
+			$options[] = \JHtml::_('select.option', $contentType->value, $contentType->translatedText);
 		}
 
 		// Merge any additional options in the XML definition.

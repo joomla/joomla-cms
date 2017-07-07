@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
@@ -22,7 +22,7 @@
 
 		<field
 			name="type"
-			type="ContentTypes"
+			type="contenttypes"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
@@ -32,7 +32,7 @@
 
 		<field
 			name="content_map"
-			type="ContentMap"
+			type="contentmap"
 			label="COM_FINDER_FILTER_CONTENT_MAP_LABEL"
 			description="COM_FINDER_FILTER_CONTENT_MAP_DESC"
 			onchange="this.form.submit();"
