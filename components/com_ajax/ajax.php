@@ -154,6 +154,10 @@ switch ($format)
 {
 	// JSONinzed
 	case 'json' :
+
+		$app->setHeader('X-Robots-Tag', 'noindex');
+        $app->setHeader('Content-Type', 'application/json');
+
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
 		break;
