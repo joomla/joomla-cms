@@ -76,7 +76,7 @@ class Menu extends Form
 
 		if (!$form)
 		{
-			\JError::raiseError(500, $model->getError());
+			throw new \Exception($model->getError(), 500);
 
 			return false;
 		}
