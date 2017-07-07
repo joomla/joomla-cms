@@ -83,7 +83,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
-(55, 18, 71, 72, 2, 'com_modules.module.87', 'SampleData', '{}');
+(55, 18, 71, 72, 2, 'com_modules.module.87', 'Sample Data', '{}');
 
 -- --------------------------------------------------------
 
@@ -1508,7 +1508,7 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (17, 51, 'Breadcrumbs', '', '', 1, 'position-2', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
 (79, 52, 'Multilanguage status', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (86, 53, 'Joomla Version', '', '', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(87, 55, 'SampleData', '', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_sampledata', 3, 1, '{}', 1, '*');
+(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_sampledata', 3, 1, '{}', 1, '*');
 
 -- --------------------------------------------------------
 
