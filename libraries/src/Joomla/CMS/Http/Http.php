@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Http\HttpTransport;
+use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -29,7 +29,7 @@ class Http
 	protected $options;
 
 	/**
-	 * @var    HttpTransport  The HTTP transport object to use in sending HTTP requests.
+	 * @var    TransportInterface  The HTTP transport object to use in sending HTTP requests.
 	 * @since  11.3
 	 */
 	protected $transport;
@@ -37,13 +37,13 @@ class Http
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry       $options    Client options object. If the registry contains any headers.* elements,
-	 *                                      these will be added to the request headers.
-	 * @param   HttpTransport  $transport  The HTTP transport object.
+	 * @param   Registry            $options    Client options object. If the registry contains any headers.* elements,
+	 *                                          these will be added to the request headers.
+	 * @param   TransportInterface  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(Registry $options = null, HttpTransport $transport = null)
+	public function __construct(Registry $options = null, TransportInterface $transport = null)
 	{
 		$this->options   = isset($options) ? $options : new Registry;
 		$this->transport = isset($transport) ? $transport : HttpFactory::getAvailableDriver($this->options);

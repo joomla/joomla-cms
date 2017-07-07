@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Http\Http;
-use Joomla\CMS\Http\HttpTransport;
+use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -55,7 +55,7 @@ class HttpFactory
 	 * @param   Registry  $options  Option for creating http transport object
 	 * @param   mixed     $default  Adapter (string) or queue of adapters (array) to use
 	 *
-	 * @return  HttpTransport Interface sub-class
+	 * @return  TransportInterface Interface sub-class
 	 *
 	 * @since   12.1
 	 */

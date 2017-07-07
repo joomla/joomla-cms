@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  11.3
  */
-interface HttpTransport
+interface TransportInterface
 {
 	/**
 	 * Constructor.

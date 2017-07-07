@@ -10,17 +10,17 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Http\HttpTransport;
 use Joomla\CMS\Http\Response;
+use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 /**
  * HTTP transport class for using cURL.
  *
  * @since  11.3
  */
-class CurlTransport implements HttpTransport
+class CurlTransport implements TransportInterface
 {
 	/**
 	 * @var    Registry  The client options.
