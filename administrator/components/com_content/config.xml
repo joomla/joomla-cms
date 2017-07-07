@@ -385,11 +385,10 @@
 			type="plugins"
 			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
 			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
-			default=""
 			folder="captcha"
 			filter="cmd"
+			useglobal="true"
 			>
-			<option value="">JOPTION_USE_DEFAULT</option>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
@@ -986,6 +985,7 @@
 			<option value="hits">JGLOBAL_MOST_HITS</option>
 			<option value="rhits">JGLOBAL_LEAST_HITS</option>
 			<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+			<option value="rorder">JGLOBAL_ARTICLE_MANAGER_REVERSE_ORDER</option>
 			<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
 			<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
 			<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>

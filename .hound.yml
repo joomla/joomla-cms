@@ -5,6 +5,9 @@ scss:
 
 jshint:
   enabled: false
+  
+eslint:
+  enabled: false
 
 ruby:
   enabled: false
