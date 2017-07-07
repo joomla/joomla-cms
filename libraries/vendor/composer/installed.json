@@ -1084,12 +1084,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/database.git",
-            "reference": "a6432c6f30a14f275b871373b5e7a8e0c1388b9d"
+            "reference": "bcda1f013a83159b2aa083ff2d25f3ec55978dcf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/database/zipball/a6432c6f30a14f275b871373b5e7a8e0c1388b9d",
-            "reference": "a6432c6f30a14f275b871373b5e7a8e0c1388b9d",
+            "url": "https://api.github.com/repos/joomla-framework/database/zipball/bcda1f013a83159b2aa083ff2d25f3ec55978dcf",
+            "reference": "bcda1f013a83159b2aa083ff2d25f3ec55978dcf",
             "shasum": ""
         },
         "require": {
@@ -1113,7 +1113,7 @@
             "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
             "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
         },
-        "time": "2017-06-28T23:24:47+00:00",
+        "time": "2017-07-07T10:57:45+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {

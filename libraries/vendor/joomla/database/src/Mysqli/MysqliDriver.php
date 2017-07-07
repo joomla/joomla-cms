@@ -346,7 +346,8 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('mysqli_connect');
+		// At the moment we depend on mysqlnd extension, so we additionally test for mysqli_stmt_get_result
+		return function_exists('mysqli_connect') && function_exists('mysqli_stmt_get_result');
 	}
 
 	/**
