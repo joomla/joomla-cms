@@ -1073,7 +1073,7 @@ class Access
 		$user      = \JUser::getInstance($userId);
 		$root_user = \JFactory::getConfig()->get('root_user');
 
-		if ($root_user && ($root_user == $user->username || $root_user == $user->id))
+		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{
 			// Find the super user levels.
 			foreach (self::$viewLevels as $level => $rule)
