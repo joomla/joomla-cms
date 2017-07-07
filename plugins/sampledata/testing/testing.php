@@ -4688,7 +4688,7 @@ class PlgSampledataTesting extends JPlugin
 			$menuItem['language']        = '*';
 			$menuItem['note']            = '';
 			$menuItem['img']             = '';
-			$menuItem['browsernav']      = 0;
+			$menuItem['browserNav']      = 0;
 			$menuItem['associations']    = array();
 			$menuItem['client_id']       = 0;
 			$menuItem['level']           = $level;
@@ -4705,10 +4705,10 @@ class PlgSampledataTesting extends JPlugin
 				$menuItem['type'] = 'component';
 			}
 
-			// Set template_style to global if not set
-			if (!isset($menuItem['template_style']))
+			// Set template_style_id to global if not set
+			if (!isset($menuItem['template_style_id']))
 			{
-				$menuItem['template_style'] = 0;
+				$menuItem['template_style_id'] = 0;
 			}
 
 			// Set home if not set

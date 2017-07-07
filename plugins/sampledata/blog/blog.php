@@ -942,10 +942,10 @@ class PlgSampledataBlog extends JPlugin
 			$menuItem['client_id']       = 0;
 			$menuItem['level']           = $level;
 
-			// Set browsernav to default if not set
-			if (!isset($menuItem['browsernav']))
+			// Set browserNav to default if not set
+			if (!isset($menuItem['browserNav']))
 			{
-				$menuItem['browsernav'] = 0;
+				$menuItem['browserNav'] = 0;
 			}
 
 			// Set access to default if not set
@@ -960,10 +960,10 @@ class PlgSampledataBlog extends JPlugin
 				$menuItem['type'] = 'component';
 			}
 
-			// Set template_style to global if not set
-			if (!isset($menuItem['template_style']))
+			// Set template_style_id to global if not set
+			if (!isset($menuItem['template_style_id']))
 			{
-				$menuItem['template_style'] = 0;
+				$menuItem['template_style_id'] = 0;
 			}
 
 			// Set home if not set
