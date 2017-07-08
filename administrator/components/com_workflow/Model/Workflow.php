@@ -9,6 +9,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
+
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die('Restricted access');
@@ -28,7 +29,7 @@ class Workflow extends Admin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  $data  The form data.
+	 * @param   array $data The form data.
 	 *
 	 * @return   boolean  True on success.
 	 *
@@ -36,17 +37,29 @@ class Workflow extends Admin
 	 */
 	public function save($data)
 	{
-		$user = \JFactory::getUser();
-		$app = \JFactory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
-		$data['extension'] = $extension;
-		$data['asset_id'] = 0;
-		$data['created_by'] = $user->get('id');
+		$user                = \JFactory::getUser();
+		$app                 = \JFactory::getApplication();
+		$extension           = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$data['extension']   = $extension;
+		$data['asset_id']    = 0;
+		$data['created_by']  = $user->get('id');
 		$data['modified_by'] = $user->get('id');
 
 		if ($data['default'] == '1')
 		{
-			$data['category_id'] = -1;
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true);
+			$query
+				->select($db->qn('id'))
+				->from($db->qn('#__workflows'))
+				->where($db->qn('default') . ' = ' . $db->escape($data['default']));
+			$db->setQuery($query);
+			$res = $db->loadResult();
+
+			if (!empty($res))
+			{
+				return false;
+			}
 		}
 
 		return parent::save($data);
@@ -55,8 +68,8 @@ class Workflow extends Admin
 	/**
 	 * Abstract method for getting the form from the model.
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array   $data     Data for the form.
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
@@ -69,7 +82,7 @@ class Workflow extends Admin
 			'com_workflow.workflow',
 			'workflow',
 			array(
-				'control' => 'jform',
+				'control'   => 'jform',
 				'load_data' => $loadData
 			)
 		);
@@ -81,7 +94,6 @@ class Workflow extends Admin
 
 		return $form;
 	}
-
 
 	/**
 	 * Method to get the data that should be injected in the form.
@@ -104,6 +116,43 @@ class Workflow extends Admin
 		}
 
 		return $data;
+	}
+
+
+	/**
+	 * Method to change the home state of one or more items.
+	 *
+	 * @param   array   &$pks  A list of the primary keys to change.
+	 * @param   integer $value The value of the home state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0
+	 */
+	public function setHome($pks, $value = 1)
+	{
+		$table = $this->getTable();
+
+		if ($value)
+		{
+			// Verify that the home page for this language is unique per client id
+			if ($table->load(array('default' => '1')))
+			{
+				$table->default = 0;
+				$table->store();
+			}
+		}
+
+		if ($table->load(array('id' => $pks)))
+		{
+			$table->default = $value;
+			$table->store();
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
 	}
 
 	/**

@@ -22,6 +22,28 @@ use Joomla\CMS\Model\ListModel;
  */
 class Transitions extends ListModel
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id',
+				'title',
+				'from_state',
+				'to_state'
+			);
+		}
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to auto-populate the model state.
@@ -43,8 +65,10 @@ class Transitions extends ListModel
 	{
 		$app = \JFactory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.workflow_id', $workflowID);
+		$this->setState('filter.extension', $extension);
 
 		parent::populateState($ordering, $direction);
 
@@ -83,15 +107,16 @@ class Transitions extends ListModel
 		$select = $db->quoteName(array(
 			'transition.id',
 			'transition.title',
+			'transition.published',
 		));
-		$select[] = $db->qn('f_status.title') . ' AS ' . $db->qn('from_status');
-		$select[] = $db->qn('t_status.title') . ' AS ' . $db->qn('to_status');
-		$joinTo = $db->qn('#__workflow_status') . ' AS ' . $db->qn('t_status') . ' ON ' . $db->qn('t_status.id') . ' = ' . $db->qn('transition.to_status_id');
+		$select[] = $db->qn('f_state.title') . ' AS ' . $db->qn('from_state');
+		$select[] = $db->qn('t_state.title') . ' AS ' . $db->qn('to_state');
+		$joinTo = $db->qn('#__workflow_states') . ' AS ' . $db->qn('t_state') . ' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('transition.to_state_id');
 		
 		$query
 			->select($select)
 			->from($db->qn('#__workflow_transitions') . ' AS ' . $db->qn('transition'))
-			->leftJoin($db->qn('#__workflow_status') . ' AS ' . $db->qn('f_status') . ' ON ' . $db->qn('f_status.id') . ' = ' . $db->qn('transition.from_status_id'))
+			->leftJoin($db->qn('#__workflow_states') . ' AS ' . $db->qn('f_state') . ' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('transition.from_state_id'))
 			->leftJoin($joinTo);
 
 		// Filter by extension
@@ -99,6 +124,40 @@ class Transitions extends ListModel
 		{
 			$query->where($db->qn('transition.workflow_id') . ' = ' . $workflowID);
 		}
+
+		// Filter by condition
+		if ($status = $this->getState('filter.published'))
+		{
+			$query->where($db->qn('published') . ' = ' . $db->quote($db->escape($status)));
+		}
+
+		// Filter by column from_state_id
+		if ($fromState = $this->getState('filter.from_state'))
+		{
+			$query->where($db->qn('from_state_id') . ' = ' . $db->quote($db->escape($fromState)));
+		}
+
+		// Filter by column from_state_id
+		if ($toState = $this->getState('filter.to_state'))
+		{
+			$query->where($db->qn('to_state_id') . ' = ' . $db->quote($db->escape($toState)));
+		}
+
+		// Filter by search in title
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
+		{
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search);
+		}
+
+		// Add the list ordering clause.
+		$orderCol	= $this->state->get('list.ordering', 'id');
+		$orderDirn 	= $this->state->get('list.direction', 'asc');
+
+		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn));
+
 
 		return $query;
 	}

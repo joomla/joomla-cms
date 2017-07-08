@@ -10,10 +10,12 @@
  * @since       4.0
  */
 defined('_JEXEC') or die('Restricted Access');
+
+$extension = $this->escape($this->state->get('filter.extension'));
 ?>
 <?php foreach ($this->workflows as $i => $item):
-	$statuese = JRoute::_('index.php?option=com_workflow&view=statuses&workflow_id=' . $item->id);
-	$transitions = JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id);
+	$states = JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
+	$transitions = JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
 	$edit = JRoute::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
 	?>
 	<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->id; ?>">
@@ -21,22 +23,27 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 		</td>
 		<td class="text-center">
-			<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', true); ?>
+			<div class="btn-group">
+				<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', true); ?>
+			</div>
 		</td>
 		<td>
 			<a href="<?php echo $edit; ?>"><?php echo $item->title; ?></a>
 		</td>
 		<td class="text-center">
-			<a href="<?php echo $statuese; ?>"><?php echo \JText::_('COM_WORKFLOW_STATUS'); ?></a>
+			<a href="<?php echo $states; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>
 		</td>
 		<td class="text-center">
-			<a href="<?php echo $transitions; ?>"><?php echo \JText::_('COM_WORKFLOW_TRANSITION'); ?></a>
+			<a href="<?php echo $transitions; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>
+		</td>
+		<td class="text-center hidden-sm-down">
+			<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'workflows.', true); ?>
 		</td>
 		<td class="text-center">
 			<?php echo $item->created; ?>
 		</td>
 		<td class="text-center">
-			<?php echo $item->modified; ?>
+			<?php echo $item->name; ?>
 		</td>
 		<td class="text-right">
 			<?php echo $item->id; ?>

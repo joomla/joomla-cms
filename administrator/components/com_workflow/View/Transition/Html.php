@@ -91,10 +91,10 @@ class Html extends HtmlView
 		$this->workflowID = $this->input->getCmd("workflow_id");
 
 		// Set the form selects sql
-		$sqlStatusesFrom = WorkflowHelper::getStatusesSQL('from_status_id', $this->workflowID);
-		$sqlStatusesTo = WorkflowHelper::getStatusesSQL('to_status_id', $this->workflowID);
-		$this->form->setFieldAttribute('from_status_id', 'query', $sqlStatusesFrom);
-		$this->form->setFieldAttribute('to_status_id', 'query', $sqlStatusesTo);
+		$sqlStatesFrom = WorkflowHelper::getStatesSQL('from_state_id', $this->workflowID);
+		$sqlStatesTo = WorkflowHelper::getStatesSQL('to_state_id', $this->workflowID);
+		$this->form->setFieldAttribute('from_state_id', 'query', $sqlStatesFrom);
+		$this->form->setFieldAttribute('to_state_id', 'query', $sqlStatesTo);
 
 		// Set the toolbar
 		$this->addToolBar();

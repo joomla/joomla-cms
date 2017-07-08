@@ -82,9 +82,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (51, 18, 66, 67, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
 (52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
-(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
-(55, 1, 103, 104, 2, 'com_workflow', 'Transition', '{}'),
-(56, 55, 103, 104, 2, 'com_workflow.transition.1', 'Transition', '{}');
+(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}');
 
 -- --------------------------------------------------------
 
@@ -2117,12 +2115,12 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) DEFAULT NULL, # TODO replace with real value
+  `asset_id` int(10) DEFAULT 0, # TODO replace with real value
+  `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `extension` varchar(255) NOT NULL,
   `default` tinyint(1) NOT NULL,
-  `state` tinyint(3) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT NOW(),
   `created_by` int(10) NOT NULL,
   `modified` datetime NOT NULL DEFAULT NOW(),
@@ -2139,14 +2137,15 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 ) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `#__workflow_status`
+-- Dumping data for table `#__workflow_states`
 --
 
-CREATE TABLE IF NOT EXISTS `#__workflow_status` (
+CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `workflow_id` int(10) NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `state` tinyint(3) NOT NULL DEFAULT 0,
+  `description` text NOT NULL,
   `condition` enum('1','2','3') NOT NULL,
   `access` int(10) NOT NULL,
   `default` tinyint(1) NOT NULL,
@@ -2163,18 +2162,18 @@ CREATE TABLE IF NOT EXISTS `#__workflow_status` (
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `asset_id` int(10) DEFAULT NULL, # TODO replace with real value
   `description` text NOT NULL,
-  `state` tinyint(3) NOT NULL DEFAULT 0,
-  `from_status_id` int(10) NOT NULL,
-  `to_status_id` int(10) NOT NULL,
+  `asset_id` int(10) DEFAULT 0,
+  `from_state_id` int(10) NOT NULL,
+  `to_state_id` int(10) NOT NULL,
   `workflow_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `title` (`title`(191)),
   KEY `asset_id` (`asset_id`),
-  KEY `from_status_id` (`from_status_id`),
-  KEY `to_status_id` (`to_status_id`),
+  KEY `from_state_id` (`from_state_id`),
+  KEY `to_state_id` (`to_state_id`),
   KEY `workflow_id` (`workflow_id`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
 

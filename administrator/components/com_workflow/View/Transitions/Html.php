@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Transitions;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -54,6 +55,38 @@ class Html extends HtmlView
 	protected $pagination;
 
 	/**
+	 * Form object for search filters
+	 *
+	 * @var     \JForm
+	 * @since   4.0
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var     array
+	 * @since   4.0
+	 */
+	public $activeFilters;
+
+	/**
+	 * The ID of current workflow
+	 *
+	 * @var     integer
+	 * @since   4.0
+	 */
+	protected $workflowID;
+
+	/**
+	 * The name of current extension
+	 *
+	 * @var     string
+	 * @since   4.0
+	 */
+	protected $extension;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -73,8 +106,25 @@ class Html extends HtmlView
 		$this->state            = $this->get('State');
 		$this->transitions      = $this->get('Items');
 		$this->pagination       = $this->get('Pagination');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
 
-		WorkflowHelper::addSubmenu("transitions." . $this->state->get("filter.workflow_id"));
+		$this->workflowID = $this->state->get("filter.workflow_id");
+		$this->extension = $this->state->get("filter.extension");
+
+		// Set the form selects sql
+		$sqlStatesFrom = WorkflowHelper::getStatesSQL('from_state', $this->workflowID);
+		$sqlStatesTo = WorkflowHelper::getStatesSQL('to_state', $this->workflowID);
+		$this->filterForm->setFieldAttribute('from_state', 'query', $sqlStatesFrom);
+		$this->filterForm->setFieldAttribute('to_state', 'query', $sqlStatesTo);
+
+		WorkflowHelper::addSubmenu(implode('.', array(
+			"transitions",
+			$this->workflowID,
+			$this->extension
+		)));
+
+		CategoriesHelper::addSubmenu($this->extension);
 		$this->sidebar       = \JHtmlSidebar::render();
 
 
@@ -96,5 +146,8 @@ class Html extends HtmlView
 		ToolbarHelper::addNew('transition.add');
 		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
 		ToolbarHelper::editList('transition.edit');
+		ToolbarHelper::publishList('transitions.publish');
+		ToolbarHelper::unpublishList('transitions.unpublish');
+		ToolbarHelper::trash('transitions.trash');
 	}
 }

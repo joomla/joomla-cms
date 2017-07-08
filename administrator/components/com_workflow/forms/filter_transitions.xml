@@ -12,23 +12,25 @@
 		/>
 
 		<field
-				name="published"
-				type="status"
-				label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
-				description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+				name="from_state"
+				type="sql"
+				label="COM_WORKFLOW_FROM_STATE"
+				description="COM_WORKFLOW_FROM_STATE_DESC"
+				query="SELECT id AS value, title AS from_state FROM #__workflow_states"
 				onchange="this.form.submit();"
 		>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="">COM_WORKFLOW_SELECT_FROM_STATE</option>
 		</field>
 
 		<field
-				name="created_by"
-				type="author"
-				label="COM_CONTENT_FILTER_AUTHOR"
-				description="COM_CONTENT_FILTER_AUTHOR_DESC"
+				name="to_state"
+				type="sql"
+				label="COM_WORKFLOW_FROM_STATE"
+				description="COM_WORKFLOW_FROM_STATE_DESC"
+				query="SELECT id AS value, title AS to_state FROM #__workflow_states"
 				onchange="this.form.submit();"
 		>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
+			<option value="">COM_WORKFLOW_SELECT_TO_STATE</option>
 		</field>
 
 	</fields>
@@ -49,8 +51,6 @@
 			<option value="published DESC">JSTATUS_DESC</option>
 			<option value="title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="created_by ASC">JAUTHOR_ASC</option>
-			<option value="created_by DESC">JAUTHOR_DESC</option>
 			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

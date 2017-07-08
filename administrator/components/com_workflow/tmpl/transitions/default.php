@@ -13,16 +13,21 @@ defined('_JEXEC') or die('Restricted Access');
 
 JHtml::_('behavior.tooltip');
 
-$workflowID = $this->escape($this->state->get('filter.workflow_id'));
 $columns = 6;
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transition'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
+				<?php
+					// Search tools bar
+					echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				?>
 				<?php if (empty($this->transitions)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -42,7 +47,8 @@ $columns = 6;
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<input type="hidden" name="workflow_id" value="<?php echo $workflowID ?>">
+				<input type="hidden" name="workflow_id" value="<?php echo $this->workflowID ?>">
+				<input type="hidden" name="extension" value="<?php echo $this->extension ?>">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

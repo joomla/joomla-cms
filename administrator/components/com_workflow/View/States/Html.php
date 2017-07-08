@@ -6,11 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Statuses;
+namespace Joomla\Component\Workflow\Administrator\View\States;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -22,12 +23,12 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class Html extends HtmlView
 {
 	/**
-	 * An array of statuses
+	 * An array of states
 	 *
 	 * @var     array
 	 * @since   4.0
 	 */
-	protected $statuses;
+	protected $states;
 
 	/**
 	 * The model state
@@ -54,6 +55,23 @@ class Html extends HtmlView
 	protected $pagination;
 
 	/**
+	 * Form object for search filters
+	 *
+	 * @var     \JForm
+	 * @since   4.0
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var     array
+	 * @since   4.0
+	 */
+	public $activeFilters;
+
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -71,12 +89,26 @@ class Html extends HtmlView
 		}
 
 		$this->state         = $this->get('State');
-		$this->statuses      = $this->get('Items');
+		$this->states        = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
 
-		WorkflowHelper::addSubmenu("statuses." . $this->state->get("filter.workflow_id"));
+		WorkflowHelper::addSubmenu(implode('.', array(
+			"states",
+			$this->state->get("filter.workflow_id"),
+			$this->state->get("filter.extension")
+		)));
+		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
 
+		if (!empty($this->states))
+		{
+			foreach ($this->states as $i => $item)
+			{
+				$item->condition = WorkflowHelper::getConditionName($item->condition);
+			}
+		}
 
 		$this->addToolbar();
 
@@ -92,9 +124,25 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATUSES_LIST'), 'address contact');
-		ToolbarHelper::addNew('status.add');
-		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'statuses.delete');
-		ToolbarHelper::editList('status.edit');
+		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATES_LIST'), 'address contact');
+		ToolbarHelper::addNew('state.add');
+		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
+		ToolbarHelper::editList('state.edit');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.published' => \JText::_('JSTATUS'),
+			'a.title'     => \JText::_('JGLOBAL_TITLE'),
+			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+		);
 	}
 }

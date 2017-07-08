@@ -54,6 +54,22 @@ class Html extends HtmlView
 	protected $sidebar;
 
 	/**
+	 * Form object for search filters
+	 *
+	 * @var     \JForm
+	 * @since   4.0
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var     array
+	 * @since   4.0
+	 */
+	public $activeFilters;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -69,8 +85,7 @@ class Html extends HtmlView
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-		$app = \JFactory::getApplication();
-		$context = "com_workflow.list.admin.workflows";
+
 		$this->state         = $this->get('State');
 		$this->workflows     = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -99,7 +114,9 @@ class Html extends HtmlView
 		ToolbarHelper::addNew('workflow.add');
 		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		ToolbarHelper::editList('workflow.edit');
-		ToolbarHelper::publishList('workflow.publish');
+		ToolbarHelper::publishList('workflows.publish');
+		ToolbarHelper::unpublishList('workflows.unpublish');
+		ToolbarHelper::trash('workflows.trash');
 	}
 
 	/**
@@ -112,10 +129,9 @@ class Html extends HtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'published' => \JText::_('JSTATUS'),
-			'title'     => \JText::_('JGLOBAL_TITLE'),
-			'created_by'    => \JText::_('JAUTHOR_ASC'),
-			'id'        => \JText::_('JGRID_HEADING_ID'),
+			'a.published' => \JText::_('JSTATUS'),
+			'a.title'     => \JText::_('JGLOBAL_TITLE'),
+			'a.id'        => \JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

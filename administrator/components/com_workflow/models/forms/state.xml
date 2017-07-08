@@ -26,10 +26,18 @@
 		/>
 
 		<field
+				name="description"
+				type="editor"
+				label="COM_WORKFLOW_FIELD_DESC_LABEL"
+				description="COM_WORKFLOW_FIELD_DESC_DESC"
+				class="input-xxlarge input-large-text"
+		/>
+
+		<field
 				name="condition"
 				type="list"
-				label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
-				description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+				label="COM_WORKFLOW_CONDITION"
+				description="COM_WORKFLOW_CONDITION_DESC"
 				class="input-xxlarge input-large-text"
 		        required="true"
 		>
@@ -47,7 +55,6 @@
 				label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
 				description="COM_WORKFLOW_FIELD_IS_DEFAULT_DESC"
 				class="switcher"
-				default="1"
 				required="true"
 		>
 			<option value="0">JNO</option>

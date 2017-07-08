@@ -54,14 +54,13 @@
         </field>
 
         <field
-                name="state"
+                name="published"
                 type="status"
-                label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
-                description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
-                onchange="this.form.submit();"
-        >
-            <option value="">JOPTION_SELECT_PUBLISHED</option>
-        </field>
+                label="COM_WORKFLOW_PUBLISHED_LABEL"
+                description="COM_WORKFLOW_PUBLISHED_DESC"
+                required="true"
+        />
+
         <field
                 name="category_id"
                 type="category"
@@ -70,6 +69,23 @@
                 default="0"
                 showon="default:0"
         />
+
+        <field
+                name="created"
+                type="calendar"
+                label="COM_WORKFLOW_CREATED_LABEL"
+                description="COM_WORKFLOW_CREATED_DESC"
+                readonly="true"
+        />
+
+        <field
+                name="modified"
+                type="calendar"
+                label="COM_WORKFLOW_MODIFIED_LABEL"
+                description="COM_WORKFLOW_MODIFIED_DESC"
+                readonly="true"
+        />
+
     </fieldset>
 
 </form>

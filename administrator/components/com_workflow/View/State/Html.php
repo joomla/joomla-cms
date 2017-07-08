@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Status;
+namespace Joomla\Component\Workflow\Administrator\View\State;
 
 defined('_JEXEC') or die('Restricted access');
 
@@ -74,16 +74,16 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_STATUS_ADD') : \JText::_('COM_WORKFLOW_STATUS_EDIT'), 'address');
+		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_STATE_ADD') : \JText::_('COM_WORKFLOW_STATE_EDIT'), 'address');
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
 		ToolbarHelper::saveGroup(
 			[
-				['apply', 'status.apply'],
-				['save', 'status.save'],
-				['save2new', 'status.save2new']
+				['apply', 'state.apply'],
+				['save', 'state.save'],
+				['save2new', 'state.save2new']
 			],
 			'btn-success'
 		);
-		ToolbarHelper::cancel('status.cancel');
+		ToolbarHelper::cancel('state.cancel');
 	}
 }

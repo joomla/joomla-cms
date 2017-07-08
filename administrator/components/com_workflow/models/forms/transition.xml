@@ -26,7 +26,7 @@
 
 		<field
 				name="description"
-				type="textarea"
+				type="editor"
 				label="COM_WORKFLOW_FIELD_DESC_LABEL"
 				description="COM_WORKFLOW_FIELD_DESC_DESC"
 				class="input-xxlarge input-large-text"
@@ -37,20 +37,28 @@
 	<fieldset name="params"
 	          label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
-				name="from_status_id"
+				name="from_state_id"
 				type="sql"
-				label="COM_WORKFLOW_FROM_STATUS"
-				description="COM_WORKFLOW_FROM_STATUS_DESC"
-				query="SELECT id AS value, title AS from_status_id FROM #__workflow_status"
+				label="COM_WORKFLOW_FROM_STATE"
+				description="COM_WORKFLOW_FROM_STATE_DESC"
+				query="SELECT id AS value, title AS from_state_id FROM #__workflow_states"
 				required="true"
 		/>
 
 		<field
-				name="to_status_id"
+				name="to_state_id"
 				type="sql"
-				label="COM_WORKFLOW_TO_STATUS"
-				description="COM_WORKFLOW_TO_STATUS_DESC"
-				query="SELECT id AS value, title AS to_status_id FROM #__workflow_status"
+				label="COM_WORKFLOW_TO_STATE"
+				description="COM_WORKFLOW_TO_STATE_DESC"
+				query="SELECT id AS value, title AS to_state_id FROM #__workflow_states"
+				required="true"
+		/>
+
+		<field
+				name="published"
+				type="status"
+				label="COM_WORKFLOW_PUBLISHED_LABEL"
+				description="COM_WORKFLOW_PUBLISHED_DESC"
 				required="true"
 		/>
 
