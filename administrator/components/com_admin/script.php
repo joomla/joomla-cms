@@ -727,6 +727,7 @@ class JoomlaInstallerScript
 			'/components/com_media/controller.php',
 			'/components/com_media/helpers/index.html',
 			'/components/com_media/helpers/media.php',
+			'/components/com_fields/controllers/field.php',
 			'/includes/menu.php',
 			'/includes/pathway.php',
 			'/includes/router.php',
