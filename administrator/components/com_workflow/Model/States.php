@@ -20,8 +20,30 @@ use Joomla\CMS\Model\ListModel;
  *
  * @since  4.0
  */
-class  State extends ListModel
+class States extends ListModel
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id',
+				'title',
+				'condition'
+			);
+		}
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -83,7 +105,8 @@ class  State extends ListModel
 					array(
 						'id',
 						'title',
-						'condition'
+						'condition',
+						'default'
 					)
 				);
 
@@ -96,6 +119,27 @@ class  State extends ListModel
 		{
 			$query->where($db->qn('workflow_id') . ' = ' . $workflowID);
 		}
+
+		// Filter by condition
+		if ($condition = $this->getState('filter.condition'))
+		{
+			$query->where($db->qn('condition') . ' = ' . $db->quote($db->escape($condition)));
+		}
+
+		// Filter by search in title
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
+		{
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search);
+		}
+
+		// Add the list ordering clause.
+		$orderCol	= $this->state->get('list.ordering', 'id');
+		$orderDirn 	= $this->state->get('list.direction', 'asc');
+
+		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

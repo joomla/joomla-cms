@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Controller\Admin;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * The first example class, this is in the same
@@ -38,5 +39,62 @@ class States extends Admin
 		return parent::getModel($name, $prefix, $config);
 	}
 
+	/**
+	 * Method to set the home property for a list of items
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	public function setDefault()
+	{
+		// Check for request forgeries
+		\JSession::checkToken('request') or die(\JText::_('JINVALID_TOKEN'));
 
+		$app = $this->app;
+
+		// Get items to publish from the request.
+		$cid   = $this->input->get('cid', array(), 'array');
+		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
+		$task  = $this->getTask();
+		$value = ArrayHelper::getValue($data, $task, 0, 'int');
+
+		if (empty($cid))
+		{
+			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+		}
+		else
+		{
+			// Get the model.
+			$model = $this->getModel();
+
+			// Make sure the item ids are integers
+
+			// Publish the items.
+			if (!$model->setHome((int) $cid[0], $value))
+			{
+				$this->setMessage($model->getError(), 'warning');
+			}
+			else
+			{
+				if ($value == 1)
+				{
+					$ntext = 'COM_WORKFLOW_ITEM_SET_HOME';
+				}
+				else
+				{
+					$ntext = 'COM_WORKFLOW_ITEM_UNSET_HOME';
+				}
+
+				$this->setMessage(\JText::_($ntext, count($cid)));
+			}
+		}
+
+		$this->setRedirect(
+			\JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&extenstion=' . $this->input->getCmd("extension"), false
+			)
+		);
+	}
 }

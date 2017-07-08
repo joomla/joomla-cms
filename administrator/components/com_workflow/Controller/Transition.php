@@ -30,7 +30,6 @@ class Transition extends Form
 	 */
 	protected $workflowID;
 
-
 	/**
 	 * The workflow for which is that status
 	 *
@@ -57,6 +56,10 @@ class Transition extends Form
 		if (empty($this->workflowID))
 		{
 			$this->workflowID = $this->input->get('workflow_id');
+		}
+
+		if (empty($this->extension))
+		{
 			$this->extension = $this->input->get('extension');
 		}
 	}

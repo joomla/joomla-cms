@@ -13,17 +13,23 @@ defined('_JEXEC') or die('Restricted Access');
 
 JHtml::_('behavior.tooltip');
 
+$columns = 6;
 $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 $extension = $this->escape($this->state->get('filter.extension'));
-$columns = 6;
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . '&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
+				<?php
+					// Search tools bar
+					echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				?>
 				<?php if (empty($this->states)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

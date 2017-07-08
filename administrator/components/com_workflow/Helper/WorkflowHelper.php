@@ -36,13 +36,13 @@ class WorkflowHelper extends ContentHelper
 		$name = explode(".", $vName);
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_WORKFLOW_STATE'),
-			'index.php?option=com_workflow&view=states&workflow_id=' . $name[1],
+			'index.php?option=com_workflow&view=states&workflow_id=' . $name[1] . "&extension=" . $name[2],
 			$name[0] == 'states`'
 		);
 
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_WORKFLOW_TRANSITIONS'),
-			'index.php?option=com_workflow&view=transitions&workflow_id=' . $name[1],
+			'index.php?option=com_workflow&view=transitions&workflow_id=' . $name[1] . "&extension=" . $name[2],
 			$name[0] == 'transitions'
 		);
 	}
@@ -71,5 +71,27 @@ class WorkflowHelper extends ContentHelper
 			->where($db->qn('workflow_id') . ' = ' . (int) $workflowID);
 
 		return (string) $query;
+	}
+
+	/**
+	 * Get name by passing number
+	 *
+	 * @param   int     $number   Enum of condition
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0
+	 */
+	public static function getConditionName($number)
+	{
+		switch ($number)
+		{
+			case 1:
+				return "COM_WORKFLOW_TRASHED";
+			case 2:
+				return "COM_WORKFLOW_UNPUBLISHED";
+			case 3:
+				return "COM_WORKFLOW_PUBLISHED";
+		}
 	}
 }

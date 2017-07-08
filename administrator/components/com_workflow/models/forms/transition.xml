@@ -26,7 +26,7 @@
 
 		<field
 				name="description"
-				type="textarea"
+				type="editor"
 				label="COM_WORKFLOW_FIELD_DESC_LABEL"
 				description="COM_WORKFLOW_FIELD_DESC_DESC"
 				class="input-xxlarge input-large-text"
@@ -51,6 +51,14 @@
 				label="COM_WORKFLOW_TO_STATE"
 				description="COM_WORKFLOW_TO_STATE_DESC"
 				query="SELECT id AS value, title AS to_state_id FROM #__workflow_states"
+				required="true"
+		/>
+
+		<field
+				name="published"
+				type="status"
+				label="COM_WORKFLOW_PUBLISHED_LABEL"
+				description="COM_WORKFLOW_PUBLISHED_DESC"
 				required="true"
 		/>
 

@@ -98,4 +98,39 @@ class State extends Admin
 		return $data;
 	}
 
+	/**
+	 * Method to change the home state of one or more items.
+	 *
+	 * @param   array   &$pks  A list of the primary keys to change.
+	 * @param   integer $value The value of the home state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0
+	 */
+	public function setHome($pks, $value = 1)
+	{
+		$table = $this->getTable();
+
+		if ($value)
+		{
+			// Verify that the home page for this language is unique per client id
+			if ($table->load(array('default' => '1')))
+			{
+				$table->default = 0;
+				$table->store();
+			}
+		}
+
+		if ($table->load(array('id' => $pks)))
+		{
+			$table->default = $value;
+			$table->store();
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
+	}
 }

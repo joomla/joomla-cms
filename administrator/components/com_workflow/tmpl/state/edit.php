@@ -31,24 +31,30 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_WORKFLOW_BASIC_TAB') : JText::_('COM_WORKFLOW_EDIT_TAB')); ?>
 		<div class="row">
-			<div class="col-md-12">
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('condition'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('condition'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('default'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('default'); ?>
-					</div>
-				</div>
+			<div class="col-md-9">
+				<?php echo $this->form->getInput('description'); ?>
 			</div>
+			<div class="col-md-3">
+				<div class="card card-block card-light">
+					<fieldset class="form-vertical form-no-margin">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('condition'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('condition'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('default'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('default'); ?>
+							</div>
+						</div>
+					</fieldset>
+				</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 

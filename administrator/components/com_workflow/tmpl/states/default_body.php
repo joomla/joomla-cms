@@ -21,11 +21,14 @@ $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 		<td class="order nowrap text-center hidden-sm-down">
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 		</td>
+		<td class="text-center hidden-sm-down">
+			<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'states.', true); ?>
+		</td>
 		<td>
 			<a href="<?php echo $link ?>"><?php echo $item->title; ?></a>
 		</td>
 		<td class="text-center">
-			<?php echo $item->condition; ?>
+			<?php echo JText::_($item->condition); ?>
 		</td>
 		<td class="text-right">
 			<?php echo $item->id; ?>

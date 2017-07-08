@@ -17,8 +17,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $columns = 6;
 
 $extension = $this->escape($this->state->get('filter.extension'));
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">

@@ -54,6 +54,22 @@ class Html extends HtmlView
 	protected $sidebar;
 
 	/**
+	 * Form object for search filters
+	 *
+	 * @var     \JForm
+	 * @since   4.0
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var     array
+	 * @since   4.0
+	 */
+	public $activeFilters;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -69,8 +85,7 @@ class Html extends HtmlView
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-		$app = \JFactory::getApplication();
-		$context = "com_workflow.list.admin.workflows";
+
 		$this->state         = $this->get('State');
 		$this->workflows     = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -114,11 +129,8 @@ class Html extends HtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
 			'a.published' => \JText::_('JSTATUS'),
 			'a.title'     => \JText::_('JGLOBAL_TITLE'),
-			'a.access'    => \JText::_('JGRID_HEADING_ACCESS'),
-			'language'    => \JText::_('JGRID_HEADING_LANGUAGE'),
 			'a.id'        => \JText::_('JGRID_HEADING_ID'),
 		);
 	}
