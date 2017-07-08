@@ -17,7 +17,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  1.6
  */
-class Status extends Table
+class State extends Table
 {
 
 	/**
@@ -29,11 +29,11 @@ class Status extends Table
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
-		parent::__construct('#__workflow_status', 'id', $db);
+		parent::__construct('#__workflow_states', 'id', $db);
 	}
 
 	/**
-	 * Deletes workflow with transition and statuses.
+	 * Deletes workflow with transition and states.
 	 *
 	 * @param   int  $pk  Extension ids to delete.
 	 *
@@ -58,12 +58,12 @@ class Status extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__workflow_transitions'))
-				->where($db->qn('to_status_id') . ' = ' . (int) $pk . ' OR ' . $db->qn('from_status_id') . ' = ' . (int) $pk);
+				->where($db->qn('to_state_id') . ' = ' . (int) $pk . ' OR ' . $db->qn('from_state_id') . ' = ' . (int) $pk);
 			$db->setQuery($query);
 			$db->execute();
 
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflow_status'))
+				->delete($db->qn('#__workflow_states'))
 				->where($db->qn('id') . ' = ' . (int) $pk);
 			$db->setQuery($query);
 			$db->execute();

@@ -35,9 +35,9 @@ class WorkflowHelper extends ContentHelper
 	{
 		$name = explode(".", $vName);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_WORKFLOW_STATUS'),
-			'index.php?option=com_workflow&view=statuses&workflow_id=' . $name[1],
-			$name[0] == 'statuses`'
+			\JText::_('COM_WORKFLOW_STATE'),
+			'index.php?option=com_workflow&view=states&workflow_id=' . $name[1],
+			$name[0] == 'states`'
 		);
 
 		\JHtmlSidebar::addEntry(
@@ -48,7 +48,7 @@ class WorkflowHelper extends ContentHelper
 	}
 
 	/**
-	 * Get SQL for select statuses field
+	 * Get SQL for select states field
 	 *
 	 * @param   string  $fieldName   The name of field to which will be that sql
 	 * @param   int     $workflowID  ID of workflow
@@ -57,8 +57,19 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @since   4.0
 	 */
-	public static function getStatusesSQL($fieldName, $workflowID)
+	public static function getStatesSQL($fieldName, $workflowID)
 	{
-		return "SELECT `id` AS `value`, `title` AS `$fieldName` FROM #__workflow_status WHERE workflow_id=$workflowID";
+		$db = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$select[] = $db->qn('id') . ' AS ' . $db->qn('value');
+		$select[] = $db->qn('title') . ' AS ' . $db->qn($db->escape($fieldName));
+
+		$query
+			->select($select)
+			->from($db->qn('#__workflow_states'))
+			->where($db->qn('workflow_id') . ' = ' . (int) $workflowID);
+
+		return (string) $query;
 	}
 }

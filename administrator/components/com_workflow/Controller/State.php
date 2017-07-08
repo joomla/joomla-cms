@@ -20,10 +20,10 @@ use Joomla\CMS\Controller\Form;
  *
  * @since  4.0
  */
-class Status extends Form
+class State extends Form
 {
 	/**
-	 * The workflow for which is that status
+	 * The workflow for which is that state
 	 *
 	 * @var    string
 	 * @since  4.0

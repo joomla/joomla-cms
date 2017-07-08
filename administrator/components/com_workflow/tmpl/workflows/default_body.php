@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted Access');
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>
 <?php foreach ($this->workflows as $i => $item):
-	$statuese = JRoute::_('index.php?option=com_workflow&view=statuses&workflow_id=' . $item->id . '&extension=' . $extension);
+	$states = JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
 	$transitions = JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
 	$edit = JRoute::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
 	?>
@@ -31,7 +31,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			<a href="<?php echo $edit; ?>"><?php echo $item->title; ?></a>
 		</td>
 		<td class="text-center">
-			<a href="<?php echo $statuese; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>
+			<a href="<?php echo $states; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>
 		</td>
 		<td class="text-center">
 			<a href="<?php echo $transitions; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>

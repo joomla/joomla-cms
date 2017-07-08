@@ -22,7 +22,7 @@ use Joomla\CMS\Model\Admin;
  *
  * @since  4.0
  */
-class Status extends Admin
+class State extends Admin
 {
 
 	/**
@@ -58,8 +58,8 @@ class Status extends Admin
 	{
 		// Get the form.
 		$form = $this->loadForm(
-			'com_workflow.status',
-			'status',
+			'com_workflow.state',
+			'state',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData
@@ -86,7 +86,7 @@ class Status extends Admin
 	{
 		// Check the session for previously entered form data.
 		$data = \JFactory::getApplication()->getUserState(
-			'com_workflow.edit.status.data',
+			'com_workflow.edit.state.data',
 			array()
 		);
 

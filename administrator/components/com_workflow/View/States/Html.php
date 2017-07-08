@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Statuses;
+namespace Joomla\Component\Workflow\Administrator\View\States;
 
 defined('_JEXEC') or die;
 
@@ -23,12 +23,12 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class Html extends HtmlView
 {
 	/**
-	 * An array of statuses
+	 * An array of states
 	 *
 	 * @var     array
 	 * @since   4.0
 	 */
-	protected $statuses;
+	protected $states;
 
 	/**
 	 * The model state
@@ -72,10 +72,10 @@ class Html extends HtmlView
 		}
 
 		$this->state         = $this->get('State');
-		$this->statuses      = $this->get('Items');
+		$this->states        = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 
-		WorkflowHelper::addSubmenu("statuses." . $this->state->get("filter.workflow_id"));
+		WorkflowHelper::addSubmenu("states." . $this->state->get("filter.workflow_id"));
 		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
 
@@ -94,9 +94,9 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATUSES_LIST'), 'address contact');
-		ToolbarHelper::addNew('status.add');
-		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'statuses.delete');
-		ToolbarHelper::editList('status.edit');
+		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATES_LIST'), 'address contact');
+		ToolbarHelper::addNew('state.add');
+		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
+		ToolbarHelper::editList('state.edit');
 	}
 }

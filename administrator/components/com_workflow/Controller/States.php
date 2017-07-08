@@ -19,7 +19,7 @@ use Joomla\CMS\Controller\Admin;
  *
  * @since  4.0
  */
-class Statuses extends Admin
+class States extends Admin
 {
 
 	/**
@@ -33,7 +33,7 @@ class Statuses extends Admin
 	 *
 	 * @since   4.0
 	 */
-	public function getModel($name = 'Status', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'State', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

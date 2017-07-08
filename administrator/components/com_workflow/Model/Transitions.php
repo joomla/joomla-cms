@@ -86,14 +86,14 @@ class Transitions extends ListModel
 			'transition.id',
 			'transition.title',
 		));
-		$select[] = $db->qn('f_status.title') . ' AS ' . $db->qn('from_status');
-		$select[] = $db->qn('t_status.title') . ' AS ' . $db->qn('to_status');
-		$joinTo = $db->qn('#__workflow_status') . ' AS ' . $db->qn('t_status') . ' ON ' . $db->qn('t_status.id') . ' = ' . $db->qn('transition.to_status_id');
+		$select[] = $db->qn('f_state.title') . ' AS ' . $db->qn('from_state');
+		$select[] = $db->qn('t_state.title') . ' AS ' . $db->qn('to_state');
+		$joinTo = $db->qn('#__workflow_states') . ' AS ' . $db->qn('t_state') . ' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('transition.to_state_id');
 		
 		$query
 			->select($select)
 			->from($db->qn('#__workflow_transitions') . ' AS ' . $db->qn('transition'))
-			->leftJoin($db->qn('#__workflow_status') . ' AS ' . $db->qn('f_status') . ' ON ' . $db->qn('f_status.id') . ' = ' . $db->qn('transition.from_status_id'))
+			->leftJoin($db->qn('#__workflow_states') . ' AS ' . $db->qn('f_state') . ' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('transition.from_state_id'))
 			->leftJoin($joinTo);
 
 		// Filter by extension

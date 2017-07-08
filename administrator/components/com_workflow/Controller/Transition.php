@@ -23,7 +23,7 @@ use Joomla\CMS\Controller\Form;
 class Transition extends Form
 {
 	/**
-	 * The workflow for which is that status
+	 * The workflow for which is that state
 	 *
 	 * @var    string
 	 * @since  4.0

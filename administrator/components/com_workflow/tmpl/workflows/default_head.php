@@ -25,7 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TITLE', 'title', $listDirn, $listOrder); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
-		<?php echo JText::_('COM_WORKFLOW_STATUSES'); ?>
+		<?php echo JText::_('COM_WORKFLOW_STATES'); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_TRANSITIONS'); ?>
