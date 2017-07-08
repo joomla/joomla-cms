@@ -40,7 +40,7 @@ class Html extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Set variables
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Get data from the model.
 		$this->changeSet        = $this->get('Items');
@@ -57,7 +57,7 @@ class Html extends InstallerViewDefault
 		$this->activeFilters    = $this->get('ActiveFilters');
 		$this->errorCount3rd    = 0;
 
-		//We need to check the errors in the changeset but exclude the core database
+		// We need to check the errors in the changeset but exclude the core database
 		foreach ($this->changeSet as $i => $changeset)
 		{
 			if (strcmp($i, 'core') == 0)
