@@ -54,16 +54,12 @@
         </field>
 
         <field
-                name="condition"
-                type="list"
-                label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
-                description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+                name="published"
+                type="status"
+                label="COM_WORKFLOW_PUBLISHED_LABEL"
+                description="COM_WORKFLOW_PUBLISHED_DESC"
                 required="true"
-        >
-            <option value="3">COM_WORKFLOW_PUBLISHED</option>
-            <option value="2">COM_WORKFLOW_UNPUBLISHED</option>
-            <option value="1">COM_WORKFLOW_TRASHED</option>
-        </field>
+        />
 
         <field
                 name="category_id"
@@ -73,6 +69,23 @@
                 default="0"
                 showon="default:0"
         />
+
+        <field
+                name="created"
+                type="calendar"
+                label="COM_WORKFLOW_CREATED_LABEL"
+                description="COM_WORKFLOW_CREATED_DESC"
+                readonly="true"
+        />
+
+        <field
+                name="modified"
+                type="calendar"
+                label="COM_WORKFLOW_MODIFIED_LABEL"
+                description="COM_WORKFLOW_MODIFIED_DESC"
+                readonly="true"
+        />
+
     </fieldset>
 
 </form>

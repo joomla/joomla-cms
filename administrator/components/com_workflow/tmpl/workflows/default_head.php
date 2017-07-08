@@ -18,6 +18,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<th style="width:1%" class="nowrap text-center hidden-sm-down">
 		<?php echo JHtml::_('grid.checkall'); ?>
 	</th>
+	<th style="width:1%" class="nowrap text-center hidden-sm-down">
+		<?php echo JText::_('COM_WORKFLOW_STATUS'); ?>
+	</th>
 	<th style="width:10%" class="nowrap hidden-sm-down">
 		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TITLE', 'title', $listDirn, $listOrder); ?>
 	</th>
@@ -26,6 +29,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_TRANSITIONS'); ?>
+	</th>
+	<th style="width:10%" class="text-center nowrap hidden-sm-down">
+		<?php echo JText::_('COM_WORKFLOW_DEFAULT'); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_CREATION_DATE'); ?>

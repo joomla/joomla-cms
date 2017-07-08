@@ -12,17 +12,13 @@
 		/>
 
 		<field
-				name="condition"
-				type="list"
+				name="published"
+				type="status"
 				label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
 				description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
-				class="input-xxlarge input-large-text"
 				onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
-			<option value="3">COM_WORKFLOW_PUBLISHED</option>
-			<option value="2">COM_WORKFLOW_UNPUBLISHED</option>
-			<option value="1">COM_WORKFLOW_TRASHED</option>
 		</field>
 
 		<field

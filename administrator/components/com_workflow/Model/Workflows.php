@@ -37,7 +37,7 @@ class  Workflows extends ListModel
 			$config['filter_fields'] = array(
 				'id',
 				'title',
-				'condition',
+				'state',
 				'created_by'
 			);
 		}
@@ -111,6 +111,8 @@ class  Workflows extends ListModel
 			'w.id',
 			'w.title',
 			'w.created',
+			'w.published',
+			'w.default',
 			'u.name'
 		));
 
@@ -132,9 +134,9 @@ class  Workflows extends ListModel
 		}
 
 		// Filter by condition
-		if ($condition = $this->getState('filter.condition'))
+		if ($condition = $this->getState('filter.state'))
 		{
-			$query->where($db->qn('condition') . ' = ' . $db->quote($db->escape($condition)));
+			$query->where($db->qn('state') . ' = ' . $db->quote($db->escape($condition)));
 		}
 
 		// Filter by search in title

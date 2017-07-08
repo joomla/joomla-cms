@@ -12,15 +12,11 @@
 defined('_JEXEC') or die('Restricted Access');
 
 JHtml::_('behavior.tooltip');
-
-$extension = $this->escape($this->state->get('filter.extension'));
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+JHtml::_('formbehavior.chosen', 'select');
 
 $columns = 6;
 
-JHtml::_('formbehavior.chosen', 'select');
-
+$extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>

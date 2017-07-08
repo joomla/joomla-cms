@@ -22,6 +22,11 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		<td class="order nowrap text-center hidden-sm-down">
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 		</td>
+		<td class="text-center">
+			<div class="btn-group">
+				<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', true); ?>
+			</div>
+		</td>
 		<td>
 			<a href="<?php echo $edit; ?>"><?php echo $item->title; ?></a>
 		</td>
@@ -30,6 +35,9 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		</td>
 		<td class="text-center">
 			<a href="<?php echo $transitions; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>
+		</td>
+		<td class="text-center hidden-sm-down">
+					<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'workflows.', true); ?>
 		</td>
 		<td class="text-center">
 			<?php echo $item->created; ?>

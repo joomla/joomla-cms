@@ -20,6 +20,8 @@ $input = $app->input;
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$this->form->setFieldAttribute('created', 'default', date("Y-m-d H:i:s"));
+$this->form->setFieldAttribute('modified', 'default', date("Y-m-d H:i:s"));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
@@ -39,10 +41,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					<fieldset class="form-vertical form-no-margin">
 						<div class="control-group">
 							<div class="control-label">
-								<?php echo $this->form->getLabel('condition'); ?>
+								<?php echo $this->form->getLabel('published'); ?>
 							</div>
 							<div class="controls">
-								<?php echo $this->form->getInput('condition'); ?>
+								<?php echo $this->form->getInput('published'); ?>
 							</div>
 						</div>
 						<div class="control-group">
@@ -51,6 +53,22 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							</div>
 							<div class="controls">
 								<?php echo $this->form->getInput('default'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('created'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('created'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('modified'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('modified'); ?>
 							</div>
 						</div>
 					</fieldset>

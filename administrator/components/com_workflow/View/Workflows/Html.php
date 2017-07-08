@@ -99,6 +99,9 @@ class Html extends HtmlView
 		ToolbarHelper::addNew('workflow.add');
 		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		ToolbarHelper::editList('workflow.edit');
+		ToolbarHelper::publishList('workflows.publish');
+		ToolbarHelper::unpublishList('workflows.unpublish');
+		ToolbarHelper::trash('workflows.trash');
 	}
 
 	/**
