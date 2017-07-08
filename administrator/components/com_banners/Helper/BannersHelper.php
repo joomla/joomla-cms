@@ -146,7 +146,7 @@ class BannersHelper extends ContentHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
