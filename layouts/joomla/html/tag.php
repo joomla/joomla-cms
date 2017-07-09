@@ -50,7 +50,7 @@ if ($allowCustom)
 			$('" . $selector . "_chzn input').keyup(function(event) {
 
 				// Tag is greater than the minimum required chars and enter pressed
-				if (this.value && this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
+				if (this.value && this.value.length >= " . $minTermLength . " && event.which === 13) {
 
 					// Search an highlighted result
 					var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
