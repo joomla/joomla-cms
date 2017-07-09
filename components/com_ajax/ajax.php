@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 
 // Prevent the api url from being indexed
-$app->setHeader('X-Robots-Tag', 'noindex');
+$app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
 $input = $app->input;
