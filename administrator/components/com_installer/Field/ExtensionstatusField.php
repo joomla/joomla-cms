@@ -6,27 +6,29 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Installer\Administrator\Field;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
- * Type field.
+ * Extension Status field.
  *
  * @since  3.5
  */
-class JFormFieldType extends JFormFieldList
+class ExtensionstatusField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var	   string
+	 * @var    string
 	 * @since  3.5
 	 */
-	protected $type = 'Type';
+	protected $type = 'ExtensionStatus';
 
 	/**
 	 * Method to get the field options.
@@ -37,7 +39,7 @@ class JFormFieldType extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$options = InstallerHelper::getExtensionTypes();
+		$options = InstallerHelper::getStateOptions();
 
 		return array_merge(parent::getOptions(), $options);
 	}
