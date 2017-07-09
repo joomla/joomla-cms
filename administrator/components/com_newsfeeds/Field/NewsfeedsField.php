@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * News Feed List field.
  *
  * @since  1.6
  */
-class JFormFieldNewsfeeds extends JFormFieldList
+class NewsfeedsField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -37,7 +41,7 @@ class JFormFieldNewsfeeds extends JFormFieldList
 	{
 		$options = array();
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('id As value, name As text')
 			->from('#__newsfeeds AS a')
@@ -50,9 +54,9 @@ class JFormFieldNewsfeeds extends JFormFieldList
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $db->getMessage());
+			\JError::raiseWarning(500, $db->getMessage());
 		}
 
 		// Merge any additional options in the XML definition.

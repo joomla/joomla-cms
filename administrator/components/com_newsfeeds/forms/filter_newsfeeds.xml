@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field">
 
 	<fields name="filter">
 
@@ -27,6 +27,7 @@
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_newsfeeds"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
