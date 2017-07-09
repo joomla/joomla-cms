@@ -9998,6 +9998,38 @@ iframe {
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }
 
+.menu-assignment {
+  position: relative; }
+  .menu-assignment .menu-links {
+    padding-left: 0;
+    margin-top: 15px;
+    margin-left: 0;
+    column-count: 3;
+    column-gap: 15px; }
+    .menu-assignment .menu-links > li {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 15px;
+      vertical-align: top;
+      list-style: none;
+      column-break-inside: avoid;
+      -webkit-backface-visibility: hidden;
+              backface-visibility: hidden; }
+  .menu-assignment .menu-links-block {
+    padding: 15px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 3px; }
+  .menu-assignment label {
+    display: block; }
+    .menu-assignment label input {
+      position: relative;
+      top: 2px; }
+
+@media (max-width: 767px) {
+  .menu-assignment .menu-links {
+    column-count: auto; } }
+
 .com_users.view-debuggroup thead th, .com_users.view-debuguser thead th {
   white-space: normal; }
 
