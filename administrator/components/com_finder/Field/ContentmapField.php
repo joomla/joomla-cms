@@ -6,19 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('groupedlist');
-
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+
+FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Supports a select grouped list of finder content map.
  *
  * @since  3.6.0
  */
-class JFormFieldContentMap extends JFormFieldGroupedList
+class ContentmapField extends \JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -40,7 +43,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 		$groups = array();
 
 		// Get the database object and a new query object.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Levels subquery.
 		$levelQuery = $db->getQuery(true);
@@ -73,7 +76,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 		{
 			$contentMap = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return;
 		}
@@ -81,7 +84,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 		// Build the grouped list array.
 		if ($contentMap)
 		{
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($contentMap as $branch)
 			{
@@ -100,7 +103,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 					else
 					{
 						$key = FinderHelperLanguage::branchSingular($branch->text);
-						$text = $lang->hasKey($key) ? JText::_($key) : $branch->text;
+						$text = $lang->hasKey($key) ? \JText::_($key) : $branch->text;
 					}
 
 					// Initialize the group if necessary.
@@ -109,7 +112,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 						$groups[$name] = array();
 					}
 
-					$groups[$name][] = JHtml::_('select.option', $branch->value, $levelPrefix . $text);
+					$groups[$name][] = \JHtml::_('select.option', $branch->value, $levelPrefix . $text);
 				}
 			}
 		}

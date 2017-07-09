@@ -6,20 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-// Load the base adapter.
-JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 
-JFormHelper::loadFieldClass('list');
+// Load the base adapter.
+\JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Renders a list of directories.
  *
  * @since  2.5
  */
-class JFormFieldDirectories extends JFormFieldList
+class DirectoriesField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -51,13 +55,13 @@ class JFormFieldDirectories extends JFormFieldList
 			JPATH_SITE . '/language',
 			JPATH_SITE . '/modules',
 			JPATH_THEMES,
-			JFactory::getApplication()->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
-			JFactory::getApplication()->get('tmp_path', JPATH_ROOT . '/tmp')
+			Factory::getApplication()->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
+			Factory::getApplication()->get('tmp_path', JPATH_ROOT . '/tmp')
 		);
 
 		// Get the base directories.
 		jimport('joomla.filesystem.folder');
-		$dirs = JFolder::folders(JPATH_SITE, '.', false, true);
+		$dirs = \JFolder::folders(JPATH_SITE, '.', false, true);
 
 		// Iterate through the base directories and find the subdirectories.
 		foreach ($dirs as $dir)
@@ -69,7 +73,7 @@ class JFormFieldDirectories extends JFormFieldList
 			}
 
 			// Get the child directories.
-			$return = JFolder::folders($dir, '.', true, true);
+			$return = \JFolder::folders($dir, '.', true, true);
 
 			// Merge the directories.
 			if (is_array($return))
@@ -82,11 +86,11 @@ class JFormFieldDirectories extends JFormFieldList
 		// Convert the values to options.
 		foreach ($values as $value)
 		{
-			$options[] = JHtml::_('select.option', str_replace(JPATH_SITE . '/', '', $value), str_replace(JPATH_SITE . '/', '', $values));
+			$options[] = \JHtml::_('select.option', str_replace(JPATH_SITE . '/', '', $value), str_replace(JPATH_SITE . '/', '', $values));
 		}
 
 		// Add a null option.
-		array_unshift($options, JHtml::_('select.option', '', '- ' . JText::_('JNONE') . ' -'));
+		array_unshift($options, \JHtml::_('select.option', '', '- ' . \JText::_('JNONE') . ' -'));
 
 		return $options;
 	}

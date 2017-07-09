@@ -6,17 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_BASE') or die();
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Search Branches field for the Finder package.
  *
  * @since  3.5
  */
-class JFormFieldBranches extends JFormFieldList
+class BranchesField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -35,6 +38,6 @@ class JFormFieldBranches extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		return JHtml::_('finder.mapslist');
+		return \JHtml::_('finder.mapslist');
 	}
 }
