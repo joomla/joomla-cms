@@ -1018,7 +1018,7 @@ ENDDATA;
 			->leftJoin($db->qn('#__extensions', 'e2') . ' ON e1.extension_id = e2.package_id')
 			->where('e1.' . $db->qn('protected') . ' = 0')
 			->where('e1.' . $db->qn('type') . ' <> ' . $db->q('language'))
-			->where('e2.' . $db->qn('type') . ' IS NULL OR e2.' . $db->qn('type') . ' <> ' . $db->q('language'));
+			->where('(e2.' . $db->qn('type') . ' IS NULL OR e2.' . $db->qn('type') . ' <> ' . $db->q('language') . ')');
 
 		// Add condition to exclude core extensions if not already excluded before
 		foreach ($coreExtensions as $coreExtension)
