@@ -1,4 +1,4 @@
-#### Browser Version is used for prefixing automatically the stylesheets. IMPORTANT: Joomla 4 supports only the latest 2 versions!!!
+#### Browser Version is used for automatically prefixing the stylesheets. IMPORTANT: Joomla 4 supports only the latest 2 versions of each browser!!!
 Browsers:
     'Chrome':   '58'
     'Firefox':  '53'
@@ -8,7 +8,7 @@ Browsers:
     'Opera':    '44'
 
 vendors:
-#### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
+#### PLEASE ONLY ALTER THE VERSION NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
     'jquery':
                  'version': '3.2.1'
                  'dependencies': ''
@@ -68,7 +68,7 @@ vendors:
                   'version': '0.0.5'
                   'dependencies': ''
 
-## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
+## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
         js:
             - 'addon/display/fullscreen.js'
