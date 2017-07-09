@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
+/** @var JDocumentError $this */
 
 $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
