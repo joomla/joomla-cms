@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fields name="filter" addfieldpath="/administrator/components/com_banners/models/fields">
+<form addfieldprefix="Joomla\Component\Banners\Administrator\Field">
+	<fields name="filter">
 		<field
 			name="search"
 			type="text"
@@ -16,6 +16,7 @@
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_banners"
 			onchange="this.form.submit();"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>

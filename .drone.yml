@@ -19,10 +19,9 @@ pipeline:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
+      - mv -f drone-package.json package.json
       - fluxbox  > /dev/null 2>&1 &
-      - cd tests/javascript
       - npm install
-      - cd ../..
-      - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
+      - node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 

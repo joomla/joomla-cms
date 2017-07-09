@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset
-		addfieldpath="/administrator/components/com_plugins/models/fields"
-	>
+<form addfieldprefix="Joomla\Component\Content\Administrator\Field">
+	<fieldset>
 		<field
 			name="extension_id"
 			type="text"

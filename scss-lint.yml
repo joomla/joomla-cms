@@ -4,6 +4,7 @@ scss_files:
 
 exclude:
   - "scss/_normalize.scss"
+  - "templates/aurora/scss/blocks/_css-grid.scss"
 
 plugin_directories: ['.scss-linters']
 
