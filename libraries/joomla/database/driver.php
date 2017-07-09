@@ -1273,16 +1273,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function getTableCreate($tables);
 
 	/**
-	 * Retrieves field information about the given tables.
+	 * Retrieves keys information about the given table.
 	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
+	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An array of keys for the table(s).
+	 * @return  array   An array of keys for the table.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function getTableKeys($tables);
+	abstract public function getTableKeys($table);
 
 	/**
 	 * Method to get an array of all tables in the database.
