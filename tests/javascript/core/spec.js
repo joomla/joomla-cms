@@ -181,13 +181,13 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('renderMessages should render messages inside a div having class alert-message', function () {
-			var $messages = $('div.alert-success').children('div');
+			var $messages = $('joomla-alert[level="success"]').children('div');
 			expect($messages[0]).toContainText('Message two');
 			expect($messages[1]).toContainText('Message one');
 		});
 
 		it('renderMessages should render errors inside a div having class alert-error', function () {
-			var $messages = $('div.alert-danger').children('div');
+			var $messages = $('joomla-alert[level="danger"]').children('div');
 			expect($messages[0]).toContainText('Error two');
 			expect($messages[1]).toContainText('Error one');
 		});
