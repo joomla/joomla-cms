@@ -6,27 +6,29 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Installer\Administrator\Field;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
- * Folder field.
+ * Type field.
  *
  * @since  3.5
  */
-class JFormFieldFolder extends JFormFieldList
+class TypeField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
+	 * @var	   string
 	 * @since  3.5
 	 */
-	protected $type = 'Folder';
+	protected $type = 'Type';
 
 	/**
 	 * Method to get the field options.
@@ -37,7 +39,7 @@ class JFormFieldFolder extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$options = InstallerHelper::getExtensionGroupes();
+		$options = InstallerHelper::getExtensionTypes();
 
 		return array_merge(parent::getOptions(), $options);
 	}
