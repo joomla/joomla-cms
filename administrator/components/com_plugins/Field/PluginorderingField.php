@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Plugins\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('ordering');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('ordering');
 
 /**
  * Supports an HTML select list of plugins.
  *
  * @since  1.6
  */
-class JFormFieldPluginordering extends JFormFieldOrdering
+class PluginorderingField extends \JFormFieldOrdering
 {
 	/**
 	 * The form field type.
@@ -29,11 +33,11 @@ class JFormFieldPluginordering extends JFormFieldOrdering
 	/**
 	 * Builds the query for the ordering list.
 	 *
-	 * @return  JDatabaseQuery  The query for the ordering form field.
+	 * @return  \JDatabaseQuery  The query for the ordering form field.
 	 */
 	protected function getQuery()
 	{
-		$db     = JFactory::getDbo();
+		$db     = Factory::getDbo();
 		$folder = $this->form->getValue('folder');
 
 		// Build the query for the ordering list.
