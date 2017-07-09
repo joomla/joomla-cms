@@ -39,6 +39,8 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 
 	<link href="<?php echo 'templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="<?php echo 'templates/' . $this->template . '/css/bootstrap.min.css'; ?>" rel="stylesheet">
+	<link href="<?php echo 'templates/' . $this->template . '/css/font-awesome.min.css'; ?>" rel="stylesheet">
 	<link href="<?php echo 'templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
 
 	<?php $userCss = 'administrator/templates/' . $this->template . '/css/user.css'; ?>

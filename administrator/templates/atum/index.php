@@ -22,6 +22,8 @@ JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['ve
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
+JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
