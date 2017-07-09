@@ -6,19 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 
-JFormHelper::loadFieldClass('list');
+\JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
+
+FormHelper::loadFieldClass('list');
 
 /**
- * Modules Position field.
+ * Modules Module field.
  *
  * @since  3.4.2
  */
-class JFormFieldModulesPosition extends JFormFieldList
+class ModulesModuleField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -26,7 +30,7 @@ class JFormFieldModulesPosition extends JFormFieldList
 	 * @var    string
 	 * @since  3.4.2
 	 */
-	protected $type = 'ModulesPosition';
+	protected $type = 'ModulesModule';
 
 	/**
 	 * Method to get the field options.
@@ -37,8 +41,8 @@ class JFormFieldModulesPosition extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$clientId = JFactory::getApplication()->input->get('client_id', 0, 'int');
-		$options  = ModulesHelper::getPositions($clientId);
+		$clientId = Factory::getApplication()->input->get('client_id', 0, 'int');
+		$options  = \ModulesHelper::getModules($clientId);
 
 		return array_merge(parent::getOptions(), $options);
 	}
