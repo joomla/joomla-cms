@@ -6,19 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Components Category field.
  *
  * @since  1.6
  */
-class JFormFieldComponentsCategory extends JFormFieldList
+class ComponentsCategoryField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -38,7 +41,7 @@ class JFormFieldComponentsCategory extends JFormFieldList
 	protected function getOptions()
 	{
 		// Initialise variable.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.name AS text, a.element AS value')
 			->from('#__extensions as a')
@@ -50,7 +53,7 @@ class JFormFieldComponentsCategory extends JFormFieldList
 
 		if (count($items))
 		{
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($items as &$item)
 			{
@@ -61,7 +64,7 @@ class JFormFieldComponentsCategory extends JFormFieldList
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 				// Translate component name
-				$item->text = JText::_($item->text);
+				$item->text = \JText::_($item->text);
 			}
 
 			// Sort by component name
