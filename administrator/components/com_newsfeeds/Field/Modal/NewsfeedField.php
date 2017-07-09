@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Supports a modal newsfeeds picker.
  *
  * @since  1.6
  */
-class JFormFieldModal_Newsfeed extends JFormField
+class NewsfeedField extends FormField
 {
 	/**
 	 * The form field type.
@@ -39,7 +43,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
-		JFactory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
 
 		// The active newsfeed id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
@@ -48,8 +52,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 		$modalId = 'Newsfeed_' . $this->id;
 
 		// Add the modal field script to the document head.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('jquery.framework');
+		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -63,7 +67,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				JFactory::getDocument()->addScriptDeclaration("
+				Factory::getDocument()->addScriptDeclaration("
 				function jSelectNewsfeed_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Newsfeed', '" . $this->id . "', id, title, '', object);
 				}
@@ -74,9 +78,9 @@ class JFormFieldModal_Newsfeed extends JFormField
 		}
 
 		// Setup variables for display.
-		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
-		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
-		$modalTitle    = JText::_('COM_NEWSFEEDS_CHANGE_FEED');
+		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
+		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
+		$modalTitle    = \JText::_('COM_NEWSFEEDS_CHANGE_FEED');
 
 		if (isset($this->element['language']))
 		{
@@ -91,7 +95,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		if ($value)
 		{
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__newsfeeds'))
@@ -102,13 +106,13 @@ class JFormFieldModal_Newsfeed extends JFormField
 			{
 				$title = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage());
+				\JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 
-		$title = empty($title) ? JText::_('COM_NEWSFEEDS_SELECT_A_FEED') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		$title = empty($title) ? \JText::_('COM_NEWSFEEDS_SELECT_A_FEED') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current newsfeed display field.
 		$html  = '';
@@ -133,8 +137,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
-				. '<span class="icon-file" aria-hidden="true"></span> ' . JText::_('JSELECT')
+				. ' title="' . \JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
+				. '<span class="icon-file" aria-hidden="true"></span> ' . \JText::_('JSELECT')
 				. '</a>';
 		}
 
@@ -147,8 +151,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_NEW_NEWSFEED') . '">'
-				. '<span class="icon-new" aria-hidden="true"></span> ' . JText::_('JACTION_CREATE')
+				. ' title="' . \JHtml::tooltipText('COM_NEWSFEEDS_NEW_NEWSFEED') . '">'
+				. '<span class="icon-new" aria-hidden="true"></span> ' . \JText::_('JACTION_CREATE')
 				. '</a>';
 		}
 
@@ -161,8 +165,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') . '">'
-				. '<span class="icon-edit" aria-hidden="true"></span> ' . JText::_('JACTION_EDIT')
+				. ' title="' . \JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') . '">'
+				. '<span class="icon-edit" aria-hidden="true"></span> ' . \JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -174,7 +178,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
+				. '<span class="icon-remove" aria-hidden="true"></span>' . \JText::_('JCLEAR')
 				. '</a>';
 		}
 
@@ -186,7 +190,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Select newsfeed modal
 		if ($allowSelect)
 		{
-			$html .= JHtml::_(
+			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -197,7 +201,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-										. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+										. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 				)
 			);
 		}
@@ -205,11 +209,11 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// New newsfeed modal
 		if ($allowNew)
 		{
-			$html .= JHtml::_(
+			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
-					'title'       => JText::_('COM_NEWSFEEDS_NEW_NEWSFEED'),
+					'title'       => \JText::_('COM_NEWSFEEDS_NEW_NEWSFEED'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -221,15 +225,15 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'cancel\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'save\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_('JSAVE') . '</a>'
+							. \JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_('JAPPLY') . '</a>',
+							. \JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -237,11 +241,11 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Edit newsfeed modal.
 		if ($allowEdit)
 		{
-			$html .= JHtml::_(
+			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(
-					'title'       => JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED'),
+					'title'       => \JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -253,15 +257,15 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id
 							. '\', \'edit\', \'newsfeed\', \'cancel\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'newsfeed\', \'save\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_('JSAVE') . '</a>'
+							. \JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. JText::_('JAPPLY') . '</a>',
+							. \JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -270,7 +274,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		$class = $this->required ? ' class="required modal-value"' : '';
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id"' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(JText::_('COM_NEWSFEEDS_SELECT_A_FEED', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
+			. '" data-text="' . htmlspecialchars(\JText::_('COM_NEWSFEEDS_SELECT_A_FEED', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
 
 		return $html;
 	}
