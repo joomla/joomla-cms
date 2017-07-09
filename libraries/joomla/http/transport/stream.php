@@ -154,16 +154,13 @@ class JHttpTransportStream implements JHttpTransport
 		// Add our options to the current ones, if any.
 		$contextOptions['http'] = isset($contextOptions['http']) ? array_merge($contextOptions['http'], $options) : $options;
 
-		// Create the stream context for the request.
-		$context = stream_context_create(
-			array(
-				'http' => $options,
-				'ssl' => array(
-					'verify_peer'   => true,
-					'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
-					'verify_depth'  => 5,
-				),
-			)
+		$streamOptions = array(
+			'http' => $options,
+			'ssl' => array(
+				'verify_peer'   => true,
+				'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
+				'verify_depth'  => 5,
+			),
 		);
 
 		// Ensure the ssl peer name is verified where possible
@@ -171,6 +168,9 @@ class JHttpTransportStream implements JHttpTransport
 		{
 			$streamOptions['ssl']['verify_peer_name'] = true;
 		}
+
+		// Create the stream context for the request.
+		$context = stream_context_create($streamOptions);
 
 		// Authentification, if needed
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
