@@ -1012,19 +1012,26 @@ ENDDATA;
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('*')
-			->from($db->qn('#__extensions'))
-			->where($db->qn('protected') . ' = 0');
+		// Build query to exclude language extensions and language packages
+		$query->select('e1.*')
+			->from($db->qn('#__extensions', 'e1'))
+			->leftJoin($db->qn('#__extensions', 'e2') . ' ON e1.extension_id = e2.package_id')
+			->where('e1.' . $db->qn('protected') . ' = 0')
+			->where('e1.' . $db->qn('type') . ' <> ' . $db->q('language'))
+			->where('e2.' . $db->qn('type') . ' IS NULL OR e2.' . $db->qn('type') . ' <> ' . $db->q('language'));
 
-		// Add condition to exclude core extensions
+		// Add condition to exclude core extensions if not already excluded before
 		foreach ($coreExtensions as $coreExtension)
 		{
-			$query->where(
-				'(' . $db->qn('type') . ' <> ' . $db->q($extension[0])
-				. ' OR ' . $db->qn('element') . ' <> ' . $db->q($extension[1])
-				. ' OR ' . $db->qn('folder') . ' <> ' . $db->q($extension[2])
-				. ' OR ' . $db->qn('client_id') . ' <> ' . $extension[3] . ')'
-			);
+			if ($coreExtension[0] !== 'language' && $coreExtension[1] !== 'pkg_en-GB')
+			{
+				$query->where(
+					'(' . 'e1.' . $db->qn('type') . ' <> ' . $db->q($coreExtension[0])
+					. ' OR ' . 'e1.' . $db->qn('element') . ' <> ' . $db->q($coreExtension[1])
+					. ' OR ' . 'e1.' . $db->qn('folder') . ' <> ' . $db->q($coreExtension[2])
+					. ' OR ' . 'e1.' . $db->qn('client_id') . ' <> ' . $coreExtension[3] . ')'
+				);
+			}
 		}
 
 		$db->setQuery($query);
