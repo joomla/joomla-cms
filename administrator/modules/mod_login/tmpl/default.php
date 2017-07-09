@@ -40,30 +40,28 @@ if ($spacing > 0)
 	<fieldset>
 
 		<div class="form-group">
-			<label for="mod-login-username" class="sr-only"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
+			<label for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 			<input
 				name="username"
 				id="mod-login-username"
 				type="text"
 				class="form-control input-full"
-				placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"
 				autofocus
 			>
 		</div>
 
 		<div class="form-group">
-			<label for="mod-login-password" class="sr-only"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
+			<label for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 			<input
 				name="passwd"
 				id="mod-login-password"
 				type="password"
 				class="form-control input-full"
-				placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"
 			>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
-			<label for="mod-login-secretkey" class="sr-only"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
+			<label for="mod-login-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
 			<div class="form-group">
 				<input
 					name="secretkey"
@@ -71,7 +69,6 @@ if ($spacing > 0)
 					id="mod-login-secretkey"
 					type="text"
 					class="form-control input-full"
-					placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"
 				>
 			</div>
 		<?php endif; ?>

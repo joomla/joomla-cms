@@ -8499,6 +8499,9 @@ h5,
 h6 {
   font-weight: bold; }
 
+h1 {
+  font-weight: normal; }
+
 small,
 .small {
   font-size: 0.8rem; }
