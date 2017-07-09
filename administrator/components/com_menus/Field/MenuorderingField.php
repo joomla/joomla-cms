@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Menu Ordering field.
  *
  * @since  1.6
  */
-class JFormFieldMenuOrdering extends JFormFieldList
+class MenuOrderingField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -46,7 +50,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 			return false;
 		}
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, a.client_id AS ' . $db->quoteName('clientId'))
 			->from('#__menu AS a')
@@ -72,9 +76,9 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Allow translation of custom admin menus
@@ -82,14 +86,14 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		{
 			if ($option->clientId != 0)
 			{
-				$option->text = JText::_($option->text);
+				$option->text = \JText::_($option->text);
 			}
 		}
 
 		$options = array_merge(
-			array(array('value' => '-1', 'text' => JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+			array(array('value' => '-1', 'text' => \JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
 			$options,
-			array(array('value' => '-2', 'text' => JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+			array(array('value' => '-2', 'text' => \JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
 		);
 
 		// Merge any additional options in the XML definition.
@@ -109,7 +113,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	{
 		if ($this->form->getValue('id', 0) == 0)
 		{
-			return '<span class="readonly">' . JText::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
+			return '<span class="readonly">' . \JText::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
 		}
 		else
 		{

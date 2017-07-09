@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Menu Parent field.
  *
  * @since  1.6
  */
-class JFormFieldMenuParent extends JFormFieldList
+class MenuParentField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -37,7 +41,7 @@ class JFormFieldMenuParent extends JFormFieldList
 	{
 		$options = array();
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(a.id) AS value, a.title AS text, a.level, a.lft')
 			->from('#__menu AS a');
@@ -79,9 +83,9 @@ class JFormFieldMenuParent extends JFormFieldList
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -90,7 +94,7 @@ class JFormFieldMenuParent extends JFormFieldList
 			if ($clientId != 0)
 			{
 				// Allow translation of custom admin menus
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . JText::_($options[$i]->text);
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . \JText::_($options[$i]->text);
 			}
 			else
 			{
