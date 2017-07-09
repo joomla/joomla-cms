@@ -6,17 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('user');
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('user');
 
 /**
  * Supports a modal select of users that have access to com_messages
  *
  * @since  1.6
  */
-class JFormFieldUserMessages extends JFormFieldUser
+class UserMessagesField extends \JFormFieldUser
 {
 	/**
 	 * The form field type.
@@ -36,7 +41,7 @@ class JFormFieldUserMessages extends JFormFieldUser
 	protected function getGroups()
 	{
 		// Compute usergroups
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('id')
 			->from('#__usergroups');
@@ -46,27 +51,27 @@ class JFormFieldUserMessages extends JFormFieldUser
 		{
 			$groups = $db->loadColumn();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseNotice(500, $e->getMessage());
+			\JError::raiseNotice(500, $e->getMessage());
 
 			return null;
 		}
 
 		foreach ($groups as $i => $group)
 		{
-			if (JAccess::checkGroup($group, 'core.admin'))
+			if (Access::checkGroup($group, 'core.admin'))
 			{
 				continue;
 			}
 
-			if (!JAccess::checkGroup($group, 'core.manage', 'com_messages'))
+			if (!Access::checkGroup($group, 'core.manage', 'com_messages'))
 			{
 				unset($groups[$i]);
 				continue;
 			}
 
-			if (!JAccess::checkGroup($group, 'core.login.admin'))
+			if (!Access::checkGroup($group, 'core.login.admin'))
 			{
 				unset($groups[$i]);
 				continue;
@@ -85,6 +90,6 @@ class JFormFieldUserMessages extends JFormFieldUser
 	 */
 	protected function getExcluded()
 	{
-		return array(JFactory::getUser()->id);
+		return array(Factory::getUser()->id);
 	}
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Messages\Administrator\Field">
 	<fieldset>
 		<field
 			name="user_id_to"
