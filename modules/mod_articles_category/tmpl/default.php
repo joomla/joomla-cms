@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 ?>
-<ul class="category-module<?php echo $moduleclass_sfx; ?>">
+<ul class="category-module <?php echo $moduleclass_sfx; ?>">
 	<?php if ($grouped) : ?>
 		<?php foreach ($list as $group_name => $group) : ?>
-		<li>
+		<li> 
 			<div class="mod-articles-category-group"><?php echo $group_name; ?></div>
 			<ul>
 				<?php foreach ($group as $item) : ?>
