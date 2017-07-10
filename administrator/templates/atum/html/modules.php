@@ -76,7 +76,7 @@ function modChrome_well($module, &$params, &$attribs)
 
 			if ($module->showtitle)
 			{
-				echo '<h5 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h5>';
+				echo '<h2 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h2>';
 			}
 
 			echo $module->content;
