@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
-$config = JFactory::getConfig();
-$user   = JFactory::getUser();
-$db     = JFactory::getDbo();
-$lang   = JFactory::getLanguage();
-$input  = JFactory::getApplication()->input;
+$config   = JFactory::getConfig();
+$user     = JFactory::getUser();
+$db       = JFactory::getDbo();
+$lang     = JFactory::getLanguage();
+$app      = JFactory::getApplication();
+$input    = $app->input;
+$sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 // Get the number of unread messages in your inbox.
 $query = $db->getQuery(true)
@@ -78,5 +80,22 @@ if ($config->get('shared_session', '0'))
 	$db->setQuery($query);
 	$total_users = (int) $db->loadResult();
 }
+
+// Try to get the items from the post-installation model
+try
+{
+	$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(['ignore_request' => true]);
+	$messages      = $messagesModel->getItems();
+}
+catch (RuntimeException $e)
+{
+	$messages = [];
+
+	// Still render the error message from the Exception object
+	JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+}
+
+// Load the com_postinstall language file
+$lang->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 
 require JModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));
