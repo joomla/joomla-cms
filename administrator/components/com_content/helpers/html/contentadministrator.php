@@ -111,22 +111,22 @@ abstract class JHtmlContentAdministrator
 			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JLIB_HTML_FEATURED_ITEM'),
 		);
 
-		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
+		$state = ArrayHelper::getValue($states, (int)$value, $states[1]);
 
 		// Special state for dates
-		if (((int)$value == 1) && ($featured_up || $featured_down))
+		if (($value == 1) && ($featured_up || $featured_down))
 		{
 			$nullDate = JFactory::getDbo()->getNullDate();
 			$nowDate = JFactory::getDate()->toUnix();
-		
+
 			$tz = JFactory::getUser()->getTimezone();
-		
+
 			$featured_up = ($featured_up != $nullDate) ? JFactory::getDate($featured_up, 'UTC')->setTimeZone($tz) : false;
 			$featured_down = ($featured_down != $nullDate) ? JFactory::getDate($featured_down, 'UTC')->setTimeZone($tz) : false;
-		
+
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
-		
+
 			// Add tips and set icon
 			if ($featured_up > $nullDate)
 			{
@@ -140,7 +140,7 @@ abstract class JHtmlContentAdministrator
 					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_STARTED', $featured_up->format(JDate::$format, true));
 				}
 			}
-			
+	
 			if ($featured_down > $nullDate)
 			{
 				if ($nowDate > $featured_down->toUnix())
@@ -153,7 +153,7 @@ abstract class JHtmlContentAdministrator
 					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISH', $featured_down->format(JDate::$format, true));
 				}
 			}
-			
+	
 			// Add tips to titles
 			if (!empty($tips))
 			{
