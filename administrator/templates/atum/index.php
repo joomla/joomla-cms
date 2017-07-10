@@ -93,15 +93,8 @@ $this->setMetaData('theme-color', '#1c3d5c');
 						</a>
 					</div>
 					<?php endif; ?>
-<<<<<<< HEAD
 					<jdoc:include type="modules" name="title" />
 					<jdoc:include type="modules" name="status" style="no" />
-=======
-					<div class="d-flex col">
-						<div class="container-title">
-							<jdoc:include type="modules" name="title" />
-						</div>
-					</div>
 					<div class="ml-auto">
 						<ul class="nav text-center">
 							<li class="nav-item">
