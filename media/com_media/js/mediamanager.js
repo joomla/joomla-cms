@@ -16606,7 +16606,7 @@ var _vueFocus = require('vue-focus');
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 exports.default = {
-    name: 'create-folder-modal',
+    name: 'media-create-folder-modal',
     directives: { focus: _vueFocus.focus },
     data: function data() {
         return {
@@ -17465,10 +17465,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 var _assign = require('babel-runtime/core-js/object/assign');
 
 var _assign2 = _interopRequireDefault(_assign);
@@ -17482,7 +17478,7 @@ if (options.providers === undefined || options.providers.length === 0) {
 }
 
 // The initial state
-exports.default = (0, _defineProperty3.default)({
+exports.default = {
     // Will hold the activated filesystem disks
     disks: options.providers.map(function (disk) {
         return (0, _assign2.default)(disk, {
@@ -17499,10 +17495,12 @@ exports.default = (0, _defineProperty3.default)({
     // in the list as the default provider.
     selectedDirectory: options.providers[0].name + ':/',
     // The currently selected items
-    selectedItems: []
-}, 'selectedItems', []);
+    selectedItems: [],
+    // The state of cre
+    showCreateFolderModal: false
+};
 
-},{"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10}],415:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":5}],415:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
