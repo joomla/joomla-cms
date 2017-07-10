@@ -136,6 +136,13 @@
     margin-bottom: 0;
   }
 
+  .joomla-version {
+    margin-right: .9rem;
+    margin-bottom: 0;
+    font-size: $font-size-h5;
+    color: $white-offset;
+  }
+
 }
 
 @include media-breakpoint-down(md) {
