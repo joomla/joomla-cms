@@ -96,6 +96,10 @@
     min-width: 280px;
     padding: 0;
     border: 0;
+
+    h2 {
+      font-size: $font-size-h5;
+    }
   }
 
   .dropdown-menu::after {
