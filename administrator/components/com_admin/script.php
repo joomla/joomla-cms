@@ -497,6 +497,7 @@ class JoomlaInstallerScript
 			'/components/com_media/controller.php',
 			'/components/com_media/helpers/index.html',
 			'/components/com_media/helpers/media.php',
+			'/components/com_fields/controllers/field.php',
 			// Joomla 3.0
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0-2011-06-06-2.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0-2011-06-06.sql',
@@ -1723,6 +1724,8 @@ class JoomlaInstallerScript
 			'/administrator/templates/hathor/html/mod_menu',
 			'/administrator/components/com_messages/layouts/toolbar',
 			'/administrator/components/com_messages/layouts',
+			// Joomla! __DEPLOY_VERSION__
+			'/components/com_fields/controllers',
 		);
 
 		jimport('joomla.filesystem.file');
