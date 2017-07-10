@@ -17,7 +17,7 @@ JHtml::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', array('ve
 
 <li class="nav-item multilanguage">
 	<a class="nav-link" href="#multiLangModal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
-		<span class="fa fa-comment" aria-hidden="true"></span>
+		<span class="fa fa-language" aria-hidden="true"></span>
 		<span class="sr-only"><?php echo JText::_('MOD_MULTILANGSTATUS'); ?></span>
 	</a>
 </li>
