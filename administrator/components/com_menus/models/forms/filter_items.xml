@@ -77,7 +77,7 @@
 		<field
 			name="parent_id"
 			type="menuitem"
-			label="COM_MENUS_FILTER_PARENT_MENU_ITEM"
+			label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
 			description="COM_MENUS__FILTER_PARENT_MENU_DESC"
 			onchange="this.form.submit();"
 			>
