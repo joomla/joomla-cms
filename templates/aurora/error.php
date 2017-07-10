@@ -11,7 +11,8 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentError $this */
 
-$app = JFactory::getApplication();
+$app  = JFactory::getApplication();
+$lang = JFactory::getLanguage();
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -24,170 +25,138 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-if ($task ==='edit' || $layout === 'form')
-{
-	$fullWidth = 1;
-}
-else
-{
-	$fullWidth = 0;
-}
-
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
+	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '">';
 }
 elseif ($params->get('siteTitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle')) . '</span>';
+	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
+	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block align-top" alt="' . $sitename . '">';
 }
+
+// Container
+$container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" rel="stylesheet">
-	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-		<link href="<?php echo JUri::root(true); ?>/media/system/css/debug.css" rel="stylesheet">
+
+	<link href="<?php echo $this->baseurl . '/templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="<?php echo $this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
+
+	<?php $userCss = $this->baseurl . '/templates/' . $this->template . '/css/user.css'; ?>
+	<?php if (is_file(JPATH_ROOT . $userCss)) : ?>
+		<link href="<?php echo $userCss; ?>" rel="stylesheet">
 	<?php endif; ?>
-	<?php // If Right-to-Left ?>
-	<?php if ($this->direction === 'rtl') : ?>
-		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet">
+
+	<?php $langCss = $this->baseurl . '/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
+	<?php if (is_file(JPATH_ROOT . $langCss)) : ?>
+		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
-	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
-	<?php // Template color ?>
-	<?php if ($params->get('templateColor')) : ?>
-		<style>
-			body.site {
-				border-top: 3px solid <?php echo $params->get('templateColor'); ?>;
-				background-color: <?php echo $params->get('templateBackgroundColor'); ?>
-			}
-			a {
-				color: <?php echo $params->get('templateColor'); ?>;
-			}
-			.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover {
-				background: <?php echo $params->get('templateColor'); ?>;
-			}
-			.navbar-inner {
-				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			}
-		</style>
-	<?php endif; ?>
+
+	<script src="/media/vendor/jquery/js/jquery.min.js"></script>
+	<script src="/media/vendor/tether/js/tether.min.js"></script>
+	<script src="/media/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/media/system/js/core.min.js"></script>
+	<script src="<?php echo $this->baseurl . '/templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
+
 <body class="site <?php echo $option
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
-	. ($itemid ? ' itemid-' . $itemid : '')
-	. ($params->get('fluidContainer') ? ' fluid' : '');
+	. ($itemid ? ' itemid-' . $itemid : '');
+	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<!-- Body -->
-	<div class="body">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
-			<!-- Header -->
-			<header class="header" role="banner">
-				<div class="header-inner clearfix">
-					<a class="brand float-left" href="<?php echo $this->baseurl; ?>/">
-						<?php echo $logo; ?>
-					</a>
-					<div class="header-search float-right">
-						<?php // Display position-0 modules ?>
-						<?php echo $this->getBuffer('modules', 'position-0', ['style' => 'none']); ?>
-					</div>
-				</div>
-			</header>
-			<div class="navigation">
-				<?php // Display position-1 modules ?>
-				<?php echo $this->getBuffer('modules', 'position-1', ['style' => 'none']); ?>
-			</div>
-			<!-- Banner -->
-			<div class="banner">
-				<?php echo $this->getBuffer('modules', 'banner', ['style' => 'xhtml']); ?>
-			</div>
-			<div class="row">
-				<div id="content" class="col-md-12">
-					<!-- Begin Content -->
-					<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
-					<div class="well">
-						<div class="row">
-							<div class="col-md-6">
-								<p><strong><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></strong></p>
-								<p><?php echo JText::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>
-								<ul>
-									<li><?php echo JText::_('JERROR_LAYOUT_AN_OUT_OF_DATE_BOOKMARK_FAVOURITE'); ?></li>
-									<li><?php echo JText::_('JERROR_LAYOUT_MIS_TYPED_ADDRESS'); ?></li>
-									<li><?php echo JText::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
-									<li><?php echo JText::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
-								</ul>
-							</div>
-							<div class="col-md-6">
-								<?php if (JModuleHelper::getModule('search')) : ?>
-									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
-									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-									<?php echo $this->getBuffer('module', 'search'); ?>
-								<?php endif; ?>
-								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
-								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home" aria-hidden="true"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
-							</div>
-						</div>
-						<hr>
-						<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
-						<blockquote>
-							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
-						</blockquote>
-						<?php if ($this->debug) : ?>
-							<div>
-								<?php echo $this->renderBacktrace(); ?>
-								<?php // Check if there are more Exceptions and render their data as well ?>
-								<?php if ($this->error->getPrevious()) : ?>
-									<?php $loop = true; ?>
-									<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-									<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
-									<?php $this->setError($this->_error->getPrevious()); ?>
-									<?php while ($loop === true) : ?>
-										<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-										<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
-										<?php echo $this->renderBacktrace(); ?>
-										<?php $loop = $this->setError($this->_error->getPrevious()); ?>
-									<?php endwhile; ?>
-									<?php // Reset the main error object to the base error ?>
-									<?php $this->setError($this->error); ?>
-								<?php endif; ?>
-							</div>
-						<?php endif; ?>
-					</div>
-					<!-- End Content -->
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Footer -->
-	<div class="footer">
-		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
-			<hr>
-			<?php echo $this->getBuffer('modules', 'footer', ['style' => 'none']); ?>
-			<p class="float-right">
-				<a href="#top" id="back-top">
-					<?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?>
+
+	<header class="header full-width">
+		<nav class="navbar navbar-toggleable-md navbar-full">
+			<div class="navbar-brand">
+				<a href="<?php echo $this->baseurl; ?>/">
+					<?php echo $logo; ?>
 				</a>
-			</p>
-			<p>
-				&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
-			</p>
+				<?php if ($params->get('siteDescription')) : ?>
+					<div class="site-description"><?php echo htmlspecialchars($params->get('siteDescription')); ?></div>
+				<?php endif; ?>
+			</div>
+
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_AURORA_TOGGLE'); ?>">
+				<span class="fa fa-bars"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbar">
+				<?php echo $this->getBuffer('modules', 'menu', ['style' => 'none']); ?>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container-main">
+
+		<div class="container-component">
+			<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
+			<div class="card">
+				<div class="card-block">
+					<p><strong><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></strong></p>
+					<p><?php echo JText::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>
+					<ul>
+						<li><?php echo JText::_('JERROR_LAYOUT_AN_OUT_OF_DATE_BOOKMARK_FAVOURITE'); ?></li>
+						<li><?php echo JText::_('JERROR_LAYOUT_MIS_TYPED_ADDRESS'); ?></li>
+						<li><?php echo JText::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
+						<li><?php echo JText::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
+					</ul>
+					<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
+					<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn btn-secondary"><span class="fa fa-home" aria-hidden="true"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
+					<hr>
+					<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
+					<blockquote>
+						<span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+					</blockquote>
+					<?php if ($this->debug) : ?>
+						<div>
+							<?php echo $this->renderBacktrace(); ?>
+							<?php // Check if there are more Exceptions and render their data as well ?>
+							<?php if ($this->error->getPrevious()) : ?>
+								<?php $loop = true; ?>
+								<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
+								<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+								<?php $this->setError($this->_error->getPrevious()); ?>
+								<?php while ($loop === true) : ?>
+									<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+									<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<?php echo $this->renderBacktrace(); ?>
+									<?php $loop = $this->setError($this->_error->getPrevious()); ?>
+								<?php endwhile; ?>
+								<?php // Reset the main error object to the base error ?>
+								<?php $this->setError($this->error); ?>
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
+				</div>
+			</div>
 		</div>
+
 	</div>
+
+	<footer class="container-footer footer">
+		<hr>
+		<p class="float-right">
+			<a href="#top" id="back-top" class="back-top">
+				<span class="icon-arrow-up-4" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?></span>
+			</a>
+		</p>
+		<?php echo $this->getBuffer('modules', 'footer', ['style' => 'none']); ?>
+	</footer>
+
 	<?php echo $this->getBuffer('modules', 'debug', ['style' => 'none']); ?>
+
 </body>
 </html>
+
