@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JHtml::_('bootstrap.tooltip');
-
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
