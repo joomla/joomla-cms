@@ -8668,10 +8668,9 @@ legend {
     margin-left: 10px; } }
     .header .navbar-brand span {
       margin-left: .4rem; }
-  .header .nav-item + .nav-item {
-    margin-left: 1px; }
   .header .nav-item {
-    background-color: #102335; }
+    background-color: #2e5a84;
+    border-left: 1px solid #1c3d5c; }
   .header .nav-link {
     position: relative;
     padding: 0;
@@ -8735,7 +8734,7 @@ legend {
     width: 48px;
     line-height: 48px;
     color: #fff;
-    background-color: rgba(255, 255, 255, 0.15); }
+    background-color: #2e5a84; }
 
 .icon-back::before {
   content: "\e008"; }
