@@ -148,7 +148,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 										<?php endif; ?>
 										<?php foreach ($messages as $message) : ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
-											<h5 class="list-group-item-heading"><?php echo JHtml::_('string.truncate', JText::_($message->title_key), 28, false, false); ?></h5>
+											<h2><?php echo JHtml::_('string.truncate', JText::_($message->title_key), 28, false, false); ?></h2>
 											<p class="list-group-item-text small">
 												<?php echo JHtml::_('string.truncate', JText::_($message->description_key), 120, false, false); ?>
 											</p>
