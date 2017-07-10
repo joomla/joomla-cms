@@ -50,13 +50,9 @@
       margin-left: .4rem;
     }
   }
-
-  .nav-item + .nav-item {
-    margin-left: 1px;
-  }
-
   .nav-item {
-    background-color: darken($atum-template-color, 10%);
+    background-color: $header-icons-bg;
+    border-left: 1px solid $atum-template-color;
   }
 
   .nav-link {
@@ -167,7 +163,7 @@
     width: $header-height;
     line-height: $header-height;
     color: $white;
-    background-color: rgba($white, .15);
+    background-color: $header-icons-bg;
   }
 
 }
