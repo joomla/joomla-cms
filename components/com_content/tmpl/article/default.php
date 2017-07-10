@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\Html\HtmlHelper;
+
+HtmlHelper::addIncludePrefixes('Joomla\\Component\\Content\\Site\\Helper');
+HtmlHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;

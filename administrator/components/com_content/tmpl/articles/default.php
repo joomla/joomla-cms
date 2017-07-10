@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Html\HtmlHelper;
 
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
+HtmlHelper::addIncludePrefixes('Joomla\\Component\\Content\\Administrator\\Helper\\Html');
+
+HtmlHelper::_('bootstrap.tooltip');
+HtmlHelper::_('behavior.multiselect');
 
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
@@ -42,7 +44,7 @@ else
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
-	JHtml::_('draggablelist.draggable');
+	HtmlHelper::_('draggablelist.draggable');
 }
 
 $assoc = JLanguageAssociations::isEnabled();
@@ -70,50 +72,50 @@ $assoc = JLanguageAssociations::isEnabled();
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HtmlHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HtmlHelper::_('grid.checkall'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th style="min-width:100px" class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
 									<?php $columns++; ?>
 									<th style="width:5%" class="nowrap hidden-sm-down text-center">
-										<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+										<?php echo HtmlHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:3%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->vote) : ?>
 									<?php $columns++; ?>
 									<th style="width:3%" class="nowrap hidden-sm-down text-center">
-										<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+										<?php echo HtmlHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 									</th>
 									<?php $columns++; ?>
 									<th style="width:3%" class="nowrap hidden-sm-down text-center">
-										<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+										<?php echo HtmlHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<th style="width:3%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HtmlHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -142,7 +144,7 @@ $assoc = JLanguageAssociations::isEnabled();
 									}
 									elseif (!$saveOrder)
 									{
-										$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+										$iconClass = ' inactive tip-top hasTooltip" title="' . HtmlHelper::_('tooltipText', 'JORDERINGDISABLED');
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
@@ -153,18 +155,18 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+									<?php echo HtmlHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php echo HtmlHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+										<?php echo HtmlHelper::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 									</div>
 								</td>
 								<td class="has-context">
 									<div class="break-word">
 										<?php if ($item->checked_out) : ?>
-											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
+											<?php echo HtmlHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
 											<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
@@ -186,7 +188,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php if ($assoc) : ?>
 								<td class="hidden-sm-down text-center">
 									<?php if ($item->association) : ?>
-										<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
+										<?php echo HtmlHelper::_('contentadministrator.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
@@ -206,7 +208,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="nowrap small hidden-sm-down text-center">
 									<?php
 									$date = $item->{$orderingColumn};
-									echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
+									echo $date > 0 ? HtmlHelper::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
 								<td class="hidden-sm-down text-center">
@@ -237,7 +239,7 @@ $assoc = JLanguageAssociations::isEnabled();
 					<?php if ($user->authorise('core.create', 'com_content')
 						&& $user->authorise('core.edit', 'com_content')
 						&& $user->authorise('core.edit.state', 'com_content')) : ?>
-						<?php echo JHtml::_(
+						<?php echo HtmlHelper::_(
 							'bootstrap.renderModal',
 							'collapseModal',
 							array(
@@ -251,7 +253,7 @@ $assoc = JLanguageAssociations::isEnabled();
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HtmlHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

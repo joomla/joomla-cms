@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\Html\HtmlHelper;
 
-JHtml::_('behavior.caption');
+HtmlHelper::addIncludePrefixes('Joomla\\Component\\Content\\Site\\Helper');
+HtmlHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+
+HtmlHelper::_('behavior.caption');
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space

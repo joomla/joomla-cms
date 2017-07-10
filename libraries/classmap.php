@@ -348,3 +348,6 @@ JLoader::registerAlias('JUpdateAdapter',                    '\\Joomla\\CMS\\Upda
 JLoader::registerAlias('JUpdater',                          '\\Joomla\\CMS\\Updater\\Updater', '5.0');
 JLoader::registerAlias('JUpdaterCollection',                '\\Joomla\\CMS\\Updater\\Adapter\\CollectionAdapter', '5.0');
 JLoader::registerAlias('JUpdaterExtension',                 '\\Joomla\\CMS\\Updater\\Adapter\\ExtensionAdapter', '5.0');
+
+JLoader::registerAlias('JHtml',                             '\\Joomla\\CMS\\Html\\HtmlHelper', '5.0');
+JLoader::registerAlias('JHtmlJquery',                       '\\Joomla\\CMS\\Html\\Jquery', '5.0');
