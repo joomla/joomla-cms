@@ -22,6 +22,8 @@ JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['ve
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
+JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
@@ -83,18 +85,19 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<header id="header" class="header">
 			<div class="container-fluid">
 				<div class="d-flex row justify-content-end">
+					<?php if (!$hidden) : ?>
 					<div class="menu-collapse">
 						<a id="menu-collapse" class="menu-toggle" href="#">
 							<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 						</a>
 					</div>
+					<?php endif; ?>
 					<div class="d-flex col">
 						<div class="container-title">
 							<jdoc:include type="modules" name="title" />
 						</div>
 					</div>
-
 					<div class="ml-auto">
 						<ul class="nav text-center">
 							<li class="nav-item">
