@@ -74,7 +74,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
 			<div id="main-brand" class="main-brand align-items-center">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>">
+					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
 				</a>
 			</div>
 			<jdoc:include type="modules" name="menu" style="none" />
@@ -93,11 +93,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 						</a>
 					</div>
 					<?php endif; ?>
-					<div class="d-flex col">
-						<div class="container-title">
-							<jdoc:include type="modules" name="title" />
-						</div>
-					</div>
+					<jdoc:include type="modules" name="title" />
 					<jdoc:include type="modules" name="status" style="no" />
 				</div>
 			</div>
@@ -137,27 +133,6 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				</div>
 				<?php // End Content ?>
 			</section>
-
-			<?php if (!$this->countModules('status')) : ?>
-				<footer class="footer">
-					<p class="text-center">
-						<jdoc:include type="modules" name="footer" style="no" />
-						&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
-				</footer>
-			<?php endif; ?>
-
-			<?php if ($this->countModules('status')) : ?>
-				<?php // Begin Status Module ?>
-				<nav id="status" class="status navbar fixed-bottom hidden-sm-down">
-					<ul class="nav d-flex justify-content-start">
-						<li class="ml-auto">
-							<jdoc:include type="modules" name="footer" style="no" />
-							&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
-						</li>
-					</ul>
-				</nav>
-				<?php // End Status Module ?>
-			<?php endif; ?>
 
 			<div class="notify-alerts">
 				<jdoc:include type="message" />
