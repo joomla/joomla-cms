@@ -368,7 +368,7 @@
 			name="show_links"
 			type="radio"
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
 			>
