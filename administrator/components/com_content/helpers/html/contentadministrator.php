@@ -111,7 +111,7 @@ abstract class JHtmlContentAdministrator
 			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JLIB_HTML_FEATURED_ITEM'),
 		);
 
-		$state = ArrayHelper::getValue($states, (int)$value, $states[1]);
+		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 
 		// Special state for dates
 		if (($value == 1) && ($featured_up || $featured_down))
