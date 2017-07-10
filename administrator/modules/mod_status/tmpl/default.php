@@ -14,6 +14,12 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
+
+		<?php
+			$module = JModuleHelper::getModule('multilangstatus');
+			echo JModuleHelper::renderModule($module);
+		?>
+
 		<li class="nav-item">
 			<a class="nav-link" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
 				<span class="fa fa-external-link" aria-hidden="true"></span>
