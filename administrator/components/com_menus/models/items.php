@@ -90,9 +90,6 @@ class MenusModelItems extends JModelList
 			$this->context .= '.' . $forcedLanguage;
 		}
 
-		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-		$this->setState('filter.parent_id', $parentId);
-
 		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
