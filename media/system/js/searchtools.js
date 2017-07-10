@@ -169,14 +169,16 @@
 
 				});
 			});
+
+			self.checkActiveStatus(self);
 		},
 		checkFilter: function (element) {
 			var self = this;
 			var option = element.querySelector('option:checked');
 			if (option.value !== '') {
-				self.activeFilter(element);
+				self.activeFilter(element, self);
 			} else {
-				self.deactiveFilter(element);
+				self.deactiveFilter(element, self);
 			}
 		},
 		clear: function () {
@@ -213,17 +215,27 @@
 
 			self.theForm.submit();
 		},
-		activeFilter: function (element) {
-			var self = this;
-
+		checkActiveStatus: function(cont) {
+			var el = cont.mainContainer;
+			var els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
+			els.forEach(function(item) {
+				if (item.classList.contains('active')) {
+					console.log('hello!!!!!');
+					cont.filterButton.classList.remove('btn-secondary');
+					cont.filterButton.classList.add('btn-primary');
+					return '';
+				}
+			});
+		},
+		activeFilter: function (element, cont) {
 			element.classList.add('active');
 			var chosenId = '#' + element.getAttribute('id');
 			var tmpEl = element.querySelector(chosenId);
 			if (tmpEl) {
-				tmpEl.classList.add('active');
+				tmpEl.classList.add('active');	
 			}
 		},
-		deactiveFilter: function (element) {
+		deactiveFilter: function (element, cont) {
 			element.classList.remove('active');
 			var chosenId = '#' + element.getAttribute('id');
 			var tmpEl = element.querySelector(chosenId);
@@ -248,7 +260,7 @@
 			}
 		},
 		showContainer: function (container) {
-			container.style.display = 'block';
+			container.style.display = 'flex';
 			container.classList.add('shown');
 		},
 		toggleContainer: function (container) {
