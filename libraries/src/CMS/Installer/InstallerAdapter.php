@@ -239,8 +239,8 @@ abstract class InstallerAdapter
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -472,7 +472,7 @@ abstract class InstallerAdapter
 	 */
 	protected function doDatabaseTransactions()
 	{
-		$route = $this->route == 'discover_install' ? 'install' : $this->route;
+		$route = $this->route === 'discover_install' ? 'install' : $this->route;
 
 		// Let's run the install queries for the component
 		if (isset($this->getManifest()->{$route}->sql))
@@ -482,7 +482,7 @@ abstract class InstallerAdapter
 			if ($result === false)
 			{
 				// Only rollback if installing
-				if ($route == 'install')
+				if ($route === 'install')
 				{
 					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
@@ -718,7 +718,7 @@ abstract class InstallerAdapter
 		}
 
 		// If we are on the update route, run any custom setup routines
-		if ($this->route == 'update')
+		if ($this->route === 'update')
 		{
 			try
 			{
@@ -890,7 +890,7 @@ abstract class InstallerAdapter
 				$this->parent->setSchemaVersion($this->getManifest()->update->schemas, $this->extension->extension_id);
 			}
 		}
-		elseif ($this->route == 'update')
+		elseif ($this->route === 'update')
 		{
 			if ($this->getManifest()->update)
 			{
@@ -1066,7 +1066,7 @@ abstract class InstallerAdapter
 				case 'postflight' :
 					if ($this->parent->manifestClass->$method($this->route, $this) === false)
 					{
-						if ($method != 'postflight')
+						if ($method !== 'postflight')
 						{
 							// Clean and close the output buffer
 							ob_end_clean();
@@ -1088,7 +1088,7 @@ abstract class InstallerAdapter
 				case 'update' :
 					if ($this->parent->manifestClass->$method($this) === false)
 					{
-						if ($method != 'uninstall')
+						if ($method !== 'uninstall')
 						{
 							// Clean and close the output buffer
 							ob_end_clean();
@@ -1110,7 +1110,7 @@ abstract class InstallerAdapter
 		$this->extensionMessage .= ob_get_clean();
 
 		// If in postflight or uninstall, set the message for display
-		if (($method == 'uninstall' || $method == 'postflight') && $this->extensionMessage != '')
+		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '')
 		{
 			$this->parent->set('extension_message', $this->extensionMessage);
 		}

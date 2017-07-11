@@ -14,7 +14,6 @@ use Joomla\Registry\Registry;
 // Load tooltips behavior
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.tabstate');
 
 // Load JS message titles

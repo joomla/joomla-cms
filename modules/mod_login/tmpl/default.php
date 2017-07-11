@@ -11,9 +11,12 @@ defined('_JEXEC') or die;
 
 JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helpers/route.php');
 
+JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
+JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
+JText::script('JSHOW');
+JText::script('JHIDE');
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form">
 
@@ -27,11 +30,11 @@ JHtml::_('bootstrap.tooltip');
 		<div class="form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
+					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-addon">
 						<span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
 						<label for="modlgn-username" class="sr-only"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 					</span>
-					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 				</div>
 			<?php else : ?>
 				<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
@@ -42,11 +45,11 @@ JHtml::_('bootstrap.tooltip');
 		<div class="form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
-					<span class="input-group-addon">
-						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"></span>
-						<label for="modlgn-passwd" class="sr-only"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-					</span>
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
+					<span class="input-group-addon">
+						<span class="fa fa-eye" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
+					</span>
 				</div>
 			<?php else : ?>
 				<label for="modlgn-passwd"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>

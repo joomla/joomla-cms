@@ -599,8 +599,20 @@ class Item extends Admin
 	 */
 	protected function loadFormData()
 	{
-		// Check the session for previously entered form data.
-		$data = array_merge((array) $this->getItem(), (array) \JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+		// Check the session for previously entered form data, providing it has an ID and it is the same.
+		$itemData = (array) $this->getItem();
+		$sessionData = (array) \JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
+
+		// Only merge if there is a session and itemId or itemid is null.
+		if (isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
+			|| is_null($itemData['id']))
+		{
+			$data = array_merge($itemData, $sessionData);
+		}
+		else
+		{
+			$data = $itemData;
+		}
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
 		if ($this->getItem()->id == 0)
@@ -681,8 +693,9 @@ class Item extends Admin
 		// If the link has been set in the state, possibly changing link type.
 		if ($link = $this->getState('item.link'))
 		{
+
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) != MenusHelper::getLinkKey($link))
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) 
 			{
 				$table->link = $link;
 			}
@@ -1198,8 +1211,8 @@ class Item extends Admin
 			$helpURL = trim((string) $help[0]['url']);
 			$helpLoc = trim((string) $help[0]['local']);
 
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpKey = $helpKey ?: $this->helpKey;
+			$this->helpURL = $helpURL ?: $this->helpURL;
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
@@ -1682,7 +1695,7 @@ class Item extends Admin
 	public function publish(&$pks, $value = 1)
 	{
 		$table = $this->getTable();
-		$pks = (array) $pks;
+		$pks   = (array) $pks;
 
 		// Default menu item existence checks.
 		if ($value != 1)

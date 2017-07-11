@@ -357,7 +357,7 @@ class AdministratorApplication extends CMSApplication
 		$config = $db->loadObject();
 
 		// Check if auto_purge value set
-		if (is_object($config) and $config->cfg_name == 'auto_purge')
+		if (is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
 		}
@@ -400,7 +400,7 @@ class AdministratorApplication extends CMSApplication
 		$component = $input->getCmd('option', 'com_login');
 		$file      = $input->getCmd('tmpl', 'index');
 
-		if ($component == 'com_login')
+		if ($component === 'com_login')
 		{
 			$file = 'login';
 		}
@@ -411,7 +411,7 @@ class AdministratorApplication extends CMSApplication
 		$rootUser = $this->get('root_user');
 
 		if (property_exists('\JConfig', 'root_user')
-			&& (\JFactory::getUser()->get('username') == $rootUser || \JFactory::getUser()->id === (string) $rootUser))
+			&& (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser))
 		{
 			$this->enqueueMessage(
 				\JText::sprintf(
@@ -441,7 +441,7 @@ class AdministratorApplication extends CMSApplication
 	{
 		$uri = \JUri::getInstance();
 
-		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
+		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) !== 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');

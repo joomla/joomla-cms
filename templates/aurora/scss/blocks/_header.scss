@@ -4,7 +4,7 @@
   position: relative;
   z-index: 5;
   padding: 15px 0;
-  background: $aurora-template-color-light;
+  background: $aurora-template-color;
 
   &::after {
     position: absolute;
@@ -109,7 +109,7 @@
   padding-top: 13px;
   padding-bottom: 13px;
   color: $white;
-  background-color: $aurora-template-color-light;
+  background-color: $aurora-template-color;
 
   .row {
     margin-right: 0;
@@ -127,7 +127,7 @@
       margin-right: 12px;
       margin-left: 5px;
       font-size: $font-size-h1;
-      color: lighten($aurora-template-color-light, 10%);
+      color: lighten($aurora-template-color, 10%);
     }
 
   }

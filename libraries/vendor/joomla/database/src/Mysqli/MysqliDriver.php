@@ -284,7 +284,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		$beginningOfQuery = substr($query, 0, 12);
 		$beginningOfQuery = strtoupper($beginningOfQuery);
 
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE'), true))
 		{
 			return $query;
 		}
@@ -346,7 +346,8 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('mysqli_connect');
+		// At the moment we depend on mysqlnd extension, so we additionally test for mysqli_stmt_get_result
+		return function_exists('mysqli_connect') && function_exists('mysqli_stmt_get_result');
 	}
 
 	/**
@@ -481,7 +482,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	public function getNumRows($cursor = null)
 	{
-		return mysqli_num_rows($cursor ? $cursor : $this->cursor);
+		return mysqli_num_rows($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -501,7 +502,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		$result = [];
 
 		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
+		$tables = (array) $tables;
 
 		foreach ($tables as $table)
 		{
@@ -540,7 +541,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		else
@@ -703,7 +704,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 					$bindParams = array();
 					$bindParams[] = &$typeString;
 
-					for ($i = 0; $i < count($params); $i++)
+					for ($i = 0, $iMax = count($params); $i < $iMax; $i++)
 					{
 						$bindParams[] = &$params[$i];
 					}
@@ -1042,7 +1043,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		return mysqli_fetch_row($cursor ? $cursor : $this->cursor);
+		return mysqli_fetch_row($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -1056,7 +1057,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		return mysqli_fetch_assoc($cursor ? $cursor : $this->cursor);
+		return mysqli_fetch_assoc($cursor ?: $this->cursor);
 	}
 
 	/**
@@ -1071,7 +1072,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	protected function fetchObject($cursor = null, $class = '\\stdClass')
 	{
-		return mysqli_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		return mysqli_fetch_object($cursor ?: $this->cursor, $class);
 	}
 
 	/**

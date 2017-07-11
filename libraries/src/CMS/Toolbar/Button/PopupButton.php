@@ -50,7 +50,7 @@ class PopupButton extends ToolbarButton
 		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
-		if (strlen($title) == 0)
+		if ($title === '')
 		{
 			$title = $text;
 		}
@@ -95,7 +95,7 @@ class PopupButton extends ToolbarButton
 		$html[] = \JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
-		if (strlen($onClose) >= 1)
+		if ($onClose !== '')
 		{
 			$html[] = '<script>'
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
@@ -133,7 +133,7 @@ class PopupButton extends ToolbarButton
 	 */
 	private function _getCommand($url)
 	{
-		if (substr($url, 0, 4) !== 'http')
+		if (strpos($url, 'http') !== 0)
 		{
 			$url = \JUri::base() . $url;
 		}

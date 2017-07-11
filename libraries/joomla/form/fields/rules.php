@@ -136,8 +136,6 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		// Add Javascript for permission change
 		JHtml::_('script', 'system/fields/permissions.min.js', array('version' => 'auto', 'relative' => true));
 
