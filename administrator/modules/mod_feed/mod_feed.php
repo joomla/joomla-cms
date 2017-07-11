@@ -14,6 +14,7 @@ JLoader::register('ModFeedHelper', __DIR__ . '/helper.php');
 
 $feed            = ModFeedHelper::getFeed($params);
 $rssurl          = $params->get('rssurl', '');
+$rssrtl          = $params->get('rssrtl', 0);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

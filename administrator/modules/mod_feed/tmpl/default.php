@@ -23,16 +23,47 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
+	$lang      = JFactory::getLanguage();
+	$myrtl     = $params->get('rssrtl');
+	$direction = ' ';
+
+	if ($lang->isRtl() && $myrtl == 0)
+	{
+		$direction = ' redirect-rtl';
+	}
+	// Feed description
+	elseif ($lang->isRtl() && $myrtl == 1)
+	{
+		$direction = ' redirect-ltr';
+	}
+	elseif ($lang->isRtl() && $myrtl == 2)
+	{
+		$direction = ' redirect-rtl';
+	}
+	elseif ($myrtl == 0)
+	{
+		$direction = ' redirect-ltr';
+	}
+	elseif ($myrtl == 1)
+	{
+		$direction = ' redirect-ltr';
+	}
+	elseif ($myrtl == 2)
+	{
+		$direction = ' redirect-rtl';
+	}
+
 	if ($feed != false) :
 		// Image handling
 		$iUrl   = isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
-		<div class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important" class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
 
 		// Feed description
-		if (!is_null($feed->title)) : ?>
+		if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
+			<h2 class="<?php echo $direction; ?>">
 			<h2>
 				<a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
 				<?php echo $feed->title; ?></a>
