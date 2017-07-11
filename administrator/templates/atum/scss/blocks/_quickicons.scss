@@ -24,7 +24,6 @@
     background-color: $quickicon-bg;
     background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.1) 100%);
     border-radius: $border-radius;
-    box-shadow: 0 0 1px rgba(255,255,255,.4) inset;
 
     @include media-breakpoint-only(xs) {
       width: 60px;
@@ -33,7 +32,6 @@
       overflow: visible;
       color: $white;
       text-align: center;
-      background: $atum-template-color;
       border-radius: 50%;
     }
 
@@ -47,6 +45,7 @@
     &:hover,
     &:focus {
       text-decoration: none;
+      background-color: lighten($quickicon-bg, 5%);
 
       &::before {
         color: lighten($quickicon-bg, 12%);
@@ -149,19 +148,28 @@
   }
 
   .success a {
-    background-color: $brand-success;
 
     &::after {
       right: 0;
     }
 
     @include media-breakpoint-only(xs) {
-      background: #5d9626;
+      background: lighten($brand-success, 7%);
       animation: none;
     }
 
-    &::before {
-      color: lighten($brand-success, 5%);
+    span {
+
+      &[class*=" icon-"],
+      &[class^="icon-"] {
+        background-color: lighten($brand-success, 7%);
+
+        @include media-breakpoint-only(xs) {
+          background: none;
+        }
+
+      }
+
     }
 
   }
