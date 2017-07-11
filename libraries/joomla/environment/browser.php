@@ -271,14 +271,12 @@ class JBrowser
 			}
 
 			// Opera 15+
-			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('/OPR[\/ ]([0-9.]+)/', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
-			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->agent, $version)
-				|| preg_match('|CrMo[/ ]([0-9.]+)|', $this->agent, $version)
-				|| preg_match('|CriOS[/ ]([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('/Chrome|CrMo|CriOS[\/ ]([0-9.]+)/i', $agent, $version))
 			{
 				$this->setBrowser('chrome');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
