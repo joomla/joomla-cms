@@ -13,12 +13,10 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
 JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
 JText::script('JSHOW');
 JText::script('JHIDE');
-
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form">
 

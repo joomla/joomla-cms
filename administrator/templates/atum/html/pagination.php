@@ -191,7 +191,6 @@ function pagination_item_active(&$item)
 	$title = '';
 	if (!is_numeric($item->text))
 	{
-		JHtml::_('bootstrap.tooltip');
 		$title = ' class="hasTooltip" title="' . $item->text . '"';
 	}
 

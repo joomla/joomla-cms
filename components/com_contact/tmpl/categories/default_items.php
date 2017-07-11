@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 
-JHtml::_('bootstrap.tooltip');
-
 $class = ' class="first"';
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>
