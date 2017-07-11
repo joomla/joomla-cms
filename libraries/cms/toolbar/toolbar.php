@@ -212,7 +212,7 @@ class JToolbar
 	{
 		$signature = md5($type);
 
-		if (isset($this->_buttons[$signature]) && $new === false)
+		if ($new === false && isset($this->_buttons[$signature]))
 		{
 			return $this->_buttons[$signature];
 		}
@@ -261,7 +261,6 @@ class JToolbar
 
 		if (!class_exists($buttonClass) && !class_exists($buttonClassOld))
 		{
-			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
 

@@ -35,6 +35,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			{
 				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
+				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
 				// Clear the cached data
@@ -112,7 +113,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 				$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 				$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-				if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+				if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 				{
 					if (!$this->parent->copyFiles(array($path)))
 					{
@@ -334,6 +335,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		if ($result)
 		{
 			// Already installed, which would make sense
+			$installer->setPackageUninstall(true);
 			$installer->uninstall('library', $result);
 
 			// Clear the cached data
@@ -362,7 +364,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
+		if (!$row->load((int) $id) || $row->element === '')
 		{
 			JLog::add(JText::_('ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 

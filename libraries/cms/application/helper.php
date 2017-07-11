@@ -141,7 +141,7 @@ class JApplicationHelper
 		}
 
 		// If no client id has been passed return the whole array
-		if (is_null($id))
+		if ($id === null)
 		{
 			return self::$_clients;
 		}

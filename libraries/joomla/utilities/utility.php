@@ -71,7 +71,6 @@ class JUtility
 		 * Read INI settings which affects upload size limits
 		 * and Convert each into number of bytes so that we can compare
 		 */
-		$sizes[] = JHtml::_('number.bytes', ini_get('memory_limit'), '');
 		$sizes[] = JHtml::_('number.bytes', ini_get('post_max_size'), '');
 		$sizes[] = JHtml::_('number.bytes', ini_get('upload_max_filesize'), '');
 
