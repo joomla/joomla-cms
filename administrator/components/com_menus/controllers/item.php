@@ -503,6 +503,8 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request.
@@ -533,6 +535,9 @@ class MenusControllerItem extends JControllerForm
 		{
 			if (isset($type->request))
 			{
+				// Clean component name
+				$type->request->option = JFilterInput::getInstance()->clean($type->request->option, 'CMD');
+
 				$component = JComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 

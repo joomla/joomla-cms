@@ -117,7 +117,7 @@ class JTableCorecontent extends JTable
 			$this->core_urls = '{}';
 		}
 		// Check the publish down date is not earlier than publish up.
-		if ($this->core_publish_down > $this->_db->getNullDate() && $this->core_publish_down < $this->core_publish_up)
+		if ($this->core_publish_down < $this->core_publish_up && $this->core_publish_down > $this->_db->getNullDate())
 		{
 			// Swap the dates.
 			$temp = $this->core_publish_up;

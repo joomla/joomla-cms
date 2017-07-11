@@ -244,7 +244,7 @@ class JRouterSite extends JRouter
 
 			if ($item !== null && is_array($item->query))
 			{
-				$vars = $vars + $item->query;
+				$vars += $item->query;
 			}
 		}
 
@@ -696,7 +696,7 @@ class JRouterSite extends JRouter
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');
 
-		if (is_null($itemid))
+		if ($itemid === null)
 		{
 			if ($option = $uri->getVar('option'))
 			{
