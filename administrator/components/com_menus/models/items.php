@@ -44,6 +44,7 @@ class MenusModelItems extends JModelList
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'parent_id', 'a.parent_id',
 				'a.ordering'
 			);
 
