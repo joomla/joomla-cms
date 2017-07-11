@@ -156,6 +156,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 				$currentMenuType = $app->getUserState('com_menus.items.menutype', '');
 				$menuType        = $app->input->getString('menutype', $currentMenuType);
 			}
+
 			$this->menuType  = $menuType;
 			$this->clientId  = (int) $this->element['client_id'];
 			$this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
