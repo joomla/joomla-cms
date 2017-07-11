@@ -198,8 +198,8 @@
       box-shadow: none;
 
       &:hover {
-        background-color: rgba(0,0,0,.2);
-        box-shadow: none;
+        background-color: $atum-template-color-light;
+        box-shadow: inset 2px 0 2px rgba(0,0,0,.1);
       }
 
     }
