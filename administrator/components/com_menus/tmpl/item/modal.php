@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 ?>
 <button id="applyBtn" type="button" class="sr-only" onclick="Joomla.submitbutton('item.apply'); jEditMenuModal();"></button>
 <button id="saveBtn" type="button" class="sr-only" onclick="Joomla.submitbutton('item.save'); jEditMenuModal();"></button>

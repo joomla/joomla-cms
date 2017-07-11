@@ -19,7 +19,6 @@ if ($app->isClient('site'))
 }
 
 JHtml::_('jquery.framework');
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
