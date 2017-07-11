@@ -150,6 +150,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 		if ($result == true)
 		{
 			$menuType = (string) $this->element['menu_type'];
+
 			if(!$menuType)
 			{
 				$currentMenuType = $app->getUserState('com_menus.items.menutype', '');
@@ -208,8 +209,9 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 			foreach ($items as $key => $link)
 			{
 
-				// unset if item is menu_item_root
-				if ($link->text === 'Menu_Item_Root') {
+				// Unset if item is menu_item_root
+				if ($link->text === 'Menu_Item_Root')
+				{
 					unset($items[$key]);
 					continue;
 				}
