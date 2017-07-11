@@ -1724,7 +1724,7 @@ class JoomlaInstallerScript
 			'/administrator/templates/hathor/html/mod_menu',
 			'/administrator/components/com_messages/layouts/toolbar',
 			'/administrator/components/com_messages/layouts',
-			// Joomla! __DEPLOY_VERSION__
+			// Joomla! 3.7.4
 			'/components/com_fields/controllers',
 		);
 
