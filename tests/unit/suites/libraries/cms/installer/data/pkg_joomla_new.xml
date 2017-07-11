@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="2.5">
+    <name>PKG_JOOMLA</name>
+    <packageName>joomla</packageName>
+    <version>2.5.0</version>
+    <description>PKG_JOOMLA_XML_DESCRIPTION</description>
+    <creationDate>2006</creationDate>
+    <copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorURL>https://www.joomla.org</authorURL>
+    <packager>Joomla!</packager>
+    <packagerURL>https://www.joomla.org</packagerURL>
+    <update>http://update.joomla.org/packages/joomla</update>
+    <files/>
+</extension>

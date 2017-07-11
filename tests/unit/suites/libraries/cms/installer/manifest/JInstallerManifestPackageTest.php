@@ -45,6 +45,11 @@ class JInstallerManifestPackageTest extends TestCase
 		);
 
 		$this->assertEquals(
+			'joomla',
+			$this->object->packageName
+		);
+
+		$this->assertEquals(
 			'2.5.0',
 			$this->object->version
 		);
@@ -65,6 +70,11 @@ class JInstallerManifestPackageTest extends TestCase
 		);
 
 		$this->assertEquals(
+			'https://www.joomla.org',
+			$this->object->packagerURL
+		);
+
+		$this->assertEquals(
 			'http://update.joomla.org/packages/joomla',
 			$this->object->update
 		);
@@ -75,8 +85,18 @@ class JInstallerManifestPackageTest extends TestCase
 		);
 
 		$this->assertEquals(
+			'',
+			$this->object->scriptFile
+		);
+
+		$this->assertEquals(
 			array(),
 			$this->object->filelist
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->object->fileList
 		);
 	}
 }

@@ -1945,6 +1945,24 @@ class JInstaller extends JAdapter
 
 				if ($manifest !== null)
 				{
+					// Backward compatibility for old style xml element naming
+					if (!isset($manifest->packagename) && isset($manifest->packageName))
+					{
+						$manifest->packagename = $manifest->packageName;
+					}
+					if (!isset($manifest->libraryname) && isset($manifest->libraryName))
+					{
+						$manifest->libraryname = $manifest->libraryName;
+					}
+					if (!isset($manifest->authorUrl) && isset($manifest->authorURL))
+					{
+						$manifest->authorUrl = $manifest->authorURL;
+					}
+					if (!isset($manifest->packagerurl) && isset($manifest->packagerURL))
+					{
+						$manifest->packagerurl = $manifest->packagerURL;
+					}
+
 					// If the root method attribute is set to upgrade, allow file overwrite
 					if ((string) $manifest->attributes()->method === 'upgrade')
 					{
@@ -2239,19 +2257,19 @@ class JInstaller extends JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() === 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ?: JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ?: JText::_('JLIB_UNKNOWN');
-
-		$data['copyright'] = (string) $xml->copyright;
-		$data['authorEmail'] = (string) $xml->authorEmail;
-		$data['authorUrl'] = (string) $xml->authorUrl;
-		$data['version'] = (string) $xml->version;
-		$data['description'] = (string) $xml->description;
-		$data['group'] = (string) $xml->group;
+		$data['creationDate'] = (string) $xml->creationDate ?: JText::_('JLIB_UNKNOWN');
+		$data['author']       = (string) $xml->author ?: JText::_('JLIB_UNKNOWN');
+		$data['copyright']    = (string) $xml->copyright;
+		$data['authorEmail']  = (string) $xml->authorEmail;
+		$data['authorUrl']    = (string) $xml->authorUrl ?: (string) $xml->authorURL;
+		$data['authorURL']    = &$data['authorUrl'];
+		$data['version']      = (string) $xml->version;
+		$data['description']  = (string) $xml->description;
+		$data['group']        = (string) $xml->group;
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename = JFile::getName($path);
+			$filename         = JFile::getName($path);
 			$data['filename'] = JFile::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
