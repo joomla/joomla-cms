@@ -20,11 +20,6 @@ JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
-
-// Special case for the search field tooltip.
-$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
-JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');

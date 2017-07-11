@@ -57,6 +57,7 @@ $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'title="' . $description . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$list,

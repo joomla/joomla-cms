@@ -129,8 +129,6 @@ class MenuField extends FormField
 
 		if ($return)
 		{
-			\JHtml::_('bootstrap.tooltip', '.hasTooltip');
-
 			$this->allowSelect = ((string) $this->element['select']) !== 'false';
 			$this->allowClear = ((string) $this->element['clear']) !== 'false';
 			$this->allowNew = ((string) $this->element['new']) === 'true';
