@@ -68,7 +68,7 @@ class Html extends HtmlView
 			$name = 'default';
 		}
 
-		if ('default' == $name)
+		if ('default' === $name)
 		{
 			$formname = 'Form';
 		}

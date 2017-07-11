@@ -92,7 +92,7 @@ abstract class Manifest
 	 */
 	public function __construct($xmlpath = '')
 	{
-		if (strlen($xmlpath))
+		if ($xmlpath !== '')
 		{
 			$this->loadManifestFromXml($xmlpath);
 		}

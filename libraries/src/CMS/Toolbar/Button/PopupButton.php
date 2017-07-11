@@ -50,7 +50,7 @@ class PopupButton extends ToolbarButton
 		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
-		if (strlen($title) == 0)
+		if ($title === '')
 		{
 			$title = $text;
 		}
@@ -62,6 +62,12 @@ class PopupButton extends ToolbarButton
 		$options['title']  = \JText::_($title);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($url);
+		$options['id']     = $this->fetchId('Popup', $name);
+
+		if ($options['id'])
+		{
+			$options['id'] = ' id="' . $options['id'] . '"';
+		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new FileLayout('joomla.toolbar.popup');
@@ -89,7 +95,7 @@ class PopupButton extends ToolbarButton
 		$html[] = \JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
-		if (strlen($onClose) >= 1)
+		if ($onClose !== '')
 		{
 			$html[] = '<script>'
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
@@ -127,7 +133,7 @@ class PopupButton extends ToolbarButton
 	 */
 	private function _getCommand($url)
 	{
-		if (substr($url, 0, 4) !== 'http')
+		if (strpos($url, 'http') !== 0)
 		{
 			$url = \JUri::base() . $url;
 		}

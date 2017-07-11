@@ -13,8 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-JHtml::_('bootstrap.tooltip');
-
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

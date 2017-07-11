@@ -27,9 +27,11 @@
 @import "blocks/header";
 @import "blocks/icons";
 @import "blocks/iframe";
+@import "blocks/layout";
 @import "blocks/modals";
 @import "blocks/switcher";
 @import "blocks/utilities";
+@import "blocks/css-grid"; // Last to allow fallback
 
 // Vendor overrides
 @import "vendor/awesomplete";

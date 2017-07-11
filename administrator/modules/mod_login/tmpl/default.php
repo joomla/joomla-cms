@@ -9,8 +9,12 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
+JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+
+JText::script('JSHOW');
+JText::script('JHIDE');
 
 $spacing = 0;
 
@@ -53,13 +57,19 @@ if ($spacing > 0)
 
 		<div class="form-group">
 			<label for="mod-login-password" class="sr-only"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-			<input
-				name="passwd"
-				id="mod-login-password"
-				type="password"
-				class="form-control input-full"
-				placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"
-			>
+			<div class="input-group">
+				<input
+					name="passwd"
+					id="mod-login-password"
+					type="password"
+					class="form-control input-full"
+					placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"
+				>
+				<span class="input-group-addon">
+					<span class="fa fa-eye" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
+				</span>
+			</div>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>

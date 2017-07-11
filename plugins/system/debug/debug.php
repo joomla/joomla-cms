@@ -9,14 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('DebugMonitor', __DIR__ . '/debugmonitor.php');
 
 /**
  * Joomla! Debug plugin.
  *
  * @since  1.5
  */
-class PlgSystemDebug extends JPlugin
+class PlgSystemDebug extends CMSPlugin
 {
 	/**
 	 * xdebug.file_link_format from the php.ini.
@@ -83,12 +88,28 @@ class PlgSystemDebug extends JPlugin
 	protected $app;
 
 	/**
+	 * Database object.
+	 *
+	 * @var    DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
+	/**
 	 * Container for callback functions to be triggered when rendering the console.
 	 *
 	 * @var    callable[]
 	 * @since  3.7.0
 	 */
 	private static $displayCallbacks = array();
+
+	/**
+	 * The query monitor.
+	 *
+	 * @var    DebugMonitor
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $queryMonitor;
 
 	/**
 	 * Constructor.
@@ -161,10 +182,6 @@ class PlgSystemDebug extends JPlugin
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
 		}
 
-		// Prepare disconnect handler for SQL profiling.
-		$db = JFactory::getDbo();
-		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
-
 		// Log deprecated class aliases
 		foreach (JLoader::getDeprecatedAliases() as $deprecation)
 		{
@@ -179,6 +196,11 @@ class PlgSystemDebug extends JPlugin
 				'deprecated'
 			);
 		}
+
+		// Attach our query monitor to the database driver
+		$this->queryMonitor = new DebugMonitor((bool) JDEBUG);
+
+		$this->db->setMonitor($this->queryMonitor);
 	}
 
 	/**
@@ -198,10 +220,15 @@ class PlgSystemDebug extends JPlugin
 			JHtml::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
+		// Disable asset media version if needed.
+		if (JDEBUG && (int) $this->params->get('refresh_assets', 1) === 0)
+		{
+			$this->app->getDocument()->setMediaVersion(null);
+		}
+
 		// Only if debugging is enabled for SQL query popovers.
 		if (JDEBUG && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('bootstrap.tooltip');
 			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
 		}
 	}
@@ -242,8 +269,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
-			&& substr($contents, 0, 50) === '<html><head><meta http-equiv="refresh" content="0;')
+		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
+			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -286,7 +313,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('queries');
 			}
 
-			if ($this->params->get('logs', 1) && !empty($this->logEntries))
+			if (!empty($this->logEntries) && $this->params->get('logs', 1))
 			{
 				$html[] = $this->display('logs');
 			}
@@ -365,7 +392,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		static $result = null;
 
-		if (!is_null($result))
+		if ($result !== null)
 		{
 			return $result;
 		}
@@ -691,16 +718,14 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
 
-		$db = JFactory::getDbo();
+		// Fix for support custom shutdown function via register_shutdown_function().
+		$this->db->disconnect();
 
-		//  fix  for support custom shutdown function via register_shutdown_function().
-		$db->disconnect();
-
-		$log = $db->getLog();
+		$log = $this->queryMonitor->getLog();
 
 		if ($log)
 		{
-			$timings = $db->getTimings();
+			$timings = $this->queryMonitor->getTimings();
 
 			if ($timings)
 			{
@@ -777,19 +802,15 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayQueries()
 	{
-		$db = JFactory::getDbo();
-
-		$log = $db->getLog();
+		$log = $this->queryMonitor->getLog();
 
 		if (!$log)
 		{
 			return null;
 		}
 
-		$timings = $db->getTimings();
-		$callStacks = $db->getCallStacks();
-
-		$db->setDebug(false);
+		$timings = $this->queryMonitor->getTimings();
+		$callStacks = $this->queryMonitor->getCallStacks();
 
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
@@ -860,13 +881,10 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if ($db->getServerType() === 'mysql')
+				if (isset($this->sqlShowProfileEach[$id]) && $this->db->getServerType() === 'mysql')
 				{
-					if (isset($this->sqlShowProfileEach[$id]))
-					{
-						$profileTable = $this->sqlShowProfileEach[$id];
-						$profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
-					}
+					$profileTable = $this->sqlShowProfileEach[$id];
+					$profile      = $this->tableToHtml($profileTable, $hasWarningsInProfile);
 				}
 
 				// How heavy should the string length count: 0 - 1.
@@ -977,8 +995,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$fromString = substr($query, 0, $whereStart);
-			$fromString = str_replace("\t", ' ', $fromString);
-			$fromString = str_replace("\n", ' ', $fromString);
+			$fromString = str_replace(array("\t","\n"), ' ', $fromString);
 			$fromString = trim($fromString);
 
 			// Initialise the select/other query type counts the first time.
@@ -1097,7 +1114,7 @@ class PlgSystemDebug extends JPlugin
 					$title = '<span class="dbg-noprofile">' . $title . '</span>';
 				}
 
-				$htmlProfile = ($info[$id]->profile ? $info[$id]->profile : JText::_('PLG_DEBUG_NO_PROFILE'));
+				$htmlProfile = $info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE');
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
@@ -1179,7 +1196,7 @@ class PlgSystemDebug extends JPlugin
 
 		if ($this->totalQueries === 0)
 		{
-			$this->totalQueries = $db->getCount();
+			$this->totalQueries = $this->db->getCount();
 		}
 
 		$html = array();
@@ -1439,15 +1456,20 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Disconnect handler for database to collect profiling and explain information.
 	 *
-	 * @param   JDatabaseDriver  &$db  Database object.
+	 * @param   ConnectionEvent  $event  Event object
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function mysqlDisconnectHandler(&$db)
+	public function onAfterDisconnect(ConnectionEvent $event)
 	{
-		$db->setDebug(false);
+		if (!JDEBUG)
+		{
+			return;
+		}
+
+		$db = $event->getDriver();
 
 		$this->totalQueries = $db->getCount();
 
@@ -1486,9 +1508,9 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
+		if (in_array($db->getServerType(), ['mysql', 'postgresql']))
 		{
-			$log = $db->getLog();
+			$log = $this->queryMonitor->getLog();
 
 			foreach ($log as $k => $query)
 			{
@@ -1603,7 +1625,7 @@ class PlgSystemDebug extends JPlugin
 			if (is_array($occurance) && isset($occurance[0]))
 			{
 				$info = $occurance[0];
-				$file = $info['file'] ? $info['file'] : '';
+				$file = $info['file'] ?: '';
 
 				if (!isset($guesses[$file]))
 				{
@@ -1992,25 +2014,24 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function writeToFile()
 	{
-		$app    = JFactory::getApplication();
-		$domain = $app->isClient('site') ? 'site' : 'admin';
-		$input  = $app->input;
-		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+		$app     = JFactory::getApplication();
+		$domain  = $app->isClient('site') ? 'site' : 'admin';
+		$input   = $app->input;
+		$logPath = $app->get('log_path', JPATH_ADMINISTRATOR . '/logs');
+		$file    = $logPath . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 
 		// Get the queries from log.
 		$current = '';
-		$db      = JFactory::getDbo();
-		$log     = $db->getLog();
-		$timings = $db->getTimings();
+		$log     = $this->queryMonitor->getLog();
+		$timings = $this->queryMonitor->getTimings();
 
 		foreach ($log as $id => $query)
 		{
 			if (isset($timings[$id * 2 + 1]))
 			{
-				$temp     = str_replace('`', '', $log[$id]);
-				$temp     = str_replace("\t", ' ', $temp);
-				$temp     = str_replace("\n", ' ', $temp);
-				$current .= str_replace("\r\n", ' ', $temp) . ";\n";
+				$temp = str_replace('`', '', $log[$id]);
+				$temp = str_replace(array("\t", "\n", "\r\n"), ' ', $temp);
+				$current .= $temp . ";\n";
 			}
 		}
 

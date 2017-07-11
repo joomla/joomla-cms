@@ -195,14 +195,14 @@ class Html extends HtmlView
 	protected function getSortFields()
 	{
 		return array(
-				'a.name' => \JText::_('COM_USERS_HEADING_NAME'),
-				'a.username' => \JText::_('JGLOBAL_USERNAME'),
-				'a.block' => \JText::_('COM_USERS_HEADING_ENABLED'),
-				'a.activation' => \JText::_('COM_USERS_HEADING_ACTIVATED'),
-				'a.email' => \JText::_('JGLOBAL_EMAIL'),
-				'a.lastvisitDate' => \JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
-				'a.registerDate' => \JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
-				'a.id' => \JText::_('JGRID_HEADING_ID')
+			'a.name'          => \JText::_('COM_USERS_HEADING_NAME'),
+			'a.username'      => \JText::_('JGLOBAL_USERNAME'),
+			'a.block'         => \JText::_('COM_USERS_HEADING_ENABLED'),
+			'a.activation'    => \JText::_('COM_USERS_HEADING_ACTIVATED'),
+			'a.email'         => \JText::_('JGLOBAL_EMAIL'),
+			'a.lastvisitDate' => \JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
+			'a.registerDate'  => \JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
+			'a.id'            => \JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

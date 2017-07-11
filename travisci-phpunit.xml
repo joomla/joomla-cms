@@ -17,9 +17,6 @@
 		<testsuite name="libraries-legacy">
 			<directory>tests/unit/suites/libraries/legacy</directory>
 		</testsuite>
-		<testsuite name="database">
-			<directory>tests/unit/suites/database</directory>
-		</testsuite>
 		<testsuite name="FinderIndexer">
 			<directory>tests/unit/suites/finderIndexer</directory>
 		</testsuite>

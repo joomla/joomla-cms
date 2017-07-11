@@ -14,7 +14,6 @@ use Joomla\String\Inflector;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 
@@ -50,10 +49,12 @@ if ($saveOrder)
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
+		<?php if (!empty($this->sidebar)) { ?>
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<div class="col-md-10">
+		<?php } ?>
+		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
@@ -268,14 +269,14 @@ if ($saveOrder)
 						&& $user->authorise('core.edit', $extension)
 						&& $user->authorise('core.edit.state', $extension)) : ?>
 						<?php echo JHtml::_(
-								'bootstrap.renderModal',
-								'collapseModal',
-								array(
-									'title' => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
-									'footer' => $this->loadTemplate('batch_footer')
-								),
-								$this->loadTemplate('batch_body')
-							); ?>
+                            'bootstrap.renderModal',
+                            'collapseModal',
+                            array(
+                                'title'  => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
+                                'footer' => $this->loadTemplate('batch_footer'),
+                            ),
+                            $this->loadTemplate('batch_body')
+                        ); ?>
 					<?php endif; ?>
 				<?php endif; ?>
 

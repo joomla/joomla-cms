@@ -589,9 +589,10 @@ define(
 define(
   'tinymce.plugins.paste.core.Newlines',
   [
+    'tinymce.core.util.Tools',
     'tinymce.core.html.Entities'
   ],
-  function (Entities) {
+  function (Tools, Entities) {
 
     var isPlainText = function (text) {
       // so basically any tag that is not one of the "p, div, br", or is one of them, but is followed
@@ -625,37 +626,19 @@ define(
 
 
     var toBlockElements = function (text, rootTag, rootAttrs) {
-      var pieces = text.split(/\r?\n/);
-      var i = 0, len = pieces.length;
-      var stack = [];
-      var blocks = [];
+      var blocks = text.split(/\n\n/);
       var tagOpen = openContainer(rootTag, rootAttrs);
       var tagClose = '</' + rootTag + '>';
-      var isLast, newlineFollows, isSingleNewline;
 
-      // if single-line text then nothing to do
-      if (pieces.length === 1) {
-        return text;
-      }
+      var paragraphs = Tools.map(blocks, function (p) {
+        return p.split(/\n/).join('<br />');
+      });
 
-      for (; i < len; i++) {
-        isLast = i === len - 1;
-        newlineFollows = !isLast && !pieces[i + 1];
-        isSingleNewline = !pieces[i] && !stack.length;
+      var stitch = function (p) {
+        return tagOpen + p + tagClose;
+      };
 
-        stack.push(pieces[i] ? pieces[i] : '&nbsp;');
-
-        if (isLast || newlineFollows || isSingleNewline) {
-          blocks.push(stack.join('<br>'));
-          stack = [];
-        }
-
-        if (newlineFollows) {
-          i++; // extra progress for extra newline
-        }
-      }
-
-      return blocks.length === 1 ? blocks[0] : tagOpen + blocks.join(tagClose + tagOpen) + tagClose;
+      return paragraphs.length === 1 ? paragraphs[0] : Tools.map(paragraphs, stitch).join('');
     };
 
 
@@ -1060,7 +1043,11 @@ define(
           if (dataTransfer.types) {
             for (var i = 0; i < dataTransfer.types.length; i++) {
               var contentType = dataTransfer.types[i];
-              items[contentType] = dataTransfer.getData(contentType);
+              try { // IE11 throws exception when contentType is Files (type is present but data cannot be retrieved via getData())
+                items[contentType] = dataTransfer.getData(contentType);
+              } catch (ex) {
+                items[contentType] = ""; // useless in general, but for consistency across browsers
+              }
             }
           }
         }
@@ -1101,6 +1088,11 @@ define(
         return settings.images_dataimg_filter ? settings.images_dataimg_filter(imgElm) : true;
       }
 
+      function extractFilename(str) {
+        var m = str.match(/([\s\S]+?)\.(?:jpeg|jpg|png|gif)$/i);
+        return m ? editor.dom.encode(m[1]) : null;
+      }
+
       function pasteImage(rng, reader, blob) {
         if (rng) {
           editor.selection.setRng(rng);
@@ -1109,8 +1101,10 @@ define(
 
         var dataUri = reader.result;
         var base64 = getBase64FromUri(dataUri);
-
+        var id = uniqueId();
+        var name = editor.settings.images_reuse_filename && blob.name ? extractFilename(blob.name) : id;
         var img = new Image();
+
         img.src = dataUri;
 
         // TODO: Move the bulk of the cache logic to EditorUpload
@@ -1123,7 +1117,7 @@ define(
           });
 
           if (!existingBlobInfo) {
-            blobInfo = blobCache.create(uniqueId(), blob, base64);
+            blobInfo = blobCache.create(id, blob, base64, name);
             blobCache.add(blobInfo);
           } else {
             blobInfo = existingBlobInfo;

@@ -51,7 +51,7 @@ class ContentType extends Table
 		}
 
 		// Check for valid name.
-		if (trim($this->type_title) == '')
+		if (trim($this->type_title) === '')
 		{
 			throw new \UnexpectedValueException(sprintf('The title is empty'));
 		}

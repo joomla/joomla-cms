@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.tabstate');
 
@@ -171,8 +170,8 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							'bootstrap.renderModal',
 							'collapseModal',
 							array(
-								'title' => JText::_('COM_USERS_BATCH_OPTIONS'),
-								'footer' => $this->loadTemplate('batch_footer')
+								'title'  => JText::_('COM_USERS_BATCH_OPTIONS'),
+								'footer' => $this->loadTemplate('batch_footer'),
 							),
 							$this->loadTemplate('batch_body')
 						); ?>

@@ -22,7 +22,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -64,6 +64,22 @@ class DeletefilesCli extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
-// Instantiate the application object, passing the class name to JCli::getInstance
-// and use chaining to execute the application.
-\Joomla\CMS\Application\CliApplication::getInstance('DeletefilesCli')->execute();
+// Set up the container
+JFactory::getContainer()->share(
+	'DeletefilesCli',
+	function (\Joomla\DI\Container $container)
+	{
+		return new DeletefilesCli(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('DeletefilesCli');
+JFactory::$application = $app;
+$app->execute();

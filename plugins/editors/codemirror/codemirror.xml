@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>5.26.0</version>
+	<version>5.27.4</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
@@ -41,10 +41,10 @@
 				<field
 					name="codeFolding"
 					type="radio"
-					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
-					default="0"
+					class="switcher"
+					default="1"
 					filter="options"
 					>
 					<option value="0">JOFF</option>
@@ -54,9 +54,9 @@
 				<field
 					name="markerGutter"
 					type="radio"
-					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
+					class="switcher"
 					default="1"
 					filter="options"
 					>
@@ -80,10 +80,10 @@
 				<field
 					name="activeLine"
 					type="radio"
-					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
-					default="0"
+					class="switcher"
+					default="1"
 					filter="options"
 					>
 					<option value="0">JOFF</option>
@@ -227,16 +227,9 @@
 					type="hidden"
 					default="media/editors/codemirror/mode/%N/%N"
 				/>
-
 			</fieldset>
 
-
-			<fieldset
-				name="appearance"
-				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
-				addfieldpath="plugins/editors/codemirror"
-				>
-
+			<fieldset name="appearance" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL" addfieldpath="plugins/editors/codemirror">
 				<field
 					name="theme"
 					type="filelist"
@@ -326,9 +319,7 @@
 					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>
 					<option value="overlay">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY</option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>
