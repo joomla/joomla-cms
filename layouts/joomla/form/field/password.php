@@ -48,7 +48,6 @@ if ($meter)
 {
 	JHtml::_('behavior.formvalidator');
 	JHtml::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
-	JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
 	$class = 'js-password-strength ' . $class;
 
@@ -57,6 +56,8 @@ if ($meter)
 		$class = $class . ' meteredPassword';
 	}
 }
+
+JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
 JText::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 JText::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
