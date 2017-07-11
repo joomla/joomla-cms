@@ -110,7 +110,7 @@
 				self.filterButton.addEventListener('click', function(e) {
 					self.toggleFilters();
 					e.stopPropagation();
-					e.preventDefault();
+					e.preventDefault();				
 				});
 			}
 
@@ -171,6 +171,16 @@
 			});
 
 			self.checkActiveStatus(self);
+
+			document.body.addEventListener('click', function(e) {
+				if (document.body.classList.contains('filters-shown')) {
+					self.hideFilters();
+				}
+			});
+			self.filterContainer.addEventListener('click',function(e) {
+			    e.stopPropagation();
+			}, true);
+
 		},
 		checkFilter: function (element) {
 			var self = this;
@@ -220,7 +230,6 @@
 			var els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
 			els.forEach(function(item) {
 				if (item.classList.contains('active')) {
-					console.log('hello!!!!!');
 					cont.filterButton.classList.remove('btn-secondary');
 					cont.filterButton.classList.add('btn-primary');
 					return '';
@@ -255,16 +264,16 @@
 		// Common container functions
 		hideContainer: function (container) {
 			if (container) {
-				container.style.display = 'none';
-				container.classList.remove('shown');
+				container.classList.remove('js-filters-show');
+				document.body.classList.remove('filters-shown');
 			}
 		},
 		showContainer: function (container) {
-			container.style.display = 'flex';
-			container.classList.add('shown');
+			container.classList.add('js-filters-show');
+			document.body.classList.add('filters-shown');
 		},
 		toggleContainer: function (container) {
-			if (container.classList.contains('shown')) {
+			if (container.classList.contains('js-filters-show')) {
 				this.hideContainer(container);
 			} else {
 				this.showContainer(container);

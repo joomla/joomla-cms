@@ -28,6 +28,11 @@
     .custom-select {
       width: 100%;
     }
+
+    &.js-filters-show {
+      display: flex;
+    }
+
   }
 
   .js-stools-field-filter {
@@ -78,10 +83,6 @@
       margin-right: 0;
     }
 
-  }
-
-  .js-stools-container-filters-visible {
-    display: inline-block;
   }
 
   .js-stools-field-list,
