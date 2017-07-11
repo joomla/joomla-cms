@@ -829,6 +829,11 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		{
 			// Allows taking advantage of bound variables in a direct query:
 			$query = $this->getQuery(true)->setQuery($query);
+			
+			// Allows to set a LIMIT clause for direct query
+			if($offset || $limit) {
+				$query->setQuery($query->processLimit($query->sql, $limit, $offset));
+			}
 		}
 
 		if ($query instanceof LimitableInterface && !is_null($offset) && !is_null($limit))
