@@ -134,7 +134,7 @@ Joomla = window.Joomla || {};
 					// Auto Expand First Level
 					if (!allLinks[i].parentNode.classList.contains('parent')) {
 						mainNav.classList.add('child-open');
-						var firstLevel = allLinks[i].closest('.collapse-level-1');
+						var firstLevel = closest(allLinks[i], '.collapse-level-1');
     						if (firstLevel) firstLevel.parentNode.classList.add('open');
 					}
 				}

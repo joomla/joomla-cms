@@ -66,9 +66,23 @@ module.exports = function(grunt) {
 				}
 			},
 			temp: {
-				src: [ 'build/assets_tmp/*', 'build/assets_tmp/tmp', 'build/assets_tmp/package.json' ],
+				src: [
+					'build/assets_tmp/*',
+					'build/assets_tmp/tmp',
+					'build/assets_tmp/package.json'
+				],
 				expand: true,
-				options: { force: true } },
+				options: { force: true } 
+			},
+			css: {
+				src: [
+					'<%= folder.adminTemplate %>/css/font-awesome.css',
+					'<%= folder.adminTemplate %>/css/bootstrap.css',
+					'<%= folder.adminTemplate %>/css/template.css',
+					'<%= folder.adminTemplate %>/css/template-rtl.css',
+				],
+				expand: true
+			},
 			allMinJs: ['media/**/*.min.js', '!media/vendor/*.min.js',
 				'media/**/**/*.min.js', '!media/vendor/**/*.min.js',
 				'media/**/**/**/*.min.js', '!media/vendor/**/**/*.min.js',
@@ -204,6 +218,8 @@ module.exports = function(grunt) {
 					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
+					'<%= folder.adminTemplate %>/css/font-awesome.css': '<%= folder.adminTemplate %>/scss/font-awesome.scss',
+					'<%= folder.adminTemplate %>/css/bootstrap.css': '<%= folder.adminTemplate %>/scss/bootstrap.scss',
 					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
 					'<%= folder.adminTemplate %>/css/template-rtl.css': '<%= folder.adminTemplate %>/scss/template-rtl.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
@@ -346,6 +362,8 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
+					'<%= folder.adminTemplate %>/css/bootstrap.css',
+					'<%= folder.adminTemplate %>/css/font-awesome.css',
 					'<%= folder.adminTemplate %>/css/template.css',
 					'<%= folder.adminTemplate %>/css/template-rtl.css',
 					'<%= folder.siteTemplate %>/css/template.css'
@@ -363,8 +381,7 @@ module.exports = function(grunt) {
 					cwd: 'media/vendor/codemirror',
 					src: [
 						'*.css',
-						'!*.min.css',
-						'!theme/*.css'
+						'!*.min.css'
 					],
 					dest: 'media/vendor/codemirror',
 				}]
@@ -377,8 +394,8 @@ module.exports = function(grunt) {
 					cwd: '<%= folder.adminTemplate %>/css',
 					src: [
 						'*.css',
-						'!*.min.css',
-						'!theme/*.css'
+						'!user.css',
+						'!*.min.css'
 					],
 					dest: '<%= folder.adminTemplate %>/css',
 				}]
@@ -391,8 +408,8 @@ module.exports = function(grunt) {
 					cwd: '<%= folder.siteTemplate %>/css',
 					src: [
 						'*.css',
-						'!*.min.css',
-						'!theme/*.css'
+						'!user.css',
+						'!*.min.css'
 					],
 					dest: '<%= folder.siteTemplate %>/css',
 				}]
@@ -439,6 +456,7 @@ module.exports = function(grunt) {
 			'postcss',
 			'cssmin:adminTemplate',
 			'cssmin:siteTemplate',
+			'clean:css',
 			'updateXML',
 			'clean:temp'
 		]
@@ -479,6 +497,7 @@ module.exports = function(grunt) {
 			'postcss',
 			'cssmin:adminTemplate',
 			'cssmin:siteTemplate',
+			'clean:css',
 			'watch'
 		]);
 	 });

@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-
-JHtml::_('bootstrap.tooltip');
-
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

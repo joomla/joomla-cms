@@ -22,6 +22,8 @@ JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['ve
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
+JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
@@ -72,7 +74,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
 			<div id="main-brand" class="main-brand align-items-center">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>">
+					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
 				</a>
 			</div>
 			<jdoc:include type="modules" name="menu" style="none" />
@@ -83,98 +85,16 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<header id="header" class="header">
 			<div class="container-fluid">
 				<div class="d-flex row justify-content-end">
+					<?php if (!$hidden) : ?>
 					<div class="menu-collapse">
 						<a id="menu-collapse" class="menu-toggle" href="#">
 							<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 						</a>
 					</div>
-					<div class="d-flex col">
-						<div class="container-title">
-							<jdoc:include type="modules" name="title" />
-						</div>
-					</div>
-
-					<div class="ml-auto">
-						<ul class="nav text-center">
-							<li class="nav-item">
-								<a class="nav-link" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
-									<span class="fa fa-external-link" aria-hidden="true"></span>
-									<span class="sr-only"><?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?></span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
-									<span class="fa fa-envelope-o" aria-hidden="true"></span>
-									<span class="sr-only"><?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?></span>
-									<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
-									<?php if ($countUnread > 0) : ?>
-										<span class="badge badge-pill badge-success"><?php echo $countUnread; ?></span>
-									<?php endif; ?>
-								</a>
-							</li>
-							<?php
-								try
-								{
-									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(['ignore_request' => true]);
-									$messages      = $messagesModel->getItems();
-								}
-								catch (RuntimeException $e)
-								{
-									$messages = [];
-
-									// Still render the error message from the Exception object
-									JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-								}
-								$lang->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
-							?>
-							<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
-									<span class="fa fa-bell-o" aria-hidden="true"></span>
-									<?php if (count($messages) > 0) : ?>
-										<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
-									<?php endif; ?>
-								</a>
-								<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
-									<div class="list-group">
-										<?php if (empty($messages)) : ?>
-										<p class="list-group-item text-center">
-											<strong><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
-										</p>
-										<?php endif; ?>
-										<?php foreach ($messages as $message) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
-											<h5 class="list-group-item-heading"><?php echo JHtml::_('string.truncate', JText::_($message->title_key), 28, false, false); ?></h5>
-											<p class="list-group-item-text small">
-												<?php echo JHtml::_('string.truncate', JText::_($message->description_key), 120, false, false); ?>
-											</p>
-										</a>
-										<?php endforeach; ?>
-									</div>
-								</div>
-							</li>
-							<?php endif; ?>
-							<li class="nav-item dropdown header-profile">
-								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-									<span class="fa fa-user-o" aria-hidden="true"></span>
-									<span class="sr-only"><?php echo JText::_('TPL_ATUM_ADMIN_USER_MENU'); ?></span>
-								</a>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item header-profile-user">
-										<span class="fa fa-user" aria-hidden="true"></span>
-										<?php echo $user->name; ?>
-									</div>
-									<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
-									<a class="dropdown-item" href="<?php echo JRoute::_($route); ?>">
-										<?php echo JText::_('TPL_ATUM_EDIT_ACCOUNT'); ?></a>
-									<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_login&task=logout&'
-										. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('TPL_ATUM_LOGOUT'); ?></a>
-								</div>
-							</li>
-						</ul>
-					</div>
-
+					<?php endif; ?>
+					<jdoc:include type="modules" name="title" />
+					<jdoc:include type="modules" name="status" style="no" />
 				</div>
 			</div>
 		</header>
@@ -213,28 +133,6 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				</div>
 				<?php // End Content ?>
 			</section>
-
-			<?php if (!$this->countModules('status')) : ?>
-				<footer class="footer">
-					<p class="text-center">
-						<jdoc:include type="modules" name="footer" style="no" />
-						&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
-				</footer>
-			<?php endif; ?>
-
-			<?php if ($this->countModules('status')) : ?>
-				<?php // Begin Status Module ?>
-				<nav id="status" class="status navbar fixed-bottom hidden-sm-down">
-					<ul class="nav d-flex justify-content-start">
-						<jdoc:include type="modules" name="status" style="no" />
-						<li class="ml-auto">
-							<jdoc:include type="modules" name="footer" style="no" />
-							&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
-						</li>
-					</ul>
-				</nav>
-				<?php // End Status Module ?>
-			<?php endif; ?>
 
 			<div class="notify-alerts">
 				<jdoc:include type="message" />
