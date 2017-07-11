@@ -60,8 +60,6 @@
 			name="begin"
 			type="calendar"
 			label="COM_BANNERS_BEGIN_LABEL"
-			description="COM_BANNERS_BEGIN_DESC"
-			hint="COM_BANNERS_BEGIN_HINT"
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
