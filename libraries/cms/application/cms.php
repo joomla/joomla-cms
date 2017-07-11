@@ -114,13 +114,13 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
+		if ($this->config->get('session') === null)
 		{
 			$this->config->set('session', true);
 		}
 
 		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
+		if ($this->config->get('session_name') === null)
 		{
 			$this->config->set('session_name', $this->getName());
 		}
@@ -235,7 +235,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// Don't add empty messages.
-		if (!strlen(trim($msg)))
+		if (trim($msg) === '')
 		{
 			return;
 		}
@@ -595,7 +595,7 @@ class JApplicationCms extends JApplicationWeb
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->get($key, $default);
 		}
@@ -1170,7 +1170,7 @@ class JApplicationCms extends JApplicationWeb
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->set($key, $value);
 		}

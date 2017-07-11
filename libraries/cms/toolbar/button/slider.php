@@ -89,7 +89,7 @@ class JToolbarButtonSlider extends JToolbarButton
 	 */
 	private function _getCommand($url)
 	{
-		if (substr($url, 0, 4) !== 'http')
+		if (strpos($url, 'http') !== 0)
 		{
 			$url = JUri::base() . $url;
 		}
