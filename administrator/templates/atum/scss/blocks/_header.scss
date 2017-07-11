@@ -96,6 +96,10 @@
     min-width: 280px;
     padding: 0;
     border: 0;
+
+    h2 {
+      font-size: $font-size-h5;
+    }
   }
 
   .dropdown-menu::after {
@@ -130,6 +134,13 @@
 
   .list-group-item-text:last-child {
     margin-bottom: 0;
+  }
+
+  .joomla-version {
+    margin-right: .9rem;
+    margin-bottom: 0;
+    font-size: $font-size-h5;
+    color: $white-offset;
   }
 
 }
