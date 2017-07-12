@@ -465,7 +465,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-06-23T02:45:48+00:00"
+            "time": "2017-06-23 02:45:48"
         },
         {
             "name": "joomla/database",
@@ -473,12 +473,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "bcda1f013a83159b2aa083ff2d25f3ec55978dcf"
+                "reference": "2e760c99d9e6953de2376f0f8b5028bb299e5045"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/bcda1f013a83159b2aa083ff2d25f3ec55978dcf",
-                "reference": "bcda1f013a83159b2aa083ff2d25f3ec55978dcf",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/2e760c99d9e6953de2376f0f8b5028bb299e5045",
+                "reference": "2e760c99d9e6953de2376f0f8b5028bb299e5045",
                 "shasum": ""
             },
             "require": {
@@ -524,7 +524,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-07-07T10:57:45+00:00"
+            "time": "2017-07-12T00:53:12+00:00"
         },
         {
             "name": "joomla/di",
@@ -1010,7 +1010,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2017-05-27T01:17:43+00:00"
+            "time": "2017-05-27 01:17:43"
         },
         {
             "name": "joomla/session",
