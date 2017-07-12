@@ -53,8 +53,8 @@ $filters = $data['view']->filterForm->getGroup('filter');
 			</div>
 			<?php if ($filterButton) : ?>
 				<div class="btn-group hidden-sm-down">
-					<button type="button" class="btn btn-secondary hasTooltip js-stools-btn-filter" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_TOOLS_DESC'); ?>">
-						<?php echo JText::_('JSEARCH_TOOLS'); ?> <span class="fa fa-caret-down"></span>
+					<button type="button" class="btn btn-secondary hasTooltip js-stools-btn-filter">
+						<?php echo JText::_('JTABLE_OPTIONS'); ?> <span class="fa fa-caret-down"></span>
 					</button>
 				</div>
 			<?php endif; ?>
