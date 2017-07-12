@@ -33,6 +33,14 @@
       display: flex;
     }
 
+    .chzn-container-single {
+      display: block;
+      .chzn-single {
+        display: block;
+        font-size: 1rem;
+      }
+    }
+
   }
 
   .js-stools-field-filter {
@@ -82,12 +90,6 @@
     .js-stools-field-list:last-child {
       margin-right: 0;
     }
-
-  }
-
-  .js-stools-field-list,
-  .js-stools-field-filter {
-    display: block;
 
   }
 
