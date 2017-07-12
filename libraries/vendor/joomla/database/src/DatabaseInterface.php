@@ -37,8 +37,8 @@ interface DatabaseInterface
 	/**
 	 * Create a new database using information from $options object.
 	 *
-	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
-	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 * @param   \stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
+	 * @param   boolean    $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean|resource
 	 *
