@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Base Helper class.
  *
@@ -33,7 +35,7 @@ class JHelper
 		if (JLanguageMultilang::isEnabled())
 		{
 			$plugin       = JPluginHelper::getPlugin('system', 'languagefilter');
-			$pluginParams = new JRegistry($plugin->params);
+			$pluginParams = new Registry($plugin->params);
 
 			if ((int) $pluginParams->get('lang_cookie', 1) === 1)
 			{

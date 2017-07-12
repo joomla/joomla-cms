@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Helper for standard content style extensions.
  * This class mainly simplifies static helper methods often repeated in individual components
@@ -150,7 +152,7 @@ class JHelperContent
 		if (JLanguageMultilang::isEnabled())
 		{
 			$plugin       = JPluginHelper::getPlugin('system', 'languagefilter');
-			$pluginParams = new JRegistry($plugin->params);
+			$pluginParams = new Registry($plugin->params);
 
 			if ((int) $pluginParams->get('lang_cookie', 1) === 1)
 			{
