@@ -55,30 +55,19 @@ if ($spacing > 0)
 		</div>
 
 		<div class="form-group">
-<<<<<<< HEAD
 			<label for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-			<input
-				name="passwd"
-				id="mod-login-password"
-				type="password"
-				class="form-control input-full"
-			>
-=======
-			<label for="mod-login-password" class="sr-only"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 			<div class="input-group">
 				<input
 					name="passwd"
 					id="mod-login-password"
 					type="password"
 					class="form-control input-full"
-					placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"
 				>
 				<span class="input-group-addon">
 					<span class="fa fa-eye" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
 				</span>
 			</div>
->>>>>>> c577e2c0ad98f5407c2c56b1340068abcae7d478
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
@@ -103,7 +92,7 @@ if ($spacing > 0)
 
 		<div class="form-group">
 			<button class="btn btn-success btn-block btn-lg">
-				<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
+				<span class="icon-lock icon-white"></span> <?php echo JText::_('JLOGIN'); ?>
 			</button>
 		</div>
 
