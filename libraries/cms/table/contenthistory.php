@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class JTableContenthistory extends JTable
 			'hits',
 			'path',
 		);
-		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
+		$this->convertToInt  = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 
 	/**
@@ -80,7 +80,7 @@ class JTableContenthistory extends JTable
 		}
 
 		// Modify author and date only when not toggling Keep Forever
-		if (is_null($this->get('keep_forever')))
+		if ($this->get('keep_forever') === null)
 		{
 			$this->set('editor_user_id', JFactory::getUser()->id);
 			$this->set('save_date', JFactory::getDate()->toSql());
@@ -102,9 +102,9 @@ class JTableContenthistory extends JTable
 	 */
 	public function getSha1($jsonData, JTableContenttype $typeTable)
 	{
-		$object = (is_object($jsonData)) ? $jsonData : json_decode($jsonData);
+		$object = is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
-		if (isset($typeTable->content_history_options) && (is_object(json_decode($typeTable->content_history_options))))
+		if (isset($typeTable->content_history_options) && is_object(json_decode($typeTable->content_history_options)))
 		{
 			$options = json_decode($typeTable->content_history_options);
 			$this->ignoreChanges = isset($options->ignoreChanges) ? $options->ignoreChanges : $this->ignoreChanges;
@@ -127,12 +127,12 @@ class JTableContenthistory extends JTable
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = (is_int($subValue) || is_bool($subValue) || is_null($subValue)) ? (string) $subValue : $subValue;
+					$object->$subName = is_int($subValue) || is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = (is_int($value) || is_bool($value) || is_null($value)) ? (string) $value : $value;
+				$object->$name = is_int($value) || is_bool($value) || $value === null ? (string) $value : $value;
 			}
 		}
 
@@ -163,7 +163,7 @@ class JTableContenthistory extends JTable
 	 */
 	public function getHashMatch()
 	{
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
@@ -189,7 +189,7 @@ class JTableContenthistory extends JTable
 		$result = true;
 
 		// Get the list of version_id values we want to save
-		$db = $this->_db;
+		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
@@ -201,7 +201,7 @@ class JTableContenthistory extends JTable
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions
-		if (count($idsToSave) == (int) $maxVersions)
+		if (count($idsToSave) === (int) $maxVersions)
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);

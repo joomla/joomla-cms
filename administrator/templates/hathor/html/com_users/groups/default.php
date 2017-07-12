@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ foreach ($this->items as $i => $item)
 {
 	if ($item->user_count > 0)
 	{
-		array_push($groupsWithUsers, $i);
+		$groupsWithUsers[] = $i;
 	}
 }
 JFactory::getDocument()->addScriptDeclaration('
@@ -92,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			$canCreate = $user->authorise('core.create', 'com_users');
 			$canEdit   = $user->authorise('core.edit',   'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+			if (!$user->authorise('core.admin') && JAccess::checkGroup($item->id, 'core.admin'))
 			{
 				$canEdit = false;
 			}
@@ -118,7 +118,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo $item->user_count ? $item->user_count : ''; ?>
+					<?php echo $item->user_count ?: ''; ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

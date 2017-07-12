@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,8 +136,7 @@ class UsersControllerProfile extends UsersController
 			}
 
 			// Unset the passwords.
-			unset($requestData['password1']);
-			unset($requestData['password2']);
+			unset($requestData['password1'], $requestData['password2']);
 
 			// Save the data in the session.
 			$app->setUserState('com_users.edit.profile.data', $requestData);

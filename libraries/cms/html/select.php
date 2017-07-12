@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -95,7 +95,7 @@ abstract class JHtmlSelect
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 
-		if (is_array($attribs) && func_num_args() == 3)
+		if (is_array($attribs) && func_num_args() === 3)
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
@@ -124,7 +124,7 @@ abstract class JHtmlSelect
 				$attribs = $options['list.attr'];
 			}
 
-			if ($attribs != '')
+			if ($attribs !== '')
 			{
 				$attribs = ' ' . $attribs;
 			}
@@ -249,7 +249,7 @@ abstract class JHtmlSelect
 				$attribs = $options['list.attr'];
 			}
 
-			if ($attribs != '')
+			if ($attribs !== '')
 			{
 				$attribs = ' ' . $attribs;
 			}
@@ -354,7 +354,7 @@ abstract class JHtmlSelect
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => null));
 
-		if (is_array($attribs) && func_num_args() == 5)
+		if (is_array($attribs) && func_num_args() === 5)
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
@@ -670,12 +670,12 @@ abstract class JHtmlSelect
 
 			$key = (string) $key;
 
-			if ($options['groups'] && $key == '<OPTGROUP>')
+			if ($key === '<OPTGROUP>' && $options['groups'])
 			{
 				$html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? JText::_($text) : $text) . '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
 			}
-			elseif ($options['groups'] && $key == '</OPTGROUP>')
+			elseif ($key === '</OPTGROUP>' && $options['groups'])
 			{
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];
@@ -686,12 +686,12 @@ abstract class JHtmlSelect
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 
-				if (isset($splitText[1]) && $splitText[1] != "" && !preg_match('/^[\s]+$/', $splitText[1]))
+				if (isset($splitText[1]) && $splitText[1] !== '' && !preg_match('/^[\s]+$/', $splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}
 
-				if ($options['list.translate'] && !empty($label))
+				if (!empty($label) && $options['list.translate'])
 				{
 					$label = JText::_($label);
 				}
@@ -725,7 +725,7 @@ abstract class JHtmlSelect
 						}
 					}
 				}
-				elseif ((string) $key == (string) $options['list.select'])
+				elseif ((string) $key === (string) $options['list.select'])
 				{
 					$extra .= ' selected="selected"';
 				}
@@ -771,7 +771,7 @@ abstract class JHtmlSelect
 			$attribs = ArrayHelper::toString($attribs);
 		}
 
-		$id_text = $idtag ? $idtag : $name;
+		$id_text = $idtag ?: $name;
 
 		$html = '<div class="controls">';
 
@@ -799,7 +799,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
+				$extra .= ((string) $k === (string) $selected ? ' checked="checked" ' : '');
 			}
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';

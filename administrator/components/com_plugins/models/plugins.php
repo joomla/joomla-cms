@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,7 +126,7 @@ class PluginsModelPlugins extends JModelList
 		// If "Sort Table By:" is not set, set ordering to name
 		if ($ordering == '')
 		{
-			$ordering = "name";
+			$ordering = 'name';
 		}
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
@@ -161,7 +161,7 @@ class PluginsModelPlugins extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 		else
 		{

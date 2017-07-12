@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -40,18 +40,15 @@ class JToolbarButtonStandard extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = JText::_($text);
-		$options['class'] = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
+		$options['text']     = JText::_($text);
+		$options['class']    = $this->fetchIconClass($name);
+		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
+		$options['btnClass'] = 'btn btn-small button-' . $name;
 
-		if ($name == 'apply' || $name == 'new')
+		if ($name === 'apply' || $name === 'new')
 		{
-			$options['btnClass'] = 'btn btn-small btn-success';
+			$options['btnClass'] .= ' btn-success';
 			$options['class'] .= ' icon-white';
-		}
-		else
-		{
-			$options['btnClass'] = 'btn btn-small';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
@@ -92,16 +89,14 @@ class JToolbarButtonStandard extends JToolbarButton
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
-		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		$message = addslashes($message);
+		JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+
+		$cmd = "Joomla.submitbutton('" . $task . "');";
 
 		if ($list)
 		{
-			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
-		}
-		else
-		{
-			$cmd = "Joomla.submitbutton('$task')";
+			$alert = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
+			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
 		}
 
 		return $cmd;

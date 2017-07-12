@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -97,8 +97,8 @@ class JToolbar
 	public function appendButton()
 	{
 		// Push button onto the end of the toolbar array.
-		$btn = func_get_args();
-		array_push($this->_bar, $btn);
+		$btn          = func_get_args();
+		$this->_bar[] = $btn;
 
 		return true;
 	}
@@ -212,7 +212,7 @@ class JToolbar
 	{
 		$signature = md5($type);
 
-		if (isset($this->_buttons[$signature]) && $new === false)
+		if ($new === false && isset($this->_buttons[$signature]))
 		{
 			return $this->_buttons[$signature];
 		}
@@ -261,7 +261,6 @@ class JToolbar
 
 		if (!class_exists($buttonClass) && !class_exists($buttonClassOld))
 		{
-			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
 
@@ -288,17 +287,14 @@ class JToolbar
 	 */
 	public function addButtonPath($path)
 	{
-		// Just force path to array.
-		settype($path, 'array');
-
 		// Loop through the path directories.
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) !== DIRECTORY_SEPARATOR)
 			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;

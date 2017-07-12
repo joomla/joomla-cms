@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class JUtility
 	 *
 	 * @return  int  Size in number of bytes
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getMaxUploadSize($custom = null)
 	{
@@ -71,7 +71,6 @@ class JUtility
 		 * Read INI settings which affects upload size limits
 		 * and Convert each into number of bytes so that we can compare
 		 */
-		$sizes[] = JHtml::_('number.bytes', ini_get('memory_limit'), '');
 		$sizes[] = JHtml::_('number.bytes', ini_get('post_max_size'), '');
 		$sizes[] = JHtml::_('number.bytes', ini_get('upload_max_filesize'), '');
 

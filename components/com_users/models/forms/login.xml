@@ -4,9 +4,9 @@
 		<field
 			name="username"
 			type="text"
+			label="COM_USERS_LOGIN_USERNAME_LABEL"
 			class="validate-username"
 			filter="username"
-			label="COM_USERS_LOGIN_USERNAME_LABEL"
 			size="25"
 			required="true"
 			validate="username"
@@ -16,21 +16,21 @@
 		<field
 			name="password"
 			type="password"
+			label="JGLOBAL_PASSWORD"
 			class="validate-password"
 			required="true"
 			filter="raw"
-			label="JGLOBAL_PASSWORD"
 			size="25"
 		/>
-		</fieldset>
+	</fieldset>
 
 		<field
 			name="secretkey"
 			type="text"
+			label="JGLOBAL_SECRETKEY"
 			class=""
 			required="false"
 			filter="int"
-			label="JGLOBAL_SECRETKEY"
 			size="25"
 		/>
 

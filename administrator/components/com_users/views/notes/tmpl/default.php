@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
@@ -68,7 +68,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				$canEdit    = $user->authorise('core.edit',       'com_users.category.' . $item->catid);
 				$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
 				$canChange  = $user->authorise('core.edit.state', 'com_users.category.' . $item->catid) && $canCheckin;
-				$subject    = $item->subject ? $item->subject : JText::_('COM_USERS_EMPTY_SUBJECT');
+				$subject    = $item->subject ?: JText::_('COM_USERS_EMPTY_SUBJECT');
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center checklist">
@@ -91,7 +91,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'notes.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php $subject = $item->subject ? $item->subject : JText::_('COM_USERS_EMPTY_SUBJECT'); ?>
+						<?php $subject = $item->subject ?: JText::_('COM_USERS_EMPTY_SUBJECT'); ?>
 						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>"><?php echo $this->escape($subject); ?></a>
 						<?php else : ?>

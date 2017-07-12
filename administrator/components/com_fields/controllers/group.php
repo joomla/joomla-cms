@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * The Group controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsControllerGroup extends JControllerForm
 {
@@ -22,30 +22,35 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @var    string
 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $text_prefix = 'COM_FIELDS_GROUP';
 
 	/**
-	 * The extension for which the group applies.
+	 * The component for which the group applies.
 	 *
 	 * @var    string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	private $extension;
+	private $component = '';
 
 	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
-		$this->extension = $this->input->getCmd('extension');
+		$parts = FieldsHelper::extract($this->input->getCmd('context'));
+
+		if ($parts)
+		{
+			$this->component = $parts[0];
+		}
 	}
 
 	/**
@@ -55,7 +60,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function batch($model = null)
 	{
@@ -77,11 +82,11 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function allowAdd($data = array())
 	{
-		return JFactory::getUser()->authorise('core.create', $this->extension);
+		return JFactory::getUser()->authorise('core.create', $this->component);
 	}
 
 	/**
@@ -92,7 +97,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
@@ -100,19 +105,19 @@ class FieldsControllerGroup extends JControllerForm
 		$user = JFactory::getUser();
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $this->extension))
+		if ($user->authorise('core.edit', $this->component))
 		{
 			return true;
 		}
 
 		// Check edit on the record asset (explicit or inherited)
-		if ($user->authorise('core.edit', $this->extension . '.fieldgroup.' . $recordId))
+		if ($user->authorise('core.edit', $this->component . '.fieldgroup.' . $recordId))
 		{
 			return true;
 		}
 
 		// Check edit own on the record asset (explicit or inherited)
-		if ($user->authorise('core.edit.own', $this->extension . '.fieldgroup.' . $recordId) || $user->authorise('core.edit.own', $this->extension))
+		if ($user->authorise('core.edit.own', $this->component . '.fieldgroup.' . $recordId) || $user->authorise('core.edit.own', $this->component))
 		{
 			// Existing record already has an owner, get it
 			$record = $this->getModel()->getItem($recordId);
@@ -137,7 +142,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{

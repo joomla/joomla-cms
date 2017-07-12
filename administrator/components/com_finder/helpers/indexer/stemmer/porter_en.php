@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -260,7 +260,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				self::replace($word, 'al', '', 1);
 				break;
 			case 'c':
-					self::replace($word, 'ance', '', 1)
+				self::replace($word, 'ance', '', 1)
 				or self::replace($word, 'ence', '', 1);
 				break;
 			case 'e':
@@ -293,7 +293,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				self::replace($word, 'ism', '', 1);
 				break;
 			case 't':
-					self::replace($word, 'ate', '', 1)
+				self::replace($word, 'ate', '', 1)
 				or self::replace($word, 'iti', '', 1);
 				break;
 			case 'u':

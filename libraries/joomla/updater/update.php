@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Update class. It is used by JUpdater::update() to install an update. Use JUpdater::findUpdates() to find updates for
@@ -238,13 +240,13 @@ class JUpdate extends JObject
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->stack, $name);
-		$tag = $this->_getStackLocation();
+		$this->stack[] = $name;
+		$tag           = $this->_getStackLocation();
 
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -317,9 +319,11 @@ class JUpdate extends JObject
 				 */
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) 
+					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) 
+					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					$phpMatch = false;
 
@@ -440,10 +444,13 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
-		$http = JHttpFactory::getHttp();
+		$version    = new JVersion;
+		$httpOption = new Registry;
+		$httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
 		try
 		{
+			$http = JHttpFactory::getHttp($httpOption);
 			$response = $http->get($url);
 		}
 		catch (RuntimeException $e)
@@ -470,7 +477,7 @@ class JUpdate extends JObject
 		{
 			JLog::add(
 				sprintf(
-					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
+					'XML error: %s at line %d', xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
 				),
 				JLog::WARNING, 'updater'

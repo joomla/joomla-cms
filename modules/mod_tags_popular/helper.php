@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,9 +58,9 @@ abstract class ModTagsPopularHelper
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
@@ -68,7 +68,7 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		if ($timeframe != 'alltime')
+		if ($timeframe !== 'alltime')
 		{
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($nowDate, '-1', strtoupper($timeframe)));
 		}
@@ -86,7 +86,7 @@ abstract class ModTagsPopularHelper
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 
 		// Set query depending on order_value param
-		if ($order_value == 'rand()')
+		if ($order_value === 'rand()')
 		{
 			$query->order($query->Rand());
 		}
@@ -95,7 +95,7 @@ abstract class ModTagsPopularHelper
 			$order_value     = $db->quoteName($order_value);
 			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 
-			if ($params->get('order_value', 'title') == 'title')
+			if ($params->get('order_value', 'title') === 'title')
 			{
 				$query->setLimit($maximum);
 				$query->order('count DESC');

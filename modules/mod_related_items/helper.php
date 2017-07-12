@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,7 @@ abstract class ModRelatedItemsHelper
 		$related  = array();
 		$query    = $db->getQuery(true);
 
-		if ($option == 'com_content' && $view == 'article' && $id)
+		if ($option === 'com_content' && $view === 'article' && $id)
 		{
 			// Select the meta keywords from the item
 			$query->select('metakey')

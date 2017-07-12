@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -157,7 +157,7 @@ class JCaptcha extends JObject
 	public function display($name, $id, $class = '')
 	{
 		// Check if captcha is already loaded.
-		if (is_null($this->_captcha))
+		if ($this->_captcha === null)
 		{
 			return;
 		}
@@ -169,7 +169,7 @@ class JCaptcha extends JObject
 		}
 
 		$args['name']  = $name;
-		$args['id']    = $id ? $id : $name;
+		$args['id']    = $id ?: $name;
 		$args['class'] = $class ? 'class="' . $class . '"' : '';
 		$args['event'] = 'onDisplay';
 
@@ -188,7 +188,7 @@ class JCaptcha extends JObject
 	public function checkAnswer($code)
 	{
 		// Check if captcha is already loaded
-		if (is_null(($this->_captcha)))
+		if ($this->_captcha === null)
 		{
 			return;
 		}

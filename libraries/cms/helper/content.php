@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ class JHelperContent
 	public static function getActions($component = '', $section = '', $id = 0)
 	{
 		// Check for deprecated arguments order
-		if (is_int($component) || is_null($component))
+		if (is_int($component) || $component === null)
 		{
 			$result = self::_getActions($component, $section, $id);
 
@@ -182,9 +182,7 @@ class JHelperContent
 			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
 		$db->setQuery($query);
 
-		$id = $db->loadResult();
-
-		return $id;
+		return $db->loadResult();
 	}
 
 	/**

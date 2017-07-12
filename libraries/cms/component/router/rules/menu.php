@@ -3,9 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Rule to identify the right Itemid for a view in a component
@@ -17,7 +19,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var JComponentRouterAdvanced
+	 * @var   JComponentRouterView
 	 * @since 3.4
 	 */
 	protected $router;
@@ -25,7 +27,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Lookup array of the menu items
 	 *
-	 * @var array
+	 * @var   array
 	 * @since 3.4
 	 */
 	protected $lookup = array();
@@ -33,7 +35,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterAdvanced  $router  Router this rule belongs to
+	 * @param   JComponentRouterView  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */
@@ -46,11 +48,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 	/**
 	 * Finds the right Itemid for this query
-	 * 
+	 *
 	 * @param   array  &$query  The query array to process
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	public function preprocess(&$query)
@@ -118,8 +120,8 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 		// Check if the active menuitem matches the requested language
 		$active = $this->router->menu->getActive();
 
-		if ($active && $active->component == 'com_' . $this->router->getName()
-			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+		if ($active && $active->component === 'com_' . $this->router->getName()
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;
@@ -136,11 +138,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 	/**
 	 * Method to build the lookup array
-	 * 
+	 *
 	 * @param   string  $language  The language that the lookup should be built up for
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	protected function buildLookup($language = '*')
@@ -186,13 +188,18 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 							$this->lookup[$language][$view] = array();
 						}
 
+						// If menuitem has no key set, we assume 0.
+						if (!isset($item->query[$views[$view]->key]))
+						{
+							$item->query[$views[$view]->key] = 0;
+						}
+
 						/**
 						 * Here it will become a bit tricky
 						 * language != * can override existing entries
 						 * language == * cannot override existing entries
 						 */
-						if (isset($item->query[$views[$view]->key])
-							&& (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language != '*'))
+						if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
 							$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
@@ -205,7 +212,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						 * language != * can override existing entries
 						 * language == * cannot override existing entries
 						 */
-						if (!isset($this->lookup[$language][$view . $layout]) || $item->language != '*')
+						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
 							$this->lookup[$language][$view] = $item->id;

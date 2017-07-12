@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -153,7 +153,7 @@ class JCrypt
 	 * @return  boolean  Always returns true since 3.3
 	 *
 	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
-	 * @see     https://github.com/ircmaxell/password_compat/blob/master/version-test.php
+	 * @link    https://github.com/ircmaxell/password_compat/blob/master/version-test.php
 	 * @since   3.2
 	 * @deprecated  4.0
 	 */
