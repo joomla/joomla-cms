@@ -132,9 +132,11 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 							</div>
 						<?php endif; ?>
 					</td>
-					<td class="small">
-						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-					</td>
+					<?php if (JLanguageMultilang::isEnabled()) : ?>
+						<td class="small">
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+						</td>
+					<?php endif; ?>
 					<td>
 						<?php if (true || $item->association) : ?>
 							<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false, false); ?>

@@ -157,9 +157,11 @@ if ($saveOrder)
 									<td class="small hidden-sm-down text-center">
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
-									<td class="small nowrap hidden-sm-down text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-									</td>
+									<?php if (JLanguageMultilang::isEnabled()) : ?>
+										<td class="small nowrap hidden-sm-down text-center">
+											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+										</td>
+									<?php endif; ?>	
 									<td class="hidden-sm-down text-center">
 										<span><?php echo (int) $item->id; ?></span>
 									</td>

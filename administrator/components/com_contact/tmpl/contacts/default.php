@@ -157,9 +157,11 @@ if ($saveOrder)
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td class="small hidden-sm-down text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<td class="small hidden-sm-down text-center">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
+								<?php endif; ?>				
 								<td class="hidden-sm-down text-center">
 									<?php echo $item->id; ?>
 								</td>

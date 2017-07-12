@@ -128,9 +128,11 @@ if (!empty($editor))
 						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-sm-down">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-						</td>
+						<?php if (JLanguageMultilang::isEnabled()) : ?>
+							<td class="small hidden-sm-down">
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							</td>
+						<?php endif; ?>	
 						<td align="text-center">
 							<?php echo (int) $item->id; ?>
 						</td>

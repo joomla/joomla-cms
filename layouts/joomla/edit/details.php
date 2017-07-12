@@ -27,10 +27,11 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 		<?php echo $displayData->getForm()->renderField('access'); ?>
 		<?php echo $displayData->getForm()->renderField('catid'); ?>
 		<?php echo $displayData->getForm()->renderField('featured'); ?>
+		
 		<?php if (JLanguageMultilang::isEnabled()) : ?>
-			<?php echo $displayData->getForm()->renderField('language'); ?>
+		<?php echo $displayData->getForm()->renderField('language'); ?>
 		<?php else : ?>
-			<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>">
+			<input type="hidden" id="jform_language" name="jform[language]" value="*">
 		<?php endif; ?>
 		
 		<?php echo $displayData->getForm()->renderField('tags'); ?>

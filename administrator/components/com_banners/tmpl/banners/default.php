@@ -155,9 +155,11 @@ if ($saveOrder)
 										<?php echo $item->clicks; ?> -
 										<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 									</td>
-									<td class="small nowrap hidden-sm-down text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-									</td>
+									<?php if (JLanguageMultilang::isEnabled()) : ?>
+										<td class="small nowrap hidden-sm-down text-center">
+											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+										</td>
+									<?php endif; ?>				
 									<td class="hidden-sm-down text-center">
 										<?php echo $item->id; ?>
 									</td>

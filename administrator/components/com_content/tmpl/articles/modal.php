@@ -130,9 +130,11 @@ if (!empty($editor))
 						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-						</td>
+						<?php if (JLanguageMultilang::isEnabled()) : ?>
+							<td class="small">
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							</td>
+						<?php endif; ?>	
 						<td class="nowrap small hidden-sm-down">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>

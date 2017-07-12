@@ -253,9 +253,11 @@ if ($saveOrder)
 											<?php endif; ?>
 										</td>
 									<?php endif; ?>
-									<td class="small nowrap hidden-sm-down text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-									</td>
+									<?php if (JLanguageMultilang::isEnabled()) : ?>
+										<td class="small nowrap hidden-sm-down text-center">
+											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+										</td>
+									<?php endif; ?>
 									<td class="hidden-sm-down text-center">
 										<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 											<?php echo (int) $item->id; ?></span>

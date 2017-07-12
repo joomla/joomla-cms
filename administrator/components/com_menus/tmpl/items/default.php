@@ -251,9 +251,11 @@ if ($menuType == '')
 									</td>
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
-									<td class="small hidden-sm-down text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-									</td>
+									<?php if (JLanguageMultilang::isEnabled()) : ?>
+										<td class="small hidden-sm-down text-center">
+											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+										</td>
+									<?php endif; ?>	
 								<?php endif; ?>
 								<td class="hidden-sm-down text-center">
 									<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
