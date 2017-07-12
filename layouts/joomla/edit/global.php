@@ -43,6 +43,7 @@ if (!$saveHistory)
 	$hiddenFields[] = 'version_note';
 }
 
+
 $html   = array();
 $html[] = '<fieldset class="form-vertical form-no-margin">';
 
