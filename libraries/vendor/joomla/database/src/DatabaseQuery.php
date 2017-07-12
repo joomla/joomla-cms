@@ -224,6 +224,11 @@ abstract class DatabaseQuery implements QueryInterface
 
 		if ($this->sql)
 		{
+			if ($this instanceof Query\LimitableInterface)
+			{
+				return $this->processLimit($this->sql, $this->limit, $this->offset);
+			}
+
 			return $this->sql;
 		}
 

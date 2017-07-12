@@ -80,7 +80,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			</noscript>
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
-				<h2 class="text-center mt-1 mb-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
+				<h1 class="text-center mt-1 mb-4"><?php echo JText::_('MOD_LOGIN_LOGIN_TITLE'); ?></h1>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>
