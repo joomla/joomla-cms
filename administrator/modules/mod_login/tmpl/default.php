@@ -92,7 +92,7 @@ if ($spacing > 0)
 
 		<div class="form-group">
 			<button class="btn btn-success btn-block btn-lg">
-				<span class="icon-lock icon-white"></span> <?php echo JText::_('JLOGIN'); ?>
+				<span class="fa fa-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 			</button>
 		</div>
 
