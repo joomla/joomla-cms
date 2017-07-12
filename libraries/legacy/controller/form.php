@@ -853,7 +853,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.4
 	 */
 	public function reload($key = null, $urlVar = null)
 	{
