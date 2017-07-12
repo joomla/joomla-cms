@@ -158,7 +158,7 @@ if ($saveOrder)
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
 											<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-												<?php echo $this->escape($item->title); ?></a>
+												<span class="fa fa-pencil-square mr-2"></span><?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
