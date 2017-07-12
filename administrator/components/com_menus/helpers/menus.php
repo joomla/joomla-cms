@@ -178,7 +178,8 @@ class MenusHelper
 					  a.template_style_id,
 					  a.checked_out,
 					  a.language,
-					  a.lft')
+					  a.lft,
+					  a.params')
 			->from('#__menu AS a');
 
 		$query->select('e.name as componentname, e.element')
