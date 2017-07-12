@@ -21,7 +21,7 @@
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
-			filter="integer"
+			filter="boolean"
 			showon="caching:1,2">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -46,7 +46,7 @@
 			label="COM_CONFIG_FIELD_CACHE_PATH_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_PATH_DESC"
 			showon="cache_handler:file"
-			filter="string"
+			filter="path"
 			size="50"
 		/>
 
@@ -58,7 +58,7 @@
 			class="switcher"
 			default="1"
 			showon="cache_handler:memcache"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -72,7 +72,7 @@
 			class="switcher"
 			default="0"
 			showon="cache_handler:memcache"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -111,7 +111,7 @@
 			class="switcher"
 			default="1"
 			showon="cache_handler:memcached"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -125,7 +125,7 @@
 			class="switcher"
 			default="0"
 			showon="cache_handler:memcached"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -163,7 +163,7 @@
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
 			class="switcher"
 			default="1"
-			filter="integer"
+			filter="boolean"
 			showon="cache_handler:redis"
 			>
 			<option value="0">JNO</option>
@@ -237,7 +237,7 @@
 			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -328,7 +328,7 @@
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -341,7 +341,7 @@
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -358,7 +358,7 @@
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -433,7 +433,7 @@
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -514,7 +514,7 @@
 			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
 			class="switcher"
 			default="1"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -527,7 +527,7 @@
 			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			showon="mailonline:1"
 			>
 			<option value="0">JNO</option>
@@ -650,7 +650,7 @@
 			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -734,7 +734,7 @@
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
 			class="switcher"
 			default="1"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -747,7 +747,7 @@
 			description="COM_CONFIG_FIELD_METAVERSION_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -766,7 +766,7 @@
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
 			class="switcher"
 			default="1"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -779,7 +779,7 @@
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			showon="sef:1"
 			>
 			<option value="0">JNO</option>
@@ -793,7 +793,7 @@
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			showon="sef:1"
 			>
 			<option value="0">JNO</option>
@@ -807,7 +807,7 @@
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			showon="sef:1"
 			>
 			<option value="0">JNO</option>
@@ -849,7 +849,7 @@
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -896,7 +896,7 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
 			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
-			filter="integer">
+			filter="boolean">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -989,7 +989,7 @@
 			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -1018,7 +1018,7 @@
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
 			class="switcher"
 			default="0"
-			filter="integer"
+			filter="boolean"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
