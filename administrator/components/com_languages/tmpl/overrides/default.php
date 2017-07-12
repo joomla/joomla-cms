@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
-
-JHtml::_('bootstrap.tooltip');
-
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');

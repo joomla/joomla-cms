@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 

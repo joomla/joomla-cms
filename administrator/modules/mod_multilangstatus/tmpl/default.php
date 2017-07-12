@@ -15,9 +15,10 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
-<li class="px-2 multilanguage">
-	<a data-toggle="modal" href="#multiLangModal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>" role="button">
-		<span class="mr-1 fa fa-comment" aria-hidden="true"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
+<li class="nav-item multilanguage">
+	<a class="nav-link" href="#multiLangModal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
+		<span class="fa fa-language" aria-hidden="true"></span>
+		<span class="sr-only"><?php echo JText::_('MOD_MULTILANGSTATUS'); ?></span>
 	</a>
 </li>
 
