@@ -322,11 +322,11 @@
 				</field>
 
 				<field
-					name="sampletext"
+					name="preview"
 					type="editor"
 					editor="codemirror"
-					label="PLG_CODEMIRROR_FIELD_SAMPLETEXT_LABEL"
-					description="PLG_CODEMIRROR_FIELD_SAMPLETEXT_DESC"
+					label="PLG_CODEMIRROR_FIELD_PREVIEW_LABEL"
+					description="PLG_CODEMIRROR_FIELD_PREVIEW_DESC"
 					filter="unset"
 					buttons="false"
 				>
