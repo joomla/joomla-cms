@@ -57,9 +57,11 @@ $colSpan = $clientId === 1 ? 8 : 10;
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($clientId === 0) : ?>
-						<th style="width:10%" class="nowrap hidden-sm-down text-center">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
-						</th>
+							<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+								</th>
+							<?php endif; ?>
 						<?php endif; ?>
 						<th style="width:5%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>

@@ -108,9 +108,11 @@ if ($saveOrder)
 						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap hidden-sm-down text-center">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-						</th>
+						<?php if (JLanguageMultilang::isEnabled()) : ?>
+							<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+							</th>
+						<?php endif; ?>						
 						<th style="width:5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>

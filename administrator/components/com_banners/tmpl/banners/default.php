@@ -69,9 +69,11 @@ if ($saveOrder)
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
-								</th>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>								
 								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>

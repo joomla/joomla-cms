@@ -60,9 +60,11 @@ if (!empty($editor))
 						<th style="width:10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-						</th>
+						<?php if (JLanguageMultilang::isEnabled()) : ?>
+							<th style="width:15%" class="nowrap">
+								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
 						<th style="width:5%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
