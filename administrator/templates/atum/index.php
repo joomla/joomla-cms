@@ -29,7 +29,9 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 // Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
-JHtml::_('webcomponent', ['joomla-alert' => 'system/alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+// Alerts
+JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -120,35 +122,6 @@ $this->setMetaData('theme-color', '#1c3d5c');
 					</div>
 				</div>
 			<?php endif; ?>
-
-<joomla-alert type="success" button="true">
-	<h3>Success</h3>
-	<p>Hello web components!</p>
-</joomla-alert>
-
-<joomla-button type="button" class="btn btn-danger" aria-pressed="true">
-button custom element
-</joomla-button>
-
-<joomla-tabs id="new-tabs">
-	<div id="home2" role="tabpanel" data-li-name="Home tab" class="card active">
-		<img class="card-img-top" src="/media/system/images/joomla.png" alt="Card image cap">
-		<div class="card-block">
-			<h4 class="card-title">Card title</h4>
-			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-			<a href="#" class="btn btn-primary">Go somewhere</a>
-		</div>
-	</div>
-	<div id="one2" role="tabpanel" data-li-name="One tab">
-		<p>one content</p>
-	</div>
-	<div id="two2" role="tabpanel" data-li-name="Two tab">
-		<p>two content</p>
-	</div>
-	<div id="three2" role="tabpanel" data-li-name="Three tab">
-		<p>three content</p>
-	</div>
-</joomla-tabs>
 			<section id="content" class="content">
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />

@@ -29,6 +29,9 @@ $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
+// Alerts
+JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
