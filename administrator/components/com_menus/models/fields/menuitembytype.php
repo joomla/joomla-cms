@@ -209,7 +209,6 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 			// Build the options array.
 			foreach ($items as $key => $link)
 			{
-
 				// Unset if item is menu_item_root
 				if ($link->text === 'Menu_Item_Root')
 				{
