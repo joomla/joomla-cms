@@ -51,7 +51,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 					</span>
 				</div>
 			</div>
-			<div class="btn-group hidden-sm-down">
+			<div class="btn-group">
 				<button type="button" class="btn btn-secondary hasTooltip js-stools-btn-filter">
 					<?php echo JText::_('JTABLE_OPTIONS'); ?> <span class="fa fa-caret-down"></span>
 				</button>
