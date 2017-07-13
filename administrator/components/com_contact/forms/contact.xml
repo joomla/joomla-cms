@@ -147,7 +147,6 @@
 			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
 			content_type="com_contact.contact"
 		/>
 
