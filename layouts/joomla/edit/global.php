@@ -43,6 +43,11 @@ if (!$saveHistory)
 	$hiddenFields[] = 'version_note';
 }
 
+if (!JLanguageMultilang::isEnabled())
+{
+	$hiddenFields[] = 'language';
+}
+
 $html   = array();
 $html[] = '<fieldset class="form-vertical form-no-margin">';
 
@@ -55,6 +60,7 @@ foreach ($fields as $field)
 			if (in_array($f, $hiddenFields))
 			{
 				$form->setFieldAttribute($f, 'type', 'hidden');
+				$form->setFieldAttribute('language', 'default', '*');
 			}
 
 			$html[] = $form->renderField($f);
