@@ -539,17 +539,6 @@
 			</field>
 
 			<field
-				name="urls_position"
-				type="list"
-				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-				description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
-				useglobal="true"
-				>
-				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
-				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
-			</field>
-
-			<field
 				name="spacer2"
 				type="spacer"
 				hr="true"
@@ -859,119 +848,6 @@
 			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
 			size="20"
 		/>
-	</fields>
-	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
-		<field
-			name="urla"
-			type="url"
-			label="COM_CONTENT_FIELD_URLA_LABEL"
-			description="COM_CONTENT_FIELD_URL_DESC"
-			validate="url"
-			filter="url"
-			relative="true"
-		/>
-
-		<field 
-			name="urlatext"
-			type="text"
-			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			size="20"
-		/>
-
-		<field
-			name="targeta"
-			type="list"
-			label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
-			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-			default=""
-			filter="options"
-			useglobal="true"
-			>
-			<option value="0">JBROWSERTARGET_PARENT</option>
-			<option value="1">JBROWSERTARGET_NEW</option>
-			<option value="2">JBROWSERTARGET_POPUP</option>
-			<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>
-
-		<field
-			name="spacer3"
-			type="spacer"
-			hr="true"
-		/>
-
-		<field
-			name="urlb"
-			type="url"
-			label="COM_CONTENT_FIELD_URLB_LABEL"
-			description="COM_CONTENT_FIELD_URL_DESC"
-			validate="url"
-			filter="url"
-			relative="true"
-		/>
-
-		<field 
-			name="urlbtext"
-			type="text"
-			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			size="20"
-		/>
-
-		<field
-			name="targetb"
-			type="list"
-			label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
-			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-			default=""
-			filter="options"
-			useglobal="true"
-			>
-			<option value="0">JBROWSERTARGET_PARENT</option>
-			<option value="1">JBROWSERTARGET_NEW</option>
-			<option value="2">JBROWSERTARGET_POPUP</option>
-			<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>
-
-		<field
-			name="spacer4"
-			type="spacer"
-			hr="true"
-		/>
-
-		<field
-			name="urlc"
-			type="url"
-			label="COM_CONTENT_FIELD_URLC_LABEL"
-			description="COM_CONTENT_FIELD_URL_DESC"
-			validate="url"
-			filter="url"
-			relative="true"
-		/>
-
-		<field
-			name="urlctext"
-			type="text"
-			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			size="20"
-		/>
-
-		<field
-			name="targetc"
-			type="list"
-			label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
-			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-			default=""
-			filter="options"
-			useglobal="true"
-			>
-			<option value="0">JBROWSERTARGET_PARENT</option>
-			<option value="1">JBROWSERTARGET_NEW</option>
-			<option value="2">JBROWSERTARGET_POPUP</option>
-			<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>
-
 	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
