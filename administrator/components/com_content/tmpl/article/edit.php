@@ -64,14 +64,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<?php echo $this->form->renderField('images'); ?>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endforeach; ?>
-				</div>
-				<div class="col-md-6">
-					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</div>
