@@ -41,7 +41,6 @@
 				type="sql"
 				label="COM_WORKFLOW_FROM_STATE"
 				description="COM_WORKFLOW_FROM_STATE_DESC"
-				query="SELECT id AS value, title AS from_state_id FROM #__workflow_states"
 				required="true"
 		/>
 
@@ -50,7 +49,6 @@
 				type="sql"
 				label="COM_WORKFLOW_TO_STATE"
 				description="COM_WORKFLOW_TO_STATE_DESC"
-				query="SELECT id AS value, title AS to_state_id FROM #__workflow_states"
 				required="true"
 		/>
 
@@ -60,6 +58,7 @@
 				label="COM_WORKFLOW_PUBLISHED_LABEL"
 				description="COM_WORKFLOW_PUBLISHED_DESC"
 				required="true"
+		        default="1"
 		/>
 
 	</fieldset>

@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 JHtml::_('behavior.tooltip');
 
-$columns = 6;
+$columns = 5;
 $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));

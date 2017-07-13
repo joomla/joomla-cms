@@ -40,6 +40,16 @@
     </fieldset>
 
     <fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
+
+        <field
+                name="published"
+                type="status"
+                label="COM_WORKFLOW_PUBLISHED_LABEL"
+                description="COM_WORKFLOW_PUBLISHED_DESC"
+                required="true"
+                default="1"
+        />
+
         <field
                 name="default"
                 type="radio"
@@ -54,25 +64,8 @@
         </field>
 
         <field
-                name="published"
-                type="status"
-                label="COM_WORKFLOW_PUBLISHED_LABEL"
-                description="COM_WORKFLOW_PUBLISHED_DESC"
-                required="true"
-        />
-
-        <field
-                name="category_id"
-                type="category"
-                label="COM_WORKFLOW_FIELD_CATEGORY_LIST_LABEL"
-                description="COM_CONTACT_FIELD_CATEGORY_LIST_DESC"
-                default="0"
-                showon="default:0"
-        />
-
-        <field
                 name="created"
-                type="calendar"
+                type="date"
                 label="COM_WORKFLOW_CREATED_LABEL"
                 description="COM_WORKFLOW_CREATED_DESC"
                 readonly="true"
@@ -80,7 +73,7 @@
 
         <field
                 name="modified"
-                type="calendar"
+                type="date"
                 label="COM_WORKFLOW_MODIFIED_LABEL"
                 description="COM_WORKFLOW_MODIFIED_DESC"
                 readonly="true"

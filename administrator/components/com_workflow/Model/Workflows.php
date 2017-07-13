@@ -38,7 +38,8 @@ class  Workflows extends ListModel
 				'id',
 				'title',
 				'state',
-				'created_by'
+				'created_by',
+				'created'
 			);
 		}
 
@@ -128,15 +129,24 @@ class  Workflows extends ListModel
 		}
 
 		// Filter by author
-		if ($author = $this->getState('filter.created_by'))
+		$authorId = $this->getState('filter.created_by');
+
+		if (is_numeric($authorId))
 		{
-			$query->where($db->qn('created_by') . ' = ' . $db->quote($db->escape($author)));
+			$type = $this->getState('filter.created_by.include', true) ? '= ' : '<>';
+			$query->where('a.created_by ' . $type . (int) $authorId);
 		}
 
+		$status = (string) $this->getState('filter.published');
+
 		// Filter by condition
-		if ($condition = $this->getState('filter.state'))
+		if (is_numeric($status))
 		{
-			$query->where($db->qn('state') . ' = ' . $db->quote($db->escape($condition)));
+			$query->where($db->qn('published') . ' = ' . $db->quote($db->escape($status)));
+		}
+		elseif ($status == '')
+		{
+			$query->where($db->qn('published') . " IN ('0', '1')");
 		}
 
 		// Filter by search in title
@@ -155,5 +165,32 @@ class  Workflows extends ListModel
 		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn));
 
 		return $query;
+	}
+
+	/**
+	 * Build a list of authors
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   1.6
+	 */
+	public function getAuthors()
+	{
+		// Create a new query object.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Construct the query
+		$query->select('u.id AS value, u.name AS text')
+			->from('#__users AS u')
+			->join('INNER', '#__workflows AS c ON c.created_by = u.id')
+			->group('u.id, u.name')
+			->order('u.name');
+
+		// Setup the query
+		$db->setQuery($query);
+
+		// Return the result
+		return $db->loadObjectList();
 	}
 }

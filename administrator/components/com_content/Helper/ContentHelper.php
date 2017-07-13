@@ -42,7 +42,7 @@ class ContentHelper extends \JHelperContent
 			$vName == 'categories'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
+			\JText::_('COM_CONTENT_SUBMENU_WORKFLOW'),
 			'index.php?option=com_workflow&extension=com_content',
 			$vName == 'workflows'
 		);
@@ -285,13 +285,10 @@ class ContentHelper extends \JHelperContent
 	 *
 	 * @since   4.0
 	 */
-	public static function getTransitions($state, $catid)
+	public static function getTransitions($state)
 	{
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
-
-//		$query
-//			->select($db->qn('id'))
 
 		$query
 			->select($db->qn('id') . ' AS value, ' . $db->qn('title') . ' AS text')

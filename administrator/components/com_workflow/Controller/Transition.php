@@ -98,7 +98,14 @@ class Transition extends Form
 		return $append;
 	}
 
-	public function performTransaction() {
+	/**
+	 *
+	 * @return  void
+	 *
+	 * @since version
+	 */
+	public function performTransaction()
+	{
 		var_dump("HELOOOOOOOO");
 		die;
 	}

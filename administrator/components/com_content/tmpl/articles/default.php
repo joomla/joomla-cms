@@ -76,9 +76,6 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
-								</th>
-								<th style="width:1%" class="nowrap text-center">
 									<?php echo JText::_("COM_CONTENT_TRANSITION") ?>
 								</th>
 								<th style="min-width:100px" class="nowrap">
@@ -134,7 +131,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
-							$transitions = ContentHelper::getTransitions($item->state, $item->catid);
+							$transitions = ContentHelper::getTransitions($item->state);
 							array_unshift($transitions, "SELECT");
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
@@ -160,14 +157,14 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
+<!--								<td class="text-center">-->
+<!--									<div class="btn-group">-->
+<!--										--><?php //echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+<!--										--><?php //echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+<!--									</div>-->
+<!--								</td>-->
 								<td class="text-center">
-									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-									</div>
-								</td>
-								<td class="text-center">
-									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="changeTransitionID(this.value)"', 'value', 'text',  5 ); ?>
+									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text',  5 ); ?>
 								</td>
 								<td class="has-context">
 									<div class="break-word">

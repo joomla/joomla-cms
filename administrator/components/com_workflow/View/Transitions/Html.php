@@ -144,10 +144,14 @@ class Html extends HtmlView
 	{
 		ToolbarHelper::title(\JText::_('COM_WORKFLOW_TRANSITIONS_LIST'), 'address contact');
 		ToolbarHelper::addNew('transition.add');
-		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
 		ToolbarHelper::editList('transition.edit');
 		ToolbarHelper::publishList('transitions.publish');
 		ToolbarHelper::unpublishList('transitions.unpublish');
 		ToolbarHelper::trash('transitions.trash');
+
+		if ($this->state->get("filter.published") === "-2")
+		{
+			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
+		}
 	}
 }

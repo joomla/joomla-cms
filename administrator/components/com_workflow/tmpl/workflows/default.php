@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted Access');
 JHtml::_('behavior.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 
-$columns = 6;
+$columns = 9;
 
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>
@@ -36,6 +36,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 				<?php else: ?>
 					<table class="table table-striped" id="emailList">
 						<thead><?php echo $this->loadTemplate('head');?></thead>
+						<tbody class="js-draggable"><?php echo $this->loadTemplate('body');?></tbody>
 						<tfoot>
 							<tr>
 								<td colspan="<?php echo $columns; ?>">
@@ -43,7 +44,6 @@ $extension = $this->escape($this->state->get('filter.extension'));
 								</td>
 							</tr>
 						</tfoot>
-						<tbody class="js-draggable"><?php echo $this->loadTemplate('body');?></tbody>
 					</table>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">

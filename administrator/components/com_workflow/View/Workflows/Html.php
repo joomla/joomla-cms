@@ -88,6 +88,7 @@ class Html extends HtmlView
 
 		$this->state         = $this->get('State');
 		$this->workflows     = $this->get('Items');
+		$this->authors       = $this->get('Authors');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
@@ -112,11 +113,15 @@ class Html extends HtmlView
 	{
 		ToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
 		ToolbarHelper::addNew('workflow.add');
-		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		ToolbarHelper::editList('workflow.edit');
 		ToolbarHelper::publishList('workflows.publish');
 		ToolbarHelper::unpublishList('workflows.unpublish');
 		ToolbarHelper::trash('workflows.trash');
+
+		if ($this->state->get("filter.published") === "-2")
+		{
+			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
+		}
 	}
 
 	/**

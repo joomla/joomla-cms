@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 
 /**
@@ -26,7 +27,7 @@ class WorkflowHelper extends ContentHelper
 	 * Configure the Linkbar.
 	 *
 	 * @param   string  $vName  The name of the active view.
-     *
+	 *
 	 * @return  void
 	 *
 	 * @since   4.0
@@ -35,13 +36,13 @@ class WorkflowHelper extends ContentHelper
 	{
 		$name = explode(".", $vName);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_WORKFLOW_STATES'),
+			\JText::_('COM_WORKFLOW_STATE'),
 			'index.php?option=com_workflow&view=states&workflow_id=' . $name[1] . "&extension=" . $name[2],
 			$name[0] == 'states`'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_WORKFLOW_TRANSITIONS'),
+			\JText::_('COM_WORKFLOW_TRANSITION'),
 			'index.php?option=com_workflow&view=transitions&workflow_id=' . $name[1] . "&extension=" . $name[2],
 			$name[0] == 'transitions'
 		);
@@ -51,15 +52,15 @@ class WorkflowHelper extends ContentHelper
 	 * Get SQL for select states field
 	 *
 	 * @param   string  $fieldName   The name of field to which will be that sql
-	 * @param   int     $workflowID  ID of workflow
-     *
+	 * @param   int     $workflowID  ID of workflo
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
 	public static function getStatesSQL($fieldName, $workflowID)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$select[] = $db->qn('id') . ' AS ' . $db->qn('value');
@@ -68,7 +69,7 @@ class WorkflowHelper extends ContentHelper
 		$query
 			->select($select)
 			->from($db->qn('#__workflow_states'))
-			->where($db->qn('workflow_id') . ' = ' . (int) $workflowID);
+			->where($db->qn('workflow_id') . ' = ' . $workflowID);
 
 		return (string) $query;
 	}

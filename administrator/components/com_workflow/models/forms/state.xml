@@ -55,7 +55,7 @@
 				label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
 				description="COM_WORKFLOW_FIELD_IS_DEFAULT_DESC"
 				class="switcher"
-				required="true"
+		        default="0"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

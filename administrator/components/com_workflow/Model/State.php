@@ -41,6 +41,18 @@ class State extends Admin
 		$data['access'] = 0;
 		$data['workflow_id'] = (int) $workflowID;
 
+		if ($data['default'] == '1')
+		{
+			$table = $this->getTable();
+
+			if ($table->load(array('default' => '1')) && $table->id != $data['id'])
+			{
+				Factory::getApplication()->enqueueMessage('Default state already is', 'error');
+
+				return false;
+			}
+		}
+
 		return parent::save($data);
 	}
 
@@ -83,6 +95,8 @@ class State extends Admin
 
 		if (empty($form))
 		{
+			Factory::getApplication()->enqueueMessage('There was a problem with setting form', 'error');
+
 			return false;
 		}
 
@@ -116,8 +130,8 @@ class State extends Admin
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array   &$pks  A list of the primary keys to change.
-	 * @param   integer $value The value of the home state.
+	 * @param   array   $pks    A list of the primary keys to change.
+	 * @param   integer $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
 	 *

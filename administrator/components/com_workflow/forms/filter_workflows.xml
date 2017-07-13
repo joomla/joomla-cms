@@ -51,6 +51,8 @@
 			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="created_by ASC">JAUTHOR_ASC</option>
 			<option value="created_by DESC">JAUTHOR_DESC</option>
+			<option value="created ASC">COM_WORKFLOW_CREATED_AT_ASC</option>
+			<option value="created DESC">COM_WORKFLOW_CREATED_AT_DESC</option>
 			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

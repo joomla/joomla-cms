@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Model\ListModel;
 
 /**
@@ -63,7 +64,7 @@ class Transitions extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'cmd');
 		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
@@ -111,12 +112,14 @@ class Transitions extends ListModel
 		));
 		$select[] = $db->qn('f_state.title') . ' AS ' . $db->qn('from_state');
 		$select[] = $db->qn('t_state.title') . ' AS ' . $db->qn('to_state');
-		$joinTo = $db->qn('#__workflow_states') . ' AS ' . $db->qn('t_state') . ' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('transition.to_state_id');
-		
+		$joinTo = $db->qn('#__workflow_states') . ' AS ' . $db->qn('t_state') .
+			' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('transition.to_state_id');
+
 		$query
 			->select($select)
 			->from($db->qn('#__workflow_transitions') . ' AS ' . $db->qn('transition'))
-			->leftJoin($db->qn('#__workflow_states') . ' AS ' . $db->qn('f_state') . ' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('transition.from_state_id'))
+			->leftJoin($db->qn('#__workflow_states') . ' AS ' . $db->qn('f_state') .
+				' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('transition.from_state_id'))
 			->leftJoin($joinTo);
 
 		// Filter by extension
@@ -125,10 +128,16 @@ class Transitions extends ListModel
 			$query->where($db->qn('transition.workflow_id') . ' = ' . $workflowID);
 		}
 
+		$status = $this->getState('filter.published');
+
 		// Filter by condition
-		if ($status = $this->getState('filter.published'))
+		if (is_numeric($status))
 		{
-			$query->where($db->qn('published') . ' = ' . $db->quote($db->escape($status)));
+			$query->where($db->qn('transition.published') . ' = ' . $db->quote($db->escape($status)));
+		}
+		elseif ($status == '')
+		{
+			$query->where($db->qn('transition.published') . " IN ('0', '1')");
 		}
 
 		// Filter by column from_state_id
