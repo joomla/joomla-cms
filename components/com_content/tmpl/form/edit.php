@@ -75,27 +75,6 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo $this->form->renderField('image_fulltext_alt', 'images'); ?>
 				<?php echo $this->form->renderField('image_fulltext_caption', 'images'); ?>
 				<?php echo $this->form->renderField('float_fulltext', 'images'); ?>
-				<?php echo $this->form->renderField('urla', 'urls'); ?>
-				<?php echo $this->form->renderField('urlatext', 'urls'); ?>
-				<div class="control-group">
-					<div class="controls">
-						<?php echo $this->form->getInput('targeta', 'urls'); ?>
-					</div>
-				</div>
-				<?php echo $this->form->renderField('urlb', 'urls'); ?>
-				<?php echo $this->form->renderField('urlbtext', 'urls'); ?>
-				<div class="control-group">
-					<div class="controls">
-						<?php echo $this->form->getInput('targetb', 'urls'); ?>
-					</div>
-				</div>
-				<?php echo $this->form->renderField('urlc', 'urls'); ?>
-				<?php echo $this->form->renderField('urlctext', 'urls'); ?>
-				<div class="control-group">
-					<div class="controls">
-						<?php echo $this->form->getInput('targetc', 'urls'); ?>
-					</div>
-				</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
