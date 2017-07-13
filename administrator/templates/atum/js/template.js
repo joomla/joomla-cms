@@ -97,7 +97,7 @@ Joomla = window.Joomla || {};
 			menuToggle.addEventListener('click', function(e) {
 				wrapper.classList.toggle('closed');
 
-				var listItems = document.querySelectorAll('.main-nav li');
+				var listItems = document.querySelectorAll('.main-nav > li');
 				for (var i = 0; i < listItems.length; i++) {
 				 	listItems[i].classList.remove('open');
 				}
@@ -134,7 +134,7 @@ Joomla = window.Joomla || {};
 					// Auto Expand First Level
 					if (!allLinks[i].parentNode.classList.contains('parent')) {
 						mainNav.classList.add('child-open');
-						var firstLevel = allLinks[i].closest('.collapse-level-1');
+						var firstLevel = closest(allLinks[i], '.collapse-level-1');
     						if (firstLevel) firstLevel.parentNode.classList.add('open');
 					}
 				}
@@ -155,8 +155,8 @@ Joomla = window.Joomla || {};
 				var menuItem = this.parentNode;
 
 				if (menuItem.classList.contains('open')) {
-					menuItem.classList.remove('open');
 					mainNav.classList.remove('child-open');
+					menuItem.classList.remove('open');
 				}
 				else {
 					var siblings = menuItem.parentNode.children;
@@ -164,8 +164,10 @@ Joomla = window.Joomla || {};
 					 	siblings[i].classList.remove('open');
 					}
 					wrapper.classList.remove('closed');
-					menuItem.classList.add('open');
 					mainNav.classList.add('child-open');
+					if (menuItem.parentNode.classList.contains('main-nav')) {
+						menuItem.classList.add('open');
+					}
 				}
 			};
 

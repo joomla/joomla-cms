@@ -123,6 +123,7 @@ $doNotPackage = array(
 	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
+	'drone-package.json',
 	'codeception.yml',
 	'RoboFile.php',
 	'RoboFile.dist.ini',

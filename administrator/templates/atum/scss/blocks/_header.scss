@@ -50,13 +50,9 @@
       margin-left: .4rem;
     }
   }
-
-  .nav-item + .nav-item {
-    margin-left: 1px;
-  }
-
   .nav-item {
-    background-color: darken($atum-template-color, 10%);
+    background-color: $header-icons-bg;
+    border-left: 1px solid $atum-template-color;
   }
 
   .nav-link {
@@ -100,6 +96,10 @@
     min-width: 280px;
     padding: 0;
     border: 0;
+
+    h2 {
+      font-size: $font-size-h5;
+    }
   }
 
   .dropdown-menu::after {
@@ -136,6 +136,13 @@
     margin-bottom: 0;
   }
 
+  .joomla-version {
+    margin-right: .9rem;
+    margin-bottom: 0;
+    font-size: $font-size-h5;
+    color: $white-offset;
+  }
+
 }
 
 @include media-breakpoint-down(md) {
@@ -163,7 +170,7 @@
     width: $header-height;
     line-height: $header-height;
     color: $white;
-    background-color: rgba($white, .15);
+    background-color: $header-icons-bg;
   }
 
 }
