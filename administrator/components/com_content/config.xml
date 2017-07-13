@@ -432,8 +432,8 @@
 		<field
 			name="show_urls_images_frontend"
 			type="radio"
-			label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
-			description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
+			label="COM_CONTENT_SHOW_IMAGES_FRONT_LABEL"
+			description="COM_CONTENT_SHOW_IMAGES_FRONT_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -444,8 +444,8 @@
 		<field
 			name="show_urls_images_backend"
 			type="radio"
-			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
-			description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
+			label="COM_CONTENT_SHOW_IMAGES_BACK_LABEL"
+			description="COM_CONTENT_SHOW_IMAGES_BACK_DESC"
 			class="switcher"
 			default="0"
 			>

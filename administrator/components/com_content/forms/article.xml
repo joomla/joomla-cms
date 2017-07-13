@@ -589,8 +589,8 @@
 			<field
 				name="show_urls_images_backend"
 				type="list"
-				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
-				description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
+				label="COM_CONTENT_SHOW_IMAGES_BACK_LABEL"
+				description="COM_CONTENT_SHOW_IMAGES_BACK_DESC"
 				useglobal="true"
 				default=""
 				>
@@ -601,8 +601,8 @@
 			<field
 				name="show_urls_images_frontend"
 				type="list"
-				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
-				description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
+				label="COM_CONTENT_SHOW_IMAGES_FRONT_LABEL"
+				description="COM_CONTENT_SHOW_IMAGES_FRONT_DESC"
 				useglobal="true"
 				default=""
 				>
