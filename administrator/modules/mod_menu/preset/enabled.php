@@ -322,6 +322,7 @@ if ($im || $mm || $pm || $tm || $lm)
 		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings'));
 		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages'));
 		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DOWNLOADKEYS'), 'index.php?option=com_installer&view=downloadkeys'));
 		$this->getParent();
 	}
 
