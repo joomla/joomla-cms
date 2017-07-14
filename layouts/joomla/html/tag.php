@@ -37,7 +37,7 @@ $chosenAjaxSettings = new Registry(
 
 JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
 
-// Allow custom values ?
+// Allow custom values?
 if ($allowCustom)
 {
 	JFactory::getDocument()->addScriptDeclaration(
