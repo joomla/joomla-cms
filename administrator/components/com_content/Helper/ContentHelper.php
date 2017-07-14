@@ -279,7 +279,8 @@ class ContentHelper extends \JHelperContent
 	/**
 	 * Returns array of transitions
 	 *
-	 * @param   string  $state  State of item
+	 * @param   string   $state  State of item
+     * @param   integer  $catid  Category Id
 	 *
 	 * @return  array
 	 *
@@ -290,8 +291,8 @@ class ContentHelper extends \JHelperContent
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-//		$query
-//			->select($db->qn('id'))
+// $query
+// ->select($db->qn('id'))
 
 		$query
 			->select($db->qn('id') . ' AS value, ' . $db->qn('title') . ' AS text')

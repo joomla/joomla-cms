@@ -167,7 +167,7 @@ $assoc = JLanguageAssociations::isEnabled();
 									</div>
 								</td>
 								<td class="text-center">
-									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="changeTransitionID(this.value)"', 'value', 'text',  5 ); ?>
+									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="changeTransitionID(this.value)"', 'value', 'text',  5); ?>
 								</td>
 								<td class="has-context">
 									<div class="break-word">

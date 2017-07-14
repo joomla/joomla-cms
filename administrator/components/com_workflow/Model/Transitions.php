@@ -104,11 +104,13 @@ class Transitions extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$select = $db->quoteName(array(
+		$select = $db->quoteName(
+			array(
 			'transition.id',
 			'transition.title',
 			'transition.published',
-		));
+		)
+		);
 		$select[] = $db->qn('f_state.title') . ' AS ' . $db->qn('from_state');
 		$select[] = $db->qn('t_state.title') . ' AS ' . $db->qn('to_state');
 		$joinTo = $db->qn('#__workflow_states') . ' AS ' . $db->qn('t_state') . ' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('transition.to_state_id');

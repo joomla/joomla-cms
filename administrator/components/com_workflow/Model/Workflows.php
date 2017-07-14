@@ -107,14 +107,16 @@ class  Workflows extends ListModel
 	{
 		$db     = $this->getDbo();
 		$query  = $db->getQuery(true);
-		$select = $db->quoteName(array(
+		$select = $db->quoteName(
+			array(
 			'w.id',
 			'w.title',
 			'w.created',
 			'w.published',
 			'w.default',
 			'u.name'
-		));
+		)
+		);
 
 		$query
 			->select($select)
