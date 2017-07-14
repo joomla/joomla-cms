@@ -66,6 +66,11 @@ class InstallerHelper
 			'index.php?option=com_installer&view=updatesites',
 			$vName == 'updatesites'
 		);
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_INSTALLER_SUBMENU_DOWNLOADKEYS'),
+			'index.php?option=com_installer&view=downloadkeys',
+			$vName == 'downloadkeys'
+		);
 	}
 
 	/**
