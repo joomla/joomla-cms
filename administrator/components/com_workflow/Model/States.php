@@ -98,8 +98,9 @@ class States extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db = $this->getDbo();
+
+		$query = parent::getListQuery();
 
 		$select = $db->quoteName(
 					array(
@@ -132,14 +133,14 @@ class States extends ListModel
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where($db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search);
+			$query->where('(' . $db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'id');
-		$orderDirn 	= $this->state->get('list.direction', 'asc');
+		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
 
-		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn));
+		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));
 
 		return $query;
 	}
