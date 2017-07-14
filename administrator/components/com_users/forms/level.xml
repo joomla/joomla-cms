@@ -13,7 +13,6 @@
 			name="title" 
 			type="text"
 			label="COM_USERS_LEVEL_FIELD_TITLE_LABEL"
-			description="COM_USERS_LEVEL_FIELD_TITLE_DESC"
 			required="true"
 			size="50"
 		/>
