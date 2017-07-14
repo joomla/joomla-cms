@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 
 JHtml::_('jquery.framework');
-JHtml::_('bootstrap.tooltip');
-
 JHtml::_('behavior.core');
 JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 

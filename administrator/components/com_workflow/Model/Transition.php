@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Admin;
 
 /**
@@ -46,6 +47,8 @@ class Transition extends Admin
 
 		if ($data['to_state_id'] == $data['from_state_id'])
 		{
+			Factory::getApplication()->enqueueMessage('You choose the same state from and to', 'error');
+
 			return false;
 		}
 
@@ -54,7 +57,8 @@ class Transition extends Admin
 			->select($db->qn('id'))
 			->from($db->qn('#__workflow_transitions'))
 			->where(
-				$db->qn('from_state_id') . ' = ' . (int) $data['from_state_id'] . ' AND ' . $db->qn('to_state_id') . ' = ' . (int) $data['to_state_id']
+				$db->qn('from_state_id') . ' = ' . (int) $data['from_state_id'] .
+				' AND ' . $db->qn('to_state_id') . ' = ' . (int) $data['to_state_id']
 			);
 
 		if (!$isNew)
@@ -67,10 +71,12 @@ class Transition extends Admin
 
 		if (!empty($checkDupliaction))
 		{
+			Factory::getApplication()->enqueueMessage('That transition already is', 'error');
+
 			return false;
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'cmd');
 		$data['workflow_id'] = (int) $workflowID;
 
@@ -101,6 +107,8 @@ class Transition extends Admin
 
 		if (empty($form))
 		{
+			Factory::getApplication()->enqueueMessage('There was a problem with setting form', 'error');
+
 			return false;
 		}
 
@@ -118,7 +126,7 @@ class Transition extends Admin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState(
+		$data = Factory::getApplication()->getUserState(
 			'com_workflow.edit.transition.data',
 			array()
 		);

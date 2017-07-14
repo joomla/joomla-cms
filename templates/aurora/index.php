@@ -81,8 +81,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
-	<header class="header<?php echo $headerMargin; ?>">
-		<nav class="navbar navbar-toggleable-md navbar-full <?php echo $container; ?>">
+	<header class="header full-width">
+		<nav class="navbar navbar-toggleable-md navbar-full">
 			<div class="navbar-brand">
 				<a href="<?php echo $this->baseurl; ?>/">
 					<?php echo $logo; ?>
@@ -109,91 +109,74 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</header>
 
 	<?php if ($this->countModules('banner')) : ?>
-		<div class="banner mb-3">
-			<jdoc:include type="modules" name="banner" style="xhtml" />
-		</div>
+	<div class="container-banner full-width">
+		<jdoc:include type="modules" name="banner" style="xhtml" />
+	</div>
 	<?php endif; ?>
 
-	<div class="<?php echo $container; ?>">
+	<?php if ($this->countModules('top-a')) : ?>
+	<div class="container-top-a">
+		<jdoc:include type="modules" name="top-a" style="cardGrey" />
+	</div>
+	<?php endif; ?>
 
-		<?php if ($this->countModules('top-a')) : ?>
-			<div class="row">
-				<jdoc:include type="modules" name="top-a" style="cardGrey" />
-			</div>
+	<?php if ($this->countModules('top-b')) : ?>
+	<div class="container-top-b">
+		<jdoc:include type="modules" name="top-b" style="card" />
+	</div>
+	<?php endif; ?>
+
+	<div class="container-main">
+
+		<?php if ($this->countModules('sidebar-left')) : ?>
+		<div class="container-sidebar-left">
+			<jdoc:include type="modules" name="sidebar-left" style="default" />
+		</div>
 		<?php endif; ?>
 
-		<?php if ($this->countModules('top-b')) : ?>
-			<div class="row">
-				<jdoc:include type="modules" name="top-b" style="card" />
-			</div>
-		<?php endif; ?>
-
-		<div class="row">
-
-			<?php if ($this->countModules('sidebar-left')) : ?>
-				<div id="sidebar-left" class="col-md-<?php echo $this->params->get('sidebarLeftWidth', 3); ?>">
-					<div class="row">
-						<jdoc:include type="modules" name="sidebar-left" style="default" />
-					</div>
-				</div>
-			<?php endif; ?>
-
-			<main id="content" role="main" class="col content">
-
-				<?php if ($this->countModules('main-top')) : ?>
-					<div class="row">
-						<jdoc:include type="modules" name="main-top" style="cardGrey" />
-					</div>
-				<?php endif; ?>
-
-				<jdoc:include type="message" />
-				<jdoc:include type="component" />
-				<jdoc:include type="modules" name="breadcrumbs" style="none" />
-
-				<?php if ($this->countModules('main-bottom')) : ?>
-					<div class="row">
-						<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
-					</div>
-				<?php endif; ?>
-
-			</main>
-
-			<?php if ($this->countModules('sidebar-right')) : ?>
-				<div id="sidebar-right" class="col-md-<?php echo $this->params->get('sidebarRightWidth', 3); ?>">
-					<div class="row">
-						<jdoc:include type="modules" name="sidebar-right" style="default" />
-					</div>
-				</div>
-			<?php endif; ?>
-
+		<div class="container-component">
+			<jdoc:include type="modules" name="main-top" style="cardGrey" />
+			<jdoc:include type="message" />
+			<jdoc:include type="component" />
+			<jdoc:include type="modules" name="breadcrumbs" style="none" />
+			<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 		</div>
 
-		<?php if ($this->countModules('bottom-a')) : ?>
-			<div class="row">
-				<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
-			</div>
-		<?php endif; ?>
-
-		<?php if ($this->countModules('bottom-b')) : ?>
-			<div class="row">
-				<jdoc:include type="modules" name="bottom-b" style="card" />
-			</div>
+		<?php if ($this->countModules('sidebar-right')) : ?>
+		<div class="container-sidebar-right">
+			<jdoc:include type="modules" name="sidebar-right" style="default" />
+		</div>
 		<?php endif; ?>
 
 	</div>
 
-	<footer class="footer" role="contentinfo">
-		<div class="<?php echo $container; ?>">
-			<hr>
-			<p class="float-right">
-				<a href="#top" id="back-top" class="back-top">
-					<span class="icon-arrow-up-4"><span class="sr-only"><?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?></span></span>
-				</a>
-			</p>
-			<jdoc:include type="modules" name="footer" style="none" />
-		</div>
-	</footer>
+	<?php if ($this->countModules('bottom-a')) : ?>
+	<div class="container-bottom-a">
+		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
+	</div>
+	<?php endif; ?>
 
-	<jdoc:include type="modules" name="debug" style="none" />
+	<?php if ($this->countModules('bottom-b')) : ?>
+	<div class="container-bottom-b">
+		<jdoc:include type="modules" name="bottom-b" style="card" />
+	</div>
+	<?php endif; ?>
+
+	<?php if ($this->countModules('footer')) : ?>
+	<footer class="container-footer footer">
+		<hr>
+		<p class="float-right">
+			<a href="#top" id="back-top" class="back-top">
+				<span class="icon-arrow-up-4" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?></span>
+			</a>
+		</p>
+		<jdoc:include type="modules" name="footer" style="none" />
+	</footer>
+	<?php endif; ?>
+
+<jdoc:include type="modules" name="debug" style="none" />
+
+
 </body>
 </html>

@@ -14,6 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Admin;
 
 /**
@@ -31,7 +32,7 @@ class Workflow extends Admin
 	 *
 	 * @param   array  $data  The form data.
 	 *
-	 * @return   boolean  True on success.
+	 * @return  boolean True on success.
 	 *
 	 * @since 4.0
 	 */
@@ -47,17 +48,12 @@ class Workflow extends Admin
 
 		if ($data['default'] == '1')
 		{
-			$db    = $this->getDbo();
-			$query = $db->getQuery(true);
-			$query
-				->select($db->qn('id'))
-				->from($db->qn('#__workflows'))
-				->where($db->qn('default') . ' = ' . $db->escape($data['default']));
-			$db->setQuery($query);
-			$res = $db->loadResult();
+			$table = $this->getTable();
 
-			if (!empty($res))
+			if ($table->load(array('default' => '1')) && $table->id != $data['id'])
 			{
+				Factory::getApplication()->enqueueMessage('Default workflow already is', 'error');
+
 				return false;
 			}
 		}
@@ -89,6 +85,8 @@ class Workflow extends Admin
 
 		if (empty($form))
 		{
+			Factory::getApplication()->enqueueMessage('There was a error with setting form', 'error');
+
 			return false;
 		}
 

@@ -86,14 +86,8 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration(
-<<<JS
-document.addEventListener('DOMContentLoaded',  function() {
-	new JCaption('$selector');
-});
-JS
-		);
+		// Pass the required options to the javascript
+		JFactory::getDocument()->addScriptOptions('js-image-caption', ['selector' => $selector]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
@@ -626,9 +620,10 @@ JS
 			return;
 		}
 
+		// @TODO remove the dependencies, deprecate this and incorporate the functionality in the tabs custom element!
 		JHtml::_('jquery.framework');
-		JHtml::_('behavior.polyfill', array('xpath'));
-		JHtml::_('script', 'system/tabs-state.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('behavior.polyfill', ['wgxpath']);
+		JHtml::_('script', 'system/tabs-state.min.js', ['version' => 'auto', 'relative' => true]);
 		self::$loaded[__METHOD__] = true;
 	}
 
@@ -663,7 +658,7 @@ JS
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			JHtml::_('script', 'system/polyfill-' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;

@@ -97,5 +97,4 @@ class Transition extends Form
 
 		return $append;
 	}
-
 }

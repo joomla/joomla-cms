@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -22,6 +23,23 @@ use Joomla\Utilities\ArrayHelper;
  */
 class States extends Admin
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array               $config  An optional associative array of configuration settings.
+	 *                                       Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                       'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface $factory The factory.
+	 * @param   CmsApplication      $app     The JApplication for the dispatcher
+	 * @param   \JInput             $input   Input
+	 *
+	 * @since   3.0
+	 */
+	public function __construct(array $config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	{
+		parent::__construct($config, $factory, $app, $input);
+		$this->registerTask('unsetDefault',	'setDefault');
+	}
 
 	/**
 	 * Proxy for getModel
