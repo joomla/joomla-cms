@@ -23,9 +23,16 @@
 
 		<field
 				name="created_by"
-				type="author"
+				type="sql"
 				label="COM_CONTENT_FILTER_AUTHOR"
 				description="COM_CONTENT_FILTER_AUTHOR_DESC"
+				sql_select="u.id, u.name"
+				sql_from="#__users u, #__workflows w"
+				sql_where="u.id=w.created_by"
+				sql_group="u.id,u.name"
+				sql_order="u.name"
+				key_field="id"
+				value_field="name"
 				onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_AUTHOR</option>
