@@ -157,7 +157,7 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
-									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text',  5 ); ?>
+									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text',  5); ?>
 								</td>
 								<td class="has-context">
 									<div class="break-word">

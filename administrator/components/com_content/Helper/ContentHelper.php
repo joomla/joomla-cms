@@ -279,8 +279,7 @@ class ContentHelper extends \JHelperContent
 	/**
 	 * Returns array of transitions
 	 *
-	 * @param   string   $state  State of item
-     * @param   integer  $catid  Category Id
+	 * @param   string  $state  State of item
 	 *
 	 * @return  array
 	 *

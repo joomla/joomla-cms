@@ -120,8 +120,7 @@ class Transitions extends ListModel
 		$query
 			->select($select)
 			->from($db->qn('#__workflow_transitions') . ' AS ' . $db->qn('transition'))
-			->leftJoin
-			(
+			->leftJoin(
 				$db->qn('#__workflow_states') . ' AS ' . $db->qn('f_state') . ' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('transition.from_state_id')
 			)
 			->leftJoin($joinTo);
