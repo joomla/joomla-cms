@@ -9,7 +9,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 ?>
 <?php foreach ($this->transitions as $i => $item):
 	$link = JRoute::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension);

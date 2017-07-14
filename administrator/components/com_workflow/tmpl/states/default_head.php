@@ -9,7 +9,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 ?>

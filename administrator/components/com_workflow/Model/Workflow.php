@@ -12,7 +12,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Admin;

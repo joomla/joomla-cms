@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;

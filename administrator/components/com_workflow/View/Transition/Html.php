@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\View\HtmlView;
