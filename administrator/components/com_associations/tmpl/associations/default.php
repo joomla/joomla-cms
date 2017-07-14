@@ -50,11 +50,9 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 							</th>
-							<?php if (JLanguageMultilang::isEnabled()) : ?>
-								<th style="width:15%" class="nowrap ">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-								</th>
-							<?php endif; ?>							
+							<th style="width:15%" class="nowrap ">
+								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							</th>
 							<th style="width:5%" class="nowrap">
 								<?php echo JText::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 							</th>
@@ -120,11 +118,9 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 									</div>
 								<?php endif; ?>
 							</td>
-							<?php if (JLanguageMultilang::isEnabled()) : ?>
-								<td class="small">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
-							<?php endif; ?>
+							<td class="small">
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							</td>
 							<td>
 								<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>
 							</td>
