@@ -96,7 +96,7 @@ class Html extends HtmlView
 
 		WorkflowHelper::addSubmenu(
 			implode(
-			'.', array(
+				'.', array(
 			"states",
 			$this->state->get("filter.workflow_id"),
 			$this->state->get("filter.extension")

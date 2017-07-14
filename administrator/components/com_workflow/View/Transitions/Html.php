@@ -120,7 +120,7 @@ class Html extends HtmlView
 
 		WorkflowHelper::addSubmenu(
 			implode(
-			'.', array(
+				'.', array(
 			"transitions",
 			$this->workflowID,
 			$this->extension
