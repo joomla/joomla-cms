@@ -1,7 +1,13 @@
 // Quick Icons
 
+.quickicons-container {
+  padding: 18px ($grid-gutter-width-base / 2) 0;
+  margin: -$grid-gutter-width-base;
+  margin-bottom: $grid-gutter-width-base;
+  background-color: $atum-template-color;
+}
+
 .quick-icons {
-  margin-bottom: -14px;
 
   *,
   *::before,
@@ -15,7 +21,8 @@
     margin-bottom: 15px;
     overflow: hidden;
     color: $white-offset;
-    background-color: $atum-template-color;
+    background-color: $quickicon-bg;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.1) 100%);
     border-radius: $border-radius;
 
     @include media-breakpoint-only(xs) {
@@ -25,7 +32,6 @@
       overflow: visible;
       color: $white;
       text-align: center;
-      background: $atum-template-color;
       border-radius: 50%;
     }
 
@@ -39,9 +45,10 @@
     &:hover,
     &:focus {
       text-decoration: none;
+      background-color: lighten($quickicon-bg, 5%);
 
       &::before {
-        color: lighten($atum-template-color, 10%);
+        color: lighten($quickicon-bg, 12%);
       }
 
     }
@@ -73,7 +80,7 @@
         font-size: 2.5rem;
         font-weight: normal;
         line-height: 4.7rem;
-        background-color: lighten($atum-template-color, 10%);
+        background-color: rgba(255,255,255,.1);
         border-right: 1px solid rgba($white,.15);
 
         @include media-breakpoint-only(xs) {
@@ -95,7 +102,7 @@
       right: -40px;
       font-family: FontAwesome;
       font-size: 10em;
-      color: lighten($atum-template-color, 5%);
+      color: lighten($quickicon-bg, 5%);
       content: "\f1aa";
       transform: rotate(20deg);
 
@@ -147,7 +154,7 @@
     }
 
     @include media-breakpoint-only(xs) {
-      background: $brand-success;
+      background: lighten($brand-success, 7%);
       animation: none;
     }
 
@@ -155,7 +162,7 @@
 
       &[class*=" icon-"],
       &[class^="icon-"] {
-        background-color: $brand-success;
+        background-color: lighten($brand-success, 7%);
 
         @include media-breakpoint-only(xs) {
           background: none;

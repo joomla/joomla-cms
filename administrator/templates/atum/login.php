@@ -16,7 +16,6 @@ $lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('bootstrap.tooltip');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 
 // Load template CSS file
@@ -81,7 +80,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			</noscript>
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
-				<h2 class="text-center mt-1 mb-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
+				<h1 class="text-center mt-1 mb-4"><?php echo JText::_('MOD_LOGIN_LOGIN_TITLE'); ?></h1>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>

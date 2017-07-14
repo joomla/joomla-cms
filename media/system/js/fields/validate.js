@@ -28,11 +28,13 @@ var JFormValidator = function() {
 
 	    handleResponse = function(state, el, empty) {
 		    // Set the element and its label (if exists) invalid state
-		    if (state === false) {
-			    markInvalid(el, empty);
+			if (el.tagName.toLowerCase() !== 'button' && el.value !== 'undefined') {
+				if (state === false) {
+					markInvalid(el, empty);
 
-		    } else {
-			    markValid(el);
+				} else {
+					markValid(el);
+				}
 		    }
 	    },
 
@@ -249,7 +251,6 @@ var JFormValidator = function() {
 
 			    // Attach isValid method to submit button
 			    if ((tagName === 'input' || tagName === 'button') && (el.getAttribute('type') === 'submit' || el.getAttribute('type') === 'image')) {
-
 				    if (el.classList.contains('validate')) {
 					    el.addEventListener('click', function() {
 						    return isValid(form);

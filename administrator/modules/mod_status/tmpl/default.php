@@ -22,14 +22,14 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<li class="nav-item">
 			<a class="nav-link" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
-				<span class="fa fa-external-link" aria-hidden="true"></span>
+				<span class="fa fa-external-link-square" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?></span>
 			</a>
 		</li>
 
 		<li class="nav-item">
 			<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
-				<span class="fa fa-envelope-o" aria-hidden="true"></span>
+				<span class="fa fa-envelope" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
 				<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
 				<?php if ($countUnread > 0) : ?>
@@ -41,7 +41,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
-				<span class="fa fa-bell-o" aria-hidden="true"></span>
+				<span class="fa fa-bell" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 				<?php if (count($messages) > 0) : ?>
 					<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
@@ -69,7 +69,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<li class="nav-item dropdown header-profile">
 			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-				<span class="fa fa-user-o" aria-hidden="true"></span>
+				<span class="fa fa-user" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">

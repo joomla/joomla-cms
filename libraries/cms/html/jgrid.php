@@ -57,8 +57,6 @@ abstract class JHtmlJGrid
 
 		if ($tip)
 		{
-			JHtml::_('bootstrap.tooltip');
-
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? JText::_($title) : $title;
 			$title = JHtml::_('tooltipText', $title, '', 0);
@@ -328,8 +326,6 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		if (is_array($prefix))
 		{
 			$options = $prefix;

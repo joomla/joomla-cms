@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 JHtml::_('jquery.framework');
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));
