@@ -118,7 +118,8 @@ class Html extends HtmlView
 		$this->filterForm->setFieldAttribute('from_state', 'query', $sqlStatesFrom);
 		$this->filterForm->setFieldAttribute('to_state', 'query', $sqlStatesTo);
 
-		WorkflowHelper::addSubmenu(implode(
+		WorkflowHelper::addSubmenu(
+			implode(
 			'.', array(
 			"transitions",
 			$this->workflowID,
