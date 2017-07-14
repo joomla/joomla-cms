@@ -77,7 +77,7 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Get name by passing number
 	 *
-	 * @param   int     $number   Enum of condition
+	 * @param   int  $number  Enum of condition
 	 *
 	 * @return  string
 	 *

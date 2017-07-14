@@ -94,11 +94,15 @@ class Html extends HtmlView
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
 
-		WorkflowHelper::addSubmenu(implode('.', array(
+		WorkflowHelper::addSubmenu(
+			implode(
+				'.', array(
 			"states",
 			$this->state->get("filter.workflow_id"),
 			$this->state->get("filter.extension")
-		)));
+		)
+		)
+		);
 		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
 

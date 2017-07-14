@@ -130,8 +130,8 @@ class State extends Admin
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array   $pks    A list of the primary keys to change.
-	 * @param   integer $value  The value of the home state.
+	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
 	 *

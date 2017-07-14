@@ -156,14 +156,8 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
-<!--								<td class="text-center">-->
-<!--									<div class="btn-group">-->
-<!--										--><?php //echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-<!--										--><?php //echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-<!--									</div>-->
-<!--								</td>-->
 								<td class="text-center">
-									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text',  5 ); ?>
+									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text',  5); ?>
 								</td>
 								<td class="has-context">
 									<div class="break-word">
