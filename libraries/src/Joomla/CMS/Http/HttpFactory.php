@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Http;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Http\Http;
+use Joomla\CMS\Http\TransportInterface;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTTP factory class.
  *
  * @since  12.1
  */
-class JHttpFactory
+class HttpFactory
 {
 	/**
 	 * method to receive Http instance.
@@ -24,7 +28,7 @@ class JHttpFactory
 	 * @param   Registry  $options   Client options object.
 	 * @param   mixed     $adapters  Adapter (string) or queue of adapters (array) to use for communication.
 	 *
-	 * @return  JHttp      Joomla Http class
+	 * @return  Http      Joomla Http class
 	 *
 	 * @throws  RuntimeException
 	 *
@@ -39,10 +43,10 @@ class JHttpFactory
 
 		if (!$driver = self::getAvailableDriver($options, $adapters))
 		{
-			throw new RuntimeException('No transport driver available.');
+			throw new \RuntimeException('No transport driver available.');
 		}
 
-		return new JHttp($options, $driver);
+		return new Http($options, $driver);
 	}
 
 	/**
@@ -51,7 +55,7 @@ class JHttpFactory
 	 * @param   Registry  $options  Option for creating http transport object
 	 * @param   mixed     $default  Adapter (string) or queue of adapters (array) to use
 	 *
-	 * @return  JHttpTransport Interface sub-class
+	 * @return  TransportInterface Interface sub-class
 	 *
 	 * @since   12.1
 	 */
@@ -75,7 +79,12 @@ class JHttpFactory
 
 		foreach ($availableAdapters as $adapter)
 		{
-			$class = 'JHttpTransport' . ucfirst($adapter);
+			$class = __NAMESPACE__ . '\\Transport\\' . ucfirst($adapter) . 'Transport';
+
+			if (!class_exists($class))
+			{
+				$class = 'JHttpTransport' . ucfirst($adapter);
+			}
 
 			if (class_exists($class) && $class::isSupported())
 			{
@@ -96,7 +105,7 @@ class JHttpFactory
 	public static function getHttpTransports()
 	{
 		$names = array();
-		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+		$iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
 		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
@@ -106,7 +115,7 @@ class JHttpFactory
 			// Only load for php files.
 			if ($file->isFile() && $file->getExtension() == 'php')
 			{
-				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
+				$names[] = substr($fileName, 0, strrpos($fileName, 'Transport.'));
 			}
 		}
 
@@ -114,10 +123,10 @@ class JHttpFactory
 		sort($names);
 
 		// If curl is available set it to the first position
-		if ($key = array_search('curl', $names))
+		if ($key = array_search('Curl', $names))
 		{
 			unset($names[$key]);
-			array_unshift($names, 'curl');
+			array_unshift($names, 'Curl');
 		}
 
 		return $names;

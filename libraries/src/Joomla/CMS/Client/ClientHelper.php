@@ -222,7 +222,7 @@ class ClientHelper
 			{
 				if (class_exists('JError'))
 				{
-					$return = \JError::raiseWarning('SOME_ERROR_CODE', \JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+					$return = \JError::raiseWarning(500, \JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
 				}
 				else
 				{
