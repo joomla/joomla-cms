@@ -32,11 +32,11 @@ defined('_JEXEC') or die;
 							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 						<?php endif; ?>
 
-						<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
+						<?php if ($this->errorSchemaVersion) : ?>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->getSchema()); ?></li>
 						<?php endif; ?>
 
-						<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
+						<?php if ($this->errorUpdateVersion) : ?>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $this->updateVersion, JVERSION); ?></li>
 						<?php endif; ?>
 

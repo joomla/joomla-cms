@@ -35,6 +35,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->changeSet = $this->get('Items');
+		$this->changeSetVersion = $this->changeSet->getSchema();
 		$this->errors = $this->changeSet->check();
 		$this->results = $this->changeSet->getStatus();
 		$this->schemaVersion = $this->get('SchemaVersion');
@@ -44,10 +45,14 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->updateVersion = $this->updateVersion ?: JText::_('JNONE');
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
+		$this->errorSchemaVersion = false;
+		$this->errorUpdateVersion = false;
+		$this->incompleteCoreUpdate = false;
 
-		if ($this->schemaVersion != $this->changeSet->getSchema())
+		if ($this->schemaVersion != $this->changeSetVersion)
 		{
 			$this->errorCount++;
+			$this->errorSchemaVersion = true;
 		}
 
 		if (!$this->filterParams)
@@ -58,11 +63,29 @@ class InstallerViewDatabase extends InstallerViewDefault
 		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
+			$this->errorUpdateVersion = true;
+		}
+
+		if (version_compare($this->schemaVersion, $this->changeSetVersion) < 0
+			&& version_compare($this->updateVersion, JVERSION) < 0)
+		{
+			$this->incompleteCoreUpdate = true;
 		}
 
 		if ($this->errorCount === 0)
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
+		}
+		else if ($this->incompleteCoreUpdate)
+		{
+			$app->enqueueMessage(
+				JText::sprintf(
+					'COM_INSTALLER_MSG_DATABASE_INCOMPLETE_UPDATE',
+					JText::_('COM_INSTALLER_TOOLBAR_FINALISE_CORE_UPDATE'),
+					JText::_('COM_INSTALLER_TOOLBAR_DATABASE_FIX')
+				),
+				'warning'
+			);
 		}
 		else
 		{
@@ -86,6 +109,13 @@ class InstallerViewDatabase extends InstallerViewDefault
 		 */
 		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
 		JToolbarHelper::divider();
+
+		if ($this->incompleteCoreUpdate)
+		{
+			JToolbarHelper::custom('database.finaliseUpdate', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FINALISE_CORE_UPDATE', false);
+			JToolbarHelper::divider();
+		}
+
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
 	}
