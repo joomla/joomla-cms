@@ -355,3 +355,9 @@ JLoader::registerAlias('JStringPunycode',                   '\\Joomla\\CMS\\Stri
 
 JLoader::registerAlias('JBuffer',                           '\\Joomla\\CMS\\Utility\\BufferStreamHandler', '5.0');
 JLoader::registerAlias('JUtility',                          '\\Joomla\\CMS\\Utility\\Utility', '5.0');
+
+JLoader::registerAlias('JInputCli',                         '\\Joomla\\CMS\\Input\\Cli', '5.0');
+JLoader::registerAlias('JInputCookie',                      '\\Joomla\\CMS\\Input\\Cookie', '5.0');
+JLoader::registerAlias('JInputFiles',                       '\\Joomla\\CMS\\Input\\Files', '5.0');
+JLoader::registerAlias('JInput',                            '\\Joomla\\CMS\\Input\\Input', '5.0');
+JLoader::registerAlias('JInputJSON',                        '\\Joomla\\CMS\\Input\\Json', '5.0');

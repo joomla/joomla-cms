@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Input
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Input;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Input Cookie Class
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  5.0  Use Joomla\Input\Cookie instead
  */
-class JInputCookie extends JInput
+class Cookie extends Input
 {
 	/**
 	 * Constructor.
@@ -23,6 +27,7 @@ class JInputCookie extends JInput
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cookie instead
 	 */
 	public function __construct(array $source = null, array $options = array())
 	{
@@ -32,7 +37,7 @@ class JInputCookie extends JInput
 		}
 		else
 		{
-			$this->filter = JFilterInput::getInstance();
+			$this->filter = InputFilter::getInstance();
 		}
 
 		// Set the data source.
@@ -79,6 +84,7 @@ class JInputCookie extends JInput
 	 * @link    http://www.ietf.org/rfc/rfc2109.txt
 	 * @see     setcookie()
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cookie instead
 	 */
 	public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
 	{
