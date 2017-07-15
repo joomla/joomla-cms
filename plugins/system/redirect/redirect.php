@@ -119,13 +119,13 @@ class PlgSystemRedirect extends JPlugin
 
 		$uri = JUri::getInstance();
 
-		// This are the original URLs
+		// These are the original URLs
 		$orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 		$orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
 		$orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
 		$orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
 
-		// This are the URLs we save and use
+		// These are the URLs we save and use
 		$url                = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
 		$urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
 		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
