@@ -41,7 +41,7 @@ class InstallerControllerDatabase extends JControllerLegacy
 	}
 
 	/**
-	 * Finish core update
+	 * Finalise core update
 	 *
 	 * @return  void
 	 *
