@@ -44,14 +44,12 @@
 				name="menu_image" 
 				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" 
 			/>
 
 			<field
 				name="menu_text" 
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
 				class="switcher"
 				default="1" 
 				filter="integer"
@@ -64,7 +62,6 @@
 				name="menu_show"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
 				class="switcher"
 				default="1"
 				filter="integer"
