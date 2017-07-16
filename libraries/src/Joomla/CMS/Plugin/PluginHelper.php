@@ -45,7 +45,7 @@ abstract class PluginHelper
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}
@@ -92,7 +92,7 @@ abstract class PluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this the right plugin?
-				if ($p->type == $type)
+				if ($p->type === $type)
 				{
 					$result[] = $p;
 				}
@@ -103,7 +103,7 @@ abstract class PluginHelper
 			foreach ($plugins as $p)
 			{
 				// Is this plugin in the right group?
-				if ($p->type == $type && $p->name == $plugin)
+				if ($p->type === $type && $p->name === $plugin)
 				{
 					$result = $p;
 					break;
@@ -151,12 +151,23 @@ abstract class PluginHelper
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
+		if ($plugin === null && $autocreate === true && $dispatcher === null)
 		{
 			$defaults = true;
 		}
 
-		if (!isset($loaded[$type]) || !$defaults)
+		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
+		$dispatcher = $dispatcher ?: \JEventDispatcher::getInstance();
+
+		// Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
+		$dispatcherHash = spl_object_hash($dispatcher);
+
+		if (!isset($loaded[$dispatcherHash]))
+		{
+			$loaded[$dispatcherHash] = array();
+		}
+
+		if (!$defaults || !isset($loaded[$dispatcherHash][$type]))
 		{
 			$results = null;
 
@@ -166,7 +177,7 @@ abstract class PluginHelper
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++)
 			{
-				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin))
+				if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin))
 				{
 					static::import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
@@ -179,10 +190,10 @@ abstract class PluginHelper
 				return $results;
 			}
 
-			$loaded[$type] = $results;
+			$loaded[$dispatcherHash][$type] = $results;
 		}
 
-		return $loaded[$type];
+		return $loaded[$dispatcherHash][$type];
 	}
 
 	/**
@@ -217,30 +228,35 @@ abstract class PluginHelper
 	{
 		static $paths = array();
 
+		// Ensure we have a dispatcher now so we can correctly track the loaded paths
+		$dispatcher = $dispatcher ?: \JEventDispatcher::getInstance();
+
+		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
+		$dispatcherHash = spl_object_hash($dispatcher);
+
+		if (!isset($paths[$dispatcherHash]))
+		{
+			$paths[$dispatcherHash] = array();
+		}
+
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]))
+		if (!isset($paths[$dispatcherHash][$path]))
 		{
 			if (file_exists($path))
 			{
-				if (!isset($paths[$path]))
+				if (!isset($paths[$dispatcherHash][$path]))
 				{
 					require_once $path;
 				}
 
-				$paths[$path] = true;
+				$paths[$dispatcherHash][$path] = true;
 
 				if ($autocreate)
 				{
-					// Makes sure we have an event dispatcher
-					if (!is_object($dispatcher))
-					{
-						$dispatcher = \JEventDispatcher::getInstance();
-					}
-
 					$className = 'Plg' . $plugin->type . $plugin->name;
 
 					if (class_exists($className))
@@ -259,7 +275,7 @@ abstract class PluginHelper
 			}
 			else
 			{
-				$paths[$path] = false;
+				$paths[$dispatcherHash][$path] = false;
 			}
 		}
 	}

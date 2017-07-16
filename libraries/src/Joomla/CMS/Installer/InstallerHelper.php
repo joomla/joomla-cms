@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -131,7 +132,8 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$extract = \JArchive::extract($archivename, $extractdir);
+			$archive = new Archive;
+			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
 		{
@@ -177,7 +179,7 @@ abstract class InstallerHelper
 		 */
 		$dirList = array_merge((array) \JFolder::files($extractdir, ''), (array) \JFolder::folders($extractdir, ''));
 
-		if (count($dirList) == 1)
+		if (count($dirList) === 1)
 		{
 			if (\JFolder::exists($extractdir . '/' . $dirList[0]))
 			{
@@ -197,7 +199,7 @@ abstract class InstallerHelper
 		 */
 		$retval['type'] = self::detectType($extractdir);
 
-		if ($retval['type'] || $alwaysReturnArray)
+		if ($alwaysReturnArray || $retval['type'])
 		{
 			return $retval;
 		}
@@ -237,7 +239,7 @@ abstract class InstallerHelper
 				continue;
 			}
 
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				unset($xml);
 				continue;

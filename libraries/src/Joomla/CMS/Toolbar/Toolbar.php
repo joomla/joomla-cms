@@ -215,7 +215,7 @@ class Toolbar
 	{
 		$signature = md5($type);
 
-		if (isset($this->_buttons[$signature]) && $new === false)
+		if ($new === false && isset($this->_buttons[$signature]))
 		{
 			return $this->_buttons[$signature];
 		}
@@ -259,7 +259,6 @@ class Toolbar
 
 			if (!$buttonClass)
 			{
-				// @todo remove code: return \JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 				return false;
 			}
 		}
@@ -313,20 +312,19 @@ class Toolbar
 	 * @param   mixed  $path  Directory or directories to search.
 	 *
 	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	public function addButtonPath($path)
 	{
-		// Just force path to array.
-		settype($path, 'array');
-
 		// Loop through the path directories.
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) !== DIRECTORY_SEPARATOR)
 			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;

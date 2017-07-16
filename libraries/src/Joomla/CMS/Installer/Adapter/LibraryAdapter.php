@@ -42,6 +42,7 @@ class LibraryAdapter extends InstallerAdapter
 			{
 				// We can upgrade, so uninstall the old one
 				$installer = new Installer; // we don't want to compromise this instance!
+				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
 				// Clear the cached data
@@ -101,7 +102,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			$manifest = array();
 			$manifest['src'] = $this->parent->getPath('manifest');
@@ -119,7 +120,7 @@ class LibraryAdapter extends InstallerAdapter
 				$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 				$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-				if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+				if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 				{
 					if (!$this->parent->copyFiles(array($path)))
 					{
@@ -240,7 +241,7 @@ class LibraryAdapter extends InstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
@@ -341,6 +342,7 @@ class LibraryAdapter extends InstallerAdapter
 		if ($result)
 		{
 			// Already installed, which would make sense
+			$installer->setPackageUninstall(true);
 			$installer->uninstall('library', $result);
 
 			// Clear the cached data
@@ -369,7 +371,7 @@ class LibraryAdapter extends InstallerAdapter
 		// This should give us the necessary information to proceed.
 		$row = Table::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
+		if (!$row->load((int) $id) || $row->element === '')
 		{
 			\JLog::add(\JText::_('ERRORUNKOWNEXTENSION'), \JLog::WARNING, 'jerror');
 
@@ -417,7 +419,7 @@ class LibraryAdapter extends InstallerAdapter
 			}
 
 			// Check for a valid XML root tag.
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'), \JLog::WARNING, 'jerror');
 

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -41,19 +42,19 @@ final class SiteApplication extends CMSApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a \JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Input                   $input   An optional argument to provide dependency injection for the application's
+	 *                                           input object.  If the argument is a \JInput object that object will become
+	 *                                           the application's input object, otherwise a default input object is created.
 	 * @param   Registry                $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
+	 *                                           config object.  If the argument is a Registry object that object will become
+	 *                                           the application's config object, otherwise a default config object is created.
 	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
+	 *                                           client object.  If the argument is a \JApplicationWebClient object that object will become
+	 *                                           the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
+	public function __construct(Input $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
 		// Register the application name
 		$this->_name = 'site';
@@ -529,7 +530,7 @@ final class SiteApplication extends CMSApplication
 			{
 				foreach ($templates as $tmpl)
 				{
-					if ($tmpl->template == $template_override)
+					if ($tmpl->template === $template_override)
 					{
 						$template = $tmpl;
 						break;
@@ -551,7 +552,7 @@ final class SiteApplication extends CMSApplication
 
 			foreach ($templates as $tmpl)
 			{
-				if ($tmpl->template == 'beez3')
+				if ($tmpl->template === 'beez3')
 				{
 					$template = $tmpl;
 					break;
@@ -624,7 +625,7 @@ final class SiteApplication extends CMSApplication
 			}
 		}
 
-		if ($this->getLanguageFilter() && empty($options['language']))
+		if (empty($options['language']) && $this->getLanguageFilter())
 		{
 			// Detect cookie language
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
@@ -648,7 +649,7 @@ final class SiteApplication extends CMSApplication
 			}
 		}
 
-		if ($this->getDetectBrowser() && empty($options['language']))
+		if (empty($options['language']) && $this->getDetectBrowser())
 		{
 			// Detect browser language
 			$lang = \JLanguageHelper::detectLanguage();
@@ -750,7 +751,7 @@ final class SiteApplication extends CMSApplication
 				$template = $this->getTemplate(true);
 				$file     = $this->input->get('tmpl', 'index');
 
-				if (!$this->get('offline') && ($file == 'offline'))
+				if ($file === 'offline' && !$this->get('offline'))
 				{
 					$this->set('themeFile', 'index.php');
 				}

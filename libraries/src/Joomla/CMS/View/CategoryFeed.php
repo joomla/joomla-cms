@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class CategoryFeed extends View
+class CategoryFeed extends HtmlView
 {
 	/**
 	 * Execute and display a template script.
@@ -95,7 +95,7 @@ class CategoryFeed extends View
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;
-			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
+			$author      = $item->created_by_alias ?: $item->author;
 
 			if ($createdField)
 			{

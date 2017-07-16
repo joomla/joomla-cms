@@ -15,9 +15,8 @@ use Joomla\Filter\OutputFilter;
 /**
  * Wrapper class for OutputFilter
  *
- * @package     Joomla.Platform
- * @subpackage  Filter
  * @since       3.4
+ * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
  */
 class OutputFilterWrapper
 {
@@ -28,10 +27,11 @@ class OutputFilterWrapper
 	 * @param   integer  $quote_style   The optional quote style for the htmlspecialchars function.
 	 * @param   mixed    $exclude_keys  An optional string single field name or array of field names not.
 	 *
-	 * @return void
+	 * @return  void
 	 *
 	 * @see     OutputFilter::objectHTMLSafe()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function objectHTMLSafe(&$mixed, $quote_style = 3, $exclude_keys = '')
 	{
@@ -43,10 +43,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  $input  String to process.
 	 *
-	 * @return string  Processed string.
+	 * @return  string  Processed string.
 	 *
 	 * @see     OutputFilter::linkXHTMLSafe()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function linkXHTMLSafe($input)
 	{
@@ -58,10 +59,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  $string  String to process.
 	 *
-	 * @return string  Processed string.
+	 * @return  string  Processed string.
 	 *
 	 * @see     OutputFilter::stringURLSafe()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function stringURLSafe($string)
 	{
@@ -73,10 +75,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  $string  String to process.
 	 *
-	 * @return string  Processed string.
+	 * @return  string  Processed string.
 	 *
 	 * @see     OutputFilter::stringURLUnicodeSlug()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function stringURLUnicodeSlug($string)
 	{
@@ -88,10 +91,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  $text  Text to process.
 	 *
-	 * @return string  Processed string.
+	 * @return  string  Processed string.
 	 *
 	 * @see     OutputFilter::ampReplace()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function ampReplace($text)
 	{
@@ -103,10 +107,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  $m  String to process.
 	 *
-	 * @return string  Replaced string.
+	 * @return  string  Replaced string.
 	 *
 	 * @see     OutputFilter::_ampReplaceCallback()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function _ampReplaceCallback($m)
 	{
@@ -118,10 +123,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  &$text  Text to clean.
 	 *
-	 * @return string  Cleaned text.
+	 * @return  string  Cleaned text.
 	 *
 	 * @see     OutputFilter::cleanText()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function cleanText(&$text)
 	{
@@ -133,10 +139,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  $string  Sting to be cleaned.
 	 *
-	 * @return string  Cleaned string.
+	 * @return  string  Cleaned string.
 	 *
 	 * @see     OutputFilter::stripImages()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function stripImages($string)
 	{
@@ -148,10 +155,11 @@ class OutputFilterWrapper
 	 *
 	 * @param   string  $string  Sting to be cleaned.
 	 *
-	 * @return string  Cleaned string.
+	 * @return  string  Cleaned string.
 	 *
 	 * @see     OutputFilter::stripIframes()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
 	public function stripIframes($string)
 	{
