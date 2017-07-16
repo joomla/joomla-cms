@@ -20,4 +20,15 @@ use Joomla\CMS\Controller\Form;
  */
 class Downloadkey extends Form
 {
+	public function save()
+	{
+		$prefix = $this->input->get('dlidprefix', null, 'string');
+		$sufix = $this->input->get('dlidsufix', null, 'string');
+
+		$input = $this->input->post->get('jform', array(), 'array');
+		$input['extra_query'] = $prefix . $input['extra_query'] . $sufix;
+		$this->input->post->set('jform', $input);
+
+		parent::save();
+	}
 }

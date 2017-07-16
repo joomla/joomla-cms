@@ -80,17 +80,14 @@ class Html extends HtmlView
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo = ContentHelper::getActions('com_installer', 'downloadkey');
+		$canDo = \JHelperContent::getActions('com_installer', 'downloadkey');
 
-		\JToolbarHelper::title(\JText::_('Download key Edit title'), 'address contact');
-
-		// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-		$itemEditable = $canDo->get('core.edit');
+		\JToolbarHelper::title(\JText::_('COM_INSTALLER_DOWNLOADKEY_EDIT_TITLE'), 'bookmark downloadkeys');
 
 		$toolbarButtons = [];
 
-		// Can't save the record if it's checked out and editable
-		if (!$checkedOut && $itemEditable)
+		// If not checked out, can save the item.
+		if (!$checkedOut && ($canDo->get('core.edit')))
 		{
 			$toolbarButtons[] = ['apply', 'downloadkey.apply'];
 			$toolbarButtons[] = ['save', 'downloadkey.save'];
@@ -101,6 +98,21 @@ class Html extends HtmlView
 			'btn-success'
 		);
 
-		\JToolbarHelper::cancel('downloadkey.cancel', 'JTOOLBAR_CLOSE');
+		if (empty($this->item->id))
+		{
+			\JToolbarHelper::cancel('downloadkey.cancel');
+		}
+		else
+		{
+			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			{
+				\JToolbarHelper::versions('com_installers.downloadkey', $this->item->id);
+			}
+
+			\JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
 	}
 }
