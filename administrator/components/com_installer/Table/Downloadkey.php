@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Table\Table;
 
 /**
- * Contact Table class.
+ * Downloadkey Table class.
  *
  * @since  __DEPLOY_VERSION__
  */

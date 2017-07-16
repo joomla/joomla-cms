@@ -13,8 +13,21 @@ JFormHelper::loadFieldClass('text');
 
 class JFormFieldDownloadkey extends JFormFieldText
 {
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION_
+	 */
 	public $type = 'Downloadkey';
 
+	/**
+	 * Method to get the field input for Download key.
+	 *
+	 * @return  string  The field input.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getInput()
 	{
 		$value = $this->form->getValue('extra_query');

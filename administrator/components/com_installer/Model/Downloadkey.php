@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Model\Admin;
 
 /**
- * Item Model for a Contact.
+ * Download key model
  *
  * @since  __DEPLOY_VERSION__
  */

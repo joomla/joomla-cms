@@ -20,6 +20,13 @@ use Joomla\CMS\Controller\Form;
  */
 class Downloadkey extends Form
 {
+	/**
+	 * Add the prefix and suffix of the download key before saving it into extra_query
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function save()
 	{
 		$prefix = $this->input->get('dlidprefix', null, 'string');

@@ -11,7 +11,6 @@ namespace Joomla\Component\Installer\Administrator\View\Downloadkey;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
-use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * View to edit a contact.
@@ -23,18 +22,18 @@ class Html extends HtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
 	 * @var  \JForm
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
 	 * @var  object
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $item;
 
