@@ -66,7 +66,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 
 		// Check for incomplete core update
 		if (version_compare($schemaVersion, $changeSetVersion) < 0
-		&& version_compare($updateVersion, JVERSION) < 0)
+			&& version_compare($updateVersion, JVERSION) < 0)
 		{
 			$this->incompleteCoreUpdate = true;
 

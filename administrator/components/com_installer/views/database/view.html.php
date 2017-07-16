@@ -76,7 +76,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
 		}
-		else if ($this->incompleteCoreUpdate)
+		elseif ($this->incompleteCoreUpdate)
 		{
 			$app->enqueueMessage(
 				JText::sprintf(
