@@ -53,7 +53,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 
 		if (!($modelDb instanceof InstallerModelDatabase))
 		{
-			throw new Exception('Could not load database model', 600);
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', 'InstallerModelDatabase'), 600);
 		}
 
 		$changeSet = $modelDb->getItems();
