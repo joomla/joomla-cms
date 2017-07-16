@@ -4,12 +4,12 @@
 	client="installation">
 	<name>Latvian (Lv)</name>
 	<version>3.7.4</version>
-	<creationDate>2017. gada jūlijs</creationDate>
+	<creationDate>July 2017</creationDate>
 	<author>Latvian Joomla translation team</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename>lv-LV.lib_joomla.sys.ini</filename>
+		<filename>lv-LV.ini</filename>
 	</files>
 	<metadata>
 		<name>Latvian (lv-LV)</name>
