@@ -308,7 +308,7 @@ class Document
 				else
 				{
 					$ntype = $type;
-					$class = 'DocumentRaw';
+					$class = 'JDocumentRaw';
 				}
 			}
 
@@ -1189,7 +1189,7 @@ class Document
 		if (!class_exists($class))
 		{
 			// "Legacy" class name structure
-			$class = 'DocumentRenderer' . $type;
+			$class = 'JDocumentRenderer' . $type;
 
 			if (!class_exists($class))
 			{
@@ -1203,7 +1203,7 @@ class Document
 
 				\JLoader::register($class, $path);
 
-				\JLog::add('Non-autoloadable DocumentRenderer subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
+				\JLog::add('Non-autoloadable JDocumentRenderer subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
 
 				// If the class still doesn't exist after including the path, we've got issues
 				if (!class_exists($class))
