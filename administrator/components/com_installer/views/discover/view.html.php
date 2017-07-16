@@ -48,6 +48,38 @@ class InstallerViewDiscover extends InstallerViewDefault
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
+		// Get database model for later check for incomplete core update
+		$modelDb = JModelLegacy::getInstance('database', 'InstallerModel');
+
+		if (!($modelDb instanceof InstallerModelDatabase))
+		{
+			throw new Exception('Could not load database model', 600);
+		}
+
+		$changeSet = $modelDb->getItems();
+
+		$changeSetVersion = $changeSet ? $changeSet->getSchema() : JText::_('JNONE');
+		$schemaVersion    = $modelDb->getSchemaVersion() ?: JText::_('JNONE');
+		$updateVersion    = $modelDb->getUpdateVersion() ?: JText::_('JNONE');
+
+		$this->incompleteCoreUpdate = false;
+
+		// Check for incomplete core update
+		if (version_compare($schemaVersion, $changeSetVersion) < 0
+		&& version_compare($updateVersion, JVERSION) < 0)
+		{
+			$this->incompleteCoreUpdate = true;
+
+			JFactory::getApplication()->enqueueMessage(
+				JText::sprintf(
+					'COM_INSTALLER_MSG_DISCOVER_INCOMPLETE_UPDATE',
+					JText::_('COM_INSTALLER_TOOLBAR_FINALISE_CORE_UPDATE'),
+					JText::_('JTOOLBAR_INSTALL')
+				),
+				'warning'
+			);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -66,6 +98,12 @@ class InstallerViewDiscover extends InstallerViewDefault
 		JToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true);
 		JToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
 		JToolbarHelper::divider();
+
+		if ($this->incompleteCoreUpdate)
+		{
+			JToolbarHelper::custom('discover.finaliseUpdate', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FINALISE_CORE_UPDATE', false);
+			JToolbarHelper::divider();
+		}
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=discover');
 
