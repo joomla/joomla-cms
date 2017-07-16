@@ -11,6 +11,11 @@ defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('text');
 
+/**
+ * Download Key field.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class JFormFieldDownloadkey extends JFormFieldText
 {
 	/**
