@@ -73,7 +73,7 @@ class InstallerControllerDatabase extends JControllerLegacy
 		// Finalize the update
 		if ($updateModel->finaliseUpgrade() === false)
 		{
-			$app->enqueueMessage('Postupdate failed', 'error');
+			JFactory::getApplication()->enqueueMessage('Postupdate failed', 'error');
 
 			return false;
 		}
