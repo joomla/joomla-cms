@@ -282,11 +282,13 @@ JLoader::registerAlias('JFormFieldAuthor',                  '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldCacheHandler',            '\\Joomla\\CMS\\Form\\Field\\CachehandlerField', '5.0');
 JLoader::registerAlias('JFormFieldCalendar',                '\\Joomla\\CMS\\Form\\Field\\CalendarField', '5.0');
 JLoader::registerAlias('JFormFieldCaptcha',                 '\\Joomla\\CMS\\Form\\Field\\CaptchaField', '5.0');
+JLoader::registerAlias('JFormFieldCategory',                '\\Joomla\\CMS\\Form\\Field\\CategoryField', '5.0');
 JLoader::registerAlias('JFormFieldCheckbox',                '\\Joomla\\CMS\\Form\\Field\\CheckboxField', '5.0');
 JLoader::registerAlias('JFormFieldCheckboxes',              '\\Joomla\\CMS\\Form\\Field\\CheckboxesField', '5.0');
 JLoader::registerAlias('JFormFieldChromeStyle',             '\\Joomla\\CMS\\Form\\Field\\ChromeStyleField', '5.0');
 JLoader::registerAlias('JFormFieldColor',                   '\\Joomla\\CMS\\Form\\Field\\ColorField', '5.0');
 JLoader::registerAlias('JFormFieldCombo',                   '\\Joomla\\CMS\\Form\\Field\\ComboField', '5.0');
+JLoader::registerAlias('JFormFieldComponentlayout',         '\\Joomla\\CMS\\Form\\Field\\ComponentlayoutField', '5.0');
 JLoader::registerAlias('JFormFieldComponents',              '\\Joomla\\CMS\\Form\\Field\\ComponentsField', '5.0');
 JLoader::registerAlias('JFormFieldContenthistory',          '\\Joomla\\CMS\\Form\\Field\\ContenthistoryField', '5.0');
 JLoader::registerAlias('JFormFieldContentlanguage',         '\\Joomla\\CMS\\Form\\Field\\ContentlanguageField', '5.0');
@@ -312,6 +314,7 @@ JLoader::registerAlias('JFormFieldMedia',                   '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldMenu',                    '\\Joomla\\CMS\\Form\\Field\\MenuField', '5.0');
 JLoader::registerAlias('JFormFieldMenuitem',                '\\Joomla\\CMS\\Form\\Field\\MenuitemField', '5.0');
 JLoader::registerAlias('JFormFieldMeter',                   '\\Joomla\\CMS\\Form\\Field\\MeterField', '5.0');
+JLoader::registerAlias('JFormFieldModulelayout',            '\\Joomla\\CMS\\Form\\Field\\ModulelayoutField', '5.0');
 JLoader::registerAlias('JFormFieldModuleOrder',             '\\Joomla\\CMS\\Form\\Field\\ModuleOrderField', '5.0');
 JLoader::registerAlias('JFormFieldModulePosition',          '\\Joomla\\CMS\\Form\\Field\\ModulePositionField', '5.0');
 JLoader::registerAlias('JFormFieldModuletag',               '\\Joomla\\CMS\\Form\\Field\\ModuletagField', '5.0');

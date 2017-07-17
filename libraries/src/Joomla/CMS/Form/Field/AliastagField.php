@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Filesystem\Path;
 
 FormHelper::loadFieldClass('list');
 
@@ -55,7 +56,7 @@ class AliastagField extends \JFormFieldList
 				$parts     = explode('.', $item->value);
 				$extension = $parts[0];
 				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
+				|| $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
 				$options[$i]->text = \JText::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
 			}
 
