@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
 
 $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods();
 

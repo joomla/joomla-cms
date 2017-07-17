@@ -970,8 +970,14 @@ class Field extends Admin
 		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
 
-		// Looking first in the component models/forms folder
-		$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+		// Looking in the component forms folder for a specific section forms file
+		$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/forms/fields/' . $section . '.xml');
+
+		if (!file_exists($path))
+		{
+			// Looking in the component models/forms folder for a specific section forms file
+			$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+		}
 
 		if (file_exists($path))
 		{

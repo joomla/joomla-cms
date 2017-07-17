@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.tabstate');
 
@@ -104,9 +103,16 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php endif; ?>
 									</div>
 									<div class="btn-group">
-										<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
-										<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 										<?php echo JHtml::_('users.addNote', $item->id); ?>
+										<?php if ($item->note_count > 0) : ?>
+										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="sr-only">Toggle Dropdown</span>
+										</button>
+										<div class="dropdown-menu">
+											<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
+											<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
+										</div>
+										<?php endif; ?>
 									</div>
 									<?php echo JHtml::_('users.notesModal', $item->note_count, $item->id); ?>
 									<?php if ($item->requireReset == '1') : ?>
