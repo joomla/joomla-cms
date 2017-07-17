@@ -5,7 +5,6 @@
 			name="extension_id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
 			class="readonly" 

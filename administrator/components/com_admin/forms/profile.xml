@@ -86,7 +86,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			class="readonly"
 			default="0"
 			readonly="true"

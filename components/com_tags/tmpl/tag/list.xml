@@ -172,7 +172,6 @@
 				name="filter_field"
 				type="list"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
-				description="JGLOBAL_FILTER_FIELD_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -184,7 +183,6 @@
 				name="show_pagination_limit" 
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -213,7 +211,6 @@
 				name="show_pagination" 
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
-				description="JGLOBAL_PAGINATION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -236,7 +233,6 @@
 				name="tag_list_show_date" 
 				type="list"
 				label="JGLOBAL_SHOW_DATE_LABEL"
-				description="JGLOBAL_SHOW_DATE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -288,7 +284,6 @@
 				name="show_feed_link" 
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>

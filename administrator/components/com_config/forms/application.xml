@@ -708,7 +708,6 @@
 			name="robots"
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
 			default=""
 			>
 			<option value="">JGLOBAL_INDEX_FOLLOW</option>
@@ -721,7 +720,6 @@
 			name="MetaRights"
 			type="textarea"
 			label="JFIELD_META_RIGHTS_LABEL"
-			description="JFIELD_META_RIGHTS_DESC"
 			filter="string"
 			cols="60"
 			rows="2"
@@ -731,7 +729,6 @@
 			name="MetaAuthor"
 			type="radio"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
-			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
 			class="switcher"
 			default="1"
 			filter="integer"

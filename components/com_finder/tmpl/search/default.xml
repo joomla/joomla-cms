@@ -101,7 +101,6 @@
 				name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -112,7 +111,6 @@
 				name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
-				description="JGLOBAL_PAGINATION_DESC"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -218,7 +216,6 @@
 				name="show_feed_link"
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>

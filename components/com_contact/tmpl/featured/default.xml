@@ -39,7 +39,6 @@
 				name="show_headings" 
 				type="list"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
-				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -138,7 +137,6 @@
 			name="show_pagination" 
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
-			description="JGLOBAL_PAGINATION_DESC"
 			useglobal="true"
 			>
 			<option value="0">JHIDE</option>

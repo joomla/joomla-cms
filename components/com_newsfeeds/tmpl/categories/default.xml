@@ -32,7 +32,6 @@
 				name="show_base_description" 
 				type="list"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -52,7 +51,6 @@
 				name="maxLevelcat" 
 				type="list"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				useglobal="true"
 				>
 				<option value="-1">JALL</option>
@@ -78,7 +76,6 @@
 				name="show_subcat_desc_cat" 
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -109,7 +106,6 @@
 				name="show_category_title" 
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -120,7 +116,6 @@
 				name="show_description" 
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -131,7 +126,6 @@
 				name="show_description_image" 
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -141,7 +135,6 @@
 			<field 
 				name="maxLevel" 
 				type="list"
-				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				useglobal="true"
 				>
@@ -169,7 +162,6 @@
 				name="show_subcat_desc" 
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -202,7 +194,6 @@
 				name="filter_field"
 				type="list"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
-				description="JGLOBAL_FILTER_FIELD_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -214,7 +205,6 @@
 				name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -225,7 +215,6 @@
 				name="show_headings"
 				type="list"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
-				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				id="show_headings"
 				useglobal="true"
 				>
@@ -261,7 +250,6 @@
 				name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
-				description="JGLOBAL_PAGINATION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>

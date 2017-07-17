@@ -5,7 +5,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			class="readonly"
 			readonly="true"
@@ -95,7 +94,6 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
 			class="chzn-color-state"
 			default="1"
 			size="1"
@@ -199,7 +197,6 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
 		/>
 
 		<field
