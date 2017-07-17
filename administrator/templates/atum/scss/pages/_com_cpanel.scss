@@ -10,6 +10,14 @@
   .card {
     box-shadow: $atum-box-shadow;
 
+    p:first-of-type {
+      margin-top: 1rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
     .list-group {
       margin-top: 0;
       margin-right: - $card-spacer-x;
