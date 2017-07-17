@@ -56,7 +56,7 @@ class JHtmlUsers
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
 		. '" class="hasTooltip btn btn-secondary btn-sm" title="' . $title . '"><span class="fa fa-plus">'
-		. '</span><span class="hidden-sm-down"> ' . $title . '</span></a>';
+		. '</span> ' . $title . '</a>';
 	}
 
 	/**
