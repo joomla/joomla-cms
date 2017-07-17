@@ -13,7 +13,6 @@
 			name="username" 
 			type="text"
 			label="COM_ADMIN_USER_FIELD_USERNAME_LABEL"
-			description="COM_ADMIN_USER_FIELD_USERNAME_DESC"
 			required="true"
 			size="30"
 		/>
