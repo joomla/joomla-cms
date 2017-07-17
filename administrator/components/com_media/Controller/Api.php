@@ -123,12 +123,12 @@ class Api extends Controller
 						$this->checkContent($name, $mediaContent);
 
 						// A file needs to be created
-						$name = $this->getModel()->createFile($name, $path, $mediaContent);
+						$this->getModel()->createFile($name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$name = $this->getModel()->createFolder($name, $path);
+						$this->getModel()->createFolder($name, $path);
 					}
 
 					$data = $this->getModel()->getFile($path . '/' . $name);
