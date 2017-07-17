@@ -17,6 +17,7 @@
   .js-stools-container-filters {
     position: absolute;
     right: -1px;
+    z-index: 1;
     display: none;
     flex-direction: column;
     padding: 10px;
@@ -31,6 +32,14 @@
 
     &.js-filters-show {
       display: flex;
+    }
+
+    .chzn-container-single {
+      display: block;
+      .chzn-single {
+        display: block;
+        font-size: 1rem;
+      }
     }
 
   }
@@ -82,12 +91,6 @@
     .js-stools-field-list:last-child {
       margin-right: 0;
     }
-
-  }
-
-  .js-stools-field-list,
-  .js-stools-field-filter {
-    display: block;
 
   }
 
