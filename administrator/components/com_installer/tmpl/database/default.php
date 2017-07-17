@@ -150,7 +150,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 
 				<?php if (($this->errorCount === 0) && ($this->errorCount3rd === 0)) :?>
-					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?> ?>
+					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 				<?php endif; ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 					<div class="control-group">
