@@ -37,7 +37,6 @@
 					name="hide"
 					type="plugins"
 					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
-					description="JGLOBAL_SELECT_SOME_OPTIONS"
 					folder="editors-xtd"
 					multiple="true"
 				/>
