@@ -42,7 +42,6 @@
 			name="showtitle"
 			type="radio"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
-			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			class="switcher"
 			default="1"
 			size="1"
@@ -55,7 +54,6 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			default="1"
 			size="1"
 			>
@@ -68,7 +66,6 @@
 			name="publish_up"
 			type="calendar"
 			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
-			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
 			filter="user_utc"
 			class="input-medium"
 			translateformat="true"
@@ -80,7 +77,6 @@
 			name="publish_down"
 			type="calendar"
 			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
-			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
 			filter="user_utc"
 			class="input-medium"
 			translateformat="true"
@@ -92,7 +88,6 @@
 			name="client_id" 
 			type="hidden"
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
-			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
 			readonly="true"
 			size="1"
 		/>
@@ -101,7 +96,6 @@
 			name="position" 
 			type="moduleposition"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
-			description="COM_MODULES_FIELD_POSITION_DESC"
 			default=""
 			maxlength="50"
 		/>
@@ -110,7 +104,6 @@
 			name="access" 
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
 			size="1"
 		/>
 
@@ -118,7 +111,6 @@
 			name="ordering" 
 			type="moduleorder"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
 		/>
 
 		<field 
