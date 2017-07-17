@@ -6,21 +6,18 @@
 				name="menu-anchor_title"
 				type="text" 
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" 
 			/>
 
 			<field 
 				name="menu-anchor_css"
 				type="text" 
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" 
 			/>
 
 			<field 
 				name="menu-anchor_rel" 
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_REL_DESC"
 				default=""
 				>
 				<option value="">JNONE</option>

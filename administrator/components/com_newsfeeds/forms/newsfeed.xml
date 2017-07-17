@@ -178,7 +178,6 @@
 			name="checked_out"
 			type="Text"
 			label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
-			description="JGLOBAL_FIELD_CHECKEDOUT_DESC"
 			size="6"
 			readonly="true"
 			filter="unset"

@@ -57,7 +57,6 @@
 			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
 			table="#__banners"
 		/>
 
@@ -306,7 +305,6 @@
 				name="imageurl"
 				type="media"
 				label="COM_BANNERS_FIELD_IMAGE_LABEL"
-				description="COM_BANNERS_FIELD_IMAGE_DESC"
 				directory="banners"
 				hide_none="1"
 				size="40"
@@ -339,7 +337,6 @@
 			name="bannercode"
 			type="textarea"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL"
-			description="COM_BANNERS_FIELD_CUSTOMCODE_DESC"
 			rows="3"
 			cols="30"
 			filter="raw"

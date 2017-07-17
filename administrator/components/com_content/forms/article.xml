@@ -37,7 +37,6 @@
 			name="version_note" 
 			type="text" 
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			maxlength="255"
 			size="45"
 		/>
@@ -46,7 +45,6 @@
 			name="articletext" 
 			type="editor"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" 
-			description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			filter="JComponentHelper::filterText"
 			buttons="true" 
 		/>
@@ -180,7 +178,6 @@
 			name="ordering" 
 			type="text" 
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" 
 			size="6"
 			default="0" 
 		/>
@@ -349,7 +346,6 @@
 				name="show_parent_category"
 				type="list"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 				useglobal="true"
 				>
 				<option	value="0">JHIDE</option>
@@ -529,7 +525,6 @@
 				name="article_page_title" 
 				type="text"
 				label="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_LABEL"
-				description="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_DESC"
 				size="25" 
 			/>
 		</fieldset>

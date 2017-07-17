@@ -838,7 +838,6 @@
 			name="date_format"
 			type="text"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			description="JGLOBAL_DATE_FORMAT_DESC"
 			size="15"
 			showon="list_show_date:created,modified,published"
 		/>
@@ -1021,7 +1020,6 @@
 			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
-			description="JGLOBAL_SEF_NOIDS_DESC"
 			filter="integer"
 		>
 			<option value="0">JNO</option>
@@ -1047,7 +1045,6 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
-			description="JGLOBAL_SEF_NOIDS_DESC"
 			showon="sef_advanced:1"
 			filter="integer">
 			<option value="1">JYES</option>
