@@ -194,8 +194,8 @@ class CalendarField extends FormField
 	 */
 	protected function getInput()
 	{
-		$config    = Factory::getConfig();
-		$user      = Factory::getUser();
+		$user   = Factory::getUser();
+		$config = Factory::getConfig();
 
 		// Translate the format if requested
 		$translateFormat = (string) $this->element['translateformat'];
