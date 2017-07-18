@@ -36,7 +36,6 @@
 					name="sets_amount"
 					type="number"
 					label="PLG_TINY_FIELD_NUMBER_OF_SETS_LABEL"
-					description="PLG_TINY_FIELD_NUMBER_OF_SETS_DESC"
 					filter="int"
 					validate="number"
 					min="3"
@@ -47,7 +46,6 @@
 					name="html_height"
 					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
-					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
 					default="550"
 				/>
 
@@ -55,7 +53,6 @@
 					name="html_width"
 					type="text"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
-					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
 					default=""
 				/>
 			</fieldset>

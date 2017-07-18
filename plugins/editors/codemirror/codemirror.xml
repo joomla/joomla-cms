@@ -30,7 +30,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
-					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
 					default="0"
 					filter="options"
 					>
@@ -42,7 +41,6 @@
 					name="codeFolding"
 					type="radio"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
-					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
 					class="switcher"
 					default="1"
 					filter="options"
@@ -55,7 +53,6 @@
 					name="markerGutter"
 					type="radio"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
-					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
 					class="switcher"
 					default="1"
 					filter="options"
@@ -68,7 +65,6 @@
 					name="lineWrapping"
 					type="hidden"
 					label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
-					description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
 					filter="options"
@@ -81,7 +77,6 @@
 					name="activeLine"
 					type="radio"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
-					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
 					class="switcher"
 					default="1"
 					filter="options"
@@ -95,7 +90,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
-					description="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_DESC"
 					default="0"
 					filter="options"
 					>
@@ -108,7 +102,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
-					description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
 					default="1"
 					filter="options"
 					>
@@ -121,7 +114,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
-					description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
 					default="1"
 					filter="options"
 					>
@@ -134,7 +126,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
-					description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
 					default="1"
 					filter="options"
 					>
@@ -147,7 +138,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
-					description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
 					default="1"
 					filter="options"
 					>
@@ -160,7 +150,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
-					description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
 					default="1"
 					filter="options"
 					>
@@ -173,7 +162,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
-					description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
 					default="0"
 					filter="options"
 					>
@@ -185,7 +173,6 @@
 					name="fullScreen"
 					type="list"
 					label="PLG_CODEMIRROR_FIELD_FULLSCREEN_LABEL"
-					description="PLG_CODEMIRROR_FIELD_FULLSCREEN_DESC"
 					default="F10"
 					filter="options"
 					>
@@ -207,7 +194,6 @@
 					name="fullScreenMod"
 					type="checkboxes"
 					label="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_LABEL"
-					description="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_DESC"
 					filter="options"
 					>
 					<option value="Shift">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_SHIFT</option>
@@ -234,7 +220,6 @@
 					name="theme"
 					type="filelist"
 					label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
-					description="PLG_CODEMIRROR_FIELD_THEME_DESC"
 					default=""
 					filter="\.css$"
 					stripext="true"
@@ -249,7 +234,6 @@
 					name="activeLineColor"
 					type="color"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_LABEL"
-					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_DESC"
 					default="#a4c2eb"
 					filter="color"
 				/>
@@ -258,7 +242,6 @@
 					name="highlightMatchColor"
 					type="color"
 					label="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_LABEL"
-					description="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_DESC"
 					default="#fa542f"
 					filter="color"
 				/>
@@ -267,7 +250,6 @@
 					name="fontFamily"
 					type="fonts"
 					label="PLG_CODEMIRROR_FIELD_FONT_FAMILY_LABEL"
-					description="PLG_CODEMIRROR_FIELD_FONT_FAMILY_DESC"
 					default="0"
 					filter="options"
 					>
@@ -278,7 +260,6 @@
 					name="fontSize"
 					type="integer"
 					label="PLG_CODEMIRROR_FIELD_FONT_SIZE_LABEL"
-					description="PLG_CODEMIRROR_FIELD_FONT_SIZE_DESC"
 					first="6"
 					last="16"
 					step="1"
@@ -290,7 +271,6 @@
 					name="lineHeight"
 					type="list"
 					label="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_LABEL"
-					description="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_DESC"
 					default="1.2"
 					filter="options"
 					>
@@ -311,7 +291,6 @@
 					name="scrollbarStyle"
 					type="list"
 					label="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_LABEL"
-					description="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DESC"
 					default="native"
 					filter="options"
 					>
