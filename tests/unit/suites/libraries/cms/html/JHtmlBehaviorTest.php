@@ -85,7 +85,7 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		TestReflection::setValue('JRoute', '_router', null);
+		TestReflection::setValue('JRoute', '_router', array());
 
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
