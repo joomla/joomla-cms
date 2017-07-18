@@ -39,7 +39,6 @@
 					name="count"
 					type="text"
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_COUNT_DESC"
 					default="5"
 				/>
 
@@ -47,7 +46,6 @@
 					name="show_featured"
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_FEATURED_DESC"
 					default=""
 					>
 					<option value="">JSHOW</option>
@@ -59,7 +57,6 @@
 					name="ordering"
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC"
 					default="published"
 					>
 					<option value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
@@ -73,7 +70,6 @@
 					name="user_id"
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_USER_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_USER_DESC"
 					default="0"
 					>
 					<option value="0">MOD_LATEST_NEWS_VALUE_ANYONE</option>

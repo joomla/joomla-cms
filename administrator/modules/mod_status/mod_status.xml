@@ -25,7 +25,6 @@
 					name="show_loggedin_users"
 					type="radio"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -37,7 +36,6 @@
 					name="show_loggedin_users_admin"
 					type="radio"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC"
 					class="switcher"
 					default="1"
 					>

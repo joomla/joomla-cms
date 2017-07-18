@@ -28,7 +28,6 @@
 					name="menutype"
 					type="menu"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
-					description="MOD_MENU_FIELD_MENUTYPE_DESC"
 					clientid="1"
 					>
 					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
@@ -63,7 +62,6 @@
 					name="shownew"
 					type="radio"
 					label="MOD_MENU_FIELD_SHOWNEW"
-					description="MOD_MENU_FIELD_SHOWNEW_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -75,7 +73,6 @@
 					name="showhelp"
 					type="radio"
 					label="MOD_MENU_FIELD_SHOWHELP"
-					description="MOD_MENU_FIELD_SHOWHELP_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -87,7 +84,6 @@
 					name="forum_url"
 					type="url"
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"
-					description="MOD_MENU_FIELD_FORUMURL_DESC"
 					filter="url"
 					size="30"
 					default=""

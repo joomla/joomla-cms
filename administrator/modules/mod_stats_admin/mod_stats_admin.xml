@@ -27,7 +27,6 @@
 					name="serverinfo"
 					type="radio"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
-					description="MOD_STATS_FIELD_SERVERINFO_DESC"
 					class="switcher"
 					default="0"
 					>
@@ -39,7 +38,6 @@
 					name="siteinfo"
 					type="radio"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
-					description="MOD_STATS_FIELD_SITEINFO_DESC"
 					class="switcher"
 					default="0"
 					>

@@ -26,7 +26,6 @@
 					name="rssurl"
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
-					description="MOD_FEED_FIELD_RSSURL_DESC"
 					filter="url"
 					size="50"
 					required="true"
@@ -37,7 +36,6 @@
 					name="rssrtl"
 					type="radio"
 					label="MOD_FEED_FIELD_RTL_LABEL"
-					description="MOD_FEED_FIELD_RTL_DESC"
 					class="switcher"
 					default="0"
 					>
@@ -49,7 +47,6 @@
 					name="rsstitle"
 					type="radio"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
-					description="MOD_FEED_FIELD_RSSTITLE_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -61,7 +58,6 @@
 					name="rssdesc"
 					type="radio"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -73,7 +69,6 @@
 					name="rssimage"
 					type="radio"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
-					description="MOD_FEED_FIELD_IMAGE_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -85,7 +80,6 @@
 					name="rssitems"
 					type="text"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
-					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
 				/>
 
@@ -93,7 +87,6 @@
 					name="rssitemdesc"
 					type="radio"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
 					class="switcher"
 					default="1"
 					>

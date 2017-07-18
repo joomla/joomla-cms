@@ -27,7 +27,6 @@
 					name="format"
 					type="list"
 					label="MOD_VERSION_FORMAT_LABEL"
-					description="MOD_VERSION_FORMAT_DESC"
 					default="short"
 					>
 					<option value="short">MOD_VERSION_FORMAT_SHORT</option>
@@ -38,7 +37,6 @@
 					name="product"
 					type="radio"
 					label="MOD_VERSION_PRODUCT_LABEL"
-					description="MOD_VERSION_PRODUCT_DESC"
 					class="switcher"
 					default="1"
 					>
