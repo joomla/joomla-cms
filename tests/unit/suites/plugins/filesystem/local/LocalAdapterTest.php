@@ -26,6 +26,13 @@ class LocalAdapterTest extends TestCaseDatabase
 	private $root = null;
 
 	/**
+	 * The image folder path related to root
+	 * 
+	 * @var string
+	 */
+	private $imagePath = null;
+
+	/**
 	 * Sets up the environment.
 	 *
 	 * @return  void
@@ -42,7 +49,8 @@ class LocalAdapterTest extends TestCaseDatabase
 		JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 
 		// Set up the temp root folder
-		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
+		$this->imagePath = 'tmp/test/';
+		$this->root      = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
 	}
 
@@ -69,7 +77,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the file from the root folder
 		$file = $adapter->getFile('test.txt');
@@ -101,7 +109,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testGetFileInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the file from the root folder
 		$adapter->getFile('invalid');
@@ -119,7 +127,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::create($this->root . 'unit');
 
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles();
@@ -170,7 +178,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::create($this->root . 'foo');
 
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles('/', 'foo');
@@ -202,7 +210,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the files from the root folder
 		$files = $adapter->getFiles('test.txt');
@@ -235,7 +243,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testGetFilesInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the file from the root folder
 		$adapter->getFiles('invalid');
@@ -249,7 +257,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testCreateFolder()
 	{
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the files from the root folder
 		$adapter->createFolder('unit', '/');
@@ -266,7 +274,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testCreateFile()
 	{
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the files from the root folder
 		$adapter->createFile('unit.txt', '/', 'test');
@@ -289,7 +297,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'unit.txt', 'test');
 
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the files from the root folder
 		$adapter->updateFile('unit.txt', '/', 'test 2');
@@ -311,7 +319,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testUpdateFileInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the file from the root folder
 		$adapter->updateFile('invalid', '/', 'test');
@@ -330,7 +338,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'unit/test.txt', 'test');
 
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the files from the root folder
 		$adapter->delete('unit');
@@ -352,7 +360,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	public function testDeleteInvalidPath()
 	{
 		// Create the adapter
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		// Fetch the file from the root folder
 		$adapter->delete('invalid');
@@ -375,7 +383,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFileCopy()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		$this->cleanRootFolder();
 
@@ -394,7 +402,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFileCopyToFolder()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		$this->cleanRootFolder();
 
@@ -414,7 +422,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFileCopyWithoutForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		$this->cleanRootFolder();
 
@@ -434,7 +442,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFileCopyWithForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		$this->cleanRootFolder();
 
@@ -457,7 +465,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFileCopyInvalidPath()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 
 		$this->cleanRootFolder();
 
@@ -472,7 +480,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFolderCopy()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -495,7 +503,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFolderCopyWithoutForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -519,7 +527,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFolderCopyWithForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -542,7 +550,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testFolderCopyToFile()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -562,7 +570,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFile()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -583,7 +591,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFileToFolder()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -604,7 +612,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFileWithoutForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -626,7 +634,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFileWithForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -649,7 +657,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFolder()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		JFile::write($this->root . 'src-text.txt', 'some text here');
@@ -670,7 +678,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFolderWithoutForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -691,7 +699,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFolderWithForce()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Create some conflicts
@@ -714,7 +722,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveInvalidPath()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		$this->setExpectedException('\Joomla\Component\Media\Administrator\Adapter\FileNotFoundException');
@@ -728,7 +736,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	public function testMoveFolderToFile()
 	{
-		$adapter = new LocalAdapter($this->root);
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
 		// Make some mock folders in the root
@@ -740,5 +748,19 @@ class LocalAdapterTest extends TestCaseDatabase
 		$adapter->move('src', 'dest/bar.txt', true);
 		$this->assertTrue(JFile::exists($this->root . 'dest/bar.txt/bar.txt'));
 		$this->assertFalse(JFile::exists($this->root . 'src/bar.txt'));
+	}
+
+	public function testGetUrl()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		// Sample name for a file in imagePath
+		// We will not create actual file as we only check for valid url returned
+		$filePath  = 'foo.bar';
+		$urlPath   = $adapter->getUrl($filePath);
+		$actualUrl =  \Joomla\CMS\Uri\Uri::root() . JPath::clean($this->imagePath . 'foo.bar');
+
+		$this->assertSame($urlPath, $actualUrl);
 	}
 }

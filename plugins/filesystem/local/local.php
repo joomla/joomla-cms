@@ -38,9 +38,10 @@ class PlgFileSystemLocal extends CMSPlugin
 	public function onFileSystemGetAdapters()
 	{
 		// Compile the root path
-		$root = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('file_path', 'images');
+		$filePath = ComponentHelper::getParams('com_media')->get('file_path', 'images');
+		$root = JPATH_ROOT . '/' . $filePath;
 		$root = rtrim($root) . '/';
 
-		return new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root);
+		return new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath);
 	}
 }

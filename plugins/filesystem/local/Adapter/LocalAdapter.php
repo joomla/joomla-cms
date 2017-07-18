@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 use Joomla\Image\Image;
+use Joomla\CMS\Uri\Uri;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -34,13 +35,21 @@ class LocalAdapter implements AdapterInterface
 	private $rootPath = null;
 
 	/**
+	 * The file_path of media directory related to site
+	 *
+	 * @var string
+	 */
+	private $filePath = null;
+
+	/**
 	 * The absolute root path in the local file system.
 	 *
 	 * @param   string  $rootPath  The root path
+	 * @param   string  $filePath  The file path of media folder
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($rootPath)
+	public function __construct($rootPath, $filePath)
 	{
 		if (!file_exists($rootPath))
 		{
@@ -48,6 +57,7 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		$this->rootPath = \JPath::clean($rootPath, '/');
+		$this->filePath = $filePath;
 	}
 
 	/**
@@ -68,7 +78,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -253,6 +263,7 @@ class LocalAdapter implements AdapterInterface
 	 * - mime_type:     The mime type
 	 * - width:         The width, when available
 	 * - height:        The height, when available
+	 * - thumb_path     The thumbnail path of file, when available
 	 *
 	 * @param   string  $path  The folder
 	 *
@@ -294,6 +305,9 @@ class LocalAdapter implements AdapterInterface
 			$props       = Image::getImageFileProperties($path);
 			$obj->width  = $props->width;
 			$obj->height = $props->height;
+
+			// Todo : Change this path to an actual thumbnail path
+			$obj->thumb_path = $this->getUrl($obj->path);
 		}
 
 		return $obj;
@@ -544,4 +558,19 @@ class LocalAdapter implements AdapterInterface
 			throw new \Exception($value);
 		}
 	}
+
+	/**
+	 * Returns an url which can be used to display an image from "images" directory
+	 *
+	 * @param   string  $path  Path of the file relative to adapter
+	 *
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getUrl($path)
+	{
+		return Uri::root() . \JPath::clean($this->filePath . $path);
+	}
+
 }

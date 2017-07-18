@@ -105,7 +105,12 @@ class Api extends Controller
 			switch ($method)
 			{
 				case 'get':
-					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'));
+					// Grab options
+					$options = array();
+					$options['url'] = $this->input->getBool('url', false);
+
+					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
+
 					break;
 				case 'delete':
 					$this->getModel()->delete($adapter, $path);

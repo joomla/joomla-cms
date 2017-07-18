@@ -23,7 +23,7 @@
     import {focus} from 'vue-focus';
 
     export default {
-        name: 'create-folder-modal',
+        name: 'media-create-folder-modal',
         directives: {focus: focus},
         data() {
             return {
