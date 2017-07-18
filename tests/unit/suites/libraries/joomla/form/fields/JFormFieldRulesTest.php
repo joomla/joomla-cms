@@ -32,11 +32,11 @@ class JFormFieldRulesTest extends TestCaseDatabase
 		$mockApp = $this->getMockCmsApp();
 		$mockApp->expects($this->any())
 			->method('getName')
-			->willReturn('site');
+			->willReturn('administrator');
 
 		$mockApp->expects($this->any())
 			->method('isClient')
-			->with('site')
+			->with('administrator')
 			->willReturn(true);
 
 		JFactory::$application = $mockApp;
