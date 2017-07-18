@@ -65,8 +65,8 @@
 					name="moduleclass_sfx"
 					type="text"
 					default=""
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					label="COM_MODULES_FIELD_MODULECLASS_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_DESC" />
 				<field
 					name="field_size"
 					type="text"

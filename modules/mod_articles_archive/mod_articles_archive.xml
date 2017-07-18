@@ -42,8 +42,8 @@
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					label="COM_MODULES_FIELD_MODULECLASS_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_DESC"
 					rows="3"
 				/>
 
