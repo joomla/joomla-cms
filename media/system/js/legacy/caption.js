@@ -12,42 +12,55 @@
  * @since       1.5
  * @version  1.0
  */
-var JCaption = function(selector) {
-	var insertBefore = function(el, referenceNode) {
-		    referenceNode.parentNode.insertBefore(el, referenceNode);
-	    },
+Joomla = window.Joomla || {};
 
-	    initialize = function(selector) {
-		    var elements = document.querySelectorAll(selector);
-		    for (var i = 0, count = elements.length; i < count; i++) {
-			    createCaption(elements[i], selector);
-		    }
-	    },
+(function(Joomla) {
+	Joomla.JCaption = function(selector) {
+		var insertBefore = function(el, referenceNode) {
+			    referenceNode.parentNode.insertBefore(el, referenceNode);
+		    },
 
-	    createCaption = function(element, selector) {
-		    var container, caption = element.getAttribute('title'),
-		        width = element.getAttribute("width") || element.style.width,
-		        align = element.getAttribute("align") || element.style.cssFloat || "none",
-		        pEl = document.createElement('p'),
-		        clearClass = selector.replace('.', '_').replace('#', '').replace(',', '').split(' ');
-		    pEl.innerHTML = caption;
-		    container = document.createElement('div');
-		    clearClass.forEach(function(className) {
-			    pEl.classList.add(className);
-			    container.classList.add(className);
-		    });
-		    container.classList.add(align);
-		    insertBefore(container, element);
+		    initialize = function(selector) {
+			    var elements = document.querySelectorAll(selector);
+			    for (var i = 0, count = elements.length; i < count; i++) {
+				    createCaption(elements[i], selector);
+			    }
+		    },
 
-		    if (caption !== "") {
-			    container.appendChild(pEl);
-		    }
+		    createCaption = function(element, selector) {
+			    var container, caption = element.getAttribute('title'),
+			        width = element.getAttribute("width") || element.style.width,
+			        align = element.getAttribute("align") || element.style.cssFloat || "none",
+			        pEl = document.createElement('p'),
+			        clearClass = selector.replace('.', '_').replace('#', '').replace(',', '').split(' ');
+			    pEl.innerHTML = caption;
+			    container = document.createElement('div');
+			    clearClass.forEach(function(className) {
+				    pEl.classList.add(className);
+				    container.classList.add(className);
+			    });
+			    container.classList.add(align);
+			    insertBefore(container, element);
 
-		    container.style.cssFloat = align;
-		    container.style.width = /px/.test(width) ? width : width + 'px';
+			    if (caption !== "") {
+				    container.appendChild(pEl);
+			    }
 
-		    container.appendChild(element);
-	    };
+			    container.style.cssFloat = align;
+			    container.style.width = /px/.test(width) ? width : width + 'px';
 
-	initialize(selector);
-};
+			    container.appendChild(element);
+		    };
+
+		initialize(selector);
+	};
+
+	document.addEventListener('DOMContentLoaded',  function() {
+
+		if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-image-caption')) {
+			if (Joomla.getOptions('js-image-caption').selector) {
+				new Joomla.JCaption(Joomla.getOptions('js-image-caption').selector);
+			}
+		}
+	});
+})(Joomla);

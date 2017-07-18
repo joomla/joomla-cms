@@ -83,35 +83,6 @@
 					<option value="0">TPL_AURORA_STATIC</option>
 				</field>
 
-				<field
-					name="sidebarLeftWidth"
-					type="list"
-					default="3"
-					label="TPL_AURORA_SIDEBAR_LEFT_WIDTH_LABEL"
-					description="TPL_AURORA_SIDEBAR_LEFT_WIDTH_DESC"
-				>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-				</field>
-
-				<field
-					name="sidebarRightWidth"
-					type="list"
-					default="3"
-					label="TPL_AURORA_SIDEBAR_RIGHT_WIDTH_LABEL"
-					description="TPL_AURORA_SIDEBAR_RIGHT_WIDTH_DESC"
-				>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

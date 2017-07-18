@@ -10,6 +10,14 @@
   .card {
     box-shadow: $atum-box-shadow;
 
+    p:first-of-type {
+      margin-top: 1rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
     .list-group {
       margin-top: 0;
       margin-right: - $card-spacer-x;
@@ -58,6 +66,7 @@
     margin-right: - $card-spacer-x;
     margin-bottom: 0;
     margin-left: - $card-spacer-x;
+    font-size: $font-size-h5;
     color: $atum-template-color;
     background-color: $atum-card-title-bg;
     border-bottom: 1px solid rgba(0,0,0,.125);
