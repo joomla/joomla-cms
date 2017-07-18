@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extension Helper class.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       3.7.4
  *
  * @deprecated  4.0  Replace class with a non static methods for better testing
  */
@@ -24,7 +24,7 @@ class JExtensionHelper
 	 * "client_id".
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.4
 	 */
 	protected static $coreExtensions = array(
 		// Format: `type`, `element`, `folder`, `client_id`
@@ -246,7 +246,7 @@ class JExtensionHelper
 	 *                 Each extension is an array with following format:
 	 *                 `type`, `element`, `folder`, `client_id`.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.4
 	 */
 	public static function getCoreExtensions()
 	{
@@ -263,7 +263,7 @@ class JExtensionHelper
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.4
 	 */
 	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
 	{

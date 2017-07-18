@@ -582,8 +582,8 @@
 			<field 
 				name="show_publish_date" 
 				type="list"
-				label="JGLOBAL_Show_Publish_Date_Label"
-				description="JGLOBAL_Show_Publish_Date_Desc"
+				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
