@@ -14,22 +14,21 @@ use Joomla\Registry\Registry;
 $user = JFactory::getUser();
 ?>
 
-<div class="row">
-
+<div class="quickicons-container">
 	<?php $iconmodules = JModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
 		<div class="col-md-12">
-			<div class="cpanel-links mb-sm-3 pt-3 pb-3">
-				<?php
-				// Display the submenu position modules
-				foreach ($iconmodules as $iconmodule)
-				{
-					echo JModuleHelper::renderModule($iconmodule);
-				}
-				?>
-			</div>
+			<?php
+			// Display the submenu position modules
+			foreach ($iconmodules as $iconmodule)
+			{
+				echo JModuleHelper::renderModule($iconmodule);
+			}
+			?>
 		</div>
 	<?php endif; ?>
+</div>
+<div class="row">
 
 	<?php
 	$cols = 0;

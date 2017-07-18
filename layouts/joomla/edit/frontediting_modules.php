@@ -60,8 +60,7 @@ $moduleHtml = preg_replace(
 
 if ($count)
 {
-	// Load once booststrap tooltip and add stylesheet and javascript to head:
-	JHtml::_('bootstrap.tooltip');
+	// Load stylesheet and javascript to head:
 	JHtml::_('bootstrap.popover');
 
 	JHtml::_('stylesheet', 'system/frontediting.css', array('version' => 'auto', 'relative' => true));
