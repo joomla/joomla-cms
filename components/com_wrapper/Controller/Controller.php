@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Wrapper\Site\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Controller as BaseController;
 
 /**
  * Content Component Controller
  *
  * @since  1.5
  */
-class WrapperController extends JControllerLegacy
+class Controller extends BaseController
 {
 	/**
 	 * Method to display a view.
@@ -22,7 +25,7 @@ class WrapperController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  This object to support chaining.
+	 * @return  Controller  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
