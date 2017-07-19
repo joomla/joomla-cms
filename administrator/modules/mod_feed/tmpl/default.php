@@ -107,7 +107,8 @@ else
 						<?php
 							// Strip the images.
 							$text = JFilterOutput::stripImages($text);
-							$text = JHtml::_('string.truncate', $text, 0, true, false);
+							// Strip HTML
+							$text = strip_tags($text);
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>
