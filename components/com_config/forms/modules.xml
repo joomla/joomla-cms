@@ -13,7 +13,6 @@
 			name="title" 
 			type="text"
 			label="JGLOBAL_TITLE"
-			description="COM_MODULES_FIELD_TITLE_DESC"
 			maxlength="100"
 			required="true"
 			size="35"
@@ -23,7 +22,6 @@
 			name="note" 
 			type="text"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
-			description="COM_MODULES_FIELD_NOTE_DESC"
 			maxlength="255"
 			size="35"
 		/>
@@ -32,7 +30,6 @@
 			name="module" 
 			type="hidden"
 			label="COM_MODULES_FIELD_MODULE_LABEL"
-			description="COM_MODULES_FIELD_MODULE_DESC"
 			readonly="readonly"
 			size="20"
 		/>
@@ -116,7 +113,6 @@
 			name="content" 
 			type="editor"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
-			description="COM_MODULES_FIELD_CONTENT_DESC"
 			buttons="true"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
@@ -127,7 +123,6 @@
 			name="language" 
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="JFIELD_MODULE_LANGUAGE_DESC"
 			>
 			<option value="*">JALL</option>
 		</field>

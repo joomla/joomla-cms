@@ -17,7 +17,6 @@
 				name="id" 
 				type="category"
 				label="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_LABEL"
-				description="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
 				show_root="true"
 				required="true"
@@ -43,7 +42,6 @@
 				name="categories_description" 
 				type="textarea"
 				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"
-				description="JGLOBAL_FIELD_CATEGORIES_DESC_DESC"
 				cols="25"
 				rows="5"
 			/>
@@ -105,7 +103,6 @@
 				name="show_category_title" 
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -116,7 +113,6 @@
 				name="show_description" 
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -137,7 +133,6 @@
 				name="maxLevel" 
 				type="list"
 				label="JGLOBAL_MAXLEVEL_LABEL"
-				description="JGLOBAL_MAXLEVEL_DESC"
 				useglobal="true"
 				>
 				<option value="-1">JALL</option>
@@ -362,7 +357,6 @@
 				name="date_format" 
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
-				description="JGLOBAL_DATE_FORMAT_DESC"
 				size="15"
 				useglobal="true"
 			/>
@@ -391,7 +385,6 @@
 				name="display_num" 
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
 				default="10"
 				>
 				<option value="5">J5</option>

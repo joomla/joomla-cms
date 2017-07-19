@@ -16,7 +16,6 @@
 				name="id"
 				type="modal_category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
 				required="true"
 				select="true"
@@ -155,7 +154,6 @@
 					name="page_subheading"
 					type="text"
 					label="JGLOBAL_SUBHEADING_LABEL"
-					description="JGLOBAL_SUBHEADING_DESC"
 					size="20"
 				/>
 		</fieldset>

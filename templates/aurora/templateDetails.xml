@@ -65,7 +65,6 @@
 					type="text" 
 					default=""
 					label="JGLOBAL_DESCRIPTION"
-					description="JGLOBAL_SUBHEADING_DESC"
 					filter="string"
 				/>
 

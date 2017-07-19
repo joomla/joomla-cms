@@ -18,7 +18,6 @@
 				name="id"
 				type="modal_category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
 				required="true"
 				select="true"
@@ -37,7 +36,6 @@
 				name="show_category_title" 
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -68,7 +66,6 @@
 				name="maxLevel" 
 				type="list"
 				label="JGLOBAL_MAXLEVEL_LABEL"
-				description="JGLOBAL_MAXLEVEL_DESC"
 				useglobal="true"
 				>
 				<option value="-1">JALL</option>
@@ -144,7 +141,6 @@
 				name="page_subheading" 
 				type="text"
 				label="JGLOBAL_SUBHEADING_LABEL"
-				description="JGLOBAL_SUBHEADING_DESC"
 				size="20"
 			/>
 
@@ -325,7 +321,6 @@
 				name="display_num" 
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
 				default="10"
 				>
 				<option value="5">J5</option>

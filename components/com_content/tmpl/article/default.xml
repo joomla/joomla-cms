@@ -18,7 +18,6 @@
 				name="id" 
 				type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
-				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 				required="true"
 				select="true"
 				new="true"
@@ -254,7 +253,6 @@
 			name="show_tags"
 			type="list"
 			label="JGLOBAL_SHOW_TAGS_LABEL"
-			description="JGLOBAL_SHOW_TAGS_DESC"
 			useglobal="true"
 			>
 			<option value="1">JSHOW</option>

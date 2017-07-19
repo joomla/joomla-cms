@@ -729,7 +729,6 @@
 			name="sef"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
-			description="COM_CONFIG_FIELD_SEF_URL_DESC"
 			class="switcher"
 			default="1"
 			filter="integer"

@@ -70,7 +70,6 @@
 				name="display_num" 
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
 				default="5"
 				>
 				<option value="5">J5</option>

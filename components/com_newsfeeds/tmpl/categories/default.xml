@@ -17,7 +17,6 @@
 				name="id" 
 				type="category"
 				label="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_LABEL"
-				description="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_DESC"
 				extension="com_newsfeeds"
 				show_root="true"
 				required="true"
@@ -42,7 +41,6 @@
 				name="categories_description" 
 				type="textarea"
 				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"
-				description="JGLOBAL_FIELD_CATEGORIES_DESC_DESC"
 				cols="25"
 				rows="5"
 			/>
@@ -65,7 +63,6 @@
 				name="show_empty_categories_cat" 
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -86,7 +83,6 @@
 				name="show_cat_items_cat" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -151,7 +147,6 @@
 				name="show_empty_categories" 
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -172,7 +167,6 @@
 				name="show_cat_items"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 				id="show_cat_items"
 				useglobal="true"
 				>
@@ -226,7 +220,6 @@
 				name="show_articles"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
 				id="show_articles"
 				useglobal="true"
 				>
@@ -238,7 +231,6 @@
 				name="show_link"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
 				id="show_link"
 				useglobal="true"
 				>
@@ -275,7 +267,6 @@
 				name="show_feed_image" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -286,7 +277,6 @@
 				name="show_feed_description" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -297,7 +287,6 @@
 				name="show_item_description" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>

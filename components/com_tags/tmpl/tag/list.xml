@@ -35,7 +35,6 @@
 				name="tag_list_language_filter"
 				type="contentlanguage"
 				label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
-				description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC"
 				default=""
 				useglobal="true"
 				>
