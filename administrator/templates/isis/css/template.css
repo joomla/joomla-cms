@@ -1633,9 +1633,6 @@ legend + .control-group {
 .form-horizontal .controls:first-child {
 	*padding-left: 180px;
 }
-.form-horizontal .controls-nolabel {
-	margin-left: 0;
-}
 .form-horizontal .help-block {
 	margin-bottom: 0;
 }
@@ -7595,6 +7592,9 @@ textarea.noResize {
 }
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
+}
+.form-horizontal .controls-nolabel {
+	margin-left: 0;
 }
 .header {
 	background-color: #1a3867;
