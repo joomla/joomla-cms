@@ -38,7 +38,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 					<?php if ($target == 1) : ?>
 						<?php // Open in a new window ?>
 						<a
-							href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer"
+							href="<?php echo $link; ?>" target="_blank" rel="noreferrer"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
