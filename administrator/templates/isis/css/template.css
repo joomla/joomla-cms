@@ -1633,6 +1633,9 @@ legend + .control-group {
 .form-horizontal .controls:first-child {
 	*padding-left: 180px;
 }
+.form-horizontal .controls-nolabel {
+	margin-left: 0;
+}
 .form-horizontal .help-block {
 	margin-bottom: 0;
 }
