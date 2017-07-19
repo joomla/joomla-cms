@@ -273,7 +273,6 @@
 			name="stem"
 			type="radio"
 			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
-			description="COM_FINDER_CONFIG_STEMMER_ENABLE_DESCRIPTION"
 			class="switcher"
 			default="1"
 			>

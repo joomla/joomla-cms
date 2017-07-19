@@ -514,7 +514,6 @@
 				name="show_readmore_title"
 				type="list"
 				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-				description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>

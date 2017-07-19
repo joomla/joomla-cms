@@ -246,7 +246,6 @@
 			name="show_readmore_title"
 			type="radio"
 			label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-			description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 			class="switcher"
 			default="1"
 			showon="show_readmore:1"
