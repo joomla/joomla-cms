@@ -1007,23 +1007,19 @@
 
 			if (calObj) {
 				if (calObj.inputField.value) {
-					if (typeof calObj.dateClicked === 'undefined') {
-						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
+					calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
 
-						if (calObj.params.dateType !== 'gregorian') {
-							// We need to transform the date for the data-alt-value
-							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType);
-							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
-							date.setFullYear(ndate[0]);
-							date.setMonth(ndate[1]);
-							date.setDate(ndate[2]);
-							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false));
-						} else {
-							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
-								.print(calObj.params.dateFormat, 'gregorian', false));
-						}
+					if (calObj.params.dateType !== 'gregorian') {
+						// We need to transform the date for the data-alt-value
+						var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType);
+						ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
+						date.setFullYear(ndate[0]);
+						date.setMonth(ndate[1]);
+						date.setDate(ndate[2]);
+						calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false));
 					} else {
-						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false));
+						calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
+							.print(calObj.params.dateFormat, 'gregorian', false));
 					}
 				} else {
 					calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
