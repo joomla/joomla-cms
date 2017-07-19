@@ -35,6 +35,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			{
 				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
+				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
 				// Clear the cached data
@@ -334,6 +335,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		if ($result)
 		{
 			// Already installed, which would make sense
+			$installer->setPackageUninstall(true);
 			$installer->uninstall('library', $result);
 
 			// Clear the cached data

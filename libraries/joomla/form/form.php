@@ -2167,7 +2167,7 @@ class JForm
 
 			if (empty($data))
 			{
-				throw new InvalidArgumentException(sprintf('JForm::getInstance(name, *%s*)', gettype($data)));
+				throw new InvalidArgumentException(sprintf('JForm::getInstance(%s, *%s*)', $name, gettype($data)));
 			}
 
 			// Instantiate the form.

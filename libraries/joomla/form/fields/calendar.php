@@ -171,6 +171,11 @@ class JFormFieldCalendar extends JFormField
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
 			$this->minyear      = (string) $this->element['minyear'] ? (string) $this->element['minyear'] : null;
 			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
+
+			if ($this->maxyear < 0 || $this->minyear > 0)
+			{
+				$this->todaybutton = 'false';
+			}
 		}
 
 		return $return;
