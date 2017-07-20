@@ -47,6 +47,11 @@ class Workflow extends Admin
 		$data['created_by']  = $user->get('id');
 		$data['modified_by'] = $user->get('id');
 
+		if (!empty($data['id']))
+		{
+			$data['modified'] = date("Y-m-d H:i:s");
+		}
+
 		if ($data['default'] == '1')
 		{
 			$table = $this->getTable();

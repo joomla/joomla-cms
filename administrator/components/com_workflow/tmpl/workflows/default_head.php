@@ -27,15 +27,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_STATES'); ?>
 	</th>
-	<th style="width:10%" class="nowrap text-center hidden-sm-down">
-		<?php echo JText::_('COM_WORKFLOW_TRANSITIONS'); ?>
-	</th>
 	<th style="width:10%" class="text-center nowrap hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_DEFAULT'); ?>
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_CREATION_DATE', 'created', $listDirn, $listOrder); ?>
 	</th>
+	<th style="width:10%" class="nowrap text-center hidden-sm-down">
+		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_MODIFICATION_DATE', 'modified', $listDirn, $listOrder); ?>
+	</th>`
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_AUTHOR', 'created_by', $listDirn, $listOrder); ?>
 	</th>

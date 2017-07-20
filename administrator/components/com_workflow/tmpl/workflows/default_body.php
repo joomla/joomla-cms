@@ -31,16 +31,16 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			<a href="<?php echo $edit; ?>"><?php echo $item->title; ?></a>
 		</td>
 		<td class="text-center">
-			<a href="<?php echo $states; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>
-		</td>
-		<td class="text-center">
-			<a href="<?php echo $transitions; ?>"><?php echo \JText::_('COM_WORKFLOW_SHOW'); ?></a>
+			<a href="<?php echo $states; ?>"><?php echo \JText::_('COM_WORKFLOW_MANAGE'); ?></a>
 		</td>
 		<td class="text-center hidden-sm-down">
 			<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'workflows.', true); ?>
 		</td>
 		<td class="text-center">
 			<?php echo $item->created; ?>
+		</td>
+		<td class="text-center">
+			<?php echo $item->modified; ?>
 		</td>
 		<td class="text-center">
 			<?php echo empty($item->name) ? JText::_('COM_WORKFLOW_NA') : $item->name; ?>

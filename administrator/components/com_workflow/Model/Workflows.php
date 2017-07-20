@@ -116,6 +116,7 @@ class  Workflows extends ListModel
 			'w.id',
 			'w.title',
 			'w.created',
+			'w.modified',
 			'w.published',
 			'w.default',
 			'u.name'
