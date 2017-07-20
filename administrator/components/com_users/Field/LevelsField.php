@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Users\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Access Levels field.
  *
  * @since  3.6.0
  */
-class JFormFieldLevels extends JFormFieldList
+class LevelsField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
