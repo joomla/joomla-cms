@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Model\Admin;
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
  * Download key model
@@ -64,6 +65,20 @@ class Downloadkey extends Admin
 		$data = $this->getItem();
 
 		$this->preprocessData('com_installer.downloadkey', $data);
+
+		return $data;
+	}
+
+	public function getItem($pk = null)
+	{
+		$data = parent::getItem($pk);
+
+		$path = InstallerHelper::getInstalationXML($data->update_site_id);
+
+		$installXmlFile = simplexml_load_file($path);
+
+		$data->prefixlen = strlen((string) $installXmlFile->dlid['prefix']);
+		$data->sufixlen = strlen((string) $installXmlFile->dlid['sufix']);
 
 		return $data;
 	}

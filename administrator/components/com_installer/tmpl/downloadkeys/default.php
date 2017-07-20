@@ -102,13 +102,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php if (!$item->extra_query):?>
 										<?php echo JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>
 									<?php else: ?>
-										<?php $installXmlFile = simplexml_load_file(
-											JPATH_ADMINISTRATOR . '/components/' . $item->element . '/' . substr($item->element, 4) . '.xml'
-										);
+										<?php $installXmlFile = simplexml_load_file(InstallerHelper::getInstalationXML($item->update_site_id));
 										?>
 										<?php $dlidPrefixLength = strlen($installXmlFile->dlid['prefix']); ?>
 										<?php $dlidSufixLength = strlen($installXmlFile->dlid['sufix']); ?>
-										<?php echo substr(substr($item->extra_query, $dlidPrefixLength), 0, -$dlidSufixLength); ?>
+										<?php $value = substr($item->extra_query, $dlidPrefixLength); ?>
+
+										<?php if ($dlidSufixLength != 0): ?>
+										<?php	$value = substr($value, 0, -$dlidSufixLength); ?>
+										<?php endif; ?>
+										<?php echo $value; ?>
 									<?php endif; ?>
 								</td>
 							</tr>

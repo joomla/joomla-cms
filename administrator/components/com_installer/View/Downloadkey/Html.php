@@ -52,6 +52,13 @@ class Html extends HtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 
+		// Inject into form dlid prefix and sufix so can be easier
+		// to load the DownloadKey field if they exist
+		$jinput = \JFactory::getApplication()->input;
+		$this->form->dlidprefix = $jinput->getString('dlidprefix', '');
+		$this->form->dlidsufix = $jinput->getString('dlidsufix', '');
+		$this->modal = $jinput->getString('tmpl', '');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
