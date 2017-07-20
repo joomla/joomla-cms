@@ -119,7 +119,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function token($name = 'csrf-token')
+	public static function token($name = 'csrf.token')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$name]))
@@ -137,7 +137,7 @@ abstract class JHtmlJquery
 ;(function ($) {
 	$.ajaxSetup({
 		headers: {
-			'X-CSRF-Token': Joomla.getOptions('joomla.core')['$name']
+			'X-CSRF-Token': Joomla.getOptions('$name')
 		}
 	});
 })(jQuery);

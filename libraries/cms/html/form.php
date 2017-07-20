@@ -41,12 +41,14 @@ abstract class JHtmlForm
 	 */
 	public static function token(array $attribs = array())
 	{
-		if (!empty($attribs))
+		$attributes = '';
+
+		if ($attribs !== array())
 		{
-			$attribs = ' ' . ArrayHelper::toString($attribs);
+			$attributes .= ' ' . ArrayHelper::toString($attribs);
 		}
 
-		return '<input type="hidden" name="' . JSession::getFormToken() . '" value="1"' . $attribs . ' />';
+		return '<input type="hidden" name="' . JSession::getFormToken() . '" value="1"' . $attributes . ' />';
 	}
 
 	/**
@@ -58,7 +60,7 @@ abstract class JHtmlForm
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function csrf($name = 'csrf-token')
+	public static function csrf($name = 'csrf.token')
 	{
 		if (isset(static::$loaded[__METHOD__][$name]))
 		{
@@ -68,12 +70,12 @@ abstract class JHtmlForm
 		/** @var JDocumentHtml $doc */
 		$doc = JFactory::getDocument();
 
-		if ($doc->getType() !== 'html' || !$doc instanceof JDocumentHtml)
+		if (!$doc instanceof JDocumentHtml || $doc->getType() !== 'html')
 		{
 			return;
 		}
 
-		$doc->addScriptOptions('joomla.core', array($name => JSession::getFormToken()));
+		$doc->addScriptOptions($name, JSession::getFormToken());
 
 		static::$loaded[__METHOD__][$name] = true;
 	}
