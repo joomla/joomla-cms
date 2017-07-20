@@ -717,6 +717,16 @@ abstract class ToolbarHelper
 		$bar->appendButton('Custom', $dhtml, $alt);
 	}
 
+	/**
+	 * Displays a modal button
+	 *
+	 * @param   string  $alt          Title for the modal button.
+	 * @param   string  $extensionId  Id of the extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function downloadkey($alt, $extensionId)
 	{
 		$db    = \JFactory::getDbo();
@@ -751,7 +761,9 @@ abstract class ToolbarHelper
 					. ' onclick="window.processModalEdit(this, \'jform_request_id\', \'edit\', \'downloadkey\', \'apply\', \'adminForm\'); return false;">'
 					. \JText::_('JAPPLY') . '</a>',
 			),
-			'<iframe class="iframe" id="Frame_download_key_modal" src="index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . $updateSiteId . '&tmpl=component"></iframe>'
+			'<iframe class="iframe" id="Frame_download_key_modal" ' .
+				'src="index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . $updateSiteId . '&tmpl=component">' .
+			'</iframe>'
 		);
 
 		$bar = Toolbar::getInstance('toolbar');

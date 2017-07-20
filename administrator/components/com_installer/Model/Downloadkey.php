@@ -69,9 +69,21 @@ class Downloadkey extends Admin
 		return $data;
 	}
 
-	public function getItem($pk = null)
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getItem()
 	{
-		$data = parent::getItem($pk);
+		$data = parent::getItem();
+
+		if (!$data)
+		{
+			return false;
+		}
 
 		$path = InstallerHelper::getInstalationXML($data->update_site_id);
 

@@ -163,6 +163,15 @@ class InstallerHelper
 		return $options;
 	}
 
+	/**
+	 * Get the xml installation path of an extension related do an update site.
+	 *
+	 * @param   int  $updateSiteId  The update_site_id of the extension.
+	 *
+	 * @return  string  Path to the xml installation.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getInstalationXML($updateSiteId)
 	{
 		$db    = \JFactory::getDbo();

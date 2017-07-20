@@ -84,6 +84,6 @@ class Html extends InstallerViewDefault
 
 		\JHtmlSidebar::setAction('index.php?option=com_installer&view=downloadkey');
 		parent::addToolbar();
-		//ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
+		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}
 }
