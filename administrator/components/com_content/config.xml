@@ -933,6 +933,7 @@
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			description="JGLOBAL_LIST_VOTES_DESC"
 			default="0"
+			class="switcher"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -944,6 +945,7 @@
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			description="JGLOBAL_LIST_RATINGS_DESC"
 			default="0"
+			class="switcher"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
