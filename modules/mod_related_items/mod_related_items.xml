@@ -27,7 +27,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
-					description="MOD_RELATED_FIELD_SHOWDATE_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -38,7 +37,6 @@
 					name="maximum"
 					type="text"
 					label="MOD_RELATED_FIELD_MAX_LABEL"
-					description="MOD_RELATED_FIELD_MAX_DESC"
 					default="5"
 				/>
 			</fieldset>
