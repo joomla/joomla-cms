@@ -27,3 +27,22 @@
   display: none;
   visibility: hidden;
 }
+
+// Bootstrap 2.3 Legacy Grid
+@mixin make-span($size, $columns: $grid-columns) {
+  width: percentage($size / $columns);
+}
+@for $i from 1 through $grid-columns {
+  .span#{$i} {
+    @include make-span($i, $grid-columns);
+  }
+}
+[class*="span"] {
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  min-height: 30px;
+  @include media-breakpoint-down(md) {
+    width: 100%;
+  }
+}
