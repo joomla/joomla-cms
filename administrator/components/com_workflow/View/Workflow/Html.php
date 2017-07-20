@@ -83,5 +83,6 @@ class Html extends HtmlView
 			'btn-success'
 		);
 		ToolbarHelper::cancel('workflow.cancel');
+		ToolbarHelper::help('JHELP_WORKFLOW_EDIT');
 	}
 }

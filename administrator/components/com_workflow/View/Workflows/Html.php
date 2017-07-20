@@ -116,12 +116,16 @@ class Html extends HtmlView
 		ToolbarHelper::editList('workflow.edit');
 		ToolbarHelper::publishList('workflows.publish');
 		ToolbarHelper::unpublishList('workflows.unpublish');
+		ToolbarHelper::archiveList('workflows.archive');
 		ToolbarHelper::trash('workflows.trash');
+		ToolbarHelper::checkin('workflows.checkin', 'JTOOLBAR_CHECKIN', true);
+		ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
 
 		if ($this->state->get("filter.published") === "-2")
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		}
+		ToolbarHelper::help('JHELP_WORKFLOWS_LIST');
 	}
 
 	/**

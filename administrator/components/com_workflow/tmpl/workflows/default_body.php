@@ -43,7 +43,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			<?php echo $item->created; ?>
 		</td>
 		<td class="text-center">
-			<?php echo $item->name; ?>
+			<?php echo empty($item->name) ? JText::_('COM_WORKFLOW_NA') : $item->name; ?>
 		</td>
 		<td class="text-right">
 			<?php echo $item->id; ?>

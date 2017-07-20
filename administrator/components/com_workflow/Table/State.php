@@ -54,6 +54,21 @@ class State extends Table
 		$db  = $this->getDbo();
 		$app = \JFactory::getApplication();
 
+		// Gets the update site names.
+		$query = $db->getQuery(true)
+			->select($db->qn(array('id', 'title')))
+			->from($db->qn('#__workflow_states'))
+			->where($db->qn('id') . ' = ' . (int) $pk);
+		$db->setQuery($query);
+		$state = $db->loadResult();
+
+		if ($state->default)
+		{
+			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title, $e->getMessage()), 'error');
+
+			return false;
+		}
+
 		// Delete the update site from all tables.
 		try
 		{
@@ -69,15 +84,8 @@ class State extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			// Gets the update site names.
-			$query = $db->getQuery(true)
-				->select($db->qn(array('id', 'title')))
-				->from($db->qn('#__workflows'))
-				->where($db->qn('id') . ' = ' . (int) $pk);
 
-			$workflows = $db->setQuery($query)->loadObjectList();
-
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflows[$pk]->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $state->title, $e->getMessage()), 'error');
 		}
 
 		return false;
