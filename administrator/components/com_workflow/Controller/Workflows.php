@@ -81,7 +81,7 @@ class Workflows extends Admin
 		{
 			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
-		else if (is_numeric($cid[1]))
+		elseif (is_numeric($cid[1]))
 		{
 			$this->setMessage(\JText::_($this->text_prefix . '_TO_MANY_ITEMS'), 'error');
 		}
