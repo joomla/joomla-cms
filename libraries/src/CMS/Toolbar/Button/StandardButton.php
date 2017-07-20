@@ -85,6 +85,11 @@ class StandardButton extends ToolbarButton
 				$options['btnClass'] .= ' btn btn-sm btn-danger';
 				break;
 
+			case 'trash':
+				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
+				break;
+
+
 			default:
 				$options['btnClass'] .= ' btn btn-sm btn-outline-primary';
 		}
