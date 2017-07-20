@@ -152,7 +152,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @return  JDocumentHTML  instance of $this to allow chaining
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function resetHeadData($types = null)
 	{
@@ -193,7 +193,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function resetHeadDatum($type)
 	{

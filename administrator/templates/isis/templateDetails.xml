@@ -47,84 +47,123 @@
 		<fields name="params">
 			<fieldset name="advanced">
 
-				<field name="templateColor" class="" type="color" default="#10223E"
-				validate="color"
-				label="TPL_ISIS_COLOR_LABEL"
-				description="TPL_ISIS_COLOR_DESC" />
+				<field 
+					name="templateColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_LABEL"
+					description="TPL_ISIS_COLOR_DESC" 
+					class="" 
+					default="#10223E"
+					validate="color"
+				/>
 
-				<field name="headerColor" class="" type="color" default="#1A3867"
-				validate="color"
-				label="TPL_ISIS_COLOR_HEADER_LABEL"
-				description="TPL_ISIS_COLOR_HEADER_DESC" />
+				<field 
+					name="headerColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_HEADER_LABEL"
+					description="TPL_ISIS_COLOR_HEADER_DESC" 
+					class="" 
+					default="#1A3867"
+					validate="color"
+				/>
 
-				<field name="sidebarColor" class="" type="color" default="#0088CC"
-				validate="color"
-				label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
-				description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
+				<field 
+					name="sidebarColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
+					description="TPL_ISIS_COLOR_SIDEBAR_DESC" 
+					class="" 
+					default="#3071a9"
+					validate="color"
+				/>
 
-				<field name="linkColor" class="" type="color" default="#0088CC"
-				validate="color"
-				label="TPL_ISIS_COLOR_LINK_LABEL"
-				description="TPL_ISIS_COLOR_LINK_DESC" />
+				<field 
+					name="linkColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_LINK_LABEL"
+					description="TPL_ISIS_COLOR_LINK_DESC" 
+					class="" 
+					default="#3071a9"
+					validate="color"
+				/>
 
-				<field name="loginBackgroundColor" class="" type="color" default="#17568C"
-				validate="color"
-				label="TPL_ISIS_COLOR_LOGIN_BACKGROUND_LABEL"
-				description="TPL_ISIS_COLOR_LOGIN_BACKGROUND_DESC" />
+				<field 
+					name="loginBackgroundColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_LOGIN_BACKGROUND_LABEL"
+					description="TPL_ISIS_COLOR_LOGIN_BACKGROUND_DESC"
+					class="" 
+					default="#17568C"
+					validate="color"
+				/>
 
-				<field name="logoFile" class="" type="media" default=""
-				label="TPL_ISIS_LOGO_LABEL"
-				description="TPL_ISIS_LOGO_DESC" />
+				<field 
+					name="logoFile" 
+					type="media" 
+					label="TPL_ISIS_LOGO_LABEL"
+					description="TPL_ISIS_LOGO_DESC"
+					class="" 
+					default=""
+				 />
 
-				<field name="loginLogoFile" class="" type="media" default=""
-				label="TPL_ISIS_LOGIN_LOGO_LABEL"
-				description="TPL_ISIS_LOGIN_LOGO_DESC" />
+				<field 
+					name="loginLogoFile" 
+					type="media" 
+					label="TPL_ISIS_LOGIN_LOGO_LABEL"
+					description="TPL_ISIS_LOGIN_LOGO_DESC"
+					class="" 
+					default=""
+				 />
 
-				<field name="admin_menus" type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
-				description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+				<field 
+					name="admin_menus"
+					type="radio"
+					label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
+					description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
-				<field name="displayHeader" type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="TPL_ISIS_HEADER_LABEL"
-				description="TPL_ISIS_HEADER_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+				<field 
+					name="displayHeader" 
+					type="radio"
+					label="TPL_ISIS_HEADER_LABEL"
+					description="TPL_ISIS_HEADER_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
-				<field name="statusFixed" type="list"
-				default="1"
-				label="TPL_ISIS_STATUS_LABEL"
-				description="TPL_ISIS_STATUS_DESC"
-				filter="integer">
-				<option
-					value="1">TPL_ISIS_STATUS_BOTTOM</option>
-				<option
-					value="0">TPL_ISIS_STATUS_TOP</option>
+				<field 
+					name="statusFixed" 
+					type="list"
+					label="TPL_ISIS_STATUS_LABEL"
+					description="TPL_ISIS_STATUS_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">TPL_ISIS_STATUS_BOTTOM</option>
+					<option value="0">TPL_ISIS_STATUS_TOP</option>
 				</field>
 
-				<field name="stickyToolbar" type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="TPL_ISIS_STICKY_LABEL"
-				description="TPL_ISIS_STICKY_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+				<field 
+					name="stickyToolbar" 
+					type="radio"
+					label="TPL_ISIS_STICKY_LABEL"
+					description="TPL_ISIS_STICKY_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 			</fieldset>

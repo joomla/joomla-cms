@@ -200,7 +200,7 @@ class ContentModelForm extends ContentModelArticle
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{

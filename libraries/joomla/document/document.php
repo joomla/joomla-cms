@@ -414,7 +414,7 @@ class JDocument
 	 * Sets or alters a meta tag.
 	 *
 	 * @param   string  $name       Name of the meta HTML tag
-	 * @param   string  $content    Value of the meta HTML tag
+	 * @param   mixed   $content    Value of the meta HTML tag as array or string
 	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  JDocument instance of $this to allow chaining
@@ -423,6 +423,12 @@ class JDocument
 	 */
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
+		// Pop the element off the end of array if target function expects a string or this http_equiv parameter.
+		if (is_array($content) && (in_array($name, array('generator', 'description')) || !is_string($attribute)))
+		{
+			$content = array_pop($content);
+		}
+
 		// B/C old http_equiv parameter.
 		if (!is_string($attribute))
 		{
@@ -643,7 +649,7 @@ class JDocument
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
 		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
+		if (is_string($options))
 		{
 			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -654,7 +660,7 @@ class JDocument
 			// Old mime type parameter.
 			if (!empty($argList[1]))
 			{
-				$attribs['mime'] = $argList[1];
+				$attribs['type'] = $argList[1];
 			}
 
 			// Old media parameter.

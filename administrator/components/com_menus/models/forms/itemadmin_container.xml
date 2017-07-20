@@ -37,15 +37,22 @@
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
 			/>
 
+			<field 
+				name="menu_image_css"
+				type="text" 
+				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
+			/>
+
 			<field
 				name="menu_text"
 				type="radio"
-				class="btn-group btn-group-yesno"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
+				class="btn-group btn-group-yesno"
 				default="1"
 				filter="integer"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -53,12 +60,12 @@
 			<field
 				name="menu_show"
 				type="radio"
-				class="btn-group btn-group-yesno"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
+				class="btn-group btn-group-yesno"
 				default="1"
 				filter="integer"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

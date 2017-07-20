@@ -15,6 +15,6 @@ $title = $displayData['title'];
 
 ?>
 <button data-toggle="modal" onclick="{jQuery( '#collapseModal' ).modal('show'); return true;}" class="btn btn-small">
-	<span class="icon-checkbox-partial" title="<?php echo $title; ?>"></span>
+	<span class="icon-checkbox-partial"  aria-hidden="true" title="<?php echo $title; ?>"></span>
 	<?php echo $title; ?>
 </button>

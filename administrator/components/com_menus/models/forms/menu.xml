@@ -2,9 +2,9 @@
 <form>
 	<fieldset>
 		<field
-			id="id"
 			name="id"
 			type="hidden"
+			id="id"
 			default="0"
 			filter="int"
 			readonly="true"
@@ -15,44 +15,44 @@
 			filter="unset"
 		/>
 		<field
-			id="menutype"
 			name="menutype"
 			type="text"
 			label="COM_MENUS_MENU_MENUTYPE_LABEL"
 			description="COM_MENUS_MENU_MENUTYPE_DESC"
+			id="menutype"
 			size="30"
 			maxlength="24"
 			required="true"
 		/>
 		<field
-			id="title"
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
 			description="COM_MENUS_MENU_TITLE_DESC"
+			id="title"
 			size="30"
 			maxlength="48"
 			required="true"
 		/>
 		<field
-			id="menudescription"
 			name="description"
 			type="text"
 			label="JGLOBAL_DESCRIPTION"
 			description="COM_MENUS_MENU_DESCRIPTION_DESC"
+			id="menudescription"
 			size="30"
 			maxlength="255"
 		/>
 		<field
-			id="client_id"
 			name="client_id"
 			type="radio"
 			label="COM_MENUS_MENU_CLIENT_ID_LABEL"
 			description="COM_MENUS_MENU_CLIENT_ID_DESC"
+			id="client_id"
 			default="0"
 			class="btn-group btn-group-yesno btn-group-reversed"
 			required="true"
-		>
+			>
 			<option value="0">JSITE</option>
 			<option value="1">JADMINISTRATOR</option>
 		</field>
@@ -64,7 +64,7 @@
 			filter="rules"
 			component="com_menus"
 			section="menu"
-			validate="rules" />
-
+			validate="rules" 
+		/>
 	</fieldset>
 </form>

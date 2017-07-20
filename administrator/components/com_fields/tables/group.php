@@ -71,7 +71,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link    https://docs.joomla.org/JTable/check
+	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/check
 	 * @since   3.7.0
 	 */
 	public function check()
@@ -119,9 +119,9 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		$component = explode('.', $this->context)[0];
+		$component = explode('.', $this->context);
 
-		return $component . '.fieldgroup.' . (int) $this->id;
+		return $component[0] . '.fieldgroup.' . (int) $this->id;
 	}
 
 	/**
@@ -133,7 +133,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
-	 * @link    https://docs.joomla.org/JTable/getAssetTitle
+	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/getAssetTitle
 	 * @since   3.7.0
 	 */
 	protected function _getAssetTitle()
@@ -157,12 +157,12 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
-		$component = explode('.', $this->context)[0];
+		$component = explode('.', $this->context);
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			->where($db->quoteName('name') . ' = ' . $db->quote($component[0]));
 		$db->setQuery($query);
 
 		if ($assetId = (int) $db->loadResult())

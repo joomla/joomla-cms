@@ -6,7 +6,7 @@
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set the platform root path as a constant if necessary.
@@ -68,6 +68,20 @@ if (!interface_exists('JsonSerializable'))
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
 
+/**
+ * Mask for the raw routing mode
+ *
+ * @deprecated  4.0
+ */
+const JROUTER_MODE_RAW = 0;
+
+/**
+ * Mask for the SEF routing mode
+ *
+ * @deprecated  4.0
+ */
+const JROUTER_MODE_SEF = 1;
+
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 
@@ -80,8 +94,6 @@ JLoader::register('JObserver', JPATH_PLATFORM . '/legacy/base/observer.php');
 JLoader::register('JObservable', JPATH_PLATFORM . '/legacy/base/observable.php');
 JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php');
 JLoader::register('JXMLElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');
-JLoader::register('JRule', JPATH_PLATFORM . '/legacy/access/rule.php');
-JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
 JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
 JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');

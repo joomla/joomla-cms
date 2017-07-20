@@ -97,11 +97,18 @@ class JAdminCssMenu
 	/**
 	 * Method to add a separator node
 	 *
+	 * @param   string  $title  The separator label text. A dash "-" can be used to use a horizontal bar instead of text label.
+	 *
 	 * @return  void
 	 */
-	public function addSeparator()
+	public function addSeparator($title = null)
 	{
-		$this->addChild(new JMenuNode(null, null, 'separator', false));
+		if ($title == '-' || $title == '')
+		{
+			$title = null;
+		}
+
+		$this->addChild(new JMenuNode($title, null, 'separator', false));
 	}
 
 	/**
@@ -168,7 +175,7 @@ class JAdminCssMenu
 
 		if ($this->_current->class == 'separator')
 		{
-			$class = ' class="divider"';
+			$class = $this->_current->title ? ' class="menuitem-group"' : ' class="divider"';
 		}
 
 		if ($this->_current->hasChildren() && $this->_current->class)
@@ -231,13 +238,13 @@ class JAdminCssMenu
 		{
 			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '">' . $this->_current->title . $dropdownCaret . '</a>';
 		}
-		elseif ($this->_current->title != null)
+		elseif ($this->_current->title != null && $this->_current->class != 'separator')
 		{
 			echo '<a' . $linkClass . ' ' . $dataToggle . '>' . $this->_current->title . $dropdownCaret . '</a>';
 		}
 		else
 		{
-			echo '<span></span>';
+			echo '<span>' . $this->_current->title . '</span>';
 		}
 
 		// Recurse through children if they exist
@@ -442,7 +449,7 @@ class JAdminCssMenu
 		{
 			if ($item->type == 'separator')
 			{
-				$this->addSeparator();
+				$this->addSeparator($item->text);
 			}
 			elseif ($item->type == 'heading' && !count($item->submenu))
 			{
@@ -466,7 +473,7 @@ class JAdminCssMenu
 						// Add a separator between dynamic menu items and components menu items
 						if (count($item->submenu) && count($components))
 						{
-							$this->addSeparator();
+							$this->addSeparator($item->text);
 						}
 
 						// Adding component submenu the old way, this assumes 2-level menu only
