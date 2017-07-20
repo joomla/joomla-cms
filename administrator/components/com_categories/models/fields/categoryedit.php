@@ -143,22 +143,19 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
-		$subQuery = $db->getQuery(true)
-			->select('id,title,level,published,parent_id,extension,lft,rgt')
-			->from('#__categories');
+			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft')
+			->from('#__categories AS a');
 
 		// Filter by the extension type
 		if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 		{
-			$subQuery->where('(extension = ' . $db->quote($extension) . ' OR parent_id = 0)');
+			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
 		}
 		else
 		{
-			$subQuery->where('(extension = ' . $db->quote($extension) . ')');
+			$query->where('(a.extension = ' . $db->quote($extension) . ')');
 		}
 
 		// Filter language
@@ -172,24 +169,27 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			{
 				$language = $db->quote($this->element['language']);
 			}
-			$subQuery->where($db->quoteName('language') . ' IN (' . $language . ')');
+			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
 		// Filter on the published state
 		if (is_numeric($published))
 		{
-			$subQuery->where('published = ' . (int) $published);
+			$query->where('a.published = ' . (int) $published);
 		}
 		elseif (is_array($published))
 		{
-			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
+			$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
 
 		// Filter categories on User Access Level
-		$subQuery->where('access IN (' . $groups . ')');
+		// Filter by access level on categories.
+		if (!$user->authorise('core.admin'))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
+		}
 
-		$query->from('(' . (string) $subQuery . ') AS a')
-			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 		$query->order('a.lft ASC');
 
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
@@ -256,9 +256,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
 			}
 		}
-
-		// Get the current user object.
-		$user = JFactory::getUser();
 
 		// For new items we want a list of categories you are allowed to create in.
 		if ($oldCat == 0)

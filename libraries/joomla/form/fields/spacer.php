@@ -112,7 +112,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  A string containing the html for the control group
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function renderField($options = array())
 	{
