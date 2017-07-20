@@ -1726,6 +1726,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_messages/layouts',
 			// Joomla! 3.7.4
 			'/components/com_fields/controllers',
+			// Joomla! 3.8.0
+			'components/com_contact/models/forms/form.xml',
 		);
 
 		jimport('joomla.filesystem.file');
