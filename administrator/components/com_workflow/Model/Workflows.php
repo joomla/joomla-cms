@@ -136,7 +136,7 @@ class  Workflows extends ListModel
 		if (is_numeric($authorId))
 		{
 			$type = $this->getState('filter.created_by.include', true) ? '= ' : '<>';
-			$query->where('a.created_by ' . $type . (int) $authorId);
+			$query->where($db->qn('w.created_by') . $type . (int) $authorId);
 		}
 
 		$status = (string) $this->getState('filter.published');
@@ -144,11 +144,11 @@ class  Workflows extends ListModel
 		// Filter by condition
 		if (is_numeric($status))
 		{
-			$query->where($db->qn('published') . ' = ' . $db->quote($db->escape($status)));
+			$query->where($db->qn('w.published') . ' = ' . $db->quote($db->escape($status)));
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('published') . " IN ('0', '1')");
+			$query->where($db->qn('w.published') . " IN ('0', '1')");
 		}
 
 		// Filter by search in title
@@ -157,7 +157,7 @@ class  Workflows extends ListModel
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where($db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search);
+			$query->where($db->qn('w.title') . ' LIKE ' . $search . ' OR ' . $db->qn('w.description') . ' LIKE ' . $search);
 		}
 
 		// Add the list ordering clause.

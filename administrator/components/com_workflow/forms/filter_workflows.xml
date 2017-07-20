@@ -23,10 +23,17 @@
 
 		<field
 				name="created_by"
-				type="author"
+				type="sql"
 				label="COM_CONTENT_FILTER_AUTHOR"
 				description="COM_CONTENT_FILTER_AUTHOR_DESC"
 				onchange="this.form.submit();"
+				sql_select="u.id, u.name"
+				sql_from="#__users u, #__workflows w"
+				sql_where="u.id=w.created_by"
+				sql_group="u.id,u.name"
+				sql_order="u.name"
+				key_field="id"
+				value_field="name"
 		>
 			<option value="">JOPTION_SELECT_AUTHOR</option>
 		</field>
@@ -40,7 +47,7 @@
 				type="list"
 				label="JGLOBAL_SORT_BY"
 				description="JGLOBAL_SORT_BY"
-				default="id ASC"
+				default="title ASC"
 				statuses="*,0,1,2,-2"
 				onchange="this.form.submit();"
 		>

@@ -14,6 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die('Restricted access');
 
+use JError;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Admin;
 
@@ -52,7 +53,7 @@ class Workflow extends Admin
 
 			if ($table->load(array('default' => '1')) && $table->id != $data['id'])
 			{
-				Factory::getApplication()->enqueueMessage('Default workflow already is', 'error');
+				Factory::getApplication()->enqueueMessage('Default workflow is already', 'error');
 
 				return false;
 			}
