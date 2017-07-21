@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('groupedlist');
 
 // Import the com_menus helper.
-require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
@@ -143,8 +143,6 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$app = JFactory::getApplication('administrator');
-
 		$result = parent::setup($element, $value, $group);
 
 		if ($result == true)
@@ -153,6 +151,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 
 			if (!$menuType)
 			{
+				$app = JFactory::getApplication('administrator');
 				$currentMenuType = $app->getUserState('com_menus.items.menutype', '');
 				$menuType        = $app->input->getString('menutype', $currentMenuType);
 			}
@@ -261,7 +260,8 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 					}
 
 					$groups[$menu->title][] = JHtml::_('select.option',
-						$link->value, $levelPrefix . $link->text . $lang,
+						$link->value,
+						$levelPrefix . $link->text . $lang,
 						'value',
 						'text',
 						in_array($link->type, $this->disable)
