@@ -188,11 +188,13 @@ class Transitions extends ListModel
 	public function getFilterForm($data = array(), $loadData = true)
 	{
 		$form = parent::getFilterForm($data, $loadData);
+		$id = (int) $this->getState('filter.workflow_id');
+		$db = $this->getDbo();
 
 		if ($form)
 		{
-			$form->setFieldAttribute('from_state', 'sql_where', $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $this->getState('filter.workflow_id'), 'filter');
-			$form->setFieldAttribute('to_state', 'sql_where', $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $this->getState('filter.workflow_id'), 'filter');
+			$form->setFieldAttribute('from_state', 'sql_where', $db->quoteName('workflow_id') . ' = ' . $id, 'filter');
+			$form->setFieldAttribute('to_state', 'sql_where', $db->quoteName('workflow_id') . ' = ' . $id, 'filter');
 		}
 
 		return $form;
