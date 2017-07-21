@@ -149,44 +149,46 @@ class JFilterInput extends InputFilter
 		{
 			case 'INT':
 			case 'INTEGER':
-				$pattern = '/[-+]?[0-9]+/';
+				// Allow the exponential representation for integers too
+				$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
 
 				if (is_array($source))
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (int) $matches[0] : 0;
+						$result[] = isset($matches[0]) ? (int) (float) $matches[0] : 0;
 					}
 				}
 				else
 				{
 					preg_match($pattern, (string) $source, $matches);
-					$result = isset($matches[0]) ? (int) $matches[0] : 0;
+					$result = isset($matches[0]) ? (int) (float) $matches[0] : 0;
 				}
 
 				break;
 			case 'UINT':
-				$pattern = '/[-+]?[0-9]+/';
+				// Allow the exponential representation for unsigned integers too
+				$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
 
 				if (is_array($source))
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+						$result[] = isset($matches[0]) ? abs((int) (float) $matches[0]) : 0;
 					}
 				}
 				else
 				{
 					preg_match($pattern, (string) $source, $matches);
-					$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+					$result = isset($matches[0]) ? abs((int) (float) $matches[0]) : 0;
 				}
 
 				break;
@@ -198,7 +200,7 @@ class JFilterInput extends InputFilter
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
@@ -356,7 +358,7 @@ class JFilterInput extends InputFilter
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
