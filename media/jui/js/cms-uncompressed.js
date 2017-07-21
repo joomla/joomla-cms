@@ -140,7 +140,7 @@ Joomla.setcollapse = function(url, name, height) {
 			}
 
 			// If conditions are satisfied show the target field(s), else hide
-			if (animate) {
+			if (animate && !target.is('option')) {
 				(showfield) ? target.slideDown() : target.slideUp();
 			} else if (target.is('option')) {
                                 target.toggle(showfield);
