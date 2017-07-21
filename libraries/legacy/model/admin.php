@@ -1032,7 +1032,18 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		$context = $this->option . '.' . $this->name;
+		if ($this->option != 'com_categories')
+		{
+			$context = $this->option . '.' . $this->name;
+		}
+		elseif ($extension = JFactory::getApplication()->input->get('extension', ''))
+		{
+			$context = $extension . '.' . $this->name;
+		}
+		else
+		{
+			$context = $this->option . '.' . $this->name;
+		}
 
 		// Trigger the change state event.
 		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
