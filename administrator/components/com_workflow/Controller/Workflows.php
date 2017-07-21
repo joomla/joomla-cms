@@ -77,13 +77,18 @@ class Workflows extends Admin
 		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
+		if (!$value)
+		{
+			$this->setMessage(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
+		}
+
 		if (empty($cid))
 		{
-			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(\JText::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
 		}
 		elseif (is_numeric($cid[1]))
 		{
-			$this->setMessage(\JText::_($this->text_prefix . '_TO_MANY_ITEMS'), 'error');
+			$this->setMessage(\JText::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
 		}
 		else
 		{
@@ -99,13 +104,13 @@ class Workflows extends Admin
 			}
 			else
 			{
-				if ($value == 1)
+				if ($value)
 				{
-					$ntext = 'COM_WORKFLOW_ITEM_SET_HOME';
+					$ntext = 'COM_WORKFLOW_ITEM_SET_DEFAULT';
 				}
 				else
 				{
-					$ntext = 'COM_WORKFLOW_ITEM_UNSET_HOME';
+					$ntext = 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
 				}
 
 				$this->setMessage(\JText::_($ntext, count($cid)));

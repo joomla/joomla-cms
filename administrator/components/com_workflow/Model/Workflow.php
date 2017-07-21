@@ -44,23 +44,32 @@ class Workflow extends Admin
 		$extension           = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 		$data['extension']   = $extension;
 		$data['asset_id']    = 0;
-		$data['created_by']  = $user->get('id');
 		$data['modified_by'] = $user->get('id');
 
 		if (!empty($data['id']))
 		{
 			$data['modified'] = date("Y-m-d H:i:s");
 		}
+		else
+		{
+			$data['created_by'] = $user->get('id');
+		}
 
 		if ($data['default'] == '1')
 		{
-			$table = $this->getTable();
-
-			if ($table->load(array('default' => '1')) && $table->id != $data['id'])
+			if ($data['published'] !== '1')
 			{
-				Factory::getApplication()->enqueueMessage('Default workflow is already', 'error');
+				Factory::getApplication()->enqueueMessage(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"), 'error');
 
 				return false;
+			}
+
+			$table = $this->getTable();
+
+			if ($table->load(array('default' => '1')))
+			{
+				$table->default = 0;
+				$table->store();
 			}
 		}
 
@@ -124,22 +133,32 @@ class Workflow extends Admin
 
 
 	/**
-	 * Method to change the home state of one or more items.
+	 * Method to change the home state of one item.
 	 *
-	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   array    $pk     A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   4.0
 	 */
-	public function setHome($pks, $value = 1)
+	public function setHome($pk, $value = 1)
 	{
 		$table = $this->getTable();
 
+		if ($table->load(array('id' => $pk)))
+		{
+			if ($table->published !== 1)
+			{
+				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
+
+				return false;
+			}
+		}
+
 		if ($value)
 		{
-			// Verify that the home page for this language is unique per client id
+			// Unset other default item
 			if ($table->load(array('default' => '1')))
 			{
 				$table->default = 0;
@@ -147,7 +166,7 @@ class Workflow extends Admin
 			}
 		}
 
-		if ($table->load(array('id' => $pks)))
+		if ($table->load(array('id' => $pk)))
 		{
 			$table->default = $value;
 			$table->store();
