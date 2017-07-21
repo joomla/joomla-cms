@@ -37,6 +37,7 @@ class Transitions extends ListModel
 		{
 			$config['filter_fields'] = array(
 				'id',
+				'published',
 				'title',
 				'from_state',
 				'to_state'
