@@ -131,7 +131,7 @@ class JTableContent extends JTable
 		// Search for the {readmore} tag and split the text up accordingly.
 		if (isset($array['articletext']))
 		{
-			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+			$pattern = '#<hr\s+id=("|\')system-readmore("|\')[^>]*\/*>#i';
 			$tagPos = preg_match($pattern, $array['articletext']);
 
 			if ($tagPos == 0)
