@@ -28,24 +28,11 @@ $user = JFactory::getUser();
 		</div>
 	<?php endif; ?>
 </div>
-<div class="row">
-
+<div class="row grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": ".grid-sizer", "percentPosition": true }'>
 	<?php
 	$cols = 0;
 	foreach ($this->modules as $module)
 	{
-		// Get module parameters
-		$params = new Registry;
-		$params->loadString($module->params);
-		$bootstrapSize = $params->get('bootstrap_size', 6);
-
-		$cols += $bootstrapSize;
-		if ($cols > 12)
-		{
-			echo '</div><div class="row">';
-			$cols = $bootstrapSize;
-		}
-
 		echo JModuleHelper::renderModule($module, array('style' => 'well'));
 	}
 	?>
