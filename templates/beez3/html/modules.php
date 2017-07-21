@@ -45,7 +45,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 	onclick="auf('module_<?php echo $module->id; ?>'); return false"
 	class="opencloselink" id="link_<?php echo $module->id?>"> <span
 	class="no"><img src="templates/beez3/images/plus.png"
-	alt="<?php if ($state == 1) { echo JText::_('TPL_BEEZ3_ALTOPEN');} else {echo JText::_('TPL_BEEZ3_ALTCLOSE');} ?>" />
+	alt="<?php if ($state === 1) { echo JText::_('TPL_BEEZ3_ALTOPEN');} else {echo JText::_('TPL_BEEZ3_ALTCLOSE');} ?>" />
 </span></a></h<?php echo $headerLevel; ?>> <?php endif; ?>
 <div class="module_content <?php if ($state == 1){echo 'open';} ?>"
 	id="module_<?php echo $module->id; ?>" tabindex="-1"><?php echo $module->content; ?></div>

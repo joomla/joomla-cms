@@ -44,7 +44,7 @@
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
 					filter="options"
 					>
 					<option value="1">JON</option>
@@ -57,7 +57,7 @@
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
 					class="btn-group btn-group-yesno"
-					default="1"
+					default="0"
 					filter="options"
 					>
 					<option value="1">JON</option>
@@ -83,7 +83,7 @@
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
 					filter="options"
 					>
 					<option value="1">JON</option>
@@ -227,16 +227,9 @@
 					type="hidden"
 					default="media/editors/codemirror/mode/%N/%N"
 				/>
-
 			</fieldset>
 
-
-			<fieldset
-				name="appearance"
-				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
-				addfieldpath="plugins/editors/codemirror"
-				>
-
+			<fieldset name="appearance" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL" addfieldpath="plugins/editors/codemirror">
 				<field
 					name="theme"
 					type="filelist"
@@ -327,9 +320,7 @@
 					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>
 					<option value="overlay">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY</option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

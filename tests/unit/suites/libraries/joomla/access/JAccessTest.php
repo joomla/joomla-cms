@@ -25,6 +25,11 @@ class JAccessTest extends TestCaseDatabase
 	protected $object;
 
 	/**
+	 * @var string
+	 */
+	protected $outputPath;
+
+	/**
 	 * Tests the JAccess::getAuthorisedViewLevels method.
 	 *
 	 * @return  void
@@ -64,6 +69,7 @@ class JAccessTest extends TestCaseDatabase
 		return array(
 			'valid_manager_admin_login' => array(44, 'core.login.admin', 1, true, 'Line:' . __LINE__ . ' Administrator group can login to admin'),
 			'valid_manager_login' => array(44, 'core.admin', 1, false, 'Line:' . __LINE__ . ' Administrator group cannot login to admin core'),
+			// TODO: Check these tests (duplicate keys, only the last of the duplicates gets executed)
 			'super_user_admin' => array(42, 'core.admin', 3, true, 'Line:' . __LINE__ . ' Super User group can do anything'),
 			'super_user_admin' => array(42, 'core.admin', null, true, 'Line:' . __LINE__ . ' Null asset should default to root'),
 			'publisher_delete_banner' => array(
@@ -406,7 +412,7 @@ class JAccessTest extends TestCaseDatabase
 		);
 
 		file_put_contents(
-			JPATH_TESTS . '/tmp/access/access.xml',
+			$this->outputPath . '/access.xml',
 			'<access component="com_banners">
 	<section name="component">
 		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
@@ -426,7 +432,7 @@ class JAccessTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			JAccess::getActionsFromFile(JPATH_TESTS . '/tmp/access/access.xml'),
+			JAccess::getActionsFromFile($this->outputPath . '/access.xml'),
 			$this->equalTo(
 				array(
 					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
@@ -478,11 +484,9 @@ class JAccessTest extends TestCaseDatabase
 
 		$this->object = new JAccess;
 
-		// Make sure previous test files are cleaned up
-		$this->_cleanupTestFiles();
-
 		// Make some test files and folders
-		mkdir(JPath::clean(JPATH_TESTS . '/tmp/access'), 0777, true);
+		$this->outputPath = JPath::clean(JPATH_TESTS . '/tmp/access/' . uniqid());
+		mkdir($this->outputPath, 0777, true);
 	}
 
 	/**
@@ -508,8 +512,8 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	private function _cleanupTestFiles()
 	{
-		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/access/access.xml'));
-		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/access'));
+		$this->_cleanupFile(JPath::clean($this->outputPath . '/access.xml'));
+		$this->_cleanupFile(JPath::clean($this->outputPath));
 	}
 
 	/**

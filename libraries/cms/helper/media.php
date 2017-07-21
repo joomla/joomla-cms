@@ -152,7 +152,7 @@ class JHelperMedia
 
 		jimport('joomla.filesystem.file');
 
-		if (str_replace(' ', '', $file['name']) != $file['name'] || $file['name'] !== JFile::makeSafe($file['name']))
+		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== JFile::makeSafe($file['name']))
 		{
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
@@ -297,7 +297,7 @@ class JHelperMedia
 		foreach ($html_tags as $tag)
 		{
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
+			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
 			{
 				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
@@ -360,15 +360,14 @@ class JHelperMedia
 		{
 			$d = dir($dir);
 
-			while (false !== ($entry = $d->read()))
+			while (($entry = $d->read()) !== false)
 			{
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
-					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false)
+				if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry))
 				{
 					$total_file++;
 				}
 
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
+				if ($entry[0] !== '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
 				{
 					$total_dir++;
 				}

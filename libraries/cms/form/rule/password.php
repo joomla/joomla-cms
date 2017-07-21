@@ -68,7 +68,7 @@ class JFormRulePassword extends JFormRule
 		}
 
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -92,7 +92,7 @@ class JFormRulePassword extends JFormRule
 		// Set a variable to check if any errors are made in password
 		$validPassword = true;
 
-		if (strlen($valueTrim) != $valueLength)
+		if (strlen($valueTrim) !== $valueLength)
 		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
