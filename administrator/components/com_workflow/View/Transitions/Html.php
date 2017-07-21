@@ -109,14 +109,8 @@ class Html extends HtmlView
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
 
-		$this->workflowID = $this->state->get("filter.workflow_id");
-		$this->extension = $this->state->get("filter.extension");
-
-		// Set the form selects sql
-		$sqlStatesFrom = WorkflowHelper::getStatesSQL('from_state', $this->workflowID);
-		$sqlStatesTo = WorkflowHelper::getStatesSQL('to_state', $this->workflowID);
-		$this->filterForm->setFieldAttribute('from_state', 'query', $sqlStatesFrom);
-		$this->filterForm->setFieldAttribute('to_state', 'query', $sqlStatesTo);
+		$this->workflowID = $this->state->get('filter.workflow_id');
+		$this->extension = $this->state->get('filter.extension');
 
 		WorkflowHelper::addSubmenu(
 			implode(

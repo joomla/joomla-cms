@@ -174,4 +174,27 @@ class Transitions extends ListModel
 
 		return $query;
 	}
+
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|boolean  The \JForm object or false on error
+	 *
+	 * @since   3.2
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		if ($form)
+		{
+			$form->setFieldAttribute('from_state', 'sql_where', $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $this->getState('filter.workflow_id'), 'filter');
+			$form->setFieldAttribute('to_state', 'sql_where', $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $this->getState('filter.workflow_id'), 'filter');
+		}
+
+		return $form;
+	}
 }
