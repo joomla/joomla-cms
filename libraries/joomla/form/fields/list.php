@@ -83,7 +83,16 @@ class JFormFieldList extends JFormField
 		else
 		// Create a regular list.
 		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$listoptions = array();
+			$listoptions['option.key'] = 'value';
+			$listoptions['option.text'] = 'text';
+			$listoptions['list.select'] = $this->value;
+			$listoptions['id'] = $this->id;
+			$listoptions['list.translate'] = false;
+			$listoptions['option.attr'] = 'optionattr';
+			$listoptions['list.attr'] = trim($attr);
+
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, $listoptions);
 		}
 
 		return implode($html);
@@ -144,7 +153,10 @@ class JFormFieldList extends JFormField
 			// Set some event handler attributes. But really, should be using unobtrusive js.
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
-
+			
+			if ((string) $option['showon']){
+				$tmp['optionattr']   = " data-showon = '".json_encode(JFormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group))."'";
+			}
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}
