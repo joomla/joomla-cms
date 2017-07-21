@@ -155,9 +155,18 @@ if (!Array.prototype.indexOf)
 			}
 
 			// If conditions are satisfied show the target field(s), else hide
-			if (animate) {
+                        // Note that we cannot animate select  list options anywhere other than chrome so disable this
+			if (animate && !target.is('option')) {
 				(showfield) ? target.slideDown() : target.slideUp();
-			} else {
+			} else if (target.is('option')) {
+                                target.toggle(showfield);
+                                target.attr('disabled' ,showfield? false : true);
+                                // if chosen active for the target select list then update it
+                                if ($('#'+target.parent().attr('id')+'_chzn').length){
+                                    target.parent().trigger("liszt:updated");
+                                    target.parent().trigger("chosen:updated");
+                                }
+                        } else {
 				target.toggle(showfield);
 			}
 		}
