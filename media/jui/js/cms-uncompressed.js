@@ -11,37 +11,37 @@ if (typeof(Joomla) === 'undefined') {
 !(function(document, Joomla) {
 	"use strict";
 
-	/**
-	 * Sets the HTML of the container-collapse element
-	 */
-	Joomla.setcollapse = function(url, name, height) {
-		if (!document.getElementById('collapse-' + name)) {
+/**
+ * Sets the HTML of the container-collapse element
+ */
+Joomla.setcollapse = function(url, name, height) {
+    if (!document.getElementById('collapse-' + name)) {
 			document.getElementById('container-collapse').innerHTML = '<div class="collapse fade" id="collapse-' + name + '"><iframe class="iframe" src="' + url + '" height="' + height + '" width="100%"></iframe></div>';
-		}
-	};
+    }
+};
 
-	/**
-	 * IE8 polyfill for indexOf()
-	 */
+/**
+ * IE8 polyfill for indexOf()
+ */
 	if (!Array.prototype.indexOf) {
 		Array.prototype.indexOf = function(elt) {
-			var len = this.length >>> 0;
+		var len = this.length >>> 0;
 
-			var from = Number(arguments[1]) || 0;
+		var from = Number(arguments[1]) || 0;
 			from     = (from < 0) ? Math.ceil(from) : Math.floor(from);
 
 			if (from < 0) {
-				from += len;
-			}
+			from += len;
+		}
 
 			for (; from < len; from++) {
 				if (from in this && this[from] === elt) {
-					return from;
-				}
+				return from;
 			}
-			return -1;
-		};
-	}
+		}
+		return -1;
+	};
+}
 	/**
 	 * JField 'showon' feature.
 	 */
@@ -71,20 +71,20 @@ if (typeof(Joomla) === 'undefined') {
 
 					// If checkbox or radio box the value is read from properties
 					if (['checkbox', 'radio'].indexOf($field.attr('type')) !== -1) {
-						if (!$field.prop('checked')) {
-							// unchecked fields will return a blank and so always match a != condition so we skip them
-							return;
-						}
+                                                if (!$field.prop('checked')) {
+                                                    // unchecked fields will return a blank and so always match a != condition so we skip them
+                                                    return;
+                                                }
 						itemval = $field.val();
 					}
 					else {
-						// select lists, textarea etc. Note that multiple-select list returns an Array here 
-						// se we can always tream 'itemval' as an array
+                                                // select lists, textarea etc. Note that multiple-select list returns an Array here 
+                                                // se we can always tream 'itemval' as an array
 						itemval = $field.val();
-						// a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
+                                                // a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
 						if (itemval == null && $field.prop("tagName").toLowerCase() == "select") {
-							itemval = [];
-						}
+                                                    itemval = [];
+                                                }
 					}
 
 					// Convert to array to allow multiple values in the field (e.g. type=list multiple)
@@ -93,19 +93,19 @@ if (typeof(Joomla) === 'undefined') {
 						itemval = JSON.parse('["' + itemval + '"]');
 					}
 
-					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match 
-					// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
-					// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
-					// We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
-					// 
+                                        // for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match 
+                                        // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
+                                        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
+                                        // use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
+                                        // We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
+                                        // 
 					// Test if any of the values of the field exists in showon conditions
-					for (var i in itemval) {
-						// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
-						// Needed otherwise we pick up unenumerable properties like length etc. and !: will always match one of these  !!
-						if (!itemval.propertyIsEnumerable(i)) {
-							continue;
-						}
+                                        for (var i in itemval) {
+                                                // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
+                                                // Needed otherwise we pick up unenumerable properties like length etc. and !: will always match one of these  !!
+                                                if (!itemval.propertyIsEnumerable(i)) {
+                                                    continue;
+                                                }
 						// ":" Equal to one or more of the values condition
 						if (jsondata[j]['sign'] == '=' && jsondata[j]['values'].indexOf(itemval[i]) !== -1) {
 							jsondata[j]['valid'] = 1;
@@ -114,8 +114,8 @@ if (typeof(Joomla) === 'undefined') {
 						if (jsondata[j]['sign'] == '!=' && jsondata[j]['values'].indexOf(itemval[i]) === -1) {
 							jsondata[j]['valid'] = 1;
 						}
-
-					}
+                                            
+                                        }
 
 				});
 
@@ -142,7 +142,15 @@ if (typeof(Joomla) === 'undefined') {
 			// If conditions are satisfied show the target field(s), else hide
 			if (animate) {
 				(showfield) ? target.slideDown() : target.slideUp();
-			} else {
+			} else if (target.is('option')) {
+                                target.toggle(showfield);
+                                target.attr('disabled' ,showfield? false : true);
+                                // if chosen active for the target select list then update it
+                                if ($('#'+target.parent().attr('id')+'_chzn').length){
+                                    target.parent().trigger("liszt:updated");
+                                    target.parent().trigger("chosen:updated");
+                                }
+                        } else {
 				target.toggle(showfield);
 			}
 		}
