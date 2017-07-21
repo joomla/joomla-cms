@@ -125,7 +125,11 @@ $saveOrder = $listOrder == 'ordering';
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
+					<?php if ($item->protected) : ?>
+						<a class="btn btn-micro disabled"><span class="icon-lock"></span></a>
+					<?php else : ?>
+						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
+					<?php endif; ?>
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
