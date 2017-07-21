@@ -117,7 +117,6 @@ class Html extends HtmlView
 		ToolbarHelper::publishList('workflows.publish');
 		ToolbarHelper::unpublishList('workflows.unpublish');
 		ToolbarHelper::archiveList('workflows.archive');
-		ToolbarHelper::trash('workflows.trash');
 		ToolbarHelper::checkin('workflows.checkin', 'JTOOLBAR_CHECKIN', true);
 		ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
 
@@ -125,6 +124,11 @@ class Html extends HtmlView
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		}
+		else
+		{
+			ToolbarHelper::trash('workflows.trash');
+		}
+
 		ToolbarHelper::help('JHELP_WORKFLOWS_LIST');
 	}
 

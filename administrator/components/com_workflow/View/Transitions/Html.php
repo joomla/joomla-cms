@@ -145,11 +145,14 @@ class Html extends HtmlView
 		ToolbarHelper::editList('transition.edit');
 		ToolbarHelper::publishList('transitions.publish');
 		ToolbarHelper::unpublishList('transitions.unpublish');
-		ToolbarHelper::trash('transitions.trash');
 
 		if ($this->state->get("filter.published") === "-2")
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
+		}
+		else
+		{
+			ToolbarHelper::trash('transitions.trash');
 		}
 	}
 }
