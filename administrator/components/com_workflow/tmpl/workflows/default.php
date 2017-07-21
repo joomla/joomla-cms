@@ -12,7 +12,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
-JHtml::_('formbehavior.chosen', 'select');
 
 $columns = 9;
 
