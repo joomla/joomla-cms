@@ -193,4 +193,36 @@ class Workflow extends Admin
 		return parent::canDelete($record);
 	}
 
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   1.6
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$table = $this->getTable();
+		$pks   = (array) $pks;
+
+		// Default menu item existence checks.
+		if ($value != 1)
+		{
+			foreach ($pks as $i => $pk)
+			{
+				if ($table->load($pk) && $table->default)
+				{
+					// Prune items that you can't change.
+					Factory::getApplication()->enqueueMessage(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'), 'error');
+					unset($pks[$i]);
+					break;
+				}
+			}
+		}
+
+		return parent::publish($pks, $value);
+	}
 }
