@@ -65,7 +65,7 @@
 
         <field
                 name="created"
-                type="date"
+                type="text"
                 label="COM_WORKFLOW_CREATED_LABEL"
                 description="COM_WORKFLOW_CREATED_DESC"
                 readonly="true"
@@ -73,7 +73,7 @@
 
         <field
                 name="modified"
-                type="date"
+                type="text"
                 label="COM_WORKFLOW_MODIFIED_LABEL"
                 description="COM_WORKFLOW_MODIFIED_DESC"
                 readonly="true"
