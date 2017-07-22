@@ -201,8 +201,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 					// XPath polyfill js files
 					{ expand: false, src: '<%= folder.node_module %>wicked-good-xpath/dist/wgxpath.install.js', dest: 'media/vendor/polyfills/js/polyfill-wgxpath.js', filter: 'isFile'},
-					// Joomla UI custom elements css files
-					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/css', src: ['*.css'], dest: 'media/system/css/', filter: 'isFile'},
+					// Joomla UI custom elements js files
+					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/js', src: ['*.js'], dest: 'media/system/webcomponents/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
