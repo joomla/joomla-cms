@@ -40,7 +40,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * jInsertEditorText() @deprecated 4.0
 	 */
-	};
+};
 
 (function( Joomla, document ) {
 	"use strict";
@@ -321,7 +321,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			// Array of messages of this type
 			typeMessages = messages[ type ];
 
-			if (window.customElements && typeof customElements.get('joomla-alert') === 'function') {
+			if (typeof window.customElements === 'object' && typeof customElements.get('joomla-alert') === 'function') {
 				messagesBox = document.createElement( 'joomla-alert' );
 
 				if (['notice','message', 'error'].indexOf(type) > -1) {
@@ -382,7 +382,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 			messageContainer.appendChild( messagesBox );
 
-			if (!window.customElements && typeof customElements.get('joomla-alert') !== 'function') {
+			if (typeof window.customElements !== 'object' && typeof customElements.get('joomla-alert') !== 'function') {
 				if (timeout && parseInt(timeout) > 0) {
 					setTimeout(function () {
 						Joomla.removeMessages(messageContainer);
@@ -403,20 +403,17 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	Joomla.removeMessages = function( container ) {
 		var messageContainer;
 
-		if (typeof container === 'undefined') {
-			messageContainer = document.getElementById( 'system-message-container' );
-		} else {
+		if (container) {
 			messageContainer = container;
-		}
-		if (!messageContainer) {
-			messageContainer = document;
+		} else {
+			messageContainer = document.getElementById( 'system-message-container' );
 		}
 
-		if (window.customElements && customElements.get('joomla-alert')) {
+		if (typeof window.customElements === 'object' && customElements.get('joomla-alert')) {
 			var messages = messageContainer.querySelectorAll('joomla-alert');
 			if (messages.length) {
 				for (var i = 0, l = messages.length; i < l; i++) {
-					messages[i].parentNode.remove(messages[i]);
+					messages[i].close();
 				}
 			}
 		} else {
@@ -533,13 +530,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
 		var winl = ( screen.width - w ) / 2,
-			wint = ( screen.height - h ) / 2,
-			winprops = 'height=' + h +
-				',width=' + w +
-				',top=' + wint +
-				',left=' + winl +
-				',scrollbars=' + scroll +
-				',resizable';
+		    wint = ( screen.height - h ) / 2,
+		    winprops = 'height=' + h +
+			    ',width=' + w +
+			    ',top=' + wint +
+			    ',left=' + winl +
+			    ',scrollbars=' + scroll +
+			    ',resizable';
 
 		window.open( mypage, myname, winprops )
 			.window.focus();
@@ -579,9 +576,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
 		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
+		    hasSelection = key == orig_key,
+		    i = 0,
+		    selected, x, item;
 
 		for ( x in source ) {
 			if (!source.hasOwnProperty(x)) { continue; }
@@ -628,8 +625,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
 		var list = document.adminForm[ listname ],
-			hasSelection = key == orig_key,
-			i, x, item, opt;
+		    hasSelection = key == orig_key,
+		    i, x, item, opt;
 
 		// empty the list
 		while ( list.firstChild ) list.removeChild( list.firstChild );
@@ -696,7 +693,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 	window.getSelectedValue = function ( frmName, srcListName ) {
 		var srcList = document[ frmName ][ srcListName ],
-			i = srcList.selectedIndex;
+		    i = srcList.selectedIndex;
 
 		if ( i !== null && i > -1 ) {
 			return srcList.options[ i ].value;
