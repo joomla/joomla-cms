@@ -58,7 +58,12 @@ vendors:
     'wicked-good-xpath':
                   'version': '1.3.0'
                   'dependencies': ''
-
+    'aes-js':
+                  'version': '3.0.0'
+                  'dependencies': ''
+    'json3':
+                  'version': '3.3.2'
+                  'dependencies': ''
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
         js:

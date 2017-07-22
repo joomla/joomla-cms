@@ -11,8 +11,20 @@ defined('_JEXEC') or die;
 
 /** @var JoomlaupdateViewDefault $this */
 
-JHtml::_('behavior.core');
-JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
+$errSelectPackage = JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
+
+$ajaxLoaderImage = JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true);
+$css             = <<< CSS
+	#loading {
+		background: rgba(255, 255, 255, .8) url('$ajaxLoaderImage') 50% 15% no-repeat;
+		position: fixed;
+		opacity: 1;
+		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
+		filter: alpha(opacity = 80);
+		overflow: hidden;
+	}
+CSS;
+JFactory::getDocument()->addStyleDeclaration($css);
 ?>
 
 <div class="alert alert-info">

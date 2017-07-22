@@ -1,22 +1,29 @@
-/**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+jQuery(document).ready(function($) {
+	$('#extraction_method').change(function(e){
+		extractionMethodHandler('#extraction_method', 'row_ftp');
+	});
+	$('#upload_method').change(function(e){
+		extractionMethodHandler('#upload_method', 'upload_ftp');
+	});
 
-Joomla = window.Joomla || {};
+	$('button.submit').on('click', function() {
+		$('div.download_message').show();
+	});
+});
 
-(function() {
-	'use strict';
-
-	Joomla.extractionMethodHandler = function(element, prefix) {
-		var displayStyle = element.value === 'direct' ? 'none' : 'table-row';
+function extractionMethodHandler(target, prefix)
+{
+	jQuery(function ($) {
+		$em = $(target);
+		displayStyle = ($em.val() === 'direct') ? 'none' : 'table-row';
 
 		document.getElementById(prefix + '_hostname').style.display = displayStyle;
 		document.getElementById(prefix + '_port').style.display = displayStyle;
 		document.getElementById(prefix + '_username').style.display = displayStyle;
 		document.getElementById(prefix + '_password').style.display = displayStyle;
 		document.getElementById(prefix + '_directory').style.display = displayStyle;
-	}
+	});
+}
 
 	Joomla.submitbuttonUpload = function() {
 		var form = document.getElementById('uploadForm');
@@ -58,5 +65,3 @@ Joomla = window.Joomla || {};
 		}
 
 	});
-
-})();

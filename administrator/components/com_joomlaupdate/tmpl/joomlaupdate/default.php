@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 /** @var JoomlaupdateViewDefault $this */
 
-JHtml::_('jquery.framework');
 JHtml::_('behavior.core');
-JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
+JHtml::_('jquery.framework');
+JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
 
-JHtml::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
+JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 ?>
 
 <div id="joomlaupdate-wrapper">
@@ -59,7 +59,7 @@ JHtml::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto',
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 
-	<div id="download-message" style="display:none">
+	<div class="download_message" style="display:none">
 		<p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 		<div class="joomlaupdate_spinner"></div>
 	</div>
