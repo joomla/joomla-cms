@@ -18,6 +18,9 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -29,73 +32,9 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-abstract class CMSApplication extends WebApplication implements ContainerAwareInterface
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ContainerAwareTrait;
-
-	/**
-	 * Constant defining an enqueued emergency message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_EMERGENCY = 'emergency';
-
-	/**
-	 * Constant defining an enqueued alert message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_ALERT = 'alert';
-
-	/**
-	 * Constant defining an enqueued critical message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_CRITICAL = 'critical';
-
-	/**
-	 * Constant defining an enqueued error message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_ERROR = 'error';
-
-	/**
-	 * Constant defining an enqueued warning message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_WARNING = 'warning';
-
-	/**
-	 * Constant defining an enqueued notice message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_NOTICE = 'notice';
-
-	/**
-	 * Constant defining an enqueued info message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_INFO = 'info';
-
-	/**
-	 * Constant defining an enqueued debug message
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	const MSG_DEBUG = 'debug';
+	use ContainerAwareTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -148,7 +87,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The profiler instance
 	 *
-	 * @var    \JProfiler
+	 * @var    Profiler
 	 * @since  3.2
 	 */
 	protected $profiler = null;
@@ -187,17 +126,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			$this->profiler = \JProfiler::getInstance('Application');
+			$this->profiler = Profiler::getInstance('Application');
 		}
 
 		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
+		if ($this->config->get('session') === null)
 		{
 			$this->config->set('session', true);
 		}
 
 		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
+		if ($this->config->get('session_name') === null)
 		{
 			$this->config->set('session_name', $this->getName());
 		}
@@ -219,7 +158,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
+			$session->set('user', new User);
 		}
 
 		// TODO: At some point we need to get away from having session data always in the db.
@@ -351,7 +290,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
-		if (!strlen(trim($msg)))
+		if (trim($msg) === '')
 		{
 			return;
 		}
@@ -377,6 +316,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		PluginHelper::importPlugin('system');
 
 		// Trigger the onBeforeExecute event.
@@ -405,7 +346,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 
@@ -465,7 +406,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
 				{
 					// Check short task version, must be on the same option of the view
-					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false)
 					{
 						// Not permitted task
 						$redirect = true;
@@ -474,7 +415,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			else
 			{
-				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+				if ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+					|| $this->input->getCmd('layout', '') !== $layout)
 				{
 					// Requested a different option/view/layout
 					$redirect = true;
@@ -544,7 +486,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			if ($container && $container->exists($classname))
+			if (!$container)
+			{
+				$container = \JFactory::getContainer();
+			}
+
+			if ($container->exists($classname))
 			{
 				static::$instances[$name] = $container->get($classname);
 			}
@@ -711,7 +658,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$session = \JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->get($key, $default);
 		}
@@ -836,7 +783,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  boolean  True if is forced for the client, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function isHttpsForced($clientId = null)
 	{
@@ -959,7 +906,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			 */
 			$user = \JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -1171,7 +1118,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$session = \JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->set($key, $value);
 		}
@@ -1191,7 +1138,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function toString($compress = false)
 	{
 		// Don't compress something if the server is going to do it anyway. Waste of time.
-		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 		}
@@ -1220,7 +1167,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getFormToken($forceNew = false)
 	{
-		/** @var \JSession $session */
+		/** @var Session $session */
 		$session = $this->getSession();
 
 		return $session->getFormToken();
@@ -1239,9 +1186,24 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkToken($method = 'post')
 	{
-		/** @var \JSession $session */
+		/** @var Session $session */
 		$session = $this->getSession();
 
 		return $session->checkToken($method);
+	}
+
+	/**
+	 * Flag if the application instance is a CLI or web based application.
+	 *
+	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.
+	 *
+	 * @return  boolean
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  5.0  Will be removed without replacements
+	 */
+	public function isCli()
+	{
+		return false;
 	}
 }

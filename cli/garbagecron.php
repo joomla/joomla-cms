@@ -22,14 +22,14 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 /**
  * Cron job to trash expired cache data.
  *
  * @since  2.5
  */
-class GarbageCron extends JApplicationCli
+class GarbageCron extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Entry point for the script
@@ -44,4 +44,22 @@ class GarbageCron extends JApplicationCli
 	}
 }
 
-JApplicationCli::getInstance('GarbageCron')->execute();
+// Set up the container
+JFactory::getContainer()->share(
+	'GarbageCron',
+	function (\Joomla\DI\Container $container)
+	{
+		return new GarbageCron(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('GarbageCron');
+JFactory::$application = $app;
+$app->execute();

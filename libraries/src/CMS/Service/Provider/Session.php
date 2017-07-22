@@ -12,15 +12,15 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use InvalidArgumentException;
-use JApplicationHelper;
 use JFactory;
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
 use Joomla\CMS\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
-use JSession;
 use Memcache;
 use Memcached;
 use Redis;
@@ -52,9 +52,10 @@ class Session implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$config = JFactory::getConfig();
+					$app    = JFactory::getApplication();
 
 					// Generate a session name.
-					$name = JApplicationHelper::getHash($config->get('session_name', get_class(JFactory::getApplication())));
+					$name = ApplicationHelper::getHash($config->get('session_name', get_class($app)));
 
 					// Calculate the session lifetime.
 					$lifetime = (($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900);
@@ -65,23 +66,14 @@ class Session implements ServiceProviderInterface
 						'expire' => $lifetime
 					);
 
-					switch (JFactory::getApplication()->getClientId())
+					if ($app->isClient('site') && $config->get('force_ssl') == 2)
 					{
-						case 0:
-							if ($config->get('force_ssl') == 2)
-							{
-								$options['force_ssl'] = true;
-							}
+						$options['force_ssl'] = true;
+					}
 
-							break;
-
-						case 1:
-							if ($config->get('force_ssl') >= 1)
-							{
-								$options['force_ssl'] = true;
-							}
-
-							break;
+					if ($app->isClient('administrator') && $config->get('force_ssl') >= 1)
+					{
+						$options['force_ssl'] = true;
 					}
 
 					// Set up the storage handler
@@ -206,14 +198,25 @@ class Session implements ServiceProviderInterface
 							throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
 					}
 
-					$input = JFactory::getApplication()->input;
+					$input = $app->input;
 
-					$storage = new JoomlaStorage($input, $handler, array('cookie_lifetime' => $lifetime));
+					if ($app->isClient('cli'))
+					{
+						$storage = new RuntimeStorage;
+					}
+					else
+					{
+						$storage = new JoomlaStorage($input, $handler, array('cookie_lifetime' => $lifetime));
+					}
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
-					$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));
 
-					$session = new JSession($storage, $dispatcher, $options);
+					if (method_exists($app, 'afterSessionStart'))
+					{
+						$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
+					}
+
+					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
 					$session->addValidator(new AddressValidator($input, $session));
 					$session->addValidator(new ForwardedValidator($input, $session));
 

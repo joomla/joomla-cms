@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Plugin class for logout redirect handling.
  *
@@ -20,7 +22,7 @@ class PlgSystemLogout extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $app;
 
@@ -50,7 +52,7 @@ class PlgSystemLogout extends JPlugin
 			return;
 		}
 
-		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
+		$hash  = ApplicationHelper::getHash('PlgSystemLogout');
 
 		if ($this->app->input->cookie->getString($hash))
 		{
@@ -78,7 +80,7 @@ class PlgSystemLogout extends JPlugin
 		{
 			// Create the cookie.
 			$this->app->input->cookie->set(
-				JApplicationHelper::getHash('PlgSystemLogout'),
+				ApplicationHelper::getHash('PlgSystemLogout'),
 				true,
 				time() + 86400,
 				$this->app->get('cookie_path', '/'),

@@ -136,8 +136,6 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		// Add Javascript for permission change
 		JHtml::_('script', 'system/fields/permissions.min.js', array('version' => 'auto', 'relative' => true));
 
@@ -231,7 +229,7 @@ class JFormFieldRules extends JFormField
 		$groups = $this->getUserGroups();
 
 		// Ajax request data.
-		$ajaxUri = JRoute::_('index.php?option=com_config&task=config.store&format=json&' . JSession::getFormToken() . '=1');
+		$ajaxUri = JRoute::_('index.php?option=com_config&task=application.store&format=json&' . JSession::getFormToken() . '=1');
 
 		// Prepare output
 		$html = array();

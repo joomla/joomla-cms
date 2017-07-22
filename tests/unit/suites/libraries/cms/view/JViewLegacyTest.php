@@ -4,7 +4,7 @@
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('ContentViewArticle', __DIR__ . '/stubs/ContentViewArticle.php');
@@ -437,6 +437,7 @@ class JViewLegacyTest extends TestCase
 		defined('JPATH_COMPONENT') or define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
 		$_SERVER['REQUEST_METHOD'] = 'get';
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['REQUEST_URI'] = '/';
 
 		$this->class = new JViewLegacy;
 	}

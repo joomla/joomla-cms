@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Administrator\Model;
 
@@ -83,14 +83,6 @@ class Filter extends Admin
 		elseif (empty($filter->data))
 		{
 			$filter->data = array();
-		}
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
 		}
 
 		return $filter;

@@ -21,13 +21,7 @@ JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/he
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
-
 JHtml::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));
-
-// Special case for the search field tooltip.
-$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
-JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $function  = $app->input->getCmd('function', 'jSelectContact');
 $editor    = $app->input->getCmd('editor', '');
@@ -87,9 +81,9 @@ if (!empty($editor))
 				<?php
 				$iconStates = array(
 					-2 => 'icon-trash',
-					0 => 'icon-unpublish',
-					1 => 'icon-publish',
-					2 => 'icon-archive',
+					0  => 'icon-unpublish',
+					1  => 'icon-publish',
+					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -115,7 +109,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</td>
 						<td>
 							<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($onclick); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape(addslashes($item->name)); ?>" data-uri="<?php echo $this->escape(ContactHelperRoute::getContactRoute($item->id, $item->catid, $item->language)); ?>" data-language="<?php echo $this->escape($lang); ?>">

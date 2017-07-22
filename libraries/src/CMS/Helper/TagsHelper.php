@@ -75,6 +75,11 @@ class TagsHelper extends CMSHelper
 		// Prevent saving duplicate tags
 		$tags = array_unique($tags);
 
+		if (!$tags)
+		{
+			return true;
+		}
+
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(
@@ -216,7 +221,7 @@ class TagsHelper extends CMSHelper
 			foreach ($tags as $key => $tag)
 			{
 				// User is not allowed to create tags, so don't create.
-				if (strpos($tag, '#new#') !== false && !$canCreate)
+				if (!$canCreate && strpos($tag, '#new#') !== false)
 				{
 					continue;
 				}
@@ -224,7 +229,7 @@ class TagsHelper extends CMSHelper
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
-				if ($tagText == $tag)
+				if ($tagText === $tag)
 				{
 					$newTags[] = (int) $tag;
 				}
@@ -241,9 +246,10 @@ class TagsHelper extends CMSHelper
 					else
 					{
 						// Prepare tag data
-						$tagTable->id = 0;
-						$tagTable->title = $tagText;
-						$tagTable->published = 1;
+						$tagTable->id          = 0;
+						$tagTable->title       = $tagText;
+						$tagTable->published   = 1;
+						$tagTable->description = '';
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
@@ -346,9 +352,9 @@ class TagsHelper extends CMSHelper
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -527,9 +533,9 @@ class TagsHelper extends CMSHelper
 			$language = $languageFilter;
 		}
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = $this->getCurrentLanguage();
 			}
@@ -561,7 +567,7 @@ class TagsHelper extends CMSHelper
 		}
 
 		// Set up the order by using the option chosen
-		if ($orderByOption == 'match_count')
+		if ($orderByOption === 'match_count')
 		{
 			$orderBy = 'COUNT(m.tag_id)';
 		}

@@ -4,7 +4,7 @@
  * @subpackage  Error
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -238,7 +238,7 @@ abstract class JError
 
 		if (is_callable(array('JError', $function)))
 		{
-			$reference = call_user_func_array(array('JError', $function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
+			$reference = call_user_func_array(array('JError', $function), array(&$exception, isset($handler['options']) ? $handler['options'] : array()));
 		}
 		else
 		{

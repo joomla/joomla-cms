@@ -33,7 +33,7 @@ class Association extends Form
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'));
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
 
 		$id = $this->input->get('id', 0, 'int');
 
@@ -62,7 +62,7 @@ class Association extends Form
 	{
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'));
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
 
 		// Only check in, if component item type allows to check out.
 		if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName))

@@ -4,11 +4,13 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Router\Router;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -362,7 +364,7 @@ class FinderIndexerHelper
 		// We need to go to com_languages to get the site default language, it's the best we can guess.
 		if (empty($lang))
 		{
-			$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 		}
 
 		return $lang;
@@ -413,10 +415,10 @@ class FinderIndexerHelper
 		static $router;
 
 		// Only get the router once.
-		if (!($router instanceof JRouter))
+		if (!($router instanceof Router))
 		{
 			// Get and configure the site router.
-			$router = JFactory::getApplication()->getRouter('site');
+			$router = Router::getInstance('site');
 		}
 
 		// Build the relative route.

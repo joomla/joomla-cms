@@ -388,7 +388,8 @@ class AssociationsHelper extends ContentHelper
 			$title       = $helper->getTypeTitle($typeName);
 			$languageKey = $typeName;
 
-			if ($typeName === 'category')
+			$typeNameExploded = explode('.', $typeName);
+			if (array_pop($typeNameExploded) === 'category')
 			{
 				$languageKey = strtoupper($extensionName) . '_CATEGORIES';
 				$context     = 'category';
@@ -666,9 +667,9 @@ class AssociationsHelper extends ContentHelper
 		{
 			$result = (int) $db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		return $result;

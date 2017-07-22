@@ -10,6 +10,8 @@ namespace Joomla\CMS\Help;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Help system class
  *
@@ -34,9 +36,9 @@ class Help
 		$local = false;
 		$app   = \JFactory::getApplication();
 
-		if (is_null($component))
+		if ($component === null)
 		{
-			$component = \JApplicationHelper::getComponentName();
+			$component = ApplicationHelper::getComponentName();
 		}
 
 		//  Determine the location of the help file.  At this stage the URL

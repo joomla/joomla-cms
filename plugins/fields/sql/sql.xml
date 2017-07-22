@@ -26,8 +26,8 @@
 					type="textarea"
 					label="PLG_FIELDS_SQL_PARAMS_QUERY_LABEL"
 					description="PLG_FIELDS_SQL_PARAMS_QUERY_DESC"
-					filter="raw"
 					rows="10"
+					filter="raw"
 					required="true"
 				/>
 	

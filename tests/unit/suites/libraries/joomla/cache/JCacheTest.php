@@ -4,7 +4,7 @@
  * @subpackage  Cache
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -65,7 +65,6 @@ class JCacheTest extends TestCase
 		$this->available = array(
 			'apc'       => JCacheStorageApc::isSupported(),
 			'apcu'      => JCacheStorageApcu::isSupported(),
-			'cachelite' => JCacheStorageCachelite::isSupported(),
 			'file'      => true,
 			'memcache'  => JCacheStorageMemcache::isSupported(),
 			'memcached' => JCacheStorageMemcached::isSupported(),
@@ -481,7 +480,6 @@ class JCacheTest extends TestCase
 		$storages = array(
 			'apc'          => 'JCacheStorageApc',
 			'apcu'         => 'JCacheStorageApcu',
-			'cachelite'    => 'JCacheStorageCachelite',
 			'file'         => 'JCacheStorageFile',
 			'memcache'     => 'JCacheStorageMemcache',
 			'memcached'    => 'JCacheStorageMemcached',

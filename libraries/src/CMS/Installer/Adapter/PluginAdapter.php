@@ -99,7 +99,7 @@ class PluginAdapter extends InstallerAdapter
 			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -129,7 +129,7 @@ class PluginAdapter extends InstallerAdapter
 		parent::createExtensionRoot();
 
 		// If we're updating at this point when there is always going to be an extension_root find the old XML files
-		if ($this->route == 'update')
+		if ($this->route === 'update')
 		{
 			// Create a new installer because findManifest sets stuff; side effects!
 			$tmpInstaller = new Installer;
@@ -172,7 +172,7 @@ class PluginAdapter extends InstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest(-1))
 			{
@@ -185,6 +185,34 @@ class PluginAdapter extends InstallerAdapter
 				);
 			}
 		}
+	}
+
+	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseUninstall()
+	{
+		$db = $this->parent->getDbo();
+
+		// Remove the schema version
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $this->extension->extension_id);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Now we will no longer need the plugin object, so let's delete it
+		$this->extension->delete($this->extension->extension_id);
+
+		// Remove the plugin's folder
+		\JFolder::delete($this->parent->getPath('extension_root'));
+
+		return true;
 	}
 
 	/**
@@ -322,6 +350,24 @@ class PluginAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function removeExtensionFiles()
+	{
+		// Remove the plugin files
+		$this->parent->removeFiles($this->getManifest()->files, -1);
+
+		// Remove all media and languages as well
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages, 1);
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -347,6 +393,35 @@ class PluginAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function setupUninstall()
+	{
+		// Get the plugin folder so we can properly build the plugin path
+		if (trim($this->extension->folder) === '')
+		{
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
+		}
+
+		// Set the plugin root path
+		$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $this->extension->folder . '/' . $this->extension->element);
+
+		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
+
+		$this->parent->findManifest();
+		$this->setManifest($this->parent->getManifest());
+
+		$this->group = (string) $this->getManifest()->attributes()->group;
+
+		// Attempt to load the language file; might have uninstall strings
+		$this->loadLanguage($this->parent->getPath('source'));
+	}
+
+	/**
 	 * Method to store the extension to the database
 	 *
 	 * @return  void
@@ -357,14 +432,14 @@ class PluginAdapter extends InstallerAdapter
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
 			$this->extension->state = 0;
 			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = ('editors' == $this->extension->folder) ? 1 : 0;
+			$this->extension->enabled = 'editors' === $this->extension->folder ? 1 : 0;
 			$this->extension->params = $this->parent->getParams();
 
 			if (!$this->extension->store())
@@ -416,7 +491,7 @@ class PluginAdapter extends InstallerAdapter
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
-			if ($this->group == 'editors')
+			if ($this->group === 'editors')
 			{
 				$this->extension->enabled = 1;
 			}
@@ -437,177 +512,6 @@ class PluginAdapter extends InstallerAdapter
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
 		}
-	}
-
-	/**
-	 * Custom uninstall method
-	 *
-	 * @param   integer  $id  The id of the plugin to uninstall
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function uninstall($id)
-	{
-		$this->route = 'uninstall';
-
-		$row = null;
-		$retval = true;
-		$db = $this->parent->getDbo();
-
-		// First order of business will be to load the plugin object table from the database.
-		// This should give us the necessary information to proceed.
-		$row = Table::getInstance('extension');
-
-		if (!$row->load((int) $id))
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_ERRORUNKOWNEXTENSION'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Is the plugin we are trying to uninstall a core one?
-		// Because that is not a good idea...
-		if ($row->protected)
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_WARNCOREPLUGIN', $row->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * Does this extension have a parent package?
-		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
-		 */
-		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Get the plugin folder so we can properly build the plugin path
-		if (trim($row->folder) == '')
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Set the plugin root path
-		$this->parent->setPath('extension_root', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
-
-		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
-
-		$this->parent->findManifest();
-		$this->setManifest($this->parent->getManifest());
-
-		// Attempt to load the language file; might have uninstall strings
-		$this->parent->setPath('source', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
-		$this->loadLanguage(JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Installer Trigger Loading
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// If there is an manifest class file, let's load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->getManifest()->scriptfile;
-
-		if ($manifestScript)
-		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
-
-			// If a dash is present in the folder, remove it
-			$folderClass = str_replace('-', '', $row->folder);
-
-			// Set the class name
-			$classname = 'Plg' . $folderClass . $row->element . 'InstallerScript';
-
-			\JLoader::register($classname, $manifestScriptFile);
-
-			if (class_exists($classname))
-			{
-				// Create a new instance
-				$this->parent->manifestClass = new $classname($this);
-
-				// And set this so we can copy it later
-				$this->manifest_script = $manifestScript;
-			}
-		}
-
-		// Run preflight if possible (since we know we're not an update)
-		ob_start();
-		ob_implicit_flush(false);
-
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
-		{
-			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
-			{
-				// Preflight failed, rollback changes
-				$this->parent->abort(\JText::_('JLIB_INSTALLER_ABORT_PLG_INSTALL_CUSTOM_INSTALL_FAILURE'));
-
-				return false;
-			}
-		}
-
-		// Create the $msg object and append messages from preflight
-		$msg = ob_get_contents();
-		ob_end_clean();
-
-		// Let's run the queries for the plugin
-		$utfresult = $this->parent->parseSQLFiles($this->getManifest()->uninstall->sql);
-
-		if ($utfresult === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_PLG_UNINSTALL_SQL_ERROR', $db->stderr(true)));
-
-			return false;
-		}
-
-		// Run the custom uninstall method if possible
-		ob_start();
-		ob_implicit_flush(false);
-
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'uninstall'))
-		{
-			$this->parent->manifestClass->uninstall($this);
-		}
-
-		// Append messages
-		$msg .= ob_get_contents();
-		ob_end_clean();
-
-		// Remove the plugin files
-		$this->parent->removeFiles($this->getManifest()->files, -1);
-
-		// Remove all media and languages as well
-		$this->parent->removeFiles($this->getManifest()->media);
-		$this->parent->removeFiles($this->getManifest()->languages, 1);
-
-		// Remove the schema version
-		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = ' . $row->extension_id);
-		$db->setQuery($query);
-		$db->execute();
-
-		// Now we will no longer need the plugin object, so let's delete it
-		$row->delete($row->extension_id);
-		unset($row);
-
-		// Remove the plugin's folder
-		\JFolder::delete($this->parent->getPath('extension_root'));
-
-		if ($msg != '')
-		{
-			$this->parent->set('extension_message', $msg);
-		}
-
-		return $retval;
 	}
 
 	/**
@@ -632,7 +536,7 @@ class PluginAdapter extends InstallerAdapter
 				$file = \JFile::stripExt($file);
 
 				// Ignore example plugins
-				if ($file == 'example' || $manifest_details === false)
+				if ($file === 'example' || $manifest_details === false)
 				{
 					continue;
 				}
@@ -664,7 +568,7 @@ class PluginAdapter extends InstallerAdapter
 					);
 					$file = \JFile::stripExt($file);
 
-					if ($file == 'example' || $manifest_details === false)
+					if ($file === 'example' || $manifest_details === false)
 					{
 						continue;
 					}

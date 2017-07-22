@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -272,7 +272,7 @@ abstract class JHtmlAccess
 			$name,
 			array(
 				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr' => is_null($attribs) ? 'class="inputbox" size="3"' : $attribs,
+				'list.attr' => $attribs === null ? 'class="inputbox" size="3"' : $attribs,
 				'list.select' => (int) $selected,
 			)
 		);

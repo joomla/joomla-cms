@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 $user      = JFactory::getUser();
@@ -123,8 +122,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>

@@ -112,7 +112,7 @@ trait MessageTrait
      */
     public function hasHeader($header)
     {
-        return array_key_exists(strtolower($header), $this->headerNames);
+        return isset($this->headerNames[strtolower($header)]);
     }
 
     /**
@@ -136,10 +136,8 @@ trait MessageTrait
         }
 
         $header = $this->headerNames[strtolower($header)];
-        $value  = $this->headers[$header];
-        $value  = is_array($value) ? $value : [$value];
 
-        return $value;
+        return $this->headers[$header];
     }
 
     /**
@@ -189,18 +187,7 @@ trait MessageTrait
      */
     public function withHeader($header, $value)
     {
-        if (is_string($value)) {
-            $value = [$value];
-        }
-
-        if (! is_array($value) || ! $this->arrayContainsOnlyStrings($value)) {
-            throw new InvalidArgumentException(
-                'Invalid header value; must be a string or array of strings'
-            );
-        }
-
-        HeaderSecurity::assertValidName($header);
-        self::assertValidHeaderValue($value);
+        $this->assertHeader($header);
 
         $normalized = strtolower($header);
 
@@ -208,6 +195,9 @@ trait MessageTrait
         if ($new->hasHeader($header)) {
             unset($new->headers[$new->headerNames[$normalized]]);
         }
+
+        $value = $this->filterHeaderValue($value);
+
         $new->headerNames[$normalized] = $header;
         $new->headers[$header]         = $value;
 
@@ -233,27 +223,16 @@ trait MessageTrait
      */
     public function withAddedHeader($header, $value)
     {
-        if (is_string($value)) {
-            $value = [ $value ];
-        }
-
-        if (! is_array($value) || ! $this->arrayContainsOnlyStrings($value)) {
-            throw new InvalidArgumentException(
-                'Invalid header value; must be a string or array of strings'
-            );
-        }
-
-        HeaderSecurity::assertValidName($header);
-        self::assertValidHeaderValue($value);
+        $this->assertHeader($header);
 
         if (! $this->hasHeader($header)) {
             return $this->withHeader($header, $value);
         }
 
-        $normalized = strtolower($header);
-        $header     = $this->headerNames[$normalized];
+        $header = $this->headerNames[strtolower($header)];
 
         $new = clone $this;
+        $value = $this->filterHeaderValue($value);
         $new->headers[$header] = array_merge($this->headers[$header], $value);
         return $new;
     }
@@ -332,91 +311,27 @@ trait MessageTrait
     }
 
     /**
-     * Test that an array contains only strings
-     *
-     * @param array $array
-     * @return bool
-     */
-    private function arrayContainsOnlyStrings(array $array)
-    {
-        return array_reduce($array, [__CLASS__, 'filterStringValue'], true);
-    }
-
-    /**
      * Filter a set of headers to ensure they are in the correct internal format.
      *
      * Used by message constructors to allow setting all initial headers at once.
      *
      * @param array $originalHeaders Headers to filter.
-     * @return array Filtered headers and names.
      */
-    private function filterHeaders(array $originalHeaders)
+    private function setHeaders(array $originalHeaders)
     {
         $headerNames = $headers = [];
+
         foreach ($originalHeaders as $header => $value) {
-            if (! is_string($header)) {
-                throw new InvalidArgumentException(sprintf(
-                    'Invalid header name; expected non-empty string, received %s',
-                    gettype($header)
-                ));
-            }
+            $value = $this->filterHeaderValue($value);
 
-            if (! is_array($value) && ! is_string($value) && ! is_numeric($value)) {
-                throw new InvalidArgumentException(sprintf(
-                    'Invalid header value type; expected number, string, or array; received %s',
-                    (is_object($value) ? get_class($value) : gettype($value))
-                ));
-            }
-
-            if (is_array($value)) {
-                array_walk($value, function ($item) {
-                    if (! is_string($item) && ! is_numeric($item)) {
-                        throw new InvalidArgumentException(sprintf(
-                            'Invalid header value type; expected number, string, or array; received %s',
-                            (is_object($item) ? get_class($item) : gettype($item))
-                        ));
-                    }
-                });
-            }
-
-            if (! is_array($value)) {
-                $value = [ $value ];
-            }
+            $this->assertHeader($header);
 
             $headerNames[strtolower($header)] = $header;
             $headers[$header] = $value;
         }
 
-        return [$headerNames, $headers];
-    }
-
-    /**
-     * Test if a value is a string
-     *
-     * Used with array_reduce.
-     *
-     * @param bool $carry
-     * @param mixed $item
-     * @return bool
-     */
-    private static function filterStringValue($carry, $item)
-    {
-        if (! is_string($item)) {
-            return false;
-        }
-        return $carry;
-    }
-
-    /**
-     * Assert that the provided header values are valid.
-     *
-     * @see http://tools.ietf.org/html/rfc7230#section-3.2
-     * @param string[] $values
-     * @throws InvalidArgumentException
-     */
-    private static function assertValidHeaderValue(array $values)
-    {
-        array_walk($values, __NAMESPACE__ . '\HeaderSecurity::assertValid');
+        $this->headerNames = $headerNames;
+        $this->headers = $headers;
     }
 
     /**
@@ -447,5 +362,34 @@ trait MessageTrait
                 $version
             ));
         }
+    }
+
+    /**
+     * @param mixed $values
+     * @return string[]
+     */
+    private function filterHeaderValue($values)
+    {
+        if (! is_array($values)) {
+            $values = [$values];
+        }
+
+        return array_map(function ($value) {
+            HeaderSecurity::assertValid($value);
+
+            return (string) $value;
+        }, $values);
+    }
+
+    /**
+     * Ensure header name and values are valid.
+     *
+     * @param string $name
+     *
+     * @throws InvalidArgumentException
+     */
+    private function assertHeader($name)
+    {
+        HeaderSecurity::assertValidName($name);
     }
 }

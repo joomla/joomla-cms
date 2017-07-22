@@ -18,6 +18,7 @@ use Joomla\CMS\Model\Form;
 use Joomla\CMS\Model\Model;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
+use Joomla\Component\Users\Administrator\Model\User;
 
 /**
  * Single item model for a contact
@@ -360,12 +361,15 @@ class Contact extends Form
 		}
 
 		// Get the profile information for the linked user
-		Model::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
-		$userModel = Model::getInstance('User', 'UsersModel', array('ignore_request' => true));
+		$userModel = new User(array('ignore_request' => true));
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		PluginHelper::importPlugin('user');
-		$form = new \JForm('com_users.profile');
+
+		// Get the form.
+		\JForm::addFormPath(JPATH_SITE . '/components/com_users/forms');
+
+		$form = \JForm::getInstance('com_users.profile', 'profile');
 
 		// Trigger the form preparation event.
 		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
@@ -525,8 +529,7 @@ class Contact extends Form
 				}
 
 				// Get the profile information for the linked user
-				Model::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
-				$userModel = Model::getInstance('User', 'UsersModel', array('ignore_request' => true));
+				$userModel = new User(array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
 
 				PluginHelper::importPlugin('user');

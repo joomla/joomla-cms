@@ -14,13 +14,8 @@ if (JFactory::getApplication()->isClient('site'))
 }
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', '.advancedSelect');
 JHtml::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
-
-// Special case for the search field tooltip.
-$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
-JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -81,7 +76,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<td class="has-context">
 							<a class="btn btn-sm btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>

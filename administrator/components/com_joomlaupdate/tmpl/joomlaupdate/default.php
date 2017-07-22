@@ -11,9 +11,11 @@ defined('_JEXEC') or die;
 
 /** @var JoomlaupdateViewDefault $this */
 
+JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
-JHtml::_('bootstrap.tooltip');
 JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
+
+JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 ?>
 
 <div id="joomlaupdate-wrapper">

@@ -13,7 +13,6 @@ $app = JFactory::getApplication();
 $template = $app->getTemplate();
 
 // Load the tooltip behavior.
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
@@ -48,7 +47,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		<div class="col-md-10" id="config">
 
 			<?php if ($this->fieldsets): ?>
-			<ul class="nav nav-tabs" id="configTabs">
+			<ul class="nav nav-tabs flex-wrap" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>

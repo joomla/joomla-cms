@@ -100,8 +100,6 @@ abstract class JHtmlContentAdministrator
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
@@ -113,7 +111,8 @@ abstract class JHtmlContentAdministrator
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3])
+				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{

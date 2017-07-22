@@ -8,7 +8,7 @@
 				label="INSTL_DATABASE_TYPE_LABEL"
 				id="db_type"
 				class="custom-select form-control"
-				supported="mysqli,pdomysql,postgresql"
+				supported="mysql,mysqli,pgsql,postgresql"
 				required="true"
 				default="mysqli"
 				filter="string"

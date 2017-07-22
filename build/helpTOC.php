@@ -200,5 +200,23 @@ class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
-// Instantiate the application and execute it
-\Joomla\CMS\Application\CliApplication::getInstance('MediawikiCli')->execute();
+
+// Set up the container
+JFactory::getContainer()->share(
+	'MediawikiCli',
+	function (\Joomla\DI\Container $container)
+	{
+		return new MediawikiCli(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('MediawikiCli');
+JFactory::$application = $app;
+$app->execute();

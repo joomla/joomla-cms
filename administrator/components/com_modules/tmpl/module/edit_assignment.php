@@ -80,7 +80,7 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 								<li>
 									<div class="treeselect-item">
 										<?php
-										$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
+										$uselessMenuItem = in_array($link->type, array('separator', 'heading', 'alias', 'url'));
 										?>
 										<input type="checkbox" class="novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
 										<label for="<?php echo $id . $link->value; ?>" class="">
