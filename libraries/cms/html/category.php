@@ -50,16 +50,33 @@ abstract class JHtmlCategory
 
 			$query = $db->getQuery(true)
 				->select('a.id, a.title, a.level, a.language')
-				->from('#__categories AS a')
-				->where('a.parent_id > 0');
+				->from('#__categories AS a');
+			
+			// Filter on parent id.
+			if (isset($config['filter.parent_id']))
+			{
+				if (is_numeric($config['filter.parent_id']))
+				{
+					$query->where('a.parent_id = ' . (int) $config['filter.parent_id']);
+				}
+				elseif (is_array($config['filter.parent_id']))
+				{
+					$config['filter.parent_id'] = ArrayHelper::toInteger($config['filter.parent_id']);
+					$query->where('a.parent_id IN (' . implode(',', $config['filter.parent_id']) . ')');
+				}
+			}
+			else
+			{
+				$query->where('a.parent_id > 0');
+			}
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
 			
-			// Filter on user access level
+			// Filter on user access level.
 			$query->where('a.access IN (' . $groups . ')');
 
-			// Filter on the published state
+			// Filter on the published state.
 			if (isset($config['filter.published']))
 			{
 				if (is_numeric($config['filter.published']))
@@ -73,7 +90,7 @@ abstract class JHtmlCategory
 				}
 			}
 
-			// Filter on the language
+			// Filter on the language.
 			if (isset($config['filter.language']))
 			{
 				if (is_string($config['filter.language']))
@@ -91,7 +108,7 @@ abstract class JHtmlCategory
 				}
 			}
 
-			// Filter on the access
+			// Filter on the access.
 			if (isset($config['filter.access']))
 			{
 				if (is_string($config['filter.access']))
@@ -165,7 +182,7 @@ abstract class JHtmlCategory
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
 
-			// Filter on the published state
+			// Filter on the published state.
 			if (isset($config['filter.published']))
 			{
 				if (is_numeric($config['filter.published']))
