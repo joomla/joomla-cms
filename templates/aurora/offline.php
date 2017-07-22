@@ -17,6 +17,7 @@ $app              = JFactory::getApplication();
 $fullWidth = 1;
 
 // Add JavaScript Frameworks
+JHtml::_('behavior.core');
 JHtml::_('bootstrap.framework');
 
 // Add template js
@@ -27,7 +28,6 @@ JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]
 JHtml::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
 
 // Alerts progressive enhancement
-JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 // Template color
@@ -114,7 +114,9 @@ else
 			</div>
 			</div>
 			<div class="login">
-				<jdoc:include type="message" />
+				<div id="system-message-container">
+					<jdoc:include type="message" />
+				</div>
 				<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>

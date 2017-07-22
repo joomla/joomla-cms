@@ -30,7 +30,6 @@ $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Alerts
-JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 ?>
 <!DOCTYPE html>
@@ -56,9 +55,6 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
-	<script src="/media/vendor/jquery/js/jquery.min.js"></script>
-	<script src="/media/vendor/tether/js/tether.min.js"></script>
-	<script src="/media/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/media/system/js/core.min.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
@@ -200,6 +196,9 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 				<div class="row">
 
 					<div class="col-md-12">
+						<div id="system-message-container">
+							<jdoc:include type="message" />
+						</div>
 						<h1><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<blockquote class="blockquote">
 							<span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>

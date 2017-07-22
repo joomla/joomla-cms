@@ -29,7 +29,6 @@ $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Add JavaScript
-JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 if ($cpanel)
 {
@@ -46,7 +45,6 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Alerts
-JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 // Load specific language related CSS
@@ -142,7 +140,9 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			</section>
 
 			<div class="notify-alerts">
-				<jdoc:include type="message" />
+				<div id="system-message-container">
+					<jdoc:include type="message" />
+				</div>
 			</div>
 
 		</div>

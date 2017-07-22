@@ -41,7 +41,6 @@ JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Alerts progressive enhancement
-JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 // Load specific language related CSS
@@ -140,7 +139,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 		<div class="container-component">
 			<jdoc:include type="modules" name="main-top" style="cardGrey" />
-			<jdoc:include type="message" />
+			<div id="system-message-container">
+				<jdoc:include type="message" />
+			</div>
 			<jdoc:include type="component" />
 			<jdoc:include type="modules" name="breadcrumbs" style="none" />
 			<jdoc:include type="modules" name="main-bottom" style="cardGrey" />

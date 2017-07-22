@@ -23,7 +23,6 @@ JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' 
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Alerts
-JHtml::_('stylesheet', 'system/joomla-alert.min.css', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 
@@ -86,7 +85,9 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
 				<h1 class="text-center mt-1 mb-4"><?php echo JText::_('MOD_LOGIN_LOGIN_TITLE'); ?></h1>
-				<jdoc:include type="message" />
+				<div id="system-message-container">
+					<jdoc:include type="message" />
+				</div>
 				<jdoc:include type="component" />
 			</div>
 			<?php // End Content ?>

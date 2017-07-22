@@ -727,10 +727,14 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a `<script>` or `<link>` element to load a web component file
+	 * Loads the name and path of a custom element or webcomponent into the scriptOptions object
 	 *
-	 * @param   array  $component  The name and path of the web component.
-	 * @param   array  $options    The relative, version, detect browser and detect debug options
+	 * @param   array $component  The name and path of the web component.
+	 *                            Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
+	 *                            of just the custom element. (Polyfills loaded as needed, no force load)
+	 * @param   array  $options   The relative, version, detect browser and detect debug options for the custom element
+	 *                            or web component. Files need to have a -es5.(min).js (or .html) for the non ES6
+	 *                            Browsers.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @return  void
@@ -746,6 +750,11 @@ abstract class JHtml
 
 		foreach ($component as $key => $value)
 		{
+			if ($key === 'fullPolyfill' && $value === true)
+			{
+				JFactory::getDocument()->addScriptOptions('webcomponents', ['fullPolyfill' => true]);
+				continue;
+			}
 			$version      = '';
 			$mediaVersion = \JFactory::getDocument()->getMediaVersion();
 			$includes     = static::includeRelativeFiles(
@@ -758,7 +767,7 @@ abstract class JHtml
 
 			if (count($includes) === 0)
 			{
-				return;
+				continue;
 			}
 
 			if (isset($options['version']))
@@ -776,7 +785,7 @@ abstract class JHtml
 			if (count($includes) === 1)
 			{
 				JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '')]);
-				return;
+				continue;
 			}
 
 			JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes . ((strpos($includes, '?') === false) ? $version : '')]);

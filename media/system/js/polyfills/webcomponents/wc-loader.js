@@ -23,30 +23,31 @@
 
 	/* Check if we need the full polyfill set */
 	var checkWC = function (wc) {
-		if (wc.hasOwnProperty('full')) {
+		if (wc.hasOwnProperty('fullPolyfill') && wc['fullPolyfill'] === 'true') {
 			return true;
 		}
+		return false;
 	};
 
 	/* Load webcomponents async */
 	var loadWC = function (wc) {
 		var el, p, es5;
 		for (p in wc) {
-			if (wc.hasOwnProperty(p)) {
-				if (wc[p].match(/.js/)) {
+			if (wc.hasOwnProperty(p) && p !== 'full') {
+				if (wc[p].match(/\.js/)) {
 					el = document.createElement('script');
 					if (!checkES6()) {
 						// Browser is not ES6!
-						if (wc[p].match(/\.min\.js /)) {
-							es5 = wc[p].replace(/\.min\.js/, '-es5.min.js')
-						} else {
-							es5 = wc[p].replace(/\.js/, '-es5.js')
+						if (wc[p].match(/\.min\.js/g)) {
+							es5 = wc[p].replace(/\.min\.js/g, '-es5.min.js')
+						} else if (wc[p].match(/\.js/g)) {
+							es5 = wc[p].replace(/\.js/g, '-es5.js')
 						}
 						el.src = es5;
 					} else {
 						el.src = wc[p];
 					}
-				} else if (wc[p].match(/.html/)) {
+				} else if (wc[p].match(/\.html/)) {
 					el = document.createElement('link');
 					el.setAttribute('href', wc[p]);
 					el.setAttribute('rel', 'import');
@@ -59,7 +60,8 @@
 	};
 
 
-	if (checkWC) {
+	if (checkWC(wc)) {
+		console.log('full', checkWC(wc))
 		if (!('import' in document.createElement('link'))) {
 			polyfills.push('hi');
 		}
@@ -73,6 +75,7 @@
 			polyfills = ['lite'];
 		}
 	} else {
+		console.log('CE_only', checkWC(wc))
 		if (!window.customElements || window.customElements.forcePolyfill) {
 			polyfills.push('ce');
 		}
