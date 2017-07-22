@@ -79,7 +79,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php if (!$item->element) : ?>
 								<strong>X</strong>
 							<?php else : ?>
-								<?php echo JHtml::_('InstallerHtml.Updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
+								<?php if ($item->protected) : ?>
+									<a class="btn btn-micro disabled"><span class="icon-lock"></span></a>
+								<?php else : ?>
+									<?php echo JHtml::_('InstallerHtml.Updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						</td>
 						<td>

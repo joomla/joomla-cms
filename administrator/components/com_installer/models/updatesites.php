@@ -71,9 +71,9 @@ class InstallerModelUpdatesites extends InstallerModel
 	}
 
 	/**
-	 * Enable/Disable an extension.
+	 * Enable/Disable an update site.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  &$ids   Update site ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
@@ -82,7 +82,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 *
 	 * @throws  Exception on ACL error
 	 */
-	public function publish(&$eid = array(), $value = 1)
+	public function publish(&$ids = array(), $value = 1)
 	{
 		if (!JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
@@ -91,26 +91,56 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		$result = true;
 
-		// Ensure eid is an array of extension ids
-		if (!is_array($eid))
+		// Ensure ids is an array of update sites ids.
+		if (!is_array($ids))
 		{
-			$eid = array($eid);
+			$ids = array($ids);
 		}
 
-		// Get a table object for the extension type
-		$table = JTable::getInstance('Updatesite');
+		$db    = JFactory::getDbo();
+		$app   = JFactory::getApplication();
+		$count = 0;
+
+		// Gets the update site extensions.
+		$query = $db->getQuery(true)
+			->select($db->qn(array('update_site_id', 'extension_id')))
+			->from($db->qn('#__update_sites_extensions'))
+			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+		$db->setQuery($query);
+		$updateSitesExtensions = $db->loadObjectList('update_site_id');
+
+		// Get the table object for the extension and update site.
+		$extensionTable  = JTable::getInstance('Extension');
+		$updateSiteTable = JTable::getInstance('Updatesite');
 
 		// Enable the update site in the table and store it in the database
-		foreach ($eid as $i => $id)
+		foreach ($ids as $i => $id)
 		{
-			$table->load($id);
-			$table->enabled = $value;
-
-			if (!$table->store())
+			// Don't allow to (un)published protected extensions update sites.
+			if ($extensionTable->load($updateSitesExtensions[$id]->extension_id) && $extensionTable->protected)
 			{
-				$this->setError($table->getError());
-				$result = false;
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_CANNOT_DISABLE_PROTECTED', $extensionTable->name), 'error');
+				unset($ids[$i]);
+				continue;
 			}
+
+			$updateSiteTable->load($id);
+			$updateSiteTable->enabled = $value;
+
+			if (!$updateSiteTable->store())
+			{
+				$app->enqueueMessage($updateSiteTable->getError(), 'error');
+				unset($ids[$i]);
+				continue;
+			}
+
+			$count++;
+		}
+
+		if ($count > 0)
+		{
+			$ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';
+			$app->enqueueMessage(JText::plural($ntext, count($ids)), 'message');
 		}
 
 		return $result;
@@ -140,9 +170,8 @@ class InstallerModelUpdatesites extends InstallerModel
 			$ids = array($ids);
 		}
 
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
+		$db    = JFactory::getDbo();
+		$app   = JFactory::getApplication();
 		$count = 0;
 
 		// Gets the update site names.
@@ -153,16 +182,24 @@ class InstallerModelUpdatesites extends InstallerModel
 		$db->setQuery($query);
 		$updateSitesNames = $db->loadObjectList('update_site_id');
 
-		// Gets Joomla core update sites Ids.
-		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
+		// Gets the update site extensions.
+		$query = $db->getQuery(true)
+			->select($db->qn(array('update_site_id', 'extension_id')))
+			->from($db->qn('#__update_sites_extensions'))
+			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+		$db->setQuery($query);
+		$updateSitesExtensions = $db->loadObjectList('update_site_id');
+
+		// Get the table object for the extension and update site.
+		$extensionTable = JTable::getInstance('Extension');
 
 		// Enable the update site in the table and store it in the database
 		foreach ($ids as $i => $id)
 		{
-			// Don't allow to delete Joomla Core update sites.
-			if (in_array((int) $id, $joomlaUpdateSitesIds))
+			// Don't allow to delete protected extensions update sites.
+			if ($extensionTable->load($updateSitesExtensions[$id]->extension_id) && $extensionTable->protected)
 			{
-				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_CANNOT_DELETE_PROTECTED', $extensionTable->name), 'error');
 				continue;
 			}
 
@@ -419,6 +456,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					'e.folder',
 					'e.client_id',
 					'e.state',
+					'e.protected',
 					'e.manifest_cache',
 				)
 			)
