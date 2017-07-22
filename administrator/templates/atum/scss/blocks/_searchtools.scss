@@ -17,6 +17,7 @@
   .js-stools-container-filters {
     position: absolute;
     right: -1px;
+    z-index: 1;
     display: none;
     flex-direction: column;
     padding: 10px;
