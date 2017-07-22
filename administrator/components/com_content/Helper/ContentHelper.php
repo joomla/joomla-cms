@@ -293,7 +293,7 @@ class ContentHelper extends \JHelperContent
 		$query
 			->select($db->qn('id') . ' AS value, ' . $db->qn('title') . ' AS text')
 			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_status_id') . ' = ' . (int) $state);
+			->where($db->qn('from_state_id') . ' = ' . (int) $state);
 		$db->setQuery($query);
 		$results = $db->loadAssocList();
 
