@@ -28,6 +28,9 @@ vendors:
     'mediaelement':
                   'version': '4.2.2'
                   'dependencies': 'jquery'
+    'masonry-layout':
+                  'version': '4.2.0'
+                  'dependencies': ''
     'punycode':
                   'version': '1.4.1'
                   'dependencies': ''
