@@ -47,7 +47,7 @@ class Transition extends Admin
 
 		if ($data['to_state_id'] == $data['from_state_id'])
 		{
-			Factory::getApplication()->enqueueMessage('You choose the same state from and to', 'error');
+			$this->setError(\JText::_('You choose the same state from and to'));
 
 			return false;
 		}
@@ -71,13 +71,14 @@ class Transition extends Admin
 
 		if (!empty($checkDupliaction))
 		{
-			Factory::getApplication()->enqueueMessage('That transition already is', 'error');
+			$this->setError(\JText::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
 
 			return false;
 		}
 
 		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'cmd');
+
 		$data['workflow_id'] = (int) $workflowID;
 
 		return parent::save($data);
@@ -104,13 +105,6 @@ class Transition extends Admin
 				'load_data' => $loadData
 			)
 		);
-
-		if (empty($form))
-		{
-			Factory::getApplication()->enqueueMessage('There was a problem with setting form', 'error');
-
-			return false;
-		}
 
 		return $form;
 	}

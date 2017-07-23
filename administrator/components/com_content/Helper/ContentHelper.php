@@ -277,6 +277,29 @@ class ContentHelper extends \JHelperContent
 	}
 
 	/**
+	 * Check if state can be deleted
+	 *
+	 * @param   int  $stateID  Id of state to delete
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0
+	 */
+	public static function canDeleteState($stateID)
+	{
+		$db = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('id')
+			->from($db->qn('#__content'))
+			->where('state = ' . (int) $stateID);
+		$db->setQuery($query);
+		$states = $db->loadResult();
+
+		return empty($states);
+	}
+
+	/**
 	 * Returns array of transitions
 	 *
 	 * @param   string  $state  State of item

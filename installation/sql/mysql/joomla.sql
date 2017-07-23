@@ -2142,17 +2142,17 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 
 CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) DEFAULT 0,
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `condition` enum('1','2','3') NOT NULL,
-  `access` int(10) NOT NULL,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`),
   KEY `title` (`title`(191)),
-  KEY `access` (`access`),
+  KEY `access` (`asset_id`),
   KEY `default` (`default`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -2162,10 +2162,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) DEFAULT 0,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `asset_id` int(10) DEFAULT 0,
   `from_state_id` int(10) NOT NULL,
   `to_state_id` int(10) NOT NULL,
   `workflow_id` int(10) NOT NULL,

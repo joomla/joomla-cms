@@ -11,7 +11,9 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Workflow\Administrator\Table as WTable;
 
 /**
  * Category table
@@ -31,7 +33,9 @@ class Transition extends Table
 	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_transitions', 'id', $db);
+		$this->access = (int) Factory::getConfig()->get('access');
 	}
+
 
 	/**
 	 * Method to compute the default name of the asset.
@@ -40,13 +44,48 @@ class Transition extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
+		$workflow = new WTable\Workflow($this->getDbo());
+		$workflow->load($this->workflow_id);
 
-		return 'com_workflow.transition.' . (int) $this->$k;
+		return $workflow->extension . '.transition.' . (int) $this->$k;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.6
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Get the parent asset id for the record
+	 *
+	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   integer  $id     The id for the asset
+	 *
+	 * @return  integer  The id of the asset's parent
+	 *
+	 * @since   1.6
+	 */
+	protected function _getAssetParentId(Table $table = null, $id = null)
+	{
+		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+		$workflow = new WTable\Workflow($this->getDbo());
+		$workflow->load($this->workflow_id);
+		$name = $workflow->extension . '.workflow.'. (int) $workflow->id; $asset->loadByName($name);
+		$assetId = $asset->id;
+
+		return !empty($assetId) ? $assetId : parent::_getAssetParentId($table, $id);
 	}
 
 }

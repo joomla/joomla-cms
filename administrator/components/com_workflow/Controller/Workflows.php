@@ -80,6 +80,14 @@ class Workflows extends Admin
 		if (!$value)
 		{
 			$this->setMessage(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
+			$this->setRedirect(
+				\JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. '&extenstion=' . $this->input->getCmd("extension"), false
+				)
+			);
+
+			return;
 		}
 
 		if (empty($cid))

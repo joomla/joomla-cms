@@ -49,6 +49,63 @@ class WorkflowHelper extends ContentHelper
 	}
 
 	/**
+	 * Configure the Submenu links.
+	 *
+	 * @param   string  $extension      The extension from where Helper can find.
+	 * @param   string  $method         Method from that extension to invoke.
+	 * @param   array   $parameter      Parameters for that method.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
+	 */
+	public static function callMethodFromHelper($extension, $method, $parameter)
+	{
+		// Avoid nonsense situation.
+		if ($extension == 'com_workflows')
+		{
+			return false;
+		}
+
+		$parts = explode('.', $extension);
+		$component = $parts[0];
+
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($file))
+		{
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName = $prefix . 'Helper';
+
+			\JLoader::register($cName, $file);
+
+			if (class_exists($cName))
+			{
+				if (is_callable(array($cName, $method)))
+				{
+					$lang = \JFactory::getLanguage();
+
+					// Loading language file from the administrator/language directory then
+					// loading language file from the administrator/components/*extension*/language directory
+					$lang->load($component, JPATH_BASE, null, false, true)
+					|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+
+					return call_user_func(array($cName, $method), $parameter);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get SQL for select states field
 	 *
 	 * @param   string  $fieldName   The name of field to which will be that sql

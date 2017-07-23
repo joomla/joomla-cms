@@ -14,6 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Model\Admin;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * The first example class, this is in the same
@@ -37,19 +38,40 @@ class State extends Admin
 	public function save($data)
 	{
 		$app = \JFactory::getApplication();
-		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'cmd');
+		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 		$data['access'] = 0;
-		$data['workflow_id'] = (int) $workflowID;
+		$data['workflow_id'] = $workflowID;
 
 		if ($data['default'] == '1')
 		{
-			$table = $this->getTable();
-
-			if ($table->load(array('default' => '1')) && $table->id != $data['id'])
+			if ($data['published'] !== '1')
 			{
-				Factory::getApplication()->enqueueMessage('Default state already is', 'error');
+				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
 				return false;
+			}
+
+			$table = $this->getTable();
+
+			if ($table->load(array('default' => '1')))
+			{
+				$table->default = 0;
+				$table->store();
+			}
+		}
+		else
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select("id")
+				->from("#__workflow_states");
+			$db->setQuery($query);
+			$states = $db->loadObjectList();
+
+			if (empty($states))
+			{
+				$data['default'] = '1';
 			}
 		}
 
@@ -64,12 +86,37 @@ class State extends Admin
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
 	 * @since   4.0
+	 * @throws  \UnexpectedValueException
 	 */
 	protected function canDelete($record)
 	{
-		// @TODO check here if the record can be deleted (no item is assigned etc...)
-		return parent::canDelete($record);
+		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
+		{
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
+		$app = \JFactory::getApplication();
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'cmd');
+
+		$isAssigned = WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $record->id);
+
+		if ($isAssigned && !$record->default)
+		{
+			return true;
+		}
+		elseif (is_null($isAssigned) && !$record->default)
+		{
+			return true;
+		}
+		else
+		{
+			$this->setError(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'));
+
+			return false;
+		}
 	}
+
+
 
 	/**
 	 * Abstract method for getting the form from the model.
@@ -92,13 +139,6 @@ class State extends Admin
 				'load_data' => $loadData
 			)
 		);
-
-		if (empty($form))
-		{
-			Factory::getApplication()->enqueueMessage('There was a problem with setting form', 'error');
-
-			return false;
-		}
 
 		return $form;
 	}
@@ -130,16 +170,26 @@ class State extends Admin
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   array    $pk     A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   4.0
 	 */
-	public function setHome($pks, $value = 1)
+	public function setHome($pk, $value = 1)
 	{
 		$table = $this->getTable();
+
+		if ($table->load(array('id' => $pk)))
+		{
+			if ($table->published !== 1)
+			{
+				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
+
+				return false;
+			}
+		}
 
 		if ($value)
 		{
@@ -151,7 +201,7 @@ class State extends Admin
 			}
 		}
 
-		if ($table->load(array('id' => $pks)))
+		if ($table->load(array('id' => $pk)))
 		{
 			$table->default = $value;
 			$table->store();
@@ -161,5 +211,46 @@ class State extends Admin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   1.6
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$table = $this->getTable();
+		$pks   = (array) $pks;
+		$app = \JFactory::getApplication();
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'cmd');
+
+		// Default menu item existence checks.
+		if ($value != 1)
+		{
+			foreach ($pks as $i => $pk)
+			{
+				if ($table->load($pk) && $table->default)
+				{
+					// Prune items that you can't change.
+					$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+					unset($pks[$i]);
+					break;
+				}
+				elseif (WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $pk))
+				{
+					$this->setError(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'));
+					unset($pks[$i]);
+					break;
+				}
+			}
+		}
+
+		return parent::publish($pks, $value);
 	}
 }

@@ -130,8 +130,23 @@ class Html extends HtmlView
 	{
 		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATES_LIST'), 'address contact');
 		ToolbarHelper::addNew('state.add');
-		ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
 		ToolbarHelper::editList('state.edit');
+		ToolbarHelper::publishList('states.publish');
+		ToolbarHelper::unpublishList('states.unpublish');
+		ToolbarHelper::archiveList('states.archive');
+		ToolbarHelper::checkin('states.checkin', 'JTOOLBAR_CHECKIN', true);
+		ToolbarHelper::makeDefault('states.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+
+		if ($this->state->get("filter.published") === "-2")
+		{
+			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
+		}
+		else
+		{
+			ToolbarHelper::trash('states.trash');
+		}
+
+		ToolbarHelper::help('JHELP_WORKFLOWS_LIST');
 	}
 
 	/**

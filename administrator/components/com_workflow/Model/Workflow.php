@@ -59,7 +59,7 @@ class Workflow extends Admin
 		{
 			if ($data['published'] !== '1')
 			{
-				Factory::getApplication()->enqueueMessage(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"), 'error');
+				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
 				return false;
 			}
@@ -70,6 +70,21 @@ class Workflow extends Admin
 			{
 				$table->default = 0;
 				$table->store();
+			}
+		}
+		else
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select("id")
+				->from("#__workflows");
+			$db->setQuery($query);
+			$workflows = $db->loadObjectList();
+
+			if (empty($workflows))
+			{
+				$data['default'] = '1';
 			}
 		}
 
@@ -97,13 +112,6 @@ class Workflow extends Admin
 				'load_data' => $loadData
 			)
 		);
-
-		if (empty($form))
-		{
-			Factory::getApplication()->enqueueMessage('There was a error with setting form', 'error');
-
-			return false;
-		}
 
 		return $form;
 	}
@@ -196,7 +204,7 @@ class Workflow extends Admin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -216,7 +224,7 @@ class Workflow extends Admin
 				if ($table->load($pk) && $table->default)
 				{
 					// Prune items that you can't change.
-					Factory::getApplication()->enqueueMessage(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'), 'error');
+					$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 					unset($pks[$i]);
 					break;
 				}

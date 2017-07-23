@@ -77,9 +77,26 @@ class States extends Admin
 		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
+		if (!$value)
+		{
+			$this->setMessage(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
+			$this->setRedirect(
+				\JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. '&extenstion=' . $this->input->getCmd("extension"), false
+				)
+			);
+
+			return;
+		}
+
 		if (empty($cid))
 		{
-			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(\JText::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
+		}
+		elseif (is_numeric($cid[1]))
+		{
+			$this->setMessage(\JText::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
 		}
 		else
 		{

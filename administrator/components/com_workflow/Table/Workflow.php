@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -23,20 +24,21 @@ class Workflow extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   \JDatabaseDriver $db Database connector object
 	 *
 	 * @since   4.0
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
-		$this->typeAlias = 'com_workflow.title';
+		$this->typeAlias = '{extension}.workflow';
 		parent::__construct('#__workflows', 'id', $db);
+		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
 	/**
 	 * Deletes workflow with transition and states.
 	 *
-	 * @param   int  $pk  Extension ids to delete.
+	 * @param   int $pk Extension ids to delete.
 	 *
 	 * @return  void
 	 *
@@ -84,7 +86,6 @@ class Workflow extends Table
 			$db->setQuery($query);
 			$db->execute();
 
-
 			return parent::delete($pk);
 
 		}
@@ -98,4 +99,49 @@ class Workflow extends Table
 		return false;
 	}
 
+	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form table_name.id
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.6
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+
+		return $this->extension . '.workflow.' . (int) $this->$k;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.6
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Get the parent asset id for the record
+	 *
+	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   integer  $id     The id for the asset
+	 *
+	 * @return  integer  The id of the asset's parent
+	 *
+	 * @since   1.6
+	 */
+	protected function _getAssetParentId(Table $table = null, $id = null)
+	{
+		$asset = Table::getInstance("Asset");
+		$asset->loadByName($this->extension . '.workflow.' . $this->id);
+
+		return (int) $asset->id;
+	}
 }

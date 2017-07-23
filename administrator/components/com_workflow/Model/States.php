@@ -37,7 +37,8 @@ class States extends ListModel
 			$config['filter_fields'] = array(
 				'id',
 				'title',
-				'condition'
+				'condition',
+				'published'
 			);
 		}
 
@@ -107,7 +108,8 @@ class States extends ListModel
 						'id',
 						'title',
 						'condition',
-						'default'
+						'default',
+						'published'
 					)
 				);
 
@@ -125,6 +127,18 @@ class States extends ListModel
 		if ($condition = $this->getState('filter.condition'))
 		{
 			$query->where($db->qn('condition') . ' = ' . $db->quote($db->escape($condition)));
+		}
+
+		$status = (string) $this->getState('filter.published');
+
+		// Filter by condition
+		if (is_numeric($status))
+		{
+			$query->where($db->qn('published') . ' = ' . (int) $status);
+		}
+		elseif ($status == '')
+		{
+			$query->where($db->qn('published') . " IN ('0', '1')");
 		}
 
 		// Filter by search in title
