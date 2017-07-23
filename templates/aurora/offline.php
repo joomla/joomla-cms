@@ -18,7 +18,6 @@ $fullWidth = 1;
 
 // Add JavaScript Frameworks
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.framework');
 
 // Add template js
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);

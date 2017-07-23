@@ -29,6 +29,7 @@ $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Add JavaScript
+JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 if ($cpanel)
 {
