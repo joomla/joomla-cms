@@ -629,21 +629,33 @@ class JViewLegacy extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+	 * @param   string  $tpl     The name of the template source file; automatically searches the template paths and compiles as needed.
+	 * @param   string  $layout  A optional layout which will be loaded.
 	 *
 	 * @return  string  The output of the the template script.
 	 *
 	 * @since   3.0
 	 * @throws  Exception
 	 */
-	public function loadTemplate($tpl = null)
+	public function loadTemplate($tpl = null, $layout = null)
 	{
 		// Clear prior output
 		$this->_output = null;
 
 		$template = JFactory::getApplication()->getTemplate();
-		$layout = $this->getLayout();
+		
+		if (is_null($layout))
+		{
+			$layout = $this->getLayout();
+		}
+		
 		$layoutTemplate = $this->getLayoutTemplate();
+
+		if (strpos($layout, ':') !== false)
+		{
+			$temp = explode(':', $layout);
+			$layoutTemplate = $temp[0];
+		}
 
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
