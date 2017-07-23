@@ -154,8 +154,11 @@ class JFormFieldList extends JFormField
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 			
-			if ((string) $option['showon']){
-				$tmp['optionattr']   = " data-showon = '".json_encode(JFormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group))."'";
+			if ((string) $option['showon'])
+			{
+				$tmp['optionattr']   = " data-showon = '" . 
+					json_encode(JFormHelper::parseShowOnConditions((string) $option['showon'], 
+						$this->formControl, $this->group)) . "'";
 			}
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
