@@ -8,13 +8,13 @@ if (typeof (Joomla) === 'undefined') {
 	var Joomla = {};
 }
 
-!(function (document, Joomla) {
+!(function(document, Joomla) {
 	"use strict";
 
 	/**
 	 * Sets the HTML of the container-collapse element
 	 */
-	Joomla.setcollapse = function (url, name, height) {
+	Joomla.setcollapse = function(url, name, height) {
 		if (!document.getElementById('collapse-' + name)) {
 			document.getElementById('container-collapse').innerHTML = '<div class="collapse fade" id="collapse-' + name + '"><iframe class="iframe" src="' + url + '" height="' + height + '" width="100%"></iframe></div>';
 		}
@@ -24,7 +24,7 @@ if (typeof (Joomla) === 'undefined') {
 	 * IE8 polyfill for indexOf()
 	 */
 	if (!Array.prototype.indexOf) {
-		Array.prototype.indexOf = function (elt) {
+		Array.prototype.indexOf = function(elt) {
 			var len = this.length >>> 0;
 
 			var from = Number(arguments[1]) || 0;
@@ -45,7 +45,7 @@ if (typeof (Joomla) === 'undefined') {
 	/**
 	 * JField 'showon' feature.
 	 */
-	window.jQuery && (function ($) {
+	window.jQuery && (function($) {
 
 		/**
 		 * Method to check condition and change the target visibility
@@ -66,7 +66,7 @@ if (typeof (Joomla) === 'undefined') {
 				condition['valid'] = 0;
 
 				// Test in each of the elements in the field array if condition is valid
-				$fields.each(function () {
+				$fields.each(function() {
 					var $field = $(this);
 
 					// If checkbox or radio box the value is read from properties
@@ -167,7 +167,7 @@ if (typeof (Joomla) === 'undefined') {
 			// Setup each 'showon' field
 			for (var is = 0, ls = $showonFields.length; is < ls; is++) {
 				// Use anonymous function to capture arguments
-				(function () {
+				(function() {
 					var $target = $($showonFields[is]), jsondata = $target.data('showon') || [],
 						field, $fields = $();
 
@@ -181,7 +181,7 @@ if (typeof (Joomla) === 'undefined') {
 					linkedoptions($target);
 
 					// Attach events to referenced element, to check condition on change
-					$fields.on('change', function () {
+					$fields.on('change', function() {
 						linkedoptions($target, true);
 					});
 				})();
@@ -191,11 +191,11 @@ if (typeof (Joomla) === 'undefined') {
 		/**
 		 * Initialize 'showon' feature
 		 */
-		$(document).ready(function () {
+		$(document).ready(function() {
 			setUpShowon();
 
 			// Setup showon feature in the subform field
-			$(document).on('subform-row-add', function (event, row) {
+			$(document).on('subform-row-add', function(event, row) {
 				var $row = $(row),
 					$elements = $row.find('[data-showon]'),
 					baseName = $row.data('baseName'),
