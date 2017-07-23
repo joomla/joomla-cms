@@ -321,7 +321,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			// Array of messages of this type
 			typeMessages = messages[ type ];
 
-			if (typeof window.customElements === 'object' && typeof customElements.get('joomla-alert') === 'function') {
+			if (typeof window.customElements === 'object' && typeof window.customElements.get('joomla-alert') === 'function') {
 				messagesBox = document.createElement( 'joomla-alert' );
 
 				if (['notice','message', 'error'].indexOf(type) > -1) {
@@ -382,7 +382,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 			messageContainer.appendChild( messagesBox );
 
-			if (typeof window.customElements !== 'object' && typeof customElements.get('joomla-alert') !== 'function') {
+			if (typeof window.customElements !== 'object' && typeof window.customElements.get('joomla-alert') !== 'function') {
 				if (timeout && parseInt(timeout) > 0) {
 					setTimeout(function () {
 						Joomla.removeMessages(messageContainer);
@@ -409,7 +409,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			messageContainer = document.getElementById( 'system-message-container' );
 		}
 
-		if (typeof window.customElements === 'object' && customElements.get('joomla-alert')) {
+		if (typeof window.customElements === 'object' && window.customElements.get('joomla-alert')) {
 			var messages = messageContainer.querySelectorAll('joomla-alert');
 			if (messages.length) {
 				for (var i = 0, l = messages.length; i < l; i++) {
