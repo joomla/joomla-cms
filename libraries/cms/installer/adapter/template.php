@@ -449,7 +449,11 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		// Deny remove default template
 		$db = $this->parent->getDbo();
-		$query = "SELECT COUNT(*) FROM #__template_styles WHERE home = '1' AND template = " . $db->quote($name);
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('home') . ' = 1')
+			->where($db->quoteName('template') . ' = ' . $db->quote($name));
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)
@@ -505,11 +509,16 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		}
 
 		// Set menu that assigned to the template back to default template
-		$query = 'UPDATE #__menu'
-			. ' SET template_style_id = 0'
-			. ' WHERE template_style_id in ('
-			. '	SELECT s.id FROM #__template_styles s'
-			. ' WHERE s.template = ' . $db->quote(strtolower($name)) . ' AND s.client_id = ' . $clientId . ')';
+		$subquery = $db->getQuery(true)
+			->select('s.id')
+			->from('#__template_styles s')
+			->where($db->quoteName('s.template') . ' = ' . $db->quote(strtolower($name)))
+			->where($db->quoteName('s.client_id') . ' = ' . $db->quote($clientId));
+
+		$query->clear()
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('template_style_id') . ' = 0')
+			->where($db->quoteName('template_style_id') . ' in (' . (string) $subquery . ')');
 
 		$db->setQuery($query);
 		$db->execute();
