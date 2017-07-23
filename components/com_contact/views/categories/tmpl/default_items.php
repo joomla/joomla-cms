@@ -10,24 +10,21 @@
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
-
-$class = ' class="first"';
-if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>
+
+<?php $class = ' class="first"'; ?>
+<?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
-		<?php
-		if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) :
-			if (!isset($this->items[$this->parent->id][$id + 1]))
-			{
-				$class = ' class="last"';
-			}
-			?>
+		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
+			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
+				<?php $class = ' class="last"'; ?>
+			<?php endif; ?>
 			<div <?php echo $class; ?> >
 			<?php $class = ''; ?>
 				<h3 class="page-header item-title">
 					<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
-					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
+					<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
 						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTACT_NUM_ITEMS'); ?>">
 							<?php echo JText::_('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
@@ -45,19 +42,17 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
-
 				<?php if ($this->maxLevelcat > 1 && count($item->getChildren()) > 0) : ?>
 					<div class="collapse fade" id="category-<?php echo $item->id; ?>">
-						<?php
-						$this->items[$item->id] = $item->getChildren();
-						$this->parent = $item;
-						$this->maxLevelcat--;
-						echo $this->loadTemplate('items');
-						$this->parent = $item->getParent();
-						$this->maxLevelcat++;
-						?>
+						<?php $this->items[$item->id] = $item->getChildren(); ?>
+						<?php $this->parent = $item; ?>
+						<?php $this->maxLevelcat--; ?>
+						<?php echo $this->loadTemplate('items'); ?>
+						<?php $this->parent = $item->getParent(); ?>
+						<?php $this->maxLevelcat++; ?>
 					</div>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
-	<?php endforeach; ?><?php endif; ?>
+	<?php endforeach; ?>
+<?php endif; ?>

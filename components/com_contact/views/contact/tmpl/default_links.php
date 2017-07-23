@@ -22,22 +22,17 @@ defined('_JEXEC') or die;
 
 <div class="contact-links">
 	<ul class="nav nav-tabs nav-stacked">
-		<?php
-		// Letters 'a' to 'e'
-		foreach (range('a', 'e') as $char) :
-			$link = $this->contact->params->get('link' . $char);
-			$label = $this->contact->params->get('link' . $char . '_name');
-
-			if (!$link) :
-				continue;
-			endif;
-
-			// Add 'http://' if not present
-			$link = (0 === strpos($link, 'http')) ? $link : 'http://' . $link;
-
-			// If no label is present, take the link
-			$label = $label ?: $link;
-			?>
+		<?php // Letters 'a' to 'e' ?>
+		<?php foreach (range('a', 'e') as $char) : ?>
+			<?php $link  = $this->contact->params->get('link' . $char); ?>
+			<?php $label = $this->contact->params->get('link' . $char . '_name'); ?>
+			<?php if (!$link) : ?>
+				<?php continue; ?>
+			<?php endif; ?>
+			<?php // Add 'http://' if not present ?>
+			<?php $link = (0 === strpos($link, 'http')) ? $link : 'http://' . $link; ?>
+			<?php // If no label is present, take the link ?>
+			<?php $label = $label ?: $link; ?>
 			<li>
 				<a href="<?php echo $link; ?>" itemprop="url">
 					<?php echo $label; ?>
