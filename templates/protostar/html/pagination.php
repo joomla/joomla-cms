@@ -89,46 +89,38 @@ function pagination_list_footer($list)
  */
 function pagination_list_render($list)
 {
-	// Calculate to display range of pages
-	$currentPage = 1;
-	$range = 1;
-	$step = 5;
-	foreach ($list['pages'] as $k => $page)
-	{
-		if (!$page['active'])
-		{
-			$currentPage = $k;
-		}
-	}
-	if ($currentPage >= $step)
-	{
-		if ($currentPage % $step == 0)
-		{
-			$range = ceil($currentPage / $step) + 1;
-		}
-		else
-		{
-			$range = ceil($currentPage / $step);
-		}
-	}
-
+	// Initialize variables
 	$html = '<ul class="pagination-list">';
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];
+	$i = 1;
+	$cnt = count($list['pages']);
+	foreach($list['pages'] as $p => $page) { 
 
-	foreach ($list['pages'] as $k => $page)
-	{
-		if (in_array($k, range($range * $step - ($step + 1), $range * $step)))
-		{
-			if (($k % $step == 0 || $k == $range * $step - ($step + 1)) && $k != $currentPage && $k != $range * $step - $step)
-			{
-				$page['data'] = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $page['data']);
+		if($i == 1) {
+			preg_match('#start=(\d+)#', $page['data'], $current_start);
+			preg_match('#start=(\d+)#', $list['start']['data'], $first_start); 
+
+			if($current_start[1] > $first_start[1]) {
+				$html .= preg_replace('#(<a.*?>).*?(</a>)#','$1...$2',$page['data']);
+			} else {
+				$html .= $page['data'];
 			}
+
+		} else if($i == $cnt) {
+			preg_match('#start=(\d+)#', $page['data'], $current_start);
+			preg_match('#start=(\d+)#', $list['end']['data'], $last_start); 
+
+			if($current_start[1] < $last_start[1]) {
+				$html .= preg_replace('#(<a.*?>).*?(</a>)#','$1...$2',$page['data']);
+			} else {
+				$html .= $page['data'];
+			}
+		} else {
+			$html .= $page['data'];
 		}
-
-		$html .= $page['data'];
+		$i++;
 	}
-
 	$html .= $list['next']['data'];
 	$html .= $list['end']['data'];
 
