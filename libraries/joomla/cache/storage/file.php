@@ -116,8 +116,20 @@ class JCacheStorageFile extends JCacheStorage
 				{
 					$_fileopen = @fopen($path, 'rb');
 
-					// There is no lock, we have to close file after store data
-					$close = true;
+					if ($_fileopen)
+					{
+						// There is no exclusive lock, we have to close file after store data
+						$close = true;
+
+						// Acquire a shared lock to prevent reading the partially saved file
+						if ($this->_locking && !@flock($_fileopen, LOCK_SH|LOCK_NB))
+						{
+							// Another process writes data
+							@fclose($_fileopen);
+
+							return false;
+						}
+					}
 				}
 
 				if ($_fileopen)
@@ -127,6 +139,12 @@ class JCacheStorageFile extends JCacheStorage
 
 					if ($close)
 					{
+						if ($this->_locking)
+						{
+							// Release the shared lock
+							@flock($_fileopen, LOCK_UN);
+						}
+
 						@fclose($_fileopen);
 					}
 
@@ -209,6 +227,9 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			$length = strlen($data);
 			$result = @fwrite($_fileopen, $data, $length);
+
+			// Flush data to disk before unlock resource
+			fflush($_fileopen);
 
 			if ($close)
 			{
@@ -381,6 +402,12 @@ class JCacheStorageFile extends JCacheStorage
 			}
 
 			$returning->locklooped = true;
+
+			if ($data_lock === true)
+			{
+				// Another process has stored file, clear the stat cache to get a new value for its size
+				clearstatcache(true, $path);
+			}
 		}
 
 		if ($data_lock === true)
