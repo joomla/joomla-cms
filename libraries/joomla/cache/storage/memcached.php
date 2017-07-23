@@ -26,12 +26,12 @@ class JCacheStorageMemcached extends JCacheStorage
 	protected static $_db = null;
 
 	/**
-	 * Payload compression level
+	 * Compression flag
 	 *
-	 * @var    integer
+	 * @var    boolean
 	 * @since  12.1
 	 */
-	protected $_compress = 0;
+	protected $_compress = false;
 
 	/**
 	 * Constructor
@@ -44,7 +44,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		parent::__construct($options);
 
-		$this->_compress = JFactory::getConfig()->get('memcached_compress', false) ? Memcached::OPT_COMPRESSION : 0;
+		$this->_compress = (bool) JFactory::getConfig()->get('memcached_compress', false);
 
 		if (static::$_db === null)
 		{
