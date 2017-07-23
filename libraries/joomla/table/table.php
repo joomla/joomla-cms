@@ -663,7 +663,12 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	{
 		// Implement JObservableInterface: Pre-processing by observers
 		$this->_observers->update('onBeforeLoad', array($keys, $reset));
-
+		
+		if(is_integer($keys) && !(int) $keys)
+		{
+			return false;
+		}
+		
 		if (empty($keys))
 		{
 			$empty = true;
