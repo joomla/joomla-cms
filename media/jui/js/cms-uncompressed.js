@@ -28,7 +28,7 @@ if (typeof (Joomla) === 'undefined') {
 			var len = this.length >>> 0;
 
 			var from = Number(arguments[1]) || 0;
-			from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+			from     = (from < 0) ? Math.ceil(from) : Math.floor(from);
 
 			if (from < 0) {
 				from += len;
@@ -53,7 +53,7 @@ if (typeof (Joomla) === 'undefined') {
 		 * @param {Boolean} animate
 		 */
 		function linkedoptions(target, animate) {
-			var showfield = true,
+			var showfield    = true,
 				jsondata = target.data('showon') || [],
 				itemval, condition, fieldName, $fields;
 
@@ -61,7 +61,7 @@ if (typeof (Joomla) === 'undefined') {
 			for (var j = 0, lj = jsondata.length; j < lj; j++) {
 				condition = jsondata[j] || {};
 				fieldName = condition.field;
-				$fields = $('[name="' + fieldName + '"], [name="' + fieldName + '[]"]');
+				$fields   = $('[name="' + fieldName + '"], [name="' + fieldName + '[]"]');
 
 				condition['valid'] = 0;
 
@@ -173,7 +173,7 @@ if (typeof (Joomla) === 'undefined') {
 
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
-						field = jsondata[ij]['field'];
+						field  = jsondata[ij]['field'];
 						$fields = $fields.add($('[name="' + field + '"], [name="' + field + '[]"]'));
 					}
 
@@ -196,17 +196,17 @@ if (typeof (Joomla) === 'undefined') {
 
 			// Setup showon feature in the subform field
 			$(document).on('subform-row-add', function(event, row) {
-				var $row = $(row),
+				var $row          = $(row),
 					$elements = $row.find('[data-showon]'),
-					baseName = $row.data('baseName'),
-					group = $row.data('group'),
-					search = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
-					replace = '[' + baseName + '][' + group + ']',
+					baseName  = $row.data('baseName'),
+					group     = $row.data('group'),
+					search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
+					replace    = '[' + baseName + '][' + group + ']',
 					$elm, showon;
 
 				// Fix showon field names in a current group
 				for (var i = 0, l = $elements.length; i < l; i++) {
-					$elm = $($elements[i]);
+					$elm   = $($elements[i]);
 					showon = $elm.attr('data-showon').replace(search, replace);
 
 					$elm.attr('data-showon', showon);
