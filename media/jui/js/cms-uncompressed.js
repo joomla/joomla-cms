@@ -54,7 +54,7 @@ if (typeof (Joomla) === 'undefined') {
 		 */
 		function linkedoptions(target, animate) {
 			var showfield = true,
-				jsondata = target.data('showon') || [],
+				jsondata  = target.data('showon') || [],
 				itemval, condition, fieldName, $fields;
 
 			// Check if target conditions are satisfied
