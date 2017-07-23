@@ -77,26 +77,8 @@ class JFormFieldTag extends JFormFieldList
 			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
 		}
 
-		if (!is_array($this->value) && !empty($this->value))
-		{
-			if ($this->value instanceof JHelperTags)
-			{
-				if (empty($this->value->tags))
-				{
-					$this->value = array();
-				}
-				else
-				{
-					$this->value = $this->value->tags;
-				}
-			}
-
-			// String in format 2,5,4
-			if (is_string($this->value))
-			{
-				$this->value = explode(',', $this->value);
-			}
-		}
+		// Make sure $this->values is an array of tag ids
+		$this->prepareValues();
 
 		return parent::getInput();
 	}
@@ -156,6 +138,32 @@ class JFormFieldTag extends JFormFieldList
 		{
 			$published = ArrayHelper::toInteger($published);
 			$query->where('a.published IN (' . implode(',', $published) . ')');
+		}
+
+		// Respect the current user Access levels
+		$user = JFactory::getUser();
+		$vl_where = array();
+
+		$viewlevels = !$user->authorise('core.admin')
+			? implode(',', $user->getAuthorisedViewLevels())
+			: false;
+
+		if ($viewlevels)
+		{
+			$vl_where[] = 'a.access IN (' . $viewlevels . ')';
+		}
+
+		// Include already assigned tags are included
+		$this->prepareValues();
+		if ($this->values)
+		{
+			$vl_where[] = 'a.id IN (' . implode(',', $this->values) . ')';
+		}
+
+		// Add view level limitations but include already assigned tags
+		if (count($vl_where))
+		{
+			$query->where('(' . implode(' OR ', $vl_where) . ')');
 		}
 
 		$query->order('a.lft ASC');
@@ -225,6 +233,37 @@ class JFormFieldTag extends JFormFieldList
 		return $options;
 	}
 
+	/**
+	 * Makes sure this->values are a proper array of tag ids
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function prepareValues()
+	{
+		if (!is_array($this->value) && !empty($this->value))
+		{
+			if ($this->value instanceof JHelperTags)
+			{
+				if (empty($this->value->tags))
+				{
+					$this->value = array();
+				}
+				else
+				{
+					$this->value = $this->value->tags;
+				}
+			}
+
+			// String in format 2,5,4
+			if (is_string($this->value))
+			{
+				$this->value = explode(',', $this->value);
+			}
+		}
+	}
+	
 	/**
 	 * Determine if the field has to be tagnested
 	 *
