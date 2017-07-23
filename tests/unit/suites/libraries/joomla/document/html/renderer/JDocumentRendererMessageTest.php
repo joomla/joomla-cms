@@ -54,6 +54,6 @@ class JDocumentRendererMessageTest extends TestCaseDatabase
 	 */
 	public function testTheDefaultReturnForRender()
 	{
-		$this->assertContains('<div id="system-message-container"', $this->instance->render('unused'));
+		$this->assertContains(null, $this->instance->render('unused'));
 	}
 }
