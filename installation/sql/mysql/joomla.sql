@@ -199,7 +199,6 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
 CREATE TABLE IF NOT EXISTS `#__categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-  `workflow_id` int(10) unsigned NOT NULL COMMENT 'Fk to the #__workflows',
   `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
   `lft` int(11) NOT NULL DEFAULT 0,
   `rgt` int(11) NOT NULL DEFAULT 0,
@@ -232,8 +231,7 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   KEY `idx_path` (`path`(100)),
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`(100)),
-  KEY `idx_language` (`language`),
-  KEY `workflow_id` (`workflow_id`)
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
