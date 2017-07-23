@@ -26,7 +26,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<span class="label label-warning">
 							<?php echo JText::_('JUNPUBLISHED'); ?>
-						</span><?php echo JText::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?>
+						</span>
+						<?php echo JText::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?>
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
 				</div>
@@ -75,10 +76,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo $item->event->afterDisplayTitle; ?>
 					<?php echo $item->event->beforeDisplayContent; ?>
 					<?php if ($this->params->get('show_position_headings')) : ?>
-							<?php echo $item->con_position; ?><br />
+						<?php echo $item->con_position; ?><br />
 					<?php endif; ?>
 					<?php if ($this->params->get('show_email_headings')) : ?>
-							<?php echo $item->email_to; ?><br />
+						<?php echo $item->email_to; ?><br />
 					<?php endif; ?>
 					<?php $location = array(); ?>
 					<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
@@ -97,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
 					<?php endif; ?>
 					<?php if ($this->params->get('show_mobile_headings') && !empty ($item->mobile)) : ?>
-							<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
+						<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
 					<?php endif; ?>
 					<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
 						<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />

@@ -68,9 +68,9 @@ $params = &$this->item->params;
 							</th>
 						<?php endif; ?>
 						<?php if ($this->params->get('show_suburb_headings')) : ?>
-						<th class="item-suburb">
-							<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
-						</th>
+							<th class="item-suburb">
+								<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
+							</th>
 						<?php endif; ?>
 						<?php if ($this->params->get('show_state_headings')) : ?>
 							<th class="item-state">
