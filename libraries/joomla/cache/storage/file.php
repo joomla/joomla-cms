@@ -346,8 +346,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning             = new stdClass;
-		$returning->locklooped = false;
+		$returning = (object) array('locklooped' => false);
 
 		$looptime  = $locktime * 10;
 		$path      = $this->_getFilePath($id, $group);

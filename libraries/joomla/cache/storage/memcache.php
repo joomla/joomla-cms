@@ -361,11 +361,9 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass;
-		$returning->locklooped = false;
+		$returning = (object) array('locklooped' => false);
 
 		$looptime = $locktime * 10;
-
 		$cache_id = $this->_getCacheId($id, $group);
 
 		$data_lock = static::$_db->add($cache_id . '_lock', 1, 0, $locktime);
