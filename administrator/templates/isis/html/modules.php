@@ -23,9 +23,13 @@ defined('_JEXEC') or die;
  * two arguments.
  */
 
-/*
+/**
  * Module chrome for rendering the module in a submenu
- */
+ *
+ * @param stdClass  $module   The module object
+ * @param Registry  $params   The module parameters
+ * @param array     $attribs  The module attributes
+*/
 function modChrome_title($module, &$params, &$attribs)
 {
 	if ($module->content)
@@ -35,6 +39,11 @@ function modChrome_title($module, &$params, &$attribs)
 	}
 }
 
+/**
+ * @param stdClass  $module   The module object
+ * @param Registry  $params   The module parameters
+ * @param array     $attribs  The module attributes
+ */
 function modChrome_no($module, &$params, &$attribs)
 {
 	if ($module->content)
@@ -43,6 +52,11 @@ function modChrome_no($module, &$params, &$attribs)
 	}
 }
 
+/**
+ * @param stdClass  $module   The module object
+ * @param Registry  $params   The module parameters
+ * @param array     $attribs  The module attributes
+ */
 function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)

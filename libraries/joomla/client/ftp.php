@@ -248,7 +248,7 @@ class JClientFtp
 	 * Method to connect to a FTP server
 	 *
 	 * @param   string  $host  Host to connect to [Default: 127.0.0.1]
-	 * @param   string  $port  Port to connect on [Default: port 21]
+	 * @param   int     $port  Port to connect on [Default: port 21]
 	 *
 	 * @return  boolean  True if successful
 	 *
