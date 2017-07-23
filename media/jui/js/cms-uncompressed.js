@@ -53,7 +53,7 @@ if (typeof (Joomla) === 'undefined') {
 		 * @param {Boolean} animate
 		 */
 		function linkedoptions(target, animate) {
-			var showfield    = true,
+			var showfield = true,
 				jsondata = target.data('showon') || [],
 				itemval, condition, fieldName, $fields;
 
@@ -173,7 +173,7 @@ if (typeof (Joomla) === 'undefined') {
 
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
-						field  = jsondata[ij]['field'];
+						field   = jsondata[ij]['field'];
 						$fields = $fields.add($('[name="' + field + '"], [name="' + field + '[]"]'));
 					}
 
@@ -196,12 +196,12 @@ if (typeof (Joomla) === 'undefined') {
 
 			// Setup showon feature in the subform field
 			$(document).on('subform-row-add', function(event, row) {
-				var $row          = $(row),
+				var $row      = $(row),
 					$elements = $row.find('[data-showon]'),
 					baseName  = $row.data('baseName'),
 					group     = $row.data('group'),
 					search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
-					replace    = '[' + baseName + '][' + group + ']',
+					replace   = '[' + baseName + '][' + group + ']',
 					$elm, showon;
 
 				// Fix showon field names in a current group
