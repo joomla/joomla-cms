@@ -411,6 +411,12 @@ abstract class JModuleHelper
 			$cacheId .= $lang . '*';
 		}
 
+		if ($app->isClient('administrator') && JLanguageMultilang::isAdminEnabled())
+		{
+			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
+			$cacheId .= $lang . '*';
+		}
+
 		$query->order('m.position, m.ordering');
 
 		// Set the query

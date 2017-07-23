@@ -30,6 +30,47 @@ class MenusController extends JControllerLegacy
 	{
 		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
+		// Check custom administrator menu modules
+		if (JLanguageMultilang::isAdminEnabled())
+		{
+			// Check if we have any mod_menu module set to All languages
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('COUNT(*)')
+				->from($db->qn('#__modules'))
+				->where($db->qn('module') . ' = ' . $db->quote('mod_menu'))
+				->where($db->qn('published') . ' = 1')
+				->where($db->qn('client_id') . ' = 1')
+				->where($db->qn('language') . ' = ' . $db->quote('*'));
+			$db->setQuery($query);
+
+			$modulesAll = (int) $db->loadResult();
+
+			// If none, check that we have a mod_menu module for each admin language
+			if ($modulesAll == 0)
+			{
+				$adminLanguages = count(JLanguageHelper::getInstalledLanguages(1));
+
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('COUNT(*)')
+					->from($db->qn('#__modules'))
+					->where($db->qn('module') . ' = ' . $db->quote('mod_menu'))
+					->where($db->qn('published') . ' = 1')
+					->where($db->qn('client_id') . ' = 1')
+					->where($db->qn('language') . ' != ' . $db->quote('*'));
+				$db->setQuery($query);
+
+				$totalModules = (int) $db->loadResult();
+
+				if ($totalModules != $adminLanguages)
+				{
+					$msg = JText::_('JMENU_MULTILANG_WARNING');
+					JFactory::getApplication()->enqueueMessage($msg, 'warning');
+				}
+			}
+		}
+
 		return parent::display();
 	}
 }

@@ -541,6 +541,15 @@ class ModulesModelModule extends JModelAdmin
 		if ($clientId == 1)
 		{
 			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+
+			// Display language field to filter admin custom menus per language
+			if ($module == 'mod_menu' && JLanguageMultilang::isAdminEnabled())
+			{
+				$form->setFieldAttribute('language', 'type', 'language');
+				$form->setFieldAttribute('language', 'label', 'JFIELD_LANGUAGE_LABEL');
+				$form->setFieldAttribute('language', 'description', 'JFIELD_MODULE_LANGUAGE_DESC');
+				$form->setFieldAttribute('language', 'client', 'administrator');
+			}
 		}
 		else
 		{

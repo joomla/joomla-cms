@@ -103,6 +103,14 @@
 			label="JFIELD_ORDERING_LABEL"
 		/>
 
+		<field
+			name="language"
+			type="hidden"
+			default="*"
+			>
+			<option value="*">JALL</option>
+		</field>
+
 		<field name="content" type="editor"
 			buttons="true"
 			description="COM_MODULES_FIELD_CONTENT_DESC"
