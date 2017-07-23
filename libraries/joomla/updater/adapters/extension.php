@@ -112,12 +112,12 @@ class JUpdaterExtension extends JUpdateAdapter
 				}
 
 				/*
-				 * Check that the product matches and that the version matches (optionally a regexp)
+				 * Check that the product matches and that the minimal required version matches
 				 *
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
 				if ($product == $this->currentUpdate->targetplatform['NAME']
-					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
+					&& version_compare((new JVersion)->getShortVersion(), $this->currentUpdate->targetplatform['VERSION']) >= 0
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
