@@ -718,8 +718,6 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
-
-		return;
 	}
 
 	/**

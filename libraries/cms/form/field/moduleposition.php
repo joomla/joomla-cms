@@ -135,28 +135,33 @@ class JFormFieldModulePosition extends JFormFieldText
 		JHtml::_('behavior.modal', 'a.modal');
 
 		// Build the script.
-		$script = array();
-		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
-		$script[] = '		document.getElementById("' . $this->id . '").value = name;';
-		$script[] = '		jModalClose();';
-		$script[] = '	}';
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JFactory::getDocument()->addScriptDeclaration(
+		/** @lang JavaScript */
+			<<<JS
+function jSelectPosition_$this->id(name) {
+   	document.getElementById("$this->id").value = name;
+	jModalClose();
+}
+JS
+		);
 
 		// Setup variables for display.
-		$html = array();
-		$link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id
+		$link        = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id
 			. '&amp;client_id=' . $this->clientId;
+		$parentInput = parent::getInput();
+
+		$changePositionTitle  = JText::_('COM_MODULES_CHANGE_POSITION_TITLE');
+		$changePositionButton = JText::_('COM_MODULES_CHANGE_POSITION_BUTTON');
 
 		// The current user display field.
-		$html[] = '<div class="input-append">';
-		$html[] = parent::getInput()
-			. '<a class="btn modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
-			. '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
-		$html[] = '</div>';
 
-		return implode("\n", $html);
+		return /** @lang HTML */
+			<<<HTML
+<div class="input-append">
+	$parentInput
+	<a class="btn modal" title="$changePositionTitle" href="$link" rel="{handler: 'iframe', size: {x: 800, y: 450}}">$changePositionButton</a>
+</div>
+HTML;
 	}
+
 }
