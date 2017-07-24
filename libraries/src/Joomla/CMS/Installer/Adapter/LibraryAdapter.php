@@ -42,6 +42,7 @@ class LibraryAdapter extends InstallerAdapter
 			{
 				// We can upgrade, so uninstall the old one
 				$installer = new Installer; // we don't want to compromise this instance!
+				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
 				// Clear the cached data
@@ -341,6 +342,7 @@ class LibraryAdapter extends InstallerAdapter
 		if ($result)
 		{
 			// Already installed, which would make sense
+			$installer->setPackageUninstall(true);
 			$installer->uninstall('library', $result);
 
 			// Clear the cached data

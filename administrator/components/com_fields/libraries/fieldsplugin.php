@@ -160,12 +160,17 @@ abstract class FieldsPlugin extends JPlugin
 		// Set the attributes
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
-		$node->setAttribute('default', $field->default_value);
 		$node->setAttribute('label', $field->label);
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
+
+		if ($field->default_value)
+		{
+			$defaultNode = $node->appendChild(new DOMElement('default'));
+			$defaultNode->appendChild(new DOMCdataSection($field->default_value));
+		}
 
 		// Combine the two params
 		$params = clone $this->params;

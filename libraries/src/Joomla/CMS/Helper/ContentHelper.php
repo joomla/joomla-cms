@@ -8,11 +8,18 @@
 
 namespace Joomla\CMS\Helper;
 
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for standard content style extensions.
@@ -50,10 +57,10 @@ class ContentHelper
 	public static function _getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
 		// Log usage of deprecated function
-		\JLog::add(__METHOD__ . '() is deprecated, use ContentHelper::getActions() with new arguments order instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated, use ContentHelper::getActions() with new arguments order instead.', Log::WARNING, 'deprecated');
 
 		// Reverted a change for version 2.5.6
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$result = new \JObject;
 
 		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
@@ -114,7 +121,7 @@ class ContentHelper
 
 		$result = new \JObject;
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$actions = Access::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
@@ -122,8 +129,8 @@ class ContentHelper
 
 		if ($actions === false)
 		{
-			\JLog::add(
-				\JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), \JLog::ERROR, 'jerror'
+			Log::add(
+				\JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
 			);
 
 			return $result;
@@ -149,15 +156,30 @@ class ContentHelper
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
-		$app = \JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(\JApplicationHelper::getHash('language'));
+		$app = Factory::getApplication();
+
+		// Get the languagefilter parameters
+		if (Multilanguage::isEnabled())
+		{
+			$plugin       = PluginHelper::getPlugin('system', 'languagefilter');
+			$pluginParams = new Registry($plugin->params);
+
+			if ((int) $pluginParams->get('lang_cookie', 1) === 1)
+			{
+				$langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+			}
+			else
+			{
+				$langCode = Factory::getSession()->get('plg_system_languagefilter.language');
+			}
+		}
 
 		// No cookie - let's try to detect browser language or use site default
 		if (!$langCode)
 		{
 			if ($detectBrowser)
 			{
-				$langCode = \JLanguageHelper::detectLanguage();
+				$langCode = LanguageHelper::detectLanguage();
 			}
 			else
 			{
@@ -180,7 +202,7 @@ class ContentHelper
 	 */
 	public static function getLanguageId($langCode)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('lang_id')
 			->from('#__languages')

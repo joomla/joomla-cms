@@ -10,6 +10,7 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -109,7 +110,7 @@ class Categories
 		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
 		$options['published']   = isset($options['published']) ? $options['published'] : 1;
 		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
-		$options['currentlang'] = Multilanguage::isEnabled() ? \JFactory::getLanguage()->getTag() : 0;
+		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
 		$this->_options = $options;
 
@@ -117,12 +118,12 @@ class Categories
 	}
 
 	/**
-	 * Returns a reference to a JCategories object
+	 * Returns a reference to a Categories object
 	 *
 	 * @param   string  $extension  Name of the categories extension
 	 * @param   array   $options    An array of options
 	 *
-	 * @return  JCategories|boolean  JCategories object on success, boolean false if an object does not exist
+	 * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
 	 *
 	 * @since   1.6
 	 */
@@ -210,9 +211,9 @@ class Categories
 	 */
 	protected function _load($id)
 	{
-		$db   = \JFactory::getDbo();
-		$app  = \JFactory::getApplication();
-		$user = \JFactory::getUser();
+		$db   = Factory::getDbo();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 		$extension = $this->_extension;
 
 		// Record that has this $id has been checked
@@ -256,7 +257,7 @@ class Categories
 
 			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(\JFactory::getLanguage()->getTag())
+				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(Factory::getLanguage()->getTag())
 					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
 			}
 			else
@@ -268,7 +269,7 @@ class Categories
 		{
 			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
-				$query->where('c.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$query->where('c.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 		}
 
@@ -289,15 +290,15 @@ class Categories
 
 			$query->join('LEFT', $queryjoin);
 			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
-		}
 
-		// Group by
-		$query->group(
-			'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+			// Group by
+			$query->group(
+				'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
 			 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
 			 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
 			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
-		);
+			);
+		}
 
 		// Get the results
 		$db->setQuery($query);

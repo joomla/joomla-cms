@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
@@ -137,6 +138,9 @@ abstract class Factory
 			}
 
 			self::$application = CMSApplication::getInstance($id);
+
+			// Attach a delegated JLog object to the application
+			self::$application->setLogger(Log::createDelegatedLogger());
 		}
 
 		return self::$application;
@@ -609,7 +613,7 @@ abstract class Factory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		// The session handler needs a JInput object, we can inject it without having a hard dependency to an application instance
-		$input = self::$application ? self::getApplication()->input : new \JInput;
+		$input = self::$application ? self::getApplication()->input : new Input;
 
 		$sessionHandler = new \JSessionHandlerJoomla($options);
 		$sessionHandler->input = $input;

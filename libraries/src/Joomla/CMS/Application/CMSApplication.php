@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -89,19 +90,19 @@ class CMSApplication extends WebApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a \JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Input                   $input   An optional argument to provide dependency injection for the application's
+	 *                                           input object.  If the argument is a \JInput object that object will become
+	 *                                           the application's input object, otherwise a default input object is created.
 	 * @param   Registry                $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
+	 *                                           config object.  If the argument is a Registry object that object will become
+	 *                                           the application's config object, otherwise a default config object is created.
 	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
+	 *                                           client object.  If the argument is a \JApplicationWebClient object that object will become
+	 *                                           the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
+	public function __construct(Input $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
 		parent::__construct($input, $config, $client);
 
@@ -944,7 +945,7 @@ class CMSApplication extends WebApplication
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== \JAuthentication::STATUS_SUCCESS)
 		{
-			\JLog::add($response->error_message, \JLog::WARNING, 'jerror');
+			$this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
 		}
 
 		return false;
@@ -1034,12 +1035,11 @@ class CMSApplication extends WebApplication
 			 */
 			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
 			{
-				// Log that passing the message to the function is deprecated
-				\JLog::add(
-					'Passing a message and message type to \JFactory::getApplication()->redirect() is deprecated. '
-					. 'Please set your message via \JFactory::getApplication()->enqueueMessage() prior to calling redirect().',
-					\JLog::WARNING,
-					'deprecated'
+				$this->getLogger()->warning(
+					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
+					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
+					. '::redirect().',
+					array('category' => 'deprecated')
 				);
 
 				$message = $args[1];
