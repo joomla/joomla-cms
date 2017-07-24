@@ -386,4 +386,66 @@ class JFormHelper
 
 		return $showOnData;
 	}
+
+	/**
+	 * Parse the render on conditions
+	 *
+	 * @param   string   $renderOn  Render on conditions.
+	 *
+	 * @return  boolean  True if the field shall be rendered, False otherwise.
+	 *
+	 * @since 3.7.0
+	 */
+	public static function parseRenderOnConditions($renderOn)
+	{
+		// Process the renderon data.
+		if (!$renderOn)
+		{
+			return true;
+		}
+
+		$result = null;
+		$lastop = null;
+		$renderOnParts = preg_split('%\[(AND|OR)\]%', $renderOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+		foreach ($renderOnParts as $renderOnPart)
+		{
+			if (($renderOnPart == 'AND') || ($renderOnPart == 'OR'))
+			{
+				$lastop = $renderOnPart;
+				continue;
+			}
+
+			// Split field into 3 items: "global" or component name, parameter name, list of expected values
+			$renderon = explode(':', $renderOnPart, 3);
+
+			// Get global config if first part is 'global' otherwise it is a component name
+			$config = ($renderon[0] == 'global') ?
+				JFactory::getConfig() :
+				JComponentHelper::getParams($renderon[0]);
+
+			// Get parameter value
+			$currsetting = $config->get($renderon[1], null);
+
+			// Get renderon expected values and compare with parameter value
+			$onvalues = explode(',', $renderon[2]);
+
+			if ($currsetting !== null and in_array($currsetting, $onvalues))
+			{
+				if ($result === null or $lastop == 'OR')
+				{
+					$result = true;
+				}
+			}
+			else
+			{
+				if ($result === null or $lastop == 'AND')
+				{
+					$result = false;
+				}
+			}
+		}
+
+		return $result;
+	}
 }

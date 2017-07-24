@@ -298,6 +298,14 @@ abstract class JFormField
 	protected $showon;
 
 	/**
+	 * The conditions to render/not render the field.
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $renderon;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -405,6 +413,7 @@ abstract class JFormField
 			case 'autocomplete':
 			case 'spellcheck':
 			case 'showon':
+			case 'renderon':
 				return $this->$name;
 
 			case 'input':
@@ -461,6 +470,7 @@ abstract class JFormField
 			case 'pattern':
 			case 'group':
 			case 'showon':
+			case 'renderon':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -583,7 +593,7 @@ abstract class JFormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'renderon');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -948,6 +958,14 @@ abstract class JFormField
 		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
 		{
 			$options['hiddenLabel'] = true;
+		}
+
+		if ($this->renderon)
+		{
+			if (!JFormHelper::parseRenderOnConditions($this->renderon))
+			{
+				return '';
+			}
 		}
 
 		if ($this->showon)
