@@ -4,7 +4,7 @@
  * @subpackage  Version
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '3-dev';
+	const DEV_LEVEL = '4-dev';
 
 	/**
 	 * Development status.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '22-May-2017';
+	const RELDATE = '11-July-2017';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '10:18';
+	const RELTIME = '16:52';
 
 	/**
 	 * Release timezone.
@@ -143,7 +143,7 @@ final class JVersion
 	 */
 	public function isInDevelopmentState()
 	{
-		return strtolower(self::DEV_STATUS) != 'stable';
+		return strtolower(self::DEV_STATUS) !== 'stable';
 	}
 
 	/**

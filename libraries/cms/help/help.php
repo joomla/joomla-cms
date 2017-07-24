@@ -4,7 +4,7 @@
  * @subpackage  Help
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -33,7 +33,7 @@ class JHelp
 		$local = false;
 		$app   = JFactory::getApplication();
 
-		if (is_null($component))
+		if ($component === null)
 		{
 			$component = JApplicationHelper::getComponentName();
 		}

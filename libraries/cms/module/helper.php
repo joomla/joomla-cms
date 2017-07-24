@@ -4,7 +4,7 @@
  * @subpackage  Module
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -37,10 +37,10 @@ abstract class JModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the name of the module
-			if ($modules[$i]->name == $name || $modules[$i]->module == $name)
+			if ($modules[$i]->name === $name || $modules[$i]->module === $name)
 			{
 				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules[$i]->title == $title)
+				if (!$title || $modules[$i]->title === $title)
 				{
 					// Found it
 					$result = &$modules[$i];
@@ -50,7 +50,7 @@ abstract class JModuleHelper
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if (is_null($result) && substr($name, 0, 4) == 'mod_')
+		if ($result === null && strpos($name, 'mod_') === 0)
 		{
 			$result            = new stdClass;
 			$result->id        = 0;
@@ -87,13 +87,13 @@ abstract class JModuleHelper
 
 		for ($i = 0; $i < $total; $i++)
 		{
-			if ($modules[$i]->position == $position)
+			if ($modules[$i]->position === $position)
 			{
 				$result[] = &$modules[$i];
 			}
 		}
 
-		if (count($result) == 0)
+		if (count($result) === 0)
 		{
 			if ($input->getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
@@ -123,7 +123,7 @@ abstract class JModuleHelper
 	{
 		$result = static::getModule($module);
 
-		return !is_null($result) && $result->id !== 0;
+		return $result !== null && $result->id !== 0;
 	}
 
 	/**
@@ -242,7 +242,7 @@ abstract class JModuleHelper
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
-		if (is_null($module) || !isset($module->content))
+		if ($module === null || !isset($module->content))
 		{
 			return '';
 		}
@@ -295,7 +295,7 @@ abstract class JModuleHelper
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}
@@ -377,13 +377,13 @@ abstract class JModuleHelper
 	public static function getModuleList()
 	{
 		$app = JFactory::getApplication();
-		$Itemid = $app->input->getInt('Itemid');
+		$Itemid = $app->input->getInt('Itemid', 0);
 		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . (int) $Itemid;
+		$cacheId = $groups . $clientId . $Itemid;
 
 		$db = JFactory::getDbo();
 
@@ -402,7 +402,7 @@ abstract class JModuleHelper
 			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
-			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
+			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
 		if ($app->isClient('site') && $app->getLanguageFilter())

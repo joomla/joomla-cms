@@ -144,8 +144,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->dbo);
-		unset($this->_instance);
+		unset($this->dbo, $this->_instance);
 		parent::tearDown();
 	}
 

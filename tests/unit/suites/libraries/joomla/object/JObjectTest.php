@@ -4,7 +4,7 @@
  * @subpackage  Base
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -18,9 +18,16 @@
 class JObjectTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * @var    JObject
+	 * @var  JObject  Test-Object
 	 */
 	protected $object;
+
+	/**
+	 * @var  JObject  Test-Object
+	 *
+	 * @since  3.7.3
+	 */
+	protected $o;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

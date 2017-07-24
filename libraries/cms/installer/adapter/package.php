@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -67,8 +67,8 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			$updateElement = $this->manifest->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -278,7 +278,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -491,7 +491,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				case 'update':
 					if ($this->parent->manifestClass->$method($this) === false)
 					{
-						if ($method != 'uninstall')
+						if ($method !== 'uninstall')
 						{
 							// The script failed, rollback changes
 							throw new RuntimeException(
@@ -511,7 +511,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		$this->extensionMessage .= ob_get_clean();
 
 		// If in postflight or uninstall, set the message for display
-		if (($method == 'uninstall' || $method == 'postflight') && $this->extensionMessage != '')
+		if (($method === 'uninstall' || $method === 'postflight') && $this->extensionMessage !== '')
 		{
 			$this->parent->set('extension_message', $this->extensionMessage);
 		}
@@ -580,7 +580,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 
@@ -724,6 +724,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 
 		// Note: For templates, libraries and packages their unique name is their key.
 		// This means they come out the same way they came in.
+
 		return $db->loadResult();
 	}
 

@@ -91,9 +91,9 @@ if (!empty($editor))
 				<?php
 				$iconStates = array(
 					-2 => 'icon-trash',
-					0 => 'icon-unpublish',
-					1 => 'icon-publish',
-					2 => 'icon-archive',
+					0  => 'icon-unpublish',
+					1  => 'icon-publish',
+					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -119,7 +119,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<td>
 							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'
