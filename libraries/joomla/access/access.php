@@ -597,7 +597,7 @@ class JAccess
 
 					// If not full recursive mode, but recursive parent mode, do not add other recursion rules.
 					if (!$recursive && $recursiveParentAsset && self::$assetPermissionsParentIdMapping[$extensionName][$id]->name !== $extensionName
-						&& self::$assetPermissionsParentIdMapping[$extensionName][$id]->id != $assetId)
+						&& (int) self::$assetPermissionsParentIdMapping[$extensionName][$id]->id !== $assetId)
 					{
 						continue;
 					}
