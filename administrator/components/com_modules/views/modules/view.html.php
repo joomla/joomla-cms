@@ -214,7 +214,7 @@ class ModulesViewModules extends JViewLegacy
 					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
 					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
 					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-					'a.language'       => JText::_('JGRID_HEADING_LANGUAGE'),
+					'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
 					'a.id'           => JText::_('JGRID_HEADING_ID')
 				);
 			}
@@ -224,7 +224,7 @@ class ModulesViewModules extends JViewLegacy
 					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
 					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
 					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-					'a.language'       => JText::_('JGRID_HEADING_LANGUAGE'),
+					'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
 					'a.id'           => JText::_('JGRID_HEADING_ID')
 			);
 		}
