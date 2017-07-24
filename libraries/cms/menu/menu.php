@@ -238,6 +238,22 @@ class JMenu
 	}
 
 	/**
+	 * Set the user property
+	 *
+	 * @param   JUser  $user  The user object
+	 *
+	 * @return  JMenu  The menu object if the user property has been set or null
+	 *
+	 * @since   3.7.1
+	 */
+	public function setUser(JUser $user)
+	{
+		$this->user = $user;
+
+		return $this;
+	}
+
+	/**
 	 * Gets menu items by attribute
 	 *
 	 * @param   mixed    $attributes  The field name(s).

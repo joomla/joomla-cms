@@ -63,6 +63,7 @@ class PlgSystemRemember extends JPlugin
 			if ($this->app->input->cookie->get($cookieName))
 			{
 				$this->app->login(array('username' => ''), array('silent' => true));
+				$this->app->getMenu()->setUser(JFactory::getUser())->load();
 			}
 		}
 	}
