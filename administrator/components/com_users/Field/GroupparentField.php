@@ -6,17 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Users\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Helper\UserGroupsHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * User Group Parent field..
  *
  * @since  1.6
  */
-class JFormFieldGroupParent extends JFormFieldList
+class GroupparentField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -35,7 +41,7 @@ class JFormFieldGroupParent extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = JHelperUsergroups::getInstance()->getAll();
+		$options = UserGroupsHelper::getInstance()->getAll();
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id'))
@@ -44,13 +50,13 @@ class JFormFieldGroupParent extends JFormFieldList
 		}
 
 		$options      = array_values($options);
-		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
+		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			// Show groups only if user is super admin or group is not super admin
-			if ($isSuperAdmin || !JAccess::checkGroup($options[$i]->id, 'core.admin'))
+			if ($isSuperAdmin || !Access::checkGroup($options[$i]->id, 'core.admin'))
 			{
 				$options[$i]->value = $options[$i]->id;
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;

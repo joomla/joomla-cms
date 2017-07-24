@@ -866,20 +866,22 @@
 			name="list_show_votes"
 			type="votelist"
 			label="JGLOBAL_LIST_VOTES_LABEL"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field 
 			name="list_show_ratings"
 			type="votelist"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
