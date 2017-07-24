@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Utilities
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Utility;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JUtility
+class Utility
 {
 	/**
 	 * Method to extract key/value pairs out of a string with XML style attributes
@@ -59,7 +60,7 @@ class JUtility
 	{
 		if ($custom)
 		{
-			$custom = JHtml::_('number.bytes', $custom, '');
+			$custom = \JHtml::_('number.bytes', $custom, '');
 
 			if ($custom > 0)
 			{
@@ -71,8 +72,8 @@ class JUtility
 		 * Read INI settings which affects upload size limits
 		 * and Convert each into number of bytes so that we can compare
 		 */
-		$sizes[] = JHtml::_('number.bytes', ini_get('post_max_size'), '');
-		$sizes[] = JHtml::_('number.bytes', ini_get('upload_max_filesize'), '');
+		$sizes[] = \JHtml::_('number.bytes', ini_get('post_max_size'), '');
+		$sizes[] = \JHtml::_('number.bytes', ini_get('upload_max_filesize'), '');
 
 		// The minimum of these is the limiting factor
 		return min($sizes);

@@ -545,7 +545,7 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Setting the value for the gven field id, context and item id.
+	 * Setting the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
 	 * @param   string  $itemId   The ID of the item.
