@@ -2150,7 +2150,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`),
   KEY `title` (`title`(191)),
-  KEY `access` (`asset_id`),
+  KEY `asset_id` (`asset_id`),
   KEY `default` (`default`)
 ) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
 
