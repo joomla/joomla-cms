@@ -4,7 +4,7 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -200,8 +200,15 @@ abstract class JModelForm extends JModelLegacy
 		// Handle the optional arguments.
 		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
 
-		// Create a signature hash.
-		$hash = md5($source . serialize($options));
+		// Create a signature hash. But make sure, that loading the data does not create a new instance
+		$sigoptions = $options;
+
+		if (isset($sigoptions['load_data']))
+		{
+			unset($sigoptions['load_data']);
+		}
+
+		$hash = md5($source . serialize($sigoptions));
 
 		// Check if we can use a previously loaded form.
 		if (isset($this->_forms[$hash]) && !$clear)

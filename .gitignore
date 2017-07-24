@@ -36,6 +36,16 @@ phpdoc-*
 # Install from Web plugin #
 /plugins/installer/webinstaller
 
+# Languages #
+administrator/language/*
+!administrator/language/en-GB
+administrator/manifests/packages/*
+!administrator/manifests/packages/pkg_en-GB.xml
+!administrator/language/overrides/index.html
+language/*
+!language/en-GB
+!language/overrides/index.html
+
 # OSX #
 ._*
 .Spotlight-V100
@@ -95,9 +105,13 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/other
 /libraries/vendor/paragonie/random_compat/CHANGELOG.md
 /libraries/vendor/paragonie/random_compat/ERRATA.md
+/libraries/vendor/paragonie/random_compat/RATIONALE.md
 /libraries/vendor/paragonie/random_compat/README.md
 /libraries/vendor/paragonie/random_compat/SECURITY.md
+/libraries/vendor/paragonie/random_compat/build-phar.sh
 /libraries/vendor/paragonie/random_compat/composer.json
+/libraries/vendor/paragonie/random_compat/psalm-autoload.php
+/libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
@@ -139,3 +153,19 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+
+# System Test related files
+tests/codeception/acceptance.suite.yml
+tests/codeception/_support/_generated/*TesterActions.php
+tests/codeception/joomla-cms*
+tests/codeception/_output*
+selenium-server-standalone.jar
+selenium.log
+tests/codeception/cache
+tests/codeception/_output
+tests/codeception/vendor
+composer.phar
+
+# Build related
+RoboFile.ini
+

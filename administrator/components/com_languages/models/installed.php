@@ -74,6 +74,7 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'name',
+				'nativeName',
 				'language',
 				'author',
 				'published',

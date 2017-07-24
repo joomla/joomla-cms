@@ -68,4 +68,63 @@ class AssociationsControllerAssociations extends JControllerAdmin
 		$this->getModel('associations')->clean();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
+
+	/**
+	 * Method to check in an item from the association item overview.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.1
+	 */
+	public function checkin()
+	{
+		// Set the redirect so we can just stop processing when we find a condition we can't process
+		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
+		// Figure out if the item supports checking and check it in
+		$type = null;
+
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
+
+		$extension = AssociationsHelper::getSupportedExtension($extensionName);
+		$types     = $extension->get('types');
+
+		if (!array_key_exists($typeName, $types))
+		{
+			return;
+		}
+
+		if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName) === false)
+		{
+			// How on earth we came to that point, eject internet
+			return;
+		}
+
+		$cid = $this->input->get('cid', array(), 'array');
+
+		if (empty($cid))
+		{
+			// Seems we don't have an id to work with.
+			return;
+		}
+
+		// We know the first element is the one we need because we don't allow multi selection of rows
+		$id = $cid[0];
+
+		if (AssociationsHelper::canCheckinItem($extensionName, $typeName, $id) === true)
+		{
+			$item = AssociationsHelper::getItem($extensionName, $typeName, $id);
+
+			$item->checkIn($id);
+
+			return;
+		}
+
+		$this->setRedirect(
+			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
+			JText::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
+		);
+
+		return;
+	}
 }

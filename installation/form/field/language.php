@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Language Form Field class.
+ * Installation Language field.
  *
  * @since  1.6
  */

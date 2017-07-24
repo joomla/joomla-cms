@@ -13,9 +13,11 @@
 		<fields name="params">
 		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
-			<field name="url" type="text"
-				description="COM_WRAPPER_FIELD_URL_DESC"
+			<field 
+				name="url" 
+				type="text"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
+				description="COM_WRAPPER_FIELD_URL_DESC"
 				size="30"
 				required="true"
 			/>
@@ -26,27 +28,33 @@
 		<!-- Scroll. -->
 		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
 
-			<field name="scrolling" type="list"
-				default="auto"
-				description="COM_WRAPPER_FIELD_SCROLLBARS_DESC"
+			<field 
+				name="scrolling" 
+				type="list"
 				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
-			>
+				description="COM_WRAPPER_FIELD_SCROLLBARS_DESC"
+				default="auto"
+				>
 				<option value="no">JNO</option>
 				<option value="yes">JYES</option>
 				<option value="auto">COM_WRAPPER_FIELD_VALUE_AUTO</option>
 			</field>
 
-			<field name="width" type="text"
-				default="100%"
-				description="COM_WRAPPER_FIELD_WIDTH_DESC"
+			<field 
+				name="width" 
+				type="text"
 				label="JGLOBAL_WIDTH"
+				description="COM_WRAPPER_FIELD_WIDTH_DESC"
+				default="100%"
 				size="5"
 			/>
 
-			<field name="height" type="text"
-				default="500"
-				description="COM_WRAPPER_FIELD_HEIGHT_DESC"
+			<field 
+				name="height" 
+				type="text"
 				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
+				description="COM_WRAPPER_FIELD_HEIGHT_DESC"
+				default="500"
 				size="5"
 			/>
 
@@ -55,34 +63,38 @@
 		<!-- Advanced options. -->
 		<fieldset name="advanced">
 
-			<field name="height_auto" type="radio"
+			<field 
+				name="height_auto" 
+				type="radio"
+				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
+				description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC"
 				default="0"
 				class="btn-group btn-group-yesno"
-				description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC"
-				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
 
-			<field name="add_scheme"
+			<field 
+				name="add_scheme"
 				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				description="COM_WRAPPER_FIELD_ADD_DESC"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
-			>
+				description="COM_WRAPPER_FIELD_ADD_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
 
-			<field name="frameborder"
+			<field 
+				name="frameborder"
 				type="radio"
+				label="COM_WRAPPER_FIELD_FRAME_LABEL"
+				description="COM_WRAPPER_FIELD_FRAME_DESC"
 				class="btn-group btn-group-yesno"
 				default="1"
-				description="COM_WRAPPER_FIELD_FRAME_DESC"
-				label="COM_WRAPPER_FIELD_FRAME_LABEL"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

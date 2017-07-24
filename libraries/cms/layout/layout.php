@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface to handle display layout
  *
- * @see    https://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @link   https://docs.joomla.org/Special:MyLanguage/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0
  */
 interface JLayout

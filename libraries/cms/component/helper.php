@@ -4,7 +4,7 @@
  * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -160,11 +160,11 @@ class JComponentHelper
 			$filterData = $filters->$groupId;
 			$filterType = strtoupper($filterData->filter_type);
 
-			if ($filterType == 'NH')
+			if ($filterType === 'NH')
 			{
 				// Maximum HTML filtering.
 			}
-			elseif ($filterType == 'NONE')
+			elseif ($filterType === 'NONE')
 			{
 				// No HTML filtering.
 				$unfiltered = true;
@@ -200,13 +200,13 @@ class JComponentHelper
 
 				// Collect the blacklist or whitelist tags and attributes.
 				// Each list is cummulative.
-				if ($filterType == 'BL')
+				if ($filterType === 'BL')
 				{
 					$blackList           = true;
 					$blackListTags       = array_merge($blackListTags, $tempTags);
 					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
 				}
-				elseif ($filterType == 'CBL')
+				elseif ($filterType === 'CBL')
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -216,7 +216,7 @@ class JComponentHelper
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType == 'WL')
+				elseif ($filterType === 'WL')
 				{
 					$whiteList           = true;
 					$whiteListTags       = array_merge($whiteListTags, $tempTags);
@@ -233,12 +233,7 @@ class JComponentHelper
 		$whiteListTags        = array_unique($whiteListTags);
 		$whiteListAttributes  = array_unique($whiteListAttributes);
 
-		// Unfiltered assumes first priority.
-		if ($unfiltered)
-		{
-			// Dont apply filtering.
-		}
-		else
+		if (!$unfiltered)
 		{
 			// Custom blacklist precedes Default blacklist
 			if ($customList)

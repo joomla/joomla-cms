@@ -4,7 +4,7 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -255,7 +255,7 @@ abstract class JModelAdmin extends JModelForm
 
 		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (strlen($commands[$identifier]) > 0)
+			if (!empty($commands[$identifier]))
 			{
 				if (!$this->$command($commands[$identifier], $pks, $contexts))
 				{
@@ -669,7 +669,7 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -1136,7 +1136,7 @@ abstract class JModelAdmin extends JModelForm
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
-		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
 			$table->newTags = $data['tags'];
 		}
@@ -1274,7 +1274,7 @@ abstract class JModelAdmin extends JModelForm
 				$associations[$table->language] = (int) $table->$key;
 			}
 
-			if ((count($associations)) > 1)
+			if (count($associations) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
