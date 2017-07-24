@@ -63,6 +63,10 @@ jQuery(function() {";
 
 <form id="finder-search" action="<?php echo JRoute::_($this->query->toUri()); ?>" method="get" class="form-inline">
 	<?php echo $this->getFields(); ?>
+	<?php // DISABLED UNTIL WEIRD VALUES CAN BE TRACKED DOWN. ?>
+	<?php if (false && $this->state->get('list.ordering') !== 'relevance_dsc') : ?>
+		<input type="hidden" name="o" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>" />
+	<?php endif; ?>
 	<fieldset class="word">
 		<label for="q">
 			<?php echo JText::_('COM_FINDER_SEARCH_TERMS'); ?>
