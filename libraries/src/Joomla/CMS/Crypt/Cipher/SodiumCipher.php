@@ -150,14 +150,20 @@ class SodiumCipher implements CipherInterface
 			return false;
 		}
 
-		// Requires libsodium extension, either from PECL or in core PHP
-		if (!extension_loaded('libsodium'))
+		// Requires sodium extension, added to PHP core as of 7.2 or the PECL extension's name as of 2.0
+		if (extension_loaded('sodium'))
 		{
-			return false;
+			return true;
 		}
 
-		// The environment is supported
-		return true;
+		// Requires libsodium extension, comes from the PECL extension's 1.x branch
+		if (extension_loaded('libsodium'))
+		{
+			return true;
+		}
+
+		// The environment is unsupported
+		return false;
 	}
 
 	/**
