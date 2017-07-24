@@ -2,7 +2,7 @@
 ALTER TABLE "#__extensions" ADD COLUMN "locked" smallint DEFAULT 0 NOT NULL;
 
 COMMENT ON COLUMN "#__extensions"."protected" IS 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
-COMMENT ON COLUMN "#__extensions"."locked" IS 'Flag to indicate if is the extension is locked. Locked extensions cannot be uninstalled.';
+COMMENT ON COLUMN "#__extensions"."locked" IS 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';
 
 -- Set all core extensions as locked extensions and unprotected them.
 UPDATE "#__extensions"
