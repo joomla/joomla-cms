@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset addfieldprefix="Joomla\Component\Categories\Administrator\Field" >
+<form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+	<fieldset>
 		<field
 			name="id"
 			type="text"
@@ -38,6 +38,7 @@
 			description="JFIELD_FIELDS_CATEGORY_DESC"
 			extension="com_content"
 			multiple="true"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">JALL</option>
 		</field>

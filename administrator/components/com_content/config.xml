@@ -932,10 +932,11 @@
 			type="votelist"
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			description="JGLOBAL_LIST_VOTES_DESC"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field 
@@ -943,10 +944,11 @@
 			type="votelist"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			description="JGLOBAL_LIST_RATINGS_DESC"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>

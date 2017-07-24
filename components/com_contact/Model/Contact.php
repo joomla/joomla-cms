@@ -367,10 +367,7 @@ class Contact extends Form
 		PluginHelper::importPlugin('user');
 
 		// Get the form.
-		\JForm::addFormPath(JPATH_SITE . '/components/com_users/models/forms');
-		\JForm::addFieldPath(JPATH_SITE . '/components/com_users/models/fields');
-		\JForm::addFormPath(JPATH_SITE . '/components/com_users/model/form');
-		\JForm::addFieldPath(JPATH_SITE . '/components/com_users/model/field');
+		\JForm::addFormPath(JPATH_SITE . '/components/com_users/forms');
 
 		$form = \JForm::getInstance('com_users.profile', 'profile');
 

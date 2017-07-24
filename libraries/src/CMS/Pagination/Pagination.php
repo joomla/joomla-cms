@@ -713,7 +713,6 @@ class Pagination
 
 		if (!is_numeric($item->text))
 		{
-			\JHtml::_('bootstrap.tooltip');
 			$title = ' title="' . $item->text . '"';
 			$class = 'hasTooltip ';
 		}

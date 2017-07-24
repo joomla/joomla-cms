@@ -57,7 +57,7 @@ Joomla = window.Joomla || {};
 
 	document.addEventListener('DOMContentLoaded',  function() {
 
-		if (joomla.getOptions && typeof joomla.getOptions === 'function' && Joomla.getOptions('js-image-caption')) {
+		if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-image-caption')) {
 			if (Joomla.getOptions('js-image-caption').selector) {
 				new Joomla.JCaption(Joomla.getOptions('js-image-caption').selector);
 			}

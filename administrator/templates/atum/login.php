@@ -16,11 +16,12 @@ $lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('bootstrap.tooltip');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 
 // Load template CSS file
-JHtml::_('stylesheet', 'template.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
@@ -79,7 +80,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			</noscript>
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
-				<h2 class="text-center mt-1 mb-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
+				<h1 class="text-center mt-1 mb-4"><?php echo JText::_('MOD_LOGIN_LOGIN_TITLE'); ?></h1>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>
