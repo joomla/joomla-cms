@@ -105,11 +105,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('banner.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('banner.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($this->state->get('filter.published') != 2)

@@ -108,11 +108,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('override.add');
 		}
 
-		if ($canDo->get('core.edit') && $this->pagination->total)
-		{
-			\JToolbarHelper::editList('override.edit');
-		}
-
 		if ($canDo->get('core.delete') && $this->pagination->total)
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
