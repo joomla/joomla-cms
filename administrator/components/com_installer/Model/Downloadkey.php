@@ -72,11 +72,13 @@ class Downloadkey extends Admin
 	/**
 	 * Method to get an array of data items.
 	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getItem()
+	public function getItem($pk = null)
 	{
 		$data = parent::getItem();
 

@@ -752,7 +752,7 @@ abstract class ToolbarHelper
 			'download_key_modal',
 			array(
 				'title' => 'Download key modal',
-				'bodyHeight'  => '40',
+				'bodyHeight'  => '45',
 				'modalWidth'  => '80',
 				'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 					. ' data-dismiss="modal">'
