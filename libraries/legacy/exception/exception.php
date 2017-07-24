@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Exception
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -407,6 +407,6 @@ class JException extends Exception
 	{
 		JLog::add('JException::setErrors is deprecated.', JLog::WARNING, 'deprecated');
 
-		array_push($this->_errors, $error);
+		$this->_errors[] = $error;
 	}
 }

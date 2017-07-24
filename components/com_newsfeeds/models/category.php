@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,9 +93,12 @@ class NewsfeedsModelCategory extends JModelList
 				$params->loadString($item->params);
 			}
 
-			// Get the tags
-			$item->tags = new JHelperTags;
-			$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+			if ($this->getState('load_tags', true))
+			{
+				$item->tags = new JHelperTags;
+				$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+			}
 		}
 
 		return $items;

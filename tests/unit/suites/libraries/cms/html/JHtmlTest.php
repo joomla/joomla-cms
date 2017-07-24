@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -176,7 +176,10 @@ class JHtmlTest extends TestCase
 	 */
 	public function testRegister()
 	{
-		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
+		// Build the mock object.
+		$registered = $this->getMockBuilder('MyHtmlClass')
+					->setMethods(array('mockFunction'))
+					->getMock();
 
 		// Test that we can register the method
 		$this->assertTrue(
@@ -205,8 +208,10 @@ class JHtmlTest extends TestCase
 	 */
 	public function testUnregister()
 	{
-		// Register a method so we can unregister it
-		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
+		// Build the mock object to Register a method so we can unregister it.
+		$registered = $this->getMockBuilder('MyHtmlClass')
+					->setMethods(array('mockFunction'))
+					->getMock();
 
 		JHtml::register('prefix.unregister.testfunction', array($registered, 'mockFunction'));
 
@@ -230,7 +235,10 @@ class JHtmlTest extends TestCase
 	 */
 	public function testIsRegistered()
 	{
-		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
+		// Build the mock object.
+		$registered = $this->getMockBuilder('MyHtmlClass')
+					->setMethods(array('mockFunction'))
+					->getMock();
 
 		// Test that we can register the method.
 		JHtml::register('prefix.isregistered.method', array($registered, 'mockFunction'));
@@ -306,11 +314,11 @@ class JHtmlTest extends TestCase
 	public function testImage()
 	{
 		// These are some paths to pass to JHtml for testing purposes.
-		$urlpath = 'test1/';
-		$urlfilename = 'image1.jpg';
+		$urlpath = uniqid() . 'test1/';
+		$urlfilename = 'image' . uniqid() . '.jpg';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -399,8 +407,8 @@ class JHtmlTest extends TestCase
 			'JHtml::image failed when we should get it from the media directory in path only mode'
 		);
 
-		$extension = 'testextension';
-		$element = 'element';
+		$extension = uniqid() . 'testextension';
+		$element = uniqid() . 'element';
 		$urlpath = 'path1/';
 		$urlfilename = 'image1.jpg';
 
@@ -490,22 +498,27 @@ class JHtmlTest extends TestCase
 			'JHtml::image with an absolute path'
 		);
 
-		mkdir(JPATH_ROOT . '/test', 0777, true);
-		file_put_contents(JPATH_ROOT . '/test/image.jpg', 'test');
+		$id  = uniqid();
+		$dir = JPATH_ROOT . '/' . $id;
+
+		mkdir($dir . '/test', 0777, true);
+		file_put_contents($dir . '/test/image.jpg', 'test');
+
 		$this->assertEquals(
-			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
-			'<img src="' . JUri::root(true) . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
+			JHtml::image($id . '/test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
+			'<img src="' . JUri::root(true) . '/' . $id . '/test/image.jpg" alt="My Alt Text" width="150" height="150" />',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
 
-		unlink(JPATH_ROOT . '/test/image.jpg');
-		rmdir(JPATH_ROOT . '/test');
+		unlink($dir . '/test/image.jpg');
+		rmdir($dir . '/test');
 
 		$this->assertEquals(
 			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
 			'<img src="" alt="My Alt Text" width="150" height="150" />',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
+
 	}
 
 	/**
@@ -571,11 +584,11 @@ class JHtmlTest extends TestCase
 	public function testScript()
 	{
 		// These are some paths to pass to JHtml for testing purposes.
-		$urlpath = 'test1/';
-		$urlfilename = 'script1.js';
+		$urlpath = 'test' . uniqid() . '/';
+		$urlfilename = 'script' . uniqid() . '.js';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -674,9 +687,9 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
 		);
 
-		$extension = 'testextension';
-		$element = 'element';
-		$urlpath = 'path1/';
+		$extension = 'testextension' . uniqid();
+		$element = 'element' . uniqid();
+		$urlpath = 'path' . uniqid() . '/';
 		$urlfilename = 'script1.js';
 
 		mkdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/js/' . $urlpath, 0777, true);
@@ -914,11 +927,11 @@ class JHtmlTest extends TestCase
 	public function testStylesheet()
 	{
 		// These are some paths to pass to JHtml for testing purposes.
-		$urlpath = 'test1/';
-		$urlfilename = 'style1.css';
+		$urlpath = 'test' . uniqid() . '/';
+		$urlfilename = 'style' . uniqid() . '.css';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -1015,9 +1028,9 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
-		$extension = 'testextension';
-		$element = 'element';
-		$urlpath = 'path1/';
+		$extension = 'testextension' . uniqid();
+		$element = 'element' . uniqid();
+		$urlpath = 'path' . uniqid() . '/';
 		$urlfilename = 'style1.css';
 
 		mkdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/css/' . $urlpath, 0777, true);
@@ -1293,7 +1306,7 @@ class JHtmlTest extends TestCase
 	public function testTooltip()
 	{
 		// We generate a random template name so that we don't collide or hit anything
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
@@ -1340,7 +1353,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertEquals(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt', 'hasTooltip2'),
-			'<span class="hasTooltip2" title="'.
+			'<span class="hasTooltip2" title="' .
 			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content' .
 			'"><img src="' . JUri::base(true) .
 			'/media/system/images/tooltip.png" alt="MyAlt" /></span>',
@@ -1441,8 +1454,8 @@ class JHtmlTest extends TestCase
 			);
 			$readonly = isset($data['attribs']['readonly']) ? 'readonly="readonly"' : '';
 
-			$xml = new SimpleXMLElement('<field name="'.$data['name'].'" type="calendar" id="'.$data['id'].'"
-			format="'.$data['format'].'" title="' .$data['friendly_date'] . '" value="' . $data['formattedDate'] . '" '. $readonly . ' />');
+			$xml = new SimpleXMLElement('<field name="' . $data['name'] . '" type="calendar" id="' . $data['id'] . '"
+			format="' . $data['format'] . '" title="' . $data['friendly_date'] . '" value="' . $data['formattedDate'] . '" ' . $readonly . ' />');
 
 			$this->assertEquals(
 				'calendar',
@@ -1453,19 +1466,19 @@ class JHtmlTest extends TestCase
 			$this->assertEquals(
 				$data['friendly_date'],
 				(string) $xml->attributes()->title,
-				'Line:'.__LINE__.' The calendar input should have `title == "' . $data['friendly_date'] . '"`'
+				'Line:' . __LINE__ . ' The calendar input should have `title == "' . $data['friendly_date'] . '"`'
 			);
 
 			$this->assertEquals(
 				$data['name'],
 				(string) $xml->attributes()->name,
-				'Line:'.__LINE__.' The calendar input should have `name == "' . $data['name'] . '"`'
+				'Line:' . __LINE__ . ' The calendar input should have `name == "' . $data['name'] . '"`'
 			);
 
 			$this->assertEquals(
 				$data['id'],
 				(string) $xml->attributes()->id,
-				'Line:'.__LINE__.' The calendar input should have `id == "' . $data['id'] . '"`'
+				'Line:' . __LINE__ . ' The calendar input should have `id == "' . $data['id'] . '"`'
 			);
 
 			$this->assertEquals(
@@ -1486,19 +1499,19 @@ class JHtmlTest extends TestCase
 			$this->assertArrayHasKey(
 				'/media/system/js/fields/calendar-locales/en.js',
 				JFactory::getDocument()->_scripts,
-				'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
+				'Line:' . __LINE__ . ' JS file "calendar-locales/en.js" should be loaded'
 			);
 
 			$this->assertArrayHasKey(
 				'/media/system/js/fields/calendar-locales/date/gregorian/date-helper.min.js',
 				JFactory::getDocument()->_scripts,
-				'Line:'.__LINE__.' JS file "date.js" should be loaded'
+				'Line:' . __LINE__ . ' JS file "date.js" should be loaded'
 			);
 
 			$this->assertArrayHasKey(
-				'/media/system/js/fields/calendar-vanilla.min.js',
+				'/media/system/js/fields/calendar.min.js',
 				JFactory::getDocument()->_scripts,
-				'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
+				'Line:' . __LINE__ . ' JS file "calendar.min.js" should be loaded'
 			);
 		}
 	}

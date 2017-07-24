@@ -23,8 +23,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
-        'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
@@ -36,25 +36,30 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'J' => 
         array (
-            'Joomla\\Utilities\\Tests\\' => 23,
             'Joomla\\Utilities\\' => 17,
             'Joomla\\Uri\\Tests\\' => 17,
             'Joomla\\Uri\\' => 11,
-            'Joomla\\String\\Tests\\' => 20,
             'Joomla\\String\\' => 14,
             'Joomla\\Registry\\' => 16,
+            'Joomla\\Ldap\\Tests\\' => 18,
+            'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
-            'Joomla\\Filter\\Tests\\' => 20,
             'Joomla\\Filter\\' => 14,
+            'Joomla\\Filesystem\\' => 18,
             'Joomla\\Event\\Tests\\' => 19,
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
             'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
+            'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
         ),
     );
@@ -76,9 +81,9 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Joomla\\Utilities\\Tests\\' => 
+        'Psr\\Log\\' => 
         array (
-            0 => __DIR__ . '/..' . '/joomla/utilities/Tests',
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Joomla\\Utilities\\' => 
         array (
@@ -92,10 +97,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/uri/src',
         ),
-        'Joomla\\String\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/string/Tests',
-        ),
         'Joomla\\String\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/string/src',
@@ -103,6 +104,14 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Registry\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
+        ),
+        'Joomla\\Ldap\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
+        ),
+        'Joomla\\Ldap\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/ldap/src',
         ),
         'Joomla\\Input\\Tests\\' => 
         array (
@@ -112,13 +121,13 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
         ),
-        'Joomla\\Filter\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/filter/Tests',
-        ),
         'Joomla\\Filter\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
+        ),
+        'Joomla\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/filesystem/src',
         ),
         'Joomla\\Event\\Tests\\' => 
         array (
@@ -144,6 +153,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/di/src',
         ),
+        'Joomla\\Archive\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/archive/src',
+        ),
         'Joomla\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
@@ -156,13 +169,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'SimplePie' => 
             array (
                 0 => __DIR__ . '/..' . '/simplepie/simplepie/library',
-            ),
-        ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
             ),
         ),
         'J' => 

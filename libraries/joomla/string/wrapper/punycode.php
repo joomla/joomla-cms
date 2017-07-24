@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,6 +17,7 @@ JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       3.4
+ * @deprecated  4.0 Will be removed without replacement
  */
 class JStringWrapperPunycode
 {

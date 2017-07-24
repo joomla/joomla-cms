@@ -4,33 +4,36 @@
 		<field
 			name="summary_email"
 			type="radio"
+			label="INSTL_SUMMARY_EMAIL_LABEL"
 			id="summary_email"
 			class="btn-group"
 			default="0"
-			label="INSTL_SUMMARY_EMAIL_LABEL"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
 		<field
 			name="summary_email_passwords"
 			type="radio"
+			label="INSTL_SUMMARY_EMAIL_PASSWORDS_LABEL"
 			id="email_passwords"
 			class="btn-group"
 			default="0"
-			label="INSTL_SUMMARY_EMAIL_PASSWORDS_LABEL"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
 		<field name="db_type" type="hidden" />
+
 		<field
 			name="sample_file"
 			type="installation.sample"
-			class="inputbox"
 			label="INSTL_SITE_INSTALL_SAMPLE_LABEL"
+			class="inputbox"
 		/>
 	</fieldset>
 </form>

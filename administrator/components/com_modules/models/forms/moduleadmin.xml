@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="id" type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			default="0"
+			readonly="true"
+		/>
+
+		<field name="title" type="text"
+			description="COM_MODULES_FIELD_TITLE_DESC"
+			label="JGLOBAL_TITLE"
+			class="input-xxlarge input-large-text"
+			size="40"
+			maxlength="100"
+			required="true"
+		/>
+
+		<field name="note" type="text"
+			description="COM_MODULES_FIELD_NOTE_DESC"
+			label="COM_MODULES_FIELD_NOTE_LABEL"
+			maxlength="255"
+			size="40"
+			class="span12"
+		/>
+
+		<field name="module" type="hidden"
+			description="COM_MODULES_FIELD_MODULE_DESC"
+			label="COM_MODULES_FIELD_MODULE_LABEL"
+			readonly="readonly"
+			size="20"
+		/>
+
+		<field name="showtitle" type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
+			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
+			size="1"
+		>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field name="published" type="list"
+			class="chzn-color-state"
+			default="1"
+			description="COM_MODULES_FIELD_PUBLISHED_DESC"
+			label="JSTATUS"
+			size="1"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
+			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
+			filter="user_utc"
+			translateformat="true"
+			showtime="true"
+			size="22"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
+			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
+			filter="user_utc"
+			translateformat="true"
+			showtime="true"
+			size="22"
+		/>
+
+		<field name="client_id" type="hidden"
+			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
+			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
+			readonly="true"
+			size="1"
+		/>
+
+		<field name="position" type="moduleposition"
+			default=""
+			description="COM_MODULES_FIELD_POSITION_DESC"
+			label="COM_MODULES_FIELD_POSITION_LABEL"
+			maxlength="50"
+		/>
+
+		<field name="access" type="accesslevel"
+			description="JFIELD_ACCESS_DESC"
+			label="JFIELD_ACCESS_LABEL"
+			size="1"
+		/>
+
+		<field name="ordering" type="moduleorder"
+			linked="position"
+			description="JFIELD_ORDERING_DESC"
+			label="JFIELD_ORDERING_LABEL"
+		/>
+
+		<field name="content" type="editor"
+			buttons="true"
+			description="COM_MODULES_FIELD_CONTENT_DESC"
+			filter="JComponentHelper::filterText"
+			label="COM_MODULES_FIELD_CONTENT_LABEL"
+			hide="readmore,pagebreak,module"
+		/>
+
+		<field name="assignment" type="hidden" />
+
+		<field name="assigned" type="hidden" />
+
+		<field name="asset_id" type="hidden"
+			filter="unset"
+		/>
+
+		<field name="rules" type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			filter="rules"
+			component="com_modules"
+			section="module"
+			validate="rules"
+		/>
+	</fieldset>
+</form>

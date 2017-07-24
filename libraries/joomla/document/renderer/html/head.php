@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -94,7 +94,17 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				}
 				elseif ($type != 'http-equiv' && !empty($content))
 				{
-					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+					if (is_array($content))
+					{
+						foreach ($content as $value)
+						{
+							$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+						}
+					}
+					else
+					{
+						$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+					}
 				}
 			}
 		}
@@ -280,6 +290,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
 				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultJsMimes))
+				{
+					continue;
+				}
+
+				// B/C: If defer and async is false or empty don't render the attribute.
+				if (in_array($attrib, array('defer', 'async')) && !$value)
 				{
 					continue;
 				}

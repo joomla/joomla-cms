@@ -3,19 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Fields Groups
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
-class JFormFieldFieldgroups extends JFormAbstractlist
+class JFormFieldFieldgroups extends JFormFieldList
 {
 	public $type = 'Fieldgroups';
 
@@ -24,12 +26,12 @@ class JFormFieldFieldgroups extends JFormAbstractlist
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{
-		$extension = (string) $this->element['extension'];
-		$states    = $this->element['state'] ? $this->element['state'] : '0,1';
+		$context = (string) $this->element['context'];
+		$states    = $this->element['state'] ?: '0,1';
 		$states    = ArrayHelper::toInteger(explode(',', $states));
 
 		$user       = JFactory::getUser();
@@ -40,8 +42,9 @@ class JFormFieldFieldgroups extends JFormAbstractlist
 		$query->select('title AS text, id AS value, state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (' . implode(',', $states) . ')');
-		$query->where('extension = ' . $db->quote($extension));
+		$query->where('context = ' . $db->quote($context));
 		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->order('ordering asc, id asc');
 
 		$db->setQuery($query);
 		$options = $db->loadObjectList();

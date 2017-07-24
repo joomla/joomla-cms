@@ -3,11 +3,11 @@
 	<name>plg_editors-xtd_contact</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>__DEPLOY_VERSION__</version>
+	<version>3.7.0</version>
 	<description>PLG_EDITORS-XTD_CONTACT_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="contact">contact.php</filename>

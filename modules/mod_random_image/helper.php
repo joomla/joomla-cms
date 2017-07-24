@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ class ModRandomImageHelper
 			{
 				while (false !== ($file = readdir($handle)))
 				{
-					if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'index.html')
+					if ($file !== '.' && $file !== '..' && $file !== 'CVS' && $file !== 'index.html')
 					{
 						$files[] = $file;
 					}
@@ -111,16 +111,13 @@ class ModRandomImageHelper
 
 			foreach ($files as $img)
 			{
-				if (!is_dir($dir . '/' . $img))
+				if (!is_dir($dir . '/' . $img) && preg_match('/' . $type . '/', $img))
 				{
-					if (preg_match('/' . $type . '/', $img))
-					{
-						$images[$i] = new stdClass;
+					$images[$i] = new stdClass;
 
-						$images[$i]->name   = $img;
-						$images[$i]->folder = $folder;
-						$i++;
-					}
+					$images[$i]->name   = $img;
+					$images[$i]->folder = $folder;
+					$i++;
 				}
 			}
 		}
@@ -152,9 +149,6 @@ class ModRandomImageHelper
 			$folder = str_replace(JPATH_BASE, '', $folder);
 		}
 
-		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
-		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);
-
-		return $folder;
+		return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
 	}
 }

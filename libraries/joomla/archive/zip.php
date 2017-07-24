@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,8 @@ jimport('joomla.filesystem.folder');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  4.0 use the Joomla\Archive\Zip class instead
  */
 class JArchiveZip implements JArchiveExtractable
 {
@@ -296,12 +297,12 @@ class JArchiveZip implements JArchiveExtractable
 		// Read files in the archive
 		while ($file = @zip_read($zip))
 		{
-			if (!zip_entry_open($zip, $file, "r"))
+			if (!zip_entry_open($zip, $file, 'r'))
 			{
 				return $this->raiseWarning(100, 'Unable to read entry');
 			}
 
-			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
+			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != '/')
 			{
 				$buffer = zip_entry_read($file, zip_entry_filesize($file));
 
@@ -384,7 +385,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			$entries[$name] = array(
 				'attr' => null,
-				'crc' => sprintf("%08s", dechex($info['CRC32'])),
+				'crc' => sprintf('%08s', dechex($info['CRC32'])),
 				'csize' => $info['Compressed'],
 				'date' => null,
 				'_dataStart' => null,

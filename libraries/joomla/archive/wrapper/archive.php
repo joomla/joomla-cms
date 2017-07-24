@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Archive
  * @since       3.4
+ * @deprecated  4.0 use the Joomla\Archive\Archive class instead
  */
 class JArchiveWrapperArchive
 {
@@ -29,6 +30,7 @@ class JArchiveWrapperArchive
 	 * @see     JArchive::extract()
 	 * @since   3.4
 	 * @throws InvalidArgumentException
+	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public function extract($archivename, $extractdir)
 	{
@@ -44,6 +46,7 @@ class JArchiveWrapperArchive
 	 *
 	 * @see     JUserHelper::getAdapter()
 	 * @since   3.4
+	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public function getAdapter($type)
 	{

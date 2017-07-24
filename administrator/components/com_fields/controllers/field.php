@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * The Field controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsControllerField extends JControllerForm
 {
@@ -26,7 +26,7 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @var    string
 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $text_prefix = 'COM_FIELDS_FIELD';
 
@@ -35,7 +35,7 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{
@@ -47,43 +47,13 @@ class FieldsControllerField extends JControllerForm
 	}
 
 	/**
-	 * Stores the form data into the user state.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function storeform()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		$app = JFactory::getApplication();
-		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
-
-		$parts = FieldsHelper::extract($this->input->getCmd('context'));
-
-		if ($parts)
-		{
-			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
-		}
-
-		if ($this->input->get('userstatevariable'))
-		{
-			$app->setUserState($this->input->get('userstatevariable'), $data);
-		}
-
-		$app->redirect(base64_decode($this->input->get->getBase64('return')));
-		$app->close();
-	}
-
-	/**
 	 * Method override to check if you can add a new record.
 	 *
 	 * @param   array  $data  An array of input data.
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -142,7 +112,7 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function batch($model = null)
 	{
@@ -165,7 +135,7 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -177,7 +147,7 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getRedirectToListAppend()
 	{
@@ -192,7 +162,7 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
