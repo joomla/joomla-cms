@@ -47,6 +47,9 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
   if (modeCfg.strikethrough === undefined)
     modeCfg.strikethrough = false;
 
+  if (modeCfg.emoji === undefined)
+    modeCfg.emoji = false;
+
   // Allow token types to be overridden by user-provided token types.
   if (modeCfg.tokenTypeOverrides === undefined)
     modeCfg.tokenTypeOverrides = {};
@@ -69,7 +72,8 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
     linkHref: "string",
     em: "em",
     strong: "strong",
-    strikethrough: "strikethrough"
+    strikethrough: "strikethrough",
+    emoji: "builtin"
   };
 
   for (var tokenType in tokenTypes) {
@@ -83,10 +87,11 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
   ,   taskListRE = /^\[(x| )\](?=\s)/ // Must follow listRE
   ,   atxHeaderRE = modeCfg.allowAtxHeaderWithoutSpace ? /^(#+)/ : /^(#+)(?: |$)/
   ,   setextHeaderRE = /^ *(?:\={1,}|-{1,})\s*$/
-  ,   textRE = /^[^#!\[\]*_\\<>` "'(~]+/
+  ,   textRE = /^[^#!\[\]*_\\<>` "'(~:]+/
   ,   fencedCodeRE = new RegExp("^(" + (modeCfg.fencedCodeBlocks === true ? "~~~+|```+" : modeCfg.fencedCodeBlocks) +
                                 ")[ \\t]*([\\w+#\-]*)")
   ,   punctuation = /[!\"#$%&\'()*+,\-\.\/:;<=>?@\[\\\]^_`{|}~—]/
+  ,   expandedTab = "    " // CommonMark specifies tab as 4 spaces
 
   function switchInline(stream, state, f) {
     state.f = state.inline = f;
@@ -138,23 +143,34 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
 
     state.indentedCode = false;
 
-    if (prevLineIsList) {
-      if (state.indentationDiff >= 0) { // Continued list
-        if (state.indentationDiff < 4) { // Only adjust indentation if *not* a code block
-          state.indentation -= state.indentationDiff;
+    var lineIndentation;
+    // compute once per line (on first token)
+    if (state.indentationDiff === null) {
+      lineIndentation = state.indentation;
+      state.indentationDiff = state.indentation;
+      if (prevLineIsList) {
+        state.list = null;
+        // While this list item's marker's indentation is less than the deepest
+        //  list item's content's indentation,pop the deepest list item
+        //  indentation off the stack, and update block indentation state
+        while (lineIndentation < state.listStack[state.listStack.length - 1]) {
+          state.listStack.pop();
+          if (state.listStack.length) {
+            state.indentation = state.listStack[state.listStack.length - 1];
+          // less than the first list's indent -> the line is no longer a list
+          } else {
+            state.list = false;
+          }
         }
-        state.list = null;
-      } else if (state.indentation > 0) {
-        state.list = null;
-      } else { // No longer a list
-        state.list = false;
+        if (state.list !== false) {
+          state.indentationDiff = lineIndentation - state.listStack[state.listStack.length - 1]
+        }
       }
     }
 
     var match = null;
     if (state.indentationDiff >= 4 && (prevLineIsIndentedCode || lineIsEmpty(state.prevLine))) {
       stream.skipToEnd();
-      state.indentation -= 4;
       state.indentedCode = true;
       return tokenTypes.code;
     } else if (stream.eatSpace()) {
@@ -182,15 +198,9 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       return tokenTypes.hr;
     } else if (match = stream.match(listRE)) {
       var listType = match[1] ? "ol" : "ul";
-      state.indentation = stream.column() + stream.current().length;
-      state.list = true;
 
-      // While this list item's marker's indentation
-      // is less than the deepest list item's content's indentation,
-      // pop the deepest list item indentation off the stack.
-      while (state.listStack && stream.column() < state.listStack[state.listStack.length - 1]) {
-        state.listStack.pop();
-      }
+      state.indentation = lineIndentation + stream.current().length;
+      state.list = true;
 
       // Add this list item's content's indentation to the stack
       state.listStack.push(state.indentation);
@@ -293,6 +303,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       if (state.strong) { styles.push(tokenTypes.strong); }
       if (state.em) { styles.push(tokenTypes.em); }
       if (state.strikethrough) { styles.push(tokenTypes.strikethrough); }
+      if (state.emoji) { styles.push(tokenTypes.emoji); }
       if (state.linkText) { styles.push(tokenTypes.linkText); }
       if (state.code) { styles.push(tokenTypes.code); }
       if (state.image) { styles.push(tokenTypes.image); }
@@ -550,6 +561,14 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       }
     }
 
+    if (modeCfg.emoji && ch === ":" && stream.match(/^[a-z_\d+-]+:/)) {
+      state.emoji = true;
+      if (modeCfg.highlightFormatting) state.formatting = "emoji";
+      var retType = getType(state);
+      state.emoji = false;
+      return retType;
+    }
+
     if (ch === ' ') {
       if (stream.match(/ +$/, false)) {
         state.trailingSpace++;
@@ -692,6 +711,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
         trailingSpace: 0,
         trailingSpaceNewLine: false,
         strikethrough: false,
+        emoji: false,
         fencedChars: null
       };
     },
@@ -719,6 +739,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
         em: s.em,
         strong: s.strong,
         strikethrough: s.strikethrough,
+        emoji: s.emoji,
         header: s.header,
         hr: s.hr,
         taskList: s.taskList,
@@ -739,16 +760,13 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       state.formatting = false;
 
       if (stream != state.thisLine) {
-        var forceBlankLine = state.header || state.hr;
-
         // Reset state.header and state.hr
         state.header = 0;
         state.hr = false;
 
-        if (stream.match(/^\s*$/, true) || forceBlankLine) {
+        if (stream.match(/^\s*$/, true)) {
           blankLine(state);
-          if (!forceBlankLine) return null
-          state.prevLine = null
+          return null;
         }
 
         state.prevLine = state.thisLine
@@ -763,9 +781,9 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
 
         state.f = state.block;
         if (state.f != htmlBlock) {
-          var indentation = stream.match(/^\s*/, true)[0].replace(/\t/g, '    ').length;
-          state.indentationDiff = Math.min(indentation - state.indentation, 4);
-          state.indentation = state.indentation + state.indentationDiff;
+          var indentation = stream.match(/^\s*/, true)[0].replace(/\t/g, expandedTab).length;
+          state.indentation = indentation;
+          state.indentationDiff = null;
           if (indentation > 0) return null;
         }
       }
