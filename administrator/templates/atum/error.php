@@ -196,9 +196,7 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 				<div class="row">
 
 					<div class="col-md-12">
-						<div id="system-message-container">
-							<jdoc:include type="message" />
-						</div>
+						<jdoc:include type="message" />
 						<h1><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<blockquote class="blockquote">
 							<span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>

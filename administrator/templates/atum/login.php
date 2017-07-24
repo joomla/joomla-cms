@@ -85,9 +85,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
 				<h1 class="text-center mt-1 mb-4"><?php echo JText::_('MOD_LOGIN_LOGIN_TITLE'); ?></h1>
-				<div id="system-message-container">
-					<jdoc:include type="message" />
-				</div>
+				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>
 			<?php // End Content ?>

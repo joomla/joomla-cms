@@ -139,9 +139,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 		<div class="container-component">
 			<jdoc:include type="modules" name="main-top" style="cardGrey" />
-			<div id="system-message-container">
-				<jdoc:include type="message" />
-			</div>
+			<jdoc:include type="message" />
 			<jdoc:include type="component" />
 			<jdoc:include type="modules" name="breadcrumbs" style="none" />
 			<jdoc:include type="modules" name="main-bottom" style="cardGrey" />

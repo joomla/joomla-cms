@@ -105,9 +105,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 			<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
 			<div class="card">
 				<div class="card-block">
-					<div id="system-message-container">
-						<jdoc:include type="message" />
-					</div>
+					<jdoc:include type="message" />
 					<p><strong><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></strong></p>
 					<p><?php echo JText::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>
 					<ul>

@@ -23,17 +23,21 @@ $alert = [
 ];
 
 ?>
-<?php if (is_array($msgList) && !empty($msgList)) : ?>
-	<?php foreach ($msgList as $type => $msgs) : ?>
-		<joomla-alert level="<?php echo isset($alert[$type]) ? $alert[$type] : $type; ?>" dismiss="true">
-			<?php if (!empty($msgs)) : ?>
-				<h4><?php echo JText::_($type); ?></h4>
-				<div>
-					<?php foreach ($msgs as $msg) : ?>
-						<div><?php echo $msg; ?></div>
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
-		</joomla-alert>
-	<?php endforeach; ?>
-<?php endif; ?>
+<div id="system-message-container">
+	<div id="system-message">
+		<?php if (is_array($msgList) && !empty($msgList)) : ?>
+			<?php foreach ($msgList as $type => $msgs) : ?>
+				<joomla-alert level="<?php echo isset($alert[$type]) ? $alert[$type] : $type; ?>" dismiss="true">
+					<?php if (!empty($msgs)) : ?>
+						<h4><?php echo JText::_($type); ?></h4>
+						<div>
+							<?php foreach ($msgs as $msg) : ?>
+								<div><?php echo $msg; ?></div>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+				</joomla-alert>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
+</div>

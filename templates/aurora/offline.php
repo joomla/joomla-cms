@@ -113,9 +113,7 @@ else
 			</div>
 			</div>
 			<div class="login">
-				<div id="system-message-container">
-					<jdoc:include type="message" />
-				</div>
+				<jdoc:include type="message" />
 				<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>

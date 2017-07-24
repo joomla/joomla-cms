@@ -141,9 +141,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			</section>
 
 			<div class="notify-alerts">
-				<div id="system-message-container">
-					<jdoc:include type="message" />
-				</div>
+				<jdoc:include type="message" />
 			</div>
 
 		</div>
