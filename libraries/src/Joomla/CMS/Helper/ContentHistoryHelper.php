@@ -133,7 +133,7 @@ class ContentHistoryHelper extends CMSHelper
 
 		if ($historyRow = $historyTable->getHashMatch())
 		{
-			if (!$versionName || ($historyRow->version_note == $versionName))
+			if (!$versionName || ($historyRow->version_note === $versionName))
 			{
 				return true;
 			}

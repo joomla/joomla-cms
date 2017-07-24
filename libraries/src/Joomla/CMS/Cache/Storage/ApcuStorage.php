@@ -99,7 +99,7 @@ class ApcuStorage extends CacheStorage
 					$item = $data[$group];
 				}
 
-				$item->updateSize($key['mem_size'] / 1024);
+				$item->updateSize($key['mem_size']);
 
 				$data[$group] = $item;
 			}

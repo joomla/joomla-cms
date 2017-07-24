@@ -13,9 +13,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for JText
  *
- * @package     Joomla.Platform
- * @subpackage  Language
  * @since       3.4
+ * @deprecated  4.0  Use `JText` directly
  */
 class JTextWrapper
 {
@@ -31,6 +30,7 @@ class JTextWrapper
 	 *
 	 * @see     \JText::_
 	 * @since   3.4
+	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -50,6 +50,7 @@ class JTextWrapper
 	 *
 	 * @see     \JText::alt
 	 * @since   3.4
+	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -66,6 +67,7 @@ class JTextWrapper
 	 *
 	 * @see     \JText::plural
 	 * @since   3.4
+	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function plural($string, $n)
 	{
@@ -81,6 +83,7 @@ class JTextWrapper
 	 *
 	 * @see     \JText::sprintf
 	 * @since   3.4
+	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function sprintf($string)
 	{
@@ -96,6 +99,7 @@ class JTextWrapper
 	 *
 	 * @see     \JText::printf
 	 * @since   3.4
+	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function printf($string)
 	{
@@ -113,6 +117,7 @@ class JTextWrapper
 	 *
 	 * @see     \JText::script
 	 * @since   3.4
+	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{

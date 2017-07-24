@@ -50,7 +50,7 @@ abstract class JHtmlQuery
 		// Process the excluded tokens.
 		foreach ($query->excluded as $token)
 		{
-			if (!isset($token->derived) || $token->derived == false)
+			if (!isset($token->derived) || $token->derived === false)
 			{
 				$parts[] = '<span class="query-excluded">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_EXCLUDED', $token->term) . '</span>';
 			}

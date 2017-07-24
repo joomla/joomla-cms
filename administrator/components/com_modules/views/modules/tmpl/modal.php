@@ -85,7 +85,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
-						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
+						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 					</td>
 					<td class="has-context">
 						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php echo $this->escape($item->module); ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
+use Joomla\CMS\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -41,7 +42,7 @@ abstract class BaseApplication extends AbstractApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInput   $input   An optional argument to provide dependency injection for the application's
+	 * @param   Input     $input   An optional argument to provide dependency injection for the application's
 	 *                             input object.  If the argument is a \JInput object that object will become
 	 *                             the application's input object, otherwise a default input object is created.
 	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
@@ -50,9 +51,9 @@ abstract class BaseApplication extends AbstractApplication
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(\JInput $input = null, Registry $config = null)
+	public function __construct(Input $input = null, Registry $config = null)
 	{
-		$this->input = $input instanceof \JInput ? $input : new \JInput;
+		$this->input = $input instanceof Input ? $input : new Input;
 		$this->config = $config instanceof Registry ? $config : new Registry;
 
 		$this->initialise();

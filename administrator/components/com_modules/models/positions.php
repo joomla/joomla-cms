@@ -219,7 +219,7 @@ class ModulesModelPositions extends JModelList
 				}
 			}
 
-			$this->items = array_slice($positions, $limitstart, $limit ? $limit : null);
+			$this->items = array_slice($positions, $limitstart, $limit ?: null);
 		}
 
 		return $this->items;

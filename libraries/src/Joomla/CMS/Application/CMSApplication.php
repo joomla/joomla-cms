@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -89,19 +90,19 @@ class CMSApplication extends WebApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a \JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Input                   $input   An optional argument to provide dependency injection for the application's
+	 *                                           input object.  If the argument is a \JInput object that object will become
+	 *                                           the application's input object, otherwise a default input object is created.
 	 * @param   Registry                $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
+	 *                                           config object.  If the argument is a Registry object that object will become
+	 *                                           the application's config object, otherwise a default config object is created.
 	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
+	 *                                           client object.  If the argument is a \JApplicationWebClient object that object will become
+	 *                                           the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
+	public function __construct(Input $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
 		parent::__construct($input, $config, $client);
 
@@ -115,13 +116,13 @@ class CMSApplication extends WebApplication
 		}
 
 		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
+		if ($this->config->get('session') === null)
 		{
 			$this->config->set('session', true);
 		}
 
 		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
+		if ($this->config->get('session_name') === null)
 		{
 			$this->config->set('session_name', $this->getName());
 		}
@@ -236,7 +237,7 @@ class CMSApplication extends WebApplication
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// Don't add empty messages.
-		if (!strlen(trim($msg)))
+		if (trim($msg) === '')
 		{
 			return;
 		}
@@ -273,7 +274,7 @@ class CMSApplication extends WebApplication
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 
@@ -333,7 +334,7 @@ class CMSApplication extends WebApplication
 				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
 				{
 					// Check short task version, must be on the same option of the view
-					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					if ($this->input->getCmd('option', '') !== $option || array_search($task, $tasks) === false)
 					{
 						// Not permitted task
 						$redirect = true;
@@ -342,7 +343,8 @@ class CMSApplication extends WebApplication
 			}
 			else
 			{
-				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+				if ($this->input->getCmd('option', '') !== $option || $this->input->getCmd('view', '') !== $view
+					|| $this->input->getCmd('layout', '') !== $layout)
 				{
 					// Requested a different option/view/layout
 					$redirect = true;
@@ -595,7 +597,7 @@ class CMSApplication extends WebApplication
 		$session = \JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->get($key, $default);
 		}
@@ -717,7 +719,7 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if is forced for the client, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function isHttpsForced($clientId = null)
 	{
@@ -825,8 +827,8 @@ class CMSApplication extends WebApplication
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -914,7 +916,7 @@ class CMSApplication extends WebApplication
 			 */
 			$user = \JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -943,7 +945,7 @@ class CMSApplication extends WebApplication
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== \JAuthentication::STATUS_SUCCESS)
 		{
-			\JLog::add($response->error_message, \JLog::WARNING, 'jerror');
+			$this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
 		}
 
 		return false;
@@ -1033,12 +1035,11 @@ class CMSApplication extends WebApplication
 			 */
 			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
 			{
-				// Log that passing the message to the function is deprecated
-				\JLog::add(
-					'Passing a message and message type to \JFactory::getApplication()->redirect() is deprecated. '
-					. 'Please set your message via \JFactory::getApplication()->enqueueMessage() prior to calling redirect().',
-					\JLog::WARNING,
-					'deprecated'
+				$this->getLogger()->warning(
+					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
+					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
+					. '::redirect().',
+					array('category' => 'deprecated')
 				);
 
 				$message = $args[1];
@@ -1170,7 +1171,7 @@ class CMSApplication extends WebApplication
 		$session = \JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->set($key, $value);
 		}
@@ -1190,7 +1191,7 @@ class CMSApplication extends WebApplication
 	public function toString($compress = false)
 	{
 		// Don't compress something if the server is going to do it anyway. Waste of time.
-		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{
 			$this->compress();
 		}

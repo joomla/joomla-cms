@@ -156,3 +156,19 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+
+# System Test related files
+tests/codeception/acceptance.suite.yml
+tests/codeception/_support/_generated/*TesterActions.php
+tests/codeception/joomla-cms*
+tests/codeception/_output*
+selenium-server-standalone.jar
+selenium.log
+tests/codeception/cache
+tests/codeception/_output
+tests/codeception/vendor
+composer.phar
+
+# Build related
+RoboFile.ini
+

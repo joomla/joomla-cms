@@ -256,18 +256,11 @@ class Form extends Controller
 		// Build an array of item contexts to check
 		$contexts = array();
 
+		$option = isset($this->extension) ? $this->extension : $this->option;
+
 		foreach ($cid as $id)
 		{
 			// If we're coming from com_categories, we need to use extension vs. option
-			if (isset($this->extension))
-			{
-				$option = $this->extension;
-			}
-			else
-			{
-				$option = $this->option;
-			}
-
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
 		}
 
@@ -487,6 +480,13 @@ class Form extends Controller
 		if ($recordId)
 		{
 			$append .= '&' . $urlVar . '=' . $recordId;
+		}
+
+		$return = $this->input->get('return', null, 'base64');
+
+		if ($return)
+		{
+			$append .= '&return=' . $return;
 		}
 
 		return $append;
@@ -824,13 +824,19 @@ class Form extends Controller
 				$this->releaseEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 
+				$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend();
+
+				// Check if there is a return value
+				$return = $this->input->get('return', null, 'base64');
+
+				if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+				{
+					$url = base64_decode($return);
+				}
+
 				// Redirect to the list screen.
-				$this->setRedirect(
-					\JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. $this->getRedirectToListAppend(), false
-					)
-				);
+				$this->setRedirect(\JRoute::_($url, false));
 				break;
 		}
 
@@ -838,5 +844,78 @@ class Form extends Controller
 		$this->postSaveHook($model, $validData);
 
 		return true;
+	}
+
+	/**
+	 * Method to reload a record.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.4
+	 */
+	public function reload($key = null, $urlVar = null)
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$app     = JFactory::getApplication();
+		$model   = $this->getModel();
+		$data    = $this->input->post->get('jform', array(), 'array');
+
+		// Determine the name of the primary key for the data.
+		if (empty($key))
+		{
+			$key = $model->getTable()->getKeyName();
+		}
+
+		// To avoid data collisions the urlVar may be different from the primary key.
+		if (empty($urlVar))
+		{
+			$urlVar = $key;
+		}
+
+		$recordId = $this->input->getInt($urlVar);
+
+		if (!$this->allowEdit($data, $key))
+		{
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+			$this->redirect();
+		}
+
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// The redirect url
+		$redirectUrl = JRoute::_(
+			'index.php?option=' . $this->option . '&view=' . $this->view_item .
+			$this->getRedirectToItemAppend($recordId, $urlVar),
+			false
+		);
+
+		// Validate the posted data.
+		// Sometimes the form needs some posted data, such as for plugins and modules.
+		$form = $model->getForm($data, false);
+
+		if (!$form)
+		{
+			$app->enqueueMessage($model->getError(), 'error');
+
+			$this->setRedirect($redirectUrl);
+			$this->redirect();
+		}
+
+		// Save the data in the session.
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+
+		$this->setRedirect($redirectUrl);
+		$this->redirect();
 	}
 }

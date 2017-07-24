@@ -143,12 +143,13 @@ class Log
 	 * @param   integer  $priority  Message priority.
 	 * @param   string   $category  Type of entry
 	 * @param   string   $date      Date of entry (defaults to now if not specified or blank)
+	 * @param   array    $context   An optional array with additional message context.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function add($entry, $priority = self::INFO, $category = '', $date = null)
+	public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = array())
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(static::$instance))
@@ -159,8 +160,7 @@ class Log
 		// If the entry object isn't a LogEntry object let's make one.
 		if (!($entry instanceof LogEntry))
 		{
-			// We need here to use JLogEntry, otherwise the class don't get loaded, aaargh
-			$entry = new \JLogEntry((string) $entry, $priority, $category, $date);
+			$entry = new LogEntry((string) $entry, $priority, $category, $date, $context);
 		}
 
 		static::$instance->addLogEntry($entry);
@@ -248,6 +248,23 @@ class Log
 			'categories' => array_map('strtolower', (array) $categories),
 			'exclude' => (bool) $exclude,
 		);
+	}
+
+	/**
+	 * Creates a delegated PSR-3 compatible logger from the current singleton instance. This method always returns a new delegated logger.
+	 *
+	 * @return  DelegatingPsrLogger
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function createDelegatedLogger()
+	{
+		// Ensure a singleton instance has been created first
+		if (empty(static::$instance))
+		{
+			static::setInstance(new static);
+		}
+		return new DelegatingPsrLogger(static::$instance);
 	}
 
 	/**

@@ -107,15 +107,19 @@ class InstallerScript
 	public function preflight($type, $parent)
 	{
 		// Check for the minimum PHP version before continuing
-		if (!empty($this->minimumPhp) && !version_compare(PHP_VERSION, $this->minimumPhp, '>'))
+		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
 		{
 			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		// Check for the minimum Joomla version before continuing
-		if (!empty($this->minimumJoomla) && !version_compare(JVERSION, $this->minimumJoomla, '>'))
+		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
 		{
 			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		// Extension manifest file version
@@ -133,7 +137,7 @@ class InstallerScript
 		}
 
 		// Abort if the extension being installed is not newer than the currently installed version
-		if (strtolower($type) == 'update' && !$this->allowDowngrades)
+		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
@@ -231,7 +235,7 @@ class InstallerScript
 		{
 			foreach ($param_array as $name => $value)
 			{
-				if ($type == 'edit')
+				if ($type === 'edit')
 				{
 					// Add or edit the new variable(s) to the existing params
 					if (is_array($value))
@@ -244,7 +248,7 @@ class InstallerScript
 						$params[(string) $name] = (string) $value;
 					}
 				}
-				elseif ($type == 'remove')
+				elseif ($type === 'remove')
 				{
 					// Unset the parameter from the array
 					unset($params[(string) $name]);
