@@ -129,9 +129,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		<div class="control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate">
-					<span>
-						<?php echo JText::_('JSUBMIT'); ?>
-					</span>
+					<?php echo JText::_('JSUBMIT'); ?>
 				</button>
 				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo JText::_('JCANCEL'); ?>">
 					<?php echo JText::_('JCANCEL'); ?>
