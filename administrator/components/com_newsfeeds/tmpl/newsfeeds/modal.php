@@ -14,11 +14,6 @@ JLoader::register('NewsfeedsHelperRoute', JPATH_ROOT . '/components/com_newsfeed
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
-
-// Special case for the search field tooltip.
-$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
-JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $app = JFactory::getApplication();
 
@@ -68,9 +63,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php
 				$iconStates = array(
 					-2 => 'icon-trash',
-					0 => 'icon-unpublish',
-					1 => 'icon-publish',
-					2 => 'icon-archive',
+					0  => 'icon-unpublish',
+					1  => 'icon-publish',
+					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>

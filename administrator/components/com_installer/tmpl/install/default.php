@@ -15,7 +15,6 @@ JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
 JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.tabstate');
 JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
 JHtml::_('script', 'com_installer/installer.js', false, true);

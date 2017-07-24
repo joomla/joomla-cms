@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\View\Database;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerViewDefault;
 
 /**
@@ -32,7 +33,7 @@ class Html extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Set variables
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Get data from the model.
 		$this->changeSet     = $this->get('Items');
@@ -41,8 +42,8 @@ class Html extends InstallerViewDefault
 		$this->schemaVersion = $this->get('SchemaVersion');
 		$this->updateVersion = $this->get('UpdateVersion');
 		$this->filterParams  = $this->get('DefaultTextFilters');
-		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : \JText::_('JNONE');
-		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : \JText::_('JNONE');
+		$this->schemaVersion = $this->schemaVersion ?: \JText::_('JNONE');
+		$this->updateVersion = $this->updateVersion ?: \JText::_('JNONE');
 		$this->pagination    = $this->get('Pagination');
 		$this->errorCount    = count($this->errors);
 

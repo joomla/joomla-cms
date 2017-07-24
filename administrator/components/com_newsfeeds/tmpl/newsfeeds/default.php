@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.tabstate');
 
@@ -123,7 +122,7 @@ if ($saveOrder)
 									</div>
 								</td>
 								<td class="nowrap has-context">
-									<div class="float-left">
+									<div>
 										<?php if ($item->checked_out) : ?>
 											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
 										<?php endif; ?>
@@ -175,8 +174,8 @@ if ($saveOrder)
 							'bootstrap.renderModal',
 							'collapseModal',
 							array(
-								'title' => JText::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
-								'footer' => $this->loadTemplate('batch_footer')
+								'title'  => JText::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
+								'footer' => $this->loadTemplate('batch_footer'),
 							),
 							$this->loadTemplate('batch_body')
 						); ?>

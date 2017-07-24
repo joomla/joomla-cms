@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JHtml::_('bootstrap.tooltip');
-
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -110,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php endif; ?>
 							</td>
 							<td class="nowrap hidden-sm-down">
-								<?php echo $item->created_by_alias ? $item->created_by_alias : $item->user_name; ?>
+								<?php echo $item->created_by_alias ?: $item->user_name; ?>
 							</td>
 							<td class="nowrap hidden-sm-down">
 								<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>

@@ -77,7 +77,6 @@ class JFormFieldSpacer extends JFormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				JHtml::_('bootstrap.tooltip');
 				$label .= ' title="' . JHtml::_('tooltipText', trim($text, ':'), JText::_($this->description), 0) . '"';
 			}
 
@@ -112,7 +111,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  A string containing the html for the control group
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function renderField($options = array())
 	{

@@ -8,6 +8,9 @@
 
 namespace Joomla\CMS\Schema;
 
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\UTF8MB4SupportInterface;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -238,11 +241,19 @@ abstract class ChangeItem
 		if ($this->checkStatus === -2)
 		{
 			// At this point we have a failed query
-			$query = $this->db->convertUtf8mb4QueryToUtf8($this->updateQuery);
+			$query = $this->updateQuery;
+
+			if ($this->db instanceof UTF8MB4SupportInterface)
+			{
+				$query = $this->db->convertUtf8mb4QueryToUtf8($query);
+			}
+
 			$this->db->setQuery($query);
 
-			if ($this->db->execute())
+			try
 			{
+				$this->db->execute();
+
 				if ($this->check())
 				{
 					$this->checkStatus = 1;
@@ -253,7 +264,7 @@ abstract class ChangeItem
 					$this->rerunStatus = -2;
 				}
 			}
-			else
+			catch (ExecutionFailureException $e)
 			{
 				$this->rerunStatus = -2;
 			}

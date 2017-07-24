@@ -9,10 +9,11 @@
   "scripts": {
     "compile-js": "grunt uglify:allJs",
     "compile-sass": "grunt sass:dist",
-    "update-dependencies": "grunt default"
+    "update-dependencies": "grunt default",
+    "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "dependencies": {
-    "autoprefixer": "^7.1.1",
+    "autoprefixer": "^7.1.2",
     "grunt": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
@@ -27,6 +28,20 @@
     "grunt-scss-lint": "^0.5.0",
     "grunt-shell": "latest",
     "ini": "latest"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "jasmine-jquery": "^2.1.1",
+    "jquery": "^1.12.4",
+    "karma": "^0.13.22",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.8",
+    "karma-jasmine-ajax": "^0.1.13",
+    "karma-requirejs": "^1.0.0",
+    "karma-verbose-reporter": "0.0.3",
+    "requirejs": "^2.2.0",
+    "text": "requirejs/text"
   },
   "license": "GPL-2.0+"
 }

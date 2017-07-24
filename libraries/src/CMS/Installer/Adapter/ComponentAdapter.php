@@ -87,8 +87,8 @@ class ComponentAdapter extends InstallerAdapter
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// If there is a matching extension mark this as an update
 				$this->setRoute('update');
@@ -133,7 +133,7 @@ class ComponentAdapter extends InstallerAdapter
 		// Copy site files
 		if ($this->getManifest()->files)
 		{
-			if ($this->route == 'update')
+			if ($this->route === 'update')
 			{
 				$result = $this->parent->parseFiles($this->getManifest()->files, 0, $this->oldFiles);
 			}
@@ -156,7 +156,7 @@ class ComponentAdapter extends InstallerAdapter
 		// Copy admin files
 		if ($this->getManifest()->administration->files)
 		{
-			if ($this->route == 'update')
+			if ($this->route === 'update')
 			{
 				$result = $this->parent->parseFiles($this->getManifest()->administration->files, 1, $this->oldAdminFiles);
 			}
@@ -182,7 +182,7 @@ class ComponentAdapter extends InstallerAdapter
 			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 			$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->manifest_script;
 
-			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -298,7 +298,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// We will copy the manifest file to its appropriate place.
-		if ($this->route != 'discover_install')
+		if ($this->route !== 'discover_install')
 		{
 			if (!$this->parent->copyManifest())
 			{
@@ -454,7 +454,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$element = parent::getElement($element);
 
-		if (substr($element, 0, 4) != 'com_')
+		if (strpos($element, 'com_') !== 0)
 		{
 			$element = 'com_' . $element;
 		}
@@ -755,7 +755,7 @@ class ComponentAdapter extends InstallerAdapter
 	protected function storeExtension($deleteExisting = false)
 	{
 		// The extension is stored during prepareDiscoverInstall for discover installs
-		if ($this->route == 'discover_install')
+		if ($this->route === 'discover_install')
 		{
 			return;
 		}

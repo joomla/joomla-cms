@@ -13,29 +13,11 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
-
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.twoFactorMethodChange = function(e)
-	{
-		var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
-
-		jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el) {
-			if (el.id != selectedPane)
-			{
-				jQuery('#' + el.id).hide(0);
-			}
-			else
-			{
-				jQuery('#' + el.id).show(0);
-			}
-		});
-	};
-");
+JHtml::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
-$settings = array();
+$settings  = array();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
@@ -79,7 +61,7 @@ $settings = array();
 				</label>
 			</div>
 			<div class="controls">
-				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">

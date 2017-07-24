@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
 /**
  * Joomla! update notification plugin
@@ -46,13 +47,13 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param   GetQuickIconsEvent  $event  The event object
+	 * @param   QuickIconsEvent  $event  The event object
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getCoreUpdateNotification(GetQuickIconsEvent $event)
+	public function getCoreUpdateNotification(QuickIconsEvent $event)
 	{
 		$context = $event->getContext();
 
@@ -70,7 +71,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		JFactory::getDocument()->addScriptOptions(
 			'js-joomla-update',
 			[
-				'url' => JUri::base() . 'index.php?option=com_joomlaupdate',
+				'url'     => JUri::base() . 'index.php?option=com_joomlaupdate',
 				'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . JSession::getFormToken() . '=1',
 				'version' => JVERSION,
 			]

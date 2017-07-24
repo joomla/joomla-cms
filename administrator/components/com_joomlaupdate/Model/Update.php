@@ -725,8 +725,8 @@ ENDDATA;
 
 		if ($result === false)
 		{
-			// Install failed, rollback changes.
-			$installer->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_UPDATE_SQL_ERROR', $db->stderr(true)));
+			// Install failed, rollback changes (message already logged by the installer).
+			$installer->abort();
 
 			return false;
 		}
@@ -850,7 +850,7 @@ ENDDATA;
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			throw new \RuntimeException(('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+			throw new \RuntimeException(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
 		}
 
 		// If there is no uploaded file, we have a problem...

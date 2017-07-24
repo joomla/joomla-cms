@@ -14,7 +14,6 @@ use Joomla\String\Inflector;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 $app       = JFactory::getApplication();
@@ -253,8 +252,8 @@ if ($saveOrder)
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_TAGS_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_TAGS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>

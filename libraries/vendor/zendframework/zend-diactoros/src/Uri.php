@@ -470,11 +470,11 @@ class Uri implements UriInterface
         $uri = '';
 
         if (! empty($scheme)) {
-            $uri .= sprintf('%s://', $scheme);
+            $uri .= sprintf('%s:', $scheme);
         }
 
         if (! empty($authority)) {
-            $uri .= $authority;
+            $uri .= '//' . $authority;
         }
 
         if ($path) {

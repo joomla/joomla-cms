@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Component\Modules\Administrator\Controller\Module;
 
@@ -113,6 +114,7 @@ class Modules extends Controller
 		$document->setType('json');
 
 		// Execute backend controller
+		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/forms');
 		$return = $controllerClass->save();
 
 		// Reset params back after requesting from service
