@@ -24,14 +24,13 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-
 				<field
 					name="menutype"
 					type="menu"
-					clientid="1"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC"
-				>
+					clientid="1"
+					>
 					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
 				</field>
 
@@ -52,7 +51,7 @@
 					class="btn-group btn-group-yesno"
 					default="1"
 					showon="menutype!:*"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -60,11 +59,12 @@
 				<field
 					name="shownew"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
 					label="MOD_MENU_FIELD_SHOWNEW"
 					description="MOD_MENU_FIELD_SHOWNEW_DESC"
-					showon="menutype:*">
+					class="btn-group btn-group-yesno"
+					default="1"
+					showon="menutype:*"
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -72,40 +72,42 @@
 				<field
 					name="showhelp"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
 					label="MOD_MENU_FIELD_SHOWHELP"
 					description="MOD_MENU_FIELD_SHOWHELP_DESC"
-					showon="menutype:*">
+					class="btn-group btn-group-yesno"
+					default="1"
+					showon="menutype:*"
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-
 			</fieldset>
-			<fieldset name="advanced">
 
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 
 				<field
 					name="forum_url"
 					type="url"
+					label="MOD_MENU_FIELD_FORUMURL_LABEL"
+					description="MOD_MENU_FIELD_FORUMURL_DESC"
 					filter="url"
 					size="30"
 					default=""
-					label="MOD_MENU_FIELD_FORUMURL_LABEL"
-					description="MOD_MENU_FIELD_FORUMURL_DESC"
 				/>
-
 			</fieldset>
 		</fields>
 	</config>

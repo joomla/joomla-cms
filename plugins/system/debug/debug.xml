@@ -139,6 +139,18 @@
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
+
+				<field
+					name="refresh_assets"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
+					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 
 			<fieldset

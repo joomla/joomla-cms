@@ -161,7 +161,7 @@ class PluginsModelPlugins extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 		else
 		{

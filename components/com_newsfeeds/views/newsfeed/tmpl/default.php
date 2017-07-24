@@ -19,15 +19,17 @@ else
 	$myrtl     = $this->newsfeed->rtl;
 	$direction = ' ';
 
-		if ($lang->isRtl() && $myrtl == 0)
+	$isRtl = $lang->isRtl();
+
+		if ($isRtl && $myrtl == 0)
 		{
 			$direction = ' redirect-rtl';
 		}
-		elseif ($lang->isRtl() && $myrtl == 1)
+		elseif ($isRtl && $myrtl == 1)
 		{
 			$direction = ' redirect-ltr';
 		}
-		elseif ($lang->isRtl() && $myrtl == 2)
+		elseif ($isRtl && $myrtl == 2)
 		{
 			$direction = ' redirect-rtl';
 		}
@@ -93,7 +95,7 @@ else
 	<?php endif; ?>
 
 	<!-- Show Image -->
-	<?php if (isset($this->rssDoc->image) && isset($this->rssDoc->imagetitle) && $this->params->get('show_feed_image')) : ?>
+	<?php if (isset($this->rssDoc->image, $this->rssDoc->imagetitle) && $this->params->get('show_feed_image')) : ?>
 	<div>
 			<img src="<?php echo $this->rssDoc->image; ?>" alt="<?php echo $this->rssDoc->image->decription; ?>" />
 </div>
@@ -110,9 +112,9 @@ else
 		}
 		?>
 		<?php
-			$uri   = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? trim($this->rssDoc[$i]->guid) : trim($this->rssDoc[$i]->uri);
-			$uri   = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
-			$text  = !empty($this->rssDoc[$i]->content) || !is_null($this->rssDoc[$i]->content) ? trim($this->rssDoc[$i]->content) : trim($this->rssDoc[$i]->description);
+			$uri   = !empty($this->rssDoc[$i]->guid) || $this->rssDoc[$i]->guid !== null ? trim($this->rssDoc[$i]->guid) : trim($this->rssDoc[$i]->uri);
+			$uri   = strpos($uri, 'http') !== 0 ? $this->item->link : $uri;
+			$text  = !empty($this->rssDoc[$i]->content) || $this->rssDoc[$i]->content !== null ? trim($this->rssDoc[$i]->content) : trim($this->rssDoc[$i]->description);
 			$title = trim($this->rssDoc[$i]->title);
 		?>
 			<li>
