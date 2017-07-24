@@ -114,12 +114,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('language.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('language.edit');
-			\JToolbarHelper::divider();
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($this->state->get('filter.published') != 2)

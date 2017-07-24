@@ -74,7 +74,7 @@
     box-shadow: 0 1px $white-offset inset, 0 2px 3px -3px rgba(0,0,0,.15);
   }
 
-  .module-dropdown {
+  .module-actions {
     position: absolute;
     top: 0;
     right: 0;
@@ -93,7 +93,7 @@
       box-shadow: 1px 0 $white-offset inset;
 
       &:hover,
-      &[aria-expanded*="true"] {
+      &:focus {
         background-color: $atum-card-title-icon-bg-hover;
         box-shadow: none;
       }
