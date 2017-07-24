@@ -79,41 +79,33 @@ class ModulesController extends JControllerLegacy
 		// Check custom administrator menu modules
 		if (JLanguageMultilang::isAdminEnabled())
 		{
-			// Check if we have any mod_menu module set to All languages
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('COUNT(*)')
-				->from($db->qn('#__modules'))
-				->where($db->qn('module') . ' = ' . $db->quote('mod_menu'))
-				->where($db->qn('published') . ' = 1')
-				->where($db->qn('client_id') . ' = 1')
-				->where($db->qn('language') . ' = ' . $db->quote('*'));
-			$db->setQuery($query);
+			$languages = JLanguageHelper::getInstalledLanguages(1, true);
+			$langCodes = array();
 
-			$modulesAll = (int) $db->loadResult();
-
-			// If none, check that we have a mod_menu module for each admin language
-			if ($modulesAll == 0)
+			foreach ($languages as $language)
 			{
-				$adminLanguages = count(JLanguageHelper::getInstalledLanguages(1));
+				$langCodes[$language->metadata['tag']] = $language->metadata['nativeName'];
+			}
 
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select('COUNT(*)')
-					->from($db->qn('#__modules'))
-					->where($db->qn('module') . ' = ' . $db->quote('mod_menu'))
-					->where($db->qn('published') . ' = 1')
-					->where($db->qn('client_id') . ' = 1')
-					->where($db->qn('language') . ' != ' . $db->quote('*'));
-				$db->setQuery($query);
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
-				$totalModules = (int) $db->loadResult();
+			$query->select($db->qn('m.language'))
+				->from($db->qn('#__modules', 'm'))
+				->where($db->qn('m.module') . ' = ' . $db->quote('mod_menu'))
+				->where($db->qn('m.published') . ' = 1')
+				->where($db->qn('m.client_id') . ' = 1')
+				->group($db->qn('m.language'));
 
-				if ($totalModules != $adminLanguages)
-				{
-					$msg = JText::_('JMENU_MULTILANG_WARNING');
-					JFactory::getApplication()->enqueueMessage($msg, 'warning');
-				}
+			$mLanguages = $db->setQuery($query)->loadColumn();
+
+			// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
+			if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages)))
+			{
+				$app         = JFactory::getApplication();
+				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
+
+				$app->enqueueMessage(JText::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
 			}
 		}
 
