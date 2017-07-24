@@ -82,7 +82,8 @@ class Transition extends Table
 		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$workflow = new WTable\Workflow($this->getDbo());
 		$workflow->load($this->workflow_id);
-		$name = $workflow->extension . '.workflow.'. (int) $workflow->id; $asset->loadByName($name);
+		$name = $workflow->extension . '.workflow.'. (int) $workflow->id;
+		$asset->loadByName($name);
 		$assetId = $asset->id;
 
 		return !empty($assetId) ? $assetId : parent::_getAssetParentId($table, $id);

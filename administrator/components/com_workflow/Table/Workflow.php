@@ -139,9 +139,30 @@ class Workflow extends Table
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
-		$asset = Table::getInstance("Asset");
-		$asset->loadByName($this->extension . '.workflow.' . $this->id);
+		$assetId = null;
 
-		return (int) $asset->id;
+		// Build the query to get the asset id for the parent category.
+		$query = $this->_db->getQuery(true)
+			->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__assets'))
+			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
+
+		// Get the asset id from the database.
+		$this->_db->setQuery($query);
+
+		if ($result = $this->_db->loadResult())
+		{
+			$assetId = (int) $result;
+		}
+
+		// Return the asset id.
+		if ($assetId)
+		{
+			return $assetId;
+		}
+		else
+		{
+			return parent::_getAssetParentId($table, $id);
+		}
 	}
 }
