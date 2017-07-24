@@ -158,7 +158,7 @@ class Associations extends ListModel
 	{
 		$type         = null;
 
-		list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'));
+		list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
@@ -353,6 +353,14 @@ class Associations extends ListModel
 		if ($typeName === 'category')
 		{
 			$query->where($db->qn('a.extension') . ' = ' . $db->quote($extensionName));
+		}
+		elseif ($typeNameExploded = explode('.', $typeName))
+		{
+			if (count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category')
+			{
+				$section = implode('.', $typeNameExploded);
+				$query->where($db->qn('a.extension') . ' = ' . $db->quote($extensionName . '.' . $section));
+			}
 		}
 
 		// Filter on the language.

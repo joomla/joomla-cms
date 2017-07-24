@@ -123,6 +123,10 @@ $doNotPackage = array(
 	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
+	'drone-package.json',
+	'codeception.yml',
+	'RoboFile.php',
+	'RoboFile.dist.ini',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -240,9 +244,6 @@ system('mkdir packages_full' . $fullVersion);
 echo "Build full package files.\n";
 chdir($fullVersion);
 
-// The weblinks package manifest should not be present for new installs, temporarily move it
-system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml');
-
 // Create full archive packages.
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
 
@@ -259,9 +260,6 @@ system('rm -r images/headers');
 system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
-
-// Move the weblinks manifest back
-system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml');
 
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
 

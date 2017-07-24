@@ -30,7 +30,7 @@ class Tag extends Form
 	 */
 	protected function allowAdd($data = array())
 	{
-		return ($this->app->getIdentity()->authorise('core.create', 'com_tags'));
+		return $this->app->getIdentity()->authorise('core.create', 'com_tags');
 	}
 
 	/**

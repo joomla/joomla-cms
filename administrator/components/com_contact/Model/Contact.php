@@ -55,9 +55,9 @@ class Contact extends Admin
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
-		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
-		'user_id' => 'batchUser'
+		'language_id'   => 'batchLanguage',
+		'tag'           => 'batchTag',
+		'user_id'       => 'batchUser',
 	);
 
 	/**

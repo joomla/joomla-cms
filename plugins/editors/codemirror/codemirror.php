@@ -79,7 +79,7 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			if (isset($fontInfo->url))
 			{
-				$doc->addStylesheet($fontInfo->url);
+				$doc->addStyleSheet($fontInfo->url);
 			}
 
 			if (isset($fontInfo->css))

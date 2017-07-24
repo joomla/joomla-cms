@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 $app       = JFactory::getApplication();
@@ -50,10 +49,12 @@ $assoc = JLanguageAssociations::isEnabled();
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
+		<?php if (!empty($this->sidebar)) { ?>
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<div class="col-md-10">
+		<?php } ?>
+		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
@@ -117,8 +118,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						</thead>
 						<tfoot>
 							<tr>
-								<td colspan="<?php echo $columns; ?>">
-								</td>
+								<td colspan="<?php echo $columns; ?>"><?php echo $this->pagination->getListFooter(); ?></td>
 							</tr>
 						</tfoot>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
@@ -161,7 +161,7 @@ $assoc = JLanguageAssociations::isEnabled();
 									</div>
 								</td>
 								<td class="has-context">
-									<div class="float-left break-word">
+									<div class="break-word">
 										<?php if ($item->checked_out) : ?>
 											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
@@ -240,15 +240,13 @@ $assoc = JLanguageAssociations::isEnabled();
 							'bootstrap.renderModal',
 							'collapseModal',
 							array(
-								'title' => JText::_('COM_CONTENT_BATCH_OPTIONS'),
-								'footer' => $this->loadTemplate('batch_footer')
+								'title'  => JText::_('COM_CONTENT_BATCH_OPTIONS'),
+								'footer' => $this->loadTemplate('batch_footer'),
 							),
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>
 				<?php endif; ?>
-
-				<?php echo $this->pagination->getListFooter(); ?>
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
 
-JHtml::_('bootstrap.tooltip');
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -89,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td>
 										<label for="cb<?php echo $i; ?>">
-											<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_DESCRIPTION'), $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
+											<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_DESCRIPTION'), $item->description ?: JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
 											<?php echo $this->escape($item->name); ?>
 											</span>
 										</label>

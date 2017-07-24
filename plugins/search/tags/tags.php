@@ -68,12 +68,9 @@ class PlgSearchTags extends JPlugin
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
 		$limit   = $this->params->def('search_limit', 50);
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$text = trim($text);

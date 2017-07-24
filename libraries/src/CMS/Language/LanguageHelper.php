@@ -116,7 +116,7 @@ class LanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (\JFactory::getApplication()->getClientId() == 2)
+			if (\JFactory::getApplication()->isClient('installation'))
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);

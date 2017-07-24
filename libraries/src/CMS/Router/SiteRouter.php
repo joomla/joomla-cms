@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\Cms\Uri\Uri as JUri;
 use Joomla\String\StringHelper;
 
 /**
@@ -61,7 +62,7 @@ class SiteRouter extends Router
 		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules
-		if ($this->app->get('force_ssl') == 2)
+		if ($this->app->get('force_ssl') === 2)
 		{
 			$this->attachParseRule(array($this, 'parseCheckSSL'), self::PROCESS_BEFORE);
 		}
@@ -97,7 +98,7 @@ class SiteRouter extends Router
 	 * Force to SSL
 	 *
 	 * @param   Router  &$router  Router object
-	 * @param   \JUri   &$uri     URI object to process
+	 * @param   JUri    &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -117,7 +118,7 @@ class SiteRouter extends Router
 	 * Do some initial cleanup before parsing the URL
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -155,7 +156,7 @@ class SiteRouter extends Router
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
 			// Also verify that it represents the same file from the server variable for entry script.
-			if (file_exists(JPATH_SITE . $matches[0]) && ($matches[0] == $relativeScriptPath))
+			if (file_exists(JPATH_SITE . $matches[0]) && ($matches[0] === $relativeScriptPath))
 			{
 				// Remove the entry point segments from the request path for proper routing.
 				$path = str_replace($matches[0], '', $path);
@@ -170,7 +171,7 @@ class SiteRouter extends Router
 	 * Parse the format of the request
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -181,7 +182,7 @@ class SiteRouter extends Router
 		$route = $uri->getPath();
 
 		// Identify format
-		if (!(substr($route, -9) == 'index.php' || substr($route, -1) == '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION))
+		if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION))
 		{
 			$uri->setVar('format', $suffix);
 			$route = str_replace('.' . $suffix, '', $route);
@@ -193,7 +194,7 @@ class SiteRouter extends Router
 	 * Convert a sef route to an internal URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -212,7 +213,7 @@ class SiteRouter extends Router
 		// Parse the application route
 		$segments = explode('/', $route);
 
-		if (count($segments) > 1 && $segments[0] == 'component')
+		if (count($segments) > 1 && $segments[0] === 'component')
 		{
 			$uri->setVar('option', 'com_' . $segments[1]);
 			$uri->setVar('Itemid', null);
@@ -230,13 +231,13 @@ class SiteRouter extends Router
 			// Iterate through all items and check route matches.
 			foreach ($items as $item)
 			{
-				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
+				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type !== 'menulink')
 				{
 					// Usual method for non-multilingual site.
 					if (!$this->app->getLanguageFilter())
 					{
 						// Exact route match. We can break iteration because exact item was found.
-						if ($item->route == $route_lowercase)
+						if ($item->route === $route_lowercase)
 						{
 							$found = $item;
 							break;
@@ -249,22 +250,22 @@ class SiteRouter extends Router
 						}
 					}
 					// Multilingual site.
-					elseif ($item->language == '*' || $item->language == $lang_tag)
+					elseif ($item->language === '*' || $item->language === $lang_tag)
 					{
 						// Exact route match.
-						if ($item->route == $route_lowercase)
+						if ($item->route === $route_lowercase)
 						{
 							$found = $item;
 
 							// Break iteration only if language is matched.
-							if ($item->language == $lang_tag)
+							if ($item->language === $lang_tag)
 							{
 								break;
 							}
 						}
 
 						// Partial route match. Item with highest level or same language takes priority.
-						if (!$found || $found->level < $item->level || $item->language == $lang_tag)
+						if (!$found || $found->level < $item->level || $item->language === $lang_tag)
 						{
 							$found = $item;
 						}
@@ -283,7 +284,7 @@ class SiteRouter extends Router
 
 			if ($found)
 			{
-				if ($found->type == 'alias')
+				if ($found->type === 'alias')
 				{
 					$newItem = $this->menu->getItem($found->params->get('aliasoptions'));
 
@@ -328,7 +329,7 @@ class SiteRouter extends Router
 	 * Convert a raw route to an internal URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -345,7 +346,7 @@ class SiteRouter extends Router
 			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
 		}
 
-		if ($item && $item->type == 'alias')
+		if ($item && $item->type === 'alias')
 		{
 			$newItem = $this->menu->getItem($item->params->get('aliasoptions'));
 
@@ -370,7 +371,7 @@ class SiteRouter extends Router
 	 * Convert limits for pagination
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -390,7 +391,7 @@ class SiteRouter extends Router
 	 * Do some initial processing for building a URL
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -420,7 +421,7 @@ class SiteRouter extends Router
 	 * Run the component preprocess method
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -442,7 +443,7 @@ class SiteRouter extends Router
 
 		// Make sure any menu vars are used if no others are specified
 		if (isset($query['Itemid'])
-			&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
+			&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))
 		{
 			// Get the active menu item
 			$item = $this->menu->getItem($query['Itemid']);
@@ -456,7 +457,7 @@ class SiteRouter extends Router
 	 * Build the SEF route
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -490,7 +491,7 @@ class SiteRouter extends Router
 		// Build the application route
 		if (isset($query['Itemid']) && $item = $this->menu->getItem($query['Itemid']))
 		{
-			if (is_object($item) && $query['option'] == $item->component)
+			if (is_object($item) && $query['option'] === $item->component)
 			{
 				if (!$item->home)
 				{
@@ -519,7 +520,7 @@ class SiteRouter extends Router
 	 * Convert limits for pagination
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -538,7 +539,7 @@ class SiteRouter extends Router
 	 * Build the format of the request
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -549,7 +550,7 @@ class SiteRouter extends Router
 		$route = $uri->getPath();
 
 		// Identify format
-		if (!(substr($route, -9) == 'index.php' || substr($route, -1) == '/') && $format = $uri->getVar('format', 'html'))
+		if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $format = $uri->getVar('format', 'html'))
 		{
 			$route .= '.' . $format;
 			$uri->setPath($route);
@@ -561,7 +562,7 @@ class SiteRouter extends Router
 	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -573,7 +574,7 @@ class SiteRouter extends Router
 		$route = $uri->getPath();
 
 		// Transform the route
-		if ($route == 'index.php')
+		if ($route === 'index.php')
 		{
 			$route = '';
 		}
@@ -589,7 +590,7 @@ class SiteRouter extends Router
 	 * Add the basepath to the URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   \JUri       &$uri     URI object to process
+	 * @param   JUri        &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -598,7 +599,7 @@ class SiteRouter extends Router
 	public function buildBase(&$router, &$uri)
 	{
 		// Add basepath to the uri
-		$uri->setPath(\JUri::base(true) . '/' . $uri->getPath());
+		$uri->setPath(JUri::base(true) . '/' . $uri->getPath());
 	}
 
 	/**

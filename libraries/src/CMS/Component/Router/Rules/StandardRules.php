@@ -116,7 +116,7 @@ class StandardRules implements RulesInterface
 			{
 				if (!$view->key)
 				{
-					if ($view->name == $segment)
+					if ($view->name === $segment)
 					{
 						// The segment is a view name
 						$parent       = $views[$vars['view']];
@@ -194,7 +194,7 @@ class StandardRules implements RulesInterface
 		$views = $this->router->getViews();
 
 		// Return directly when the URL of the Itemid is identical with the URL to build
-		if (isset($item->query['view']) && $item->query['view'] == $query['view'])
+		if (isset($item->query['view']) && $item->query['view'] === $query['view'])
 		{
 			$view = $views[$query['view']];
 
@@ -211,7 +211,7 @@ class StandardRules implements RulesInterface
 
 				unset($query['view']);
 
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] == $query['layout'])
+				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
 				{
 					unset($query['layout']);
 				}
@@ -221,11 +221,9 @@ class StandardRules implements RulesInterface
 
 			if (!$view->key)
 			{
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] == $query['layout'])
+				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
 				{
-					unset($query['view']);
-					unset($query['layout']);
-
+					unset($query['view'], $query['layout']);
 					return;
 				}
 			}
@@ -268,7 +266,7 @@ class StandardRules implements RulesInterface
 					$segments[] = str_replace(':', '-', array_shift($ids));
 				}
 			}
-			elseif ($item->query['view'] != $view)
+			elseif ($item->query['view'] !== $view)
 			{
 				array_shift($path);
 			}
@@ -295,9 +293,7 @@ class StandardRules implements RulesInterface
 
 		if ($found)
 		{
-			unset($query['layout']);
-			unset($query[$views[$query['view']]->key]);
-			unset($query['view']);
+			unset($query['layout'], $query[$views[$query['view']]->key], $query['view']);
 		}
 	}
 }

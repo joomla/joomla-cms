@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JHtml::_('bootstrap.tooltip');
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -65,7 +62,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->count; ?>
 								</td>
 								<td class="text-center">
-									<?php echo JHtml::_('number.bytes', $item->size*1024); ?>
+									<?php echo JHtml::_('number.bytes', $item->size); ?>
 								</td>
 							</tr>
 						<?php $i++; endforeach; ?>

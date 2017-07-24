@@ -58,6 +58,8 @@ module.exports = function(grunt) {
 					'media/vendor/awesomplete/*',
 					'media/vendor/flying-focus-a11y/*',
 					'media/vendor/diff/**',
+					'media/vendor/polyfills/**',
+					'media/vendor/masonry-layout/js/**',
 				],
 				expand: true,
 				options: {
@@ -65,13 +67,29 @@ module.exports = function(grunt) {
 				}
 			},
 			temp: {
-				src: [ 'build/assets_tmp/*', 'build/assets_tmp/tmp', 'build/assets_tmp/package.json' ],
+				src: [
+					'build/assets_tmp/*',
+					'build/assets_tmp/tmp',
+					'build/assets_tmp/package.json'
+				],
 				expand: true,
-				options: { force: true } },
-			allMinJs: ['media/**/*.min.js', '!media/vendor/*.min.js',
+				options: { force: true } 
+			},
+			css: {
+				src: [
+					'<%= folder.adminTemplate %>/css/font-awesome.css',
+					'<%= folder.adminTemplate %>/css/bootstrap.css',
+					'<%= folder.adminTemplate %>/css/template.css',
+					'<%= folder.adminTemplate %>/css/template-rtl.css',
+				],
+				expand: true
+			},
+			allMinJs: [
+				'media/**/*.min.js', '!media/vendor/*.min.js',
 				'media/**/**/*.min.js', '!media/vendor/**/*.min.js',
 				'media/**/**/**/*.min.js', '!media/vendor/**/**/*.min.js',
-				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js']
+				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js'
+			]
 		},
 
 		// Update all the packages to the version specified in assets/package.json
@@ -176,6 +194,10 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
+					// XPath polyfill js files
+					{ expand: false, src: '<%= folder.node_module %>wicked-good-xpath/dist/wgxpath.install.js', dest: 'media/vendor/polyfills/js/polyfill-wgxpath.js', filter: 'isFile'},
+					// Masonry js files
+					{ expand: true, cwd: '<%= folder.node_module %>masonry-layout/dist', src: ['*.js'], dest: 'media/vendor/masonry/js/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -188,6 +210,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
 					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
 					{ src: ['<%= folder.node_module %>diff/LICENSE'], dest: 'media/vendor/diff/LICENSE'},
+					{ src: ['<%= folder.node_module %>wicked-good-xpath/LICENSE'], dest: 'media/vendor/polyfills/wicked-good-xpath-LICENSE'},
 				]
 			}
 		},
@@ -200,6 +223,8 @@ module.exports = function(grunt) {
 					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
+					'<%= folder.adminTemplate %>/css/font-awesome.css': '<%= folder.adminTemplate %>/scss/font-awesome.scss',
+					'<%= folder.adminTemplate %>/css/bootstrap.css': '<%= folder.adminTemplate %>/scss/bootstrap.scss',
 					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
 					'<%= folder.adminTemplate %>/css/template-rtl.css': '<%= folder.adminTemplate %>/scss/template-rtl.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
@@ -215,7 +240,7 @@ module.exports = function(grunt) {
 			],
 			options: {
 				config: 'scss-lint.yml',
-				reporterOutput: 'scss-lint-report.xml'
+				reporterOutput: 'scss-lint-report.xml',
 			}
 		},
 
@@ -342,6 +367,8 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
+					'<%= folder.adminTemplate %>/css/bootstrap.css',
+					'<%= folder.adminTemplate %>/css/font-awesome.css',
 					'<%= folder.adminTemplate %>/css/template.css',
 					'<%= folder.adminTemplate %>/css/template-rtl.css',
 					'<%= folder.siteTemplate %>/css/template.css'
@@ -359,8 +386,7 @@ module.exports = function(grunt) {
 					cwd: 'media/vendor/codemirror',
 					src: [
 						'*.css',
-						'!*.min.css',
-						'!theme/*.css'
+						'!*.min.css'
 					],
 					dest: 'media/vendor/codemirror',
 				}]
@@ -373,8 +399,8 @@ module.exports = function(grunt) {
 					cwd: '<%= folder.adminTemplate %>/css',
 					src: [
 						'*.css',
-						'!*.min.css',
-						'!theme/*.css'
+						'!user.css',
+						'!*.min.css'
 					],
 					dest: '<%= folder.adminTemplate %>/css',
 				}]
@@ -387,8 +413,8 @@ module.exports = function(grunt) {
 					cwd: '<%= folder.siteTemplate %>/css',
 					src: [
 						'*.css',
-						'!*.min.css',
-						'!theme/*.css'
+						'!user.css',
+						'!*.min.css'
 					],
 					dest: '<%= folder.siteTemplate %>/css',
 				}]
@@ -435,6 +461,7 @@ module.exports = function(grunt) {
 			'postcss',
 			'cssmin:adminTemplate',
 			'cssmin:siteTemplate',
+			'clean:css',
 			'updateXML',
 			'clean:temp'
 		]
@@ -475,6 +502,7 @@ module.exports = function(grunt) {
 			'postcss',
 			'cssmin:adminTemplate',
 			'cssmin:siteTemplate',
+			'clean:css',
 			'watch'
 		]);
 	 });

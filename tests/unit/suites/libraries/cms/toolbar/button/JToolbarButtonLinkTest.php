@@ -63,8 +63,7 @@ class JToolbarButtonLinkTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-		unset($this->toolbar);
-		unset($this->object);
+		unset($this->toolbar, $this->object);
 
 		parent::tearDown();
 	}
@@ -83,7 +82,7 @@ class JToolbarButtonLinkTest extends TestCase
 		$url = 'https://www.joomla.org';
 
 		$this->assertRegExp(
-			'#<button onclick="location.href=\'' . preg_quote($url, '#') . '\';" class="btn btn-outline-danger btn-sm">\s*'
+			'#<button id="toolbar-jdotorg" class="btn btn-outline-danger btn-sm" onclick="location.href=\'' . preg_quote($url, '#') . '\';">\s*'
 			. '<span class="icon-' . preg_quote($name, '#') . '" aria-hidden=\"true\"></span>\s+' . preg_quote($text, '#') . '\s*'
 			. '</button>\s*#',
 			$this->object->fetchButton('Link', $name, $text, $url)
