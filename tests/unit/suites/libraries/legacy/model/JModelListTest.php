@@ -1179,7 +1179,7 @@ class JModelListTest extends TestCaseDatabase
 			array(0, 30, 87,  '30e29215b4fac06b4ea59894161c5b70F', 0),
 			array(30, 30, 87, '7b2ec67b92bf302ff8c5a4ab575baf7f', 30),
 			array(60, 30, 87, 'a061a820ad5a502c73bb4577849dc090', 60),
-			array(67, 30, 87, '1d1114ae603b8e6ed4f536c7f1d0c827', 60),
+			array(67, 30, 87, '1d1114ae603b8e6ed4f536c7f1d0c827', 67),
 			array(88, 30, 87, '9ea5981186b1bb5899d8bf4fc4d5e444', 60)
 		);
 	}
