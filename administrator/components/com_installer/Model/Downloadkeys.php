@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
- * Installer Update Sites Model
+ * Installer Download Keys Model
  *
- * @since  3.4
+ * @since  __DEPLOY_VERSION__
  */
 class Downloadkeys extends Installer
 {
@@ -26,7 +26,7 @@ class Downloadkeys extends Installer
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\Model\ListModel
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
@@ -58,7 +58,7 @@ class Downloadkeys extends Installer
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
@@ -77,7 +77,7 @@ class Downloadkeys extends Installer
 	 *
 	 * @return  \JDatabaseQuery  The database query
 	 *
-	 * @since   3.4
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{

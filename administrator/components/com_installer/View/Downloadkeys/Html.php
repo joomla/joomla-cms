@@ -16,21 +16,32 @@ use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerVie
  *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @since       3.4
+ * @since       __DEPLOY_VERSION__
  */
 class Html extends InstallerViewDefault
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  \JPagination
+	 */
 	protected $pagination;
-	protected $form;
+
 	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  Template
 	 *
-	 * @return  mixed|void
+	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   __DEPLOY_VERSION_
 	 *
 	 * @throws  \Exception on errors
 	 */
@@ -59,7 +70,7 @@ class Html extends InstallerViewDefault
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

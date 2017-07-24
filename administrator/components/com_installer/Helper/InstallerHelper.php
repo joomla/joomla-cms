@@ -162,4 +162,40 @@ class InstallerHelper
 
 		return $options;
 	}
+
+	/**
+	 * Get the xml installation path of an extension related do an update site.
+	 *
+	 * @param   int  $updateSiteId  The update_site_id of the extension.
+	 *
+	 * @return  string  Path to the xml installation.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getInstalationXML($updateSiteId)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__update_sites AS s')
+			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
+			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
+			->where($db->quoteName('s.update_site_id') . ' = ' . $updateSiteId);
+		$db->setQuery($query);
+		$element = $db->loadObject();
+
+		$path = '';
+
+		switch ($element->type)
+		{
+			case 'component':
+				$path =	JPATH_ADMINISTRATOR . '/components/' . $element->element . '/' . substr($element->element, 4) . '.xml';
+				break;
+			case 'plugin':
+				$path = JPATH_PLUGINS . '/' . $element->folder . '/' . $element->element . '/' . $element->element . '.xml';
+				break;
+		}
+
+		return $path;
+	}
 }

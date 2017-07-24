@@ -55,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:5%" class="nowrap hidden-sm-down text-center">
-									<?php echo JText::_('DLID'); ?>
+									<?php echo JText::_('COM_INSTALLER_HEADING_DOWNLOADKEY'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -74,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
-										<?php echo JText::_($item->update_site_name); ?>
+										<?php echo $item->update_site_name; ?>
 										<br>
 										<span class="small break-word">
 											<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
@@ -99,10 +99,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->update_site_id; ?>
 								</td>
 								<td>
-									<?php if(!$item->extra_query):?>
-										<?php echo 'NA'?>
+									<?php if (!$item->extra_query):?>
+										<?php echo JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>
 									<?php else: ?>
-										<?php echo substr($item->extra_query, 5, strpos($item->extra_query, '&')-5); ?>
+										<?php $installXmlFile = simplexml_load_file(InstallerHelper::getInstalationXML($item->update_site_id));
+										?>
+										<?php $dlidPrefixLength = strlen($installXmlFile->dlid['prefix']); ?>
+										<?php $dlidSufixLength = strlen($installXmlFile->dlid['sufix']); ?>
+										<?php $value = substr($item->extra_query, $dlidPrefixLength); ?>
+
+										<?php if ($dlidSufixLength != 0): ?>
+										<?php	$value = substr($value, 0, -$dlidSufixLength); ?>
+										<?php endif; ?>
+										<?php echo $value; ?>
 									<?php endif; ?>
 								</td>
 							</tr>

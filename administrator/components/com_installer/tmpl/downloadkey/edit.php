@@ -10,12 +10,21 @@
 // No direct access
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.formvalidator');
+
+$tmp = null;
+
+if ($this->modal != null)
+{
+	$tmp = "&tmpl=" . $this->modal;
+}
+
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . (int) $this->item->update_site_id); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . (int) $this->item->update_site_id . $tmp); ?>"
 	  method="post" name="adminForm" id="adminForm">
 	<div class="form-horizontal">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_INSTALLER_UPDATESITE_EDIT_DETAILS'); ?></legend>
+			<legend><?php echo JText::_('COM_INSTALLER_DOWNLOADKEY_EDIT_DETAILS'); ?></legend>
 			<div class="row">
 				<div class="col">
 					<?php foreach ($this->form->getFieldset() as $field): ?>
