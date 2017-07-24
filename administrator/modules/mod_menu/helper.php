@@ -52,7 +52,7 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$result = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'error');
 		}
 
 		return $result;
