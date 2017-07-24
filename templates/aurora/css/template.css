@@ -3,9 +3,7 @@
   position: absolute;
   margin: 0;
   background: transparent;
-  -webkit-transition-property: left, top, width, height;
   transition-property: left, top, width, height;
-  -webkit-transition-timing-function: cubic-bezier(0, 1, 0, 1);
   transition-timing-function: cubic-bezier(0, 1, 0, 1);
   visibility: hidden;
   pointer-events: none;
@@ -15,7 +13,7 @@
     visibility: visible;
     z-index: 9999; }
   @media screen and (-webkit-min-device-pixel-ratio: 0) {
-    #flying-focus #flying-focus {
+    #flying-focus {
       box-shadow: none;
       outline: 5px auto -webkit-focus-ring-color;
       outline-offset: -3px; } }

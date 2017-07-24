@@ -180,11 +180,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
-		{
-			\JToolbarHelper::editList('category.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
