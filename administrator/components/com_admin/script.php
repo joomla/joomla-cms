@@ -497,6 +497,7 @@ class JoomlaInstallerScript
 			'/components/com_media/controller.php',
 			'/components/com_media/helpers/index.html',
 			'/components/com_media/helpers/media.php',
+			'/components/com_fields/controllers/field.php',
 			// Joomla 3.0
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0-2011-06-06-2.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0-2011-06-06.sql',
@@ -1789,6 +1790,11 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/rule/url.php',
 			'/libraries/joomla/form/rule/username.php',
 			'/libraries/joomla/form/wrapper/helper.php',
+			'/libraries/joomla/input/cli.php',
+			'/libraries/joomla/input/cookie.php',
+			'/libraries/joomla/input/files.php',
+			'/libraries/joomla/input/input.php',
+			'/libraries/joomla/input/json.php',
 			'/libraries/joomla/language/helper.php',
 			'/libraries/joomla/language/language.php',
 			'/libraries/joomla/language/stemmer.php',
@@ -1995,6 +2001,8 @@ class JoomlaInstallerScript
 			'/administrator/templates/hathor/html/mod_menu',
 			'/administrator/components/com_messages/layouts/toolbar',
 			'/administrator/components/com_messages/layouts',
+			// Joomla! 3.7.4
+			'/components/com_fields/controllers',
 			// Joomla! 3.8.0
 			'/libraries/cms/application',
 			'/libraries/cms/authentication',
@@ -2052,6 +2060,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filter',
 			'/libraries/joomla/form/rule',
 			'/libraries/joomla/form/wrapper',
+			'/libraries/joomla/input',
 			'/libraries/joomla/language/stemmer',
 			'/libraries/joomla/language/wrapper',
 			'/libraries/joomla/log/logger',

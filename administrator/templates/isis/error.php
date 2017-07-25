@@ -31,7 +31,7 @@ $option   = $input->get('option', '');
 $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
-$itemid   = $input->get('Itemid', '', 'int');
+$itemid   = $input->get('Itemid', 0, 'int');
 $sitename = $app->get('sitename');
 
 $cpanel = ($option === 'com_cpanel');
