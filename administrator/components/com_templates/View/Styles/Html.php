@@ -125,11 +125,6 @@ class Html extends HtmlView
 			\JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('style.edit');
-		}
-
 		if ($canDo->get('core.create'))
 		{
 			\JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);

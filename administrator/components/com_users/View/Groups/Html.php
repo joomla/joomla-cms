@@ -115,12 +115,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('group.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('group.edit');
-			\JToolbarHelper::divider();
-		}
-
 		if ($canDo->get('core.delete'))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'groups.delete', 'JTOOLBAR_DELETE');

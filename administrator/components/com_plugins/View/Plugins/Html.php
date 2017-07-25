@@ -96,11 +96,6 @@ class Html extends HtmlView
 
 		\JToolbarHelper::title(\JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('plugin.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
