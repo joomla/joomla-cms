@@ -81,7 +81,7 @@ class JFormFieldList extends JFormField
 			}
 		}
 		else
-		// Create a regular list.
+		// Create a regular list passing the arguments in an array.
 		{
 			$listoptions = array();
 			$listoptions['option.key'] = 'value';
