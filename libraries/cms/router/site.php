@@ -750,7 +750,7 @@ class JRouterSite extends JRouter
 			$compname = ucfirst(substr($component, 4));
 			$class = $compname . 'Router';
 
-			if (!class_exists($class))
+			if (!class_exists($class, false))
 			{
 				// Use the component routing handler if it exists
 				$path = JPATH_SITE . '/components/' . $component . '/router.php';
@@ -762,7 +762,7 @@ class JRouterSite extends JRouter
 				}
 			}
 
-			if (class_exists($class))
+			if (class_exists($class, false))
 			{
 				$reflection = new ReflectionClass($class);
 
