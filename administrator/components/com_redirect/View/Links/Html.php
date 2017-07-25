@@ -140,11 +140,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('link.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('link.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($state->get('filter.state') != 2)
