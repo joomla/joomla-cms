@@ -4,9 +4,7 @@
  */
 
 // Only define the Joomla namespace if not defined.
-if (typeof (Joomla) === 'undefined') {
-	var Joomla = {};
-}
+Joomla = window.Joomla || {};
 
 !(function(document, Joomla) {
 	"use strict";
@@ -142,17 +140,18 @@ if (typeof (Joomla) === 'undefined') {
 			// note that animations don't work on list options other than in Chrome
 			if (animate && !target.is('option')) {
 				(showfield) ? target.slideDown() : target.slideUp();
-			} else if (target.is('option')) {
-				target.toggle(showfield);
-				target.attr('disabled', showfield ? false : true);
-				// if chosen active for the target select list then update it
-				var parent = target.parent();
-				if ($('#' + parent.attr('id') + '_chzn').length) {
-					parent.trigger("liszt:updated");
-					parent.trigger("chosen:updated");
-				}
 			} else {
-				target.toggle(showfield);
+				showfield ? target.show() : target.hide();
+				if (target.is('option')) {
+					target.toggle(showfield);
+					target.attr('disabled', showfield ? false : true);
+					// if chosen active for the target select list then update it
+					var parent = target.parent();
+					if ($('#' + parent.attr('id') + '_chzn').length) {
+						parent.trigger("liszt:updated");
+						parent.trigger("chosen:updated");
+					}
+				}
 			}
 		}
 
