@@ -662,6 +662,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __destruct()
+	{
+		$this->disconnect();
+	}
+
+	/**
 	 * Disconnects the database.
 	 *
 	 * @return  void
