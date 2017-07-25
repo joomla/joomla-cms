@@ -715,7 +715,7 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		$regex = array('#[^A-Za-z0-9_\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#');
+		$regex = array('#[^\w\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#u');
 
 		return preg_replace($regex, '', $path);
 	}
