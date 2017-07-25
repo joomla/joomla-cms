@@ -6,19 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Template Name field.
  *
  * @since  3.5
  */
-class JFormFieldTemplateName extends JFormFieldList
+class TemplatenameField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -38,7 +41,7 @@ class JFormFieldTemplateName extends JFormFieldList
 	public function getOptions()
 	{
 		// Get the client_id filter from the user state.
-		$clientId = JFactory::getApplication()->getUserStateFromRequest('com_templates.styles.client_id', 'client_id', '0', 'string');
+		$clientId = Factory::getApplication()->getUserStateFromRequest('com_templates.styles.client_id', 'client_id', '0', 'string');
 
 		// Get the templates for the selected client_id.
 		$options = TemplatesHelper::getTemplateOptions($clientId);

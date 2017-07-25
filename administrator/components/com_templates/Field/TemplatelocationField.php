@@ -6,19 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
+use Joomla\CMS\Form\FormHelper;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
- * Template Location field. 
+ * Template Location field.
  *
  * @since  3.5
  */
-class JFormFieldTemplateLocation extends JFormFieldList
+class TemplatelocationField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
