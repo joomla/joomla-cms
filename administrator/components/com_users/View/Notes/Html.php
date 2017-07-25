@@ -137,11 +137,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('note.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('note.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::divider();

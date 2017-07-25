@@ -89,11 +89,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('client.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('client.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
