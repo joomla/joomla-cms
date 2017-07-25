@@ -144,6 +144,17 @@
 		</field>
 
 		<field
+			name="redis_server_cluster_host_port"
+			type="text"
+			label="COM_CONFIG_FIELD_REDISCLUSTER_HOST_LABEL"
+			description="COM_CONFIG_FIELD_REDISCLUSTER_HOST_DESC"
+			default="localhost:6379, localhost:6380"
+			filter="string"
+			showon="cache_handler:rediscluster"
+			size="100"
+		/>
+
+		<field
 			name="redis_server_host"
 			type="text"
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
