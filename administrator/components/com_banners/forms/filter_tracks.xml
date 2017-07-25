@@ -70,7 +70,6 @@
 			name="end"
 			type="calendar"
 			label="COM_BANNERS_END_LABEL"
-			description="COM_BANNERS_END_DESC"
 			hint="COM_BANNERS_END_HINT"
 			format="%Y-%m-%d"
 			size="10"
