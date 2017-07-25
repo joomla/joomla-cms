@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
