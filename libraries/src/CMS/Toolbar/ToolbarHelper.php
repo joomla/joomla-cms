@@ -727,15 +727,24 @@ abstract class ToolbarHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function downloadkey($alt, $extensionId)
+	public static function downloadkey($alt, $extensionId, $module = null)
 	{
 		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('s.update_site_id'))
 			->from('#__update_sites AS s')
 			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
-			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
-			->where($db->quoteName('e.extension_id') . ' = ' . $db->quote($extensionId));
+			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)');
+
+		if ($module == null)
+		{
+			$query->where($db->quoteName('e.extension_id') . ' = ' . $db->quote($extensionId));
+		}
+		else
+		{
+			$query->where($db->quoteName('e.element') . ' = ' . $db->quote($module));
+		}
+
 		$db->setQuery($query);
 
 		$updateSiteId = $db->loadResult();
