@@ -26,7 +26,6 @@
 					name="rssurl"
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
-					description="MOD_FEED_FIELD_RSSURL_DESC"
 					size="50"
 					filter="url"
 					required="true"
@@ -38,7 +37,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_FEED_FIELD_RTL_LABEL"
-					description="MOD_FEED_FIELD_RTL_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -50,11 +48,10 @@
 					type="radio"
 					class="switcher"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
-					description="MOD_FEED_FIELD_RSSTITLE_DESC"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -62,11 +59,10 @@
 					type="radio"
 					class="switcher"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -74,18 +70,16 @@
 					type="radio"
 					class="switcher"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
-					description="MOD_FEED_FIELD_IMAGE_DESC"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssitems"
 					type="text"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
-					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
 				/>
 
@@ -94,11 +88,10 @@
 					type="radio"
 					class="switcher"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field

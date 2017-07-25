@@ -48,7 +48,6 @@
 					name="rssrtl"		
 					type="radio"		
 					label="MOD_FEED_FIELD_RTL_LABEL"		
-					description="MOD_FEED_FIELD_RTL_DESC"		
 					class="switcher"		
 					default="0"		
 					>		
