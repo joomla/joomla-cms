@@ -284,7 +284,6 @@
 			name="stemmer"
 			type="list"
 			label="COM_FINDER_CONFIG_STEMMER_LABEL"
-			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION"
 			default="snowball"
 			showon="stem:1" 
 			>
