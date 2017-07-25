@@ -68,32 +68,4 @@ class Downloadkey extends Admin
 
 		return $data;
 	}
-
-	/**
-	 * Method to get an array of data items.
-	 *
-	 * @param   integer  $pk  The id of the primary key.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getItem($pk = null)
-	{
-		$data = parent::getItem();
-
-		if (!$data)
-		{
-			return false;
-		}
-
-		$path = InstallerHelper::getInstalationXML($data->update_site_id);
-
-		$installXmlFile = simplexml_load_file($path);
-
-		$data->prefixlen = strlen((string) $installXmlFile->dlid['prefix']);
-		$data->sufixlen = strlen((string) $installXmlFile->dlid['sufix']);
-
-		return $data;
-	}
 }

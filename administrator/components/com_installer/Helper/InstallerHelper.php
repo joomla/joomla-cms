@@ -164,19 +164,19 @@ class InstallerHelper
 	}
 
 	/**
-	 * Get the xml installation path of an extension related do an update site.
+	 * Get the extra_query of an update site.
 	 *
 	 * @param   int  $updateSiteId  The update_site_id of the extension.
 	 *
-	 * @return  string  Path to the xml installation.
+	 * @return  array  Array with the prefix, value and sufix of the extra_query of the update site.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getInstalationXML($updateSiteId)
+	public static function getExtraQuery($updateSiteId)
 	{
 		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
+			->select('client_id, element, folder, e.type, extra_query')
 			->from('#__update_sites AS s')
 			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
 			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
@@ -184,18 +184,48 @@ class InstallerHelper
 		$db->setQuery($query);
 		$element = $db->loadObject();
 
-		$path = '';
+		if ($element->client_id)
+		{
+			$path = JPATH_ADMINISTRATOR;
+		}
+		else
+		{
+			$path = JPATH_ROOT;
+		}
 
 		switch ($element->type)
 		{
 			case 'component':
-				$path =	JPATH_ADMINISTRATOR . '/components/' . $element->element . '/' . substr($element->element, 4) . '.xml';
+				$path .= '/components/' . $element->element . '/' . substr($element->element, 4) . '.xml';
 				break;
 			case 'plugin':
-				$path = JPATH_PLUGINS . '/' . $element->folder . '/' . $element->element . '/' . $element->element . '.xml';
+				$path .= '/plugins/' . $element->folder . '/' . $element->element . '/' . $element->element . '.xml';
+				break;
+			case 'module':
+				$path .= '/modules/' . $element->element . '/' . $element->element . '.xml';
+				break;
+			case 'template':
+				$path .= '/templates/' . $element->element . '/templateDetails.xml';
 				break;
 		}
 
-		return $path;
+		$installXmlFile = simplexml_load_file($path);
+
+		$prefix = $installXmlFile->dlid['prefix'];
+		$sufix = $installXmlFile->dlid['sufix'];
+		$value = substr($element->extra_query, strlen($prefix));
+
+		if ($sufix != null)
+		{
+			$value = substr($value, 0, -strlen($sufix));
+		}
+
+		$extraQuery = array(
+			'prefix'  => $prefix,
+			'sufix'   => $sufix,
+			'value'   => $value
+		);
+
+		return $extraQuery;
 	}
 }

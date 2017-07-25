@@ -29,8 +29,8 @@ class Downloadkey extends Form
 	 */
 	public function save()
 	{
-		$prefix = $this->input->get('dlidprefix', null, 'string');
-		$sufix = $this->input->get('dlidsufix', null, 'string');
+		$prefix = $this->input->getString('dlidprefix');
+		$sufix = $this->input->getString('dlidsufix');
 
 		$input = $this->input->post->get('jform', array(), 'array');
 		$input['extra_query'] = $prefix . $input['extra_query'] . $sufix;

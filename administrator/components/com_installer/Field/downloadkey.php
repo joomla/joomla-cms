@@ -35,34 +35,11 @@ class JFormFieldDownloadkey extends JFormFieldText
 	 */
 	public function getInput()
 	{
-		$value = $this->form->getValue('extra_query');
+		$extraQuery = InstallerHelper::getExtraQuery($this->form->getValue('update_site_id'));
 
-		if ($this->form->dlidprefix == null)
-		{
-			$path = InstallerHelper::getInstalationXML($this->form->getValue('update_site_id'));
-
-			$installXmlFile = simplexml_load_file($path);
-			$prefix = (string) $installXmlFile->dlid['prefix'];
-			$sufix  = (string) $installXmlFile->dlid['sufix'];
-		}
-		else
-		{
-			$prefix = $this->form->dlidprefix;
-			$sufix = $this->form->dlidsufix;
-		}
-
-
-		$html = '<input type="text" name="jform[extra_query]" class="form-control" value="';
-		$value = substr($value, strlen($prefix));
-
-		if ($sufix != null)
-		{
-			$value = substr($value, 0, -strlen($sufix));
-		}
-
-		$html .= $value . '">';
-		$html .= '<input type="hidden" name="dlidprefix" value="' . $prefix . '">';
-		$html .= '<input type="hidden" name="dlidsufix" value="' . $sufix . '">';
+		$html = '<input type="text" name="jform[extra_query]" class="form-control" value="' . $extraQuery['value'] . '">';
+		$html .= '<input type="hidden" name="dlidprefix" value="' . $extraQuery['prefix'] . '">';
+		$html .= '<input type="hidden" name="dlidsufix" value="' . $extraQuery['sufix'] . '">';
 
 		return $html;
 	}

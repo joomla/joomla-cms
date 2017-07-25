@@ -68,6 +68,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) : ?>
+							<?php $extraQuery = InstallerHelper::getExtraQuery($item->update_site_id);?>
+
+							<?php if ($extraQuery['prefix'] == null): ?>
+								<?php continue; ?>
+							<?php endif;?>
+
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->update_site_id); ?>
@@ -99,20 +105,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->update_site_id; ?>
 								</td>
 								<td>
-									<?php if (!$item->extra_query):?>
-										<?php echo JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>
-									<?php else: ?>
-										<?php $installXmlFile = simplexml_load_file(InstallerHelper::getInstalationXML($item->update_site_id));
-										?>
-										<?php $dlidPrefixLength = strlen($installXmlFile->dlid['prefix']); ?>
-										<?php $dlidSufixLength = strlen($installXmlFile->dlid['sufix']); ?>
-										<?php $value = substr($item->extra_query, $dlidPrefixLength); ?>
-
-										<?php if ($dlidSufixLength != 0): ?>
-										<?php	$value = substr($value, 0, -$dlidSufixLength); ?>
-										<?php endif; ?>
-										<?php echo $value; ?>
-									<?php endif; ?>
+									<?php echo $extraQuery['value'] ? $extraQuery['value'] : \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
