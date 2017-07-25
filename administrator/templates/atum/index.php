@@ -16,9 +16,25 @@ $lang  = JFactory::getLanguage();
 $user  = JFactory::getUser();
 $input = $app->input;
 
+// Detecting Active Variables
+$option      = $input->get('option', '');
+$view        = $input->get('view', '');
+$layout      = $input->get('layout', '');
+$task        = $input->get('task', '');
+$itemid      = $input->get('Itemid', '');
+$sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
+$cpanel      = ($option === 'com_cpanel');
+$hidden      = $app->input->get('hidemainmenu');
+$logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
+
 // Add JavaScript
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
+if ($cpanel)
+{
+	JHtml::_('script', 'media/vendor/masonry/js/masonry.pkgd.min.js', ['version' => 'auto']);
+}
 JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
@@ -31,18 +47,6 @@ JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true
 
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
-
-// Detecting Active Variables
-$option      = $input->get('option', '');
-$view        = $input->get('view', '');
-$layout      = $input->get('layout', '');
-$task        = $input->get('task', '');
-$itemid      = $input->get('Itemid', '');
-$sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
-$cpanel      = ($option === 'com_cpanel');
-$hidden      = $app->input->get('hidemainmenu');
-$logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
-$logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');

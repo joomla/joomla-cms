@@ -19,26 +19,12 @@ abstract class ModVersionHelper
 	/**
 	 * Get the member items of the submenu.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The parameters object.
-	 *
-	 * @return  string  String containing the current Joomla version based on the selected format.
+	 * @return  string  String containing the current Joomla version.
 	 */
-	public static function getVersion(&$params)
+	public static function getVersion()
 	{
-		$version     = new JVersion;
-		$versionText = $version->getShortVersion();
-		$product     = $params->get('product', 0);
+		$version = new JVersion;
 
-		if ($params->get('format', 'short') === 'long')
-		{
-			$versionText = str_replace($version::PRODUCT . ' ', '', $version->getLongVersion());
-		}
-
-		if (!empty($product))
-		{
-			$versionText = $version::PRODUCT . ' ' . $versionText;
-		}
-
-		return $versionText;
+		return $version::PRODUCT . ' ' . $version->getShortVersion();
 	}
 }
