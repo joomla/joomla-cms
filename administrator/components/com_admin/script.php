@@ -1913,11 +1913,11 @@ class JoomlaInstallerScript
 		// Set required conversion status
 		if ($db->hasUTF8mb4Support())
 		{
-			$converted = 2;
+			$converted = 4;
 		}
 		else
 		{
-			$converted = 1;
+			$converted = 3;
 		}
 
 		// Check conversion status in database
@@ -1927,7 +1927,7 @@ class JoomlaInstallerScript
 
 		try
 		{
-			$convertedDB = $db->loadResult();
+			$convertedDB = (int) $db->loadResult();
 		}
 		catch (Exception $e)
 		{
@@ -1952,7 +1952,8 @@ class JoomlaInstallerScript
 		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
 		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
 
-		if (is_file($fileName1))
+		// Only if there has not been any conversion yet or a conversion is between utf8mb3 and utf8mb4
+		if (($convertedDB == 0 || $convertedDB % 2 !== $converted % 2) && is_file($fileName1))
 		{
 			$fileContents1 = @file_get_contents($fileName1);
 			$queries1      = $db->splitSql($fileContents1);
@@ -1976,7 +1977,8 @@ class JoomlaInstallerScript
 		// Step 2: Perform the index modifications and conversions
 		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
 
-		if (is_file($fileName2))
+		// Only if there has not been any conversion yet or a conversion is between utf8mb3 and utf8mb4
+		if (($convertedDB == 0 || $convertedDB % 2 !== $converted % 2) && is_file($fileName2))
 		{
 			$fileContents2 = @file_get_contents($fileName2);
 			$queries2      = $db->splitSql($fileContents2);
@@ -2000,15 +2002,66 @@ class JoomlaInstallerScript
 			}
 		}
 
-		if ($doDbFixMsg && $converted == 0)
+		// In case of any problems do not go further
+		if ($converted == 0)
+		{
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
+
+			// If there was any error then stop here
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion') . ' SET converted = 0')->execute();
+
+			return;
+		}
+
+		// Set flag in database if the update is partly done.
+		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+			. ' SET converted = ' . ($converted - 2)
+		)->execute();
+
+		// Step 3: Perform conversions
+		$fileName3 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql';
+
+		if ($convertedDB != $converted && is_file($fileName3))
+		{
+			$fileContents3 = @file_get_contents($fileName3);
+			$queries3      = $db->splitSql($fileContents3);
+
+			if (!empty($queries3))
+			{
+				try
+				{
+					foreach ($queries3 as $query3)
+					{
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query3))->execute();
+					}
+				}
+				catch (Exception $e)
+				{
+					// Some query fails, stop on first error. Remember only step 1 and 2.
+					$converted -= 2;
+
+					// Still render the error message from the Exception object
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+		}
+
+		if ($doDbFixMsg && $converted < 3)
 		{
 			// Show an error message telling to check database problems
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
-
-		// Set flag in database if the update is done.
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+		else
+		{
+			// Set flag in database if the update is done.
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET converted = ' . $converted
+			)->execute();
+		}
 	}
 
 	/**

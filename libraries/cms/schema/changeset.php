@@ -100,7 +100,8 @@ class JSchemaChangeset
 				$db,
 				'database.php',
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				. ' SET converted = converted'
+			);
 
 			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;
@@ -115,6 +116,42 @@ class JSchemaChangeset
 			{
 				$converted = 1;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
+			}
+
+			$tmpSchemaChangeItem->checkQuery = 'SELECT '
+				. $this->db->quoteName('converted')
+				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $this->db->quoteName('converted')
+				. ' IN (' . $converted . ',' . ($converted + 2) . ')';
+
+			// Set expected records from check query
+			$tmpSchemaChangeItem->checkQueryExpected = 1;
+
+			$tmpSchemaChangeItem->msgElements = array();
+
+			$this->changeItems[] = $tmpSchemaChangeItem;
+
+			// Do it again for com_finder conversion
+			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
+				$db,
+				'database.php',
+				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
+				. ' SET converted = converted'
+			);
+
+			// Set to not skipped
+			$tmpSchemaChangeItem->checkStatus = 0;
+
+			// Set the check query
+			if ($this->db->hasUTF8mb4Support())
+			{
+				$converted = 4;
+				$tmpSchemaChangeItem->queryType = 'FINDER_UTF8_CONVERSION_UTF8MB4';
+			}
+			else
+			{
+				$converted = 3;
+				$tmpSchemaChangeItem->queryType = 'FINDER_UTF8_CONVERSION_UTF8';
 			}
 
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
