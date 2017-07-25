@@ -722,6 +722,7 @@ abstract class ToolbarHelper
 	 *
 	 * @param   string  $alt          Title for the modal button.
 	 * @param   string  $extensionId  Id of the extension.
+	 * @param   string  $module       Id of the module.
 	 *
 	 * @return  void
 	 *
