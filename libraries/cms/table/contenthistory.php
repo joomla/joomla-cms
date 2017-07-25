@@ -56,7 +56,7 @@ class JTableContenthistory extends JTable
 			'hits',
 			'path',
 		);
-		$this->convertToInt  = array('publish_up', 'publish_down', 'ordering', 'featured');
+		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured', 'featured_up', 'featured_down');
 	}
 
 	/**

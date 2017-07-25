@@ -242,6 +242,15 @@ class JTableContent extends JTable
 			$this->publish_down = $temp;
 		}
 
+		// Check the featured down date is not earlier than featured up.
+		if ($this->featured_down > $this->_db->getNullDate() && $this->featured_down < $this->featured_up)
+		{
+			// Swap the dates.
+			$temp = $this->featured_up;
+			$this->featured_up = $this->featured_down;
+			$this->featured_down = $temp;
+		}
+
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey))
