@@ -691,7 +691,7 @@ class JTableNested extends JTable
 			}
 
 			$query = $this->_db->getQuery(true)
-				->select('1')
+				->select($this->_db->quoteName($this->_tbl_key))
 				->from($this->_tbl)
 				->where($this->_tbl_key . ' = ' . $this->parent_id);
 
@@ -994,7 +994,7 @@ class JTableNested extends JTable
 			{
 				// Get any ancestor nodes that have a lower publishing state.
 				$query->clear()
-					->select('1')
+					->select($k)
 					->from($table)
 					->where('lft < ' . (int) $node->lft)
 					->where('rgt > ' . (int) $node->rgt)
