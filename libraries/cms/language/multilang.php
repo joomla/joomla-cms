@@ -110,7 +110,7 @@ class JLanguageMultilang
 	}
 
 	/**
-	 * Method to determine if filtering by language is enabled in back-end for custom menus.
+	 * Method to determine if filtering by language is enabled in back-end for custom modules.
 	 *
 	 * @return  boolean  True if admin is supporting multiple languages; false otherwise.
 	 *
@@ -120,7 +120,10 @@ class JLanguageMultilang
 	{
 		static $enabled = false;
 
-		$enabled = JComponentHelper::getParams('com_menus')->get('adminlangfilter', 0);
+		if (count(JLanguageHelper::getInstalledLanguages(1)) > 1)
+		{
+			$enabled = JComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
+		}
 
 		return (bool) $enabled;
 	}

@@ -47,7 +47,7 @@ class ModulesViewModules extends JViewLegacy
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		// We do not need the Language filter when custom admin menus are not translated
+		// We do not need the Language filter when modules are not filtered
 		if ($this->clientId == 1 && !JLanguageMultilang::isAdminEnabled())
 		{
 			unset($this->activeFilters['language']);
