@@ -25,7 +25,6 @@
 					name="rows"
 					type="text"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
-					description="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_DESC"
 					default="10"
 					size="5"
 				/>
@@ -34,7 +33,6 @@
 					name="cols"
 					type="text"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
-					description="PLG_FIELDS_TEXTAREA_PARAMS_COLS_DESC"
 					default="10"
 					size="5"
 				/>
