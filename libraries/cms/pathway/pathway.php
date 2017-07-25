@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.5
  */
-class JPathway
+class JPathway implements Countable
 {
 	/**
 	 * @var    array  Array to hold the pathway item objects
@@ -24,13 +24,6 @@ class JPathway
 	 * @deprecated  4.0  Will convert to $pathway
 	 */
 	protected $_pathway = array();
-
-	/**
-	 * @var    integer  Integer number of items in the pathway
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $count
-	 */
-	protected $_count = 0;
 
 	/**
 	 * JPathway instances container.
@@ -173,7 +166,6 @@ class JPathway
 		if ($this->_pathway[] = $this->makeItem($name, $link))
 		{
 			$ret = true;
-			$this->_count++;
 		}
 
 		return $ret;
@@ -236,5 +228,17 @@ class JPathway
 		$item->link = $link;
 
 		return $item;
+	}
+
+	/**
+	 * Returns count of items
+	 *
+	 * @return integer Count of items
+	 * 
+	 * @since 3.4
+	 */
+	public function count()
+	{
+		return count($this->_pathway);
 	}
 }
