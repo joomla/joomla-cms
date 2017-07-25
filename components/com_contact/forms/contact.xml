@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-	<fieldset name="contact" addrulepath="components/com_contact/models/rules" label="COM_CONTACT_CONTACT_DEFAULT_LABEL">
+	<fieldset name="contact" addruleprefix="Joomla\Component\Contact\Site\Rule" label="COM_CONTACT_CONTACT_DEFAULT_LABEL">
 		<field
 			name="spacer"
 			type="spacer"
@@ -27,7 +27,7 @@
 			id="contact-email"
 			size="30"
 			filter="string"
-			validate="contactemail"
+			validate="ContactEmail"
 			autocomplete="email"
 			required="true"
 		/>
@@ -40,7 +40,7 @@
 			id="contact-emailmsg"
 			size="60"
 			filter="string"
-			validate="contactemailsubject"
+			validate="ContactEmailSubject"
 			required="true"
 		/>
 
@@ -53,7 +53,7 @@
 			rows="10"
 			id="contact-message"
 			filter="safehtml"
-			validate="contactemailmessage"
+			validate="ContactEmailMessage"
 			required="true"
 		/>
 
