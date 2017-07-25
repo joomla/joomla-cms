@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of article records.
@@ -211,7 +212,7 @@ class Articles extends ListModel
 
 		if (\JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
@@ -335,6 +336,87 @@ class Articles extends ListModel
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
+	}
+
+	/**
+	 * Method to get all transitions at once for all articles
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0
+	 */
+	public function getTransitions()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId('getTransitions');
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		$db = $this->getDbo();
+		$user = Factory::getUser();
+
+		$items = $this->getItems();
+
+		$ids = ArrayHelper::getColumn($items, 'state');
+		$ids = ArrayHelper::toInteger($ids);
+		$ids = array_filter($ids);
+
+		$this->cache[$store] = array();
+
+		try
+		{
+			if (count($ids))
+			{
+				$query = $db->getQuery(true);
+
+				$select = $db->quoteName(
+							array(
+								't.id',
+								't.title',
+								's.id',
+								's.title'
+							),
+							array(
+								'id',
+								'title',
+								'state_id',
+								'state_title'
+							)
+						);
+
+				$query	->select($select)
+						->from($db->quoteName('#__workflow_transitions', 't'))
+						->from($db->quoteName('#__workflow_states', 's'))
+						->where($db->quoteName('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
+						->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
+						->where($db->quoteName('t.published') . ' = 1')
+						->where($db->quoteName('s.published') . ' = 1');
+
+				$transitions = $db->setQuery($query)->loadObjectList();
+
+				foreach ($transitions as $key => $transition)
+				{
+					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition->id))
+					{
+						unset($transitions[$key]);
+					}
+				}
+
+				$this->cache[$store] = $transitions;
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $this->cache[$store];
 	}
 
 	/**
