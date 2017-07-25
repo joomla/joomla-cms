@@ -25,6 +25,6 @@ abstract class ModVersionHelper
 	{
 		$version = new JVersion;
 
-		return $version::PRODUCT . ' ' .  $version->getShortVersion();
+		return $version::PRODUCT . ' ' . $version->getShortVersion();
 	}
 }

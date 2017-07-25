@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Associations\Administrator\Field">
 	<fieldset>
 		<field
 			name="itemlanguage"
@@ -11,7 +11,7 @@
 
 		<field
 			name="modalassociation"
-			type="modalassociation"
+			type="modal_association"
 		/>
 	</fieldset>
 
