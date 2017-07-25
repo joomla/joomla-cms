@@ -852,7 +852,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 					$asset->rules = (string) $this->_rules;
 				}
 
-				if (!$asset->check() || !$asset->store($updateNulls))
+				if (!$asset->check() || !$asset->store())
 				{
 					$this->setError($asset->getError());
 
