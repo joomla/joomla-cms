@@ -20,7 +20,7 @@ $class = ' class="first"';
         <ul>
         <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
                 <?php
-				if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
+				if ($child->numitems || $this->params->get('show_empty_categories') || count($child->getChildren())) :
 					if (!isset($this->children[$this->category->id][$id + 1])) :
 						$class = ' class="last"';
 					endif;
@@ -54,7 +54,7 @@ $class = ' class="first"';
 							$this->children[$child->id] = $child->getChildren();
 							$this->category = $child;
 							$this->maxLevel--;
-							if ($this->maxLevel != 0) :
+							if ($this->maxLevel !== 0) :
 								echo $this->loadTemplate('children');
 							endif;
 							$this->category = $child->getParent();
