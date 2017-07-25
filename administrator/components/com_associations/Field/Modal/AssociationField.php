@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Supports a modal item picker.
  *
  * @since  3.7.0
  */
-class JFormFieldModalAssociation extends JFormField
+class AssociationField extends FormField
 {
 	/**
 	 * The form field type.
@@ -37,26 +41,26 @@ class JFormFieldModalAssociation extends JFormField
 		// The active item id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
-		JFactory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
-		JHtml::_('script', 'com_associations/modal-associations.min.js', false, true);
+		Factory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
+		\JHtml::_('script', 'com_associations/modal-associations.min.js', false, true);
 
 		// Setup variables for display.
 		$html = array();
 
 		$linkAssociations = 'index.php?option=com_associations&amp;view=associations&amp;layout=modal&amp;tmpl=component'
-			. '&amp;forcedItemType=' . JFactory::getApplication()->input->get('itemtype', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
+			. '&amp;forcedItemType=' . Factory::getApplication()->input->get('itemtype', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
 
 		$linkAssociations .= "&amp;forcedLanguage=' + document.getElementById('target-association').getAttribute('data-language') + '";
 
-		$urlSelect = $linkAssociations . '&amp;' . JSession::getFormToken() . '=1';
+		$urlSelect = $linkAssociations . '&amp;' . \JSession::getFormToken() . '=1';
 
 		// Select custom association button
 		$html[] = '<a'
 			. ' id="select-change"'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
-			. ' data-select="' . JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
-			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
+			. ' data-select="' . \JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
+			. ' data-change="' . \JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
 			. '<span class="icon-file" aria-hidden="true"></span> '
@@ -68,17 +72,17 @@ class JFormFieldModalAssociation extends JFormField
  				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
  				. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
  				. ' id="remove-assoc">'
- 				. '<span class="icon-remove" aria-hidden="true"></span> ' . JText::_('JCLEAR')
+ 				. '<span class="icon-remove" aria-hidden="true"></span> ' . \JText::_('JCLEAR')
  				. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';
 
 		// Select custom association modal
-		$html[] = JHtml::_(
+		$html[] = \JHtml::_(
 			'bootstrap.renderModal',
 			'associationSelect' . $this->id . 'Modal',
 			array(
-				'title'       => JText::_('COM_ASSOCIATIONS_SELECT_TARGET'),
+				'title'       => \JText::_('COM_ASSOCIATIONS_SELECT_TARGET'),
 				'backdrop'    => 'static',
 				'url'         => $urlSelect,
 				'height'      => '400px',
@@ -86,7 +90,7 @@ class JFormFieldModalAssociation extends JFormField
 				'bodyHeight'  => 70,
 				'modalWidth'  => 80,
 				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+						. \JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)
 		);
 
