@@ -951,7 +951,7 @@
 			name="show_pagination_results"
 			type="radio"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-		class="switcher"
+			class="switcher"
 			default="1"
 			showon="show_pagination:1,2"
 			>
