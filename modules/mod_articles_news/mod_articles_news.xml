@@ -92,11 +92,11 @@
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
