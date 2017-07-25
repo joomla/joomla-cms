@@ -167,7 +167,6 @@
 			name="link_author"
 			type="radio"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
-			description="JGLOBAL_LINK_AUTHOR_DESC"
 			class="switcher"
 			default="0"
 			showon="show_author:1"

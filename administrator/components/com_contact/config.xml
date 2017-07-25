@@ -53,7 +53,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
-			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 			default="0"
 			>
 			<option value="0">JHIDE</option>

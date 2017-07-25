@@ -439,7 +439,6 @@
 				name="link_author"
 				type="list"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
-				description="JGLOBAL_LINK_AUTHOR_DESC"
 				useglobal="true"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>

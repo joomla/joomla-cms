@@ -207,7 +207,6 @@
 				name="link_author"
 				type="list"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
-				description="JGLOBAL_LINK_AUTHOR_DESC"
 				useglobal="true"
 				>
 				<option	value="0">JNO</option>

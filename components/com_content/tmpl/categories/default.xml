@@ -507,7 +507,6 @@
 			</field>
 
 			<field name="link_author" type="list"
-				description="JGLOBAL_LINK_AUTHOR_DESC"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				useglobal="true"
 				>
