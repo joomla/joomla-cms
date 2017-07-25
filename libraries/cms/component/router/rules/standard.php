@@ -242,16 +242,27 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 
 				if ($views[$view]->nestable)
 				{
+					$ids = array_map(function ($segment)
+					{
+						return str_replace(':', '-', $segment);
+					}, $ids);
+
 					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
-							$segments[] = str_replace(':', '-', $segment);
+							$segments[] = $segment;
 						}
 						elseif ((int) $item->query[$views[$view]->key] == (int) $id)
 						{
 							$found2 = true;
 						}
+					}
+
+					if (!$found2)
+					{
+						array_pop($ids);
+						$segments = array_reverse($ids);
 					}
 				}
 				elseif (is_bool($ids))
