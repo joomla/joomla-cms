@@ -146,9 +146,10 @@ if (typeof (Joomla) === 'undefined') {
 				target.toggle(showfield);
 				target.attr('disabled', showfield ? false : true);
 				// if chosen active for the target select list then update it
-				if ($('#' + target.parent().attr('id') + '_chzn').length) {
-					target.parent().trigger("liszt:updated");
-					target.parent().trigger("chosen:updated");
+				var parent = target.parent();
+				if ($('#' + parent.attr('id') + '_chzn').length) {
+					parent.trigger("liszt:updated");
+					parent.trigger("chosen:updated");
 				}
 			} else {
 				target.toggle(showfield);
