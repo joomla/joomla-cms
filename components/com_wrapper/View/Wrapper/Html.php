@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Wrapper\Site\View\Wrapper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\View\HtmlView;
+
 /**
  * Wrapper view class.
- * 
+ *
  * @since  1.5
  */
-class WrapperViewWrapper extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The page class suffix
@@ -35,7 +40,7 @@ class WrapperViewWrapper extends JViewLegacy
 	/**
 	 * The page parameters
 	 *
-	 * @var    stdClass
+	 * @var    \stdClass
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $wrapper = null;
@@ -51,7 +56,7 @@ class WrapperViewWrapper extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = $app->getParams();
 
 		// Because the application sets a default page title, we need to get it
@@ -64,11 +69,11 @@ class WrapperViewWrapper extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -88,7 +93,7 @@ class WrapperViewWrapper extends JViewLegacy
 			$this->document->setMetaData('robots', $params->get('robots'));
 		}
 
-		$wrapper = new stdClass;
+		$wrapper = new \stdClass;
 
 		// Auto height control
 		if ($params->def('height_auto'))
@@ -108,17 +113,17 @@ class WrapperViewWrapper extends JViewLegacy
 			if (strpos($url, '//') === 0)
 			{
 				// URL without scheme in component. Prepend current scheme.
-				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . substr($url, 2);
+				$wrapper->url = Uri::getInstance()->toString(array('scheme')) . substr($url, 2);
 			}
 			elseif (strpos($url, '/') === 0)
 			{
 				// Relative URL in component. Use scheme + host + port.
-				$wrapper->url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
+				$wrapper->url = Uri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
 			}
 			elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0)
 			{
 				// URL doesn't start with either 'http://' or 'https://'. Add current scheme.
-				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . $url;
+				$wrapper->url = Uri::getInstance()->toString(array('scheme')) . $url;
 			}
 			else
 			{

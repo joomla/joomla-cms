@@ -59,6 +59,7 @@ module.exports = function(grunt) {
 					'media/vendor/flying-focus-a11y/*',
 					'media/vendor/diff/**',
 					'media/vendor/polyfills/**',
+					'media/vendor/masonry-layout/js/**',
 				],
 				expand: true,
 				options: {
@@ -83,10 +84,12 @@ module.exports = function(grunt) {
 				],
 				expand: true
 			},
-			allMinJs: ['media/**/*.min.js', '!media/vendor/*.min.js',
+			allMinJs: [
+				'media/**/*.min.js', '!media/vendor/*.min.js',
 				'media/**/**/*.min.js', '!media/vendor/**/*.min.js',
 				'media/**/**/**/*.min.js', '!media/vendor/**/**/*.min.js',
-				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js']
+				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js'
+			]
 		},
 
 		// Update all the packages to the version specified in assets/package.json
@@ -193,6 +196,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 					// XPath polyfill js files
 					{ expand: false, src: '<%= folder.node_module %>wicked-good-xpath/dist/wgxpath.install.js', dest: 'media/vendor/polyfills/js/polyfill-wgxpath.js', filter: 'isFile'},
+					// Masonry js files
+					{ expand: true, cwd: '<%= folder.node_module %>masonry-layout/dist', src: ['*.js'], dest: 'media/vendor/masonry/js/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
