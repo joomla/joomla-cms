@@ -82,7 +82,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php endif; ?>
 								<?php $subject = $item->subject ?: JText::_('COM_USERS_EMPTY_SUBJECT'); ?>
 								<?php if ($canEdit) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>"><?php echo $this->escape($subject); ?></a>
+									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($subject)); ?>">
+										<?php echo $editIcon; ?><?php echo $this->escape($subject); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($subject); ?>
 								<?php endif; ?>

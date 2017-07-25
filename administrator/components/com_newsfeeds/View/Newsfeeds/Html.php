@@ -124,11 +124,6 @@ class Html extends HtmlView
 			 \JToolbarHelper::addNew('newsfeed.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
-		{
-			 \JToolbarHelper::editList('newsfeed.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			 \JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
