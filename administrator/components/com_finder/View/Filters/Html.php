@@ -127,7 +127,6 @@ class Html extends HtmlView
 		if ($canDo->get('core.create'))
 		{
 			ToolbarHelper::addNew('filter.add');
-			ToolbarHelper::editList('filter.edit');
 			ToolbarHelper::divider();
 		}
 

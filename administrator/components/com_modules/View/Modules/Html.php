@@ -158,11 +158,6 @@ class Html extends HtmlView
 			$bar->appendButton('Custom', $layout->render(array()), 'new');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('module.edit');
-		}
-
 		if ($canDo->get('core.create'))
 		{
 			\JToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
