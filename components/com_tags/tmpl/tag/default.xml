@@ -17,7 +17,6 @@
 				name="id" 
 				type="tag"
 				label="COM_TAGS_FIELD_TAG_LABEL"
-				description="COM_TAGS_FIELD_SELECT_TAG_DESC"
 				custom="deny"
 				required="true"
 				multiple="true"
@@ -27,7 +26,6 @@
 				name="types" 
 				type="contenttype"
 				label="COM_TAGS_FIELD_TYPE_LABEL"
-				description="COM_TAGS_FIELD_TYPE_DESC"
 				multiple="true"
 			/>
 
@@ -53,7 +51,6 @@
 				name="show_tag_title" 
 				type="list"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
-				description="COM_TAGS_SHOW_TAG_TITLE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -64,7 +61,6 @@
 				name="tag_list_show_tag_image" 
 				type="list"
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
-				description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -75,7 +71,6 @@
 				name="tag_list_show_tag_description" 
 				type="list"
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
-				description="COM_TAGS_SHOW_TAG_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -86,7 +81,6 @@
 				name="tag_list_image" 
 				type="media"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
-				description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 			/>
 
 			<field 
@@ -104,7 +98,6 @@
 				name="tag_list_orderby"
 				type="list"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
-				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -119,7 +112,6 @@
 				name="tag_list_orderby_direction" 
 				type="list"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
-				description="JGLOBAL_ORDER_DIRECTION_DESC"
 				useglobal="true"
 				>
 				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
@@ -141,7 +133,6 @@
 				name="tag_list_show_item_image" 
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
-				description="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -152,7 +143,6 @@
 				name="tag_list_show_item_description" 
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
-				description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -163,7 +153,6 @@
 				name="tag_list_item_maximum_characters"
 				type="text"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
-				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 				filter="integer"
 				useglobal="true"
 			/>
@@ -221,7 +210,6 @@
 				name="return_any_or_all" 
 				type="list"
 				label="COM_TAGS_SEARCH_TYPE_LABEL"
-				description="COM_TAGS_SEARCH_TYPE_DESC"
 				useglobal="true"
 				>
 				<option value="0">COM_TAGS_ALL</option>
@@ -232,7 +220,6 @@
 				name="include_children" 
 				type="list"
 				label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
-				description="COM_TAGS_INCLUDE_CHILDREN_DESC"
 				default=""
 				useglobal="true"
 				>

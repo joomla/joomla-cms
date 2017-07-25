@@ -16,7 +16,6 @@
 				name="parent_id" 
 				type="tag" 
 				label="COM_TAGS_FIELD_PARENT_TAG_LABEL"
-				description="COM_TAGS_FIELD_PARENT_TAG_DESC"
 				mode="nested"
 				>
 				<option value="">JNONE</option>
@@ -51,6 +50,7 @@
 			<field 
 				name="all_tags_description" 
 				type="textarea"
+				label="COM_TAGS_ALL_TAGS_DESCRIPTION_LABEL"
 				class="inputbox"
 				rows="3" 
 				cols="30" 
