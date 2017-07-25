@@ -78,7 +78,8 @@ class Workflow extends Admin
 			$query = $db->getQuery(true);
 
 			$query->select("id")
-				->from("#__workflows");
+				->from($db->qn("#__workflows"))
+				->where($db->qn("default") . '= 1');
 			$db->setQuery($query);
 			$workflows = $db->loadObjectList();
 

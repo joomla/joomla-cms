@@ -59,13 +59,15 @@ class State extends Admin
 				$table->store();
 			}
 		}
-		else
+		elseif (empty($data['default']))
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select("id")
-				->from("#__workflow_states");
+				->from($db->qn("#__workflow_states"))
+				->where($db->qn("workflow_id") . '=' . $workflowID)
+				->andWhere($db->qn("default") . '= 1');
 			$db->setQuery($query);
 			$states = $db->loadObjectList();
 
