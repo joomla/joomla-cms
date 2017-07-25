@@ -116,8 +116,9 @@ $params     = isset($this->state->params) ? $this->state->params : new JObject;
 												<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
-												<a href="<?php echo JRoute::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>">
-													<?php echo $this->escape($item->name); ?></a>
+												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
 											<?php endif; ?>

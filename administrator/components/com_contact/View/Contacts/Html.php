@@ -144,11 +144,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('contact.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
-		{
-			\JToolbarHelper::editList('contact.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);

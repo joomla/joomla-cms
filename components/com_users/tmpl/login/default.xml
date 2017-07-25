@@ -13,7 +13,7 @@
 	<fields name="params">
 
 		<!-- Basic options. -->
-		<fieldset name="basic" addrulepath="components/com_users/models/rules" label="COM_MENUS_BASIC_FIELDSET_LABEL">
+		<fieldset name="basic" addruleprefix="Joomla\Component\Users\Site\Rule" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
 		<field
 			name="loginredirectchoice"
@@ -33,7 +33,7 @@
 			label="JFIELD_LOGIN_REDIRECT_URL_LABEL"
 			description="JFIELD_LOGIN_REDIRECT_URL_DESC"
 			class="inputbox"
-			validate="loginuniquefield"
+			validate="LoginUniqueField"
 			field="login_redirect_menuitem"
 			hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
 			message="COM_USERS_FIELD_LOGIN_REDIRECT_ERROR"
@@ -84,8 +84,8 @@
 			description="JFIELD_LOGIN_IMAGE_DESC"
 		/>
 
-		<field 
-			name="spacer1" 
+		<field
+			name="spacer1"
 			type="spacer"
 			hr="true"
 		/>
@@ -109,12 +109,12 @@
 			description="JFIELD_LOGOUT_REDIRECT_URL_DESC"
 			class="inputbox"
 			field="logout_redirect_menuitem"
-			validate="logoutuniquefield"
+			validate="LogoutUniqueField"
 			hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
 			message="COM_USERS_FIELD_LOGOUT_REDIRECT_ERROR"
 			showon="logoutredirectchoice:0"
 		/>
-		
+
 		<field
 			name="logout_redirect_menuitem"
 			type="modal_menu"

@@ -22,30 +22,6 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_VERSION" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="format"
-					type="list"
-					label="MOD_VERSION_FORMAT_LABEL"
-					description="MOD_VERSION_FORMAT_DESC"
-					default="short"
-					>
-					<option value="short">MOD_VERSION_FORMAT_SHORT</option>
-					<option value="long">MOD_VERSION_FORMAT_LONG</option>
-				</field>
-
-				<field
-					name="product"
-					type="radio"
-					label="MOD_VERSION_PRODUCT_LABEL"
-					description="MOD_VERSION_PRODUCT_DESC"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"

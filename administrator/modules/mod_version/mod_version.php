@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::register('ModVersionHelper', __DIR__ . '/helper.php');
 
-$version = ModVersionHelper::getVersion($params);
+$version = ModVersionHelper::getVersion();
 
 require JModuleHelper::getLayoutPath('mod_version', $params->get('layout', 'default'));

@@ -142,11 +142,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('user.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			\JToolbarHelper::editList('user.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::divider();
