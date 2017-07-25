@@ -318,12 +318,12 @@ class JFilterInput extends InputFilter
 					// Iterate through the array
 					foreach ($source as $eachString)
 					{
-						$result[] = (string) $this->remove($this->decode((string) $eachString));
+						$result[] = (string) $this->remove($this->decode((string) $eachString), $type);
 					}
 				}
 				else
 				{
-					$result = (string) $this->remove($this->decode((string) $source));
+					$result = (string) $this->remove($this->decode((string) $source), $type);
 				}
 
 				break;
@@ -762,15 +762,16 @@ class JFilterInput extends InputFilter
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
 	 * @param   string  $source  Input string to be 'cleaned'
+	 * @param   string  $type  Type of the input filter
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
 	 * @since       11.1
 	 * @deprecated  4.0 Use JFilterInput::remove() instead
 	 */
-	protected function _remove($source)
+	protected function _remove($source, $type = 'string')
 	{
-		return $this->remove($source);
+		return $this->remove($source, $type);
 	}
 
 	/**
@@ -779,10 +780,11 @@ class JFilterInput extends InputFilter
 	 * @param   string  $source  Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
+	 * @param   string  $type  Type of the input filter
 	 *
 	 * @since   3.5
 	 */
-	protected function remove($source)
+	protected function remove($source, $type = 'string')
 	{
 		// Check for invalid UTF-8 byte sequence
 		if (!preg_match('//u', $source))
@@ -795,7 +797,11 @@ class JFilterInput extends InputFilter
 		do
 		{
 			$temp = $source;
-			$source = $this->_cleanTags($source);
+			if(strtoupper($type) != 'STRING') {
+				$source = $this->_cleanTags($source);
+			} else {
+				$source = strip_tags($source);
+			}
 		}
 		while ($temp !== $source);
 
