@@ -1022,7 +1022,9 @@ abstract class JFormField
 	 */
 	protected function getLayoutPaths()
 	{
-		return array();
+		$renderer = new JLayoutFile('default');
+
+		return $renderer->getDefaultIncludePaths();
 	}
 
 	/**
