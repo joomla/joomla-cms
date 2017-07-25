@@ -145,11 +145,6 @@ class Html extends HtmlView
 			ToolbarHelper::addNew('field.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
-		{
-			ToolbarHelper::editList('field.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::publish('fields.publish', 'JTOOLBAR_PUBLISH', true);

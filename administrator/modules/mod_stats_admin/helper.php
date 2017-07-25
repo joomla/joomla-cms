@@ -59,7 +59,7 @@ class ModStatsHelper
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
-			$rows[$i]->icon  = 'lightning';
+			$rows[$i]->icon  = 'bolt';
 			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
