@@ -87,9 +87,8 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
-										<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
-											<?php echo $editIcon; ?><?php echo $this->escape($key); ?></a>
+											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>
