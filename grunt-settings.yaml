@@ -28,6 +28,9 @@ vendors:
     'mediaelement':
                   'version': '4.2.2'
                   'dependencies': 'jquery'
+    'masonry-layout':
+                  'version': '4.2.0'
+                  'dependencies': ''
     'punycode':
                   'version': '1.4.1'
                   'dependencies': ''
@@ -41,13 +44,13 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.27.4'
+                  'version': '5.28.0'
                   'dependencies': ''
     'cropperjs':
                   'version': '1.0.0-rc.3'
                   'dependencies': ''
     'flying-focus-a11y':
-                  'version': '1.5.4'
+                  'version': '1.5.5'
                   'dependencies': ''
     'diff':
                   'version': '3.3.0'

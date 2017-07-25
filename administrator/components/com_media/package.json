@@ -2,7 +2,7 @@
   "name": "com_media",
   "version": "4.0.0",
   "description": "Component for managing site media",
-  "license": "GPL-3.0",
+  "license": "GPL-2.0",
   "author": "",
   "scripts": {
     "build": "npm run build-css & npm run build-js",
