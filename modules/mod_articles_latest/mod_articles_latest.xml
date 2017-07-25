@@ -26,7 +26,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
 					size="10"
