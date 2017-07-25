@@ -6,20 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
-
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-JFormHelper::loadFieldClass('list');
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Field listing item languages
  *
  * @since  3.7.0
  */
-class JFormFieldItemLanguage extends JFormFieldList
+class ItemlanguageField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -27,7 +30,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 	 * @var    string
 	 * @since  3.7.0
 	 */
-	protected $type = 'ItemLanguage';
+	protected $type = 'Itemlanguage';
 
 	/**
 	 * Method to get the field options.
@@ -38,7 +41,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'), 2);
 
@@ -70,7 +73,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 				continue;
 			}
 
-			$options[$langCode]       = new stdClass;
+			$options[$langCode]       = new \stdClass;
 			$options[$langCode]->text = $language->title;
 
 			// If association exists in this language.

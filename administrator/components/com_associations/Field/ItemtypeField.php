@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Field;
+
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-JFormHelper::loadFieldClass('groupedlist');
+
+FormHelper::loadFieldClass('groupedlist');
 
 /**
  * A drop down containing all component item types that implement associations.
  *
  * @since  3.7.0
  */
-class JFormFieldItemType extends JFormFieldGroupedList
+class ItemtypeField extends \JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -25,8 +29,8 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 *
 	 * @since  3.7.0
 	 */
-	protected $type = 'ItemType';
-	
+	protected $type = 'Itemtype';
+
 	/**
 	 * Method to get the field input markup.
 	 *
@@ -34,7 +38,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 *
 	 * @since  3.7.0
 	 *
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
@@ -48,7 +52,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 				foreach ($extension->get('types') as $type)
 				{
 					$context = $extension->get('component') . '.' . $type->get('name');
-					$options[$extension->get('title')][] = JHtml::_('select.option', $context, $type->get('title'));
+					$options[$extension->get('title')][] = \JHtml::_('select.option', $context, $type->get('title'));
 				}
 			}
 		}
