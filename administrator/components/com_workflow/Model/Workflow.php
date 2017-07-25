@@ -41,7 +41,7 @@ class Workflow extends Admin
 	{
 		$user                = \JFactory::getUser();
 		$app                 = \JFactory::getApplication();
-		$extension           = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension           = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'int');
 		$data['extension']   = $extension;
 		$data['asset_id']    = 0;
 		$data['modified_by'] = $user->get('id');
@@ -204,7 +204,7 @@ class Workflow extends Admin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   array    &$pks   A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.

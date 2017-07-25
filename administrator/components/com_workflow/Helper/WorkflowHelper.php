@@ -51,9 +51,9 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string  $extension      The extension from where Helper can find.
-	 * @param   string  $method         Method from that extension to invoke.
-	 * @param   array   $parameter      Parameters for that method.
+	 * @param   string  $extension  The extension from where Helper can find.
+	 * @param   string  $method     Method from that extension to invoke.
+	 * @param   array   $parameter  Parameters for that method.
 	 *
 	 * @return  boolean
 	 *

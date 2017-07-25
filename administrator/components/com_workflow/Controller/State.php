@@ -97,5 +97,4 @@ class State extends Form
 
 		return $append;
 	}
-
 }

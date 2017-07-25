@@ -96,7 +96,7 @@ class State extends Admin
 		}
 
 		$app = \JFactory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'int');
 
 		$isAssigned = WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $record->id);
 
@@ -216,7 +216,7 @@ class State extends Admin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    $pks    A list of the primary keys to change.
+	 * @param   array    &$pks   A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -228,7 +228,7 @@ class State extends Admin
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 		$app = \JFactory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'int');
 
 		// Default menu item existence checks.
 		if ($value != 1)

@@ -86,10 +86,10 @@ class Html extends HtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		$this->state         = $this->get('State');
-		$this->workflows     = $this->get('Items');
-		$this->authors       = $this->get('Authors');
-		$this->pagination    = $this->get('Pagination');
+		$this->state         	= $this->get('State');
+		$this->workflows    	= $this->get('Items');
+		$this->authors       	= $this->get('Authors');
+		$this->pagination    	= $this->get('Pagination');
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
 

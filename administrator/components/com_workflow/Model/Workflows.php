@@ -65,7 +65,7 @@ class  Workflows extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = \JFactory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'int');
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.', $extension);

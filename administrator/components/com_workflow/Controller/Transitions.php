@@ -37,6 +37,4 @@ class Transitions extends Admin
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-
-
 }

@@ -84,5 +84,4 @@ class Workflow extends Form
 
 		return $append;
 	}
-
 }

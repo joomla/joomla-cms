@@ -56,10 +56,8 @@ class Transition extends Admin
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
 			->from($db->qn('#__workflow_transitions'))
-			->where(
-				$db->qn('from_state_id') . ' = ' . (int) $data['from_state_id'] .
-				' AND ' . $db->qn('to_state_id') . ' = ' . (int) $data['to_state_id']
-			);
+			->where($db->qn('from_state_id') . ' = ' . (int) $data['from_state_id'])
+			->where($db->qn('to_state_id') . ' = ' . (int) $data['to_state_id']);
 
 		if (!$isNew)
 		{
@@ -77,7 +75,7 @@ class Transition extends Admin
 		}
 
 		$app = Factory::getApplication();
-		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'cmd');
+		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		$data['workflow_id'] = (int) $workflowID;
 
@@ -132,5 +130,4 @@ class Transition extends Admin
 
 		return $data;
 	}
-
 }

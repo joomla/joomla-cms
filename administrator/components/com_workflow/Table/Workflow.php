@@ -24,7 +24,7 @@ class Workflow extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver $db Database connector object
+	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   4.0
 	 */
@@ -38,7 +38,7 @@ class Workflow extends Table
 	/**
 	 * Deletes workflow with transition and states.
 	 *
-	 * @param   int $pk Extension ids to delete.
+	 * @param   int  $pk  Extension ids to delete.
 	 *
 	 * @return  void
 	 *
