@@ -141,9 +141,8 @@ Joomla = window.Joomla || {};
 			if (animate && !target.is('option')) {
 				(showfield) ? target.slideDown() : target.slideUp();
 			} else {
-				showfield ? target.show() : target.hide();
+				target.toggle(showfield);
 				if (target.is('option')) {
-					target.toggle(showfield);
 					target.attr('disabled', showfield ? false : true);
 					// if chosen active for the target select list then update it
 					var parent = target.parent();
