@@ -59,7 +59,11 @@ JHtml::_('behavior.formvalidator');
 			<?php endif; ?>
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 				<div class="control-group">
-					<div class="control-label"><label><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?></label></div>
+					<div class="control-label">
+						<label>
+							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
+						</label>
+					</div>
 					<div class="controls">
 						<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes" />
 					</div>
