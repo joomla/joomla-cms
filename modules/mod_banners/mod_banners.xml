@@ -30,7 +30,6 @@
 					name="target"
 					type="list"
 					label="MOD_BANNERS_FIELD_TARGET_LABEL"
-					description="MOD_BANNERS_FIELD_TARGET_DESC"
 					default="1"
 					>
 					<option value="0">JBROWSERTARGET_PARENT</option>
@@ -59,7 +58,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_BANNERS_FIELD_CATEGORY_DESC"
 					extension="com_banners"
 					multiple="true"
 					size="5"
@@ -84,7 +82,6 @@
 					name="ordering"
 					type="list"
 					label="MOD_BANNERS_FIELD_RANDOMISE_LABEL"
-					description="MOD_BANNERS_FIELD_RANDOMISE_DESC"
 					default="0"
 					>
 					<option value="0">MOD_BANNERS_VALUE_STICKYORDERING</option>
@@ -95,7 +92,6 @@
 					name="header_text"
 					type="textarea"
 					label="MOD_BANNERS_FIELD_HEADER_LABEL"
-					description="MOD_BANNERS_FIELD_HEADER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -105,7 +101,6 @@
 					name="footer_text"
 					type="textarea"
 					label="MOD_BANNERS_FIELD_FOOTER_LABEL"
-					description="MOD_BANNERS_FIELD_FOOTER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"

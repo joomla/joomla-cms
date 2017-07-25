@@ -35,7 +35,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_WRAPPER_FIELD_ADD_LABEL"
-					description="MOD_WRAPPER_FIELD_ADD_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -95,7 +94,6 @@
 					name="target"
 					type="text"
 					label="MOD_WRAPPER_FIELD_TARGET_LABEL"
-					description="MOD_WRAPPER_FIELD_TARGET_DESC"
 					size="30"
 				/>
 			</fieldset>
