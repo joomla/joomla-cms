@@ -30,6 +30,19 @@ $params->merge(new Registry($this->item->attribs));
 $app = JFactory::getApplication();
 $input = $app->input;
 
+$this->fields = array(
+	array('parent', 'parent_id'),
+	'workflow_id',
+	array('category', 'catid'),
+	'featured',
+	'sticky',
+	'access',
+	'language',
+	'tags',
+	'note',
+	'version_note',
+);
+
 $assoc = JLanguageAssociations::isEnabled();
 
 // In case of modal

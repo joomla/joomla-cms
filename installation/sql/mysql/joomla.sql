@@ -2114,6 +2114,7 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0, # TODO replace with real value
+  `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -2125,6 +2126,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `modified_by` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
+  KEY `workflow_id` (`workflow_id`),
   KEY `title` (`title`(191)),
   KEY `extension` (`extension`(191)),
   KEY `default` (`default`),

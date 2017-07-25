@@ -54,20 +54,17 @@
 			buttons="true" 
 		/>
 
-		<field 
-			name="state" 
-			type="list" 
-			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" 
-			class="custom-select-color-state"
-			filter="intval" 
-			size="1" 
-			default="1"
-			>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASHED</option>
+		<field
+				name="workflow_id"
+				type="sql"
+				label="COM_CONTENT_WORKFLOW"
+				class="custom-select-color-state"
+				sql_select="id, title"
+				sql_from="#__workflows"
+				key_field="id"
+				value_field="title"
+		>
+			<option value="0">COM_CONTENT_DEFAULT_WORKFLOW</option>
 		</field>
 
 		<field 
