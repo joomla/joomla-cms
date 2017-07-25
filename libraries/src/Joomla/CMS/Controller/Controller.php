@@ -174,7 +174,7 @@ class Controller extends \JObject
 			case 'controller':
 				if (!empty($parts['format']))
 				{
-					if ($parts['format'] == 'html')
+					if ($parts['format'] === 'html')
 					{
 						$parts['format'] = '';
 					}
@@ -339,7 +339,7 @@ class Controller extends \JObject
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if (!in_array($mName, $xMethods) || $mName == 'display')
+			if ($mName === 'display' || !in_array($mName, $xMethods))
 			{
 				$this->methods[] = strtolower($mName);
 
@@ -630,7 +630,7 @@ class Controller extends \JObject
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType != 'feed' && \JFactory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && \JFactory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
@@ -741,15 +741,12 @@ class Controller extends \JObject
 			// Let's get the application object and set menu information if it's available
 			$menu = \JFactory::getApplication()->getMenu();
 
-			if (is_object($menu))
+			if (is_object($menu) && $item = $menu->getActive())
 			{
-				if ($item = $menu->getActive())
-				{
-					$params = $menu->getParams($item->id);
+				$params = $menu->getParams($item->id);
 
-					// Set default state data
-					$model->setState('parameters.menu', $params);
-				}
+				// Set default state data
+				$model->setState('parameters.menu', $params);
 			}
 		}
 
