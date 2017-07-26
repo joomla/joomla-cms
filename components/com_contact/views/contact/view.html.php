@@ -332,7 +332,7 @@ class ContactViewContact extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
 
 		$this->contact     = &$item;
-		$this->params      = &$params;
+		$this->params      = &$item->params;
 		$this->return      = &$return;
 		$this->state       = &$state;
 		$this->item        = &$item;

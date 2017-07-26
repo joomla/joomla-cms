@@ -28,7 +28,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 
 <?php else : ?>
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 	<?php foreach ($list as $language) : ?>
-		<?php if ($params->get('show_active', 0) || !$language->active) : ?>
+		<?php if (!$language->active || $params->get('show_active', 0)) : ?>
 			<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo $language->link; ?>">
 			<?php if ($params->get('image', 1)) : ?>

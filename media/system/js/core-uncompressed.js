@@ -722,10 +722,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 *          /installation/template/js/installation.js
 	 *
-	 * @param   string  task           The task to do [load, show, hide] (defaults to show).
-	 * @param   object  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 * @param   {String}       task           The task to do [load, show, hide] (defaults to show).
+	 * @param   {HTMLElement}  parentElement  The HTML element where we are appending the layer (defaults to body).
 	 *
-	 * @return  object  The HTML loading layer element.
+	 * @return  {HTMLElement}  The HTML loading layer element.
 	 *
 	 * @since  3.6.0
 	 */
@@ -735,10 +735,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		parentElement = parentElement || document.body;
 
 		// Create the loading layer (hidden by default).
-		if (task == 'load')
+		if (task === 'load')
 		{
-			// Gets the site base path from the body element (defaults to empty - no subfolder)
-			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+			// Gets the site base path
+			var systemPaths = Joomla.getOptions('system.paths') || {},
+				basePath    = systemPaths.root || '';
 
 			var loadingDiv = document.createElement('div');
 
