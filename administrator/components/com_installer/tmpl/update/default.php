@@ -54,7 +54,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
 								<th class="nowrap center">
-									<?php echo \JText::_('COM_INSTALLER_NEW_VERSION'); ?>
+									<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
 								<th class="nowrap center">
 									<?php echo \JText::_('COM_INSTALLER_CHANGELOG'); ?>
@@ -150,7 +150,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="boxchecked" value="0">
-					<?php echo \JHtml::_('form.token'); ?>
+					<?php echo JHtml::_('form.token'); ?>
 				</div>
 			</div>
 		</div>
