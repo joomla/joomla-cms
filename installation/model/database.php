@@ -171,8 +171,25 @@ class InstallationModelDatabase extends JModelBase
 			'::1',
 		);
 
+		$explodedHost = explode(':', $options->db_host);
+		$hostToCheck  = $explodedHost[0];
+
+		if (substr($options->db_host, 0, 5) == '[::1]')
+		{
+			$hostToCheck = '::1';
+		}
+
+		if (count($explodedHost) > 1)
+		{
+			if (!is_numeric(end($explodedHost)))
+			{
+				// The port needs to be an integer
+				return false;
+			}
+		}
+
 		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if (!in_array($options->db_host, $localhost))
+		if (!in_array($hostToCheck, $localhost))
 		{
 			// Add the general message
 			JFactory::getApplication()->enqueueMessage(
