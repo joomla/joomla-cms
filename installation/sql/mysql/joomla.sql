@@ -466,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `enabled` tinyint(3) NOT NULL DEFAULT 0,
   `access` int(10) unsigned NOT NULL DEFAULT 1,
   `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.',
-  `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if is the extension is locked. Locked extensions cannot be uninstalled.',
+  `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.',
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
   `custom_data` text NOT NULL,

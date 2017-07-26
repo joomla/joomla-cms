@@ -493,7 +493,7 @@ CREATE INDEX "#__extensions_element_folder_clientid" ON "#__extensions" ("elemen
 CREATE INDEX "#__extensions_extension" ON "#__extensions" ("type", "element", "folder", "client_id");
 
 COMMENT ON COLUMN "#__extensions"."protected" IS 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
-COMMENT ON COLUMN "#__extensions"."locked" IS 'Flag to indicate if is the extension is locked. Locked extensions cannot be uninstalled.';
+COMMENT ON COLUMN "#__extensions"."locked" IS 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';
 COMMENT ON COLUMN "#__extensions"."package_id" IS 'Parent package ID for extensions installed as a package.';
 
 --
