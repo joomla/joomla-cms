@@ -32,8 +32,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 	}
 ");
-?>
 
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
 	<div class="row-fluid">
 		<!-- Begin Content -->

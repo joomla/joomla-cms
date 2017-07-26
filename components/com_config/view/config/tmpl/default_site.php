@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
+?>
 <fieldset class="form-horizontal">
 	<legend><?php echo JText::_('COM_CONFIG_SITE_SETTINGS'); ?></legend>
 	<?php foreach ($this->form->getFieldset('site') as $field) : ?>

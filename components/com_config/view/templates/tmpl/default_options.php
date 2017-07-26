@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 JHtml::_('formbehavior.chosen', 'select');
 
 $fieldSets = $this->form->getFieldsets('params');
-?>
 
+?>
 <legend><?php echo JText::_('COM_CONFIG_TEMPLATE_SETTINGS'); ?></legend>
 <?php // Search for com_config field set ?>
 <?php if (!empty($fieldSets['com_config'])) : ?>
