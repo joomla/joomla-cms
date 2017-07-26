@@ -1070,7 +1070,7 @@ abstract class FormField
 			'field'          => $this,
 			'group'          => $this->group,
 			'hidden'         => $this->hidden,
-			'hint'           => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
+			'hint'           => $this->translateHint ? \JText::alt($this->hint, $alt) : $this->hint,
 			'id'             => $this->id,
 			'label'          => $label,
 			'labelclass'     => $this->labelclass,
