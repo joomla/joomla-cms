@@ -143,7 +143,7 @@ class ContentRouter extends JComponentRouterView
 	 *
 	 * @return  array|string  The segments of this item
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.3
 	 */
 	public function getFormSegment($id, $query)
 	{
