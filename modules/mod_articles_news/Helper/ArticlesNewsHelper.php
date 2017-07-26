@@ -7,21 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Module\ArticlesNews\Site\Helper;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 use Joomla\Component\Content\Site\Model\Articles;
+
+\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_news
  *
  * @since  1.6
  */
-abstract class ModArticlesNewsHelper
+abstract class ArticlesNewsHelper
 {
 	/**
 	 * Get a list of the latest articles from the article model
@@ -38,7 +41,7 @@ abstract class ModArticlesNewsHelper
 		$model = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
-		$app       = JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
@@ -49,7 +52,7 @@ abstract class ModArticlesNewsHelper
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
 		$model->setState('filter.access', $access);
 
 		// Category filter
@@ -78,7 +81,7 @@ abstract class ModArticlesNewsHelper
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
 		}
 		else
 		{
@@ -101,17 +104,17 @@ abstract class ModArticlesNewsHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link     = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
-				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE');
+				$item->link     = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->linkText = \JText::_('MOD_ARTICLES_NEWS_READMORE');
 			}
 			else
 			{
-				$item->link = new Uri(JRoute::_('index.php?option=com_users&view=login', false));
-				$item->link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
-				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
+				$item->link = new Uri(\JRoute::_('index.php?option=com_users&view=login', false));
+				$item->link->setVar('return', base64_encode(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
+				$item->linkText = \JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
-			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
+			$item->introtext = \JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
 			if (!$params->get('image'))
 			{
@@ -121,7 +124,7 @@ abstract class ModArticlesNewsHelper
 			if ($triggerEvents)
 			{
 				$item->text = '';
-				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 0));
+				$app->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$params, 0));
 
 				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
 				$item->afterDisplayTitle = trim(implode("\n", $results));
