@@ -7,9 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\TagsSimilar\Site\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\TagsHelper;
 
 /**
  * Helper for mod_tags_similar
@@ -18,7 +24,7 @@ use Joomla\Registry\Registry;
  * @subpackage  mod_tags_similar
  * @since       3.1
  */
-abstract class ModTagssimilarHelper
+abstract class TagsSimilarHelper
 {
 	/**
 	 * Get a list of tags
@@ -29,7 +35,7 @@ abstract class ModTagssimilarHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app        = JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$option     = $app->input->get('option');
 		$view       = $app->input->get('view');
 
@@ -40,16 +46,16 @@ abstract class ModTagssimilarHelper
 			return;
 		}
 
-		$db         = JFactory::getDbo();
-		$user       = JFactory::getUser();
+		$db         = Factory::getDbo();
+		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
 		$ordering   = $params->get('ordering', 'count');
-		$tagsHelper = new JHelperTags;
+		$tagsHelper = new TagsHelper;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
-		$now        = JFactory::getDate()->toSql();
+		$now        = Factory::getDate()->toSql();
 		$nullDate   = $db->getNullDate();
 
 		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
@@ -99,13 +105,13 @@ abstract class ModTagssimilarHelper
 				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')');
 
 		// Optionally filter on language
-		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
 		if ($language !== 'all')
 		{
 			if ($language === 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = ContentHelper::getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
@@ -144,10 +150,10 @@ abstract class ModTagssimilarHelper
 		{
 			$results = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			$results = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$results = [];
+			$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		foreach ($results as $result)
