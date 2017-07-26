@@ -7,7 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Breadcrumbs\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Helper for mod_breadcrumbs
@@ -16,7 +21,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_breadcrumbs
  * @since       1.5
  */
-class ModBreadCrumbsHelper
+class BreadcrumbsHelper
 {
 	/**
 	 * Retrieve breadcrumb items
@@ -28,14 +33,14 @@ class ModBreadCrumbsHelper
 	public static function getList(&$params)
 	{
 		// Get the PathWay object from the application
-		$app     = JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$pathway = $app->getPathway();
 		$items   = $pathway->getPathWay();
-		$lang    = JFactory::getLanguage();
+		$lang    = Factory::getLanguage();
 		$menu    = $app->getMenu();
 
 		// Look for the home menu
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			$home = $menu->getDefault($lang->getTag());
 		}
@@ -51,16 +56,16 @@ class ModBreadCrumbsHelper
 
 		for ($i = 0; $i < $count; $i ++)
 		{
-			$crumbs[$i]       = new stdClass;
+			$crumbs[$i]       = new \stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = JRoute::_($items[$i]->link);
+			$crumbs[$i]->link = \JRoute::_($items[$i]->link);
 		}
 
 		if ($params->get('showHome', 1))
 		{
-			$item       = new stdClass;
-			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-			$item->link = JRoute::_('index.php?Itemid=' . $home->id);
+			$item       = new \stdClass;
+			$item->name = htmlspecialchars($params->get('homeText', \JText::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
+			$item->link = \JRoute::_('index.php?Itemid=' . $home->id);
 			array_unshift($crumbs, $item);
 		}
 
@@ -79,7 +84,7 @@ class ModBreadCrumbsHelper
 	 */
 	public static function setSeparator($custom = null)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// If a custom separator has not been provided we try to load a template
 		// specific one first, and if that is not present we load the default separator
@@ -87,16 +92,16 @@ class ModBreadCrumbsHelper
 		{
 			if ($lang->isRtl())
 			{
-				$_separator = JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
+				$_separator = \JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
 			}
 			else
 			{
-				$_separator = JHtml::_('image', 'system/arrow.png', null, null, true);
+				$_separator = \JHtml::_('image', 'system/arrow.png', null, null, true);
 			}
 		}
 		else
 		{
-			$_separator     = htmlspecialchars($custom, ENT_COMPAT, 'UTF-8');
+			$_separator = htmlspecialchars($custom, ENT_COMPAT, 'UTF-8');
 		}
 
 		return $_separator;

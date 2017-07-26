@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-// Include the breadcrumbs functions only once
-JLoader::register('ModBreadCrumbsHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Breadcrumbs\Site\Helper\BreadcrumbsHelper;
 
 // Get the breadcrumbs
-$list  = ModBreadCrumbsHelper::getList($params);
+$list  = BreadcrumbsHelper::getList($params);
 $count = count($list);
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
-require JModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));
