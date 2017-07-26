@@ -30,8 +30,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		document.getElementById('filter-search').value = '';
 	}
 ");
-?>
 
+?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 		<fieldset class="filters btn-toolbar">
