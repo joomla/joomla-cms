@@ -241,8 +241,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('AliasNewClass'));
 		$this->assertTrue(class_exists('AliasOldClass'));
 
-		$newClass = new AliasNewClass();
-		$oldClass = new AliasOldClass();
+		$newClass = new AliasNewClass;
+		$oldClass = new AliasOldClass;
 
 		// Check if really the override is used
 		$this->assertEquals('Alias Override Class', $newClass->getName());
@@ -271,8 +271,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('OriginalNewClass'));
 		$this->assertTrue(class_exists('OriginalOldClass'));
 
-		$newClass = new OriginalNewClass();
-		$oldClass = new OriginalOldClass();
+		$newClass = new OriginalNewClass;
+		$oldClass = new OriginalOldClass;
 
 		// Check if really the override is used
 		$this->assertEquals('Original Override Class', $newClass->getName());
