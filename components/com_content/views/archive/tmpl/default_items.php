@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $params = $this->params;
-?>
 
+?>
 <div id="archive-items">
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php $info = $item->params->get('info_block_position', 0); ?>

@@ -13,8 +13,8 @@ JHtml::_('bootstrap.tooltip');
 
 $class = ' class="first"';
 $lang  = JFactory::getLanguage();
-?>
 
+?>
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 ?>
-
 <ol class="nav nav-tabs nav-stacked">
 	<?php foreach ($this->link_items as &$item) : ?>
 		<li>

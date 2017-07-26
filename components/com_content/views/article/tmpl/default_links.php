@@ -14,8 +14,8 @@ $urls = json_decode($this->item->urls);
 
 // Create shortcuts to some parameters.
 $params = $this->item->params;
-?>
 
+?>
 <?php if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) : ?>
 	<div class="content-links">
 		<ul class="nav nav-tabs nav-stacked">
