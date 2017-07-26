@@ -7,14 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Stats\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Helper for mod_stats
  *
  * @since  1.5
  */
-class ModStatsHelper
+class StatsHelper
 {
 	/**
 	 * Get list of stats
@@ -25,8 +30,8 @@ class ModStatsHelper
 	 */
 	public static function &getList(&$params)
 	{
-		$app        = JFactory::getApplication();
-		$db         = JFactory::getDbo();
+		$app        = Factory::getApplication();
+		$db         = Factory::getDbo();
 		$rows       = array();
 		$query      = $db->getQuery(true);
 		$serverinfo = $params->get('serverinfo');
@@ -38,34 +43,34 @@ class ModStatsHelper
 
 		if ($serverinfo)
 		{
-			$rows[$i] = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_OS');
+			$rows[$i] = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_OS');
 			$rows[$i]->data  = substr(php_uname(), 0, 7);
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_PHP');
+			$rows[$i] = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_PHP');
 			$rows[$i]->data  = phpversion();
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title = JText::_($db->name);
+			$rows[$i] = new \stdClass;
+			$rows[$i]->title = \JText::_($db->name);
 			$rows[$i]->data  = $db->getVersion();
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_TIME');
-			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
+			$rows[$i] = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_TIME');
+			$rows[$i]->data  = \JHtml::_('date', 'now', 'H:i');
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
-			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i] = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_CACHING');
+			$rows[$i]->data  = $app->get('caching') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
 			$i++;
 
-			$rows[$i] = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
-			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i] = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_GZIP');
+			$rows[$i]->data  = $app->get('gzip') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
 			$i++;
 		}
 
@@ -79,7 +84,7 @@ class ModStatsHelper
 			{
 				$users = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$users = false;
 			}
@@ -94,23 +99,23 @@ class ModStatsHelper
 			{
 				$items = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$items = false;
 			}
 
 			if ($users)
 			{
-				$rows[$i] = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_USERS');
+				$rows[$i] = new \stdClass;
+				$rows[$i]->title = \JText::_('MOD_STATS_USERS');
 				$rows[$i]->data  = $users;
 				$i++;
 			}
 
 			if ($items)
 			{
-				$rows[$i] = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
+				$rows[$i] = new \stdClass;
+				$rows[$i]->title = \JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->data  = $items;
 				$i++;
 			}
@@ -128,22 +133,22 @@ class ModStatsHelper
 			{
 				$hits = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$hits = false;
 			}
 
 			if ($hits)
 			{
-				$rows[$i] = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
+				$rows[$i] = new \stdClass;
+				$rows[$i]->title = \JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data  = $hits + $increase;
 				$i++;
 			}
 		}
 
 		// Include additional data defined by published system plugins
-		JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 
 		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
 
@@ -154,7 +159,7 @@ class ModStatsHelper
 				// We only add a row if the title and data are given
 				if (isset($row['title']) && isset($row['data']))
 				{
-					$rows[$i]        = new stdClass;
+					$rows[$i]        = new \stdClass;
 					$rows[$i]->title = $row['title'];
 					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
 					$rows[$i]->data  = $row['data'];
