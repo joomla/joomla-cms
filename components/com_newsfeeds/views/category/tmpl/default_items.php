@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-?>
 
+?>
 <?php if (empty($this->items)) : ?>
 	<p><?php echo JText::_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
 <?php else : ?>

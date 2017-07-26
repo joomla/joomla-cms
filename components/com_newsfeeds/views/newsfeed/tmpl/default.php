@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 ?>
-
 <?php if (!empty($this->msg)) : ?>
 	<?php echo $this->msg; ?>
 <?php else : ?>

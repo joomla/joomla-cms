@@ -14,8 +14,8 @@ JHtml::_('behavior.caption');
 JHtml::_('formbehavior.chosen', 'select');
 
 $pageClass = $this->params->get('pageclass_sfx');
-?>
 
+?>
 <div class="newsfeed-category<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
