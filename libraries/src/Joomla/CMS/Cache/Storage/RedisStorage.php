@@ -136,7 +136,7 @@ class RedisStorage extends CacheStorage
 
 			if ($app->isClient('administrator'))
 			{
-				JError::raiseWarning(500, 'Redis failed to select database');
+				\JError::raiseWarning(500, 'Redis failed to select database');
 			}
 
 			return false;

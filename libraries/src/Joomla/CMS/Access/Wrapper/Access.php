@@ -11,6 +11,7 @@ namespace Joomla\CMS\Access\Wrapper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access as StaticAccess;
+use Joomla\CMS\Access\Rules as AccessRules;
 
 /**
  * Wrapper class for Access
@@ -174,8 +175,8 @@ class Access
 	/**
 	 * Helper wrapper method for getActionsFromData
 	 *
-	 * @param   string|SimpleXMLElement  $data   The XML string or an XML element.
-	 * @param   string                   $xpath  An optional xpath to search for the fields.
+	 * @param   string|\SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string                    $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *

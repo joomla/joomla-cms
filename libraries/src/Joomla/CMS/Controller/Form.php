@@ -853,9 +853,9 @@ class Form extends Controller
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app     = JFactory::getApplication();
+		$app     = \JFactory::getApplication();
 		$model   = $this->getModel();
 		$data    = $this->input->post->get('jform', array(), 'array');
 
@@ -876,7 +876,7 @@ class Form extends Controller
 		if (!$this->allowEdit($data, $key))
 		{
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -888,7 +888,7 @@ class Form extends Controller
 		$data[$key] = $recordId;
 
 		// The redirect url
-		$redirectUrl = JRoute::_(
+		$redirectUrl = \JRoute::_(
 			'index.php?option=' . $this->option . '&view=' . $this->view_item .
 			$this->getRedirectToItemAppend($recordId, $urlVar),
 			false

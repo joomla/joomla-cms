@@ -33,7 +33,7 @@ abstract class ToolbarButton
 	/**
 	 * reference to the object that instantiated the element
 	 *
-	 * @var    JButton
+	 * @var    \JButton
 	 */
 	protected $_parent = null;
 

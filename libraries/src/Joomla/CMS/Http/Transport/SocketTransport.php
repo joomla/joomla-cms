@@ -40,7 +40,7 @@ class SocketTransport implements TransportInterface
 	 * @param   Registry  $options  Client options object.
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function __construct(Registry $options)
 	{
@@ -65,7 +65,7 @@ class SocketTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -177,7 +177,7 @@ class SocketTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   11.3
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	protected function getResponse($content)
 	{
@@ -232,7 +232,7 @@ class SocketTransport implements TransportInterface
 	 * @return  resource  Socket connection resource.
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function connect(Uri $uri, $timeout = null)
 	{
