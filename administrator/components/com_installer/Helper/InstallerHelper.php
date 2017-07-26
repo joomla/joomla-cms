@@ -212,6 +212,9 @@ class InstallerHelper
 				break;
 			case 'file':
 				$path = JPATH_ADMINISTRATOR . '/manifests/files/' . $element->element . '.xml';
+				break;
+			case 'package':
+				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element->element . '.xml';
 		}
 
 		$installXmlFile = simplexml_load_file($path);
