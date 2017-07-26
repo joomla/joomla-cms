@@ -7,9 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Languages\Site\Helper;
+
 defined('_JEXEC') or die;
 
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
+
+\JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Helper for mod_languages
@@ -19,7 +27,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
  *
  * @since       1.6.0
  */
-abstract class ModLanguagesHelper
+abstract class LanguagesHelper
 {
 	/**
 	 * Gets a list of available languages
@@ -30,15 +38,15 @@ abstract class ModLanguagesHelper
 	 */
 	public static function getList(&$params)
 	{
-		$user		= JFactory::getUser();
-		$lang		= JFactory::getLanguage();
-		$languages	= JLanguageHelper::getLanguages();
-		$app		= JFactory::getApplication();
+		$user		= Factory::getUser();
+		$lang		= Factory::getLanguage();
+		$languages	= LanguageHelper::getLanguages();
+		$app		= Factory::getApplication();
 		$menu		= $app->getMenu();
 		$active		= $menu->getActive();
 
 		// Get menu home items
-		$homes = array();
+		$homes      = [];
 		$homes['*'] = $menu->getDefault('*');
 
 		foreach ($languages as $item)
@@ -52,7 +60,7 @@ abstract class ModLanguagesHelper
 		}
 
 		// Load associations
-		$assoc = JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -72,8 +80,8 @@ abstract class ModLanguagesHelper
 		}
 
 		$levels    = $user->getAuthorisedViewLevels();
-		$sitelangs = JLanguageHelper::getInstalledLanguages(0);
-		$multilang = JLanguageMultilang::isEnabled();
+		$sitelangs = LanguageHelper::getInstalledLanguages(0);
+		$multilang = Multilanguage::isEnabled();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
@@ -106,7 +114,7 @@ abstract class ModLanguagesHelper
 				// If not loaded language fetch metadata directly for performance
 				else
 				{
-					$languageMetadata = JLanguageHelper::getMetadata($language->lang_code);
+					$languageMetadata = LanguageHelper::getMetadata($language->lang_code);
 					$language->rtl    = $languageMetadata['rtl'];
 				}
 
@@ -114,33 +122,33 @@ abstract class ModLanguagesHelper
 				{
 					if (isset($cassociations[$language->lang_code]))
 					{
-						$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
+						$language->link = \JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
 					}
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
-						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
+						$language->link = \JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 					}
 					elseif ($active && $active->language == '*')
 					{
-						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
+						$language->link = \JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
 					}
 					else
 					{
 						if ($language->active)
 						{
-							$language->link = JUri::getInstance()->toString(array('path', 'query'));
+							$language->link = Uri::getInstance()->toString(array('path', 'query'));
 						}
 						else
 						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
-							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
+							$language->link = \JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 						}
 					}
 				}
 				else
 				{
-					$language->link = JRoute::_('&Itemid=' . $homes['*']->id);
+					$language->link = \JRoute::_('&Itemid=' . $homes['*']->id);
 				}
 			}
 		}
