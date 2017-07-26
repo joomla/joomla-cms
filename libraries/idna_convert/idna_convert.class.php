@@ -118,9 +118,8 @@ class idna_convert
      *           on failures; false: loose mode, ideal for "wildlife" applications
      *           by silently ignoring errors and returning the original input instead
      *
-     * @param    mixed    $option  Parameter to set (string: single parameter; array of Parameter => Value pairs)
-     * @param    string   $value   Value to use (if parameter 1 is a string)
-     *
+     * @param    mixed     Parameter to set (string: single parameter; array of Parameter => Value pairs)
+     * @param    string    Value to use (if parameter 1 is a string)
      * @return   boolean  true on success, false otherwise
      */
     public function set_parameter($option, $value = false)
