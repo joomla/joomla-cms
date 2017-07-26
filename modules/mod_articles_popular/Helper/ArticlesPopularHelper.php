@@ -7,13 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\ArticlesPopular\Site\Helper;
+
 defined('_JEXEC') or die;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
+use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Content\Site\Model\Articles;
+
+\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_popular
@@ -23,7 +26,7 @@ use Joomla\Component\Content\Site\Model\Articles;
  *
  * @since       1.6.0
  */
-abstract class ModArticlesPopularHelper
+abstract class ArticlesPopularHelper
 {
 	/**
 	 * Get a list of popular articles from the articles model
@@ -38,7 +41,7 @@ abstract class ModArticlesPopularHelper
 		$model = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
@@ -50,11 +53,11 @@ abstract class ModArticlesPopularHelper
 
 		// Access filter
 		$access = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+		$model->setState('filter.category_id', $params->get('catid', []));
 
 		// Date filter
 		$date_filtering = $params->get('date_filtering', 'off');
@@ -84,11 +87,11 @@ abstract class ModArticlesPopularHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
-				$item->link = JRoute::_('index.php?option=com_users&view=login');
+				$item->link = \JRoute::_('index.php?option=com_users&view=login');
 			}
 		}
 
