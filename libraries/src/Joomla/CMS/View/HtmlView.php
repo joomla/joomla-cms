@@ -289,7 +289,7 @@ class HtmlView extends \JObject
 			// Assign public properties
 			foreach (get_object_vars($arg0) as $key => $val)
 			{
-				if (substr($key, 0, 1) != '_')
+				if (strpos($key, '_') !== 0)
 				{
 					$this->$key = $val;
 				}
@@ -303,7 +303,7 @@ class HtmlView extends \JObject
 		{
 			foreach ($arg0 as $key => $val)
 			{
-				if (substr($key, 0, 1) != '_')
+				if (strpos($key, '_') !== 0)
 				{
 					$this->$key = $val;
 				}
@@ -316,7 +316,7 @@ class HtmlView extends \JObject
 
 		// We use array_key_exists() instead of isset() because isset()
 		// fails if the value is set to null.
-		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
+		if (is_string($arg0) && strpos($arg0, '_') !== 0 && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
 
@@ -356,7 +356,7 @@ class HtmlView extends \JObject
 	{
 		\JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', \JLog::WARNING, 'deprecated');
 
-		if (is_string($key) && substr($key, 0, 1) != '_')
+		if (is_string($key) && strpos($key, '_') !== 0)
 		{
 			$this->$key = &$val;
 
@@ -401,7 +401,7 @@ class HtmlView extends \JObject
 	public function get($property, $default = null)
 	{
 		// If $model is null we use the default model
-		if (is_null($default))
+		if ($default === null)
 		{
 			$model = $this->_defaultModel;
 		}
@@ -659,7 +659,7 @@ class HtmlView extends \JObject
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		// Change the template folder if alternative layout is in different template
-		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
+		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
 		{
 			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
 		}
