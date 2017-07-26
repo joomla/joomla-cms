@@ -59,8 +59,8 @@ jQuery(function() {";
 
 	JFactory::getDocument()->addScriptDeclaration($script);
 }
-?>
 
+?>
 <form id="finder-search" action="<?php echo JRoute::_($this->query->toUri()); ?>" method="get" class="form-inline">
 	<?php echo $this->getFields(); ?>
 	<?php // DISABLED UNTIL WEIRD VALUES CAN BE TRACKED DOWN. ?>

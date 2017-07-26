@@ -46,8 +46,8 @@ if (!empty($this->query->highlight)
 {
 	$route .= '&highlight=' . base64_encode(json_encode($this->query->highlight));
 }
-?>
 
+?>
 <li>
 	<h4 class="result-title <?php echo $mime; ?>">
 		<a href="<?php echo JRoute::_($route); ?>">

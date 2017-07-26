@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 ?>
-
 <?php // Display the suggested search if it is different from the current search. ?>
 <?php if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))) : ?>
 	<div id="search-query-explained">
