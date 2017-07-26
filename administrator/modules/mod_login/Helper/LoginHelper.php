@@ -6,15 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Module\Login\Administrator\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Helper for mod_login
  *
  * @since  1.6
  */
-abstract class ModLoginHelper
+abstract class LoginHelper
 {
 	/**
 	 * Get an HTML select list of the available languages.
@@ -23,7 +30,7 @@ abstract class ModLoginHelper
 	 */
 	public static function getLanguageList()
 	{
-		$languages = JLanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
+		$languages = LanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
 
 		if (count($languages) <= 1)
 		{
@@ -39,7 +46,7 @@ abstract class ModLoginHelper
 		);
 
 		// Fix wrongly set parentheses in RTL languages
-		if (JFactory::getLanguage()->isRtl())
+		if (Factory::getLanguage()->isRtl())
 		{
 			foreach ($languages as &$language)
 			{
@@ -47,9 +54,9 @@ abstract class ModLoginHelper
 			}
 		}
 
-		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
+		array_unshift($languages, \JHtml::_('select.option', '', \JText::_('JDEFAULTLANGUAGE')));
 
-		return JHtml::_('select.genericlist', $languages, 'lang', ' class="custom-select"', 'value', 'text', null);
+		return \JHtml::_('select.genericlist', $languages, 'lang', ' class="custom-select"', 'value', 'text', null);
 	}
 
 	/**
@@ -59,7 +66,7 @@ abstract class ModLoginHelper
 	 */
 	public static function getReturnUri()
 	{
-		$uri    = JUri::getInstance();
+		$uri    = Uri::getInstance();
 		$return = 'index.php' . $uri->toString(array('query'));
 
 		if ($return != 'index.php?option=com_login')
@@ -84,17 +91,17 @@ abstract class ModLoginHelper
 	{
 		try
 		{
-			JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated, use JAuthenticationHelper::getTwoFactorMethods() instead.', __METHOD__),
-				JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
 
-		return JAuthenticationHelper::getTwoFactorMethods();
+		return AuthenticationHelper::getTwoFactorMethods();
 	}
 }
