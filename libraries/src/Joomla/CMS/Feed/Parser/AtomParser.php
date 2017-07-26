@@ -1,13 +1,19 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Feed
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Feed\Parser;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Feed\Feed;
+use Joomla\CMS\Feed\FeedEntry;
+use Joomla\CMS\Feed\FeedLink;
+use Joomla\CMS\Feed\FeedParser;
 
 /**
  * ATOM Feed Parser class.
@@ -15,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.atomenabled.org/developers/syndication/
  * @since  12.3
  */
-class JFeedParserAtom extends JFeedParser
+class AtomParser extends FeedParser
 {
 	/**
 	 * @var    string  The feed format version.
@@ -26,14 +32,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<author>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleAuthor(JFeed $feed, SimpleXMLElement $el)
+	protected function handleAuthor(Feed $feed, \SimpleXMLElement $el)
 	{
 		// Set the author information from the XML element.
 		$feed->setAuthor((string) $el->name, (string) $el->email, (string) $el->uri);
@@ -42,14 +48,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<contributor>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleContributor(JFeed $feed, SimpleXMLElement $el)
+	protected function handleContributor(Feed $feed, \SimpleXMLElement $el)
 	{
 		$feed->addContributor((string) $el->name, (string) $el->email, (string) $el->uri);
 	}
@@ -57,14 +63,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<generator>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleGenerator(JFeed $feed, SimpleXMLElement $el)
+	protected function handleGenerator(Feed $feed, \SimpleXMLElement $el)
 	{
 		$feed->generator = (string) $el;
 	}
@@ -72,14 +78,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<id>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleId(JFeed $feed, SimpleXMLElement $el)
+	protected function handleId(Feed $feed, \SimpleXMLElement $el)
 	{
 		$feed->uri = (string) $el;
 	}
@@ -87,16 +93,16 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<link>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleLink(JFeed $feed, SimpleXMLElement $el)
+	protected function handleLink(Feed $feed, \SimpleXMLElement $el)
 	{
-		$link = new JFeedLink;
+		$link = new FeedLink;
 		$link->uri      = (string) $el['href'];
 		$link->language = (string) $el['hreflang'];
 		$link->length   = (int) $el['length'];
@@ -110,14 +116,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<rights>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleRights(JFeed $feed, SimpleXMLElement $el)
+	protected function handleRights(Feed $feed, \SimpleXMLElement $el)
 	{
 		$feed->copyright = (string) $el;
 	}
@@ -125,14 +131,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<subtitle>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleSubtitle(JFeed $feed, SimpleXMLElement $el)
+	protected function handleSubtitle(Feed $feed, \SimpleXMLElement $el)
 	{
 		$feed->description = (string) $el;
 	}
@@ -140,14 +146,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<title>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleTitle(JFeed $feed, SimpleXMLElement $el)
+	protected function handleTitle(Feed $feed, \SimpleXMLElement $el)
 	{
 		$feed->title = (string) $el;
 	}
@@ -155,14 +161,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle the `<updated>` element for the feed.
 	 *
-	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
+	 * @param   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function handleUpdated(JFeed $feed, SimpleXMLElement $el)
+	protected function handleUpdated(Feed $feed, \SimpleXMLElement $el)
 	{
 		$feed->updatedDate = (string) $el;
 	}
@@ -187,14 +193,14 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * Method to handle a `<entry>` element for the feed.
 	 *
-	 * @param   JFeedEntry        $entry  The JFeedEntry object being built from the parsed feed entry.
-	 * @param   SimpleXMLElement  $el     The current XML element object to handle.
+	 * @param   FeedEntry          $entry  The FeedEntry object being built from the parsed feed entry.
+	 * @param   \SimpleXMLElement  $el     The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function processFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
+	protected function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{
 		$entry->uri         = (string) $el->id;
 		$entry->title       = (string) $el->title;
@@ -226,7 +232,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @param   array  $links  Array of <link> elements from the feed entry.
 	 *
-	 * @return  SimpleXMLElement
+	 * @return  \SimpleXMLElement
 	 */
 	private function bestLinkForUri(array $links)
 	{

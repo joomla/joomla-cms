@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Feed
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.3
  */
-class JFeedPerson
+class FeedPerson
 {
 	/**
 	 * The email address of the person.

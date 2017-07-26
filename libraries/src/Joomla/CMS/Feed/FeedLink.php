@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Feed
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.3
  */
-class JFeedLink
+class FeedLink
 {
 	/**
 	 * The URI to the linked resource.
@@ -75,7 +76,7 @@ class JFeedLink
 	 * @param   integer  $length    The length of the resource in bytes.
 	 *
 	 * @since   12.3
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct($uri = null, $relation = null, $type = null, $language = null, $title = null, $length = null)
 	{
@@ -88,7 +89,7 @@ class JFeedLink
 		// Validate the length input.
 		if (isset($length) && !is_numeric($length))
 		{
-			throw new InvalidArgumentException('Length must be numeric.');
+			throw new \InvalidArgumentException('Length must be numeric.');
 		}
 
 		$this->length = (int) $length;
