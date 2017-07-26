@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Module\Popular\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Model\Articles;
 use Joomla\Registry\Registry;
 
@@ -17,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-abstract class ModPopularHelper
+abstract class PopularHelper
 {
 	/**
 	 * Get a list of the most popular articles.
@@ -29,7 +32,7 @@ abstract class ModPopularHelper
 	 */
 	public static function getList(Registry &$params, Articles $model)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
@@ -70,7 +73,7 @@ abstract class ModPopularHelper
 
 		if ($error = $model->getError())
 		{
-			JError::raiseError(500, $error);
+			\JError::raiseError(500, $error);
 
 			return false;
 		}
@@ -80,7 +83,7 @@ abstract class ModPopularHelper
 		{
 			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
 			{
-				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
+				$item->link = \JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
 			}
 			else
 			{
@@ -94,7 +97,7 @@ abstract class ModPopularHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param   JObject  $params  The module parameters.
+	 * @param   Registry  $params  The module parameters.
 	 *
 	 * @return  string	The alternate title for the module.
 	 */
@@ -105,7 +108,7 @@ abstract class ModPopularHelper
 
 		if ($catid)
 		{
-			$category = JCategories::getInstance('Content')->get($catid);
+			$category = Categories::getInstance('Content')->get($catid);
 
 			if ($category)
 			{
@@ -113,7 +116,7 @@ abstract class ModPopularHelper
 			}
 			else
 			{
-				$title = JText::_('MOD_POPULAR_UNEXISTING');
+				$title = \JText::_('MOD_POPULAR_UNEXISTING');
 			}
 		}
 		else
@@ -121,6 +124,6 @@ abstract class ModPopularHelper
 			$title = '';
 		}
 
-		return JText::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return \JText::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }
