@@ -99,7 +99,7 @@ class ContentHistory extends AbstractObserver
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function onBeforeDelete($pk)
 	{

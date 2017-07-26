@@ -484,7 +484,7 @@ class HtmlView extends \JObject
 	 * @return  string  The name of the model
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getName()
 	{
@@ -635,7 +635,7 @@ class HtmlView extends \JObject
 	 * @return  string  The output of the the template script.
 	 *
 	 * @since   3.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function loadTemplate($tpl = null)
 	{

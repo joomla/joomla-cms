@@ -180,7 +180,7 @@ class Update extends \JObject
 	/**
 	 * Object containing the current update data
 	 *
-	 * @var    stdClass
+	 * @var    \stdClass
 	 * @since  12.1
 	 */
 	protected $currentUpdate;

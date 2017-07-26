@@ -9,6 +9,7 @@
 namespace Joomla\CMS\Table\Observer;
 
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Table\Table;
 
 defined('JPATH_PLATFORM') or die;
 

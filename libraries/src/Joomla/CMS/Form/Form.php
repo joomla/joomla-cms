@@ -254,7 +254,7 @@ class Form
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value  The optional value to use as the default for the field.
 	 *
-	 * @return  JFormField|boolean  The JFormField object for the field or boolean false on error.
+	 * @return  \JFormField|boolean  The JFormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1019,7 +1019,7 @@ class Form
 			$fields = &$this->findGroup($group);
 
 			// If an appropriate fields element was found for the group, add the element.
-			if (isset($fields[0]) && ($fields[0] instanceof SimpleXMLElement))
+			if (isset($fields[0]) && ($fields[0] instanceof \SimpleXMLElement))
 			{
 				self::addNode($fields[0], $element);
 			}

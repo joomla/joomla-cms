@@ -148,8 +148,8 @@ class Usergroup extends Table
 	 * @return  mixed  Boolean or Exception.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException on database error.
-	 * @throws  UnexpectedValueException on data error.
+	 * @throws  \RuntimeException on database error.
+	 * @throws  \UnexpectedValueException on data error.
 	 */
 	public function delete($oid = null)
 	{
