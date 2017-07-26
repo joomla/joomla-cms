@@ -95,7 +95,6 @@
 					name="tag_id"
 					type="text"
 					label="MOD_MENU_FIELD_TAG_ID_LABEL"
-					description="MOD_MENU_FIELD_TAG_ID_DESC"
 				/>
 
 				<field

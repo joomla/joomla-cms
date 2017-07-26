@@ -26,7 +26,6 @@
 					name="parent"
 					type="modal_category"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"
 					extension="com_content"
 					published=""
 					required="true"
@@ -41,7 +40,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -53,7 +51,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -65,7 +62,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -96,7 +92,6 @@
 					name="maxlevel"
 					type="list"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"
 					default="0"
 					>
 					<option value="0">JALL</option>
