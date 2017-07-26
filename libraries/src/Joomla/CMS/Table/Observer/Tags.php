@@ -148,7 +148,7 @@ class Tags extends AbstractObserver
 	 * @return  void
 	 *
 	 * @since   3.1.2
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function onBeforeDelete($pk)
 	{

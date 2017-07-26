@@ -76,7 +76,7 @@ class Toolbar
 	 *
 	 * @param   string  $name  The name of the toolbar.
 	 *
-	 * @return  JToolbar  The JToolbar object.
+	 * @return  \JToolbar  The JToolbar object.
 	 *
 	 * @since   1.5
 	 */

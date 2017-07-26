@@ -34,7 +34,7 @@ class StreamTransport implements TransportInterface
 	 * @param   Registry  $options  Client options object.
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function __construct(Registry $options)
 	{
@@ -66,7 +66,7 @@ class StreamTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -236,7 +236,7 @@ class StreamTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   11.3
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	protected function getResponse(array $headers, $body)
 	{

@@ -150,7 +150,7 @@ class TagsHelper extends CMSHelper
 				{
 					$aliasesMapper = $db->loadAssocList('alias');
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					return false;
 				}
@@ -393,7 +393,7 @@ class TagsHelper extends CMSHelper
 
 		$result = $this->unTagItem($contentItemId[$key], $table);
 
-		/** @var JTableCorecontent $ucmContentTable */
+		/** @var  \JTableCorecontent $ucmContentTable */
 		$ucmContentTable = Table::getInstance('Corecontent');
 
 		return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);

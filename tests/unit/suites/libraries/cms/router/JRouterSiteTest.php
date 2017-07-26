@@ -896,6 +896,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				->will($this->returnValue(true));
 			unset($appConfig['languagefilter']);
 		}
+
 		$app->expects($this->any())
 			->method('get')
 			->will($this->returnValueMap($appConfig));

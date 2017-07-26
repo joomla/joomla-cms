@@ -35,7 +35,7 @@ class CurlTransport implements TransportInterface
 	 *
 	 * @link    https://secure.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function __construct(Registry $options)
 	{
@@ -60,7 +60,7 @@ class CurlTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -249,7 +249,7 @@ class CurlTransport implements TransportInterface
 	 * @return  Response
 	 *
 	 * @since   11.3
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	protected function getResponse($content, $info)
 	{

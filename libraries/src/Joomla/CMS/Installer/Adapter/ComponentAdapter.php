@@ -703,7 +703,7 @@ class ComponentAdapter extends InstallerAdapter
 		 */
 		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1105,7 +1105,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$db = $this->parent->getDbo();
 
-		/** @var  JTableMenu  $table */
+		/** @var  \JTableMenu  $table */
 		$table = Table::getInstance('menu');
 
 		// Get the ids of the menu items
@@ -1318,7 +1318,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$db = $this->parent->getDbo();
 
-		/** @var  JTableMenu  $table */
+		/** @var  \JTableMenu  $table */
 		$table  = Table::getInstance('menu');
 
 		try
@@ -1327,7 +1327,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1351,13 +1351,13 @@ class ComponentAdapter extends InstallerAdapter
 			if (!$menu_id)
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
-				JError::raiseWarning(1, $table->getError());
+				\JError::raiseWarning(1, $table->getError());
 
 				return false;
 			}
 			else
 			{
-				/** @var  JTableMenu $temporaryTable */
+				/** @var  \JTableMenu $temporaryTable */
 				$temporaryTable = Table::getInstance('menu');
 				$temporaryTable->delete($menu_id, true);
 				$temporaryTable->rebuild($data['parent_id']);
