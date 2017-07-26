@@ -22,8 +22,8 @@ if ($value == '')
 {
 	return;
 }
-?>
 
+?>
 <?php if ($showLabel == 1) : ?>
 	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 <?php endif; ?>

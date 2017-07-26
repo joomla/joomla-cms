@@ -48,8 +48,8 @@ if (!$fields)
 {
 	return;
 }
-?>
 
+?>
 <dl class="fields-container">
 	<?php foreach ($fields as $field) : ?>
 		<?php // If the value is empty do nothing ?>
