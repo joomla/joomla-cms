@@ -14,7 +14,7 @@ use Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper;
 
 $cacheparams = new \stdClass;
 $cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'TagsSimilarHelper';
+$cacheparams->class = 'Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
