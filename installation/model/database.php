@@ -174,7 +174,7 @@ class InstallationModelDatabase extends JModelBase
 		$explodedHost = explode(':', $options->db_host);
 		$hostToCheck  = $explodedHost[0];
 
-		if (substr($options->db_host, 0, 5) == '[::1]')
+		if (substr($options->db_host, 0, 5) == '[::1]' || substr($options->db_host, 0, 3) == '::1')
 		{
 			$hostToCheck = '::1';
 		}
