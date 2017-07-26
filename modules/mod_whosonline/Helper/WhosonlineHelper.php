@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Whosonline\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_whosonline
  *
  * @since  1.5
  */
-class ModWhosonlineHelper
+class WhosonlineHelper
 {
 	/**
 	 * Show online count
@@ -25,14 +29,14 @@ class ModWhosonlineHelper
 	 **/
 	public static function getOnlineCount()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Calculate number of guests and users
-		$result	     = array();
+		$result	     = [];
 		$user_array  = 0;
 		$guest_array = 0;
 
-		$whereCondition = JFactory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+		$whereCondition = Factory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
 		$query = $db->getQuery(true)
 			->select('guest, client_id')
@@ -44,10 +48,10 @@ class ModWhosonlineHelper
 		{
 			$sessions = (array) $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Don't worry be happy
-			$sessions = array();
+			$sessions = [];
 		}
 
 		if (count($sessions))
@@ -85,9 +89,9 @@ class ModWhosonlineHelper
 	 **/
 	public static function getOnlineUserNames($params)
 	{
-		$whereCondition = JFactory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+		$whereCondition = Factory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('a.username', 'a.userid', 'a.client_id')))
 			->from('#__session AS a')
@@ -95,7 +99,7 @@ class ModWhosonlineHelper
 			->where($db->quoteName('a.client_id') . ' ' . $whereCondition)
 			->group($db->quoteName(array('a.username', 'a.userid', 'a.client_id')));
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{
@@ -118,7 +122,7 @@ class ModWhosonlineHelper
 		{
 			return (array) $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return array();
 		}

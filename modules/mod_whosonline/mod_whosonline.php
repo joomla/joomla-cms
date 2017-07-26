@@ -9,21 +9,21 @@
 
 defined('_JEXEC') or die;
 
-// Include the whosonline functions only once
-JLoader::register('ModWhosonlineHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Whosonline\Site\Helper\WhosonlineHelper;
 
 $showmode = $params->get('showmode', 0);
 
 if ($showmode == 0 || $showmode == 2)
 {
-	$count = ModWhosonlineHelper::getOnlineCount();
+	$count = WhosonlineHelper::getOnlineCount();
 }
 
 if ($showmode > 0)
 {
-	$names = ModWhosonlineHelper::getOnlineUserNames($params);
+	$names = WhosonlineHelper::getOnlineUserNames($params);
 }
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
-require JModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));
