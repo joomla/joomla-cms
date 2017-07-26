@@ -67,19 +67,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 						</tfoot>
 						<tbody>
+						<?php $itemsSkipped = 0; ?>
 						<?php foreach ($this->items as $i => $item) : ?>
 							<?php $extraQuery = InstallerHelper::getExtraQuery($item->update_site_id);?>
 
 							<?php if ($extraQuery['prefix'] == null): ?>
+								<?php $itemsSkipped++; ?>
 								<?php continue; ?>
 							<?php endif;?>
 
-							<tr class="row<?php echo $i % 2; ?>">
+							<tr class="row<?php echo ($i + $itemsSkipped) % 2; ?>">
 								<td class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $item->update_site_id); ?>
+									<?php echo \JHtml::_('grid.id', $i-$itemsSkipped, $item->update_site_id); ?>
 								</td>
 								<td>
-									<label for="cb<?php echo $i; ?>">
+									<label for="cb<?php echo $i-$itemsSkipped; ?>">
 										<?php echo $item->update_site_name; ?>
 										<br>
 										<span class="small break-word">
@@ -101,7 +103,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="hidden-sm-down text-center">
 									<?php echo $item->folder_translated; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="hidden-sm-down tersa"ext-center">
 									<?php echo $item->update_site_id; ?>
 								</td>
 								<td>
