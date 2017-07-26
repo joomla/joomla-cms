@@ -88,7 +88,6 @@
 					name="set_itemid"
 					type="menuitem"
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
-					description="MOD_SEARCH_FIELD_SETITEMID_DESC"
 					default="0"
 					>
 					<option value="0">MOD_SEARCH_SELECT_MENU_ITEMID</option>

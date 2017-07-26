@@ -120,7 +120,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>

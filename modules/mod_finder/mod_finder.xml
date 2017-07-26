@@ -26,7 +26,6 @@
 					name="searchfilter"
 					type="searchfilter"
 					label="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION"
 					default=""
 				/>
 
@@ -45,7 +44,6 @@
 					name="show_advanced"
 					type="list"
 					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION"
 					default="0"
 					>
 					<option value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
@@ -102,7 +100,6 @@
 					name="set_itemid"
 					type="menuitem"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_DESCRIPTION"
 					default="0"
 					>
 					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>
