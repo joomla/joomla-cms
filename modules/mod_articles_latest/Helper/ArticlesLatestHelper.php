@@ -37,8 +37,8 @@ abstract class ArticlesLatestHelper
 	 */
 	public static function getList(&$params)
 	{
-		// Get the dbo
-		$db = Factory::getDbo();
+		// Get the Dbo and User object
+		$db   = Factory::getDbo();
 		$user = Factory::getUser();
 
 		// Get an instance of the generic articles model
