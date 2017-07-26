@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\ArticlesArchive\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_articles_archive
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_articles_archive
  * @since       1.5
  */
-class ModArchiveHelper
+class ArticlesArchiveHelper
 {
 	/**
 	 * Retrieve list of archived articles
@@ -30,7 +34,7 @@ class ModArchiveHelper
 	public static function getList(&$params)
 	{
 		// Get database
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
@@ -41,9 +45,9 @@ class ModArchiveHelper
 			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
 
 		// Filter by language
-		if (JFactory::getApplication()->getLanguageFilter())
+		if (Factory::getApplication()->getLanguageFilter())
 		{
-			$query->where('language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		$db->setQuery($query, 0, (int) $params->get('count'));
@@ -52,14 +56,14 @@ class ModArchiveHelper
 		{
 			$rows = (array) $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return;
 		}
 
-		$app    = JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$menu   = $app->getMenu();
 		$item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
 		$itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
@@ -69,18 +73,18 @@ class ModArchiveHelper
 
 		foreach ($rows as $row)
 		{
-			$date = JFactory::getDate($row->created);
+			$date = Factory::getDate($row->created);
 
 			$created_month = $date->format('n');
 			$created_year  = $date->format('Y');
 
-			$created_year_cal = JHtml::_('date', $row->created, 'Y');
-			$month_name_cal   = JHtml::_('date', $row->created, 'F');
+			$created_year_cal = \JHtml::_('date', $row->created, 'Y');
+			$month_name_cal   = \JHtml::_('date', $row->created, 'F');
 
-			$lists[$i] = new stdClass;
+			$lists[$i] = new \stdClass;
 
-			$lists[$i]->link = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
-			$lists[$i]->text = JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
+			$lists[$i]->link = \JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
+			$lists[$i]->text = \JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
 
 			$i++;
 		}
