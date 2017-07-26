@@ -7,9 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\RelatedItems\Site\Helper;
+
 defined('_JEXEC') or die;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Model\Model;
+use Joomla\CMS\Language\Multilanguage;
+
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_related_items
@@ -18,7 +24,7 @@ JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/he
  * @subpackage  mod_related_items
  * @since       1.5
  */
-abstract class ModRelatedItemsHelper
+abstract class RelatedItemsHelper
 {
 	/**
 	 * Get a list of related articles
@@ -29,20 +35,19 @@ abstract class ModRelatedItemsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db      = JFactory::getDbo();
-		$app     = JFactory::getApplication();
-		$user    = JFactory::getUser();
-		$groups  = implode(',', $user->getAuthorisedViewLevels());
-		$date    = JFactory::getDate();
+		$db      = Factory::getDbo();
+		$app     = Factory::getApplication();
+		$input   = $app->input;
+		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
-		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models');
-		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		Model::addIncludePath(JPATH_SITE . '/components/com_content/models');
+		$articles = Model::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		if ($articles === false)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return array();
 		}
@@ -51,16 +56,16 @@ abstract class ModRelatedItemsHelper
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		$option = $app->input->get('option');
-		$view   = $app->input->get('view');
+		$option = $input->get('option');
+		$view   = $input->get('view');
 
-		$temp = $app->input->getString('id');
+		$temp = $input->getString('id');
 		$temp = explode(':', $temp);
 		$id   = $temp[0];
 
 		$nullDate = $db->getNullDate();
-		$now      = $date->toSql();
-		$related  = array();
+		$now      = JFactory::getDate()->toSql();
+		$related  = [];
 		$query    = $db->getQuery(true);
 
 		if ($option === 'com_content' && $view === 'article' && $id)
@@ -75,16 +80,16 @@ abstract class ModRelatedItemsHelper
 			{
 				$metakey = trim($db->loadResult());
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 				return array();
 			}
 
 			// Explode the meta keys on a comma
 			$keys  = explode(',', $metakey);
-			$likes = array();
+			$likes = [];
 
 			// Assemble any non-blank word(s)
 			foreach ($keys as $key)
@@ -137,9 +142,9 @@ abstract class ModRelatedItemsHelper
 					->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
 
 				// Filter by language
-				if (JLanguageMultilang::isEnabled())
+				if (Multilanguage::isEnabled())
 				{
-					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
 				$db->setQuery($query, 0, $maximum);
@@ -148,16 +153,16 @@ abstract class ModRelatedItemsHelper
 				{
 					$temp = $db->loadObjectList();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+					$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 					return array();
 				}
 
 				if (count($temp))
 				{
-					$articles_ids = array();
+					$articles_ids = [];
 
 					foreach ($temp as $row)
 					{
@@ -179,7 +184,7 @@ abstract class ModRelatedItemsHelper
 			foreach ($related as &$item)
 			{
 				$item->slug  = $item->id . ':' . $item->alias;
-				$item->route = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->route = \JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 
