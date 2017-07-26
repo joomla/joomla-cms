@@ -27,7 +27,6 @@
 					name="version"
 					type="list"
 					label="PLG_RECAPTCHA_VERSION_LABEL"
-					description="PLG_RECAPTCHA_VERSION_DESC"
 					default="2.0"
 					size="1"
 					>

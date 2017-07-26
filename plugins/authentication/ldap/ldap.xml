@@ -44,7 +44,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
-					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -66,7 +65,6 @@
 					name="no_referrals"
 					type="radio"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
-					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 					default="0"
 					class="switcher"
 					>

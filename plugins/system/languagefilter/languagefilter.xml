@@ -56,7 +56,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
