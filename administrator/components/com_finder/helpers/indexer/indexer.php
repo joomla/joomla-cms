@@ -504,7 +504,6 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-
 	protected function addTokensToDb($tokens, $context = '')
 	{
 		// Get the database object.
@@ -550,7 +549,6 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-
 	protected function toggleTables($memory)
 	{
 		return true;
