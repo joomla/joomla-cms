@@ -106,8 +106,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="hidden-sm-down text-center">
-									<?php if($item->version != ''): ?>
-										<?php if($item->changelogurl != null): ?>
+									<?php if ($item->version != ''): ?>
+										<?php if ($item->changelogurl != null): ?>
 											<a href="#changelog_modal<?php echo $item->extension_id; ?>" data-toggle="modal"><?php echo $item->version?></a>
 											<?php
 											echo Jhtml::_(
