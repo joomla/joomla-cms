@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 ?>
-
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)) : ?>
 	<fieldset id="users-profile-custom">

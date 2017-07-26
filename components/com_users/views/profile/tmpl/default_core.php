@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 ?>
-
 <fieldset id="users-profile-core">
 	<legend>
 		<?php echo JText::_('COM_USERS_PROFILE_CORE_LEGEND'); ?>
