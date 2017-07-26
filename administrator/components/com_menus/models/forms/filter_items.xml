@@ -74,6 +74,15 @@
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
+		<field
+			name="parent_id"
+			type="menuitembytype"
+			label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
+			description="COM_MENUS_FILTER_PARENT_MENU_ITEM_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_MENUS_FILTER_SELECT_PARENT_MENU_ITEM</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
