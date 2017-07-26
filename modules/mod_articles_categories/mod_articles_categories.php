@@ -19,7 +19,7 @@ $cacheid = md5($module->id);
 
 $cacheparams               = new \stdClass;
 $cacheparams->cachemode    = 'id';
-$cacheparams->class        = 'ArticlesCategoriesHelper';
+$cacheparams->class        = 'Joomla\Module\ArticlesCategories\Site\Helper\ArticlesCategoriesHelper';
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;
