@@ -67,6 +67,7 @@ module.exports = function(grunt) {
 					'media/vendor/flying-focus-a11y/*',
 					'media/vendor/diff/**',
 					'media/vendor/polyfills/**',
+					'media/vendor/masonry-layout/js/**',
 				],
 				expand: true,
 				options: {
@@ -201,6 +202,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 					// XPath polyfill js files
 					{ expand: false, src: '<%= folder.node_module %>wicked-good-xpath/dist/wgxpath.install.js', dest: 'media/vendor/polyfills/js/polyfill-wgxpath.js', filter: 'isFile'},
+					// Masonry js files
+					{ expand: true, cwd: '<%= folder.node_module %>masonry-layout/dist', src: ['*.js'], dest: 'media/vendor/masonry/js/', filter: 'isFile'},
 					// Joomla UI custom elements js files
 					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/js', src: ['*.js'], dest: 'media/system/webcomponents/', filter: 'isFile'},
 
@@ -233,7 +236,7 @@ module.exports = function(grunt) {
 			dist: {
 				options: {
 					precision: '5',
-					sourceMap: true // SHOULD BE FALSE FOR DIST
+					sourceMap: false // SHOULD BE FALSE FOR DIST
 				},
 				files: {
 					'<%= folder.adminTemplate %>/css/font-awesome.css': '<%= folder.adminTemplate %>/scss/font-awesome.scss',
