@@ -110,12 +110,12 @@ class ChromeStyleField extends \JFormFieldGroupedList
 
 				if (isset($clientName))
 				{
-					$client = JApplicationHelper::getClientInfo($clientName, true);
+					$client = \JApplicationHelper::getClientInfo($clientName, true);
 					$clientId = $client->id;
 				}
 			}
 
-			if (!isset($clientId) && $this->form instanceof JForm)
+			if (!isset($clientId) && $this->form instanceof \JForm)
 			{
 				$clientId = $this->form->getValue('client_id');
 			}
@@ -209,7 +209,7 @@ class ChromeStyleField extends \JFormFieldGroupedList
 	/**
 	 * Method to get the system template as an object.
 	 *
-	 * @return  array  The object of system template.
+	 * @return  \stdClass  The object of system template.
 	 *
 	 * @since   3.0
 	 */
