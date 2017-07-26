@@ -198,7 +198,8 @@ class InstallationModelDatabase extends JModelBase
 				if (!JFile::write($remoteDbPath, ''))
 				{
 					// Request to create the file manually
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'), 'error');
+					JFactory::getApplication()
+						->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'), 'error');
 
 					JFactory::getSession()->set('remoteDbFileUnwritable', true);
 
@@ -209,21 +210,24 @@ class InstallationModelDatabase extends JModelBase
 				JFactory::getSession()->set('remoteDbFileWrittenByJoomla', true);
 
 				// Request to delete that file
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'), 'error');
+				JFactory::getApplication()
+					->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'), 'error');
 
 				return false;
 			}
 
 			if (JFactory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'), 'error');
+				JFactory::getApplication()
+					->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'), 'error');
 
 				return false;
 			}
 
 			if (JFactory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'), 'error');
+				JFactory::getApplication()
+					->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'), 'error');
 
 				return false;
 			}
