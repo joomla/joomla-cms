@@ -218,7 +218,7 @@ class Feed implements \ArrayAccess, \Countable
 	/**
 	 * Assigns a value to the specified offset.
 	 *
-	 * @param   mixed       $offset  The offset to assign the value to.
+	 * @param   mixed      $offset  The offset to assign the value to.
 	 * @param   FeedEntry  $value   The JFeedEntry to set.
 	 *
 	 * @return  boolean
