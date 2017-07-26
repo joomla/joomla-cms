@@ -28,7 +28,6 @@
 				name="show_pagination_limit" 
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -480,7 +479,6 @@
 				name="custom_reply" 
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
-				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNO</option>

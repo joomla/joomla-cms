@@ -8,7 +8,6 @@
 			name="cache_handler"
 			type="cachehandler"
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			default=""
 			filter="word"
 			showon="caching:1,2">
