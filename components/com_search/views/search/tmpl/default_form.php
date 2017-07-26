@@ -13,8 +13,8 @@ JHtml::_('bootstrap.tooltip');
 
 $lang = JFactory::getLanguage();
 $upper_limit = $lang->getUpperLimitSearchWord();
-?>
 
+?>
 <form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search'); ?>" method="post">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-left">
