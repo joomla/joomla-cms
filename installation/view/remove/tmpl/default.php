@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="alert">
 		<p><?php echo JText::sprintf('INSTL_COMPLETE_REMOVE_INSTALLATION', 'installation'); ?></p>
-		<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?>" />
+		<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?>" />
 	</div>
 	<div class="btn-toolbar">
 		<div class="btn-group">
