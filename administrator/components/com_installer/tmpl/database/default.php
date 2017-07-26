@@ -34,7 +34,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php endif; ?>
 
 								<?php if ($this->schemaVersion != $this->changeSet['core']['changeset']->getSchema()) : ?>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion[0]->version_id, $this->changeSet[0]['changeset']->getSchema()); ?></li>
+									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet['core']['changeset']->getSchema()); ?></li>
 								<?php endif; ?>
 
 								<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
