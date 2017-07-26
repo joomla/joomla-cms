@@ -142,11 +142,17 @@ class Categories
 
 		if (!class_exists($classname))
 		{
-			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+			$path = JPATH_SITE . '/components/' . $component . '/Helper/Category.php';
 
 			if (!is_file($path))
 			{
-				return false;
+				// B/C for Joomla! 3
+				$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+				
+				if (!is_file($path))
+				{
+					return false;
+				}
 			}
 
 			include_once $path;
