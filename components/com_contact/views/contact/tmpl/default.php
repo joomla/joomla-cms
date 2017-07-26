@@ -17,8 +17,8 @@ $show_contact_category = $tparams->get('show_contact_category');
 $presentation_style    = $tparams->get('presentation_style');
 $accordionStarted      = false;
 $tabSetStarted         = false;
-?>
 
+?>
 <div class="contact<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Person">
 	<?php if ($tparams->get('show_page_heading')) : ?>
 		<h1>

@@ -13,8 +13,8 @@ $params             = $this->item->params;
 $presentation_style = $params->get('presentation_style');
 $displayGroups      = $params->get('show_user_custom_fields');
 $userFieldGroups    = array();
-?>
 
+?>
 <?php if (!$displayGroups || !$this->contactUser) : ?>
 	<?php return; ?>
 <?php endif; ?>

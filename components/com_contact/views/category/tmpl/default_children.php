@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 ?>
-
 <?php $class = ' class="first"'; ?>
 <?php if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
 	<ul class="list-striped list-condensed">

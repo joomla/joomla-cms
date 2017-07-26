@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
+?>
 <?php if ($this->params->get('presentation_style') === 'sliders') : ?>
 	<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
 <?php if ($this->params->get('presentation_style') === 'plain') : ?>
 	<?php echo '<h3>' . JText::_('COM_CONTACT_LINKS') . '</h3>'; ?>
 <?php endif; ?>
-
 <div class="contact-links">
 	<ul class="nav nav-tabs nav-stacked">
 		<?php // Letters 'a' to 'e' ?>
@@ -41,7 +40,6 @@ defined('_JEXEC') or die;
 		<?php endforeach; ?>
 	</ul>
 </div>
-
 <?php if ($this->params->get('presentation_style') === 'sliders') : ?>
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
 <?php endif; ?>

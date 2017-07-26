@@ -13,8 +13,8 @@ JHtml::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-?>
 
+?>
 <?php if (empty($this->items)) : ?>
 	<p><?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?></p>
 <?php else : ?>

@@ -22,8 +22,8 @@ jQuery(function($) {
 		});
 	});
 });");
-?>
 
+?>
 <div class="categories-list<?php echo $this->pageclass_sfx; ?>">
 	<?php echo JLayoutHelper::render('joomla.content.categories_default', $this); ?>
 	<?php echo $this->loadTemplate('items'); ?>
