@@ -28,8 +28,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		form.submit();
 	}
 ");
-?>
 
+?>
 <div id="mailto-window">
 	<h2>
 		<?php echo JText::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
