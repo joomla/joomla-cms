@@ -1293,5 +1293,88 @@
             "framework",
             "joomla"
         ]
+    },
+    {
+        "name": "paragonie/sodium_compat",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/paragonie/sodium_compat.git",
+            "reference": "3c6b3b7ffd256df19c39b0f4aa0bb28badd08aaa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/3c6b3b7ffd256df19c39b0f4aa0bb28badd08aaa",
+            "reference": "3c6b3b7ffd256df19c39b0f4aa0bb28badd08aaa",
+            "shasum": ""
+        },
+        "require": {
+            "paragonie/random_compat": "^1|^2",
+            "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^3|^4|^5"
+        },
+        "suggest": {
+            "ext-libsodium": "Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
+        },
+        "time": "2017-06-09T22:35:18+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "autoload.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "ISC"
+        ],
+        "authors": [
+            {
+                "name": "Paragon Initiative Enterprises",
+                "email": "security@paragonie.com"
+            },
+            {
+                "name": "Frank Denis",
+                "email": "jedisct1@pureftpd.org"
+            }
+        ],
+        "description": "Pure PHP implementation of libsodium; uses the PHP extension if it exists",
+        "keywords": [
+            "Authentication",
+            "BLAKE2b",
+            "ChaCha20",
+            "ChaCha20-Poly1305",
+            "Chapoly",
+            "Curve25519",
+            "Ed25519",
+            "EdDSA",
+            "Edwards-curve Digital Signature Algorithm",
+            "Elliptic Curve Diffie-Hellman",
+            "Poly1305",
+            "Pure-PHP cryptography",
+            "RFC 7748",
+            "RFC 8032",
+            "Salpoly",
+            "Salsa20",
+            "X25519",
+            "XChaCha20-Poly1305",
+            "XSalsa20-Poly1305",
+            "Xchacha20",
+            "Xsalsa20",
+            "aead",
+            "cryptography",
+            "ecdh",
+            "elliptic curve",
+            "elliptic curve cryptography",
+            "encryption",
+            "libsodium",
+            "php",
+            "public-key cryptography",
+            "secret-key cryptography",
+            "side-channel resistant"
+        ]
     }
 ]
