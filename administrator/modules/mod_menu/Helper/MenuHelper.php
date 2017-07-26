@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Module\Menu\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -17,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-abstract class ModMenuHelper
+abstract class MenuHelper
 {
 	/**
 	 * Get a list of the available menus.
@@ -28,7 +31,7 @@ abstract class ModMenuHelper
 	 */
 	public static function getMenus()
 	{
-		$db     = JFactory::getDbo();
+		$db     = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.*, SUM(b.home) AS home')
 			->from('#__menu_types AS a')
@@ -48,10 +51,10 @@ abstract class ModMenuHelper
 		{
 			$result = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$result = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED') . ' ' . $e->getMessage(), 'danger');
+			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED') . ' ' . $e->getMessage(), 'danger');
 		}
 
 		return $result;
@@ -70,9 +73,9 @@ abstract class ModMenuHelper
 	 */
 	public static function getComponents($authCheck = true, $enabledOnly = false, $exclude = array())
 	{
-		$lang   = JFactory::getLanguage();
-		$user   = JFactory::getUser();
-		$db     = JFactory::getDbo();
+		$lang   = Factory::getLanguage();
+		$user   = Factory::getUser();
+		$db     = Factory::getDbo();
 		$query  = $db->getQuery(true);
 		$result = array();
 
@@ -108,10 +111,10 @@ abstract class ModMenuHelper
 		{
 			$components = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$components = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'danger');
+			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'danger');
 		}
 
 		// Parse the list of extensions.
@@ -147,14 +150,14 @@ abstract class ModMenuHelper
 						|| $lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, true);
 					}
 
-					$component->text = JText::_(strtoupper($component->title));
+					$component->text = \JText::_(strtoupper($component->title));
 				}
 			}
 			// Sub-menu level.
 			// Add the submenu link if it is defined.
 			elseif (isset($result[$component->parent_id]) && isset($result[$component->parent_id]->submenu) && !empty($component->link))
 			{
-				$component->text = JText::_(strtoupper($component->title));
+				$component->text = \JText::_(strtoupper($component->title));
 
 				$result[$component->parent_id]->submenu[] = &$component;
 			}
@@ -174,7 +177,7 @@ abstract class ModMenuHelper
 	 */
 	public static function getMenuItems($menutype)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Prepare the query.
@@ -205,10 +208,10 @@ abstract class ModMenuHelper
 				$menuitem->params = new Registry($menuitem->params);
 			}
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$menuItems = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		return $menuItems;
@@ -227,8 +230,8 @@ abstract class ModMenuHelper
 	public static function parseItems($menuItems, $authCheck = true)
 	{
 		$result = array();
-		$user   = JFactory::getUser();
-		$lang   = JFactory::getLanguage();
+		$user   = Factory::getUser();
+		$lang   = Factory::getLanguage();
 		$levels = $user->getAuthorisedViewLevels();
 
 		// Process each item
@@ -277,7 +280,7 @@ abstract class ModMenuHelper
 				|| $lang->load($menuitem->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $menuitem->element, null, false, true);
 			}
 
-			$menuitem->text    = $lang->hasKey($menuitem->title) ? JText::_($menuitem->title) : $menuitem->title;
+			$menuitem->text    = $lang->hasKey($menuitem->title) ? \JText::_($menuitem->title) : $menuitem->title;
 			$menuitem->submenu = array();
 
 			$result[$menuitem->parent_id][$menuitem->id] = $menuitem;
@@ -318,7 +321,7 @@ abstract class ModMenuHelper
 	 */
 	protected static function getLink($menuId)
 	{
-		$table = JTable::getInstance('Menu');
+		$table = Table::getInstance('Menu');
 		$table->load($menuId);
 
 		// Look for an alias-to-alias
