@@ -114,11 +114,11 @@ class States extends Admin
 			{
 				if ($value == 1)
 				{
-					$ntext = 'COM_WORKFLOW_ITEM_SET_HOME';
+					$ntext = 'COM_WORKFLOW_ITEM_SET_DEFAULT';
 				}
 				else
 				{
-					$ntext = 'COM_WORKFLOW_ITEM_UNSET_HOME';
+					$ntext = 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
 				}
 
 				$this->setMessage(\JText::_($ntext, count($cid)));

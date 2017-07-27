@@ -112,7 +112,7 @@ class Workflows extends Admin
 			}
 			else
 			{
-				if ($value)
+				if ($value == 1)
 				{
 					$ntext = 'COM_WORKFLOW_ITEM_SET_DEFAULT';
 				}
