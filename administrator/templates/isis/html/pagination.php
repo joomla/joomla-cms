@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.Isis
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,24 +59,6 @@ defined('_JEXEC') or die;
  * NOTE: If you override pagination_item_active OR pagination_item_inactive you MUST override them both
  */
 
-/**
- * Renders the pagination footer
- *
- * @param   array  $list  Array containing pagination footer
- *
- * @return  string  HTML markup for the full pagination footer
- *
- * @since   3.0
- */
-function pagination_list_footer($list)
-{
-	$html = "<div class=\"pagination pagination-toolbar\">\n";
-	$html .= $list['pageslinks'];
-	$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\" />";
-	$html .= "\n</div>";
-
-	return $html;
-}
 
 /**
  * Renders the pagination list
@@ -228,7 +210,7 @@ function pagination_item_inactive(&$item)
 	}
 
 	// Check if the item is the active page
-	if (isset($item->active) && ($item->active))
+	if (isset($item->active) && $item->active)
 	{
 		return '<li class="active hidden-phone"><a>' . $item->text . '</a></li>';
 	}

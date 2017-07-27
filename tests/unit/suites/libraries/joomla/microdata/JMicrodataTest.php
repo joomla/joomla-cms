@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Microdata
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
 * @subpackage  Microdata
 * @since       3.2
 */
-class JMicrodataTest extends PHPUnit_Framework_TestCase
+class JMicrodataTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * The default fallback Type
@@ -42,6 +42,20 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->handler = new JMicrodata;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->handler);
 	}
 
 	/**

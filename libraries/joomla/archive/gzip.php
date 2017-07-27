@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,8 @@ jimport('joomla.filesystem.file');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  4.0 use the Joomla\Archive\Gzip class instead
  */
 class JArchiveGzip implements JArchiveExtractable
 {
@@ -52,7 +53,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function extract($archive, $destination, array $options = array ())
+	public function extract($archive, $destination, array $options = array())
 	{
 		$this->_data = null;
 
@@ -98,7 +99,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 */
-	protected function extractStream($archive, $destination, $options = array ())
+	protected function extractStream($archive, $destination, $options = array())
 	{
 		// New style! streams!
 		$input = JFactory::getStream();

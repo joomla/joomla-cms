@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,7 +15,7 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
- * @since  11.1
+ * @since  1.6
  */
 class JFormFieldComponentlayout extends JFormField
 {
@@ -23,7 +23,7 @@ class JFormFieldComponentlayout extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $type = 'ComponentLayout';
 
@@ -32,14 +32,14 @@ class JFormFieldComponentlayout extends JFormField
 	 *
 	 * @return  string   The field input.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
-		if (is_null($clientId) && $this->form instanceof JForm)
+		if ($clientId === null && $this->form instanceof JForm)
 		{
 			$clientId = $this->form->getValue('client_id');
 		}
@@ -115,7 +115,7 @@ class JFormFieldComponentlayout extends JFormField
 			$groups = array();
 
 			// Add a Use Global option if useglobal="true" in XML file
-			if ($this->element['useglobal'] == 'true')
+			if ($this->element['useglobal'] === 'true')
 			{
 				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][] = JHtml::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
 			}
@@ -191,8 +191,8 @@ class JFormFieldComponentlayout extends JFormField
 						foreach ($files as $i => $file)
 						{
 							// Remove layout files that exist in the component folder or that have XML files
-							if ((in_array(basename($file, '.php'), $component_layouts))
-								|| (in_array(basename($file, '.php'), $xml_files)))
+							if (in_array(basename($file, '.php'), $component_layouts)
+								|| in_array(basename($file, '.php'), $xml_files))
 							{
 								unset($files[$i]);
 							}

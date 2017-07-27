@@ -3,19 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 $class = ' class="first"';
-if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
+if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>
 <ul>
 <?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 	<?php
-	if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) :
+	if ($item->numitems || $this->params->get('show_empty_categories_cat') || count($item->getChildren())) :
 	if (!isset($this->items[$this->parent->id][$id + 1]))
 	{
 		$class = ' class="last"';

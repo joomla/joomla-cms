@@ -2,37 +2,54 @@
 <form>
 	<fields name="params" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 	>
-		<fieldset name="menu-options"
-			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-		>
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 
-			<field name="menu-anchor_title" type="text"
+			<field 
+				name="menu-anchor_title" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" 
+			/>
 
-			<field name="menu-anchor_css" type="text"
+			<field 
+				name="menu-anchor_css" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" />
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" 
+			/>
 
-			<field name="menu_image" type="media"
+			<field
+				name="menu_image" 
+				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" 
+			/>
 
-			<field name="menu_text" type="radio"
-				class="btn-group btn-group-yesno"
+			<field 
+				name="menu_image_css"
+				type="text" 
+				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
+			/>
+
+			<field 
+				name="menu_text" 
+				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
+				class="btn-group btn-group-yesno"
 				default="1" filter="integer"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+
 			<field
 				name="menu_show"
 				type="radio"
-				class="btn-group btn-group-yesno"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
+				class="btn-group btn-group-yesno"
 				default="1"
 				filter="integer"
 				>
@@ -41,68 +58,90 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="page-options"
-			label="COM_MENUS_PAGE_OPTIONS_LABEL"
-		>
+		<fieldset name="page-options" label="COM_MENUS_PAGE_OPTIONS_LABEL">
 
-
-			<field name="page_title" type="text"
+			<field
+				name="page_title"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
+				useglobal="true"
+			/>
 
-			<field name="show_page_heading" type="list"
-				class="chzn-color"
+			<field
+				name="show_page_heading"
+				type="list"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
+				class="chzn-color"
 				default=""
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="1" class="yes">JYES</option>
-				<option value="0" class="no">JNO</option>
+				useglobal="true"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
-			<field name="page_heading" type="text"
+			<field
+				name="page_heading"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC" />
+				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
+				useglobal="true"
+			/>
 
-			<field name="pageclass_sfx" type="text"
+			<field
+				name="pageclass_sfx"
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC" />
-
+				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
+				useglobal="true"
+			/>
 
 		</fieldset>
 
-		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
-		>
-			<field name="menu-meta_description" type="textarea"
-				label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
-				rows="3" cols="40" />
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+			<field 
+				name="menu-meta_description" 
+				type="textarea"
+				label="JFIELD_META_DESCRIPTION_LABEL" 
+				description="JFIELD_META_DESCRIPTION_DESC"
+				rows="3" 
+				cols="40" 
+			/>
 
-			<field name="menu-meta_keywords" type="textarea"
-				label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
-				rows="3" cols="40" />
+			<field 
+				name="menu-meta_keywords" 
+				type="textarea"
+				label="JFIELD_META_KEYWORDS_LABEL" 
+				description="JFIELD_META_KEYWORDS_DESC"
+				rows="3" 
+				cols="40" 
+			/>
 
-			<field name="robots"
-			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
-		</field>
+			<field 
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			</field>
 
-			<field name="secure" type="list"
-				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
-				default="0" filter="integer"
-			>
+			<field 
+				name="secure" 
+				type="list"
+				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" 
+				description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
+				default="0" 
+				filter="integer"
+				>
 				<option value="-1">JOFF</option>
 				<option value="1">JON</option>
-				<option value="0">COM_MENUS_FIELD_VALUE_IGNORE
-				</option>
-
+				<option value="0">COM_MENUS_FIELD_VALUE_IGNORE</option>
 			</field>
 		</fieldset>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,42 @@ $params = JComponentHelper::getParams('com_media');
 $path   = 'file_path';
 
 JHtml::_('jquery.framework');
+JHtml::_('behavior.core');
 
-JFactory::getDocument()->addScriptDeclaration(
+$doc = JFactory::getDocument();
+
+// Need to override this core function because we use a different form id
+$doc->addScriptDeclaration(
+	"
+		Joomla.isChecked = function( isitchecked, form ) {
+			if ( typeof form  === 'undefined' ) {
+				form = document.getElementById( 'mediamanager-form' );
+			}
+
+			form.boxchecked.value += isitchecked ? 1 : -1;
+
+			// If we don't have a checkall-toggle, done.
+			if ( !form.elements[ 'checkall-toggle' ] ) return;
+
+			// Toggle main toggle checkbox depending on checkbox selection
+			var c = true,
+				i, e, n;
+
+			for ( i = 0, n = form.elements.length; i < n; i++ ) {
+				e = form.elements[ i ];
+
+				if ( e.type == 'checkbox' && e.name != 'checkall-toggle' && !e.checked ) {
+					c = false;
+					break;
+				}
+			}
+
+			form.elements[ 'checkall-toggle' ].checked = c;
+		};
+	"
+);
+
+$doc->addScriptDeclaration(
 	"
 		jQuery(document).ready(function($){
 			window.parent.document.updateUploader();
@@ -48,45 +82,36 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
-	<div class="muted">
+	<div class="muted breadcrumbs">
 		<p>
 			<span class="icon-folder"></span>
-			<?php if ($this->state->folder != '') : ?>
-				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images') . '/' . $this->state->folder; ?>
-			<?php else : ?>
-				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images'); ?>
-			<?php endif; ?>
+			<?php
+				echo $params->get($path, 'images'),
+					($this->state->folder != '') ? '/' . $this->state->folder : '';
+			?>
 		</p>
 	</div>
 
-	<ul class="manager thumbnails">
+	<div>
+		<label class="checkbox btn">
+			<?php echo JHtml::_('grid.checkall'); ?>
+			<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>
+		</label>
+	</div>
+
+	<ul class="manager thumbnails thumbnails-media">
 		<?php
-		echo $this->loadTemplate('up');
+			echo $this->loadTemplate('up'),
+				$this->loadTemplate('folders'),
+				$this->loadTemplate('docs'),
+				$this->loadTemplate('videos'),
+				$this->loadTemplate('imgs');
 		?>
-
-		<?php for ($i = 0, $n = count($this->folders); $i < $n; $i++) :
-			$this->setFolder($i);
-			echo $this->loadTemplate('folder');
-		endfor; ?>
-
-		<?php for ($i = 0, $n = count($this->documents); $i < $n; $i++) :
-			$this->setDoc($i);
-			echo $this->loadTemplate('doc');
-		endfor; ?>
-
-		<?php for ($i = 0, $n = count($this->videos); $i < $n; $i++) :
-			$this->setVideo($i);
-			echo $this->loadTemplate('video');
-		endfor; ?>
-
-		<?php for ($i = 0, $n = count($this->images); $i < $n; $i++) :
-			$this->setImage($i);
-			echo $this->loadTemplate('img');
-		endfor; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="username" value="" />
 		<input type="hidden" name="password" value="" />
+		<input type="hidden" name="boxchecked" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</ul>
 </form>

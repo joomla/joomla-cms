@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -40,10 +40,10 @@ class FinderIndexerResult
 	 */
 	protected $instructions = array(
 		FinderIndexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-		FinderIndexer::TEXT_CONTEXT => array('summary', 'body'),
-		FinderIndexer::META_CONTEXT => array('meta', 'list_price', 'sale_price'),
-		FinderIndexer::PATH_CONTEXT => array('path', 'alias'),
-		FinderIndexer::MISC_CONTEXT => array('comments')
+		FinderIndexer::TEXT_CONTEXT  => array('summary', 'body'),
+		FinderIndexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
+		FinderIndexer::PATH_CONTEXT  => array('path', 'alias'),
+		FinderIndexer::MISC_CONTEXT  => array('comments'),
 	);
 
 	/**

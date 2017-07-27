@@ -17,9 +17,11 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\Version;
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
@@ -29,14 +31,14 @@ $systemGit = trim(ob_get_clean());
 // Make sure file and folder permissions are set correctly
 umask(022);
 
-// Import JVersion to set the version information
+// Import the version class to set the version information
 define('JPATH_PLATFORM', 1);
-require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
+require_once dirname(__DIR__) . '/libraries/src/Joomla/CMS/Version.php';
 
 // Set version information for the build
-$version     = JVersion::RELEASE;
-$release     = JVersion::DEV_LEVEL;
-$stability   = JVersion::DEV_STATUS;
+$version     = Version::RELEASE;
+$release     = Version::DEV_LEVEL;
+$stability   = Version::DEV_STATUS;
 $fullVersion = $version . '.' . $release;
 
 // Shortcut the paths to the repository root and build folder
@@ -99,17 +101,29 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.appveyor.yml',
+	'.drone.yml',
 	'.github',
 	'.gitignore',
+	'.hound.yml',
+	'.php_cs',
 	'.travis.yml',
 	'README.md',
+	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'karma.conf.js',
 	'phpunit.xml.dist',
+	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
+	'codeception.yml',
+	'Jenkinsfile',
+	'jenkins-phpunit.xml',
+	'RoboFile.php',
+	'RoboFile.dist.ini',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',

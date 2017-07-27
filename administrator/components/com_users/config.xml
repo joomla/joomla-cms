@@ -6,10 +6,11 @@
 		<field
 			name="allowUserRegistration"
 			type="radio"
+			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
-			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -17,27 +18,29 @@
 		<field
 			name="new_usertype"
 			type="usergrouplist"
-			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
 			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
-			showon="allowUserRegistration:1">
-		</field>
+			default="2"
+			checksuperusergroup="1"
+		/>
 
 		<field
 			name="guest_usergroup"
 			type="usergrouplist"
-			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
-		</field>
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
+			default="1"
+			checksuperusergroup="1"
+		/>
 
 		<field
 			name="sendpassword"
 			type="radio"
+			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
+			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
-			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -45,24 +48,23 @@
 		<field
 			name="useractivation"
 			type="list"
-			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
-			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
-			<option
-				value="0">JNONE</option>
-			<option
-				value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
-			<option
-				value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
+			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC"
+			default="2"
+			>
+			<option value="0">JNONE</option>
+			<option value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
+			<option value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
 		</field>
 
 		<field
 			name="mail_to_admin"
 			type="radio"
+			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
+			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
-			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -70,46 +72,48 @@
 		<field
 			name="captcha"
 			type="plugins"
-			folder="captcha"
-			default=""
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
-			filter="cmd" >
-			<option
-				value="">JOPTION_USE_DEFAULT</option>
-			<option
-				value="0">JOPTION_DO_NOT_USE</option>
+			folder="captcha"
+			filter="cmd"
+			useglobal="true"
+			>
+			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
 		<field
 			name="frontend_userparams"
 			type="radio"
+			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
 		<field
 			name="site_language"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			showon="frontend_userparams:1"
-		>
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
 		<field
 			name="change_login_name"
 			type="radio"
+			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
+			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
-			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -127,8 +131,8 @@
 			first="0"
 			last="20"
 			step="1"
-			default="10">
-			</field>
+			default="10"
+		/>
 
 		<field
 			name="reset_time"
@@ -138,8 +142,8 @@
 			first="1"
 			last="24"
 			step="1"
-			default="1">
-			</field>
+			default="1"
+		/>
 
 		<field
 			name="minimum_length"
@@ -149,8 +153,8 @@
 			first="4"
 			last="99"
 			step="1"
-			default="4">
-			</field>
+			default="4"
+		/>
 
 		<field
 			name="minimum_integers"
@@ -160,8 +164,8 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
-			</field>
+			default="0"
+		/>
 
 		<field
 			name="minimum_symbols"
@@ -171,8 +175,8 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
-			</field>
+			default="0"
+		/>
 
 		<field
 			name="minimum_uppercase"
@@ -182,21 +186,22 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
-			</field>
+			default="0"
+		/>
+
 	</fieldset>
 
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
 
-			<field
+		<field
 			name="save_history"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -205,12 +210,13 @@
 		<field
 			name="history_limit"
 			type="text"
-			filter="integer"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			filter="integer"
 			default="5"
 			showon="save_history:1"
 		/>
+
 	</fieldset>
 
  	<fieldset
@@ -228,11 +234,74 @@
  		<field
  			name="mailBodySuffix"
 			type="textarea"
- 			rows="5"
- 			cols="30"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
+ 			rows="5"
+ 			cols="30"
 		/>
+
+	</fieldset>
+
+	<fieldset
+		name="debug"
+		label="COM_USERS_DEBUG_LABEL"
+		description="COM_USERS_DEBUG_DESC">
+
+		<field
+			name="debugUsers"
+			type="radio"
+			label="COM_USERS_DEBUG_USERS_LABEL"
+			description="COM_USERS_DEBUG_USERS_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="debugGroups"
+			type="radio"
+			label="COM_USERS_DEBUG_GROUPS_LABEL"
+			description="COM_USERS_DEBUG_GROUPS_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset name="integration"
+		label="JGLOBAL_INTEGRATION_LABEL"
+		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
+	>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno btn-group-reversed"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer"
+		>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+		</field>
+
+		<field
+			name="custom_fields_enable"
+			type="radio"
+			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 	</fieldset>
 
@@ -249,6 +318,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_users"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>

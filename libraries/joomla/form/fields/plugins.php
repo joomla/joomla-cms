@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -82,7 +82,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -112,7 +112,8 @@ class JFormFieldPlugins extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$folder = $this->folder;
+		$folder        = $this->folder;
+		$parentOptions = parent::getOptions();
 
 		if (!empty($folder))
 		{
@@ -124,19 +125,29 @@ class JFormFieldPlugins extends JFormFieldList
 				->where('folder = ' . $db->quote($folder))
 				->where('enabled = 1')
 				->order('ordering, name');
-			$db->setQuery($query);
 
-			$options = $db->loadObjectList();
+			$options   = $db->setQuery($query)->loadObjectList();
+			$lang      = JFactory::getLanguage();
+			$useGlobal = $this->element['useglobal'];
 
-			$lang = JFactory::getLanguage();
+			if ($useGlobal)
+			{
+				$globalValue = JFactory::getConfig()->get($this->fieldname);
+			}
 
 			foreach ($options as $i => $item)
 			{
-				$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
+				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
-					$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				||	$lang->load($extension . '.sys', $source, null, false, true);
+				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
 				$options[$i]->text = JText::_($item->text);
+
+				// If we are using useglobal update the use global value text with the plugin text.
+				if ($useGlobal && isset($parentOptions[0]) && $item->value === $globalValue)
+				{
+					$text                   = JText::_($extension);
+					$parentOptions[0]->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text === '' || $text === $extension ? $item->value : $text));
+				}
 			}
 		}
 		else
@@ -144,9 +155,6 @@ class JFormFieldPlugins extends JFormFieldList
 			JLog::add(JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), JLog::WARNING, 'jerror');
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge($parentOptions, $options);
 	}
 }

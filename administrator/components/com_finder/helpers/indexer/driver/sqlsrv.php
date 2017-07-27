@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -140,8 +140,8 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				. $db->quote($item->publish_end_date) . ', '
 				. $db->quote($item->start_date) . ', '
 				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ? $item->list_price : 0) . ', '
-				. (double) ($item->sale_price ? $item->sale_price : 0)
+				. (double) ($item->list_price ?: 0) . ', '
+				. (double) ($item->sale_price ?: 0)
 			);
 			$db->setQuery($query);
 			$db->execute();
@@ -167,8 +167,8 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
 				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
 				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
-				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0))
-				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0))
+				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ?: 0))
+				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ?: 0))
 				->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
@@ -466,7 +466,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		{
 			// Update the link counts for the terms.
 			$query->update('t')
-				->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS AS m ON m.term_id = t.term_id')
+				->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS m ON m.term_id = t.term_id')
 				->where('m.link_id = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();

@@ -1,0 +1,52 @@
+// Modals
+
+body.modal-open {
+	-ms-overflow-style: none;
+}
+
+.modal-header {
+  padding: 0 20px;
+  text-align: left;
+  h3 {
+  	font-weight: normal;
+  	line-height: 50px;
+  }
+  .close {
+    width: 50px;
+    margin-top: 0;
+    margin-right: -15px;
+    font-size: 2rem;
+    line-height: 50px;
+    border-left: 1px solid #ccc;
+  }
+}
+
+.modal-body {
+  padding: 0;
+  width: 100%;
+  height: auto;
+  .container-fluid {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+
+.modal-footer {
+	clear: both;
+}
+
+.contentpane {
+  padding: 10px;
+  height: auto
+}
+
+@media (min-width: 768px) {
+	.row-fluid .modal-batch [class*="span"] {
+		margin-left: 0;
+	}
+}
+
+/* Component pop-up */
+.container-popup {
+	padding: 28px 10px 10px 10px;
+}

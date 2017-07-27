@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,8 +68,7 @@ class TagsViewTags extends JViewLegacy
 				}
 
 				// Prepare the data.
-				$temp = new Registry;
-				$temp->loadString($itemElement->params);
+				$temp = new Registry($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
@@ -123,7 +122,7 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		elseif(!empty($items[0]))
+		elseif (!empty($items[0]))
 		{
 			// Merge so that tag params take priority
 			$temp->merge($items[0]->params);
@@ -166,7 +165,7 @@ class TagsViewTags extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && ($menu->query['option'] != 'com_tags'))
+		if ($menu && $menu->query['option'] !== 'com_tags')
 		{
 			$this->params->set('page_subheading', $menu->title);
 		}

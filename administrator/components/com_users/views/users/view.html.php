@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class UsersViewUsers extends JViewLegacy
 	 * A JForm instance with filter fields.
 	 *
 	 * @var    JForm
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	 public $filterForm;
 
@@ -52,7 +52,7 @@ class UsersViewUsers extends JViewLegacy
 	 * An array with active filters.
 	 *
 	 * @var    array
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	public $activeFilters;
 	
@@ -60,7 +60,7 @@ class UsersViewUsers extends JViewLegacy
 	 * An ACL object to verify user rights.
 	 *
 	 * @var    JObject
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	 protected $canDo;
 	
@@ -68,7 +68,7 @@ class UsersViewUsers extends JViewLegacy
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	 protected $db;
 
@@ -94,9 +94,7 @@ class UsersViewUsers extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Include the component HTML helpers.
@@ -183,14 +181,14 @@ class UsersViewUsers extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'a.name' => JText::_('COM_USERS_HEADING_NAME'),
-				'a.username' => JText::_('JGLOBAL_USERNAME'),
-				'a.block' => JText::_('COM_USERS_HEADING_ENABLED'),
-				'a.activation' => JText::_('COM_USERS_HEADING_ACTIVATED'),
-				'a.email' => JText::_('JGLOBAL_EMAIL'),
-				'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
-				'a.registerDate' => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
-				'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.name'          => JText::_('COM_USERS_HEADING_NAME'),
+			'a.username'      => JText::_('JGLOBAL_USERNAME'),
+			'a.block'         => JText::_('COM_USERS_HEADING_ENABLED'),
+			'a.activation'    => JText::_('COM_USERS_HEADING_ACTIVATED'),
+			'a.email'         => JText::_('JGLOBAL_EMAIL'),
+			'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
+			'a.registerDate'  => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
+			'a.id'            => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

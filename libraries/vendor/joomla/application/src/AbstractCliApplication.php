@@ -37,14 +37,18 @@ abstract class AbstractCliApplication extends AbstractApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Input\Cli      $input     An optional argument to provide dependency injection for the application's
-	 *                                    input object.  If the argument is an InputCli object that object will become
-	 *                                    the application's input object, otherwise a default input object is created.
-	 * @param   Registry       $config    An optional argument to provide dependency injection for the application's
-	 *                                    config object.  If the argument is a Registry object that object will become
-	 *                                    the application's config object, otherwise a default config object is created.
-	 * @param   Cli\CliOutput  $output    The output handler.
-	 * @param   Cli\CliInput   $cliInput  The CLI input handler.
+	 * @param   Input\Cli      $input     An optional argument to provide dependency injection for the application's input object.  If the
+	 *                                    argument is an Input\Cli object that object will become the application's input object, otherwise
+	 *                                    a default input object is created.
+	 * @param   Registry       $config    An optional argument to provide dependency injection for the application's config object.  If the
+	 *                                    argument is a Registry object that object will become the application's config object, otherwise
+	 *                                    a default config object is created.
+	 * @param   Cli\CliOutput  $output    An optional argument to provide dependency injection for the application's output object.  If the
+	 *                                    argument is a Cli\CliOutput object that object will become the application's input object, otherwise
+	 *                                    a default output object is created.
+	 * @param   Cli\CliInput   $cliInput  An optional argument to provide dependency injection for the application's CLI input object.  If the
+	 *                                    argument is a Cli\CliInput object that object will become the application's input object, otherwise
+	 *                                    a default input object is created.
 	 *
 	 * @since   1.0
 	 */

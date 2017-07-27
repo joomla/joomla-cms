@@ -1,0 +1,49 @@
+<div id="subform-repeatablejs">
+	<div id="repeatable-container" class="subform-repeatable"
+		 data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
+		 data-repeatable-element="tr.subform-repeatable-group"
+		 data-rows-container="tbody" data-minimum="1" data-maximum="2">
+		<table>
+			<tbody>
+				<tr class="subform-repeatable-group" data-base-name="base-name" data-group="group">
+					<td>Data 1</td>
+					<td>Data 2</td>
+					<td>
+						<input type="checkbox" id="original-input-checkbox" name="input">
+						<label for="original-input-checkbox">Checkbox label</label>
+					</td>
+					<td>
+						<input type="radio" id="original-input-radio" name="input">
+					</td>
+					<td>
+						<div class="btn-group">
+							<a id="subform-original-add" class="group-add" href="#">Add</a>
+							<a id="subform-original-remove" class="group-remove" href="#">Remove</a>
+							<a id="subform-original-move" class="group-move" href="#">Move</a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
+			<tr class="subform-repeatable-group" data-base-name="base-name" data-group="group">
+				<td>Data 3</td>
+				<td>Data 4</td>
+				<td>
+					<input type="checkbox" id="input_checkbox_group_test" name="input_checkbox[group][test]">
+					<label for="input_checkbox_group_test">Checkbox label</label>
+				</td>
+				<td>
+					<input type="radio" id="input_radio_group_test" name="input_radio[group][test]">
+				</td>
+				<td>
+					<div class="btn-group">
+						<a class="group-add generated" href="#">Add</a>
+						<a class="group-remove generated" href="#">Remove</a>
+						<a class="group-move generated" href="#">Move</a>
+					</div>
+				</td>
+			</tr>
+		</script>
+	</div>
+</div>

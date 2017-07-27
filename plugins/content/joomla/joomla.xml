@@ -3,7 +3,7 @@
 	<name>plg_content_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -31,11 +31,12 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="email_new_fe"
+				<field 
+					name="email_new_fe"
 					type="radio"
-					class="btn-group btn-group-yesno"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
+					class="btn-group btn-group-yesno"
 					default="1"
 					>
 					<option value="1">JYES</option>

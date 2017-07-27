@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
+	<?php if ($this->category->description && $this->params->get('show_description')) : ?>
 		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
@@ -65,15 +65,12 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php endforeach; ?>
 </div>
 <?php endif; ?>
-<?php
-	$introcount = (count($this->intro_items));
-	$counter = 0;
-?>
 <?php if (!empty($this->intro_items)) : ?>
-
+	<?php $introcount = count($this->intro_items); ?>
+	<?php $counter = 0; ?>
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 		<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
-		<?php if ($rowcount == 1) : ?>
+		<?php if ($rowcount === 1) : ?>
 			<?php $row = $counter / $this->columns; ?>
 			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 		<?php endif; ?>
@@ -84,7 +81,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		?>
 		</article>
 		<?php $counter++; ?>
-		<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
+		<?php if ($rowcount === (int) $this->columns or $counter === $introcount) : ?>
 			<span class="row-separator"></span>
 			</div>
 		<?php endif; ?>
@@ -96,7 +93,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 
-<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
+<?php if ($this->params->get('maxLevel') != 0 && is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0) : ?>
 	<div class="cat-children">
 
 	<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
@@ -108,7 +105,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	</div>
 <?php endif; ?>
 
-<?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
+<?php if ($this->pagination->pagesTotal > 1 && ($this->params->def('show_pagination', 1) == 1 || $this->params->get('show_pagination') == 2)) : ?>
 	<div class="pagination">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 		<p class="counter">
