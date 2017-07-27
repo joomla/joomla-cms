@@ -76,4 +76,19 @@ class Database extends Controller
 
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
 	}
+
+	/**
+	 * Clear the changeSetList in the session
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function findproblems()
+	{
+		$session = \JFactory::getSession();
+		$session->set('changeSetList');
+
+		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
+	}
 }

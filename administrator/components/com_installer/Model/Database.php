@@ -122,7 +122,16 @@ class Database extends Installer
 	 */
 	public function getItems($extensionIdArray = null)
 	{
-		$db = $this->getDbo();
+		$session = \JFactory::getSession();
+
+		$changeSetList = $session->get('changeSetList');
+
+		if ($changeSetList != null)
+		{
+			return json_decode($changeSetList);
+		}
+
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from(
@@ -164,7 +173,7 @@ class Database extends Installer
 				if (strcmp($result->element, 'joomla') == 0)
 				{
 					$result->element = 'com_admin';
-					$index = 'core';
+					$index           = 'core';
 				}
 
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
@@ -172,11 +181,11 @@ class Database extends Installer
 				$changeset = new ChangeSet($db, $folderTmp);
 
 				$changeSetList[$index] = array(
-					'changeset'         => $changeset,
-					'errors'            => $changeset->check(),
-					'results'           => $changeset->getStatus(),
-					'schema'            => $changeset->getSchema(),
-					'extension'         => $result
+					'changeset' => $changeset,
+					'errors'    => $changeset->check(),
+					'results'   => $changeset->getStatus(),
+					'schema'    => $changeset->getSchema(),
+					'extension' => $result
 				);
 			}
 		}
@@ -187,7 +196,11 @@ class Database extends Installer
 			return false;
 		}
 
-		return $changeSetList;
+		$changeSetList = json_encode($changeSetList);
+
+		$session->set('changeSetList', $changeSetList);
+
+		return json_decode($changeSetList);
 	}
 
 	/**

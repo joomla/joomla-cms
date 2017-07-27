@@ -33,8 +33,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 								<?php endif; ?>
 
-								<?php if ($this->schemaVersion != $this->changeSet['core']['changeset']->getSchema()) : ?>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet['core']['changeset']->getSchema()); ?></li>
+								<?php if ($this->schemaVersion != $this->changeSet->core->schema) : ?>
+									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->core->schema); ?></li>
 								<?php endif; ?>
 
 								<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
@@ -159,8 +159,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
 								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->updateVersion); ?></li>
 								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results['ok'])); ?></li>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->results['skipped'])); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results->ok)); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->results->skipped)); ?></li>
 							</ul>
 						</fieldset>
 					</div>

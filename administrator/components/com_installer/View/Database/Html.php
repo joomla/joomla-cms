@@ -44,15 +44,15 @@ class Html extends InstallerViewDefault
 
 		// Get data from the model.
 		$this->changeSet        = $this->get('Items');
-		$this->errors           = $this->changeSet['core']['changeset']->check();
-		$this->results          = $this->changeSet['core']['changeset']->getStatus();
+		$this->errors           = $this->changeSet->core->errors;
+		$this->results          = $this->changeSet->core->results;
 		$this->schemaVersion    = $this->get('SchemaVersion');
 		$this->updateVersion    = $this->get('UpdateVersion');
 		$this->filterParams     = $this->get('DefaultTextFilters');
 		$this->schemaVersion    = ($this->schemaVersion) ? $this->schemaVersion : \JText::_('JNONE');
 		$this->updateVersion    = ($this->updateVersion) ? $this->updateVersion : \JText::_('JNONE');
 		$this->pagination       = $this->get('Pagination');
-		$this->errorCount       = count($this->errors);
+		$this->errorCount       = count($this->changeSet->core->errors);
 		$this->filterForm       = $this->get('FilterForm');
 		$this->activeFilters    = $this->get('ActiveFilters');
 		$this->errorCount3rd    = 0;
@@ -65,13 +65,13 @@ class Html extends InstallerViewDefault
 				continue;
 			}
 
-			if (strcmp($changeset['schema'], $changeset['extension']->version_id) != 0)
+			if (strcmp($changeset->schema, $changeset->extension->version_id) != 0)
 			{
 				$this->errorCount3rd++;
 			}
 		}
 
-		if ($this->schemaVersion != $this->changeSet['core']['changeset']->getSchema())
+		if ($this->schemaVersion != $this->changeSet->core->schema)
 		{
 			$this->errorCount++;
 		}
@@ -130,6 +130,7 @@ class Html extends InstallerViewDefault
 			ToolbarHelper::custom('database.fix3rd', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX_3RD', false);
 		}
 
+		ToolbarHelper::custom('database.findproblems', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false);
 		ToolbarHelper::divider();
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
