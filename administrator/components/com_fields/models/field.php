@@ -196,6 +196,8 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		FieldsHelper::clearFieldsCache();
+
 		return true;
 	}
 
@@ -642,6 +644,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		$this->valueCache = array();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}

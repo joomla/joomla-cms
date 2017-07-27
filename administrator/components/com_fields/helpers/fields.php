@@ -728,4 +728,17 @@ class FieldsHelper
 
 		return $data;
 	}
+
+	/**
+	 * Clears the internal cache for the custom fields.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearFieldsCache()
+	{
+		self::$fieldCache  = null;
+		self::$fieldsCache = null;
+	}
 }
