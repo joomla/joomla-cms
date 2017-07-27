@@ -227,10 +227,12 @@ class SearchViewSearch extends JViewLegacy
 					{
 						$pos += $cnt * $highlighterLen;
 
-						/* Avoid overlapping/corrupted highlighter-spans
+						/*
+						 * Avoid overlapping/corrupted highlighter-spans
 						 * TODO $chkOverlap could be used to highlight remaining part
 						 * of search-word outside last highlighter-span.
-						 * At the moment no additional highlighter is set.*/
+						 * At the moment no additional highlighter is set.
+						 */
 						$chkOverlap = $pos - $lastHighlighterEnd;
 
 						if ($chkOverlap >= 0)
@@ -258,16 +260,22 @@ class SearchViewSearch extends JViewLegacy
 
 				$result = &$results[$i];
 
+				$created = '';
+
 				if ($result->created)
 				{
 					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
-				else
-				{
-					$created = '';
-				}
 
-				$result->title   = StringHelper::str_ireplace($needle, $hl1 . $needle . $hl2, htmlspecialchars($result->title, ENT_COMPAT, 'UTF-8'));
+				$result->title   = StringHelper::substr_replace(
+					$needle,
+					$hl1 . $needle . $hl2,
+					htmlspecialchars(
+						$result->title, ENT_COMPAT, 'UTF-8'
+					)
+				);
+
+				var_dump($result->text);die;
 				$result->text    = JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;
