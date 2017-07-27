@@ -267,7 +267,7 @@ class SearchViewSearch extends JViewLegacy
 					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
 
-				$result->title   = StringHelper::substr_replace(
+				$result->title   = StringHelper::str_ireplace(
 					$needle,
 					$hl1 . $needle . $hl2,
 					htmlspecialchars(
@@ -275,7 +275,6 @@ class SearchViewSearch extends JViewLegacy
 					)
 				);
 
-				var_dump($result->text);die;
 				$result->text    = JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;
