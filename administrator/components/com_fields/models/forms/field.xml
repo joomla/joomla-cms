@@ -263,7 +263,7 @@
 			</field>
 
 			<field
-				name="showformlabel"
+				name="show_form_label"
 				type="radio"
 				label="COM_FIELDS_FIELD_SHOWFORMLABEL_LABEL"
 				description="COM_FIELDS_FIELD_SHOWFORMLABEL_DESC"
