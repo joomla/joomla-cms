@@ -103,7 +103,8 @@
 			label="JFIELD_ORDERING_LABEL"
 		/>
 
-		<field name="language"
+		<field
+			name="language"
 			type="language"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="JFIELD_MODULE_LANGUAGE_DESC"
