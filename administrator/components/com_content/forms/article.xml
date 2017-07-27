@@ -55,22 +55,6 @@
 		/>
 
 		<field 
-			name="state" 
-			type="list" 
-			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" 
-			class="custom-select-color-state"
-			filter="intval" 
-			size="1" 
-			default="1"
-			>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASHED</option>
-		</field>
-
-		<field 
 			name="catid"
 			type="categoryedit"
 			class="advancedSelect"

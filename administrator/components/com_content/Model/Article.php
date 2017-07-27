@@ -11,6 +11,8 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Categories\Categories;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Model\Admin;
@@ -481,6 +483,8 @@ class Article extends Admin
 	{
 		$input  = \JFactory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true);
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -522,6 +526,40 @@ class Article extends Admin
 
 			// Create new category and get catid back
 			$data['catid'] = \CategoriesHelper::createCategory($table);
+		}
+
+		$cat = Categories::getInstance("content");
+		$workflowId = json_decode($cat->get($data['catid'])->params)->workflow_id;
+
+		// Only if it is not edit mode
+		if (!isset($data['id']))
+		{
+			$query
+				->select($db->qn("id"))
+				->from($db->qn("#__workflow_states"))
+				->where($db->qn("default") . '=' . 1);
+
+			if (is_numeric($workflowId) && $workflowId !== '0')
+			{
+				$query->where($db->qn("workflow_id") . '=' . $workflowId);
+				$data['workflow_id'] = $workflowId;
+			}
+			else
+			{
+				$queryWorkflow = $db->getQuery(true)
+					->select($db->qn("id"))
+					->from($db->qn("#__workflows"))
+					->where($db->qn("default") . '=1');
+				$db->setQuery($queryWorkflow);
+				$workflow = $db->loadResult();
+				$query->where($db->qn("workflow_id") . '=' . $workflow);
+				$data['workflow_id'] = $workflow;
+			}
+
+			$db->setQuery($query);
+			$state = $db->loadResult();
+
+			$data['state'] = $state;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))

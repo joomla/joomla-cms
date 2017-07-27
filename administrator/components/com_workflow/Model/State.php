@@ -64,7 +64,8 @@ class State extends Admin
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select("id")
+			$query
+				->select($db->qn("id"))
 				->from($db->qn("#__workflow_states"))
 				->where($db->qn("workflow_id") . '=' . $workflowID)
 				->andWhere($db->qn("default") . '= 1');
@@ -98,7 +99,7 @@ class State extends Admin
 		}
 
 		$app = \JFactory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'int');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$isAssigned = WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $record->id);
 
@@ -230,9 +231,9 @@ class State extends Admin
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 		$app = \JFactory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 0, 'int');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
-		// Default menu item existence checks.
+		// Default item existence checks.
 		if ($value != 1)
 		{
 			foreach ($pks as $i => $pk)

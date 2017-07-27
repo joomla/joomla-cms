@@ -35,7 +35,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 				<?php else: ?>
 					<table class="table table-striped" id="emailList">
 						<thead><?php echo $this->loadTemplate('head');?></thead>
-						<tbody class="js-draggable"><?php echo $this->loadTemplate('body');?></tbody>
+						<tbody><?php echo $this->loadTemplate('body');?></tbody>
 						<tfoot>
 							<tr>
 								<td colspan="<?php echo $columns; ?>">
