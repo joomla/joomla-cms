@@ -259,7 +259,6 @@ class Toolbar
 
 			if (!$buttonClass)
 			{
-				// @todo remove code: return \JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 				return false;
 			}
 		}
@@ -313,6 +312,8 @@ class Toolbar
 	 * @param   mixed  $path  Directory or directories to search.
 	 *
 	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	public function addButtonPath($path)
 	{

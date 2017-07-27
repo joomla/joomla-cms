@@ -156,7 +156,18 @@ abstract class PluginHelper
 			$defaults = true;
 		}
 
-		if (!$defaults || !isset($loaded[$type]))
+		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
+		$dispatcher = $dispatcher ?: \JEventDispatcher::getInstance();
+
+		// Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
+		$dispatcherHash = spl_object_hash($dispatcher);
+
+		if (!isset($loaded[$dispatcherHash]))
+		{
+			$loaded[$dispatcherHash] = array();
+		}
+
+		if (!$defaults || !isset($loaded[$dispatcherHash][$type]))
 		{
 			$results = null;
 
@@ -179,10 +190,10 @@ abstract class PluginHelper
 				return $results;
 			}
 
-			$loaded[$type] = $results;
+			$loaded[$dispatcherHash][$type] = $results;
 		}
 
-		return $loaded[$type];
+		return $loaded[$dispatcherHash][$type];
 	}
 
 	/**
@@ -217,30 +228,35 @@ abstract class PluginHelper
 	{
 		static $paths = array();
 
+		// Ensure we have a dispatcher now so we can correctly track the loaded paths
+		$dispatcher = $dispatcher ?: \JEventDispatcher::getInstance();
+
+		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
+		$dispatcherHash = spl_object_hash($dispatcher);
+
+		if (!isset($paths[$dispatcherHash]))
+		{
+			$paths[$dispatcherHash] = array();
+		}
+
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]))
+		if (!isset($paths[$dispatcherHash][$path]))
 		{
 			if (file_exists($path))
 			{
-				if (!isset($paths[$path]))
+				if (!isset($paths[$dispatcherHash][$path]))
 				{
 					require_once $path;
 				}
 
-				$paths[$path] = true;
+				$paths[$dispatcherHash][$path] = true;
 
 				if ($autocreate)
 				{
-					// Makes sure we have an event dispatcher
-					if (!is_object($dispatcher))
-					{
-						$dispatcher = \JEventDispatcher::getInstance();
-					}
-
 					$className = 'Plg' . $plugin->type . $plugin->name;
 
 					if (class_exists($className))
@@ -259,7 +275,7 @@ abstract class PluginHelper
 			}
 			else
 			{
-				$paths[$path] = false;
+				$paths[$dispatcherHash][$path] = false;
 			}
 		}
 	}

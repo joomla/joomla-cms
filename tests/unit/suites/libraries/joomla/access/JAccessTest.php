@@ -25,6 +25,11 @@ class JAccessTest extends TestCaseDatabase
 	protected $object;
 
 	/**
+	 * @var string
+	 */
+	protected $outputPath;
+
+	/**
 	 * Tests the \Joomla\CMS\Access\Access::getAuthorisedViewLevels method.
 	 *
 	 * @return  void
@@ -407,7 +412,7 @@ class JAccessTest extends TestCaseDatabase
 		);
 
 		file_put_contents(
-			JPATH_TESTS . '/tmp/access/access.xml',
+			$this->outputPath . '/access.xml',
 			'<access component="com_banners">
 	<section name="component">
 		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
@@ -427,7 +432,7 @@ class JAccessTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			\Joomla\CMS\Access\Access::getActionsFromFile(JPATH_TESTS . '/tmp/access/access.xml'),
+			\Joomla\CMS\Access\Access::getActionsFromFile($this->outputPath . '/access.xml'),
 			$this->equalTo(
 				array(
 					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
@@ -479,11 +484,9 @@ class JAccessTest extends TestCaseDatabase
 
 		$this->object = new \Joomla\CMS\Access\Access;
 
-		// Make sure previous test files are cleaned up
-		$this->_cleanupTestFiles();
-
 		// Make some test files and folders
-		mkdir(JPath::clean(JPATH_TESTS . '/tmp/access'), 0777, true);
+		$this->outputPath = JPath::clean(JPATH_TESTS . '/tmp/access/' . uniqid());
+		mkdir($this->outputPath, 0777, true);
 	}
 
 	/**
@@ -509,8 +512,8 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	private function _cleanupTestFiles()
 	{
-		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/access/access.xml'));
-		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/access'));
+		$this->_cleanupFile(JPath::clean($this->outputPath . '/access.xml'));
+		$this->_cleanupFile(JPath::clean($this->outputPath));
 	}
 
 	/**
