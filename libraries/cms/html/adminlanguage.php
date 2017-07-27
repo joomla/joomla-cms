@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with administrator language select lists
  *
- * @since  1.6
+ * @since  3.8.0
  */
 abstract class JHtmlAdminLanguage
 {
