@@ -93,7 +93,7 @@ class JTextWrapper
 	/**
 	 * Helper wrapper method for printf
 	 *
-	 * @param   format  $string  The format string.
+	 * @param   string  $string  The format string.
 	 *
 	 * @return  mixed
 	 *

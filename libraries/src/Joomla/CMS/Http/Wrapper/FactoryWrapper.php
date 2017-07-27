@@ -11,7 +11,9 @@ namespace Joomla\CMS\Http\Wrapper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Http\TransportInterface;
 
 /**
  * Wrapper class for HttpFactory
@@ -28,11 +30,11 @@ class FactoryWrapper
 	 * @param   Registry  $options   Client options object.
 	 * @param   mixed     $adapters  Adapter (string) or queue of adapters (array) to use for communication.
 	 *
-	 * @return Http      Joomla Http class
+	 * @return  Http      Joomla Http class
 	 *
 	 * @see     HttpFactory::getHttp()
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function getHttp(Registry $options = null, $adapters = null)
 	{
@@ -45,7 +47,7 @@ class FactoryWrapper
 	 * @param   Registry  $options  Option for creating http transport object.
 	 * @param   mixed     $default  Adapter (string) or queue of adapters (array) to use.
 	 *
-	 * @return HttpTransport Interface sub-class
+	 * @return  TransportInterface  Interface sub-class
 	 *
 	 * @see     HttpFactory::getAvailableDriver()
 	 * @since   3.4

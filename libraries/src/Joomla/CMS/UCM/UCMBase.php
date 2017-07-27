@@ -64,7 +64,7 @@ class UCMBase implements UCM
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	protected function store($data, TableInterface $table = null, $primaryKey = null)
 	{
