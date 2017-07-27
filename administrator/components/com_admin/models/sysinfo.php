@@ -193,7 +193,7 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * Offuscate section values
+	 * Obfuscate section values
 	 *
 	 * @param   mixed  $sectionValues  Section data
 	 *
