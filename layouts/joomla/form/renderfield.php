@@ -33,6 +33,6 @@ $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
 		<div class="control-label"><?php echo $label; ?></div>
 		<div class="controls"><?php echo $input; ?></div>
 	<?php else: ?>
-		<div class="controls controls-nolabel" aria-label="<?php echo $label; ?>"><?php echo $input; ?></div>
+		<div class="controls controls-nolabel" aria-label="<?php echo strip_tags($label); ?>"><?php echo $input; ?></div>
 	<?php endif; ?>
 </div>
