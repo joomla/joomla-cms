@@ -173,7 +173,7 @@ class Database extends Installer
 				if (strcmp($result->element, 'joomla') == 0)
 				{
 					$result->element = 'com_admin';
-					$index           = 'core';
+					$index = 'core';
 				}
 
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
