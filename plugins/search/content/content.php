@@ -84,12 +84,12 @@ class PlgSearchContent extends JPlugin
 			case 'exact':
 				$text      = $db->quote('%' . $db->escape($text, true) . '%', false);
 				$wheres2   = array();
-				$wheres2[] = 'a.title LIKE ' . $text;
-				$wheres2[] = 'a.introtext LIKE ' . $text;
-				$wheres2[] = 'a.fulltext LIKE ' . $text;
-				$wheres2[] = 'a.metakey LIKE ' . $text;
-				$wheres2[] = 'a.metadesc LIKE ' . $text;
-				$wheres2[] = 'fv.value LIKE ' . $text;
+				$wheres2[] = 'a.title LIKE BINARY ' . $text;
+				$wheres2[] = 'a.introtext LIKE BINARY ' . $text;
+				$wheres2[] = 'a.fulltext LIKE BINARY ' . $text;
+				$wheres2[] = 'a.metakey LIKE BINARY ' . $text;
+				$wheres2[] = 'a.metadesc LIKE BINARY ' . $text;
+				$wheres2[] = 'fv.value LIKE BINARY ' . $text;
 				$where     = '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
@@ -103,12 +103,12 @@ class PlgSearchContent extends JPlugin
 				{
 					$word      = $db->quote('%' . $db->escape($word, true) . '%', false);
 					$wheres2   = array();
-					$wheres2[] = 'LOWER(a.title) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.introtext) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(fv.value) LIKE LOWER(' . $word . ')';
+					$wheres2[] = 'a.title LIKE BINARY ' . $word;
+					$wheres2[] = 'a.introtext LIKE BINARY ' . $word;
+					$wheres2[] = 'a.fulltext LIKE BINARY ' . $word;
+					$wheres2[] = 'a.metakey LIKE BINARY ' . $word;
+					$wheres2[] = 'a.metadesc LIKE BINARY ' . $word;
+					$wheres2[] = 'fv.value LIKE BINARY ' . $word;
 					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
