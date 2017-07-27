@@ -32,7 +32,6 @@ abstract class JHtmlAdminLanguage
 	 *
 	 * @return  string
 	 *
-	 * @see     JFormFieldAdminLanguage
 	 * @since   3.8.0
 	 */
 	public static function existing($all = false, $translate = false)
