@@ -1231,7 +1231,7 @@ class JDocument
 	 * @param   boolean  $cache   If true, cache the output
 	 * @param   array    $params  Associative array of attributes
 	 *
-	 * @return  The rendered data
+	 * @return  void  The rendered data
 	 *
 	 * @since   11.1
 	 */

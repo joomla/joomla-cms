@@ -119,7 +119,7 @@ class Controller extends \JObject
 	/**
 	 * Hold a JInput object for easier access to the input variables.
 	 *
-	 * @var    JInput
+	 * @var    \JInput
 	 * @since  3.0
 	 */
 	protected $input;
@@ -127,7 +127,7 @@ class Controller extends \JObject
 	/**
 	 * Instance container.
 	 *
-	 * @var    JControllerLegacy
+	 * @var    \JControllerLegacy
 	 * @since  3.0
 	 */
 	protected static $instance;
@@ -135,7 +135,7 @@ class Controller extends \JObject
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    JViewLegacy[]
+	 * @var    \JViewLegacy[]
 	 * @since  3.4
 	 */
 	protected static $views;

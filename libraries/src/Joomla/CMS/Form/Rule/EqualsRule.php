@@ -37,8 +37,8 @@ class EqualsRule extends FormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
-	 * @throws  UnexpectedValueException
+	 * @throws  \InvalidArgumentException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{

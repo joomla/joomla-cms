@@ -30,7 +30,7 @@ class HttpFactory
 	 *
 	 * @return  Http      Joomla Http class
 	 *
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 *
 	 * @since   12.1
 	 */
@@ -107,7 +107,7 @@ class HttpFactory
 		$names = array();
 		$iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
-		/* @type  $file  DirectoryIterator */
+		/* @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();

@@ -282,7 +282,7 @@ class MenuItem extends \stdClass
 			{
 				$this->params = new Registry($this->params);
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				/*
 				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new

@@ -20,12 +20,12 @@ use Joomla\CMS\Filter\InputFilter;
  * @since       11.1
  * @deprecated  5.0  Use Joomla\Input\Input instead
  *
- * @property-read    Input        $get
- * @property-read    Input        $post
- * @property-read    Input        $request
- * @property-read    Input        $server
- * @property-read    InputFiles   $files
- * @property-read    InputCookie  $cookie
+ * @property-read   Input   $get
+ * @property-read   Input   $post
+ * @property-read   Input   $request
+ * @property-read   Input   $server
+ * @property-read   Files   $files
+ * @property-read   Cookie  $cookie
  */
 class Input extends \Joomla\Input\Input
 {
