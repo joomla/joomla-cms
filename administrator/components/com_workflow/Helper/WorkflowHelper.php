@@ -24,36 +24,11 @@ use Joomla\CMS\Helper\ContentHelper;
 class WorkflowHelper extends ContentHelper
 {
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public static function addSubmenu($vName)
-	{
-		$name = explode(".", $vName);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_WORKFLOW_STATE'),
-			'index.php?option=com_workflow&view=states&workflow_id=' . $name[1] . "&extension=" . $name[2],
-			$name[0] == 'states`'
-		);
-
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_WORKFLOW_TRANSITION'),
-			'index.php?option=com_workflow&view=transitions&workflow_id=' . $name[1] . "&extension=" . $name[2],
-			$name[0] == 'transitions'
-		);
-	}
-
-	/**
 	 * Configure the Submenu links.
 	 *
 	 * @param   string  $extension  The extension from where Helper can find.
 	 * @param   string  $method     Method from that extension to invoke.
-	 * @param   array   $parameter  Parameters for that method.
+	 * @param   string  $parameter  Parameters for that method.
 	 *
 	 * @return  boolean
 	 *

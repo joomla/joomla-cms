@@ -5,7 +5,7 @@
 			<field
 					name="workflow_id"
 					type="sql"
-					label="COM_CONTENT_WORKFLOW"
+					label="COM_CONTENT_WORKFLOWS"
 					default="1"
 					class="custom-select-color-state"
 					size="1"
@@ -13,8 +13,9 @@
 			        sql_from="#__workflows"
 			        key_field="id"
 			        value_field="title"
+			        required="1"
 			>
-				<option value="-1">COM_CONTENT_DEFAULT_WORKFLOW</option>
+				<option value="0">COM_CONTENT_DEFAULT_WORKFLOW</option>
  			</field>
 		</fieldset>
 	</fields>

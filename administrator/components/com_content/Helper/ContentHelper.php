@@ -9,6 +9,8 @@
 
 namespace Joomla\Component\Content\Administrator\Helper;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -46,6 +48,25 @@ class ContentHelper extends \JHelperContent
 			'index.php?option=com_workflow&extension=com_content',
 			$vName == 'workflows'
 		);
+
+		if ($vName == 'states' || $vName == 'transitions')
+		{
+			$app = Factory::getApplication();
+			$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
+
+			\JHtmlSidebar::addEntry(
+				\JText::_('COM_WORKFLOW_STATE'),
+				'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
+				$vName == 'states`'
+			);
+
+			\JHtmlSidebar::addEntry(
+				\JText::_('COM_WORKFLOW_TRANSITION'),
+				'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
+				$vName == 'transitions'
+			);
+		}
+
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
@@ -297,29 +318,5 @@ class ContentHelper extends \JHelperContent
 		$states = $db->loadResult();
 
 		return empty($states);
-	}
-
-	/**
-	 * Returns array of transitions
-	 *
-	 * @param   string  $state  State of item
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0
-	 */
-	public static function getTransitions($state)
-	{
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query
-			->select($db->qn('id') . ' AS value, ' . $db->qn('title') . ' AS text')
-			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_state_id') . ' = ' . (int) $state);
-		$db->setQuery($query);
-		$results = $db->loadAssocList();
-
-		return $results;
 	}
 }

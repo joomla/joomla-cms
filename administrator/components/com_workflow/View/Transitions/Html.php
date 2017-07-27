@@ -112,17 +112,7 @@ class Html extends HtmlView
 		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
 
-		WorkflowHelper::addSubmenu(
-			implode(
-				'.', array(
-			"transitions",
-			$this->workflowID,
-			$this->extension
-		)
-		)
-		);
-
-		CategoriesHelper::addSubmenu($this->extension);
+		WorkflowHelper::callMethodFromHelper($this->extension, "addSubmenu", "transitions");
 		$this->sidebar       = \JHtmlSidebar::render();
 
 
@@ -154,5 +144,6 @@ class Html extends HtmlView
 		{
 			ToolbarHelper::trash('transitions.trash');
 		}
+		ToolbarHelper::help('JHELP_WORKFLOW_TRANSITIONS_LIST');
 	}
 }

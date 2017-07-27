@@ -243,15 +243,11 @@ class Articles extends ListModel
 		}
 
 		// Filter by published state
-		$published = (string) $this->getState('filter.published');
+		$published = (string) $this->getState('filter.choose_state');
 
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
-			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
 		// Filter by a single or group of categories.
@@ -363,7 +359,7 @@ class Articles extends ListModel
 
 		$ids = ArrayHelper::getColumn($items, 'state');
 		$ids = ArrayHelper::toInteger($ids);
-		$ids = array_filter($ids);
+		$ids = array_unique(array_filter($ids));
 
 		$this->cache[$store] = array();
 
@@ -381,8 +377,8 @@ class Articles extends ListModel
 								's.title'
 							),
 							array(
-								'id',
-								'title',
+								'value',
+								'text',
 								'state_id',
 								'state_title'
 							)
@@ -396,7 +392,7 @@ class Articles extends ListModel
 						->where($db->quoteName('t.published') . ' = 1')
 						->where($db->quoteName('s.published') . ' = 1');
 
-				$transitions = $db->setQuery($query)->loadObjectList();
+				$transitions = $db->setQuery($query)->loadAssocList();
 
 				foreach ($transitions as $key => $transition)
 				{
@@ -473,5 +469,50 @@ class Articles extends ListModel
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|boolean  The \JForm object or false on error
+	 *
+	 * @since   4.0
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		if ($form)
+		{
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true);
+			$items = $this->getItems();
+
+			$ids = ArrayHelper::getColumn($items, 'state');
+			$ids = ArrayHelper::toInteger($ids);
+			$ids = array_unique(array_filter($ids));
+
+			$select = $db->quoteName(
+				array(
+					'id',
+					'title'
+				),
+				array(
+					'value',
+					'choose_state'
+				)
+			);
+
+			$query
+				->select($select)
+				->from($db->qn('#__workflow_states'))
+				->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
+			$form->setFieldAttribute('choose_state', 'query', (string) $query, 'filter');
+		}
+
+		return $form;
 	}
 }

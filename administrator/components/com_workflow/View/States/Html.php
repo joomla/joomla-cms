@@ -94,16 +94,7 @@ class Html extends HtmlView
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
 
-		WorkflowHelper::addSubmenu(
-			implode(
-				'.', array(
-			"states",
-			$this->state->get("filter.workflow_id"),
-			$this->state->get("filter.extension")
-		)
-		)
-		);
-		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
+		WorkflowHelper::callMethodFromHelper($this->state->get("filter.extension"), "addSubmenu", "states");
 		$this->sidebar       = \JHtmlSidebar::render();
 
 		if (!empty($this->states))
@@ -146,7 +137,7 @@ class Html extends HtmlView
 			ToolbarHelper::trash('states.trash');
 		}
 
-		ToolbarHelper::help('JHELP_WORKFLOWS_LIST');
+		ToolbarHelper::help('JHELP_WORKFLOW_STATES_LIST');
 	}
 
 	/**

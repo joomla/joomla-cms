@@ -32,7 +32,6 @@ $input = $app->input;
 
 $this->fields = array(
 	array('parent', 'parent_id'),
-	'workflow_id',
 	array('category', 'catid'),
 	'featured',
 	'sticky',

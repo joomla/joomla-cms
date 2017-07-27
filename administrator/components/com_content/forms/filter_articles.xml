@@ -10,13 +10,13 @@
 		/>
 
 		<field
-			name="published"
-			type="status"
-			label="COM_CONTENT_FILTER_PUBLISHED"
-			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
+				name="choose_state"
+				type="sql"
+				label="COM_CONTENT_STATES"
+				class="custom-select-color-state"
+				onchange="this.form.submit();"
+		>
+			<option value="0">COM_CONTENT_SELECT_STATE</option>
 		</field>
 
 		<field
