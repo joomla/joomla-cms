@@ -83,7 +83,7 @@ class FeedFactory
 		}
 
 		// Setup the appropriate feed parser for the feed.
-		$parser = $this->fetchFeedParser($reader->name, $reader);
+		$parser = $this->_fetchFeedParser($reader->name, $reader);
 
 		return $parser->parse();
 	}
@@ -134,7 +134,7 @@ class FeedFactory
 	 * @since   12.3
 	 * @throws  \LogicException
 	 */
-	private function fetchFeedParser($type, \XMLReader $reader)
+	private function _fetchFeedParser($type, \XMLReader $reader)
 	{
 		// Look for a registered parser for the feed type.
 		if (empty($this->parsers[$type]))
