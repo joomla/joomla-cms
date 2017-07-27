@@ -164,6 +164,8 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
+		
 		// Per Default allowed DB Hosts
 		$localhost = array(
 			'localhost',
@@ -172,7 +174,7 @@ class InstallationModelDatabase extends JModelBase
 		);
 
 		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if (!in_array($options->db_host, $localhost))
+		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
 		{
 			// Add the general message
 			JFactory::getApplication()->enqueueMessage(
