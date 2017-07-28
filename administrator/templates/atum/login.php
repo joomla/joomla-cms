@@ -67,9 +67,6 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			display: none;
 		}
 		<?php endif; ?>
-		 .form-control-feedback {
-			 display: block;
-		 }
 	</style>
 </head>
 
