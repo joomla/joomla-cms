@@ -13,8 +13,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
 
-use Joomla\Component\Finder\Site\Helpers\Route;
-
+\JLoader::register('\FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 \JLoader::register('\FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 if (!defined('FINDER_PATH_INDEXER'))
