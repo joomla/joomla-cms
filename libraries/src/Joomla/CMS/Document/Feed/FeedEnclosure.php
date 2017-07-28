@@ -11,7 +11,7 @@ namespace Joomla\CMS\Document\Feed;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * FeedEnclosure is an internal class that stores feed enclosure information
+ * Data object representing a feed enclosure
  *
  * @since  11.1
  */

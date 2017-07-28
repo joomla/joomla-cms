@@ -11,7 +11,7 @@ namespace Joomla\CMS\Document\Opensearch;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * OpensearchImage is an internal class that stores Images for the Opensearch Description
+ * Data object representing an OpenSearch image
  *
  * @since  11.1
  */

@@ -11,7 +11,6 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;

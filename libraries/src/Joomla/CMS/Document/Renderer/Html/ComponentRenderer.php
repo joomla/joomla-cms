@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\DocumentRenderer;
 
 /**
- * Document Html Component Renderer
+ * HTML document renderer for the component output
  *
  * @since  3.5
  */

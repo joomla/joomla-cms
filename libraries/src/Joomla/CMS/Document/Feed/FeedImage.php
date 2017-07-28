@@ -11,7 +11,7 @@ namespace Joomla\CMS\Document\Feed;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * FeedImage is an internal class that stores feed image information
+ * Data object representing a feed image
  *
  * @since  11.1
  */

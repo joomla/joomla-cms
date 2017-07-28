@@ -10,10 +10,9 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\Document;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Document\Opensearch\OpensearchUrl;
 use Joomla\CMS\Document\Opensearch\OpensearchImage;
+use Joomla\CMS\Document\Opensearch\OpensearchUrl;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Opensearch class, provides an easy interface to display an Opensearch document

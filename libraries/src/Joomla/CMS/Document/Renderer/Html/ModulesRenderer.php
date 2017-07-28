@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
- * Document Html Modules Renderer
+ * HTML document renderer for a module position
  *
  * @since  3.5
  */

@@ -10,8 +10,6 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\Document;
-
 /**
  * ImageDocument class, provides an easy interface to output image data
  *

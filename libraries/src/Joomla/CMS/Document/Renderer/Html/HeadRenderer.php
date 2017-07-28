@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Document Html Head Renderer
+ * HTML document renderer for the document `<head>` element
  *
  * @since  3.5
  */

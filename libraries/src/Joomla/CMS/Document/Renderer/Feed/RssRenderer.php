@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
  * @link   http://www.rssboard.org/rss-specification
  * @since  3.5
  *
- * @property-read  DocumentFeed  $_doc  Reference to the Document object that instantiated the renderer
+ * @property-read  \Joomla\CMS\Document\FeedDocument  $_doc  Reference to the Document object that instantiated the renderer
  */
 class RssRenderer extends DocumentRenderer
 {

@@ -23,7 +23,7 @@ use Joomla\CMS\Uri\Uri;
  * @link   http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since  3.5
  *
- * @property-read  DocumentFeed  $_doc  Reference to the Document object that instantiated the renderer
+ * @property-read  \Joomla\CMS\Document\FeedDocument  $_doc  Reference to the Document object that instantiated the renderer
  */
 class AtomRenderer extends DocumentRenderer
 {

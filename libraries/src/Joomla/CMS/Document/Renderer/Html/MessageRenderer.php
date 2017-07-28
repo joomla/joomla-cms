@@ -15,7 +15,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
- * Document Html Message Renderer
+ * HTML document renderer for the system message queue
  *
  * @since  3.5
  */

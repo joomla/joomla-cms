@@ -11,7 +11,7 @@ namespace Joomla\CMS\Document\Opensearch;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * OpensearchUrl is an internal class that stores the search URLs for the OpenSearch description
+ * Data object representing an OpenSearch URL
  *
  * @since  11.1
  */

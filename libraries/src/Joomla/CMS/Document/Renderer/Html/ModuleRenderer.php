@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 /**
- * Document Html Module Renderer
+ * HTML document renderer for a single module
  *
  * @since  3.5
  */
