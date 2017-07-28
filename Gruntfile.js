@@ -236,7 +236,7 @@ module.exports = function(grunt) {
 			dist: {
 				options: {
 					precision: '5',
-					sourceMap: false // SHOULD BE FALSE FOR DIST
+					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
 					'<%= folder.adminTemplate %>/css/font-awesome.css': '<%= folder.adminTemplate %>/scss/font-awesome.scss',
@@ -266,6 +266,16 @@ module.exports = function(grunt) {
 				files: [
 					{
 						src: [
+							/**
+							 *  EXCLUSIONS
+							 *
+							 * '<%= folder.puny %>/*.js', '!<%= folder.puny %>/*.min.js', // Uglifying punicode.js fails ES6!!!
+							 *
+							 * Please DO NOT MINIFY the webcomponents folder here!!! They're already minified!
+							 * '<%= folder.system %>/polyfills/webcomponents/*.js', '!<%= folder.system %>/polyfills/webcomponents/*.min.js',
+							 * '<%= folder.media %>/system/webcomponents/*.js', '!<%= folder.media %>/system/webcomponents/*.min.js',
+							 */
+
 							'<%= folder.system %>/*.js',
 							'!<%= folder.system %>/*.min.js',
 							'<%= folder.system %>/fields/*.js',
@@ -274,11 +284,6 @@ module.exports = function(grunt) {
 							'!<%= folder.system %>/fields/calendar-locales/date/*/*.min.js',
 							'<%= folder.system %>/legacy/*.js',
 							'!<%= folder.system %>/legacy/*.min.js',
-
-							// Please DO NOT MINIFY the webcomponents folder here!!! It's already minified!
-							// '<%= folder.system %>/polyfills/webcomponents/*.js', '!<%= folder.system %>/polyfills/webcomponents/*.min.js',
-							// '<%= folder.media %>/system/webcomponents/*.js', '!<%= folder.media %>/system/webcomponents/*.min.js',
-
 							'<%= folder.codemirror %>/addon/*/*.js',
 							'!<%= folder.codemirror %>/addon*/*.min.js',
 							'<%= folder.codemirror %>/keymap/*.js',
@@ -345,7 +350,6 @@ module.exports = function(grunt) {
 							'!<%= folder.media %>/plg_system_stats/js/*.min.js',
 							'<%= folder.media %>/plg_system_debug/js/*.js',
 							'!<%= folder.media %>/plg_system_debug/js/*.min.js',
-							// '<%= folder.puny %>/*.js', '!<%= folder.puny %>/*.min.js', // Uglifying punicode.js fails ES6!!!
 						],
 						dest: '',
 						expand: true,
