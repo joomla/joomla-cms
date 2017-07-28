@@ -1179,7 +1179,7 @@ class Document
 	public function loadRenderer($type)
 	{
 		// Determine the path and class
-		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst($this->getType()) . '\\Renderer' . ucfirst($this->getType()) . ucfirst($type);
+		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst($this->getType()) . '\\' . ucfirst($type) . 'Renderer';
 
 		if (!class_exists($class))
 		{
