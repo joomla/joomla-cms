@@ -1,11 +1,14 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Feed
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Feed;
+
+use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.3
  */
-abstract class JFeedParser
+abstract class FeedParser
 {
 	/**
 	 * The feed element name for the entry elements.
@@ -25,7 +28,7 @@ abstract class JFeedParser
 	protected $entryElementName = 'entry';
 
 	/**
-	 * Array of JFeedParserNamespace objects
+	 * Array of NamespaceParserInterface objects
 	 *
 	 * @var    array
 	 * @since  12.3
@@ -35,7 +38,7 @@ abstract class JFeedParser
 	/**
 	 * The XMLReader stream object for the feed.
 	 *
-	 * @var    XMLReader
+	 * @var    \XMLReader
 	 * @since  12.3
 	 */
 	protected $stream;
@@ -43,11 +46,11 @@ abstract class JFeedParser
 	/**
 	 * Constructor.
 	 *
-	 * @param   XMLReader  $stream  The XMLReader stream object for the feed.
+	 * @param   \XMLReader  $stream  The XMLReader stream object for the feed.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(XMLReader $stream)
+	public function __construct(\XMLReader $stream)
 	{
 		$this->stream  = $stream;
 	}
@@ -55,13 +58,13 @@ abstract class JFeedParser
 	/**
 	 * Method to parse the feed into a JFeed object.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
 	public function parse()
 	{
-		$feed = new JFeed;
+		$feed = new Feed;
 
 		// Detect the feed version.
 		$this->initialise();
@@ -70,7 +73,7 @@ abstract class JFeedParser
 		do
 		{
 			// Expand the element for processing.
-			$el = new SimpleXMLElement($this->stream->readOuterXml());
+			$el = new \SimpleXMLElement($this->stream->readOuterXml());
 
 			// Get the list of namespaces used within this element.
 			$ns = $el->getNamespaces(true);
@@ -110,14 +113,14 @@ abstract class JFeedParser
 	/**
 	 * Method to register a namespace handler object.
 	 *
-	 * @param   string                $prefix     The XML namespace prefix for which to register the namespace object.
-	 * @param   JFeedParserNamespace  $namespace  The namespace object to register.
+	 * @param   string                    $prefix     The XML namespace prefix for which to register the namespace object.
+	 * @param   NamespaceParserInterface  $namespace  The namespace object to register.
 	 *
 	 * @return  JFeed
 	 *
 	 * @since   12.3
 	 */
-	public function registerNamespace($prefix, JFeedParserNamespace $namespace)
+	public function registerNamespace($prefix, NamespaceParserInterface $namespace)
 	{
 		$this->namespaces[$prefix] = $namespace;
 
@@ -137,15 +140,15 @@ abstract class JFeedParser
 	/**
 	 * Method to parse a specific feed element.
 	 *
-	 * @param   JFeed             $feed        The JFeed object being built from the parsed feed.
-	 * @param   SimpleXMLElement  $el          The current XML element object to handle.
-	 * @param   array             $namespaces  The array of relevant namespace objects to process for the element.
+	 * @param   Feed               $feed        The Feed object being built from the parsed feed.
+	 * @param   \SimpleXMLElement  $el          The current XML element object to handle.
+	 * @param   array              $namespaces  The array of relevant namespace objects to process for the element.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	protected function processElement(JFeed $feed, SimpleXMLElement $el, array $namespaces)
+	protected function processElement(Feed $feed, \SimpleXMLElement $el, array $namespaces)
 	{
 		// Build the internal method name.
 		$method = 'handle' . ucfirst($el->getName());
@@ -154,14 +157,14 @@ abstract class JFeedParser
 		if ($el->getName() == $this->entryElementName)
 		{
 			// Create a new feed entry for the item.
-			$entry = new JFeedEntry;
+			$entry = new FeedEntry;
 
 			// First call the internal method.
 			$this->processFeedEntry($entry, $el);
 
 			foreach ($namespaces as $namespace)
 			{
-				if ($namespace instanceof JFeedParserNamespace)
+				if ($namespace instanceof NamespaceParserInterface)
 				{
 					$namespace->processElementForFeedEntry($entry, $el);
 				}
@@ -182,7 +185,7 @@ abstract class JFeedParser
 
 		foreach ($namespaces as $namespace)
 		{
-			if ($namespace instanceof JFeedParserNamespace)
+			if ($namespace instanceof NamespaceParserInterface)
 			{
 				$namespace->processElementForFeed($feed, $el);
 			}
@@ -194,7 +197,7 @@ abstract class JFeedParser
 	 *
 	 * @param   string  $prefix  The XML prefix for which to fetch the namespace object.
 	 *
-	 * @return  mixed  JFeedParserNamespace or false if none exists.
+	 * @return  mixed  NamespaceParserInterface or false if none exists.
 	 *
 	 * @since   12.3
 	 */
@@ -232,7 +235,7 @@ abstract class JFeedParser
 		while ($this->stream->read())
 		{
 			// As soon as we get to the next ELEMENT node we are done.
-			if ($this->stream->nodeType == XMLReader::ELEMENT)
+			if ($this->stream->nodeType == \XMLReader::ELEMENT)
 			{
 				// If we are looking for a specific name make sure we have it.
 				if (isset($name) && ($this->stream->name != $name))
@@ -253,7 +256,7 @@ abstract class JFeedParser
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @throws  RuntimeException  If the closing tag cannot be found.
+	 * @throws  \RuntimeException  If the closing tag cannot be found.
 	 */
 	protected function moveToClosingElement()
 	{
@@ -271,12 +274,12 @@ abstract class JFeedParser
 		while ($this->stream->read())
 		{
 			// If we have an END_ELEMENT node with the same name and depth as the node we started with we have a bingo. :-)
-			if (($this->stream->name == $name) && ($this->stream->depth == $depth) && ($this->stream->nodeType == XMLReader::END_ELEMENT))
+			if (($this->stream->name == $name) && ($this->stream->depth == $depth) && ($this->stream->nodeType == \XMLReader::END_ELEMENT))
 			{
 				return;
 			}
 		}
 
-		throw new RuntimeException('Unable to find the closing XML node.');
+		throw new \RuntimeException('Unable to find the closing XML node.');
 	}
 }

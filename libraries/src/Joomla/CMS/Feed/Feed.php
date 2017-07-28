@@ -1,32 +1,35 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Feed
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Feed;
+
+use Joomla\CMS\Date\Date;
 
 defined('JPATH_PLATFORM') or die();
 
 /**
  * Class to encapsulate a feed for the Joomla Platform.
  *
- * @property  JFeedPerson  $author         Person responsible for feed content.
- * @property  array        $categories     Categories to which the feed belongs.
- * @property  array        $contributors   People who contributed to the feed content.
- * @property  string       $copyright      Information about rights, e.g. copyrights, held in and over the feed.
- * @property  string       $description    A phrase or sentence describing the feed.
- * @property  string       $generator      A string indicating the program used to generate the feed.
- * @property  string       $image          Specifies a GIF, JPEG or PNG image that should be displayed with the feed.
- * @property  JDate        $publishedDate  The publication date for the feed content.
- * @property  string       $title          A human readable title for the feed.
- * @property  JDate        $updatedDate    The last time the content of the feed changed.
- * @property  string       $uri            Universal, permanent identifier for the feed.
+ * @property  FeedPerson  $author         Person responsible for feed content.
+ * @property  array       $categories     Categories to which the feed belongs.
+ * @property  array       $contributors   People who contributed to the feed content.
+ * @property  string      $copyright      Information about rights, e.g. copyrights, held in and over the feed.
+ * @property  string      $description    A phrase or sentence describing the feed.
+ * @property  string      $generator      A string indicating the program used to generate the feed.
+ * @property  string      $image          Specifies a GIF, JPEG or PNG image that should be displayed with the feed.
+ * @property  Date        $publishedDate  The publication date for the feed content.
+ * @property  string      $title          A human readable title for the feed.
+ * @property  Date        $updatedDate    The last time the content of the feed changed.
+ * @property  string      $uri            Universal, permanent identifier for the feed.
  *
  * @since  12.3
  */
-class JFeed implements ArrayAccess, Countable
+class Feed implements \ArrayAccess, \Countable
 {
 	/**
 	 * @var    array  The entry properties.
@@ -74,21 +77,21 @@ class JFeed implements ArrayAccess, Countable
 	public function __set($name, $value)
 	{
 		// Ensure that setting a date always sets a JDate instance.
-		if ((($name == 'updatedDate') || ($name == 'publishedDate')) && !($value instanceof JDate))
+		if ((($name == 'updatedDate') || ($name == 'publishedDate')) && !($value instanceof Date))
 		{
-			$value = new JDate($value);
+			$value = new Date($value);
 		}
 
 		// Validate that any authors that are set are instances of JFeedPerson or null.
-		if (($name == 'author') && (!($value instanceof JFeedPerson) || ($value === null)))
+		if (($name == 'author') && (!($value instanceof FeedPerson) || ($value === null)))
 		{
-			throw new InvalidArgumentException('JFeed "author" must be of type JFeedPerson. ' . gettype($value) . 'given.');
+			throw new \InvalidArgumentException('Feed "author" must be of type FeedPerson. ' . gettype($value) . 'given.');
 		}
 
 		// Disallow setting categories or contributors directly.
 		if (($name == 'categories') || ($name == 'contributors'))
 		{
-			throw new InvalidArgumentException('Cannot directly set JFeed property "' . $name . '".');
+			throw new \InvalidArgumentException('Cannot directly set Feed property "' . $name . '".');
 		}
 
 		$this->properties[$name] = $value;
@@ -100,7 +103,7 @@ class JFeed implements ArrayAccess, Countable
 	 * @param   string  $name  The name of the category to add.
 	 * @param   string  $uri   The optional URI for the category to add.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
@@ -119,13 +122,13 @@ class JFeed implements ArrayAccess, Countable
 	 * @param   string  $uri    The optional URI for the person to add.
 	 * @param   string  $type   The optional type of person to add.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
 	public function addContributor($name, $email, $uri = null, $type = null)
 	{
-		$contributor = new JFeedPerson($name, $email, $uri, $type);
+		$contributor = new FeedPerson($name, $email, $uri, $type);
 
 		// If the new contributor already exists then there is nothing to do, so just return.
 		foreach ($this->properties['contributors'] as $c)
@@ -145,13 +148,13 @@ class JFeed implements ArrayAccess, Countable
 	/**
 	 * Method to add an entry to the feed object.
 	 *
-	 * @param   JFeedEntry  $entry  The entry object to add.
+	 * @param   FeedEntry  $entry  The entry object to add.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
-	public function addEntry(JFeedEntry $entry)
+	public function addEntry(FeedEntry $entry)
 	{
 		// If the new entry already exists then there is nothing to do, so just return.
 		foreach ($this->entries as $e)
@@ -170,10 +173,10 @@ class JFeed implements ArrayAccess, Countable
 
 	/**
 	 * Returns a count of the number of entries in the feed.
-	 * 
+	 *
 	 * This method is here to implement the Countable interface.
 	 * You can call it by doing count($feed) rather than $feed->count();
-	 * 
+	 *
 	 * @return  integer number of entries in the feed.
 	 */
 	public function count()
@@ -215,20 +218,20 @@ class JFeed implements ArrayAccess, Countable
 	/**
 	 * Assigns a value to the specified offset.
 	 *
-	 * @param   mixed       $offset  The offset to assign the value to.
-	 * @param   JFeedEntry  $value   The JFeedEntry to set.
+	 * @param   mixed      $offset  The offset to assign the value to.
+	 * @param   FeedEntry  $value   The JFeedEntry to set.
 	 *
 	 * @return  boolean
 	 *
 	 * @see     ArrayAccess::offsetSet()
 	 * @since   12.3
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function offsetSet($offset, $value)
 	{
-		if (!($value instanceof JFeedEntry))
+		if (!($value instanceof FeedEntry))
 		{
-			throw new InvalidArgumentException('Cannot set value of type "' . gettype($value) . '".');
+			throw new \InvalidArgumentException('Cannot set value of type "' . gettype($value) . '".');
 		}
 
 		$this->entries[$offset] = $value;
@@ -256,7 +259,7 @@ class JFeed implements ArrayAccess, Countable
 	 *
 	 * @param   string  $name  The name of the category to remove.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
@@ -270,13 +273,13 @@ class JFeed implements ArrayAccess, Countable
 	/**
 	 * Method to remove a contributor from the feed object.
 	 *
-	 * @param   JFeedPerson  $contributor  The person object to remove.
+	 * @param   FeedPerson  $contributor  The person object to remove.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
-	public function removeContributor(JFeedPerson $contributor)
+	public function removeContributor(FeedPerson $contributor)
 	{
 		// If the contributor exists remove it.
 		foreach ($this->properties['contributors'] as $k => $c)
@@ -296,13 +299,13 @@ class JFeed implements ArrayAccess, Countable
 	/**
 	 * Method to remove an entry from the feed object.
 	 *
-	 * @param   JFeedEntry  $entry  The entry object to remove.
+	 * @param   FeedEntry  $entry  The entry object to remove.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
-	public function removeEntry(JFeedEntry $entry)
+	public function removeEntry(FeedEntry $entry)
 	{
 		// If the entry exists remove it.
 		foreach ($this->entries as $k => $e)
@@ -327,13 +330,13 @@ class JFeed implements ArrayAccess, Countable
 	 * @param   string  $uri    The optional URI for the person to set.
 	 * @param   string  $type   The optional type of person to set.
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
 	public function setAuthor($name, $email, $uri = null, $type = null)
 	{
-		$author = new JFeedPerson($name, $email, $uri, $type);
+		$author = new FeedPerson($name, $email, $uri, $type);
 
 		$this->properties['author'] = $author;
 
@@ -343,7 +346,7 @@ class JFeed implements ArrayAccess, Countable
 	/**
 	 * Method to reverse the items if display is set to 'oldest first'
 	 *
-	 * @return  JFeed
+	 * @return  Feed
 	 *
 	 * @since   12.3
 	 */
