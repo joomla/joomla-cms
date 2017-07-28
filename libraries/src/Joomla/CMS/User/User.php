@@ -940,9 +940,10 @@ class User extends \JObject
 		$this->_params    = new Registry;
 
 		// Load the user if it exists
-		if (!empty($this->id))
+		if (!empty($this->id) && $this->load($this->id))
 		{
-			$this->load($this->id);
+			// Push user into cached instances.
+			self::$instances[$this->id] = $this;
 		}
 		else
 		{
