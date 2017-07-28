@@ -1,0 +1,45 @@
+
+{
+    "name": "srmklive/flysystem-dropbox-v2",
+    "description": "Flysystem Adapter for Dropbox API v2",
+    "keywords": [
+        "srmklive",
+        "dropbox-api",
+        "dropbox",
+        "api",
+        "v2"
+    ],
+    "homepage": "https://github.com/srmklive/flysystem-dropbox-v2",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raza Mehdi",
+            "email": "srmk@outlook.com"            
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "guzzlehttp/guzzle": "^6.2",
+        "league/flysystem": "~1.0",
+        "illuminate/support": "~5.1|~5.2|~5.3|~5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8|^5.7|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Srmklive\\Dropbox\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Srmklive\\Dropbox\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

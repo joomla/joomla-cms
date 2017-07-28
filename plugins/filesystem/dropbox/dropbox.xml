@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="filesystem" method="upgrade">
+	<name>plg_filesystem_dropbox</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2017</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_FILESYSTEM_DROPBOX_XML_DESCRIPTION</description>
+
+	<!-- Plugin files -->
+	<files>
+		<filename plugin="dropbox">dropbox.php</filename>
+		<folder>language</folder>
+		<folder>Adapter</folder>
+	</files>
+
+	<!-- Language files -->
+	<languages folder="language">
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_dropbox.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_dropbox.sys.ini</language>
+	</languages>
+
+	<!-- Config parameter -->
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="display_name"
+					type="text"
+					label="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_DESC"
+					default="Dropbox"
+				/>
+				<field
+					name="api_token"
+					type="text"
+					default=""
+					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESCRIPTION"
+					required="true"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
