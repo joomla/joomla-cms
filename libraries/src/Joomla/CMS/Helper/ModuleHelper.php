@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -636,9 +637,9 @@ abstract class ModuleHelper
 	{
 		static $enabled = false;
 
-		if (count(\JLanguageHelper::getInstalledLanguages(1)) > 1)
+		if (count(LanguageHelper::getInstalledLanguages(1)) > 1)
 		{
-			$enabled = (bool) \JComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
+			$enabled = (bool) ComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
 		}
 
 		return $enabled;
