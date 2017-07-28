@@ -28,13 +28,13 @@ var JFormValidator = function() {
 
 	    handleResponse = function(state, el, empty) {
 		    // Set the element and its label (if exists) invalid state
-			if (el.tagName.toLowerCase() !== 'button' && el.value !== 'undefined') {
-				if (state === false) {
-					markInvalid(el, empty);
+		    if (el.tagName.toLowerCase() !== 'button' && el.value !== 'undefined') {
+			    if (state === false) {
+				    markInvalid(el, empty);
 
-				} else {
-					markValid(el);
-				}
+			    } else {
+				    markValid(el);
+			    }
 		    }
 	    },
 
@@ -44,48 +44,44 @@ var JFormValidator = function() {
 
 		    if (el.classList.contains('required') || el.getAttribute('required')) {
 			    var message;
-			    if (el.parentNode.tagName.toLowerCase() === 'span' && el.parentNode.classList.contains('input-group')) {
-				    message = el.parentNode.parentNode.querySelector('span.form-control-feedback')
-			    } else {
-				    message = el.parentNode.querySelector('span.form-control-feedback')
+			    if (label) {
+				    message = label.querySelector('span.form-control-feedback')
 			    }
 		    }
 
-			el.classList.remove('form-control-danger');
-			el.classList.add('form-control-success');
-			el.parentNode.classList.remove('has-danger');
-			el.parentNode.classList.add('has-success');
-			el.setAttribute('aria-invalid', 'false');
+		    el.classList.remove('form-control-danger');
+		    el.classList.add('form-control-success');
+		    el.parentNode.classList.remove('has-danger');
+		    el.parentNode.classList.add('has-success');
+		    el.setAttribute('aria-invalid', 'false');
 
-			// Remove message
-			if (message) {
-			    el.parentNode.removeChild(message);
-			}
+		    // Remove message
+		    if (message) {
+			    message.parentNode.removeChild(message);
+		    }
 
-			// Restore Label
-			if (label) {
+		    // Restore Label
+		    if (label) {
 			    label.classList.remove('invalid');
-			}
+		    }
 	    },
 
 	    markInvalid = function(el, empty) {
 		    // Get a label
 		    var label = el.form.querySelector('label[for="' + el.id + '"]');
 
-			el.classList.remove('form-control-success');
-			el.classList.add('form-control-danger');
-			el.classList.add('invalid');
-			el.parentNode.classList.remove('has-success');
-			el.parentNode.classList.add('has-danger');
-			el.setAttribute('aria-invalid', 'true');
+		    el.classList.remove('form-control-success');
+		    el.classList.add('form-control-danger');
+		    el.classList.add('invalid');
+		    el.parentNode.classList.remove('has-success');
+		    el.parentNode.classList.add('has-danger');
+		    el.setAttribute('aria-invalid', 'true');
 
 		    // Display custom message
 		    var mesgCont, message = el.getAttribute('data-validation-text');
 
-		    if (el.parentNode.tagName.toLowerCase() === 'span' && el.parentNode.classList.contains('input-group')) {
-			    mesgCont = el.parentNode.parentNode.querySelector('span.form-control-feedback')
-		    } else {
-			    mesgCont = el.parentNode.querySelector('span.form-control-feedback')
+		    if (label) {
+			    mesgCont = label.querySelector('span.form-control-feedback')
 		    }
 
 		    if (!mesgCont) {
@@ -99,10 +95,8 @@ var JFormValidator = function() {
 				    elMsg.innerHTML = message ? message : Joomla.JText._('JLIB_FORM_FIELD_INVALID_VALUE');
 			    }
 
-			    if (el.parentNode.tagName.toLowerCase() === 'span' && el.parentNode.classList.contains('input-group')) {
-				    el.parentNode.parentNode.appendChild(elMsg)
-			    } else {
-				    el.parentNode.appendChild(elMsg)
+			    if (label) {
+				    label.appendChild(elMsg)
 			    }
 		    }
 
@@ -116,25 +110,21 @@ var JFormValidator = function() {
 		    // Get a label
 		    var message, label = el.form.querySelector('label[for="' + el.id + '"]');
 
-		    if (el.parentNode.tagName.toLowerCase() === 'span' && el.parentNode.classList.contains('input-group')) {
-			    message = el.parentNode.parentNode.querySelector('span.form-control-feedback')
-		    } else {
-			    message = el.parentNode.querySelector('span.form-control-feedback')
+		    if (label) {
+			    message = label.querySelector('span.form-control-feedback')
 		    }
 
-			el.classList.remove('form-control-danger');
-			el.classList.remove('form-control-success');
+		    el.classList.remove('form-control-danger');
+		    el.classList.remove('form-control-success');
 		    el.classList.remove('invalid');
 		    el.classList.add('valid');
-			el.parentNode.classList.remove('has-danger');
-			el.parentNode.classList.remove('has-success');
+		    el.parentNode.classList.remove('has-danger');
+		    el.parentNode.classList.remove('has-success');
 
 		    // Remove message
 		    if (message) {
-			    if (el.parentNode.tagName.toLowerCase() === 'span' && el.parentNode.classList.contains('input-group')) {
-				    el.parentNode.parentNode.removeChild(message);
-			    } else {
-				    el.parentNode.removeChild(message);
+			    if (label) {
+				    label.removeChild(message);
 			    }
 		    }
 
@@ -225,7 +215,7 @@ var JFormValidator = function() {
 		    });
 
 		    if (!valid && invalid.length > 0) {
-			if (form.getAttribute('data-validation-text')) {
+			    if (form.getAttribute('data-validation-text')) {
 				    message = form.getAttribute('data-validation-text');
 			    } else {
 				    message = Joomla.JText._('JLIB_FORM_CONTAINS_INVALID_FIELDS');

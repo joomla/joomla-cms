@@ -78,14 +78,14 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
-			<div id="main-brand" class="main-brand align-items-center">
-				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
-				</a>
+			<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
+				<div id="main-brand" class="main-brand align-items-center">
+					<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+						<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
+					</a>
+				</div>
+				<jdoc:include type="modules" name="menu" style="none" />
 			</div>
-			<jdoc:include type="modules" name="menu" style="none" />
-		</div>
 		<?php endif; ?>
 
 		<?php // Header ?>
@@ -93,12 +93,12 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			<div class="container-fluid">
 				<div class="d-flex row justify-content-end">
 					<?php if (!$hidden) : ?>
-					<div class="menu-collapse">
-						<a id="menu-collapse" class="menu-toggle" href="#">
-							<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
-						</a>
-					</div>
+						<div class="menu-collapse">
+							<a id="menu-collapse" class="menu-toggle" href="#">
+								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
+							</a>
+						</div>
 					<?php endif; ?>
 					<jdoc:include type="modules" name="title" />
 					<jdoc:include type="modules" name="status" style="no" />
@@ -138,6 +138,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 					<?php endif; ?>
 				</div>
 				<?php // End Content ?>
+
 			</section>
 
 			<div class="notify-alerts">

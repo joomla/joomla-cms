@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
@@ -40,17 +41,18 @@ if ($spacing > 0)
 	');
 }
 ?>
-<form class="login-initial" action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+<form class="login-initial form-validate" action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
 	<fieldset>
 
 		<div class="form-group">
 			<label for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 			<input
-				name="username"
-				id="mod-login-username"
-				type="text"
-				class="form-control input-full"
-				autofocus
+					name="username"
+					id="mod-login-username"
+					type="text"
+					class="form-control input-full"
+					required="true"
+					autofocus
 			>
 		</div>
 
@@ -58,10 +60,11 @@ if ($spacing > 0)
 			<label for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 			<div class="input-group">
 				<input
-					name="passwd"
-					id="mod-login-password"
-					type="password"
-					class="form-control input-full"
+						name="passwd"
+						id="mod-login-password"
+						type="password"
+						class="form-control input-full"
+						required="true"
 				>
 				<span class="input-group-addon">
 					<span class="fa fa-eye" aria-hidden="true"></span>
@@ -74,11 +77,12 @@ if ($spacing > 0)
 			<label for="mod-login-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
 			<div class="form-group">
 				<input
-					name="secretkey"
-					autocomplete="off"
-					id="mod-login-secretkey"
-					type="text"
-					class="form-control input-full"
+						name="secretkey"
+						autocomplete="off"
+						id="mod-login-secretkey"
+						type="text"
+						class="form-control input-full required"
+						required="true"
 				>
 			</div>
 		<?php endif; ?>
@@ -91,7 +95,7 @@ if ($spacing > 0)
 		<?php endif; ?>
 
 		<div class="form-group">
-			<button class="btn btn-success btn-block btn-lg">
+			<button class="btn btn-success btn-block btn-lg" id="btn-login-submit">
 				<span class="fa fa-lock icon-white"></span> <?php echo JText::_('JLOGIN'); ?>
 			</button>
 		</div>
@@ -107,3 +111,20 @@ if ($spacing > 0)
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>
+<script>
+	(function(){
+		document.addEventListener('DOMContentLoadded', function() {
+			var btn = document.getElementById('btn-login-submit');
+
+			if(btn) {
+				btn.addEventListener('click', function(e) {
+					e.preventDefault();
+					var form = document.getElementById('form-login');
+					if (form && document.formvalidator.isValid(form)) {
+						Joomla.submitbutton('login')
+					}
+				});
+			}
+		});
+	})();
+</script>
