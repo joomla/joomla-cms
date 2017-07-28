@@ -477,7 +477,6 @@
 				type="text"
 				label="JFIELD_META_RIGHTS_LABEL"
 				description="JFIELD_META_RIGHTS_DESC"
-				required="false"
 				rows="2"
 				cols="30"
 				filter="string"
