@@ -66,7 +66,7 @@ class FinderHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  $params  Module parameters.
 	 *
-	 * @return  FinderIndexerQuery object
+	 * @return  \FinderIndexerQuery object
 	 *
 	 * @since   2.5
 	 */

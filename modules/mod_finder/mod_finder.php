@@ -13,15 +13,15 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
 
-\JLoader::register('\FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
-\JLoader::register('\FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 if (!defined('FINDER_PATH_INDEXER'))
 {
 	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 }
 
-\JLoader::register('\FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
+JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
 // Check for OpenSearch
 if ($params->get('opensearch', 1))
@@ -40,12 +40,12 @@ This code intentionally commented
 $route = FinderHelperRoute::getSearchRoute($params->get('searchfilter', null));
 
 // Load component language file.
-\FinderHelperLanguage::loadComponentLanguage();
+FinderHelperLanguage::loadComponentLanguage();
 
 // Load plugin language files.
-\FinderHelperLanguage::loadPluginLanguage();
+FinderHelperLanguage::loadPluginLanguage();
 
 // Get Smart Search query object.
-$query = \FinderHelper::getQuery($params);
+$query = FinderHelper::getQuery($params);
 
 require ModuleHelper::getLayoutPath('mod_finder', $params->get('layout', 'default'));
