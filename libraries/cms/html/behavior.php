@@ -43,6 +43,24 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Method to load the web components loader into the document head
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function wcpolyfill()
+	{
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		JHtml::_('script', 'system/polyfills/webcomponents/wc-loader.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => false]);
+		static::$loaded[__METHOD__] = true;
+	}
+
+	/**
 	 * Method to load core.js into the document head.
 	 *
 	 * Core.js defines the 'Joomla' namespace and contains functions which are used across extensions
