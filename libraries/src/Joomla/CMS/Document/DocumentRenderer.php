@@ -10,7 +10,6 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -18,12 +17,12 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  11.1
  */
-class RendererDocument
+class DocumentRenderer
 {
 	/**
-	 * Reference to the JDocument object that instantiated the renderer
+	 * Reference to the Document object that instantiated the renderer
 	 *
-	 * @var    JDocument
+	 * @var    Document
 	 * @since  11.1
 	 */
 	protected $_doc = null;
@@ -39,7 +38,7 @@ class RendererDocument
 	/**
 	 * Class constructor
 	 *
-	 * @param   JDocument  $doc  A reference to the JDocument object that instantiated the renderer
+	 * @param   Document  $doc  A reference to the Document object that instantiated the renderer
 	 *
 	 * @since   11.1
 	 */
