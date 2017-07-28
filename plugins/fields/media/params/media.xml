@@ -6,7 +6,6 @@
 				name="directory"
 				type="folderlist"
 				label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
-				description="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_DESC"
 				directory="images"
 				hide_none="true"
 				recursive="true"
@@ -16,7 +15,6 @@
 				name="preview"
 				type="list"
 				label="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_LABEL"
-				description="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_DESC"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>
@@ -28,7 +26,6 @@
 				name="image_class"
 				type="textarea"
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
-				description="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_DESC"
 				size="40"
 			/>
 		</fieldset>

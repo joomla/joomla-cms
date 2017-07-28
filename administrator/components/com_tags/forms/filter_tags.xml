@@ -11,8 +11,6 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_TAGS_FILTER_PUBLISHED"
-			description="COM_TAGS_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -20,8 +18,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -29,8 +25,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -39,8 +33,6 @@
         <field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -51,8 +43,6 @@
 		<field
 			name="extension"
 			type="aliastag"
-			label="COM_TAGS_FILTER_ALIASTYPE_LABEL"
-			description="COM_TAGS_FIELD_ALIASTYPE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_TAGS_SELECT_TAGTYPE</option>
@@ -62,8 +52,6 @@
 		<field
             name="fullordering"
 			type="list"
-			label="COM_TAGS_LIST_FULL_ORDERING"
-			description="COM_TAGS_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
 			>
@@ -84,8 +72,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_TAGS_LIST_LIMIT"
-			description="COM_TAGS_LIST_LIMIT_DESC"
 			default="25"
 			onchange="this.form.submit();"
 		/>

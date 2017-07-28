@@ -6,7 +6,6 @@
 			name="recurse" 
 			type="checkbox"
 			label="COM_USERS_MAIL_FIELD_RECURSE_LABEL"
-			description="COM_USERS_MAIL_FIELD_RECURSE_DESC"
 			value="1"
 		/>
 
@@ -14,7 +13,6 @@
 			name="mode" 
 			type="checkbox"
 			label="COM_USERS_MAIL_FIELD_SEND_IN_HTML_MODE_LABEL"
-			description="COM_USERS_MAIL_FIELD_SEND_IN_HTML_MODE_DESC"
 			value="1"
 		/>
 
@@ -22,7 +20,6 @@
 			name="disabled" 
 			type="checkbox"
 			label="COM_USERS_MAIL_FIELD_EMAIL_DISABLED_USERS_LABEL"
-			description="COM_USERS_MAIL_FIELD_EMAIL_DISABLED_USERS_DESC"
 			value="1"
 		/>
 
@@ -30,7 +27,6 @@
 			name="group" 
 			type="usergrouplist"
 			label="COM_USERS_MAIL_FIELD_GROUP_LABEL"
-			description="COM_USERS_MAIL_FIELD_GROUP_DESC"
 			default="0"
 			size="10"
 			>
@@ -41,7 +37,6 @@
 			name="bcc" 
 			type="checkbox"
 			label="COM_USERS_MAIL_FIELD_SEND_AS_BLIND_CARBON_COPY_LABEL"
-			description="COM_USERS_MAIL_FIELD_SEND_AS_BLIND_CARBON_COPY_DESC"
 			default="1"
 			value="1"
 		/>
@@ -50,7 +45,6 @@
 			name="subject" 
 			type="text"
 			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
-			description="COM_USERS_MAIL_FIELD_SUBJECT_DESC"
 			class="input-xlarge"
 			maxlength="150"
 			size="30"
@@ -60,7 +54,6 @@
 			name="message" 
 			type="textarea"
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"
-			description="COM_USERS_MAIL_FIELD_MESSAGE_DESC"
 			class="input-full vert"
 			cols="70"
 			rows="20"

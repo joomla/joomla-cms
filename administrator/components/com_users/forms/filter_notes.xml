@@ -18,8 +18,6 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_users"
 			onchange="this.form.submit();"
 			>
@@ -28,8 +26,6 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -43,8 +39,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.review_time DESC"
 			>
@@ -65,8 +59,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIMIT"
-			description="JGLOBAL_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

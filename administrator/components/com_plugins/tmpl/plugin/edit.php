@@ -41,10 +41,10 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							?>
 						</h3>
 						<div class="info-labels mb-1">
-							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
+							<span class="badge badge-default">
 								<?php echo $this->form->getValue('folder'); ?>
 							</span> /
-							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_ELEMENT_LABEL', 'COM_PLUGINS_FIELD_ELEMENT_DESC'); ?>">
+							<span class="badge badge-default">
 								<?php echo $this->form->getValue('element'); ?>
 							</span>
 						</div>
