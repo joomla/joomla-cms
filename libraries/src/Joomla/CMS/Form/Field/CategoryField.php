@@ -1,15 +1,19 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -17,7 +21,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class JFormFieldCategory extends JFormFieldList
+class CategoryField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -62,18 +66,18 @@ class JFormFieldCategory extends JFormFieldList
 
 			if ($filters === array())
 			{
-				$options = JHtml::_('category.options', $extension);
+				$options = \JHtml::_('category.options', $extension);
 			}
 			else
 			{
-				$options = JHtml::_('category.options', $extension, $filters);
+				$options = \JHtml::_('category.options', $extension, $filters);
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
 			if ((string) $this->element['action'])
 			{
 				// Get the current user object.
-				$user = JFactory::getUser();
+				$user = Factory::getUser();
 
 				foreach ($options as $i => $option)
 				{
@@ -82,7 +86,7 @@ class JFormFieldCategory extends JFormFieldList
 					 * unless the item is already in that category.
 					 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
 					 */
-					if ($user->authorise('core.create', $extension . '.category.' . $option->value) === false)
+					if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					{
 						unset($options[$i]);
 					}
@@ -91,12 +95,12 @@ class JFormFieldCategory extends JFormFieldList
 
 			if (isset($this->element['show_root']))
 			{
-				array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
+				array_unshift($options, \JHtml::_('select.option', '0', \JText::_('JGLOBAL_ROOT')));
 			}
 		}
 		else
 		{
-			JLog::add(JText::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'), \JLog::WARNING, 'jerror');
 		}
 
 		// Merge any additional options in the XML definition.
