@@ -90,9 +90,9 @@ class ModuleAdapter extends InstallerAdapter
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
 			throw new \RuntimeException(sprintf(
-			    \JText::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'),
-                $this->getManifest()->name
-            ));
+				\JText::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'),
+				$this->getManifest()->name
+			));
 		}
 
 		// If there is a manifest script, let's copy it.
