@@ -27,7 +27,6 @@
 					label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
 					description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 					directory="images"
-					required="true"
 					hide_none="true"
 					hide_default="true"
 					recursive="true"
