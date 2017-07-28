@@ -532,7 +532,7 @@ class Article extends Admin
 		$workflowId = json_decode($cat->get($data['catid'])->params)->workflow_id;
 
 		// Only if it is not edit mode
-		if (!isset($data['id']))
+		if (empty($data['id']))
 		{
 			$query
 				->select($db->qn("id"))
@@ -542,7 +542,6 @@ class Article extends Admin
 			if (is_numeric($workflowId) && $workflowId !== '0')
 			{
 				$query->where($db->qn("workflow_id") . '=' . $workflowId);
-				$data['workflow_id'] = $workflowId;
 			}
 			else
 			{
@@ -553,7 +552,6 @@ class Article extends Admin
 				$db->setQuery($queryWorkflow);
 				$workflow = $db->loadResult();
 				$query->where($db->qn("workflow_id") . '=' . $workflow);
-				$data['workflow_id'] = $workflow;
 			}
 
 			$db->setQuery($query);

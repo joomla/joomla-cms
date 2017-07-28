@@ -243,7 +243,7 @@ class Articles extends ListModel
 		}
 
 		// Filter by published state
-		$published = (string) $this->getState('filter.choose_state');
+		$published = (string) $this->getState('filter.state');
 
 		if (is_numeric($published))
 		{
@@ -396,7 +396,7 @@ class Articles extends ListModel
 
 				foreach ($transitions as $key => $transition)
 				{
-					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition->id))
+					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition['value']))
 					{
 						unset($transitions[$key]);
 					}
@@ -483,6 +483,27 @@ class Articles extends ListModel
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
+
+		// Get a storage key.
+		$store = $this->getStoreId('getFilterForm');
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		$db = $this->getDbo();
+		$user = Factory::getUser();
+
+		$items = $this->getItems();
+
+		$ids = ArrayHelper::getColumn($items, 'state');
+		$ids = ArrayHelper::toInteger($ids);
+		$ids = array_unique(array_filter($ids));
+
+		$this->cache[$store] = array();
+
 		$form = parent::getFilterForm($data, $loadData);
 
 		if ($form)
@@ -495,22 +516,25 @@ class Articles extends ListModel
 			$ids = ArrayHelper::toInteger($ids);
 			$ids = array_unique(array_filter($ids));
 
-			$select = $db->quoteName(
-				array(
-					'id',
-					'title'
-				),
-				array(
-					'value',
-					'choose_state'
-				)
-			);
+			if ($ids)
+			{
+				$select = $db->quoteName(
+					array(
+						'id',
+						'title'
+					),
+					array(
+						'value',
+						'state'
+					)
+				);
 
-			$query
-				->select($select)
-				->from($db->qn('#__workflow_states'))
-				->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
-			$form->setFieldAttribute('choose_state', 'query', (string) $query, 'filter');
+				$query
+					->select($select)
+					->from($db->qn('#__workflow_states'))
+					->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
+				$form->setFieldAttribute('state', 'query', (string) $query, 'filter');
+			}
 		}
 
 		return $form;
