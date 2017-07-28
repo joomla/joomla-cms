@@ -1,21 +1,27 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Document\Opensearch\OpensearchUrl;
+use Joomla\CMS\Document\Opensearch\OpensearchImage;
+
 /**
- * OpenSearch class, provides an easy interface to display an OpenSearch document
+ * Opensearch class, provides an easy interface to display an Opensearch document
  *
  * @link   http://www.opensearch.org/
  * @since  11.1
  */
-class JDocumentOpensearch extends JDocument
+class OpensearchDocument extends Document
 {
 	/**
 	 * ShortName element
@@ -63,15 +69,15 @@ class JDocumentOpensearch extends JDocument
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
-		$update = new JOpenSearchUrl;
+		$update = new OpensearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
-		$update->template = JRoute::_(JUri::getInstance());
+		$update->template = \JRoute::_(Uri::getInstance());
 		$this->addUrl($update);
 
 		// Add the favicon as the default image
 		// Try to find a favicon by checking the template and root folder
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
 
 		foreach ($dirs as $dir)
@@ -80,11 +86,11 @@ class JDocumentOpensearch extends JDocument
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$favicon = new JOpenSearchImage;
+				$favicon = new OpensearchImage;
 
 				if ($path == '')
 				{
-					$favicon->data = JUri::base() . 'favicon.ico';
+					$favicon->data = Uri::base() . 'favicon.ico';
 				}
 				else
 				{
@@ -93,7 +99,7 @@ class JDocumentOpensearch extends JDocument
 						$path = substr($path, 1);
 					}
 
-					$favicon->data = JUri::base() . $path . '/favicon.ico';
+					$favicon->data = Uri::base() . $path . '/favicon.ico';
 				}
 
 				$favicon->height = '16';
@@ -126,11 +132,11 @@ class JDocumentOpensearch extends JDocument
 			$xml->formatOutput = true;
 		}
 
-		// The OpenSearch Namespace
+		// The Opensearch Namespace
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
 
 		// Create the root element
-		$elOs = $xml->createElementNs($osns, 'OpenSearchDescription');
+		$elOs = $xml->createElementNs($osns, 'OpensearchDescription');
 
 		$elShortName = $xml->createElementNs($osns, 'ShortName');
 		$elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName)));
@@ -181,7 +187,7 @@ class JDocumentOpensearch extends JDocument
 	 *
 	 * @param   string  $name  The name.
 	 *
-	 * @return  JDocumentOpensearch instance of $this to allow chaining
+	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -193,15 +199,15 @@ class JDocumentOpensearch extends JDocument
 	}
 
 	/**
-	 * Adds a URL to the OpenSearch description.
+	 * Adds a URL to the Opensearch description.
 	 *
-	 * @param   JOpenSearchUrl  $url  The url to add to the description.
+	 * @param   OpensearchUrl  $url  The url to add to the description.
 	 *
-	 * @return  JDocumentOpensearch instance of $this to allow chaining
+	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addUrl(JOpenSearchUrl $url)
+	public function addUrl(OpensearchUrl $url)
 	{
 		$this->_urls[] = $url;
 
@@ -209,104 +215,18 @@ class JDocumentOpensearch extends JDocument
 	}
 
 	/**
-	 * Adds an image to the OpenSearch description.
+	 * Adds an image to the Opensearch description.
 	 *
-	 * @param   JOpenSearchImage  $image  The image to add to the description.
+	 * @param   OpensearchImage  $image  The image to add to the description.
 	 *
-	 * @return  JDocumentOpensearch instance of $this to allow chaining
+	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addImage(JOpenSearchImage $image)
+	public function addImage(OpensearchImage $image)
 	{
 		$this->_images[] = $image;
 
 		return $this;
 	}
-}
-
-/**
- * JOpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
- *
- * @since  11.1
- */
-class JOpenSearchUrl
-{
-	/**
-	 * Type item element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $type = 'text/html';
-
-	/**
-	 * Rel item element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $rel = 'results';
-
-	/**
-	 * Template item element. Has to contain the {searchTerms} parameter to work.
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $template;
-}
-
-/**
- * JOpenSearchImage is an internal class that stores Images for the OpenSearch Description
- *
- * @since  11.1
- */
-class JOpenSearchImage
-{
-	/**
-	 * The images MIME type
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $type = '';
-
-	/**
-	 * URL of the image or the image as base64 encoded value
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $data = '';
-
-	/**
-	 * The image's width
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $width;
-
-	/**
-	 * The image's height
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $height;
 }
