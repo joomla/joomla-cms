@@ -413,7 +413,7 @@ abstract class ModuleHelper
 			$cacheId .= $lang . '*';
 		}
 
-		if ($app->isClient('administrator') && \JLanguageMultilang::isAdminEnabled())
+		if ($app->isClient('administrator') && static::isAdminMultilang())
 		{
 			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 			$cacheId .= $lang . '*';
@@ -623,5 +623,24 @@ abstract class ModuleHelper
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Method to determine if filtering by language is enabled in back-end for modules.
+	 *
+	 * @return  boolean  True if enabled; false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isAdminMultilang()
+	{
+		static $enabled = false;
+
+		if (count(\JLanguageHelper::getInstalledLanguages(1)) > 1)
+		{
+			$enabled = (bool) \JComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
+		}
+
+		return $enabled;
 	}
 }
