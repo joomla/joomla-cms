@@ -733,7 +733,7 @@ abstract class JHtml
 	 *                             Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
 	 *                             of just the custom element. (Polyfills loaded as needed, no force load)
 	 * @param   array  $options    The relative, version, detect browser and detect debug options for the custom element
-	 *                             or web component. Files need to have a -es5.(min).js (or .html) for the non ES6
+	 *                             or web component. Files need to have a -es5(.min).js (or -es5(.min).html) for the non ES6
 	 *                             Browsers.
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -763,7 +763,7 @@ abstract class JHtml
 				$value,
 				isset($options['relative']) ? $options['relative'] : true,
 				isset($options['detectBrowser']) ? $options['detectBrowser'] : false,
-				isset($options['detectDebug']) ? $options['detectDebug'] : true
+				isset($options['detectDebug']) ? $options['detectDebug'] : false
 			);
 
 			if (count($includes) === 0)

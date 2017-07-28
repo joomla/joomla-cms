@@ -56,7 +56,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/polyfills/webcomponents/wc-loader.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
+		JHtml::_('script', 'system/polyfills/webcomponents/wc-loader.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => false]);
 		static::$loaded[__METHOD__] = true;
 	}
 
