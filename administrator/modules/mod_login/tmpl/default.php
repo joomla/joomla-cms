@@ -40,7 +40,7 @@ if ($spacing > 0)
 	');
 }
 ?>
-<form class="login-initial" action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
+<form class="login-initial" action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
 
 		<div class="form-group">
