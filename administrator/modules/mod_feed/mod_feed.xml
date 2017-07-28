@@ -33,7 +33,6 @@
 				/>
 
 				<field
-<<<<<<< HEAD
 					name="rssrtl"
 					type="radio"
 					label="MOD_FEED_FIELD_RTL_LABEL"
@@ -41,17 +40,6 @@
 					default="0"
 					>
 					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="rssrtl"		
-					type="radio"		
-					label="MOD_FEED_FIELD_RTL_LABEL"		
-					class="switcher"		
-					default="0"		
-					>		
-					<option value="0">JNO</option>		
 					<option value="1">JYES</option>
 				</field>
 
