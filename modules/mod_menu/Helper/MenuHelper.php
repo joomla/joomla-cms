@@ -7,7 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Menu\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_menu
@@ -16,7 +21,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_menu
  * @since       1.5
  */
-class ModMenuHelper
+class MenuHelper
 {
 	/**
 	 * Get a list of the menu items.
@@ -29,16 +34,14 @@ class ModMenuHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
+		$menu = Factory::getApplication()->getMenu();
 
 		// Get active menu item
-		$base = self::getBase($params);
-		$user = JFactory::getUser();
-		$levels = $user->getAuthorisedViewLevels();
+		$base   = self::getBase($params);
+		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
-		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
-		$cache = JFactory::getCache('mod_menu', '');
+		$key    = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
+		$cache  = Factory::getCache('mod_menu', '');
 
 		if ($cache->contains($key))
 		{
@@ -126,11 +129,11 @@ class ModMenuHelper
 
 					if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http'))
 					{
-						$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
+						$item->flink = \JRoute::_($item->flink, true, $item->params->get('secure'));
 					}
 					else
 					{
-						$item->flink = JRoute::_($item->flink);
+						$item->flink = \JRoute::_($item->flink);
 					}
 
 					// We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding
@@ -138,7 +141,7 @@ class ModMenuHelper
 					$item->title        = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_css   = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
-					$item->anchor_rel = htmlspecialchars($item->params->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->anchor_rel   = htmlspecialchars($item->params->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->menu_image   = $item->params->get('menu_image', '') ?
 						htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
 				}
@@ -171,7 +174,7 @@ class ModMenuHelper
 		// Get base menu item from parameters
 		if ($params->get('base'))
 		{
-			$base = JFactory::getApplication()->getMenu()->getItem($params->get('base'));
+			$base = Factory::getApplication()->getMenu()->getItem($params->get('base'));
 		}
 		else
 		{
@@ -198,7 +201,7 @@ class ModMenuHelper
 	 */
 	public static function getActive(&$params)
 	{
-		$menu = JFactory::getApplication()->getMenu();
+		$menu = Factory::getApplication()->getMenu();
 
 		return $menu->getActive() ?: self::getDefault();
 	}
@@ -210,17 +213,14 @@ class ModMenuHelper
 	 */
 	public static function getDefault()
 	{
-		$menu = JFactory::getApplication()->getMenu();
-		$lang = JFactory::getLanguage();
+		$menu = Factory::getApplication()->getMenu();
 
 		// Look for the home menu
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
-			return $menu->getDefault($lang->getTag());
+			return $menu->getDefault(Factory::getLanguage()->getTag());
 		}
-		else
-		{
-			return $menu->getDefault();
-		}
+
+		return $menu->getDefault();
 	}
 }
