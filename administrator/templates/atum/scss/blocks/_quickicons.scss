@@ -30,7 +30,6 @@
       height: 60px;
       margin: 0 auto;
       overflow: visible;
-      color: $white;
       text-align: center;
       border-radius: 50%;
     }
@@ -117,6 +116,7 @@
   .quickicon-text-xs {
     display: block;
     margin-bottom: 30px;
+    color: $white;
     text-align: center;
   }
 
