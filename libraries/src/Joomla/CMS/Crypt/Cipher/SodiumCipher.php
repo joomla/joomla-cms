@@ -1,20 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Crypt\Cipher;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Crypt\CipherInterface;
+use Joomla\CMS\Crypt\Key;
+use ParagonIE\Sodium\Compat;
 
 /**
  * JCrypt cipher for sodium algorithm encryption, decryption and key generation.
  *
  * @since  __DEPLOY_VERSION__
  */
-class JCryptCipherSodium implements JCryptCipher
+class SodiumCipher implements CipherInterface
 {
 	/**
 	 * The message nonce to be used with encryption/decryption
@@ -27,31 +32,31 @@ class JCryptCipherSodium implements JCryptCipher
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string     $data  The encrypted string to decrypt.
-	 * @param   JCryptKey  $key   The key object to use for decryption.
+	 * @param   string  $data  The encrypted string to decrypt.
+	 * @param   Key     $key   The key object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
 	 */
-	public function decrypt($data, JCryptKey $key)
+	public function decrypt($data, Key $key)
 	{
 		// Validate key.
 		if ($key->type !== 'sodium')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected sodium.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected sodium.');
 		}
 
 		if (!$this->nonce)
 		{
-			throw new RuntimeException('Missing nonce to decrypt data');
+			throw new \RuntimeException('Missing nonce to decrypt data');
 		}
 
-		$decrypted = \Sodium\crypto_box_open(
+		$decrypted = Compat::crypto_box_open(
 			$data,
 			$this->nonce,
-			\Sodium\crypto_box_keypair_from_secretkey_and_publickey($key->private, $key->public)
+			Compat::crypto_box_keypair_from_secretkey_and_publickey($key->private, $key->public)
 		);
 
 		if ($decrypted === false)
@@ -65,31 +70,31 @@ class JCryptCipherSodium implements JCryptCipher
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string     $data  The data string to encrypt.
-	 * @param   JCryptKey  $key   The key object to use for encryption.
+	 * @param   string  $data  The data string to encrypt.
+	 * @param   Key     $key   The key object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
 	 */
-	public function encrypt($data, JCryptKey $key)
+	public function encrypt($data, Key $key)
 	{
 		// Validate key.
 		if ($key->type !== 'sodium')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected sodium.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected sodium.');
 		}
 
 		if (!$this->nonce)
 		{
-			throw new RuntimeException('Missing nonce to decrypt data');
+			throw new \RuntimeException('Missing nonce to decrypt data');
 		}
 
-		return \Sodium\crypto_box(
+		return Compat::crypto_box(
 			$data,
 			$this->nonce,
-			\Sodium\crypto_box_keypair_from_secretkey_and_publickey($key->private, $key->public)
+			Compat::crypto_box_keypair_from_secretkey_and_publickey($key->private, $key->public)
 		);
 	}
 
@@ -98,7 +103,7 @@ class JCryptCipherSodium implements JCryptCipher
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  JCryptKey
+	 * @return  Key
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
@@ -106,13 +111,13 @@ class JCryptCipherSodium implements JCryptCipher
 	public function generateKey(array $options = array())
 	{
 		// Create the new encryption key object.
-		$key = new JCryptKey('sodium');
+		$key = new Key('sodium');
 
 		// Generate the encryption key.
-		$pair = \Sodium\crypto_box_keypair();
+		$pair = Compat::crypto_box_keypair();
 
-		$key->public  = \Sodium\crypto_box_publickey($pair);
-		$key->private = \Sodium\crypto_box_secretkey($pair);
+		$key->public  = Compat::crypto_box_publickey($pair);
+		$key->private = Compat::crypto_box_secretkey($pair);
 
 		return $key;
 	}
