@@ -7,8 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Finder\Site\Helper;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  * @subpackage  mod_finder
  * @since       2.5
  */
-class ModFinderHelper
+class FinderHelper
 {
 	/**
 	 * Method to get hidden input fields for a get form so that control variables
@@ -34,10 +39,10 @@ class ModFinderHelper
 	public static function getGetFields($route = null, $paramItem = 0)
 	{
 		// Determine if there is an item id before routing.
-		$needId = !JUri::getInstance($route)->getVar('Itemid');
+		$needId = !Uri::getInstance($route)->getVar('Itemid');
 
 		$fields = array();
-		$uri = JUri::getInstance(JRoute::_($route));
+		$uri = Uri::getInstance(\JRoute::_($route));
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.
@@ -49,7 +54,7 @@ class ModFinderHelper
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
-			$id       = $paramItem ?: JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$id       = $paramItem ?: Factory::getApplication()->input->get('Itemid', '0', 'int');
 			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '">';
 		}
 
@@ -61,16 +66,14 @@ class ModFinderHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  $params  Module parameters.
 	 *
-	 * @return  FinderIndexerQuery object
+	 * @return  \FinderIndexerQuery object
 	 *
 	 * @since   2.5
 	 */
 	public static function getQuery($params)
 	{
-		$app     = JFactory::getApplication();
-		$input   = $app->input;
-		$request = $input->request;
-		$filter  = JFilterInput::getInstance();
+		$request = Factory::getApplication()->input->request;
+		$filter  = InputFilter::getInstance();
 
 		// Get the static taxonomy filters.
 		$options = array();
@@ -83,6 +86,6 @@ class ModFinderHelper
 		$options['filters'] = ArrayHelper::toInteger($options['filters']);
 
 		// Instantiate a query object.
-		return new FinderIndexerQuery($options);
+		return new \FinderIndexerQuery($options);
 	}
 }
