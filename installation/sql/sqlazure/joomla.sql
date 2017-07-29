@@ -958,6 +958,7 @@ CREATE TABLE "#__fields_groups" (
   "checked_out" bigint NOT NULL DEFAULT 0,
   "checked_out_time" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "ordering" int NOT NULL DEFAULT 0,
+  "params" nvarchar(max) NOT NULL DEFAULT '',
   "language" nvarchar(7) NOT NULL DEFAULT '',
   "created" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "created_by" bigint NOT NULL DEFAULT 0,
