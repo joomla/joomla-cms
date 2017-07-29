@@ -127,11 +127,6 @@ class Html extends HtmlView
 			ToolbarHelper::addNew('menu.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			ToolbarHelper::editList('menu.edit');
-		}
-
 		if ($canDo->get('core.delete'))
 		{
 			ToolbarHelper::divider();

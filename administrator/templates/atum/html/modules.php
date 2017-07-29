@@ -61,16 +61,14 @@ function modChrome_well($module, &$params, &$attribs)
 		$headerClass    = $params->get('header_class');
 		$headerClass    = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
 
-		echo '<div class="' . $moduleClass . '">';
+		echo '<div class="' . $moduleClass . ' grid-item grid-sizer">';
 		echo '<' . $moduleTag . ' class="card card-block mb-3' . $moduleClassSfx . '">';
 
 			if ($canEdit)
 			{
-				echo '<div class="btn-group module-dropdown">';
-				echo '<a href="#" data-toggle="dropdown"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
-				echo '<div class="dropdown-menu dropdown-menu-right">';
-				echo '<a class="dropdown-item" href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) . '">' . JText::_('JACTION_EDIT') . '</a>';
-				echo '</div>';
+				echo '<div class="module-actions">';
+				echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+					. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 				echo '</div>';
 			}
 

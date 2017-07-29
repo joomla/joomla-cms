@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die;
 
-// Include the latest functions only once
-JLoader::register('ModArticlesLatestHelper', __DIR__ . '/helper.php');
-
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\ArticlesLatest\Site\Helper\ArticlesLatestHelper;
 
-$list            = ModArticlesLatestHelper::getList($params);
+$list            = ArticlesLatestHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_articles_latest', $params->get('layout', 'default'));

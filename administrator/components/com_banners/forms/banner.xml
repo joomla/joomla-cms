@@ -6,7 +6,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
 			class="readonly"
@@ -16,7 +15,6 @@
 			name="name"
 			type="text"
 			label="COM_BANNERS_FIELD_NAME_LABEL"
-			description="COM_BANNERS_FIELD_NAME_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
@@ -26,7 +24,6 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
-			description="COM_BANNERS_FIELD_ALIAS_DESC"
 			size="40"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
@@ -35,7 +32,6 @@
 			name="catid"
 			type="categoryedit"
 			label="JCATEGORY"
-			description="COM_BANNERS_FIELD_CATEGORY_DESC"
 			extension="com_banners"
 			required="true"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
@@ -47,7 +43,6 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			description="COM_BANNERS_FIELD_STATE_DESC"
 			class="custom-select-color-state"
 			size="1"
 			default="1"
@@ -62,7 +57,6 @@
 			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
 			table="#__banners"
 		/>
 
@@ -70,7 +64,6 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_BANNERS_FIELD_LANGUAGE_DESC"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -79,7 +72,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			maxlength="255"
 			size="45"
 			labelclass="control-label"
@@ -89,7 +81,6 @@
 			name="description"
 			type="editor"
 			label="JGLOBAL_DESCRIPTION"
-			description="COM_BANNERS_FIELD_DESCRIPTION_DESC"
 			filter="JComponentHelper::filterText"
 			buttons="true"
 			hide="readmore,pagebreak,module,article,contact,menu"
@@ -99,7 +90,6 @@
 			name="type"
 			type="list"
 			label="COM_BANNERS_FIELD_TYPE_LABEL"
-			description="COM_BANNERS_FIELD_TYPE_DESC"
 			default="0"
 			>
 			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE</option>
@@ -110,7 +100,6 @@
 			name="custombannercode"
 			type="textarea"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL"
-			description="COM_BANNERS_FIELD_CUSTOMCODE_DESC"
 			rows="3"
 			cols="30"
 			filter="raw"
@@ -120,7 +109,6 @@
 			name="clickurl"
 			type="url"
 			label="COM_BANNERS_FIELD_CLICKURL_LABEL"
-			description="COM_BANNERS_FIELD_CLICKURL_DESC"
 			filter="url"
 		/>
 	</fieldset>
@@ -131,7 +119,6 @@
 			name="created"
 			type="calendar"
 			label="COM_BANNERS_FIELD_CREATED_LABEL"
-			description="COM_BANNERS_FIELD_CREATED_DESC"
 			size="22"
 			translateformat="true"
 			showtime="true"
@@ -142,14 +129,12 @@
 			name="created_by"
 			type="user"
 			label="COM_BANNERS_FIELD_CREATED_BY_LABEL"
-			description="COM_BANNERS_FIELD_CREATED_BY_DESC"
 		/>
 
 		<field
 			name="created_by_alias"
 			type="text"
 			label="COM_BANNERS_FIELD_CREATED_BY_ALIAS_LABEL"
-			description="COM_BANNERS_FIELD_CREATED_BY_ALIAS_DESC"
 			size="20"
 		/>
 
@@ -157,7 +142,6 @@
 			name="modified"
 			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
-			description="COM_BANNERS_FIELD_MODIFIED_DESC"
 			class="readonly"
 			size="22"
 			readonly="true"
@@ -170,7 +154,6 @@
 			name="modified_by"
 			type="user"
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
-			description="COM_BANNERS_FIELD_MODIFIED_BY_DESC"
 			class="readonly"
 			readonly="true"
 			filter="unset"
@@ -180,7 +163,6 @@
 			name="version"
 			type="text"
 			label="COM_BANNERS_FIELD_VERSION_LABEL"
-			description="COM_BANNERS_FIELD_VERSION_DESC"
 			class="readonly"
 			size="6"
 			readonly="true"
@@ -191,7 +173,6 @@
 			name="publish_up"
 			type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL"
-			description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -202,7 +183,6 @@
 			name="publish_down"
 			type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL"
-			description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -230,7 +210,6 @@
 			name="imptotal"
 			type="imptotal"
 			label="COM_BANNERS_FIELD_IMPTOTAL_LABEL"
-			description="COM_BANNERS_FIELD_IMPTOTAL_DESC"
 			default="0"
 		/>
 
@@ -238,7 +217,6 @@
 			name="impmade"
 			type="impmade"
 			label="COM_BANNERS_FIELD_IMPMADE_LABEL"
-			description="COM_BANNERS_FIELD_IMPMADE_DESC"
 			default="0"
 		/>
 
@@ -246,7 +224,6 @@
 			name="clicks"
 			type="clicks"
 			label="COM_BANNERS_FIELD_CLICKS_LABEL"
-			description="COM_BANNERS_FIELD_CLICKS_DESC"
 			default="0"
 		/>
 
@@ -254,14 +231,12 @@
 			name="cid"
 			type="bannerclient"
 			label="COM_BANNERS_FIELD_CLIENT_LABEL"
-			description="COM_BANNERS_FIELD_CLIENT_DESC"
 		/>
 
 		<field
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
-			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
@@ -276,7 +251,6 @@
 			name="track_impressions"
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 			default="0"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
@@ -288,7 +262,6 @@
 			name="track_clicks"
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
-			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			default="0"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
@@ -303,7 +276,6 @@
 			name="metakey"
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
-			description="COM_BANNERS_FIELD_METAKEYWORDS_DESC"
 			rows="3"
 			cols="30"
 		/>
@@ -313,7 +285,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
-			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -334,7 +305,6 @@
 				name="imageurl"
 				type="media"
 				label="COM_BANNERS_FIELD_IMAGE_LABEL"
-				description="COM_BANNERS_FIELD_IMAGE_DESC"
 				directory="banners"
 				hide_none="1"
 				size="40"
@@ -344,7 +314,6 @@
 				name="width"
 				type="text"
 				label="COM_BANNERS_FIELD_WIDTH_LABEL"
-				description="COM_BANNERS_FIELD_WIDTH_DESC"
 				class="input-mini validate-numeric"
 			/>
 
@@ -352,7 +321,6 @@
 				name="height"
 				type="text"
 				label="COM_BANNERS_FIELD_HEIGHT_LABEL"
-				description="COM_BANNERS_FIELD_HEIGHT_DESC"
 				class="input-mini validate-numeric"
 			/>
 
@@ -360,7 +328,6 @@
 				name="alt"
 				type="text"
 				label="COM_BANNERS_FIELD_ALT_LABEL"
-				description="COM_BANNERS_FIELD_ALT_DESC"
 			/>
 		</fieldset>
 	</fields>
@@ -370,7 +337,6 @@
 			name="bannercode"
 			type="textarea"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL"
-			description="COM_BANNERS_FIELD_CUSTOMCODE_DESC"
 			rows="3"
 			cols="30"
 			filter="raw"

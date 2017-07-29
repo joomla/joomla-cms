@@ -15,13 +15,16 @@ $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 
 // Load template CSS file
 JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
 JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
+
+// Alerts
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+
 
 // Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
@@ -46,7 +49,8 @@ $this->setMetaData('theme-color', '#1c3d5c');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="head" />
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
 	<style>
 		.login-initial {
 			display: none;
@@ -80,7 +84,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			</noscript>
 			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
-				<h2 class="text-center mt-1 mb-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
+				<h1 class="text-center mt-1 mb-4"><?php echo JText::_('MOD_LOGIN_LOGIN_TITLE'); ?></h1>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>
@@ -107,14 +111,15 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 	<jdoc:include type="modules" name="debug" style="none" />
 
+	<jdoc:include type="scripts" />
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
+		(function() {
 			var formTmp = document.querySelector('.login-initial');
-			if (formTmp) {
+			if (formTmp && !document.querySelector('joomla-alert')) {
 				formTmp.style.display = 'block';
 				document.getElementById('mod-login-username').focus();
 			}
-		});
+		})();
 	</script>
 </body>
 </html>

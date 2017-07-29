@@ -11,7 +11,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_INSTALLER_SHOW_JED_INFORMATION_LABEL"
-			description="COM_INSTALLER_SHOW_JED_INFORMATION_DESC"
 			default="1"
 			>
 			<option value="0">COM_INSTALLER_SHOW_JED_INFORMATION_HIDE_MESSAGE</option>
@@ -22,7 +21,6 @@
 			name="cachetimeout"
 			type="integer"
 			label="COM_INSTALLER_CACHETIMEOUT_LABEL"
-			description="COM_INSTALLER_CACHETIMEOUT_DESC"
 			first="0"
 			last="24"
 			step="1"
@@ -33,7 +31,6 @@
 			name="minimum_stability"
 			type="list"
 			label="COM_INSTALLER_MINIMUM_STABILITY_LABEL"
-			description="COM_INSTALLER_MINIMUM_STABILITY_DESC"
 			default="4"
 			>
 			<option value="0">COM_INSTALLER_MINIMUM_STABILITY_DEV</option>

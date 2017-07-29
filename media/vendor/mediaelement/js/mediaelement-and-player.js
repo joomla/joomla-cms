@@ -853,7 +853,7 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 			event = (0, _general.createEvent)('pause', t.mediaElement);
 			t.mediaElement.dispatchEvent(event);
 		}
-		t.mediaElement.originalNode.setAttribute('src', mediaFiles[0].src || '');
+		t.mediaElement.originalNode.src = mediaFiles[0].src || '';
 
 		if (renderInfo === null && mediaFiles[0].src) {
 			t.mediaElement.generateError('No renderer found', mediaFiles);
@@ -1008,7 +1008,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mejs = {};
 
-mejs.version = '4.2.2';
+mejs.version = '4.2.3';
 
 mejs.html5media = {
 	properties: ['volume', 'src', 'currentTime', 'muted', 'duration', 'paused', 'ended', 'buffered', 'error', 'networkState', 'readyState', 'seeking', 'seekable', 'currentSrc', 'preload', 'bufferedBytes', 'bufferedTime', 'initialTime', 'startOffsetTime', 'defaultPlaybackRate', 'playbackRate', 'played', 'autoplay', 'loop', 'controls'],
@@ -1175,7 +1175,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.assign(_player.config, {
 	usePluginFullScreen: true,
 
-	fullscreenText: null
+	fullscreenText: null,
+
+	useFakeFullscreen: false
 });
 
 Object.assign(_player2.default.prototype, {
@@ -1276,7 +1278,7 @@ Object.assign(_player2.default.prototype, {
 		    isNative = t.media.rendererName !== null && /(html5|native)/i.test(t.media.rendererName),
 		    containerStyles = getComputedStyle(t.container);
 
-		if (Features.IS_IOS && Features.HAS_IOS_FULLSCREEN && typeof t.media.originalNode.webkitEnterFullscreen === 'function' && t.media.originalNode.canPlayType((0, _media.getTypeFromFile)(t.media.getSrc()))) {
+		if (t.options.useFakeFullscreen === false && Features.IS_IOS && Features.HAS_IOS_FULLSCREEN && typeof t.media.originalNode.webkitEnterFullscreen === 'function' && t.media.originalNode.canPlayType((0, _media.getTypeFromFile)(t.media.getSrc()))) {
 			t.media.originalNode.webkitEnterFullscreen();
 			return;
 		}
@@ -3493,7 +3495,7 @@ var MediaElementPlayer = function () {
 			return;
 		}
 
-		if (t.media.player !== undefined) {
+		if (t.media.player) {
 			return t.media.player;
 		}
 
@@ -3862,9 +3864,11 @@ var MediaElementPlayer = function () {
 			}
 			t.proxy = new _default2.default(t);
 			t.media.addEventListener('loadedmetadata', function () {
-				t.setCurrentTime(t.currentMediaTime);
-				if (t.getCurrentTime() > 0 && !_constants.IS_IOS && !_constants.IS_ANDROID) {
-					t.play();
+				if (t.getCurrentTime() > 0) {
+					t.setCurrentTime(t.currentMediaTime);
+					if (!_constants.IS_IOS && !_constants.IS_ANDROID) {
+						t.play();
+					}
 				}
 			});
 		}
@@ -4430,7 +4434,7 @@ var MediaElementPlayer = function () {
 
 			t.setDimensions('100%', '100%');
 
-			var poster = t.container.querySelector(t.options.classPrefix + 'poster img');
+			var poster = t.container.querySelector('.' + t.options.classPrefix + 'poster>img');
 			if (poster) {
 				poster.style.display = '';
 			}
@@ -4579,21 +4583,38 @@ var MediaElementPlayer = function () {
 	}, {
 		key: 'setPoster',
 		value: function setPoster(url) {
-			var t = this,
-			    posterDiv = t.container.querySelector('.' + t.options.classPrefix + 'poster');
+			var t = this;
+
+			var posterDiv = t.container.querySelector('.' + t.options.classPrefix + 'poster');
+
+			if (!posterDiv) {
+				posterDiv = _document2.default.createElement('div');
+				posterDiv.className = t.options.classPrefix + 'poster ' + t.options.classPrefix + 'layer';
+				t.layers.appendChild(posterDiv);
+			}
 
 			var posterImg = posterDiv.querySelector('img');
 
-			if (!posterImg) {
+			if (!posterImg && url) {
 				posterImg = _document2.default.createElement('img');
 				posterImg.className = t.options.classPrefix + 'poster-img';
 				posterImg.width = '100%';
 				posterImg.height = '100%';
+				posterDiv.style.display = '';
 				posterDiv.appendChild(posterImg);
 			}
 
-			posterImg.setAttribute('src', url);
-			posterDiv.style.backgroundImage = 'url("' + url + '")';
+			if (url) {
+				posterImg.setAttribute('src', url);
+				posterDiv.style.backgroundImage = 'url("' + url + '")';
+				posterDiv.style.display = '';
+			} else if (posterImg) {
+				posterDiv.style.backgroundImage = 'none';
+				posterDiv.style.display = 'none';
+				posterImg.remove();
+			} else {
+				posterDiv.style.display = 'none';
+			}
 		}
 	}, {
 		key: 'changeSkin',
@@ -4665,7 +4686,11 @@ var MediaElementPlayer = function () {
 			poster.className = t.options.classPrefix + 'poster ' + t.options.classPrefix + 'layer';
 			layers.appendChild(poster);
 
-			var posterUrl = player.media.getAttribute('poster');
+			var posterUrl = media.originalNode.getAttribute('poster');
+
+			if (posterUrl && _constants.IS_IOS) {
+				media.originalNode.removeAttribute('poster');
+			}
 
 			if (player.options.poster !== '') {
 				posterUrl = player.options.poster;
@@ -4673,6 +4698,8 @@ var MediaElementPlayer = function () {
 
 			if (posterUrl) {
 				t.setPoster(posterUrl);
+			} else if (t.media.renderer !== null && typeof t.media.renderer.getPosterUrl === 'function') {
+				t.setPoster(t.media.renderer.getPosterUrl());
 			} else {
 				poster.style.display = 'none';
 			}
@@ -4758,7 +4785,7 @@ var MediaElementPlayer = function () {
 
 			layers.appendChild(bigPlay);
 
-			if (t.media.rendererName !== null && (/(youtube|facebook)/i.test(t.media.rendererName) && !(player.media.originalNode.getAttribute('poster') || player.options.poster) || _constants.IS_STOCK_ANDROID)) {
+			if (t.media.rendererName !== null && (/(youtube|facebook)/i.test(t.media.rendererName) && !(t.media.originalNode.getAttribute('poster') || player.options.poster || typeof t.media.renderer.getPosterUrl === 'function' && t.media.renderer.getPosterUrl()) || _constants.IS_STOCK_ANDROID)) {
 				bigPlay.style.display = 'none';
 			}
 
@@ -5010,6 +5037,10 @@ var MediaElementPlayer = function () {
 				(function () {
 					t.node.setAttribute('controls', true);
 					t.node.setAttribute('id', t.node.getAttribute('id').replace('_' + rendererName, '').replace('_from_mejs', ''));
+					var poster = t.container.querySelector('.' + t.options.classPrefix + 'poster>img');
+					if (poster) {
+						t.node.setAttribute('id', poster.src);
+					}
 
 					delete t.node.autoplay;
 
@@ -5169,18 +5200,16 @@ var DefaultPlayer = function () {
 		this.createIframeLayer = function () {
 			return player.createIframeLayer();
 		};
+		this.setPoster = function (url) {
+			return player.setPoster(url);
+		};
 		return this;
 	}
 
 	_createClass(DefaultPlayer, [{
 		key: 'play',
 		value: function play() {
-			var t = this;
-
-			if (t.media.getCurrentTime() <= 0) {
-				t.load();
-			}
-			t.media.play();
+			this.media.play();
 		}
 	}, {
 		key: 'pause',
@@ -5240,6 +5269,9 @@ var DefaultPlayer = function () {
 
 			t.media.setSrc(src);
 			t.createIframeLayer();
+			if (t.media.renderer !== null && typeof t.media.renderer.getPosterUrl === 'function') {
+				t.setPoster(t.media.renderer.getPosterUrl());
+			}
 		}
 	}, {
 		key: 'getSrc',
@@ -5324,6 +5356,10 @@ var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
+var _player = _dereq_(16);
+
+var _player2 = _interopRequireDefault(_player);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (typeof jQuery !== 'undefined') {
@@ -5347,7 +5383,7 @@ if (typeof jQuery !== 'undefined') {
 				});
 			} else {
 				this.each(function () {
-					$(this).data('mediaelementplayer', new MediaElementPlayer(this, options));
+					$(this).data('mediaelementplayer', new _player2.default(this, options));
 				});
 			}
 			return this;
@@ -5359,7 +5395,7 @@ if (typeof jQuery !== 'undefined') {
 	}
 })(_mejs2.default.$);
 
-},{"3":3,"7":7}],19:[function(_dereq_,module,exports){
+},{"16":16,"3":3,"7":7}],19:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -5395,7 +5431,7 @@ var NativeDash = {
 			}).then(function () {
 				NativeDash._createPlayer(settings);
 			});
-		} else if (!NativeDash.promise) {
+		} else {
 			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdn.dashjs.org/latest/dash.all.min.js';
 
 			NativeDash.promise = NativeDash.promise || (0, _dom.loadScript)(settings.options.path);
@@ -5410,6 +5446,7 @@ var NativeDash = {
 	_createPlayer: function _createPlayer(settings) {
 		var player = dashjs.MediaPlayer().create();
 		_window2.default['__ready__' + settings.id](player);
+		return player;
 	}
 };
 
@@ -5434,15 +5471,26 @@ var DashNativeRenderer = {
 
 		var originalNode = mediaElement.originalNode,
 		    id = mediaElement.id + '_' + options.prefix,
-		    autoplay = originalNode.autoplay;
+		    autoplay = originalNode.autoplay,
+		    children = originalNode.children;
 
 		var node = null,
 		    dashPlayer = null;
+
+		originalNode.removeAttribute('type');
+		for (var i = 0, total = children.length; i < total; i++) {
+			children[i].removeAttribute('type');
+		}
 
 		node = originalNode.cloneNode(true);
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    attachNativeEvents = function attachNativeEvents(e) {
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
+		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
 
@@ -5453,27 +5501,27 @@ var DashNativeRenderer = {
 			node['set' + capName] = function (value) {
 				if (_mejs2.default.html5media.readOnlyProperties.indexOf(propName) === -1) {
 					if (propName === 'src') {
-						if (typeof value === 'string') {
-							node[propName] = value;
-							if (dashPlayer !== null) {
-								dashPlayer.attachSource(value);
-								if (autoplay) {
-									dashPlayer.play();
+						var source = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src ? value.src : value;
+						node[propName] = source;
+						if (dashPlayer !== null) {
+							dashPlayer.reset();
+							for (var _i = 0, _total = events.length; _i < _total; _i++) {
+								node.removeEventListener(events[_i], attachNativeEvents);
+							}
+							dashPlayer = NativeDash._createPlayer({
+								options: options.dash,
+								id: id
+							});
+
+							if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && _typeof(value.drm) === 'object') {
+								dashPlayer.setProtectionData(value.drm);
+								if ((0, _general.isString)(options.dash.robustnessLevel) && options.dash.robustnessLevel) {
+									dashPlayer.getProtectionController().setRobustnessLevel(options.dash.robustnessLevel);
 								}
 							}
-						} else if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src) {
-							node[propName] = value.src;
-							if (dashPlayer !== null) {
-								if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && _typeof(value.drm) === 'object') {
-									dashPlayer.setProtectionData(value.drm);
-									if ((0, _general.isString)(options.dash.robustnessLevel) && options.dash.robustnessLevel) {
-										dashPlayer.getProtectionController().setRobustnessLevel(options.dash.robustnessLevel);
-									}
-								}
-								dashPlayer.attachSource(value.src);
-								if (autoplay) {
-									dashPlayer.play();
-								}
+							dashPlayer.attachSource(source);
+							if (autoplay) {
+								dashPlayer.play();
 							}
 						}
 					} else {
@@ -5483,15 +5531,14 @@ var DashNativeRenderer = {
 			};
 		};
 
-		for (var i = 0, total = props.length; i < total; i++) {
-			assignGettersSetters(props[i]);
+		for (var _i2 = 0, _total2 = props.length; _i2 < _total2; _i2++) {
+			assignGettersSetters(props[_i2]);
 		}
 
 		_window2.default['__ready__' + id] = function (_dashPlayer) {
 			mediaElement.dashPlayer = dashPlayer = _dashPlayer;
 
-			var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
-			    dashEvents = dashjs.MediaPlayer.events,
+			var dashEvents = dashjs.MediaPlayer.events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
 					dashPlayer.getDebug().setLogToBrowserConsole(options.dash.debug);
@@ -5510,14 +5557,11 @@ var DashNativeRenderer = {
 					dashPlayer.attachSource(node.getSrc());
 				}
 
-				node.addEventListener(eventName, function (e) {
-					var event = (0, _general.createEvent)(e.type, mediaElement);
-					mediaElement.dispatchEvent(event);
-				});
+				node.addEventListener(eventName, attachNativeEvents);
 			};
 
-			for (var _i = 0, _total = events.length; _i < _total; _i++) {
-				assignEvents(events[_i]);
+			for (var _i3 = 0, _total3 = events.length; _i3 < _total3; _i3++) {
+				assignEvents(events[_i3]);
 			}
 
 			var assignMdashEvents = function assignMdashEvents(e) {
@@ -5538,11 +5582,11 @@ var DashNativeRenderer = {
 		};
 
 		if (mediaFiles && mediaFiles.length > 0) {
-			for (var _i2 = 0, _total2 = mediaFiles.length; _i2 < _total2; _i2++) {
-				if (_renderer.renderer.renderers[options.prefix].canPlayType(mediaFiles[_i2].type)) {
-					node.setAttribute('src', mediaFiles[_i2].src);
-					if (typeof mediaFiles[_i2].drm !== 'undefined') {
-						options.dash.drm = mediaFiles[_i2].drm;
+			for (var _i4 = 0, _total4 = mediaFiles.length; _i4 < _total4; _i4++) {
+				if (_renderer.renderer.renderers[options.prefix].canPlayType(mediaFiles[_i4].type)) {
+					node.setAttribute('src', mediaFiles[_i4].src);
+					if (typeof mediaFiles[_i4].drm !== 'undefined') {
+						options.dash.drm = mediaFiles[_i4].drm;
 					}
 					break;
 				}
@@ -5809,7 +5853,14 @@ var FlashMediaElementRenderer = {
 
 		_window2.default['__event__' + flash.id] = function (eventName, message) {
 			var event = (0, _general.createEvent)(eventName, flash);
-			event.message = message || '';
+			if (message) {
+				try {
+					event.data = JSON.parse(message);
+					event.details.data = JSON.parse(message);
+				} catch (e) {
+					event.message = message;
+				}
+			}
 
 			flash.mediaElement.dispatchEvent(event);
 		};
@@ -6013,6 +6064,8 @@ if (hasFlash) {
 },{"2":2,"25":25,"27":27,"28":28,"3":3,"5":5,"7":7,"8":8}],21:[function(_dereq_,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
@@ -6044,8 +6097,8 @@ var NativeFlv = {
 			}).then(function () {
 				NativeFlv._createPlayer(settings);
 			});
-		} else if (!NativeFlv.promise) {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.1/flv.min.js';
+		} else {
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.2/flv.min.js';
 
 			NativeFlv.promise = NativeFlv.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeFlv.promise.then(function () {
@@ -6070,7 +6123,7 @@ var FlvNativeRenderer = {
 	options: {
 		prefix: 'native_flv',
 		flv: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.1/flv.min.js',
+			path: 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.2/flv.min.js',
 
 			cors: true,
 			debug: false
@@ -6093,6 +6146,11 @@ var FlvNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    attachNativeEvents = function attachNativeEvents(e) {
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
+		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
 
@@ -6102,10 +6160,9 @@ var FlvNativeRenderer = {
 
 			node['set' + capName] = function (value) {
 				if (_mejs2.default.html5media.readOnlyProperties.indexOf(propName) === -1) {
-					node[propName] = value;
-
-					if (flvPlayer !== null) {
-						if (propName === 'src') {
+					if (propName === 'src') {
+						node[propName] = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src ? value.src : value;
+						if (flvPlayer !== null) {
 							var _flvOptions = {};
 							_flvOptions.type = 'flv';
 							_flvOptions.url = value;
@@ -6114,6 +6171,9 @@ var FlvNativeRenderer = {
 							_flvOptions.path = options.flv.path;
 
 							flvPlayer.destroy();
+							for (var i = 0, total = events.length; i < total; i++) {
+								node.removeEventListener(events[i], attachNativeEvents);
+							}
 							flvPlayer = NativeFlv._createPlayer({
 								options: _flvOptions,
 								id: id
@@ -6121,6 +6181,8 @@ var FlvNativeRenderer = {
 							flvPlayer.attachMediaElement(node);
 							flvPlayer.load();
 						}
+					} else {
+						node[propName] = value;
 					}
 				}
 			};
@@ -6133,8 +6195,7 @@ var FlvNativeRenderer = {
 		_window2.default['__ready__' + id] = function (_flvPlayer) {
 			mediaElement.flvPlayer = flvPlayer = _flvPlayer;
 
-			var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
-			    flvEvents = flvjs.Events,
+			var flvEvents = flvjs.Events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
 					flvPlayer.unload();
@@ -6143,10 +6204,7 @@ var FlvNativeRenderer = {
 					flvPlayer.load();
 				}
 
-				node.addEventListener(eventName, function (e) {
-					var event = (0, _general.createEvent)(e.type, mediaElement);
-					mediaElement.dispatchEvent(event);
-				});
+				node.addEventListener(eventName, attachNativeEvents);
 			};
 
 			for (var _i = 0, _total = events.length; _i < _total; _i++) {
@@ -6240,6 +6298,8 @@ _renderer.renderer.add(FlvNativeRenderer);
 },{"25":25,"26":26,"27":27,"28":28,"3":3,"7":7,"8":8}],22:[function(_dereq_,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
@@ -6271,8 +6331,8 @@ var NativeHls = {
 			}).then(function () {
 				NativeHls._createPlayer(settings);
 			});
-		} else if (!NativeHls.promise) {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.10/hls.min.js';
+		} else {
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.11/hls.min.js';
 
 			NativeHls.promise = NativeHls.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeHls.promise.then(function () {
@@ -6321,6 +6381,11 @@ var HlsNativeRenderer = {
 		options.hls.autoStartLoad = preload && preload !== 'none' || autoplay;
 
 		var props = _mejs2.default.html5media.properties,
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    attachNativeEvents = function attachNativeEvents(e) {
+			var event = (0, _general.createEvent)(e.type, mediaElement);
+			mediaElement.dispatchEvent(event);
+		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
 
@@ -6330,19 +6395,22 @@ var HlsNativeRenderer = {
 
 			node['set' + capName] = function (value) {
 				if (_mejs2.default.html5media.readOnlyProperties.indexOf(propName) === -1) {
-					node[propName] = value;
-
-					if (hlsPlayer !== null) {
-						if (propName === 'src') {
+					if (propName === 'src') {
+						node[propName] = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src ? value.src : value;
+						if (hlsPlayer !== null) {
 							hlsPlayer.destroy();
+							for (var i = 0, total = events.length; i < total; i++) {
+								node.removeEventListener(events[i], attachNativeEvents);
+							}
 							hlsPlayer = NativeHls._createPlayer({
 								options: options.hls,
 								id: id
 							});
-
 							hlsPlayer.loadSource(value);
 							hlsPlayer.attachMedia(node);
 						}
+					} else {
+						node[propName] = value;
 					}
 				}
 			};
@@ -6354,8 +6422,7 @@ var HlsNativeRenderer = {
 
 		_window2.default['__ready__' + id] = function (_hlsPlayer) {
 			mediaElement.hlsPlayer = hlsPlayer = _hlsPlayer;
-			var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
-			    hlsEvents = Hls.Events,
+			var hlsEvents = Hls.Events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
 					var url = mediaElement.originalNode.src;
@@ -6364,10 +6431,7 @@ var HlsNativeRenderer = {
 					hlsPlayer.attachMedia(node);
 				}
 
-				node.addEventListener(eventName, function (e) {
-					var event = (0, _general.createEvent)(e.type, mediaElement);
-					mediaElement.dispatchEvent(event);
-				});
+				node.addEventListener(eventName, attachNativeEvents);
 			};
 
 			for (var _i = 0, _total = events.length; _i < _total; _i++) {
@@ -6694,7 +6758,9 @@ var YouTubeApi = {
 			youTubeId = YouTubeApi.getYouTubeIdFromUrl(url);
 		}
 
-		return youTubeId;
+		var id = youTubeId.substring(youTubeId.lastIndexOf('/') + 1);
+		youTubeId = id.split('?');
+		return youTubeId[0];
 	},
 
 	getYouTubeIdFromParam: function getYouTubeIdFromParam(url) {
@@ -6760,7 +6826,9 @@ var YouTubeIframeRenderer = {
 			start: 0,
 			iv_load_policy: 3,
 
-			nocookie: false
+			nocookie: false,
+
+			imageQuality: null
 		}
 	},
 
@@ -6912,7 +6980,7 @@ var YouTubeIframeRenderer = {
 		youtubeContainer.id = youtube.id;
 
 		if (youtube.options.youtube.nocookie) {
-			mediaElement.originalNode.setAttribute('src', YouTubeApi.getYouTubeNoCookieUrl(mediaFiles[0].src));
+			mediaElement.originalNode.src = YouTubeApi.getYouTubeNoCookieUrl(mediaFiles[0].src);
 		}
 
 		mediaElement.originalNode.parentNode.insertBefore(youtubeContainer, mediaElement.originalNode);
@@ -7093,6 +7161,12 @@ var YouTubeIframeRenderer = {
 			if (youtube.interval) {
 				clearInterval(youtube.interval);
 			}
+		};
+		youtube.getPosterUrl = function () {
+			var quality = options.youtube.imageQuality,
+			    resolutions = ['default', 'hqdefault', 'mqdefault', 'sddefault', 'maxresdefault'],
+			    id = YouTubeApi.getYouTubeId(mediaElement.originalNode.src);
+			return quality && resolutions.indexOf(quality) > -1 && id ? 'https://img.youtube.com/vi/' + id + '/' + quality + '.jpg' : '';
 		};
 
 		return youtube;
@@ -8154,4 +8228,4 @@ _mejs2.default.Utils.timeCodeToSeconds = timeCodeToSeconds;
 _mejs2.default.Utils.calculateTimeFormat = calculateTimeFormat;
 _mejs2.default.Utils.convertSMPTEtoSeconds = convertSMPTEtoSeconds;
 
-},{"7":7}]},{},[29,6,5,15,23,20,19,21,22,24,18,17,16,9,10,11,12,13,14]);
+},{"7":7}]},{},[29,6,5,15,23,20,19,21,22,24,16,18,17,9,10,11,12,13,14]);

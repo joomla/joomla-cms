@@ -9,6 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$direction = JFactory::getDocument()->direction == 'rtl' ? 'float-right' : '';
+$direction = \Joomla\CMS\Factory::getDocument()->direction == 'rtl' ? 'float-right' : '';
 
 $menu->renderMenu('menu', $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction);

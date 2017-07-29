@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-// Include the archive functions only once
-JLoader::register('ModArchiveHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\ArticlesArchive\Site\Helper\ArticlesArchiveHelper;
 
 $params->def('count', 10);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-$list            = ModArchiveHelper::getList($params);
+$list            = ArticlesArchiveHelper::getList($params);
 
-require JModuleHelper::getLayoutPath('mod_articles_archive', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_articles_archive', $params->get('layout', 'default'));

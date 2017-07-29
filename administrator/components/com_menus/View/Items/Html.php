@@ -337,11 +337,6 @@ class Html extends HtmlView
 
 		$protected = $this->state->get('filter.menutype') == 'main';
 
-		if ($canDo->get('core.edit') && !$protected)
-		{
-			ToolbarHelper::editList('item.edit');
-		}
-
 		if ($canDo->get('core.edit.state') && !$protected)
 		{
 			ToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);

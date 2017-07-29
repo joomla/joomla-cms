@@ -9,21 +9,25 @@
 
 defined('_JEXEC') or die;
 
-/* @var  $this    JAdminCSSMenu */
+use Joomla\CMS\Factory;
+use Joomla\Module\Menu\Administrator\Helper\MenuHelper;
+use Joomla\Module\Menu\Administrator\Menu\MenuNode;
+
+/* @var  $this    CSSMenu */
 /* @var  $params  Joomla\Registry\Registry */
-$user = JFactory::getUser();
+$user = Factory::getUser();
 
 /**
  * Site SubMenu
  */
-$this->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
+$this->addChild(new MenuNode(\JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
 
 /**
  * Users Submenu
  */
 if ($user->authorise('core.manage', 'com_users'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
+	$this->addChild(new MenuNode(\JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
 }
 
 /**
@@ -31,7 +35,7 @@ if ($user->authorise('core.manage', 'com_users'))
  */
 if ($user->authorise('core.manage', 'com_menus'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'disabled'));
+	$this->addChild(new MenuNode(\JText::_('MOD_MENU_MENUS'), null, 'disabled'));
 }
 
 /**
@@ -39,7 +43,7 @@ if ($user->authorise('core.manage', 'com_menus'))
  */
 if ($user->authorise('core.manage', 'com_content'))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'disabled'));
+	$this->addChild(new MenuNode(\JText::_('MOD_MENU_COM_CONTENT'), null, 'disabled'));
 }
 
 /**
@@ -47,12 +51,12 @@ if ($user->authorise('core.manage', 'com_content'))
  */
 
 // Get the authorised components and sub-menus.
-$components = ModMenuHelper::getComponents(true);
+$components = MenuHelper::getComponents(true);
 
 // Check if there are any components, otherwise, don't display the components menu item
 if ($components)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
+	$this->addChild(new MenuNode(\JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
 }
 
 /**
@@ -66,7 +70,7 @@ $lm = $user->authorise('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
+	$this->addChild(new MenuNode(\JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
 }
 
 /**
@@ -74,5 +78,5 @@ if ($im || $mm || $pm || $tm || $lm)
  */
 if ($params->get('showhelp', 1))
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
+	$this->addChild(new MenuNode(\JText::_('MOD_MENU_HELP'), null, 'disabled'));
 }
