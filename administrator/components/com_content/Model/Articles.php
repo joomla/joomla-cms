@@ -25,7 +25,7 @@ class Articles extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
 	 * @see     \Joomla\CMS\Controller\Controller
@@ -75,8 +75,8 @@ class Articles extends ListModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -118,7 +118,7 @@ class Articles extends ListModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -147,17 +147,17 @@ class Articles extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-					', a.publish_up, a.publish_down'
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
+				', a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
@@ -181,6 +181,10 @@ class Articles extends ListModel
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+
+		// Join over the states.
+		$query->select('ws.title AS state_title, ws.id AS state')
+			->join('LEFT', '#__workflow_states AS ws ON a.state = ws.id');
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -251,15 +255,15 @@ class Articles extends ListModel
 		}
 
 		// Filter by a single or group of categories.
-		$baselevel = 1;
+		$baselevel  = 1;
 		$categoryId = $this->getState('filter.category_id');
 
 		if (is_numeric($categoryId))
 		{
-			$categoryTable= \JTable::getInstance('Category', '\JTable');
+			$categoryTable = \JTable::getInstance('Category', '\JTable');
 			$categoryTable->load($categoryId);
-			$rgt = $categoryTable->rgt;
-			$lft = $categoryTable->lft;
+			$rgt       = $categoryTable->rgt;
+			$lft       = $categoryTable->lft;
 			$baselevel = (int) $categoryTable->level;
 			$query->where('c.lft >= ' . (int) $lft)
 				->where('c.rgt <= ' . (int) $rgt);
@@ -352,7 +356,7 @@ class Articles extends ListModel
 			return $this->cache[$store];
 		}
 
-		$db = $this->getDbo();
+		$db   = $this->getDbo();
 		$user = Factory::getUser();
 
 		$items = $this->getItems();
@@ -370,27 +374,29 @@ class Articles extends ListModel
 				$query = $db->getQuery(true);
 
 				$select = $db->quoteName(
-							array(
-								't.id',
-								't.title',
-								's.id',
-								's.title'
-							),
-							array(
-								'value',
-								'text',
-								'state_id',
-								'state_title'
-							)
-						);
+					array(
+						't.id',
+						't.title',
+						't.from_state_id',
+						's.id',
+						's.title'
+					),
+					array(
+						'value',
+						'text',
+						'from_state_id',
+						'state_id',
+						'state_title'
+					)
+				);
 
-				$query	->select($select)
-						->from($db->quoteName('#__workflow_transitions', 't'))
-						->from($db->quoteName('#__workflow_states', 's'))
-						->where($db->quoteName('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
-						->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
-						->where($db->quoteName('t.published') . ' = 1')
-						->where($db->quoteName('s.published') . ' = 1');
+				$query->select($select)
+					->from($db->quoteName('#__workflow_transitions', 't'))
+					->from($db->quoteName('#__workflow_states', 's'))
+					->where($db->quoteName('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
+					->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
+					->where($db->quoteName('t.published') . ' = 1')
+					->where($db->quoteName('s.published') . ' = 1');
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 
@@ -425,7 +431,7 @@ class Articles extends ListModel
 	public function getAuthors()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Construct the query
@@ -474,8 +480,8 @@ class Articles extends ListModel
 	/**
 	 * Get the filter form
 	 *
-	 * @param   array    $data      data
-	 * @param   boolean  $loadData  load current data
+	 * @param   array   $data     data
+	 * @param   boolean $loadData load current data
 	 *
 	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *
@@ -493,30 +499,22 @@ class Articles extends ListModel
 			return $this->cache[$store];
 		}
 
-		$db = $this->getDbo();
-		$user = Factory::getUser();
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		$items = $this->getItems();
-
-		$ids = ArrayHelper::getColumn($items, 'state');
-		$ids = ArrayHelper::toInteger($ids);
-		$ids = array_unique(array_filter($ids));
-
-		$this->cache[$store] = array();
-
 		$form = parent::getFilterForm($data, $loadData);
 
-		if ($form)
+		if (!empty($items))
 		{
-			$db    = $this->getDbo();
-			$query = $db->getQuery(true);
-			$items = $this->getItems();
-
 			$ids = ArrayHelper::getColumn($items, 'state');
 			$ids = ArrayHelper::toInteger($ids);
 			$ids = array_unique(array_filter($ids));
 
-			if ($ids)
+			$this->cache[$store] = array();
+
+
+			if ($form && !empty($ids))
 			{
 				$select = $db->quoteName(
 					array(
@@ -534,8 +532,12 @@ class Articles extends ListModel
 					->from($db->qn('#__workflow_states'))
 					->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
 				$form->setFieldAttribute('state', 'query', (string) $query, 'filter');
+
+				return $form;
 			}
 		}
+
+		$form->setFieldAttribute('state', 'query', "", 'filter');
 
 		return $form;
 	}

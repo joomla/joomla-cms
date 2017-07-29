@@ -317,6 +317,25 @@ class ContentHelper extends \JHelperContent
 		$db->setQuery($query);
 		$states = $db->loadResult();
 
-		return empty($states);
+		return !empty($states);
+	}
+
+	/**
+	 * Method to filter transitions by given id of state
+	 *
+	 * @param   int  $transitions  Array of transitions
+	 * @param   int  $pk           Id of state
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0
+	 */
+	public static function filterTransitions($transitions, $pk)
+	{
+		return array_values(array_filter($transitions, function ($var) use ($pk) {
+					return $var['from_state_id'] == $pk;
+				}
+			)
+		);
 	}
 }
