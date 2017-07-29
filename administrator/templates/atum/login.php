@@ -113,13 +113,13 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 	<jdoc:include type="scripts" />
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
+		(function() {
 			var formTmp = document.querySelector('.login-initial');
-			if (formTmp) {
+			if (formTmp && !document.querySelector('joomla-alert')) {
 				formTmp.style.display = 'block';
 				document.getElementById('mod-login-username').focus();
 			}
-		});
+		})();
 	</script>
 </body>
 </html>
