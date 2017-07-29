@@ -7,9 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Syndicate\Site\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_syndicate
@@ -18,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  * @subpackage  mod_syndicate
  * @since       1.5
  */
-class ModSyndicateHelper
+class SyndicateHelper
 {
 	/**
 	 * Gets the link
@@ -31,7 +34,7 @@ class ModSyndicateHelper
 	 */
 	public static function getLink(&$params)
 	{
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		foreach ($document->_links as $link => $value)
 		{
