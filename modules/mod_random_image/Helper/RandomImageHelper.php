@@ -7,9 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\RandomImage\Site\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Helper for mod_random_image
@@ -18,7 +21,7 @@ use Joomla\String\StringHelper;
  * @subpackage  mod_random_image
  * @since       1.5
  */
-class ModRandomImageHelper
+class RandomImageHelper
 {
 	/**
 	 * Retrieves a random image
@@ -86,8 +89,8 @@ class ModRandomImageHelper
 	public static function getImages(&$params, $folder)
 	{
 		$type   = $params->get('type', 'jpg');
-		$files  = array();
-		$images = array();
+		$files  = [];
+		$images = [];
 
 		$dir = JPATH_BASE . '/' . $folder;
 
@@ -113,7 +116,7 @@ class ModRandomImageHelper
 			{
 				if (!is_dir($dir . '/' . $img) && preg_match('/' . $type . '/', $img))
 				{
-					$images[$i] = new stdClass;
+					$images[$i] = new \stdClass;
 
 					$images[$i]->name   = $img;
 					$images[$i]->folder = $folder;
@@ -135,7 +138,7 @@ class ModRandomImageHelper
 	public static function getFolder(&$params)
 	{
 		$folder   = $params->get('folder');
-		$LiveSite = JUri::base();
+		$LiveSite = Uri::base();
 
 		// If folder includes livesite info, remove
 		if (StringHelper::strpos($folder, $LiveSite) === 0)
