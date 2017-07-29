@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Module\Logged\Administrator\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_logged
  *
  * @since  1.5
  */
-abstract class ModLoggedHelper
+abstract class LoggedHelper
 {
 	/**
 	 * Get a list of logged users.
@@ -23,12 +26,12 @@ abstract class ModLoggedHelper
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 *
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function getList(&$params)
 	{
-		$db    = JFactory::getDbo();
-		$user  = JFactory::getUser();
+		$db    = Factory::getDbo();
+		$user  = Factory::getUser();
 		$query = $db->getQuery(true)
 			->select('s.time, s.client_id, u.id, u.name, u.username')
 			->from('#__session AS s')
@@ -40,7 +43,7 @@ abstract class ModLoggedHelper
 		{
 			$results = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			throw $e;
 		}
@@ -51,8 +54,8 @@ abstract class ModLoggedHelper
 
 			if ($user->authorise('core.manage', 'com_users'))
 			{
-				$results[$k]->editLink   = JRoute::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
-				$results[$k]->logoutLink = JRoute::_('index.php?option=com_login&task=logout&uid=' . $result->id . '&' . JSession::getFormToken() . '=1');
+				$results[$k]->editLink   = \JRoute::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
+				$results[$k]->logoutLink = \JRoute::_('index.php?option=com_login&task=logout&uid=' . $result->id . '&' . \JSession::getFormToken() . '=1');
 			}
 
 			if ($params->get('name', 1) == 0)
@@ -73,6 +76,6 @@ abstract class ModLoggedHelper
 	 */
 	public static function getTitle($params)
 	{
-		return JText::plural('MOD_LOGGED_TITLE', $params->get('count'));
+		return \JText::plural('MOD_LOGGED_TITLE', $params->get('count'));
 	}
 }
