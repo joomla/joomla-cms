@@ -114,6 +114,7 @@ Joomla.overrider.searchStrings = function(more)
 		url: 'index.php?option=com_languages&task=strings.search&format=json&searchstring=' 
 			+ self.states.searchstring + '&searchtype=' + self.states.searchtype + '&more=' + more,
 		method: 'POST',
+		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
 		onSuccess: function(response) {
 
@@ -137,13 +138,13 @@ Joomla.overrider.searchStrings = function(more)
 					// display the more link
 					self.states.more = response.data.more;
 					moreResults.classList.add('show');
-					spinnerBtn.classList.remove('show');
 				}
 				else {
-					oreResults.classList.add('show');
+					moreResults.classList.add('show');
 				}
 			}
 
+			spinnerBtn.classList.remove('show');
 			spinner.classList.remove('show');
 		},
 		onError: function(xhr) {
