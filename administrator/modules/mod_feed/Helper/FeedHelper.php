@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Module\Feed\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class ModFeedHelper
+class FeedHelper
 {
 	/**
 	 * Method to load a feed.
@@ -34,17 +35,17 @@ class ModFeedHelper
 		try
 		{
 			jimport('joomla.feed.factory');
-			$feed   = new JFeedFactory;
+			$feed   = new \JFeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($rssDoc))
 		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		return $rssDoc;
