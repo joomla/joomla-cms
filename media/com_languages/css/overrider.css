@@ -5,28 +5,26 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-.overrider-spinner {
-	background-image:url(../../system/images/modal/spinner.gif);
-	background-repeat:no-repeat;
-	background-position:center;
+#overrider-spinner,
+#overrider-spinner-btn,
+#refresh-status,
+#more-results,
+#language-results,
+#results-container {
+	display: none;
+}
+#overrider-spinner.show,
+#refresh-status.show,
+#more-results.show,
+#results-container.show,
+#language-results.show {
+	display: block;
 }
 
-#refresh-status{
-	display:none;
-	height:16px;
-	padding-left:25px;
-	background-position:left;
+#overrider-spinner-btn.show {
+	display: inline-block;
 }
 
-#results-container{
-	display:none;
-	padding-bottom:10px;
-}
-#more-results{
-	display:none;
-	height:16px;
-	padding:10px 0;
-}
 .row0{
 	background-color:#f7f7f7;
 }
