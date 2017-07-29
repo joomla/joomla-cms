@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\ArticlesCategories\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Categories\Categories;
 
 /**
  * Helper for mod_articles_categories
  *
  * @since  1.5
  */
-abstract class ModArticlesCategoriesHelper
+abstract class ArticlesCategoriesHelper
 {
 	/**
 	 * Get list of articles
@@ -27,10 +31,10 @@ abstract class ModArticlesCategoriesHelper
 	 */
 	public static function getList(&$params)
 	{
-		$options               = array();
+		$options               = [];
 		$options['countItems'] = $params->get('numitems', 0);
 
-		$categories = JCategories::getInstance('Content', $options);
+		$categories = Categories::getInstance('Content', $options);
 		$category   = $categories->get($params->get('parent', 'root'));
 
 		if ($category !== null)
