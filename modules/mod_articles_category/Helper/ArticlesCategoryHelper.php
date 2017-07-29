@@ -439,8 +439,8 @@ abstract class ArticlesCategoryHelper
 	 * Groups items by date
 	 *
 	 * @param   array   $list                        list of items
-	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
+	 * @param   string  $type                        type of grouping
 	 * @param   string  $month_year_format           date format to use
 	 *
 	 * @return  array
