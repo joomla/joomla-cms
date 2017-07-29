@@ -88,16 +88,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
-	}
-
-	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -220,7 +210,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
-				$h($this);
+				call_user_func_array($h, array( &$this));
 			}
 
 			mysqli_close($this->connection);

@@ -85,18 +85,6 @@
 				</field>
 
 				<field
-					name="profilelink"
-					type="radio"
-					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
-					description="MOD_LOGIN_FIELD_PROFILE_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
 					name="name"
 					type="list"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
@@ -106,6 +94,18 @@
 					>
 					<option value="0">MOD_LOGIN_VALUE_NAME</option>
 					<option value="1">MOD_LOGIN_VALUE_USERNAME</option>
+				</field>
+				
+				<field
+					name="profilelink"
+					type="radio"
+					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
+					description="MOD_LOGIN_FIELD_PROFILE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field

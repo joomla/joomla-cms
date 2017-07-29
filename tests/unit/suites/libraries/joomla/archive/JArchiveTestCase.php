@@ -36,11 +36,11 @@ abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 
-		$this->outputPath = __DIR__ . '/output';
+		$this->outputPath = __DIR__ . '/output/' . uniqid();
 
 		if (!is_dir($this->outputPath))
 		{
-			mkdir($this->outputPath, 0777);
+			mkdir($this->outputPath, 0777, true);
 		}
 
 		if (! is_dir($this->outputPath))
@@ -61,7 +61,7 @@ abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 	{
 		if (is_dir($this->outputPath))
 		{
-			// delete files in output directory
+			// Delete files in output directory
 			foreach (glob("{$this->outputPath}/*") as $file)
 			{
 				unlink($file);
