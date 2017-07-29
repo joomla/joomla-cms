@@ -832,7 +832,7 @@ class Language
 		}
 
 		$disabledFunctions = explode(',', ini_get('disable_functions'));
-		$isParseIniFileDisabled = in_array('parse_ini_file', $disabledFunctions);
+		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
 		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
