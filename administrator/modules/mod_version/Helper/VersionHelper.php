@@ -26,7 +26,7 @@ abstract class VersionHelper
 	 */
 	public static function getVersion()
 	{
-		$version = new Version();
+		$version = new Version;
 
 		return $version::PRODUCT . ' ' . $version->getShortVersion();
 	}
