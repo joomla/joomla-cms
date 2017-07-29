@@ -102,7 +102,7 @@ Joomla.overrider.searchStrings = function(more)
 		moreResults.classList.remove('show');
 
 		var children = document.querySelectorAll('#results-container div.language-results');
-		for (var i = 0; children.lendth > 0; i++) {
+		for (var i = 0, l = children.length ; i < l; i++) {
 			children[i].parentNode.removeChild(children[i]);
 		}
 
@@ -113,7 +113,6 @@ Joomla.overrider.searchStrings = function(more)
 	Joomla.request({
 		url: 'index.php?option=com_languages&task=strings.search&format=json&searchstring=' 
 			+ self.states.searchstring + '&searchtype=' + self.states.searchtype + '&more=' + more,
-		method: 'POST',
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
 		onSuccess: function(response) {
