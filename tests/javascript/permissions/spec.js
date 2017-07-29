@@ -44,7 +44,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 		});
 
 		it("should set style attribute to display the spinner in icon", function() {
-			expect($('#icon_0')).toHaveAttr('style', 'background: url(../media/system/images/modal/spinner.gif); display: inline-block; width: 16px; height: 16px');
+			expect($('#icon_0')).toHaveAttr('class', 'fa fa-spinner fa-spin');
 		});
 
 		it("should call Joomla.removeMessages()", function() {
@@ -64,15 +64,15 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 				expect(request.method).toBe('POST');
 			});
         
-			it("should set attribute class in icon to icon-save", function() {
-				expect($('#icon_0')).toHaveAttr('class', 'icon-save');
+			it("should set attribute class in icon to fa fa-check", function() {
+				expect($('#icon_0')).toHaveAttr('class', 'fa fa-check');
 			});
 
-			it("should add class in icon to icon-save", function() {
+			it("should add class in icon to fa fa-check", function() {
 				expect($spanContainer.find('span')).toHaveClass('test-class');
 			});
 
-			it("should class in icon to icon-save", function() {
+			it("should class in icon to fa fa-check", function() {
 				expect($spanContainer.find('span')).toContainText('Sample text');
 			});
         
@@ -93,8 +93,8 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 				request.respondWith(responses.success);
 			});
 
-			it("should set attribute class in icon to icon-cancel", function() {
-				expect($('#icon_0')).toHaveAttr('class', 'icon-cancel');
+			it("should set attribute class in icon to fa fa-times", function() {
+				expect($('#icon_0')).toHaveAttr('class', 'fa fa-times');
 			});
 
 			it("should call Joomla.renderMessages({})", function() {
@@ -129,8 +129,8 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 				expect($('#icon_0')).not.toHaveAttr('style');
 			});
         
-			it("should set attribute class in icon to icon-cancel", function() {
-				expect($('#icon_0')).toHaveAttr('class', 'icon-cancel');
+			it("should set attribute class in icon to fa fa-times", function() {
+				expect($('#icon_0')).toHaveAttr('class', 'fa fa-times');
 			});
 		});
 	});
