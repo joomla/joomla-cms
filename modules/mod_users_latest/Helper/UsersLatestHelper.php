@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\UsersLatest\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_users_latest
@@ -17,7 +21,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.6
  */
-class ModUsersLatestHelper
+class UsersLatestHelper
 {
 	/**
 	 * Get users sorted by activation date
@@ -30,12 +34,12 @@ class ModUsersLatestHelper
 	 */
 	public static function getUsers($params)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
 			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from('#__users AS a');
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{
@@ -58,9 +62,9 @@ class ModUsersLatestHelper
 		{
 			return (array) $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return array();
 		}
