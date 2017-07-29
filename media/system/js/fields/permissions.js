@@ -52,7 +52,7 @@ function sendPermissions(event) {
 		title = document.getElementById('jform_title').value;
 	}
 
-	var id                  = this.id.replace('jform_rules_', '');
+	var id                  = this.id.replace('jform_rules_', ''),
 	    lastUnderscoreIndex = id.lastIndexOf('_');
 
 	var permission_data = {
