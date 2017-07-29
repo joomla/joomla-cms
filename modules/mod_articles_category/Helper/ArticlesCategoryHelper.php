@@ -447,7 +447,7 @@ abstract class ArticlesCategoryHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $article_grouping_direction, $type = 'year', $month_year_format = 'F Y')
 	{
 		$grouped = array();
 
