@@ -7,7 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Login\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_login
@@ -17,7 +24,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.5
  */
-class ModLoginHelper
+class LoginHelper
 {
 	/**
 	 * Retrieve the URL where the user should be returned after logging in
@@ -29,17 +36,16 @@ class ModLoginHelper
 	 */
 	public static function getReturnUrl($params, $type)
 	{
-		$app  = JFactory::getApplication();
-		$item = $app->getMenu()->getItem($params->get($type));
+		$item = Factory::getApplication()->getMenu()->getItem($params->get($type));
 
 		// Stay on the same page
-		$url = JUri::getInstance()->toString();
+		$url = Uri::getInstance()->toString();
 
 		if ($item)
 		{
 			$lang = '';
 
-			if ($item->language !== '*' && JLanguageMultilang::isEnabled())
+			if ($item->language !== '*' && Multilanguage::isEnabled())
 			{
 				$lang = '&lang=' . $item->language;
 			}
@@ -57,7 +63,7 @@ class ModLoginHelper
 	 */
 	public static function getType()
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		return (!$user->get('guest')) ? 'logout' : 'login';
 	}
