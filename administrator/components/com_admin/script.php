@@ -1907,7 +1907,6 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/legacy.php',
 			'/libraries/legacy/web/client.php',
 			'/libraries/legacy/web/web.php',
-			// Joomla! __DEPLOY_VERSION__
 			'/administrator/modules/mod_menu/preset/enabled.php',
 			'/administrator/modules/mod_menu/preset/disabled.php',
 		);
@@ -2132,7 +2131,6 @@ class JoomlaInstallerScript
 			'/libraries/legacy/model',
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
-			// Joomla! __DEPLOY_VERSION__
 			'/administrator/modules/mod_menu/preset',
 		);
 
