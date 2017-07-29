@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Feed\Site\Helper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_feed
  * @since       1.5
  */
-class ModFeedHelper
+class FeedHelper
 {
 	/**
 	 * Retrieve feed information
@@ -33,17 +35,17 @@ class ModFeedHelper
 		// Get RSS parsed object
 		try
 		{
-			$feed   = new JFeedFactory;
+			$feed   = new \JFeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
 		catch (Exception $e)
 		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($rssDoc))
 		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if ($rssDoc)
