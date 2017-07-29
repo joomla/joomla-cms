@@ -159,6 +159,7 @@ Desktop.ini
 
 # System Test related files
 tests/codeception/acceptance.suite.yml
+tests/codeception/unit.suite.yml
 tests/codeception/_support/_generated/*TesterActions.php
 tests/codeception/joomla-cms*
 tests/codeception/_output*
