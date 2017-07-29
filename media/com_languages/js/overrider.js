@@ -28,7 +28,7 @@ Joomla.overrider.refreshCache = function()
 	this.states.refreshing = true;
 
 	var self          = this,
-		refreshStatus = document.getElementById('refresh-status');
+	    refreshStatus = document.getElementById('refresh-status');
 
 	refreshStatus.classList.add('show');
 
@@ -67,12 +67,12 @@ Joomla.overrider.refreshCache = function()
 Joomla.overrider.searchStrings = function(more)
 {
 	var self             = this,
-		formSearchString = document.getElementById('jform_searchstring'),
-		formSearchType   = document.getElementById('jform_searchtype'),
-		spinner          = document.getElementById('overrider-spinner'),
-		spinnerBtn       = document.getElementById('overrider-spinner-btn'),
-		moreResults      = document.getElementById('more-results'),
-		resultsContainer = document.getElementById('results-container');
+	    formSearchString = document.getElementById('jform_searchstring'),
+	    formSearchType   = document.getElementById('jform_searchtype'),
+	    spinner          = document.getElementById('overrider-spinner'),
+	    spinnerBtn       = document.getElementById('overrider-spinner-btn'),
+	    moreResults      = document.getElementById('more-results'),
+	    resultsContainer = document.getElementById('results-container');
 
 	// Prevent searching if the cache is refreshed at the moment
 	if (this.states.refreshing) {
