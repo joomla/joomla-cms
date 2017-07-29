@@ -24,15 +24,14 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
     vertical-align: top;
 }
 
-.mejs__container .mejs__video {
-    min-height: 140px;
-}
-
 .mejs__container * {
     box-sizing: border-box;
 }
 
-/* Hide native play button from iOS to favor plugin button */
+/* Hide native play button and control bar from iOS to favor plugin button */
+.mejs__container video::-webkit-media-controls,
+.mejs__container video::-webkit-media-controls-panel,
+.mejs__container video::-webkit-media-controls-panel-container,
 .mejs__container video::-webkit-media-controls-start-playback-button {
     -webkit-appearance: none;
     display: none !important;
@@ -110,7 +109,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 .mejs__poster {
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     left: 0;
     position: absolute;
     top: 0;
@@ -208,7 +207,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
     padding: 0 10px;
     position: absolute;
     width: 100%;
-    z-index: 1;
+    z-index: 3;
 }
 
 .mejs__controls:not([style*='display: none']) {
