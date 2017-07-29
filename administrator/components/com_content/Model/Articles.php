@@ -75,8 +75,8 @@ class Articles extends ListModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string $ordering  An optional ordering field.
-	 * @param   string $direction An optional direction (asc|desc).
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -118,7 +118,7 @@ class Articles extends ListModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string $id A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -480,8 +480,8 @@ class Articles extends ListModel
 	/**
 	 * Get the filter form
 	 *
-	 * @param   array   $data     data
-	 * @param   boolean $loadData load current data
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
 	 *
 	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *

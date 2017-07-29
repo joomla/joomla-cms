@@ -51,7 +51,7 @@ class ContentHelper extends \JHelperContent
 
 		if ($vName == 'states' || $vName == 'transitions')
 		{
-			$app = Factory::getApplication();
+			$app        = Factory::getApplication();
 			$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
 
 			\JHtmlSidebar::addEntry(
@@ -130,11 +130,11 @@ class ContentHelper extends \JHelperContent
 
 		foreach ($items as $item)
 		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
+			$item->count_trashed     = 0;
+			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
+			$item->count_published   = 0;
+			$query                   = $db->getQuery(true);
 			$query->select('state, count(*) AS count')
 				->from($db->qn('#__content'))
 				->where('catid = ' . (int) $item->id)
@@ -181,9 +181,9 @@ class ContentHelper extends \JHelperContent
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = \JFactory::getDbo();
-		$parts     = explode('.', $extension);
-		$section   = null;
+		$db      = \JFactory::getDbo();
+		$parts   = explode('.', $extension);
+		$section = null;
 
 		if (count($parts) > 1)
 		{
@@ -195,17 +195,17 @@ class ContentHelper extends \JHelperContent
 
 		if ($section === 'category')
 		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$join  = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
 			$state = 'published as state';
 		}
 
 		foreach ($items as $item)
 		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
+			$item->count_trashed     = 0;
+			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
+			$item->count_published   = 0;
+			$query                   = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
 				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
@@ -262,7 +262,7 @@ class ContentHelper extends \JHelperContent
 				// Editing an article
 				case 'form':
 
-				// Category list view
+					// Category list view
 				case 'featured':
 				case 'category':
 					$section = 'article';
@@ -308,7 +308,7 @@ class ContentHelper extends \JHelperContent
 	 */
 	public static function canDeleteState($stateID)
 	{
-		$db = \JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
@@ -332,7 +332,11 @@ class ContentHelper extends \JHelperContent
 	 */
 	public static function filterTransitions($transitions, $pk)
 	{
-		return array_values(array_filter($transitions, function ($var) use ($pk) {
+		return array_values(
+			array_filter(
+				$transitions,
+				function ($var) use ($pk)
+				{
 					return $var['from_state_id'] == $pk;
 				}
 			)
