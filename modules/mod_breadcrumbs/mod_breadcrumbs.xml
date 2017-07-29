@@ -26,7 +26,6 @@
 					name="showHere"
 					type="radio"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -38,7 +37,6 @@
 					name="showHome"
 					type="radio"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -58,7 +56,6 @@
 					name="showLast"
 					type="radio"
 					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC"
 					default="1"
 					class="switcher"
 					>

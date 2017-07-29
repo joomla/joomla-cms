@@ -23,7 +23,6 @@
 					name="host"
 					type="text"
 					label="PLG_LDAP_FIELD_HOST_LABEL"
-					description="PLG_LDAP_FIELD_HOST_DESC"
 					size="20"
 				/>
 
@@ -31,7 +30,6 @@
 					name="port"
 					type="number"
 					label="PLG_LDAP_FIELD_PORT_LABEL"
-					description="PLG_LDAP_FIELD_PORT_DESC"
 					min="1"
 					max="65535"
 					default="389"
@@ -46,7 +44,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
-					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -57,7 +54,6 @@
 					name="negotiate_tls"
 					type="radio"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
 					class="switcher"
 					>
@@ -69,7 +65,6 @@
 					name="no_referrals"
 					type="radio"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
-					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 					default="0"
 					class="switcher"
 					>
@@ -81,7 +76,6 @@
 					name="auth_method"
 					type="list"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
-					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
 					default="bind"
 					>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
@@ -92,7 +86,6 @@
 					name="base_dn"
 					type="text"
 					label="PLG_LDAP_FIELD_BASEDN_LABEL"
-					description="PLG_LDAP_FIELD_BASEDN_DESC"
 					size="20"
 				/>
 

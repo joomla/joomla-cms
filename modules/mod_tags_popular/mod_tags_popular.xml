@@ -26,7 +26,6 @@
 					name="maximum"
 					type="integer"
 					label="MOD_TAGS_POPULAR_MAX_LABEL"
-					description="MOD_TAGS_POPULAR_MAX_DESC"
 					default="5"
 					first="1"
 					last="20"
@@ -37,7 +36,6 @@
 					name="timeframe"
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_DESC"
 					default="alltime"
 					>
 					<option value="alltime">MOD_TAGS_POPULAR_FIELD_ALL_TIME</option>
@@ -52,7 +50,6 @@
 					name="order_value"
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_DESC"
 					default="count"
 					>
 					<option value="title">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_TITLE</option>
@@ -64,7 +61,6 @@
 					name="order_direction"
 					type="list"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
-					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
@@ -76,7 +72,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_DESC"
 					default="0"
 					filter="integer"
 					>
@@ -89,7 +84,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -123,7 +117,6 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 					default="_:default"
 				/>
 
@@ -131,7 +124,6 @@
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -139,7 +131,6 @@
 					name="owncache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -150,7 +141,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 			</fieldset>

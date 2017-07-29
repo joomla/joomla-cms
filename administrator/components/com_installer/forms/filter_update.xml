@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset addfieldpath="/administrator/components/com_installer/models/fields"/>
-
+<form addfieldprefix="Joomla\Component\Installer\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
@@ -36,8 +34,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="u.name ASC"
 			>
@@ -54,8 +50,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIMIT"
-			description="JGLOBAL_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

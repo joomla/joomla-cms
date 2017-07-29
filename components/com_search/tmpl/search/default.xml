@@ -17,7 +17,6 @@
 				name="searchword"
 				type="text"
 				label="COM_SEARCH_FIELD_LABEL"
-				description="COM_SEARCH_FIELD_DESC"
 			/>
 		</fieldset>
 	</fields>
@@ -31,7 +30,6 @@
 				name="search_phrases"
 				type="list"
 				label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
-				description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNO</option>
@@ -42,7 +40,6 @@
 				name="search_areas"
 				type="list"
 				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
-				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNO</option>
@@ -53,7 +50,6 @@
 				name="show_date"
 				type="list"
 				label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
-				description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -73,7 +69,6 @@
 				name="searchphrase"
 				type="list"
 				label="COM_SEARCH_FOR_LABEL"
-				description="COM_SEARCH_FOR_DESC"
 				default="0"
 				>
 				<option value="0">COM_SEARCH_ALL_WORDS</option>
@@ -85,7 +80,6 @@
 				name="ordering"
 				type="list"
 				label="COM_SEARCH_ORDERING_LABEL"
-				description="COM_SEARCH_ORDERING_DESC"
 				default="newest"
 				>
 				<option value="newest">COM_SEARCH_NEWEST_FIRST</option>

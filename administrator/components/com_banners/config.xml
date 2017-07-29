@@ -10,7 +10,6 @@
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
-			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			id="purchase_type"
 			default="1"
 			>
@@ -26,7 +25,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -38,7 +36,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
-			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -66,7 +63,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -77,7 +73,6 @@
 			name="history_limit"
 			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
 			default="10"
 			showon="save_history:1"
