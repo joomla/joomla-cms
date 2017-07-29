@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\ArticlesCategory\Site\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
-
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
+use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
@@ -21,6 +21,7 @@ use Joomla\Component\Content\Site\Model\Articles;
 use Joomla\Component\Content\Site\Model\Article;
 use Joomla\Component\Content\Site\Model\Categories;
 
+\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_category
@@ -30,7 +31,7 @@ use Joomla\Component\Content\Site\Model\Categories;
  *
  * @since       1.6
  */
-abstract class ModArticlesCategoryHelper
+abstract class ArticlesCategoryHelper
 {
 	/**
 	 * Get a list of articles from a specific category
@@ -47,7 +48,8 @@ abstract class ModArticlesCategoryHelper
 		$articles = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
-		$app       = JFactory::getApplication();
+		$app       = Factory::getApplication();
+		$input     = $app->input;
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
@@ -58,7 +60,7 @@ abstract class ModArticlesCategoryHelper
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
 		$articles->setState('filter.access', $access);
 
 		// Prep for Normal or Dynamic Modes
@@ -67,24 +69,24 @@ abstract class ModArticlesCategoryHelper
 		switch ($mode)
 		{
 			case 'dynamic' :
-				$option = $app->input->get('option');
-				$view   = $app->input->get('view');
+				$option = $input->get('option');
+				$view   = $input->get('view');
 
 				if ($option === 'com_content')
 				{
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
+							$catids = array($input->getInt('id'));
 							break;
 						case 'categories' :
-							$catids = array($app->input->getInt('id'));
+							$catids = array($input->getInt('id'));
 							break;
 						case 'article' :
 							if ($params->get('show_on_article_page', 1))
 							{
-								$article_id = $app->input->getInt('id');
-								$catid      = $app->input->getInt('catid');
+								$article_id = $input->getInt('id');
+								$catid      = $input->getInt('catid');
 
 								if (!$catid)
 								{
@@ -176,7 +178,7 @@ abstract class ModArticlesCategoryHelper
 		switch ($ordering)
 		{
 			case 'random':
-				$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
 				break;
 
 			case 'rating_count':
@@ -241,12 +243,12 @@ abstract class ModArticlesCategoryHelper
 		$introtext_limit  = $params->get('introtext_limit', 100);
 
 		// Find current Article ID if on an article page
-		$option = $app->input->get('option');
-		$view   = $app->input->get('view');
+		$option = $input->get('option');
+		$view   = $input->get('view');
 
 		if ($option === 'com_content' && $view === 'article')
 		{
-			$active_article_id = $app->input->getInt('id');
+			$active_article_id = $input->getInt('id');
 		}
 		else
 		{
@@ -261,7 +263,7 @@ abstract class ModArticlesCategoryHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
@@ -272,13 +274,13 @@ abstract class ModArticlesCategoryHelper
 				{
 					$Itemid = $menuitems[0]->id;
 				}
-				elseif ($app->input->getInt('Itemid') > 0)
+				elseif ($input->getInt('Itemid') > 0)
 				{
 					// Use Itemid from requesting page only if there is no existing menu
-					$Itemid = $app->input->getInt('Itemid');
+					$Itemid = $input->getInt('Itemid');
 				}
 
-				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
+				$item->link = \JRoute::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
 			}
 
 			// Used for styling the active article
@@ -287,12 +289,12 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_date)
 			{
-				$item->displayDate = JHtml::_('date', $item->$show_date_field, $show_date_format);
+				$item->displayDate = \JHtml::_('date', $item->$show_date_field, $show_date_format);
 			}
 
 			if ($item->catid)
 			{
-				$item->displayCategoryLink  = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catid));
+				$item->displayCategoryLink  = \JRoute::_(\ContentHelperRoute::getCategoryRoute($item->catid));
 				$item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
 			}
 			else
@@ -305,7 +307,7 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_introtext)
 			{
-				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
+				$item->introtext = \JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
 
@@ -352,15 +354,15 @@ abstract class ModArticlesCategoryHelper
 		$baseLength = strlen($html);
 
 		// First get the plain text string. This is the rendered text we want to end up with.
-		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
+		$ptString = \JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
 
 		for ($maxLength; $maxLength < $baseLength;)
 		{
 			// Now get the string if we allow html.
-			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
+			$htmlString = \JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
 
 			// Now get the plain text from the html string.
-			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
+			$htmlStringToPtString = \JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString === $htmlStringToPtString)
@@ -437,15 +439,15 @@ abstract class ModArticlesCategoryHelper
 	 * Groups items by date
 	 *
 	 * @param   array   $list                        list of items
-	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
+	 * @param   string  $type                        type of grouping
 	 * @param   string  $month_year_format           date format to use
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $article_grouping_direction, $type = 'year', $month_year_format = 'F Y')
 	{
 		$grouped = array();
 
