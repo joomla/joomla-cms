@@ -1,5 +1,14 @@
+#### Browser Version is used for automatically prefixing the stylesheets. IMPORTANT: Joomla 4 supports only the latest 2 versions of each browser!!!
+Browsers:
+    'Chrome':   '58'
+    'Firefox':  '53'
+    'Edge':     '12'
+    'Explorer': '11'
+    'Safari':   '10.1'
+    'Opera':    '44'
+
 vendors:
-#### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
+#### PLEASE ONLY ALTER THE VERSION NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
     'jquery':
                  'version': '3.2.1'
                  'dependencies': ''
@@ -26,7 +35,7 @@ vendors:
                   'version': '1.12.1'
                   'dependencies': 'jquery'
     'mediaelement':
-                  'version': '4.2.2'
+                  'version': '4.2.3'
                   'dependencies': 'jquery'
     'masonry-layout':
                   'version': '4.2.0'
@@ -58,8 +67,11 @@ vendors:
     'wicked-good-xpath':
                   'version': '1.3.0'
                   'dependencies': ''
+    'joomla-ui-custom-elements':
+                  'version': '0.0.7'
+                  'dependencies': ''
 
-## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
+## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
         js:
             - 'addon/display/fullscreen.js'

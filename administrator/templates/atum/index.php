@@ -45,6 +45,9 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 // Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
+// Alerts
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
@@ -122,7 +125,6 @@ $this->setMetaData('theme-color', '#1c3d5c');
 					</div>
 				</div>
 			<?php endif; ?>
-
 			<section id="content" class="content">
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />

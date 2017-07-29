@@ -5,7 +5,6 @@
 			name="id"
 			type="hidden"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			class="readonly"
 			default="0"
 			filter="int"
@@ -16,7 +15,6 @@
 			name="title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
 			class="input-xxlarge"
 			size="40"
 			required="true"
@@ -26,7 +24,6 @@
 			name="alias"
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40"
 		/>
@@ -35,7 +32,6 @@
 			name="note"
 			type="text"
 			label="JFIELD_NOTE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
 			maxlength="255"
 			size="40"
 		/>
@@ -44,7 +40,6 @@
 			name="link"
 			type="link"
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
-			description="COM_MENUS_ITEM_FIELD_LINK_DESC"
 			readonly="true"
 			class="input-xxlarge"
 			size="50"
@@ -54,7 +49,6 @@
 			name="menutype"
 			type="menu"
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
-			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
 			required="true"
 			clientid="0"
 			size="1"
@@ -66,7 +60,6 @@
 			name="type"
 			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_TYPE_DESC"
 			class="input-medium"
 			required="true"
 			size="40" 
@@ -76,7 +69,6 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
 			id="published"
 			class="custom-select-color-state"
 			size="1"
@@ -92,7 +84,6 @@
 			name="parent_id"
 			type="menuparent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PARENT_DESC"
 			default="1"
 			filter="int"
 			clientid="0"
@@ -105,7 +96,6 @@
 			name="menuordering"
 			type="menuordering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
-			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
 			filter="int"
 			size="1">
 		</field>
@@ -120,7 +110,6 @@
 			name="browserNav"
 			type="list"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
-			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
 			default="0"
 			filter="int"
 			>
@@ -133,8 +122,6 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			id="access"
 			filter="integer"
 			/>
 
@@ -142,7 +129,6 @@
 			name="template_style_id"
 			type="templatestyle"
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
 			client="site"
 			filter="int"
 			>
@@ -153,7 +139,6 @@
 			name="home"
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
-			description="COM_MENUS_ITEM_FIELD_HOME_DESC"
 			default="0"
 			class="switcher"
 			filter="integer"
@@ -166,7 +151,6 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -211,7 +195,6 @@
 			name="toggle_modules_assigned"
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
-			description="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_DESC"
 			default="1"
 			class="switcher"
 			filter="integer"
@@ -224,7 +207,6 @@
 			name="toggle_modules_published"
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
-			description="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_DESC"
 			default="1"
 			class="switcher"
 			filter="integer"

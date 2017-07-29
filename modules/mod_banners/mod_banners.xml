@@ -30,7 +30,6 @@
 					name="target"
 					type="list"
 					label="MOD_BANNERS_FIELD_TARGET_LABEL"
-					description="MOD_BANNERS_FIELD_TARGET_DESC"
 					default="1"
 					>
 					<option value="0">JBROWSERTARGET_PARENT</option>
@@ -59,7 +58,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_BANNERS_FIELD_CATEGORY_DESC"
 					extension="com_banners"
 					multiple="true"
 					size="5"
@@ -73,7 +71,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_BANNERS_FIELD_TAG_LABEL"
-					description="MOD_BANNERS_FIELD_TAG_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -84,7 +81,6 @@
 					name="ordering"
 					type="list"
 					label="MOD_BANNERS_FIELD_RANDOMISE_LABEL"
-					description="MOD_BANNERS_FIELD_RANDOMISE_DESC"
 					default="0"
 					>
 					<option value="0">MOD_BANNERS_VALUE_STICKYORDERING</option>
@@ -95,7 +91,6 @@
 					name="header_text"
 					type="textarea"
 					label="MOD_BANNERS_FIELD_HEADER_LABEL"
-					description="MOD_BANNERS_FIELD_HEADER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -105,7 +100,6 @@
 					name="footer_text"
 					type="textarea"
 					label="MOD_BANNERS_FIELD_FOOTER_LABEL"
-					description="MOD_BANNERS_FIELD_FOOTER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -116,21 +110,18 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -141,7 +132,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 			</fieldset>

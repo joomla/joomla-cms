@@ -25,7 +25,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -37,7 +36,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -48,7 +46,6 @@
 					name="article_index_text"
 					type="text"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT"
-					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC"
 					default=""
 					showon="article_index:1"
 				/>
@@ -58,7 +55,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -70,7 +66,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -81,7 +76,6 @@
 					name="style"
 					type="list"
 					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
 					default="pages"
 					>
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>

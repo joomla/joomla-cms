@@ -11,8 +11,6 @@
 		<field
 			name="component"
 			type="Components"
-			label="COM_USERS_FILTER_COMPONENT_LABEL"
-			description="COM_USERS_FILTER_COMPONENT_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
@@ -20,8 +18,6 @@
 		<field
 			name="level_start"
 			type="Levels"
-			label="COM_USERS_FILTER_LEVEL_START_LABEL"
-			description="COM_USERS_FILTER_LEVEL_START_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
@@ -29,8 +25,6 @@
 		<field
 			name="level_end"
 			type="Levels"
-			label="COM_USERS_FILTER_LEVEL_END_LABEL"
-			description="COM_USERS_FILTER_LEVEL_END_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
