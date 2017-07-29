@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Admin;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
@@ -197,7 +198,7 @@ class State extends Admin
 		if ($value)
 		{
 			// Verify that the home page for this language is unique per client id
-			if ($table->load(array('default' => '1')))
+			if ($table->load(array('default' => '1', 'workflow_id' => $table->workflow_id)))
 			{
 				$table->default = 0;
 				$table->store();
@@ -230,7 +231,7 @@ class State extends Admin
 	{
 		$table = $this->getTable();
 		$pks   = (array) $pks;
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		// Default item existence checks.
@@ -238,16 +239,16 @@ class State extends Admin
 		{
 			foreach ($pks as $i => $pk)
 			{
-				if ($table->load($pk) && $table->default)
+				if ($table->load(array('id' => $pk)) && $table->default)
 				{
 					// Prune items that you can't change.
-					$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+					$app->enqueueMessage(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'), 'error');
 					unset($pks[$i]);
 					break;
 				}
 				elseif (WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $pk))
 				{
-					$this->setError(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'));
+					$app->enqueueMessage(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'), 'error');
 					unset($pks[$i]);
 					break;
 				}

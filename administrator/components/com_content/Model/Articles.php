@@ -147,9 +147,9 @@ class Articles extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -181,6 +181,10 @@ class Articles extends ListModel
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+
+		// Join over the states.
+		$query->select('ws.title AS state_title, ws.id AS state')
+			->join('LEFT', '#__workflow_states AS ws ON a.state = ws.id');
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -243,7 +247,7 @@ class Articles extends ListModel
 		}
 
 		// Filter by published state
-		$published = (string) $this->getState('filter.choose_state');
+		$published = (string) $this->getState('filter.state');
 
 		if (is_numeric($published))
 		{
@@ -251,15 +255,15 @@ class Articles extends ListModel
 		}
 
 		// Filter by a single or group of categories.
-		$baselevel = 1;
+		$baselevel  = 1;
 		$categoryId = $this->getState('filter.category_id');
 
 		if (is_numeric($categoryId))
 		{
-			$categoryTable= \JTable::getInstance('Category', '\JTable');
+			$categoryTable = \JTable::getInstance('Category', '\JTable');
 			$categoryTable->load($categoryId);
-			$rgt = $categoryTable->rgt;
-			$lft = $categoryTable->lft;
+			$rgt       = $categoryTable->rgt;
+			$lft       = $categoryTable->lft;
 			$baselevel = (int) $categoryTable->level;
 			$query->where('c.lft >= ' . (int) $lft)
 				->where('c.rgt <= ' . (int) $rgt);
@@ -352,7 +356,7 @@ class Articles extends ListModel
 			return $this->cache[$store];
 		}
 
-		$db = $this->getDbo();
+		$db   = $this->getDbo();
 		$user = Factory::getUser();
 
 		$items = $this->getItems();
@@ -370,33 +374,35 @@ class Articles extends ListModel
 				$query = $db->getQuery(true);
 
 				$select = $db->quoteName(
-							array(
-								't.id',
-								't.title',
-								's.id',
-								's.title'
-							),
-							array(
-								'value',
-								'text',
-								'state_id',
-								'state_title'
-							)
-						);
+					array(
+						't.id',
+						't.title',
+						't.from_state_id',
+						's.id',
+						's.title'
+					),
+					array(
+						'value',
+						'text',
+						'from_state_id',
+						'state_id',
+						'state_title'
+					)
+				);
 
-				$query	->select($select)
-						->from($db->quoteName('#__workflow_transitions', 't'))
-						->from($db->quoteName('#__workflow_states', 's'))
-						->where($db->quoteName('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
-						->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
-						->where($db->quoteName('t.published') . ' = 1')
-						->where($db->quoteName('s.published') . ' = 1');
+				$query->select($select)
+					->from($db->quoteName('#__workflow_transitions', 't'))
+					->from($db->quoteName('#__workflow_states', 's'))
+					->where($db->quoteName('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
+					->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
+					->where($db->quoteName('t.published') . ' = 1')
+					->where($db->quoteName('s.published') . ' = 1');
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 
 				foreach ($transitions as $key => $transition)
 				{
-					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition->id))
+					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition['value']))
 					{
 						unset($transitions[$key]);
 					}
@@ -425,7 +431,7 @@ class Articles extends ListModel
 	public function getAuthors()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Construct the query
@@ -483,35 +489,55 @@ class Articles extends ListModel
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
+
+		// Get a storage key.
+		$store = $this->getStoreId('getFilterForm');
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$items = $this->getItems();
 		$form = parent::getFilterForm($data, $loadData);
 
-		if ($form)
+		if (!empty($items))
 		{
-			$db    = $this->getDbo();
-			$query = $db->getQuery(true);
-			$items = $this->getItems();
-
 			$ids = ArrayHelper::getColumn($items, 'state');
 			$ids = ArrayHelper::toInteger($ids);
 			$ids = array_unique(array_filter($ids));
 
-			$select = $db->quoteName(
-				array(
-					'id',
-					'title'
-				),
-				array(
-					'value',
-					'choose_state'
-				)
-			);
+			$this->cache[$store] = array();
 
-			$query
-				->select($select)
-				->from($db->qn('#__workflow_states'))
-				->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
-			$form->setFieldAttribute('choose_state', 'query', (string) $query, 'filter');
+
+			if ($form && !empty($ids))
+			{
+				$select = $db->quoteName(
+					array(
+						'id',
+						'title'
+					),
+					array(
+						'value',
+						'state'
+					)
+				);
+
+				$query
+					->select($select)
+					->from($db->qn('#__workflow_states'))
+					->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
+				$form->setFieldAttribute('state', 'query', (string) $query, 'filter');
+
+				return $form;
+			}
 		}
+
+		$form->setFieldAttribute('state', 'query', "", 'filter');
 
 		return $form;
 	}
