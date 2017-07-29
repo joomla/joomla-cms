@@ -7,7 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\TagsPopular\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\TagsHelper;
 
 /**
  * Helper for mod_tags_popular
@@ -16,7 +23,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_tags_popular
  * @since       3.1
  */
-abstract class ModTagsPopularHelper
+abstract class TagsPopularHelper
 {
 	/**
 	 * Get list of popular tags
@@ -29,13 +36,13 @@ abstract class ModTagsPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db          = JFactory::getDbo();
-		$user        = JFactory::getUser();
+		$db          = Factory::getDbo();
+		$user        = Factory::getUser();
 		$groups      = implode(',', $user->getAuthorisedViewLevels());
 		$timeframe   = $params->get('timeframe', 'alltime');
 		$maximum     = $params->get('maximum', 5);
 		$order_value = $params->get('order_value', 'title');
-		$nowDate     = JFactory::getDate()->toSql();
+		$nowDate     = Factory::getDate()->toSql();
 		$nullDate    = $db->quote($db->getNullDate());
 
 		$query = $db->getQuery(true)
@@ -56,13 +63,13 @@ abstract class ModTagsPopularHelper
 		$query->where($db->quoteName('t.published') . ' = 1 ');
 
 		// Optionally filter on language
-		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
 		if ($language !== 'all')
 		{
 			if ($language === 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = ContentHelper::getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
@@ -126,10 +133,10 @@ abstract class ModTagsPopularHelper
 		{
 			$results = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$results = array();
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $results;
