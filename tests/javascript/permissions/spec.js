@@ -39,10 +39,6 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			Joomla.JText._ = jtxtFn;
 		});
 
-		it("should remove attribute class from icon", function() {
-			expect($('#icon_0')).not.toHaveAttr('class');
-		});
-
 		it("should set style attribute to display the spinner in icon", function() {
 			expect($('#icon_0')).toHaveAttr('class', 'fa fa-spinner fa-spin');
 		});
@@ -123,10 +119,6 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 
 			it("should call window.scrollTo(0, 0)", function() {
 				expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
-			});
-        
-			it("should remove attribute style from icon", function() {
-				expect($('#icon_0')).not.toHaveAttr('style');
 			});
         
 			it("should set attribute class in icon to fa fa-times", function() {
