@@ -333,6 +333,7 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
 CREATE TABLE IF NOT EXISTS `#__content` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `workflow_id` int(10) NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
@@ -363,6 +364,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `xreference` varchar(50) NOT NULL DEFAULT '' COMMENT 'A reference to enable linkages to external data sets.',
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
+  KEY `workflow_id` (`workflow_id`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
   KEY `idx_catid` (`catid`),
