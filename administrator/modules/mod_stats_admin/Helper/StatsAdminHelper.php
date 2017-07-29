@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+ 
+namespace Joomla\Module\StatsAdmin\Administrator\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Helper class for admin stats module
  *
  * @since  3.0
  */
-class ModStatsHelper
+class StatsAdminHelper
 {
 	/**
 	 * Method to retrieve information about the site
@@ -27,8 +32,8 @@ class ModStatsHelper
 	 */
 	public static function getStats(&$params)
 	{
-		$app   = JFactory::getApplication();
-		$db    = JFactory::getDbo();
+		$app   = Factory::getApplication();
+		$db    = Factory::getDbo();
 		$rows  = array();
 		$query = $db->getQuery(true);
 
@@ -39,28 +44,28 @@ class ModStatsHelper
 
 		if ($serverinfo)
 		{
-			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_PHP');
+			$rows[$i]        = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_PHP');
 			$rows[$i]->icon  = 'cogs';
 			$rows[$i]->data  = phpversion();
 			$i++;
 
-			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JText::_($db->name);
+			$rows[$i]        = new \stdClass;
+			$rows[$i]->title = \JText::_($db->name);
 			$rows[$i]->icon  = 'database';
 			$rows[$i]->data  = $db->getVersion();
 			$i++;
 
-			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
+			$rows[$i]        = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_CACHING');
 			$rows[$i]->icon  = 'dashboard';
-			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('caching') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
 			$i++;
 
-			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
+			$rows[$i]        = new \stdClass;
+			$rows[$i]->title = \JText::_('MOD_STATS_GZIP');
 			$rows[$i]->icon  = 'bolt';
-			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('gzip') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
 			$i++;
 		}
 
@@ -73,7 +78,7 @@ class ModStatsHelper
 			{
 				$users = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$users = false;
 			}
@@ -87,15 +92,15 @@ class ModStatsHelper
 			{
 				$items = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$items = false;
 			}
 
 			if ($users)
 			{
-				$rows[$i]        = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_USERS');
+				$rows[$i]        = new \stdClass;
+				$rows[$i]->title = \JText::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
 				$i++;
@@ -103,8 +108,8 @@ class ModStatsHelper
 
 			if ($items)
 			{
-				$rows[$i]        = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
+				$rows[$i]        = new \stdClass;
+				$rows[$i]->title = \JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
 				$i++;
@@ -112,9 +117,9 @@ class ModStatsHelper
 		}
 
 		// Include additional data defined by published system plugins
-		JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 
-		$app    = JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
 
 		foreach ($arrays as $response)
@@ -124,7 +129,7 @@ class ModStatsHelper
 				// We only add a row if the title and data are given
 				if (isset($row['title']) && isset($row['data']))
 				{
-					$rows[$i]        = new stdClass;
+					$rows[$i]        = new \stdClass;
 					$rows[$i]->title = $row['title'];
 					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
 					$rows[$i]->data  = $row['data'];
