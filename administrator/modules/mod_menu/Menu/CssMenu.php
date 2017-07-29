@@ -65,7 +65,7 @@ class CssMenu
 	 * Method to add a child
 	 *
 	 * @param   MenuNode  $node        The node to process
-	 * @param   boolean    $setCurrent  True to set as current working node
+	 * @param   boolean   $setCurrent  True to set as current working node
 	 *
 	 * @return  void
 	 */
