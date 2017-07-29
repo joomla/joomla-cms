@@ -7,21 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\ArticlesLatest\Site\Helper;
+
 defined('_JEXEC') or die;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
+use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Access\Access;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Content\Site\Model\Articles;
+
+\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_latest
  *
  * @since  1.6
  */
-abstract class ModArticlesLatestHelper
+abstract class ArticlesLatestHelper
 {
 	/**
 	 * Retrieve a list of article
@@ -34,14 +37,15 @@ abstract class ModArticlesLatestHelper
 	 */
 	public static function getList(&$params)
 	{
-		// Get the dbo
-		$db = JFactory::getDbo();
+		// Get the Dbo and User object
+		$db   = Factory::getDbo();
+		$user = Factory::getUser();
 
 		// Get an instance of the generic articles model
 		$model = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
-		$app       = JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
@@ -52,14 +56,14 @@ abstract class ModArticlesLatestHelper
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$authorised = Access::getAuthorisedViewLevels($user->get('id'));
 		$model->setState('filter.access', $access);
 
 		// Category filter
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
 		// User filter
-		$userId = JFactory::getUser()->get('id');
+		$userId = $user->get('id');
 
 		switch ($params->get('user_id'))
 		{
@@ -120,11 +124,11 @@ abstract class ModArticlesLatestHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
-				$item->link = JRoute::_('index.php?option=com_users&view=login');
+				$item->link = \JRoute::_('index.php?option=com_users&view=login');
 			}
 		}
 
