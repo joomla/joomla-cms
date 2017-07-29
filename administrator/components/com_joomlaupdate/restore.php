@@ -6427,7 +6427,7 @@ class AKFactory
 				'add_path'            => self::get('kickstart.setup.targetpath', $destdir),
 				'remove_path'         => self::get('kickstart.setup.removepath', ''),
 				'rename_files'        => self::get('kickstart.setup.renamefiles', array(
-					'.htaccess' => 'htaccess.bak', 'php.ini' => 'php.ini.bak', 'web.config' => 'web.config.bak',
+					'php.ini' => 'php.ini.bak',
 					'.user.ini' => '.user.ini.bak'
 				)),
 				'skip_files'          => self::get('kickstart.setup.skipfiles', array(
@@ -7877,26 +7877,6 @@ if (!defined('KICKSTART'))
 				recursive_remove_directory($root . '/installation');
 
 				$postproc = AKFactory::getPostProc();
-
-				// Rename htaccess.bak to .htaccess
-				if (file_exists($root . '/htaccess.bak'))
-				{
-					if (file_exists($root . '/.htaccess'))
-					{
-						$postproc->unlink($root . '/.htaccess');
-					}
-					$postproc->rename($root . '/htaccess.bak', $root . '/.htaccess');
-				}
-
-				// Rename htaccess.bak to .htaccess
-				if (file_exists($root . '/web.config.bak'))
-				{
-					if (file_exists($root . '/web.config'))
-					{
-						$postproc->unlink($root . '/web.config');
-					}
-					$postproc->rename($root . '/web.config.bak', $root . '/web.config');
-				}
 
 				// Remove restoration.php
 				$basepath = KSROOTDIR;
