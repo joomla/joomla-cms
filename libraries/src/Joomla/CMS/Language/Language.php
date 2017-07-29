@@ -831,7 +831,10 @@ class Language
 			ini_set('track_errors', true);
 		}
 
-		if (!function_exists('parse_ini_file'))
+		$disabledFunctions = explode(',', ini_get('disable_functions'));
+		$isParseIniFileDisabled = in_array('parse_ini_file', $disabledFunctions);
+
+		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($filename);
 			$contents = str_replace('_QQ_', '"\""', $contents);
