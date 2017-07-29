@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Wrapper\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_wrapper
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_wrapper
  * @since       1.5
  */
-class ModWrapperHelper
+class WrapperHelper
 {
 	/**
 	 * Gets the parameters for the wrapper
@@ -45,7 +49,7 @@ class ModWrapperHelper
 			if (strpos($url, '/') === 0)
 			{
 				// Relative URL in component. use server http_host.
-				$url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
+				$url = 'http://' . Factory::getApplication()->input->server->get('HTTP_HOST') . $url;
 			}
 			elseif (strpos($url, 'http') === false && strpos($url, 'https') === false)
 			{
