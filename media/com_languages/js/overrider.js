@@ -144,9 +144,6 @@ Joomla.overrider.searchStrings = function(more)
 					self.states.more = response.data.more;
 					moreResults.classList.add('show');
 				}
-				else {
-					moreResults.classList.add('show');
-				}
 			}
 
 			spinnerBtn.classList.remove('show');
