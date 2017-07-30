@@ -85,32 +85,34 @@ class Database extends Installer
 			return false;
 		}
 
+		$db    = $this->getDbo();
+
 		foreach ($changeSetList as $i => $changeSet)
 		{
+			$changeSet['changeset'] = new ChangeSet($db, $changeSet['folderTmp']);
+
 			$changeSet['changeset']->fix();
 			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']->extension_id);
-		}
+			$this->fixUpdateVersion($changeSet['extension']->extension_id);
 
-		// If null it means it is Joomla! core database
-		if ($extensionIdArray == null)
-		{
-			$this->fixUpdateVersion();
-			$installer = new \JoomlaInstallerScript;
-			$installer->deleteUnexistingFiles();
-			$this->fixDefaultTextFilters();
-
-			/*
-			 * Finally, if the schema updates succeeded, make sure the database is
-			 * converted to utf8mb4 or, if not suported by the server, compatible to it.
-			 */
-			$statusArray = $changeSet['changeset']->getStatus();
-
-			if (count($statusArray['error']) == 0)
+			if ($i === "core")
 			{
-				$installer->convertTablesToUtf8mb4(false);
+				$installer = new \JoomlaInstallerScript;
+				$installer->deleteUnexistingFiles();
+				$this->fixDefaultTextFilters();
+
+				/*
+				 * Finally, if the schema updates succeeded, make sure the database is
+				 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+				 */
+				$statusArray = $changeSet['changeset']->getStatus();
+
+				if (count($statusArray['error']) == 0)
+				{
+					$installer->convertTablesToUtf8mb4(false);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -126,14 +128,22 @@ class Database extends Installer
 
 		$changeSetList = $session->get('changeSetList');
 
-		if ($changeSetList != null)
+		if ($changeSetList != null && $extensionIdArray == null)
 		{
 			return json_decode($changeSetList);
 		}
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
+			->select(
+				$db->quoteName('e.client_id') . ', ' .
+				$db->quoteName('e.element') . ', ' .
+				$db->quoteName('e.extension_id') . ', ' .
+				$db->quoteName('e.folder') . ', ' .
+				$db->quoteName('e.name') . ', ' .
+				$db->quoteName('e.type') . ', ' .
+				$db->quoteName('s.version_id')
+			)
 			->from(
 				$db->quoteName(
 					'#__schemas',
@@ -159,7 +169,7 @@ class Database extends Installer
 				array_push($whereQuery, 'e.extension_id = ' . $extension);
 			}
 
-			$query->where($whereQuery);
+			$query->where($whereQuery, 'OR');
 		}
 
 		$result = $this->_getList($query);
@@ -170,21 +180,51 @@ class Database extends Installer
 		{
 			foreach ($result as $index => $result)
 			{
+				$errorCount = 0;
+				$errorMessage = "";
+
 				if (strcmp($result->element, 'joomla') == 0)
 				{
 					$result->element = 'com_admin';
 					$index = 'core';
+
+					if (!$this->getDefaultTextFilters())
+					{
+						$errorCount++;
+						$errorMessage .= \JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR');
+					}
 				}
 
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
 
 				$changeset = new ChangeSet($db, $folderTmp);
 
+				$errors = $changeset->check();
+				$schema = $changeset->getSchema();
+
+				if ($result->version_id != $schema)
+				{
+					$errorMessage .= \JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $schema) . "<br>";
+					$errorCount++;
+				}
+
+				foreach ($errors as $line => $error)
+				{
+					$key     = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
+					$msgs    = $error->msgElements;
+					$file    = basename($error->file);
+					$msg0    = isset($msgs[0]) ? $msgs[0] : ' ';
+					$msg1    = isset($msgs[1]) ? $msgs[1] : ' ';
+					$msg2    = isset($msgs[2]) ? $msgs[2] : ' ';
+					$errorMessage .= \JText::sprintf($key, $file, $msg0, $msg1, $msg2) . "<br>";
+				}
+
 				$changeSetList[$index] = array(
-					'changeset' => $changeset,
-					'errors'    => $changeset->check(),
+					'folderTmp' => $folderTmp,
+					'errorsMessage'  => $errorMessage,
+					'errorsCount'    => $errorCount + count($errors),
 					'results'   => $changeset->getStatus(),
-					'schema'    => $changeset->getSchema(),
+					'schema'    => $schema,
 					'extension' => $result
 				);
 			}
@@ -194,6 +234,11 @@ class Database extends Installer
 			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
 
 			return false;
+		}
+
+		if ($extensionIdArray != null)
+		{
+			return $changeSetList;
 		}
 
 		$changeSetList = json_encode($changeSetList);
@@ -230,7 +275,7 @@ class Database extends Installer
 		$query = $db->getQuery(true)
 			->select('version_id')
 			->from($db->quoteName('#__schemas'))
-			->where('extension_id = ' . $extensionId);
+			->where('extension_id = ' . $db->quote($extensionId));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
@@ -260,7 +305,7 @@ class Database extends Installer
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
-			->where($db->quoteName('extension_id') . ' = ' . $extensionId);
+			->where($db->quoteName('extension_id') . ' = ' . $db->quote($extensionId));
 		$db->setQuery($query);
 		$db->execute();
 

@@ -30,32 +30,10 @@ class Database extends Controller
 	 */
 	public function fix()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\Database $model */
-		$model = $this->getModel('database');
-		$model->fix();
-
-		$updateModel = new Update;
-		$updateModel->purge();
-
-		// Refresh versionable assets cache
-		$this->app->flushAssets();
-
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
-	}
-
-	/**
-	 * Tries to fix missing 3rd party extensions database updates
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function fix3rd()
-	{
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		// Get items to remove from the request.
+		// Get items to fix the database.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -70,22 +48,15 @@ class Database extends Controller
 		{
 			// Get the model.
 			$model = $this->getModel('database');
-
 			$model->fix($cid);
+
+			$updateModel = new Update;
+			$updateModel->purge();
+
+			// Refresh versionable assets cache
+			$this->app->flushAssets();
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
-	}
-
-	/**
-	 * Clear the changeSetList in the session
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function findproblems()
-	{
 		$session = \JFactory::getSession();
 		$session->set('changeSetList');
 
