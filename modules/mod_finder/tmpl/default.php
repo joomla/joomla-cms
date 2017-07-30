@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Module\Finder\Site\Helper\FinderHelper;
+
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 // Load the smart search component language file.
@@ -70,6 +72,6 @@ if ($params->get('show_autosuggest', 1))
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+		<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>

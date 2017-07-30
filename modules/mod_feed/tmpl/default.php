@@ -8,9 +8,15 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
-<?php
+// Check if feed URL has been set
+if (empty ($rssurl))
+{
+	echo '<div>' . \JText::_('MOD_FEED_ERR_NO_URL') . '</div>';
+
+	return;
+}
+
 if (!empty($feed) && is_string($feed))
 {
 	echo $feed;

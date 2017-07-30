@@ -966,6 +966,23 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		return xhr;
 	};
 
+	/**
+	 * Fix the alignment of the Options and Help toolbar buttons
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	document.addEventListener('DOMContentLoaded', function() {
+		var toolbarOptions = document.getElementById('toolbar-options'),
+		    toolbarHelp    = document.getElementById('toolbar-help');
+
+		if (toolbarHelp && !toolbarOptions) {
+			toolbarHelp.classList.add('ml-auto');
+		}
+		if (toolbarOptions && !toolbarHelp) {
+			toolbarOptions.classList.add('ml-auto');
+		}
+	});
+
 }( Joomla, document ));
 
 /**
