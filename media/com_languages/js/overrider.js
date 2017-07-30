@@ -84,6 +84,12 @@ Joomla.overrider.searchStrings = function(more)
 	if (!more) {
 		this.states.searchstring = formSearchString.value;
 		this.states.searchtype   = formSearchType !== null ? formSearchType.value : 'value';
+
+		// Remove the old results
+		var oldResults = document.querySelectorAll('.language-results');
+		for (var i = 0, l = oldResults.length ; i < l; i++) {
+			oldResults[i].parentNode.removeChild(oldResults[i]);
+		}
 	}
 
 	if (!this.states.searchstring) {
@@ -173,6 +179,7 @@ Joomla.overrider.insertResults = function(results)
 	// Create a container into which all the results will be inserted
 	var resultsDiv = document.createElement('div'); 
 	resultsDiv.setAttribute('id', 'language-results' + self.states.counter);
+	resultsDiv.classList.add('language-results');
 	resultsDiv.classList.add('list-group');
 	resultsDiv.classList.add('mb-2');
 	resultsDiv.classList.add('show');
