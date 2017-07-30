@@ -108,11 +108,10 @@ class JFormFieldComponentlayout extends JFormField
 			$templates = $db->loadObjectList('element');
 
 			// Build the search paths for component layouts.
-			$oldTmpl        = JPath::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
-			$component_path = $oldTmpl;
+			$component_path = JPath::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
 
 			// Check if the old layouts folder exists, else use the new one
-			if (!file_exists($oldTmpl))
+			if (!file_exists($component_path))
 			{
 				$component_path = JPath::clean($client->path . '/components/' . $extension . '/tmpl/' . $view);
 			}
