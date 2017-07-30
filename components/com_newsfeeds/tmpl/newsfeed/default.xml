@@ -19,7 +19,6 @@
 				name="id" 
 				type="modal_newsfeed"
 				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SELECT_FEED_DESC"
 				required="true"
 				select="true"
 				new="true"
@@ -38,7 +37,6 @@
 				name="show_feed_image" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -49,7 +47,6 @@
 				name="show_feed_description" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -60,7 +57,6 @@
 				name="show_item_description" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -71,7 +67,6 @@
 				name="show_tags" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -91,7 +86,6 @@
 				name="feed_display_order" 
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
-				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 				useglobal="true"
 				>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
