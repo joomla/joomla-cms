@@ -35,7 +35,7 @@ class JSessionStorageRedis extends JSessionStorage
 
 		$this->_server = array(
 			'host' => $config->get('session_redis_server_host', 'localhost'),
-			'port' => $config->get('session_redis_server_port', 11211),
+			'port' => $config->get('session_redis_server_port', 6379),
 		);
 
 		parent::__construct($options);
