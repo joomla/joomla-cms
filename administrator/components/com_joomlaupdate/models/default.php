@@ -401,7 +401,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	'kickstart.setup.filetype' => 'zip',
 	'kickstart.setup.dryrun' => '0',
 	'kickstart.setup.renamefiles' => array(),
-	'kickstart.setup.renamefiles' => false
+	'kickstart.setup.postrenamefiles' => false
 ENDDATA;
 
 		if ($method != 'direct')
