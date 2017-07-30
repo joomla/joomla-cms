@@ -14,11 +14,10 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
-
-		<?php
-			$module = JModuleHelper::getModule('multilangstatus');
-			echo JModuleHelper::renderModule($module);
-		?>
+		<?php if (JLanguageMultilang::isEnabled()) : ?>
+			<?php $module = JModuleHelper::getModule('mod_multilangstatus'); ?>
+			<?php echo JModuleHelper::renderModule($module); ?>
+		<?php endif; ?>	
 
 		<li class="nav-item">
 			<a class="nav-link" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">

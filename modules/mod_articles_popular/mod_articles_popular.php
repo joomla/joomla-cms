@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die;
 
-// Include the popular functions only once
-JLoader::register('ModArticlesPopularHelper', __DIR__ . '/helper.php');
-
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\ArticlesPopular\Site\Helper\ArticlesPopularHelper;
 
-$list = ModArticlesPopularHelper::getList($params);
+$list            = ArticlesPopularHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_articles_popular', $params->get('layout', 'default'));
