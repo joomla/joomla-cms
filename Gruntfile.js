@@ -526,7 +526,7 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'postcss',
 			'cssmin:adminTemplate',
-			'cssmin:siteTemplate',
+			//'cssmin:siteTemplate',
 			'clean:css',
 			'watch'
 		]);

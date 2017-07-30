@@ -23,10 +23,7 @@ if ($id !== '')
 }
 
 ?>
-<div class="col-4 col-md-3"<?php echo $id; ?>>
-	<a href="<?php echo $displayData['link']; ?>" class="d-flex align-items-stretch<?php echo $pulse; ?>"<?php echo $target . $onclick . $title; ?>>
-		<span class="icon-<?php echo $displayData['image']; ?> text-center" aria-hidden="true"></span>
-		<span class="d-flex align-items-center hidden-xs-down"><?php echo $text; ?></span>
-	</a>
-	<span class="hidden-sm-up quickicon-text-xs"><?php echo $text; ?></span>
-</div>
+<a<?php echo $id; ?> href="<?php echo $displayData['link']; ?>" class="<?php echo $pulse; ?>"<?php echo $target . $onclick . $title; ?> role="button">
+	<div class="quickicon-icon"><span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span></div>
+	<div class="quickicon-text"><?php echo $text; ?></div>
+</a>
