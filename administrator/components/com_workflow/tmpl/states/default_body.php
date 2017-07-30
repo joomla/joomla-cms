@@ -15,7 +15,7 @@ $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 
 ?>
 <?php foreach ($this->states as $i => $item):
-	$link = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . $workflowID);
+	$link = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . $workflowID . '&extension=' . $this->extension);
 	?>
 	<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->id; ?>">
 		<td class="order nowrap text-center hidden-sm-down">
