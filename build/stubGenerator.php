@@ -9,6 +9,9 @@
 // Set flag that this is a parent file.
 const _JEXEC = 1;
 
+// Import namespaced classes
+use Joomla\CMS\Application\CliApplication;
+
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
@@ -46,7 +49,7 @@ ini_set('display_errors', 1);
  *
  * @since  3.0
  */
-class StubGenerator extends JApplicationCli
+class StubGenerator extends CliApplication
 {
 	/**
 	 * Entry point for CLI script
@@ -84,4 +87,4 @@ class StubGenerator extends JApplicationCli
 }
 
 // Instantiate the application and execute it
-JApplicationCli::getInstance('StubGenerator')->execute();
+CliApplication::getInstance('StubGenerator')->execute();

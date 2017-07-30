@@ -405,7 +405,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
-		/** @var JTableAsset $assets */
+		/** @var  \JTableAsset  $assets */
 		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$rootId = $assets->getRootId();
 
@@ -819,7 +819,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$name     = $this->_getAssetName();
 			$title    = $this->_getAssetTitle();
 
-			/** @var JTableAsset $asset */
+			/** @var  \JTableAsset  $asset */
 			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 			$asset->loadByName($name);
 
@@ -983,7 +983,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		{
 			// Get the asset name
 			$name  = $this->_getAssetName();
-			/** @var JTableAsset $asset */
+			/** @var  \JTableAsset  $asset */
 			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
@@ -1598,7 +1598,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			{
 				$this->_db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 

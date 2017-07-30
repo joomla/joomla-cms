@@ -9,6 +9,12 @@
 // Set flag that this is a parent file.
 const _JEXEC = 1;
 
+// Import namespaced classes
+use Joomla\CMS\Application\CliApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Version;
+use Joomla\Registry\Registry;
+
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
@@ -32,7 +38,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load the admin en-GB.ini language file to get the JHELP language keys
-JFactory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
+Factory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
 
 // Import namespaced classes
 use Joomla\CMS\Version;
@@ -43,7 +49,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.0
  */
-class MediawikiCli extends JApplicationCli
+class MediawikiCli extends CliApplication
 {
 	/**
 	 * Entry point for CLI script
@@ -80,7 +86,7 @@ class MediawikiCli extends JApplicationCli
 		}
 
 		// Get the language object
-		$language = JFactory::getLanguage();
+		$language = Factory::getLanguage();
 
 		// Get the language strings via Reflection as the property is protected
 		$refl = new ReflectionClass($language);
@@ -204,4 +210,4 @@ class MediawikiCli extends JApplicationCli
 }
 
 // Instantiate the application and execute it
-JApplicationCli::getInstance('MediawikiCli')->execute();
+CliApplication::getInstance('MediawikiCli')->execute();

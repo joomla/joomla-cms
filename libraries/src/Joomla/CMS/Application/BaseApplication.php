@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform Base Application Class
  *
- * @property-read  JInput  $input  The application input object
+ * @property-read  \JInput  $input  The application input object
  *
  * @since  12.1
  */
