@@ -97,6 +97,8 @@ class Html extends HtmlView
 		WorkflowHelper::callMethodFromHelper($this->state->get("filter.extension"), "addSubmenu", "states");
 		$this->sidebar       = \JHtmlSidebar::render();
 
+		$this->extension = $this->state->get('filter.extension');
+
 		if (!empty($this->states))
 		{
 			foreach ($this->states as $i => $item)
