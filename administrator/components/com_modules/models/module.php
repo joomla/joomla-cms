@@ -543,7 +543,7 @@ class ModulesModelModule extends JModelAdmin
 			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
 
 			// Display language field to filter admin custom menus per language
-			if (!JLanguageMultilang::isAdminEnabled())
+			if (!JModuleHelper::isAdminMultilang())
 			{
 				$form->setFieldAttribute('language', 'type', 'hidden');
 			}

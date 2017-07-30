@@ -9,6 +9,9 @@
 // Set flag that this is a parent file.
 const _JEXEC = 1;
 
+// Import namespaced classes
+use Joomla\CMS\Application\CliApplication;
+
 // Set fixed precision value to avoid round related issues
 ini_set('precision', 14);
 
@@ -33,7 +36,7 @@ require_once JPATH_LIBRARIES . '/cms.php';
  *
  * @since  3.0
  */
-class GenerateCss extends JApplicationCli
+class GenerateCss extends CliApplication
 {
 	/**
 	 * Entry point for the script
@@ -75,4 +78,4 @@ class GenerateCss extends JApplicationCli
 	}
 }
 
-JApplicationCli::getInstance('GenerateCss')->execute();
+CliApplication::getInstance('GenerateCss')->execute();

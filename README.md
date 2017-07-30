@@ -16,7 +16,7 @@ What is this?
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
 * Joomla! 3.8 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.8_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/staging).
 
 What is Joomla?
 ---------------------

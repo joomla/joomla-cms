@@ -39,7 +39,7 @@ $attr = array(
 					<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
 				</div>
 			</div>
-		<?php elseif ($clientId == 1 && JLanguageMultilang::isAdminEnabled()) : ?>
+		<?php elseif ($clientId == 1 && JModuleHelper::isAdminMultilang()) : ?>
 			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JLayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
