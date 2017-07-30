@@ -20,6 +20,7 @@
     "require": {
         "php": ">=5.3.10",
         "joomla/application": "~1.5",
+        "joomla/archive": "~1.1.5",
         "joomla/data": "~1.2",
         "joomla/di": "~1.2",
         "joomla/event": "~1.1",
@@ -33,6 +34,7 @@
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.5.0",
         "paragonie/random_compat": "~1.0",
+        "paragonie/sodium_compat": "^1.0.1",
         "phpmailer/phpmailer": "^5.2.20",
         "symfony/polyfill-php55": "~1.2",
         "symfony/polyfill-php56": "~1.0",
