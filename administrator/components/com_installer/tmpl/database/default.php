@@ -58,35 +58,42 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'otherproblems')); ?>
 				<?php echo \JHtml::_('bootstrap.addTab', 'myTab', 'otherproblems', \JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
+				<div class="control-group">
 					<?php echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-					<div class="control-group">
-						<table class="table table-striped">
-							<thead>
+					<table class="table table-striped">
+						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center"">
 									<?php echo \JHtml::_('grid.checkall'); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo \JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+									<?php echo \JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo \JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'location', $listDirn, $listOrder); ?>
+									<?php echo \JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo \JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
+									<?php echo \JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th>
+								<th class="nowrap">
 									<?php echo \JText::_('COM_INSTALLER_HEADING_ERRORS'); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
+									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
+									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
-							</thead>
-							<tbody>
+						</thead>
+						<tfoot>
+							<tr>
+								<td colspan="8">
+									<?php echo $this->pagination->getListFooter(); ?>
+								</td>
+							</tr>
+						</tfoot>
+						<tbody>
 							<?php foreach ($this->changeSet as $i => $item) : ?>
 								<?php $extension = $item->extension; ?>
 								<?php $manifest = json_decode($extension->manifest_cache); ?>
@@ -131,9 +138,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 								</tr>
 							<?php endforeach; ?>
-							</tbody>
-						</table>
-					</div>
+						</tbody>
+					</table>
+				</div>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>

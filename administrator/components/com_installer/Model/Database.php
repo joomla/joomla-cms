@@ -42,12 +42,14 @@ class Database extends Installer
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
+				'update_site_name',
 				'name',
 				'client_id',
 				'client', 'client_translated',
+				'status',
 				'type', 'type_translated',
 				'folder', 'folder_translated',
-				'e.extension_id',
+				'extension_id'
 			);
 		}
 
@@ -68,6 +70,11 @@ class Database extends Installer
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+
 		parent::populateState($ordering, $direction);
 	}
 
@@ -128,10 +135,13 @@ class Database extends Installer
 
 		$changeSetList = $session->get('changeSetList');
 
+		/*
+		 * Uncomment to activate cache
 		if ($changeSetList != null && $extensionIdArray == null)
 		{
 			return json_decode($changeSetList);
 		}
+		*/
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -159,6 +169,33 @@ class Database extends Installer
 					'e.extension_id'
 				) . ')'
 			);
+
+		$type     = $this->getState('filter.type');
+		$clientId = $this->getState('filter.client_id');
+		$folder   = $this->getState('filter.folder');
+
+		if ($type)
+		{
+			$query->where('e.type = ' . $this->_db->quote($type));
+		}
+
+		if ($clientId != '')
+		{
+			$query->where('e.client_id = ' . (int) $clientId);
+		}
+
+		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
+		{
+			$query->where('e.folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+		}
+
+		// Process search filter (update site id).
+		$search = $this->getState('filter.search');
+
+		if (!empty($search) && stripos($search, 'id:') === 0)
+		{
+			$query->where('s.update_site_id = ' . (int) substr($search, 3));
+		}
 
 		if ($extensionIdArray != null)
 		{
@@ -246,18 +283,6 @@ class Database extends Installer
 		$session->set('changeSetList', $changeSetList);
 
 		return json_decode($changeSetList);
-	}
-
-	/**
-	 * Method to get a \JPagination object for the data set.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   12.2
-	 */
-	public function getPagination()
-	{
-		return true;
 	}
 
 	/**

@@ -64,6 +64,15 @@ class Html extends InstallerViewDefault
 			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
 		}
 
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
+		// Include the component HTML helpers.
+		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 		parent::display($tpl);
 	}
 
