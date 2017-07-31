@@ -151,11 +151,6 @@ class JBrowserTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testBrowserMatching($userAgent, $expectedBrowser, $expectedPlatform, $expectedMajorVersion, $expectedMobile)
 	{
-		if ($expectedBrowser === 'mozilla')
-		{
-			$this->markTestSkipped('Requires PR #17051 to be tested correctly');
-		}
-
 		$this->object->match($userAgent);
 
 		$this->assertSame(
