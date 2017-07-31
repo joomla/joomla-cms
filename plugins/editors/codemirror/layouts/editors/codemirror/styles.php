@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,5 +63,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		.CodeMirror-markergutter-mark:after { content: "\25CF"; }
 		.CodeMirror-activeline-background { background: $activeLineColor; }
 		.CodeMirror-matchingtag { background: $highlightMatchColor; }
+		.cm-matchhighlight {background-color: $highlightMatchColor; }
+		.CodeMirror-selection-highlight-scrollbar {background-color: $highlightMatchColor; }
 CSS
 );

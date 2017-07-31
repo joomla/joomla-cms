@@ -1,0 +1,28 @@
+pipeline:
+  clone:
+    image: plugins/git
+    depth: 1
+
+  phpcs:
+    image: joomlaprojects/docker-phpcs
+    commands:
+      - echo $(date)
+      - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .
+      - echo $(date)
+
+  javascript:
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - echo $(date)
+      - apt-get install nodejs npm
+      - ln -s /usr/bin/nodejs /usr/bin/node
+      - export DISPLAY=:0
+      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+      - sleep 3
+      - fluxbox  > /dev/null 2>&1 &
+      - cd tests/javascript
+      - npm install
+      - cd ../..
+      - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
+      - echo $(date)
+

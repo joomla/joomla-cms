@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
+$canOrder  = $user->authorise('core.edit.state', $extension);
 $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
 $jinput    = JFactory::getApplication()->input;
 $component = $jinput->get('extension');
@@ -95,28 +96,28 @@ $component = $jinput->get('extension');
 						</th>
 						<th class="nowrap ordering-col">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
-							<?php if ($saveOrder) : ?>
+							<?php if ($canOrder && $saveOrder) : ?>
 								<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'categories.saveorder'); ?>
 							<?php endif; ?>
 						</th>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></i>
+								<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
+								<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></i>
+								<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></i>
+								<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif;?>
 						<th class="access-col">
@@ -146,9 +147,9 @@ $component = $jinput->get('extension');
 						$canChange = $user->authorise('core.edit.state', $extension . '.category.' . $item->id) && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<th class="center">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-							</th>
+							</td>
 							<td>
 								<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
 								<?php if ($item->checked_out) : ?>
@@ -218,11 +219,7 @@ $component = $jinput->get('extension');
 								</td>
 							<?php endif; ?>
 							<td class="center nowrap">
-								<?php if ($item->language == '*'): ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
-								<?php else: ?>
-									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-								<?php endif; ?>
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 							<td class="center">
 						<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
@@ -244,8 +241,8 @@ $component = $jinput->get('extension');
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>

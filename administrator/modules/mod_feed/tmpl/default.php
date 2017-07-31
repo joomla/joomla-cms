@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,35 +17,35 @@ else
 {
 	$lang      = JFactory::getLanguage();
 	$myrtl     = $params->get('rssrtl');
-	$direction = " ";
+	$direction = ' ';
 
 	if ($lang->isRtl() && $myrtl == 0)
 	{
-		$direction = " redirect-rtl";
+		$direction = ' redirect-rtl';
 	}
 
 	// Feed description
 	elseif ($lang->isRtl() && $myrtl == 1)
 	{
-		$direction = " redirect-ltr";
+		$direction = ' redirect-ltr';
 	}
 
 	elseif ($lang->isRtl() && $myrtl == 2)
 	{
-		$direction = " redirect-rtl";
+		$direction = ' redirect-rtl';
 	}
 
 	elseif ($myrtl == 0)
 	{
-		$direction = " redirect-ltr";
+		$direction = ' redirect-ltr';
 	}
 	elseif ($myrtl == 1)
 	{
-		$direction = " redirect-ltr";
+		$direction = ' redirect-ltr';
 	}
 	elseif ($myrtl == 2)
 	{
-		$direction = " redirect-rtl";
+		$direction = ' redirect-rtl';
 	}
 
 	if ($feed != false) :
@@ -53,7 +53,7 @@ else
 		$iUrl   = isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
 
 		// Feed description
@@ -101,8 +101,7 @@ else
 						<?php
 							// Strip the images.
 							$text = JFilterOutput::stripImages($text);
-
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+							$text = JHtml::_('string.truncate', $text, $params->get('word_count'), true, false);
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

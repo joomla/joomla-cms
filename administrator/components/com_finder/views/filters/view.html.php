@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -17,6 +17,51 @@ defined('_JEXEC') or die;
 class FinderViewFilters extends JViewLegacy
 {
 	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 *
+	 * @since  3.6.1
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 *
+	 * @since  3.6.1
+	 */
+	protected $pagination;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 *
+	 * @since  3.6.1
+	 */
+	protected $sidebar;
+
+	/**
+	 * The model state
+	 *
+	 * @var  mixed
+	 *
+	 * @since  3.6.1
+	 */
+	protected $state;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var  integer
+	 *
+	 * @since  3.6.1
+	 */
+	protected $total;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -28,11 +73,11 @@ class FinderViewFilters extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Load the view data.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->total = $this->get('Total');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('filters');
@@ -40,9 +85,7 @@ class FinderViewFilters extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -50,7 +93,8 @@ class FinderViewFilters extends JViewLegacy
 		// Configure the toolbar.
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -78,6 +122,7 @@ class FinderViewFilters extends JViewLegacy
 		{
 			JToolbarHelper::publishList('filters.publish');
 			JToolbarHelper::unpublishList('filters.unpublish');
+			JToolbarHelper::checkin('filters.checkin');
 			JToolbarHelper::divider();
 		}
 

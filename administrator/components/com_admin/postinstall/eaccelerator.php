@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for eAccelerator compatibility.
@@ -46,8 +46,7 @@ function admin_postinstall_eaccelerator_action()
 	$prev = ArrayHelper::fromObject(new JConfig);
 	$data = array_merge($prev, array('cacheHandler' => 'file'));
 
-	$config = new Registry('config');
-	$config->loadArray($data);
+	$config = new Registry($data);
 
 	jimport('joomla.filesystem.path');
 	jimport('joomla.filesystem.file');
@@ -61,7 +60,7 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file writeable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
+		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
 	}
 
 	// Attempt to write the configuration file as a PHP class named JConfig.
@@ -77,6 +76,6 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file unwriteable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
+		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
 	}
 }

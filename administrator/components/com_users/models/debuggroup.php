@@ -3,16 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/debug.php';
+JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
 
 /**
- * Methods supporting a list of user records.
+ * Methods supporting a list of User ACL permissions
  *
  * @since  1.6
  */
@@ -24,7 +24,7 @@ class UsersModelDebuggroup extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function __construct($config = array())
 	{

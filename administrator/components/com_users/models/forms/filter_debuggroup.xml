@@ -4,11 +4,11 @@
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER_LABEL"
-			description="COM_USERS_SEARCH_ASSETS"
+			label="COM_USERS_SEARCH_ASSETS"
+			description="COM_USERS_SEARCH_IN_ASSETS"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
+
 		<field
 			name="component"
 			type="Components"
@@ -18,6 +18,7 @@
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
 		</field>
+
 		<field
 			name="level_start"
 			type="Levels"
@@ -27,6 +28,7 @@
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
 		</field>
+
 		<field
 			name="level_end"
 			type="Levels"
@@ -37,6 +39,7 @@
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
 		</field>
 	</fields>
+
 	<fields name="list">
 		<field
 			name="fullordering"
@@ -54,6 +57,7 @@
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"

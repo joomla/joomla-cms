@@ -1,0 +1,37 @@
+/* Base class */
+.tooltip.top-left,
+.tooltip.top-right {
+  margin-top: -3px;
+  padding: 5px 0;
+}
+.tooltip.bottom-left,
+.tooltip.bottom-right {
+  margin-top: 3px;
+  padding: 5px 0;
+}
+
+/* Arrows */
+.tooltip.top-left .tooltip-arrow {
+  bottom: 0;
+  left: 5px;
+  border-width: 5px 5px 0;
+  border-top-color: black;
+}
+.tooltip.top-right .tooltip-arrow {
+  bottom: 0;
+  right: 5px;
+  border-width: 5px 5px 0;
+  border-top-color: black;
+}
+.tooltip.bottom-left .tooltip-arrow {
+  top: 0;
+  left: 5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: black;
+}
+.tooltip.bottom-right .tooltip-arrow {
+  top: 0;
+  right: 5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: black;
+}

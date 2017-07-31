@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,6 @@ $version = new JVersion;
 			<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br />
 			<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 		</p>
-
 		<table class="table table-striped table-condensed">
 			<thead>
 					<tr>
@@ -85,14 +84,12 @@ $version = new JVersion;
 					</tr>
 			</thead>
 			<tbody>
-				<?php
-				$version = new JVersion;
-				$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
-				foreach ($this->items as $i => $language) :
-					// Get language code and language image.
-					preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
-					$language->code = $element[1];
-				?>
+				<?php $version = new JVersion; ?>
+				<?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
+				<?php foreach ($this->items as $i => $language) : ?>
+					<?php // Get language code and language image. ?>
+					<?php preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element); ?>
+					<?php $language->code = $element[1]; ?>
 					<tr>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>" />
@@ -105,7 +102,7 @@ $version = new JVersion;
   						</td>
 						<td class="center">
 						<?php // Display a Note if language pack version is not equal to Joomla version ?>
-						<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
+						<?php if (strpos($language->version, $version::RELEASE) !== 0  || strpos($language->version, $currentShortVersion) !== 0) : ?>
 							<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 						<?php else : ?>
 							<span class="label label-success"><?php echo $language->version; ?></span>

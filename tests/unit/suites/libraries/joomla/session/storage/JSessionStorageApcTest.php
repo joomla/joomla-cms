@@ -1,19 +1,18 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Test class for JSessionStorageApc.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Session
- * @since       11.1
+ * @since  11.1
  */
-class JSessionStorageApcTest extends PHPUnit_Framework_TestCase
+class JSessionStorageApcTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageApc
@@ -101,5 +100,4 @@ class JSessionStorageApcTest extends PHPUnit_Framework_TestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-
 }

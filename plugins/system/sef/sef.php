@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class PlgSystemSef extends JPlugin
 	{
 		$doc = $this->app->getDocument();
 
-		if (!$this->app->isSite() || $doc->getType() !== 'html')
+		if (!$this->app->isClient('site') || $doc->getType() !== 'html')
 		{
 			return;
 		}
@@ -50,6 +50,7 @@ class PlgSystemSef extends JPlugin
 
 		// Check if a canonical html tag already exists (for instance, added by a component).
 		$canonical = '';
+
 		foreach ($doc->_links as $linkUrl => $link)
 		{
 			if (isset($link['relation']) && $link['relation'] === 'canonical')
@@ -85,7 +86,7 @@ class PlgSystemSef extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		if (!$this->app->isSite() || $this->app->get('sef', '0') == '0')
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
@@ -94,25 +95,35 @@ class PlgSystemSef extends JPlugin
 		$base   = JUri::base(true) . '/';
 		$buffer = $this->app->getBody();
 
+		// For feeds we need to search for the URL with domain.
+		$prefix = $this->app->getDocument()->getType() === 'feed' ? JUri::root() : '';
+
 		// Replace index.php URI by SEF URI.
-		if (strpos($buffer, 'href="index.php?') !== false)
+		if (strpos($buffer, 'href="' . $prefix . 'index.php?') !== false)
 		{
-			preg_match_all('#href="index.php\?([^"]+)"#m', $buffer, $matches);
+			preg_match_all('#href="' . $prefix . 'index.php\?([^"]+)"#m', $buffer, $matches);
+
 			foreach ($matches[1] as $urlQueryString)
 			{
-				$buffer = str_replace('href="index.php?' . $urlQueryString . '"', 'href="' . JRoute::_('index.php?' . $urlQueryString) . '"', $buffer);
+				$buffer = str_replace(
+					'href="' . $prefix . 'index.php?' . $urlQueryString . '"',
+					'href="' . trim($prefix, '/') . JRoute::_('index.php?' . $urlQueryString) . '"',
+					$buffer
+				);
 			}
+
 			$this->checkBuffer($buffer);
 		}
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
-		$protocols = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'poster=');
+		$protocols  = '[a-zA-Z0-9\-]+:';
+		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
+
 		foreach ($attributes as $attribute)
 		{
 			if (strpos($buffer, $attribute) !== false)
 			{
-				$regex  = '#\s+' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+				$regex  = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
 				$buffer = preg_replace($regex, ' ' . $attribute . '"' . $base . '$1"', $buffer);
 				$this->checkBuffer($buffer);
 			}
@@ -128,6 +139,7 @@ class PlgSystemSef extends JPlugin
 
 		// Replace all unknown protocols in onmouseover and onmouseout attributes.
 		$attributes = array('onmouseover=', 'onmouseout=');
+
 		foreach ($attributes as $attribute)
 		{
 			if (strpos($buffer, $attribute) !== false)
@@ -141,8 +153,9 @@ class PlgSystemSef extends JPlugin
 		// Replace all unknown protocols in CSS background image.
 		if (strpos($buffer, 'style=') !== false)
 		{
-			$regex  = '#style=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
-			$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
+			$regex_url  = '\s*url\s*\(([\'\"]|\&\#0?3[49];)?(?!/|\&\#0?3[49];|' . $protocols . '|\#)([^\)\'\"]+)([\'\"]|\&\#0?3[49];)?\)';
+			$regex  = '#style=\s*([\'\"])(.*):' . $regex_url . '#m';
+			$buffer = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5)', $buffer);
 			$this->checkBuffer($buffer);
 		}
 
@@ -186,16 +199,16 @@ class PlgSystemSef extends JPlugin
 			switch (preg_last_error())
 			{
 				case PREG_BACKTRACK_LIMIT_ERROR:
-					$message = "PHP regular expression limit reached (pcre.backtrack_limit)";
+					$message = 'PHP regular expression limit reached (pcre.backtrack_limit)';
 					break;
 				case PREG_RECURSION_LIMIT_ERROR:
-					$message = "PHP regular expression limit reached (pcre.recursion_limit)";
+					$message = 'PHP regular expression limit reached (pcre.recursion_limit)';
 					break;
 				case PREG_BAD_UTF8_ERROR:
-					$message = "Bad UTF8 passed to PCRE function";
+					$message = 'Bad UTF8 passed to PCRE function';
 					break;
 				default:
-					$message = "Unknown PCRE error calling PCRE function";
+					$message = 'Unknown PCRE error calling PCRE function';
 			}
 
 			throw new RuntimeException($message);

@@ -3,11 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\Utilities\ArrayHelper;
+
+// Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
+JHtml::_('bootstrap.tooltipExtended');
 
 extract($displayData);
 
@@ -22,11 +27,13 @@ extract($displayData);
  *                             - keyboard     boolean  Closes the modal when escape key is pressed (default = true)
  *                             - closeButton  boolean  Display modal close button (default = true)
  *                             - animation    boolean  Fade in from the top of the page (default = true)
- *                             - footer       string   Optional markup for the modal footer
  *                             - url          string   URL of a resource to be inserted as an <iframe> inside the modal body
  *                             - height       string   height of the <iframe> containing the remote resource
  *                             - width        string   width of the <iframe> containing the remote resource
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+ *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
+ *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
+ *                             - footer       string   Optional markup for the modal footer
+ * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  *
  */
 
@@ -34,7 +41,14 @@ $modalClasses = array('modal', 'hide');
 
 if (!isset($params['animation']) || $params['animation'])
 {
-	array_push($modalClasses, 'fade');
+	$modalClasses[] = 'fade';
+}
+
+$modalWidth = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
+
+if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
+{
+	$modalClasses[] = 'jviewport-width' . $modalWidth;
 }
 
 $modalAttributes = array(
@@ -61,7 +75,7 @@ if (isset($params['keyboard']))
  *      - max-height    .modal-body     Max-height for the modal body
  *                                      When height of the modal is too high for the window viewport height.
  *      - max-height    .iframe         Max-height for the iframe (Deducting the padding of the modal-body)
- *                                      When url option is set and height of the iframe is higher than max-height of the modal body.
+ *                                      When URL option is set and height of the iframe is higher than max-height of the modal body.
  *
  * Fix iOS scrolling inside bootstrap modals
  *      - overflow-y    .modal-body     When max-height is set for modal-body
@@ -69,9 +83,31 @@ if (isset($params['keyboard']))
  * Specific hack for Bootstrap 2.3.x
  */
 $script[] = "jQuery(document).ready(function($) {";
-$script[] = "   $('#" . $selector . "').on('shown.bs.modal', function() {";
+$script[] = "   $('#" . $selector . "').on('show.bs.modal', function() {";
 
 $script[] = "       $('body').addClass('modal-open');";
+
+if (isset($params['url']))
+{
+	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
+
+	// Script for destroying and reloading the iframe
+	$script[] = "       var modalBody = $(this).find('.modal-body');";
+	$script[] = "       modalBody.find('iframe').remove();";
+	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
+}
+else
+{
+	// Set modalTooltip container to modal ID (selector), and placement to top-left if no data attribute (bootstrap-tooltip-extended.js)
+	$script[] = "       $('.modalTooltip').each(function(){;";
+	$script[] = "           var attr = $(this).attr('data-placement');";
+	$script[] = "           if ( attr === undefined || attr === false ) $(this).attr('data-placement', 'auto-dir top-left')";
+	$script[] = "       });";
+	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
+}
+
+// Adapt modal body max-height to window viewport if needed, when the modal has been made visible to the user.
+$script[] = "   }).on('shown.bs.modal', function() {";
 
 // Get height of the modal elements.
 $script[] = "       var modalHeight = $('div.modal:visible').outerHeight(true),";
@@ -92,13 +128,6 @@ $script[] = "           maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+m
 
 if (isset($params['url']))
 {
-	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
-
-	// Script for destroying and reloading the iframe
-	$script[] = "       var modalBody = $(this).find('.modal-body');";
-	$script[] = "       modalBody.find('iframe').remove();";
-	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
-
 	// Set max-height for iframe if needed, to adapt to viewport height.
 	$script[] = "       var iframeHeight = $('.iframe').height();";
 	$script[] = "       if (iframeHeight > maxModalBodyHeight){;";
@@ -117,26 +146,27 @@ else
 $script[] = "   }).on('hide.bs.modal', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "       $('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});";
+$script[] = "       $('.modalTooltip').tooltip('destroy');";
 $script[] = "   });";
 $script[] = "});";
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
-<div id="<?php echo $selector; ?>" <?php echo JArrayHelper::toString($modalAttributes); ?>>
+<div id="<?php echo $selector; ?>" <?php echo ArrayHelper::toString($modalAttributes); ?>>
 	<?php
-		// Header
-		if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
-		{
-			echo JLayoutHelper::render('joomla.modal.header', $displayData);
-		}
+	// Header
+	if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
+	{
+		echo JLayoutHelper::render('joomla.modal.header', $displayData);
+	}
 
-		// Body
-		echo JLayoutHelper::render('joomla.modal.body', $displayData);
+	// Body
+	echo JLayoutHelper::render('joomla.modal.body', $displayData);
 
-		// Footer
-		if (isset($params['footer']))
-		{
-			echo JLayoutHelper::render('joomla.modal.footer', $displayData);
-		}
+	// Footer
+	if (isset($params['footer']))
+	{
+		echo JLayoutHelper::render('joomla.modal.footer', $displayData);
+	}
 	?>
 </div>

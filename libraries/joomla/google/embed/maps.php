@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Google Maps embed class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleEmbedMaps extends JGoogleEmbed
 {
@@ -666,7 +667,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if (isset($markers) && count($markers))
 		{
-			$setup .= "var marker;";
+			$setup .= 'var marker;';
 
 			foreach ($markers as $marker)
 			{
@@ -702,21 +703,21 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$output .= $setup;
 			$output .= '}';
 
-			$onload = "function() {";
+			$onload = 'function() {';
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "")
+			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : '')
 				. "sensor={$sensor}&callback={$asynccallback}';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
 		else
 		{
-			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "") . "sensor={$sensor}'>";
+			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : '') . "sensor={$sensor}'>";
 			$output .= '</script>';
 			$output .= '<script type="text/javascript">';
 
-			$onload = "function() {";
+			$onload = 'function() {';
 			$onload .= $setup;
 			$onload .= '}';
 		}
@@ -782,8 +783,16 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function geocodeAddress($address)
 	{
-		$url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=' . urlencode($address);
-		$response = $this->http->get($url);
+		$uri = JUri::getInstance('https://maps.googleapis.com/maps/api/geocode/json');
+
+		$uri->setVar('address', urlencode($address));
+
+		if (($key = $this->getKey()))
+		{
+			$uri->setVar('key', $key);
+		}
+
+		$response = $this->http->get($uri->toString());
 
 		if ($response->code < 200 || $response->code >= 300)
 		{
@@ -804,7 +813,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 				throw new RuntimeException($data['error_message']);
 			}
 
-			return null;
+			return;
 		}
 
 		return $data['results'][0];

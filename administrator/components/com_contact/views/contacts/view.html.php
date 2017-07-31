@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,9 +81,7 @@ class ContactViewContacts extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -135,12 +133,12 @@ class ContactViewContacts extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('contact.add');
 		}
 
-		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
 			JToolbarHelper::editList('contact.edit');
 		}
@@ -149,14 +147,16 @@ class ContactViewContacts extends JViewLegacy
 		{
 			JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			JToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('contacts.archive');
 			JToolbarHelper::checkin('contacts.checkin');
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_contacts')
-			&& $user->authorise('core.edit', 'com_contacts')
-			&& $user->authorise('core.edit.state', 'com_contacts'))
+		if ($user->authorise('core.create', 'com_contact')
+			&& $user->authorise('core.edit', 'com_contact')
+			&& $user->authorise('core.edit.state', 'com_contact'))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 
@@ -196,15 +196,15 @@ class ContactViewContacts extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.name' => JText::_('JGLOBAL_TITLE'),
+			'a.ordering'     => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => JText::_('JSTATUS'),
+			'a.name'         => JText::_('JGLOBAL_TITLE'),
 			'category_title' => JText::_('JCATEGORY'),
-			'ul.name' => JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
-			'a.featured' => JText::_('JFEATURED'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'ul.name'        => JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
+			'a.featured'     => JText::_('JFEATURED'),
+			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+			'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

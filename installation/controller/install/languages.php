@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,13 +56,17 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		if (!$lids)
 		{
 			// No languages have been selected
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'));
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
 		}
 		else
 		{
 			// Install selected languages
 			$model->install($lids);
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'));
+
+			// Publish the Content Languages.
+			$model->publishContentLanguages();
+
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
 		}
 
 		// Redirect to the page.

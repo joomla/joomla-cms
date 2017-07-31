@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,9 +42,9 @@ defined('_JEXEC') or die;
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
-								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
-								<?php if ($option->notice):?>
+							<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
+								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
+								<?php if ($option->notice) : ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
 							</span>
@@ -62,9 +62,7 @@ defined('_JEXEC') or die;
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
-			<p class="install-text">
-				<?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
-			</p>
+			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
 			<table class="table table-striped table-condensed">
 				<thead>
 					<tr>
@@ -87,12 +85,12 @@ defined('_JEXEC') or die;
 						</td>
 						<td>
 							<span class="label label-success disabled">
-								<?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
 							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo JText::_(($setting->state) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 					</tr>
@@ -113,7 +111,6 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 	</div>
-
 	<input type="hidden" name="task" value="preinstall" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

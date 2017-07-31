@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class CacheController extends JControllerLegacy
 	 * Display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
@@ -28,7 +28,7 @@ class CacheController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/cache.php';
+		JLoader::register('CacheHelper', JPATH_ADMINISTRATOR . '/components/com_cache/helpers/cache.php');
 
 		// Get the document object.
 		$document = JFactory::getDocument();
@@ -93,7 +93,52 @@ class CacheController extends JControllerLegacy
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
 			}
 		}
+
 		$this->setRedirect('index.php?option=com_cache');
+	}
+
+	/**
+	 * Method to delete all cache groups.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.6.0
+	 */
+	public function deleteAll()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$app        = JFactory::getApplication();
+		$model      = $this->getModel('cache');
+		$allCleared = true;
+		$clients    = array(1, 0);
+
+		foreach ($clients as $client)
+		{
+			$mCache    = $model->getCache($client);
+			$clientStr = JText::_($client ? 'JADMINISTRATOR' : 'JSITE') .' > ';
+
+			foreach ($mCache->getAll() as $cache)
+			{
+				if ($mCache->clean($cache->group) === false)
+				{
+					$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
+					$allCleared = false;
+				}
+			}
+		}
+
+		if ($allCleared)
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
+		}
+
+		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 
 	/**
@@ -114,6 +159,7 @@ class CacheController extends JControllerLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
 		}
+
 		$this->setRedirect('index.php?option=com_cache&view=purge');
 	}
 }

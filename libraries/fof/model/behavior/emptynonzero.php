@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -21,7 +21,7 @@ class FOFModelBehaviorEmptynonzero extends FOFModelBehavior
 	 * list in a model
 	 *
 	 * @param   FOFModel        &$model  The model which calls this event
-	 * @param   JDatabaseQuery  &$query  The query being built
+	 * @param   FOFDatabaseQuery  &$query  The query being built
 	 *
 	 * @return  void
 	 */

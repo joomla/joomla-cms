@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+
 	<fields name="filter">
+
 		<field
 			name="search"
 			type="text"
-			label="COM_CATEGORIES_ITEMS_SEARCH_FILTER"
+			label="COM_CATEGORIES_FILTER_SEARCH_LABEL"
 			description="COM_CATEGORIES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
+
 		<field
 			name="published"
 			type="status"
@@ -18,6 +20,7 @@
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
+
 		<field
 			name="access"
 			type="accesslevel"
@@ -27,6 +30,7 @@
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
+
 		<field
 			name="language"
 			type="contentlanguage"
@@ -37,6 +41,7 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+
 		<field
 			name="tag"
 			type="tag"
@@ -47,6 +52,7 @@
 			>
 			<option value="">JOPTION_SELECT_TAG</option>
 		</field>
+
 		<field
 			name="level"
 			type="integer"
@@ -61,15 +67,17 @@
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
 	</fields>
+
 	<fields name="list">
+
 		<field
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
+			default="a.lft ASC"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
-			default="a.lft ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>
@@ -85,13 +93,14 @@
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"
 			label="COM_CATEGORIES_LIST_LIMIT"
 			description="COM_CATEGORIES_LIST_LIMIT_DESC"
-			class="input-mini"
 			default="25"
+			class="input-mini"
 			onchange="this.form.submit();"
 		/>
 	</fields>

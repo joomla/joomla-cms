@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -19,6 +19,51 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 class FinderViewMaps extends JViewLegacy
 {
 	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 *
+	 * @since  3.6.1
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 *
+	 * @since  3.6.1
+	 */
+	protected $pagination;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 *
+	 * @since  3.6.1
+	 */
+	protected $sidebar;
+
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 *
+	 * @since  3.6.1
+	 */
+	protected $state;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var  object
+	 *
+	 * @since  3.6.1
+	 */
+	protected $total;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -29,15 +74,15 @@ class FinderViewMaps extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Load plug-in language files.
+		// Load plugin language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Load the view data.
-		$this->items = $this->get('Items');
-		$this->total = $this->get('Total');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->total         = $this->get('Total');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('maps');
@@ -45,9 +90,7 @@ class FinderViewMaps extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -55,7 +98,8 @@ class FinderViewMaps extends JViewLegacy
 		// Prepare the view.
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -70,7 +114,6 @@ class FinderViewMaps extends JViewLegacy
 		$canDo = JHelperContent::getActions('com_finder');
 
 		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
-		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -85,7 +128,14 @@ class FinderViewMaps extends JViewLegacy
 		}
 
 		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		JToolbar::getInstance('toolbar')->appendButton(
+			'Popup',
+			'bars',
+			'COM_FINDER_STATISTICS',
+			'index.php?option=com_finder&view=statistics&tmpl=component',
+			550,
+			350
+		);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 

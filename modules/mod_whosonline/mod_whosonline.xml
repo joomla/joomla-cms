@@ -3,7 +3,7 @@
 	<name>mod_whosonline</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,48 +25,60 @@
 				<field
 					name="showmode"
 					type="list"
-					default="0"
 					label="MOD_WHOSONLINE_SHOWMODE_LABEL"
-					description="MOD_WHOSONLINE_SHOWMODE_DESC">
-					<option
-						value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
-					<option
-						value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
-					<option
-						value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
+					description="MOD_WHOSONLINE_SHOWMODE_DESC"
+					default="0"
+					>
+					<option value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
+					<option value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
+					<option value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
+				</field>
+
+				<field
+					name="filter_groups"
+					type="radio"
+					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
+					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
 				<field
 					name="cache"
 					type="list"
-					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
-				<field
-					name="filter_groups"
-					type="radio"
-					class="btn-group btn-group-yesno"
+					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="0"
-					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
-					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
+				<field
+					name="cache_time"
+					type="text"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 			</fieldset>
 		</fields>
 	</config>

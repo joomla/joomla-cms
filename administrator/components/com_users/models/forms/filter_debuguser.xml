@@ -4,10 +4,9 @@
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER_LABEL"
-			description="COM_USERS_SEARCH_ASSETS"
+			label="COM_USERS_SEARCH_ASSETS"
+			description="COM_USERS_SEARCH_IN_ASSETS"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 		<field
 			name="component"

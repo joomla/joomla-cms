@@ -13,7 +13,7 @@
  */
 
 #sbox-overlay {
-	position: absolute;
+	position: fixed;
 	background-color: #000;
 	left: 0px;
 	top: 0px;

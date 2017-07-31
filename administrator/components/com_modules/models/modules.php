@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,6 +48,7 @@ class ModulesModelModules extends JModelList
 				'position', 'a.position',
 				'pages',
 				'name', 'e.name',
+				'menuitem',
 			);
 		}
 
@@ -82,10 +83,11 @@ class ModulesModelModules extends JModelList
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
 		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
+		$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 
 		// If in modal layout on the frontend, state and language are always forced.
-		if ($app->isSite() && $layout === 'modal')
+		if ($app->isClient('site') && $layout === 'modal')
 		{
 			$this->setState('filter.language', 'current');
 			$this->setState('filter.state', 1);
@@ -93,12 +95,12 @@ class ModulesModelModules extends JModelList
 		// If in backend (modal or not) we get the same fields from the user request.
 		else
 		{
-			$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'cmd'));
-			$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
+			$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
+			$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
 		}
 
 		// Special case for the client id.
-		if ($app->isSite() || $layout === 'modal')
+		if ($app->isClient('site') || $layout === 'modal')
 		{
 			$this->setState('client_id', 0);
 		}
@@ -107,6 +109,12 @@ class ModulesModelModules extends JModelList
 			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
 			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
 			$this->setState('client_id', $clientId);
+		}
+
+		// Use a different filter file when client is administrator
+		if ($clientId == 1)
+		{
+			$this->filterFormName = 'filter_modulesadmin';
 		}
 
 		// Load the parameters.
@@ -136,6 +144,7 @@ class ModulesModelModules extends JModelList
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.position');
 		$id .= ':' . $this->getState('filter.module');
+		$id .= ':' . $this->getState('filter.menuitem');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
 
@@ -178,7 +187,7 @@ class ModulesModelModules extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 
 		// If ordering by fields that doesn't need translate just order the query.
@@ -329,6 +338,44 @@ class ModulesModelModules extends JModelList
 		if ($module = $this->getState('filter.module'))
 		{
 			$query->where($db->quoteName('a.module') . ' = ' . $db->quote($module));
+		}
+
+		// Filter by menuitem id (only for site client).
+		if ((int) $clientId === 0 && $menuItemId = $this->getState('filter.menuitem'))
+		{
+			// If user selected the modules not assigned to any page (menu item).
+			if ((int) $menuItemId === -1)
+			{
+				$query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
+			}
+			// If user selected the modules assigned to some particlar page (menu item).
+			else
+			{
+				// Modules in "All" pages.
+				$subQuery1 = $db->getQuery(true);
+				$subQuery1->select('MIN(' . $db->quoteName('menuid') . ')')
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
+
+				// Modules in "Selected" pages that have the chosen menu item id.
+				$subQuery2 = $db->getQuery(true);
+				$subQuery2->select($db->quoteName('moduleid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('menuid') . ' = ' . (int) $menuItemId);
+
+				// Modules in "All except selected" pages that doesn't have the chosen menu item id.
+				$subQuery3 = $db->getQuery(true);
+				$subQuery3->select($db->quoteName('moduleid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('menuid') . ' = -' . (int) $menuItemId);
+
+				// Filter by modules assigned to the selected menu item.
+				$query->where('(
+					(' . $subQuery1 . ') = 0
+					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
+					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
+					)');
+			}
 		}
 
 		// Filter by search in title or note or id:.

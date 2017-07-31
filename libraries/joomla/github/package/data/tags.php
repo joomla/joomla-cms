@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,10 @@ defined('JPATH_PLATFORM') or die;
  *
  * This tags API only deals with tag objects - so only annotated tags, not lightweight tags.
  *
- * @documentation http://developer.github.com/v3/git/tags/
+ * @documentation https://developer.github.com/v3/git/tags/
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageDataTags extends JGithubPackage
 {
@@ -76,7 +77,7 @@ class JGithubPackageDataTags extends JGithubPackage
 			'type'         => $type,
 			'tagger_name'  => $tagger_name,
 			'tagger_email' => $tagger_email,
-			'tagger_date'  => $tagger_date
+			'tagger_date'  => $tagger_date,
 		);
 
 		return $this->processResponse(

@@ -6,8 +6,8 @@
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER"
-			description="JSEARCH_FILTER"
+			label="COM_INSTALLER_UPDATESITES_FILTER_SEARCH_LABEL"
+			description="COM_INSTALLER_UPDATESITES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
@@ -18,8 +18,8 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="1">JPUBLISHED</option>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</field>
 		<field
 			name="client_id"
