@@ -67,7 +67,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php endif; ?>
 
 		<li class="nav-item dropdown header-profile">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>
