@@ -358,7 +358,8 @@ class ComponentHelper
 		}
 
 		// Load common and local language files.
-		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
+		$lang->load($option, JPATH_COMPONENT, null, false, true);
+		$lang->load($option, JPATH_BASE, null, false, true);
 
 		// Handle template preview outlining.
 		$contents = null;
