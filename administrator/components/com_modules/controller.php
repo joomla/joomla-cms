@@ -84,7 +84,16 @@ class ModulesController extends JControllerLegacy
 
 			foreach ($languages as $language)
 			{
-				$langCodes[$language->metadata['tag']] = $language->metadata['nativeName'];
+				if (isset($language->metadata['nativeName']))
+				{
+					$languageName = $language->metadata['nativeName'];
+				}
+				else
+				{
+					$languageName = $language->metadata['name'];
+				}
+
+				$langCodes[$language->metadata['tag']] = $languageName;
 			}
 
 			$db    = JFactory::getDbo();
