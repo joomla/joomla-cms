@@ -15,15 +15,15 @@ $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['o
 $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
 $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
-$pulse = '';
+$class = '';
 
 if ($id !== '')
 {
-	$pulse = ($displayData['id'] === 'plg_quickicon_joomlaupdate' || $displayData['id'] === 'plg_quickicon_extensionupdate') ? ' pulse' : '';
+	$class = ($displayData['id'] === 'plg_quickicon_joomlaupdate' || $displayData['id'] === 'plg_quickicon_extensionupdate') ? ' class="pulse"' : '';
 }
 
 ?>
-<a<?php echo $id; ?> href="<?php echo $displayData['link']; ?>" class="<?php echo $pulse; ?>"<?php echo $target . $onclick . $title; ?> role="button">
+<a<?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?> role="button">
 	<div class="quickicon-icon"><span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span></div>
 	<div class="quickicon-text"><?php echo $text; ?></div>
 </a>
