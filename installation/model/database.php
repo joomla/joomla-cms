@@ -164,6 +164,8 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
+
 		// Per Default allowed DB Hosts
 		$localhost = array(
 			'localhost',
@@ -172,7 +174,7 @@ class InstallationModelDatabase extends JModelBase
 		);
 
 		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if (!in_array($options->db_host, $localhost))
+		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
 		{
 			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
 			
@@ -191,14 +193,14 @@ class InstallationModelDatabase extends JModelBase
 					// Add the general message
 					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-					// This is the remote database file you need to remove if you want to use a remote database
+          // This is the file you need to remove if you want to use a remote database
 					$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
 					JFactory::getSession()->set('remoteDbFile', $remoteDbFile);
 
 					// Get the path
 					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
 
-					// When the path is not writable the user need to create the file itself
+					// When the path is not writable the user needs to create the file manually
 					if (!JFile::write($remoteDbPath, ''))
 					{
 						// Request to create the file manually
