@@ -48,7 +48,7 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		// We do not need the Language filter when modules are not filtered
-		if ($this->clientId == 1 && !JLanguageMultilang::isAdminEnabled())
+		if ($this->clientId == 1 && !JModuleHelper::isAdminMultilang())
 		{
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');

@@ -77,7 +77,7 @@ class ModulesController extends JControllerLegacy
 		ModulesHelper::addSubmenu($this->input->get('view', 'modules'));
 
 		// Check custom administrator menu modules
-		if (JLanguageMultilang::isAdminEnabled())
+		if (JModuleHelper::isAdminMultilang())
 		{
 			$languages = JLanguageHelper::getInstalledLanguages(1, true);
 			$langCodes = array();
