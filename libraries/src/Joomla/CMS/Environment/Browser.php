@@ -350,7 +350,7 @@ class Browser
 			}
 			elseif (preg_match('|Firefox\/([0-9.]+)|', $this->agent, $version))
 			{
-				$this->setBrowser('mozilla');
+				$this->setBrowser('firefox');
 
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
@@ -405,6 +405,12 @@ class Browser
 			elseif (strpos($this->lowerAgent, 'j-') !== false)
 			{
 				$this->setBrowser('mml');
+			}
+			elseif (preg_match('|Mozilla\/([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('mozilla');
+
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 		}
 	}
