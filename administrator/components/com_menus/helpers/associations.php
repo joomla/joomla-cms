@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Association\AssociationExtensionHelper;
 
 /**
  * Menu associations helper.
  *
  * @since  3.7.0
  */
-class MenusAssociationsHelper extends JAssociationExtensionHelper
+class MenusAssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
