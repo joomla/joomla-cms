@@ -10,10 +10,15 @@
     margin-right: 15px;
     margin-bottom: 15px;
     color: $white;
+    text-align: center;
     background: $quickicon-bg;
     border-radius: 3px;
     box-shadow: $quickicon-box-shadow;
     transition: background .25s ease;
+
+    > div {
+      flex: 1 0 0;
+    }
 
     &.pulse {
       @include media-breakpoint-only(xs) {
@@ -35,37 +40,19 @@
       background: $atum-template-color-light;
     }
 
-    .quickicon-icon,
-    .quickicon-text {
-      position: relative;
-      height: 50%;
-      text-align: center;
-    }
-
     .j-links-link {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      box-sizing: border-box;
+      display: block;
       width: 100%;
       padding: 0 1rem;
       font-size: 1rem;
       line-height: 1.1;
-      transform: translateY(-50%);
     }
 
     .fa {
-      position: absolute;
-      top: 50%;
-      right: 0;
-      left: 0;
-      width: 3rem;
-      height: 3rem;
       margin: 5px auto;
       font-size: 2.5rem;
       font-weight: normal;
       line-height: 3rem;
-      transform: translateY(-50%);
     }
 
     &.danger {
