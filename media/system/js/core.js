@@ -966,22 +966,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		return xhr;
 	};
 
-	/**
-	 * DOMContentLoaded
-	 */
-	document.addEventListener('DOMContentLoaded', function() {
-		// Fix the alignment of the Options and Help toolbar buttons
-		var toolbarOptions = document.getElementById('toolbar-options'),
-		    toolbarHelp    = document.getElementById('toolbar-help');
-
-		if (toolbarHelp && !toolbarOptions) {
-			toolbarHelp.classList.add('ml-auto');
-		}
-		if (toolbarOptions && !toolbarHelp) {
-			toolbarOptions.classList.add('ml-auto');
-		}
-	});
-
 }( Joomla, document ));
 
 /**
