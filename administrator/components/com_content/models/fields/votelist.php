@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  3.7.1
  */
-class JFormFieldVotelist extends JFormFieldList
+class JFormFieldVotelist extends JFormFieldRadio
 {
 	/**
 	 * The form field type.
