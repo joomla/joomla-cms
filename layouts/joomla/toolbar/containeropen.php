@@ -9,6 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-JHtml::_('script', 'system/fields/toolbar.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/toolbar.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="btn-toolbar d-flex" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>" id="<?php echo $displayData['id']; ?>">
