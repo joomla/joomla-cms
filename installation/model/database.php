@@ -193,7 +193,7 @@ class InstallationModelDatabase extends JModelBase
 					// Add the general message
 					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-          // This is the file you need to remove if you want to use a remote database
+					// This is the file you need to remove if you want to use a remote database
 					$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
 					JFactory::getSession()->set('remoteDbFile', $remoteDbFile);
 
