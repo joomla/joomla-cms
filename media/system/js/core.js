@@ -528,19 +528,19 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Pops up a new window in the middle of the screen
 	 */
-	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
-		var winl = ( screen.width - w ) / 2,
-		    wint = ( screen.height - h ) / 2,
-		    winprops = 'height=' + h +
-			    ',width=' + w +
-			    ',top=' + wint +
-			    ',left=' + winl +
-			    ',scrollbars=' + scroll +
-			    ',resizable';
-
-		window.open( mypage, myname, winprops )
-			.window.focus();
-	};
+	// Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
+	// 	var winl = ( screen.width - w ) / 2,
+	// 	    wint = ( screen.height - h ) / 2,
+	// 	    winprops = 'height=' + h +
+	// 		    ',width=' + w +
+	// 		    ',top=' + wint +
+	// 		    ',left=' + winl +
+	// 		    ',scrollbars=' + scroll +
+	// 		    ',resizable';
+	//
+	// 	window.open( mypage, myname, winprops )
+	// 		.window.focus();
+	// };
 
 	/**
 	 * USED IN: libraries/joomla/html/html/grid.php
@@ -574,37 +574,37 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param string
 	 *          The elem where the list will be written
 	 */
-	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>',
-		    hasSelection = key == orig_key,
-		    i = 0,
-		    selected, x, item;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[ x ];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			selected = '';
-
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
-			}
-
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
-
-			i++;
-		}
-		html += '</select>';
-
-		if (element) {
-			element.innerHTML = html;
-		} else {
-			document.writeln( html );
-		}
-	};
+	// window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+	// 	var html = '<select ' + selectParams + '>',
+	// 	    hasSelection = key == orig_key,
+	// 	    i = 0,
+	// 	    selected, x, item;
+	//
+	// 	for ( x in source ) {
+	// 		if (!source.hasOwnProperty(x)) { continue; }
+	//
+	// 		item = source[ x ];
+	//
+	// 		if ( item[ 0 ] != key ) { continue; }
+	//
+	// 		selected = '';
+	//
+	// 		if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
+	// 			selected = 'selected="selected"';
+	// 		}
+	//
+	// 		html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
+	//
+	// 		i++;
+	// 	}
+	// 	html += '</select>';
+	//
+	// 	if (element) {
+	// 		element.innerHTML = html;
+	// 	} else {
+	// 		document.writeln( html );
+	// 	}
+	// };
 
 	/**
 	 * USED IN: administrator/components/com_content/views/article/view.html.php
@@ -623,36 +623,36 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param string
 	 *          The original item value that was selected
 	 */
-	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
-		var list = document.adminForm[ listname ],
-		    hasSelection = key == orig_key,
-		    i, x, item, opt;
-
-		// empty the list
-		while ( list.firstChild ) list.removeChild( list.firstChild );
-
-		i = 0;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[x];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			opt = new Option();
-			opt.value = item[ 1 ];
-			opt.text = item[ 2 ];
-
-			if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
-				opt.selected = true;
-			}
-
-			list.options[ i++ ] = opt;
-		}
-
-		list.length = i;
-	};
+	// window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
+	// 	var list = document.adminForm[ listname ],
+	// 	    hasSelection = key == orig_key,
+	// 	    i, x, item, opt;
+	//
+	// 	// empty the list
+	// 	while ( list.firstChild ) list.removeChild( list.firstChild );
+	//
+	// 	i = 0;
+	//
+	// 	for ( x in source ) {
+	// 		if (!source.hasOwnProperty(x)) { continue; }
+	//
+	// 		item = source[x];
+	//
+	// 		if ( item[ 0 ] != key ) { continue; }
+	//
+	// 		opt = new Option();
+	// 		opt.value = item[ 1 ];
+	// 		opt.text = item[ 2 ];
+	//
+	// 		if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
+	// 			opt.selected = true;
+	// 		}
+	//
+	// 		list.options[ i++ ] = opt;
+	// 	}
+	//
+	// 	list.length = i;
+	// };
 
 	/**
 	 * USED IN: administrator/components/com_menus/views/menus/tmpl/default.php
@@ -664,24 +664,24 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	// return the value of the radio button that is checked
 	// return an empty string if none are checked, or
 	// there are no radio buttons
-	window.radioGetCheckedValue = function ( radioObj ) {
-		if ( !radioObj ) { return ''; }
-
-		var n = radioObj.length,
-		    i;
-
-		if ( n === undefined ) {
-			return radioObj.checked ? radioObj.value : '';
-		}
-
-		for ( i = 0; i < n; i++ ) {
-			if ( radioObj[ i ].checked ) {
-				return radioObj[ i ].value;
-			}
-		}
-
-		return '';
-	};
+	// window.radioGetCheckedValue = function ( radioObj ) {
+	// 	if ( !radioObj ) { return ''; }
+	//
+	// 	var n = radioObj.length,
+	// 	    i;
+	//
+	// 	if ( n === undefined ) {
+	// 		return radioObj.checked ? radioObj.value : '';
+	// 	}
+	//
+	// 	for ( i = 0; i < n; i++ ) {
+	// 		if ( radioObj[ i ].checked ) {
+	// 			return radioObj[ i ].value;
+	// 		}
+	// 	}
+	//
+	// 	return '';
+	// };
 
 	/**
 	 * USED IN: administrator/components/com_users/views/mail/tmpl/default.php
