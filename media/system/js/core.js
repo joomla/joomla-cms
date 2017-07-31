@@ -967,11 +967,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * Fix the alignment of the Options and Help toolbar buttons
-	 *
-	 * @since  __DEPLOY_VERSION__
+	 * DOMContentLoaded
 	 */
 	document.addEventListener('DOMContentLoaded', function() {
+		// Fix the alignment of the Options and Help toolbar buttons
 		var toolbarOptions = document.getElementById('toolbar-options'),
 		    toolbarHelp    = document.getElementById('toolbar-help');
 
