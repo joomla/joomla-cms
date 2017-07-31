@@ -49,24 +49,34 @@ if ($user->authorise('core.manage', 'com_content'))
 // Get the authorised components and sub-menus.
 $components = ModMenuHelper::getComponents(true);
 
-// Check if there are any components, otherwise, don't display the components menu item
 if ($components)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
+	foreach ($components as &$component)
+	{
+		// Check if there are any components, otherwise, don't display the components menu item
+		if ($component->title != 'com_postinstall' && $component->title != 'com_joomlaupdate')
+		{
+			$this->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
+
+			break;
+		}
+	}
 }
 
 /**
  * Extensions Submenu
  */
+$ju = $user->authorise('core.manage', 'com_joomlaupdate');
+$pi = $user->authorise('core.manage', 'com_postinstall');
 $im = $user->authorise('core.manage', 'com_installer');
 $mm = $user->authorise('core.manage', 'com_modules');
 $pm = $user->authorise('core.manage', 'com_plugins');
 $tm = $user->authorise('core.manage', 'com_templates');
 $lm = $user->authorise('core.manage', 'com_languages');
 
-if ($im || $mm || $pm || $tm || $lm)
+if ($ju || $pi || $im || $mm || $pm || $tm || $lm)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), null, 'disabled'));
 }
 
 /**

@@ -305,7 +305,11 @@ if ($components)
 
 	foreach ($components as &$component)
 	{
-		if (!empty($component->submenu))
+		if ($component->title == 'com_postinstall' || $component->title == 'com_joomlaupdate')
+		{
+			// Skip these as included later
+		}
+		elseif (!empty($component->submenu))
 		{
 			// This component has a db driven submenu.
 			$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
@@ -329,34 +333,52 @@ if ($components)
 /**
  * Extensions Submenu
  */
+$ju = $user->authorise('core.manage', 'com_joomlaupdate');
+$pi = $user->authorise('core.manage', 'com_postinstall');
 $im = $user->authorise('core.manage', 'com_installer');
 $mm = $user->authorise('core.manage', 'com_modules');
 $pm = $user->authorise('core.manage', 'com_plugins');
 $tm = $user->authorise('core.manage', 'com_templates');
 $lm = $user->authorise('core.manage', 'com_languages');
 
-if ($im || $mm || $pm || $tm || $lm)
+if ($ju || $pi || $im || $mm || $pm || $tm || $lm)
 {
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), '#', $rootClass), true);
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), '#', $rootClass), true);
+
+	if ($ju)
+	{
+		$this->addChild(new JMenuNode(JText::_('COM_JOOMLAUPDATE'), 'index.php?option=com_joomlaupdate', 'class:install'));
+	}
+
+	if ($pi)
+	{
+		$this->addChild(new JMenuNode(JText::_('COM_POSTINSTALL'), 'index.php?option=com_postinstall', 'class:install'));
+	}
 
 	if ($im)
 	{
-		$cls = 'class:install';
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), 'index.php?option=com_installer&view=database', 'class:install'), true);
 
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer', $cls), $im);
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', 'class:install'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', 'class:install'));
+		$this->addChild(
+			new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites', 'class:install')
+		);
+		$this->getParent();
 
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer', $cls));
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update', $cls));
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage', $cls));
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover', $cls));
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', $cls));
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', $cls));
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages', $cls));
-		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites', $cls));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), 'index.php?option=com_installer', 'class:install'), true);
+
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer', 'class:install'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update', 'class:install'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage', 'class:install'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover', 'class:install'));
+		$this->addSeparator();
+
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages', 'class:install'));
 		$this->getParent();
 	}
 
-	if ($im && ($mm || $pm || $tm || $lm))
+	if (($ju || $pi || $im) && ($mm || $pm || $tm || $lm))
 	{
 		$this->addSeparator();
 	}
