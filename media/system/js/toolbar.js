@@ -39,7 +39,7 @@ Joomla = window.Joomla || {};
 		 * Fix the alignment of the Options and Help toolbar buttons
 		 */
 		var toolbarOptions = document.getElementById('toolbar-options'),
-			toolbarHelp    = document.getElementById('toolbar-help');
+		    toolbarHelp = document.getElementById('toolbar-help');
 
 		if (toolbarHelp && !toolbarOptions) {
 			toolbarHelp.classList.add('ml-auto');
