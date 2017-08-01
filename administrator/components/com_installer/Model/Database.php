@@ -148,10 +148,11 @@ class Database extends Installer
 		}
 
 		// Ready
-		$this->changeSetList = $changeSetList;
+		$changeSetList = json_encode($changeSetList);
+		$this->changeSetList = json_decode($changeSetList, true);
 
 		// Save it for the next time
-		\JFactory::getSession()->set('changeSetList', json_encode($changeSetList));
+		\JFactory::getSession()->set('changeSetList', $changeSetList);
 	}
 
 	/**
@@ -246,6 +247,7 @@ class Database extends Installer
 				$db->quoteName('e.element') . ', ' .
 				$db->quoteName('e.extension_id') . ', ' .
 				$db->quoteName('e.folder') . ', ' .
+				$db->quoteName('e.manifest_cache') . ', ' .
 				$db->quoteName('e.name') . ', ' .
 				$db->quoteName('e.type') . ', ' .
 				$db->quoteName('s.version_id')
@@ -293,9 +295,10 @@ class Database extends Installer
 			$query->where('s.update_site_id = ' . (int) substr($search, 3));
 		}
 
-		$result = $this->_getList($query);
+		$store = $this->getStoreId();
+		$this->cache[$store]= $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
 
-		return $result;
+		return $this->cache[$store];
 	}
 
 	protected function mergeSchemaCache($results)

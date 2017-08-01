@@ -42,9 +42,6 @@ class Html extends InstallerViewDefault
 		// Set variables
 		$app = \JFactory::getApplication();
 
-		$session = \JFactory::getSession();
-		$changeSetList = json_decode($session->get('changeSetList'));
-
 		// Get data from the model.
 		$this->changeSet        = $this->get('Items');
 		$this->pagination       = $this->get('Pagination');
@@ -52,12 +49,9 @@ class Html extends InstallerViewDefault
 		$this->activeFilters    = $this->get('ActiveFilters');
 		$this->errorCount       = 0;
 
-		$session = \JFactory::getSession();
-		$changeSetList = json_decode($session->get('changeSetList'));
-
 		foreach ($this->changeSet as $i => $changeset)
 		{
-			$this->errorCount += $changeset->errorsCount;
+			$this->errorCount += $changeset['errorsCount'];
 		}
 
 		if ($this->errorCount === 0)
@@ -68,12 +62,6 @@ class Html extends InstallerViewDefault
 		{
 			// Database Core Errors
 			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
-		}
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Include the component HTML helpers.

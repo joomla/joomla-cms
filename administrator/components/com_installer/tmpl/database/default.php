@@ -95,12 +95,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tfoot>
 						<tbody>
 							<?php foreach ($this->changeSet as $i => $item) : ?>
-								<?php $extension = $item->extension; ?>
-								<?php $manifest = json_decode($extension->manifest_cache); ?>
+								<?php $extension = $item['extension']; ?>
+								<?php $manifest = json_decode($extension['manifest_cache']); ?>
 
 								<tr class="row<?php echo $i % 2; ?>">
 									<td>
-										<?php echo JHtml::_('grid.id', $i, $extension->extension_id); ?>
+										<?php echo JHtml::_('grid.id', $i, $extension['extension_id']); ?>
 									</td>
 									<td>
 										<label for="cb<?php echo $i; ?>">
@@ -113,28 +113,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											),
 										0
 									); ?>">
-									<?php echo $extension->name;?>
+									<?php echo $extension['name'];?>
 									</span>
 										</label>
 									</td>
 									<td class="center">
-										<?php echo $extension->client_translated;?>
+										<?php echo $extension['client_translated'];?>
 									</td>
 									<td class="center">
-										<?php echo $extension->type_translated; ?>
+										<?php echo $extension['type_translated']; ?>
 									</td>
 									<td>
-										<label class="badge badge-<?php echo count($item->results->error) > 0 ? 'danger' : ($item->errorsCount > 0 ? 'warning' : 'success' ); ?> hasPopover" title=""
-											data-content="<?php echo $item->errorsMessage; ?>"
-											data-original-title="<?php echo $item->errorsCount; ?> Errors">
-												<?php echo \JText::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item->errorsCount); ?>
+										<label class="badge badge-<?php echo count($item['results']['error']) > 0 ? 'danger' : ($item['errorsCount'] > 0 ? 'warning' : 'success' ); ?> hasPopover" title=""
+											data-content="<?php echo $item['errorsMessage']; ?>"
+											data-original-title="<?php echo $item['errorsCount']; ?> Errors">
+												<?php echo \JText::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 										</label>
 									</td>
 									<td class="hidden-sm-down">
-										<?php echo $extension->folder_translated; ?>
+										<?php echo $extension['folder_translated']; ?>
 									</td>
 									<td>
-										<?php echo $extension->extension_id; ?>
+										<?php echo $extension['extension_id']; ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>
@@ -147,8 +147,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<div class="control-group">
 						<fieldset class="panelform">
 							<ul>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->changeSet->core->schema); ?></li>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->changeSet->core->extension->version_id); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->changeSet['core']['schema']); ?></li>
+								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->changeSet['core']['extension']['version_id']); ?></li>
 								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
 								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->changeSet->core->results->ok)); ?></li>
 								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->changeSet->core->results->skipped)); ?></li>
