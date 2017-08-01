@@ -53,7 +53,96 @@ class Database extends Installer
 			);
 		}
 
+		if (!\JFactory::getSession()->set('changeSetList'))
+		{
+			$this->fetchSchemaCache();
+		}
+
 		parent::__construct($config, $factory);
+	}
+
+	/**
+	 * Method to populate the schema cache.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	protected function fetchSchemaCache()
+	{
+		$session = \JFactory::getSession();
+		$changeSetList = array();
+
+		try
+		{
+			$results = $this->getItems();
+
+			foreach ($result as $index => $result)
+			{
+				$errorCount = 0;
+				$errorMessage = "";
+
+				if (strcmp($result->element, 'joomla') == 0)
+				{
+					$result->element = 'com_admin';
+					$index = 'core';
+
+					if (!$this->getDefaultTextFilters())
+					{
+						$errorCount++;
+						$errorMessage .= \JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR');
+					}
+				}
+
+				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
+
+				$changeset = new ChangeSet($db, $folderTmp);
+
+				$errors = $changeset->check();
+				$schema = $changeset->getSchema();
+
+				if ($result->version_id != $schema)
+				{
+					$errorMessage .= \JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $schema) . "<br>";
+					$errorCount++;
+				}
+
+				foreach ($errors as $line => $error)
+				{
+					$key     = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
+					$msgs    = $error->msgElements;
+					$file    = basename($error->file);
+					$msg0    = isset($msgs[0]) ? $msgs[0] : ' ';
+					$msg1    = isset($msgs[1]) ? $msgs[1] : ' ';
+					$msg2    = isset($msgs[2]) ? $msgs[2] : ' ';
+					$errorMessage .= \JText::sprintf($key, $file, $msg0, $msg1, $msg2) . "<br>";
+				}
+
+				$changeSetList[$index] = array(
+					'folderTmp' => $folderTmp,
+					'errorsMessage'  => $errorMessage,
+					'errorsCount'    => $errorCount + count($errors),
+					'results'   => $changeset->getStatus(),
+					'schema'    => $schema,
+					'extension' => $result
+				);
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+
+			return false;
+		}
+
+		if ($extensionIdArray != null)
+		{
+			return $changeSetList;
+		}
+
+		$changeSetList = json_encode($changeSetList);
+
+		$session->set('changeSetList', $changeSetList);
 	}
 
 	/**
@@ -125,24 +214,20 @@ class Database extends Installer
 	/**
 	 * Gets the changeset object.
 	 *
-	 * @param   array  $extensionIdArray  list of the selected extensions to fix
+	 * @param   array  $extensionIdArray  list of the selected extensions to fix ????
 	 *
 	 * @return  \Joomla\CMS\Schema\ChangeSet
 	 */
-	public function getItems($extensionIdArray = null)
+	public function getItems()
 	{
-		$session = \JFactory::getSession();
+		$results = $this->retrieveItems();
+		$results = $this->mergeSchemaCache($results);
 
-		$changeSetList = $session->get('changeSetList');
+		return $results;
+	}
 
-		/*
-		 * Uncomment to activate cache
-		if ($changeSetList != null && $extensionIdArray == null)
-		{
-			return json_decode($changeSetList);
-		}
-		*/
-
+	protected function retrieveItems()
+	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
@@ -211,78 +296,21 @@ class Database extends Installer
 
 		$result = $this->_getList($query);
 
-		$changeSetList = array();
+		return $result;
+	}
 
-		try
+	protected function mergeSchemaCache($results)
+	{
+		$session = \JFactory::getSession();
+		$changeSetList = $session->get('changeSetList');
+		$finalResults = array();
+
+		foreach ($results as $index => $result)
 		{
-			foreach ($result as $index => $result)
-			{
-				$errorCount = 0;
-				$errorMessage = "";
-
-				if (strcmp($result->element, 'joomla') == 0)
-				{
-					$result->element = 'com_admin';
-					$index = 'core';
-
-					if (!$this->getDefaultTextFilters())
-					{
-						$errorCount++;
-						$errorMessage .= \JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR');
-					}
-				}
-
-				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
-
-				$changeset = new ChangeSet($db, $folderTmp);
-
-				$errors = $changeset->check();
-				$schema = $changeset->getSchema();
-
-				if ($result->version_id != $schema)
-				{
-					$errorMessage .= \JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $schema) . "<br>";
-					$errorCount++;
-				}
-
-				foreach ($errors as $line => $error)
-				{
-					$key     = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
-					$msgs    = $error->msgElements;
-					$file    = basename($error->file);
-					$msg0    = isset($msgs[0]) ? $msgs[0] : ' ';
-					$msg1    = isset($msgs[1]) ? $msgs[1] : ' ';
-					$msg2    = isset($msgs[2]) ? $msgs[2] : ' ';
-					$errorMessage .= \JText::sprintf($key, $file, $msg0, $msg1, $msg2) . "<br>";
-				}
-
-				$changeSetList[$index] = array(
-					'folderTmp' => $folderTmp,
-					'errorsMessage'  => $errorMessage,
-					'errorsCount'    => $errorCount + count($errors),
-					'results'   => $changeset->getStatus(),
-					'schema'    => $schema,
-					'extension' => $result
-				);
-			}
-		}
-		catch (\RuntimeException $e)
-		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
-
-			return false;
+			...
 		}
 
-		if ($extensionIdArray != null)
-		{
-			return $changeSetList;
-		}
-
-		$changeSetList = json_encode($changeSetList);
-
-		$session->set('changeSetList', $changeSetList);
-
-		return json_decode($changeSetList);
+		return $finalResults;
 	}
 
 	/**
