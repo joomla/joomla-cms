@@ -39,7 +39,7 @@ class LastvisitDateRangeField extends \JFormFieldPredefinedList
 
 		// Load the required language
 		$lang = Factory::getLanguage();
-		$lang->load('com_users', JPATH_ADMINISTRATOR);
+		$lang->load('com_users', JPATH_ADMINISTRATOR, null, false, true);
 
 		// Set the pre-defined options
 		$this->predefinedOptions = array(

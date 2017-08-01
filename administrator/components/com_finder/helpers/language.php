@@ -91,7 +91,8 @@ class FinderHelperLanguage
 	 */
 	public static function loadComponentLanguage()
 	{
-		JFactory::getLanguage()->load('com_finder', JPATH_SITE);
+		$lang = JFactory::getLanguage();
+		$lang->load('com_finder', JPATH_SITE, null, false, true);
 	}
 
 	/**
@@ -131,7 +132,7 @@ class FinderHelperLanguage
 
 		// Load generic language strings.
 		$lang = JFactory::getLanguage();
-		$lang->load('plg_content_finder', JPATH_ADMINISTRATOR);
+		$lang->load('plg_content_finder', JPATH_ADMINISTRATOR, null, false, true);
 
 		// Load language file for each plugin.
 		foreach ($plugins as $plugin)
@@ -141,8 +142,8 @@ class FinderHelperLanguage
 			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
 			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
 			 */
-			$lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
-			$lang->load($plugin->name, JPATH_ADMINISTRATOR);
+			$lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element, null, false, true);
+			$lang->load($plugin->name, JPATH_ADMINISTRATOR, null, false, true);
 		}
 	}
 }

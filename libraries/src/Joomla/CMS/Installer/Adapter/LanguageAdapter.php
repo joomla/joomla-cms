@@ -334,13 +334,13 @@ class LanguageAdapter extends InstallerAdapter
 				if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
 				{
 					$installationLanguage = new Language($this->tag);
-					$installationLanguage->load('', JPATH_INSTALLATION);
+					$installationLanguage->load('', JPATH_INSTALLATION, null, false, true);
 
 					if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
 					{
 						// Make sure it will not use the en-GB fallback.
 						$defaultLanguage = new Language('en-GB');
-						$defaultLanguage->load('', JPATH_INSTALLATION);
+						$defaultLanguage->load('', JPATH_INSTALLATION, null, false, true);
 
 						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');

@@ -312,8 +312,13 @@ class JAdminCssMenu
 			// Ok we passed everything, load language at last only
 			if ($item->element)
 			{
-				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
+				/**
+				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+				 */
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 			}
 
 			$item->text = JText::_($item->title);

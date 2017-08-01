@@ -83,13 +83,13 @@ class MediawikiCli extends CliApplication
 		}
 
 		// Get the language object
-		$language = Factory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Get the language strings via Reflection as the property is protected
-		$refl = new ReflectionClass($language);
+		$refl = new ReflectionClass($lang);
 		$property = $refl->getProperty('strings');
 		$property->setAccessible(true);
-		$strings = $property->getValue($language);
+		$strings = $property->getValue($lang);
 
 		/*
 		 * Now we start fancy processing so we can get the language key for the titles
@@ -141,7 +141,7 @@ class MediawikiCli extends CliApplication
 		 */
 
 		// Load the admin com_admin language file
-		$language->load('com_admin', JPATH_ADMINISTRATOR);
+		$lang->load('com_admin', JPATH_ADMINISTRATOR, null, false, true);
 
 		$toc = array();
 
@@ -150,7 +150,7 @@ class MediawikiCli extends CliApplication
 			// Validate the key exists
 			$this->out('Validating key COM_ADMIN_HELP_' . $string, true);
 
-			if ($language->hasKey('COM_ADMIN_HELP_' . $string))
+			if ($lang->hasKey('COM_ADMIN_HELP_' . $string))
 			{
 				$this->out('Adding ' . $string, true);
 
@@ -187,7 +187,7 @@ class MediawikiCli extends CliApplication
 				{
 					$this->out('Validating key COM_ADMIN_HELP_' . $inflected, true);
 
-					if ($language->hasKey('COM_ADMIN_HELP_' . $inflected))
+					if ($lang->hasKey('COM_ADMIN_HELP_' . $inflected))
 					{
 						$this->out('Adding ' . $inflected, true);
 

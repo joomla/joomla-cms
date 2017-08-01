@@ -159,7 +159,8 @@ class PostinstallModelMessages extends FOFModel
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					JFactory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
+					$lang                  = JFactory::getLanguage();
+					$lang->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR, null, false, true);
 				}
 			}
 		}

@@ -100,12 +100,12 @@ class InstallationModelDatabase extends JModelBase
 		// Load the selected language
 		if (JLanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
+			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true, true);
 		}
 		// Pre-load en-GB in case the chosen language files do not exist.
 		else
 		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		}
 
 		// Ensure a database type was selected.

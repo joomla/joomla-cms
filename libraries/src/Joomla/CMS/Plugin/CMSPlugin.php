@@ -143,7 +143,16 @@ abstract class CMSPlugin extends \JEvent
 			return true;
 		}
 
-		return $lang->load($extension, $basePath, null, false, true)
-			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
+		$return = false;
+
+		/**
+		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+		 */
+		$return = $return || $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
+		$return = $return || $lang->load($extension, $basePath, null, false, true);
+
+		return $return;
 	}
 }

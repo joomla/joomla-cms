@@ -886,7 +886,7 @@ class InstallationModelLanguages extends JModelBase
 		$tableItem = JTable::getInstance('Menu', 'MenusTable');
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true, true);
 		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
 		$alias = 'home_' . $itemLanguage->language;
 
@@ -1078,7 +1078,7 @@ class InstallationModelLanguages extends JModelBase
 	public function addCategory($itemLanguage)
 	{
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true, true);
 		$title = $newlanguage->_('JCATEGORY');
 
 		// Initialize a new category.
@@ -1143,7 +1143,7 @@ class InstallationModelLanguages extends JModelBase
 		$db = JFactory::getDbo();
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true, true);
 		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
 		$currentDate = JFactory::getDate()->toSql();
 
