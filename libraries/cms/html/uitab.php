@@ -10,11 +10,11 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Utility class for the core UI Tab elements.
+ * Utility class for the Joomla core UI Tab element.
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class JHtmlTab
+abstract class JHtmlUiTab
 {
 	/**
 	 * @var    array  Array containing information for loaded files
@@ -77,7 +77,7 @@ abstract class JHtmlTab
 	 */
 	public static function addTab($selector, $id, $title)
 	{
-		$active = (static::$loaded['JHtmlTab::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+		$active = (static::$loaded['JHtmlUiTab::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		return '<section id="' . $id . '" class="' . $active . '" name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
 
