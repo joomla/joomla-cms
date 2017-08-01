@@ -116,7 +116,7 @@ foreach ($fieldSets as $name => $fieldSet)
 	}
 
 	// Start the tab
-	echo HTMLHelper::_('coreui.addTab', $tabName, 'attrib-' . $name, $label);
+	echo HTMLHelper::_('tab.addTab', $tabName, 'attrib-' . $name, $label);
 
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
@@ -134,5 +134,5 @@ foreach ($fieldSets as $name => $fieldSet)
 	echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
 
 	// End the tab
-	echo HTMLHelper::_('coreui.endTab');
+	echo HTMLHelper::_('tab.endTab');
 }
