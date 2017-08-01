@@ -53,11 +53,6 @@ class Database extends Installer
 			);
 		}
 
-		if (!\JFactory::getSession()->set('changeSetList'))
-		{
-			$this->fetchSchemaCache();
-		}
-
 		parent::__construct($config, $factory);
 	}
 
@@ -70,14 +65,13 @@ class Database extends Installer
 	 */
 	protected function fetchSchemaCache()
 	{
-		$session = \JFactory::getSession();
 		$changeSetList = array();
 
 		try
 		{
-			$results = $this->getItems();
+			$results = $this->retrieveItems();
 
-			foreach ($result as $index => $result)
+			foreach ($results as $index => $result)
 			{
 				$errorCount = 0;
 				$errorMessage = "";
@@ -85,8 +79,6 @@ class Database extends Installer
 				if (strcmp($result->element, 'joomla') == 0)
 				{
 					$result->element = 'com_admin';
-					$index = 'core';
-
 					if (!$this->getDefaultTextFilters())
 					{
 						$errorCount++;
@@ -94,6 +86,7 @@ class Database extends Installer
 					}
 				}
 
+				$db  = $this->getDbo();
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
 
 				$changeset = new ChangeSet($db, $folderTmp);
@@ -118,7 +111,7 @@ class Database extends Installer
 					$errorMessage .= \JText::sprintf($key, $file, $msg0, $msg1, $msg2) . "<br>";
 				}
 
-				$changeSetList[$index] = array(
+				$changeSetList[$result->element] = array(
 					'folderTmp' => $folderTmp,
 					'errorsMessage'  => $errorMessage,
 					'errorsCount'    => $errorCount + count($errors),
@@ -135,14 +128,10 @@ class Database extends Installer
 			return false;
 		}
 
-		if ($extensionIdArray != null)
-		{
-			return $changeSetList;
-		}
-
+		$session = \JFactory::getSession();
 		$changeSetList = json_encode($changeSetList);
-
 		$session->set('changeSetList', $changeSetList);
+		$atest = $session->get('changeSetList');
 	}
 
 	/**
@@ -220,6 +209,13 @@ class Database extends Installer
 	 */
 	public function getItems()
 	{
+		if (!\JFactory::getSession()->get('changeSetList'))
+		{
+			$this->fetchSchemaCache();
+		}
+
+		$a = \JFactory::getSession()->get('changeSetList');
+
 		$results = $this->retrieveItems();
 		$results = $this->mergeSchemaCache($results);
 
@@ -282,18 +278,6 @@ class Database extends Installer
 			$query->where('s.update_site_id = ' . (int) substr($search, 3));
 		}
 
-		if ($extensionIdArray != null)
-		{
-			$whereQuery = array();
-
-			foreach ($extensionIdArray as $extension)
-			{
-				array_push($whereQuery, 'e.extension_id = ' . $extension);
-			}
-
-			$query->where($whereQuery, 'OR');
-		}
-
 		$result = $this->_getList($query);
 
 		return $result;
@@ -302,12 +286,13 @@ class Database extends Installer
 	protected function mergeSchemaCache($results)
 	{
 		$session = \JFactory::getSession();
-		$changeSetList = $session->get('changeSetList');
+		$changeSetList = json_decode($session->get('changeSetList'));
 		$finalResults = array();
 
 		foreach ($results as $index => $result)
 		{
-			...
+			$element = $result->element == 'joomla' ? 'com_admin' : $result->element;
+			$finalResults[$index] = $changeSetList->$element;
 		}
 
 		return $finalResults;

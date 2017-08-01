@@ -42,12 +42,18 @@ class Html extends InstallerViewDefault
 		// Set variables
 		$app = \JFactory::getApplication();
 
+		$session = \JFactory::getSession();
+		$changeSetList = json_decode($session->get('changeSetList'));
+
 		// Get data from the model.
 		$this->changeSet        = $this->get('Items');
 		$this->pagination       = $this->get('Pagination');
 		$this->filterForm       = $this->get('FilterForm');
 		$this->activeFilters    = $this->get('ActiveFilters');
 		$this->errorCount       = 0;
+
+		$session = \JFactory::getSession();
+		$changeSetList = json_decode($session->get('changeSetList'));
 
 		foreach ($this->changeSet as $i => $changeset)
 		{

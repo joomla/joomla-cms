@@ -57,10 +57,7 @@ class Database extends Controller
 			$this->app->flushAssets();
 		}
 
-		$session = \JFactory::getSession();
-		$session->set('changeSetList');
-
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=database', false));
+		$this->findproblems();
 	}
 
 	/**
