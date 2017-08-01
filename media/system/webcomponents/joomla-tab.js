@@ -201,7 +201,6 @@ class TabElement extends HTMLElement {
 
 	keyListeners() {
 		const keyBehaviour = (e) => {
-			console.log(this.currentActive)
 			// collect tab targets, and their parents' prev/next (or first/last)
 			let currentTab = this.querySelector('#tab-' + this.currentActive);
 			let tablist = [].slice.call(this.querySelector('ul').querySelectorAll('a'));

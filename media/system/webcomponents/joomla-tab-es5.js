@@ -62,7 +62,7 @@ var _createClass = function () {
       a.click();
     } }, { key: 'keyListeners', value: function keyListeners() {
       var a = this;this.querySelector('ul').addEventListener('keydown', function keyBehaviour(b) {
-        console.log(a.currentActive);var c = a.querySelector('#tab-' + a.currentActive),
+        var c = a.querySelector('#tab-' + a.currentActive),
             d = [].slice.call(a.querySelector('ul').querySelectorAll('a')),
             e = c.parentNode.previousElementSibling || d[d.length - 1],
             f = c.parentNode.nextElementSibling || d[0];if (!(b.metaKey || b.altKey)) switch (b.keyCode) {case 37:case 38:
