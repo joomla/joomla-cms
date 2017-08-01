@@ -28,6 +28,8 @@ class Database extends Installer
 {
 	protected $_context = 'com_installer.discover';
 
+	protected $changeSetList = null;
+
 	/**
 	 * Constructor.
 	 *
@@ -65,13 +67,30 @@ class Database extends Installer
 	 */
 	protected function fetchSchemaCache()
 	{
+		// We already have it
+		if ($this->changeSetList)
+		{
+			return;
+		}
+
+		// Restore it from Session
+		$changeSetList = \JFactory::getSession()->get('changeSetList');
+		$changeSetList = json_decode($changeSetList, true);
+		$this->changeSetList = $changeSetList;
+
+		if ($this->changeSetList)
+		{
+			return;
+		}
+
+		// Ok, let's generate it
 		$changeSetList = array();
 
 		try
 		{
 			$results = $this->retrieveItems();
 
-			foreach ($results as $index => $result)
+			foreach ($results as $result)
 			{
 				$errorCount = 0;
 				$errorMessage = "";
@@ -128,10 +147,11 @@ class Database extends Installer
 			return false;
 		}
 
-		$session = \JFactory::getSession();
-		$changeSetList = json_encode($changeSetList);
-		$session->set('changeSetList', $changeSetList);
-		$atest = $session->get('changeSetList');
+		// Ready
+		$this->changeSetList = $changeSetList;
+
+		// Save it for the next time
+		\JFactory::getSession()->set('changeSetList', json_encode($changeSetList));
 	}
 
 	/**
@@ -209,12 +229,7 @@ class Database extends Installer
 	 */
 	public function getItems()
 	{
-		if (!\JFactory::getSession()->get('changeSetList'))
-		{
-			$this->fetchSchemaCache();
-		}
-
-		$a = \JFactory::getSession()->get('changeSetList');
+		$this->fetchSchemaCache();
 
 		$results = $this->retrieveItems();
 		$results = $this->mergeSchemaCache($results);
@@ -285,14 +300,13 @@ class Database extends Installer
 
 	protected function mergeSchemaCache($results)
 	{
-		$session = \JFactory::getSession();
-		$changeSetList = json_decode($session->get('changeSetList'));
+		$changeSetList = $this->changeSetList;
 		$finalResults = array();
 
-		foreach ($results as $index => $result)
+		foreach ($results as $result)
 		{
 			$element = $result->element == 'joomla' ? 'com_admin' : $result->element;
-			$finalResults[$index] = $changeSetList->$element;
+			$finalResults[] = $changeSetList[$element];
 		}
 
 		return $finalResults;
