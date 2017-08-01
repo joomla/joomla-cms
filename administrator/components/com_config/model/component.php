@@ -86,8 +86,14 @@ class ConfigModelComponent extends ConfigModelForm
 		}
 
 		$lang = JFactory::getLanguage();
-		$lang->load($option, JPATH_BASE, null, false, true)
-		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
+
+		/**
+		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+		 */
+		$lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
+		$lang->load($option, JPATH_BASE, null, false, true);
 
 		return $form;
 	}
@@ -106,8 +112,14 @@ class ConfigModelComponent extends ConfigModelForm
 
 		// Load common and local language files.
 		$lang = JFactory::getLanguage();
-		$lang->load($option, JPATH_BASE, null, false, true)
-		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
+
+		/**
+		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+		 */
+		$lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
+		$lang->load($option, JPATH_BASE, null, false, true);
 
 		$result = JComponentHelper::getComponent($option);
 

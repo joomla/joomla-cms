@@ -681,9 +681,16 @@ class FieldsHelper
 
 		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
 		{
+			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
-			$lang->load($component, JPATH_ADMINISTRATOR)
-			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+
+			/**
+			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+			 */
+			$lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true);
 
 			$cName::addSubmenu('fields.' . $vName);
 		}

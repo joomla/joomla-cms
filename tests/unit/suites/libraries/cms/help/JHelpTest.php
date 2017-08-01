@@ -49,7 +49,7 @@ class JHelpTest extends TestCase
 		$this->config->set('helpurl', 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}');
 
 		// Load the admin en-GB.ini language file
-		JFactory::getLanguage()->load('', JPATH_ADMINISTRATOR);
+		JFactory::getLanguage()->load('', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**

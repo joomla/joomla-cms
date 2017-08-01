@@ -13,9 +13,16 @@ defined('_JEXEC') or die;
 
 // Get additional language strings prefixed with TPL_HATHOR
 // @todo: Do we realy need this?
+/** @var \Joomla\CMS\Language\Language $lang */
 $lang = JFactory::getLanguage();
-$lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
-|| $lang->load('tpl_hathor', JPATH_ADMINISTRATOR . '/templates/hathor/language');
+
+/**
+ * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+ *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+ *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+ */
+$lang->load('tpl_hathor', JPATH_ADMINISTRATOR . '/templates/hathor/language', null, false, true);
+$lang->load('tpl_hathor', JPATH_ADMINISTRATOR, null, false, true);
 
 $app = JFactory::getApplication();
 

@@ -127,6 +127,7 @@ class JFormFieldPlugins extends JFormFieldList
 				->order('ordering, name');
 
 			$options   = $db->setQuery($query)->loadObjectList();
+			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang      = JFactory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
 
@@ -139,7 +140,15 @@ class JFormFieldPlugins extends JFormFieldList
 			{
 				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
+
+				/**
+				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+				 */
+				$lang->load($extension . '.sys', $source, null, false, true);
+				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+
 				$options[$i]->text = JText::_($item->text);
 
 				// If we are using useglobal update the use global value text with the plugin text.

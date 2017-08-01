@@ -1262,8 +1262,13 @@ class UsersModelUser extends JModelAdmin
 			$extension = 'com_users';
 			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension, $source, null, false, true);
+			/**
+			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+			 */
+			$lang->load($extension, $source, null, false, true);
+			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true);
 
 			$warn = true;
 			$warnMessage = JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');

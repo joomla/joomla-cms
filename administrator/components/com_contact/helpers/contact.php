@@ -213,7 +213,9 @@ class ContactHelper extends JHelperContent
 	 */
 	public static function getContexts()
 	{
-		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+		/** @var \Joomla\CMS\Language\Language $lang */
+		$lang = JFactory::getLanguage();
+		$lang->load('com_contact', JPATH_ADMINISTRATOR, null, false, true);
 
 		$contexts = array(
 			'com_contact.contact'    => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),

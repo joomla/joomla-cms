@@ -44,14 +44,21 @@ class JFormFieldAliastag extends JFormFieldList
 
 			$options = $db->loadObjectList();
 
+			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 
 			foreach ($options as $i => $item)
 			{
 				$parts     = explode('.', $item->value);
 				$extension = $parts[0];
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
+
+				/**
+				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+				 */
+				$lang->load($extension, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
+				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 				$options[$i]->text = JText::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
 			}
 

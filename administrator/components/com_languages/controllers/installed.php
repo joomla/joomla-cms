@@ -35,10 +35,11 @@ class LanguagesControllerInstalled extends JControllerLegacy
 			if ($model->getState('client_id') == 1)
 			{
 				$language = JFactory::getLanguage();
+				/** @var \Joomla\CMS\Language\Language $newLang */
 				$newLang = JLanguage::getInstance($cid);
 				JFactory::$language = $newLang;
 				JFactory::getApplication()->loadLanguage($language = $newLang);
-				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
+				$newLang->load('com_languages', JPATH_ADMINISTRATOR, null, false, true);
 			}
 
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
@@ -75,11 +76,12 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		if ($model->switchAdminLanguage($cid))
 		{
 			// Switching to the new language for the message
+			/** @var \Joomla\CMS\Language\Language $language */
 			$language = JFactory::getLanguage();
 			$newLang = JLanguage::getInstance($cid);
 			JFactory::$language = $newLang;
 			JFactory::getApplication()->loadLanguage($language = $newLang);
-			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
+			$newLang->load('com_languages', JPATH_ADMINISTRATOR, null, false, true);
 
 			$msg = JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
 			$type = 'message';

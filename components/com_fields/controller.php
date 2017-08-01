@@ -32,8 +32,9 @@ class FieldsController extends JControllerLegacy
 		if ($this->input->get('view') === 'fields' && $this->input->get('layout') === 'modal')
 		{
 			// Load the backend language file.
+			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
-			$lang->load('com_fields', JPATH_ADMINISTRATOR);
+			$lang->load('com_fields', JPATH_ADMINISTRATOR, null, false, true);
 
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}

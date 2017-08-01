@@ -48,7 +48,9 @@ class JFormFieldModal_Category extends JFormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language.
-		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
+		/** @var \Joomla\CMS\Language\Language $lang */
+		$lang = JFactory::getLanguage();
+		$lang->load('com_categories', JPATH_ADMINISTRATOR, null, false, true);
 
 		// The active category id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';

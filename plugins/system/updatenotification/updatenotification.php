@@ -192,21 +192,29 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
-		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
-		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
-		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		 * solution! */
-		$jLanguage = JFactory::getLanguage();
-		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
-		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
+		/** @var \Joomla\CMS\Language\Language $lang */
+		$lang = JFactory::getLanguage();
+
+		/**
+		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+		 *
+		 * Also, we hard-code en-GB here because that's the only translation we are 100% sure is distributed with
+		 * Joomla! and complete (the site's default language might be other than en-GB and not fully translated). Since
+		 * this is an update notification email it's absolutely critical that we have zero untranslated strings. As a
+		 * result we break our rule of loading the system default language as a fall back and force English GB to be
+		 * the fallback for it.
+		 */
+		$lang->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, false);
+		$lang->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, false, true);
 
 		// Then try loading the preferred (forced) language
 		$forcedLanguage = $this->params->get('language_override', '');
 
 		if (!empty($forcedLanguage))
 		{
-			$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, $forcedLanguage, true, false);
+			$lang->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, $forcedLanguage, true, false);
 		}
 
 		// Set up the email subject and body

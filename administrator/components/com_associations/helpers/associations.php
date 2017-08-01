@@ -365,12 +365,18 @@ class AssociationsHelper extends JHelperContent
 
 		// Get the translated titles.
 		$languagePath = JPATH_ADMINISTRATOR . '/components/' . $extensionName;
+		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang         = JFactory::getLanguage();
 
-		$lang->load($extensionName . '.sys', JPATH_ADMINISTRATOR);
-		$lang->load($extensionName . '.sys', $languagePath);
-		$lang->load($extensionName, JPATH_ADMINISTRATOR);
-		$lang->load($extensionName, $languagePath);
+		/**
+		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+		 */
+		$lang->load($extensionName . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load($extensionName . '.sys', $languagePath, null, false, true);
+		$lang->load($extensionName, JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load($extensionName, $languagePath, null, false, true);
 
 		$result->def('title', JText::_(strtoupper($extensionName)));
 

@@ -147,7 +147,9 @@ class JFormFieldModal_Menu extends JFormField
 		$clientId    = (int) $this->element['clientid'];
 
 		// Load language
-		JFactory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
+		/** @var \Joomla\CMS\Language\Language $lang */
+		$lang = JFactory::getLanguage();
+		$lang->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
 
 		// The active article id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';

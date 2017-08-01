@@ -36,7 +36,9 @@ class ContenthistoryViewPreview extends JViewLegacy
 
 		if (false === $this->item)
 		{
-			JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
+			/** @var \Joomla\CMS\Language\Language $lang */
+			$lang = JFactory::getLanguage();
+			$lang->load('com_content', JPATH_SITE, null, true, true);
 
 			JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 

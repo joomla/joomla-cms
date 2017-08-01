@@ -136,8 +136,13 @@ class FinderHelperLanguage
 		// Load language file for each plugin.
 		foreach ($plugins as $plugin)
 		{
-			$lang->load($plugin->name, JPATH_ADMINISTRATOR)
-				|| $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
+			/**
+			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+			 */
+			$lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
+			$lang->load($plugin->name, JPATH_ADMINISTRATOR);
 		}
 	}
 }

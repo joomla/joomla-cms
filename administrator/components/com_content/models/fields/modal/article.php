@@ -39,7 +39,9 @@ class JFormFieldModal_Article extends JFormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
-		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		/** @var \Joomla\CMS\Language\Language $lang */
+		$lang = JFactory::getLanguage();
+		$lang->load('com_content', JPATH_ADMINISTRATOR, null, false, true);
 
 		// The active article id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';

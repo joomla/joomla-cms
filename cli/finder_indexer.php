@@ -53,12 +53,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load Library language
+/** @var \Joomla\CMS\Language\Language $lang */
 $lang = JFactory::getLanguage();
-
-// Try the finder_cli file in the current language (without allowing the loading of the file in the default language)
-$lang->load('finder_cli', JPATH_SITE, null, false, false)
-// Fallback to the finder_cli file in the default language
-|| $lang->load('finder_cli', JPATH_SITE, null, true);
+$lang->load('finder_cli', JPATH_SITE, null, false, true);
 
 /**
  * A command line cron job to run the Smart Search indexer.

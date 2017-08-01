@@ -21,7 +21,9 @@ if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 		return;
 	}
 
-	JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+	/** @var \Joomla\CMS\Language\Language $lang */
+	$lang = JFactory::getLanguage();
+	$lang->load('com_contact', JPATH_ADMINISTRATOR, null, false, true);
 }
 
 $controller = JControllerLegacy::getInstance('Contact');

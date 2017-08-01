@@ -502,6 +502,7 @@ class MenusModelItems extends JModelList
 		if (!isset($this->cache[$store]))
 		{
 			$items = parent::getItems();
+			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang  = JFactory::getLanguage();
 
 			if ($items)
@@ -510,8 +511,13 @@ class MenusModelItems extends JModelList
 				{
 					if ($extension = $item->componentname)
 					{
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-						|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+						/**
+						 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+						 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+						 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+						 */
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true);
 					}
 
 					// Translate component name

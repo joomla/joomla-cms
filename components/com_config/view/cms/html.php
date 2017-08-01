@@ -96,9 +96,16 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
+		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+
+		/**
+		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+		 */
+		$lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true);
 
 		// Prevents adding path twise
 		if (empty($this->_path['template']))

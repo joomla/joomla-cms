@@ -136,7 +136,7 @@ class PlgUserJoomla extends JPlugin
 			$lang->setLanguage($userLocale);
 		}
 
-		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
+		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR, null, false, true);
 
 		// Compute the mail subject.
 		$emailSubject = JText::sprintf(

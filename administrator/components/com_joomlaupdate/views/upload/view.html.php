@@ -33,9 +33,9 @@ class JoomlaupdateViewUpload extends JViewLegacy
 		JToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load com_installer's language
+		/** @var \Joomla\CMS\Language\Language $language */
 		$language = JFactory::getLanguage();
-		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+		$language->load('com_installer', JPATH_ADMINISTRATOR, null, false, true);
 
 		// Import com_login's model
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_login/models', 'LoginModel');

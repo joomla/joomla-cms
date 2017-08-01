@@ -731,9 +731,16 @@ class MenusModelItem extends JModelAdmin
 				if (isset($args['option']))
 				{
 					// Load the language file for the component.
+					/** @var \Joomla\CMS\Language\Language $lang */
 					$lang = JFactory::getLanguage();
-					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
+
+					/**
+					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+					 */
+					$lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
+					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true);
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);

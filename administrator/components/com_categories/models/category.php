@@ -385,8 +385,13 @@ class CategoriesModelCategory extends JModelAdmin
 
 		if (file_exists($path))
 		{
-			$lang->load($component, JPATH_BASE, null, false, true);
+			/**
+			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+			 */
 			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+			$lang->load($component, JPATH_BASE, null, false, true);
 
 			if (!$form->loadFile($path, false))
 			{
@@ -406,10 +411,15 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
 			{
-				$lang->load($component, JPATH_BASE, null, false, false)
-					|| $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
-					|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					|| $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+				/**
+				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+				 */
+
+				/** @var \Joomla\CMS\Language\Language $lang */
+				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+				$lang->load($component, JPATH_BASE, null, false, true);
 				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
 				// Check for an error.

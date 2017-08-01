@@ -67,9 +67,16 @@ class TagsViewTag extends JViewLegacy
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
+		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
-		$lang->load('com_tags', JPATH_BASE, null, false, true)
-		|| $lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
+
+		/**
+		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+		 */
+		$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
+		$lang->load('com_tags', JPATH_BASE, null, false, true);
 
 		// Get the results for each action.
 		$canDo = $this->canDo;

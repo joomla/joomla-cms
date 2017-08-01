@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 // Load the required admin language files
+/** @var \Joomla\CMS\Language\Language $lang */
 $lang   = JFactory::getLanguage();
 $app    = JFactory::getApplication();
 
@@ -22,8 +23,8 @@ if ($app->input->get('view') === 'items' && $app->input->get('layout') === 'moda
 	}
 }
 
-$lang->load('joomla', JPATH_ADMINISTRATOR);
-$lang->load('com_menus', JPATH_ADMINISTRATOR);
+$lang->load('joomla', JPATH_ADMINISTRATOR, null, false, true);
+$lang->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
 
 // Trigger the controller
 $controller = JControllerLegacy::getInstance('Menus');

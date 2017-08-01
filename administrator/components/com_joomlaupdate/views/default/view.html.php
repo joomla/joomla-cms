@@ -133,9 +133,9 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		if (is_object($warningsModel) && $warningsModel instanceof JModelLegacy)
 		{
-			$language = JFactory::getLanguage();
-			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+			/** @var \Joomla\CMS\Language\Language $lang */
+			$lang = JFactory::getLanguage();
+			$lang->load('com_installer', JPATH_ADMINISTRATOR, null, false, true);
 
 			$this->warnings = $warningsModel->getItems();
 		}

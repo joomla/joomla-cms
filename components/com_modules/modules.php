@@ -10,11 +10,12 @@
 defined('_JEXEC') or die;
 
 // Load the required admin language files
+/** @var \Joomla\CMS\Table\Language $lang */
 $lang   = JFactory::getLanguage();
 $app    = JFactory::getApplication();
 $config = array();
-$lang->load('joomla', JPATH_ADMINISTRATOR);
-$lang->load('com_modules', JPATH_ADMINISTRATOR);
+$lang->load('joomla', JPATH_ADMINISTRATOR, null, false, true);
+$lang->load('com_modules', JPATH_ADMINISTRATOR, null, false, true);
 
 if ($app->input->get('view') === 'modules' && $app->input->get('layout') === 'modal')
 {

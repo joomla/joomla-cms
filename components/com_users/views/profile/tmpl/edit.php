@@ -14,8 +14,9 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Load user_profile plugin language
+/** @var \Joomla\CMS\Language\Language $lang */
 $lang = JFactory::getLanguage();
-$lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
+$lang->load('plg_user_profile', JPATH_ADMINISTRATOR, null, false, true);
 
 ?>
 <div class="profile-edit<?php echo $this->pageclass_sfx; ?>">

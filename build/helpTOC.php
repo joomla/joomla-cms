@@ -38,7 +38,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load the admin en-GB.ini language file to get the JHELP language keys
-Factory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
+$lang = Factory::getLanguage();
+$lang->load('joomla', JPATH_ADMINISTRATOR, null, false, true);
 
 /**
  * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view.

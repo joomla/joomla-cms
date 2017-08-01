@@ -260,7 +260,9 @@ class ContentHelper extends JHelperContent
 	 */
 	public static function getContexts()
 	{
-		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		/** @var \Joomla\CMS\Language\Language $lang */
+		$lang = JFactory::getLanguage();
+		$lang->load('com_content', JPATH_ADMINISTRATOR, null, false, true);
 
 		$contexts = array(
 			'com_content.article'    => JText::_('COM_CONTENT'),

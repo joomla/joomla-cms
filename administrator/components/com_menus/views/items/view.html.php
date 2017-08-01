@@ -47,6 +47,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -100,8 +101,13 @@ class MenusViewItems extends JViewLegacy
 				case 'component':
 				default:
 					// Load language
-						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, true);
+					/**
+					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+					 */
+					$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, true);
+					$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 
 					if (!empty($item->componentname))
 					{
@@ -151,8 +157,13 @@ class MenusViewItems extends JViewLegacy
 								$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
 
 								// Load template language file
-								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
-								||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
+								/**
+								 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+								 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+								 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+								 */
+								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
+								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true);
 							}
 							else
 							{

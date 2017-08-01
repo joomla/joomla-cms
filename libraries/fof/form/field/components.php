@@ -217,16 +217,21 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 			}
 		}
 
+		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = $platform->getLanguage();
 
 		switch ($type)
 		{
 			case 'component':
 				$source = JPATH_ADMINISTRATOR . '/components/' . $item->element;
-				$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load("$item->element.sys", $source, null, false, false)
-					||	$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load("$item->element.sys", $source, $lang->getDefault(), false, false);
+
+				/**
+				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
+				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
+				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
+				 */
+				$lang->load("{$item->element}.sys", $source, null, false, true);
+				$lang->load("{$item->element}.sys", JPATH_ADMINISTRATOR, null, false, true);
 				break;
 		}
 
