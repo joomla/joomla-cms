@@ -2223,7 +2223,7 @@ class Form
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('JForm::getInstance could not load file');
+					throw new \RuntimeException('JForm::getInstance could not load file ' . $data);
 				}
 			}
 		}
