@@ -716,53 +716,61 @@ class Language
 			$lang = $this->lang;
 		}
 
-		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
-		// with $default set to true
+		/**
+		 * Load the default language first if we're not debugging and a non-default language is requested to be loaded
+		 * with $default set to true. This allows us to fill in missing language strings in the current language with
+		 * translations from the site's default language.
+		 */
 		if (!$this->debug && ($lang != $this->default) && $default)
 		{
 			$this->load($extension, $basePath, $this->default, false, true);
 		}
 
-		$path = LanguageHelper::getLanguagePath($basePath, $lang);
-
+		$path     = LanguageHelper::getLanguagePath($basePath, $lang);
 		$internal = $extension == 'joomla' || $extension == '';
 		$filename = $internal ? $lang : $lang . '.' . $extension;
 		$filename = "$path/$filename.ini";
 
+		// If the language file is already loaded and we're not asked to forcibly reload it return the cached result
 		if (isset($this->paths[$extension][$filename]) && !$reload)
 		{
-			// This file has already been tested for loading.
-			$result = $this->paths[$extension][$filename];
+			return $this->paths[$extension][$filename];
 		}
-		else
+
+		// Load the language file
+		$result = $this->loadLanguage($filename, $extension);
+
+		/**
+		 * Return if the file loaded correctly -OR- if it failed to load but we're told not to load the default language
+		 * -OR- if it failed but we're in debug mode. Do note that when Debug Language is set to Yes we are not falling
+		 * back to the default language. We show untranslated strings so the developer can spot them and fix them.
+		 */
+		if (($result !== false) || !$default || $this->debug)
 		{
-			// Load the language file
-			$result = $this->loadLanguage($filename, $extension);
-
-			// Check whether there was a problem with loading the file
-			if ($result === false && $default)
-			{
-				// No strings, so either file doesn't exist or the file is invalid
-				$oldFilename = $filename;
-
-				// Check the standard file name
-				if (!$this->debug)
-				{
-					$path = LanguageHelper::getLanguagePath($basePath, $this->default);
-
-					$filename = $internal ? $this->default : $this->default . '.' . $extension;
-					$filename = "$path/$filename.ini";
-
-					// If the one we tried is different than the new name, try again
-					if ($oldFilename != $filename)
-					{
-						$result = $this->loadLanguage($filename, $extension, false);
-					}
-				}
-			}
+			return $result;
 		}
 
-		return $result;
+		/**
+		 * If we're here, loading the language failed (missing or invalid file), Debug Language is set to No, therefore
+		 * we have to load the default language.
+		 */
+
+		// Remember which file we tried -but failed- to load
+		$oldFilename = $filename;
+
+		// Find the default language file
+		$path     = LanguageHelper::getLanguagePath($basePath, $this->default);
+		$filename = $internal ? $this->default : $this->default . '.' . $extension;
+		$filename = "$path/$filename.ini";
+
+		// The file we failed to load is the same file as the default one. We have to give up.
+		if ($oldFilename == $filename)
+		{
+			return $result;
+		}
+
+		// Finally, try to load the default language file and return its result
+		return $this->loadLanguage($filename, $extension);
 	}
 
 	/**
