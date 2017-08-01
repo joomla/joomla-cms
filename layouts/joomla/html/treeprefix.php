@@ -22,5 +22,5 @@ extract($displayData);
 
 if ($level > 1)
 {
-	echo '<span class="text-muted">' . str_repeat('&#8942;&nbsp;&nbsp;&nbsp;', (int) $level - 2) . '</span>&ndash;&nbsp;';
+	echo str_repeat('&#8942;&nbsp;&nbsp;&nbsp;', (int) $level - 2) . '&ndash;&nbsp;';
 }
