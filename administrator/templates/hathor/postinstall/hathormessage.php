@@ -127,7 +127,6 @@ function hathormessage_postinstall_action()
 	}
 
 	// The postinstall component load the language to late... so we need to make sure it is loaded here.
-	/** @var \Joomla\CMS\Language\Language $lang */
 	$lang = JFactory::getLanguage();
 	$lang->load('tpl_hathor', JPATH_ADMINISTRATOR, null, false, true);
 

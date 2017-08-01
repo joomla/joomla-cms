@@ -416,8 +416,6 @@ class CategoriesModelCategory extends JModelAdmin
 				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
 				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
 				 */
-
-				/** @var \Joomla\CMS\Language\Language $lang */
 				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 				$lang->load($component, JPATH_BASE, null, false, true);
 				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));

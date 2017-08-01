@@ -350,7 +350,6 @@ class UsersHelper
 	 */
 	public static function getContexts()
 	{
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 		$lang->load('com_users', JPATH_ADMINISTRATOR, null, false, true);
 

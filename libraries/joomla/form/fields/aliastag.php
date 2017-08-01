@@ -44,7 +44,6 @@ class JFormFieldAliastag extends JFormFieldList
 
 			$options = $db->loadObjectList();
 
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 
 			foreach ($options as $i => $item)

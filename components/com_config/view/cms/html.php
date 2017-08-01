@@ -96,7 +96,6 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 
 		/**

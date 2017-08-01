@@ -502,7 +502,6 @@ class MenusModelItems extends JModelList
 		if (!isset($this->cache[$store]))
 		{
 			$items = parent::getItems();
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang  = JFactory::getLanguage();
 
 			if ($items)

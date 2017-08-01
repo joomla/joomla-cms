@@ -67,7 +67,6 @@ class TagsViewTag extends JViewLegacy
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 
 		/**

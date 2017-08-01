@@ -217,7 +217,6 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 			}
 		}
 
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = $platform->getLanguage();
 
 		switch ($type)

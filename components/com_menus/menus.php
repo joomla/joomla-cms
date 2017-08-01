@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 // Load the required admin language files
-/** @var \Joomla\CMS\Language\Language $lang */
 $lang   = JFactory::getLanguage();
 $app    = JFactory::getApplication();
 

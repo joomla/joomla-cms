@@ -365,7 +365,6 @@ class AssociationsHelper extends JHelperContent
 
 		// Get the translated titles.
 		$languagePath = JPATH_ADMINISTRATOR . '/components/' . $extensionName;
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang         = JFactory::getLanguage();
 
 		/**

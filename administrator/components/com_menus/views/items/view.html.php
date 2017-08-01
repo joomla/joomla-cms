@@ -47,7 +47,6 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');

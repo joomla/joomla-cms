@@ -16,7 +16,6 @@ JHtml::_('formbehavior.chosen');
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
-/** @var \Joomla\CMS\Language\Language $lang */
 $lang = JFactory::getLanguage();
 $lang->load('com_finder', JPATH_SITE, null, false, true);
 

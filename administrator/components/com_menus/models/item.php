@@ -731,7 +731,6 @@ class MenusModelItem extends JModelAdmin
 				if (isset($args['option']))
 				{
 					// Load the language file for the component.
-					/** @var \Joomla\CMS\Language\Language $lang */
 					$lang = JFactory::getLanguage();
 
 					/**

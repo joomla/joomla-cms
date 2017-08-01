@@ -192,7 +192,6 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 
 		/**

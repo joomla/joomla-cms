@@ -48,7 +48,6 @@ class JFormFieldComponents extends JFormFieldList
 
 		if ($items)
 		{
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 
 			foreach ($items as &$item)

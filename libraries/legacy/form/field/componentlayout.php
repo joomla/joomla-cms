@@ -75,7 +75,6 @@ class JFormFieldComponentlayout extends JFormField
 		if ($extension && $view && $client)
 		{
 			// Load language file
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 
 			/**

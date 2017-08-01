@@ -973,7 +973,6 @@ class FieldsModelField extends JModelAdmin
 
 		if (file_exists($path))
 		{
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 
 			/**

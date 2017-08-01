@@ -75,7 +75,6 @@ class MenusModelMenutypes extends JModelLegacy
 	{
 		jimport('joomla.filesystem.file');
 
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 		$list = array();
 

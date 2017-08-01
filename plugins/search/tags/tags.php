@@ -61,7 +61,6 @@ class PlgSearchTags extends JPlugin
 		$query = $db->getQuery(true);
 		$app   = JFactory::getApplication();
 		$user  = JFactory::getUser();
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang  = JFactory::getLanguage();
 
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');

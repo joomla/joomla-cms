@@ -127,7 +127,6 @@ class JFormFieldPlugins extends JFormFieldList
 				->order('ordering, name');
 
 			$options   = $db->setQuery($query)->loadObjectList();
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang      = JFactory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
 

@@ -681,7 +681,6 @@ class FieldsHelper
 
 		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
 		{
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 
 			/**

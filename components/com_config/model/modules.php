@@ -123,7 +123,6 @@ class ConfigModelModules extends ConfigModelForm
 	 */
 	public function getPositions()
 	{
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang         = JFactory::getLanguage();
 		$templateName = JFactory::getApplication()->getTemplate();
 

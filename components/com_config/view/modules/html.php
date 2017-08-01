@@ -31,7 +31,6 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 	 */
 	public function render()
 	{
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getApplication()->getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR, null, false, true);
 		$lang->load('com_modules', JPATH_ADMINISTRATOR, null, false, true);

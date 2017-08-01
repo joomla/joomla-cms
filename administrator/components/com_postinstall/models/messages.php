@@ -193,7 +193,6 @@ class PostinstallModelMessages extends FOFModel
 
 		$options = array();
 
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 		$lang->load('files_joomla.sys', JPATH_SITE, null, false, false);
 

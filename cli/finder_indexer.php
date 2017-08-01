@@ -53,7 +53,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load Library language
-/** @var \Joomla\CMS\Language\Language $lang */
 $lang = JFactory::getLanguage();
 $lang->load('finder_cli', JPATH_SITE, null, false, true);
 

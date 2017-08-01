@@ -89,7 +89,6 @@ class ConfigModelTemplates extends ConfigModelForm
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 
 		$template = JFactory::getApplication()->getTemplate();

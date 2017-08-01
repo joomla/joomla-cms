@@ -225,7 +225,6 @@ abstract class JHtmlUsers
 		else
 		{
 			$db = JFactory::getDbo();
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 			$query = $db->getQuery(true)
 				->select('name')

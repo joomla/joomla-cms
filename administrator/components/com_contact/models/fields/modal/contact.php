@@ -39,7 +39,6 @@ class JFormFieldModal_Contact extends JFormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 		$lang->load('com_contact', JPATH_ADMINISTRATOR, null, false, true);
 

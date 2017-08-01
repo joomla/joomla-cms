@@ -613,7 +613,6 @@ abstract class JToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, null, false, true);
 		$contentTypeTable = JTable::getInstance('Contenttype');

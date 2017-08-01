@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 // Get additional language strings prefixed with TPL_HATHOR
 // @todo: Do we realy need this?
-/** @var \Joomla\CMS\Language\Language $lang */
 $lang = JFactory::getLanguage();
 
 /**

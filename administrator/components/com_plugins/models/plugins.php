@@ -194,7 +194,6 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function translate(&$items)
 	{
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 
 		foreach ($items as &$item)

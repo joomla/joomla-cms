@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 // Load the com_contenthistory language files, default to the admin file and fall back to site if one isn't found
-/** @var \Joomla\CMS\Language\Language $lang */
 $lang = JFactory::getLanguage();
 
 /**

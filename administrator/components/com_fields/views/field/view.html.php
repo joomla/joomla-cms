@@ -91,7 +91,6 @@ class FieldsViewField extends JViewLegacy
 		}
 
 		// Load component language file
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang = JFactory::getLanguage();
 
 		/**

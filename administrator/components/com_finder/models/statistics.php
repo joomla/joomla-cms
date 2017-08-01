@@ -64,7 +64,6 @@ class FinderModelStatistics extends JModelLegacy
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 
-		/** @var \Joomla\CMS\Language\Language $lang */
 		$lang  = JFactory::getLanguage();
 		$plugins = JPluginHelper::getPlugin('finder');
 

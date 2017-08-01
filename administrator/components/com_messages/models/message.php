@@ -354,7 +354,6 @@ class MessagesModelMessage extends JModelAdmin
 			$toUser           = JUser::getInstance($table->user_id_to);
 			$debug            = JFactory::getConfig()->get('debug_lang');
 			$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang             = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR, null, false, true);
 

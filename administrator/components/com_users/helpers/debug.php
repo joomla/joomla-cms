@@ -39,7 +39,6 @@ class UsersHelperDebug
 
 		if (count($items))
 		{
-			/** @var \Joomla\CMS\Language\Language $lang */
 			$lang = JFactory::getLanguage();
 
 			foreach ($items as &$item)
@@ -126,7 +125,6 @@ class UsersHelperDebug
 				}
 
 				// Load language
-				/** @var \Joomla\CMS\Language\Language $lang */
 				$lang = JFactory::getLanguage();
 				$extension = 'com_config';
 				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
