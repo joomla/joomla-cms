@@ -135,6 +135,19 @@ class Database extends Installer
 				$db  = $this->getDbo();
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
 
+				// If the extension don't follow the standarts to place the
+				// update sql files we don't support it
+				if(!file_exists($folderTmp))
+				{
+					$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type);
+
+					$folderTmp = (string) $installationXML->update->schemas->schemapath[0];
+
+					$a = explode("/", $folderTmp);
+					array_pop($a);
+					$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . "/" . implode("/", $a);
+				}
+
 				$changeset = new ChangeSet($db, $folderTmp);
 
 				// If the version in the #__schemas is different
@@ -244,10 +257,9 @@ class Database extends Installer
 		foreach ($elementArray as $i => $element)
 		{
 			$changeSet = $changeSetList[$element];
-
 			$changeSet['changeset'] = new ChangeSet($db, $changeSet['folderTmp']);
-
 			$changeSet['changeset']->fix();
+
 			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']['extension_id']);
 			$this->fixUpdateVersion($changeSet['extension']['extension_id']);
 
@@ -368,7 +380,11 @@ class Database extends Installer
 		foreach ($results as $result)
 		{
 			$element = $result->element == 'joomla' ? 'com_admin' : $result->element;
-			$finalResults[] = $changeSetList[$element];
+
+			if($changeSetList[$element])
+			{
+				$finalResults[] = $changeSetList[$element];
+			}
 		}
 
 		return $finalResults;
