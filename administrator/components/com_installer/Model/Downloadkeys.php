@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
  * Installer Download Keys Model
@@ -70,6 +71,18 @@ class Downloadkeys extends Installer
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
 		parent::populateState($ordering, $direction);
+	}
+
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		foreach($items as $item)
+		{
+			$item->extra_query = InstallerHelper::getDownloadKey($item);
+		}
+
+		return $items;
 	}
 
 	/**

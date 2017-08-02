@@ -69,9 +69,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<tbody>
 						<?php $itemsSkipped = 0; ?>
 						<?php foreach ($this->items as $i => $item) : ?>
-							<?php $extraQuery = InstallerHelper::getExtraQuery($item->update_site_id);?>
-
-							<?php if ($extraQuery['prefix'] == null): ?>
+							<?php if ($item->extra_query == null): ?>
 								<?php $itemsSkipped++; ?>
 								<?php continue; ?>
 							<?php endif;?>
@@ -107,7 +105,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->update_site_id; ?>
 								</td>
 								<td>
-									<?php echo $extraQuery['value'] ? $extraQuery['value'] : \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+									<?php echo $item->extra_query['value'] ? $item->extra_query['value'] : \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>

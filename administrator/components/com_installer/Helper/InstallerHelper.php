@@ -164,27 +164,17 @@ class InstallerHelper
 	}
 
 	/**
-	 * Get the extra_query of an update site.
+	 * Get the Installation XML of a given extension
 	 *
-	 * @param   int  $updateSiteId  The update_site_id of the extension.
+	 * @param   object  $extension  item from #__extensions
 	 *
-	 * @return  array  Array with the prefix, value and sufix of the extra_query of the update site.
+	 * @return  SimpleXMLElement  Installation XML
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getExtraQuery($updateSiteId)
+	public static function getInstallationXML($extension)
 	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('client_id, element, folder, e.type, extra_query')
-			->from('#__update_sites AS s')
-			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
-			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
-			->where($db->quoteName('s.update_site_id') . ' = ' . $updateSiteId);
-		$db->setQuery($query);
-		$element = $db->loadObject();
-
-		if ($element->client_id)
+		if ($extension->client_id)
 		{
 			$path = JPATH_ADMINISTRATOR;
 		}
@@ -193,47 +183,66 @@ class InstallerHelper
 			$path = JPATH_ROOT;
 		}
 
-		switch ($element->type)
+		switch ($extension->type)
 		{
 			case 'component':
-				$path .= '/components/' . $element->element . '/' . substr($element->element, 4) . '.xml';
+				$path .= '/components/' . $extension->element . '/' . substr($extension->element, 4) . '.xml';
 				break;
 			case 'plugin':
-				$path .= '/plugins/' . $element->folder . '/' . $element->element . '/' . $element->element . '.xml';
+				$path .= '/plugins/' . $extension->folder . '/' . $extension->element . '/' . $extension->element . '.xml';
 				break;
 			case 'module':
-				$path .= '/modules/' . $element->element . '/' . $element->element . '.xml';
+				$path .= '/modules/' . $extension->element . '/' . $extension->element . '.xml';
 				break;
 			case 'template':
-				$path .= '/templates/' . $element->element . '/templateDetails.xml';
+				$path .= '/templates/' . $extension->element . '/templateDetails.xml';
 				break;
 			case 'library':
-				$path = JPATH_ADMINISTRATOR . '/manifests/libraries/' . $element->element . '.xml';
+				$path = JPATH_ADMINISTRATOR . '/manifests/libraries/' . $extension->element . '.xml';
 				break;
 			case 'file':
-				$path = JPATH_ADMINISTRATOR . '/manifests/files/' . $element->element . '.xml';
+				$path = JPATH_ADMINISTRATOR . '/manifests/files/' . $extension->element . '.xml';
 				break;
 			case 'package':
-				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element->element . '.xml';
+				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $extension->element . '.xml';
 		}
 
-		$installXmlFile = simplexml_load_file($path);
+		return $installXmlFile = simplexml_load_file($path);
+	}
 
-		$prefix = $installXmlFile->dlid['prefix'];
-		$sufix = $installXmlFile->dlid['sufix'];
-		$value = substr($element->extra_query, strlen($prefix));
+	/**
+	 * Get the download key of an extension going through their installation xml
+	 *
+	 * @param   object  $extension element of an extension
+	 *
+	 * @return  array  An array with the prefix, suffix and value of the download key
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDownloadKey($extension)
+	{
+		$installXmlFile = InstallerHelper::getInstallationXML($extension);
+
+		if(!isset($installXmlFile->dlid))
+		{
+			return null;
+		}
+
+		$prefix = (string) $installXmlFile->dlid['prefix'];
+		$sufix = (string) $installXmlFile->dlid['sufix'];
+		$value = substr($extension->extra_query, strlen($prefix));
 
 		if ($sufix != null)
 		{
 			$value = substr($value, 0, -strlen($sufix));
 		}
 
-		$extraQuery = array(
+		$downloadKey = array(
 			'prefix'  => $prefix,
 			'sufix'   => $sufix,
 			'value'   => $value
 		);
 
-		return $extraQuery;
+		return $downloadKey;
 	}
 }

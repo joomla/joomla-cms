@@ -20,22 +20,4 @@ use Joomla\CMS\Controller\Form;
  */
 class Downloadkey extends Form
 {
-	/**
-	 * Add the prefix and suffix of the download key before saving it into extra_query
-	 *
-	 * @return  void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function save()
-	{
-		$prefix = $this->input->getString('dlidprefix');
-		$sufix = $this->input->getString('dlidsufix');
-
-		$input = $this->input->post->get('jform', array(), 'array');
-		$input['extra_query'] = $prefix . $input['extra_query'] . $sufix;
-		$this->input->post->set('jform', $input);
-
-		parent::save();
-	}
 }

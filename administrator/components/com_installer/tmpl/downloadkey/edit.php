@@ -20,7 +20,7 @@ if ($this->modal != null)
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . (int) $this->item->update_site_id . $tmp); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . (int) $this->item->update_site_id . $tmp); ?>"
 	  method="post" name="adminForm" id="adminForm">
 	<div class="form-horizontal">
 		<fieldset class="adminform">
