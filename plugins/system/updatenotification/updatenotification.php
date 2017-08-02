@@ -146,7 +146,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		$update = array_pop($updates);
 
 		// Check the available version. If it's the same as the installed version we have no updates to notify about.
-		if (version_compare($update->version, JVERSION, 'eq'))
+		if (version_compare($update->version, JVERSION, 'le'))
 		{
 			return;
 		}
