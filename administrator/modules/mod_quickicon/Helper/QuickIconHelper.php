@@ -103,7 +103,7 @@ abstract class QuickIconHelper
 				{
 					$default = array(
 						'link'   => null,
-						'image'  => 'cog',
+						'image'  => 'fa fa-cog',
 						'text'   => null,
 						'access' => true,
 						'group'  => 'MOD_QUICKICON_EXTENSIONS',
