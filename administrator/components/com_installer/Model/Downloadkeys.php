@@ -73,11 +73,18 @@ class Downloadkeys extends Installer
 		parent::populateState($ordering, $direction);
 	}
 
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
 
-		foreach($items as $item)
+		foreach ($items as $item)
 		{
 			$item->extra_query = InstallerHelper::getDownloadKey($item);
 		}

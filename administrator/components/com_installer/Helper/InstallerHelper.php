@@ -213,7 +213,7 @@ class InstallerHelper
 	/**
 	 * Get the download key of an extension going through their installation xml
 	 *
-	 * @param   object  $extension element of an extension
+	 * @param   object  $extension  element of an extension
 	 *
 	 * @return  array  An array with the prefix, suffix and value of the download key
 	 *
@@ -221,9 +221,9 @@ class InstallerHelper
 	 */
 	public static function getDownloadKey($extension)
 	{
-		$installXmlFile = InstallerHelper::getInstallationXML($extension);
+		$installXmlFile = getInstallationXML($extension);
 
-		if(!isset($installXmlFile->dlid))
+		if (!isset($installXmlFile->dlid))
 		{
 			return null;
 		}
