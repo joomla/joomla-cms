@@ -137,7 +137,7 @@ class Database extends Installer
 
 				// If the extension don't follow the standarts to place the
 				// update sql files we don't support it
-				if(!file_exists($folderTmp))
+				if (!file_exists($folderTmp))
 				{
 					$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type);
 
@@ -164,7 +164,7 @@ class Database extends Installer
 				// version in the installation xml, add to problems message
 				$compareUpdateMessage = $this->compareUpdateVersion($result);
 
-				if($compareUpdateMessage)
+				if ($compareUpdateMessage)
 				{
 					$problemsMessage .= $compareUpdateMessage;
 					$errorCount++;
@@ -175,13 +175,13 @@ class Database extends Installer
 
 				$errorsMessage = $this->getErrorsMessage($errors);
 
-				if($errorsMessage)
+				if ($errorsMessage)
 				{
 					$problemsMessage .= $errorsMessage;
 					$errorCount++;
 				}
 
-				if($errorCount)
+				if ($errorCount)
 				{
 					$problemsMessage .= "<hr>";
 				}
@@ -381,7 +381,7 @@ class Database extends Installer
 		{
 			$element = $result->element == 'joomla' ? 'com_admin' : $result->element;
 
-			if($changeSetList[$element])
+			if ($changeSetList[$element])
 			{
 				$finalResults[] = $changeSetList[$element];
 			}
@@ -469,7 +469,7 @@ class Database extends Installer
 	{
 		$updateVersion = json_decode($extension->manifest_cache)->version;
 
-		if($extension->element == 'com_admin')
+		if ($extension->element == 'com_admin')
 		{
 			$extensionVersion = JVERSION;
 		}
@@ -479,7 +479,7 @@ class Database extends Installer
 			$extensionVersion = (string) $installationXML->version;
 		}
 
-		if(version_compare($extensionVersion, $updateVersion) != 0)
+		if (version_compare($extensionVersion, $updateVersion) != 0)
 		{
 			return "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extensionVersion) . "</li>";
 		}
@@ -541,7 +541,7 @@ class Database extends Installer
 		$cache = new Registry($table->manifest_cache);
 		$updateVersion = $cache->get('version');
 
-		if($extensionId == 700)
+		if ($extensionId == 700)
 		{
 			$extensionVersion = new Version;
 			$extensionVersion = $extensionVersion->getShortVersion();

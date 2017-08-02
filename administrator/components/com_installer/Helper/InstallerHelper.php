@@ -158,6 +158,18 @@ class InstallerHelper
 		return $options;
 	}
 
+	/**
+	 * Get a list of filter options for the application statuses.
+	 *
+	 * @param   $element    string  element of an extension
+	 * @param   $type       string  type of an extension
+	 * @param   $client_id  int     client_id of an extension
+	 * @param   $folder     string  folder of an extension
+	 *
+	 * @return  array  An array of \JHtmlOption elements.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getInstallationXML($element, $type, $client_id = 1, $folder = null)
 	{
 		if ($client_id)
