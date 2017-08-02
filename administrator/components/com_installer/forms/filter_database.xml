@@ -71,7 +71,7 @@
 				type="limitbox"
 				label="JGLOBAL_LIMIT"
 				description="JGLOBAL_LIMIT"
-				default="3"
+				default="2"
 				onchange="this.form.submit();"
 		/>
 	</fields>

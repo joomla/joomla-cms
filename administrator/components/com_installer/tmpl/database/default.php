@@ -24,40 +24,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php if($this->errorCount < 0) :?>
-					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
-						<fieldset class="panelform">
-							<ul>
-								<?php if (!$this->filterParams) : ?>
-									<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
-								<?php endif; ?>
-
-								<?php if ($this->schemaVersion != $this->changeSet->core->schema) : ?>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->core->schema); ?></li>
-								<?php endif; ?>
-
-								<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
-									<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $this->updateVersion, JVERSION); ?></li>
-								<?php endif; ?>
-
-								<?php foreach ($this->errors as $line => $error) : ?>
-									<?php $key = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
-									$msgs = $error->msgElements;
-									$file = basename($error->file);
-									$msg0 = isset($msgs[0]) ? $msgs[0] : ' ';
-									$msg1 = isset($msgs[1]) ? $msgs[1] : ' ';
-									$msg2 = isset($msgs[2]) ? $msgs[2] : ' ';
-									$message = JText::sprintf($key, $file, $msg0, $msg1, $msg2); ?>
-									<li><?php echo $message; ?></li>
-								<?php endforeach; ?>
-							</ul>
-						</fieldset>
-					<?php echo JHtml::_('bootstrap.endTab'); ?>
-				<?php endif; ?>
-
-				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'otherproblems')); ?>
-				<?php echo \JHtml::_('bootstrap.addTab', 'myTab', 'otherproblems', \JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
 				<div class="control-group">
 					<?php echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<table class="table table-striped">
@@ -77,6 +43,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</th>
 								<th class="nowrap">
 									<?php echo \JText::_('COM_INSTALLER_HEADING_ERRORS'); ?>
+								</th>
+								<th class="nowrap hasPopover" data-original-title="<?php echo \JText::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
+									data-content="<?php echo \JText::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>">
+									<?php echo \JText::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
+								</th>
+								<th class="nowrap hasPopover" data-original-title="<?php echo \JText::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
+									data-content="<?php echo \JText::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>">
+									<?php echo \JText::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
@@ -100,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 								<tr class="row<?php echo $i % 2; ?>">
 									<td>
-										<?php echo JHtml::_('grid.id', $i, $extension['extension_id']); ?>
+										<?php echo JHtml::_('grid.id', $i, $extension['element']); ?>
 									</td>
 									<td>
 										<label for="cb<?php echo $i; ?>">
@@ -126,9 +100,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td>
 										<label class="badge badge-<?php echo count($item['results']['error']) > 0 ? 'danger' : ($item['errorsCount'] > 0 ? 'warning' : 'success' ); ?> hasPopover" title=""
 											data-content="<?php echo $item['errorsMessage']; ?>"
-											data-original-title="<?php echo $item['errorsCount']; ?> Errors">
+											data-original-title="<?php echo \JText::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>">
 												<?php echo \JText::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 										</label>
+									</td>
+									<td>
+										<?php echo $extension['version_id']; ?>
+									</td>
+									<td>
+										<?php echo $extension['version']; ?>
 									</td>
 									<td class="hidden-sm-down">
 										<?php echo $extension['folder_translated']; ?>
@@ -141,23 +121,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tbody>
 					</table>
 				</div>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
-					<div class="control-group">
-						<fieldset class="panelform">
-							<ul>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->changeSet['core']['schema']); ?></li>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->changeSet['core']['extension']['version_id']); ?></li>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->changeSet->core->results->ok)); ?></li>
-								<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->changeSet->core->results->skipped)); ?></li>
-							</ul>
-						</fieldset>
-					</div>
-					<?php echo JHtml::_('bootstrap.endTab'); ?>
-				<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>

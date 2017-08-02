@@ -43,16 +43,11 @@ class Html extends InstallerViewDefault
 		$app = \JFactory::getApplication();
 
 		// Get data from the model.
-		$this->changeSet        = $this->get('Items');
-		$this->pagination       = $this->get('Pagination');
-		$this->filterForm       = $this->get('FilterForm');
-		$this->activeFilters    = $this->get('ActiveFilters');
-		$this->errorCount       = 0;
-
-		foreach ($this->changeSet as $i => $changeset)
-		{
-			$this->errorCount += $changeset['errorsCount'];
-		}
+		$this->changeSet      = $this->get('Items');
+		$this->errorCount     = $this->get('ErrorCount');
+		$this->pagination     = $this->get('Pagination');
+		$this->filterForm     = $this->get('FilterForm');
+		$this->activeFilters  = $this->get('ActiveFilters');
 
 		if ($this->errorCount === 0)
 		{
@@ -82,10 +77,7 @@ class Html extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page.
 		 */
-		if ($this->errorCount != 0)
-		{
-			ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
-		}
+		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
 
 		ToolbarHelper::custom('database.findproblems', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_PROBLEMS', false);
 		ToolbarHelper::divider();

@@ -157,4 +157,42 @@ class InstallerHelper
 
 		return $options;
 	}
+
+	public static function getInstallationXML($element, $type, $client_id = 1, $folder = null)
+	{
+		if ($client_id)
+		{
+			$path = JPATH_ADMINISTRATOR;
+		}
+		else
+		{
+			$path = JPATH_ROOT;
+		}
+
+		switch ($type)
+		{
+			case 'component':
+				$path .= '/components/' . $element . '/' . substr($element, 4) . '.xml';
+				break;
+			case 'plugin':
+				$path .= '/plugins/' . $folder . '/' . $element . '/' . $element . '.xml';
+				break;
+			case 'module':
+				$path .= '/modules/' . $element . '/' . $element->element . '.xml';
+				break;
+			case 'template':
+				$path .= '/templates/' . $element . '/templateDetails.xml';
+				break;
+			case 'library':
+				$path = JPATH_ADMINISTRATOR . '/manifests/libraries/' . $element . '.xml';
+				break;
+			case 'file':
+				$path = JPATH_ADMINISTRATOR . '/manifests/files/' . $element . '.xml';
+				break;
+			case 'package':
+				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
+		}
+
+		return $installXmlFile = simplexml_load_file($path);
+	}
 }
