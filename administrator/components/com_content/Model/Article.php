@@ -883,10 +883,10 @@ class Article extends Admin
 	}
 
 	/**
-	 * Get the filter form
+	 * Runs transition for each item.
 	 *
-	 * @param   array    $pks          data
-	 * @param   array    $transitions  load current data
+	 * @param   array  $pks          ids of articles
+	 * @param   array  $transitions  ids of transitions
 	 *
 	 * @return  boolean
 	 *
