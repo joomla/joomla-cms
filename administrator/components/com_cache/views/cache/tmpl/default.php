@@ -60,7 +60,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
-								<strong><?php echo $item->group; ?></strong>
+								<strong><?php echo $this->escape($item->group); ?></strong>
 							</label>
 						</td>
 						<td>
