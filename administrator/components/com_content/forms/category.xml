@@ -11,6 +11,7 @@
 					size="1"
 			        sql_select="id, title"
 			        sql_from="#__workflows"
+			        sql_where="published = 1"
 			        key_field="id"
 			        value_field="title"
 			        required="1"

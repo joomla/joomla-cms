@@ -881,4 +881,67 @@ class Article extends Admin
 
 		return $return;
 	}
+
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $pks          data
+	 * @param   array    $transitions  load current data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0
+	 */
+	public function runTransition($pks, $transitions)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$select = $db->quoteName(
+			array(
+				'tran.id',
+				'tran.to_state_id'
+			)
+		);
+
+		$query
+			->select($select)
+			->from($db->quoteName("#__workflow_transitions", "tran"))
+			->where($db->qn("tran.id") . ' IN (' . implode(",", $transitions) . ')')
+			->andWhere($db->qn("tran.published") . '=1');
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+
+
+		foreach ($result as $k => $v)
+		{
+			$query->clear();
+			$pk = (int) $pks[array_search($v->id, $transitions)];
+
+			if ($pk > 0)
+			{
+				try
+				{
+					$query
+						->update('#__content')
+						->set(
+							array(
+								$db->qn('state') . '=' . $db->quote($v->to_state_id)
+							)
+						)
+						->where($db->qn("id") . '=' . $pk);
+					$db->setQuery($query);
+					$db->execute();
+				}
+				catch (\Exception $e)
+				{
+					$this->setError("COM_CONTENT_ERROR_UPDATE_STATE");
+
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 }

@@ -79,6 +79,9 @@ class Admin extends Controller
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
+		// Transition
+		$this->registerTask('runTransition', 'runTransition');
+
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
@@ -403,5 +406,46 @@ class Admin extends Controller
 
 		// Close the application
 		$this->app->close();
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function runTransition()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$transitions = $this->input->post->get('transition_id', -1, 'int');
+
+		// Sanitize the input
+		$pks = ArrayHelper::toInteger($pks);
+		$transitions = ArrayHelper::toInteger($transitions);
+
+		// Get the model
+		$model = $this->getModel();
+		$return = $model->runTransition($pks, $transitions);
+
+		if ($return === false)
+		{
+			// Reorder failed.
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
+			return false;
+		}
+		else
+		{
+			// Reorder succeeded.
+			$message = \JText::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+			return true;
+		}
+
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 }

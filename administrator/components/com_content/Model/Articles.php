@@ -537,8 +537,6 @@ class Articles extends ListModel
 			}
 		}
 
-		$form->setFieldAttribute('state', 'query', "", 'filter');
-
 		return $form;
 	}
 }

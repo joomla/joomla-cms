@@ -190,6 +190,8 @@ class Html extends HtmlView
 			\JToolbarHelper::trash('articles.trash');
 		}
 
+		\JToolbarHelper::custom('articles.runTransition', 'featured.png', 'featured_f2.png', 'COM_CONTENT_RUN_TRANSITIONS', true);
+
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
 		{
 			\JToolbarHelper::preferences('com_content');
