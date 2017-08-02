@@ -161,10 +161,10 @@ class InstallerHelper
 	/**
 	 * Get a list of filter options for the application statuses.
 	 *
-	 * @param   $element    string  element of an extension
-	 * @param   $type       string  type of an extension
-	 * @param   $client_id  int     client_id of an extension
-	 * @param   $folder     string  folder of an extension
+	 * @param   string  $element    element of an extension
+	 * @param   string  $type       type of an extension
+	 * @param   int     $client_id  client_id of an extension
+	 * @param   string  $folder     folder of an extension
 	 *
 	 * @return  array  An array of \JHtmlOption elements.
 	 *

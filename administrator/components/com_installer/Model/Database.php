@@ -244,7 +244,7 @@ class Database extends Installer
 	/**
 	 * Fixes database problems.
 	 *
-	 * @param   array  $extensionIdArray  list of the selected extensions to fix
+	 * @param   array  $elementArray  list of the selected extensions to fix
 	 *
 	 * @return  void|bool
 	 */
@@ -368,7 +368,7 @@ class Database extends Installer
 	/**
 	 * Merge the items that will be visible with the changeSet information in cache
 	 *
-	 * @param   array  $extensionId  id of the extensions.
+	 * @param   array  $results  extensions returned from parent::getItems().
 	 *
 	 * @return  array  the changeSetList of the merged items
 	 */
@@ -490,7 +490,7 @@ class Database extends Installer
 	/**
 	 * Get a message of the tables skipped and checked
 	 *
-	 * @param   array  $status status of of the update files
+	 * @param   array  $status  status of of the update files
 	 *
 	 * @return  string  string message with the errors with the update version or null if none
 	 */
