@@ -894,6 +894,13 @@ class Article extends Admin
 	 */
 	public function runTransition($pks, $transitions)
 	{
+		$transitions = array_filter($transitions,
+			function ($var)
+			{
+				return $var !== 0;
+			}
+		);
+
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
@@ -910,6 +917,8 @@ class Article extends Admin
 			->where($db->qn("tran.id") . ' IN (' . implode(",", $transitions) . ')')
 			->andWhere($db->qn("tran.published") . '=1');
 
+		var_dump((string) $query);
+
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
@@ -917,7 +926,7 @@ class Article extends Admin
 		foreach ($result as $k => $v)
 		{
 			$query->clear();
-			$pk = (int) $pks[array_search($v->id, $transitions)];
+			$pk = (int) $pks[0];
 
 			if ($pk > 0)
 			{
