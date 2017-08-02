@@ -119,8 +119,7 @@ abstract class JHtmlCategory
 
 			foreach ($items as &$item)
 			{
-				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-				$item->title = str_repeat('- ', $repeat) . $item->title;
+				$item->title = str_repeat('- ', $item->level) . $item->title;
 
 				if ($item->language !== '*')
 				{
