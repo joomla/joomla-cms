@@ -883,10 +883,10 @@ class Article extends Admin
 	}
 
 	/**
-	 * Get the filter form
+	 * Runs transition for each item.
 	 *
-	 * @param   array    $pks          data
-	 * @param   array    $transitions  load current data
+	 * @param   array  $pks          ids of articles
+	 * @param   array  $transitions  ids of transitions
 	 *
 	 * @return  boolean
 	 *
@@ -909,6 +909,7 @@ class Article extends Admin
 			->from($db->quoteName("#__workflow_transitions", "tran"))
 			->where($db->qn("tran.id") . ' IN (' . implode(",", $transitions) . ')')
 			->andWhere($db->qn("tran.published") . '=1');
+
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 

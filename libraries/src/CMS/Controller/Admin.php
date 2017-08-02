@@ -409,11 +409,11 @@ class Admin extends Controller
 	}
 
 	/**
-	 * Method to save the submitted ordering values for records via AJAX.
+	 * Method to run Transition by id of item.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   4.0
 	 */
 	public function runTransition()
 	{
