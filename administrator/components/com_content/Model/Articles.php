@@ -249,7 +249,7 @@ class Articles extends ListModel
 		// Filter by published state
 		$published = (string) $this->getState('filter.state');
 
-		if (is_numeric($published))
+		if (is_numeric($published) && (int) $published > 0)
 		{
 			$query->where('a.state = ' . (int) $published);
 		}
@@ -489,20 +489,16 @@ class Articles extends ListModel
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
-
-		// Get a storage key.
-		$store = $this->getStoreId('getFilterForm');
-
-		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
-			return $this->cache[$store];
-		}
-
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$items = $this->getItems();
+		$query
+			->select($db->qn("state"))
+			->from($db->qn("#__content"));
+		$db->setQuery($query);
+		$items = $db->loadAssocList();
+		$query->clear();
+
 		$form = parent::getFilterForm($data, $loadData);
 
 		if (!empty($items))
@@ -510,8 +506,6 @@ class Articles extends ListModel
 			$ids = ArrayHelper::getColumn($items, 'state');
 			$ids = ArrayHelper::toInteger($ids);
 			$ids = array_unique(array_filter($ids));
-
-			$this->cache[$store] = array();
 
 
 			if ($form && !empty($ids))
