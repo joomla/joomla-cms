@@ -40,7 +40,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			<?php echo $item->created; ?>
 		</td>
 		<td class="text-center">
-			<?php echo $item->name; ?>
+			<?php echo $item->modified; ?>
 		</td>
 		<td class="text-center">
 			<?php echo empty($item->name) ? JText::_('COM_WORKFLOW_NA') : $item->name; ?>

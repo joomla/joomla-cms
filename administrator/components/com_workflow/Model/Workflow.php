@@ -74,7 +74,7 @@ class Workflow extends Admin
 		}
 		else
 		{
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select("id")
@@ -140,7 +140,6 @@ class Workflow extends Admin
 		return $data;
 	}
 
-
 	/**
 	 * Method to change the home state of one item.
 	 *
@@ -171,13 +170,15 @@ class Workflow extends Admin
 			if ($table->load(array('default' => '1')))
 			{
 				$table->default = 0;
+				$table->modified = date("Y-m-d H:i:s");
 				$table->store();
 			}
 		}
 
 		if ($table->load(array('id' => $pk)))
 		{
-			$table->default = $value;
+			$table->modified = date("Y-m-d H:i:s");
+			$table->default  = $value;
 			$table->store();
 		}
 
@@ -218,18 +219,18 @@ class Workflow extends Admin
 		$pks   = (array) $pks;
 
 		// Default menu item existence checks.
-		if ($value != 1)
+		foreach ($pks as $i => $pk)
 		{
-			foreach ($pks as $i => $pk)
+			if ($value != 1 && $table->default)
 			{
-				if ($table->load($pk) && $table->default)
-				{
-					// Prune items that you can't change.
-					$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
-					unset($pks[$i]);
-					break;
-				}
+				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				unset($pks[$i]);
+				break;
 			}
+
+			$table->load($pk);
+			$table->modified = date("Y-m-d H:i:s");
+			$table->store();
 		}
 
 		return parent::publish($pks, $value);

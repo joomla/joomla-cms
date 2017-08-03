@@ -7,7 +7,6 @@
 				name="id"
 				type="text"
 				label="JGLOBAL_FIELD_ID_LABEL"
-				description="JGLOBAL_FIELD_ID_DESC"
 				default="0"
 				class="readonly"
 				size="10"
@@ -19,7 +18,6 @@
 				name="title"
 				type="text"
 				label="COM_WORKFLOW_FIELD_TITLE_LABEL"
-				description="COM_WORKFLOW_FIELD_TITLE_DESC"
 				class="input-xxlarge input-large-text"
 				size="40"
 				required="true"
@@ -29,7 +27,6 @@
 				name="description"
 				type="editor"
 				label="COM_WORKFLOW_FIELD_DESC_LABEL"
-				description="COM_WORKFLOW_FIELD_DESC_DESC"
 				class="input-xxlarge input-large-text"
 		/>
 
@@ -37,7 +34,6 @@
 				name="condition"
 				type="list"
 				label="COM_WORKFLOW_CONDITION"
-				description="COM_WORKFLOW_CONDITION_DESC"
 				class="input-xxlarge input-large-text"
 		        required="true"
 		>
@@ -53,7 +49,6 @@
 				name="published"
 				type="status"
 				label="COM_WORKFLOW_PUBLISHED_LABEL"
-				description="COM_WORKFLOW_PUBLISHED_DESC"
 				required="true"
 				default="1"
 		/>
@@ -61,7 +56,6 @@
 				name="default"
 				type="radio"
 				label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
-				description="COM_WORKFLOW_FIELD_IS_DEFAULT_DESC"
 				class="switcher"
 		        default="0"
 		>
@@ -74,7 +68,6 @@
 	<fieldset
 			name="permissions"
 			label="JCONFIG_PERMISSIONS_LABEL"
-			description="JCONFIG_PERMISSIONS_DESC"
 	>
 		<field name="asset_id"
 		       type="hidden"

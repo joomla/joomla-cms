@@ -7,7 +7,6 @@
                 name="id"
                 type="text"
                 label="JGLOBAL_FIELD_ID_LABEL"
-                description="JGLOBAL_FIELD_ID_DESC"
                 default="0"
                 class="readonly"
                 size="10"
@@ -23,7 +22,6 @@
                 name="title"
                 type="text"
                 label="COM_WORKFLOW_FIELD_TITLE_LABEL"
-                description="COM_WORKFLOW_FIELD_TITLE_DESC"
                 class="input-xxlarge input-large-text"
                 size="40"
                 required="true"
@@ -33,7 +31,6 @@
                 name="description"
                 type="editor"
                 label="COM_WORKFLOW_FIELD_DESC_LABEL"
-                description="COM_WORKFLOW_FIELD_DESC_DESC"
                 class="input-xxlarge input-large-text"
         />
 
@@ -45,7 +42,6 @@
                 name="published"
                 type="status"
                 label="COM_WORKFLOW_PUBLISHED_LABEL"
-                description="COM_WORKFLOW_PUBLISHED_DESC"
                 required="true"
                 default="1"
         />
@@ -54,7 +50,6 @@
                 name="default"
                 type="radio"
                 label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
-                description="COM_WORKFLOW_FIELD_IS_DEFAULT_DESC"
                 class="switcher"
                 default="0"
                 required="true"
@@ -67,7 +62,6 @@
                 name="created"
                 type="text"
                 label="COM_WORKFLOW_CREATED_LABEL"
-                description="COM_WORKFLOW_CREATED_DESC"
                 readonly="true"
         />
 
@@ -75,7 +69,6 @@
                 name="modified"
                 type="text"
                 label="COM_WORKFLOW_MODIFIED_LABEL"
-                description="COM_WORKFLOW_MODIFIED_DESC"
                 readonly="true"
         />
 
