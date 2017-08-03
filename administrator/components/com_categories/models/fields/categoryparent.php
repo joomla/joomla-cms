@@ -15,6 +15,7 @@ JFormHelper::loadFieldClass('list');
  * Category Parent field.
  *
  * @since  1.6
+ * @deprecated  4.0  Use categoryedit instead.
  */
 class JFormFieldCategoryParent extends JFormFieldList
 {
@@ -117,7 +118,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 			$db->setQuery($query);
 			$language = $db->loadResult();
 
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+			$options[$i]->text = str_repeat('b- ', $options[$i]->level) . $options[$i]->text;
 
 			if ($language !== '*')
 			{
