@@ -251,7 +251,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 			}
-
 			else
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
