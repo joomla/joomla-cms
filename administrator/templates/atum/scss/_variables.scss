@@ -112,7 +112,11 @@ $modal-header-height:              46px;
 $badge-default-bg:                 #5e7082;
 
 // Quickicons
-$quickicon-bg:                     #447aad;
+$quickicon-bg:                     $atum-template-color;
+$quickicon-text-color:             #fff;
+$quickicon-box-shadow:             0 0 5px 0 $quickicon-bg;
+$quickicon-box-shadow-success:     0 0 5px 0 lighten($brand-success, 7%);
+$quickicon-box-shadow-danger:      0 0 5px 0 lighten($brand-danger, 7%);
 
 // Gutter
 $grid-gutter-width-base:           15px !default;

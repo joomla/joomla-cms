@@ -115,9 +115,11 @@ $this->setMetaData('theme-color', '#1c3d5c');
 	<script>
 		(function() {
 			var formTmp = document.querySelector('.login-initial');
-			if (formTmp && !document.querySelector('joomla-alert')) {
+			if (formTmp) {
 				formTmp.style.display = 'block';
-				document.getElementById('mod-login-username').focus();
+				if (!document.querySelector('joomla-alert')) {
+					document.getElementById('mod-login-username').focus();
+				}
 			}
 		})();
 	</script>

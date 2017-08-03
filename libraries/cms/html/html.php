@@ -124,6 +124,15 @@ abstract class JHtml
 			}
 		}
 
+		// If calling a method from this class, do not allow access to internal methods
+		if ($className === __CLASS__)
+		{
+			if (!((new ReflectionMethod($className, $func))->isPublic()))
+			{
+				throw new InvalidArgumentException('Access to internal class methods is not allowed.');
+			}
+		}
+
 		$toCall = array($className, $func);
 
 		if (!is_callable($toCall))

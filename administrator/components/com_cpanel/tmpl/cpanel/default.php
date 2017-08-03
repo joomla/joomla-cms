@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 $user = JFactory::getUser();
 ?>
 
-<div class="quickicons-container">
+<div class="row">
 	<?php $iconmodules = JModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
 		<div class="col-md-12">
