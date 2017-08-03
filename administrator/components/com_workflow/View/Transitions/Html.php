@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Transitions;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
@@ -130,20 +131,30 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_TRANSITIONS_LIST'), 'address contact');
-		ToolbarHelper::addNew('transition.add');
-		ToolbarHelper::editList('transition.edit');
-		ToolbarHelper::publishList('transitions.publish');
-		ToolbarHelper::unpublishList('transitions.unpublish');
+		$canDo = ContentHelper::getActions($this->extension, "workflow", $this->workflowID);
 
-		if ($this->state->get("filter.published") === "-2")
+		ToolbarHelper::title(\JText::_('COM_WORKFLOW_TRANSITIONS_LIST'), 'address contact');
+
+		if ($canDo->get("core.create"))
+		{
+			ToolbarHelper::addNew('transition.add');
+		}
+
+		if ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::publishList('transitions.publish');
+			ToolbarHelper::unpublishList('transitions.unpublish');
+		}
+
+		if ($this->state->get("filter.published") === "-2" && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
 		}
-		else
+		elseif ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::trash('transitions.trash');
 		}
+
 		ToolbarHelper::help('JHELP_WORKFLOW_TRANSITIONS_LIST');
 	}
 }

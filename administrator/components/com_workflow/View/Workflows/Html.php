@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -70,6 +71,14 @@ class Html extends HtmlView
 	public $activeFilters;
 
 	/**
+	 * The name of current extension
+	 *
+	 * @var     string
+	 * @since   4.0
+	 */
+	protected $extension;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -88,10 +97,11 @@ class Html extends HtmlView
 
 		$this->state         	= $this->get('State');
 		$this->workflows    	= $this->get('Items');
-		$this->authors       	= $this->get('Authors');
 		$this->pagination    	= $this->get('Pagination');
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
+
+		$this->extension = $this->state->get('filter.extension');
 
 		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
@@ -111,20 +121,33 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
-		ToolbarHelper::addNew('workflow.add');
-		ToolbarHelper::editList('workflow.edit');
-		ToolbarHelper::publishList('workflows.publish');
-		ToolbarHelper::unpublishList('workflows.unpublish');
-		ToolbarHelper::archiveList('workflows.archive');
-		ToolbarHelper::checkin('workflows.checkin', 'JTOOLBAR_CHECKIN', true);
-		ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+		$canDo = ContentHelper::getActions($this->extension);
 
-		if ($this->state->get("filter.published") === "-2")
+		ToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
+
+		if ($canDo->get("core.create"))
+		{
+			ToolbarHelper::addNew('workflow.add');
+		}
+
+		if ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::publishList('workflows.publish');
+			ToolbarHelper::unpublishList('workflows.unpublish');
+			ToolbarHelper::archiveList('workflows.archive');
+			ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+		}
+
+		if ($canDo->get('core.admin'))
+		{
+			ToolbarHelper::checkin('workflows.checkin', 'JTOOLBAR_CHECKIN', true);
+		}
+
+		if ($this->state->get("filter.published") === "-2" && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		}
-		else
+		elseif ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::trash('workflows.trash');
 		}

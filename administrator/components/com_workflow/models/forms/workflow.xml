@@ -74,4 +74,23 @@
 
     </fieldset>
 
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL"
+    >
+        <field name="asset_id"
+               type="hidden"
+               filter="unset"/>
+        <field
+                name="rules"
+                type="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                class="inputbox"
+                validate="rules"
+                filter="rules"
+                component="com_workflow"
+                section="workflow"
+        />
+    </fieldset>
+
 </form>

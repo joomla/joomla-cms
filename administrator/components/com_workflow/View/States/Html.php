@@ -10,6 +10,8 @@ namespace Joomla\Component\Workflow\Administrator\View\States;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
@@ -70,6 +72,22 @@ class Html extends HtmlView
 	 */
 	public $activeFilters;
 
+	/**
+	 * The ID of current workflow
+	 *
+	 * @var     integer
+	 * @since   4.0
+	 */
+	protected $workflowID;
+
+	/**
+	 * The name of current extension
+	 *
+	 * @var     string
+	 * @since   4.0
+	 */
+	protected $extension;
+
 
 	/**
 	 * Display the view
@@ -97,6 +115,7 @@ class Html extends HtmlView
 		WorkflowHelper::callMethodFromHelper($this->state->get("filter.extension"), "addSubmenu", "states");
 		$this->sidebar       = \JHtmlSidebar::render();
 
+		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
 
 		if (!empty($this->states))
@@ -121,20 +140,33 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATES_LIST'), 'address contact');
-		ToolbarHelper::addNew('state.add');
-		ToolbarHelper::editList('state.edit');
-		ToolbarHelper::publishList('states.publish');
-		ToolbarHelper::unpublishList('states.unpublish');
-		ToolbarHelper::archiveList('states.archive');
-		ToolbarHelper::checkin('states.checkin', 'JTOOLBAR_CHECKIN', true);
-		ToolbarHelper::makeDefault('states.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+		$canDo = ContentHelper::getActions($this->extension, "workflow", $this->workflowID);
 
-		if ($this->state->get("filter.published") === "-2")
+		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATES_LIST'), 'address contact');
+
+		if ($canDo->get("core.create"))
+		{
+			ToolbarHelper::addNew('state.add');
+		}
+
+		if ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::publishList('states.publish');
+			ToolbarHelper::unpublishList('states.unpublish');
+			ToolbarHelper::archiveList('states.archive');
+			ToolbarHelper::makeDefault('states.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+		}
+
+		if ($canDo->get('core.admin'))
+		{
+			ToolbarHelper::checkin('states.checkin', 'JTOOLBAR_CHECKIN', true);
+		}
+
+		if ($this->state->get("filter.published") === "-2" && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
 		}
-		else
+		elseif ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::trash('states.trash');
 		}

@@ -77,6 +77,10 @@ $this->form->setFieldAttribute('modified', 'default', date("Y-m-d H:i:s"));
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_WORKFLOW_RULES_TAB')); ?>
+		<?php echo $this->form->getInput('rules'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<?php echo $this->form->getInput('extension'); ?>
