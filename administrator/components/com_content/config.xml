@@ -497,7 +497,7 @@
 
 		<field
 			name="image_fulltext_class"
-			type="media"
+			type="text"
 			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
 			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
