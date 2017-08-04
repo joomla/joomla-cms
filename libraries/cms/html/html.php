@@ -756,8 +756,8 @@ abstract class JHtml
 			return;
 		}
 
-		// core.js is responsible for the polyfills and the async loading of the web components
-		JHtml::_('behavior.core');
+		// Script core.js is responsible for the polyfills and the async loading of the web components
+		static::_('behavior.core');
 
 		foreach ($component as $key => $value)
 		{
