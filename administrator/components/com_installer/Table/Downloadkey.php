@@ -19,7 +19,6 @@ use Joomla\CMS\Table\Table;
  */
 class Downloadkey extends Table
 {
-
 	/**
 	 * Constructor
 	 *

@@ -95,20 +95,18 @@ class Downloadkey extends Admin
 					)
 				)
 			)
-			->from('#__update_sites AS s')
-			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
-			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
-			->where('s.update_site_id' . ' = ' . $item->update_site_id);
+			->from($db->quoteName('#__update_sites', 's'))
+			->innerJoin($db->quoteName('#__update_sites_extensions', 'se') . ' ON ' . $db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id'))
+			->innerJoin($db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id'))
+			->where($db->quoteName('s.update_site_id') . ' = ' . $db->quote($item->update_site_id));
 		$db->setQuery($query);
 		$extension = $db->loadObject();
 
 		$downloadKey = InstallerHelper::getDownloadKey($extension);
 
-		$app = \JFactory::getApplication();
-		$app->setUserState('prefix', $downloadKey['prefix']);
-		$app->setUserState('suffix', $downloadKey['dlidsuffix']);
-
 		$item->extra_query = $downloadKey['value'];
+		$item->dlidprefix  = $downloadKey['prefix'];
+		$item->dlidsuffix  = $downloadKey['suffix'];
 
 		return $item;
 	}
@@ -124,11 +122,7 @@ class Downloadkey extends Admin
 	 */
 	public function save($data)
 	{
-		$app = \JFactory::getApplication();
-		$prefix = $app->getUserState('prefix');
-		$suffix = $app->getUserState('suffix');
-
-		$data['extra_query'] = $prefix . $data['extra_query'] . $suffix;
+		$data['extra_query'] = $data['dlidprefix'] . $data['extra_query'] . $data['dlidsuffix'];
 
 		return parent::save($data);
 	}

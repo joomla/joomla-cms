@@ -26,5 +26,13 @@
                 class="input-xxlarge"
                 default=""
         />
+        <field
+                name="dlidprefix"
+                type="hidden"
+        />
+        <field
+                name="dlidsuffix"
+                type="hidden"
+        />
     </fieldset>
 </form>

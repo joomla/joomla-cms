@@ -120,9 +120,9 @@ class Downloadkeys extends Installer
 					'e.manifest_cache',
 				)
 			)
-			->from('#__update_sites AS s')
-			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
-			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
+			->from($db->quoteName('#__update_sites', 's'))
+			->innerJoin($db->quoteName('#__update_sites_extensions', 'se') . ' ON ' . $db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id'))
+			->innerJoin($db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id'))
 			->where('location not like \'%.joomla.org/%\''
 			);
 
@@ -134,22 +134,22 @@ class Downloadkeys extends Installer
 
 		if ($enabled != '')
 		{
-			$query->where('s.enabled = ' . (int) $enabled);
+			$query->where($db->quoteName('s.enabled') . ' = ' . $db->quote((int) $enabled));
 		}
 
 		if ($type)
 		{
-			$query->where('e.type = ' . $this->_db->quote($type));
+			$query->where($db->quoteName('e.type') . ' = ' . $db->quote($type));
 		}
 
 		if ($clientId != '')
 		{
-			$query->where('e.client_id = ' . (int) $clientId);
+			$query->where($db->quoteName('e.client_id') . ' = ' . $db->quote((int) $clientId));
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('e.folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+			$query->where($db->quoteName('e.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
 		}
 
 		// Process search filter (update site id).
@@ -157,7 +157,7 @@ class Downloadkeys extends Installer
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-			$query->where('s.update_site_id = ' . (int) substr($search, 3));
+			$query->where($db->quoteName('s.update_site_id') . ' = ' . $db->quote((int) substr($search, 3)));
 		}
 
 		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).

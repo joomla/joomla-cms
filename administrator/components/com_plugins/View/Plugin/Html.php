@@ -114,7 +114,7 @@ class Html extends HtmlView
 
 		if (isset($this->item->xml->dlid))
 		{
-			\JToolbarHelper::downloadkey('Download Key', $this->item->extension_id);
+			\JToolbarHelper::downloadkey('JGLOBAL_DOWNLOAD_KEY_MODAL_BUTTON', $this->item->extension_id);
 		}
 	}
 }

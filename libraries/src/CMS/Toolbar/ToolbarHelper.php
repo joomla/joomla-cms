@@ -718,7 +718,7 @@ abstract class ToolbarHelper
 	}
 
 	/**
-	 * Displays a modal button
+	 * Displays a modal button for the extensions that have a download key
 	 *
 	 * @param   string  $alt          Title for the modal button.
 	 * @param   string  $extensionId  Id of the extension.
@@ -733,9 +733,9 @@ abstract class ToolbarHelper
 		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('s.update_site_id'))
-			->from('#__update_sites AS s')
-			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
-			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)');
+			->from($db->quoteName('#__update_sites', 's'))
+			->innerJoin($db->quoteName('#__update_sites_extensions', 'se') . ' ON ' . $db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id'))
+			->innerJoin($db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id'));
 
 		if ($module == null)
 		{
@@ -761,7 +761,7 @@ abstract class ToolbarHelper
 			'bootstrap.renderModal',
 			'download_key_modal',
 			array(
-				'title' => 'Download key modal',
+				'title' => \JText::_('JGLOBAL_DOWNLOAD_KEY_MODAL_TITLE'),
 				'bodyHeight'  => '45',
 				'modalWidth'  => '80',
 				'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'

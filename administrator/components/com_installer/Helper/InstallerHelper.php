@@ -174,13 +174,11 @@ class InstallerHelper
 	 */
 	public static function getInstallationXML($extension)
 	{
+		$path = JPATH_ROOT;
+
 		if ($extension->client_id)
 		{
 			$path = JPATH_ADMINISTRATOR;
-		}
-		else
-		{
-			$path = JPATH_ROOT;
 		}
 
 		switch ($extension->type)
@@ -221,7 +219,7 @@ class InstallerHelper
 	 */
 	public static function getDownloadKey($extension)
 	{
-		$installXmlFile = getInstallationXML($extension);
+		$installXmlFile = self::getInstallationXML($extension);
 
 		if (!isset($installXmlFile->dlid))
 		{
@@ -229,17 +227,17 @@ class InstallerHelper
 		}
 
 		$prefix = (string) $installXmlFile->dlid['prefix'];
-		$sufix = (string) $installXmlFile->dlid['sufix'];
-		$value = substr($extension->extra_query, strlen($prefix));
+		$suffix  = (string) $installXmlFile->dlid['suffix'];
+		$value  = substr($extension->extra_query, strlen($prefix));
 
-		if ($sufix != null)
+		if ($suffix != null)
 		{
-			$value = substr($value, 0, -strlen($sufix));
+			$value = substr($value, 0, -strlen($suffix));
 		}
 
 		$downloadKey = array(
 			'prefix'  => $prefix,
-			'sufix'   => $sufix,
+			'suffix'   => $suffix,
 			'value'   => $value
 		);
 

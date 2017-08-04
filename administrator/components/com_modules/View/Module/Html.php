@@ -160,7 +160,7 @@ class Html extends HtmlView
 
 		if (isset($this->item->xml->dlid))
 		{
-			\JToolbarHelper::downloadkey('Download Key', null, $this->item->module);
+			\JToolbarHelper::downloadkey('JGLOBAL_DOWNLOAD_KEY_MODAL_BUTTON', null, $this->item->module);
 		}
 	}
 }
