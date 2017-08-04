@@ -1201,4 +1201,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 /**
  * Load any web components and any polyfills required
  */
-Joomla.WebComponents();
+document.addEventListener('DOMContentLoaded', function() {
+	Joomla.WebComponents();
+});
+
