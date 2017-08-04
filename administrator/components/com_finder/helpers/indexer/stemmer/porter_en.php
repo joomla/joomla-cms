@@ -260,7 +260,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				self::replace($word, 'al', '', 1);
 				break;
 			case 'c':
-					self::replace($word, 'ance', '', 1)
+				self::replace($word, 'ance', '', 1)
 				or self::replace($word, 'ence', '', 1);
 				break;
 			case 'e':
@@ -293,7 +293,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				self::replace($word, 'ism', '', 1);
 				break;
 			case 't':
-					self::replace($word, 'ate', '', 1)
+				self::replace($word, 'ate', '', 1)
 				or self::replace($word, 'iti', '', 1);
 				break;
 			case 'u':
