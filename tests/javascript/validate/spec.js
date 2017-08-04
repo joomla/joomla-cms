@@ -125,8 +125,8 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-numeric-nan', function () {
-				var elNan = document.getElementById('validate-numeric-nan'),
-					res   = document.formvalidator.validate(elNan);
+			var elNan   = document.getElementById('validate-numeric-nan'),
+				res = document.formvalidator.validate(elNan);
 
 			it('should return false', function () {
 				expect(res).toEqual(false);
