@@ -11,7 +11,7 @@ window.JoomlaCalLocale = {
 	PM :  "PM",
 	am : "am",
 	pm : "pm",
-	dateType : "西元",
+	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
 	exit: "關閉",

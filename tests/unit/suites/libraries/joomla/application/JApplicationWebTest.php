@@ -140,8 +140,7 @@ class JApplicationWebTest extends TestCase
 		JApplicationWebInspector::$connectionAlive = true;
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->class);
+		unset($this->backupServer, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -1100,9 +1099,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -1168,9 +1167,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[3]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[4][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[5][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[5][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -1230,9 +1229,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -1342,9 +1341,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),

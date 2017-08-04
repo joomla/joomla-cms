@@ -269,7 +269,7 @@ class PlgAuthenticationCookie extends JPlugin
 				{
 					$results = $this->db->setQuery($query)->loadResult();
 
-					if (is_null($results))
+					if ($results === null)
 					{
 						$unique = true;
 					}

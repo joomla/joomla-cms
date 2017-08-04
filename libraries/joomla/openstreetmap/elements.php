@@ -23,7 +23,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * @param   integer  $changeset  Changeset id
 	 * @param   float    $latitude   Latitude of the node
 	 * @param   float    $longitude  Longitude of the node
-	 * @param   arary    $tags       Array of tags for a node
+	 * @param   array    $tags       Array of tags for a node
 	 *
 	 * @return  array  The XML response
 	 *
