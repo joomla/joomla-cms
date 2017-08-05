@@ -727,7 +727,7 @@
 		/>
 
 		<field 
-			name="image_intro_class"
+			name="float_intro"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 			size="20"
@@ -760,7 +760,7 @@
 		/>
 
 		<field 
-			name="image_fulltext_class"
+			name="float_fulltext"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 			size="20"

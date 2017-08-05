@@ -12,7 +12,7 @@ $params = $displayData->params;
 ?>
 <?php $images = json_decode($displayData->images); ?>
 	<?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
-		<?php $imgclass = empty($images->image_fulltext_class) ? $params->get('image_fulltext_class') : $images->image_fulltext_class; ?>
+		<?php $imgclass = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 		<div class="<?php echo htmlspecialchars($imgclass); ?> item-image"> <img
 		<?php if ($images->image_fulltext_caption) :
 			echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_fulltext_caption) . '"';

@@ -12,8 +12,8 @@ $params = $displayData->params;
 ?>
 <?php $images = json_decode($displayData->images); ?>
 <?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
-	<?php $imgclass = empty($images->image_intro_class) ? $params->get('image_intro_class') : $images->image_intro_class; ?>
-	<div class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
+	<?php $imgclass = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
+	<div class="pull-<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>"><img
 		<?php if ($images->image_intro_caption) : ?>
