@@ -96,7 +96,7 @@ defined('_JEXEC') or die;
 		</dt>
 		<dd>
 			<span class="contact-fax" itemprop="faxNumber">
-			<?php echo $this->contact->fax; ?>
+				<?php echo $this->contact->fax; ?>
 			</span>
 		</dd>
 	<?php endif; ?>
@@ -120,7 +120,8 @@ defined('_JEXEC') or die;
 		<dd>
 			<span class="contact-webpage">
 				<a href="<?php echo $this->contact->webpage; ?>" target="_blank" rel="noopener noreferrer" itemprop="url">
-				<?php echo JStringPunycode::urlToUTF8($this->contact->webpage); ?></a>
+					<?php echo JStringPunycode::urlToUTF8($this->contact->webpage); ?>
+				</a>
 			</span>
 		</dd>
 	<?php endif; ?>

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
 				<?php if (!isset($this->children[$this->category->id][$id + 1])) : ?>
 					<?php $class = ' class="last"'; ?>
-				<?php endif ?>
+				<?php endif; ?>
 				<li<?php echo $class; ?>>
 				<?php $class = ''; ?>
 					<h4 class="item-title">

@@ -19,7 +19,7 @@ JHtml::_('bootstrap.tooltip');
 			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
 				<?php $class = ' class="last"'; ?>
 			<?php endif; ?>
-			<div <?php echo $class; ?> >
+			<div<?php echo $class; ?>>
 			<?php $class = ''; ?>
 				<h3 class="page-header item-title">
 					<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">

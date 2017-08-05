@@ -29,9 +29,13 @@ $tabSetStarted         = false;
 		<div class="page-header">
 			<h2>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+					<span class="label label-warning">
+						<?php echo JText::_('JUNPUBLISHED'); ?>
+					</span>
 				<?php endif; ?>
-				<span class="contact-name" itemprop="name"><?php echo $this->contact->name; ?></span>
+				<span class="contact-name" itemprop="name">
+					<?php echo $this->contact->name; ?>
+				</span>
 			</h2>
 		</div>
 	<?php endif; ?>
