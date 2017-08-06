@@ -94,7 +94,8 @@ module.exports = function(grunt) {
 			},
 			allMinJs: [
 				'media/**/*.min.js', '!media/vendor/*.min.js',
-				'media/**/**/*.min.js', '!media/vendor/**/*.min.js',
+				'media/**/**/*.min.js', '!media/system/webcomponents/*.min.js',
+				'!media/vendor/**/*.min.js',
 				'media/**/**/**/*.min.js', '!media/vendor/**/**/*.min.js',
 				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js'
 			]
@@ -206,8 +207,6 @@ module.exports = function(grunt) {
 					{ expand: false, src: '<%= folder.node_module %>wicked-good-xpath/dist/wgxpath.install.js', dest: 'media/vendor/polyfills/js/polyfill-wgxpath.js', filter: 'isFile'},
 					// Masonry js files
 					{ expand: true, cwd: '<%= folder.node_module %>masonry-layout/dist', src: ['*.js'], dest: 'media/vendor/masonry/js/', filter: 'isFile'},
-					// Joomla UI custom elements js files
-					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/js', src: ['*.js'], dest: 'media/system/webcomponents/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -225,10 +224,10 @@ module.exports = function(grunt) {
 			},
 			polyfills: {
 				files: [
-					// Joomla UI custom elements polyfills/loader
-					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/polyfills', src: ['*.js'], dest: 'media/system/js/polyfills/webcomponents', filter: 'isFile'},
+					// Joomla UI custom elements polyfills
+					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/polyfills', src: ['**'], dest: 'media/system/js/polyfills/webcomponents', filter: 'isFile'},
 					// Joomla UI custom elements js files
-					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/js', src: ['*.js'], dest: 'media/system/webcomponents/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/js', src: ['**'], dest: 'media/system/webcomponents/', filter: 'isFile'},
 				]
 			}
 		},
