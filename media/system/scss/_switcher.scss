@@ -18,22 +18,22 @@
   transition: border .4s ease 0s, box-shadow .4s ease 0s;
 
   &.active {
-    background-color: $switcher-color-success;
-    border-color: $switcher-color-success;
-    box-shadow: 0 0 0 16px $switcher-color-success inset;
+    background-color: $brand-success;
+    border-color: $brand-success;
+    box-shadow: 0 0 0 16px $brand-success inset;
     transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s;
   }
 
   &.switcher-danger.active {
-    background-color: $switcher-color-danger;
-    border-color: $switcher-color-danger;
-    box-shadow: 0 0 0 16px $switcher-color-danger inset;
+    background-color: $brand-danger;
+    border-color: $brand-danger;
+    box-shadow: 0 0 0 16px $brand-danger inset;
   }
 
   &.switcher-primary.active {
-    background-color: $switcher-color-primary;
-    border-color: $switcher-color-primary;
-    box-shadow: 0 0 0 16px $switcher-color-primary inset;
+    background-color: $brand-primary;
+    border-color: $brand-primary;
+    box-shadow: 0 0 0 16px $brand-primary inset;
   }
 
   input {
