@@ -490,7 +490,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				static::$instances[$name] = $container->get($classname);
 			}
-			else if (class_exists($classname))
+			elseif (class_exists($classname))
 			{
 				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
