@@ -8893,6 +8893,9 @@ header {
   display: none;
   visibility: hidden; }
 
+joomla-alert {
+  display: none; }
+
 /* autoprefixer: off */
 @supports (display: grid) {
   body {
