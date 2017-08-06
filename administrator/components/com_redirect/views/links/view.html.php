@@ -134,20 +134,6 @@ class RedirectViewLinks extends JViewLegacy
 				JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
 				JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
-
-			if ($state->get('filter.state') != -1 )
-			{
-				JToolbarHelper::divider();
-
-				if ($state->get('filter.state') != 2)
-				{
-					JToolbarHelper::archiveList('links.archive');
-				}
-				elseif ($state->get('filter.state') == 2)
-				{
-					JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
-				}
-			}
 		}
 
 		if ($canDo->get('core.create'))
