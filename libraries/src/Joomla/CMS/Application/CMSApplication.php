@@ -468,12 +468,12 @@ class CMSApplication extends WebApplication
 		if (!$this->_messageQueue)
 		{
 			$session = \JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
+			$sessionQueue = $session->get('application.queue', array());
 
 			if ($sessionQueue)
 			{
 				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
+				$session->set('application.queue', array());
 			}
 		}
 
