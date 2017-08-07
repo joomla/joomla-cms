@@ -1507,7 +1507,7 @@ class Nested extends Table
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.7.0
-	 * @throws  RuntimeException on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	protected function recursiveUpdatePublishedColumn($pk, $newState = null)
 	{

@@ -49,7 +49,7 @@ class ContentHelper
 	 * @param   integer  $id          The item ID.
 	 * @param   string   $assetName   The asset name
 	 *
-	 * @return  JObject
+	 * @return  \JObject
 	 *
 	 * @since   3.1
 	 * @deprecated  3.2  Use ContentHelper::getActions() instead
