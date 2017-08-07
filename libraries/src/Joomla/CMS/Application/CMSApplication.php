@@ -465,12 +465,12 @@ class CMSApplication extends WebApplication
 	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->_messageQueue))
+		if (!$this->_messageQueue)
 		{
 			$session = \JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 
-			if (count($sessionQueue))
+			if ($sessionQueue)
 			{
 				$this->_messageQueue = $sessionQueue;
 				$session->set('application.queue', null);
@@ -1063,7 +1063,7 @@ class CMSApplication extends WebApplication
 		}
 
 		// Persist messages if they exist.
-		if (count($this->_messageQueue))
+		if ($this->_messageQueue)
 		{
 			$session = \JFactory::getSession();
 			$session->set('application.queue', $this->_messageQueue);

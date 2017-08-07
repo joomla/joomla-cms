@@ -7,8 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Crypt\Cipher\SodiumCipher;
+use Joomla\CMS\Crypt\Crypt;
+use ParagonIE\Sodium\Compat;
+
 /**
- * Test class for JCryptCipherSodium.
+ * Test class for \Joomla\CMS\Crypt\Cipher\SodiumCipher.
  */
 class JCryptCipherSodiumTest extends TestCase
 {
@@ -36,16 +40,16 @@ class JCryptCipherSodiumTest extends TestCase
 	 *
 	 * @param   string  $data  The decrypted data to validate
 	 *
-	 * @covers        JCryptCipherSodium::decrypt
-	 * @covers        JCryptCipherSodium::encrypt
+	 * @covers        SodiumCipher::decrypt
+	 * @covers        SodiumCipher::encrypt
 	 * @dataProvider  dataStrings
 	 */
 	public function testDataEncryptionAndDecryption($data)
 	{
-		$cipher = new JCryptCipherSodium;
+		$cipher = new SodiumCipher;
 		$key    = $cipher->generateKey();
 
-		$cipher->setNonce(\Sodium\randombytes_buf(\Sodium\CRYPTO_BOX_NONCEBYTES));
+		$cipher->setNonce(Compat::randombytes_buf(Compat::CRYPTO_BOX_NONCEBYTES));
 
 		$encrypted = $cipher->encrypt($data, $key);
 
@@ -61,19 +65,19 @@ class JCryptCipherSodiumTest extends TestCase
 	/**
 	 * @testdox  Validates keys are correctly generated
 	 *
-	 * @covers   JCryptCipherSodium::generateKey
+	 * @covers   SodiumCipher::generateKey
 	 */
 	public function testGenerateKey()
 	{
-		$cipher = new JCryptCipherSodium;
+		$cipher = new SodiumCipher;
 		$key    = $cipher->generateKey();
 
 		// Assert that the key is the correct type.
-		$this->assertInstanceOf('JCryptKey', $key);
+		$this->assertInstanceOf('Joomla\\CMS\\Crypt\\Key', $key);
 
 		// Assert the keys pass validation
-		$this->assertSame(JCrypt::safeStrlen($key->private), 32);
-		$this->assertSame(JCrypt::safeStrlen($key->public), 32);
+		$this->assertSame(Crypt::safeStrlen($key->private), 32);
+		$this->assertSame(Crypt::safeStrlen($key->public), 32);
 
 		// Assert the key is of the correct type.
 		$this->assertAttributeEquals('sodium', 'type', $key);

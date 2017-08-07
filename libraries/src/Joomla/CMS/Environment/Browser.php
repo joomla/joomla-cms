@@ -244,7 +244,7 @@ class Browser
 
 			// We have to check for Edge as the first browser, because Edge has something like:
 			// Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
-			if (preg_match('|Edge/([0-9.]+)|', $this->agent, $version))
+			if (preg_match('|Edge\/([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('edge');
 
@@ -258,9 +258,10 @@ class Browser
 					$this->minorVersion = 0;
 				}
 			}
-			elseif (preg_match('|Opera[/ ]([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('|Opera[\/ ]([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
+
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 
 				/* Due to changes in Opera UA, we need to check Version/xx.yy,
@@ -275,11 +276,13 @@ class Browser
 			elseif (preg_match('/OPR[\/ ]([0-9.]+)/', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
+
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('/Chrome[\/ ]([0-9.]+)|CrMo[\/ ]([0-9.]+)|CriOS[\/ ]([0-9.]+)/i', $this->agent, $version))
 			{
 				$this->setBrowser('chrome');
+
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (strpos($this->lowerAgent, 'elaine/') !== false
@@ -308,7 +311,7 @@ class Browser
 					$this->minorVersion = 0;
 				}
 			}
-			elseif (preg_match('|amaya/([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('|amaya\/([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('amaya');
 				$this->majorVersion = $version[1];
@@ -318,7 +321,7 @@ class Browser
 					$this->minorVersion = $version[2];
 				}
 			}
-			elseif (preg_match('|ANTFresco/([0-9]+)|', $this->agent, $version))
+			elseif (preg_match('|ANTFresco\/([0-9]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('fresco');
 			}
@@ -326,7 +329,7 @@ class Browser
 			{
 				$this->setBrowser('avantgo');
 			}
-			elseif (preg_match('|[Kk]onqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
+			elseif (preg_match('|[Kk]onqueror\/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
 			{
 				// Konqueror and Apple's Safari both use the KHTML
 				// rendering engine.
@@ -345,13 +348,13 @@ class Browser
 					$this->identifyBrowserVersion();
 				}
 			}
-			elseif (preg_match('|Mozilla/([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('|Firefox\/([0-9.]+)|', $this->agent, $version))
 			{
-				$this->setBrowser('mozilla');
+				$this->setBrowser('firefox');
 
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
-			elseif (preg_match('|Lynx/([0-9]+)|', $this->agent, $version))
+			elseif (preg_match('|Lynx\/([0-9]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('lynx');
 			}
@@ -359,7 +362,7 @@ class Browser
 			{
 				$this->setBrowser('links');
 			}
-			elseif (preg_match('|HotJava/([0-9]+)|', $this->agent, $version))
+			elseif (preg_match('|HotJava\/([0-9]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('hotjava');
 			}
@@ -402,6 +405,12 @@ class Browser
 			elseif (strpos($this->lowerAgent, 'j-') !== false)
 			{
 				$this->setBrowser('mml');
+			}
+			elseif (preg_match('|Mozilla\/([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('mozilla');
+
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 		}
 	}
