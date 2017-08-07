@@ -324,9 +324,9 @@
 				<field
 					name="preview"
 					type="editor"
-					editor="codemirror"
 					label="PLG_CODEMIRROR_FIELD_PREVIEW_LABEL"
 					description="PLG_CODEMIRROR_FIELD_PREVIEW_DESC"
+					editor="codemirror"
 					filter="unset"
 					buttons="false"
 				>
