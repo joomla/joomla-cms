@@ -178,7 +178,7 @@ class JImage
 			'channels'    => isset($info['channels']) ? $info['channels'] : null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
-			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
+			'orientation' => static::getOrientationString((int) $info[0], (int) $info[1]),
 		);
 
 		return $properties;
@@ -196,7 +196,7 @@ class JImage
 	{
 		if ($this->isLoaded())
 		{
-			return self::getOrientationString($this->getWidth(), $this->getHeight());
+			return static::getOrientationString($this->getWidth(), $this->getHeight());
 		}
 
 		return;
@@ -274,13 +274,11 @@ class JImage
 
 				switch ($creationMethod)
 				{
-					// Case for self::CROP
-					case 4:
+					case self::CROP:
 						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
 						break;
 
-					// Case for self::CROP_RESIZE
-					case 5:
+					case self::CROP_RESIZE:
 						$thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
 						break;
 
@@ -337,7 +335,7 @@ class JImage
 		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
 		{
 			// Parent image properties
-			$imgProperties = self::getImageFileProperties($this->getPath());
+			$imgProperties = static::getImageFileProperties($this->getPath());
 
 			foreach ($thumbs as $thumb)
 			{
@@ -599,7 +597,7 @@ class JImage
 		}
 
 		// Get the image properties.
-		$properties = self::getImageFileProperties($path);
+		$properties = static::getImageFileProperties($path);
 
 		// Attempt to load the image based on the MIME-Type
 		switch ($properties->mime)
