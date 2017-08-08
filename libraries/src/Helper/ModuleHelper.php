@@ -631,7 +631,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  boolean  True if enabled; false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function isAdminMultilang()
 	{

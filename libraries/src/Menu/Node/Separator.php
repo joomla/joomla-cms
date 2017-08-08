@@ -16,7 +16,7 @@ use Joomla\CMS\Menu\Node;
  *
  * @see    Node
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class Separator extends Node
 {
@@ -25,7 +25,7 @@ class Separator extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $title = null;
 
@@ -34,7 +34,7 @@ class Separator extends Node
 	 *
 	 * @param   string  $title  The title of the node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct($title = null)
 	{
@@ -50,7 +50,7 @@ class Separator extends Node
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function get($name)
 	{

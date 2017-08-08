@@ -27,7 +27,7 @@ class JAdminCssMenu
 	 *
 	 * @var   Tree
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $tree;
 
@@ -54,7 +54,7 @@ class JAdminCssMenu
 	 *
 	 * @return  Tree
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getTree()
 	{
@@ -133,7 +133,7 @@ class JAdminCssMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function renderSubmenu($layoutFile)
 	{
@@ -159,7 +159,7 @@ class JAdminCssMenu
 	 *
 	 * @return  bool  Whether to show recovery menu
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function check($items, Registry $params)
 	{
@@ -229,7 +229,7 @@ class JAdminCssMenu
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function preprocess($items)
 	{
@@ -337,7 +337,7 @@ class JAdminCssMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function populateTree($levels)
 	{

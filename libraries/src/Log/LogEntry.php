@@ -33,7 +33,7 @@ class LogEntry
 	 * The message context.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public $context;
 

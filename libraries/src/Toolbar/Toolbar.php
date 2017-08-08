@@ -275,13 +275,13 @@ class Toolbar
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	private function loadButtonClass($type)
 	{
 		$buttonClasses = array(
 			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
-			// @deprecated __DEPLOY_VERSION__
+			// @deprecated 3.8.0
 			'JToolbarButton' . ucfirst($type),
 			// @deprecated 12.3 Remove the acceptance of legacy classes starting with JButton.
 			'JButton' . ucfirst($type)

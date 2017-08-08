@@ -31,7 +31,7 @@ final class Version
 	 * Major release version.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	const MAJOR_VERSION = 3;
 
@@ -39,7 +39,7 @@ final class Version
 	 * Minor release version.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	const MINOR_VERSION = 8;
 
@@ -47,7 +47,7 @@ final class Version
 	 * Patch release version.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	const PATCH_VERSION = 0;
 
@@ -58,9 +58,9 @@ final class Version
 	 * For example, for 3.8.0 when this is set to 'dev' the version string will be `3.8.0-dev`.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'dev';
+	const EXTRA_VERSION = 'beta1';
 
 	/**
 	 * Release version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '0-dev';
+	const DEV_LEVEL = '0-beta1';
 
 	/**
 	 * Development status.
@@ -86,7 +86,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Development';
+	const DEV_STATUS = 'Beta';
 
 	/**
 	 * Build number.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '25-July-2017';
+	const RELDATE = '8-August-2017';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '15:29';
+	const RELTIME = '14:00';
 
 	/**
 	 * Release timezone.

@@ -16,7 +16,7 @@ use Joomla\CMS\Menu\Node;
  *
  * @see    Node
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class Heading extends Node
 {
@@ -25,7 +25,7 @@ class Heading extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $title = null;
 
@@ -34,7 +34,7 @@ class Heading extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $link = '#';
 
@@ -43,7 +43,7 @@ class Heading extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $icon = null;
 
@@ -55,7 +55,7 @@ class Heading extends Node
 	 * @param   string  $id     The node id
 	 * @param   string  $icon   The title icon for the node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct($title, $class = null, $id = null, $icon = null)
 	{
@@ -74,7 +74,7 @@ class Heading extends Node
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function get($name)
 	{

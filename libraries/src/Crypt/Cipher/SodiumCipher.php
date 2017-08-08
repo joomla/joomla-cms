@@ -17,7 +17,7 @@ use ParagonIE\Sodium\Compat;
 /**
  * JCrypt cipher for sodium algorithm encryption, decryption and key generation.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class SodiumCipher implements CipherInterface
 {
@@ -25,7 +25,7 @@ class SodiumCipher implements CipherInterface
 	 * The message nonce to be used with encryption/decryption
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	private $nonce;
 
@@ -37,7 +37,7 @@ class SodiumCipher implements CipherInterface
 	 *
 	 * @return  string  The decrypted data string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 * @throws  RuntimeException
 	 */
 	public function decrypt($data, Key $key)
@@ -75,7 +75,7 @@ class SodiumCipher implements CipherInterface
 	 *
 	 * @return  string  The encrypted data string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 * @throws  RuntimeException
 	 */
 	public function encrypt($data, Key $key)
@@ -105,7 +105,7 @@ class SodiumCipher implements CipherInterface
 	 *
 	 * @return  Key
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 * @throws  RuntimeException
 	 */
 	public function generateKey(array $options = array())
@@ -129,7 +129,7 @@ class SodiumCipher implements CipherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function setNonce($nonce)
 	{

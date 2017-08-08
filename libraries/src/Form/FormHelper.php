@@ -43,7 +43,7 @@ class FormHelper
 	 * The class namespaces.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.8.0
 	 */
 	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array());
 
@@ -351,7 +351,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function addFieldPrefix($new = null)
 	{
@@ -365,7 +365,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function addFormPrefix($new = null)
 	{
@@ -379,7 +379,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function addRulePrefix($new = null)
 	{
@@ -395,7 +395,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected static function addPrefix($entity, $new = null)
 	{

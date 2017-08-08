@@ -639,7 +639,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected function isRedirectState($state)
 	{
@@ -812,7 +812,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected function getHttpStatusValue($value)
 	{
