@@ -26,6 +26,4 @@ if (!count($list))
 	return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-
 require ModuleHelper::getLayoutPath('mod_tags_similar', $params->get('layout', 'default'));

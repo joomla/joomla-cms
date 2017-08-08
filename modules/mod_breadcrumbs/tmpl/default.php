@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 ?>
 
-<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>">
+<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb">
 	<?php if ($params->get('showHere', 1)) : ?>
 		<li class="float-left">
 			<?php echo JText::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
