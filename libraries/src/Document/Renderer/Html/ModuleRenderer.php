@@ -54,7 +54,7 @@ class ModuleRenderer extends DocumentRenderer
 				 * we want to render it
 				 */
 				$tmp = $module;
-				$module = new stdClass;
+				$module = new \stdClass;
 				$module->params = null;
 				$module->module = $tmp;
 				$module->id = 0;
@@ -86,7 +86,7 @@ class ModuleRenderer extends DocumentRenderer
 		if ($params->get('cache', 0) == 1 && \JFactory::getConfig()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 			// Default to itemid creating method and workarounds on
-			$cacheparams = new stdClass;
+			$cacheparams = new \stdClass;
 			$cacheparams->cachemode = $cachemode;
 			$cacheparams->class = 'JModuleHelper';
 			$cacheparams->method = 'renderModule';
