@@ -2,7 +2,7 @@
 	* This is a Joomla! 4.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
 	* Joomla! 4.0 version history - https://docs.joomla.org/Joomla_4.0_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/4.0-dev
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
