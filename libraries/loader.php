@@ -760,7 +760,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	private static function loadAliasFor($class)
 	{
@@ -783,7 +783,7 @@ abstract class JLoader
 	 *
 	 * @return  string  The striped class name.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	private static function stripFirstBackslash($class)
 	{
