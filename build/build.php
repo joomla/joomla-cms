@@ -40,7 +40,7 @@ umask(022);
 
 // Import the version class to set the version information
 define('JPATH_PLATFORM', 1);
-require_once dirname(__DIR__) . '/libraries/src/Joomla/CMS/Version.php';
+require_once dirname(__DIR__) . '/libraries/src/Version.php';
 
 // Set version information for the build
 $version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
