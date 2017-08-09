@@ -469,7 +469,7 @@ class Install extends Model
 		$sha1_package = sha1_file($packagefile);
 		$sha1_remote  = $update->sha1->_data;
 
-		if (!$md5_remote && !$sha1_remote)
+		if ((!$md5_remote) && (!$sha1_remote))
 		{
 			// Checksum doesn't exist
 			return null;
