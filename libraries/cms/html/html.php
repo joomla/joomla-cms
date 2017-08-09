@@ -124,6 +124,15 @@ abstract class JHtml
 			}
 		}
 
+		// If calling a method from this class, do not allow access to internal methods
+		if ($className === __CLASS__)
+		{
+			if (!((new ReflectionMethod($className, $func))->isPublic()))
+			{
+				throw new InvalidArgumentException('Access to internal class methods is not allowed.');
+			}
+		}
+
 		$toCall = array($className, $func);
 
 		if (!is_callable($toCall))
@@ -723,6 +732,73 @@ abstract class JHtml
 			}
 
 			$document->addScript($include, $options, $attribs);
+		}
+	}
+
+	/**
+	 * Loads the name and path of a custom element or webcomponent into the scriptOptions object
+	 *
+	 * @param   array  $component  The name and path of the web component.
+	 *                             Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
+	 *                             of just the custom element. (Polyfills loaded as needed, no force load)
+	 * @param   array  $options    The relative, version, detect browser and detect debug options for the custom element
+	 *                             or web component. Files need to have a -es5(.min).js (or -es5(.min).html) for the non ES6
+	 *                             Browsers.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public static function webcomponent($component = [], $options = [])
+	{
+		if (empty($component))
+		{
+			return;
+		}
+
+		static::_('behavior.wcpolyfill');
+
+		foreach ($component as $key => $value)
+		{
+			if ($key === 'fullPolyfill' && $value === true)
+			{
+				JFactory::getDocument()->addScriptOptions('webcomponents', ['fullPolyfill' => true]);
+				continue;
+			}
+			$version      = '';
+			$mediaVersion = \JFactory::getDocument()->getMediaVersion();
+			$includes     = static::includeRelativeFiles(
+				'webcomponents',
+				$value,
+				isset($options['relative']) ? $options['relative'] : true,
+				isset($options['detectBrowser']) ? $options['detectBrowser'] : false,
+				isset($options['detectDebug']) ? $options['detectDebug'] : false
+			);
+
+			if (count($includes) === 0)
+			{
+				continue;
+			}
+
+			if (isset($options['version']))
+			{
+				if ($options['version'] === 'auto')
+				{
+					$version = '?' . $mediaVersion;
+				}
+				else
+				{
+					$version = '?' . $options['version'];
+				}
+			}
+
+			if (count($includes) === 1)
+			{
+				JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '')]);
+				continue;
+			}
+
+			JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes . ((strpos($includes, '?') === false) ? $version : '')]);
 		}
 	}
 

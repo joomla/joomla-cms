@@ -1,38 +1,23 @@
 // Quick Icons
 
-.quickicons-container {
-  padding: 18px ($grid-gutter-width-base / 2) 0;
-  margin: -$grid-gutter-width-base;
-  margin-bottom: $grid-gutter-width-base;
-  background-color: $atum-template-color;
-}
-
 .quick-icons {
 
-  *,
-  *::before,
-  *::after {
-    transition: all .25s ease;
-  }
-
   a {
-    position: relative;
-    height: 4.7rem;
+    display: inline-flex;
+    flex-direction: column;
+    width: 120px;
+    height: 120px;
+    margin-right: 15px;
     margin-bottom: 15px;
-    overflow: hidden;
-    color: $white-offset;
-    background-color: $quickicon-bg;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.1) 100%);
-    border-radius: $border-radius;
+    color: $white;
+    text-align: center;
+    background: $quickicon-bg;
+    border-radius: 3px;
+    box-shadow: $quickicon-box-shadow;
+    transition: background .25s ease;
 
-    @include media-breakpoint-only(xs) {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto;
-      overflow: visible;
-      color: $white;
-      text-align: center;
-      border-radius: 50%;
+    > div {
+      flex: 1 0 0;
     }
 
     &.pulse {
@@ -40,136 +25,44 @@
         box-shadow: 0 0 0 0 rgba($atum-template-color,.7);
         animation: pulse 1.25s infinite cubic-bezier(.66,0,0,1);
       }
+
+      &.danger,
+      &.success {
+        @include media-breakpoint-only(xs) {
+          animation: none;
+        }
+      }
     }
 
     &:hover,
     &:focus {
       text-decoration: none;
-      background-color: lighten($quickicon-bg, 5%);
-
-      &::before {
-        color: lighten($quickicon-bg, 12%);
-      }
-
+      background: $atum-template-color-light;
     }
 
-    > * {
-      vertical-align: middle;
+    .j-links-link {
+      display: block;
+      width: 100%;
+      padding: 0 1rem;
+      font-size: 1rem;
+      line-height: 1.1;
     }
 
-    span {
-      z-index: 1;
-      font-size: 1.2rem;
-
-      &.j-links-link {
-        padding: 0 1rem;
-
-      }
-
-      @include media-breakpoint-only(xs) {
-        padding: 0;
-        font-size: 1rem;
-        line-height: 1.4rem;
-      }
-
-      &[class*=" icon-"],
-	    &[class^="icon-"] {
-        width: 5rem;
-        height: 4.7rem;
-        padding-left: 2px;
-        font-size: 2.5rem;
-        font-weight: normal;
-        line-height: 4.7rem;
-        background-color: rgba(255,255,255,.1);
-        border-right: 1px solid rgba($white,.15);
-
-        @include media-breakpoint-only(xs) {
-          width: 60px;
-          height: 60px;
-          padding: 0;
-          margin: 0 auto !important;
-          line-height: 60px;
-          background: none;
-          border-right: 0;
-        }
-      }
-
+    .fa {
+      margin: 5px auto;
+      font-size: 2.5rem;
+      font-weight: normal;
+      line-height: 3rem;
     }
 
-    &::before {
-      position: absolute;
-      top: -100px;
-      right: -40px;
-      font-family: FontAwesome;
-      font-size: 10em;
-      color: lighten($quickicon-bg, 5%);
-      content: "\f1aa";
-      transform: rotate(20deg);
-
-      @include media-breakpoint-only(xs) {
-        display: none;
-      }
-
+    &.danger {
+      background-color: lighten($brand-danger, 7%);
+      box-shadow: $quickicon-box-shadow-danger;
     }
 
-  }
-
-  .quickicon-text-xs {
-    display: block;
-    margin-bottom: 30px;
-    text-align: center;
-  }
-
-  .danger a {
-
-    &::after {
-      right: 0;
-    }
-
-    @include media-breakpoint-only(xs) {
-      background: lighten($brand-danger, 7%);
-      animation: none;
-    }
-
-    span {
-
-      &[class*=" icon-"],
-      &[class^="icon-"] {
-        background-color: lighten($brand-danger, 7%);
-
-        @include media-breakpoint-only(xs) {
-          background: none;
-        }
-
-      }
-
-    }
-
-  }
-
-  .success a {
-
-    &::after {
-      right: 0;
-    }
-
-    @include media-breakpoint-only(xs) {
-      background: lighten($brand-success, 7%);
-      animation: none;
-    }
-
-    span {
-
-      &[class*=" icon-"],
-      &[class^="icon-"] {
-        background-color: lighten($brand-success, 7%);
-
-        @include media-breakpoint-only(xs) {
-          background: none;
-        }
-
-      }
-
+    &.success {
+      background-color: lighten($brand-success, 7%);
+      box-shadow: $quickicon-box-shadow-success;
     }
 
   }

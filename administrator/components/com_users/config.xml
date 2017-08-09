@@ -7,7 +7,6 @@
 			name="allowUserRegistration"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
-			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -19,7 +18,6 @@
 			name="new_usertype"
 			type="usergrouplist"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
-			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
 			default="2"
 			checksuperusergroup="1"
 		/>
@@ -28,7 +26,6 @@
 			name="guest_usergroup"
 			type="usergrouplist"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
 			default="1"
 			checksuperusergroup="1"
 		/>
@@ -37,7 +34,6 @@
 			name="sendpassword"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
-			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -49,7 +45,6 @@
 			name="useractivation"
 			type="list"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
-			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC"
 			default="2"
 			>
 			<option value="0">JNONE</option>
@@ -61,7 +56,6 @@
 			name="mail_to_admin"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
-			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -73,7 +67,6 @@
 			name="captcha"
 			type="plugins"
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
-			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			folder="captcha"
 			default=""
 			filter="cmd" 
@@ -86,7 +79,6 @@
 			name="frontend_userparams"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -98,7 +90,6 @@
 			name="site_language"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
 			class="switcher"
 			default="0"
 			showon="frontend_userparams:1"
@@ -111,7 +102,6 @@
 			name="change_login_name"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
-			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -128,7 +118,6 @@
 			name="reset_count"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_DESC"
 			first="0"
 			last="20"
 			step="1"
@@ -139,7 +128,6 @@
 			name="reset_time"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_DESC"
 			first="1"
 			last="24"
 			step="1"
@@ -150,7 +138,6 @@
 			name="minimum_length"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
 			first="4"
 			last="99"
 			step="1"
@@ -161,7 +148,6 @@
 			name="minimum_integers"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS_DESC"
 			first="0"
 			last="98"
 			step="1"
@@ -172,7 +158,6 @@
 			name="minimum_symbols"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS_DESC"
 			first="0"
 			last="98"
 			step="1"
@@ -183,7 +168,6 @@
 			name="minimum_uppercase"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE_DESC"
 			first="0"
 			last="98"
 			step="1"
@@ -194,7 +178,6 @@
 			name="minimum_lowercase"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE_DESC"
 			first="0"
 			last="98"
 			step="1"
@@ -210,7 +193,6 @@
 			name="save_history"
 			type="radio"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -222,7 +204,6 @@
 			name="history_limit"
 			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
 			default="5"
 			showon="save_history:1"
@@ -239,14 +220,12 @@
  			name="mailSubjectPrefix"
  			type="text"
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
-			description="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_DESC"
 		/>
 
  		<field
  			name="mailBodySuffix"
 			type="textarea"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
-			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
  			rows="5"
  			cols="30"
 		/>
@@ -262,7 +241,6 @@
 			name="debugUsers"
 			type="radio"
 			label="COM_USERS_DEBUG_USERS_LABEL"
-			description="COM_USERS_DEBUG_USERS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -274,7 +252,6 @@
 			name="debugGroups"
 			type="radio"
 			label="COM_USERS_DEBUG_GROUPS_LABEL"
-			description="COM_USERS_DEBUG_GROUPS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -295,7 +272,6 @@
 			class="btn-group btn-group-yesno btn-group-reversed"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			description="JGLOBAL_SEF_ADVANCED_DESC"
 			filter="integer"
 		>
 			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
@@ -306,7 +282,6 @@
 			name="custom_fields_enable"
 			type="radio"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			class="switcher"
 			default="1"
 			>

@@ -110,6 +110,10 @@ legend {
   border-color: $switcher-color-success;
 }
 
+.form-control-feedback {
+  display: block;
+}
+
 // Possibly temporary until Bootstrap support it themselves
 .custom-select[multiple] {
   height: auto;

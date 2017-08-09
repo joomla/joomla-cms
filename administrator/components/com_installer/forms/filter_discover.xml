@@ -38,8 +38,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="name ASC"
 			>
@@ -59,8 +57,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIMIT"
-			description="JGLOBAL_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>
