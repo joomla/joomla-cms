@@ -28,7 +28,6 @@ $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
 if (!empty($list))
 {
-	$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 	$startLevel      = reset($list)->getParent()->level;
 
 	require ModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default'));
