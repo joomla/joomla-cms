@@ -12,6 +12,7 @@
 /administrator/logs
 /cache
 /installation/cache
+/libraries/autoload_psr4.php
 /tmp
 /configuration.php
 /.htaccess
@@ -116,6 +117,12 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/psalm-autoload.php
 /libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
+/libraries/vendor/paragonie/sodium_compat/.gitignore
+/libraries/vendor/paragonie/sodium_compat/composer.json
+/libraries/vendor/paragonie/sodium_compat/composer.lock
+/libraries/vendor/paragonie/sodium_compat/phpunit.xml.dist
+/libraries/vendor/paragonie/sodium_compat/README.md
+/libraries/vendor/paragonie/sodium_compat/src/Core/Curve25519/README.md
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
 /libraries/vendor/phpmailer/phpmailer/language
