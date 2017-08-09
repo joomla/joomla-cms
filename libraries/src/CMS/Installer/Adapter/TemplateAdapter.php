@@ -520,8 +520,8 @@ class TemplateAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->type         = 'template';
-			$this->extension->element      = $this->element;
+			$this->extension->type    = 'template';
+			$this->extension->element = $this->element;
 
 			// There is no folder for templates
 			$this->extension->folder    = '';

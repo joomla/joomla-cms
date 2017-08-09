@@ -107,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="hidden-sm-down text-center">
 										<?php if ($item->changelogurl != null):?>
-										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id?>">Changelog</button>
+										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id; ?>"><?php echo \JText::_('COM_INSTALLER_CHANGELOG'); ?></button>
 
 										<?php
 										echo \JHtml::_(

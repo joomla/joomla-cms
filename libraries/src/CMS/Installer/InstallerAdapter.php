@@ -677,8 +677,8 @@ abstract class InstallerAdapter
 		}
 
 		// Set the extension's name and element
-		$this->name    = $this->getName();
-		$this->element = $this->getElement();
+		$this->name         = $this->getName();
+		$this->element      = $this->getElement();
 		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 
 		/*
