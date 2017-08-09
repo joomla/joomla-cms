@@ -171,27 +171,28 @@ class Install extends Model
 			}
 		}
 
-		switch ($this->checksum($package['packagefile'], $installer->manifest->updateservers)):
-			case -1:
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'info');
-				break;
+		$checksum = $this->checksum($package['packagefile'], $installer->manifest->updateservers);
 
-			case 0:
-				if (!$app->input->getString('force_install'))
-				{
-					$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG_NO_INSTALL'), 'error');
+		if ($checksum === null)
+		{
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'info');
+		}
+		elseif ($checksum === false)
+		{
+			if (!$app->input->getString('force_install'))
+			{
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG_NO_INSTALL'), 'error');
 
-					return false;
-				}
+				return false;
+			}
 
-				// Checksum failed but forced installation is activated
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
-				break;
-
-			case 1:
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
-				break;
-		endswitch;
+			// Checksum failed but forced installation is activated
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+		}
+		else
+		{
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+		}
 
 		// Was the package unpacked?
 		if (!$package || !$package['type'])
@@ -441,7 +442,7 @@ class Install extends Model
 	 * @param   string     $packagefile           Location of the package to be installed
 	 * @param   Installer  $updateServerManifest  Update Server manifest
 	 *
-	 * @return  int  1 if hashes match, 0 if they don't, -1 if hashes not found
+	 * @return  mixed  boolean if the hashes match, null if hashes not found
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -471,17 +472,20 @@ class Install extends Model
 		if (!$md5_remote && !$sha1_remote)
 		{
 			// Checksum doesn't exist
-			return -1;
+			return null;
 		}
 
-		// If the md5 key exists, it has to be equal, so does the sha1 key
-		if ((($md5_package == $md5_remote) || !$md5_remote) && (($sha1_package == $sha1_remote) || !$sha1_remote))
+		if ($sha1_package == $sha1_remote)
 		{
-			// Checksum OK
-			return 1;
+			return true;
+		}
+
+		if ($md5_package == $md5_remote)
+		{
+			return true;
 		}
 
 		// Checksum fail
-		return 0;
+		return false;
 	}
 }
