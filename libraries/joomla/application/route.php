@@ -12,9 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Route handling class
  *
- * @method  static string site($url, $xhtml = true, $ssl = null)           Create a frontend route.
- * @method  static string administrator($url, $xhtml = true, $ssl = null)  Create a backend route.
- *
  * @since  11.1
  */
 class JRoute
@@ -136,24 +133,5 @@ class JRoute
 		}
 
 		return $url;
-	}
-
-	/**
-	 * Magic method to provide short access to the clients' route functions "site" and "administrator".
-	 * - To build a route for site:          <var>JRoute::site($url)</var>.
-	 * - To build a route for administrator: <var>JRoute::administrator($url)</var>
-	 *
-	 * @param   string  $name       The called method name
-	 * @param   array   $arguments  The method arguments
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function __callStatic($name, $arguments)
-	{
-		array_unshift($arguments, $name);
-
-		return forward_static_call_array(array('JRoute', 'link'), $arguments);
 	}
 }
