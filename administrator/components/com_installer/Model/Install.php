@@ -171,6 +171,28 @@ class Install extends Model
 			}
 		}
 
+		switch ($this->checksum($package['packagefile'], $installer->manifest->updateservers)):
+			case -1:
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'info');
+				break;
+
+			case 0:
+				if (!$app->input->getString('force_install'))
+				{
+					$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG_NO_INSTALL'), 'error');
+
+					return false;
+				}
+
+				// Checksum failed but forced installation is activated
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+				break;
+
+			case 1:
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+				break;
+		endswitch;
+
 		// Was the package unpacked?
 		if (!$package || !$package['type'])
 		{
@@ -411,5 +433,55 @@ class Install extends Model
 		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
+	}
+
+	/**
+	 * Return the result of the checksum of a package and the SHA1/MD5 tags in the update server manifest
+	 *
+	 * @param   string     $packagefile           Location of the package to be installed
+	 * @param   Installer  $updateServerManifest  Update Server manifest
+	 *
+	 * @return  int  1 if hashes match, 0 if they don't, -1 if hashes not found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function checksum($packagefile, $updateServerManifest)
+	{
+		if ($updateServerManifest)
+		{
+			$children = $updateServerManifest->children();
+		}
+		else
+		{
+			$children = array();
+		}
+
+		foreach ($children as $child)
+		{
+			$update = new \JUpdate;
+			$update->loadFromXml((string) $child);
+		}
+
+		$md5_package = md5_file($packagefile);
+		$md5_remote  = $update->md5->_data;
+
+		$sha1_package = sha1_file($packagefile);
+		$sha1_remote  = $update->sha1->_data;
+
+		if (!$md5_remote && !$sha1_remote)
+		{
+			// Checksum doesn't exist
+			return -1;
+		}
+
+		// If the md5 key exists, it has to be equal, so does the sha1 key
+		if ((($md5_package == $md5_remote) || !$md5_remote) && (($sha1_package == $sha1_remote) || !$sha1_remote))
+		{
+			// Checksum OK
+			return 1;
+		}
+
+		// Checksum fail
+		return 0;
 	}
 }
