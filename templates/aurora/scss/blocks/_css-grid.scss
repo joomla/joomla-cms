@@ -2,7 +2,7 @@
 
 /* autoprefixer: off */
 @supports (display: grid) {
-  body {
+  .site-grid {
     display: grid;
     grid-template-areas:
       ". head head head head ."

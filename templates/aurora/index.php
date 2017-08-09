@@ -76,7 +76,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="site <?php echo $option
+<body class="site site-grid <?php echo $option
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
