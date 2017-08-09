@@ -171,13 +171,13 @@ class Install extends Model
 			}
 		}
 
-		$checksum = $this->checksum($package['packagefile'], $installer->manifest->updateservers);
+		$isChecksumValid = $this->isChecksumValid($package['packagefile'], $installer->manifest->updateservers);
 
-		if ($checksum === null)
+		if ($isChecksumValid === null)
 		{
 			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'info');
 		}
-		elseif ($checksum === false)
+		elseif ($isChecksumValid === false)
 		{
 			if (!$app->input->getString('force_install'))
 			{
@@ -446,7 +446,7 @@ class Install extends Model
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function checksum($packagefile, $updateServerManifest)
+	private function isChecksumValid($packagefile, $updateServerManifest)
 	{
 		if ($updateServerManifest)
 		{
