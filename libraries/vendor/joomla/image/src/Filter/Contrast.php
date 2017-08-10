@@ -1,20 +1,22 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Part of the Joomla Framework Image Package
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Image\Filter;
+
+use Joomla\Image\ImageFilter;
+use InvalidArgumentException;
 
 /**
  * Image Filter class adjust the contrast of an image.
  *
- * @since  11.3
+ * @since  1.0
  */
-class JImageFilterContrast extends JImageFilter
+class Contrast extends ImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -23,7 +25,7 @@ class JImageFilterContrast extends JImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function execute(array $options = array())
