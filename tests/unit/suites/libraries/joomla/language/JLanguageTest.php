@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 jimport('joomla.filesystem.folder');
@@ -39,15 +39,6 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 
-		$path = JPATH_TESTS . '/tmp/language';
-
-		if (is_dir($path))
-		{
-			JFolder::delete($path);
-		}
-
-		JFolder::copy(__DIR__ . '/data/language', $path);
-
 		$this->object = new JLanguage;
 		$this->inspector = new JLanguageInspector('', true);
 	}
@@ -60,9 +51,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		JFolder::delete(JPATH_TESTS . '/tmp/language');
-		unset($this->object);
-		unset($this->inspector);
+		unset($this->object, $this->inspector);
 		parent::tearDown();
 	}
 

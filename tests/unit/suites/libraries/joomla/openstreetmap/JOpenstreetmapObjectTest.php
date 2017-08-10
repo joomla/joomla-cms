@@ -4,7 +4,7 @@
  * @subpackage  Openstreetmap
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 include_once __DIR__ . '/stubs/JOpenstreetmapObjectMock.php';
@@ -63,9 +63,7 @@ class JOpenstreetmapObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->client, $this->object);
 	}
 
 	/**
