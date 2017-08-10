@@ -223,7 +223,7 @@ class PlgSampledataTesting extends JPlugin
 		$categories   = array();
 		$categories[] = array(
 			'title'     => JText::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CATEGORY_0_TITLE'),
-			'parent_id' => 0,
+			'parent_id' => 1,
 		);
 
 		try
@@ -405,7 +405,7 @@ class PlgSampledataTesting extends JPlugin
 		$categories   = array();
 		$categories[] = array(
 			'title'     => JText::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE'),
-			'parent_id' => 0,
+			'parent_id' => 1,
 		);
 
 		try
@@ -1023,7 +1023,7 @@ class PlgSampledataTesting extends JPlugin
 		$categories   = array();
 		$categories[] = array(
 			'title'     => JText::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_TITLE'),
-			'parent_id' => 0,
+			'parent_id' => 1,
 		);
 
 		try
@@ -1379,7 +1379,7 @@ class PlgSampledataTesting extends JPlugin
 		$categories   = array();
 		$categories[] = array(
 			'title'     => JText::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_CATEGORY_0_TITLE'),
-			'parent_id' => 0,
+			'parent_id' => 1,
 		);
 
 		try
