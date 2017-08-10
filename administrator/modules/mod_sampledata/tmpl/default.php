@@ -22,6 +22,14 @@ JFactory::getDocument()->addScriptDeclaration('
 		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/img/ajax-loader.gif";
 ');
 ?>
+<div class="alert alert-heading">
+<p><strong><?php echo JText::_('MOD_SAMPLEDATA_INFO_PRODUCTION'); ?></strong></p>
+<p><?php echo JText::_('MOD_SAMPLEDATA_INFO_LANGUAGE'); ?></p>
+<p><?php echo JText::_('MOD_SAMPLEDATA_INFO_OTHER_CORE'); ?></p>
+<?php if (JLanguageMultilang::isEnabled()) : ?>
+	<p><?php echo JText::_('MOD_SAMPLEDATA_INFO_MULTILINGUAL'); ?></p>
+<?php endif; ?>
+</div>
 <div class="sampledata-container">
 	<?php if ($items) : ?>
 		<div class="row-striped">
