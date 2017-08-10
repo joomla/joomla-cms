@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @since  1.6
  */
-class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterface
+class JFormFieldModal_Article extends JFormField
 {
 	/**
 	 * The form field type.
@@ -127,7 +127,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
-				. '<span class="icon-file"></span> ' . JText::_('JSELECT')
+				. '<span class="icon-file" aria-hidden="true"></span> ' . JText::_('JSELECT')
 				. '</a>';
 		}
 
@@ -141,7 +141,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CONTENT_NEW_ARTICLE') . '">'
-				. '<span class="icon-new"></span> ' . JText::_('JACTION_CREATE')
+				. '<span class="icon-new" aria-hidden="true"></span> ' . JText::_('JACTION_CREATE')
 				. '</a>';
 		}
 
@@ -155,7 +155,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
-				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '<span class="icon-edit" aria-hidden="true"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -167,7 +167,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
 				. '</a>';
 		}
 
@@ -186,7 +186,7 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 				)
 			);
 		}
@@ -209,13 +209,13 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 					'modalWidth'  => '80',
 					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\', \'item-form\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\', \'item-form\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -238,13 +238,13 @@ class JFormFieldModal_Article extends JFormField implements JFormDomfieldinterfa
 					'modalWidth'  => '80',
 					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\', \'item-form\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
+							. JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\', \'item-form\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
+							. JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}

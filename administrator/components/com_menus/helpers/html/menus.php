@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ abstract class MenusHtmlMenus
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 
-					$tooltip = $item->title . '<br />' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
 					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
@@ -106,95 +106,95 @@ abstract class MenusHtmlMenus
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states = array(
-			9 => array(
+			9  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_HEADING',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			8 => array(
+			8  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_HEADING',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			7 => array(
+			7  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_SEPARATOR',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			6 => array(
+			6  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_SEPARATOR',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			5 => array(
+			5  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_ALIAS',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			4 => array(
+			4  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_ALIAS',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			3 => array(
+			3  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_URL',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			2 => array(
+			2  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_URL',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			1 => array(
+			1  => array(
 				'unpublish',
 				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
 				'COM_MENUS_HTML_UNPUBLISH_ENABLED',
 				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			0 => array(
+			0  => array(
 				'publish',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
 				'COM_MENUS_HTML_PUBLISH_ENABLED',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
 			-1 => array(
 				'unpublish',
@@ -203,7 +203,7 @@ abstract class MenusHtmlMenus
 				'COM_MENUS_EXTENSION_PUBLISHED_DISABLED',
 				true,
 				'warning',
-				'warning'
+				'warning',
 			),
 			-2 => array(
 				'publish',
@@ -212,7 +212,7 @@ abstract class MenusHtmlMenus
 				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
 				true,
 				'trash',
-				'trash'
+				'trash',
 			),
 			-3 => array(
 				'publish',
@@ -221,7 +221,7 @@ abstract class MenusHtmlMenus
 				'',
 				true,
 				'trash',
-				'trash'
+				'trash',
 			),
 		);
 
@@ -235,7 +235,7 @@ abstract class MenusHtmlMenus
 	 *
 	 * @return  string  The Html code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function visibility($params)
 	{

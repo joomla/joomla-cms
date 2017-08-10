@@ -3,12 +3,13 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\BaseApplication;
 use Joomla\Registry\Registry;
 
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
@@ -21,9 +22,9 @@ JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
  * and render() functions.
  *
  * @since       1.5
- * @deprecated  3.2  Use JApplicationCms instead unless specified otherwise
+ * @deprecated  3.2  Use CMSApplication instead unless specified otherwise
  */
-class JApplication extends JApplicationBase
+class JApplication extends BaseApplication
 {
 	/**
 	 * The client identifier.
@@ -151,7 +152,7 @@ class JApplication extends JApplicationBase
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false)
 		{
-			$this->_createSession(self::getHash($config['session_name']));
+			$this->_createSession(JApplicationHelper::getHash($config['session_name']));
 		}
 
 		$this->requestTime = gmdate('Y-m-d H:i');
@@ -202,11 +203,11 @@ class JApplication extends JApplicationBase
 
 		// Set user specific editor.
 		$user = JFactory::getUser();
-		$editor = $user->getParam('editor', $this->getCfg('editor'));
+		$editor = $user->getParam('editor', $this->get('editor'));
 
 		if (!JPluginHelper::isEnabled('editors', $editor))
 		{
-			$editor = $this->getCfg('editor');
+			$editor = $this->get('editor');
 
 			if (!JPluginHelper::isEnabled('editors', $editor))
 			{
@@ -305,7 +306,7 @@ class JApplication extends JApplicationBase
 		$this->triggerEvent('onBeforeRender');
 
 		// Render the document.
-		$caching = ($this->getCfg('caching') >= 2) ? true : false;
+		$caching = ($this->get('caching') >= 2);
 		JResponse::setBody($document->render($caching, $params));
 
 		// Trigger the onAfterRender event.
@@ -350,12 +351,12 @@ class JApplication extends JApplicationBase
 		 * We could validly start with something else (e.g. ftp), though this would
 		 * be unlikely and isn't supported by this API.
 		 */
-		if (!preg_match('#^http#i', $url))
+		if (stripos($url, 'http') !== 0)
 		{
 			$uri = JUri::getInstance();
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
-			if ($url[0] == '/')
+			if ($url[0] === '/')
 			{
 				// We just need the prefix since we have a path relative to the root.
 				$url = $prefix . $url;
@@ -387,7 +388,7 @@ class JApplication extends JApplicationBase
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
 		}
 		else
 		{
@@ -397,9 +398,9 @@ class JApplication extends JApplicationBase
 
 			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
-				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
+				// MSIE type browser and/or server cause issues when URL contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script></head></html>';
+					. '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script></head></html>';
 			}
 			else
 			{
@@ -535,7 +536,7 @@ class JApplication extends JApplicationBase
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->get($key, $default);
 		}
@@ -559,12 +560,10 @@ class JApplication extends JApplicationBase
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->set($key, $value);
 		}
-
-		return;
 	}
 
 	/**
@@ -575,7 +574,7 @@ class JApplication extends JApplicationBase
 	 * @param   string  $default  The default value for the variable if not found. Optional.
 	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
-	 * @return  The request user state.
+	 * @return  mixed  The request user state.
 	 *
 	 * @since   1.5
 	 * @deprecated  3.2
@@ -680,7 +679,7 @@ class JApplication extends JApplicationBase
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -690,7 +689,7 @@ class JApplication extends JApplicationBase
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
 
-				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
+				if (isset($response->length, $response->secure, $response->lifetime))
 				{
 					$options['length'] = $response->length;
 					$options['secure'] = $response->secure;
@@ -764,7 +763,7 @@ class JApplication extends JApplicationBase
 		if (!in_array(false, $results, true))
 		{
 				$options['username'] = $user->get('username');
-				$results = $this->triggerEvent('onUserAfterLogout', array($options));
+				$this->triggerEvent('onUserAfterLogout', array($options));
 
 			return true;
 		}
@@ -972,14 +971,14 @@ class JApplication extends JApplicationBase
 		switch ($this->_clientId)
 		{
 			case 0:
-				if ($this->getCfg('force_ssl') == 2)
+				if ($this->get('force_ssl') == 2)
 				{
 					$options['force_ssl'] = true;
 				}
 				break;
 
 			case 1:
-				if ($this->getCfg('force_ssl') >= 1)
+				if ($this->get('force_ssl') >= 1)
 				{
 					$options['force_ssl'] = true;
 				}
@@ -1012,10 +1011,9 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		$handler = $this->getCfg('session_handler');
+		$handler = $this->get('session_handler');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1152,7 +1150,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function isClient($identifier)
 	{
@@ -1184,7 +1182,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**
@@ -1197,7 +1195,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function __toString()
 	{
-		$compress = $this->getCfg('gzip', false);
+		$compress = $this->get('gzip', false);
 
 		return JResponse::toString($compress);
 	}

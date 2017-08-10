@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,6 +57,9 @@ class CategoriesModelCategory extends JModelAdmin
 		parent::__construct($config);
 		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
 		$this->typeAlias = $extension . '.category';
+
+		// Add a new batch command
+		$this->batch_commands['flip_ordering'] = 'batchFlipordering';
 	}
 
 	/**
@@ -271,9 +274,11 @@ class CategoriesModelCategory extends JModelAdmin
 			$data['extension'] = $extension;
 		}
 
-		$user = JFactory::getUser();
+		$categoryId = $jinput->get('id');
+		$parts      = explode('.', $extension);
+		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
+		if (!JFactory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -436,7 +441,6 @@ class CategoriesModelCategory extends JModelAdmin
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
 				$fieldset->addAttribute('name', 'item_associations');
-				$fieldset->addAttribute('description', 'COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 
 				foreach ($languages as $language)
 				{
@@ -479,7 +483,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 
-		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
 			$table->newTags = $data['tags'];
 		}
@@ -547,7 +551,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		if (in_array(false, $result, true))
 		{
@@ -583,9 +587,9 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Detecting all item menus
-			$all_language = $table->language == '*';
+			$allLanguage = $table->language == '*';
 
-			if ($all_language && !empty($associations))
+			if ($allLanguage && !empty($associations))
 			{
 				JError::raiseNotice(403, JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
@@ -598,7 +602,7 @@ class CategoriesModelCategory extends JModelAdmin
 				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
 				->where($db->quoteName('id') . ' = ' . (int) $table->id);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
 			// Deleting old associations for the associated items
 			$query = $db->getQuery(true)
@@ -608,11 +612,11 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')');
 			}
 			else
 			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
+				$query->where($db->quoteName('key') . ' = ' . $db->quote($oldKey));
 			}
 
 			$db->setQuery($query);
@@ -629,7 +633,7 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Adding self to the association
-			if (!$all_language)
+			if (!$allLanguage)
 			{
 				$associations[$table->language] = (int) $table->id;
 			}
@@ -662,7 +666,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew, $data));
 
 		// Rebuild the path for the category:
 		if (!$table->rebuildPath($table->id))
@@ -819,6 +823,56 @@ class CategoriesModelCategory extends JModelAdmin
 	}
 
 	/**
+	 * Batch flip category ordering.
+	 *
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed    An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   3.6.3
+	 */
+	protected function batchFlipordering($value, $pks, $contexts)
+	{
+		$successful = array();
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		/**
+		 * For each category get the max ordering value
+		 * Re-order with max - ordering
+		 */
+		foreach ($pks as $id)
+		{
+			$query->select('MAX(ordering)')
+				->from('#__content')
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			$max = (int) $db->loadresult();
+			$max++;
+
+			$query->clear();
+
+			$query->update('#__content')
+				->set($db->qn('ordering') . ' = ' . $max . ' - ' . $db->qn('ordering'))
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			if ($db->execute())
+			{
+				$successful[] = $id;
+			}
+		}
+
+		return empty($successful) ? false : $successful;
+	}
+
+	/**
 	 * Batch copy categories to a new category.
 	 *
 	 * @param   integer  $value     The new category.
@@ -959,7 +1013,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				if (!in_array($childId, $pks))
 				{
-					array_push($pks, $childId);
+					$pks[] = $childId;
 				}
 			}
 

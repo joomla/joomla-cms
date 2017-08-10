@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,12 +62,9 @@ class PlgSearchNewsfeeds extends JPlugin
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent = $this->params->get('search_content', 1);
@@ -92,7 +89,7 @@ class PlgSearchNewsfeeds extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -122,7 +119,7 @@ class PlgSearchNewsfeeds extends JPlugin
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -164,8 +161,8 @@ class PlgSearchNewsfeeds extends JPlugin
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
 
-		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . "," . $case_when1)
-			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), " / ") . ' AS section')
+		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . ',' . $case_when1)
+			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), ' / ') . ' AS section')
 			->select('\'1\' AS browsernav')
 			->from('#__newsfeeds AS a')
 			->join('INNER', '#__categories as c ON c.id = a.catid')
@@ -173,7 +170,7 @@ class PlgSearchNewsfeeds extends JPlugin
 			->order($order);
 
 		// Filter by language.
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')

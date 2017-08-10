@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?></p>
 				<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
 			</div>
-			<div class="alert span6">
+			<div class="alert alert-info span6">
 				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC2'); ?></p>
 			</div>
 		</div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,29 @@ defined('_JEXEC') or die;
  */
 class PlgSystemCache extends JPlugin
 {
-	var $_cache = null;
+	/**
+	 * Cache instance.
+	 *
+	 * @var    JCache
+	 * @since  1.5
+	 */
+	public $_cache;
 
-	var $_cache_key = null;
+	/**
+	 * Cache key
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	public $_cache_key;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.8.0
+	 */
+	protected $app;
 
 	/**
 	 * Constructor.
@@ -39,6 +59,12 @@ class PlgSystemCache extends JPlugin
 			'caching'      => false,
 		);
 
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+
 		$this->_cache     = JCache::getInstance('page', $options);
 		$this->_cache_key = JUri::getInstance()->toString();
 	}
@@ -52,10 +78,10 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		$app  = JFactory::getApplication();
+		$app  = $this->app;
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}
@@ -65,7 +91,7 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		if ($user->get('guest') && $app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -97,9 +123,9 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterRespond()
 	{
-		$app = JFactory::getApplication();
+		$app = $this->app;
 
-		if ($app->isAdmin())
+		if ($app->isClient('administrator'))
 		{
 			return;
 		}
@@ -131,9 +157,9 @@ class PlgSystemCache extends JPlugin
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
 			// Get the current menu item
-			$active = JFactory::getApplication()->getMenu()->getActive();
+			$active = $this->app->getMenu()->getActive();
 
-			if ($active && $active->id && in_array($active->id, (array) $exclusions))
+			if ($active && $active->id && in_array($active->id, (array) $exclusions, true))
 			{
 				return true;
 			}
@@ -157,7 +183,7 @@ class PlgSystemCache extends JPlugin
 				foreach ($exclusions as $exclusion)
 				{
 					// Make sure the exclusion has some content
-					if (strlen($exclusion))
+					if ($exclusion !== '')
 					{
 						if (preg_match('/' . $exclusion . '/is', $path, $match))
 						{

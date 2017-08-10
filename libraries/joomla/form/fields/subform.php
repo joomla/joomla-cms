@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -203,6 +203,12 @@ class JFormFieldSubform extends JFormField
 			$this->value = json_decode($this->value, true);
 		}
 
+		if (!$this->formsource && $element->form)
+		{
+			// Set the formsource parameter from the content of the node
+			$this->formsource = $element->form->saveXML();
+		}
+
 		return true;
 	}
 
@@ -215,7 +221,7 @@ class JFormFieldSubform extends JFormField
 	 */
 	protected function getInput()
 	{
-		$value = $this->value ? $this->value : array();
+		$value = $this->value ? (array) $this->value : array();
 
 		// Prepare data for renderer
 		$data    = parent::getLayoutData();
@@ -350,5 +356,4 @@ class JFormFieldSubform extends JFormField
 
 		return $name;
 	}
-
 }

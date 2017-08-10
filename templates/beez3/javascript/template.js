@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.2
  */
@@ -30,7 +30,7 @@
 
 			if (!input.prop('checked')) {
 				label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
+				if (input.val() === '') {
 					label.addClass('active btn-primary');
 				} else if (input.val() == 0) {
 					label.addClass('active btn-danger');

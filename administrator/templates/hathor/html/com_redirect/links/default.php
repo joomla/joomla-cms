@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,8 +131,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			'bootstrap.renderModal',
 			'collapseModal',
 			array(
-				'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'title'  => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>
@@ -140,15 +140,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 	<?php echo $this->pagination->getListFooter(); ?>
 	<p class="footer-tip">
-		<?php if ($this->enabled) : ?>
-			<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
-			<?php if ($this->collect_urls_enabled) : ?>
-				<span class="enabled"><?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?></span>
-			<?php else : ?>
-				<span class="enabled"><?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?></span>
-			<?php endif; ?>
-		<?php else : ?>
-			<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
+		<?php if ($this->enabled && $this->collect_urls_enabled) : ?>
+			<span class="enabled"><?php echo JText::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED')); ?></span>
+		<?php elseif ($this->enabled && !$this->collect_urls_enabled) : ?>
+			<?php $link = JHtml::_(
+				'link',
+				JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId()),
+				JText::_('COM_REDIRECT_SYSTEM_PLUGIN')
+			);
+			?>
+			<span class="enabled"><?php echo JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link); ?></span>
+		<?php elseif (!$this->enabled) : ?>
+			<span class="disabled"><?php echo JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId()); ?></span>
 		<?php endif; ?>
 	</p>
 	<div class="clr"></div>

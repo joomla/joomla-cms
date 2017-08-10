@@ -3,7 +3,7 @@
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -22,7 +22,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_categories/models/fields">
+				addfieldpath="/administrator/components/com_categories/models/fields"
 			>
 				<field
 					name="parent"

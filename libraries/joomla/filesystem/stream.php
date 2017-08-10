@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,11 +17,11 @@ defined('JPATH_PLATFORM') or die;
  * atomic manner.
  *
  * @note   This class adheres to the stream wrapper operations:
- * @see    https://secure.php.net/manual/en/function.stream-get-wrappers.php
- * @see    https://secure.php.net/manual/en/intro.stream.php PHP Stream Manual
- * @see    https://secure.php.net/manual/en/wrappers.php Stream Wrappers
- * @see    https://secure.php.net/manual/en/filters.php Stream Filters
- * @see    https://secure.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @link   https://secure.php.net/manual/en/function.stream-get-wrappers.php
+ * @link   https://secure.php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @link   https://secure.php.net/manual/en/wrappers.php Stream Wrappers
+ * @link   https://secure.php.net/manual/en/filters.php Stream Filters
+ * @link   https://secure.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  11.1
  */
 class JStream extends JObject
@@ -94,7 +94,7 @@ class JStream extends JObject
 	/**
 	 * File Handle
 	 *
-	 * @var    array
+	 * @var    resource
 	 * @since  12.1
 	 */
 	protected $fh;
@@ -533,7 +533,7 @@ class JStream extends JObject
 	 *
 	 * @return  mixed
 	 *
-	 * @see     https://secure.php.net/manual/en/function.fread.php
+	 * @link    https://secure.php.net/manual/en/function.fread.php
 	 * @since   11.1
 	 */
 	public function read($length = 0)
@@ -636,7 +636,7 @@ class JStream extends JObject
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     https://secure.php.net/manual/en/function.fseek.php
+	 * @link    https://secure.php.net/manual/en/function.fseek.php
 	 * @since   11.1
 	 */
 	public function seek($offset, $whence = SEEK_SET)
@@ -749,7 +749,7 @@ class JStream extends JObject
 	 *
 	 * @return  boolean
 	 *
-	 * @see     https://secure.php.net/manual/en/function.fwrite.php
+	 * @link    https://secure.php.net/manual/en/function.fwrite.php
 	 * @since   11.1
 	 */
 	public function write(&$string, $length = 0, $chunk = 0)
@@ -891,7 +891,7 @@ class JStream extends JObject
 	 *
 	 * @return  array  header/metadata
 	 *
-	 * @see     https://secure.php.net/manual/en/function.stream-get-meta-data.php
+	 * @link    https://secure.php.net/manual/en/function.stream-get-meta-data.php
 	 * @since   11.1
 	 */
 	public function get_meta_data()
@@ -936,7 +936,7 @@ class JStream extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @see     https://secure.php.net/stream_context_create
+	 * @link    https://secure.php.net/stream_context_create
 	 * @since   11.1
 	 */
 	public function setContextOptions($context)
@@ -954,8 +954,8 @@ class JStream extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @see     https://secure.php.net/stream_context_create Stream Context Creation
-	 * @see     https://secure.php.net/manual/en/context.php Context Options for various streams
+	 * @link    https://secure.php.net/stream_context_create Stream Context Creation
+	 * @link    https://secure.php.net/manual/en/context.php Context Options for various streams
 	 * @since   11.1
 	 */
 	public function addContextEntry($wrapper, $name, $value)
@@ -972,7 +972,7 @@ class JStream extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @see     https://secure.php.net/stream_context_create
+	 * @link    https://secure.php.net/stream_context_create
 	 * @since   11.1
 	 */
 	public function deleteContextEntry($wrapper, $name)
@@ -1042,7 +1042,7 @@ class JStream extends JObject
 	 *
 	 * @return  mixed
 	 *
-	 * @see     https://secure.php.net/manual/en/function.stream-filter-append.php
+	 * @link    https://secure.php.net/manual/en/function.stream-filter-append.php
 	 * @since   11.1
 	 */
 	public function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
@@ -1083,7 +1083,7 @@ class JStream extends JObject
 	 *
 	 * @return  mixed
 	 *
-	 * @see     https://secure.php.net/manual/en/function.stream-filter-prepend.php
+	 * @link    https://secure.php.net/manual/en/function.stream-filter-prepend.php
 	 * @since   11.1
 	 */
 	public function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
@@ -1411,7 +1411,7 @@ class JStream extends JObject
 	/**
 	 * Return the internal file handle
 	 *
-	 * @return  File handler
+	 * @return  resource  File handler
 	 *
 	 * @since   11.1
 	 */

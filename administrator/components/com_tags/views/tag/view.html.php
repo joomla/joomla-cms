@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,9 +44,7 @@ class TagsViewTag extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$input->set('hidemainmenu', true);
@@ -117,7 +115,7 @@ class TagsViewTag extends JViewLegacy
 				JToolbarHelper::save2copy('tag.save2copy');
 			}
 
-			if ($this->state->params->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_tags.tag', $this->item->id);
 			}

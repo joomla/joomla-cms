@@ -180,7 +180,7 @@ CREATE TABLE `jos_extensions` (
   `element` TEXT NOT NULL DEFAULT '',
   `folder` TEXT NOT NULL DEFAULT '',
   `client_id` INTEGER NOT NULL,
-  `enabled` INTEGER NOT NULL DEFAULT '1',
+  `enabled` INTEGER NOT NULL DEFAULT '0',
   `access` INTEGER NOT NULL DEFAULT '1',
   `protected` INTEGER NOT NULL DEFAULT '0',
   `manifest_cache` TEXT NOT NULL DEFAULT '',
@@ -327,6 +327,7 @@ CREATE TABLE `jos_menu_types` (
 
 CREATE TABLE `jos_modules` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `asset_id` INTEGER NOT NULL DEFAULT '0',
   `title` TEXT NOT NULL DEFAULT '',
   `note` TEXT NOT NULL DEFAULT '',
   `content` TEXT NOT NULL DEFAULT '',

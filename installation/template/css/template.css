@@ -1,7 +1,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 .container{
@@ -213,4 +213,13 @@ fieldset {
 }
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#jform_activateMultilanguage [class*="btn-"]:active,
+#jform_activateMultilanguage [class*="btn-"].active,
+#jform_installLocalisedContent [class*="btn-"]:active,
+#jform_installLocalisedContent [class*="btn-"].active,
+#jform_activatePluginLanguageCode [class*="btn-"]:active,
+#jform_activatePluginLanguageCode [class*="btn-"].active {
+    background-color: #294f7e;
 }

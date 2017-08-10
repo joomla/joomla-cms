@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,9 +46,9 @@ defined('_JEXEC') or die;
 				<?php $key = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
 				$msgs = $error->msgElements;
 				$file = basename($error->file);
-				$msg0 = (isset($msgs[0])) ? $msgs[0] : ' ';
-				$msg1 = (isset($msgs[1])) ? $msgs[1] : ' ';
-				$msg2 = (isset($msgs[2])) ? $msgs[2] : ' ';
+				$msg0 = isset($msgs[0]) ? $msgs[0] : ' ';
+				$msg1 = isset($msgs[1]) ? $msgs[1] : ' ';
+				$msg2 = isset($msgs[2]) ? $msgs[2] : ' ';
 				$message = JText::sprintf($key, $file, $msg0, $msg1, $msg2); ?>
 				<li><?php echo $message; ?></li>
 			<?php endforeach; ?>

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JComponentRouterViewInspector.php';
@@ -41,6 +41,10 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		parent::setUp();
 
 		$app = $this->getMockCmsApp();
+
+		JFactory::$application = $app;
+		JFactory::$session = $this->getMockSession();
+
 		$this->object = new JComponentRouterViewInspector($app, $app->getMenu());
 	}
 
@@ -49,13 +53,12 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->object);
-		unset($app);
+		unset($this->object, $app);
 		parent::tearDown();
 	}
 
@@ -125,6 +128,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	public function casesGetPath()
 	{
 		$cases   = array();
+
 		// No view, so we don't have a path to return.
 		$cases[] = array(array('task' => 'edit'), array());
 
@@ -137,7 +141,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		// View with parent and children
 		$cases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array(9 => '9:uncategorised'), 'categories' => array(9 => '9:uncategorised')));
 
-		//View with parent, no children
+		// View with parent, no children
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '9'),
 			array(
 				'article' => array(42 => '42:question-for-everything'),
@@ -146,7 +150,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 			)
 		);
 
-		//View with parent, no children and nested view
+		// View with parent, no children and nested view
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '20'),
 			array(
 				'article' => array(42 => '42:question-for-everything'),

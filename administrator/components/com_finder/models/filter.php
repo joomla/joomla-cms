@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -163,13 +163,11 @@ class FinderModelFilter extends JModelAdmin
 	 */
 	public function getTotal()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('MAX(link_id)')
 			->from('#__finder_links');
-		$db->setQuery($query);
-		$total = $db->loadResult();
 
-		return $total;
+		return $db->setQuery($query)->loadResult();
 	}
 }
