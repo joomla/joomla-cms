@@ -1029,7 +1029,6 @@
 				type="textarea" 
 				label="JFIELD_META_RIGHTS_LABEL"
 				description="JFIELD_META_RIGHTS_DESC" 
-				required="false" 
 				filter="string"
 				cols="30" 
 				rows="2" 
