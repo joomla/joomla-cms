@@ -1376,5 +1376,55 @@
             "secret-key cryptography",
             "side-channel resistant"
         ]
+    },
+    {
+        "name": "joomla/image",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/image.git",
+            "reference": "d5a76037add34f95e970e9d8c8a449feeb781286"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/image/zipball/d5a76037add34f95e970e9d8c8a449feeb781286",
+            "reference": "d5a76037add34f95e970e9d8c8a449feeb781286",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "php": "^5.3.10|~7.0",
+            "psr/log": "~1.0"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "time": "2017-06-28T14:14:15+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Image\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Image Package",
+        "homepage": "https://github.com/joomla-framework/image",
+        "keywords": [
+            "framework",
+            "image",
+            "joomla"
+        ]
     }
 ]
