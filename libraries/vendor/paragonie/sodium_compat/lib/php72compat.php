@@ -303,6 +303,80 @@ if (!is_callable('sodium_crypto_kx')) {
         );
     }
 }
+if (!is_callable('sodium_crypto_pwhash')) {
+    /**
+     * @param int $outlen
+     * @param string $passwd
+     * @param string $salt
+     * @param int $opslimit
+     * @param int $memlimit
+     * @return string
+     */
+    function sodium_crypto_pwhash($outlen, $passwd, $salt, $opslimit, $memlimit)
+    {
+        return ParagonIE_Sodium_Compat::crypto_pwhash($outlen, $passwd, $salt, $opslimit, $memlimit);
+    }
+}
+if (!is_callable('sodium_crypto_pwhash_str')) {
+    /**
+     * @param string $passwd
+     * @param int $opslimit
+     * @param int $memlimit
+     * @return string
+     */
+    function sodium_crypto_pwhash_str($passwd, $opslimit, $memlimit)
+    {
+        return ParagonIE_Sodium_Compat::crypto_pwhash_str($passwd, $opslimit, $memlimit);
+    }
+}
+if (!is_callable('sodium_crypto_pwhash_str_verify')) {
+    /**
+     * @param string $passwd
+     * @param string $hash
+     * @return bool
+     */
+    function sodium_crypto_pwhash_str_verify($passwd, $hash)
+    {
+        return ParagonIE_Sodium_Compat::crypto_pwhash_str_verify($passwd, $hash);
+    }
+}
+if (!is_callable('sodium_crypto_pwhash_scryptsalsa208sha256')) {
+    /**
+     * @param int $outlen
+     * @param string $passwd
+     * @param string $salt
+     * @param int $opslimit
+     * @param int $memlimit
+     * @return string
+     */
+    function sodium_crypto_pwhash_scryptsalsa208sha256($outlen, $passwd, $salt, $opslimit, $memlimit)
+    {
+        return ParagonIE_Sodium_Compat::crypto_pwhash_scryptsalsa208sha256($outlen, $passwd, $salt, $opslimit, $memlimit);
+    }
+}
+if (!is_callable('sodium_crypto_pwhash_scryptsalsa208sha256_str')) {
+    /**
+     * @param string $passwd
+     * @param int $opslimit
+     * @param int $memlimit
+     * @return string
+     */
+    function sodium_crypto_pwhash_scryptsalsa208sha256_str($passwd, $opslimit, $memlimit)
+    {
+        return ParagonIE_Sodium_Compat::crypto_pwhash_scryptsalsa208sha256_str($passwd, $opslimit, $memlimit);
+    }
+}
+if (!is_callable('sodium_crypto_pwhash_scryptsalsa208sha256_str_verify')) {
+    /**
+     * @param string $passwd
+     * @param string $hash
+     * @return bool
+     */
+    function sodium_crypto_pwhash_scryptsalsa208sha256_str_verify($passwd, $hash)
+    {
+        return ParagonIE_Sodium_Compat::crypto_pwhash_scryptsalsa208sha256_str_verify($passwd, $hash);
+    }
+}
 if (!is_callable('sodium_crypto_scalarmult')) {
     /**
      * @param string $n

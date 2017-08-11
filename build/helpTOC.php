@@ -40,6 +40,10 @@ ini_set('display_errors', 1);
 // Load the admin en-GB.ini language file to get the JHELP language keys
 Factory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
 
+// Import namespaced classes
+use Joomla\CMS\Version;
+use Joomla\Registry\Registry;
+
 /**
  * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view.
  *
@@ -57,8 +61,8 @@ class MediawikiCli extends CliApplication
 	public function doExecute()
 	{
 		// Get the version data for the script
-		$helpVersion = str_replace('.', '', Version::RELEASE);
-		$namespace   = 'Help' . $helpVersion . ':';
+		$minorVersion = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
+		$namespace    = 'Help' . $minorVersion . ':';
 
 		// Set up options for JMediawiki
 		$options = new Registry;
@@ -68,7 +72,7 @@ class MediawikiCli extends CliApplication
 
 		// Get the category members (local hack)
 		$this->out('Fetching data from docs wiki', true);
-		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . Version::RELEASE, null, 'max');
+		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . $minorVersion, null, 'max');
 
 		$members = array();
 
