@@ -160,8 +160,30 @@ class ContentControllerArticle extends JControllerForm
 	{
 		parent::cancel($key);
 
-		// Redirect to the return page.
-		$this->setRedirect(JRoute::_($this->getReturnPage()));
+		$app       = JFactory::getApplication();
+
+		// Load the parameters.
+		$params   = $app->getParams();
+		$menuitem = (int) $params->get('redirect_menuitem');
+
+		if ($menuitem > 0)
+		{
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled())
+			{
+				$item = $app->getMenu()->getItem($menuitem);
+				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+			}
+
+			// Redirect to the return page.
+			$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
+		}
+		else
+		{
+			// Redirect to the return page.
+			$this->setRedirect(JRoute::_($this->getReturnPage(), false));
+		}
 	}
 
 	/**
