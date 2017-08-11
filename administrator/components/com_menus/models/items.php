@@ -106,6 +106,9 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
+		$checkedOut = $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string');
+		$this->setState('filter.checked_out', $checkedOut);
+
 		// Watch changes in client_id and menutype and keep sync whenever needed.
 		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
 		$clientId        = $app->input->getInt('client_id', $currentClientId);
@@ -207,6 +210,8 @@ class MenusModelItems extends JModelList
 		$id .= ':' . $this->getState('filter.parent_id');
 		$id .= ':' . $this->getState('filter.menutype');
 		$id .= ':' . $this->getState('filter.client_id');
+		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -413,6 +418,15 @@ class MenusModelItems extends JModelList
 		if ($language = $this->getState('filter.language'))
 		{
 			$query->where('a.language = ' . $db->quote($language));
+		}
+
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
 		}
 
 		// Add the list ordering clause.
