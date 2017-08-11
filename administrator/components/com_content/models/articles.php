@@ -120,6 +120,9 @@ class ContentModelArticles extends JModelList
 		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 		$this->setState('filter.tag', $tag);
 
+		$checkedOut = $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string');
+		$this->setState('filter.checked_out', $checkedOut);
+
 		// List state information.
 		parent::populateState($ordering, $direction);
 
@@ -153,6 +156,9 @@ class ContentModelArticles extends JModelList
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.author_id');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.tag');
+		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -321,6 +327,15 @@ class ContentModelArticles extends JModelList
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);
+		}
+
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
 		}
 
 		// Add the list ordering clause.
