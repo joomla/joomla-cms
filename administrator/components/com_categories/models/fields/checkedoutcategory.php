@@ -18,7 +18,7 @@ FormHelper::loadFieldClass('checkedout');
 /**
  * Form Field to load a list of users who checked items out.
  *
- * @since  3.8
+ * @since  __DEPLOY_VERSION__
  */
 class CheckedoutCategoryField extends CheckedoutField
 {
@@ -26,7 +26,7 @@ class CheckedoutCategoryField extends CheckedoutField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  3.8
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $type = 'CheckedoutCategory';
 
@@ -35,7 +35,7 @@ class CheckedoutCategoryField extends CheckedoutField
 	 *
 	 * @return  JDatabaseQuery  The query for the checked out category form field.
 	 *
-	 * @since   3.8
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getQuery()
 	{
