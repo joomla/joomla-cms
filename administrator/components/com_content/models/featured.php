@@ -220,6 +220,15 @@ class ContentModelFeatured extends ContentModelArticles
 				);
 		}
 
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
+		}
+
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.title');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
