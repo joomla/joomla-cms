@@ -84,9 +84,7 @@ class CategoriesViewCategories extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -186,7 +184,7 @@ class CategoriesViewCategories extends JViewLegacy
 		// Prepare the toolbar.
 		JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('category.add');
 		}
@@ -277,12 +275,12 @@ class CategoriesViewCategories extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
 			'a.published' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.title'     => JText::_('JGLOBAL_TITLE'),
+			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
+			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

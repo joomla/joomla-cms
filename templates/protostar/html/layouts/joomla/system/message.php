@@ -18,7 +18,7 @@ $alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-inf
 		<div id="system-message">
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<div class="alert <?php echo isset($alert[$type]) ? $alert[$type] : 'alert-' . $type; ?>">
-					<?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
+					<?php // This requires JS so we should add it through JS. Progressive enhancement and stuff. ?>
 					<a class="close" data-dismiss="alert">×</a>
 
 					<?php if (!empty($msgs)) : ?>

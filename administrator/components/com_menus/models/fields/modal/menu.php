@@ -24,7 +24,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $type = 'Modal_Menu';
-	
+
 	/**
 	 * Determinate, if the select button is shown
 	 *
@@ -32,7 +32,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowSelect = true;
-	
+
 	/**
 	 * Determinate, if the clear button is shown
 	 *
@@ -40,7 +40,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowClear = true;
-	
+
 	/**
 	 * Determinate, if the create button is shown
 	 *
@@ -48,7 +48,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowNew = false;
-	
+
 	/**
 	 * Determinate, if the edit button is shown
 	 *
@@ -111,7 +111,7 @@ class JFormFieldModal_Menu extends JFormField
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -218,7 +218,20 @@ class JFormFieldModal_Menu extends JFormField
 			}
 		}
 
-		$title = empty($title) ? JText::_('COM_MENUS_SELECT_A_MENUITEM') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		// Placeholder if option is present or not
+		if (empty($title))
+ 		{
+			if ($this->element->option && (string) $this->element->option['value'] == '')
+			{
+				$title_holder = JText::_($this->element->option, true);
+			}
+			else
+			{
+				$title_holder = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
+			}
+		}
+
+		$title = empty($title) ? $title_holder : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current menu item display field.
 		$html  = '<span class="input-append">';
@@ -359,8 +372,18 @@ class JFormFieldModal_Menu extends JFormField
 		// Note: class='required' for client side validation.
 		$class = $this->required ? ' class="required modal-value"' : '';
 
+		// Placeholder if option is present or not when clearing field
+		if ($this->element->option && (string) $this->element->option['value'] == '')
+		{
+			$title_holder = JText::_($this->element->option, true);
+		}
+		else
+		{
+			$title_holder = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
+		}
+
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(JText::_('COM_MENUS_SELECT_A_MENUITEM', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
+			. '" data-text="' . htmlspecialchars($title_holder, ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
 		return $html;
 	}
