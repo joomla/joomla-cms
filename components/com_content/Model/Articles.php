@@ -197,7 +197,7 @@ class Articles extends ListModel
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Published/archived article in archive category is treats as archive article
 					// If category is not published then force 0
-					'CASE WHEN c.published = 2 AND s.condition > 0 THEN 3 WHEN c.published != 1 THEN 1 ELSE s.condition END as state,' .
+					'CASE WHEN c.published = 2 AND s.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE s.condition END as state,' .
 					// Use created if modified is 0
 					'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, uam.name as modified_by_name,' .
@@ -271,7 +271,7 @@ class Articles extends ListModel
 		{
 			// If category is archived then article has to be published or archived.
 			// If categogy is published then article has to be archived.
-			$query->where('(c.published = 2 AND a.s.condition > 0) OR (c.published = 1 AND s.condition = 3)');
+			$query->where('(c.published = 2 AND s.condition > 2) OR (c.published = 1 AND s.condition = 3)');
 		}
 		elseif (is_numeric($published))
 		{
