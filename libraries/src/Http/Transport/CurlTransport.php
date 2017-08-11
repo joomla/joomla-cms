@@ -188,6 +188,14 @@ class CurlTransport implements TransportInterface
 		foreach ($this->options->get('transport.curl', array()) as $key => $value)
 		{
 			$options[$key] = $value;
+
+			if ($key == CURLOPT_FILE && (bool) $value)
+			{
+				$this->headers = '';
+
+				$options[CURLOPT_HEADER] = false;
+				$options[CURLOPT_HEADERFUNCTION] = array($this, 'getHeaders');
+			}
 		}
 
 		// Authentification, if needed
@@ -203,8 +211,8 @@ class CurlTransport implements TransportInterface
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
 
-		// Check if the content is a string. If it is not, it must be an error.
-		if (!is_string($content))
+		// Check if the content is a string or is boolean true. If it is not, it must be an error.
+		if (!is_string($content) && !(bool)$content)
 		{
 			$message = curl_error($ch);
 
@@ -222,6 +230,12 @@ class CurlTransport implements TransportInterface
 
 		// Close the connection.
 		curl_close($ch);
+
+		// If headers are set append to the content.
+		if (isset($this->headers))
+		{
+			$content = $this->headers . (is_bool($content) ? "" : $content);
+		}
 
 		$response = $this->getResponse($content, $info);
 
@@ -366,5 +380,20 @@ class CurlTransport implements TransportInterface
 		}
 
 		return false;
+	}
+
+	/**
+	 * Gets each header returned by cURL, appending it to the headers string.
+	 *
+	 * @param   resource  $ch      The cURL resource.
+	 * @param   string    $header  The header string.
+	 *
+	 * @return  int       The length of the header.
+	 */
+	private function getHeaders($ch, $header)
+	{
+		$this->headers .= $header;
+
+		return strlen($header);
 	}
 }
