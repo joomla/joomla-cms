@@ -62,6 +62,7 @@ class BannersModelClients extends JModelList
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
 		$this->setState('filter.purchase_type', $this->getUserStateFromRequest($this->context . '.filter.purchase_type', 'filter_purchase_type'));
+		$this->setState('filter.checked_out', $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string'));
 
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_banners'));
@@ -87,6 +88,7 @@ class BannersModelClients extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.purchase_type');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -172,6 +174,15 @@ class BannersModelClients extends JModelList
 			{
 				$query->where('a.purchase_type = ' . (int) $purchaseType);
 			}
+		}
+
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
 		}
 
 		// Add the list ordering clause.
