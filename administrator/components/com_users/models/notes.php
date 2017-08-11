@@ -40,6 +40,7 @@ class UsersModelNotes extends JModelList
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'level', 'c.level',
+				'checked_out', 'a.checked_out'
 			);
 		}
 
@@ -136,6 +137,15 @@ class UsersModelNotes extends JModelList
 			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
 		}
 
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.review_time')) . ' ' . $db->escape($this->getState('list.direction', 'DESC')));
 
@@ -163,6 +173,7 @@ class UsersModelNotes extends JModelList
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.user_id');
 		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -214,6 +225,7 @@ class UsersModelNotes extends JModelList
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id'));
 		$this->setState('filter.user_id', $this->getUserStateFromRequest($this->context . '.filter.user_id', 'filter_user_id'));
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
+		$this->setState('filter.checked_out', $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string'));
 
 		parent::populateState($ordering, $direction);
 	}
