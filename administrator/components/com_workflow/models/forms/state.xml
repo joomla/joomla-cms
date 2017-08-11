@@ -51,6 +51,7 @@
 				label="COM_WORKFLOW_PUBLISHED_LABEL"
 				required="true"
 				default="1"
+				filter="-2,0,1"
 		/>
 		<field
 				name="default"
