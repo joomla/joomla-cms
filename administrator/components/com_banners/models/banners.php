@@ -190,6 +190,15 @@ class BannersModelBanners extends JModelList
 			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
 		}
 
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
+		}
+
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.name');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
@@ -231,6 +240,7 @@ class BannersModelBanners extends JModelList
 		$id .= ':' . $this->getState('filter.client_id');
 		$id .= ':' . $this->getState('filter.language');
 		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -272,6 +282,7 @@ class BannersModelBanners extends JModelList
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '', 'cmd'));
 		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
+		$this->setState('filter.checked_out', $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string'));
 
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_banners'));
