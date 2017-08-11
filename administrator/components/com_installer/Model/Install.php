@@ -175,7 +175,7 @@ class Install extends Model
 
 		if ($isValidChecksum === null)
 		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'info');
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
 		}
 		elseif ($isValidChecksum === false)
 		{
