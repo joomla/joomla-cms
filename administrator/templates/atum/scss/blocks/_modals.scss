@@ -8,10 +8,10 @@
 
   .btn-primary:not([href]),
   .btn-success:not([href]) {
-    color: $btn-primary-color;
+    color: #fff;
 
     &:hover {
-      color: $btn-primary-color;
+      color: #fff;
     }
 
   }

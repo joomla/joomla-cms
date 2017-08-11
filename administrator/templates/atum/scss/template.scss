@@ -5,9 +5,10 @@
 @import "../../../../media/vendor/flying-focus-a11y/scss/flying-focus";
 
 // Bootstrap
+@import "../../../../media/vendor/bootstrap/scss/functions";
 @import "../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/custom";
+@import "../../../../media/vendor/bootstrap/scss/custom-forms";
 
 // Alert
 @import "../../../../media/system/scss/jalert";
@@ -35,7 +36,7 @@
 
 // Vendor overrides
 @import "vendor/awesomplete";
-@import "vendor/bootstrap/alert";
+//@import "vendor/bootstrap/alert";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
 @import "vendor/bootstrap/custom-forms";

@@ -58,13 +58,13 @@
       margin: 0 6px 0 -10px;
       line-height: $atum-toolbar-line-height;
       color: inherit;
-      background-color: $gray-lighter;
+      background-color: $gray-200;
       border-right: 1px solid $atum-border-color;
       border-radius: 3px 0 0 3px;
     }
 
     &:hover {
-      background-color: $gray-lighter;
+      background-color: $gray-200;
       border-color: $atum-border-color;
     }
 

@@ -5,7 +5,7 @@
 @import "../../../media/vendor/flying-focus-a11y/scss/flying-focus";
 
 // Bootstrap
-@import "../../../media/vendor/bootstrap/scss/variables";
+//@import "../../../media/vendor/bootstrap/scss/variables";
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // FontAwesome
@@ -60,9 +60,4 @@
 // This fixes odd stacking when 2 buttons are used in an input group
 .input-group-btn {
   flex-direction: row;
-}
-// This adds the correct cursor on hover for buttons
-.btn:hover,
-.btn:focus {
-  cursor: pointer;
 }

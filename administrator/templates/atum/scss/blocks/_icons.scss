@@ -26,6 +26,7 @@
   text-align: center;
   background-color: transparent;
   border: 0;
+
   span {
     width: 26px;
     height: 26px;
@@ -48,15 +49,15 @@
     border-color: $brand-danger;
   }
   .icon-archive {
-    color: $gray;
-    border-color: $gray;
+    color: $gray-700;
+    border-color: $gray-700;
   }
   .icon-checkedout {
     width: auto;
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: $gray;
+    color: $gray-700;
     border: 0;
   }
 }
