@@ -17,6 +17,7 @@
 				label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
 				description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
 				onchange="this.form.submit();"
+				filter="-2,0,1"
 		>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>

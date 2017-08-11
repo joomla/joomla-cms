@@ -83,7 +83,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (52, 18, 102, 103, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 104, 105, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 70, 71, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
-(55, 8, 20, 53, 2, 'com_content.workflow.1', 'Workflow Default', '{}'),
+(55, 8, 20, 53, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
 (56, 55, 21, 22, 3, 'com_content.state.1', 'Trashed', '{}'),
 (57, 55, 23, 24, 3, 'com_content.state.2', 'Unpublished', '{}'),
 (58, 55, 25, 26, 3, 'com_content.state.3', 'Published', '{}'),
@@ -2156,7 +2156,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 55, 1, 'Workflow Default', '', 'com_content', 1, '0000-00-00 00:00:00', 3, '0000-00-00 00:00:00', 3);
+(1, 55, 1, 'Joomla! Default', '', 'com_content', 1, '0000-00-00 00:00:00', 3, '0000-00-00 00:00:00', 3);
 
 --
 -- Dumping data for table `#__workflow_states`

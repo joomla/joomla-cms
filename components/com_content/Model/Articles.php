@@ -118,7 +118,7 @@ class Articles extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', 3);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -251,7 +251,7 @@ class Articles extends ListModel
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -265,23 +265,17 @@ class Articles extends ListModel
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.published');
-
-		if (is_numeric($published) && $published == 2)
-		{
-			// If category is archived then article has to be published or archived.
-			// If categogy is published then article has to be archived.
-			$query->where('(c.published = 2 AND s.condition > 2) OR (c.published = 1 AND s.condition = 3)');
-		}
-		elseif (is_numeric($published))
+		$condition = $this->getState('filter.condition');
+    
+		if (is_numeric($condition))
 		{
 			// Category has to be published
-			$query->where('c.published = 1 AND s.condition = ' . (int) $published);
+			$query->where('c.published = 1 AND s.condition = ' . (int) $condition);
 		}
-		elseif (is_array($published))
+		elseif (is_array($condition))
 		{
-			$published = ArrayHelper::toInteger($published);
-			$published = implode(',', $published);
+			$condition = ArrayHelper::toInteger($condition);
+			$condition = implode(',', $condition);
 
 			// Category has to be published
 			$query->where('c.published = 1 AND s.condition IN (' . $published . ')');
