@@ -13,6 +13,7 @@
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
 	</field>
+
 	<fields name="filter">
 		<field
 			name="search"
@@ -22,6 +23,7 @@
 			hint="JSEARCH_FILTER"
 			noresults="COM_MODULES_MSG_MANAGE_NO_MODULES"
 		/>
+
 		<field
 			name="state"
 			type="status"
@@ -31,6 +33,7 @@
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
+
 		<field
 			name="position"
 			type="modulesposition"
@@ -39,6 +42,7 @@
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
 		</field>
+
 		<field
 			name="module"
 			type="ModulesModule"
@@ -47,6 +51,7 @@
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
 		</field>
+
 		<field
 			name="menuitem"
 			type="menuitem"
@@ -57,6 +62,7 @@
 			<option	value="">COM_MODULES_OPTION_SELECT_MENU_ITEM</option>
 			<option	value="-1">COM_MODULES_NONE</option>
 		</field>
+
 		<field
 			name="access"
 			type="accesslevel"
@@ -66,6 +72,7 @@
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
+
 		<field
 			name="language"
 			type="contentlanguage"
@@ -76,7 +83,22 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+
+		<field
+			name="checked_out"
+			type="checkedout"
+			label="JOPTION_FILTER_CHECKED_OUT"
+			description="JOPTION_FILTER_CHECKED_OUT_DESC"
+			sql_from="#__modules m"
+			sql_where="m.client_id=0"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_CHECKED_OUT</option>
+			<option value="-1">JALL</option>
+			<option value="0">JNONE</option>
+		</field>
 	</fields>
+
 	<fields name="list">
 		<field
 			name="fullordering"
@@ -107,6 +129,7 @@
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"
