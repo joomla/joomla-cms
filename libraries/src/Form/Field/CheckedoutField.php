@@ -18,7 +18,7 @@ FormHelper::loadFieldClass('list');
 /**
  * Form Field to load a list of users who checked items out.
  *
- * @since  3.8
+ * @since  __DEPLOY_VERSION__
  */
 class CheckedoutField extends \JFormFieldList
 {
@@ -26,7 +26,7 @@ class CheckedoutField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  3.8
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $type = 'Checkedout';
 
@@ -34,7 +34,7 @@ class CheckedoutField extends \JFormFieldList
 	 * The FROM clause of the SQL query.
 	 *
 	 * @var    string
-	 * @since  3.8
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $from = null;
 
@@ -42,7 +42,7 @@ class CheckedoutField extends \JFormFieldList
 	 * The alias of the table.
 	 *
 	 * @var    string
-	 * @since  3.8
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $alias = null;
 
@@ -51,7 +51,7 @@ class CheckedoutField extends \JFormFieldList
 	 *
 	 * @return  JDatabaseQuery  The query for the checked out form field.
 	 *
-	 * @since   3.8
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getQuery()
 	{
@@ -109,7 +109,7 @@ class CheckedoutField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.8
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{
