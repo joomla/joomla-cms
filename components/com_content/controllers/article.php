@@ -203,7 +203,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if (!$result)
 		{
-			$this->setRedirect(JRoute::_($this->getReturnPage()), false);
+			$this->setRedirect(JRoute::_($this->getReturnPage(), false));
 		}
 
 		return $result;
@@ -342,7 +342,7 @@ class ContentControllerArticle extends JControllerForm
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang), false);
+				$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
 		else
@@ -350,7 +350,7 @@ class ContentControllerArticle extends JControllerForm
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_($this->getReturnPage()), false);
+				$this->setRedirect(JRoute::_($this->getReturnPage(), false));
 			}
 		}
 
