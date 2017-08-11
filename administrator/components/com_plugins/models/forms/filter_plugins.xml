@@ -15,7 +15,7 @@
 			name="enabled"
 			type="plugin_status"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
@@ -23,7 +23,7 @@
 			name="folder"
 			type="plugintype"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_PLUGINS_OPTION_FOLDER</option>
 		</field>
 
@@ -33,8 +33,22 @@
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
+		</field>
+
+		<field
+			name="checked_out"
+			type="checkedout"
+			label="JOPTION_FILTER_CHECKED_OUT"
+			description="JOPTION_FILTER_CHECKED_OUT_DESC"
+			sql_from="#__extensions e"
+			sql_where="e.type='plugin'"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_CHECKED_OUT</option>
+			<option value="-1">JALL</option>
+			<option value="0">JNONE</option>
 		</field>
 	</fields>
 
@@ -46,7 +60,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
-		>
+			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
