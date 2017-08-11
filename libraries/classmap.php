@@ -403,3 +403,5 @@ JLoader::registerAlias('JFeedParserNamespace',              '\\Joomla\\CMS\\Feed
 JLoader::registerAlias('JFeedParserRss',                    '\\Joomla\\CMS\\Feed\\Parser\\RssParser', '5.0');
 JLoader::registerAlias('JFeedParserRssItunes',              '\\Joomla\\CMS\\Feed\\Parser\\Rss\\ItunesRssParser', '5.0');
 JLoader::registerAlias('JFeedParserRssMedia',               '\\Joomla\\CMS\\Feed\\Parser\\Rss\\MediaRssParser', '5.0');
+
+JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Object\\CMSObject', '5.0');
