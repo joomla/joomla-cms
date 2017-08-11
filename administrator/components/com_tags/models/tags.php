@@ -78,6 +78,9 @@ class TagsModelTags extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
+		$checkedOut = $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string');
+		$this->setState('filter.checked_out', $checkedOut);
+
 		$extension = $this->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
@@ -119,6 +122,7 @@ class TagsModelTags extends JModelList
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -216,6 +220,15 @@ class TagsModelTags extends JModelList
 		if ($language = $this->getState('filter.language'))
 		{
 			$query->where('a.language = ' . $db->quote($language));
+		}
+
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
 		}
 
 		// Add the list ordering clause
