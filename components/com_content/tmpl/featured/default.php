@@ -29,7 +29,7 @@ JHtml::_('behavior.caption');
 <?php if (!empty($this->lead_items)) : ?>
 <div class="row items-leading clearfix">
 	<?php foreach ($this->lead_items as &$item) : ?>
-		<div class="col leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> clearfix"
+		<div class="col leading-<?php echo $leadingcount; ?><?php echo $item->condition == 2 ? ' system-unpublished' : null; ?> clearfix"
 			itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 			<?php
 				$this->item = &$item;
@@ -58,7 +58,7 @@ JHtml::_('behavior.caption');
 
 		<div class="row items-row cols-<?php echo (int) $this->columns; ?> <?php echo 'row-' . $row; ?> row">
 		<?php endif; ?>
-			<div class="col-md-<?php echo round(12 / $this->columns); ?> item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
+			<div class="col-md-<?php echo round(12 / $this->columns); ?> item column-<?php echo $rowcount; ?><?php echo $item->condition == 2 ? ' system-unpublished' : null; ?>"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 			<?php
 					$this->item = &$item;

@@ -92,7 +92,7 @@ class Article extends Item
 					->select(
 						$this->getState(
 							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
-							's.condition AS state, a.catid, a.created, a.created_by, a.created_by_alias, ' .
+							'a.state, s.condition, a.catid, a.created, a.created_by, a.created_by_alias, s.condition, ' .
 							// Use created if modified is 0
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
