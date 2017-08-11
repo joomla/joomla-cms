@@ -176,7 +176,7 @@ class ContentControllerArticle extends JControllerForm
 				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
 
-			// Redirect to the user spicified return page.
+			// Redirect to the user specified return page.
 			$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
 		}
 		else
