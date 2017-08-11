@@ -45,6 +45,7 @@ class Articles extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
+				'condition', 's.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -152,7 +153,7 @@ class Articles extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . serialize($this->getState('filter.published'));
+		$id .= ':' . serialize($this->getState('filter.condition'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
 		$id .= ':' . serialize($this->getState('filter.article_id'));
@@ -266,7 +267,7 @@ class Articles extends ListModel
 
 		// Filter by published state
 		$condition = $this->getState('filter.condition');
-    
+
 		if (is_numeric($condition))
 		{
 			// Category has to be published

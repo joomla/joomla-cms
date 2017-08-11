@@ -58,7 +58,7 @@ class Article extends Item
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', 3);
 			$this->setState('filter.archived', 2);
 		}
 
@@ -141,12 +141,11 @@ class Article extends Item
 				}
 
 				// Filter by published state.
-				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
+				$published = $this->getState('filter.condition');
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->where('s.condition = ' . (int) $published);
 				}
 
 				$db->setQuery($query);
@@ -159,7 +158,7 @@ class Article extends Item
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if (is_numeric($published) || $data->state != $published)
 				{
 					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
