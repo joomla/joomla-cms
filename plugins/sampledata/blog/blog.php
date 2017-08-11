@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Sampledata - Blog Plugin
  *
@@ -61,7 +63,7 @@ class PlgSampledataBlog extends JPlugin
 	 */
 	public function onSampledataGetOverview()
 	{
-		$data = new stdClass;
+		$data              = new stdClass;
 		$data->name        = $this->_name;
 		$data->title       = JText::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
 		$data->description = JText::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
@@ -72,7 +74,7 @@ class PlgSampledataBlog extends JPlugin
 	}
 
 	/**
-	 * First step to enter the sampledata.
+	 * First step to enter the sampledata. Content.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
@@ -98,6 +100,9 @@ class PlgSampledataBlog extends JPlugin
 		$access = (int) $this->app->get('access', 1);
 		$user   = JFactory::getUser();
 
+		// Detect language to be used.
+		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+
 		// Add Include Paths.
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models/', 'ContentModel');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/tables/');
@@ -120,7 +125,7 @@ class PlgSampledataBlog extends JPlugin
 			'alias'           => JApplicationHelper::stringURLSafe($categoryTitle),
 			'associations'    => array(),
 			'description'     => '',
-			'language'        => '*',
+			'language'        => $language,
 			'params'          => '',
 		);
 
@@ -157,7 +162,7 @@ class PlgSampledataBlog extends JPlugin
 			'alias'           => JApplicationHelper::stringURLSafe($categoryTitle),
 			'associations'    => array(),
 			'description'     => '',
-			'language'        => '*',
+			'language'        => $language,
 			'params'          => '',
 		);
 
@@ -181,8 +186,8 @@ class PlgSampledataBlog extends JPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel  = JModelLegacy::getInstance('Article', 'ContentModel');
-		$articles = array(
+		$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
+		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
 				'ordering' => 2,
@@ -221,7 +226,7 @@ class PlgSampledataBlog extends JPlugin
 			$article['id']              = 0;
 			$article['created_user_id'] = $user->id;
 			$article['alias']           = JApplicationHelper::stringURLSafe($article['title']);
-			$article['language']        = '*';
+			$article['language']        = $language;
 			$article['associations']    = array();
 			$article['state']           = 1;
 			$article['featured']        = 0;
@@ -252,7 +257,7 @@ class PlgSampledataBlog extends JPlugin
 		$this->app->setUserState('sampledata.blog.articles', $ids);
 		$this->app->setUserState('sampledata.blog.articles.catids', $catIds);
 
-		$response = new stdClass;
+		$response          = new stdClass;
 		$response->success = true;
 		$response->message = JText::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
 
@@ -275,12 +280,15 @@ class PlgSampledataBlog extends JPlugin
 
 		if (!JComponentHelper::isEnabled('com_menus'))
 		{
-			$response = array();
+			$response            = array();
 			$response['success'] = true;
 			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
 
 			return $response;
 		}
+
+		// Detect language to be used.
+		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
 
 		// Create the menu types.
 		$menuTable = JTable::getInstance('Type', 'JTableMenu');
@@ -333,8 +341,8 @@ class PlgSampledataBlog extends JPlugin
 		$menuItemTable = JTable::getInstance('Menu', 'MenusTable');
 		$menuItemTable->load(
 			array(
-				'home' => 1,
-				'language' => '*',
+				'home'     => 1,
+				'language' => $language,
 			)
 		);
 		$menuItemTable->home = 0;
@@ -580,6 +588,9 @@ class PlgSampledataBlog extends JPlugin
 
 			return $response;
 		}
+
+		// Detect language to be used.
+		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
 
 		// Add Include Paths.
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/models/', 'ModulesModelModule');
@@ -846,21 +857,21 @@ class PlgSampledataBlog extends JPlugin
 				'module'    => 'mod_feed',
 				'client_id' => 1,
 				'params'    => array(
-					'rssurl'          => 'https://www.joomla.org/announcements/release-news.feed',
-					'rssrtl'          => 0,
-					'rsstitle'        => 1,
-					'rssdesc'         => 1,
-					'rssimage'        => 1,
-					'rssitems'        => 3,
-					'rssitemdesc'     => 1,
-					'word_count'      => 0,
-					'layout'          => '_:default',
-					'cache'           => 1,
-					'cache_time'      => 900,
-					'module_tag'      => 'div',
-					'bootstrap_size'  => 0,
-					'header_tag'      => 'h3',
-					'style'           => 0,
+					'rssurl'         => 'https://www.joomla.org/announcements/release-news.feed',
+					'rssrtl'         => 0,
+					'rsstitle'       => 1,
+					'rssdesc'        => 1,
+					'rssimage'       => 1,
+					'rssitems'       => 3,
+					'rssitemdesc'    => 1,
+					'word_count'     => 0,
+					'layout'         => '_:default',
+					'cache'          => 1,
+					'cache_time'     => 900,
+					'module_tag'     => 'div',
+					'bootstrap_size' => 0,
+					'header_tag'     => 'h3',
+					'style'          => 0,
 				),
 			),
 		);
@@ -868,11 +879,11 @@ class PlgSampledataBlog extends JPlugin
 		foreach ($modules as $module)
 		{
 			// Set values which are always the same.
-			$module['id']              = 0;
-			$module['asset_id']        = 0;
-			$module['language']        = '*';
-			$module['note'] = '';
-			$module['published'] = 1;
+			$module['id']         = 0;
+			$module['asset_id']   = 0;
+			$module['language']   = $language;
+			$module['note']       = '';
+			$module['published']  = 1;
 			$module['assignment'] = 0;
 
 			if (!isset($module['content']))
@@ -916,8 +927,8 @@ class PlgSampledataBlog extends JPlugin
 	/**
 	 * Adds menuitems.
 	 *
-	 * @param   array    $menuItems  Array holding the menuitems arrays.
-	 * @param   integer  $level      Level in the category tree.
+	 * @param   array   $menuItems Array holding the menuitems arrays.
+	 * @param   integer $level     Level in the category tree.
 	 *
 	 * @return  array  IDs of the inserted menuitems.
 	 *
@@ -931,6 +942,9 @@ class PlgSampledataBlog extends JPlugin
 		$access  = (int) $this->app->get('access', 1);
 		$user    = JFactory::getUser();
 
+		// Detect language to be used.
+		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+
 		foreach ($menuItems as $menuItem)
 		{
 			// Reset item.id in model state.
@@ -941,7 +955,7 @@ class PlgSampledataBlog extends JPlugin
 			$menuItem['created_user_id'] = $user->id;
 			$menuItem['alias']           = JApplicationHelper::stringURLSafe($menuItem['title']);
 			$menuItem['published']       = 1;
-			$menuItem['language']        = '*';
+			$menuItem['language']        = $language;
 			$menuItem['note']            = '';
 			$menuItem['img']             = '';
 			$menuItem['associations']    = array();
