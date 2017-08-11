@@ -85,6 +85,7 @@ class ModulesModelModules extends JModelList
 		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
 		$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+		$this->setState('filter.checked_out', $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string'));
 
 		// If in modal layout on the frontend, state and language are always forced.
 		if ($app->isClient('site') && $layout === 'modal')
@@ -147,6 +148,7 @@ class ModulesModelModules extends JModelList
 		$id .= ':' . $this->getState('filter.menuitem');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -404,6 +406,15 @@ class ModulesModelModules extends JModelList
 			{
 				$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 			}
+		}
+
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
 		}
 
 		return $query;
