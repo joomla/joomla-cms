@@ -227,7 +227,7 @@ class InstallerHelper
 		}
 
 		$prefix = (string) $installXmlFile->dlid['prefix'];
-		$suffix  = (string) $installXmlFile->dlid['suffix'];
+		$suffix = (string) $installXmlFile->dlid['suffix'];
 		$value  = substr($extension->extra_query, strlen($prefix));
 
 		if ($suffix != null)
@@ -237,7 +237,7 @@ class InstallerHelper
 
 		$downloadKey = array(
 			'prefix'  => $prefix,
-			'suffix'   => $suffix,
+			'suffix'  => $suffix,
 			'value'   => $value
 		);
 
