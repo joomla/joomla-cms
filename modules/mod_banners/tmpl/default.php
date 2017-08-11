@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Banners\Site\Helper\BannerHelper;
 ?>
-<div class="bannergroup<?php echo $moduleclass_sfx; ?>">
+<div class="bannergroup">
 <?php if ($headerText) : ?>
 	<?php echo $headerText; ?>
 <?php endif; ?>
