@@ -448,13 +448,11 @@ class Install extends Model
 	 */
 	private function isChecksumValid($packagefile, $updateServerManifest)
 	{
+		$children = array();
+
 		if ($updateServerManifest)
 		{
 			$children = $updateServerManifest->children();
-		}
-		else
-		{
-			$children = array();
 		}
 
 		foreach ($children as $child)
@@ -475,12 +473,12 @@ class Install extends Model
 			return null;
 		}
 
-		if ($sha1_package == $sha1_remote)
+		if ($sha1_package === $sha1_remote)
 		{
 			return true;
 		}
 
-		if ($md5_package == $md5_remote)
+		if ($md5_package === $md5_remote)
 		{
 			return true;
 		}
