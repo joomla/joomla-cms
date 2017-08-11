@@ -20,12 +20,12 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 if (!defined('IS_WIN'))
 {
-	define('IS_WIN', ($os === 'WIN') ? true : false);
+	define('IS_WIN', $os === 'WIN');
 }
 
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+	define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
 }
 
 /**
@@ -33,7 +33,7 @@ if (!defined('IS_UNIX'))
  */
 if (!defined('IS_MAC'))
 {
-	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
+	define('IS_MAC', IS_UNIX === true && ($os === 'DAR' || $os === 'MAC'));
 }
 
 // Import the library loader if necessary.

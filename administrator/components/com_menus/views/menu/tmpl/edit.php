@@ -37,30 +37,17 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_MENU_DETAILS')); ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('menutype'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('menutype'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('description'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('description'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('client_id'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('client_id'); ?>
-				</div>
-			</div>
+
+			<?php
+			echo $this->form->renderField('menutype');
+
+			echo $this->form->renderField('description');
+
+			echo $this->form->renderField('client_id');
+
+			echo $this->form->renderField('preset');
+			?>
+
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
@@ -72,7 +59,6 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
-
 
 	</div>
 </form>

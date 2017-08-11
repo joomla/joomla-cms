@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.1
  *
- * @method      string  q()   q($text, $escape = true)  Alias for quote method
- * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
+ * @method   string|array  q()   q($text, $escape = true)  Alias for quote method
+ * @method   string|array  qn()  qn($name, $as = null)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
@@ -664,7 +664,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Destructor.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __destruct()
 	{
