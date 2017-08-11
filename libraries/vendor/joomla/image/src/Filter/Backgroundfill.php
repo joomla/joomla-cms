@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Part of the Joomla Framework Image Package
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Image\Filter;
+
+use Joomla\Image\ImageFilter;
+use InvalidArgumentException;
 
 /**
  * Image Filter class fill background with color;
  *
- * @package     Joomla.Platform
- * @subpackage  Image
- * @since       3.4
+ * @since  1.0
  */
-class JImageFilterBackgroundfill extends JImageFilter
+class Backgroundfill extends ImageFilter
 {
 	/**
 	 * Method to apply a background color to an image resource.
@@ -26,7 +26,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   1.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function execute(array $options = array())
@@ -84,9 +84,9 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 *                         or hex RGBA string when alpha FF is opaque.
 	 *                         Defaults to black and opaque alpha
 	 *
-	 * @return  array  Associative array of red, green, blue and alpha		 
+	 * @return  array  Associative array of red, green, blue and alpha
 	 *
-	 * @since   3.4
+	 * @since   1.0
 	 *
 	 * @note    '#FF0000FF' returns an array with alpha of 0 (opaque)
 	 */
@@ -100,8 +100,8 @@ class JImageFilterBackgroundfill extends JImageFilter
 		{
 			$colors = array_merge($colors, $input);
 		}
-		// Convert RGBA 6-9 char string
 		elseif (is_string($input))
+		// Convert RGBA 6-9 char string
 		{
 			$hex = ltrim($input, '#');
 
@@ -120,8 +120,8 @@ class JImageFilterBackgroundfill extends JImageFilter
 				$colors['alpha'] = floor((255 - $colors['alpha']) / 2);
 			}
 		}
-		// Cannot sanitize such type
 		else
+		// Cannot sanitize such type
 		{
 			return $colors;
 		}
@@ -129,7 +129,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 		// Make sure each value is within the allowed range
 		foreach ($colors as &$value)
 		{
-			$value = max(0, min(255, (float) $value));
+			$value = max(0, min(255, (int) $value));
 		}
 
 		$colors['alpha'] = min(127, $colors['alpha']);

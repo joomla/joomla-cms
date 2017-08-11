@@ -24,7 +24,7 @@ if (!is_callable('sodiumCompatAutoloader')) {
         // Replace the namespace prefix with the base directory, replace namespace
         // separators with directory separators in the relative class name, append
         // with .php
-        $file = __DIR__ . '/src/' . str_replace('_', '/', $relative_class) . '.php';
+        $file = dirname(__FILE__) . '/src/' . str_replace('_', '/', $relative_class) . '.php';
         // if the file exists, require it
         if (file_exists($file)) {
             require_once $file;
