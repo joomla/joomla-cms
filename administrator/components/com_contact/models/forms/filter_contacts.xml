@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-
 	<fields name="filter">
-
 		<field
 			name="search"
 			type="text"
@@ -78,10 +76,22 @@
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
+
+		<field
+			name="checked_out"
+			type="checkedout"
+			label="JOPTION_FILTER_CHECKED_OUT"
+			description="JOPTION_FILTER_CHECKED_OUT_DESC"
+			sql_from="#__contact_details"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_CHECKED_OUT</option>
+			<option value="-1">JALL</option>
+			<option value="0">JNONE</option>
+		</field>
 	</fields>
 
 	<fields name="list">
-
 		<field
 			name="fullordering"
 			type="list"
