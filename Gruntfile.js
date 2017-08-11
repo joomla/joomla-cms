@@ -33,6 +33,8 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
+			media         : 'media',
+			editors       : 'media/editors',
 			system        : 'media/system/js',
 			fields        : 'media/system/js/fields',
 			legacy        : 'media/system/js/legacy',
@@ -42,8 +44,6 @@ module.exports = function(grunt) {
 			adminTemplate : 'administrator/templates/atum',
 			siteTemplate  : 'templates/aurora',
 			node_module   : 'build/assets_tmp/node_modules/',
-			editors       : 'media/editors',
-			media         : 'media'
 		},
 
 		// Let's clean up the system
@@ -92,11 +92,13 @@ module.exports = function(grunt) {
 				],
 				expand: true
 			},
-			allMinJs: ['media/**/*.min.js', '!media/vendor/*.min.js',
+			allMinJs: [
+				'media/**/*.min.js', '!media/vendor/*.min.js',
 				'media/**/**/*.min.js', '!media/system/webcomponents/*.min.js',
 				'!media/vendor/**/*.min.js',
 				'media/**/**/**/*.min.js', '!media/vendor/**/**/*.min.js',
-				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js']
+				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js'
+			]
 		},
 
 		// Update all the packages to the version specified in assets/package.json
@@ -226,36 +228,54 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/polyfills', src: ['**'], dest: 'media/system/js/polyfills/webcomponents', filter: 'isFile'},
 					// Joomla UI custom elements js files
 					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/js', src: ['**'], dest: 'media/system/webcomponents/', filter: 'isFile'},
-					]
+				]
 			}
 		},
 
 		// Compile Sass source files to CSS
 		sass: {
-			dist: {
+			site: {
 				options: {
 					precision: '5',
 					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
-					'<%= folder.adminTemplate %>/css/font-awesome.css': '<%= folder.adminTemplate %>/scss/font-awesome.scss',
-					'<%= folder.adminTemplate %>/css/bootstrap.css': '<%= folder.adminTemplate %>/scss/bootstrap.scss',
-					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
-					'<%= folder.adminTemplate %>/css/template-rtl.css': '<%= folder.adminTemplate %>/scss/template-rtl.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
+				}
+			},
+			admin: {
+				options: {
+					precision: '5',
+					sourceMap: true // SHOULD BE FALSE FOR DIST
+				},
+				files: {
+					'<%= folder.adminTemplate %>/css/font-awesome.css' : '<%= folder.adminTemplate %>/scss/font-awesome.scss',
+					'<%= folder.adminTemplate %>/css/bootstrap.css'    : '<%= folder.adminTemplate %>/scss/bootstrap.scss',
+					'<%= folder.adminTemplate %>/css/template.css'     : '<%= folder.adminTemplate %>/scss/template.scss',
+					'<%= folder.adminTemplate %>/css/template-rtl.css' : '<%= folder.adminTemplate %>/scss/template-rtl.scss',
 				}
 			}
 		},
 
 		// Validate the SCSS
 		scsslint: {
-			allFiles: [
-				'<%= folder.adminTemplate %>/scss',
-				'<%= folder.siteTemplate %>/scss',
-			],
-			options: {
-				config: 'scss-lint.yml',
-				reporterOutput: 'scss-lint-report.xml'
+			site: {
+				options: {
+					config: 'scss-lint.yml',
+					reporterOutput: 'scss-lint-report.xml'
+				},
+				src: [
+					'<%= folder.siteTemplate %>/scss'
+				]
+			},
+			admin: {
+				options: {
+					config: 'scss-lint.yml',
+					reporterOutput: 'scss-lint-report.xml'
+				},
+				src: [
+					'<%= folder.adminTemplate %>/scss'
+				]
 			}
 		},
 
@@ -388,13 +408,17 @@ module.exports = function(grunt) {
 					})
 				],
 			},
-			dist: {
+			site: {
+				src: [
+					'<%= folder.siteTemplate %>/css/template.css',
+				]
+			},
+			admin: {
 				src: [
 					'<%= folder.adminTemplate %>/css/bootstrap.css',
 					'<%= folder.adminTemplate %>/css/font-awesome.css',
 					'<%= folder.adminTemplate %>/css/template.css',
 					'<%= folder.adminTemplate %>/css/template-rtl.css',
-					'<%= folder.siteTemplate %>/css/template.css'
 				]
 			}
 		},
@@ -414,21 +438,7 @@ module.exports = function(grunt) {
 					dest: 'media/vendor/codemirror',
 				}]
 			},
-			adminTemplate: {
-				files: [{
-					expand: true,
-					matchBase: true,
-					ext: '.min.css',
-					cwd: '<%= folder.adminTemplate %>/css',
-					src: [
-						'*.css',
-						'!user.css',
-						'!*.min.css'
-					],
-					dest: '<%= folder.adminTemplate %>/css',
-				}]
-			},
-			siteTemplate: {
+			site: {
 				files: [{
 					expand: true,
 					matchBase: true,
@@ -441,17 +451,38 @@ module.exports = function(grunt) {
 					],
 					dest: '<%= folder.siteTemplate %>/css',
 				}]
+			},
+			admin: {
+				files: [{
+					expand: true,
+					matchBase: true,
+					ext: '.min.css',
+					cwd: '<%= folder.adminTemplate %>/css',
+					src: [
+						'*.css',
+						'!user.css',
+						'!*.min.css'
+					],
+					dest: '<%= folder.adminTemplate %>/css',
+				}]
 			}
 		},
 
 		// Watch files for changes and run tasks based on the changed files
 		watch: {
-			sass: {
+			siteTemplate: {
+				files: [
+					'<%= folder.siteTemplate %>/**/*.scss',
+					'media/system/scss/**/*.scss',
+				],
+				tasks: ['compile:site']
+			},
+			adminTemplate: {
 				files: [
 					'<%= folder.adminTemplate %>/**/*.scss',
-					'<%= folder.siteTemplate %>/**/*.scss',
+					'media/system/scss/**/*.scss',
 				],
-				tasks: ['compile']
+				tasks: ['compile:admin']
 			},
 			gruntfile: {
 				files: ['Gruntfile.js']
@@ -477,21 +508,21 @@ module.exports = function(grunt) {
 			'shell:update',
 			'concat:someFiles',
 			'copy:fromSource',
-			'sass:dist',
+			'sass:site',
+			'sass:admin',
 			'clean:allMinJs',
 			'uglify:allJs',
 			'copy:polyfills',
 			'cssmin:allCss',
-			'postcss',
-			'cssmin:adminTemplate',
-			'cssmin:siteTemplate',
+			'postcss:site',
+			'postcss:admin',
+			'cssmin:site',
+			'cssmin:admin',
 			'clean:css',
 			'updateXML',
 			'clean:temp'
 		]
 	);
-
-	grunt.registerTask('test-scss', ['scsslint']);
 
 	grunt.registerTask('updateXML', 'Update XML for tinyMCE and Codemirror', function() {
 		// Update the XML files for tinyMCE and Codemirror
@@ -512,24 +543,29 @@ module.exports = function(grunt) {
 		]);
 	});
 
-	grunt.registerTask('styles', 'Minifies the stylesheet files.', function() {
+	grunt.registerTask('compile:site', 'Compiles the stylesheets files for the site template', function() {
 		grunt.task.run([
-			'cssmin:allCss'
+			'uglify:templates',
+			'scsslint:site',
+			'sass:site',
+			'postcss:site',
+			'cssmin:site',
+			'clean:css',
+			'watch:siteTemplate'
 		]);
 	});
 
-	grunt.registerTask('compile', 'Compiles the stylesheet files.', function() {
+	grunt.registerTask('compile:admin', 'Compiles the stylesheets files for the admin template', function() {
 		grunt.task.run([
 			'uglify:templates',
-			'scsslint',
-			'sass:dist',
-			'postcss',
-			'cssmin:adminTemplate',
-			'cssmin:siteTemplate',
+			'scsslint:admin',
+			'sass:admin',
+			'postcss:admin',
+			'cssmin:admin',
 			'clean:css',
-			'watch'
+			'watch:adminTemplate'
 		]);
-	 });
+	});
 
 	grunt.registerTask('installation', 'Compiles the error-locales.js translation file', function() {
 

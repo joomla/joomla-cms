@@ -16,6 +16,4 @@ use Joomla\Module\Breadcrumbs\Site\Helper\BreadcrumbsHelper;
 $list  = BreadcrumbsHelper::getList($params);
 $count = count($list);
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-
 require ModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));
