@@ -644,4 +644,26 @@ abstract class ModuleHelper
 
 		return $enabled;
 	}
+
+	/**
+	 * Returns a list of fields for the module with the given id.
+	 *
+	 * @return  \stdClass[]  An array of fields
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getFields($moduleId)
+	{
+		foreach (self::getModuleList() as $module)
+		{
+			if ($module->id != $moduleId)
+			{
+				continue;
+			}
+
+			return \FieldsHelper::getFields('com_modules.module', $module, true);
+		}
+
+		return array();
+	}
 }

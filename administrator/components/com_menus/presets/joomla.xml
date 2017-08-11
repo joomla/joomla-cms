@@ -396,7 +396,29 @@
 			element="com_modules"
 			link="index.php?option=com_modules"
 			class="class:module"
-		/>
+		>
+			<menuitem
+				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER"
+				type="component"
+				element="com_modules"
+				link="index.php?option=com_modules"
+				class="class:module"
+			/>
+			<menuitem
+				title="MOD_MENU_FIELDS"
+				type="component"
+				element="com_fields"
+				link="index.php?option=com_fields&amp;context=com_modules.module"
+				class="class:fields"
+			/>
+			<menuitem
+				title="MOD_MENU_FIELDS_GROUP"
+				type="component"
+				element="com_fields"
+				link="index.php?option=com_fields&amp;view=groups&amp;context=com_modules.module"
+				class="class:category"
+			/>
+		</menuitem>
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_PLUGIN_MANAGER"
 			type="component"

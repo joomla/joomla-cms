@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $fieldSets = $this->form->getFieldsets('params');
+$fieldSets = array_merge($fieldSets, $this->form->getFieldsets('com_fields'));
 
 echo JHtml::_('bootstrap.startAccordion', 'collapseTypes');
 $i = 0;

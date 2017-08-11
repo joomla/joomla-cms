@@ -133,6 +133,23 @@ class PlgSystemFields extends JPlugin
 	}
 
 	/**
+	 * The save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   JTable   $item     The extension
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onExtensionAfterSave ($context, $item, $isNew, $data = array())
+	{
+		return $this->onContentAfterSave($context, $item, $isNew, $data);
+	}
+
+	/**
 	 * The delete event.
 	 *
 	 * @param   string    $context  The context
@@ -194,6 +211,12 @@ class PlgSystemFields extends JPlugin
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$context = $form->getName();
+
+		// Front end editing of modules is done trough com_config
+		if ($context == 'com_config.modules' && JFactory::getApplication()->isClient('site'))
+		{
+			$context = 'com_modules.module';
+		}
 
 		// When a category is edited, the context is com_categories.categorycom_content
 		if (strpos($context, 'com_categories.category') === 0)
@@ -346,9 +369,9 @@ class PlgSystemFields extends JPlugin
 				$context,
 				'fields.render',
 				array(
-					'item'            => $item,
-					'context'         => $context,
-					'fields'          => $fields
+					'item'    => $item,
+					'context' => $context,
+					'fields'  => $fields
 				)
 			);
 		}
