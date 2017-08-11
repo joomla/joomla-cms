@@ -181,7 +181,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if (!$result)
 		{
-			$this->setRedirect(JRoute::_($this->getReturnPage()));
+			$this->setRedirect(JRoute::_($this->getReturnPage()), false);
 		}
 
 		return $result;
