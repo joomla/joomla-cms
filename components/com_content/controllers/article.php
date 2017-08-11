@@ -320,7 +320,7 @@ class ContentControllerArticle extends JControllerForm
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang));
+				$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang), false);
 			}
 		}
 		else
@@ -328,7 +328,7 @@ class ContentControllerArticle extends JControllerForm
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_($this->getReturnPage()));
+				$this->setRedirect(JRoute::_($this->getReturnPage()), false);
 			}
 		}
 
