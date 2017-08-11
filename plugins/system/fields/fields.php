@@ -212,7 +212,7 @@ class PlgSystemFields extends JPlugin
 	{
 		$context = $form->getName();
 
-		// Front end editing of modules is done trough com_config
+		// Front end editing of modules is done through com_config
 		if ($context == 'com_config.modules' && JFactory::getApplication()->isClient('site'))
 		{
 			$context = 'com_modules.module';
