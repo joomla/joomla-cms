@@ -27,6 +27,9 @@ $lang     = Factory::getLanguage();
 // Is com_fields installed and enabled?
 $comFieldsEnabled = ComponentHelper::isInstalled('com_fields') && ComponentHelper::isEnabled('com_fields');
 
+// Is com_workflow installed and enabled?
+$comWorkflowEnabled = ComponentHelper::isInstalled('com_workflow') && ComponentHelper::isEnabled('com_workflow');
+
 /**
  * Site Submenu
  */
@@ -251,15 +254,15 @@ if ($user->authorise('core.manage', 'com_content'))
 		$this->getParent();
 	}
 
-	$this->addChild(
-		new MenuNode(
-			JText::_('MOD_MENU_COM_CONTENT_WORKFLOW_MANAGER'), 'index.php?option=com_workflow&extension=com_content'
-		),
-		$createContent
-	);
-
-	if ($createContent)
+	if ($comWorkflowEnabled && ComponentHelper::getParams('com_content')->get('workflows_enable'))
 	{
+		$this->addChild(
+			new MenuNode(
+				JText::_('MOD_MENU_COM_CONTENT_WORKFLOW_MANAGER'), 'index.php?option=com_workflow&extension=com_content'
+			),
+			$createContent
+		);
+
 		$this->getParent();
 	}
 
