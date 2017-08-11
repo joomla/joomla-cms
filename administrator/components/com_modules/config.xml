@@ -47,7 +47,7 @@
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
