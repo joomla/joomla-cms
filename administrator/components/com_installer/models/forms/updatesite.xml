@@ -21,7 +21,7 @@
                 name="location"
                 type="text"
                 label="COM_INSTALLER_UPDATESITE_EDIT_UPDATESITE_URL"
-                description="Add your updatesite"
+                description="COM_INSTALLER_UPDATESITE_EDIT_DESCRIPTION"
                 size="40"
                 class="input-xxlarge"
                 default=""

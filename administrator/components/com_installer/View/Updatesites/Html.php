@@ -90,6 +90,11 @@ class Html extends InstallerViewDefault
 			ToolbarHelper::divider();
 		}
 
+		if ($canDo->get('core.edit.state'))
+		{
+			\JToolbarHelper::checkin('updatesites.checkin');
+		}
+
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			ToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
