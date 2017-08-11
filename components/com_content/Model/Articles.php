@@ -279,7 +279,7 @@ class Articles extends ListModel
 			$condition = implode(',', $condition);
 
 			// Category has to be published
-			$query->where('c.published = 1 AND s.condition IN (' . $published . ')');
+			$query->where('c.published = 1 AND s.condition IN (' . $condition . ')');
 		}
 
 		// Filter by featured state

@@ -48,7 +48,7 @@ class Archive extends Articles
 		$params = $this->state->params;
 
 		// Filter on archived articles
-		$this->setState('filter.published', 2);
+		$this->setState('filter.condition', 3);
 
 		// Filter on month, year
 		$this->setState('filter.month', $app->input->getInt('month'));
