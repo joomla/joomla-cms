@@ -78,6 +78,9 @@ class PluginsModelPlugins extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string');
 		$this->setState('filter.language', $language);
 
+		$checkedOut = $this->getUserStateFromRequest($this->context . '.filter.checked_out', 'checked_out', '', 'string');
+		$this->setState('filter.checked_out', $checkedOut);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_plugins');
 		$this->setState('params', $params);
@@ -105,6 +108,7 @@ class PluginsModelPlugins extends JModelList
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.checked_out');
 
 		return parent::getStoreId($id);
 	}
@@ -272,6 +276,15 @@ class PluginsModelPlugins extends JModelList
 			{
 				$query->where('a.extension_id = ' . (int) substr($search, 3));
 			}
+		}
+
+		// Filter by checked_out
+		$checkedOut = $this->getState('filter.checked_out');
+
+		if (is_numeric($checkedOut))
+		{
+			$checkedOut = (int) $checkedOut;
+			$query->where('a.checked_out ' . (($checkedOut > -1) ? ' = ' . $checkedOut : ' > 0'));
 		}
 
 		return $query;
