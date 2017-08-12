@@ -15,7 +15,7 @@ $lang = JFactory::getLanguage(); ?>
 <?php if ($row->prev) :
 	$direction = $lang->isRtl() ? 'right' : 'left'; ?>
 	<li class="previous">
-		<a class="hasTooltip" title="<?php echo htmlspecialchars($rows[$location-1]->title); ?>" aria-label="<?php echo JText::sprintf('PLG_CONTENT_PAGENAVIGATION_PREV_A11Y', htmlspecialchars($rows[$location-1]->title) ); ?>" href="<?php echo $row->prev; ?>" rel="prev">
+		<a class="hasTooltip" title="<?php echo htmlspecialchars($rows[$location-1]->title); ?>" aria-label="<?php echo JText::sprintf('PLG_PAGENAVIGATION_PREV_A11Y', htmlspecialchars($rows[$location-1]->title) ); ?>" href="<?php echo $row->prev; ?>" rel="prev">
 			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> <span aria-hidden="true">' . $row->prev_label . '<span>'; ?>
 		</a>
 	</li>
@@ -23,7 +23,7 @@ $lang = JFactory::getLanguage(); ?>
 <?php if ($row->next) :
 	$direction = $lang->isRtl() ? 'left' : 'right'; ?>
 	<li class="next">
-		<a class="hasTooltip" title="<?php echo htmlspecialchars($rows[$location+1]->title); ?>" aria-label="<?php echo JText::sprintf('PLG_CONTENT_PAGENAVIGATION_NEXT_A11Y', htmlspecialchars($rows[$location-1]->title) ); ?>" href="<?php echo $row->next; ?>" rel="next">
+		<a class="hasTooltip" title="<?php echo htmlspecialchars($rows[$location+1]->title); ?>" aria-label="<?php echo JText::sprintf('PLG_PAGENAVIGATION_NEXT_A11Y', htmlspecialchars($rows[$location-1]->title) ); ?>" href="<?php echo $row->next; ?>" rel="next">
 			<?php echo '<span aria-hidden="true">' . $row->next_label . '</span> <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 		</a>
 	</li>
