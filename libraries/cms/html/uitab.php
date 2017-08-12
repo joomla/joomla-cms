@@ -49,7 +49,9 @@ abstract class JHtmlUiTab
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
-		return '<joomla-tab id="' . $selector . '">';
+		// @TODO echo the recall attribute correctly, now it's hardcoded!!!
+		$recall = !isset($params['recall']) ? '' : 'recall';
+		return '<joomla-tab id="' . $selector . '" recall>';
 	}
 
 	/**
