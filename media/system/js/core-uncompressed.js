@@ -673,7 +673,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param task
 	 * @return
 	 *
-	 * @deprecate 4.0  Use Joomla.listItemTask() instead
+	 * @deprecated 4.0  Use Joomla.listItemTask() instead
 	 */
 	window.listItemTask = function ( id, task ) {
 		Joomla.listItemTask( id, task );
@@ -714,7 +714,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Default function. Usually would be overriden by the component
 	 *
-	 * @deprecate 4.0  Use Joomla.submitbutton() instead.
+	 * @deprecated 4.0  Use Joomla.submitbutton() instead.
 	 */
 	window.submitbutton = function ( pressbutton ) {
 		Joomla.submitbutton( pressbutton );
@@ -723,7 +723,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Submit the admin form
 	 *
-	 * @deprecate 4.0  Use Joomla.submitform() instead.
+	 * @deprecated 4.0  Use Joomla.submitform() instead.
 	 */
 	window.submitform = function ( pressbutton ) {
 		Joomla.submitform(pressbutton);
@@ -734,7 +734,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * There's a better way to do this now, can we try to kill it?
 	 *
-	 * @deprecate 4.0  No replacement
+	 * @deprecated 4.0  No replacement
 	 */
 	window.saveorder = function ( n, task ) {
 		window.checkAll_button( n, task );
@@ -749,7 +749,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * @return  void
 	 *
-	 * @deprecate 4.0  No replacement
+	 * @deprecated 4.0  No replacement
 	 */
 	window.checkAll_button = function ( n, task ) {
 		task = task ? task : 'saveorder';
