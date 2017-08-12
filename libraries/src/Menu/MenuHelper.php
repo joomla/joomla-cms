@@ -298,7 +298,7 @@ class MenuHelper
 
 				if ($group)
 				{
-					$query->order($group);
+					$query->group($group);
 				}
 
 				if ($lJoin)
