@@ -1,0 +1,655 @@
+[class^="icon-lang-"], [class*=" icon-lang-"] {
+	display: inline-block;
+	margin-right: .25em;
+	margin-left: .25em;
+	line-height: 16px;
+	background: no-repeat bottom;
+}
+
+.icon-lang-multiple {
+	background-image: url("../images/icon-16-language.png");
+}
+
+.icon-lang-af {
+	background-image: url("../images/af.gif");
+}
+
+.icon-lang-af_za {
+	background-image: url("../images/af_za.gif");
+}
+
+.icon-lang-al {
+	background-image: url("../images/al.gif");
+}
+
+.icon-lang-ar {
+	background-image: url("../images/ar.gif");
+}
+
+.icon-lang-ar_aa {
+	background-image: url("../images/ar_aa.gif");
+}
+
+.icon-lang-at {
+	background-image: url("../images/at.gif");
+}
+
+.icon-lang-az {
+	background-image: url("../images/az.gif");
+}
+
+.icon-lang-az_az {
+	background-image: url("../images/az_az.gif");
+}
+
+.icon-lang-be {
+	background-image: url("../images/be.gif");
+}
+
+.icon-lang-be_by {
+	background-image: url("../images/be_by.gif");
+}
+
+.icon-lang-belg {
+	background-image: url("../images/belg.gif");
+}
+
+.icon-lang-bg {
+	background-image: url("../images/bg.gif");
+}
+
+.icon-lang-bg_bg {
+	background-image: url("../images/bg_bg.gif");
+}
+
+.icon-lang-bn {
+	background-image: url("../images/bn.gif");
+}
+
+.icon-lang-bn_bd {
+	background-image: url("../images/bn_bd.gif");
+}
+
+.icon-lang-br {
+	background-image: url("../images/br.gif");
+}
+
+.icon-lang-br_fr {
+	background-image: url("../images/br_fr.gif");
+}
+
+.icon-lang-bs {
+	background-image: url("../images/bs.gif");
+}
+
+.icon-lang-bs_ba {
+	background-image: url("../images/bs_ba.gif");
+}
+
+.icon-lang-ca {
+	background-image: url("../images/ca.gif");
+}
+
+.icon-lang-ca_es {
+	background-image: url("../images/ca_es.gif");
+}
+
+.icon-lang-cbk_iq {
+	background-image: url("../images/cbk_iq.gif");
+}
+
+.icon-lang-ch {
+	background-image: url("../images/ch.gif");
+}
+
+.icon-lang-cs {
+	background-image: url("../images/cs.gif");
+}
+
+.icon-lang-cs_cz {
+	background-image: url("../images/cs_cz.gif");
+}
+
+.icon-lang-cy {
+	background-image: url("../images/cy.gif");
+}
+
+.icon-lang-cy_gb {
+	background-image: url("../images/cy_gb.gif");
+}
+
+.icon-lang-cz {
+	background-image: url("../images/cz.gif");
+}
+
+.icon-lang-cz_cz {
+	background-image: url("../images/cz_cz.gif");
+}
+
+.icon-lang-da {
+	background-image: url("../images/da.gif");
+}
+
+.icon-lang-da_dk {
+	background-image: url("../images/da_dk.gif");
+}
+
+.icon-lang-de {
+	background-image: url("../images/de.gif");
+}
+
+.icon-lang-de_at {
+	background-image: url("../images/de_at.gif");
+}
+
+.icon-lang-de_ch {
+	background-image: url("../images/de_ch.gif");
+}
+
+.icon-lang-de_de {
+	background-image: url("../images/de_de.gif");
+}
+
+.icon-lang-de_li {
+	background-image: url("../images/de_li.gif");
+}
+
+.icon-lang-de_lu {
+	background-image: url("../images/de_lu.gif");
+}
+
+.icon-lang-dk {
+	background-image: url("../images/dk.gif");
+}
+
+.icon-lang-dz_bt {
+	background-image: url("../images/dz_bt.gif");
+}
+
+.icon-lang-el {
+	background-image: url("../images/el.gif");
+}
+
+.icon-lang-el_gr {
+	background-image: url("../images/el_gr.gif");
+}
+
+.icon-lang-en {
+	background-image: url("../images/en.gif");
+}
+
+.icon-lang-en_au {
+	background-image: url("../images/en_au.gif");
+}
+
+.icon-lang-en_ca {
+	background-image: url("../images/en_ca.gif");
+}
+
+.icon-lang-en_gb {
+	background-image: url("../images/en_gb.gif");
+}
+
+.icon-lang-en_nz {
+	background-image: url("../images/en_nz.gif");
+}
+
+.icon-lang-en_us {
+	background-image: url("../images/en_us.gif");
+}
+
+.icon-lang-eo {
+	background-image: url("../images/eo.gif");
+}
+
+.icon-lang-eo_xx {
+	background-image: url("../images/eo_xx.gif");
+}
+
+.icon-lang-es {
+	background-image: url("../images/es.gif");
+}
+
+.icon-lang-es_co {
+	background-image: url("../images/es_co.gif");
+}
+
+.icon-lang-es_es {
+	background-image: url("../images/es_es.gif");
+}
+
+.icon-lang-et {
+	background-image: url("../images/et.gif");
+}
+
+.icon-lang-et_ee {
+	background-image: url("../images/et_ee.gif");
+}
+
+.icon-lang-eu_es {
+	background-image: url("../images/eu_es.gif");
+}
+
+.icon-lang-fa {
+	background-image: url("../images/fa.gif");
+}
+
+.icon-lang-fa_ir {
+	background-image: url("../images/fa_ir.gif");
+}
+
+.icon-lang-fi {
+	background-image: url("../images/fi.gif");
+}
+
+.icon-lang-fi_fi {
+	background-image: url("../images/fi_fi.gif");
+}
+
+.icon-lang-fr {
+	background-image: url("../images/fr.gif");
+}
+
+.icon-lang-fr_ca {
+	background-image: url("../images/fr_ca.gif");
+}
+
+.icon-lang-fr_fr {
+	background-image: url("../images/fr_fr.gif");
+}
+
+.icon-lang-ga_ie {
+	background-image: url("../images/ga_ie.gif");
+}
+
+.icon-lang-gd {
+	background-image: url("../images/gd.gif");
+}
+
+.icon-lang-gd_gb {
+	background-image: url("../images/gd_gb.gif");
+}
+
+.icon-lang-gl {
+	background-image: url("../images/gl.gif");
+}
+
+.icon-lang-gl_es {
+	background-image: url("../images/gl_es.gif");
+}
+
+.icon-lang-he {
+	background-image: url("../images/he.gif");
+}
+
+.icon-lang-he_il {
+	background-image: url("../images/he_il.gif");
+}
+
+.icon-lang-hi {
+	background-image: url("../images/hi.gif");
+}
+
+.icon-lang-hi_in {
+	background-image: url("../images/hi_in.gif");
+}
+
+.icon-lang-hk {
+	background-image: url("../images/hk.gif");
+}
+
+.icon-lang-hk_hk {
+	background-image: url("../images/hk_hk.gif");
+}
+
+.icon-lang-hr {
+	background-image: url("../images/hr.gif");
+}
+
+.icon-lang-hr_hr {
+	background-image: url("../images/hr_hr.gif");
+}
+
+.icon-lang-hu {
+	background-image: url("../images/hu.gif");
+}
+
+.icon-lang-hu_hu {
+	background-image: url("../images/hu_hu.gif");
+}
+
+.icon-lang-hy {
+	background-image: url("../images/hy.gif");
+}
+
+.icon-lang-hy_am {
+	background-image: url("../images/hy_am.gif");
+}
+
+.icon-lang-id {
+	background-image: url("../images/id.gif");
+}
+
+.icon-lang-id_id {
+	background-image: url("../images/id_id.gif");
+}
+
+.icon-lang-is {
+	background-image: url("../images/is.gif");
+}
+
+.icon-lang-is_is {
+	background-image: url("../images/is_is.gif");
+}
+
+.icon-lang-it {
+	background-image: url("../images/it.gif");
+}
+
+.icon-lang-it_it {
+	background-image: url("../images/it_it.gif");
+}
+
+.icon-lang-ja {
+	background-image: url("../images/ja.gif");
+}
+
+.icon-lang-ja_jp {
+	background-image: url("../images/ja_jp.gif");
+}
+
+.icon-lang-ka {
+	background-image: url("../images/ka.gif");
+}
+
+.icon-lang-ka_ge {
+	background-image: url("../images/ka_ge.gif");
+}
+
+.icon-lang-km {
+	background-image: url("../images/km.gif");
+}
+
+.icon-lang-km_kh {
+	background-image: url("../images/km_kh.gif");
+}
+
+.icon-lang-ko {
+	background-image: url("../images/ko.gif");
+}
+
+.icon-lang-ko_kr {
+	background-image: url("../images/ko_kr.gif");
+}
+
+.icon-lang-ku {
+	background-image: url("../images/ku.gif");
+}
+
+.icon-lang-lo {
+	background-image: url("../images/lo.gif");
+}
+
+.icon-lang-lo_la {
+	background-image: url("../images/lo_la.gif");
+}
+
+.icon-lang-lt {
+	background-image: url("../images/lt.gif");
+}
+
+.icon-lang-lt_lt {
+	background-image: url("../images/lt_lt.gif");
+}
+
+.icon-lang-lv {
+	background-image: url("../images/lv.gif");
+}
+
+.icon-lang-lv_lv {
+	background-image: url("../images/lv_lv.gif");
+}
+
+.icon-lang-mk {
+	background-image: url("../images/mk.gif");
+}
+
+.icon-lang-mk_mk {
+	background-image: url("../images/mk_mk.gif");
+}
+
+.icon-lang-mn {
+	background-image: url("../images/mn.gif");
+}
+
+.icon-lang-mn_mn {
+	background-image: url("../images/mn_mn.gif");
+}
+
+.icon-lang-ms_my {
+	background-image: url("../images/ms_my.gif");
+}
+
+.icon-lang-nb_no {
+	background-image: url("../images/nb_no.gif");
+}
+
+.icon-lang-nl {
+	background-image: url("../images/nl.gif");
+}
+
+.icon-lang-nl_be {
+	background-image: url("../images/nl_be.gif");
+}
+
+.icon-lang-nl_nl {
+	background-image: url("../images/nl_nl.gif");
+}
+
+.icon-lang-nn_no {
+	background-image: url("../images/nn_no.gif");
+}
+
+.icon-lang-no {
+	background-image: url("../images/no.gif");
+}
+
+.icon-lang-pl {
+	background-image: url("../images/pl.gif");
+}
+
+.icon-lang-pl_pl {
+	background-image: url("../images/pl_pl.gif");
+}
+
+.icon-lang-prs_af {
+	background-image: url("../images/prs_af.gif");
+}
+
+.icon-lang-ps {
+	background-image: url("../images/ps.gif");
+}
+
+.icon-lang-ps_af {
+	background-image: url("../images/ps_af.gif");
+}
+
+.icon-lang-pt {
+	background-image: url("../images/pt.gif");
+}
+
+.icon-lang-pt_br {
+	background-image: url("../images/pt_br.gif");
+}
+
+.icon-lang-pt_pt {
+	background-image: url("../images/pt_pt.gif");
+}
+
+.icon-lang-ro {
+	background-image: url("../images/ro.gif");
+}
+
+.icon-lang-ro_ro {
+	background-image: url("../images/ro_ro.gif");
+}
+
+.icon-lang-ru {
+	background-image: url("../images/ru.gif");
+}
+
+.icon-lang-ru_ru {
+	background-image: url("../images/ru_ru.gif");
+}
+
+.icon-lang-si {
+	background-image: url("../images/si.gif");
+}
+
+.icon-lang-si_lk {
+	background-image: url("../images/si_lk.gif");
+}
+
+.icon-lang-sk {
+	background-image: url("../images/sk.gif");
+}
+
+.icon-lang-sk_sk {
+	background-image: url("../images/sk_sk.gif");
+}
+
+.icon-lang-sl {
+	background-image: url("../images/sl.gif");
+}
+
+.icon-lang-sl_si {
+	background-image: url("../images/sl_si.gif");
+}
+
+.icon-lang-sq_al {
+	background-image: url("../images/sq_al.gif");
+}
+
+.icon-lang-sr {
+	background-image: url("../images/sr.gif");
+}
+
+.icon-lang-sr_rs {
+	background-image: url("../images/sr_rs.gif");
+}
+
+.icon-lang-sr_yu {
+	background-image: url("../images/sr_yu.gif");
+}
+
+.icon-lang-srp_me {
+	background-image: url("../images/srp_me.gif");
+}
+
+.icon-lang-sv {
+	background-image: url("../images/sv.gif");
+}
+
+.icon-lang-sv_se {
+	background-image: url("../images/sv_se.gif");
+}
+
+.icon-lang-sw {
+	background-image: url("../images/sw.gif");
+}
+
+.icon-lang-sw_ke {
+	background-image: url("../images/sw_ke.gif");
+}
+
+.icon-lang-sy {
+	background-image: url("../images/sy.gif");
+}
+
+.icon-lang-sy_iq {
+	background-image: url("../images/sy_iq.gif");
+}
+
+.icon-lang-ta {
+	background-image: url("../images/ta.gif");
+}
+
+.icon-lang-ta_in {
+	background-image: url("../images/ta_in.gif");
+}
+
+.icon-lang-th {
+	background-image: url("../images/th.gif");
+}
+
+.icon-lang-th_th {
+	background-image: url("../images/th_th.gif");
+}
+
+.icon-lang-tk_tm {
+	background-image: url("../images/tk_tm.gif");
+}
+
+.icon-lang-tr {
+	background-image: url("../images/tr.gif");
+}
+
+.icon-lang-tr_tr {
+	background-image: url("../images/tr_tr.gif");
+}
+
+.icon-lang-tw {
+	background-image: url("../images/tw.gif");
+}
+
+.icon-lang-ug_cn {
+	background-image: url("../images/ug_cn.gif");
+}
+
+.icon-lang-uk {
+	background-image: url("../images/uk.gif");
+}
+
+.icon-lang-uk_ua {
+	background-image: url("../images/uk_ua.gif");
+}
+
+.icon-lang-ur {
+	background-image: url("../images/ur.gif");
+}
+
+.icon-lang-ur_pk {
+	background-image: url("../images/ur_pk.gif");
+}
+
+.icon-lang-us {
+	background-image: url("../images/us.gif");
+}
+
+.icon-lang-uz {
+	background-image: url("../images/uz.gif");
+}
+
+.icon-lang-uz_uz {
+	background-image: url("../images/uz_uz.gif");
+}
+
+.icon-lang-vi {
+	background-image: url("../images/vi.gif");
+}
+
+.icon-lang-vi_vn {
+	background-image: url("../images/vi_vn.gif");
+}
+
+.icon-lang-zh {
+	background-image: url("../images/zh.gif");
+}
+
+.icon-lang-zh_cn {
+	background-image: url("../images/zh_cn.gif");
+}
+
+.icon-lang-zh_tw {
+	background-image: url("../images/zh_tw.gif");
+}

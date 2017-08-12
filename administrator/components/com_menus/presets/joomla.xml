@@ -205,15 +205,18 @@
 			type="separator"
 			title="JSITE"
 			hidden="false"
-			sql_select="title, menutype"
-			sql_from="#__menu_types"
-			sql_where="client_id = 0"
+			sql_select="a.title, a.menutype, CASE SUM(m.home) WHEN 0 THEN 'none' WHEN 1 THEN CASE m.language WHEN '*' THEN 'none icon-home' ELSE l.image END ELSE 'multilang' END AS icon"
+			sql_from="#__menu_types AS a"
+			sql_where="a.client_id = 0"
+			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
+			sql_group="a.id"
 			sql_order="title ASC">
 			<menuitem
 				title="{sql:title}"
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
+				icon="icon-lang-{sql:icon}"
 				class="class:menu">
 				<menuitem
 					title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"

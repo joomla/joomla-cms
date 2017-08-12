@@ -86,10 +86,11 @@ $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 // Links: component/url/heading/container
 if ($link = $current->get('link'))
 {
+	$icon   = ' <span class="' . $current->get('icon') . '"></span>';
 	$target = $current->get('target') ? 'target="' . $current->get('target') . '"' : '';
 
 	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" ' . $target . '>' .
-				JText::_($current->get('title')) . ' ' . $current->get('icon') . $dropdownCaret . '</a>';
+				JText::_($current->get('title')) . ' ' . $icon . $dropdownCaret . '</a>';
 }
 // Separator
 else

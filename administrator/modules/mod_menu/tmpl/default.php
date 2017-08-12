@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('stylesheet', 'mod_languages/icons.css', array('relative' => true));
+
 $doc       = JFactory::getDocument();
 $direction = $doc->direction == 'rtl' ? 'pull-right' : '';
 $class     = $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction;
