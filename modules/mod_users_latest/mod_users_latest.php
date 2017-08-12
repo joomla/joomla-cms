@@ -14,6 +14,5 @@ use Joomla\Module\UsersLatest\Site\Helper\UsersLatestHelper;
 
 $shownumber      = $params->get('shownumber', 5);
 $names           = UsersLatestHelper::getUsers($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_users_latest', $params->get('layout', 'default'));

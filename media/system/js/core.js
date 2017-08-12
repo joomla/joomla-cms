@@ -966,6 +966,162 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		return xhr;
 	};
 
+	/**
+	 * Check if HTML5 localStorage enabled on the browser
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.localStorageEnabled = function() {
+		var test = 'joomla-cms';
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
+			return true;
+		} catch(e) {
+			return false;
+		}
+	};
+
+	/**
+	 * Loads any needed polyfill for web components and async load any web components
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.WebComponents = function() {
+		var wc, polyfills = [];
+
+		/* Get the web components */
+		if (Joomla.getOptions && typeof Joomla.getOptions === "function") {
+			wc = Joomla.getOptions('webcomponents', {});
+		}
+
+		/* Check if ES6 then apply the shim */
+		var checkES6 = function () {
+			try {
+				new Function("(a = 0) => a");
+				return true;
+			}
+			catch (err) {
+				return false;
+			}
+		};
+
+		/* Check if we need the full polyfill set */
+		var checkWC = function (wc) {
+			if (wc.hasOwnProperty('fullPolyfill') && wc['fullPolyfill'] === true) {
+				return true;
+			}
+			return false;
+		};
+
+		/* Load web components async */
+		var loadWC = function (wc) {
+			var el, p, es5;
+			for (p in wc) {
+				if (wc.hasOwnProperty(p) && p !== 'fullPolyfill') {
+					if (wc[p].match(/\.js/g)) {
+						el = document.createElement('script');
+						if (!checkES6()) {
+							// Browser is not ES6!
+							if (wc[p].match(/\.min\.js/g)) {
+								es5 = wc[p].replace(/\.min\.js/g, '-es5.min.js')
+							} else if (wc[p].match(/\.js/g)) {
+								es5 = wc[p].replace(/\.js/g, '-es5.js')
+							}
+							el.src = es5;
+						} else {
+							el.src = wc[p];
+						}
+					} else if (wc[p].match(/\.html/)) {
+						el = document.createElement('link');
+						if (checkES6()) {
+							// Browser is not ES6!
+							if (wc[p].match(/\.min\.html/)) {
+								el.setAttribute('href', wc[p].replace(/\.min\.html/, '-es5.min.html'));
+							} else {
+								el.setAttribute('href', wc[p].replace(/\.html/, '-es5.html'));
+							}
+						} else {
+							el.src = wc[p];
+						}
+
+						el.setAttribute('rel', 'import');
+					}
+					if (el) {
+						document.head.appendChild(el);
+					}
+				}
+			}
+		};
+
+		if (checkWC(wc)) {
+			if (!('import' in document.createElement('link'))) {
+				polyfills.push('hi');
+			}
+			if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) || (window.ShadyDOM && window.ShadyDOM.force)) {
+				polyfills.push('sd');
+			}
+			if (!window.customElements || window.customElements.forcePolyfill) {
+				polyfills.push('ce');
+			}
+			if (!('content' in document.createElement('template')) || !window.Promise || !Array.from || !(document.createDocumentFragment().cloneNode() instanceof DocumentFragment)) {
+				polyfills = ['lite'];
+			}
+		} else {
+			if (!window.customElements || window.customElements.forcePolyfill) {
+				polyfills.push('ce');
+			}
+		}
+
+		if (polyfills.length) {
+			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]')
+			if (!script) {
+				name = "core.js";
+				script = document.querySelector('script[src*="' + name + '"]')
+			}
+
+			if (!script) {
+				throw new Error('core(.min).js is not registered correctly!')
+			}
+
+			var newScript = document.createElement('script'),
+			    replacement = 'media/system/js/polyfills/webcomponents/webcomponents-' + polyfills.join('-') + '.min.js',
+			    mediaVersion = script.src.match(/\?.*/)[0],
+			    base = Joomla.getOptions('system.paths');
+
+			if (!base) {
+				throw new Error('core(.min).js is not registered correctly!')
+			}
+
+			newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion : '');
+
+			if (document.readyState === 'loading' && ('import' in document.createElement('link'))) {
+				document.write(newScript.outerHTML);
+			} else {
+				document.head.insertAdjacentElement('beforeend', newScript);
+			}
+
+			document.addEventListener('WebComponentsReady', function () {
+				loadWC(wc);
+			});
+		} else {
+			var fire = function () {
+				requestAnimationFrame(function () {
+					document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
+					loadWC(wc);
+				});
+			};
+
+			if (document.readyState !== 'loading') {
+				fire();
+			} else {
+				document.addEventListener('readystatechange', function wait() {
+					fire();
+					document.removeEventListener('readystatechange', wait);
+				});
+			}
+		}
+	};
 }( Joomla, document ));
 
 /**
@@ -1040,21 +1196,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		element.addEventListener(name, onceCallback);
 	};
-
-	/**
-	 * Check if HTML5 localStorage enabled on the browser
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	Joomla.localStorageEnabled = function() {
-		var test = 'joomla-cms';
-		try {
-			localStorage.setItem(test, test);
-			localStorage.removeItem(test);
-			return true;
-		} catch(e) {
-			return false;
-		}
-	}
-
 })( window, Joomla );
+
+/**
+ * Load any web components and any polyfills required
+ */
+document.addEventListener('DOMContentLoaded', function() {
+	Joomla.WebComponents();
+});
+
