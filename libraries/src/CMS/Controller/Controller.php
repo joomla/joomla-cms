@@ -587,7 +587,7 @@ class Controller implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  View|null  View object on success; null or error result on failure.
+	 * @return  AbstractView|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
