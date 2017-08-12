@@ -2184,9 +2184,9 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
 
 INSERT INTO `#__workflow_states` (`id`, `asset_id`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
 (1, 56, 1, 1, 'Trashed', '', '1', 0),
-(2, 57, 1, 1, 'Unpublished', '', '2', 1),
-(3, 58, 1, 1, 'Published', '', '3', 0),
-(4, 59, 1, 1, 'Archived', '', '2', 0);
+(2, 57, 1, 1, 'Unpublished', '', '2', 0),
+(3, 58, 1, 1, 'Published', '', '3', 1),
+(4, 59, 1, 1, 'Archived', '', '3', 0);
 
 --
 -- Dumping data for table `#__workflow_transitions`
