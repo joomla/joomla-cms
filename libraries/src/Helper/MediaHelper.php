@@ -134,14 +134,15 @@ class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file       File information
-	 * @param   string  $component  The option name for the component storing the parameters
+	 * @param   array    $file       File information
+	 * @param   string   $component  The option name for the component storing the parameters
+	 * @param   boolean  $checkMime  If false, disable all mime checks
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media')
+	public function canUpload($file, $component = 'com_media', $checkMime = true)
 	{
 		$app    = \JFactory::getApplication();
 		$params = ComponentHelper::getParams($component);
@@ -218,28 +219,44 @@ class MediaHelper
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
 				{
-					// Get the mime type this is an image file
-					$mime = $this->getMimeType($file['tmp_name'], true);
-
-					// Did we get anything useful?
-					if ($mime != false)
+					// Bypass all mime checks...
+					if ($checkMime)
 					{
-						$result = $this->checkMimeType($mime, $component);
+						// Get the mime type this is an image file
+						$mime = $this->getMimeType($file['tmp_name'], true);
 
-						// If the mime type is not allowed we don't upload it and show the mime code error to the user
-						if ($result === false)
+						// Did we get anything useful?
+						if ($mime !== false)
 						{
+<<<<<<< HEAD:libraries/cms/helper/media.php
+							$result = $this->checkMimeType($mime, $component);
+=======
 							$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+>>>>>>> 81dc289133ebf5f1dde5e741722c5ef3b5c6c6aa:libraries/src/Helper/MediaHelper.php
 
-							return false;
+							// If the mime type is not allowed we don't upload it and show the mime code error to the user
+							if ($result === false)
+							{
+								$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+
+								return false;
+							}
 						}
+<<<<<<< HEAD:libraries/cms/helper/media.php
+						// We can't detect the mime type so it looks like an invalid image
+						else
+						{
+							$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+=======
 					}
 					// We can't detect the mime type so it looks like an invalid image
 					else
 					{
 						$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+>>>>>>> 81dc289133ebf5f1dde5e741722c5ef3b5c6c6aa:libraries/src/Helper/MediaHelper.php
 
-						return false;
+							return false;
+						}
 					}
 				}
 				else
@@ -251,22 +268,39 @@ class MediaHelper
 			}
 			elseif (!in_array($filetype, $ignored))
 			{
-				// Get the mime type this is not an image file
-				$mime = $this->getMimeType($file['tmp_name'], false);
-
-				// Did we get anything useful?
-				if ($mime != false)
+				// Bypass all mime checks...
+				if ($checkMime)
 				{
-					$result = $this->checkMimeType($mime, $component);
+					// Get the mime type this is not an image file
+					$mime = $this->getMimeType($file['tmp_name'], false);
 
-					// If the mime type is not allowed we don't upload it and show the mime code error to the user
-					if ($result === false)
+					// Did we get anything useful?
+					if ($mime !== false)
 					{
+						$result = $this->checkMimeType($mime, $component);
+
+						// If the mime type is not allowed we don't upload it and show the mime code error to the user
+						if ($result === false)
+						{
+							$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+
+							return false;
+						}
+					}
+					// We can't detect the mime type so it looks like an invalid file
+					else
+					{
+<<<<<<< HEAD:libraries/cms/helper/media.php
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+=======
 						$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+>>>>>>> 81dc289133ebf5f1dde5e741722c5ef3b5c6c6aa:libraries/src/Helper/MediaHelper.php
 
 						return false;
 					}
 				}
+<<<<<<< HEAD:libraries/cms/helper/media.php
+=======
 				// We can't detect the mime type so it looks like an invalid file
 				else
 				{
@@ -274,6 +308,7 @@ class MediaHelper
 
 					return false;
 				}
+>>>>>>> 81dc289133ebf5f1dde5e741722c5ef3b5c6c6aa:libraries/src/Helper/MediaHelper.php
 
 				if (!\JFactory::getUser()->authorise('core.manage', $component))
 				{
