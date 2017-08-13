@@ -28,6 +28,12 @@ class LoginController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		// Required for older update paths as we now also go over a new login
+		if (!$this->input)
+		{
+			$this->input = JFactory::getApplication()->input;
+		}
+
 		/*
 		 * Special treatment is required for this component, as this view may be called
 		 * after a session timeout. We must reset the view and layout prior to display
