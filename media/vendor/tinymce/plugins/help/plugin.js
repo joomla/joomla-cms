@@ -1114,49 +1114,50 @@ define(
   ],
   function () {
     var urls = [
-      'advlist',
-      'anchor',
-      'autolink',
-      'autoresize',
-      'autosave',
-      'bbcode',
-      'charmap',
-      'code',
-      'codesample',
-      'colorpicker',
-      'compat3x',
-      'contextmenu',
-      'directionality',
-      'emoticons',
-      'fullpage',
-      'fullscreen',
-      'hr',
-      'image',
-      'imagetools',
-      'importcss',
-      'insertdatetime',
-      'legacyoutput',
-      'link',
-      'lists',
-      'media',
-      'nonbreaking',
-      'noneditable',
-      'pagebreak',
-      'paste',
-      'preview',
-      'print',
-      'save',
-      'searchreplace',
-      'spellchecker',
-      'tabfocus',
-      'table',
-      'template',
-      'textcolor',
-      'textpattern',
-      'toc',
-      'visualblocks',
-      'visualchars',
-      'wordcount'
+      { key: 'advlist', name: 'Advanced List' },
+      { key: 'anchor', name: 'Anchor' },
+      { key: 'autolink', name: 'Autolink' },
+      { key: 'autoresize', name: 'Autoresize' },
+      { key: 'autosave', name: 'Autosave' },
+      { key: 'bbcode', name: 'BBCode' },
+      { key: 'charmap', name: 'Character Map' },
+      { key: 'code', name: 'Code' },
+      { key: 'codesample', name: 'Code Sample' },
+      { key: 'colorpicker', name: 'Color Picker' },
+      { key: 'compat3x', name: '3.x Compatibility' },
+      { key: 'contextmenu', name: 'Context Menu' },
+      { key: 'directionality', name: 'Directionality' },
+      { key: 'emoticons', name: 'Emoticons' },
+      { key: 'fullpage', name: 'Full Page' },
+      { key: 'fullscreen', name: 'Full Screen' },
+      { key: 'help', name: 'Help' },
+      { key: 'hr', name: 'Horizontal Rule' },
+      { key: 'image', name: 'Image' },
+      { key: 'imagetools', name: 'Image Tools' },
+      { key: 'importcss', name: 'Import CSS' },
+      { key: 'insertdatetime', name: 'Insert Date/Time' },
+      { key: 'legacyoutput', name: 'Legacy Output' },
+      { key: 'link', name: 'Link' },
+      { key: 'lists', name: 'Lists' },
+      { key: 'media', name: 'Media' },
+      { key: 'nonbreaking', name: 'Nonbreaking' },
+      { key: 'noneditable', name: 'Noneditable' },
+      { key: 'pagebreak', name: 'Page Break' },
+      { key: 'paste', name: 'Paste' },
+      { key: 'preview', name: 'Preview' },
+      { key: 'print', name: 'Print' },
+      { key: 'save', name: 'Save' },
+      { key: 'searchreplace', name: 'Search and Replace' },
+      { key: 'spellchecker', name: 'Spell Checker' },
+      { key: 'tabfocus', name: 'Tab Focus' },
+      { key: 'table', name: 'Table' },
+      { key: 'template', name: 'Template' },
+      { key: 'textcolor', name: 'Text Color' },
+      { key: 'textpattern', name: 'Text Pattern' },
+      { key: 'toc', name: 'Table of Contents' },
+      { key: 'visualblocks', name: 'Visual Blocks' },
+      { key: 'visualchars', name: 'Visual Characters' },
+      { key: 'wordcount', name: 'Word Count' }
     ];
 
     return {
@@ -1175,23 +1176,33 @@ define(
     'tinymce.plugins.help.data.PluginUrls'
   ],
 function (tinymce, Obj, Arr, Fun, Strings, PluginUrls) {
-  var maybeUrlize = function (name) {
+  var makeLink = Fun.curry(Strings.supplant, '<a href="${url}" target="_blank" rel="noopener">${name}</a>');
+
+  var maybeUrlize = function (editor, key) {
     return Arr.find(PluginUrls.urls, function (x) {
-      return x === name;
-    }).fold(Fun.constant(name), function (pluginName) {
-      return Strings.supplant('<a href="${url}" target="_blank">${name}</a>', {
-        name: pluginName,
-        url: 'https://www.tinymce.com/docs/plugins/' + pluginName
-      });
+      return x.key === key;
+    }).fold(function () {
+      var getMetadata = editor.plugins[key].getMetadata;
+      return typeof getMetadata === 'function' ? makeLink(getMetadata()) : key;
+    }, function (x) {
+      return makeLink({ name: x.name, url: 'https://www.tinymce.com/docs/plugins/' + x.key });
     });
   };
 
+  var getPluginKeys = function (editor) {
+    var keys = Obj.keys(editor.plugins);
+    return editor.settings.forced_plugins === undefined ?
+      keys :
+      Arr.filter(keys, Fun.not(Fun.curry(Arr.contains, editor.settings.forced_plugins)));
+  };
+
   var pluginLister = function (editor) {
-    var plugins = Obj.mapToArray(editor.plugins, function (plugin, key) {
-      return '<li>' + maybeUrlize(key) + '</li>';
+    var pluginKeys = getPluginKeys(editor);
+    var pluginLis = Arr.map(pluginKeys, function (key) {
+      return '<li>' + maybeUrlize(editor, key) + '</li>';
     });
-    var count = plugins.length;
-    var pluginsString = plugins.join('');
+    var count = pluginLis.length;
+    var pluginsString = pluginLis.join('');
 
     return '<p><b>Plugins installed (' + count + '):</b></p>' +
             '<ul>' + pluginsString + '</ul>';

@@ -10,7 +10,6 @@
 			name="article_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
 			extension="com_content"
 			view="article"
@@ -20,7 +19,6 @@
 			name="show_title"
 			type="radio"
 			label="JGLOBAL_SHOW_TITLE_LABEL"
-			description="JGLOBAL_SHOW_TITLE_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -32,7 +30,6 @@
 			name="link_titles"
 			type="radio"
 			label="JGLOBAL_LINKED_TITLES_LABEL"
-			description="JGLOBAL_LINKED_TITLES_DESC"
 			class="switcher"
 			default="1"
 			showon="show_title:1"
@@ -45,7 +42,6 @@
 			name="show_intro"
 			type="radio"
 			label="JGLOBAL_SHOW_INTRO_LABEL"
-			description="JGLOBAL_SHOW_INTRO_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -57,7 +53,6 @@
 			name="info_block_position"
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
 			default="0"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -69,7 +64,6 @@
 			name="info_block_show_title"
 			type="radio"
 			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
-			description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -81,7 +75,6 @@
 			name="show_category"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -93,7 +86,6 @@
 			name="link_category"
 			type="radio"
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
-			description="JGLOBAL_LINK_CATEGORY_DESC"
 			class="switcher"
 			default="1"
 			showon="show_category:1"
@@ -106,7 +98,6 @@
 			name="show_parent_category"
 			type="radio"
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -118,7 +109,6 @@
 			name="link_parent_category"
 			type="radio"
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 			class="switcher"
 			default="1"
 			showon="show_parent_category:1"
@@ -137,7 +127,6 @@
 			name="show_associations"
 			type="radio"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
-			description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -149,7 +138,6 @@
 			name="flags"
 			type="radio"
 			label="JGLOBAL_SHOW_FLAG_LABEL"
-			description="JGLOBAL_SHOW_FLAG_DESC"
 			class="switcher"
 			default="1"
 			showon="show_associations:1"
@@ -168,7 +156,6 @@
 			name="show_author"
 			type="radio"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			description="JGLOBAL_SHOW_AUTHOR_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -180,7 +167,6 @@
 			name="link_author"
 			type="radio"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
-			description="JGLOBAL_LINK_AUTHOR_DESC"
 			class="switcher"
 			default="0"
 			showon="show_author:1"
@@ -193,7 +179,6 @@
 			name="show_create_date"
 			type="radio"
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -205,7 +190,6 @@
 			name="show_modify_date"
 			type="radio"
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-			description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -217,7 +201,6 @@
 			name="show_publish_date"
 			type="radio"
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -229,7 +212,6 @@
 			name="show_item_navigation"
 			type="radio"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			description="JGLOBAL_SHOW_NAVIGATION_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -241,7 +223,6 @@
 			name="show_vote"
 			type="radio"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
-			description="JGLOBAL_SHOW_VOTE_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -253,7 +234,6 @@
 			name="show_readmore"
 			type="radio"
 			label="JGLOBAL_SHOW_READMORE_LABEL"
-			description="JGLOBAL_SHOW_READMORE_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -265,7 +245,6 @@
 			name="show_readmore_title"
 			type="radio"
 			label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-			description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 			class="switcher"
 			default="1"
 			showon="show_readmore:1"
@@ -278,7 +257,6 @@
 			name="readmore_limit"
 			type="text"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
-			description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
@@ -287,7 +265,6 @@
 			name="show_tags"
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-			description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
 			id="show_tags"
 			class="switcher"
 			default="1"
@@ -342,7 +319,6 @@
 			name="show_hits"
 			type="radio"
 			label="JGLOBAL_SHOW_HITS_LABEL"
-			description="JGLOBAL_SHOW_HITS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -366,7 +342,6 @@
 			name="urls_position"
 			type="list"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-			description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
 			default="0"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -384,7 +359,6 @@
 			name="captcha"
 			type="plugins"
 			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
-			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
 			default=""
 			folder="captcha"
 			filter="cmd"
@@ -397,7 +371,6 @@
 			name="show_publishing_options"
 			type="radio"
 			label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
-			description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -409,7 +382,6 @@
 			name="show_article_options"
 			type="radio"
 			label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
-			description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -421,7 +393,6 @@
 			name="save_history"
 			type="radio"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -433,7 +404,6 @@
 			name="history_limit"
 			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
 			default="10"
 			showon="save_history:1"
@@ -443,7 +413,6 @@
 			name="show_urls_images_frontend"
 			type="radio"
 			label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
-			description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -455,7 +424,6 @@
 			name="show_urls_images_backend"
 			type="radio"
 			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
-			description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -474,7 +442,6 @@
 			name="targeta"
 			type="list"
 			label="COM_CONTENT_URL_FIELD_A_BROWSERNAV_LABEL"
-			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
@@ -489,7 +456,6 @@
 			name="targetb"
 			type="list"
 			label="COM_CONTENT_URL_FIELD_B_BROWSERNAV_LABEL"
-			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
@@ -504,7 +470,6 @@
 			name="targetc"
 			type="list"
 			label="COM_CONTENT_URL_FIELD_C_BROWSERNAV_LABEL"
-			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
@@ -526,7 +491,6 @@
 			name="float_intro"
 			type="list"
 			label="COM_CONTENT_FLOAT_INTRO_LABEL"
-			description="COM_CONTENT_FLOAT_DESC"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			>
 			<option value="right">COM_CONTENT_RIGHT</option>
@@ -538,7 +502,6 @@
 			name="float_fulltext"
 			type="list"
 			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-			description="COM_CONTENT_FLOAT_DESC"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			>
 			<option value="right">COM_CONTENT_RIGHT</option>
@@ -558,7 +521,6 @@
 			name="category_layout" 
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
 			extension="com_content"
 			view="category"
@@ -568,7 +530,6 @@
 			name="show_category_heading_title_text"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -580,7 +541,6 @@
 			name="show_category_title"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
-			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -592,7 +552,6 @@
 			name="show_description"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -604,7 +563,6 @@
 			name="show_description_image"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -616,7 +574,6 @@
 			name="maxLevel" 
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
 			>
 			<option value="0">JNONE</option>
@@ -632,7 +589,6 @@
 			name="show_empty_categories"
 			type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -644,7 +600,6 @@
 			name="show_no_articles"
 			type="radio"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
-			description="COM_CONTENT_NO_ARTICLES_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -656,7 +611,6 @@
 			name="show_subcat_desc"
 			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
 			class="switcher"
 			>
@@ -668,7 +622,6 @@
 			name="show_cat_num_articles"
 			type="radio"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
-			description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -680,7 +633,6 @@
 			name="show_cat_tags" 
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
-			description="COM_CONTENT_FIELD_SHOW_CAT_TAGS_DESC"
 			default="1"
 			class="switcher"
 			>
@@ -699,7 +651,6 @@
 			name="show_base_description"
 			type="radio"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -711,7 +662,6 @@
 			name="maxLevelcat" 
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
 			>
 			<option value="0">JNONE</option>
@@ -727,7 +677,6 @@
 			name="show_empty_categories_cat"
 			type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
 			class="switcher"
 			default="0"
 			showon="maxLevelcat:-1,1,2,3,4,5"
@@ -740,7 +689,6 @@
 			name="show_subcat_desc_cat"
 			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			class="switcher"
 			default="1"
 			showon="maxLevelcat:-1,1,2,3,4,5"
@@ -753,7 +701,6 @@
 			name="show_cat_num_articles_cat"
 			type="radio"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
-			description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -773,7 +720,6 @@
 			name="num_leading_articles"
 			type="text"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
-			description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 			default="1"			
 		/>
 
@@ -781,7 +727,6 @@
 			name="num_intro_articles"
 			type="text"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
-			description="JGLOBAL_NUM_INTRO_ARTICLES_DESC"
 			default="4"
 		/>
 
@@ -789,7 +734,6 @@
 			name="num_columns"
 			type="text"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
-			description="JGLOBAL_NUM_COLUMNS_DESC"
 			default="2"
 		/>
 
@@ -797,7 +741,6 @@
 			name="num_links"
 			type="text"
 			label="JGLOBAL_NUM_LINKS_LABEL"
-			description="JGLOBAL_NUM_LINKS_DESC"
 			default="4"
 		/>
 
@@ -805,7 +748,6 @@
 			name="multi_column_order"
 			type="list"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC"
 			default="0"
 			showon="num_columns!:,0,1"
 			>
@@ -823,7 +765,6 @@
 			name="show_subcategory_content" 
 			type="list"
 			label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
 			default="0"
 			>
 			<option value="0">JNONE</option>
@@ -847,7 +788,6 @@
 			name="show_pagination_limit"
 			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			description="JGLOBAL_DISPLAY_SELECT_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -859,7 +799,6 @@
 			name="filter_field"
 			type="list"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
-			description="JGLOBAL_FILTER_FIELD_DESC"
 			default="hide"
 			>
 			<option value="hide">JHIDE</option>
@@ -873,7 +812,6 @@
 			name="show_headings"
 			type="radio"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -885,7 +823,6 @@
 			name="list_show_date"
 			type="list"
 			label="JGLOBAL_SHOW_DATE_LABEL"
-			description="JGLOBAL_SHOW_DATE_DESC"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -898,7 +835,6 @@
 			name="date_format"
 			type="text"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			description="JGLOBAL_DATE_FORMAT_DESC"
 			size="15"
 			showon="list_show_date:created,modified,published"
 		/>
@@ -907,7 +843,6 @@
 			name="list_show_hits"
 			type="radio"
 			label="JGLOBAL_LIST_HITS_LABEL"
-			description="JGLOBAL_LIST_HITS_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -919,7 +854,6 @@
 			name="list_show_author"
 			type="radio"
 			label="JGLOBAL_LIST_AUTHOR_LABEL"
-			description="JGLOBAL_LIST_AUTHOR_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -931,7 +865,6 @@
 			name="list_show_votes"
 			type="votelist"
 			label="JGLOBAL_LIST_VOTES_LABEL"
-			description="JGLOBAL_LIST_VOTES_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -943,7 +876,6 @@
 			name="list_show_ratings"
 			type="votelist"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
-			description="JGLOBAL_LIST_RATINGS_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -963,7 +895,6 @@
 			name="orderby_pri"
 			type="list"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
-			description="JGLOBAL_CATEGORY_ORDER_DESC"
 			default="none"
 			>
 			<option value="none">JGLOBAL_NO_ORDER</option>
@@ -976,7 +907,6 @@
 			name="orderby_sec"
 			type="list"
 			label="JGLOBAL_ARTICLE_ORDER_LABEL"
-			description="JGLOBAL_ARTICLE_ORDER_DESC"
 			default="rdate"
 			>
 			<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
@@ -998,7 +928,6 @@
 			name="order_date" 
 			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
-			description="JGLOBAL_ORDERING_DATE_DESC"
 			showon="orderby_sec:rdate,date"
 			default="published"
 			>
@@ -1011,7 +940,6 @@
 			name="show_pagination"
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
-			description="JGLOBAL_PAGINATION_DESC"
 			default="2"
 			>
 			<option value="0">JHIDE</option>
@@ -1023,7 +951,6 @@
 			name="show_pagination_results"
 			type="radio"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			description="JGLOBAL_PAGINATION_RESULTS_DESC"
 			class="switcher"
 			default="1"
 			showon="show_pagination:1,2"
@@ -1036,7 +963,6 @@
 			name="show_featured" 
 			type="list" 
 			label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
-			description="JGLOBAL_SHOW_FEATURED_ARTICLES_DESC"
 			default="show"
 			>
 			<option value="show">JSHOW</option>
@@ -1055,7 +981,6 @@
 			name="show_feed_link"
 			type="radio"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-			description="JGLOBAL_SHOW_FEED_LINK_DESC"
 			class="switcher"
 			default="1"
 			>
@@ -1067,7 +992,6 @@
 			name="feed_summary"
 			type="list"
 			label="JGLOBAL_FEED_SUMMARY_LABEL"
-			description="JGLOBAL_FEED_SUMMARY_DESC"
 			default="0"
 			showon="show_feed_link:1"
 			>
@@ -1094,7 +1018,6 @@
 			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
-			description="JGLOBAL_SEF_NOIDS_DESC"
 			filter="integer"
 		>
 			<option value="0">JNO</option>
@@ -1120,7 +1043,6 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
-			description="JGLOBAL_SEF_NOIDS_DESC"
 			showon="sef_advanced:1"
 			filter="integer">
 			<option value="1">JYES</option>
@@ -1131,7 +1053,6 @@
 			name="custom_fields_enable"
 			type="radio"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			class="switcher"
 			default="1"
 			>
