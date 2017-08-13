@@ -103,6 +103,17 @@
 			label="JFIELD_ORDERING_LABEL"
 		/>
 
+		<field
+			name="language"
+			type="language"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_MODULE_LANGUAGE_DESC"
+			default="*"
+			client="administrator"
+			>
+			<option value="*">JALL</option>
+		</field>
+
 		<field name="content" type="editor"
 			buttons="true"
 			description="COM_MODULES_FIELD_CONTENT_DESC"

@@ -6,8 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-include_once JPATH_PLATFORM . '/joomla/document/html/renderer/component.php';
-
 /**
  * Test class for JDocumentRendererComponent
  */

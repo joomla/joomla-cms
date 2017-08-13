@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       3.4
+ * @deprecated  4.0 Will be removed without replacement
  */
 class JStringWrapperNormalise
 {

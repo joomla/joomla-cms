@@ -22,6 +22,8 @@ $showLabel = $field->params->get('showlabel');
 if ($field->context == 'com_contact.mail')
 {
 	// Prepare the value for the contact form mail
+	$value = html_entity_decode($value);
+
 	echo ($showLabel ? $label . ': ' : '') . $value . "\r\n";
 	return;
 }
@@ -34,7 +36,7 @@ if (!$value)
 ?>
 <dt class="contact-field-entry <?php echo $class; ?>">
 	<?php if ($showLabel == 1) : ?>
-        <span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
+		<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 	<?php endif; ?>
 </dt>
 <dd class="contact-field-entry <?php echo $class; ?>">

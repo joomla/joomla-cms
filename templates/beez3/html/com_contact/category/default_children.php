@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 $class = ' class="first"';
-if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
+if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 ?>
 <ul>
 <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 	<?php
-	if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
+	if ($child->numitems || $this->params->get('show_empty_categories') || count($child->getChildren())) :
 	if (!isset($this->children[$this->category->id][$id + 1]))
 	{
 		$class = ' class="last"';

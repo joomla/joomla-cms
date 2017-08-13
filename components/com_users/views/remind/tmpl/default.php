@@ -26,14 +26,16 @@ JHtml::_('behavior.formvalidator');
 		<fieldset>
 			<p><?php echo JText::_($fieldset->label); ?></p>
 			<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $field->label; ?>
+				<?php if ($field->hidden === false) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
 					</div>
-					<div class="controls">
-						<?php echo $field->input; ?>
-					</div>
-				</div>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		</fieldset>
 		<?php endforeach; ?>

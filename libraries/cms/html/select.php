@@ -249,7 +249,7 @@ abstract class JHtmlSelect
 				$attribs = $options['list.attr'];
 			}
 
-			if ($attribs != '')
+			if ($attribs !== '')
 			{
 				$attribs = ' ' . $attribs;
 			}
@@ -670,12 +670,12 @@ abstract class JHtmlSelect
 
 			$key = (string) $key;
 
-			if ($options['groups'] && $key === '<OPTGROUP>')
+			if ($key === '<OPTGROUP>' && $options['groups'])
 			{
 				$html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? JText::_($text) : $text) . '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
 			}
-			elseif ($options['groups'] && $key === '</OPTGROUP>')
+			elseif ($key === '</OPTGROUP>' && $options['groups'])
 			{
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];
@@ -691,7 +691,7 @@ abstract class JHtmlSelect
 					$text .= ' - ' . $splitText[1];
 				}
 
-				if ($options['list.translate'] && !empty($label))
+				if (!empty($label) && $options['list.translate'])
 				{
 					$label = JText::_($label);
 				}

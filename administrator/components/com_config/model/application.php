@@ -185,7 +185,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$asset->check() || !$asset->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage($asset->getError(), 'error');
 
 					return;
 				}
@@ -216,7 +216,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$extension->check() || !$extension->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage($extension->getError(), 'error');
 
 					return;
 				}

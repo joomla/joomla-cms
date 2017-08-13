@@ -48,7 +48,7 @@ JHtml::_('behavior.caption');
 		$rowcount = (((int) $key - 1) % (int) $this->columns) + 1;
 		$row = $counter / $this->columns;
 
-		if ($rowcount == 1) : ?>
+		if ($rowcount === 1) : ?>
 
 			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 		<?php endif; ?>

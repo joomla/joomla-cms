@@ -23,7 +23,7 @@ if (empty($fieldSet))
 $ignoreFields = $displayData->get('ignore_fields') ? : array();
 $extraFields = $displayData->get('extra_fields') ? : array();
 
-if ($displayData->get('show_options', 1))
+if (!empty($displayData->showOptions) || $displayData->get('show_options', 1))
 {
 	if (isset($extraFields[$name]))
 	{

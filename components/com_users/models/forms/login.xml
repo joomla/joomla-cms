@@ -29,7 +29,6 @@
 			type="text"
 			label="JGLOBAL_SECRETKEY"
 			class=""
-			required="false"
 			filter="int"
 			size="25"
 		/>

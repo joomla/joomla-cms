@@ -23,6 +23,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->redirectPluginId) : ?>
+			<?php $link = JRoute::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->redirectPluginId . '&tmpl=component&layout=modal'); ?>
+			<?php echo JHtml::_(
+				'bootstrap.renderModal',
+				'plugin' . $this->redirectPluginId . 'Modal',
+				array(
+					'url'        => $link,
+					'title'      => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+					'height'     => '400px',
+					'modalWidth' => '60',
+					'footer'     => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. JText::_("JSAVE") . '</button>'
+				)
+			); ?>
+		<?php endif; ?>
+
 		<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

@@ -97,10 +97,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 		 * In order to kill the session altogether, such as to log the user out, the session id
 		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
 		 * then the session cookie must be deleted.
+		 * We need to use setcookie here or we will get a warning in some session handlers (ex: files).
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$this->input->cookie->set($session_name, '', 1);
+			setcookie($session_name, '', 1);
 		}
 
 		parent::clear();

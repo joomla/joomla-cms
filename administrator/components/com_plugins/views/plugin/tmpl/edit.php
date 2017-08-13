@@ -23,6 +23,11 @@ JFactory::getDocument()->addScriptDeclaration("
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
+		
+		if (self !== top) {
+			window.top.setTimeout('window.parent.location = window.top.location.href', 1000);
+			window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
+		}
 	};
 ");
 ?>

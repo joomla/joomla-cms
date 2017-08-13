@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.6"
+	version="3.7"
 	client="installation">
 	<name>Catalan (Spain)</name>
-	<version>3.7.0</version>
-	<creationDate>February 2017</creationDate>
+	<version>3.7.4</version>
+	<creationDate>July 2017</creationDate>
 	<author>Catmidia.cat</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

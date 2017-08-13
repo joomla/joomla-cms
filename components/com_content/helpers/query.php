@@ -93,6 +93,10 @@ class ContentHelperQuery
 				$orderby = 'a.ordering';
 				break;
 
+			case 'rorder' :
+				$orderby = 'a.ordering DESC';
+				break;
+
 			case 'author' :
 				$orderby = 'author';
 				break;

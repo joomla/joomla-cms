@@ -88,43 +88,47 @@ JFactory::getDocument()->addScriptDeclaration('
 			</tfoot>
 			<tbody>
 				<?php
+				$canCreate                  = $user->authorise('core.create', 'com_finder');
+				$canEdit                    = $user->authorise('core.edit', 'com_finder');
+				$userAuthoriseCoreManage    = $user->authorise('core.manage', 'com_checkin');
+				$userAuthoriseCoreEditState = $user->authorise('core.edit.state', 'com_finder');
+				$userId                     = $user->get('id');
 				foreach ($this->items as $i => $item) :
-				$canCreate  = $user->authorise('core.create',     'com_finder');
-				$canEdit    = $user->authorise('core.edit',       'com_finder');
-				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
-				$canChange  = $user->authorise('core.edit.state', 'com_finder') && $canCheckin;
-				?>
-				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center">
-						<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>
-					</td>
-					<td class="center nowrap">
-						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
-					</td>
-					<td>
-						<?php if ($item->checked_out) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin); ?>
-						<?php endif; ?>
-						<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
-								<?php echo $this->escape($item->title); ?></a>
-						<?php else : ?>
-							<?php echo $this->escape($item->title); ?>
-						<?php endif; ?>
-					</td>
-					<td class="nowrap hidden-phone">
-						<?php echo $item->created_by_alias ?: $item->user_name; ?>
-					</td>
-					<td class="nowrap hidden-phone">
-						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
-					</td>
-					<td class="nowrap hidden-phone">
-						<?php echo $item->map_count; ?>
-					</td>
-					<td class="hidden-phone">
-						<?php echo (int) $item->filter_id; ?>
-					</td>
-				</tr>
+					$canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
+					$canChange    = $userAuthoriseCoreEditState && $canCheckIn;
+					$escapedTitle = $this->escape($item->title);
+					?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<td class="center">
+							<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>
+						</td>
+						<td class="center nowrap">
+							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
+						</td>
+						<td>
+							<?php if ($item->checked_out) : ?>
+								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckIn); ?>
+							<?php endif; ?>
+							<?php if ($canEdit) : ?>
+								<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
+									<?php echo $escapedTitle; ?></a>
+							<?php else : ?>
+								<?php echo $escapedTitle; ?>
+							<?php endif; ?>
+						</td>
+						<td class="nowrap hidden-phone">
+							<?php echo $item->created_by_alias ?: $item->user_name; ?>
+						</td>
+						<td class="nowrap hidden-phone">
+							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
+						</td>
+						<td class="nowrap hidden-phone">
+							<?php echo $item->map_count; ?>
+						</td>
+						<td class="hidden-phone">
+							<?php echo (int) $item->filter_id; ?>
+						</td>
+					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>

@@ -122,15 +122,6 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	{
 		$groups = array();
 
-		$keyField = !empty($this->keyField) ? $this->keyField : 'id';
-		$keyValue = $this->form->getValue($keyField);
-
-		// If the timezone is not set use the server setting.
-		if (strlen($this->value) == 0 && empty($keyValue))
-		{
-			$this->value = JFactory::getConfig()->get('offset');
-		}
-
 		// Get the list of time zones from the server.
 		$zones = DateTimeZone::listIdentifiers();
 

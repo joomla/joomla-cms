@@ -109,7 +109,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @param   string  $group    The group id.
 	 * @param   string  $link     Link URL.
-	 * @param   strin   $message  Link message.
+	 * @param   string  $message  Link message.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *

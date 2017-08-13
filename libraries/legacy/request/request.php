@@ -141,7 +141,7 @@ class JRequest
 		}
 		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
 		{
-			if (isset($input[$name]) && $input[$name] !== null)
+			if (isset($input[$name]))
 			{
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
@@ -487,7 +487,7 @@ class JRequest
 	 */
 	public static function checkToken($method = 'post')
 	{
-		if ($method == 'default')
+		if ($method === 'default')
 		{
 			$method = 'request';
 		}

@@ -50,6 +50,9 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
 
+		// This module does not use tags data
+		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
+
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
@@ -192,6 +195,10 @@ abstract class ModArticlesCategoryHelper
 		}
 
 		// New Parameters
+		if ($params->get('filter_tag', ''))
+		{
+			$articles->setState('filter.tag', $params->get('filter_tag', ''));
+		}
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
 		$articles->setState('filter.author_id', $params->get('created_by', ''));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));

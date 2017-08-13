@@ -87,6 +87,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
 
 		// Add core and base uri paths so javascript scripts can use them.
@@ -711,7 +712,7 @@ abstract class JHtmlBehavior
 		static::core();
 		static::polyfill('event', 'lt IE 9');
 
-		// Add keepalive script options. 
+		// Add keepalive script options.
 		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
 
 		// Add script.

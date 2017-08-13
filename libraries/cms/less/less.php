@@ -22,8 +22,8 @@ class JLess extends lessc
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $fname      Filename to process
-	 * @param   mided   $formatter  Formatter object
+	 * @param   string                 $fname      Filename to process
+	 * @param   \JLessFormatterJoomla  $formatter  Formatter object
 	 *
 	 * @since   3.4
 	 */

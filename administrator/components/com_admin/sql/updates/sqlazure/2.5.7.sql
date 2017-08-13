@@ -1,5 +1,5 @@
 INSERT INTO [#__update_sites] ([name], [type], [location], [enabled], [last_check_timestamp])
-SELECT 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist.xml', 1, 0;
+SELECT 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist.xml', 1, 0;
 
 INSERT INTO [#__update_sites_extensions] ([update_site_id], [extension_id])
 SELECT SCOPE_IDENTITY(), 600;

@@ -118,7 +118,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
 					<td class="center hidden-phone hidden-tablet">
-						<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
+						<?php if ((int) $item->publish_start_date || (int) $item->publish_end_date || (int) $item->start_date || (int) $item->end_date) : ?>
 							<span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
 							<span class="element-invisible"><?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
 						<?php endif; ?>

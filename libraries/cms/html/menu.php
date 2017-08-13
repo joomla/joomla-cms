@@ -84,7 +84,7 @@ abstract class JHtmlMenu
 			$clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
 			$menus    = static::menus($clientId);
 
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text, a.level, a.menutype, a.client_id')
 				->from('#__menu AS a')
@@ -191,9 +191,9 @@ abstract class JHtmlMenu
 		return JHtml::_(
 			'select.genericlist', $options, $name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
-				'list.select' => (int) $selected,
+				'id'             => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
+				'list.attr'      => $attribs === null ? 'class="inputbox" size="1"' : $attribs,
+				'list.select'    => (int) $selected,
 				'list.translate' => false,
 			)
 		);
@@ -307,7 +307,7 @@ abstract class JHtmlMenu
 		}
 
 		$lastMenuType = null;
-		$tmpMenuType = null;
+		$tmpMenuType  = null;
 
 		foreach ($list as $list_a)
 		{
@@ -318,9 +318,9 @@ abstract class JHtmlMenu
 					$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
 				}
 
-				$mitems[] = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
+				$mitems[]     = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
 				$lastMenuType = $list_a->menutype;
-				$tmpMenuType = $list_a->menutype;
+				$tmpMenuType  = $list_a->menutype;
 			}
 
 			$mitems[] = JHtml::_('select.option', $list_a->id, $list_a->title);
@@ -351,7 +351,7 @@ abstract class JHtmlMenu
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if (@$children[$id] && $level <= $maxlevel)
+		if ($level <= $maxlevel && @$children[$id])
 		{
 			if ($type)
 			{
@@ -377,10 +377,10 @@ abstract class JHtmlMenu
 					$txt = $pre . $v->title;
 				}
 
-				$list[$id] = $v;
+				$list[$id]           = $v;
 				$list[$id]->treename = $indent . $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 			}
 		}
 
