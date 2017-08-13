@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 							<?php break; ?>
 						<?php case 'profile_dob': ?>
 							<?php echo '<dd>' . JHtml::_('date', $profile->text, JText::_('DATE_FORMAT_LC4'), false) . '</dd>'; ?>
-						<?php break; ?>
+							<?php break; ?>
 						<?php default: ?>
 							<?php echo '<dd>' . $profile->text . '</dd>'; ?>
 							<?php break; ?>
