@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since   3.7
  *
- * @see     https://developer.joomla.org/news/658-joomla4-manifesto.html
+ * @link    https://developer.joomla.org/news/658-joomla4-manifesto.html
  */
 function admin_postinstall_joomla40checks_condition()
 {

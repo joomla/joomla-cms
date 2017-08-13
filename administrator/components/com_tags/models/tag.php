@@ -35,7 +35,7 @@ class TagsModelTag extends JModelAdmin
 	 * Allowed batch commands
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',

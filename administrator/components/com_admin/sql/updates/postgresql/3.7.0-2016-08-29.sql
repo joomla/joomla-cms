@@ -7,7 +7,7 @@ CREATE TABLE "#__fields" (
   "context" varchar(255) DEFAULT '' NOT NULL,
   "group_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
-  "alias" varchar(255) DEFAULT '' NOT NULL,
+  "name" varchar(255) DEFAULT '' NOT NULL,
   "label" varchar(255) DEFAULT '' NOT NULL,
   "default_value" text DEFAULT '' NOT NULL,
   "type" varchar(255) DEFAULT 'text' NOT NULL,
@@ -66,12 +66,12 @@ CREATE TABLE "#__fields_groups" (
   "access" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__fields_idx_checked_out" ON "#__fields_groups" ("checked_out");
-CREATE INDEX "#__fields_idx_state" ON "#__fields_groups" ("state");
-CREATE INDEX "#__fields_idx_created_by" ON "#__fields_groups" ("created_by");
-CREATE INDEX "#__fields_idx_access" ON "#__fields_groups" ("access");
-CREATE INDEX "#__fields_idx_context" ON "#__fields_groups" ("context");
-CREATE INDEX "#__fields_idx_language" ON "#__fields_groups" ("language");
+CREATE INDEX "#__fields_groups_idx_checked_out" ON "#__fields_groups" ("checked_out");
+CREATE INDEX "#__fields_groups_idx_state" ON "#__fields_groups" ("state");
+CREATE INDEX "#__fields_groups_idx_created_by" ON "#__fields_groups" ("created_by");
+CREATE INDEX "#__fields_groups_idx_access" ON "#__fields_groups" ("access");
+CREATE INDEX "#__fields_groups_idx_context" ON "#__fields_groups" ("context");
+CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 
 --
 -- Table: #__fields_values

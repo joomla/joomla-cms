@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field name="id" type="hidden"
+		<field 
+			name="id" 
+			type="hidden"
 			default="0"
 			required="true"
 			readonly="true"
 		/>
 
-		<field name="title" type="text"
-			required="true"
-			description="COM_USERS_GROUP_FIELD_TITLE_DESC"
+		<field 
+			name="title" 
+			type="text"
 			label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
+			description="COM_USERS_GROUP_FIELD_TITLE_DESC"
+			required="true"
 			size="40"
 		/>
 
-		<field name="parent_id" type="groupparent"
-			description="COM_USERS_GROUP_FIELD_PARENT_DESC"
+		<field 
+			name="parent_id" 
+			type="groupparent"
 			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
+			description="COM_USERS_GROUP_FIELD_PARENT_DESC"
 			required="true"
 		/>
 
-		<field name="actions" type="hidden"
+		<field 
+			name="actions" 
+			type="hidden"
 			multiple="true"
 		/>
 
-		<field name="lft" type="hidden"
+		<field 
+			name="lft" 
+			type="hidden"
 			filter="unset"
 		/>
-		<field name="rgt" type="hidden"
+
+		<field 
+			name="rgt" 
+			type="hidden"
 			filter="unset"
 		/>
 	</fieldset>

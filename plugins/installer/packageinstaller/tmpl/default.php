@@ -120,15 +120,15 @@ JFactory::getDocument()->addScriptDeclaration(
 				cache: false,
 				contentType: false
 			}).done(function (res) {
-				if (res.success) {
-					if (res.data.redirect) {
-						location.href = res.data.redirect;
-					} else {
-						location.href = 'index.php?option=com_installer&view=install';
-					}
+				if (!res.success) {
+					console.log(res.message, res.messages);
+				}
+
+				// Always redirect that can show message queue from session 
+				if (res.data.redirect) {
+					location.href = res.data.redirect;
 				} else {
-					JoomlaInstaller.hideLoading();
-					alert(res.message);
+					location.href = 'index.php?option=com_installer&view=install';
 				}
 			}).error (function (error) {
 				JoomlaInstaller.hideLoading();
@@ -184,14 +184,14 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 	<div id="dragarea" class="">
 		<div id="dragarea-content" class="text-center">
 			<p>
-				<span id="upload-icon" class="icon-upload"></span>
+				<span id="upload-icon" class="icon-upload" aria-hidden="true"></span>
 			</p>
 			<p class="lead">
 				<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
 			</p>
 			<p>
 				<button id="select-file-button" type="button" class="btn btn-success">
-					<span class="icon-copy"></span>
+					<span class="icon-copy" aria-hidden="true"></span>
 					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 				</button>
 			</p>

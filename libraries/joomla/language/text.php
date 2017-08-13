@@ -37,7 +37,7 @@ class JText
 	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
 	 * @param   boolean  $script                To indicate that the string will be push in the javascript language store
 	 *
-	 * @return  string  The translated string or the key is $script is true
+	 * @return  string  The translated string or the key if $script is true
 	 *
 	 * @since   11.1
 	 */
@@ -315,7 +315,7 @@ class JText
 	 *
 	 * Note that this method can take a mixed number of arguments as for the sprintf function.
 	 *
-	 * @param   format  $string  The format string.
+	 * @param   string  $string  The format string.
 	 *
 	 * @return  mixed
 	 *

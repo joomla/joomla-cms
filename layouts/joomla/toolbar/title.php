@@ -12,6 +12,6 @@ defined('JPATH_BASE') or die;
 $icon = empty($displayData['icon']) ? 'generic' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 ?>
 <h1 class="page-title">
-	<span class="icon-<?php echo $icon; ?>"></span>
+	<span class="icon-<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $displayData['title']; ?>
 </h1>

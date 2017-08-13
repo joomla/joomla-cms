@@ -115,7 +115,7 @@ class TemplatesTableStyle extends JTable
 	public function delete($pk = null)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = is_null($pk) ? $this->$k : $pk;
 
 		if (!is_null($pk))
 		{
