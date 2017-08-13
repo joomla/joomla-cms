@@ -92,6 +92,7 @@
 			type="checkedout"
 			label="JOPTION_FILTER_CHECKED_OUT"
 			description="JOPTION_FILTER_CHECKED_OUT_DESC"
+			sql_from="#__content c"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CHECKED_OUT</option>
