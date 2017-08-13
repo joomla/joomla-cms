@@ -19,7 +19,7 @@ JHtml::_('bootstrap.tooltip');
 			<?php if (!isset($this->items[$this->parent->id][$id + 1])) :  ?>
 				<?php $class = ' class="last"'; ?>
 			<?php endif; ?>
-			<div <?php echo $class; ?> >
+			<div<?php echo $class; ?>>
 				<?php $class = ''; ?>
 				<h3 class="page-header item-title">
 					<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
@@ -33,7 +33,9 @@ JHtml::_('bootstrap.tooltip');
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
+							<span class="icon-plus"></span>
+						</a>
 					<?php endif; ?>
 				</h3>
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
@@ -45,12 +47,12 @@ JHtml::_('bootstrap.tooltip');
 				<?php endif; ?>
 				<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 					<div class="collapse fade" id="category-<?php echo $item->id; ?>">
-					<?php $this->items[$item->id] = $item->getChildren(); ?>
-					<?php $this->parent = $item; ?>
-					<?php $this->maxLevelcat--; ?>
-					<?php echo $this->loadTemplate('items'); ?>
-					<?php $this->parent = $item->getParent(); ?>
-					<?php $this->maxLevelcat++; ?>
+						<?php $this->items[$item->id] = $item->getChildren(); ?>
+						<?php $this->parent = $item; ?>
+						<?php $this->maxLevelcat--; ?>
+						<?php echo $this->loadTemplate('items'); ?>
+						<?php $this->parent = $item->getParent(); ?>
+						<?php $this->maxLevelcat++; ?>
 					</div>
 				<?php endif; ?>
 			</div>
