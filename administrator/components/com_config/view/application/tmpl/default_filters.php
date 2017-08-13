@@ -12,4 +12,4 @@ defined('_JEXEC') or die;
 $this->name = JText::_('COM_CONFIG_TEXT_FILTER_SETTINGS');
 $this->fieldsname = 'filters';
 $this->description = JText::_('COM_CONFIG_TEXT_FILTERS_DESC');
-echo JLayoutHelper::render('joomla.content.options_default', $this);
+echo JLayoutHelper::render('joomla.content.text_filters', $this);
