@@ -38,6 +38,12 @@ class JSessionStorageRedis extends JSessionStorage
 			'port' => $config->get('session_redis_server_port', 6379),
 		);
 
+		// If connecting with a sock file and not a TCP Port then ignore port provided
+		if (strstr($this->_server['host'],'sock'))
+		{
+			$this->_server['port'] = 0;
+		}
+
 		parent::__construct($options);
 	}
 
