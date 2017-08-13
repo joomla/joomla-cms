@@ -526,7 +526,11 @@ define(
       return function (evt) {
         if (editor.selection.isCollapsed() === false) {
           setClipboardData(evt, getData(editor), fallback(editor), function () {
-            editor.execCommand('Delete');
+            // Chrome fails to execCommand from another execCommand with this message:
+            // "We don't execute document.execCommand() this time, because it is called recursively.""
+            setTimeout(function () { // detach
+              editor.execCommand('Delete');
+            }, 0);
           });
         }
       };
@@ -1269,8 +1273,6 @@ define(
           if (!content.length || isPlainTextHtml) {
             plainTextMode = true;
           }
-
-
 
           // Grab plain text from Clipboard API or convert existing HTML to plain text
           if (plainTextMode) {
