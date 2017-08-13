@@ -80,7 +80,7 @@ class RedisStorage extends CacheStorage
 		);
 
 		// If connecting with a sock file and not a TCP Port then ignore port provided
-		if (strstr($server['host'],'sock'))
+		if (strstr($server['host'], 'sock'))
 		{
 			$server['port'] = 0;
 		}
