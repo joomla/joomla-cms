@@ -48,7 +48,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Generic submit form
 	 *
-	 * @param  {String}  task      The string to translate
+	 * @param  {String}  task      The given task
 	 * @param  {node}    form      The form element
 	 * @param  {bool}    validate  The form element
 	 *
