@@ -91,6 +91,7 @@
 			type="checkedout"
 			label="JOPTION_FILTER_CHECKED_OUT"
 			description="JOPTION_FILTER_CHECKED_OUT_DESC"
+			sql_from="#__content c"
 			sql_where="c.featured=1"
 			onchange="this.form.submit();"
 			>
