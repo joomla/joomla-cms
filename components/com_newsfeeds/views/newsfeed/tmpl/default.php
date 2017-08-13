@@ -115,7 +115,7 @@ defined('_JEXEC') or die;
 							</div>
 						<?php endif; ?>
 					</li>
-				<?php endfor ?>
+				<?php endfor; ?>
 			</ol>
 		<?php endif; ?>
 	</div>
