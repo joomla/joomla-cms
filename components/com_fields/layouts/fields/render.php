@@ -53,7 +53,7 @@ if (!$fields)
 <dl class="fields-container">
 	<?php foreach ($fields as $field) : ?>
 		<?php // If the value is empty do nothing ?>
-		<?php if (!isset($field->value) or $field->value == '') : ?>
+		<?php if (!isset($field->value) || $field->value == '') : ?>
 			<?php continue; ?>
 		<?php endif; ?>
 		<?php $class = $field->params->get('render_class'); ?>
