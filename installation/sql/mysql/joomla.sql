@@ -22,8 +22,11 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_asset_name` (`name`),
-  KEY `idx_lft_rgt` (`lft`,`rgt`),
-  KEY `idx_parent_id` (`parent_id`)
+	UNIQUE KEY `idx_id_lft_rgt_name_rules` (`id`,`lft`,`rgt`,`name`,`rules`(190)),
+  UNIQUE KEY `idx_lft_rgt_id` (`lft`,`rgt`),
+  KEY `idx_parent_id` (`parent_id`),
+  KEY `idx_id_level` (`level`,`id`),
+  UNIQUE KEY `idx_rgt_lft_id` (`rgt` ,`lft`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -31,37 +34,37 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 103, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 103, 0, 'root.1', 'Root Asset', '{}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
-(3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(5, 1, 9, 10, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{}'),
+(4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{}'),
+(5, 1, 9, 10, 1, 'com_checkin', 'com_checkin', '{}'),
 (6, 1, 11, 12, 1, 'com_config', 'com_config', '{}'),
-(7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(8, 1, 17, 20, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
+(7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{}'),
+(8, 1, 17, 20, 1, 'com_content', 'com_content', '{}'),
 (9, 1, 21, 22, 1, 'com_cpanel', 'com_cpanel', '{}'),
-(10, 1, 23, 24, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'),
-(11, 1, 25, 26, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'),
+(10, 1, 23, 24, 1, 'com_installer', 'com_installer', '{}'),
+(11, 1, 25, 26, 1, 'com_languages', 'com_languages', '{}'),
 (12, 1, 27, 28, 1, 'com_login', 'com_login', '{}'),
 (13, 1, 29, 30, 1, 'com_mailto', 'com_mailto', '{}'),
 (14, 1, 31, 32, 1, 'com_massmail', 'com_massmail', '{}'),
-(15, 1, 33, 34, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
-(16, 1, 35, 38, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
-(17, 1, 39, 40, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 41, 72, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
-(19, 1, 73, 76, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(20, 1, 77, 78, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
-(21, 1, 79, 80, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
-(22, 1, 81, 82, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(23, 1, 83, 84, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
-(24, 1, 85, 88, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
+(15, 1, 33, 34, 1, 'com_media', 'com_media', '{}'),
+(16, 1, 35, 38, 1, 'com_menus', 'com_menus', '{}'),
+(17, 1, 39, 40, 1, 'com_messages', 'com_messages', '{}'),
+(18, 1, 41, 72, 1, 'com_modules', 'com_modules', '{}'),
+(19, 1, 73, 76, 1, 'com_newsfeeds', 'com_newsfeeds', '{}'),
+(20, 1, 77, 78, 1, 'com_plugins', 'com_plugins', '{}'),
+(21, 1, 79, 80, 1, 'com_redirect', 'com_redirect', '{}'),
+(22, 1, 81, 82, 1, 'com_search', 'com_search', '{}'),
+(23, 1, 83, 84, 1, 'com_templates', 'com_templates', '{}'),
+(24, 1, 85, 88, 1, 'com_users', 'com_users', '{}'),
 (26, 1, 89, 90, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
 (30, 19, 74, 75, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
 (32, 24, 86, 87, 2, 'com_users.category.7', 'Uncategorised', '{}'),
-(33, 1, 91, 92, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(33, 1, 91, 92, 1, 'com_finder', 'com_finder', '{}'),
 (34, 1, 93, 94, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
 (35, 1, 95, 96, 1, 'com_tags', 'com_tags', '{}'),
 (36, 1, 97, 98, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
@@ -2106,3 +2109,78 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (3, 'Special', 3, '[6,3,8]'),
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__permissions`
+--
+
+CREATE TABLE `#__permissions` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `permission` VARCHAR( 50 ) NOT NULL ,
+  `value` BOOL NOT NULL ,
+  `ugroup` int(10) NOT NULL ,
+  `assetid` int(10) unsigned NOT NULL ,
+  KEY ( `ugroup` ),
+  KEY ( `value` ),
+  UNIQUE KEY `idx_aid_per_val_group`( `assetid`, `permission` , `value`, `ugroup` ),
+  UNIQUE KEY `uniq` ( `permission` , `ugroup` , `assetid` )
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT = 'Joomla permission table';
+
+--
+-- Dumping data for table `#__permissions`
+--
+
+INSERT INTO `#__permissions` (`id`, `permission`, `value`, `ugroup`, `assetid`) VALUES
+  (1, 'core.login.site', 1, 6, 1),
+  (2, 'core.login.site', 1, 2, 1),
+  (3, 'core.login.admin', 1, 6, 1),
+  (4, 'core.login.offline', 1, 6, 1),
+  (5, 'core.admin', 1, 8, 1),
+  (6, 'core.manage', 1, 7, 1),
+  (7, 'core.create', 1, 6, 1),
+  (8, 'core.create', 1, 3, 1),
+  (9, 'core.delete', 1, 6, 1),
+  (10, 'core.edit', 1, 6, 1),
+  (11, 'core.edit', 1, 4, 1),
+  (12, 'core.edit.state', 1, 6, 1),
+  (13, 'core.edit.state', 1, 5, 1),
+  (14, 'core.edit.own', 1, 6, 1),
+  (15, 'core.edit.own', 1, 3, 1),
+  (16, 'core.admin', 1, 7, 3),
+  (17, 'core.manage', 1, 6, 3),
+  (18, 'core.admin', 1, 7, 4),
+  (19, 'core.manage', 1, 7, 4),
+  (20, 'core.admin', 1, 7, 5),
+  (21, 'core.manage', 1, 7, 5),
+  (22, 'core.admin', 1, 7, 7),
+  (23, 'core.manage', 1, 6, 7),
+  (24, 'core.admin', 1, 7, 8),
+  (25, 'core.manage', 1, 6, 8),
+  (26, 'core.create', 1, 3, 8),
+  (27, 'core.edit', 1, 4, 8),
+  (28, 'core.edit.state', 1, 5, 8),
+  (29, 'core.manage', 0, 7, 10),
+  (30, 'core.delete', 0, 7, 10),
+  (31, 'core.edit.state', 0, 7, 10),
+  (32, 'core.admin', 1, 7, 11),
+  (33, 'core.admin', 1, 7, 15),
+  (34, 'core.manage', 1, 6, 15),
+  (35, 'core.create', 1, 3, 15),
+  (36, 'core.delete', 1, 5, 15),
+  (37, 'core.admin', 1, 7, 16),
+  (38, 'core.admin', 1, 7, 17),
+  (39, 'core.manage', 1, 7, 17),
+  (40, 'core.admin', 1, 7, 18),
+  (41, 'core.admin', 1, 7, 19),
+  (42, 'core.manage', 1, 6, 19),
+  (43, 'core.admin', 1, 7, 20),
+  (44, 'core.admin', 1, 7, 21),
+  (45, 'core.admin', 1, 7, 22),
+  (46, 'core.manage', 1, 6, 22),
+  (47, 'core.admin', 1, 7, 23),
+  (48, 'core.admin', 1, 7, 24),
+  (49, 'core.admin', 1, 7, 33),
+  (50, 'core.manage', 1, 6, 33);
+

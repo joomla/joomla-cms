@@ -361,6 +361,24 @@ CREATE TABLE `jos_modules_menu` (
   CONSTRAINT `idx_modules_menu` PRIMARY KEY (`moduleid`,`menuid`)
 );
 
+--
+-- Table structure for table `jos_permissions`
+--
+
+CREATE TABLE `jos_permissions` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `permission` VARCHAR(50) NOT NULL DEFAULT '',
+  `value` BOOLEAN NOT NULL,
+  `ugroup` INTEGER NOT NULL,
+  `assetid` INTEGER NOT NULL,
+  CONSTRAINT `uniq` UNIQUE ( `permission` , `ugroup` , `assetid` )
+);
+
+CREATE INDEX `idx_assetid` ON `jos_permissions` (`assetid`);
+CREATE INDEX `idx_group` ON `jos_permissions` (`ugroup`);
+CREATE INDEX `idx_value` ON `jos_permissions` (`value`);
+
+
 -- --------------------------------------------------------
 
 --

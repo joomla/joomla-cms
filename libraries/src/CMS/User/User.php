@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Authorize\Authorize;
 
 /**
  * User class.  Handles all application interaction with a user
@@ -381,11 +382,7 @@ class User extends \JObject
 			}
 			elseif ($this->id > 0)
 			{
-				// Get all groups against which the user is mapped.
-				$identities = $this->getAuthorisedGroups();
-				array_unshift($identities, $this->id * -1);
-
-				if (Access::getAssetRules(1)->allow('core.admin', $identities))
+				if (Authorize::getInstance()->check($this->id, 1, 'core.admin', 'user'))
 				{
 					$this->isRoot = true;
 
@@ -394,7 +391,7 @@ class User extends \JObject
 			}
 		}
 
-		return $this->isRoot ? true : (bool) Access::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : (bool) Authorize::getInstance()->check($this->id, $assetname, $action, 'user');
 	}
 
 	/**

@@ -15,6 +15,7 @@ TRUNCATE `#__modules_menu`;
 TRUNCATE `#__tags`;
 TRUNCATE `#__usergroups`;
 TRUNCATE `#__viewlevels`;
+TRUNCATE `#__permissions`;
 
 --
 -- Dumping data for table `#__assets`

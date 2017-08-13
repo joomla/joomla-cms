@@ -595,11 +595,10 @@ class Application extends Form
 
 		try
 		{
-			/** @var Asset $asset */
 			$asset  = Table::getInstance('asset');
 			$result = $asset->loadByName($permission['component']);
 
-			if ($result === false)
+			if ($result == false)
 			{
 				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
 
@@ -607,6 +606,7 @@ class Application extends Form
 				$asset->rules = (string) $rules;
 				$asset->name  = (string) $permission['component'];
 				$asset->title = (string) $permission['title'];
+
 
 				// Get the parent asset id so we have a correct tree.
 				/** @var Asset $parentAsset */
@@ -636,51 +636,48 @@ class Application extends Form
 			}
 			else
 			{
-				// Decode the rule settings.
-				$temp = json_decode($asset->rules, true);
+				// Decode the rule settings
+				if (is_string($asset->rules))
+				{
+					$asset->rules = json_decode($asset->rules, true);
+				}
 
-				// Check if a new value is to be set.
+				// Check if a new value is to be set
 				if (isset($permission['value']))
 				{
-					// Check if we already have an action entry.
-					if (!isset($temp[$permission['action']]))
+					// Check if we already have an action entry
+					if (!isset($asset->rules[$permission['action']]))
 					{
-						$temp[$permission['action']] = array();
+						$asset->rules[$permission['action']] = array();
 					}
 
-					// Check if we already have a rule entry.
-					if (!isset($temp[$permission['action']][$permission['rule']]))
+					// Check if we already have a rule entry
+					if (!isset($asset->rules[$permission['action']][$permission['rule']]))
 					{
-						$temp[$permission['action']][$permission['rule']] = array();
+						$asset->rules[$permission['action']][$permission['rule']] = array();
 					}
 
-					// Set the new permission.
-					$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
+					// Set the new permission
+					$asset->rules[$permission['action']][$permission['rule']] = intval($permission['value']);
 
-					// Check if we have an inherited setting.
-					if ($permission['value'] === '')
+					// Check if we have an inherited setting
+					if (strlen($permission['value']) == 0)
 					{
-						unset($temp[$permission['action']][$permission['rule']]);
-					}
-
-					// Check if we have any rules.
-					if (!$temp[$permission['action']])
-					{
-						unset($temp[$permission['action']]);
+						unset($asset->rules[$permission['action']][$permission['rule']]);
 					}
 				}
 				else
 				{
-					// There is no value so remove the action as it's not needed.
-					unset($temp[$permission['action']]);
+					// There is no value so remove the action as it's not needed
+					unset($asset->rules[$permission['action']]);
 				}
 
-				$asset->rules = json_encode($temp, JSON_FORCE_OBJECT);
+				$asset->rules = json_encode($asset->rules, JSON_FORCE_OBJECT);
 			}
 
 			if (!$asset->check() || !$asset->store())
 			{
-				$app->enqueueMessage(\JText::_('JLIB_UNKNOWN'), 'error');
+				$app->enqueueMessage(\JText::_('JLIB_RULES_DATABASE_FAILURE'), 'error');
 
 				return false;
 			}
@@ -705,10 +702,10 @@ class Application extends Form
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName('id'))
-				->from($this->getDbo()->quoteName('#__assets'))
-				->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($permission['component']));
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($permission['component']));
 
 			$this->_db->setQuery($query);
 

@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Authorize\Authorize;
 
 /**
  * This models supports retrieving lists of articles.
@@ -192,7 +193,7 @@ class Articles extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
+				'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
 					'a.checked_out, a.checked_out_time, ' .
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Published/archived article in archive category is treats as archive article
@@ -548,6 +549,23 @@ class Articles extends ListModel
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);
 
+		$assetsForEditCheck = array();
+
+		if (!$guest)
+		{
+			foreach ($items as &$item)
+			{
+				$assetsForEditCheck[] = $item->asset_id;
+			}
+
+			$profiler = \JProfiler::getInstance('Application');
+			JDEBUG ? $profiler->mark('Start Article multiple access check') : null;
+			$editChecks = Authorize::getInstance()->check($userId, $assetsForEditCheck, 'core.edit', 'user');
+			JDEBUG ? $profiler->mark('Stop Article multiple access check') : null;
+		}
+
+
+
 		// Convert the parameter fields into objects.
 		foreach ($items as &$item)
 		{
@@ -621,22 +639,20 @@ class Articles extends ListModel
 			// Technically guest could edit an article, but lets not check that to improve performance a little.
 			if (!$guest)
 			{
-				$asset = 'com_content.article.' . $item->id;
+				$asset = $item->asset_id;
 
 				// Check general edit permission first.
-				if ($user->authorise('core.edit', $asset))
+				if ($editChecks[$asset])
 				{
 					$item->params->set('access-edit', true);
 				}
 
 				// Now check if edit.own is available.
-				elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+				elseif (!empty($userId) && $userId == $item->created_by
+						&& Authorize::getInstance()->check($userId, $asset, 'core.edit.own', 'user'))
 				{
 					// Check for a valid user and that they are the owner.
-					if ($userId == $item->created_by)
-					{
 						$item->params->set('access-edit', true);
-					}
 				}
 			}
 
