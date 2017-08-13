@@ -67,7 +67,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * JDatabaseDriverPostgresqlQuery object returned by getQuery
 	 *
-	 * @var    JDatabaseDriverPostgresqlQuery
+	 * @var    JDatabaseQueryPostgresql
 	 * @since  12.1
 	 */
 	protected $queryObject = null;
@@ -88,16 +88,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Finalize initialization
 		parent::__construct($options);
-	}
-
-	/**
-	 * Database object destructor
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
 	}
 
 	/**
