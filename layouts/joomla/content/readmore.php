@@ -14,7 +14,7 @@ $item = $displayData['item'];
 ?>
 
 <p class="readmore">
-	<a class="btn" href="<?php echo $displayData['link']; ?>" itemprop="url">
+	<a class="btn" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 		<span class="icon-chevron-right" aria-hidden="true"></span>
 		<?php if (!$params->get('access-view')) :
 			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
