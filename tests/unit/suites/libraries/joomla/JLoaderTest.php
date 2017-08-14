@@ -224,7 +224,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testLoadOverrideAliasClass()
 	{
@@ -254,7 +254,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testLoadOverrideOriginalClass()
 	{
@@ -284,7 +284,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testAliasInstanceOf()
 	{

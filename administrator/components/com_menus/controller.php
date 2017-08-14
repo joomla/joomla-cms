@@ -31,14 +31,23 @@ class MenusController extends JControllerLegacy
 		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 		// Check custom administrator menu modules
-		if (JLanguageMultilang::isAdminEnabled())
+		if (JModuleHelper::isAdminMultilang())
 		{
 			$languages = JLanguageHelper::getInstalledLanguages(1, true);
 			$langCodes = array();
 
 			foreach ($languages as $language)
 			{
-				$langCodes[$language->metadata['tag']] = $language->metadata['nativeName'];
+				if (isset($language->metadata['nativeName']))
+				{
+					$languageName = $language->metadata['nativeName'];
+				}
+				else
+				{
+					$languageName = $language->metadata['name'];
+				}
+
+				$langCodes[$language->metadata['tag']] = $languageName;
 			}
 
 			$db    = JFactory::getDbo();

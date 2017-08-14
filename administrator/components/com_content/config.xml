@@ -364,9 +364,10 @@
 
 		<field
 			name="urls_position"
-			type="list"
+			type="radio"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 			description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
+			class="btn-group btn-group-yesno"
 			default="0"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>

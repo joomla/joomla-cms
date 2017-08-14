@@ -1825,6 +1825,17 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/rule/url.php',
 			'/libraries/joomla/form/rule/username.php',
 			'/libraries/joomla/form/wrapper/helper.php',
+			'/libraries/joomla/image/filter/backgroundfill.php',
+			'/libraries/joomla/image/filter/brightness.php',
+			'/libraries/joomla/image/filter/contrast.php',
+			'/libraries/joomla/image/filter/edgedetect.php',
+			'/libraries/joomla/image/filter/emboss.php',
+			'/libraries/joomla/image/filter/grayscale.php',
+			'/libraries/joomla/image/filter/negate.php',
+			'/libraries/joomla/image/filter/sketchy.php',
+			'/libraries/joomla/image/filter/smooth.php',
+			'/libraries/joomla/image/filter.php',
+			'/libraries/joomla/image/image.php',
 			'/libraries/joomla/input/cli.php',
 			'/libraries/joomla/input/cookie.php',
 			'/libraries/joomla/input/files.php',
@@ -1907,6 +1918,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/legacy.php',
 			'/libraries/legacy/web/client.php',
 			'/libraries/legacy/web/web.php',
+			'/administrator/modules/mod_menu/preset/enabled.php',
+			'/administrator/modules/mod_menu/preset/disabled.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2106,6 +2119,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filter',
 			'/libraries/joomla/form/rule',
 			'/libraries/joomla/form/wrapper',
+			'/libraries/joomla/image/filter',
+			'/libraries/joomla/image',
 			'/libraries/joomla/input',
 			'/libraries/joomla/language/stemmer',
 			'/libraries/joomla/language/wrapper',
@@ -2129,6 +2144,7 @@ class JoomlaInstallerScript
 			'/libraries/legacy/model',
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
+			'/administrator/modules/mod_menu/preset',
 		);
 
 		jimport('joomla.filesystem.file');

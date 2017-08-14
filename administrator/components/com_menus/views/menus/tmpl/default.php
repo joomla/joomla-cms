@@ -41,6 +41,16 @@ $script[] = '			window.parent.location.reload();';
 $script[] = '		},1000);';
 $script[] = '	});';
 $script[] = '});';
+$script[] = '
+	(function (originalFn) {
+		Joomla.submitform = function(task, form) {
+		 	originalFn(task, form);
+		 	if (task == "menu.exportXml") {
+		 		document.adminForm.task.value = "";
+		 	}
+		};
+	})(Joomla.submitform);
+';
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
