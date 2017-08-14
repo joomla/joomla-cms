@@ -23,6 +23,14 @@ class JToolbarTest extends TestCase
 	protected $object;
 
 	/**
+	 * $_SERVER variable
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $server;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -37,6 +45,10 @@ class JToolbarTest extends TestCase
 		parent::setUp();
 
 		$this->saveFactoryState();
+		$this->server = $_SERVER;
+		$_SERVER['REQUEST_METHOD'] = 'get';
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['SCRIPT_NAME'] = '/';
 
 		JFactory::$application = $this->getMockCmsApp();
 	}
@@ -52,7 +64,10 @@ class JToolbarTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		$_SERVER = $this->server;
+		JUri::reset();
 		unset($this->object);
+		unset($this->server);
 
 		parent::tearDown();
 	}

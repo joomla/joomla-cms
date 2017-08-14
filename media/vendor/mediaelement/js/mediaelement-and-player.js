@@ -6,7 +6,6 @@
  * using a variety of technologies (pure JavaScript, Flash, iframe)
  *
  * Copyright 2010-2017, John Dyer (http://j.hn/)
- * Maintained by, Rafael Miranda (rafa8626@gmail.com)
  * License: MIT
  *
  */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -853,7 +852,7 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 			event = (0, _general.createEvent)('pause', t.mediaElement);
 			t.mediaElement.dispatchEvent(event);
 		}
-		t.mediaElement.originalNode.setAttribute('src', mediaFiles[0].src || '');
+		t.mediaElement.originalNode.src = mediaFiles[0].src || '';
 
 		if (renderInfo === null && mediaFiles[0].src) {
 			t.mediaElement.generateError('No renderer found', mediaFiles);
@@ -864,26 +863,12 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	},
 	    triggerAction = function triggerAction(methodName, args) {
 		try {
-			var response = t.mediaElement.renderer[methodName](args);
-			if (response && typeof response.then === 'function') {
-				response.catch(function (e) {
-					if (methodName === 'play') {
-						if (t.mediaElement.paused) {
-							setTimeout(function () {
-								var tmpResponse = t.mediaElement.renderer.play();
-								if (tmpResponse !== undefined) {
-									tmpResponse.catch(function () {
-										if (!t.mediaElement.renderer.paused) {
-											t.mediaElement.renderer.pause();
-										}
-									});
-								}
-							}, 150);
-						}
-					} else {
-						return t.mediaElement.generateError(e, mediaFiles);
-					}
-				});
+			if (methodName === 'play' && t.mediaElement.rendererName === 'native_dash') {
+				setTimeout(function () {
+					t.mediaElement.renderer[methodName](args);
+				}, 100);
+			} else {
+				t.mediaElement.renderer[methodName](args);
 			}
 		} catch (e) {
 			t.mediaElement.generateError(e, mediaFiles);
@@ -1008,7 +993,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mejs = {};
 
-mejs.version = '4.2.2';
+mejs.version = '4.2.5';
 
 mejs.html5media = {
 	properties: ['volume', 'src', 'currentTime', 'muted', 'duration', 'paused', 'ended', 'buffered', 'error', 'networkState', 'readyState', 'seeking', 'seekable', 'currentSrc', 'preload', 'bufferedBytes', 'bufferedTime', 'initialTime', 'startOffsetTime', 'defaultPlaybackRate', 'playbackRate', 'played', 'autoplay', 'loop', 'controls'],
@@ -1175,7 +1160,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.assign(_player.config, {
 	usePluginFullScreen: true,
 
-	fullscreenText: null
+	fullscreenText: null,
+
+	useFakeFullscreen: false
 });
 
 Object.assign(_player2.default.prototype, {
@@ -1276,7 +1263,7 @@ Object.assign(_player2.default.prototype, {
 		    isNative = t.media.rendererName !== null && /(html5|native)/i.test(t.media.rendererName),
 		    containerStyles = getComputedStyle(t.container);
 
-		if (Features.IS_IOS && Features.HAS_IOS_FULLSCREEN && typeof t.media.originalNode.webkitEnterFullscreen === 'function' && t.media.originalNode.canPlayType((0, _media.getTypeFromFile)(t.media.getSrc()))) {
+		if (t.options.useFakeFullscreen === false && Features.IS_IOS && Features.HAS_IOS_FULLSCREEN && typeof t.media.originalNode.webkitEnterFullscreen === 'function' && t.media.originalNode.canPlayType((0, _media.getTypeFromFile)(t.media.getSrc()))) {
 			t.media.originalNode.webkitEnterFullscreen();
 			return;
 		}
@@ -1323,7 +1310,7 @@ Object.assign(_player2.default.prototype, {
 			t.node.style.width = '100%';
 			t.node.style.height = '100%';
 		} else {
-			var elements = t.container.querySelectorAll('iframe, embed, object, video'),
+			var elements = t.container.querySelectorAll('embed, object, video'),
 			    _total = elements.length;
 			for (var i = 0; i < _total; i++) {
 				elements[i].style.width = '100%';
@@ -1381,7 +1368,7 @@ Object.assign(_player2.default.prototype, {
 				t.node.style.width = t.normalWidth + 'px';
 				t.node.style.height = t.normalHeight + 'px';
 			} else {
-				var elements = t.container.querySelectorAll('iframe, embed, object, video'),
+				var elements = t.container.querySelectorAll('embed, object, video'),
 				    _total2 = elements.length;
 				for (var i = 0; i < _total2; i++) {
 					elements[i].style.width = t.normalWidth + 'px';
@@ -1539,7 +1526,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.assign(_player.config, {
 	enableProgressTooltip: true,
 
-	useSmoothHover: true
+	useSmoothHover: true,
+
+	forceLive: false
 });
 
 Object.assign(_player2.default.prototype, {
@@ -1827,7 +1816,6 @@ Object.assign(_player2.default.prototype, {
 							if (t.timefloat) {
 								t.timefloat.style.display = 'none';
 							}
-							t.globalUnbind('mousemove.dur touchmove.dur mouseup.dur touchend.dur');
 						});
 					}
 				}
@@ -1852,7 +1840,6 @@ Object.assign(_player2.default.prototype, {
 		t.slider.addEventListener('mouseleave', function () {
 			if (t.getDuration() !== Infinity) {
 				if (!mouseIsDown) {
-					t.globalUnbind('mousemove.dur');
 					if (t.timefloat) {
 						t.timefloat.style.display = 'none';
 					}
@@ -1865,7 +1852,7 @@ Object.assign(_player2.default.prototype, {
 
 		t.broadcastCallback = function (e) {
 			var broadcast = controls.querySelector('.' + t.options.classPrefix + 'broadcast');
-			if (t.getDuration() !== Infinity) {
+			if (!t.options.forceLive && t.getDuration() !== Infinity) {
 				if (broadcast) {
 					t.slider.style.display = '';
 					broadcast.remove();
@@ -1876,11 +1863,12 @@ Object.assign(_player2.default.prototype, {
 					player.setCurrentRail(e);
 				}
 				updateSlider();
-			} else if (!broadcast) {
+			} else if (!broadcast || t.options.forceLive) {
 				var label = _document2.default.createElement('span');
 				label.className = t.options.classPrefix + 'broadcast';
 				label.innerText = _i18n2.default.t('mejs.live-broadcast');
 				t.slider.style.display = 'none';
+				t.rail.appendChild(label);
 			}
 		};
 
@@ -3076,8 +3064,6 @@ Object.assign(_player2.default.prototype, {
 			});
 			t.globalBind('mouseup.vol', function () {
 				mouseIsDown = false;
-				t.globalUnbind('mousemove.vol mouseup.vol');
-
 				if (!mouseIsOver && mode === 'vertical') {
 					volumeSlider.style.display = 'none';
 				}
@@ -3142,87 +3128,87 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 var EN = exports.EN = {
-	"mejs.plural-form": 1,
+	'mejs.plural-form': 1,
 
-	"mejs.download-file": "Download File",
+	'mejs.download-file': 'Download File',
 
-	"mejs.install-flash": "You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https://get.adobe.com/flashplayer/",
+	'mejs.install-flash': 'You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https://get.adobe.com/flashplayer/',
 
-	"mejs.fullscreen": "Fullscreen",
+	'mejs.fullscreen': 'Fullscreen',
 
-	"mejs.play": "Play",
-	"mejs.pause": "Pause",
+	'mejs.play': 'Play',
+	'mejs.pause': 'Pause',
 
-	"mejs.time-slider": "Time Slider",
-	"mejs.time-help-text": "Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.",
-	"mejs.live-broadcast": "Live Broadcast",
+	'mejs.time-slider': 'Time Slider',
+	'mejs.time-help-text': 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.',
+	'mejs.live-broadcast': 'Live Broadcast',
 
-	"mejs.volume-help-text": "Use Up/Down Arrow keys to increase or decrease volume.",
-	"mejs.unmute": "Unmute",
-	"mejs.mute": "Mute",
-	"mejs.volume-slider": "Volume Slider",
+	'mejs.volume-help-text': 'Use Up/Down Arrow keys to increase or decrease volume.',
+	'mejs.unmute': 'Unmute',
+	'mejs.mute': 'Mute',
+	'mejs.volume-slider': 'Volume Slider',
 
-	"mejs.video-player": "Video Player",
-	"mejs.audio-player": "Audio Player",
+	'mejs.video-player': 'Video Player',
+	'mejs.audio-player': 'Audio Player',
 
-	"mejs.captions-subtitles": "Captions/Subtitles",
-	"mejs.captions-chapters": "Chapters",
-	"mejs.none": "None",
-	"mejs.afrikaans": "Afrikaans",
-	"mejs.albanian": "Albanian",
-	"mejs.arabic": "Arabic",
-	"mejs.belarusian": "Belarusian",
-	"mejs.bulgarian": "Bulgarian",
-	"mejs.catalan": "Catalan",
-	"mejs.chinese": "Chinese",
-	"mejs.chinese-simplified": "Chinese (Simplified)",
-	"mejs.chinese-traditional": "Chinese (Traditional)",
-	"mejs.croatian": "Croatian",
-	"mejs.czech": "Czech",
-	"mejs.danish": "Danish",
-	"mejs.dutch": "Dutch",
-	"mejs.english": "English",
-	"mejs.estonian": "Estonian",
-	"mejs.filipino": "Filipino",
-	"mejs.finnish": "Finnish",
-	"mejs.french": "French",
-	"mejs.galician": "Galician",
-	"mejs.german": "German",
-	"mejs.greek": "Greek",
-	"mejs.haitian-creole": "Haitian Creole",
-	"mejs.hebrew": "Hebrew",
-	"mejs.hindi": "Hindi",
-	"mejs.hungarian": "Hungarian",
-	"mejs.icelandic": "Icelandic",
-	"mejs.indonesian": "Indonesian",
-	"mejs.irish": "Irish",
-	"mejs.italian": "Italian",
-	"mejs.japanese": "Japanese",
-	"mejs.korean": "Korean",
-	"mejs.latvian": "Latvian",
-	"mejs.lithuanian": "Lithuanian",
-	"mejs.macedonian": "Macedonian",
-	"mejs.malay": "Malay",
-	"mejs.maltese": "Maltese",
-	"mejs.norwegian": "Norwegian",
-	"mejs.persian": "Persian",
-	"mejs.polish": "Polish",
-	"mejs.portuguese": "Portuguese",
-	"mejs.romanian": "Romanian",
-	"mejs.russian": "Russian",
-	"mejs.serbian": "Serbian",
-	"mejs.slovak": "Slovak",
-	"mejs.slovenian": "Slovenian",
-	"mejs.spanish": "Spanish",
-	"mejs.swahili": "Swahili",
-	"mejs.swedish": "Swedish",
-	"mejs.tagalog": "Tagalog",
-	"mejs.thai": "Thai",
-	"mejs.turkish": "Turkish",
-	"mejs.ukrainian": "Ukrainian",
-	"mejs.vietnamese": "Vietnamese",
-	"mejs.welsh": "Welsh",
-	"mejs.yiddish": "Yiddish"
+	'mejs.captions-subtitles': 'Captions/Subtitles',
+	'mejs.captions-chapters': 'Chapters',
+	'mejs.none': 'None',
+	'mejs.afrikaans': 'Afrikaans',
+	'mejs.albanian': 'Albanian',
+	'mejs.arabic': 'Arabic',
+	'mejs.belarusian': 'Belarusian',
+	'mejs.bulgarian': 'Bulgarian',
+	'mejs.catalan': 'Catalan',
+	'mejs.chinese': 'Chinese',
+	'mejs.chinese-simplified': 'Chinese (Simplified)',
+	'mejs.chinese-traditional': 'Chinese (Traditional)',
+	'mejs.croatian': 'Croatian',
+	'mejs.czech': 'Czech',
+	'mejs.danish': 'Danish',
+	'mejs.dutch': 'Dutch',
+	'mejs.english': 'English',
+	'mejs.estonian': 'Estonian',
+	'mejs.filipino': 'Filipino',
+	'mejs.finnish': 'Finnish',
+	'mejs.french': 'French',
+	'mejs.galician': 'Galician',
+	'mejs.german': 'German',
+	'mejs.greek': 'Greek',
+	'mejs.haitian-creole': 'Haitian Creole',
+	'mejs.hebrew': 'Hebrew',
+	'mejs.hindi': 'Hindi',
+	'mejs.hungarian': 'Hungarian',
+	'mejs.icelandic': 'Icelandic',
+	'mejs.indonesian': 'Indonesian',
+	'mejs.irish': 'Irish',
+	'mejs.italian': 'Italian',
+	'mejs.japanese': 'Japanese',
+	'mejs.korean': 'Korean',
+	'mejs.latvian': 'Latvian',
+	'mejs.lithuanian': 'Lithuanian',
+	'mejs.macedonian': 'Macedonian',
+	'mejs.malay': 'Malay',
+	'mejs.maltese': 'Maltese',
+	'mejs.norwegian': 'Norwegian',
+	'mejs.persian': 'Persian',
+	'mejs.polish': 'Polish',
+	'mejs.portuguese': 'Portuguese',
+	'mejs.romanian': 'Romanian',
+	'mejs.russian': 'Russian',
+	'mejs.serbian': 'Serbian',
+	'mejs.slovak': 'Slovak',
+	'mejs.slovenian': 'Slovenian',
+	'mejs.spanish': 'Spanish',
+	'mejs.swahili': 'Swahili',
+	'mejs.swedish': 'Swedish',
+	'mejs.tagalog': 'Tagalog',
+	'mejs.thai': 'Thai',
+	'mejs.turkish': 'Turkish',
+	'mejs.ukrainian': 'Ukrainian',
+	'mejs.vietnamese': 'Vietnamese',
+	'mejs.welsh': 'Welsh',
+	'mejs.yiddish': 'Yiddish'
 };
 
 },{}],16:[function(_dereq_,module,exports){
@@ -3352,6 +3338,8 @@ var config = exports.config = {
 
 	features: ['playpause', 'current', 'progress', 'duration', 'tracks', 'volume', 'fullscreen'],
 
+	useDefaultControls: false,
+
 	isVideo: true,
 
 	stretching: 'auto',
@@ -3364,7 +3352,7 @@ var config = exports.config = {
 
 	secondsDecimalLength: 0,
 
-	customError: '',
+	customError: null,
 
 	keyActions: [{
 		keys: [32, 179],
@@ -3493,7 +3481,7 @@ var MediaElementPlayer = function () {
 			return;
 		}
 
-		if (t.media.player !== undefined) {
+		if (t.media.player) {
 			return t.media.player;
 		}
 
@@ -3560,7 +3548,7 @@ var MediaElementPlayer = function () {
 			if (_constants.IS_IPAD && t.node.getAttribute('autoplay')) {
 				t.play();
 			}
-		} else if ((t.isVideo || !t.isVideo && t.options.features.length) && !(_constants.IS_ANDROID && t.options.AndroidUseNativeControls)) {
+		} else if ((t.isVideo || !t.isVideo && (t.options.features.length || t.options.useDefaultControls)) && !(_constants.IS_ANDROID && t.options.AndroidUseNativeControls)) {
 			t.node.removeAttribute('controls');
 			var videoPlayerTitle = t.isVideo ? _i18n2.default.t('mejs.video-player') : _i18n2.default.t('mejs.audio-player');
 
@@ -3588,7 +3576,7 @@ var MediaElementPlayer = function () {
 			});
 			t.node.parentNode.insertBefore(t.container, t.node);
 
-			if (!t.options.features.length) {
+			if (!t.options.features.length && !t.options.useDefaultControls) {
 				t.container.style.background = 'transparent';
 				t.container.querySelector('.' + t.options.classPrefix + 'controls').style.display = 'none';
 			}
@@ -3696,7 +3684,7 @@ var MediaElementPlayer = function () {
 
 			playerOptions.pluginWidth = t.width;
 			playerOptions.pluginHeight = t.height;
-		} else if (!t.isVideo && !t.options.features.length) {
+		} else if (!t.isVideo && !t.options.features.length && !t.options.useDefaultControls) {
 				t.node.style.display = 'none';
 			}
 
@@ -3862,9 +3850,11 @@ var MediaElementPlayer = function () {
 			}
 			t.proxy = new _default2.default(t);
 			t.media.addEventListener('loadedmetadata', function () {
-				t.setCurrentTime(t.currentMediaTime);
-				if (t.getCurrentTime() > 0 && !_constants.IS_IOS && !_constants.IS_ANDROID) {
-					t.play();
+				if (t.getCurrentTime() > 0 && t.currentMediaTime > 0) {
+					t.setCurrentTime(t.currentMediaTime);
+					if (!_constants.IS_IOS && !_constants.IS_ANDROID) {
+						t.play();
+					}
 				}
 			});
 		}
@@ -3893,7 +3883,7 @@ var MediaElementPlayer = function () {
 			t.domNode = domNode;
 
 			if (!(_constants.IS_ANDROID && t.options.AndroidUseNativeControls) && !(_constants.IS_IPAD && t.options.iPadUseNativeControls) && !(_constants.IS_IPHONE && t.options.iPhoneUseNativeControls)) {
-				if (!t.isVideo && !t.options.features.length) {
+				if (!t.isVideo && !t.options.features.length && !t.options.useDefaultControls) {
 					if (autoplay && isNative) {
 						t.play();
 					}
@@ -3914,6 +3904,15 @@ var MediaElementPlayer = function () {
 
 				t.featurePosition = {};
 
+				t._setDefaultPlayer();
+
+				if (t.options.useDefaultControls) {
+					var defaultControls = ['playpause', 'current', 'progress', 'duration', 'tracks', 'volume', 'fullscreen'];
+					t.options.features = defaultControls.concat(t.options.features.filter(function (item) {
+						return defaultControls.indexOf(item) === -1;
+					}));
+				}
+
 				for (var i = 0, total = t.options.features.length; i < total; i++) {
 					var feature = t.options.features[i];
 					if (t['build' + feature]) {
@@ -3928,8 +3927,6 @@ var MediaElementPlayer = function () {
 				t.buildposter(t, t.controls, t.layers, t.media);
 				t.buildkeyboard(t, t.controls, t.layers, t.media);
 				t.buildoverlays(t, t.controls, t.layers, t.media);
-
-				t._setDefaultPlayer();
 
 				var event = (0, _general.createEvent)('controlsready', t.container);
 				t.container.dispatchEvent(event);
@@ -4182,12 +4179,13 @@ var MediaElementPlayer = function () {
 			errorContainer.style.width = '100%';
 			errorContainer.style.height = '100%';
 
-			var errorContent = t.options.customError;
+			var errorContent = typeof t.options.customError === 'function' ? t.options.customError(t.media, t.media.originalNode) : t.options.customError,
+			    imgError = '';
 
-			if (!errorContent) {
+			if (errorContent) {
 				var poster = t.media.originalNode.getAttribute('poster');
 				if (poster) {
-					errorContent += '<img src="' + poster + '" width="100%" height="100%" alt="' + _mejs2.default.i18n.t('mejs.download-file') + '">';
+					imgError = '<img src="' + poster + '" alt="' + _mejs2.default.i18n.t('mejs.download-file') + '">';
 				}
 
 				if (e.message) {
@@ -4204,7 +4202,7 @@ var MediaElementPlayer = function () {
 
 			if (errorContent && t.layers.querySelector('.' + t.options.classPrefix + 'overlay-error')) {
 				errorContainer.innerHTML = errorContent;
-				t.layers.querySelector('.' + t.options.classPrefix + 'overlay-error').innerHTML = errorContainer.outerHTML;
+				t.layers.querySelector('.' + t.options.classPrefix + 'overlay-error').innerHTML = '' + imgError + errorContainer.outerHTML;
 				t.layers.querySelector('.' + t.options.classPrefix + 'overlay-error').parentNode.style.display = 'block';
 			}
 		}
@@ -4430,7 +4428,7 @@ var MediaElementPlayer = function () {
 
 			t.setDimensions('100%', '100%');
 
-			var poster = t.container.querySelector(t.options.classPrefix + 'poster img');
+			var poster = t.container.querySelector('.' + t.options.classPrefix + 'poster>img');
 			if (poster) {
 				poster.style.display = '';
 			}
@@ -4579,21 +4577,38 @@ var MediaElementPlayer = function () {
 	}, {
 		key: 'setPoster',
 		value: function setPoster(url) {
-			var t = this,
-			    posterDiv = t.container.querySelector('.' + t.options.classPrefix + 'poster');
+			var t = this;
+
+			var posterDiv = t.container.querySelector('.' + t.options.classPrefix + 'poster');
+
+			if (!posterDiv) {
+				posterDiv = _document2.default.createElement('div');
+				posterDiv.className = t.options.classPrefix + 'poster ' + t.options.classPrefix + 'layer';
+				t.layers.appendChild(posterDiv);
+			}
 
 			var posterImg = posterDiv.querySelector('img');
 
-			if (!posterImg) {
+			if (!posterImg && url) {
 				posterImg = _document2.default.createElement('img');
 				posterImg.className = t.options.classPrefix + 'poster-img';
 				posterImg.width = '100%';
 				posterImg.height = '100%';
+				posterDiv.style.display = '';
 				posterDiv.appendChild(posterImg);
 			}
 
-			posterImg.setAttribute('src', url);
-			posterDiv.style.backgroundImage = 'url("' + url + '")';
+			if (url) {
+				posterImg.setAttribute('src', url);
+				posterDiv.style.backgroundImage = 'url("' + url + '")';
+				posterDiv.style.display = '';
+			} else if (posterImg) {
+				posterDiv.style.backgroundImage = 'none';
+				posterDiv.style.display = 'none';
+				posterImg.remove();
+			} else {
+				posterDiv.style.display = 'none';
+			}
 		}
 	}, {
 		key: 'changeSkin',
@@ -4665,14 +4680,17 @@ var MediaElementPlayer = function () {
 			poster.className = t.options.classPrefix + 'poster ' + t.options.classPrefix + 'layer';
 			layers.appendChild(poster);
 
-			var posterUrl = player.media.getAttribute('poster');
+			var posterUrl = media.originalNode.getAttribute('poster');
 
-			if (player.options.poster !== '') {
+			if (player.options.poster !== '' && posterUrl && _constants.IS_IOS) {
+				media.originalNode.removeAttribute('poster');
 				posterUrl = player.options.poster;
 			}
 
 			if (posterUrl) {
 				t.setPoster(posterUrl);
+			} else if (t.media.renderer !== null && typeof t.media.renderer.getPosterUrl === 'function') {
+				t.setPoster(t.media.renderer.getPosterUrl());
 			} else {
 				poster.style.display = 'none';
 			}
@@ -4758,7 +4776,7 @@ var MediaElementPlayer = function () {
 
 			layers.appendChild(bigPlay);
 
-			if (t.media.rendererName !== null && (/(youtube|facebook)/i.test(t.media.rendererName) && !(player.media.originalNode.getAttribute('poster') || player.options.poster) || _constants.IS_STOCK_ANDROID)) {
+			if (t.media.rendererName !== null && (/(youtube|facebook)/i.test(t.media.rendererName) && !(t.media.originalNode.getAttribute('poster') || player.options.poster || typeof t.media.renderer.getPosterUrl === 'function' && t.media.renderer.getPosterUrl()) || _constants.IS_STOCK_ANDROID || t.media.originalNode.getAttribute('autoplay'))) {
 				bigPlay.style.display = 'none';
 			}
 
@@ -5010,6 +5028,10 @@ var MediaElementPlayer = function () {
 				(function () {
 					t.node.setAttribute('controls', true);
 					t.node.setAttribute('id', t.node.getAttribute('id').replace('_' + rendererName, '').replace('_from_mejs', ''));
+					var poster = t.container.querySelector('.' + t.options.classPrefix + 'poster>img');
+					if (poster) {
+						t.node.setAttribute('poster', poster.src);
+					}
 
 					delete t.node.autoplay;
 
@@ -5169,18 +5191,16 @@ var DefaultPlayer = function () {
 		this.createIframeLayer = function () {
 			return player.createIframeLayer();
 		};
+		this.setPoster = function (url) {
+			return player.setPoster(url);
+		};
 		return this;
 	}
 
 	_createClass(DefaultPlayer, [{
 		key: 'play',
 		value: function play() {
-			var t = this;
-
-			if (t.media.getCurrentTime() <= 0) {
-				t.load();
-			}
-			t.media.play();
+			this.media.play();
 		}
 	}, {
 		key: 'pause',
@@ -5240,6 +5260,9 @@ var DefaultPlayer = function () {
 
 			t.media.setSrc(src);
 			t.createIframeLayer();
+			if (t.media.renderer !== null && typeof t.media.renderer.getPosterUrl === 'function') {
+				t.setPoster(t.media.renderer.getPosterUrl());
+			}
 		}
 	}, {
 		key: 'getSrc',
@@ -5324,6 +5347,10 @@ var _mejs = _dereq_(7);
 
 var _mejs2 = _interopRequireDefault(_mejs);
 
+var _player = _dereq_(16);
+
+var _player2 = _interopRequireDefault(_player);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (typeof jQuery !== 'undefined') {
@@ -5347,7 +5374,7 @@ if (typeof jQuery !== 'undefined') {
 				});
 			} else {
 				this.each(function () {
-					$(this).data('mediaelementplayer', new MediaElementPlayer(this, options));
+					$(this).data('mediaelementplayer', new _player2.default(this, options));
 				});
 			}
 			return this;
@@ -5359,7 +5386,7 @@ if (typeof jQuery !== 'undefined') {
 	}
 })(_mejs2.default.$);
 
-},{"3":3,"7":7}],19:[function(_dereq_,module,exports){
+},{"16":16,"3":3,"7":7}],19:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -5395,7 +5422,7 @@ var NativeDash = {
 			}).then(function () {
 				NativeDash._createPlayer(settings);
 			});
-		} else if (!NativeDash.promise) {
+		} else {
 			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdn.dashjs.org/latest/dash.all.min.js';
 
 			NativeDash.promise = NativeDash.promise || (0, _dom.loadScript)(settings.options.path);
@@ -5410,6 +5437,7 @@ var NativeDash = {
 	_createPlayer: function _createPlayer(settings) {
 		var player = dashjs.MediaPlayer().create();
 		_window2.default['__ready__' + settings.id](player);
+		return player;
 	}
 };
 
@@ -5434,15 +5462,28 @@ var DashNativeRenderer = {
 
 		var originalNode = mediaElement.originalNode,
 		    id = mediaElement.id + '_' + options.prefix,
-		    autoplay = originalNode.autoplay;
+		    autoplay = originalNode.autoplay,
+		    children = originalNode.children;
 
 		var node = null,
 		    dashPlayer = null;
+
+		originalNode.removeAttribute('type');
+		for (var i = 0, total = children.length; i < total; i++) {
+			children[i].removeAttribute('type');
+		}
 
 		node = originalNode.cloneNode(true);
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    attachNativeEvents = function attachNativeEvents(e) {
+			if (e.type !== 'error') {
+				var _event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_event);
+			}
+		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
 
@@ -5453,27 +5494,27 @@ var DashNativeRenderer = {
 			node['set' + capName] = function (value) {
 				if (_mejs2.default.html5media.readOnlyProperties.indexOf(propName) === -1) {
 					if (propName === 'src') {
-						if (typeof value === 'string') {
-							node[propName] = value;
-							if (dashPlayer !== null) {
-								dashPlayer.attachSource(value);
-								if (autoplay) {
-									dashPlayer.play();
+						var source = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src ? value.src : value;
+						node[propName] = source;
+						if (dashPlayer !== null) {
+							dashPlayer.reset();
+							for (var _i = 0, _total = events.length; _i < _total; _i++) {
+								node.removeEventListener(events[_i], attachNativeEvents);
+							}
+							dashPlayer = NativeDash._createPlayer({
+								options: options.dash,
+								id: id
+							});
+
+							if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && _typeof(value.drm) === 'object') {
+								dashPlayer.setProtectionData(value.drm);
+								if ((0, _general.isString)(options.dash.robustnessLevel) && options.dash.robustnessLevel) {
+									dashPlayer.getProtectionController().setRobustnessLevel(options.dash.robustnessLevel);
 								}
 							}
-						} else if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src) {
-							node[propName] = value.src;
-							if (dashPlayer !== null) {
-								if (value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && _typeof(value.drm) === 'object') {
-									dashPlayer.setProtectionData(value.drm);
-									if ((0, _general.isString)(options.dash.robustnessLevel) && options.dash.robustnessLevel) {
-										dashPlayer.getProtectionController().setRobustnessLevel(options.dash.robustnessLevel);
-									}
-								}
-								dashPlayer.attachSource(value.src);
-								if (autoplay) {
-									dashPlayer.play();
-								}
+							dashPlayer.attachSource(source);
+							if (autoplay) {
+								dashPlayer.play();
 							}
 						}
 					} else {
@@ -5483,15 +5524,14 @@ var DashNativeRenderer = {
 			};
 		};
 
-		for (var i = 0, total = props.length; i < total; i++) {
-			assignGettersSetters(props[i]);
+		for (var _i2 = 0, _total2 = props.length; _i2 < _total2; _i2++) {
+			assignGettersSetters(props[_i2]);
 		}
 
 		_window2.default['__ready__' + id] = function (_dashPlayer) {
 			mediaElement.dashPlayer = dashPlayer = _dashPlayer;
 
-			var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
-			    dashEvents = dashjs.MediaPlayer.events,
+			var dashEvents = dashjs.MediaPlayer.events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
 					dashPlayer.getDebug().setLogToBrowserConsole(options.dash.debug);
@@ -5510,39 +5550,43 @@ var DashNativeRenderer = {
 					dashPlayer.attachSource(node.getSrc());
 				}
 
-				node.addEventListener(eventName, function (e) {
-					var event = (0, _general.createEvent)(e.type, mediaElement);
-					mediaElement.dispatchEvent(event);
-				});
+				node.addEventListener(eventName, attachNativeEvents);
 			};
 
-			for (var _i = 0, _total = events.length; _i < _total; _i++) {
-				assignEvents(events[_i]);
+			for (var _i3 = 0, _total3 = events.length; _i3 < _total3; _i3++) {
+				assignEvents(events[_i3]);
 			}
 
-			var assignMdashEvents = function assignMdashEvents(e) {
-				var event = (0, _general.createEvent)(e.type, node);
-				event.data = e;
-				mediaElement.dispatchEvent(event);
-
-				if (e.type.toLowerCase() === 'error') {
-					console.error(e);
+			var assignMdashEvents = function assignMdashEvents(name, data) {
+				if (name.toLowerCase() === 'error') {
+					mediaElement.generateError(data.message, node.src);
+					console.error(data);
+				} else {
+					var _event2 = (0, _general.createEvent)(name, mediaElement);
+					_event2.data = data;
+					mediaElement.dispatchEvent(_event2);
 				}
 			};
 
 			for (var eventType in dashEvents) {
 				if (dashEvents.hasOwnProperty(eventType)) {
-					dashPlayer.on(dashEvents[eventType], assignMdashEvents);
+					dashPlayer.on(dashEvents[eventType], function (e) {
+						for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+							args[_key - 1] = arguments[_key];
+						}
+
+						return assignMdashEvents(e.type, args);
+					});
 				}
 			}
 		};
 
 		if (mediaFiles && mediaFiles.length > 0) {
-			for (var _i2 = 0, _total2 = mediaFiles.length; _i2 < _total2; _i2++) {
-				if (_renderer.renderer.renderers[options.prefix].canPlayType(mediaFiles[_i2].type)) {
-					node.setAttribute('src', mediaFiles[_i2].src);
-					if (typeof mediaFiles[_i2].drm !== 'undefined') {
-						options.dash.drm = mediaFiles[_i2].drm;
+			for (var _i4 = 0, _total4 = mediaFiles.length; _i4 < _total4; _i4++) {
+				if (_renderer.renderer.renderers[options.prefix].canPlayType(mediaFiles[_i4].type)) {
+					node.setAttribute('src', mediaFiles[_i4].src);
+					if (typeof mediaFiles[_i4].drm !== 'undefined') {
+						options.dash.drm = mediaFiles[_i4].drm;
 					}
 					break;
 				}
@@ -5809,7 +5853,14 @@ var FlashMediaElementRenderer = {
 
 		_window2.default['__event__' + flash.id] = function (eventName, message) {
 			var event = (0, _general.createEvent)(eventName, flash);
-			event.message = message || '';
+			if (message) {
+				try {
+					event.data = JSON.parse(message);
+					event.details.data = JSON.parse(message);
+				} catch (e) {
+					event.message = message;
+				}
+			}
 
 			flash.mediaElement.dispatchEvent(event);
 		};
@@ -5821,7 +5872,7 @@ var FlashMediaElementRenderer = {
 		}
 
 		var autoplay = mediaElement.originalNode.autoplay,
-		    flashVars = ['uid=' + flash.id, 'autoplay=' + autoplay, 'allowScriptAccess=' + flash.options.shimScriptAccess],
+		    flashVars = ['uid=' + flash.id, 'autoplay=' + autoplay, 'allowScriptAccess=' + flash.options.shimScriptAccess, 'preload=' + (mediaElement.originalNode.getAttribute('preload') || '')],
 		    isVideo = mediaElement.originalNode !== null && mediaElement.originalNode.tagName.toLowerCase() === 'video',
 		    flashHeight = isVideo ? mediaElement.originalNode.height : 1,
 		    flashWidth = isVideo ? mediaElement.originalNode.width : 1;
@@ -5836,10 +5887,7 @@ var FlashMediaElementRenderer = {
 		}
 
 		mediaElement.appendChild(flash.flashWrapper);
-
-		if (mediaElement.originalNode !== null) {
-			mediaElement.originalNode.style.display = 'none';
-		}
+		mediaElement.originalNode.style.display = 'none';
 
 		var settings = [];
 
@@ -5957,7 +6005,7 @@ if (hasFlash) {
 		},
 
 		canPlayType: function canPlayType(type) {
-			return ~['application/x-mpegurl', 'vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase());
+			return ~['application/x-mpegurl', 'application/vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase());
 		},
 
 		create: FlashMediaElementRenderer.create
@@ -6013,6 +6061,8 @@ if (hasFlash) {
 },{"2":2,"25":25,"27":27,"28":28,"3":3,"5":5,"7":7,"8":8}],21:[function(_dereq_,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
@@ -6044,8 +6094,8 @@ var NativeFlv = {
 			}).then(function () {
 				NativeFlv._createPlayer(settings);
 			});
-		} else if (!NativeFlv.promise) {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.1/flv.min.js';
+		} else {
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.2/flv.min.js';
 
 			NativeFlv.promise = NativeFlv.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeFlv.promise.then(function () {
@@ -6070,7 +6120,7 @@ var FlvNativeRenderer = {
 	options: {
 		prefix: 'native_flv',
 		flv: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.1/flv.min.js',
+			path: 'https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.3.2/flv.min.js',
 
 			cors: true,
 			debug: false
@@ -6093,6 +6143,13 @@ var FlvNativeRenderer = {
 		options = Object.assign(options, mediaElement.options);
 
 		var props = _mejs2.default.html5media.properties,
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    attachNativeEvents = function attachNativeEvents(e) {
+			if (e.type !== 'error') {
+				var _event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_event);
+			}
+		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
 
@@ -6102,10 +6159,9 @@ var FlvNativeRenderer = {
 
 			node['set' + capName] = function (value) {
 				if (_mejs2.default.html5media.readOnlyProperties.indexOf(propName) === -1) {
-					node[propName] = value;
-
-					if (flvPlayer !== null) {
-						if (propName === 'src') {
+					if (propName === 'src') {
+						node[propName] = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src ? value.src : value;
+						if (flvPlayer !== null) {
 							var _flvOptions = {};
 							_flvOptions.type = 'flv';
 							_flvOptions.url = value;
@@ -6114,6 +6170,9 @@ var FlvNativeRenderer = {
 							_flvOptions.path = options.flv.path;
 
 							flvPlayer.destroy();
+							for (var i = 0, total = events.length; i < total; i++) {
+								node.removeEventListener(events[i], attachNativeEvents);
+							}
 							flvPlayer = NativeFlv._createPlayer({
 								options: _flvOptions,
 								id: id
@@ -6121,6 +6180,8 @@ var FlvNativeRenderer = {
 							flvPlayer.attachMediaElement(node);
 							flvPlayer.load();
 						}
+					} else {
+						node[propName] = value;
 					}
 				}
 			};
@@ -6133,8 +6194,7 @@ var FlvNativeRenderer = {
 		_window2.default['__ready__' + id] = function (_flvPlayer) {
 			mediaElement.flvPlayer = flvPlayer = _flvPlayer;
 
-			var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
-			    flvEvents = flvjs.Events,
+			var flvEvents = flvjs.Events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
 					flvPlayer.unload();
@@ -6143,26 +6203,32 @@ var FlvNativeRenderer = {
 					flvPlayer.load();
 				}
 
-				node.addEventListener(eventName, function (e) {
-					var event = (0, _general.createEvent)(e.type, mediaElement);
-					mediaElement.dispatchEvent(event);
-				});
+				node.addEventListener(eventName, attachNativeEvents);
 			};
 
 			for (var _i = 0, _total = events.length; _i < _total; _i++) {
 				assignEvents(events[_i]);
 			}
 
-			var assignFlvEvents = function assignFlvEvents(name, e) {
-				var event = (0, _general.createEvent)(name, node);
-				event.data = e;
-				mediaElement.dispatchEvent(event);
+			var assignFlvEvents = function assignFlvEvents(name, data) {
+				if (name === 'error') {
+					var message = data[0] + ': ' + data[1] + ' ' + data[2].msg;
+					mediaElement.generateError(message, node.src);
+				} else {
+					var _event2 = (0, _general.createEvent)(name, mediaElement);
+					_event2.data = data;
+					mediaElement.dispatchEvent(_event2);
+				}
 			};
 
 			var _loop = function _loop(eventType) {
 				if (flvEvents.hasOwnProperty(eventType)) {
-					flvPlayer.on(flvEvents[eventType], function (e) {
-						assignFlvEvents(flvEvents[eventType], e);
+					flvPlayer.on(flvEvents[eventType], function () {
+						for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+							args[_key] = arguments[_key];
+						}
+
+						return assignFlvEvents(flvEvents[eventType], args);
 					});
 				}
 			};
@@ -6240,6 +6306,8 @@ _renderer.renderer.add(FlvNativeRenderer);
 },{"25":25,"26":26,"27":27,"28":28,"3":3,"7":7,"8":8}],22:[function(_dereq_,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _window = _dereq_(3);
 
 var _window2 = _interopRequireDefault(_window);
@@ -6271,8 +6339,8 @@ var NativeHls = {
 			}).then(function () {
 				NativeHls._createPlayer(settings);
 			});
-		} else if (!NativeHls.promise) {
-			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.10/hls.min.js';
+		} else {
+			settings.options.path = typeof settings.options.path === 'string' ? settings.options.path : 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.11/hls.min.js';
 
 			NativeHls.promise = NativeHls.promise || (0, _dom.loadScript)(settings.options.path);
 			NativeHls.promise.then(function () {
@@ -6295,7 +6363,7 @@ var HlsNativeRenderer = {
 	options: {
 		prefix: 'native_hls',
 		hls: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.10/hls.min.js',
+			path: 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.11/hls.min.js',
 
 			autoStartLoad: false,
 			debug: false
@@ -6303,7 +6371,7 @@ var HlsNativeRenderer = {
 	},
 
 	canPlayType: function canPlayType(type) {
-		return _constants.HAS_MSE && ['application/x-mpegurl', 'vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase()) > -1;
+		return _constants.HAS_MSE && ['application/x-mpegurl', 'application/vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase()) > -1;
 	},
 
 	create: function create(mediaElement, options, mediaFiles) {
@@ -6321,6 +6389,13 @@ var HlsNativeRenderer = {
 		options.hls.autoStartLoad = preload && preload !== 'none' || autoplay;
 
 		var props = _mejs2.default.html5media.properties,
+		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
+		    attachNativeEvents = function attachNativeEvents(e) {
+			if (e.type !== 'error') {
+				var _event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_event);
+			}
+		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
 
@@ -6330,19 +6405,22 @@ var HlsNativeRenderer = {
 
 			node['set' + capName] = function (value) {
 				if (_mejs2.default.html5media.readOnlyProperties.indexOf(propName) === -1) {
-					node[propName] = value;
-
-					if (hlsPlayer !== null) {
-						if (propName === 'src') {
+					if (propName === 'src') {
+						node[propName] = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.src ? value.src : value;
+						if (hlsPlayer !== null) {
 							hlsPlayer.destroy();
+							for (var i = 0, total = events.length; i < total; i++) {
+								node.removeEventListener(events[i], attachNativeEvents);
+							}
 							hlsPlayer = NativeHls._createPlayer({
 								options: options.hls,
 								id: id
 							});
-
 							hlsPlayer.loadSource(value);
 							hlsPlayer.attachMedia(node);
 						}
+					} else {
+						node[propName] = value;
 					}
 				}
 			};
@@ -6354,8 +6432,7 @@ var HlsNativeRenderer = {
 
 		_window2.default['__ready__' + id] = function (_hlsPlayer) {
 			mediaElement.hlsPlayer = hlsPlayer = _hlsPlayer;
-			var events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
-			    hlsEvents = Hls.Events,
+			var hlsEvents = Hls.Events,
 			    assignEvents = function assignEvents(eventName) {
 				if (eventName === 'loadedmetadata') {
 					var url = mediaElement.originalNode.src;
@@ -6364,10 +6441,7 @@ var HlsNativeRenderer = {
 					hlsPlayer.attachMedia(node);
 				}
 
-				node.addEventListener(eventName, function (e) {
-					var event = (0, _general.createEvent)(e.type, mediaElement);
-					mediaElement.dispatchEvent(event);
-				});
+				node.addEventListener(eventName, attachNativeEvents);
 			};
 
 			for (var _i = 0, _total = events.length; _i < _total; _i++) {
@@ -6376,13 +6450,9 @@ var HlsNativeRenderer = {
 
 			var recoverDecodingErrorDate = void 0,
 			    recoverSwapAudioCodecDate = void 0;
-			var assignHlsEvents = function assignHlsEvents(e, data) {
-				var event = (0, _general.createEvent)(e, node);
-				event.data = data;
-				mediaElement.dispatchEvent(event);
-
-				if (e === 'hlsError') {
-					console.warn(e, data);
+			var assignHlsEvents = function assignHlsEvents(name, data) {
+				if (name === 'hlsError') {
+					console.warn(name, data);
 
 					if (data.fatal) {
 						switch (data.type) {
@@ -6397,24 +6467,42 @@ var HlsNativeRenderer = {
 									hlsPlayer.swapAudioCodec();
 									hlsPlayer.recoverMediaError();
 								} else {
-									console.error('Cannot recover, last media error recovery failed');
+									var _message = 'Cannot recover, last media error recovery failed';
+									mediaElement.generateError(_message, node.src);
+									console.error(_message);
 								}
 								break;
 							case 'networkError':
-								console.error('Network error');
+								var message = 'Network error';
+								mediaElement.generateError(message, node.src);
+								console.error(message);
 								break;
 							default:
 								hlsPlayer.destroy();
 								break;
 						}
 					}
+				} else {
+					var _event2 = (0, _general.createEvent)(name, mediaElement);
+					_event2.data = data;
+					mediaElement.dispatchEvent(_event2);
+				}
+			};
+
+			var _loop = function _loop(eventType) {
+				if (hlsEvents.hasOwnProperty(eventType)) {
+					hlsPlayer.on(hlsEvents[eventType], function () {
+						for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+							args[_key] = arguments[_key];
+						}
+
+						return assignHlsEvents(hlsEvents[eventType], args);
+					});
 				}
 			};
 
 			for (var eventType in hlsEvents) {
-				if (hlsEvents.hasOwnProperty(eventType)) {
-					hlsPlayer.on(hlsEvents[eventType], assignHlsEvents);
-				}
+				_loop(eventType);
 			}
 		};
 
@@ -6694,7 +6782,9 @@ var YouTubeApi = {
 			youTubeId = YouTubeApi.getYouTubeIdFromUrl(url);
 		}
 
-		return youTubeId;
+		var id = youTubeId.substring(youTubeId.lastIndexOf('/') + 1);
+		youTubeId = id.split('?');
+		return youTubeId[0];
 	},
 
 	getYouTubeIdFromParam: function getYouTubeIdFromParam(url) {
@@ -6760,7 +6850,9 @@ var YouTubeIframeRenderer = {
 			start: 0,
 			iv_load_policy: 3,
 
-			nocookie: false
+			nocookie: false,
+
+			imageQuality: null
 		}
 	},
 
@@ -6912,7 +7004,7 @@ var YouTubeIframeRenderer = {
 		youtubeContainer.id = youtube.id;
 
 		if (youtube.options.youtube.nocookie) {
-			mediaElement.originalNode.setAttribute('src', YouTubeApi.getYouTubeNoCookieUrl(mediaFiles[0].src));
+			mediaElement.originalNode.src = YouTubeApi.getYouTubeNoCookieUrl(mediaFiles[0].src);
 		}
 
 		mediaElement.originalNode.parentNode.insertBefore(youtubeContainer, mediaElement.originalNode);
@@ -7093,6 +7185,12 @@ var YouTubeIframeRenderer = {
 			if (youtube.interval) {
 				clearInterval(youtube.interval);
 			}
+		};
+		youtube.getPosterUrl = function () {
+			var quality = options.youtube.imageQuality,
+			    resolutions = ['default', 'hqdefault', 'mqdefault', 'sddefault', 'maxresdefault'],
+			    id = YouTubeApi.getYouTubeId(mediaElement.originalNode.src);
+			return quality && resolutions.indexOf(quality) > -1 && id ? 'https://img.youtube.com/vi/' + id + '/' + quality + '.jpg' : '';
 		};
 
 		return youtube;
@@ -7681,7 +7779,7 @@ function absolutizeUrl(url) {
 function formatType(url) {
 	var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
-	return url && !type ? getTypeFromFile(url) : getMimeFromType(type);
+	return url && !type ? getTypeFromFile(url) : type;
 }
 
 function getMimeFromType(type) {
@@ -8154,4 +8252,4 @@ _mejs2.default.Utils.timeCodeToSeconds = timeCodeToSeconds;
 _mejs2.default.Utils.calculateTimeFormat = calculateTimeFormat;
 _mejs2.default.Utils.convertSMPTEtoSeconds = convertSMPTEtoSeconds;
 
-},{"7":7}]},{},[29,6,5,15,23,20,19,21,22,24,18,17,16,9,10,11,12,13,14]);
+},{"7":7}]},{},[29,6,5,15,23,20,19,21,22,24,16,18,17,9,10,11,12,13,14]);

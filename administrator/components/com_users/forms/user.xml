@@ -5,7 +5,6 @@
 			name="name" 
 			type="text"
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
-			description="COM_USERS_USER_FIELD_NAME_DESC"
 			required="true"
 			size="30"
 		/>
@@ -14,7 +13,6 @@
 			name="username"
 			type="text"
 			label="COM_USERS_USER_FIELD_USERNAME_LABEL"
-			description="COM_USERS_USER_FIELD_USERNAME_DESC"
 			required="true"
 			size="30"
 		/>
@@ -23,7 +21,6 @@
 			name="email"
 			type="email"
 			label="JGLOBAL_EMAIL"
-			description="COM_USERS_USER_FIELD_EMAIL_DESC"
 			required="true"
 			size="30"
 			validate="email"
@@ -33,7 +30,6 @@
 			name="password" 
 			type="password"
 			label="JGLOBAL_PASSWORD"
-			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			autocomplete="off"
 			class="validate-password-strength"
 			filter="raw"
@@ -47,7 +43,6 @@
 			name="password2" 
 			type="password"
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
-			description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 			autocomplete="off"
 			class="validate-passwordExtra"
 			filter="raw"
@@ -61,7 +56,6 @@
 			name="registerDate"
 			type="calendar"
 			label="COM_USERS_USER_FIELD_REGISTERDATE_LABEL"
-			description="COM_USERS_USER_FIELD_REGISTERDATE_DESC"
 			class="readonly"
 			readonly="true"
 			translateformat="true"
@@ -74,7 +68,6 @@
 			name="lastvisitDate"
 			type="calendar"
 			label="COM_USERS_USER_FIELD_LASTVISIT_LABEL"
-			description="COM_USERS_USER_FIELD_LASTVISIT_DESC"
 			class="readonly"
 			readonly="true"
 			translateformat="true"
@@ -87,7 +80,6 @@
 			name="lastResetTime"
 			type="calendar"
 			label="COM_USERS_USER_FIELD_LASTRESET_LABEL"
-			description="COM_USERS_USER_FIELD_LASTRESET_DESC"
 			class="readonly"
 			readonly="true"
 			translateformat="true"
@@ -100,7 +92,6 @@
 			name="resetCount"
 			type="text"
 			label="COM_USERS_USER_FIELD_RESETCOUNT_LABEL"
-			description="COM_USERS_USER_FIELD_RESETCOUNT_DESC"
 			class="readonly"
 			default="0"
 			readonly="true"
@@ -110,7 +101,6 @@
 			name="sendEmail"
 			type="radio"
 			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
-			description="COM_USERS_USER_FIELD_SENDEMAIL_DESC"
 			default="0"
 			class="switcher"
 			>
@@ -122,7 +112,6 @@
 			name="block"
 			type="radio"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			description="COM_USERS_USER_FIELD_BLOCK_DESC"
 			class="switcher switcher-danger"
 			default="0"
 			>
@@ -134,7 +123,6 @@
 			name="requireReset"
 			type="radio"
 			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
-			description="COM_USERS_USER_FIELD_REQUIRERESET_DESC"
 			default="0"
 			class="switcher"
 			>
@@ -146,8 +134,7 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
-			class="readonly"
+				class="readonly"
 			default="0"
 			readonly="true"
 		/>
@@ -165,7 +152,6 @@
 				name="admin_style" 
 				type="templatestyle"
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
-				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				client="administrator"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
@@ -175,7 +161,6 @@
 				name="admin_language" 
 				type="language"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
-				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
 				client="administrator"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
@@ -185,7 +170,6 @@
 				name="language" 
 				type="language"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
-				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				client="site"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
@@ -195,7 +179,6 @@
 				name="editor" 
 				type="plugins" 
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
-				description="COM_USERS_USER_FIELD_EDITOR_DESC"
 				folder="editors"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
@@ -205,7 +188,6 @@
 				name="helpsite" 
 				type="helpsite"
 				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
-				description="COM_USERS_USER_FIELD_HELPSITE_DESC"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -214,7 +196,6 @@
 				name="timezone" 
 				type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
-				description="COM_USERS_USER_FIELD_TIMEZONE_DESC"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

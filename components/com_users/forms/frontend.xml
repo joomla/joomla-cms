@@ -7,7 +7,6 @@
 				name="editor"
 				type="plugins"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
-				description="COM_USERS_USER_FIELD_EDITOR_DESC"
 				folder="editors"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
@@ -17,7 +16,6 @@
 				name="timezone"
 				type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
-				description="COM_USERS_USER_FIELD_TIMEZONE_DESC"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -26,7 +24,6 @@
 				name="language"
 				type="language"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
-				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				client="site"
 				filter="cmd"
 				>

@@ -6,7 +6,6 @@
 				name="buttons"
 				type="list"
 				label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
-				description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -17,7 +16,6 @@
 				name="hide"
 				type="plugins"
 				label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
-				description="JGLOBAL_SELECT_SOME_OPTIONS"
 				folder="editors-xtd"
 				multiple="true"
 			/>
@@ -26,7 +24,6 @@
 				name="width"
 				type="text"
 				label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
-				description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
 				size="5"
 			/>
 
@@ -34,7 +31,6 @@
 				name="height"
 				type="text"
 				label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
-				description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
 				size="5"
 			/>
 
@@ -42,7 +38,6 @@
 				name="filter"
 				type="list"
 				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
-				description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
 				class="btn-group"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>

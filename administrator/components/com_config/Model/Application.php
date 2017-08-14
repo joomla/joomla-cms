@@ -192,9 +192,9 @@ class Application extends Form
 
 				if (!$asset->check() || !$asset->store())
 				{
-					$app->enqueueMessage(\JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage($asset->getError(), 'error');
 
-					return;
+					return false;
 				}
 			}
 			else
@@ -223,9 +223,9 @@ class Application extends Form
 
 				if (!$extension->check() || !$extension->store())
 				{
-					$app->enqueueMessage(\JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage($extension->getError(), 'error');
 
-					return;
+					return false;
 				}
 			}
 			else

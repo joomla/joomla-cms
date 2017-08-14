@@ -36,7 +36,6 @@
 					name="header_text"
 					type="textarea"
 					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
-					description="MOD_LANGUAGES_FIELD_HEADER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -46,7 +45,6 @@
 					name="footer_text"
 					type="textarea"
 					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
-					description="MOD_LANGUAGES_FIELD_FOOTER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -57,7 +55,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -69,7 +66,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC"
 					default="1"
 					showon="dropdown:1"
 					>
@@ -82,7 +78,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
-					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC"
 					default="0"
 					showon="dropdown:1[AND]dropdownimage:1"
 					>
@@ -95,7 +90,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC"
 					default="1"
 					showon="dropdown:0"
 					>
@@ -116,7 +110,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
-					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
 					default="1"
 					showon="dropdownimage:1[OR]dropdown:0"
 					>
@@ -129,7 +122,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
-					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC"
 					showon="dropdown:0[AND]image:0"
 					default="1"
 					>
@@ -142,7 +134,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
-					description="MOD_LANGUAGES_FIELD_INLINE_DESC"
 					default="1"
 					showon="dropdown:0"
 					>
@@ -155,21 +146,18 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="MOD_LANGUAGES_FIELD_CACHING_DESC"
 					default="0"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -180,7 +168,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 

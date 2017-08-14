@@ -6,7 +6,6 @@
 				name="schemes"
 				type="list"
 				label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
-				description="PLG_FIELDS_URL_PARAMS_SCHEMES_DESC"
 				multiple="true"
 				>
 				<option value="http">HTTP</option>
@@ -22,7 +21,6 @@
 				name="relative"
 				type="list"
 				label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
-				description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
