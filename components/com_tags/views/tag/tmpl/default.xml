@@ -114,6 +114,7 @@
 				<option value="c.core_created_time">JGLOBAL_CREATED_DATE</option>
 				<option value="c.core_modified_time">JGLOBAL_MODIFIED_DATE</option>
 				<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
+				<option value="c.core_ordering">JGLOBAL_CORE_ORDERING</option>
 			</field>
 
 			<field 
