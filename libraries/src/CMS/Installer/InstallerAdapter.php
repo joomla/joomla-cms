@@ -23,7 +23,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class InstallerAdapter
 {
 	/**
-	 * Changelog Url of an extensions
+	 * Changelog URL of extensions
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
