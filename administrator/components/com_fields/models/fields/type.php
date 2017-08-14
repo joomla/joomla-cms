@@ -78,7 +78,8 @@ class JFormFieldType extends JFormFieldList
 				jQuery('input[name=task]').val('field.reload');
 				element.form.submit();
 			}
-		");
+		"
+		);
 
 		return $options;
 	}
