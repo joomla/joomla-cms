@@ -24,7 +24,7 @@ $item = $displayData['item'];
 			<span class="icon-chevron-right" aria-hidden="true"></span>
 			<?php echo $readmore; ?>
 			<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-					<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+				<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 			<?php endif; ?>
 		</a>
 	<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
