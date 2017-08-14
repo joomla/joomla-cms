@@ -17,8 +17,8 @@ require_once __DIR__ . '/stubs/MockJComponentRouterRulesMenuMenuObject.php';
  * @subpackage  Component
  * @since       3.7.0
  */
-class JComponentRouterRulesStandardTest extends TestCaseDatabase {
-
+class JComponentRouterRulesStandardTest extends TestCaseDatabase
+{
 	/**
 	 * Object under test
 	 *
