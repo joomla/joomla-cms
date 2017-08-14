@@ -44,7 +44,7 @@ class FeedFactory
 
 		// Open the URI within the stream reader.
 		if (!@$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
-		 {
+		{
 			// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
 
 			// Adding a valid user agent string, otherwise some feed-servers returning an error
@@ -93,7 +93,6 @@ class FeedFactory
 
 		return $parser->parse();
 	}
-
 
 	/**
 	 * Method to register a FeedParser class for a given root tag name.
