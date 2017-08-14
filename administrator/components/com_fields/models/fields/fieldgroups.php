@@ -55,6 +55,7 @@ class JFormFieldFieldgroups extends JFormFieldList
 			{
 				$option->text = '[' . $option->text . ']';
 			}
+
 			if ($option->state == 2)
 			{
 				$option->text = '{' . $option->text . '}';
