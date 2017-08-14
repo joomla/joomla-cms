@@ -294,7 +294,7 @@ JLoader::registerAlias('JCacheExceptionConnecting',         '\\Joomla\\CMS\\Cach
 JLoader::registerAlias('JCacheExceptionUnsupported',        '\\Joomla\\CMS\\Cache\\Exception\\UnsupportedCacheException', '5.0');
 
 JLoader::registerAlias('JSession',                          '\\Joomla\\CMS\\Session\\Session', '5.0');
-JLoader::registerAlias('JSessionExceptionUnsupported',      '\\Joomla\\CMS\\Session\\Exception\\UnsupportedStorageException', '4.0');
+JLoader::registerAlias('JSessionExceptionUnsupported',      '\\Joomla\\CMS\\Session\\Exception\\UnsupportedStorageException', '5.0');
 
 JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '5.0');
 JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '5.0');
