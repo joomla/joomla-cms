@@ -45,6 +45,7 @@
 		element._joomlaCalendar = this;
 
 		this.writable   = true;
+		this.hidden     = true;
 		this.params     = {};
 		this.element    = element;
 		this.inputField = element.getElementsByTagName('input')[0];
@@ -1006,13 +1007,21 @@
 
 			if (calObj) {
 				if (calObj.inputField.value) {
-					if (calObj.params.dateType !== 'gregorian') {
-						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
-					}
 					if (typeof calObj.dateClicked === 'undefined') {
-						// value needs to be validated
-						calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
-							.print(calObj.params.dateFormat, 'gregorian', false));
+						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
+
+						if (calObj.params.dateType !== 'gregorian') {
+							// We need to transform the date for the data-alt-value
+							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType);
+							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
+							date.setFullYear(ndate[0]);
+							date.setMonth(ndate[1]);
+							date.setDate(ndate[2]);
+							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false));
+						} else {
+							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
+								.print(calObj.params.dateFormat, 'gregorian', false));
+						}
 					} else {
 						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false));
 					}
@@ -1058,14 +1067,18 @@
 
 	/** Method to change the inputs before submit. **/
 	JoomlaCalendar.onSubmit = function() {
-		var elements = document.querySelectorAll(".field-calendar");
+		Joomla = window.Joomla || {};
+		if (!Joomla.calendarProcessed) {
+			Joomla.calendarProcessed = true;
+			var elements = document.querySelectorAll(".field-calendar");
 
-		for (var i = 0; i < elements.length; i++) {
-			var element  = elements[i],
-			    instance = element._joomlaCalendar;
+			for (var i = 0; i < elements.length; i++) {
+				var element  = elements[i],
+				    instance = element._joomlaCalendar;
 
-			if (instance) {
-				instance.setAltValue();
+				if (instance) {
+					instance.setAltValue();
+				}
 			}
 		}
 	};

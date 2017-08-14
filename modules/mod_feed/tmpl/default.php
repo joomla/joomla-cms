@@ -64,7 +64,7 @@ else
 		$iUrl   = isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed">
 		<?php
 		// Feed description
 		if ($feed->title !== null && $params->get('rsstitle', 1))

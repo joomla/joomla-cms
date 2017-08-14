@@ -97,7 +97,7 @@ class JUserHelperTest extends TestCaseDatabase
 				1000,
 				array(),
 				array(
-					'code' => 'SOME_ERROR_CODE',
+					'code' => 500,
 					'msg' => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
 					'info' => ''),
 			),
