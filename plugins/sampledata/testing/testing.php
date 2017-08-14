@@ -3679,7 +3679,7 @@ class PlgSampledataTesting extends JPlugin
 					'url'         => 'http://www.youtube.com/embed/vb2eObvmvdI',
 					'add'         => 1,
 					'scrolling'   => 'auto',
-					'width'       => 640,
+					'width'       => '100%',
 					'height'      => 390,
 					'height_auto' => 1,
 					'cache'       => 1,
