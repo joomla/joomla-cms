@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
 			<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 		<?php endif; ?>
 		<!-- Show Images from Component -->
-		<?php if (isset($images->image_first) and !empty($images->image_first)) : ?>
+		<?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 			<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 				<img
@@ -60,7 +60,7 @@ defined('_JEXEC') or die;
 				src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/>
 			</div>
 		<?php endif; ?>
-		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
+		<?php if (isset($images->image_second) && !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 			<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 				<img
