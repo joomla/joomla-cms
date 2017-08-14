@@ -279,7 +279,19 @@ class Cache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->remove($id, $group);
+		try
+		{
+			return $this->_getStorage()->remove($id, $group);
+		}
+		catch (JCacheException $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -300,7 +312,19 @@ class Cache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->clean($group, $mode);
+		try
+		{
+			return $this->_getStorage()->clean($group, $mode);
+		}
+		catch (JCacheException $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -312,7 +336,19 @@ class Cache
 	 */
 	public function gc()
 	{
-		return $this->_getStorage()->gc();
+		try
+		{
+			return $this->_getStorage()->gc();
+		}
+		catch (JCacheException $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
