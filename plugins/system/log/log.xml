@@ -24,7 +24,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
-					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>

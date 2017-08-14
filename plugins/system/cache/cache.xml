@@ -24,7 +24,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
-					description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -35,7 +34,6 @@
 					name="exclude_menu_items"
 					type="menuitem"
 					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
-					description="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_DESC"
 					default=""
 					multiple="multiple"
 				/>

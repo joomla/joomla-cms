@@ -6,7 +6,6 @@
 				name="rows"
 				type="text"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
-				description="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_DESC"
 				size="5"
 			/>
 
@@ -14,7 +13,6 @@
 				name="cols"
 				type="text"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
-				description="PLG_FIELDS_TEXTAREA_PARAMS_COLS_DESC"
 				size="5"
 			/>
 
@@ -22,7 +20,6 @@
 				name="maxlength"
 				type="text"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_LABEL"
-				description="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_DESC"
 				filter="integer"
 			/>
 
@@ -30,7 +27,6 @@
 				name="filter"
 				type="list"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_LABEL"
-				description="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_DESC"
 				class="btn-group"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>

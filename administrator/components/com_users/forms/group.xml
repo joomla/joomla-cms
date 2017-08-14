@@ -13,7 +13,6 @@
 			name="title"
 			type="text"
 			label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
-			description="COM_USERS_GROUP_FIELD_TITLE_DESC"
 			required="true"
 			size="40"
 		/>
@@ -22,7 +21,6 @@
 			name="parent_id"
 			type="groupparent"
 			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
-			description="COM_USERS_GROUP_FIELD_PARENT_DESC"
 			required="true"
 		/>
 

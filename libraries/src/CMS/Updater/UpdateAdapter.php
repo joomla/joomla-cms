@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Version;
+use Joomla\Registry\Registry;
 
 \JLoader::import('joomla.base.adapterinstance');
 
@@ -218,8 +220,8 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		{
 			$options['update_site_name'] = $this->getUpdateSiteName($this->updateSiteId);
 		}
-		$this->updateSiteName = $options['update_site_name'];
 
+		$this->updateSiteName  = $options['update_site_name'];
 		$this->appendExtension = false;
 
 		if (array_key_exists('append_extension', $options))
@@ -243,10 +245,14 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		$startTime = microtime(true);
 
+		$version    = new Version;
+		$httpOption = new Registry;
+		$httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
 		// JHttp transport throws an exception when there's no response.
 		try
 		{
-			$http = \JHttpFactory::getHttp();
+			$http = \JHttpFactory::getHttp($httpOption);
 			$response = $http->get($url, array(), 20);
 		}
 		catch (\RuntimeException $e)
@@ -258,7 +264,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		$this->toggleUpdateSite($this->updateSiteId, true);
 
 		// Log the time it took to load this update site's information
-		$endTime = microtime(true);
+		$endTime    = microtime(true);
 		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
 		Log::add(
 			"Loading information from update site #{$this->updateSiteId} with name " .

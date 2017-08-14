@@ -12,8 +12,6 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_CONTENT_FILTER_PUBLISHED"
-			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,8 +20,6 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_content"
 			onchange="this.form.submit();"
 			published="0,1,2"
@@ -34,8 +30,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -44,8 +38,6 @@
 		<field
 			name="author_id"
 			type="author"
-			label="COM_CONTENT_FILTER_AUTHOR"
-			description="COM_CONTENT_FILTER_AUTHOR_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_AUTHOR</option>
@@ -54,8 +46,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -65,8 +55,6 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
 			mode="nested"
 			onchange="this.form.submit();"
 			>
@@ -76,8 +64,6 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -92,8 +78,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_CONTENT_LIST_FULL_ORDERING"
-			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -137,8 +121,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_CONTENT_LIST_LIMIT_DESC"
 			default="25"
 			onchange="this.form.submit();"
 		/>
