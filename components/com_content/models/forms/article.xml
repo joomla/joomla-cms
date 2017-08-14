@@ -409,7 +409,6 @@
 					label="JFIELD_META_RIGHTS_LABEL"
 					description="JFIELD_META_RIGHTS_DESC"
 					filter="unset"
-					required="false"
 					labelclass="control-label"
 				/>
 
