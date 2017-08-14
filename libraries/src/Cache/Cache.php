@@ -11,6 +11,7 @@ namespace Joomla\CMS\Cache;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\String\StringHelper;
 
 /**
@@ -283,7 +284,7 @@ class Cache
 		{
 			return $this->_getStorage()->remove($id, $group);
 		}
-		catch (JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			if (!$this->getCaching())
 			{
@@ -316,7 +317,7 @@ class Cache
 		{
 			return $this->_getStorage()->clean($group, $mode);
 		}
-		catch (JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			if (!$this->getCaching())
 			{
@@ -340,7 +341,7 @@ class Cache
 		{
 			return $this->_getStorage()->gc();
 		}
-		catch (JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			if (!$this->getCaching())
 			{
