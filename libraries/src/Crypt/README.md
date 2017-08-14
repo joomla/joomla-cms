@@ -21,7 +21,7 @@ if ($decrypted !== $data)
 ```
 
 ```php
-use Joomla\CMS\Crypt\Cipher\CryptoCipher ;
+use Joomla\CMS\Crypt\Cipher\CryptoCipher;
 
 $cipher = new CryptoCipher();
 $key = $cipher->generateKey(); // Store this for long-term use
