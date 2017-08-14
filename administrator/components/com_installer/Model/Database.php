@@ -156,7 +156,7 @@ class Database extends Installer
 
 				if ($result->version_id != $schema)
 				{
-					$problemsMessage .= "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $schema) . "</li>";
+					$problemsMessage .= "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name ,$schema) . "</li>";
 					$errorCount++;
 				}
 
@@ -481,7 +481,7 @@ class Database extends Installer
 
 		if (version_compare($extensionVersion, $updateVersion) != 0)
 		{
-			return "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extensionVersion) . "</li>";
+			return "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion) . "</li>";
 		}
 
 		return null;
