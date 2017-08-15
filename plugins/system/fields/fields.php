@@ -146,6 +146,12 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onExtensionAfterSave ($context, $item, $isNew, $data = array())
 	{
+		// Only support modules
+		if ($context != 'com_modules.module')
+		{
+			return true;
+		}
+
 		return $this->onContentAfterSave($context, $item, $isNew, $data);
 	}
 
