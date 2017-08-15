@@ -19,7 +19,7 @@ $info    = $params->get('info_block_position', 0);
 $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associations'));
 
 ?>
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
+<?php if ($this->item->condition == 3 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
 	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate())) : ?>
 	<div class="system-unpublished">
 <?php endif; ?>
@@ -77,7 +77,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 <?php endif; ?>
 
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
+<?php if ($this->item->condition == 2 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
 	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate())) : ?>
 </div>
 <?php endif; ?>

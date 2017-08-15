@@ -66,7 +66,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_WORKFLOW_RULES_TAB')); ?>
-		<?php echo $this->form->getInput('rules'); ?>
+			<?php echo $this->form->getInput('rules'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>

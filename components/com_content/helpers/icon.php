@@ -112,7 +112,7 @@ abstract class JHtmlIcon
 		}
 
 		// Ignore if the state is negative (trashed).
-		if ($article->state < 0)
+		if ($article->condition == 1)
 		{
 			return;
 		}
@@ -141,7 +141,7 @@ abstract class JHtmlIcon
 		$contentUrl = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
-		if ($article->state == 0)
+		if ($article->condition == 2)
 		{
 			$overlib = JText::_('JUNPUBLISHED');
 		}

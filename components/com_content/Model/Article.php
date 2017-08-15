@@ -58,7 +58,7 @@ class Article extends Item
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', 3);
 			$this->setState('filter.archived', 2);
 		}
 
@@ -92,7 +92,7 @@ class Article extends Item
 					->select(
 						$this->getState(
 							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
-							'a.state, a.catid, a.created, a.created_by, a.created_by_alias, ' .
+							'a.state, s.condition, a.catid, a.created, a.created_by, a.created_by_alias, s.condition, ' .
 							// Use created if modified is 0
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
@@ -102,6 +102,8 @@ class Article extends Item
 					);
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
+
+				$query->join('LEFT', '#__workflow_states AS s ON s.id = a.state');
 
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
@@ -139,12 +141,11 @@ class Article extends Item
 				}
 
 				// Filter by published state.
-				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
+				$published = $this->getState('filter.condition');
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->where('s.condition = ' . (int) $published);
 				}
 
 				$db->setQuery($query);
@@ -157,7 +158,7 @@ class Article extends Item
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if (is_numeric($published) || $data->state != $published)
 				{
 					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}

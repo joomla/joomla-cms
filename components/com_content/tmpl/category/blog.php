@@ -73,7 +73,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php if (!empty($this->lead_items)) : ?>
 		<div class="row items-leading clearfix">
 			<?php foreach ($this->lead_items as &$item) : ?>
-				<div class="col leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
+				<div class="col leading-<?php echo $leadingcount; ?><?php echo $item->condition == 2 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php
 					$this->item = & $item;
@@ -98,7 +98,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				<div class="row items-row cols-<?php echo (int) $this->columns; ?> <?php echo 'row-' . $row; ?> row clearfix">
 			<?php endif; ?>
 			<div class="col-md-<?php echo round(12 / $this->columns); ?>">
-				<div class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
+				<div class="item column-<?php echo $rowcount; ?><?php echo $item->condition == 2 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php
 					$this->item = & $item;

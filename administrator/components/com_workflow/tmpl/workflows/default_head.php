@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_MODIFICATION_DATE', 'modified', $listDirn, $listOrder); ?>
-	</th>`
+	</th>
 	<th style="width:10%" class="nowrap text-center hidden-sm-down">
 		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_AUTHOR', 'created_by', $listDirn, $listOrder); ?>
 	</th>
