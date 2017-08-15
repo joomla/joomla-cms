@@ -310,9 +310,8 @@ class InstallerModelDatabase extends InstallerModel
 		if ($count > 1)
 		{
 			// Table messed up somehow, clear it
-			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
-				. ';'
-			)->execute();
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion') . ';')
+				->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
 				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
 			)->execute();
