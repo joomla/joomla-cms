@@ -171,6 +171,29 @@ class Install extends Model
 			}
 		}
 
+		$isValidChecksum = $this->isChecksumValid($package['packagefile'], $installer->manifest->updateservers);
+
+		if ($isValidChecksum === null)
+		{
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
+		}
+		elseif ($isValidChecksum === false)
+		{
+			if (!$app->input->getString('force_install'))
+			{
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG_NO_INSTALL'), 'error');
+
+				return false;
+			}
+
+			// Checksum failed but forced installation is activated
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+		}
+		else
+		{
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+		}
+
 		// Was the package unpacked?
 		if (!$package || !$package['type'])
 		{
@@ -411,5 +434,56 @@ class Install extends Model
 		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
+	}
+
+	/**
+	 * Return the result of the checksum of a package and the SHA1/MD5 tags in the update server manifest
+	 *
+	 * @param   string     $packagefile           Location of the package to be installed
+	 * @param   Installer  $updateServerManifest  Update Server manifest
+	 *
+	 * @return  mixed  boolean if the hashes match, null if hashes not found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function isChecksumValid($packagefile, $updateServerManifest)
+	{
+		$children = array();
+
+		if ($updateServerManifest)
+		{
+			$children = $updateServerManifest->children();
+		}
+
+		foreach ($children as $child)
+		{
+			$update = new \JUpdate;
+			$update->loadFromXml((string) $child);
+		}
+
+		$md5_package = md5_file($packagefile);
+		$md5_remote  = $update->md5->_data;
+
+		$sha1_package = sha1_file($packagefile);
+		$sha1_remote  = $update->sha1->_data;
+
+		if ((!$md5_remote) && (!$sha1_remote))
+		{
+			// Checksum doesn't exist
+			return null;
+		}
+
+		if ($sha1_package === $sha1_remote)
+		{
+			return true;
+		}
+
+		if ($md5_package === $md5_remote)
+		{
+			return true;
+		}
+
+		// Checksum fail
+		return false;
 	}
 }
