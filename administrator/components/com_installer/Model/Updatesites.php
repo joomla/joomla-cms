@@ -62,7 +62,7 @@ class Updatesites extends Installer
 	 *
 	 * @since   3.4
 	 */
-	protected function populateState($ordering = 'name', $direction = 'asc')
+	protected function populateState($ordering = 's.ordering', $direction = 'asc')
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
