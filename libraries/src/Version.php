@@ -60,7 +60,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'dev';
+	const EXTRA_VERSION = 'beta2';
 
 	/**
 	 * Release version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '0-dev';
+	const DEV_LEVEL = '0-beta2';
 
 	/**
 	 * Development status.
@@ -86,7 +86,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Development';
+	const DEV_STATUS = 'Beta';
 
 	/**
 	 * Build number.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '8-August-2017';
+	const RELDATE = '15-August-2017';
 
 	/**
 	 * Release time.
