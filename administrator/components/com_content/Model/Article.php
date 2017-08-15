@@ -892,7 +892,8 @@ class Article extends Admin
 	 */
 	public function runTransition($pks, $transitions)
 	{
-		$transitions = array_filter($transitions,
+		$transitions = array_filter(
+			$transitions,
 			function ($var)
 			{
 				return $var !== 0;
