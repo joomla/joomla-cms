@@ -17,7 +17,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': 'jquery'
     'bootstrap':
-                  'version': '~4.0.0-alpha.6'
+                  'version': '4.0.0-alpha.6'
                   'dependencies': 'jquery, tether'
     'tether':
                   'version': '1.4.0'
@@ -35,7 +35,7 @@ vendors:
                   'version': '1.12.1'
                   'dependencies': 'jquery'
     'mediaelement':
-                  'version': '4.2.3'
+                  'version': '4.2.5'
                   'dependencies': 'jquery'
     'masonry-layout':
                   'version': '4.2.0'
@@ -44,7 +44,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.6.4'
+                  'version': '4.6.5'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.2'
@@ -68,7 +68,7 @@ vendors:
                   'version': '1.3.0'
                   'dependencies': ''
     'joomla-ui-custom-elements':
-                  'version': '0.0.7'
+                  'version': '0.0.9'
                   'dependencies': ''
 
 ## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##

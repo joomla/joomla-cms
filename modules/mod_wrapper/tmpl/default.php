@@ -19,6 +19,6 @@ JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto'
 	height="<?php echo $height; ?>"
 	scrolling="<?php echo $scroll; ?>"
 	frameborder="<?php echo $frameborder; ?>"
-	class="wrapper<?php echo $moduleclass_sfx; ?>" >
+	class="wrapper">
 	<?php echo JText::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

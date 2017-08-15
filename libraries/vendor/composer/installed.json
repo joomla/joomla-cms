@@ -978,58 +978,6 @@
         ]
     },
     {
-        "name": "joomla/filter",
-        "version": "1.3.2",
-        "version_normalized": "1.3.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/filter.git",
-            "reference": "1183f96e2dab5bf952415442e54bd67c083f3766"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/1183f96e2dab5bf952415442e54bd67c083f3766",
-            "reference": "1183f96e2dab5bf952415442e54bd67c083f3766",
-            "shasum": ""
-        },
-        "require": {
-            "joomla/string": "~1.3|~2.0",
-            "php": "^5.3.10|~7.0"
-        },
-        "require-dev": {
-            "joomla/language": "~1.3",
-            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
-            "squizlabs/php_codesniffer": "1.*"
-        },
-        "suggest": {
-            "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
-        },
-        "time": "2017-05-14T18:12:10+00:00",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Filter\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Filter Package",
-        "homepage": "https://github.com/joomla-framework/filter",
-        "keywords": [
-            "filter",
-            "framework",
-            "joomla"
-        ]
-    },
-    {
         "name": "joomla/uri",
         "version": "dev-2.0-dev",
         "version_normalized": "dev-2.0-dev",
@@ -1084,12 +1032,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/database.git",
-            "reference": "2e760c99d9e6953de2376f0f8b5028bb299e5045"
+            "reference": "82250d16fda6fae9acf8fb7e97062b83dfccd704"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/database/zipball/2e760c99d9e6953de2376f0f8b5028bb299e5045",
-            "reference": "2e760c99d9e6953de2376f0f8b5028bb299e5045",
+            "url": "https://api.github.com/repos/joomla-framework/database/zipball/82250d16fda6fae9acf8fb7e97062b83dfccd704",
+            "reference": "82250d16fda6fae9acf8fb7e97062b83dfccd704",
             "shasum": ""
         },
         "require": {
@@ -1113,7 +1061,7 @@
             "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
             "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
         },
-        "time": "2017-07-12T00:53:12+00:00",
+        "time": "2017-08-12T23:16:41+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -1884,5 +1832,57 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "joomla/filter",
+        "version": "1.3.3",
+        "version_normalized": "1.3.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/filter.git",
+            "reference": "1ee770b83790c02d0fbcef77ad0647153e1faf74"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/1ee770b83790c02d0fbcef77ad0647153e1faf74",
+            "reference": "1ee770b83790c02d0fbcef77ad0647153e1faf74",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/string": "~1.3|~2.0",
+            "php": "^5.3.10|~7.0"
+        },
+        "require-dev": {
+            "joomla/language": "~1.3",
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "suggest": {
+            "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
+        },
+        "time": "2017-07-04T15:07:30+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Filter\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Filter Package",
+        "homepage": "https://github.com/joomla-framework/filter",
+        "keywords": [
+            "filter",
+            "framework",
+            "joomla"
+        ]
     }
 ]

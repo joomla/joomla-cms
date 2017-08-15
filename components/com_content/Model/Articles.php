@@ -657,8 +657,8 @@ class Articles extends ListModel
 				}
 			}
 
-			// Get the tags
-			if ($item->params->get('show_tags'))
+			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
 				$item->tags = new \JHelperTags;
 				$item->tags->getItemTags('com_content.article', $item->id);

@@ -8893,27 +8893,30 @@ header {
   display: none;
   visibility: hidden; }
 
+joomla-alert {
+  display: none; }
+
 /* autoprefixer: off */
 @supports (display: grid) {
-  body {
+  .site-grid {
     display: grid;
     grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
-    body > div {
+    .site-grid > div {
       width: auto;
       max-width: none;
       margin: 0 0 15px; }
-    body .container-top-a > div,
-    body .container-top-b > div,
-    body .container-bottom-a > div,
-    body .container-bottom-b > div {
+    .site-grid .container-top-a > div,
+    .site-grid .container-top-b > div,
+    .site-grid .container-bottom-a > div,
+    .site-grid .container-bottom-b > div {
       display: inline-grid;
       margin: 0; }
-    body > .full-width {
+    .site-grid > .full-width {
       grid-column: full-start / full-end; }
     @media (max-width: 575px) {
-      body {
+      .site-grid {
         grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ."; } }
   header {
     margin-bottom: 0; }

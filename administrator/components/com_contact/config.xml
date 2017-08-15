@@ -249,6 +249,14 @@
 		</field>
 
 		<field
+			name="image"
+			type="media"
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
+			default=""
+			showon="show_image:1"
+		/>
+
+		<field
 			name="show_misc"
 			type="radio"
 			class="switcher"
@@ -258,14 +266,6 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
-		<field
-			name="image"
-			type="media"
-			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
-			default=""
-			showon="show_image:1"
-		/>
 
 		<field
 			name="allow_vcard"
@@ -836,11 +836,10 @@
 			name="captcha"
 			type="plugins"
 			label="COM_CONTACT_FIELD_CAPTCHA_LABEL"
-			default=""
 			folder="captcha"
 			filter="cmd"
+			useglobal="true"
 			>
-			<option value="">JOPTION_USE_DEFAULT</option>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 

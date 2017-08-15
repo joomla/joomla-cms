@@ -202,6 +202,10 @@ define(
         parseCurrentLine(editor, -1, '', false);
       }
 
+      var rangeEqualsDelimiterOrSpace = function (rangeString, delimiter) {
+        return rangeString == delimiter || rangeString === ' ' || rangeString.charCodeAt(0) == 160;
+      };
+
       function parseCurrentLine(editor, endOffset, delimiter) {
         var rng, end, start, endContainer, bookmark, text, matches, prev, len, rngText;
 
@@ -302,7 +306,7 @@ define(
           // Loop until one of the following is found: a blank space, &nbsp;, delimiter, (end-2) >= 0
         } while (rngText != ' ' && rngText !== '' && rngText.charCodeAt(0) != 160 && (end - 2) >= 0 && rngText != delimiter);
 
-        if (rng.toString() == delimiter || rng.toString().charCodeAt(0) == 160) {
+        if (rangeEqualsDelimiterOrSpace(rng.toString(), delimiter)) {
           setStart(endContainer, end);
           setEnd(endContainer, start);
           end += 1;

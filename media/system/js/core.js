@@ -47,6 +47,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Generic submit form
+	 *
+	 * @param {String} task      The string to translate
+	 * @param {node}   form      The form element
+	 * @param {bool}   validate  The form element
+	 *
+	 * @returns {null}
 	 */
 	Joomla.submitform = function(task, form, validate) {
 
@@ -82,6 +88,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Default function. Can be overriden by the component to add custom logic
+	 *
+	 * @param {bool}  task  The given task
+	 *
+	 * @returns {null}
 	 */
 	Joomla.submitbutton = function( task ) {
 		var form = document.querySelectorAll( 'form.form-validate' );
@@ -107,6 +117,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Custom behavior for JavaScript I18N in Joomla! 1.6
+	 *
+	 * @type {{}}
 	 *
 	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
 	 */
@@ -166,10 +178,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Get script(s) options
 	 *
-	 * @param {String} key  Name in Storage
-	 * @param mixed    def  Default value if nothing found
+	 * @param {String}  key  Name in Storage
+	 * @param {mixed}   def  Default value if nothing found
 	 *
-	 * @return mixed
+	 * @return {mixed}
 	 *
 	 * @since 3.7.0
 	 */
@@ -224,6 +236,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Method to replace all request tokens on the page with a new one.
+	 *
+	 * @param {String}  newToken  The token
+	 *
 	 * Used in Joomla Installation
 	 */
 	Joomla.replaceTokens = function( newToken ) {
@@ -247,8 +262,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Verifies if the string is in a valid email format
 	 *
-	 * @param string
+	 * @param {string}  text  The text for validation
+	 *
 	 * @return boolean
+	 *
+	 * @deprecated  4.0 Use formvalidator
 	 */
 	Joomla.isEmail = function( text ) {
 		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
@@ -262,8 +280,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Checkboxes must have an id attribute in the form cb0, cb1...
 	 *
-	 * @param   mixed   The number of box to 'check', for a checkbox element
-	 * @param   string  An alternative field name
+	 * @param   {mixed}   checkbox  The number of box to 'check', for a checkbox element
+	 * @param   {string}  stub      An alternative field name
+	 *
+	 * @return  {boolean}
 	 */
 	Joomla.checkAll = function( checkbox, stub ) {
 		if (!checkbox.form) return false;
@@ -398,7 +418,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * @param  {element} container    The element of the container of the message to be removed
 	 *
-	 * @return  void
+	 * @return  {void}
 	 */
 	Joomla.removeMessages = function( container ) {
 		var messageContainer;
@@ -435,7 +455,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param   {string}  textStatus   Type of error that occurred.
 	 * @param   {string}  error        Textual portion of the HTTP status.
 	 *
-	 * @return  object  JavaScript object containing the system error message.
+	 * @return  {object}  JavaScript object containing the system error message.
 	 *
 	 * @since  3.6.0
 	 */
@@ -493,9 +513,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * administrator/components/com_languages/helpers/html/languages.php
 	 * libraries/joomla/html/html/grid.php
 	 *
-	 * @param isitchecked
-	 * @param form
-	 * @return
+	 * @param {boolean}  isitchecked  Flag for checked
+	 * @param {node}     form         The form
+	 *
+	 * @return {void}
 	 */
 	Joomla.isChecked = function( isitchecked, form ) {
 		if ( typeof form  === 'undefined' ) {
@@ -524,27 +545,15 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * USED IN: libraries/joomla/html/toolbar/button/help.php
-	 *
-	 * Pops up a new window in the middle of the screen
-	 */
-	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
-		var winl = ( screen.width - w ) / 2,
-		    wint = ( screen.height - h ) / 2,
-		    winprops = 'height=' + h +
-			    ',width=' + w +
-			    ',top=' + wint +
-			    ',left=' + winl +
-			    ',scrollbars=' + scroll +
-			    ',resizable';
-
-		window.open( mypage, myname, winprops )
-			.window.focus();
-	};
-
-	/**
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * In other words, on any reorderable table
+	 *
+	 * @param  {string}  order  The order value
+	 * @param  {string}  dir    The direction
+	 * @param  {string}  task   The task
+	 * @param  {node}    form   The form
+	 *
+	 * return  {void}
 	 */
 	Joomla.tableOrdering = function( order, dir, task, form ) {
 		if ( typeof form  === 'undefined' ) {
@@ -557,139 +566,14 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
-	 *
-	 * Writes a dynamically generated list
-	 *
-	 * @param string
-	 *          The parameters to insert into the <select> tag
-	 * @param array
-	 *          A javascript array of list options in the form [key,value,text]
-	 * @param string
-	 *          The key to display for the initial state of the list
-	 * @param string
-	 *          The original key that was selected
-	 * @param string
-	 *          The original item value that was selected
-	 * @param string
-	 *          The elem where the list will be written
-	 */
-	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>',
-		    hasSelection = key == orig_key,
-		    i = 0,
-		    selected, x, item;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[ x ];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			selected = '';
-
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
-			}
-
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
-
-			i++;
-		}
-		html += '</select>';
-
-		if (element) {
-			element.innerHTML = html;
-		} else {
-			document.writeln( html );
-		}
-	};
-
-	/**
-	 * USED IN: administrator/components/com_content/views/article/view.html.php
-	 * actually, probably not used anywhere.
-	 *
-	 * Changes a dynamically generated list
-	 *
-	 * @param string
-	 *          The name of the list to change
-	 * @param array
-	 *          A javascript array of list options in the form [key,value,text]
-	 * @param string
-	 *          The key to display
-	 * @param string
-	 *          The original key that was selected
-	 * @param string
-	 *          The original item value that was selected
-	 */
-	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
-		var list = document.adminForm[ listname ],
-		    hasSelection = key == orig_key,
-		    i, x, item, opt;
-
-		// empty the list
-		while ( list.firstChild ) list.removeChild( list.firstChild );
-
-		i = 0;
-
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[x];
-
-			if ( item[ 0 ] != key ) { continue; }
-
-			opt = new Option();
-			opt.value = item[ 1 ];
-			opt.text = item[ 2 ];
-
-			if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
-				opt.selected = true;
-			}
-
-			list.options[ i++ ] = opt;
-		}
-
-		list.length = i;
-	};
-
-	/**
-	 * USED IN: administrator/components/com_menus/views/menus/tmpl/default.php
-	 * Probably not used at all
-	 *
-	 * @param radioObj
-	 * @return
-	 */
-	// return the value of the radio button that is checked
-	// return an empty string if none are checked, or
-	// there are no radio buttons
-	window.radioGetCheckedValue = function ( radioObj ) {
-		if ( !radioObj ) { return ''; }
-
-		var n = radioObj.length,
-		    i;
-
-		if ( n === undefined ) {
-			return radioObj.checked ? radioObj.value : '';
-		}
-
-		for ( i = 0; i < n; i++ ) {
-			if ( radioObj[ i ].checked ) {
-				return radioObj[ i ].value;
-			}
-		}
-
-		return '';
-	};
-
-	/**
 	 * USED IN: administrator/components/com_users/views/mail/tmpl/default.php
 	 * Let's get rid of this and kill it
 	 *
 	 * @param frmName
 	 * @param srcListName
 	 * @return
+	 *
+	 * @TODO deprecate it in 3.x and remove it in 4.0
 	 */
 	window.getSelectedValue = function ( frmName, srcListName ) {
 		var srcList = document[ frmName ][ srcListName ],
@@ -708,6 +592,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param id
 	 * @param task
 	 * @return
+	 *
+	 * @TODO deprecate it in 3.x and rename it Joomla.listItemTask in 4.0
 	 */
 	window.listItemTask = function ( id, task ) {
 		var f = document.adminForm,
@@ -736,6 +622,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Default function. Usually would be overriden by the component
 	 *
 	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
+	 *
+	 * @TODO remove it in 4.0
 	 */
 	window.submitbutton = function ( pressbutton ) {
 		Joomla.submitbutton( pressbutton );
@@ -745,6 +633,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Submit the admin form
 	 *
 	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
+	 *
+	 * @TODO remove it in 4.0
 	 */
 	window.submitform = function ( pressbutton ) {
 		Joomla.submitform(pressbutton);
@@ -754,6 +644,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * There's a better way to do this now, can we try to kill it?
+	 *
+	 * @TODO remove it in 4.0
 	 */
 	window.saveorder = function ( n, task ) {
 		window.checkAll_button( n, task );
@@ -763,10 +655,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Checks all the boxes unless one is missing then it assumes it's checked out.
 	 * Weird. Probably only used by ^saveorder
 	 *
-	 * @param   integer  n     The total number of checkboxes expected
-	 * @param   string   task  The task to perform
+	 * @param   {int}      n     The total number of checkboxes expected
+	 * @param   {string}   task  The task to perform
 	 *
 	 * @return  void
+	 *
+	 * @TODO deprecate it in 3.x and rename it Joomla.checkAll_button (or remove it) in 4.0
 	 */
 	window.checkAll_button = function ( n, task ) {
 		task = task ? task : 'saveorder';
@@ -793,8 +687,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 *          /installation/template/js/installation.js
 	 *
-	 * @param   string  task           The task to do [load, show, hide] (defaults to show).
-	 * @param   object  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 * @param   {string}  task           The task to do [load, show, hide] (defaults to show).
+	 * @param   {object}  parentElement  The HTML element where we are appending the layer (defaults to body).
 	 *
 	 * @return  object  The HTML loading layer element.
 	 *
@@ -966,6 +860,162 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		return xhr;
 	};
 
+	/**
+	 * Check if HTML5 localStorage enabled on the browser
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.localStorageEnabled = function() {
+		var test = 'joomla-cms';
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
+			return true;
+		} catch(e) {
+			return false;
+		}
+	};
+
+	/**
+	 * Loads any needed polyfill for web components and async load any web components
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.WebComponents = function() {
+		var wc, polyfills = [];
+
+		/* Get the web components */
+		if (Joomla.getOptions && typeof Joomla.getOptions === "function") {
+			wc = Joomla.getOptions('webcomponents', {});
+		}
+
+		/* Check if ES6 then apply the shim */
+		var checkES6 = function () {
+			try {
+				new Function("(a = 0) => a");
+				return true;
+			}
+			catch (err) {
+				return false;
+			}
+		};
+
+		/* Check if we need the full polyfill set */
+		var checkWC = function (wc) {
+			if (wc.hasOwnProperty('fullPolyfill') && wc['fullPolyfill'] === true) {
+				return true;
+			}
+			return false;
+		};
+
+		/* Load web components async */
+		var loadWC = function (wc) {
+			var el, p, es5;
+			for (p in wc) {
+				if (wc.hasOwnProperty(p) && p !== 'fullPolyfill') {
+					if (wc[p].match(/\.js/g)) {
+						el = document.createElement('script');
+						if (!checkES6()) {
+							// Browser is not ES6!
+							if (wc[p].match(/\.min\.js/g)) {
+								es5 = wc[p].replace(/\.min\.js/g, '-es5.min.js')
+							} else if (wc[p].match(/\.js/g)) {
+								es5 = wc[p].replace(/\.js/g, '-es5.js')
+							}
+							el.src = es5;
+						} else {
+							el.src = wc[p];
+						}
+					} else if (wc[p].match(/\.html/)) {
+						el = document.createElement('link');
+						if (checkES6()) {
+							// Browser is not ES6!
+							if (wc[p].match(/\.min\.html/)) {
+								el.setAttribute('href', wc[p].replace(/\.min\.html/, '-es5.min.html'));
+							} else {
+								el.setAttribute('href', wc[p].replace(/\.html/, '-es5.html'));
+							}
+						} else {
+							el.src = wc[p];
+						}
+
+						el.setAttribute('rel', 'import');
+					}
+					if (el) {
+						document.head.appendChild(el);
+					}
+				}
+			}
+		};
+
+		if (checkWC(wc)) {
+			if (!('import' in document.createElement('link'))) {
+				polyfills.push('hi');
+			}
+			if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) || (window.ShadyDOM && window.ShadyDOM.force)) {
+				polyfills.push('sd');
+			}
+			if (!window.customElements || window.customElements.forcePolyfill) {
+				polyfills.push('ce');
+			}
+			if (!('content' in document.createElement('template')) || !window.Promise || !Array.from || !(document.createDocumentFragment().cloneNode() instanceof DocumentFragment)) {
+				polyfills = ['lite'];
+			}
+		} else {
+			if (!window.customElements || window.customElements.forcePolyfill) {
+				polyfills.push('ce');
+			}
+		}
+
+		if (polyfills.length) {
+			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]')
+			if (!script) {
+				name = "core.js";
+				script = document.querySelector('script[src*="' + name + '"]')
+			}
+
+			if (!script) {
+				throw new Error('core(.min).js is not registered correctly!')
+			}
+
+			var newScript = document.createElement('script'),
+			    replacement = 'media/system/js/polyfills/webcomponents/webcomponents-' + polyfills.join('-') + '.min.js',
+			    mediaVersion = script.src.match(/\?.*/)[0],
+			    base = Joomla.getOptions('system.paths');
+
+			if (!base) {
+				throw new Error('core(.min).js is not registered correctly!')
+			}
+
+			newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion : '');
+
+			if (document.readyState === 'loading' && ('import' in document.createElement('link'))) {
+				document.write(newScript.outerHTML);
+			} else {
+				document.head.insertAdjacentElement('beforeend', newScript);
+			}
+
+			document.addEventListener('WebComponentsReady', function () {
+				loadWC(wc);
+			});
+		} else {
+			var fire = function () {
+				requestAnimationFrame(function () {
+					document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
+					loadWC(wc);
+				});
+			};
+
+			if (document.readyState !== 'loading') {
+				fire();
+			} else {
+				document.addEventListener('readystatechange', function wait() {
+					fire();
+					document.removeEventListener('readystatechange', wait);
+				});
+			}
+		}
+	};
 }( Joomla, document ));
 
 /**
@@ -1040,21 +1090,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		element.addEventListener(name, onceCallback);
 	};
-
-	/**
-	 * Check if HTML5 localStorage enabled on the browser
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	Joomla.localStorageEnabled = function() {
-		var test = 'joomla-cms';
-		try {
-			localStorage.setItem(test, test);
-			localStorage.removeItem(test);
-			return true;
-		} catch(e) {
-			return false;
-		}
-	}
-
 })( window, Joomla );
+
+/**
+ * Load any web components and any polyfills required
+ */
+document.addEventListener('DOMContentLoaded', function() {
+	Joomla.WebComponents();
+});
+

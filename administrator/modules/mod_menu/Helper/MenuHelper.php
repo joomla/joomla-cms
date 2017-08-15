@@ -31,19 +31,23 @@ abstract class MenuHelper
 	 */
 	public static function getMenus()
 	{
-		$db     = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*, SUM(b.home) AS home')
-			->from('#__menu_types AS a')
-			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
-			->select('b.language')
-			->join('LEFT', '#__languages AS l ON l.lang_code = language')
-			->select('l.image')
-			->select('l.sef')
-			->select('l.title_native')
+		$db = Factory::getDbo();
+
+		// Search for home menu and language if exists
+		$subQuery = $db->getQuery(true)
+			->select('b.menutype, b.home, b.language, l.image, l.sef, l.title_native')
+			->from('#__menu AS b')
+			->leftJoin('#__languages AS l ON l.lang_code = b.language')
+			->where('b.home != 0')
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
-		$query->group('a.id, a.client_id, a.menutype, a.description, a.title, a.asset_id, b.menutype,b.language,l.image,l.sef,l.title_native');
+		// Get all menu types with optional home menu and language
+		$query = $db->getQuery(true)
+			->select('a.id, a.asset_id, a.menutype, a.title, a.description, a.client_id')
+			->select('c.home, c.language, c.image, c.sef, c.title_native')
+			->from('#__menu_types AS a')
+			->leftJoin('(' . (string) $subQuery . ') c ON c.menutype = a.menutype')
+			->order('a.id');
 
 		$db->setQuery($query);
 

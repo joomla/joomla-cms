@@ -16,6 +16,5 @@ $rssurl = $params->get('rssurl', '');
 $rssrtl = $params->get('rssrtl', 0);
 
 $feed            = FeedHelper::getFeed($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

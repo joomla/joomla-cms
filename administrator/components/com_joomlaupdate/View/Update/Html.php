@@ -25,22 +25,14 @@ class Html extends HtmlView
 	 *
 	 * @param   string  $tpl  Template name.
 	 *
-	 * @return void
+	 * @return  void
 	 */
-	public function display($tpl=null)
+	public function display($tpl = null)
 	{
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
+
 		// Set the toolbar information.
 		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
-
-		// Add toolbar buttons.
-		$user = \JFactory::getUser();
-
-		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
-		{
-			ToolbarHelper::preferences('com_joomlaupdate');
-		}
 
 		// Render the view.
 		parent::display($tpl);

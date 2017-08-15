@@ -11,6 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Admin;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -252,7 +253,7 @@ class Field extends Admin
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		\JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new \JForm($data['context'])));
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new \JForm($data['context'])));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -547,7 +548,7 @@ class Field extends Admin
 	}
 
 	/**
-	 * Setting the value for the gven field id, context and item id.
+	 * Setting the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
 	 * @param   string  $itemId   The ID of the item.

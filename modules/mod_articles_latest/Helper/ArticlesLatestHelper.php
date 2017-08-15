@@ -54,6 +54,9 @@ abstract class ArticlesLatestHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
 
+		// This module does not use tags data
+		$model->setState('load_tags', false);
+
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = Access::getAuthorisedViewLevels($user->get('id'));

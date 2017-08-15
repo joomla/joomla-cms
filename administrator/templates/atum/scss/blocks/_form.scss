@@ -103,11 +103,11 @@ legend {
 
 // Validation
 .invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
+  color: $brand-danger;
+  border-color: $brand-danger;
 }
 .valid {
-  border-color: $switcher-color-success;
+  border-color: $brand-success;
 }
 
 .form-control-feedback {

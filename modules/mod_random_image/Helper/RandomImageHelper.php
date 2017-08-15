@@ -36,7 +36,13 @@ class RandomImageHelper
 		$width  = $params->get('width');
 		$height = $params->get('height');
 
-		$i      = count($images);
+		$i = count($images);
+
+		if ($i === 0)
+		{
+			return null;
+		}
+
 		$random = mt_rand(0, $i - 1);
 		$image  = $images[$random];
 		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
