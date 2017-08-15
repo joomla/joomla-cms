@@ -122,14 +122,14 @@ class JBrowserTest extends \PHPUnit\Framework\TestCase
 			),
 			'Firefox 12 Android Tablet' => array(
 				'Mozilla/5.0 (Android; Tablet; rv:12.0) Gecko/12.0 Firefox/12.0',
-				'mozilla',
+				'firefox',
 				'unix',
 				'12',
 				true,
 			),
 			'Firefox 6 Windows' => array(
 				'Mozilla/5.0 (Windows NT 5.0; WOW64; rv:6.0) Gecko/20100101 Firefox/6.0',
-				'mozilla',
+				'firefox',
 				'win',
 				'6',
 				false,
@@ -151,11 +151,6 @@ class JBrowserTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testBrowserMatching($userAgent, $expectedBrowser, $expectedPlatform, $expectedMajorVersion, $expectedMobile)
 	{
-		if ($expectedBrowser === 'mozilla')
-		{
-			$this->markTestSkipped('Requires PR #17051 to be tested correctly');
-		}
-
 		$this->object->match($userAgent);
 
 		$this->assertSame(

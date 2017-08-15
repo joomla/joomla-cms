@@ -73,6 +73,7 @@ class FinderHelperLanguage
 		else
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
+
 			if (isset($languages[$branchName]))
 			{
 				$title = $languages[$branchName]->title;
