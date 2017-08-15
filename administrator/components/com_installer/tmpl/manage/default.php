@@ -127,7 +127,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										echo '&#160;';
 									endif; ?>
 									<?php if ($item->changelogurl != null):?>
-										<i class="fa fa-info" aria-hidden="true"></i>
+										<span class="fa fa-info" aria-hidden="true"></span>
 									<?php endif; ?>
 								</td>
 								<td class="hidden-sm-down text-center">
