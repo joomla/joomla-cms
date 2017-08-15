@@ -11,8 +11,6 @@
 		<field
 			name="state"
 			type="userstate"
-			label="COM_USERS_FILTER_STATE"
-			description="COM_USERS_FILTER_STATE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_STATE</option>
@@ -20,8 +18,6 @@
 		<field
 			name="active"
 			type="useractive"
-			label="COM_USERS_FILTER_ACTIVE"
-			description="COM_USERS_FILTER_ACTIVE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_ACTIVE</option>
@@ -29,8 +25,6 @@
 		<field
 			name="group_id"
 			type="usergrouplist"
-			label="COM_USERS_FILTER_GROUP"
-			description="COM_USERS_FILTER_GROUP_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_USERGROUP</option>
@@ -38,8 +32,6 @@
 		<field
 			name="lastvisitrange"
 			type="lastvisitdaterange"
-			label="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
-			description="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_LAST_VISIT_DATE</option>
@@ -47,8 +39,6 @@
 		<field
 			name="range"
 			type="registrationdaterange"
-			label="COM_USERS_OPTION_FILTER_DATE"
-			description="COM_USERS_OPTION_FILTER_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_DATE</option>
@@ -58,8 +48,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_CONTENT_LIST_FULL_ORDERING"
-			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.name ASC"
 			>
@@ -84,8 +72,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_CONTENT_LIST_LIMIT_DESC"
 			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"

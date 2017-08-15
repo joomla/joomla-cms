@@ -7,7 +7,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			class="readonly"
 			size="10"
@@ -18,7 +17,6 @@
 			name="name"
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
-			description="COM_CONTACT_FIELD_NAME_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
@@ -28,7 +26,6 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
 			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
@@ -37,7 +34,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			labelclass="control-label"
 			size="45"
 			maxlength="255"
@@ -47,14 +43,12 @@
 			name="user_id"
 			type="user"
 			label="COM_CONTACT_FIELD_LINKED_USER_LABEL"
-			description="COM_CONTACT_FIELD_LINKED_USER_DESC"
 		/>
 
 		<field
 			name="published"
 			type="list"
 			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
 			default="1"
 			id="published"
 			class="custom-select-color-state"
@@ -72,7 +66,6 @@
 			type="categoryedit"
 			class="advancedSelect"
 			label="JCATEGORY"
-			description="JFIELD_CATEGORY_DESC"
 			extension="com_contact"
 			required="true"
 			default=""
@@ -82,7 +75,6 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
 			size="1"
 		/>
 
@@ -90,7 +82,6 @@
 			name="misc"
 			type="editor"
 			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_MISC_DESC"
 			filter="JComponentHelper::filterText"
 			buttons="true"
 			hide="readmore,pagebreak"
@@ -100,14 +91,12 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-			description="COM_CONTACT_FIELD_CREATED_BY_DESC"
 		/>
 
 		<field
 			name="created_by_alias"
 			type="text"
 			label="COM_CONTACT_FIELD_CREATED_BY_ALIAS_LABEL"
-			description="COM_CONTACT_FIELD_CREATED_BY_ALIAS_DESC"
 			size="20"
 		/>
 
@@ -115,7 +104,6 @@
 			name="created"
 			type="calendar"
 			label="COM_CONTACT_FIELD_CREATED_LABEL"
-			description="COM_CONTACT_FIELD_CREATED_DESC"
 			size="22"
 			translateformat="true"
 			showtime="true"
@@ -126,7 +114,6 @@
 			name="modified"
 			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
-			description="COM_CONTACT_FIELD_MODIFIED_DESC"
 			class="readonly"
 			size="22"
 			readonly="true"
@@ -139,7 +126,6 @@
 			name="modified_by"
 			type="user"
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
-			description="COM_CONTACT_FIELD_MODIFIED_BY_DESC"
 			class="readonly"
 			readonly="true"
 			filter="unset"
@@ -161,7 +147,6 @@
 			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
 			content_type="com_contact.contact"
 		/>
 
@@ -169,7 +154,6 @@
 			name="publish_up"
 			type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL"
-			description="COM_CONTACT_FIELD_PUBLISH_UP_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -180,7 +164,6 @@
 			name="publish_down"
 			type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL"
-			description="COM_CONTACT_FIELD_PUBLISH_DOWN_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -191,7 +174,6 @@
 			name="metakey"
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
-			description="JFIELD_META_KEYWORDS_DESC"
 			rows="3"
 			cols="30"
 		 />
@@ -200,7 +182,6 @@
 			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
-			description="JFIELD_META_DESCRIPTION_DESC"
 			rows="3"
 			cols="30"
 		/>
@@ -209,7 +190,6 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTACT_FIELD_LANGUAGE_DESC"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -219,7 +199,6 @@
 			type="radio"
 			class="switcher"
 			label="JFEATURED"
-			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -230,7 +209,6 @@
 			name="tags"
 			type="tag"
 			label="JTAG"
-			description="JTAG_DESC"
 			class="advancedSelect"
 			multiple="true"
 		/>
@@ -239,7 +217,6 @@
 			name="contact_icons"
 			type="list"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS"
-			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
 			default="0"
 			>
 			<option value="0">COM_CONTACT_FIELD_VALUE_NONE</option>
@@ -251,7 +228,6 @@
 			name="icon_address"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC"
 			hide_none="1"
 		/>
 
@@ -259,7 +235,6 @@
 			name="icon_email"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC"
 			hide_none="1"
 		/>
 
@@ -267,7 +242,6 @@
 			name="icon_telephone"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC"
 			hide_none="1"
 		/>
 
@@ -275,7 +249,6 @@
 			name="icon_mobile"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC"
 			hide_none="1"
 		/>
 
@@ -283,7 +256,6 @@
 			name="icon_fax"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_FAX_DESC"
 			hide_none="1"
 		/>
 
@@ -291,7 +263,6 @@
 			name="icon_misc"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 			hide_none="1"
 		/>
 	</fieldset>
@@ -309,7 +280,6 @@
 			name="image"
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 			hide_none="1"
 		/>
 
@@ -317,7 +287,6 @@
 			name="con_position"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_POSITION_DESC"
 			size="30"
 		/>
 
@@ -325,7 +294,6 @@
 			name="email_to"
 			type="email"
 			label="JGLOBAL_EMAIL"
-			description="COM_CONTACT_FIELD_INFORMATION_EMAIL_DESC"
 			size="30"
 		/>
 
@@ -333,7 +301,6 @@
 			name="address"
 			type="textarea"
 			label="COM_CONTACT_FIELD_INFORMATION_ADDRESS_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_ADDRESS_DESC"
 			rows="3"
 			cols="30"
 		/>
@@ -342,7 +309,6 @@
 			name="suburb"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_SUBURB_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_SUBURB_DESC"
 			size="30"
 		/>
 
@@ -350,7 +316,6 @@
 			name="state"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_STATE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_STATE_DESC"
 			size="30"
 		/>
 
@@ -358,7 +323,6 @@
 			name="postcode"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_POSTCODE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_POSTCODE_DESC"
 			size="30"
 		/>
 
@@ -366,7 +330,6 @@
 			name="country"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_COUNTRY_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_COUNTRY_DESC"
 			size="30"
 		/>
 
@@ -374,7 +337,6 @@
 			name="telephone"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_DESC"
 			size="30"
 		/>
 
@@ -382,7 +344,6 @@
 			name="mobile"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_MOBILE_DESC"
 			size="30"
 		/>
 
@@ -390,7 +351,6 @@
 			name="fax"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_FAX_DESC"
 			size="30"
 		/>
 
@@ -398,7 +358,6 @@
 			name="webpage"
 			type="url"
 			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
-			description="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_DESC"
 			size="30"
 			filter="url"
 		/>
@@ -407,7 +366,6 @@
 			name="sortname1"
 			type="text"
 			label="COM_CONTACT_FIELD_SORTNAME1_LABEL"
-			description="COM_CONTACT_FIELD_SORTNAME1_DESC"
 			size="30"
 		/>
 
@@ -415,7 +373,6 @@
 			name="sortname2"
 			type="text"
 			label="COM_CONTACT_FIELD_SORTNAME2_LABEL"
-			description="COM_CONTACT_FIELD_SORTNAME2_DESC"
 			size="30"
 		/>
 
@@ -423,7 +380,6 @@
 			name="sortname3"
 			type="text"
 			label="COM_CONTACT_FIELD_SORTNAME3_LABEL"
-			description="COM_CONTACT_FIELD_SORTNAME3_DESC"
 			size="30"
 		/>
 	</fieldset>
@@ -437,7 +393,6 @@
 				name="show_contact_category"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_CATEGORY_DESC"
 				useglobal="true"
 				>
 				<option value="hide">JHIDE</option>
@@ -449,7 +404,6 @@
 				name="show_contact_list"
 				type="list"
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
-				description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -460,7 +414,6 @@
 				name="presentation_style"
 				type="list"
 				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 				useglobal="true"
 				>
 				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
@@ -472,7 +425,6 @@
 				name="show_tags"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -483,7 +435,6 @@
 				name="show_info"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
 				class="chzn-color"
 				useglobal="true"
 				>
@@ -495,7 +446,6 @@
 				name="show_name"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -506,7 +456,6 @@
 				name="show_position"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -517,7 +466,6 @@
 				name="show_email"
 				type="list"
 				label="JGLOBAL_EMAIL"
-				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -528,7 +476,6 @@
 				name="add_mailto_link"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
 				class="chzn-color"
 				useglobal="true"
 				>
@@ -540,7 +487,6 @@
 				name="show_street_address"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -551,7 +497,6 @@
 				name="show_suburb"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -562,7 +507,6 @@
 				name="show_state"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -573,7 +517,6 @@
 				name="show_postcode"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -584,7 +527,6 @@
 				name="show_country"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -595,7 +537,6 @@
 				name="show_telephone"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -606,7 +547,6 @@
 				name="show_mobile"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -617,7 +557,6 @@
 				name="show_fax"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -628,7 +567,6 @@
 				name="show_webpage"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -639,7 +577,6 @@
 				name="show_image"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 				class="chzn-color"
 				useglobal="true"
 				>
@@ -651,7 +588,6 @@
 				name="show_misc"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
 				class="chzn-color"
 				useglobal="true"
 				>
@@ -663,7 +599,6 @@
 				name="allow_vcard"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -674,7 +609,6 @@
 				name="show_articles"
 				type="list"
 				label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
-				description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -685,7 +619,6 @@
 				name="articles_display_num"
 				type="list"
 				label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
-				description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -709,7 +642,6 @@
 				name="show_profile"
 				type="list"
 				label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
-				description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -720,7 +652,6 @@
 				name="show_user_custom_fields"
 				type="fieldgroups"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
-				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 				multiple="true"
 				context="com_users.user"
 				>
@@ -731,7 +662,6 @@
 				name="show_links"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -742,7 +672,6 @@
 				name="linka_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
 			/>
 
@@ -750,7 +679,6 @@
 				name="linka"
 				type="url"
 				label="COM_CONTACT_FIELD_LINKA_LABEL"
-				description="COM_CONTACT_FIELD_LINKA_DESC"
 				size="30"
 				filter="url"
 			/>
@@ -759,7 +687,6 @@
 				name="linkb_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
 			/>
 
@@ -767,7 +694,6 @@
 				name="linkb"
 				type="url"
 				label="COM_CONTACT_FIELD_LINKB_LABEL"
-				description="COM_CONTACT_FIELD_LINKB_DESC"
 				size="30"
 				filter="url"
 			/>
@@ -776,7 +702,6 @@
 				name="linkc_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
 			/>
 
@@ -784,7 +709,6 @@
 				name="linkc"
 				type="url"
 				label="COM_CONTACT_FIELD_LINKC_LABEL"
-				description="COM_CONTACT_FIELD_LINKC_DESC"
 				size="30"
 				filter="url"
 			/>
@@ -793,15 +717,13 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				size="30"
+			size="30"
 			/>
 
 			<field
 				name="linkd"
 				type="url"
 				label="COM_CONTACT_FIELD_LINKD_LABEL"
-				description="COM_CONTACT_FIELD_LINKD_DESC"
 				size="30"
 				filter="url"
 			/>
@@ -810,7 +732,6 @@
 				name="linke_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
 			/>
 
@@ -818,7 +739,6 @@
 				name="linke"
 				type="url"
 				label="COM_CONTACT_FIELD_LINKE_LABEL"
-				description="COM_CONTACT_FIELD_LINKE_DESC"
 				size="30"
 				filter="url"
 			/>
@@ -827,7 +747,6 @@
 				name="contact_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_contact"
 				view="contact"
 				useglobal="true"
@@ -840,7 +759,6 @@
 				name="show_email_form"
 				type="list"
 				label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -851,7 +769,6 @@
 				name="show_email_copy"
 				type="list"
 				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -889,7 +806,6 @@
 				name="validate_session"
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
-				description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNO</option>
@@ -900,7 +816,6 @@
 				name="custom_reply"
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
-				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNO</option>
@@ -911,7 +826,6 @@
 				name="redirect"
 				type="text"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-				description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
 				size="30"
 			/>
 		</fieldset>
@@ -925,7 +839,6 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
-				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
@@ -938,7 +851,6 @@
 				name="rights"
 				type="text"
 				label="JFIELD_METADATA_RIGHTS_LABEL"
-				description="JFIELD_METADATA_RIGHTS_DESC"
 				size="20"
 			/>
 		</fieldset>
@@ -948,7 +860,6 @@
 		name="hits"
 		type="text"
 		label="JGLOBAL_HITS"
-		description="COM_CONTACT_HITS_DESC"
 		class="readonly"
 		size="6"
 		readonly="true"
@@ -959,7 +870,6 @@
 		name="version"
 		type="text"
 		label="COM_CONTACT_FIELD_VERSION_LABEL"
-		description="COM_CONTACT_FIELD_VERSION_DESC"
 		class="readonly"
 		size="6"
 		readonly="true"

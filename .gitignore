@@ -30,6 +30,9 @@ node_modules/
 /build/assets_tmp
 /scss-lint-report.xml
 /dev/assets/packages.json
+# We are ignoring this as a temporary measure until Node 8 and npm5 become the LTS release
+# and we can require it.
+package-lock.json
 
 # Removed in Joomla 4 #
 administrator/templates/isis

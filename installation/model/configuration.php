@@ -74,8 +74,8 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('access', 1);
 
 		// Debug settings.
-		$registry->set('debug', 0);
-		$registry->set('debug_lang', 0);
+		$registry->set('debug', false);
+		$registry->set('debug_lang', false);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);
@@ -88,7 +88,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Server settings.
 		$registry->set('live_site', '');
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
-		$registry->set('gzip', 0);
+		$registry->set('gzip', false);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
@@ -96,43 +96,43 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
 		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : 0);
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : false);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');
 
 		// Mail settings.
-		$registry->set('mailonline', 1);
+		$registry->set('mailonline', true);
 		$registry->set('mailer', 'mail');
 		$registry->set('mailfrom', $options->admin_email);
 		$registry->set('fromname', $options->site_name);
 		$registry->set('sendmail', '/usr/sbin/sendmail');
-		$registry->set('smtpauth', 0);
+		$registry->set('smtpauth', false);
 		$registry->set('smtpuser', '');
 		$registry->set('smtppass', '');
 		$registry->set('smtphost', 'localhost');
 		$registry->set('smtpsecure', 'none');
-		$registry->set('smtpport', '25');
+		$registry->set('smtpport', 25);
 
 		// Cache settings.
 		$registry->set('caching', 0);
 		$registry->set('cache_handler', 'file');
 		$registry->set('cachetime', 15);
-		$registry->set('cache_platformprefix', 0);
+		$registry->set('cache_platformprefix', false);
 
 		// Meta settings.
 		$registry->set('MetaDesc', $options->site_metadesc);
 		$registry->set('MetaKeys', '');
-		$registry->set('MetaTitle', 1);
-		$registry->set('MetaAuthor', 1);
-		$registry->set('MetaVersion', 0);
+		$registry->set('MetaTitle', true);
+		$registry->set('MetaAuthor', true);
+		$registry->set('MetaVersion', false);
 		$registry->set('robots', '');
 
 		// SEO settings.
-		$registry->set('sef', 1);
-		$registry->set('sef_rewrite', 0);
-		$registry->set('sef_suffix', 0);
-		$registry->set('unicodeslugs', 0);
+		$registry->set('sef', true);
+		$registry->set('sef_rewrite', false);
+		$registry->set('sef_suffix', false);
+		$registry->set('unicodeslugs', false);
 
 		// Feed settings.
 		$registry->set('feed_limit', 10);
@@ -144,7 +144,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Session setting.
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
-		$registry->set('shared_session', 0);
+		$registry->set('shared_session', false);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));

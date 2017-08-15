@@ -481,11 +481,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			// Create a CmsApplication object.
 			$classname = $prefix . ucfirst($name);
 
-			if (!class_exists($classname))
-			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
-			}
-
 			if (!$container)
 			{
 				$container = \JFactory::getContainer();
@@ -495,10 +490,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				static::$instances[$name] = $container->get($classname);
 			}
-			else
+			elseif (class_exists($classname))
 			{
 				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
+			}
+			else
+			{
+				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
 			static::$instances[$name]->loadIdentity(\JFactory::getUser());

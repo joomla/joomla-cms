@@ -62,8 +62,8 @@ class PlgQuickiconExtensionupdate extends JPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-				'image' => 'asterisk',
-				'icon'  => 'header/icon-48-extension.png',
+				'image' => 'fa fa-star-o',
+				'icon'  => '',
 				'text'  => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'

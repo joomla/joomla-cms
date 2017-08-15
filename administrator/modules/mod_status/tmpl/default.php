@@ -14,11 +14,10 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
-
-		<?php
-			$module = JModuleHelper::getModule('multilangstatus');
-			echo JModuleHelper::renderModule($module);
-		?>
+		<?php if (JLanguageMultilang::isEnabled()) : ?>
+			<?php $module = JModuleHelper::getModule('mod_multilangstatus'); ?>
+			<?php echo JModuleHelper::renderModule($module); ?>
+		<?php endif; ?>	
 
 		<li class="nav-item">
 			<a class="nav-link" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
@@ -68,7 +67,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php endif; ?>
 
 		<li class="nav-item dropdown header-profile">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>

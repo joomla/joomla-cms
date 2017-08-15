@@ -5,7 +5,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			class="readonly"
 			readonly="true"
@@ -26,7 +25,6 @@
 			name="group_id"
 			type="fieldgroups"
 			label="COM_FIELDS_FIELD_GROUP_LABEL"
-			description="COM_FIELDS_FIELD_GROUP_DESC"
 			>
 			<option value="0">JNONE</option>
 		</field>
@@ -35,7 +33,6 @@
 			name="assigned_cat_ids"
 			type="category"
 			label="JCATEGORY"
-			description="JFIELD_FIELDS_CATEGORY_DESC"
 			extension="com_content"
 			multiple="true"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
@@ -47,7 +44,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			description="JFIELD_TITLE_DESC"
 			class="input-xxlarge"
 			size="40"
 			required="true"
@@ -57,7 +53,6 @@
 			name="name"
 			type="text"
 			label="JFIELD_NAME_LABEL"
-			description="JFIELD_NAME_DESC"
 			hint="JFIELD_NAME_PLACEHOLDER"
 			size="45"
 		/>
@@ -66,7 +61,6 @@
 			name="type"
 			type="type"
 			label="COM_FIELDS_FIELD_TYPE_LABEL"
-			description="COM_FIELDS_FIELD_TYPE_DESC"
 			default="text"
 			required="true"
 		/>
@@ -75,7 +69,6 @@
 			name="required"
 			type="radio"
 			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
-			description="COM_FIELDS_FIELD_REQUIRED_DESC"
 			class="switcher"
 			default="0"
 			>
@@ -87,7 +80,6 @@
 			name="default_value"
 			type="textarea"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
-			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
 			filter="raw"
 		/>
 
@@ -95,7 +87,6 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
 			class="chzn-color-state"
 			default="1"
 			size="1"
@@ -129,7 +120,6 @@
 			name="created_user_id"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-			description="JGLOBAL_FIELD_CREATED_BY_DESC"
 		/>
 
 		<field
@@ -163,7 +153,6 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_FIELDS_FIELD_LANGUAGE_DESC"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -172,7 +161,6 @@
 			name="note"
 			type="text"
 			label="COM_FIELDS_FIELD_NOTE_LABEL"
-			description="COM_FIELDS_FIELD_NOTE_DESC"
 			class="col-md-12"
 			size="40"
 		/>
@@ -181,7 +169,6 @@
 			name="label"
 			type="text"
 			label="COM_FIELDS_FIELD_LABEL_LABEL"
-			description="COM_FIELDS_FIELD_LABEL_DESC"
 			size="40"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
@@ -190,7 +177,6 @@
 			name="description"
 			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
-			description="COM_FIELDS_FIELD_DESCRIPTION_DESC"
 			size="40"
 			filter="HTML"
 		/>
@@ -199,7 +185,6 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
 		/>
 
 		<field
@@ -217,7 +202,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
 			class="inputbox"
 		/>
 	</fieldset>
@@ -255,7 +239,6 @@
 				name="showlabel"
 				type="radio"
 				label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
-				description="COM_FIELDS_FIELD_SHOWLABEL_DESC"
 				class="switcher"
 				default="1"
 				>
@@ -267,7 +250,6 @@
 				name="show_on"
 				type="list"
 				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
-				description="COM_FIELDS_FIELD_SHOW_ON_DESC"
 				default=""
 				>
 				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
@@ -279,7 +261,6 @@
 				name="display"
 				type="list"
 				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
-				description="COM_FIELDS_FIELD_DISPLAY_DESC"
 				default="2"
 				>
 				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>

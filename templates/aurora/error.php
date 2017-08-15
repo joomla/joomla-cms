@@ -25,6 +25,8 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Alerts progressive enhancement
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
@@ -62,10 +64,10 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
+	<script src="/media/system/js/core.min.js"></script>
 	<script src="/media/vendor/jquery/js/jquery.min.js"></script>
 	<script src="/media/vendor/tether/js/tether.min.js"></script>
 	<script src="/media/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/media/system/js/core.min.js"></script>
 	<script src="<?php echo $this->baseurl . '/templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
 
@@ -103,6 +105,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 			<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
 			<div class="card">
 				<div class="card-block">
+					<jdoc:include type="message" />
 					<p><strong><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></strong></p>
 					<p><?php echo JText::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>
 					<ul>

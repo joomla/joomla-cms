@@ -378,7 +378,7 @@ class Html extends HtmlView
 		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
 
 		$this->contact     = &$item;
-		$this->params      = &$params;
+		$this->params      = &$item->params;
 		$this->state       = &$state;
 		$this->item        = &$item;
 		$this->user        = &$user;
