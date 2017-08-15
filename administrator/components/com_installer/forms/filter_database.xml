@@ -15,7 +15,7 @@
 			label="COM_PLUGINS_FILTER_PUBLISHED"
 			description="COM_PLUGINS_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
-		    >
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
@@ -23,7 +23,7 @@
 			name="client_id"
 			type="location"
 			onchange="this.form.submit();"
-		    >
+			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
 		</field>
 
@@ -31,7 +31,7 @@
 			name="type"
 			type="type"
 			onchange="this.form.submit();"
-		    >
+			>
 			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
 		</field>
 
@@ -39,7 +39,7 @@
 			name="folder"
 			type="folder"
 			onchange="this.form.submit();"
-		    >
+			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
 	</fields>

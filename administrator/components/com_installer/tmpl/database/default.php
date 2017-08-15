@@ -77,19 +77,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo JHtml::_('grid.id', $i, $extension['element']); ?>
 									</td>
 									<td>
-										<label for="cb<?php echo $i; ?>">
-									<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText',
-										JText::_('JGLOBAL_DESCRIPTION'),
-										JText::_($manifest->description) ?
-											JText::_($manifest->description) :
-											JText::_(
-												'COM_INSTALLER_MSG_UPDATE_NODESC'
-											),
-										0
-									); ?>">
-									<?php echo $extension['name'];?>
-									</span>
-										</label>
+									<label for="cb<?php echo $i; ?>">
+										<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText',
+											JText::_('JGLOBAL_DESCRIPTION'),
+											JText::_($manifest->description) ?
+												JText::_($manifest->description) :
+												JText::_(
+													'COM_INSTALLER_MSG_UPDATE_NODESC'
+												),
+											0
+										); ?>">
+											<?php echo $extension['name'];?>
+										</span>
+									</label>
 									</td>
 									<td class="center">
 										<?php echo $extension['client_translated'];?>

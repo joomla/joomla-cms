@@ -72,7 +72,7 @@ class Database extends Installer
 	}
 
 	/**
-	 * Method to return the total of errors in all the extensions, saved in cache.
+	 * Method to return the total number of errors in all the extensions, saved in cache.
 	 *
 	 * @return  int
 	 *
@@ -135,7 +135,7 @@ class Database extends Installer
 				$db  = $this->getDbo();
 				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
 
-				// If the extension don't follow the standarts to place the
+				// If the extension doesn't follow the standard location for the
 				// update sql files we don't support it
 				if (!file_exists($folderTmp))
 				{
@@ -186,7 +186,7 @@ class Database extends Installer
 					$problemsMessage .= "<hr>";
 				}
 
-				// Number of databases Checked and Skipped
+				// Number of database tables Checked and Skipped
 				$problemsMessage .= $this->getOtherInformationMessage($changeset->getStatus());
 
 				$this->errorCount += $errorCount;
@@ -270,7 +270,7 @@ class Database extends Installer
 				$this->fixDefaultTextFilters();
 
 				/*
-				 * Finally, if the schema updates succeeded, make sure the database is
+				 * Finally, if the schema updates succeeded, make sure the database table is
 				 * converted to utf8mb4 or, if not suported by the server, compatible to it.
 				 */
 				$statusArray = $changeSet['changeset']->getStatus();
