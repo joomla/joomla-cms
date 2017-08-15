@@ -10,7 +10,10 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use JFile;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\String\StringHelper;
+use RuntimeException;
 
 /**
  * Allows for quoting in language .ini files.
@@ -31,6 +34,14 @@ class Language
 	 * @since  11.1
 	 */
 	protected static $languages = array();
+
+	/**
+	 * Array of library language paths
+	 *
+	 * @var    string[]
+	 * @since  3.8.0
+	 */
+	protected static $libraryPathCache = array();
 
 	/**
 	 * Debug language, If true, highlights if string isn't found.
@@ -696,21 +707,50 @@ class Language
 	}
 
 	/**
-	 * Loads a single language file and appends the results to the existing strings
+	 * Smart language file loader, appending the results to the existing strings.
+	 *
+	 * A few notes on what $alternate does and when it works.
+	 *
+	 * - It only works when you are loading the language for a component, module, plugin, library or template extension.
+	 * - The $extension must be provided in the Joomla! canonical format, i.e. com_example, mod_example,
+	 *   plg_folder_something (e.g. plg_system_example, plg_user_example and so on), lib_example or tpl_example.
+	 * - The $basePath must be JPATH_SITE (frontend language), JPATH_ADMINISTRATOR (backend language) or JPATH_BASE
+	 *   (frontend or backend language, depending on what we're running right now).
+	 * - The load order of languages is as follows (each loaded item is overridden by the next loaded item):
+	 *     i.   extension-specific default language e.g. components/com_example/language/en-GB/en-GB.com_example.ini
+	 *     ii.  system-wide default language e.g. language/en-GB/en-GB.com_example.ini
+	 *     iii. extension-specific current language e.g. language/fr-FR/fr-FR.com_example.ini
+	 *     iv.  system-wide  current language e.g. language/fr-FR/fr-FR.com_example.ini
+	 *   As a result system-wide languages (provided with user-installable language packs i.e. language ZIP files)
+	 *   override the extension-specific language files provided with the extension itself.
+	 * - The default language files are ONLY loaded when $default is true *and* Debug Site is set to No in Global
+	 *   Configuration. In any other case only items ii and iv listed above are loaded.
+	 *
+	 * If you are a developer you are recommended to load language files in your extension with the following one-liner,
+	 * depending on whether you have a component, module, plugin, library or template respectively:
+	 *
+	 * JFactory::getLanguage()->load('com_example', JPATH_BASE);
+	 * JFactory::getLanguage()->load('mod_example', JPATH_BASE);
+	 * JFactory::getLanguage()->load('plg_folder_example', JPATH_BASE);
+	 * JFactory::getLanguage()->load('lib_example', JPATH_BASE);
+	 * JFactory::getLanguage()->load('tpl_example', JPATH_BASE);
 	 *
 	 * @param   string   $extension  The extension for which a language file should be loaded.
-	 * @param   string   $basePath   The basepath to use.
+	 * @param   string   $basePath   The base language load path to use: JPATH_BASE (autodetect frontend or backend),
+	 *                               JPATH_SITE (frontend languages), JPATH_ADMINISTRATOR (backend languages) or any
+	 *                               custom path if you are loading language files from a bespoke path.
 	 * @param   string   $lang       The language to load, default null for the current language.
 	 * @param   boolean  $reload     Flag that will force a language to be reloaded if set to true.
 	 * @param   boolean  $default    Flag that force the default language to be loaded if the current does not exist.
+	 * @param   boolean  $alternate  Also load files from the folder inside the extension's main installation folder.
 	 *
 	 * @return  boolean  True if the file has successfully loaded.
 	 *
 	 * @since   11.1
 	 */
-	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
+	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true, $alternate = true)
 	{
-		// If language is null set as the current language.
+		// If language is null use the current language.
 		if (!$lang)
 		{
 			$lang = $this->lang;
@@ -721,7 +761,47 @@ class Language
 		 * with $default set to true. This allows us to fill in missing language strings in the current language with
 		 * translations from the site's default language.
 		 */
-		if (!$this->debug && ($lang != $this->default) && $default)
+		$mustLoadDefault = !$this->debug && ($lang != $this->default) && $default;
+
+		// Auto-load extension-specific languages
+		if ($alternate && in_array($basePath, array(JPATH_BASE, JPATH_SITE)))
+		{
+			try
+			{
+				$extensionPath = self::getLanguageFolders($extension, $basePath);
+			}
+			catch (RuntimeException $e)
+			{
+				$extensionPath = null;
+			}
+
+			$ret = false;
+
+			// extension-specific default language e.g. components/com_example/language/en-GB/en-GB.com_example.ini
+			if ($mustLoadDefault && !empty($extensionPath))
+			{
+				$ret = $ret || $this->load($extension, $extensionPath, $this->default, $reload, false, false);
+			}
+
+			// system-wide default language e.g. language/en-GB/en-GB.com_example.ini
+			if ($mustLoadDefault)
+			{
+				$ret = $ret || $this->load($extension, $basePath, $this->default, $reload, false, false);
+			}
+
+			// extension-specific current language e.g. language/fr-FR/fr-FR.com_example.ini
+			if (!empty($extensionPath))
+			{
+				$ret = $ret || $this->load($extension, $extensionPath, $lang, $reload, false, false);
+			}
+
+			// system-wide  current language e.g. language/fr-FR/fr-FR.com_example.ini
+			$ret = $ret || $this->load($extension, $basePath, $lang, $reload, false, false);
+
+			return $ret;
+		}
+
+		if ($mustLoadDefault)
 		{
 			$this->load($extension, $basePath, $this->default, false, true);
 		}
@@ -731,7 +811,7 @@ class Language
 		$filename = $internal ? $lang : $lang . '.' . $extension;
 		$filename = "$path/$filename.ini";
 
-		// If the language file is already loaded and we're not asked to forcibly reload it return the cached result
+		// If the language file is already loaded and we're not asked to forcibly reload it then return the cached result
 		if (isset($this->paths[$extension][$filename]) && !$reload)
 		{
 			return $this->paths[$extension][$filename];
@@ -1383,5 +1463,153 @@ class Language
 		\JLog::add(__METHOD__ . '() is deprecated, use LanguageHelper::parseXMLLanguageFile() instead.', \JLog::WARNING, 'deprecated');
 
 		return LanguageHelper::parseXMLLanguageFile($path);
+	}
+
+	/**
+	 * Gets the extension-specific language folder for the given extension.
+	 *
+	 * Note that the folder may NOT exist.
+	 *
+	 * @param   string  $extension  The name of the extension, e.g. com_example, plg_system_example, etc
+	 * @param   string  $basePath   The path of the site where the main extension folder is located in. It MUST be
+	 *                              set to the value of the constant JPATH_BASE, JPATH_SITE or JPATH_ADMINISTRATOR.
+	 *
+	 * @return  string|false  The language path or boolean false if no path can be determined
+	 */
+	public static function getLanguageFolders($extension, $basePath = JPATH_SITE)
+	{
+		// Normalize $extension (security measure)
+		$filter    = InputFilter::getInstance();
+		$extension = $filter->clean($extension, 'cmd');
+
+		// It's possible that someone asks us to load a .sys file instead of a pure extension name. Let's deal with it.
+		if ((strlen($extension) > 9) && (substr($extension, -4) == '.sys'))
+		{
+			$extension = substr($extension, 0, -4);
+		}
+
+		// All valid extension names are at least 5 characters long (3 character prefix, underscore and extension name)
+		if (strlen($extension) < 5)
+		{
+			return false;
+		}
+
+		// $basePath must be JPATH_SITE or JPATH_ADMINISTRATOR
+		if (($basePath != JPATH_SITE) && ($basePath != JPATH_ADMINISTRATOR))
+		{
+			throw new RuntimeException('$basePath must be either JPATH_SITE or JPATH_ADMINISTRATOR');
+		}
+
+		// Get the extension prefix
+		list ($prefix, $bareName) = explode('_', $extension, 2);
+
+		switch ($prefix)
+		{
+			// Component
+			case 'com_':
+				$extensionPath = $basePath . '/components/' . $extension;
+
+				return $extensionPath;
+
+				break;
+
+			// Module
+			case 'mod_':
+				$extensionPath = $basePath . '/modules/' . $extension;
+
+				return $extensionPath;
+
+				break;
+
+			// Plugin
+			case 'plg_':
+				if (strstr($bareName, '_') === false)
+				{
+					return false;
+				}
+
+				list ($folder, $pluginName) = explode('_', $bareName, 2);
+
+				$extensionPath = JPATH_SITE . '/plugins/' . $folder . '/' . $pluginName;
+
+				return $extensionPath;
+
+				break;
+
+			// Template
+			case 'tpl_':
+				$extensionPath = $basePath . '/templates/' . $bareName;
+
+				return $extensionPath;
+
+				break;
+
+			// Library
+			case 'lib_':
+				return self::getPathForLibrary($bareName);
+
+				break;
+
+			case 'files_':
+			case 'file_':
+			case 'pkg_':
+				// Files and package extensions do not have an installation path
+				return false;
+
+				break;
+		}
+
+		// Anything else is an invalid extension name
+		return false;
+	}
+
+	/**
+	 * Finds the language path for a library extension. The installation path of libraries is detected from their
+	 * manifests. A cache is kept internally for performance reasons.
+	 *
+	 * @param   string  $bareName  The library name, minus the lib_ prefix.
+	 *
+	 * @return  string  The language base path for the library (i.e. the installation path of the library)
+	 */
+	private static function getPathForLibrary($bareName)
+	{
+		if (isset(self::$libraryPathCache[$bareName]))
+		{
+			return self::$libraryPathCache[$bareName];
+		}
+
+		$libraryPath  = JPATH_LIBRARIES . '/' . $bareName;
+		$languagePath = $libraryPath . '/language';
+		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $bareName . '.xml';
+
+		// No manifest file?
+		if (!JFile::exists($manifestPath))
+		{
+			self::$libraryPathCache[$bareName] = $languagePath;
+
+			return $languagePath;
+		}
+
+		$xml = simplexml_load_file($manifestPath);
+
+		// Cannot load manifest?
+		if ($xml === false)
+		{
+			self::$libraryPathCache[$bareName] = $languagePath;
+
+			return $languagePath;
+		}
+
+		// If the <files> element defines a folder attribute use it to construct the base library path
+		if (isset($xml->files) && isset($xml->files['folder']) && ($xml->files['folder'] != ''))
+		{
+			$libraryPath = JPATH_LIBRARIES . '/' . $xml->files['folder'];
+			$languagePath = $libraryPath . '/language';
+		}
+
+		// Return the requested path
+		self::$libraryPathCache[$bareName] = $languagePath;
+
+		return $languagePath;
 	}
 }
