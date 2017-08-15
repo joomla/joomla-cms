@@ -13,11 +13,11 @@
 }
 
 .icon-publish {
-  color: $brand-success;
+  color: theme-color("success");
 }
 
 .icon-unpublish {
-  color: $brand-danger;
+  color: theme-color("danger");
 }
 
 
@@ -37,16 +37,16 @@
     border-radius: 50%;
   }
   .icon-publish {
-    color: $brand-success;
-    border-color: $brand-success;
+    color: theme-color("success");
+    border-color: theme-color("success");
   }
   .icon-featured {
-    color: $brand-warning;
-    border-color: $brand-warning;
+    color: theme-color("warning");
+    border-color: theme-color("warning");
   }
   .icon-unpublish {
-    color: $brand-danger;
-    border-color: $brand-danger;
+    color: theme-color("danger");
+    border-color: theme-color("danger");
   }
   .icon-archive {
     color: $gray-700;

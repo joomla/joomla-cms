@@ -18,7 +18,7 @@
     }
 
     a {
-      color: darken($brand-primary, 15%);
+      color: darken(theme-color("primary"), 15%);
     }
 
   }

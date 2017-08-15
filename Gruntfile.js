@@ -146,7 +146,7 @@ module.exports = function(grunt) {
 					// Bootastrap css files
 					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/dist/css/', src: ['**'], dest: 'media/vendor/bootstrap/css/', filter: 'isFile'},
 					// Popper js files
-					{ expand: true, cwd: '<%= folder.node_module %>popper.js/dist/', src: ['*.js'], dest: 'media/vendor/popper/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>popper.js/dist/umd/', src: ['*.js'], dest: 'media/vendor/popper/js/', filter: 'isFile'},
 					// Punycode js files
 					{ expand: true, cwd: '<%= folder.node_module %>punycode/', src: ['punycode.js', 'LICENSE-MIT.txt'], dest: 'media/vendor/punycode/js/', filter: 'isFile'},
 					// Cropperjs css files
