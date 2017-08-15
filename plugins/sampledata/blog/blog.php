@@ -101,7 +101,8 @@ class PlgSampledataBlog extends JPlugin
 		$user   = JFactory::getUser();
 
 		// Detect language to be used.
-		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models/', 'ContentModel');
@@ -112,7 +113,7 @@ class PlgSampledataBlog extends JPlugin
 		// Create "blog" category.
 		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
 		$catIds        = array();
-		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
+		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE') . $langSuffix;
 		$category      = array(
 			'title'           => $categoryTitle,
 			'parent_id'       => 1,
@@ -149,7 +150,7 @@ class PlgSampledataBlog extends JPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create "help" category.
-		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE');
+		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE') . $langSuffix;
 		$category      = array(
 			'title'           => $categoryTitle,
 			'parent_id'       => 1,
@@ -218,7 +219,7 @@ class PlgSampledataBlog extends JPlugin
 		foreach ($articles as $i => $article)
 		{
 			// Set values from language strings.
-			$article['title']     = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
+			$article['title']     = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE') . $langSuffix;
 			$article['introtext'] = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
 			$article['fulltext']  = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
 
@@ -288,7 +289,8 @@ class PlgSampledataBlog extends JPlugin
 		}
 
 		// Detect language to be used.
-		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Create the menu types.
 		$menuTable = JTable::getInstance('Type', 'JTableMenu');
@@ -298,7 +300,7 @@ class PlgSampledataBlog extends JPlugin
 		{
 			$menu = array(
 				'id'          => 0,
-				'title'       => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE'),
+				'title'       => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
 				'description' => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
 			);
 
@@ -337,25 +339,16 @@ class PlgSampledataBlog extends JPlugin
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 		$this->menuItemModel = JModelLegacy::getInstance('Item', 'MenusModel');
 
-		// Unset current "Home" menuitem since we set a new one.
-		$menuItemTable = JTable::getInstance('Menu', 'MenusTable');
-		$menuItemTable->load(
-			array(
-				'home'     => 1,
-				'language' => $language,
-			)
-		);
-		$menuItemTable->home = 0;
-		$menuItemTable->store();
+		// Get previously entered categories ids
+		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
 
 		// Insert menuitems level 1.
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[0],
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=9',
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
 				'component_id' => 22,
-				'home'         => 1,
 				'params'       => array(
 					'layout_type'             => 'blog',
 					'show_category_title'     => 0,
@@ -590,7 +583,8 @@ class PlgSampledataBlog extends JPlugin
 		}
 
 		// Detect language to be used.
-		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/models/', 'ModulesModelModule');
@@ -878,6 +872,9 @@ class PlgSampledataBlog extends JPlugin
 
 		foreach ($modules as $module)
 		{
+			// Append language suffix to title.
+			$module['title'] .= $langSuffix;
+
 			// Set values which are always the same.
 			$module['id']         = 0;
 			$module['asset_id']   = 0;
@@ -927,8 +924,8 @@ class PlgSampledataBlog extends JPlugin
 	/**
 	 * Adds menuitems.
 	 *
-	 * @param   array   $menuItems Array holding the menuitems arrays.
-	 * @param   integer $level     Level in the category tree.
+	 * @param   array    $menuItems  Array holding the menuitems arrays.
+	 * @param   integer  $level      Level in the category tree.
 	 *
 	 * @return  array  IDs of the inserted menuitems.
 	 *
@@ -943,12 +940,16 @@ class PlgSampledataBlog extends JPlugin
 		$user    = JFactory::getUser();
 
 		// Detect language to be used.
-		$language = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		foreach ($menuItems as $menuItem)
 		{
 			// Reset item.id in model state.
 			$this->menuItemModel->setState('item.id', 0);
+
+			// Append language suffix to title.
+			$menuItem['title'] .= $langSuffix;
 
 			// Set values which are always the same.
 			$menuItem['id']              = 0;
@@ -961,6 +962,7 @@ class PlgSampledataBlog extends JPlugin
 			$menuItem['associations']    = array();
 			$menuItem['client_id']       = 0;
 			$menuItem['level']           = $level;
+			$menuItem['home']            = 0;
 
 			// Set browserNav to default if not set
 			if (!isset($menuItem['browserNav']))
@@ -984,12 +986,6 @@ class PlgSampledataBlog extends JPlugin
 			if (!isset($menuItem['template_style_id']))
 			{
 				$menuItem['template_style_id'] = 0;
-			}
-
-			// Set home if not set
-			if (!isset($menuItem['home']))
-			{
-				$menuItem['home'] = 0;
 			}
 
 			// Set parent_id to root (1) if not set
