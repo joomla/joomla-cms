@@ -528,38 +528,6 @@ class Article extends Admin
 			$data['catid'] = \CategoriesHelper::createCategory($table);
 		}
 
-		$cat = Categories::getInstance("content");
-		$workflowId = json_decode($cat->get($data['catid'])->params)->workflow_id;
-
-		// Only if it is not edit mode
-		if (empty($data['id']))
-		{
-			$query
-				->select($db->qn("id"))
-				->from($db->qn("#__workflow_states"))
-				->where($db->qn("default") . '=' . 1);
-
-			if (is_numeric($workflowId) && $workflowId !== '0')
-			{
-				$query->where($db->qn("workflow_id") . '=' . $workflowId);
-			}
-			else
-			{
-				$queryWorkflow = $db->getQuery(true)
-					->select($db->qn("id"))
-					->from($db->qn("#__workflows"))
-					->where($db->qn("default") . '=1');
-				$db->setQuery($queryWorkflow);
-				$workflow = $db->loadResult();
-				$query->where($db->qn("workflow_id") . '=' . $workflow);
-			}
-
-			$db->setQuery($query);
-			$state = $db->loadResult();
-
-			$data['state'] = $state;
-		}
-
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
 			$check = $input->post->get('jform', array(), 'array');
@@ -605,8 +573,38 @@ class Article extends Admin
 					$data['alias'] = '';
 				}
 			}
+		}
 
-			$data['state'] = 0;
+		$cat = Categories::getInstance("content");
+		$workflowId = json_decode($cat->get($data['catid'])->params)->workflow_id;
+
+		// Only if it is not edit mode
+		if (empty($data['id']))
+		{
+			$query
+				->select($db->qn("id"))
+				->from($db->qn("#__workflow_states"))
+				->where($db->qn("default") . '=' . 1);
+
+			if (is_numeric($workflowId) && $workflowId !== '0')
+			{
+				$query->where($db->qn("workflow_id") . '=' . $workflowId);
+			}
+			else
+			{
+				$queryWorkflow = $db->getQuery(true)
+					->select($db->qn("id"))
+					->from($db->qn("#__workflows"))
+					->where($db->qn("default") . '=1');
+				$db->setQuery($queryWorkflow);
+				$workflow = $db->loadResult();
+				$query->where($db->qn("workflow_id") . '=' . $workflow);
+			}
+
+			$db->setQuery($query);
+			$state = $db->loadResult();
+
+			$data['state'] = $state;
 		}
 
 		// Automatic handling of alias for empty fields
