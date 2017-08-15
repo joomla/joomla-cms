@@ -1,3 +1,7 @@
+// Bootstrap functions
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+
 // Variables
 @import "variables";
 
@@ -5,7 +9,7 @@
 @import "../../../media/vendor/flying-focus-a11y/scss/flying-focus";
 
 // Bootstrap
-//@import "../../../media/vendor/bootstrap/scss/variables";
+@import "../../../media/vendor/bootstrap/scss/variables";
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // FontAwesome
@@ -54,10 +58,4 @@
 // Chosen (TEMPORARY)
 .chzn-container-single {
   width: auto !important;
-}
-
-// Bootstrap (TEMPORARY)
-// This fixes odd stacking when 2 buttons are used in an input group
-.input-group-btn {
-  flex-direction: row;
 }
