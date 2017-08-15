@@ -58,9 +58,9 @@ class SearchController extends JControllerLegacy
 			$post['searchword'] = $searchword;
 		}
 
-		$post['ordering']     = $this->input->getWord('ordering', null, 'post');
-		$post['searchphrase'] = $this->input->getWord('searchphrase', 'all', 'post');
-		$post['limit']        = $this->input->getUInt('limit', null, 'post');
+		$post['ordering']     = $this->input->post->getWord('ordering', null);
+		$post['searchphrase'] = $this->input->post->getWord('searchphrase', 'all');
+		$post['limit']        = $this->input->post->getUInt('limit', null);
 
 		if ($post['limit'] === null)
 		{
