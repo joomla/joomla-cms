@@ -8,22 +8,23 @@
         <field
                 name="name"
                 type="text"
-                label="Name"
+                label="COM_INSTALLER_FIELD_NAME_LABEL"
                 disabled="true"
         />
         <field
                 name="type"
                 type="text"
-                label="Type"
+                label="COM_INSTALLER_FIELD_TYPE_LABEL"
                 disabled="true"
         />
         <field
                 name="location"
-                type="text"
+                type="url"
                 label="COM_INSTALLER_UPDATESITE_EDIT_UPDATESITE_URL"
-                description="COM_INSTALLER_UPDATESITE_EDIT_DESCRIPTION"
-                size="40"
+                description="COM_INSTALLER_UPDATESITE_EDIT_UPDATESITE_URL_DESC"
                 class="input-xxlarge"
+                validate="url"
+                filter="url"
                 default=""
         />
     </fieldset>
