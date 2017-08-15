@@ -461,29 +461,30 @@ class Install extends Model
 			$update->loadFromXml((string) $child);
 		}
 
-		$md5_package = md5_file($packagefile);
-		$md5_remote  = $update->md5->_data;
+		$hashes = array("sha256", "sha1", "md5");
+		$hashOnFile = false;
 
-		$sha1_package = sha1_file($packagefile);
-		$sha1_remote  = $update->sha1->_data;
-
-		if ((!$md5_remote) && (!$sha1_remote))
+		foreach ($hashes as $hash)
 		{
-			// Checksum doesn't exist
-			return null;
+			$hash_package = hash_file($hash, $packagefile);
+			$hash_remote  = $update->$hash->_data;
+
+			if ($hash_remote)
+			{
+				$hashOnFile = true;
+
+				if ($hash_package !== $hash_remote)
+				{
+					return false;
+				}
+			}
 		}
 
-		if ($sha1_package === $sha1_remote)
+		if ($hashOnFile)
 		{
 			return true;
 		}
 
-		if ($md5_package === $md5_remote)
-		{
-			return true;
-		}
-
-		// Checksum fail
-		return false;
+		return null;
 	}
 }
