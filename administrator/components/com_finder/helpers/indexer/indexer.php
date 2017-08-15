@@ -94,7 +94,7 @@ abstract class FinderIndexer
 	 * Database driver cache.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $db;
 
@@ -102,14 +102,14 @@ abstract class FinderIndexer
 	 * Reusable Query Template. To be used with clone.
 	 *
 	 * @var    JDatabaseQuery
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $addTokensToDbQueryTemplate;
 
 	/**
 	 * FinderIndexer constructor.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function __construct()
 	{

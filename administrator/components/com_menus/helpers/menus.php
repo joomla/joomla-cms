@@ -337,7 +337,7 @@ class MenusHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
@@ -412,7 +412,7 @@ class MenusHelper
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function installPreset($preset, $menutype)
 	{
@@ -437,7 +437,7 @@ class MenusHelper
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected static function installPresetItems(&$items, $menutype, $parent = 1)
 	{

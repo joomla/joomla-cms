@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.5" client="administrator" method="upgrade">
+<extension type="module" version="3.8" client="administrator" method="upgrade">
 	<name>mod_sampledata</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2015</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>July 2017</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.5.0</version>
+	<version>3.8.0</version>
 	<description>MOD_SAMPLEDATA_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_sampledata">mod_sampledata.php</filename>
