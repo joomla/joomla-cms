@@ -251,6 +251,6 @@ abstract class MenusHtmlMenus
 
 		$show_menu = $registry->get('menu_show');
 
-		return ($show_menu === 0) ? '<span class="badge badge-default">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
+		return ($show_menu === 0) ? '<span class="badge badge-secondary">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
 }

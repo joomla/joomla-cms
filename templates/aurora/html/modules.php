@@ -48,7 +48,7 @@ function modChrome_default($module, &$params, &$attribs)
 		{
 			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 		}
-		echo '<div class="card-block">';
+		echo '<div class="card-body">';
 		if ($module->showtitle && $headerClass === 'card-title')
 		{
 			echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
@@ -73,7 +73,7 @@ function modChrome_cardGrey($module, &$params, &$attribs)
 		{
 			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 		}
-		echo '<div class="card-block">';
+		echo '<div class="card-body">';
 		if ($module->showtitle && $headerClass === 'card-title')
 		{
 			echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';

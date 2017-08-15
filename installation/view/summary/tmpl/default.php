@@ -43,7 +43,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		<?php echo $this->form->getLabel('summary_email'); ?>
 		<?php echo $this->form->getInput('summary_email'); ?>
 		<p class="form-text text-muted small">
-			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="badge badge-default">' . $this->options['admin_email'] . '</span>'); ?>
+			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="badge badge-secondary">' . $this->options['admin_email'] . '</span>'); ?>
 		</p>
 	</div>
 
@@ -92,7 +92,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_EMAIL_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-default"><?php echo $this->options['admin_email']; ?></span>
+							<span class="badge badge-secondary"><?php echo $this->options['admin_email']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -100,7 +100,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_USER_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-default"><?php echo $this->options['admin_user']; ?></span>
+							<span class="badge badge-secondary"><?php echo $this->options['admin_user']; ?></span>
 						</td>
 					</tr>
 					<tr>

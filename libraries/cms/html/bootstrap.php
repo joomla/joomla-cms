@@ -446,7 +446,7 @@ abstract class JHtmlBootstrap
 			. $text
 			. '</a>'
 			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
-			. '<div class="card-block">';
+			. '<div class="card-body">';
 
 		return $html;
 	}

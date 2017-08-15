@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 					<?php endif; ?>
 				</small>
 			</div>
-			<span class="badge badge-default badge-pill ml-auto hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?>">
+			<span class="badge badge-secondary badge-pill ml-auto hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?>">
 				<span class="small">
 					<span class="icon-calendar" aria-hidden="true"></span>
 					<?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>

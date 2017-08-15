@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 						<?php echo $item->author_name; ?>
 					</small>
 				</div>
-				<span class="badge badge-default badge-pill">
+				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
