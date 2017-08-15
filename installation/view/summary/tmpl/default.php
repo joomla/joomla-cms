@@ -82,7 +82,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_SITE_OFFLINE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['site_offline'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['site_offline'] ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($this->options['site_offline'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -177,7 +177,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['db_old'] === 'remove' ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo $this->options['db_old'] === 'remove' ? 'danger' : 'success'; ?>">
 								<?php echo JText::_($this->options['db_old'] === 'remove' ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
@@ -203,7 +203,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_ENABLE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['ftp_enable'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_enable'] ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($this->options['ftp_enable'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -246,7 +246,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_SAVE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['ftp_save'] ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_save'] ? 'danger' : 'success'; ?>">
 								<?php echo JText::_($this->options['ftp_save'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -277,7 +277,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $option->state ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice): ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
