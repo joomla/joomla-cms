@@ -596,7 +596,7 @@ class PackageAdapter extends InstallerAdapter
 			return false;
 		}
 
-		// If there is an manifest class file, let's load it
+		// If there is a manifest class file, let's load it
 		$manifestScript = (string) $manifest->scriptfile;
 
 		if ($manifestScript)
