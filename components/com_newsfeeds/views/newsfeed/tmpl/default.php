@@ -67,7 +67,7 @@ defined('_JEXEC') or die;
 				<?php if ($images->image_second_caption) : ?>
 					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?> "/>
+				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>" />
 			</div>
 		<?php endif; ?>
 		<!-- Show Description from Component -->
