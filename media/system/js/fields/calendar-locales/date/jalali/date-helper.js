@@ -615,6 +615,6 @@ Date.prototype.getJalaliDate = function() {
 
 Date.prototype.getJalaliDay = function() {
 	var day = this.getDay();
-	day = (day + 1) % 7;
+	day = (day) % 7;
 	return day;
 };
