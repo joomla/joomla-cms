@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -224,15 +225,13 @@ class ModulesModelModules extends JModelList
 	 */
 	protected function translate(&$items)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		foreach ($items as $item)
 		{
 			$extension = $item->module;
-			$source = $clientPath . "/modules/$extension";
-			$lang->load("$extension.sys", $clientPath, null, false, true)
-				|| $lang->load("$extension.sys", $source, null, false, true);
+			$lang->load("$extension.sys", $clientPath);
 			$item->name = JText::_($item->name);
 
 			if (is_null($item->pages))

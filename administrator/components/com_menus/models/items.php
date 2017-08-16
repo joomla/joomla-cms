@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -502,7 +504,7 @@ class MenusModelItems extends JModelList
 		if (!isset($this->cache[$store]))
 		{
 			$items = parent::getItems();
-			$lang  = JFactory::getLanguage();
+			$lang  = Factory::getLanguage();
 
 			if ($items)
 			{
@@ -510,13 +512,7 @@ class MenusModelItems extends JModelList
 				{
 					if ($extension = $item->componentname)
 					{
-						/**
-						 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-						 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-						 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-						 */
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true);
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR);
 					}
 
 					// Translate component name

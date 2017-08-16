@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 JFormHelper::loadFieldClass('list');
@@ -50,21 +51,14 @@ class JFormFieldComponentsCategory extends JFormFieldList
 
 		if (count($items))
 		{
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($items as &$item)
 			{
 				// Load language
 				$extension = $item->value;
-				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-				/**
-				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-				 */
-				$lang->load("$extension.sys", $source, null, false, true);
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true);
+				$lang->load("$extension.sys", JPATH_ADMINISTRATOR);
 
 				// Translate component name
 				$item->text = JText::_($item->text);

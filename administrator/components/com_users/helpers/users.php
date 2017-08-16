@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -350,8 +352,8 @@ class UsersHelper
 	 */
 	public static function getContexts()
 	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_users', JPATH_ADMINISTRATOR, null, false, true);
+		$lang = Factory::getLanguage();
+		$lang->load('com_users', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
 			'com_users.user' => JText::_('COM_USERS'),

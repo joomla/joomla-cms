@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -36,8 +38,8 @@ class ContenthistoryViewPreview extends JViewLegacy
 
 		if (false === $this->item)
 		{
-			$lang = JFactory::getLanguage();
-			$lang->load('com_content', JPATH_SITE, null, true, true);
+			$lang = Factory::getLanguage();
+			$lang->load('com_content', JPATH_SITE, null, true);
 
 			JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 

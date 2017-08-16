@@ -7,6 +7,7 @@
  */
 
 // We are a valid entry point.
+use Joomla\CMS\Factory;
 const _JEXEC = 1;
 
 // Load system defines
@@ -32,14 +33,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load Library language
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 
-/**
- * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
- *       language (en-GB) files to only be loaded from the first directory that has a (partial)
- *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
- */
-$lang->load('files_joomla.sys', JPATH_SITE, null, false, true);
+$lang->load('files_joomla.sys', JPATH_SITE);
 
 /**
  * A command line cron job to attempt to remove files that should have been deleted at update.

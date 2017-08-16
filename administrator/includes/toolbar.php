@@ -6,6 +6,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 JLoader::register('JSubMenuHelper', JPATH_BASE . '/includes/subtoolbar.php');
@@ -613,8 +615,10 @@ abstract class JToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, null, false, true);
+		$lang = Factory::getLanguage();
+
+		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR);
+
 		$contentTypeTable = JTable::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 

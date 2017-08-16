@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -133,8 +135,8 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		if (is_object($warningsModel) && $warningsModel instanceof JModelLegacy)
 		{
-			$lang = JFactory::getLanguage();
-			$lang->load('com_installer', JPATH_ADMINISTRATOR, null, false, true);
+			$lang = Factory::getLanguage();
+			$lang->load('com_installer', JPATH_ADMINISTRATOR);
 
 			$this->warnings = $warningsModel->getItems();
 		}

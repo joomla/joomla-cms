@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 /**
  * Test class for JHelp.
  *
@@ -49,8 +51,8 @@ class JHelpTest extends TestCase
 		$this->config->set('helpurl', 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}');
 
 		// Load the admin en-GB.ini language file
-		$lang = JFactory::getLanguage();
-		$lang->load('', JPATH_ADMINISTRATOR, null, false, true);
+		$lang = Factory::getLanguage();
+		$lang->load('joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

@@ -10,6 +10,7 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
@@ -162,17 +163,11 @@ class ErrorDocument extends Document
 		$this->error = $this->_error;
 
 		// Load the language file for the template if able
-		if (\JFactory::$language)
+		if (Factory::$language)
 		{
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
-			/**
-			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-			 */
-			$lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
-			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true);
+			$lang->load('tpl_' . $template);
 		}
 
 		// Load

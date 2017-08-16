@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -213,8 +215,8 @@ class ContactHelper extends JHelperContent
 	 */
 	public static function getContexts()
 	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_contact', JPATH_ADMINISTRATOR, null, false, true);
+		$lang = Factory::getLanguage();
+		$lang->load('com_contact');
 
 		$contexts = array(
 			'com_contact.contact'    => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),

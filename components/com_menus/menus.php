@@ -7,11 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 // Load the required admin language files
-$lang   = JFactory::getLanguage();
-$app    = JFactory::getApplication();
+$lang   = Factory::getLanguage();
+$app    = Factory::getApplication();
 
 if ($app->input->get('view') === 'items' && $app->input->get('layout') === 'modal')
 {
@@ -22,8 +24,8 @@ if ($app->input->get('view') === 'items' && $app->input->get('layout') === 'moda
 	}
 }
 
-$lang->load('joomla', JPATH_ADMINISTRATOR, null, false, true);
-$lang->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
+$lang->load('joomla', JPATH_ADMINISTRATOR);
+$lang->load('com_menus', JPATH_ADMINISTRATOR);
 
 // Trigger the controller
 $controller = JControllerLegacy::getInstance('Menus');

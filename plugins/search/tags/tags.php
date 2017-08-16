@@ -7,6 +7,9 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -57,11 +60,11 @@ class PlgSearchTags extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
+		$app   = Factory::getApplication();
+		$user  = Factory::getUser();
+		$lang  = Factory::getLanguage();
 		$query = $db->getQuery(true);
-		$app   = JFactory::getApplication();
-		$user  = JFactory::getUser();
-		$lang  = JFactory::getLanguage();
 
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
 		$limit   = $this->params->def('search_limit', 50);
@@ -185,13 +188,7 @@ class PlgSearchTags extends JPlugin
 						$parts = explode('.', $item->type_alias);
 						$comp = array_shift($parts);
 
-						/**
-						 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-						 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-						 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-						 */
-						$lang->load($comp, JPATH_SITE . '/components/' . $comp, null, false, true);
-						$lang->load($comp, JPATH_SITE, null, false, true);
+						$lang->load($comp, JPATH_SITE);
 
 						// Making up the type string
 						$type = implode('_', $parts);

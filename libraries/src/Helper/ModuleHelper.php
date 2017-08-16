@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 
@@ -181,20 +182,10 @@ abstract class ModuleHelper
 		// Load the module
 		if (file_exists($path))
 		{
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
-			$coreLanguageDirectory      = JPATH_BASE;
-			$extensionLanguageDirectory = dirname($path);
-
-			$langPaths = $lang->getPaths();
-
-			// Only load the module's language file if it hasn't been already
-			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
-			{
-				// 1.5 or Core then 1.6 3PD
-				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
-					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
-			}
+			// Note: this only loads the module's language file if it's not already loaded (no performance penalty).
+			$lang->load($module->module);
 
 			$content = '';
 			ob_start();

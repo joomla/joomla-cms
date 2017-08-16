@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -89,20 +91,14 @@ class ConfigModelTemplates extends ConfigModelForm
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
-		$template = JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 
 		jimport('joomla.filesystem.path');
 
 		// Load the core and/or local language file(s).
-		/**
-		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-		 */
-		$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true);
+		$lang->load('tpl_' . $template);
 
 		// Look for com_config.xml, which contains fileds to display
 		$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');

@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -26,9 +29,9 @@ class FinderModelStatistics extends JModelLegacy
 	public function getData()
 	{
 		// Initialise
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$data = new JObject;
+		$data  = new JObject;
 
 		$query->select('COUNT(term_id)')
 			->from($db->quoteName('#__finder_terms'));
@@ -64,18 +67,12 @@ class FinderModelStatistics extends JModelLegacy
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 
-		$lang  = JFactory::getLanguage();
-		$plugins = JPluginHelper::getPlugin('finder');
+		$lang    = Factory::getLanguage();
+		$plugins = PluginHelper::getPlugin('finder');
 
 		foreach ($plugins as $plugin)
 		{
-			/**
-			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-			 */
-			$lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_PLUGINS . '/finder/' . $plugin->name, null, false, true);
-			$lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+			$lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR);
 		}
 
 		return $data;

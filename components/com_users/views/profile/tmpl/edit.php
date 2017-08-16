@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
@@ -14,8 +16,8 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Load user_profile plugin language
-$lang = JFactory::getLanguage();
-$lang->load('plg_user_profile', JPATH_ADMINISTRATOR, null, false, true);
+$lang = Factory::getLanguage();
+$lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 ?>
 <div class="profile-edit<?php echo $this->pageclass_sfx; ?>">

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -222,35 +224,25 @@ abstract class JHtmlUsers
 		{
 			return static::value($value);
 		}
-		else
+
+		$db    = Factory::getDbo();
+		$lang  = Factory::getLanguage();
+		$query = $db->getQuery(true)
+			->select('name')
+			->from('#__extensions')
+			->where('element = ' . $db->quote($value))
+			->where('folder = ' . $db->quote('editors'));
+		$db->setQuery($query);
+		$title = $db->loadResult();
+
+		if ($title)
 		{
-			$db = JFactory::getDbo();
-			$lang = JFactory::getLanguage();
-			$query = $db->getQuery(true)
-				->select('name')
-				->from('#__extensions')
-				->where('element = ' . $db->quote($value))
-				->where('folder = ' . $db->quote('editors'));
-			$db->setQuery($query);
-			$title = $db->loadResult();
+			$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR);
+			$lang->load($title . '.sys');
 
-			if ($title)
-			{
-				/**
-				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-				 */
-				$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
-				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true);
-				$lang->load($title . '.sys', null, false, true);
-
-				return JText::_($title);
-			}
-			else
-			{
-				return static::value('');
-			}
+			return JText::_($title);
 		}
+
+		return static::value('');
 	}
 }

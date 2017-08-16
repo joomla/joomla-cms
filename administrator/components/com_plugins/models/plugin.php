@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -239,7 +240,7 @@ class PluginsModelPlugin extends JModelAdmin
 
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
-		$lang    = JFactory::getLanguage();
+		$lang    = Factory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db    = $this->getDbo();
@@ -253,13 +254,7 @@ class PluginsModelPlugin extends JModelAdmin
 
 		foreach ($elements as $elementa)
 		{
-			/**
-			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-			 */
-			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
-			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR);
 		}
 
 		if (empty($folder) || empty($element))
@@ -275,14 +270,7 @@ class PluginsModelPlugin extends JModelAdmin
 			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
 		}
 
-		// Load the core and/or local language file(s).
-		/**
-		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-		 */
-		$lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element, null, false, true);
-		$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR);
 
 		if (file_exists($formFile))
 		{

@@ -60,6 +60,6 @@ class RegistrationDateRangeField extends \JFormFieldPredefinedList
 
 		// Load the required language
 		$lang = Factory::getLanguage();
-		$lang->load('com_users', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('com_users', JPATH_ADMINISTRATOR);
 	}
 }

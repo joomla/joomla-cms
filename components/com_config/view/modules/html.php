@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -31,9 +33,9 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 	 */
 	public function render()
 	{
-		$lang = JFactory::getApplication()->getLanguage();
-		$lang->load('', JPATH_ADMINISTRATOR, null, false, true);
-		$lang->load('com_modules', JPATH_ADMINISTRATOR, null, false, true);
+		$lang = Factory::getApplication()->getLanguage();
+		$lang->load('joomla', JPATH_ADMINISTRATOR);
+		$lang->load('com_modules', JPATH_ADMINISTRATOR);
 
 		return parent::render();
 	}

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -143,7 +144,7 @@ class InstallerModel extends JModelList
 	 */
 	protected function translate(&$items)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($items as &$item)
 		{
@@ -173,66 +174,51 @@ class InstallerModel extends JModelList
 			{
 				case 'component':
 					$extension = $item->element;
-					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-					/**
-					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-					 */
-					$lang->load("$extension.sys", $source, null, false, true);
-					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true);
-				break;
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR);
+
+					break;
+
 				case 'file':
 					$extension = 'files_' . $item->element;
-					$lang->load("$extension.sys", JPATH_SITE, null, false, true);
-				break;
+					$lang->load("$extension.sys", JPATH_SITE);
+
+					break;
+
 				case 'library':
 					$extension = 'lib_' . $item->element;
-					$lang->load("$extension.sys", JPATH_SITE, null, false, true);
-				break;
+					$lang->load("$extension.sys", JPATH_SITE);
+
+					break;
+
 				case 'module':
 					$extension = $item->element;
-					$source = $path . '/modules/' . $extension;
 
-					/**
-					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-					 */
-					$lang->load("$extension.sys", $source, null, false, true);
-					$lang->load("$extension.sys", $path, null, false, true);
-				break;
+					$lang->load("$extension.sys", $path);
+
+					break;
+
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
-					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 
-					/**
-					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-					 */
-					$lang->load("$extension.sys", $source, null, false, true);
-					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true);
-				break;
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR);
+
+					break;
+
 				case 'template':
 					$extension = 'tpl_' . $item->element;
-					$source = $path . '/templates/' . $item->element;
 
-					/**
-					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-					 */
-					$lang->load("$extension.sys", $source, null, false, true);
-					$lang->load("$extension.sys", $path, null, false, true);
-				break;
+					$lang->load("$extension.sys", $path);
+
+					break;
+
 				case 'package':
 				default:
 					$extension = $item->element;
 
-					$lang->load("$extension.sys", JPATH_SITE, null, false, true);
-				break;
+					$lang->load("$extension.sys", JPATH_SITE);
+
+					break;
 			}
 
 			// Translate the extension name if possible

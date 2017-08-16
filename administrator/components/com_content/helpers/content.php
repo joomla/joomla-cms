@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -260,8 +262,8 @@ class ContentHelper extends JHelperContent
 	 */
 	public static function getContexts()
 	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_content', JPATH_ADMINISTRATOR, null, false, true);
+		$lang = Factory::getLanguage();
+		$lang->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
 			'com_content.article'    => JText::_('COM_CONTENT'),

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Language\Language;
+
 defined('_JEXEC') or die;
 
 /**
@@ -80,7 +82,7 @@ class PlgContentJoomla extends JPlugin
 			{
 				// Load language for messaging
 				$receiver = JUser::getInstance($user_id);
-				$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+				$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 				$lang->load('com_content');
 				$message = array(
 					'user_id_to' => $user_id,

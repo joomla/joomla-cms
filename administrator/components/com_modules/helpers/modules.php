@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -215,9 +216,7 @@ abstract class ModulesHelper
 		{
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, true)
-			||	$lang->load("$extension.sys", $source, null, false, true);
+			$lang->load("$extension.sys", $path);
 			$modules[$i]->text = JText::_($module->text);
 		}
 
@@ -262,7 +261,7 @@ abstract class ModulesHelper
 	public static function getTranslatedModulePosition($clientId, $template, $position)
 	{
 		// Template translation
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		$loaded = $lang->getPaths('tpl_' . $template . '.sys');
@@ -270,10 +269,7 @@ abstract class ModulesHelper
 		// Only load the template's language file if it hasn't been already
 		if (!$loaded)
 		{
-			$lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+			$lang->load('tpl_' . $template . '.sys', $path);
 		}
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);

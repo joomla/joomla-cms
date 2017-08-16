@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -90,7 +92,7 @@ class ModulesModelPositions extends JModelList
 	{
 		if (!isset($this->items))
 		{
-			$lang            = JFactory::getLanguage();
+			$lang            = Factory::getLanguage();
 			$search          = $this->getState('filter.search');
 			$state           = $this->getState('filter.state');
 			$clientId        = $this->getState('client_id');
@@ -150,8 +152,7 @@ class ModulesModelPositions extends JModelList
 
 					if (isset($xml->positions[0]))
 					{
-						$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+						$lang->load('tpl_' . $template->element . '.sys', $client->path);
 
 						foreach ($xml->positions[0] as $position)
 						{

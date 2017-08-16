@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('list');
@@ -35,31 +37,26 @@ class JFormFieldAliastag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-			// Get list of tag type alias
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('Distinct type_alias AS value, type_alias AS text')
-				->from('#__contentitem_tag_map');
-			$db->setQuery($query);
+		// Get list of tag type alias
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('Distinct type_alias AS value, type_alias AS text')
+			->from('#__contentitem_tag_map');
+		$db->setQuery($query);
 
-			$options = $db->loadObjectList();
+		$options = $db->loadObjectList();
 
-			$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
-			foreach ($options as $i => $item)
-			{
-				$parts     = explode('.', $item->value);
-				$extension = $parts[0];
+		foreach ($options as $i => $item)
+		{
+			$parts     = explode('.', $item->value);
+			$extension = $parts[0];
 
-				/**
-				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-				 */
-				$lang->load($extension, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
-				$options[$i]->text = JText::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
-			}
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR);
+
+			$options[$i]->text = JText::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
+		}
 
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
@@ -67,8 +64,7 @@ class JFormFieldAliastag extends JFormFieldList
 		// Sort by language value
 		usort(
 			$options,
-			function($a, $b)
-			{
+			function ($a, $b) {
 				return $a->text > $b->text;
 			}
 		);

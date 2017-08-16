@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Language\Language;
+
 defined('_JEXEC') or die;
 
 /**
@@ -354,8 +356,8 @@ class MessagesModelMessage extends JModelAdmin
 			$toUser           = JUser::getInstance($table->user_id_to);
 			$debug            = JFactory::getConfig()->get('debug_lang');
 			$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-			$lang             = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
-			$lang->load('com_messages', JPATH_ADMINISTRATOR, null, false, true);
+			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
+			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
 			$sitename = JFactory::getApplication()->get('sitename');

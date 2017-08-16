@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -94,19 +96,8 @@ class InstallationModelDatabase extends JModelBase
 		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
-		$lang = JFactory::getLanguage();
-		$currentLang = $lang->getTag();
-
-		// Load the selected language
-		if (JLanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
-		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true, true);
-		}
-		// Pre-load en-GB in case the chosen language files do not exist.
-		else
-		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true, true);
-		}
+		$lang = Factory::getLanguage();
+		$lang->load('joomla', JPATH_ADMINISTRATOR);
 
 		// Ensure a database type was selected.
 		if (empty($options->db_type))

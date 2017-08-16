@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -404,7 +405,7 @@ class TemplatesModelStyle extends JModelAdmin
 	{
 		$clientId = $this->getState('item.client_id');
 		$template = $this->getState('item.template');
-		$lang     = JFactory::getLanguage();
+		$lang     = Factory::getLanguage();
 		$client   = JApplicationHelper::getClientInfo($clientId);
 
 		if (!$form->loadFile('style_' . $client->name, true))
@@ -417,8 +418,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$formFile = JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template, $client->path, null, false, true)
-		||	$lang->load('tpl_' . $template, $client->path . '/templates/' . $template, null, false, true);
+		$lang->load('tpl_' . $template, $client->path);
 
 		if (file_exists($formFile))
 		{

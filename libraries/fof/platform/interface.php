@@ -323,6 +323,9 @@ interface FOFPlatformInterface
      */
     public function getDate($time = 'now', $tzOffest = null, $locale = true);
 
+	/**
+	 * @return  \Joomla\CMS\Language\Language
+	 */
     public function getLanguage();
 
 	/**

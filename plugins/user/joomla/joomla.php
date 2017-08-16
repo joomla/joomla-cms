@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 /**
@@ -120,7 +121,7 @@ class PlgUserJoomla extends JPlugin
 			return;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$defaultLocale = $lang->getTag();
 
 		/**
@@ -136,7 +137,7 @@ class PlgUserJoomla extends JPlugin
 			$lang->setLanguage($userLocale);
 		}
 
-		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
 		// Compute the mail subject.
 		$emailSubject = JText::sprintf(

@@ -7,24 +7,27 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 JLoader::register('ContactHelperRoute', JPATH_COMPONENT . '/helpers/route.php');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 {
-	if (!JFactory::getUser()->authorise('core.create', 'com_contact'))
+	if (!Factory::getUser()->authorise('core.create', 'com_contact'))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		Factory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 		return;
 	}
 
-	$lang = JFactory::getLanguage();
-	$lang->load('com_contact', JPATH_ADMINISTRATOR, null, false, true);
+	$lang = Factory::getLanguage();
+	$lang->load('com_contact', JPATH_ADMINISTRATOR);
 }
 
-$controller = JControllerLegacy::getInstance('Contact');
-$controller->execute(JFactory::getApplication()->input->get('task'));
+$controller = Controller::getInstance('Contact');
+$controller->execute(Factory::getApplication()->input->get('task'));
 $controller->redirect();

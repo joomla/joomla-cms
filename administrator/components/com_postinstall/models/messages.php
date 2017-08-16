@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -78,7 +80,7 @@ class PostinstallModelMessages extends FOFModel
 			$basePath = JPATH_SITE;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
@@ -159,8 +161,8 @@ class PostinstallModelMessages extends FOFModel
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					$lang                  = JFactory::getLanguage();
-					$lang->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR, null, false, true);
+					$lang                  = Factory::getLanguage();
+					$lang->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
@@ -194,8 +196,8 @@ class PostinstallModelMessages extends FOFModel
 
 		$options = array();
 
-		$lang = JFactory::getLanguage();
-		$lang->load('files_joomla.sys', JPATH_SITE, null, false, false);
+		$lang = Factory::getLanguage();
+		$lang->load('files_joomla.sys', JPATH_SITE);
 
 		foreach ($extension_ids as $eid)
 		{

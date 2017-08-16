@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_BASE') or die;
 
 /**
@@ -39,8 +41,8 @@ class JFormFieldModal_Contact extends JFormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
-		$lang = JFactory::getLanguage();
-		$lang->load('com_contact', JPATH_ADMINISTRATOR, null, false, true);
+		$lang = Factory::getLanguage();
+		$lang->load('com_contact', JPATH_ADMINISTRATOR);
 
 		// The active contact id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';

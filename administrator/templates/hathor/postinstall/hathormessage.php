@@ -8,6 +8,8 @@
  *
  */
 
+use Joomla\CMS\Factory;
+
 /**
  * Checks if hathor is the default backend template or currently used as default style.
  * If yes we want to show a message and action button.
@@ -127,8 +129,8 @@ function hathormessage_postinstall_action()
 	}
 
 	// The postinstall component load the language to late... so we need to make sure it is loaded here.
-	$lang = JFactory::getLanguage();
-	$lang->load('tpl_hathor', JPATH_ADMINISTRATOR, null, false, true);
+	$lang = Factory::getLanguage();
+	$lang->load('tpl_hathor', JPATH_ADMINISTRATOR);
 
 	// Template was successfully changed to isis
 	JFactory::getApplication()->enqueueMessage(JText::sprintf('TPL_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS', $isisStyleName[0]), 'message');

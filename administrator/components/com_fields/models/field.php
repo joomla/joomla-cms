@@ -8,6 +8,7 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -980,15 +981,9 @@ class FieldsModelField extends JModelAdmin
 
 		if (file_exists($path))
 		{
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
-			/**
-			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-			 */
-			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
-			$lang->load($component, JPATH_BASE, null, false, true);
+			$lang->load($component);
 
 			if (!$form->loadFile($path, false))
 			{

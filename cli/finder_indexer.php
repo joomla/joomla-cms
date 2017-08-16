@@ -6,6 +6,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 /**
  * Smart Search CLI.
  *
@@ -53,8 +55,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load Library language
-$lang = JFactory::getLanguage();
-$lang->load('finder_cli', JPATH_SITE, null, false, true);
+$lang = Factory::getLanguage();
+$lang->load('finder_cli', JPATH_SITE);
 
 /**
  * A command line cron job to run the Smart Search indexer.

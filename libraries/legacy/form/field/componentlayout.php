@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
@@ -75,15 +77,9 @@ class JFormFieldComponentlayout extends JFormField
 		if ($extension && $view && $client)
 		{
 			// Load language file
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
-			/**
-			 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-			 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-			 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-			 */
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR);
 
 			// Get the database object and a new query object.
 			$db = JFactory::getDbo();
@@ -169,8 +165,7 @@ class JFormFieldComponentlayout extends JFormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path);
 
 					$template_path = JPath::clean(
 						$client->path

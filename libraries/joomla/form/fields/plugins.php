@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('list');
@@ -118,7 +120,7 @@ class JFormFieldPlugins extends JFormFieldList
 		if (!empty($folder))
 		{
 			// Get list of plugins
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('element AS value, name AS text')
 				->from('#__extensions')
@@ -127,7 +129,7 @@ class JFormFieldPlugins extends JFormFieldList
 				->order('ordering, name');
 
 			$options   = $db->setQuery($query)->loadObjectList();
-			$lang      = JFactory::getLanguage();
+			$lang      = Factory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
 
 			if ($useGlobal)
@@ -137,16 +139,9 @@ class JFormFieldPlugins extends JFormFieldList
 
 			foreach ($options as $i => $item)
 			{
-				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
 
-				/**
-				 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-				 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-				 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-				 */
-				$lang->load($extension . '.sys', $source, null, false, true);
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR);
 
 				$options[$i]->text = JText::_($item->text);
 

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
@@ -16,8 +18,8 @@ JHtml::_('formbehavior.chosen');
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
-$lang = JFactory::getLanguage();
-$lang->load('com_finder', JPATH_SITE, null, false, true);
+$lang = Factory::getLanguage();
+$lang->load('com_finder', JPATH_SITE);
 
 $suffix = $params->get('moduleclass_sfx');
 $output = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="search-query input-medium" size="'

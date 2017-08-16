@@ -763,7 +763,7 @@ class CMSApplication extends WebApplication
 	protected function loadLibraryLanguage()
 	{
 		$lang = $this->getLanguage();
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

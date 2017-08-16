@@ -7,19 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 // Load the required admin language files
-/** @var \Joomla\CMS\Table\Language $lang */
-$lang   = JFactory::getLanguage();
-$app    = JFactory::getApplication();
+$lang   = Factory::getLanguage();
+$app    = Factory::getApplication();
 $config = array();
-$lang->load('joomla', JPATH_ADMINISTRATOR, null, false, true);
-$lang->load('com_modules', JPATH_ADMINISTRATOR, null, false, true);
+$lang->load('joomla', JPATH_ADMINISTRATOR);
+$lang->load('com_modules', JPATH_ADMINISTRATOR);
 
 if ($app->input->get('view') === 'modules' && $app->input->get('layout') === 'modal')
 {
-	if (!JFactory::getUser()->authorise('core.create', 'com_modules'))
+	if (!Factory::getUser()->authorise('core.create', 'com_modules'))
 	{
 		$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
@@ -33,6 +35,6 @@ if ($app->input->get('task') === 'module.orderPosition')
 }
 
 // Trigger the controller
-$controller = JControllerLegacy::getInstance('Modules', $config);
+$controller = Controller::getInstance('Modules', $config);
 $controller->execute($app->input->get('task'));
 $controller->redirect();

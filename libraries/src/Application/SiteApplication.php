@@ -703,13 +703,7 @@ final class SiteApplication extends CMSApplication
 		 */
 		$lang = $this->getLanguage();
 
-		/**
-		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-		 */
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
-		$lang->load('lib_joomla', JPATH_SITE, null, false, true);
+		$lang->load('lib_joomla', JPATH_SITE);
 	}
 
 	/**

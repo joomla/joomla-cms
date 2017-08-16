@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -51,17 +53,9 @@ class TagsHelper extends JHelperContent
 			{
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
-					$lang = JFactory::getLanguage();
+					$lang = Factory::getLanguage();
 
-					// Loading language file from administrator/language directory then administrator/components/<extension>/language
-
-					/**
-					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-					 */
-					$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-					$lang->load($component, JPATH_BASE, null, false, true);
+					$lang->load($component);
 				}
 			}
 		}

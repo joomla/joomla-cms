@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -731,15 +732,9 @@ class MenusModelItem extends JModelAdmin
 				if (isset($args['option']))
 				{
 					// Load the language file for the component.
-					$lang = JFactory::getLanguage();
+					$lang = Factory::getLanguage();
 
-					/**
-					 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-					 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-					 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-					 */
-					$lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
-					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true);
+					$lang->load($args['option'], JPATH_ADMINISTRATOR);
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);

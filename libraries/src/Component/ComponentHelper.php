@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 /**
@@ -305,19 +306,13 @@ class ComponentHelper
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
-		/**
-		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-		 */
-		$lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true);
+		$lang->load('tpl_' . $template);
 
 		if (empty($option))
 		{
@@ -364,8 +359,7 @@ class ComponentHelper
 		}
 
 		// Load common and local language files.
-		$lang->load($option, JPATH_COMPONENT, null, false, true);
-		$lang->load($option, JPATH_BASE, null, false, true);
+		$lang->load($option);
 
 		// Handle template preview outlining.
 		$contents = null;

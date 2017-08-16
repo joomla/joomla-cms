@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
@@ -508,8 +509,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 */
 	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
-		$lang = \JFactory::getLanguage();
-		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
+		$lang = Factory::getLanguage();
+		$lang->load($extension . '.sys', $source, null, false, true);
+		$lang->load($extension . '.sys', $base, null, false, true);
 	}
 
 	/**

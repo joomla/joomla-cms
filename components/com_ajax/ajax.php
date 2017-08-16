@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /*
@@ -92,9 +94,8 @@ elseif ($input->get('module'))
 			{
 				// Load language file for module
 				$basePath = JPATH_BASE;
-				$lang     = JFactory::getLanguage();
-				$lang->load('mod_' . $module, $basePath, null, false, true)
-				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+				$lang     = Factory::getLanguage();
+				$lang->load('mod_' . $module, $basePath);
 
 				try
 				{

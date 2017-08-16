@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -115,7 +116,7 @@ class ModulesModelSelect extends JModelList
 		$items = parent::getItems();
 
 		$client = JApplicationHelper::getClientInfo($this->getState('client_id', 0));
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
@@ -132,10 +133,7 @@ class ModulesModelSelect extends JModelList
 				$item->xml = null;
 			}
 
-			// 1.5 Format; Core files or language packs then
-			// 1.6 3PD Extension Support
-			$lang->load($item->module . '.sys', $client->path, null, false, true)
-				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
+			$lang->load($item->module . '.sys', $client->path);
 			$item->name = JText::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description))

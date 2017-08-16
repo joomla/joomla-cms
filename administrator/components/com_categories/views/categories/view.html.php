@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -155,15 +157,9 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
-		/**
-		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-		 */
-		$lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
-		$lang->load($component, JPATH_BASE, null, false, true);
+		$lang->load($component);
 
 		// Load the category helper.
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');

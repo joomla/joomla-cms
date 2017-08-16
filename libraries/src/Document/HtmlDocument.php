@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -705,15 +706,9 @@ class HtmlDocument extends Document
 		}
 
 		// Load the language file for the template
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
-		/**
-		 * Note: Do NOT combine these lines with a Boolean Or (||) operator. That causes the default
-		 *       language (en-GB) files to only be loaded from the first directory that has a (partial)
-		 *       translation, leading to untranslated strings. See gh-17372 for context of this issue.
-		 */
-		$lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true);
+		$lang->load('tpl_' . $template);
 
 		// Assign the variables
 		$this->template = $template;

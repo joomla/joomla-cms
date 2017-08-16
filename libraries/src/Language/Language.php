@@ -729,11 +729,11 @@ class Language
 	 * If you are a developer you are recommended to load language files in your extension with the following one-liner,
 	 * depending on whether you have a component, module, plugin, library or template respectively:
 	 *
-	 * JFactory::getLanguage()->load('com_example', JPATH_BASE);
-	 * JFactory::getLanguage()->load('mod_example', JPATH_BASE);
-	 * JFactory::getLanguage()->load('plg_folder_example', JPATH_BASE);
-	 * JFactory::getLanguage()->load('lib_example', JPATH_BASE);
-	 * JFactory::getLanguage()->load('tpl_example', JPATH_BASE);
+	 * JFactory::getLanguage()->load('com_example');
+	 * JFactory::getLanguage()->load('mod_example');
+	 * JFactory::getLanguage()->load('plg_folder_example');
+	 * JFactory::getLanguage()->load('lib_example');
+	 * JFactory::getLanguage()->load('tpl_example');
 	 *
 	 * @param   string   $extension  The extension for which a language file should be loaded.
 	 * @param   string   $basePath   The base language load path to use: JPATH_BASE (autodetect frontend or backend),
@@ -757,6 +757,25 @@ class Language
 		}
 
 		/**
+		 * An empty extension name is a deprecated way to denote "joomla" a.k.a. internal language (see $internal
+		 * below). We convert it to the string literal 'joomla' to let our auto-load code work correctly.
+		 */
+		if ($extension == '')
+		{
+			$extension = 'joomla';
+		}
+
+		/**
+		 * Some developers -and core code- passes null to $basePath. Obviously the developer missed $basePath and tried
+		 * passing null to $lang (or they just didn't read the code to understand why null in $basePath will case all
+		 * sorts of issues). Let's same these poor developers from their mistakes.
+		 */
+		if (is_null($basePath))
+		{
+			$basePath = JPATH_BASE;
+		}
+
+		/**
 		 * Load the default language first if we're not debugging and a non-default language is requested to be loaded
 		 * with $default set to true. This allows us to fill in missing language strings in the current language with
 		 * translations from the site's default language.
@@ -768,7 +787,7 @@ class Language
 		{
 			try
 			{
-				$extensionPath = self::getLanguageFolders($extension, $basePath);
+				$extensionPath = self::getExtensionLanguageFolder($extension, $basePath);
 			}
 			catch (RuntimeException $e)
 			{
@@ -1476,7 +1495,7 @@ class Language
 	 *
 	 * @return  string|false  The language path or boolean false if no path can be determined
 	 */
-	public static function getLanguageFolders($extension, $basePath = JPATH_SITE)
+	private static function getExtensionLanguageFolder($extension, $basePath = JPATH_SITE)
 	{
 		// Normalize $extension (security measure)
 		$filter    = InputFilter::getInstance();

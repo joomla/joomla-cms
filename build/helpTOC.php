@@ -13,7 +13,6 @@ const _JEXEC = 1;
 use Joomla\CMS\Application\CliApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Version;
-use Joomla\Registry\Registry;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -39,11 +38,7 @@ ini_set('display_errors', 1);
 
 // Load the admin en-GB.ini language file to get the JHELP language keys
 $lang = Factory::getLanguage();
-$lang->load('joomla', JPATH_ADMINISTRATOR, null, false, true);
-
-// Import namespaced classes
-use Joomla\CMS\Version;
-use Joomla\Registry\Registry;
+$lang->load('joomla', JPATH_ADMINISTRATOR);
 
 /**
  * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view.
@@ -145,7 +140,7 @@ class MediawikiCli extends CliApplication
 		 */
 
 		// Load the admin com_admin language file
-		$lang->load('com_admin', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('com_admin', JPATH_ADMINISTRATOR);
 
 		$toc = array();
 

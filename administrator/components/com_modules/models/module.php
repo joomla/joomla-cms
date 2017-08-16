@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -826,7 +827,7 @@ class ModulesModelModule extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang     = JFactory::getLanguage();
+		$lang     = Factory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
 
@@ -834,8 +835,7 @@ class ModulesModelModule extends JModelAdmin
 		$formFile = JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load($module, $client->path, null, false, true)
-		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		$lang->load($module, $client->path);
 
 		if (file_exists($formFile))
 		{

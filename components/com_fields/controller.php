@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -32,8 +35,8 @@ class FieldsController extends JControllerLegacy
 		if ($this->input->get('view') === 'fields' && $this->input->get('layout') === 'modal')
 		{
 			// Load the backend language file.
-			$lang = JFactory::getLanguage();
-			$lang->load('com_fields', JPATH_ADMINISTRATOR, null, false, true);
+			$lang = Factory::getLanguage();
+			$lang->load('com_fields', JPATH_ADMINISTRATOR);
 
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
