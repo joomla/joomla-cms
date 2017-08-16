@@ -145,5 +145,5 @@ $modal-header-height:                46px;
 $badge-default-bg:                   #5e7082;
 
 // Gutter
-$grid-gutter-width-base:             15px !default;
-$aurora-grid-gutter:                 15px;
+$grid-gutter-width:                  15px !default;
+$aurora-grid-gutter:                 $grid-gutter-width;
