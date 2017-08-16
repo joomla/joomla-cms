@@ -158,7 +158,7 @@ class Article extends Item
 				}
 
 				// Check for published state if filter set.
-				if (is_numeric($published) || $data->state != $published)
+				if (is_numeric($published) && $data->state != $published)
 				{
 					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
