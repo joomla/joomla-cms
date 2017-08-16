@@ -349,22 +349,22 @@ h1, h2, h3, h4, h5, h6,
   color: inherit; }
 
 h1, .h1 {
-  font-size: 2.5rem; }
+  font-size: 1.857rem; }
 
 h2, .h2 {
-  font-size: 2rem; }
+  font-size: 1.571rem; }
 
 h3, .h3 {
-  font-size: 1.75rem; }
+  font-size: 1.286rem; }
 
 h4, .h4 {
-  font-size: 1.5rem; }
+  font-size: 1rem; }
 
 h5, .h5 {
-  font-size: 1.25rem; }
+  font-size: 0.9286rem; }
 
 h6, .h6 {
-  font-size: 1rem; }
+  font-size: 0.8571rem; }
 
 .lead {
   font-size: 1.25rem;
@@ -1149,7 +1149,7 @@ select.form-control:focus::-ms-value {
 .col-form-label-sm {
   padding-top: calc(0.25rem - 1px * 2);
   padding-bottom: calc(0.25rem - 1px * 2);
-  font-size: 0.875rem; }
+  font-size: 0.8rem; }
 
 .col-form-legend {
   padding-top: 0.5rem;
@@ -1176,14 +1176,14 @@ select.form-control:focus::-ms-value {
 .input-group-sm > .input-group-addon,
 .input-group-sm > .input-group-btn > .btn {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   border-radius: 0.2rem; }
 
 select.form-control-sm:not([size]):not([multiple]), .input-group-sm > select.form-control:not([size]):not([multiple]),
 .input-group-sm > select.input-group-addon:not([size]):not([multiple]),
 .input-group-sm > .input-group-btn > select.btn:not([size]):not([multiple]) {
-  height: calc(1.8125rem + 2px); }
+  height: calc(1.7rem + 2px); }
 
 .form-control-lg, .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
@@ -1751,7 +1751,7 @@ fieldset[disabled] a.btn {
 
 .btn-sm, .btn-group-sm > .btn {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   border-radius: 0.2rem; }
 
@@ -1874,7 +1874,7 @@ tbody.collapse.show {
   display: block;
   padding: 0.5rem 1.5rem;
   margin-bottom: 0;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: #868e96;
   white-space: nowrap; }
 
@@ -2046,7 +2046,7 @@ tbody.collapse.show {
   .input-group-sm > .input-group-addon,
   .input-group-sm > .input-group-btn > .input-group-addon.btn {
     padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     border-radius: 0.2rem; }
   .input-group-addon.form-control-lg,
   .input-group-lg > .input-group-addon,
@@ -2198,7 +2198,7 @@ tbody.collapse.show {
     opacity: 0; }
 
 .custom-select-sm {
-  height: calc(1.8125rem + 2px);
+  height: calc(1.7rem + 2px);
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
   font-size: 75%; }
@@ -2800,7 +2800,7 @@ tbody.collapse.show {
 
 .pagination-sm .page-link {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   line-height: 1.5; }
 
 .pagination-sm .page-item:first-child .page-link {
@@ -3372,7 +3372,7 @@ button.close {
   word-spacing: normal;
   white-space: normal;
   line-break: auto;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   word-wrap: break-word;
   opacity: 0; }
   .tooltip.show {
@@ -3454,7 +3454,7 @@ button.close {
   word-spacing: normal;
   white-space: normal;
   line-break: auto;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: padding-box;
