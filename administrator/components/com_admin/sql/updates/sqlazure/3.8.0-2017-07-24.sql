@@ -35,7 +35,8 @@ WHERE ([type] = 'component' AND [element] IN (
 	'com_contenthistory',
 	'com_ajax',
 	'com_postinstall',
-	'com_fields'
+	'com_fields',
+	'com_associations'
 ))
 OR ([type] = 'module' AND [element] IN (
 	'mod_articles_archive',
@@ -77,16 +78,17 @@ OR ([type] = 'module' AND [element] IN (
 	'mod_version',
 	'mod_stats_admin',
 	'mod_tags_popular',
-	'mod_tags_similar'
+	'mod_tags_similar',
+	'mod_sampledata'
 ))
 OR ([type] = 'plugin' AND
 	(
 		([folder] = 'system' AND [element] IN ('languagefilter', 'p3p', 'cache', 'debug', 'log', 'redirect', 'remember', 'sef', 'logout', 'languagecode', 'highlight', 'updatenotification', 'stats', 'fields'))
-		OR ([folder] = 'content' AND [element] IN ('contact', 'emailcloak', 'loadmodule', 'pagebreak', 'pagenavigation', 'vote', 'joomla', 'finder'))
+		OR ([folder] = 'content' AND [element] IN ('contact', 'emailcloak', 'loadmodule', 'pagebreak', 'pagenavigation', 'vote', 'joomla', 'finder', 'fields'))
 		OR ([folder] = 'user' AND [element] IN ('contactcreator', 'joomla', 'profile'))
 		OR ([folder] = 'quickicon' AND [element] IN ('joomlaupdate', 'extensionupdate', 'phpversioncheck'))
 		OR ([folder] = 'editors' AND [element] IN ('codemirror', 'none', 'tinymce'))
-		OR ([folder] = 'editors-xtd' AND [element] IN ('article', 'image', 'pagebreak', 'readmore', 'module', 'menu', 'contact'))
+		OR ([folder] = 'editors-xtd' AND [element] IN ('article', 'image', 'pagebreak', 'readmore', 'module', 'menu', 'contact', 'fields'))
 		OR ([folder] = 'authentication' AND [element] IN ('gmail', 'joomla', 'ldap', 'cookie'))
 		OR ([folder] = 'twofactorauth' AND [element] IN ('totp', 'yubikey'))
 		OR ([folder] = 'installer' AND [element] IN ('packageinstaller', 'folderinstaller', 'urlinstaller'))
@@ -94,7 +96,8 @@ OR ([type] = 'plugin' AND
 		OR ([folder] = 'captcha' AND [element] IN ('recaptcha'))
 		OR ([folder] = 'search' AND [element] IN ('categories', 'contacts', 'content', 'newsfeeds', 'tags'))
 		OR ([folder] = 'finder' AND [element] IN ('categories', 'contacts', 'content', 'newsfeeds', 'tags'))
-		OR ([folder] = 'fields' AND [element] IN ('gallery'))
+		OR ([folder] = 'fields' AND [element] IN ('calendar', 'checkboxes', 'color', 'editor', 'imagelist', 'integer', 'list', 'media', 'radio', 'sql', 'text', 'textarea', 'url', 'user', 'usergrouplist'))
+		OR ([folder] = 'sampledata' AND [element] IN ('blog'))
 	)
 )
 OR ([type] = 'library' AND [element] IN ('phputf8', 'joomla', 'idna_convert', 'fof', 'phpass'))
