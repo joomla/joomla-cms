@@ -117,12 +117,12 @@ class WorkflowHelper extends ContentHelper
 	{
 		switch ($number)
 		{
-			case 1:
-				return "COM_WORKFLOW_TRASHED";
-			case 2:
+			case 0:
 				return "COM_WORKFLOW_UNPUBLISHED";
-			case 3:
+			case 1:
 				return "COM_WORKFLOW_PUBLISHED";
+			case -2:
+				return "COM_WORKFLOW_TRASHED";
 		}
 	}
 }

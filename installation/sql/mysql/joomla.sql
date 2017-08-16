@@ -84,9 +84,9 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (53, 18, 104, 105, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 70, 71, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 8, 20, 53, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
-(56, 55, 21, 22, 3, 'com_content.state.1', 'Trashed', '{}'),
-(57, 55, 23, 24, 3, 'com_content.state.2', 'Unpublished', '{}'),
-(58, 55, 25, 26, 3, 'com_content.state.3', 'Published', '{}'),
+(56, 55, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
+(57, 55, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
+(58, 55, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
 (59, 55, 27, 28, 3, 'com_content.state.4', 'Archived', '{}'),
 (60, 55, 29, 30, 3, 'com_content.transition.1', 'Unpublish', '{}'),
 (61, 55, 31, 32, 3, 'com_content.transition.2', 'Publish', '{}'),
@@ -2169,7 +2169,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `condition` enum('1','2','3') NOT NULL,
+  `condition` enum('0','1','-2') NOT NULL,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`),
@@ -2183,10 +2183,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
 --
 
 INSERT INTO `#__workflow_states` (`id`, `asset_id`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 56, 1, 1, 'Trashed', '', '1', 0),
-(2, 57, 1, 1, 'Unpublished', '', '2', 0),
-(3, 58, 1, 1, 'Published', '', '3', 1),
-(4, 59, 1, 1, 'Archived', '', '3', 0);
+(1, 56, 1, 1, 'Unpublished', '', '0', 0),
+(2, 57, 1, 1, 'Published', '', '1', 1),
+(3, 58, 1, 1, 'Trashed', '', '-2', 0),
+(4, 59, 1, 1, 'Archived', '', '1', 0);
 
 --
 -- Dumping data for table `#__workflow_transitions`
@@ -2214,15 +2214,15 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 --
 
 INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `title`, `description`, `from_state_id`, `to_state_id`, `workflow_id`) VALUES
-(1, 60, 1, 'Unpublish', '', 1, 2, 1),
-(2, 61, 1, 'Publish', '', 2, 3, 1),
+(1, 60, 1, 'Unpublish', '', 2, 1, 1),
+(2, 61, 1, 'Publish', '', 3, 2, 1),
 (3, 62, 1, 'Archive', '', 3, 4, 1),
-(4, 63, 1, 'Trash', '', 3, 1, 1),
-(5, 64, 1, 'Trash', '', 2, 1, 1),
-(6, 65, 1, 'Trash', '', 4, 1, 1),
-(7, 66, 1, 'Unpublish', '', 4, 2, 1),
-(8, 67, 1, 'Unpublish', '', 3, 2, 1),
-(9, 68, 1, 'Publish', '', 4, 3, 1),
+(4, 63, 1, 'Trash', '', 1, 3, 1),
+(5, 64, 1, 'Trash', '', 2, 3, 1),
+(6, 65, 1, 'Trash', '', 4, 3, 1),
+(7, 66, 1, 'Unpublish', '', 4, 1, 1),
+(8, 67, 1, 'Unpublish', '', 3, 1, 1),
+(9, 68, 1, 'Publish', '', 4, 2, 1),
 (10, 69, 1, 'Archive', '', 2, 4, 1),
 (11, 70, 1, 'Archive', '', 1, 4, 1),
-(12, 71, 1, 'Publish', '', 1, 3, 1);
+(12, 71, 1, 'Publish', '', 1, 2, 1);
