@@ -21,12 +21,6 @@
     color: $white-offset;
   }
 
-  .navbar {
-    @include media-breakpoint-down(md) {
-      display: block;
-    }
-  }
-
   .navbar-brand {
     position: relative;
     display: inline-block;
