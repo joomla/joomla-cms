@@ -629,7 +629,7 @@ abstract class Factory
 	}
 
 	/**
-	 * Create an database object
+	 * Create a database object
 	 *
 	 * @return  \JDatabaseDriver
 	 *
