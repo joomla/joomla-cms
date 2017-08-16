@@ -711,7 +711,6 @@ CREATE NONCLUSTERED INDEX "extension" ON "#__extensions"
 
 SET IDENTITY_INSERT "#__extensions" ON;
 
-<<<<<<< HEAD
 -- Components
 INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (1, 0, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
