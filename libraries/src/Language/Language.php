@@ -777,25 +777,25 @@ class Language
 
 			$ret = false;
 
-			// extension-specific default language e.g. components/com_example/language/en-GB/en-GB.com_example.ini
+			// Extension-specific default language e.g. components/com_example/language/en-GB/en-GB.com_example.ini
 			if ($mustLoadDefault && !empty($extensionPath))
 			{
 				$ret = $ret || $this->load($extension, $extensionPath, $this->default, $reload, false, false);
 			}
 
-			// system-wide default language e.g. language/en-GB/en-GB.com_example.ini
+			// System-wide default language e.g. language/en-GB/en-GB.com_example.ini
 			if ($mustLoadDefault)
 			{
 				$ret = $ret || $this->load($extension, $basePath, $this->default, $reload, false, false);
 			}
 
-			// extension-specific current language e.g. language/fr-FR/fr-FR.com_example.ini
+			// Extension-specific current language e.g. language/fr-FR/fr-FR.com_example.ini
 			if (!empty($extensionPath))
 			{
 				$ret = $ret || $this->load($extension, $extensionPath, $lang, $reload, false, false);
 			}
 
-			// system-wide  current language e.g. language/fr-FR/fr-FR.com_example.ini
+			// System-wide  current language e.g. language/fr-FR/fr-FR.com_example.ini
 			$ret = $ret || $this->load($extension, $basePath, $lang, $reload, false, false);
 
 			return $ret;
