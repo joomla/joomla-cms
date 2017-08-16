@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 		<hr class="hr-condensed" />
 		<div class="row-fluid">
 			<div class="span6">
-				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?></p>
+				<p><?php echo JText::sprintf('INSTL_COMPLETE_LANGUAGE_DESC', 'installation'); ?></p>
 				<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
 			</div>
 			<div class="alert alert-info span6">
@@ -34,8 +34,8 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="row-fluid">
 		<div class="alert">
-			<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
-			<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
+			<p><?php echo JText::sprintf('INSTL_COMPLETE_REMOVE_INSTALLATION', 'installation'); ?></p>
+			<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?>" />
 		</div>
 	</div>
 	<div class="row-fluid">
