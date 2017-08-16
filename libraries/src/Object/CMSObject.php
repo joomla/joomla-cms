@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Object
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Object;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -18,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  4.0
  */
-class JObject
+class CMSObject
 {
 	/**
 	 * An array of error messages or Exception objects.
@@ -86,7 +87,7 @@ class JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @see     JObject::getProperties()
+	 * @see     CMSObject::getProperties()
 	 */
 	public function get($property, $default = null)
 	{
@@ -107,7 +108,7 @@ class JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @see     JObject::get()
+	 * @see     CMSObject::get()
 	 */
 	public function getProperties($public = true)
 	{
@@ -158,7 +159,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if ($error instanceof Exception && $toString)
+		if ($error instanceof \Exception && $toString)
 		{
 			return $error->getMessage();
 		}
@@ -207,7 +208,7 @@ class JObject
 	 *
 	 * @since   11.1
 	 *
-	 * @see     JObject::set()
+	 * @see     CMSObject::set()
 	 */
 	public function setProperties($properties)
 	{
