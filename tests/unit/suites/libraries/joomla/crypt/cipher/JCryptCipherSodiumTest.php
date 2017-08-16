@@ -17,6 +17,22 @@ use ParagonIE\Sodium\Compat;
 class JCryptCipherSodiumTest extends TestCase
 {
 	/**
+	 * Prepares the environment before running a test.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		// Don't run this tests on windows
+		if (PHP_OS === 'WINNT')
+		{
+			$this->markTestSkipped('The tests does not work on windows.');
+		}
+	}
+
+	/**
 	 * Test data for processing
 	 *
 	 * @return  array
