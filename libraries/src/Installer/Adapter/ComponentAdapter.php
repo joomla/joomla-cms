@@ -692,7 +692,7 @@ class ComponentAdapter extends InstallerAdapter
 		// Because that is not a good idea...
 		if ($this->extension->locked)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_LOCKED'), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_LOCKED', $this->extension->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

@@ -547,7 +547,7 @@ class PackageAdapter extends InstallerAdapter
 
 		if ($row->locked)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOCKED'), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOCKED', $row->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

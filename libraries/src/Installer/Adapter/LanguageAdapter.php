@@ -618,7 +618,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		if ($protected == 1)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_LOCKED'), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_LOCKED', $extension->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
