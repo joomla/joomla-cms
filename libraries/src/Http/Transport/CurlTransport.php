@@ -212,7 +212,7 @@ class CurlTransport implements TransportInterface
 		$content = curl_exec($ch);
 
 		// Check if the content is a string or is boolean true. If it is not, it must be an error.
-		if (!is_string($content) && !(bool)$content)
+		if (!is_string($content) && !is_bool($content))
 		{
 			$message = curl_error($ch);
 
