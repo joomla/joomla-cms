@@ -35,7 +35,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 103, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 105, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -52,25 +52,25 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (15, 1, 33, 34, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 35, 38, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
 (17, 1, 39, 40, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 41, 72, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
-(19, 1, 73, 76, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(20, 1, 77, 78, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
-(21, 1, 79, 80, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
-(22, 1, 81, 82, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(23, 1, 83, 84, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
-(24, 1, 85, 88, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
-(26, 1, 89, 90, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(18, 1, 41, 74, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(19, 1, 75, 77, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(20, 1, 79, 80, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
+(21, 1, 81, 82, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
+(22, 1, 83, 84, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 85, 86, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(24, 1, 87, 90, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
+(26, 1, 91, 92, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
-(30, 19, 74, 75, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
-(32, 24, 86, 87, 2, 'com_users.category.7', 'Uncategorised', '{}'),
-(33, 1, 91, 92, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(34, 1, 93, 94, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
-(35, 1, 95, 96, 1, 'com_tags', 'com_tags', '{}'),
-(36, 1, 97, 98, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
-(37, 1, 99, 100, 1, 'com_ajax', 'com_ajax', '{}'),
-(38, 1, 101, 102, 1, 'com_postinstall', 'com_postinstall', '{}'),
+(30, 19, 76, 77, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
+(32, 24, 88, 89, 2, 'com_users.category.7', 'Uncategorised', '{}'),
+(33, 1, 93, 94, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 1, 95, 96, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
+(35, 1, 97, 98, 1, 'com_tags', 'com_tags', '{}'),
+(36, 1, 99, 100, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(37, 1, 101, 102, 1, 'com_ajax', 'com_ajax', '{}'),
+(38, 1, 103, 104, 1, 'com_postinstall', 'com_postinstall', '{}'),
 (39, 18, 42, 43, 2, 'com_modules.module.1', 'Main Menu', '{}'),
 (40, 18, 44, 45, 2, 'com_modules.module.2', 'Login', '{}'),
 (41, 18, 46, 47, 2, 'com_modules.module.3', 'Popular Articles', '{}'),
@@ -86,9 +86,10 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (51, 18, 66, 67, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
 (52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
-(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}');
+(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
+(55, 18, 72, 73, 2, 'com_modules.module.87', 'Sample Data', '{}');
 
-SELECT setval('#__assets_id_seq', 55, false);
+SELECT setval('#__assets_id_seq', 56, false);
 
 --
 -- Table structure for table `#__associations`
@@ -500,6 +501,7 @@ COMMENT ON COLUMN "#__extensions"."package_id" IS 'Parent package ID for extensi
 -- Dumping data for table `#__extensions`
 --
 
+<<<<<<< HEAD
 -- Components
 INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (1, 0, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -587,7 +589,8 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (314, 0, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, 1, '', '{"format":"short","product":"1","cache":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (315, 0, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, 1, '', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (316, 0, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, 1, '', '{"maximum":"5","timeframe":"alltime","owncache":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(317, 0, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, 1, '', '{"maximum":"5","matchtype":"any","owncache":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(317, 0, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, 1, '', '{"maximum":"5","matchtype":"any","owncache":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(318, 0, 'mod_sampledata', 'module', 'mod_sampledata', '', 1, 1, 1, 0, 1, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Plugins
 INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -666,7 +669,8 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (475, 0, 'plg_fields_user', 'plugin', 'user', 'fields', 0, 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (476, 0, 'plg_fields_usergrouplist', 'plugin', 'usergrouplist', 'fields', 0, 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (477, 0, 'plg_content_fields', 'plugin', 'fields', 'content', 0, 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(479, 0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -753,6 +757,7 @@ CREATE TABLE "#__fields_groups" (
   "checked_out" integer DEFAULT '0' NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" integer DEFAULT '0' NOT NULL,
+  "params" text DEFAULT '' NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" bigint DEFAULT '0' NOT NULL,
@@ -1504,9 +1509,10 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (16, 50, 'Login Form', '', '', 7, 'position-7', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
 (17, 51, 'Breadcrumbs', '', '', 1, 'position-2', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
 (79, 52, 'Multilanguage status', '', '', 1, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(86, 53, 'Joomla Version', '', '', 1, 'footer', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
+(86, 53, 'Joomla Version', '', '', 1, 'footer', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_sampledata', 6, 1, '{}', 1, '*');
 
-SELECT setval('#__modules_id_seq', 87, false);
+SELECT setval('#__modules_id_seq', 88, false);
 
 --
 -- Table structure for table `#__modules_menu`
@@ -1539,7 +1545,8 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (16, 0),
 (17, 0),
 (79, 0),
-(86, 0);
+(86, 0),
+(87, 0);
 
 --
 -- Table structure for table `#__newsfeeds`

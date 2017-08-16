@@ -574,7 +574,7 @@ class JApplication extends BaseApplication
 	 * @param   string  $default  The default value for the variable if not found. Optional.
 	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
-	 * @return  The request user state.
+	 * @return  mixed  The request user state.
 	 *
 	 * @since   1.5
 	 * @deprecated  3.2

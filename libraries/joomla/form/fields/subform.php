@@ -221,7 +221,7 @@ class JFormFieldSubform extends JFormField
 	 */
 	protected function getInput()
 	{
-		$value = $this->value ? $this->value : array();
+		$value = $this->value ? (array) $this->value : array();
 
 		// Prepare data for renderer
 		$data    = parent::getLayoutData();
