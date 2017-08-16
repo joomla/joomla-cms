@@ -25,7 +25,7 @@ class JCryptCipherSodiumTest extends TestCase
 	{
 		parent::setUp();
 
-		// Don't run this tests on windows with PHP lover that 7.0
+		// Don't run this tests on windows with PHP lower that 7.0
 		if (PHP_OS === 'WINNT' && version_compare(PHP_VERSION, '7.0.0', '<'))
 		{
 			$this->markTestSkipped('The tests does not work on windows.');
