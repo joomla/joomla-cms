@@ -47,8 +47,6 @@
 			default="name ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="s.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="enabled ASC">JSTATUS_ASC</option>
 			<option value="enabled DESC">JSTATUS_DESC</option>
 			<option value="update_site_name ASC">COM_INSTALLER_HEADING_UPDATESITE_NAME_ASC</option>

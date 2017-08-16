@@ -16,13 +16,6 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = $listOrder == 's.ordering';
-
-if ($saveOrder)
-{
-	$saveOrderingUrl = 'index.php?option=com_installer&task=updatesites.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
-	\JHtml::_('draggablelist.draggable');
-}
 ?>
 <div id="installer-manage" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesites'); ?>" method="post" name="adminForm" id="adminForm">
@@ -41,9 +34,6 @@ if ($saveOrder)
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', '', 's.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-								</th>
 								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
@@ -77,34 +67,12 @@ if ($saveOrder)
 								</td>
 							</tr>
 						</tfoot>
-						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEdit    = $user->authorise('core.edit', 'com_installer');
-							$canChange  = $user->authorise('core.edit.state', 'com_installer') && $canCheckin;
 							?>
 							<tr class="row<?php echo $i % 2; if ($item->enabled == 2) echo ' protected'; ?>" data-dragable-group="0">
-								<td class="order nowrap text-center hidden-sm-down">
-									<?php
-									$iconClass = '';
-
-									if (!$canChange)
-									{
-										$iconClass = ' inactive';
-									}
-									elseif (!$saveOrder)
-									{
-										$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
-									}
-									?>
-									<span class="sortable-handler <?php echo $iconClass ?>">
-										<span class="icon-menu" aria-hidden="true"></span>
-									</span>
-									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5"
-											   value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
-									<?php endif; ?>
-								</td>
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->update_site_id); ?>
 								</td>
