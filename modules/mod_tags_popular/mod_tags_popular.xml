@@ -25,7 +25,7 @@
 				<field 
 					name="parentTag"
 					type="tag"
-					label="MOD_TAGS_POPULAR_PARENT_TAG_LBL"
+					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
 					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
 					multiple="true"
 				/>
