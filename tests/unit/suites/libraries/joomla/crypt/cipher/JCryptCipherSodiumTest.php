@@ -25,10 +25,12 @@ class JCryptCipherSodiumTest extends TestCase
 	{
 		parent::setUp();
 
-		// Don't run this tests on windows with PHP lower than 7.0
-		if (PHP_OS === 'WINNT' && version_compare(PHP_VERSION, '7.0.0', '<'))
+		// The lib sodium_compat does not support PHP_INT_SIZE === 4 see https://github.com/paragonie/sodium_compat/issues/38
+		if (PHP_INT_SIZE === 4)
 		{
-			$this->markTestSkipped('The tests does not work on windows.');
+			$this->markTestSkipped(
+				'The lib sodium_compat does not support PHP_INT_SIZE === 4 please see https://github.com/paragonie/sodium_compat/issues/38.'
+			);
 		}
 	}
 
