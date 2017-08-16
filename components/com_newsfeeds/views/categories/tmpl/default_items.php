@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
-			<?php if (!isset($this->items[$this->parent->id][$id + 1])) :  ?>
+			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
 				<?php $class = ' class="last"'; ?>
 			<?php endif; ?>
 			<div<?php echo $class; ?>>
@@ -25,7 +25,7 @@ JHtml::_('bootstrap.tooltip');
 					<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 						<?php echo $this->escape($item->title); ?>
 					</a>
-					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
+					<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
 						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_NEWSFEEDS_NUM_ITEMS'); ?>">
 							<?php echo JText::_('COM_NEWSFEEDS_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>

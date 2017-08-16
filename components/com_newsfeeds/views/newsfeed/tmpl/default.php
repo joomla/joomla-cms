@@ -57,7 +57,7 @@ defined('_JEXEC') or die;
 				<?php if ($images->image_first_caption) : ?>
 					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/>
+				src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>" />
 			</div>
 		<?php endif; ?>
 		<?php if (isset($images->image_second) && !empty($images->image_second)) : ?>
@@ -67,7 +67,7 @@ defined('_JEXEC') or die;
 				<?php if ($images->image_second_caption) : ?>
 					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>"/>
+				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?> "/>
 			</div>
 		<?php endif; ?>
 		<!-- Show Description from Component -->
