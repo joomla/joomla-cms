@@ -1,9 +1,29 @@
 # Important Security Information
 
-If you're going to use JCrypt in any of your plugins, make *sure* you use **JCryptCipherCrypto**; it's the only one that's cryptographically secure. (It's [version 1.1 of Defuse Security's encryption library](https://github.com/defuse/php-encryption)).
+If you're going to use JCrypt in any of your extensions, make *sure* you use **CryptoCipher** or **SodiumCipher**; These are the only two which are cryptographically secure.
 
 ```php
-$cipher = new JCryptCipherCrypto();
+use Joomla\CMS\Crypt\Cipher\SodiumCipher;
+
+$cipher = new SodiumCipher;
+$key    = $cipher->generateKey();
+$data   = 'My encrypted data.';
+
+$cipher->setNonce(\Sodium\randombytes_buf(\Sodium\CRYPTO_BOX_NONCEBYTES));
+
+$encrypted = $cipher->encrypt($data, $key);
+$decrypted = $cipher->decrypt($encrypted, $key);
+
+if ($decrypted !== $data)
+{
+	throw new RuntimeException('The data was not decrypted correctly.');
+}
+```
+
+```php
+use Joomla\CMS\Crypt\Cipher\CryptoCipher;
+
+$cipher = new CryptoCipher();
 $key = $cipher->generateKey(); // Store this for long-term use
 
 $message = "We're all living on a yellow submarine!";
@@ -13,10 +33,10 @@ $decrypted = $cipher->decrypt($ciphertext, $key);
 
 ## Avoid these Ciphers if Possible
 
-* `JcryptCipher3Des`
-* `JcryptCipherBlowfish`
-* `JcryptCipherMcrypt`
-* `JcryptCipherRijndael256`
+* `JCryptCipher3Des`
+* `JCryptCipherBlowfish`
+* `JCryptCipherMcrypt`
+* `JCryptCipherRijndael256`
 
 All of these ciphers are vulnerable to something called a [chosen-ciphertext attack](https://en.wikipedia.org/wiki/Chosen-ciphertext_attack). The only provable way to prevent chosen-ciphertext attacks is to [use authenticated encryption](https://paragonie.com/blog/2015/05/using-encryption-and-authentication-correctly), preferrably in an [Encrypt-then-MAC construction](http://www.thoughtcrime.org/blog/the-cryptographic-doom-principle/).
 

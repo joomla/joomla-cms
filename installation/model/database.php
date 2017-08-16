@@ -218,7 +218,14 @@ class InstallationModelDatabase extends JModelBase
 					if (!JFile::write($remoteDbPath, ''))
 					{
 						// Request to create the file manually
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+						JFactory::getApplication()->enqueueMessage(
+							JText::sprintf(
+								'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+								$remoteDbFile,
+								'installation'
+							),
+							'error'
+						);
 
 						JFactory::getSession()->set('remoteDbFileUnwritable', true);
 
@@ -229,7 +236,14 @@ class InstallationModelDatabase extends JModelBase
 					JFactory::getSession()->set('remoteDbFileWrittenByJoomla', true);
 
 					// Request to delete that file
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
 
 					return false;
 				}
@@ -239,7 +253,14 @@ class InstallationModelDatabase extends JModelBase
 					// Add the general message
 					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 					
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
 
 					return false;
 				}
@@ -249,7 +270,14 @@ class InstallationModelDatabase extends JModelBase
 					// Add the general message
 					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
 
 					return false;
 				}
