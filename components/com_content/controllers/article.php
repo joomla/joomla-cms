@@ -157,34 +157,65 @@ class ContentControllerArticle extends JControllerForm
 	 * @since   1.6
 	 */
 	public function cancel($key = 'a_id')
-	{
-		parent::cancel($key);
+ 	{
+ 		parent::cancel($key);
 		
 		$app       = JFactory::getApplication();
 
 		// Load the parameters.
 		$params   = $app->getParams();
-		$menuitem = (int) $params->get('redirect_menuitem');
 
-		if ($menuitem > 0)
+		$customCancelRedir = (bool) $params->get('custom_cancel_redirect');
+		
+		if ($customCancelRedir)
 		{
-			$lang = '';
-
-			if (JLanguageMultilang::isEnabled())
-			{
-				$item = $app->getMenu()->getItem($menuitem);
-				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+			$cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
+			if ($cancelMenuitemId > 0)
+			{				
+				$item = $app->getMenu()->getItem($cancelMenuitemId);
+				
+				$lang = '';
+				if (JLanguageMultilang::isEnabled())
+				{
+					$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				}
+				
+				// Redirect to the user specified return page.
+				$redirlink = $item->link . $lang . '&Itemid=' . $cancelMenuitemId;
 			}
-
-			// Redirect to the user specified return page.
-			$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
+			else
+			{
+				// Redirect to the same article submission form (clean form).
+				$redirlink = $app->getMenu()->getActive()->link . '&Itemid=' . $app->getMenu()->getActive()->id;
+			}
 		}
 		else
 		{
-			// Redirect to the return page.
-			$this->setRedirect(JRoute::_($this->getReturnPage(), false));
+			$menuitemId = (int) $params->get('redirect_menuitem');
+			$lang = '';
+
+			if ($menuitemId > 0)
+			{
+				$lang = '';
+				$item = $app->getMenu()->getItem($menuitemId);
+				
+				if (JLanguageMultilang::isEnabled())
+				{
+					$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				}
+
+				// Redirect to the general (redirect_menuitem) user specified return page.
+				$redirlink = $item->link . $lang . '&Itemid=' . $menuitemId;
+			}
+			else
+			{
+				// Redirect to the return page.
+				$redirlink = $this->getReturnPage();
+			}
 		}
-	}
+		
+		$this->setRedirect(JRoute::_($redirlink, false));
+ 	}
 
 	/**
 	 * Method to edit an existing record.
