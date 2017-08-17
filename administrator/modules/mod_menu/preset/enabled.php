@@ -322,7 +322,6 @@ if ($im || $mm || $pm || $tm || $lm)
 
 	if ($im)
 	{
-
 		$this->addChild(new MenuNode(\JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer'), $im);
 
 		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer'));
