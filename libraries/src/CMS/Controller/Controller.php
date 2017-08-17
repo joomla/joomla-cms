@@ -587,7 +587,7 @@ class Controller implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  View|null  View object on success; null or error result on failure.
+	 * @return  AbstractView|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -728,17 +728,9 @@ class Controller implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
-			// We need this ugly code to deal with non-namespaced MVC code
-			if ($this->factory instanceof LegacyFactory)
-			{
-				$prefix = $this->model_prefix;
-			}
-			else
-			{
-				$prefix = $this->app->getName();
-			}
+			$prefix = $this->model_prefix;
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
@@ -842,17 +834,9 @@ class Controller implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
-			// We need this ugly code to deal with non-namespaced MVC code
-			if ($this->factory instanceof LegacyFactory)
-			{
-				$prefix = $this->getName() . 'View';
-			}
-			else
-			{
-				$prefix = $this->app->getName();
-			}
+			$prefix = $this->getName() . 'View';
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))

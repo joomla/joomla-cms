@@ -22,12 +22,6 @@ JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/he
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
-
-
-// Special case for the search field tooltip.
-$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
-JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->input->getCmd('function', 'jSelectCategory');

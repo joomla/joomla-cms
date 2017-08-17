@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.imagetools.Plugin","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.Tools","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","global!tinymce.util.Tools.resolve","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","tinymce.core.dom.DOMUtils","tinymce.core.ui.Container","tinymce.core.ui.Factory","tinymce.core.ui.Form","tinymce.plugins.imagetools.ui.ImagePanel","tinymce.plugins.imagetools.core.UndoStack","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Arr","ephox.katamari.api.Fun","tinymce.core.geom.Rect","tinymce.core.ui.Control","tinymce.core.ui.DragHelper","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK","global!Object"]
+["tinymce.plugins.imagetools.Plugin","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.Tools","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","global!tinymce.util.Tools.resolve","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","tinymce.core.dom.DOMUtils","tinymce.core.ui.Container","tinymce.core.ui.Form","tinymce.plugins.imagetools.ui.ImagePanel","tinymce.plugins.imagetools.core.UndoStack","global!Math","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Arr","ephox.katamari.api.Fun","tinymce.core.geom.Rect","tinymce.core.ui.Control","tinymce.core.ui.DragHelper","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK","global!Object"]
 jsc*/
 /* eslint-disable */
 /* jshint ignore:start */
@@ -2419,26 +2419,6 @@ define(
  */
 
 define(
-  'tinymce.core.ui.Factory',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.ui.Factory');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
   'tinymce.core.ui.Form',
   [
     'global!tinymce.util.Tools.resolve'
@@ -3134,6 +3114,7 @@ define(
   }
 );
 
+defineGlobal("global!Math", Math);
 /**
  * Dialog.js
  *
@@ -3151,16 +3132,16 @@ define(
     'ephox.imagetools.api.ImageTransformations',
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.ui.Container',
-    'tinymce.core.ui.Factory',
     'tinymce.core.ui.Form',
     'tinymce.core.util.Promise',
     'tinymce.core.util.Tools',
     'tinymce.plugins.imagetools.ui.ImagePanel',
-    'tinymce.plugins.imagetools.core.UndoStack'
+    'tinymce.plugins.imagetools.core.UndoStack',
+    'global!Math'
   ],
   function (
-    BlobConversions, ImageTransformations, DOMUtils, Container, Factory, Form, Promise,
-    Tools, ImagePanel, UndoStack
+    BlobConversions, ImageTransformations, DOMUtils, Container, Form, Promise,
+    Tools, ImagePanel, UndoStack, Math
   ) {
     function createState(blob) {
       return {
@@ -3179,7 +3160,7 @@ define(
       Tools.each(states, destroyState);
     }
 
-    function open(currentState, resolve, reject) {
+    function open(editor, currentState, resolve, reject) {
       var win, undoStack = new UndoStack(), mainPanel, filtersPanel, tempState,
         cropPanel, resizePanel, flipRotatePanel, imagePanel, sidePanel, mainViewContainer,
         invertPanel, brightnessPanel, huePanel, saturatePanel, contrastPanel, grayscalePanel,
@@ -3302,10 +3283,26 @@ define(
         updateButtonUndoStates();
       }
 
+      function waitForTempState(times, applyCall) {
+        if (tempState) {
+          applyCall();
+        } else {
+          setTimeout(function () {
+            if (times-- > 0) {
+              waitForTempState(times, applyCall);
+            } else {
+              editor.windowManager.alert('Error: failed to apply image operation.');
+            }
+          }, 10);
+        }
+      }
+
       function applyTempState() {
         if (tempState) {
           addBlobState(tempState.blob);
           cancel();
+        } else {
+          waitForTempState(100, applyTempState);
         }
       }
 
@@ -3604,7 +3601,7 @@ define(
         exposurePanel
       ];
 
-      win = Factory.create('window', {
+      win = editor.windowManager.open({
         layout: 'flex',
         direction: 'column',
         align: 'stretch',
@@ -3617,8 +3614,6 @@ define(
           { text: 'Cancel', onclick: 'close' }
         ]
       });
-
-      win.renderTo(document.body).reflow();
 
       win.on('close', function () {
         reject();
@@ -3643,10 +3638,10 @@ define(
       imagePanel.on('crop', crop);
     }
 
-    function edit(imageResult) {
+    function edit(editor, imageResult) {
       return new Promise(function (resolve, reject) {
         return imageResult.toBlob().then(function (blob) {
-          open(createState(blob), resolve, reject);
+          open(editor, createState(blob), resolve, reject);
         });
       });
     }
@@ -3878,7 +3873,7 @@ define(
         };
 
         var openDialog = function (imageResult) {
-          return Dialog.edit(imageResult).then(handleDialogBlob).
+          return Dialog.edit(editor, imageResult).then(handleDialogBlob).
             then(BlobConversions.blobToImageResult).
             then(function (imageResult) {
               return updateSelectedImage(imageResult, true);

@@ -1,4 +1,4 @@
-// 4.6.4 (2017-06-13)
+// 4.6.5 (2017-08-02)
 (function () {
 
 var defs = {}; // id -> {dependencies, definition, instance (possibly undefined)}
@@ -82,10 +82,136 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.core.api.Main","tinymce.core.api.Tinymce","tinymce.core.Register","tinymce.core.geom.Rect","tinymce.core.util.Promise","tinymce.core.util.Delay","tinymce.core.Env","tinymce.core.dom.EventUtils","tinymce.core.dom.Sizzle","tinymce.core.util.Tools","tinymce.core.dom.DomQuery","tinymce.core.html.Styles","tinymce.core.dom.TreeWalker","tinymce.core.html.Entities","tinymce.core.dom.DOMUtils","tinymce.core.dom.ScriptLoader","tinymce.core.AddOnManager","tinymce.core.dom.RangeUtils","tinymce.core.html.Node","tinymce.core.html.Schema","tinymce.core.html.SaxParser","tinymce.core.html.DomParser","tinymce.core.html.Writer","tinymce.core.html.Serializer","tinymce.core.dom.Serializer","tinymce.core.util.VK","tinymce.core.dom.ControlSelection","tinymce.core.dom.BookmarkManager","tinymce.core.dom.Selection","tinymce.core.Formatter","tinymce.core.UndoManager","tinymce.core.EditorCommands","tinymce.core.util.URI","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.core.util.Observable","tinymce.core.WindowManager","tinymce.core.NotificationManager","tinymce.core.EditorObservable","tinymce.core.Shortcuts","tinymce.core.Editor","tinymce.core.util.I18n","tinymce.core.FocusManager","tinymce.core.EditorManager","tinymce.core.util.XHR","tinymce.core.util.JSON","tinymce.core.util.JSONRequest","tinymce.core.util.JSONP","tinymce.core.util.LocalStorage","tinymce.core.api.Compat","tinymce.core.util.Color","tinymce.core.ui.Api","tinymce.core.util.Arr","tinymce.core.dom.Range","tinymce.core.dom.StyleSheetLoader","tinymce.core.dom.NodeType","tinymce.core.caret.CaretContainer","tinymce.core.text.Zwsp","ephox.katamari.api.Fun","tinymce.core.dom.RangePoint","tinymce.core.caret.CaretBookmark","tinymce.core.caret.CaretPosition","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.Element","tinymce.core.dom.ScrollIntoView","tinymce.core.dom.TridentSelection","tinymce.core.selection.FragmentReader","tinymce.core.dom.ElementUtils","tinymce.core.util.Fun","tinymce.core.fmt.Preview","tinymce.core.fmt.Hooks","tinymce.core.undo.Levels","tinymce.core.delete.DeleteCommands","tinymce.core.InsertContent","global!document","tinymce.core.ui.Window","tinymce.core.ui.MessageBox","tinymce.core.ui.Notification","tinymce.core.EditorSettings","tinymce.core.init.Render","tinymce.core.Mode","tinymce.core.ui.Sidebar","tinymce.core.util.Uuid","tinymce.core.ErrorReporter","tinymce.core.LegacyInput","tinymce.core.ui.Selector","tinymce.core.ui.Collection","tinymce.core.ui.ReflowQueue","tinymce.core.ui.Control","tinymce.core.ui.Factory","tinymce.core.ui.KeyboardNavigation","tinymce.core.ui.Container","tinymce.core.ui.DragHelper","tinymce.core.ui.Scrollable","tinymce.core.ui.Panel","tinymce.core.ui.Movable","tinymce.core.ui.Resizable","tinymce.core.ui.FloatPanel","tinymce.core.ui.Tooltip","tinymce.core.ui.Widget","tinymce.core.ui.Progress","tinymce.core.ui.Layout","tinymce.core.ui.AbsoluteLayout","tinymce.core.ui.Button","tinymce.core.ui.ButtonGroup","tinymce.core.ui.Checkbox","tinymce.core.ui.ComboBox","tinymce.core.ui.ColorBox","tinymce.core.ui.PanelButton","tinymce.core.ui.ColorButton","tinymce.core.ui.ColorPicker","tinymce.core.ui.Path","tinymce.core.ui.ElementPath","tinymce.core.ui.FormItem","tinymce.core.ui.Form","tinymce.core.ui.FieldSet","tinymce.core.ui.FilePicker","tinymce.core.ui.FitLayout","tinymce.core.ui.FlexLayout","tinymce.core.ui.FlowLayout","tinymce.core.ui.FormatControls","tinymce.core.ui.GridLayout","tinymce.core.ui.Iframe","tinymce.core.ui.InfoBox","tinymce.core.ui.Label","tinymce.core.ui.Toolbar","tinymce.core.ui.MenuBar","tinymce.core.ui.MenuButton","tinymce.core.ui.MenuItem","tinymce.core.ui.Throbber","tinymce.core.ui.Menu","tinymce.core.ui.ListBox","tinymce.core.ui.Radio","tinymce.core.ui.ResizeHandle","tinymce.core.ui.SelectBox","tinymce.core.ui.Slider","tinymce.core.ui.Spacer","tinymce.core.ui.SplitButton","tinymce.core.ui.StackLayout","tinymce.core.ui.TabPanel","tinymce.core.ui.TextBox","ephox.katamari.api.Arr","global!Array","global!Error","ephox.katamari.api.Future","ephox.katamari.api.Futures","ephox.katamari.api.Result","tinymce.core.geom.ClientRect","tinymce.core.caret.CaretCandidate","tinymce.core.text.ExtendingChar","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.search.Selectors","global!console","ephox.sugar.api.dom.Insert","ephox.sugar.api.dom.Replication","ephox.sugar.api.node.Fragment","ephox.sugar.api.node.Node","tinymce.core.dom.ElementType","tinymce.core.dom.Parents","tinymce.core.selection.SelectionUtils","tinymce.core.undo.Fragments","tinymce.core.delete.BlockBoundaryDelete","tinymce.core.delete.BlockRangeDelete","tinymce.core.delete.CefDelete","tinymce.core.delete.InlineBoundaryDelete","tinymce.core.caret.CaretWalker","tinymce.core.dom.RangeNormalizer","tinymce.core.InsertList","tinymce.core.data.ObservableObject","tinymce.core.ui.DomUtils","tinymce.core.ui.BoxUtils","tinymce.core.ui.ClassList","global!window","tinymce.core.init.Init","tinymce.core.PluginManager","tinymce.core.ThemeManager","tinymce.core.content.LinkTargets","tinymce.core.fmt.FontInfo","ephox.katamari.api.Option","global!String","ephox.katamari.api.LazyValue","ephox.katamari.async.Bounce","ephox.katamari.async.AsyncValues","ephox.sand.util.Global","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.search.Traverse","ephox.sugar.api.properties.Attr","ephox.sugar.api.dom.InsertAll","ephox.sugar.api.dom.Remove","ephox.katamari.api.Options","tinymce.core.undo.Diff","tinymce.core.delete.BlockBoundary","tinymce.core.delete.MergeBlocks","tinymce.core.delete.DeleteUtils","tinymce.core.caret.CaretUtils","tinymce.core.delete.CefDeleteAction","tinymce.core.delete.DeleteElement","tinymce.core.caret.CaretFinder","tinymce.core.keyboard.BoundaryCaret","tinymce.core.keyboard.BoundaryLocation","tinymce.core.keyboard.BoundarySelection","tinymce.core.keyboard.InlineUtils","tinymce.core.data.Binding","tinymce.core.init.InitContentBody","global!Object","global!setTimeout","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.api.Type","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Obj","ephox.sugar.api.search.PredicateFind","tinymce.core.dom.Empty","ephox.katamari.api.Adt","tinymce.core.text.Bidi","tinymce.core.caret.CaretContainerInline","tinymce.core.caret.CaretContainerRemove","tinymce.core.util.LazyEvaluator","ephox.katamari.api.Cell","tinymce.core.caret.CaretContainerInput","tinymce.core.EditorUpload","tinymce.core.ForceBlocks","tinymce.core.keyboard.KeyboardOverrides","tinymce.core.NodeChange","tinymce.core.SelectionOverrides","tinymce.core.util.Quirks","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sugar.api.node.Body","ephox.sugar.impl.ClosestOrAncestor","ephox.sugar.api.search.SelectorExists","tinymce.core.file.Uploader","tinymce.core.file.ImageScanner","tinymce.core.file.BlobCache","tinymce.core.file.UploadStatus","tinymce.core.keyboard.ArrowKeys","tinymce.core.keyboard.DeleteBackspaceKeys","tinymce.core.keyboard.EnterKey","tinymce.core.keyboard.SpaceKey","tinymce.core.caret.FakeCaret","tinymce.core.caret.LineUtils","tinymce.core.DragDropOverrides","tinymce.core.EditorView","tinymce.core.keyboard.CefUtils","tinymce.core.dom.NodePath","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.katamari.util.BagUtils","ephox.sugar.api.search.SelectorFind","tinymce.core.file.Conversions","global!URL","tinymce.core.keyboard.CefNavigation","tinymce.core.keyboard.MatchKeys","tinymce.core.keyboard.InsertSpace","tinymce.core.dom.Dimensions","tinymce.core.dom.MousePosition","ephox.sugar.api.properties.Css","tinymce.core.caret.LineWalker","ephox.katamari.api.Merger","ephox.sugar.impl.Style"]
+["tinymce.core.api.Main","ephox.katamari.api.Fun","tinymce.core.api.Tinymce","global!Array","global!Error","tinymce.core.api.Formatter","tinymce.core.geom.Rect","tinymce.core.util.Promise","tinymce.core.util.Delay","tinymce.core.Env","tinymce.core.dom.EventUtils","tinymce.core.dom.Sizzle","tinymce.core.util.Tools","tinymce.core.dom.DomQuery","tinymce.core.html.Styles","tinymce.core.dom.TreeWalker","tinymce.core.html.Entities","tinymce.core.dom.DOMUtils","tinymce.core.dom.ScriptLoader","tinymce.core.AddOnManager","tinymce.core.dom.RangeUtils","tinymce.core.html.Node","tinymce.core.html.Schema","tinymce.core.html.SaxParser","tinymce.core.html.DomParser","tinymce.core.html.Writer","tinymce.core.html.Serializer","tinymce.core.dom.Serializer","tinymce.core.util.VK","tinymce.core.dom.ControlSelection","tinymce.core.dom.BookmarkManager","tinymce.core.dom.Selection","tinymce.core.UndoManager","tinymce.core.EditorCommands","tinymce.core.util.URI","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.core.util.Observable","tinymce.core.WindowManager","tinymce.core.NotificationManager","tinymce.core.EditorObservable","tinymce.core.Shortcuts","tinymce.core.Editor","tinymce.core.util.I18n","tinymce.core.FocusManager","tinymce.core.EditorManager","tinymce.core.util.XHR","tinymce.core.util.JSON","tinymce.core.util.JSONRequest","tinymce.core.util.JSONP","tinymce.core.util.LocalStorage","tinymce.core.util.Color","tinymce.core.ui.Api","ephox.katamari.api.Cell","tinymce.core.fmt.ApplyFormat","tinymce.core.fmt.FormatChanged","tinymce.core.fmt.FormatRegistry","tinymce.core.fmt.MatchFormat","tinymce.core.fmt.Preview","tinymce.core.fmt.RemoveFormat","tinymce.core.fmt.ToggleFormat","tinymce.core.keyboard.FormatShortcuts","tinymce.core.util.Arr","tinymce.core.dom.Range","tinymce.core.dom.StyleSheetLoader","tinymce.core.dom.NodeType","tinymce.core.caret.CaretContainer","tinymce.core.text.Zwsp","ephox.sugar.api.node.Element","ephox.sugar.api.search.Selectors","tinymce.core.dom.RangePoint","tinymce.core.caret.CaretBookmark","tinymce.core.caret.CaretPosition","ephox.sugar.api.dom.Compare","tinymce.core.dom.ScrollIntoView","tinymce.core.dom.TridentSelection","tinymce.core.selection.FragmentReader","tinymce.core.undo.Levels","tinymce.core.delete.DeleteCommands","tinymce.core.InsertContent","global!document","tinymce.core.ui.Window","tinymce.core.ui.MessageBox","tinymce.core.ui.Notification","tinymce.core.EditorSettings","tinymce.core.init.Render","tinymce.core.Mode","tinymce.core.ui.Sidebar","tinymce.core.util.Uuid","tinymce.core.ErrorReporter","tinymce.core.LegacyInput","tinymce.core.ui.Selector","tinymce.core.ui.Collection","tinymce.core.ui.ReflowQueue","tinymce.core.ui.Control","tinymce.core.ui.Factory","tinymce.core.ui.KeyboardNavigation","tinymce.core.ui.Container","tinymce.core.ui.DragHelper","tinymce.core.ui.Scrollable","tinymce.core.ui.Panel","tinymce.core.ui.Movable","tinymce.core.ui.Resizable","tinymce.core.ui.FloatPanel","tinymce.core.ui.Tooltip","tinymce.core.ui.Widget","tinymce.core.ui.Progress","tinymce.core.ui.Layout","tinymce.core.ui.AbsoluteLayout","tinymce.core.ui.Button","tinymce.core.ui.ButtonGroup","tinymce.core.ui.Checkbox","tinymce.core.ui.ComboBox","tinymce.core.ui.ColorBox","tinymce.core.ui.PanelButton","tinymce.core.ui.ColorButton","tinymce.core.ui.ColorPicker","tinymce.core.ui.Path","tinymce.core.ui.ElementPath","tinymce.core.ui.FormItem","tinymce.core.ui.Form","tinymce.core.ui.FieldSet","tinymce.core.ui.FilePicker","tinymce.core.ui.FitLayout","tinymce.core.ui.FlexLayout","tinymce.core.ui.FlowLayout","tinymce.core.ui.FormatControls","tinymce.core.ui.GridLayout","tinymce.core.ui.Iframe","tinymce.core.ui.InfoBox","tinymce.core.ui.Label","tinymce.core.ui.Toolbar","tinymce.core.ui.MenuBar","tinymce.core.ui.MenuButton","tinymce.core.ui.MenuItem","tinymce.core.ui.Throbber","tinymce.core.ui.Menu","tinymce.core.ui.ListBox","tinymce.core.ui.Radio","tinymce.core.ui.ResizeHandle","tinymce.core.ui.SelectBox","tinymce.core.ui.Slider","tinymce.core.ui.Spacer","tinymce.core.ui.SplitButton","tinymce.core.ui.StackLayout","tinymce.core.ui.TabPanel","tinymce.core.ui.TextBox","tinymce.core.ui.DropZone","tinymce.core.ui.BrowseButton","ephox.katamari.api.Arr","ephox.katamari.api.Future","ephox.katamari.api.Futures","ephox.katamari.api.Result","tinymce.core.util.Fun","tinymce.core.caret.CaretCandidate","tinymce.core.geom.ClientRect","tinymce.core.text.ExtendingChar","tinymce.core.dom.ElementUtils","tinymce.core.dom.RangeNormalizer","tinymce.core.fmt.CaretFormat","tinymce.core.fmt.ExpandRange","tinymce.core.fmt.FormatUtils","tinymce.core.fmt.Hooks","tinymce.core.fmt.DefaultFormats","global!console","ephox.katamari.api.Option","ephox.sugar.api.node.NodeTypes","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.dom.Insert","ephox.sugar.api.dom.Replication","ephox.sugar.api.node.Fragment","ephox.sugar.api.node.Node","tinymce.core.dom.ElementType","tinymce.core.dom.Parents","tinymce.core.selection.SelectionUtils","tinymce.core.undo.Fragments","tinymce.core.delete.BlockBoundaryDelete","tinymce.core.delete.BlockRangeDelete","tinymce.core.delete.CefDelete","tinymce.core.delete.DeleteUtils","tinymce.core.delete.InlineBoundaryDelete","tinymce.core.caret.CaretWalker","tinymce.core.InsertList","tinymce.core.data.ObservableObject","tinymce.core.ui.DomUtils","tinymce.core.ui.BoxUtils","tinymce.core.ui.ClassList","ephox.katamari.api.Type","global!window","tinymce.core.init.Init","tinymce.core.PluginManager","tinymce.core.ThemeManager","tinymce.core.content.LinkTargets","ephox.sugar.api.search.SelectorFind","tinymce.core.fmt.FontInfo","global!RegExp","global!Object","global!String","ephox.katamari.api.LazyValue","ephox.katamari.async.Bounce","ephox.katamari.async.AsyncValues","tinymce.core.caret.CaretFinder","tinymce.core.caret.CaretUtils","tinymce.core.dom.PaddingBr","ephox.sand.util.Global","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.search.Traverse","ephox.sugar.api.properties.Attr","ephox.sugar.api.dom.InsertAll","ephox.sugar.api.dom.Remove","ephox.katamari.api.Options","tinymce.core.undo.Diff","tinymce.core.delete.BlockBoundary","tinymce.core.delete.MergeBlocks","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.SelectorFilter","tinymce.core.delete.CefDeleteAction","tinymce.core.delete.DeleteElement","tinymce.core.keyboard.BoundaryCaret","tinymce.core.keyboard.BoundaryLocation","tinymce.core.keyboard.BoundarySelection","tinymce.core.keyboard.InlineUtils","tinymce.core.data.Binding","tinymce.core.init.InitContentBody","ephox.sugar.impl.ClosestOrAncestor","global!setTimeout","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Obj","ephox.sugar.api.node.Body","tinymce.core.dom.Empty","ephox.katamari.api.Adt","tinymce.core.caret.CaretContainerInline","tinymce.core.caret.CaretContainerRemove","tinymce.core.text.Bidi","tinymce.core.util.LazyEvaluator","tinymce.core.caret.CaretContainerInput","tinymce.core.EditorUpload","tinymce.core.ForceBlocks","tinymce.core.keyboard.KeyboardOverrides","tinymce.core.NodeChange","tinymce.core.SelectionOverrides","tinymce.core.util.Quirks","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.sugar.api.search.SelectorExists","tinymce.core.file.Uploader","tinymce.core.file.ImageScanner","tinymce.core.file.BlobCache","tinymce.core.file.UploadStatus","tinymce.core.keyboard.ArrowKeys","tinymce.core.keyboard.DeleteBackspaceKeys","tinymce.core.keyboard.EnterKey","tinymce.core.keyboard.SpaceKey","tinymce.core.caret.FakeCaret","tinymce.core.caret.LineUtils","tinymce.core.DragDropOverrides","tinymce.core.EditorView","tinymce.core.keyboard.CefUtils","tinymce.core.dom.NodePath","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","tinymce.core.file.Conversions","global!URL","tinymce.core.keyboard.CefNavigation","tinymce.core.keyboard.MatchKeys","tinymce.core.keyboard.InsertSpace","tinymce.core.dom.Dimensions","tinymce.core.dom.MousePosition","ephox.sugar.api.properties.Css","tinymce.core.caret.LineWalker","ephox.katamari.api.Merger","ephox.sugar.impl.Style"]
 jsc*/
+defineGlobal("global!Array", Array);
+defineGlobal("global!Error", Error);
+define(
+  'ephox.katamari.api.Fun',
+
+  [
+    'global!Array',
+    'global!Error'
+  ],
+
+  function (Array, Error) {
+
+    var noop = function () { };
+
+    var compose = function (fa, fb) {
+      return function () {
+        return fa(fb.apply(null, arguments));
+      };
+    };
+
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
+
+    var identity = function (x) {
+      return x;
+    };
+
+    var tripleEquals = function(a, b) {
+      return a === b;
+    };
+
+    // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
+    var curry = function (f) {
+      // equivalent to arguments.slice(1)
+      // starting at 1 because 0 is the f, makes things tricky.
+      // Pay attention to what variable is where, and the -1 magic.
+      // thankfully, we have tests for this.
+      var args = new Array(arguments.length - 1);
+      for (var i = 1; i < arguments.length; i++) args[i-1] = arguments[i];
+
+      return function () {
+        var newArgs = new Array(arguments.length);
+        for (var j = 0; j < newArgs.length; j++) newArgs[j] = arguments[j];
+
+        var all = args.concat(newArgs);
+        return f.apply(null, all);
+      };
+    };
+
+    var not = function (f) {
+      return function () {
+        return !f.apply(null, arguments);
+      };
+    };
+
+    var die = function (msg) {
+      return function () {
+        throw new Error(msg);
+      };
+    };
+
+    var apply = function (f) {
+      return f();
+    };
+
+    var call = function(f) {
+      f();
+    };
+
+    var never = constant(false);
+    var always = constant(true);
+    
+
+    return {
+      noop: noop,
+      compose: compose,
+      constant: constant,
+      identity: identity,
+      tripleEquals: tripleEquals,
+      curry: curry,
+      not: not,
+      die: die,
+      apply: apply,
+      call: call,
+      never: never,
+      always: always
+    };
+  }
+);
+
+define(
+  'ephox.katamari.api.Cell',
+
+  [
+  ],
+
+  function () {
+    var Cell = function (initial) {
+      var value = initial;
+
+      var get = function () {
+        return value;
+      };
+
+      var set = function (v) {
+        value = v;
+      };
+
+      var clone = function () {
+        return Cell(get());
+      };
+
+      return {
+        get: get,
+        set: set,
+        clone: clone
+      };
+    };
+
+    return Cell;
+  }
+);
+
 /**
- * Rect.js
+ * NodeType.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -95,214 +221,117 @@ jsc*/
  */
 
 /**
- * Contains various tools for rect/position calculation.
+ * Contains various node validation functions.
  *
- * @class tinymce.geom.Rect
+ * @private
+ * @class tinymce.dom.NodeType
  */
 define(
-  'tinymce.core.geom.Rect',
+  'tinymce.core.dom.NodeType',
   [
   ],
   function () {
-    "use strict";
-
-    var min = Math.min, max = Math.max, round = Math.round;
-
-    /**
-     * Returns the rect positioned based on the relative position name
-     * to the target rect.
-     *
-     * @method relativePosition
-     * @param {Rect} rect Source rect to modify into a new rect.
-     * @param {Rect} targetRect Rect to move relative to based on the rel option.
-     * @param {String} rel Relative position. For example: tr-bl.
-     */
-    function relativePosition(rect, targetRect, rel) {
-      var x, y, w, h, targetW, targetH;
-
-      x = targetRect.x;
-      y = targetRect.y;
-      w = rect.w;
-      h = rect.h;
-      targetW = targetRect.w;
-      targetH = targetRect.h;
-
-      rel = (rel || '').split('');
-
-      if (rel[0] === 'b') {
-        y += targetH;
-      }
-
-      if (rel[1] === 'r') {
-        x += targetW;
-      }
-
-      if (rel[0] === 'c') {
-        y += round(targetH / 2);
-      }
-
-      if (rel[1] === 'c') {
-        x += round(targetW / 2);
-      }
-
-      if (rel[3] === 'b') {
-        y -= h;
-      }
-
-      if (rel[4] === 'r') {
-        x -= w;
-      }
-
-      if (rel[3] === 'c') {
-        y -= round(h / 2);
-      }
-
-      if (rel[4] === 'c') {
-        x -= round(w / 2);
-      }
-
-      return create(x, y, w, h);
+    function isNodeType(type) {
+      return function (node) {
+        return !!node && node.nodeType == type;
+      };
     }
 
-    /**
-     * Tests various positions to get the most suitable one.
-     *
-     * @method findBestRelativePosition
-     * @param {Rect} rect Rect to use as source.
-     * @param {Rect} targetRect Rect to move relative to.
-     * @param {Rect} constrainRect Rect to constrain within.
-     * @param {Array} rels Array of relative positions to test against.
-     */
-    function findBestRelativePosition(rect, targetRect, constrainRect, rels) {
-      var pos, i;
+    var isElement = isNodeType(1);
 
-      for (i = 0; i < rels.length; i++) {
-        pos = relativePosition(rect, targetRect, rels[i]);
+    function matchNodeNames(names) {
+      names = names.toLowerCase().split(' ');
 
-        if (pos.x >= constrainRect.x && pos.x + pos.w <= constrainRect.w + constrainRect.x &&
-          pos.y >= constrainRect.y && pos.y + pos.h <= constrainRect.h + constrainRect.y) {
-          return rels[i];
+      return function (node) {
+        var i, name;
+
+        if (node && node.nodeType) {
+          name = node.nodeName.toLowerCase();
+
+          for (i = 0; i < names.length; i++) {
+            if (name === names[i]) {
+              return true;
+            }
+          }
         }
-      }
 
-      return null;
+        return false;
+      };
     }
 
-    /**
-     * Inflates the rect in all directions.
-     *
-     * @method inflate
-     * @param {Rect} rect Rect to expand.
-     * @param {Number} w Relative width to expand by.
-     * @param {Number} h Relative height to expand by.
-     * @return {Rect} New expanded rect.
-     */
-    function inflate(rect, w, h) {
-      return create(rect.x - w, rect.y - h, rect.w + w * 2, rect.h + h * 2);
+    function matchStyleValues(name, values) {
+      values = values.toLowerCase().split(' ');
+
+      return function (node) {
+        var i, cssValue;
+
+        if (isElement(node)) {
+          for (i = 0; i < values.length; i++) {
+            cssValue = node.ownerDocument.defaultView.getComputedStyle(node, null).getPropertyValue(name);
+            if (cssValue === values[i]) {
+              return true;
+            }
+          }
+        }
+
+        return false;
+      };
     }
 
-    /**
-     * Returns the intersection of the specified rectangles.
-     *
-     * @method intersect
-     * @param {Rect} rect The first rectangle to compare.
-     * @param {Rect} cropRect The second rectangle to compare.
-     * @return {Rect} The intersection of the two rectangles or null if they don't intersect.
-     */
-    function intersect(rect, cropRect) {
-      var x1, y1, x2, y2;
-
-      x1 = max(rect.x, cropRect.x);
-      y1 = max(rect.y, cropRect.y);
-      x2 = min(rect.x + rect.w, cropRect.x + cropRect.w);
-      y2 = min(rect.y + rect.h, cropRect.y + cropRect.h);
-
-      if (x2 - x1 < 0 || y2 - y1 < 0) {
-        return null;
-      }
-
-      return create(x1, y1, x2 - x1, y2 - y1);
+    function hasPropValue(propName, propValue) {
+      return function (node) {
+        return isElement(node) && node[propName] === propValue;
+      };
     }
 
-    /**
-     * Returns a rect clamped within the specified clamp rect. This forces the
-     * rect to be inside the clamp rect.
-     *
-     * @method clamp
-     * @param {Rect} rect Rectangle to force within clamp rect.
-     * @param {Rect} clampRect Rectable to force within.
-     * @param {Boolean} fixedSize True/false if size should be fixed.
-     * @return {Rect} Clamped rect.
-     */
-    function clamp(rect, clampRect, fixedSize) {
-      var underflowX1, underflowY1, overflowX2, overflowY2,
-        x1, y1, x2, y2, cx2, cy2;
-
-      x1 = rect.x;
-      y1 = rect.y;
-      x2 = rect.x + rect.w;
-      y2 = rect.y + rect.h;
-      cx2 = clampRect.x + clampRect.w;
-      cy2 = clampRect.y + clampRect.h;
-
-      underflowX1 = max(0, clampRect.x - x1);
-      underflowY1 = max(0, clampRect.y - y1);
-      overflowX2 = max(0, x2 - cx2);
-      overflowY2 = max(0, y2 - cy2);
-
-      x1 += underflowX1;
-      y1 += underflowY1;
-
-      if (fixedSize) {
-        x2 += underflowX1;
-        y2 += underflowY1;
-        x1 -= overflowX2;
-        y1 -= overflowY2;
-      }
-
-      x2 -= overflowX2;
-      y2 -= overflowY2;
-
-      return create(x1, y1, x2 - x1, y2 - y1);
+    function hasAttribute(attrName, attrValue) {
+      return function (node) {
+        return isElement(node) && node.hasAttribute(attrName);
+      };
     }
 
-    /**
-     * Creates a new rectangle object.
-     *
-     * @method create
-     * @param {Number} x Rectangle x location.
-     * @param {Number} y Rectangle y location.
-     * @param {Number} w Rectangle width.
-     * @param {Number} h Rectangle height.
-     * @return {Rect} New rectangle object.
-     */
-    function create(x, y, w, h) {
-      return { x: x, y: y, w: w, h: h };
+    function hasAttributeValue(attrName, attrValue) {
+      return function (node) {
+        return isElement(node) && node.getAttribute(attrName) === attrValue;
+      };
     }
 
-    /**
-     * Creates a new rectangle object form a clientRects object.
-     *
-     * @method fromClientRect
-     * @param {ClientRect} clientRect DOM ClientRect object.
-     * @return {Rect} New rectangle object.
-     */
-    function fromClientRect(clientRect) {
-      return create(clientRect.left, clientRect.top, clientRect.width, clientRect.height);
+    function isBogus(node) {
+      return isElement(node) && node.hasAttribute('data-mce-bogus');
+    }
+
+    function hasContentEditableState(value) {
+      return function (node) {
+        if (isElement(node)) {
+          if (node.contentEditable === value) {
+            return true;
+          }
+
+          if (node.getAttribute('data-mce-contenteditable') === value) {
+            return true;
+          }
+        }
+
+        return false;
+      };
     }
 
     return {
-      inflate: inflate,
-      relativePosition: relativePosition,
-      findBestRelativePosition: findBestRelativePosition,
-      intersect: intersect,
-      clamp: clamp,
-      create: create,
-      fromClientRect: fromClientRect
+      isText: isNodeType(3),
+      isElement: isElement,
+      isComment: isNodeType(8),
+      isBr: matchNodeNames('br'),
+      isContentEditableTrue: hasContentEditableState('true'),
+      isContentEditableFalse: hasContentEditableState('false'),
+      matchNodeNames: matchNodeNames,
+      hasPropValue: hasPropValue,
+      hasAttribute: hasAttribute,
+      hasAttributeValue: hasAttributeValue,
+      matchStyleValues: matchStyleValues,
+      isBogus: isBogus
     };
   }
 );
-
 /**
  * Promise.js
  *
@@ -1525,6 +1554,9 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  *
  * @ignore-file
+ *
+ * Forked changes:
+ * - Disabled all assertions since they are only used for non supported browsers and cause dom repaints see #TINY-1141
  */
 
 /*jshint bitwise:false, expr:true, noempty:false, sub:true, eqnull:true, latedef:false, maxlen:255 */
@@ -1858,7 +1890,7 @@ define(
      * Support testing using an element
      * @param {Function} fn Passed the created div and expects a boolean result
      */
-    function assert(fn) {
+    /*function assert(fn) {
       var div = document.createElement("div");
 
       try {
@@ -1873,7 +1905,7 @@ define(
         // release memory in IE
         div = null;
       }
-    }
+    }*/
 
     /**
      * Adds the same handler for all of the specified attrs
@@ -2041,19 +2073,13 @@ define(
 
       // Support: IE<8
       // Verify that getAttribute really returns attributes and not properties (excepting IE8 booleans)
-      support.attributes = assert(function (div) {
-        div.className = "i";
-        return !div.getAttribute("className");
-      });
+      support.attributes = true;
 
       /* getElement(s)By*
       ---------------------------------------------------------------------- */
 
       // Check if getElementsByTagName("*") returns only elements
-      support.getElementsByTagName = assert(function (div) {
-        div.appendChild(doc.createComment(""));
-        return !div.getElementsByTagName("*").length;
-      });
+      support.getElementsByTagName = true;
 
       // Support: IE<9
       support.getElementsByClassName = rnative.test(doc.getElementsByClassName);
@@ -2062,13 +2088,10 @@ define(
       // Check if getElementById returns elements by name
       // The broken getElementById methods don't pick up programatically-set names,
       // so use a roundabout getElementsByName test
-      support.getById = assert(function (div) {
-        docElem.appendChild(div).id = expando;
-        return !doc.getElementsByName || !doc.getElementsByName(expando).length;
-      });
+      support.getById = true;
 
       // ID find and filter
-      if (support.getById) {
+      /*if (support.getById) {*/
         Expr.find["ID"] = function (id, context) {
           if (typeof context.getElementById !== strundefined && documentIsHTML) {
             var m = context.getElementById(id);
@@ -2083,7 +2106,7 @@ define(
             return elem.getAttribute("id") === attrId;
           };
         };
-      } else {
+      /*} else {
         // Support: IE6/7
         // getElementById is not reliable as a find shortcut
         delete Expr.find["ID"];
@@ -2095,7 +2118,7 @@ define(
             return node && node.value === attrId;
           };
         };
-      }
+      }*/
 
       // Tag
       Expr.find["TAG"] = support.getElementsByTagName ?
@@ -2145,6 +2168,7 @@ define(
       // See http://bugs.jquery.com/ticket/13378
       rbuggyQSA = [];
 
+      /*
       if ((support.qsa = rnative.test(doc.querySelectorAll))) {
         // Build QSA regex
         // Regex strategy adopted from Diego Perini
@@ -2202,7 +2226,11 @@ define(
           rbuggyQSA.push(",.*:");
         });
       }
+      */
 
+      support.disconnectedMatch = true;
+
+      /*
       if ((support.matchesSelector = rnative.test((matches = docElem.matches ||
         docElem.webkitMatchesSelector ||
         docElem.mozMatchesSelector ||
@@ -2220,6 +2248,7 @@ define(
           rbuggyMatches.push("!=", pseudos);
         });
       }
+      */
 
       rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
       rbuggyMatches = rbuggyMatches.length && new RegExp(rbuggyMatches.join("|"));
@@ -3515,16 +3544,12 @@ define(
 
     // Support: Webkit<537.32 - Safari 6.0.3/Chrome 25 (fixed in Chrome 27)
     // Detached nodes confoundingly follow *each other*
-    support.sortDetached = assert(function (div1) {
-      // Should return 1, but returns 4 (following)
-      return div1.compareDocumentPosition(document.createElement("div")) & 1;
-    }
-    );
+    support.sortDetached = true;
 
     // Support: IE<8
     // Prevent attribute/property "interpolation"
     // http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
-    if (!assert(function (div) {
+    /*if (!assert(function (div) {
       div.innerHTML = "<a href='#'></a>";
       return div.firstChild.getAttribute("href") === "#";
     })) {
@@ -3533,11 +3558,11 @@ define(
           return elem.getAttribute(name, name.toLowerCase() === "type" ? 1 : 2);
         }
       });
-    }
+    }*/
 
     // Support: IE<9
     // Use defaultValue in place of getAttribute("value")
-    if (!support.attributes || !assert(function (div) {
+    /*if (!support.attributes || !assert(function (div) {
       div.innerHTML = "<input/>";
       div.firstChild.setAttribute("value", "");
       return div.firstChild.getAttribute("value") === "";
@@ -3547,11 +3572,11 @@ define(
           return elem.defaultValue;
         }
       });
-    }
+    }*/
 
     // Support: IE<9
     // Use getAttributeNode to fetch booleans when getAttribute lies
-    if (!assert(function (div) {
+    /*if (!assert(function (div) {
       return div.getAttribute("disabled") == null;
     })) {
       addHandle(booleans, function (elem, name, isXML) {
@@ -3563,7 +3588,7 @@ define(
               null;
         }
       });
-    }
+    }*/
 
     // EXPOSE
     return Sizzle;
@@ -5775,803 +5800,6 @@ define(
 );
 
 /**
- * Styles.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This class is used to parse CSS styles it also compresses styles to reduce the output size.
- *
- * @example
- * var Styles = new tinymce.html.Styles({
- *    url_converter: function(url) {
- *       return url;
- *    }
- * });
- *
- * styles = Styles.parse('border: 1px solid red');
- * styles.color = 'red';
- *
- * console.log(new tinymce.html.StyleSerializer().serialize(styles));
- *
- * @class tinymce.html.Styles
- * @version 3.4
- */
-define(
-  'tinymce.core.html.Styles',
-  [
-  ],
-  function () {
-    return function (settings, schema) {
-      /*jshint maxlen:255 */
-      /*eslint max-len:0 */
-      var rgbRegExp = /rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)/gi,
-        urlOrStrRegExp = /(?:url(?:(?:\(\s*\"([^\"]+)\"\s*\))|(?:\(\s*\'([^\']+)\'\s*\))|(?:\(\s*([^)\s]+)\s*\))))|(?:\'([^\']+)\')|(?:\"([^\"]+)\")/gi,
-        styleRegExp = /\s*([^:]+):\s*([^;]+);?/g,
-        trimRightRegExp = /\s+$/,
-        i, encodingLookup = {}, encodingItems, validStyles, invalidStyles, invisibleChar = '\uFEFF';
-
-      settings = settings || {};
-
-      if (schema) {
-        validStyles = schema.getValidStyles();
-        invalidStyles = schema.getInvalidStyles();
-      }
-
-      encodingItems = ('\\" \\\' \\; \\: ; : ' + invisibleChar).split(' ');
-      for (i = 0; i < encodingItems.length; i++) {
-        encodingLookup[encodingItems[i]] = invisibleChar + i;
-        encodingLookup[invisibleChar + i] = encodingItems[i];
-      }
-
-      function toHex(match, r, g, b) {
-        function hex(val) {
-          val = parseInt(val, 10).toString(16);
-
-          return val.length > 1 ? val : '0' + val; // 0 -> 00
-        }
-
-        return '#' + hex(r) + hex(g) + hex(b);
-      }
-
-      return {
-        /**
-         * Parses the specified RGB color value and returns a hex version of that color.
-         *
-         * @method toHex
-         * @param {String} color RGB string value like rgb(1,2,3)
-         * @return {String} Hex version of that RGB value like #FF00FF.
-         */
-        toHex: function (color) {
-          return color.replace(rgbRegExp, toHex);
-        },
-
-        /**
-         * Parses the specified style value into an object collection. This parser will also
-         * merge and remove any redundant items that browsers might have added. It will also convert non hex
-         * colors to hex values. Urls inside the styles will also be converted to absolute/relative based on settings.
-         *
-         * @method parse
-         * @param {String} css Style value to parse for example: border:1px solid red;.
-         * @return {Object} Object representation of that style like {border: '1px solid red'}
-         */
-        parse: function (css) {
-          var styles = {}, matches, name, value, isEncoded, urlConverter = settings.url_converter;
-          var urlConverterScope = settings.url_converter_scope || this;
-
-          function compress(prefix, suffix, noJoin) {
-            var top, right, bottom, left;
-
-            top = styles[prefix + '-top' + suffix];
-            if (!top) {
-              return;
-            }
-
-            right = styles[prefix + '-right' + suffix];
-            if (!right) {
-              return;
-            }
-
-            bottom = styles[prefix + '-bottom' + suffix];
-            if (!bottom) {
-              return;
-            }
-
-            left = styles[prefix + '-left' + suffix];
-            if (!left) {
-              return;
-            }
-
-            var box = [top, right, bottom, left];
-            i = box.length - 1;
-            while (i--) {
-              if (box[i] !== box[i + 1]) {
-                break;
-              }
-            }
-
-            if (i > -1 && noJoin) {
-              return;
-            }
-
-            styles[prefix + suffix] = i == -1 ? box[0] : box.join(' ');
-            delete styles[prefix + '-top' + suffix];
-            delete styles[prefix + '-right' + suffix];
-            delete styles[prefix + '-bottom' + suffix];
-            delete styles[prefix + '-left' + suffix];
-          }
-
-          /**
-           * Checks if the specific style can be compressed in other words if all border-width are equal.
-           */
-          function canCompress(key) {
-            var value = styles[key], i;
-
-            if (!value) {
-              return;
-            }
-
-            value = value.split(' ');
-            i = value.length;
-            while (i--) {
-              if (value[i] !== value[0]) {
-                return false;
-              }
-            }
-
-            styles[key] = value[0];
-
-            return true;
-          }
-
-          /**
-           * Compresses multiple styles into one style.
-           */
-          function compress2(target, a, b, c) {
-            if (!canCompress(a)) {
-              return;
-            }
-
-            if (!canCompress(b)) {
-              return;
-            }
-
-            if (!canCompress(c)) {
-              return;
-            }
-
-            // Compress
-            styles[target] = styles[a] + ' ' + styles[b] + ' ' + styles[c];
-            delete styles[a];
-            delete styles[b];
-            delete styles[c];
-          }
-
-          // Encodes the specified string by replacing all \" \' ; : with _<num>
-          function encode(str) {
-            isEncoded = true;
-
-            return encodingLookup[str];
-          }
-
-          // Decodes the specified string by replacing all _<num> with it's original value \" \' etc
-          // It will also decode the \" \' if keepSlashes is set to fale or omitted
-          function decode(str, keepSlashes) {
-            if (isEncoded) {
-              str = str.replace(/\uFEFF[0-9]/g, function (str) {
-                return encodingLookup[str];
-              });
-            }
-
-            if (!keepSlashes) {
-              str = str.replace(/\\([\'\";:])/g, "$1");
-            }
-
-            return str;
-          }
-
-          function decodeSingleHexSequence(escSeq) {
-            return String.fromCharCode(parseInt(escSeq.slice(1), 16));
-          }
-
-          function decodeHexSequences(value) {
-            return value.replace(/\\[0-9a-f]+/gi, decodeSingleHexSequence);
-          }
-
-          function processUrl(match, url, url2, url3, str, str2) {
-            str = str || str2;
-
-            if (str) {
-              str = decode(str);
-
-              // Force strings into single quote format
-              return "'" + str.replace(/\'/g, "\\'") + "'";
-            }
-
-            url = decode(url || url2 || url3);
-
-            if (!settings.allow_script_urls) {
-              var scriptUrl = url.replace(/[\s\r\n]+/g, '');
-
-              if (/(java|vb)script:/i.test(scriptUrl)) {
-                return "";
-              }
-
-              if (!settings.allow_svg_data_urls && /^data:image\/svg/i.test(scriptUrl)) {
-                return "";
-              }
-            }
-
-            // Convert the URL to relative/absolute depending on config
-            if (urlConverter) {
-              url = urlConverter.call(urlConverterScope, url, 'style');
-            }
-
-            // Output new URL format
-            return "url('" + url.replace(/\'/g, "\\'") + "')";
-          }
-
-          if (css) {
-            css = css.replace(/[\u0000-\u001F]/g, '');
-
-            // Encode \" \' % and ; and : inside strings so they don't interfere with the style parsing
-            css = css.replace(/\\[\"\';:\uFEFF]/g, encode).replace(/\"[^\"]+\"|\'[^\']+\'/g, function (str) {
-              return str.replace(/[;:]/g, encode);
-            });
-
-            // Parse styles
-            while ((matches = styleRegExp.exec(css))) {
-              styleRegExp.lastIndex = matches.index + matches[0].length;
-              name = matches[1].replace(trimRightRegExp, '').toLowerCase();
-              value = matches[2].replace(trimRightRegExp, '');
-
-              if (name && value) {
-                // Decode escaped sequences like \65 -> e
-                name = decodeHexSequences(name);
-                value = decodeHexSequences(value);
-
-                // Skip properties with double quotes and sequences like \" \' in their names
-                // See 'mXSS Attacks: Attacking well-secured Web-Applications by using innerHTML Mutations'
-                // https://cure53.de/fp170.pdf
-                if (name.indexOf(invisibleChar) !== -1 || name.indexOf('"') !== -1) {
-                  continue;
-                }
-
-                // Don't allow behavior name or expression/comments within the values
-                if (!settings.allow_script_urls && (name == "behavior" || /expression\s*\(|\/\*|\*\//.test(value))) {
-                  continue;
-                }
-
-                // Opera will produce 700 instead of bold in their style values
-                if (name === 'font-weight' && value === '700') {
-                  value = 'bold';
-                } else if (name === 'color' || name === 'background-color') { // Lowercase colors like RED
-                  value = value.toLowerCase();
-                }
-
-                // Convert RGB colors to HEX
-                value = value.replace(rgbRegExp, toHex);
-
-                // Convert URLs and force them into url('value') format
-                value = value.replace(urlOrStrRegExp, processUrl);
-                styles[name] = isEncoded ? decode(value, true) : value;
-              }
-            }
-            // Compress the styles to reduce it's size for example IE will expand styles
-            compress("border", "", true);
-            compress("border", "-width");
-            compress("border", "-color");
-            compress("border", "-style");
-            compress("padding", "");
-            compress("margin", "");
-            compress2('border', 'border-width', 'border-style', 'border-color');
-
-            // Remove pointless border, IE produces these
-            if (styles.border === 'medium none') {
-              delete styles.border;
-            }
-
-            // IE 11 will produce a border-image: none when getting the style attribute from <p style="border: 1px solid red"></p>
-            // So let us assume it shouldn't be there
-            if (styles['border-image'] === 'none') {
-              delete styles['border-image'];
-            }
-          }
-
-          return styles;
-        },
-
-        /**
-         * Serializes the specified style object into a string.
-         *
-         * @method serialize
-         * @param {Object} styles Object to serialize as string for example: {border: '1px solid red'}
-         * @param {String} elementName Optional element name, if specified only the styles that matches the schema will be serialized.
-         * @return {String} String representation of the style object for example: border: 1px solid red.
-         */
-        serialize: function (styles, elementName) {
-          var css = '', name, value;
-
-          function serializeStyles(name) {
-            var styleList, i, l, value;
-
-            styleList = validStyles[name];
-            if (styleList) {
-              for (i = 0, l = styleList.length; i < l; i++) {
-                name = styleList[i];
-                value = styles[name];
-
-                if (value) {
-                  css += (css.length > 0 ? ' ' : '') + name + ': ' + value + ';';
-                }
-              }
-            }
-          }
-
-          function isValid(name, elementName) {
-            var styleMap;
-
-            styleMap = invalidStyles['*'];
-            if (styleMap && styleMap[name]) {
-              return false;
-            }
-
-            styleMap = invalidStyles[elementName];
-            if (styleMap && styleMap[name]) {
-              return false;
-            }
-
-            return true;
-          }
-
-          // Serialize styles according to schema
-          if (elementName && validStyles) {
-            // Serialize global styles and element specific styles
-            serializeStyles('*');
-            serializeStyles(elementName);
-          } else {
-            // Output the styles in the order they are inside the object
-            for (name in styles) {
-              value = styles[name];
-
-              if (value && (!invalidStyles || isValid(name, elementName))) {
-                css += (css.length > 0 ? ' ' : '') + name + ': ' + value + ';';
-              }
-            }
-          }
-
-          return css;
-        }
-      };
-    };
-  }
-);
-
-/**
- * TreeWalker.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * TreeWalker class enables you to walk the DOM in a linear manner.
- *
- * @class tinymce.dom.TreeWalker
- * @example
- * var walker = new tinymce.dom.TreeWalker(startNode);
- *
- * do {
- *     console.log(walker.current());
- * } while (walker.next());
- */
-define(
-  'tinymce.core.dom.TreeWalker',
-  [
-  ],
-  function () {
-    /**
-     * Constructs a new TreeWalker instance.
-     *
-     * @constructor
-     * @method TreeWalker
-     * @param {Node} startNode Node to start walking from.
-     * @param {node} rootNode Optional root node to never walk out of.
-     */
-    return function (startNode, rootNode) {
-      var node = startNode;
-
-      function findSibling(node, startName, siblingName, shallow) {
-        var sibling, parent;
-
-        if (node) {
-          // Walk into nodes if it has a start
-          if (!shallow && node[startName]) {
-            return node[startName];
-          }
-
-          // Return the sibling if it has one
-          if (node != rootNode) {
-            sibling = node[siblingName];
-            if (sibling) {
-              return sibling;
-            }
-
-            // Walk up the parents to look for siblings
-            for (parent = node.parentNode; parent && parent != rootNode; parent = parent.parentNode) {
-              sibling = parent[siblingName];
-              if (sibling) {
-                return sibling;
-              }
-            }
-          }
-        }
-      }
-
-      function findPreviousNode(node, startName, siblingName, shallow) {
-        var sibling, parent, child;
-
-        if (node) {
-          sibling = node[siblingName];
-          if (rootNode && sibling === rootNode) {
-            return;
-          }
-
-          if (sibling) {
-            if (!shallow) {
-              // Walk up the parents to look for siblings
-              for (child = sibling[startName]; child; child = child[startName]) {
-                if (!child[startName]) {
-                  return child;
-                }
-              }
-            }
-
-            return sibling;
-          }
-
-          parent = node.parentNode;
-          if (parent && parent !== rootNode) {
-            return parent;
-          }
-        }
-      }
-
-      /**
-       * Returns the current node.
-       *
-       * @method current
-       * @return {Node} Current node where the walker is.
-       */
-      this.current = function () {
-        return node;
-      };
-
-      /**
-       * Walks to the next node in tree.
-       *
-       * @method next
-       * @return {Node} Current node where the walker is after moving to the next node.
-       */
-      this.next = function (shallow) {
-        node = findSibling(node, 'firstChild', 'nextSibling', shallow);
-        return node;
-      };
-
-      /**
-       * Walks to the previous node in tree.
-       *
-       * @method prev
-       * @return {Node} Current node where the walker is after moving to the previous node.
-       */
-      this.prev = function (shallow) {
-        node = findSibling(node, 'lastChild', 'previousSibling', shallow);
-        return node;
-      };
-
-      this.prev2 = function (shallow) {
-        node = findPreviousNode(node, 'lastChild', 'previousSibling', shallow);
-        return node;
-      };
-    };
-  }
-);
-
-/**
- * Entities.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/*jshint bitwise:false */
-/*eslint no-bitwise:0 */
-
-/**
- * Entity encoder class.
- *
- * @class tinymce.html.Entities
- * @static
- * @version 3.4
- */
-define(
-  'tinymce.core.html.Entities',
-  [
-    "tinymce.core.util.Tools"
-  ],
-  function (Tools) {
-    var makeMap = Tools.makeMap;
-
-    var namedEntities, baseEntities, reverseEntities,
-      attrsCharsRegExp = /[&<>\"\u0060\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
-      textCharsRegExp = /[<>&\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
-      rawCharsRegExp = /[<>&\"\']/g,
-      entityRegExp = /&#([a-z0-9]+);?|&([a-z0-9]+);/gi,
-      asciiMap = {
-        128: "\u20AC", 130: "\u201A", 131: "\u0192", 132: "\u201E", 133: "\u2026", 134: "\u2020",
-        135: "\u2021", 136: "\u02C6", 137: "\u2030", 138: "\u0160", 139: "\u2039", 140: "\u0152",
-        142: "\u017D", 145: "\u2018", 146: "\u2019", 147: "\u201C", 148: "\u201D", 149: "\u2022",
-        150: "\u2013", 151: "\u2014", 152: "\u02DC", 153: "\u2122", 154: "\u0161", 155: "\u203A",
-        156: "\u0153", 158: "\u017E", 159: "\u0178"
-      };
-
-    // Raw entities
-    baseEntities = {
-      '\"': '&quot;', // Needs to be escaped since the YUI compressor would otherwise break the code
-      "'": '&#39;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '&': '&amp;',
-      '\u0060': '&#96;'
-    };
-
-    // Reverse lookup table for raw entities
-    reverseEntities = {
-      '&lt;': '<',
-      '&gt;': '>',
-      '&amp;': '&',
-      '&quot;': '"',
-      '&apos;': "'"
-    };
-
-    // Decodes text by using the browser
-    function nativeDecode(text) {
-      var elm;
-
-      elm = document.createElement("div");
-      elm.innerHTML = text;
-
-      return elm.textContent || elm.innerText || text;
-    }
-
-    // Build a two way lookup table for the entities
-    function buildEntitiesLookup(items, radix) {
-      var i, chr, entity, lookup = {};
-
-      if (items) {
-        items = items.split(',');
-        radix = radix || 10;
-
-        // Build entities lookup table
-        for (i = 0; i < items.length; i += 2) {
-          chr = String.fromCharCode(parseInt(items[i], radix));
-
-          // Only add non base entities
-          if (!baseEntities[chr]) {
-            entity = '&' + items[i + 1] + ';';
-            lookup[chr] = entity;
-            lookup[entity] = chr;
-          }
-        }
-
-        return lookup;
-      }
-    }
-
-    // Unpack entities lookup where the numbers are in radix 32 to reduce the size
-    namedEntities = buildEntitiesLookup(
-      '50,nbsp,51,iexcl,52,cent,53,pound,54,curren,55,yen,56,brvbar,57,sect,58,uml,59,copy,' +
-      '5a,ordf,5b,laquo,5c,not,5d,shy,5e,reg,5f,macr,5g,deg,5h,plusmn,5i,sup2,5j,sup3,5k,acute,' +
-      '5l,micro,5m,para,5n,middot,5o,cedil,5p,sup1,5q,ordm,5r,raquo,5s,frac14,5t,frac12,5u,frac34,' +
-      '5v,iquest,60,Agrave,61,Aacute,62,Acirc,63,Atilde,64,Auml,65,Aring,66,AElig,67,Ccedil,' +
-      '68,Egrave,69,Eacute,6a,Ecirc,6b,Euml,6c,Igrave,6d,Iacute,6e,Icirc,6f,Iuml,6g,ETH,6h,Ntilde,' +
-      '6i,Ograve,6j,Oacute,6k,Ocirc,6l,Otilde,6m,Ouml,6n,times,6o,Oslash,6p,Ugrave,6q,Uacute,' +
-      '6r,Ucirc,6s,Uuml,6t,Yacute,6u,THORN,6v,szlig,70,agrave,71,aacute,72,acirc,73,atilde,74,auml,' +
-      '75,aring,76,aelig,77,ccedil,78,egrave,79,eacute,7a,ecirc,7b,euml,7c,igrave,7d,iacute,7e,icirc,' +
-      '7f,iuml,7g,eth,7h,ntilde,7i,ograve,7j,oacute,7k,ocirc,7l,otilde,7m,ouml,7n,divide,7o,oslash,' +
-      '7p,ugrave,7q,uacute,7r,ucirc,7s,uuml,7t,yacute,7u,thorn,7v,yuml,ci,fnof,sh,Alpha,si,Beta,' +
-      'sj,Gamma,sk,Delta,sl,Epsilon,sm,Zeta,sn,Eta,so,Theta,sp,Iota,sq,Kappa,sr,Lambda,ss,Mu,' +
-      'st,Nu,su,Xi,sv,Omicron,t0,Pi,t1,Rho,t3,Sigma,t4,Tau,t5,Upsilon,t6,Phi,t7,Chi,t8,Psi,' +
-      't9,Omega,th,alpha,ti,beta,tj,gamma,tk,delta,tl,epsilon,tm,zeta,tn,eta,to,theta,tp,iota,' +
-      'tq,kappa,tr,lambda,ts,mu,tt,nu,tu,xi,tv,omicron,u0,pi,u1,rho,u2,sigmaf,u3,sigma,u4,tau,' +
-      'u5,upsilon,u6,phi,u7,chi,u8,psi,u9,omega,uh,thetasym,ui,upsih,um,piv,812,bull,816,hellip,' +
-      '81i,prime,81j,Prime,81u,oline,824,frasl,88o,weierp,88h,image,88s,real,892,trade,89l,alefsym,' +
-      '8cg,larr,8ch,uarr,8ci,rarr,8cj,darr,8ck,harr,8dl,crarr,8eg,lArr,8eh,uArr,8ei,rArr,8ej,dArr,' +
-      '8ek,hArr,8g0,forall,8g2,part,8g3,exist,8g5,empty,8g7,nabla,8g8,isin,8g9,notin,8gb,ni,8gf,prod,' +
-      '8gh,sum,8gi,minus,8gn,lowast,8gq,radic,8gt,prop,8gu,infin,8h0,ang,8h7,and,8h8,or,8h9,cap,8ha,cup,' +
-      '8hb,int,8hk,there4,8hs,sim,8i5,cong,8i8,asymp,8j0,ne,8j1,equiv,8j4,le,8j5,ge,8k2,sub,8k3,sup,8k4,' +
-      'nsub,8k6,sube,8k7,supe,8kl,oplus,8kn,otimes,8l5,perp,8m5,sdot,8o8,lceil,8o9,rceil,8oa,lfloor,8ob,' +
-      'rfloor,8p9,lang,8pa,rang,9ea,loz,9j0,spades,9j3,clubs,9j5,hearts,9j6,diams,ai,OElig,aj,oelig,b0,' +
-      'Scaron,b1,scaron,bo,Yuml,m6,circ,ms,tilde,802,ensp,803,emsp,809,thinsp,80c,zwnj,80d,zwj,80e,lrm,' +
-      '80f,rlm,80j,ndash,80k,mdash,80o,lsquo,80p,rsquo,80q,sbquo,80s,ldquo,80t,rdquo,80u,bdquo,810,dagger,' +
-      '811,Dagger,81g,permil,81p,lsaquo,81q,rsaquo,85c,euro', 32);
-
-    var Entities = {
-      /**
-       * Encodes the specified string using raw entities. This means only the required XML base entities will be encoded.
-       *
-       * @method encodeRaw
-       * @param {String} text Text to encode.
-       * @param {Boolean} attr Optional flag to specify if the text is attribute contents.
-       * @return {String} Entity encoded text.
-       */
-      encodeRaw: function (text, attr) {
-        return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
-          return baseEntities[chr] || chr;
-        });
-      },
-
-      /**
-       * Encoded the specified text with both the attributes and text entities. This function will produce larger text contents
-       * since it doesn't know if the context is within a attribute or text node. This was added for compatibility
-       * and is exposed as the DOMUtils.encode function.
-       *
-       * @method encodeAllRaw
-       * @param {String} text Text to encode.
-       * @return {String} Entity encoded text.
-       */
-      encodeAllRaw: function (text) {
-        return ('' + text).replace(rawCharsRegExp, function (chr) {
-          return baseEntities[chr] || chr;
-        });
-      },
-
-      /**
-       * Encodes the specified string using numeric entities. The core entities will be
-       * encoded as named ones but all non lower ascii characters will be encoded into numeric entities.
-       *
-       * @method encodeNumeric
-       * @param {String} text Text to encode.
-       * @param {Boolean} attr Optional flag to specify if the text is attribute contents.
-       * @return {String} Entity encoded text.
-       */
-      encodeNumeric: function (text, attr) {
-        return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
-          // Multi byte sequence convert it to a single entity
-          if (chr.length > 1) {
-            return '&#' + (((chr.charCodeAt(0) - 0xD800) * 0x400) + (chr.charCodeAt(1) - 0xDC00) + 0x10000) + ';';
-          }
-
-          return baseEntities[chr] || '&#' + chr.charCodeAt(0) + ';';
-        });
-      },
-
-      /**
-       * Encodes the specified string using named entities. The core entities will be encoded
-       * as named ones but all non lower ascii characters will be encoded into named entities.
-       *
-       * @method encodeNamed
-       * @param {String} text Text to encode.
-       * @param {Boolean} attr Optional flag to specify if the text is attribute contents.
-       * @param {Object} entities Optional parameter with entities to use.
-       * @return {String} Entity encoded text.
-       */
-      encodeNamed: function (text, attr, entities) {
-        entities = entities || namedEntities;
-
-        return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
-          return baseEntities[chr] || entities[chr] || chr;
-        });
-      },
-
-      /**
-       * Returns an encode function based on the name(s) and it's optional entities.
-       *
-       * @method getEncodeFunc
-       * @param {String} name Comma separated list of encoders for example named,numeric.
-       * @param {String} entities Optional parameter with entities to use instead of the built in set.
-       * @return {function} Encode function to be used.
-       */
-      getEncodeFunc: function (name, entities) {
-        entities = buildEntitiesLookup(entities) || namedEntities;
-
-        function encodeNamedAndNumeric(text, attr) {
-          return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
-            if (baseEntities[chr] !== undefined) {
-              return baseEntities[chr];
-            }
-
-            if (entities[chr] !== undefined) {
-              return entities[chr];
-            }
-
-            // Convert multi-byte sequences to a single entity.
-            if (chr.length > 1) {
-              return '&#' + (((chr.charCodeAt(0) - 0xD800) * 0x400) + (chr.charCodeAt(1) - 0xDC00) + 0x10000) + ';';
-            }
-
-            return '&#' + chr.charCodeAt(0) + ';';
-          });
-        }
-
-        function encodeCustomNamed(text, attr) {
-          return Entities.encodeNamed(text, attr, entities);
-        }
-
-        // Replace + with , to be compatible with previous TinyMCE versions
-        name = makeMap(name.replace(/\+/g, ','));
-
-        // Named and numeric encoder
-        if (name.named && name.numeric) {
-          return encodeNamedAndNumeric;
-        }
-
-        // Named encoder
-        if (name.named) {
-          // Custom names
-          if (entities) {
-            return encodeCustomNamed;
-          }
-
-          return Entities.encodeNamed;
-        }
-
-        // Numeric
-        if (name.numeric) {
-          return Entities.encodeNumeric;
-        }
-
-        // Raw encoder
-        return Entities.encodeRaw;
-      },
-
-      /**
-       * Decodes the specified string, this will replace entities with raw UTF characters.
-       *
-       * @method decode
-       * @param {String} text Text to entity decode.
-       * @return {String} Entity decoded string.
-       */
-      decode: function (text) {
-        return text.replace(entityRegExp, function (all, numeric) {
-          if (numeric) {
-            if (numeric.charAt(0).toLowerCase() === 'x') {
-              numeric = parseInt(numeric.substr(1), 16);
-            } else {
-              numeric = parseInt(numeric, 10);
-            }
-
-            // Support upper UTF
-            if (numeric > 0xFFFF) {
-              numeric -= 0x10000;
-
-              return String.fromCharCode(0xD800 + (numeric >> 10), 0xDC00 + (numeric & 0x3FF));
-            }
-
-            return asciiMap[numeric] || String.fromCharCode(numeric);
-          }
-
-          return reverseEntities[all] || namedEntities[all] || nativeDecode(all);
-        });
-      }
-    };
-
-    return Entities;
-  }
-);
-
-/**
  * Range.js
  *
  * Released under LGPL License.
@@ -7358,99 +6586,6 @@ define(
     };
 
     return Range;
-  }
-);
-
-defineGlobal("global!Array", Array);
-defineGlobal("global!Error", Error);
-define(
-  'ephox.katamari.api.Fun',
-
-  [
-    'global!Array',
-    'global!Error'
-  ],
-
-  function (Array, Error) {
-
-    var noop = function () { };
-
-    var compose = function (fa, fb) {
-      return function () {
-        return fa(fb.apply(null, arguments));
-      };
-    };
-
-    var constant = function (value) {
-      return function () {
-        return value;
-      };
-    };
-
-    var identity = function (x) {
-      return x;
-    };
-
-    var tripleEquals = function(a, b) {
-      return a === b;
-    };
-
-    // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
-    var curry = function (f) {
-      // equivalent to arguments.slice(1)
-      // starting at 1 because 0 is the f, makes things tricky.
-      // Pay attention to what variable is where, and the -1 magic.
-      // thankfully, we have tests for this.
-      var args = new Array(arguments.length - 1);
-      for (var i = 1; i < arguments.length; i++) args[i-1] = arguments[i];
-
-      return function () {
-        var newArgs = new Array(arguments.length);
-        for (var j = 0; j < newArgs.length; j++) newArgs[j] = arguments[j];
-
-        var all = args.concat(newArgs);
-        return f.apply(null, all);
-      };
-    };
-
-    var not = function (f) {
-      return function () {
-        return !f.apply(null, arguments);
-      };
-    };
-
-    var die = function (msg) {
-      return function () {
-        throw new Error(msg);
-      };
-    };
-
-    var apply = function (f) {
-      return f();
-    };
-
-    var call = function(f) {
-      f();
-    };
-
-    var never = constant(false);
-    var always = constant(true);
-    
-
-    return {
-      noop: noop,
-      compose: compose,
-      constant: constant,
-      identity: identity,
-      tripleEquals: tripleEquals,
-      curry: curry,
-      not: not,
-      die: die,
-      apply: apply,
-      call: call,
-      never: never,
-      always: always
-    };
   }
 );
 
@@ -8567,6 +7702,425 @@ define(
 );
 
 /**
+ * TreeWalker.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * TreeWalker class enables you to walk the DOM in a linear manner.
+ *
+ * @class tinymce.dom.TreeWalker
+ * @example
+ * var walker = new tinymce.dom.TreeWalker(startNode);
+ *
+ * do {
+ *     console.log(walker.current());
+ * } while (walker.next());
+ */
+define(
+  'tinymce.core.dom.TreeWalker',
+  [
+  ],
+  function () {
+    /**
+     * Constructs a new TreeWalker instance.
+     *
+     * @constructor
+     * @method TreeWalker
+     * @param {Node} startNode Node to start walking from.
+     * @param {node} rootNode Optional root node to never walk out of.
+     */
+    return function (startNode, rootNode) {
+      var node = startNode;
+
+      function findSibling(node, startName, siblingName, shallow) {
+        var sibling, parent;
+
+        if (node) {
+          // Walk into nodes if it has a start
+          if (!shallow && node[startName]) {
+            return node[startName];
+          }
+
+          // Return the sibling if it has one
+          if (node != rootNode) {
+            sibling = node[siblingName];
+            if (sibling) {
+              return sibling;
+            }
+
+            // Walk up the parents to look for siblings
+            for (parent = node.parentNode; parent && parent != rootNode; parent = parent.parentNode) {
+              sibling = parent[siblingName];
+              if (sibling) {
+                return sibling;
+              }
+            }
+          }
+        }
+      }
+
+      function findPreviousNode(node, startName, siblingName, shallow) {
+        var sibling, parent, child;
+
+        if (node) {
+          sibling = node[siblingName];
+          if (rootNode && sibling === rootNode) {
+            return;
+          }
+
+          if (sibling) {
+            if (!shallow) {
+              // Walk up the parents to look for siblings
+              for (child = sibling[startName]; child; child = child[startName]) {
+                if (!child[startName]) {
+                  return child;
+                }
+              }
+            }
+
+            return sibling;
+          }
+
+          parent = node.parentNode;
+          if (parent && parent !== rootNode) {
+            return parent;
+          }
+        }
+      }
+
+      /**
+       * Returns the current node.
+       *
+       * @method current
+       * @return {Node} Current node where the walker is.
+       */
+      this.current = function () {
+        return node;
+      };
+
+      /**
+       * Walks to the next node in tree.
+       *
+       * @method next
+       * @return {Node} Current node where the walker is after moving to the next node.
+       */
+      this.next = function (shallow) {
+        node = findSibling(node, 'firstChild', 'nextSibling', shallow);
+        return node;
+      };
+
+      /**
+       * Walks to the previous node in tree.
+       *
+       * @method prev
+       * @return {Node} Current node where the walker is after moving to the previous node.
+       */
+      this.prev = function (shallow) {
+        node = findSibling(node, 'lastChild', 'previousSibling', shallow);
+        return node;
+      };
+
+      this.prev2 = function (shallow) {
+        node = findPreviousNode(node, 'lastChild', 'previousSibling', shallow);
+        return node;
+      };
+    };
+  }
+);
+
+/**
+ * Entities.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/*jshint bitwise:false */
+/*eslint no-bitwise:0 */
+
+/**
+ * Entity encoder class.
+ *
+ * @class tinymce.html.Entities
+ * @static
+ * @version 3.4
+ */
+define(
+  'tinymce.core.html.Entities',
+  [
+    "tinymce.core.util.Tools"
+  ],
+  function (Tools) {
+    var makeMap = Tools.makeMap;
+
+    var namedEntities, baseEntities, reverseEntities,
+      attrsCharsRegExp = /[&<>\"\u0060\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
+      textCharsRegExp = /[<>&\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
+      rawCharsRegExp = /[<>&\"\']/g,
+      entityRegExp = /&#([a-z0-9]+);?|&([a-z0-9]+);/gi,
+      asciiMap = {
+        128: "\u20AC", 130: "\u201A", 131: "\u0192", 132: "\u201E", 133: "\u2026", 134: "\u2020",
+        135: "\u2021", 136: "\u02C6", 137: "\u2030", 138: "\u0160", 139: "\u2039", 140: "\u0152",
+        142: "\u017D", 145: "\u2018", 146: "\u2019", 147: "\u201C", 148: "\u201D", 149: "\u2022",
+        150: "\u2013", 151: "\u2014", 152: "\u02DC", 153: "\u2122", 154: "\u0161", 155: "\u203A",
+        156: "\u0153", 158: "\u017E", 159: "\u0178"
+      };
+
+    // Raw entities
+    baseEntities = {
+      '\"': '&quot;', // Needs to be escaped since the YUI compressor would otherwise break the code
+      "'": '&#39;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '&': '&amp;',
+      '\u0060': '&#96;'
+    };
+
+    // Reverse lookup table for raw entities
+    reverseEntities = {
+      '&lt;': '<',
+      '&gt;': '>',
+      '&amp;': '&',
+      '&quot;': '"',
+      '&apos;': "'"
+    };
+
+    // Decodes text by using the browser
+    function nativeDecode(text) {
+      var elm;
+
+      elm = document.createElement("div");
+      elm.innerHTML = text;
+
+      return elm.textContent || elm.innerText || text;
+    }
+
+    // Build a two way lookup table for the entities
+    function buildEntitiesLookup(items, radix) {
+      var i, chr, entity, lookup = {};
+
+      if (items) {
+        items = items.split(',');
+        radix = radix || 10;
+
+        // Build entities lookup table
+        for (i = 0; i < items.length; i += 2) {
+          chr = String.fromCharCode(parseInt(items[i], radix));
+
+          // Only add non base entities
+          if (!baseEntities[chr]) {
+            entity = '&' + items[i + 1] + ';';
+            lookup[chr] = entity;
+            lookup[entity] = chr;
+          }
+        }
+
+        return lookup;
+      }
+    }
+
+    // Unpack entities lookup where the numbers are in radix 32 to reduce the size
+    namedEntities = buildEntitiesLookup(
+      '50,nbsp,51,iexcl,52,cent,53,pound,54,curren,55,yen,56,brvbar,57,sect,58,uml,59,copy,' +
+      '5a,ordf,5b,laquo,5c,not,5d,shy,5e,reg,5f,macr,5g,deg,5h,plusmn,5i,sup2,5j,sup3,5k,acute,' +
+      '5l,micro,5m,para,5n,middot,5o,cedil,5p,sup1,5q,ordm,5r,raquo,5s,frac14,5t,frac12,5u,frac34,' +
+      '5v,iquest,60,Agrave,61,Aacute,62,Acirc,63,Atilde,64,Auml,65,Aring,66,AElig,67,Ccedil,' +
+      '68,Egrave,69,Eacute,6a,Ecirc,6b,Euml,6c,Igrave,6d,Iacute,6e,Icirc,6f,Iuml,6g,ETH,6h,Ntilde,' +
+      '6i,Ograve,6j,Oacute,6k,Ocirc,6l,Otilde,6m,Ouml,6n,times,6o,Oslash,6p,Ugrave,6q,Uacute,' +
+      '6r,Ucirc,6s,Uuml,6t,Yacute,6u,THORN,6v,szlig,70,agrave,71,aacute,72,acirc,73,atilde,74,auml,' +
+      '75,aring,76,aelig,77,ccedil,78,egrave,79,eacute,7a,ecirc,7b,euml,7c,igrave,7d,iacute,7e,icirc,' +
+      '7f,iuml,7g,eth,7h,ntilde,7i,ograve,7j,oacute,7k,ocirc,7l,otilde,7m,ouml,7n,divide,7o,oslash,' +
+      '7p,ugrave,7q,uacute,7r,ucirc,7s,uuml,7t,yacute,7u,thorn,7v,yuml,ci,fnof,sh,Alpha,si,Beta,' +
+      'sj,Gamma,sk,Delta,sl,Epsilon,sm,Zeta,sn,Eta,so,Theta,sp,Iota,sq,Kappa,sr,Lambda,ss,Mu,' +
+      'st,Nu,su,Xi,sv,Omicron,t0,Pi,t1,Rho,t3,Sigma,t4,Tau,t5,Upsilon,t6,Phi,t7,Chi,t8,Psi,' +
+      't9,Omega,th,alpha,ti,beta,tj,gamma,tk,delta,tl,epsilon,tm,zeta,tn,eta,to,theta,tp,iota,' +
+      'tq,kappa,tr,lambda,ts,mu,tt,nu,tu,xi,tv,omicron,u0,pi,u1,rho,u2,sigmaf,u3,sigma,u4,tau,' +
+      'u5,upsilon,u6,phi,u7,chi,u8,psi,u9,omega,uh,thetasym,ui,upsih,um,piv,812,bull,816,hellip,' +
+      '81i,prime,81j,Prime,81u,oline,824,frasl,88o,weierp,88h,image,88s,real,892,trade,89l,alefsym,' +
+      '8cg,larr,8ch,uarr,8ci,rarr,8cj,darr,8ck,harr,8dl,crarr,8eg,lArr,8eh,uArr,8ei,rArr,8ej,dArr,' +
+      '8ek,hArr,8g0,forall,8g2,part,8g3,exist,8g5,empty,8g7,nabla,8g8,isin,8g9,notin,8gb,ni,8gf,prod,' +
+      '8gh,sum,8gi,minus,8gn,lowast,8gq,radic,8gt,prop,8gu,infin,8h0,ang,8h7,and,8h8,or,8h9,cap,8ha,cup,' +
+      '8hb,int,8hk,there4,8hs,sim,8i5,cong,8i8,asymp,8j0,ne,8j1,equiv,8j4,le,8j5,ge,8k2,sub,8k3,sup,8k4,' +
+      'nsub,8k6,sube,8k7,supe,8kl,oplus,8kn,otimes,8l5,perp,8m5,sdot,8o8,lceil,8o9,rceil,8oa,lfloor,8ob,' +
+      'rfloor,8p9,lang,8pa,rang,9ea,loz,9j0,spades,9j3,clubs,9j5,hearts,9j6,diams,ai,OElig,aj,oelig,b0,' +
+      'Scaron,b1,scaron,bo,Yuml,m6,circ,ms,tilde,802,ensp,803,emsp,809,thinsp,80c,zwnj,80d,zwj,80e,lrm,' +
+      '80f,rlm,80j,ndash,80k,mdash,80o,lsquo,80p,rsquo,80q,sbquo,80s,ldquo,80t,rdquo,80u,bdquo,810,dagger,' +
+      '811,Dagger,81g,permil,81p,lsaquo,81q,rsaquo,85c,euro', 32);
+
+    var Entities = {
+      /**
+       * Encodes the specified string using raw entities. This means only the required XML base entities will be encoded.
+       *
+       * @method encodeRaw
+       * @param {String} text Text to encode.
+       * @param {Boolean} attr Optional flag to specify if the text is attribute contents.
+       * @return {String} Entity encoded text.
+       */
+      encodeRaw: function (text, attr) {
+        return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
+          return baseEntities[chr] || chr;
+        });
+      },
+
+      /**
+       * Encoded the specified text with both the attributes and text entities. This function will produce larger text contents
+       * since it doesn't know if the context is within a attribute or text node. This was added for compatibility
+       * and is exposed as the DOMUtils.encode function.
+       *
+       * @method encodeAllRaw
+       * @param {String} text Text to encode.
+       * @return {String} Entity encoded text.
+       */
+      encodeAllRaw: function (text) {
+        return ('' + text).replace(rawCharsRegExp, function (chr) {
+          return baseEntities[chr] || chr;
+        });
+      },
+
+      /**
+       * Encodes the specified string using numeric entities. The core entities will be
+       * encoded as named ones but all non lower ascii characters will be encoded into numeric entities.
+       *
+       * @method encodeNumeric
+       * @param {String} text Text to encode.
+       * @param {Boolean} attr Optional flag to specify if the text is attribute contents.
+       * @return {String} Entity encoded text.
+       */
+      encodeNumeric: function (text, attr) {
+        return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
+          // Multi byte sequence convert it to a single entity
+          if (chr.length > 1) {
+            return '&#' + (((chr.charCodeAt(0) - 0xD800) * 0x400) + (chr.charCodeAt(1) - 0xDC00) + 0x10000) + ';';
+          }
+
+          return baseEntities[chr] || '&#' + chr.charCodeAt(0) + ';';
+        });
+      },
+
+      /**
+       * Encodes the specified string using named entities. The core entities will be encoded
+       * as named ones but all non lower ascii characters will be encoded into named entities.
+       *
+       * @method encodeNamed
+       * @param {String} text Text to encode.
+       * @param {Boolean} attr Optional flag to specify if the text is attribute contents.
+       * @param {Object} entities Optional parameter with entities to use.
+       * @return {String} Entity encoded text.
+       */
+      encodeNamed: function (text, attr, entities) {
+        entities = entities || namedEntities;
+
+        return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
+          return baseEntities[chr] || entities[chr] || chr;
+        });
+      },
+
+      /**
+       * Returns an encode function based on the name(s) and it's optional entities.
+       *
+       * @method getEncodeFunc
+       * @param {String} name Comma separated list of encoders for example named,numeric.
+       * @param {String} entities Optional parameter with entities to use instead of the built in set.
+       * @return {function} Encode function to be used.
+       */
+      getEncodeFunc: function (name, entities) {
+        entities = buildEntitiesLookup(entities) || namedEntities;
+
+        function encodeNamedAndNumeric(text, attr) {
+          return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
+            if (baseEntities[chr] !== undefined) {
+              return baseEntities[chr];
+            }
+
+            if (entities[chr] !== undefined) {
+              return entities[chr];
+            }
+
+            // Convert multi-byte sequences to a single entity.
+            if (chr.length > 1) {
+              return '&#' + (((chr.charCodeAt(0) - 0xD800) * 0x400) + (chr.charCodeAt(1) - 0xDC00) + 0x10000) + ';';
+            }
+
+            return '&#' + chr.charCodeAt(0) + ';';
+          });
+        }
+
+        function encodeCustomNamed(text, attr) {
+          return Entities.encodeNamed(text, attr, entities);
+        }
+
+        // Replace + with , to be compatible with previous TinyMCE versions
+        name = makeMap(name.replace(/\+/g, ','));
+
+        // Named and numeric encoder
+        if (name.named && name.numeric) {
+          return encodeNamedAndNumeric;
+        }
+
+        // Named encoder
+        if (name.named) {
+          // Custom names
+          if (entities) {
+            return encodeCustomNamed;
+          }
+
+          return Entities.encodeNamed;
+        }
+
+        // Numeric
+        if (name.numeric) {
+          return Entities.encodeNumeric;
+        }
+
+        // Raw encoder
+        return Entities.encodeRaw;
+      },
+
+      /**
+       * Decodes the specified string, this will replace entities with raw UTF characters.
+       *
+       * @method decode
+       * @param {String} text Text to entity decode.
+       * @return {String} Entity decoded string.
+       */
+      decode: function (text) {
+        return text.replace(entityRegExp, function (all, numeric) {
+          if (numeric) {
+            if (numeric.charAt(0).toLowerCase() === 'x') {
+              numeric = parseInt(numeric.substr(1), 16);
+            } else {
+              numeric = parseInt(numeric, 10);
+            }
+
+            // Support upper UTF
+            if (numeric > 0xFFFF) {
+              numeric -= 0x10000;
+
+              return String.fromCharCode(0xD800 + (numeric >> 10), 0xDC00 + (numeric & 0x3FF));
+            }
+
+            return asciiMap[numeric] || String.fromCharCode(numeric);
+          }
+
+          return reverseEntities[all] || namedEntities[all] || nativeDecode(all);
+        });
+      }
+    };
+
+    return Entities;
+  }
+);
+
+/**
  * Schema.js
  *
  * Released under LGPL License.
@@ -9592,6 +9146,384 @@ define(
       self.addValidChildren = addValidChildren;
 
       self.elements = elements;
+    };
+  }
+);
+
+/**
+ * Styles.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This class is used to parse CSS styles it also compresses styles to reduce the output size.
+ *
+ * @example
+ * var Styles = new tinymce.html.Styles({
+ *    url_converter: function(url) {
+ *       return url;
+ *    }
+ * });
+ *
+ * styles = Styles.parse('border: 1px solid red');
+ * styles.color = 'red';
+ *
+ * console.log(new tinymce.html.StyleSerializer().serialize(styles));
+ *
+ * @class tinymce.html.Styles
+ * @version 3.4
+ */
+define(
+  'tinymce.core.html.Styles',
+  [
+  ],
+  function () {
+    return function (settings, schema) {
+      /*jshint maxlen:255 */
+      /*eslint max-len:0 */
+      var rgbRegExp = /rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)/gi,
+        urlOrStrRegExp = /(?:url(?:(?:\(\s*\"([^\"]+)\"\s*\))|(?:\(\s*\'([^\']+)\'\s*\))|(?:\(\s*([^)\s]+)\s*\))))|(?:\'([^\']+)\')|(?:\"([^\"]+)\")/gi,
+        styleRegExp = /\s*([^:]+):\s*([^;]+);?/g,
+        trimRightRegExp = /\s+$/,
+        i, encodingLookup = {}, encodingItems, validStyles, invalidStyles, invisibleChar = '\uFEFF';
+
+      settings = settings || {};
+
+      if (schema) {
+        validStyles = schema.getValidStyles();
+        invalidStyles = schema.getInvalidStyles();
+      }
+
+      encodingItems = ('\\" \\\' \\; \\: ; : ' + invisibleChar).split(' ');
+      for (i = 0; i < encodingItems.length; i++) {
+        encodingLookup[encodingItems[i]] = invisibleChar + i;
+        encodingLookup[invisibleChar + i] = encodingItems[i];
+      }
+
+      function toHex(match, r, g, b) {
+        function hex(val) {
+          val = parseInt(val, 10).toString(16);
+
+          return val.length > 1 ? val : '0' + val; // 0 -> 00
+        }
+
+        return '#' + hex(r) + hex(g) + hex(b);
+      }
+
+      return {
+        /**
+         * Parses the specified RGB color value and returns a hex version of that color.
+         *
+         * @method toHex
+         * @param {String} color RGB string value like rgb(1,2,3)
+         * @return {String} Hex version of that RGB value like #FF00FF.
+         */
+        toHex: function (color) {
+          return color.replace(rgbRegExp, toHex);
+        },
+
+        /**
+         * Parses the specified style value into an object collection. This parser will also
+         * merge and remove any redundant items that browsers might have added. It will also convert non hex
+         * colors to hex values. Urls inside the styles will also be converted to absolute/relative based on settings.
+         *
+         * @method parse
+         * @param {String} css Style value to parse for example: border:1px solid red;.
+         * @return {Object} Object representation of that style like {border: '1px solid red'}
+         */
+        parse: function (css) {
+          var styles = {}, matches, name, value, isEncoded, urlConverter = settings.url_converter;
+          var urlConverterScope = settings.url_converter_scope || this;
+
+          function compress(prefix, suffix, noJoin) {
+            var top, right, bottom, left;
+
+            top = styles[prefix + '-top' + suffix];
+            if (!top) {
+              return;
+            }
+
+            right = styles[prefix + '-right' + suffix];
+            if (!right) {
+              return;
+            }
+
+            bottom = styles[prefix + '-bottom' + suffix];
+            if (!bottom) {
+              return;
+            }
+
+            left = styles[prefix + '-left' + suffix];
+            if (!left) {
+              return;
+            }
+
+            var box = [top, right, bottom, left];
+            i = box.length - 1;
+            while (i--) {
+              if (box[i] !== box[i + 1]) {
+                break;
+              }
+            }
+
+            if (i > -1 && noJoin) {
+              return;
+            }
+
+            styles[prefix + suffix] = i == -1 ? box[0] : box.join(' ');
+            delete styles[prefix + '-top' + suffix];
+            delete styles[prefix + '-right' + suffix];
+            delete styles[prefix + '-bottom' + suffix];
+            delete styles[prefix + '-left' + suffix];
+          }
+
+          /**
+           * Checks if the specific style can be compressed in other words if all border-width are equal.
+           */
+          function canCompress(key) {
+            var value = styles[key], i;
+
+            if (!value) {
+              return;
+            }
+
+            value = value.split(' ');
+            i = value.length;
+            while (i--) {
+              if (value[i] !== value[0]) {
+                return false;
+              }
+            }
+
+            styles[key] = value[0];
+
+            return true;
+          }
+
+          /**
+           * Compresses multiple styles into one style.
+           */
+          function compress2(target, a, b, c) {
+            if (!canCompress(a)) {
+              return;
+            }
+
+            if (!canCompress(b)) {
+              return;
+            }
+
+            if (!canCompress(c)) {
+              return;
+            }
+
+            // Compress
+            styles[target] = styles[a] + ' ' + styles[b] + ' ' + styles[c];
+            delete styles[a];
+            delete styles[b];
+            delete styles[c];
+          }
+
+          // Encodes the specified string by replacing all \" \' ; : with _<num>
+          function encode(str) {
+            isEncoded = true;
+
+            return encodingLookup[str];
+          }
+
+          // Decodes the specified string by replacing all _<num> with it's original value \" \' etc
+          // It will also decode the \" \' if keepSlashes is set to fale or omitted
+          function decode(str, keepSlashes) {
+            if (isEncoded) {
+              str = str.replace(/\uFEFF[0-9]/g, function (str) {
+                return encodingLookup[str];
+              });
+            }
+
+            if (!keepSlashes) {
+              str = str.replace(/\\([\'\";:])/g, "$1");
+            }
+
+            return str;
+          }
+
+          function decodeSingleHexSequence(escSeq) {
+            return String.fromCharCode(parseInt(escSeq.slice(1), 16));
+          }
+
+          function decodeHexSequences(value) {
+            return value.replace(/\\[0-9a-f]+/gi, decodeSingleHexSequence);
+          }
+
+          function processUrl(match, url, url2, url3, str, str2) {
+            str = str || str2;
+
+            if (str) {
+              str = decode(str);
+
+              // Force strings into single quote format
+              return "'" + str.replace(/\'/g, "\\'") + "'";
+            }
+
+            url = decode(url || url2 || url3);
+
+            if (!settings.allow_script_urls) {
+              var scriptUrl = url.replace(/[\s\r\n]+/g, '');
+
+              if (/(java|vb)script:/i.test(scriptUrl)) {
+                return "";
+              }
+
+              if (!settings.allow_svg_data_urls && /^data:image\/svg/i.test(scriptUrl)) {
+                return "";
+              }
+            }
+
+            // Convert the URL to relative/absolute depending on config
+            if (urlConverter) {
+              url = urlConverter.call(urlConverterScope, url, 'style');
+            }
+
+            // Output new URL format
+            return "url('" + url.replace(/\'/g, "\\'") + "')";
+          }
+
+          if (css) {
+            css = css.replace(/[\u0000-\u001F]/g, '');
+
+            // Encode \" \' % and ; and : inside strings so they don't interfere with the style parsing
+            css = css.replace(/\\[\"\';:\uFEFF]/g, encode).replace(/\"[^\"]+\"|\'[^\']+\'/g, function (str) {
+              return str.replace(/[;:]/g, encode);
+            });
+
+            // Parse styles
+            while ((matches = styleRegExp.exec(css))) {
+              styleRegExp.lastIndex = matches.index + matches[0].length;
+              name = matches[1].replace(trimRightRegExp, '').toLowerCase();
+              value = matches[2].replace(trimRightRegExp, '');
+
+              if (name && value) {
+                // Decode escaped sequences like \65 -> e
+                name = decodeHexSequences(name);
+                value = decodeHexSequences(value);
+
+                // Skip properties with double quotes and sequences like \" \' in their names
+                // See 'mXSS Attacks: Attacking well-secured Web-Applications by using innerHTML Mutations'
+                // https://cure53.de/fp170.pdf
+                if (name.indexOf(invisibleChar) !== -1 || name.indexOf('"') !== -1) {
+                  continue;
+                }
+
+                // Don't allow behavior name or expression/comments within the values
+                if (!settings.allow_script_urls && (name == "behavior" || /expression\s*\(|\/\*|\*\//.test(value))) {
+                  continue;
+                }
+
+                // Opera will produce 700 instead of bold in their style values
+                if (name === 'font-weight' && value === '700') {
+                  value = 'bold';
+                } else if (name === 'color' || name === 'background-color') { // Lowercase colors like RED
+                  value = value.toLowerCase();
+                }
+
+                // Convert RGB colors to HEX
+                value = value.replace(rgbRegExp, toHex);
+
+                // Convert URLs and force them into url('value') format
+                value = value.replace(urlOrStrRegExp, processUrl);
+                styles[name] = isEncoded ? decode(value, true) : value;
+              }
+            }
+            // Compress the styles to reduce it's size for example IE will expand styles
+            compress("border", "", true);
+            compress("border", "-width");
+            compress("border", "-color");
+            compress("border", "-style");
+            compress("padding", "");
+            compress("margin", "");
+            compress2('border', 'border-width', 'border-style', 'border-color');
+
+            // Remove pointless border, IE produces these
+            if (styles.border === 'medium none') {
+              delete styles.border;
+            }
+
+            // IE 11 will produce a border-image: none when getting the style attribute from <p style="border: 1px solid red"></p>
+            // So let us assume it shouldn't be there
+            if (styles['border-image'] === 'none') {
+              delete styles['border-image'];
+            }
+          }
+
+          return styles;
+        },
+
+        /**
+         * Serializes the specified style object into a string.
+         *
+         * @method serialize
+         * @param {Object} styles Object to serialize as string for example: {border: '1px solid red'}
+         * @param {String} elementName Optional element name, if specified only the styles that matches the schema will be serialized.
+         * @return {String} String representation of the style object for example: border: 1px solid red.
+         */
+        serialize: function (styles, elementName) {
+          var css = '', name, value;
+
+          function serializeStyles(name) {
+            var styleList, i, l, value;
+
+            styleList = validStyles[name];
+            if (styleList) {
+              for (i = 0, l = styleList.length; i < l; i++) {
+                name = styleList[i];
+                value = styles[name];
+
+                if (value) {
+                  css += (css.length > 0 ? ' ' : '') + name + ': ' + value + ';';
+                }
+              }
+            }
+          }
+
+          function isValid(name, elementName) {
+            var styleMap;
+
+            styleMap = invalidStyles['*'];
+            if (styleMap && styleMap[name]) {
+              return false;
+            }
+
+            styleMap = invalidStyles[elementName];
+            if (styleMap && styleMap[name]) {
+              return false;
+            }
+
+            return true;
+          }
+
+          // Serialize styles according to schema
+          if (elementName && validStyles) {
+            // Serialize global styles and element specific styles
+            serializeStyles('*');
+            serializeStyles(elementName);
+          } else {
+            // Output the styles in the order they are inside the object
+            for (name in styles) {
+              value = styles[name];
+
+              if (value && (!invalidStyles || isValid(name, elementName))) {
+                css += (css.length > 0 ? ' ' : '') + name + ': ' + value + ';';
+              }
+            }
+          }
+
+          return css;
+        }
+      };
     };
   }
 );
@@ -11471,310 +11403,7 @@ define(
 );
 
 /**
- * ScriptLoader.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/*globals console*/
-
-/**
- * This class handles asynchronous/synchronous loading of JavaScript files it will execute callbacks
- * when various items gets loaded. This class is useful to load external JavaScript files.
- *
- * @class tinymce.dom.ScriptLoader
- * @example
- * // Load a script from a specific URL using the global script loader
- * tinymce.ScriptLoader.load('somescript.js');
- *
- * // Load a script using a unique instance of the script loader
- * var scriptLoader = new tinymce.dom.ScriptLoader();
- *
- * scriptLoader.load('somescript.js');
- *
- * // Load multiple scripts
- * var scriptLoader = new tinymce.dom.ScriptLoader();
- *
- * scriptLoader.add('somescript1.js');
- * scriptLoader.add('somescript2.js');
- * scriptLoader.add('somescript3.js');
- *
- * scriptLoader.loadQueue(function() {
- *    alert('All scripts are now loaded.');
- * });
- */
-define(
-  'tinymce.core.dom.ScriptLoader',
-  [
-    "tinymce.core.dom.DOMUtils",
-    "tinymce.core.util.Tools"
-  ],
-  function (DOMUtils, Tools) {
-    var DOM = DOMUtils.DOM;
-    var each = Tools.each, grep = Tools.grep;
-
-    var isFunction = function (f) {
-      return typeof f === 'function';
-    };
-
-    function ScriptLoader() {
-      var QUEUED = 0,
-        LOADING = 1,
-        LOADED = 2,
-        FAILED = 3,
-        states = {},
-        queue = [],
-        scriptLoadedCallbacks = {},
-        queueLoadedCallbacks = [],
-        loading = 0,
-        undef;
-
-      /**
-       * Loads a specific script directly without adding it to the load queue.
-       *
-       * @method load
-       * @param {String} url Absolute URL to script to add.
-       * @param {function} callback Optional success callback function when the script loaded successfully.
-       * @param {function} callback Optional failure callback function when the script failed to load.
-       */
-      function loadScript(url, success, failure) {
-        var dom = DOM, elm, id;
-
-        // Execute callback when script is loaded
-        function done() {
-          dom.remove(id);
-
-          if (elm) {
-            elm.onreadystatechange = elm.onload = elm = null;
-          }
-
-          success();
-        }
-
-        function error() {
-          /*eslint no-console:0 */
-
-          // We can't mark it as done if there is a load error since
-          // A) We don't want to produce 404 errors on the server and
-          // B) the onerror event won't fire on all browsers.
-          // done();
-
-          if (isFunction(failure)) {
-            failure();
-          } else {
-            // Report the error so it's easier for people to spot loading errors
-            if (typeof console !== "undefined" && console.log) {
-              console.log("Failed to load script: " + url);
-            }
-          }
-        }
-
-        id = dom.uniqueId();
-
-        // Create new script element
-        elm = document.createElement('script');
-        elm.id = id;
-        elm.type = 'text/javascript';
-        elm.src = Tools._addCacheSuffix(url);
-
-        // Seems that onreadystatechange works better on IE 10 onload seems to fire incorrectly
-        if ("onreadystatechange" in elm) {
-          elm.onreadystatechange = function () {
-            if (/loaded|complete/.test(elm.readyState)) {
-              done();
-            }
-          };
-        } else {
-          elm.onload = done;
-        }
-
-        // Add onerror event will get fired on some browsers but not all of them
-        elm.onerror = error;
-
-        // Add script to document
-        (document.getElementsByTagName('head')[0] || document.body).appendChild(elm);
-      }
-
-      /**
-       * Returns true/false if a script has been loaded or not.
-       *
-       * @method isDone
-       * @param {String} url URL to check for.
-       * @return {Boolean} true/false if the URL is loaded.
-       */
-      this.isDone = function (url) {
-        return states[url] == LOADED;
-      };
-
-      /**
-       * Marks a specific script to be loaded. This can be useful if a script got loaded outside
-       * the script loader or to skip it from loading some script.
-       *
-       * @method markDone
-       * @param {string} url Absolute URL to the script to mark as loaded.
-       */
-      this.markDone = function (url) {
-        states[url] = LOADED;
-      };
-
-      /**
-       * Adds a specific script to the load queue of the script loader.
-       *
-       * @method add
-       * @param {String} url Absolute URL to script to add.
-       * @param {function} success Optional success callback function to execute when the script loades successfully.
-       * @param {Object} scope Optional scope to execute callback in.
-       * @param {function} failure Optional failure callback function to execute when the script failed to load.
-       */
-      this.add = this.load = function (url, success, scope, failure) {
-        var state = states[url];
-
-        // Add url to load queue
-        if (state == undef) {
-          queue.push(url);
-          states[url] = QUEUED;
-        }
-
-        if (success) {
-          // Store away callback for later execution
-          if (!scriptLoadedCallbacks[url]) {
-            scriptLoadedCallbacks[url] = [];
-          }
-
-          scriptLoadedCallbacks[url].push({
-            success: success,
-            failure: failure,
-            scope: scope || this
-          });
-        }
-      };
-
-      this.remove = function (url) {
-        delete states[url];
-        delete scriptLoadedCallbacks[url];
-      };
-
-      /**
-       * Starts the loading of the queue.
-       *
-       * @method loadQueue
-       * @param {function} success Optional callback to execute when all queued items are loaded.
-       * @param {function} failure Optional callback to execute when queued items failed to load.
-       * @param {Object} scope Optional scope to execute the callback in.
-       */
-      this.loadQueue = function (success, scope, failure) {
-        this.loadScripts(queue, success, scope, failure);
-      };
-
-      /**
-       * Loads the specified queue of files and executes the callback ones they are loaded.
-       * This method is generally not used outside this class but it might be useful in some scenarios.
-       *
-       * @method loadScripts
-       * @param {Array} scripts Array of queue items to load.
-       * @param {function} callback Optional callback to execute when scripts is loaded successfully.
-       * @param {Object} scope Optional scope to execute callback in.
-       * @param {function} callback Optional callback to execute if scripts failed to load.
-       */
-      this.loadScripts = function (scripts, success, scope, failure) {
-        var loadScripts, failures = [];
-
-        function execCallbacks(name, url) {
-          // Execute URL callback functions
-          each(scriptLoadedCallbacks[url], function (callback) {
-            if (isFunction(callback[name])) {
-              callback[name].call(callback.scope);
-            }
-          });
-
-          scriptLoadedCallbacks[url] = undef;
-        }
-
-        queueLoadedCallbacks.push({
-          success: success,
-          failure: failure,
-          scope: scope || this
-        });
-
-        loadScripts = function () {
-          var loadingScripts = grep(scripts);
-
-          // Current scripts has been handled
-          scripts.length = 0;
-
-          // Load scripts that needs to be loaded
-          each(loadingScripts, function (url) {
-            // Script is already loaded then execute script callbacks directly
-            if (states[url] === LOADED) {
-              execCallbacks('success', url);
-              return;
-            }
-
-            if (states[url] === FAILED) {
-              execCallbacks('failure', url);
-              return;
-            }
-
-            // Is script not loading then start loading it
-            if (states[url] !== LOADING) {
-              states[url] = LOADING;
-              loading++;
-
-              loadScript(url, function () {
-                states[url] = LOADED;
-                loading--;
-
-                execCallbacks('success', url);
-
-                // Load more scripts if they where added by the recently loaded script
-                loadScripts();
-              }, function () {
-                states[url] = FAILED;
-                loading--;
-
-                failures.push(url);
-                execCallbacks('failure', url);
-
-                // Load more scripts if they where added by the recently loaded script
-                loadScripts();
-              });
-            }
-          });
-
-          // No scripts are currently loading then execute all pending queue loaded callbacks
-          if (!loading) {
-            each(queueLoadedCallbacks, function (callback) {
-              if (failures.length === 0) {
-                if (isFunction(callback.success)) {
-                  callback.success.call(callback.scope);
-                }
-              } else {
-                if (isFunction(callback.failure)) {
-                  callback.failure.call(callback.scope, failures);
-                }
-              }
-            });
-
-            queueLoadedCallbacks.length = 0;
-          }
-        };
-
-        loadScripts();
-      };
-    }
-
-    ScriptLoader.ScriptLoader = new ScriptLoader();
-
-    return ScriptLoader;
-  }
-);
-
-/**
- * AddOnManager.js
+ * Fun.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -11784,390 +11413,88 @@ define(
  */
 
 /**
- * This class handles the loading of themes/plugins or other add-ons and their language packs.
- *
- * @class tinymce.AddOnManager
- */
-define(
-  'tinymce.core.AddOnManager',
-  [
-    "tinymce.core.dom.ScriptLoader",
-    "tinymce.core.util.Tools"
-  ],
-  function (ScriptLoader, Tools) {
-    var each = Tools.each;
-
-    function AddOnManager() {
-      var self = this;
-
-      self.items = [];
-      self.urls = {};
-      self.lookup = {};
-    }
-
-    AddOnManager.prototype = {
-      /**
-       * Returns the specified add on by the short name.
-       *
-       * @method get
-       * @param {String} name Add-on to look for.
-       * @return {tinymce.Theme/tinymce.Plugin} Theme or plugin add-on instance or undefined.
-       */
-      get: function (name) {
-        if (this.lookup[name]) {
-          return this.lookup[name].instance;
-        }
-
-        return undefined;
-      },
-
-      dependencies: function (name) {
-        var result;
-
-        if (this.lookup[name]) {
-          result = this.lookup[name].dependencies;
-        }
-
-        return result || [];
-      },
-
-      /**
-       * Loads a language pack for the specified add-on.
-       *
-       * @method requireLangPack
-       * @param {String} name Short name of the add-on.
-       * @param {String} languages Optional comma or space separated list of languages to check if it matches the name.
-       */
-      requireLangPack: function (name, languages) {
-        var language = AddOnManager.language;
-
-        if (language && AddOnManager.languageLoad !== false) {
-          if (languages) {
-            languages = ',' + languages + ',';
-
-            // Load short form sv.js or long form sv_SE.js
-            if (languages.indexOf(',' + language.substr(0, 2) + ',') != -1) {
-              language = language.substr(0, 2);
-            } else if (languages.indexOf(',' + language + ',') == -1) {
-              return;
-            }
-          }
-
-          ScriptLoader.ScriptLoader.add(this.urls[name] + '/langs/' + language + '.js');
-        }
-      },
-
-      /**
-       * Adds a instance of the add-on by it's short name.
-       *
-       * @method add
-       * @param {String} id Short name/id for the add-on.
-       * @param {tinymce.Theme/tinymce.Plugin} addOn Theme or plugin to add.
-       * @return {tinymce.Theme/tinymce.Plugin} The same theme or plugin instance that got passed in.
-       * @example
-       * // Create a simple plugin
-       * tinymce.create('tinymce.plugins.TestPlugin', {
-       *   TestPlugin: function(ed, url) {
-       *   ed.on('click', function(e) {
-       *      ed.windowManager.alert('Hello World!');
-       *   });
-       *   }
-       * });
-       *
-       * // Register plugin using the add method
-       * tinymce.PluginManager.add('test', tinymce.plugins.TestPlugin);
-       *
-       * // Initialize TinyMCE
-       * tinymce.init({
-       *  ...
-       *  plugins: '-test' // Init the plugin but don't try to load it
-       * });
-       */
-      add: function (id, addOn, dependencies) {
-        this.items.push(addOn);
-        this.lookup[id] = { instance: addOn, dependencies: dependencies };
-
-        return addOn;
-      },
-
-      remove: function (name) {
-        delete this.urls[name];
-        delete this.lookup[name];
-      },
-
-      createUrl: function (baseUrl, dep) {
-        if (typeof dep === "object") {
-          return dep;
-        }
-
-        return { prefix: baseUrl.prefix, resource: dep, suffix: baseUrl.suffix };
-      },
-
-      /**
-       * Add a set of components that will make up the add-on. Using the url of the add-on name as the base url.
-       * This should be used in development mode.  A new compressor/javascript munger process will ensure that the
-       * components are put together into the plugin.js file and compressed correctly.
-       *
-       * @method addComponents
-       * @param {String} pluginName name of the plugin to load scripts from (will be used to get the base url for the plugins).
-       * @param {Array} scripts Array containing the names of the scripts to load.
-       */
-      addComponents: function (pluginName, scripts) {
-        var pluginUrl = this.urls[pluginName];
-
-        each(scripts, function (script) {
-          ScriptLoader.ScriptLoader.add(pluginUrl + "/" + script);
-        });
-      },
-
-      /**
-       * Loads an add-on from a specific url.
-       *
-       * @method load
-       * @param {String} name Short name of the add-on that gets loaded.
-       * @param {String} addOnUrl URL to the add-on that will get loaded.
-       * @param {function} success Optional success callback to execute when an add-on is loaded.
-       * @param {Object} scope Optional scope to execute the callback in.
-       * @param {function} failure Optional failure callback to execute when an add-on failed to load.
-       * @example
-       * // Loads a plugin from an external URL
-       * tinymce.PluginManager.load('myplugin', '/some/dir/someplugin/plugin.js');
-       *
-       * // Initialize TinyMCE
-       * tinymce.init({
-       *  ...
-       *  plugins: '-myplugin' // Don't try to load it again
-       * });
-       */
-      load: function (name, addOnUrl, success, scope, failure) {
-        var self = this, url = addOnUrl;
-
-        function loadDependencies() {
-          var dependencies = self.dependencies(name);
-
-          each(dependencies, function (dep) {
-            var newUrl = self.createUrl(addOnUrl, dep);
-
-            self.load(newUrl.resource, newUrl, undefined, undefined);
-          });
-
-          if (success) {
-            if (scope) {
-              success.call(scope);
-            } else {
-              success.call(ScriptLoader);
-            }
-          }
-        }
-
-        if (self.urls[name]) {
-          return;
-        }
-
-        if (typeof addOnUrl === "object") {
-          url = addOnUrl.prefix + addOnUrl.resource + addOnUrl.suffix;
-        }
-
-        if (url.indexOf('/') !== 0 && url.indexOf('://') == -1) {
-          url = AddOnManager.baseURL + '/' + url;
-        }
-
-        self.urls[name] = url.substring(0, url.lastIndexOf('/'));
-
-        if (self.lookup[name]) {
-          loadDependencies();
-        } else {
-          ScriptLoader.ScriptLoader.add(url, loadDependencies, scope, failure);
-        }
-      }
-    };
-
-    AddOnManager.PluginManager = new AddOnManager();
-    AddOnManager.ThemeManager = new AddOnManager();
-
-    return AddOnManager;
-  }
-);
-
-/**
- * TinyMCE theme class.
- *
- * @class tinymce.Theme
- */
-
-/**
- * This method is responsible for rendering/generating the overall user interface with toolbars, buttons, iframe containers etc.
- *
- * @method renderUI
- * @param {Object} obj Object parameter containing the targetNode DOM node that will be replaced visually with an editor instance.
- * @return {Object} an object with items like iframeContainer, editorContainer, sizeContainer, deltaWidth, deltaHeight.
- */
-
-/**
- * Plugin base class, this is a pseudo class that describes how a plugin is to be created for TinyMCE. The methods below are all optional.
- *
- * @class tinymce.Plugin
- * @example
- * tinymce.PluginManager.add('example', function(editor, url) {
- *     // Add a button that opens a window
- *     editor.addButton('example', {
- *         text: 'My button',
- *         icon: false,
- *         onclick: function() {
- *             // Open window
- *             editor.windowManager.open({
- *                 title: 'Example plugin',
- *                 body: [
- *                     {type: 'textbox', name: 'title', label: 'Title'}
- *                 ],
- *                 onsubmit: function(e) {
- *                     // Insert content when the window form is submitted
- *                     editor.insertContent('Title: ' + e.data.title);
- *                 }
- *             });
- *         }
- *     });
- *
- *     // Adds a menu item to the tools menu
- *     editor.addMenuItem('example', {
- *         text: 'Example plugin',
- *         context: 'tools',
- *         onclick: function() {
- *             // Open window with a specific url
- *             editor.windowManager.open({
- *                 title: 'TinyMCE site',
- *                 url: 'http://www.tinymce.com',
- *                 width: 800,
- *                 height: 600,
- *                 buttons: [{
- *                     text: 'Close',
- *                     onclick: 'close'
- *                 }]
- *             });
- *         }
- *     });
- * });
- */
-
-/**
- * NodeType.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Contains various node validation functions.
+ * Functional utility class.
  *
  * @private
- * @class tinymce.dom.NodeType
+ * @class tinymce.util.Fun
  */
 define(
-  'tinymce.core.dom.NodeType',
+  'tinymce.core.util.Fun',
   [
   ],
   function () {
-    function isNodeType(type) {
-      return function (node) {
-        return !!node && node.nodeType == type;
+    var slice = [].slice;
+
+    function constant(value) {
+      return function () {
+        return value;
       };
     }
 
-    var isElement = isNodeType(1);
-
-    function matchNodeNames(names) {
-      names = names.toLowerCase().split(' ');
-
-      return function (node) {
-        var i, name;
-
-        if (node && node.nodeType) {
-          name = node.nodeName.toLowerCase();
-
-          for (i = 0; i < names.length; i++) {
-            if (name === names[i]) {
-              return true;
-            }
-          }
-        }
-
-        return false;
+    function negate(predicate) {
+      return function (x) {
+        return !predicate(x);
       };
     }
 
-    function matchStyleValues(name, values) {
-      values = values.toLowerCase().split(' ');
-
-      return function (node) {
-        var i, cssValue;
-
-        if (isElement(node)) {
-          for (i = 0; i < values.length; i++) {
-            cssValue = node.ownerDocument.defaultView.getComputedStyle(node, null).getPropertyValue(name);
-            if (cssValue === values[i]) {
-              return true;
-            }
-          }
-        }
-
-        return false;
+    function compose(f, g) {
+      return function (x) {
+        return f(g(x));
       };
     }
 
-    function hasPropValue(propName, propValue) {
-      return function (node) {
-        return isElement(node) && node[propName] === propValue;
-      };
-    }
+    function or() {
+      var args = slice.call(arguments);
 
-    function hasAttribute(attrName, attrValue) {
-      return function (node) {
-        return isElement(node) && node.hasAttribute(attrName);
-      };
-    }
-
-    function hasAttributeValue(attrName, attrValue) {
-      return function (node) {
-        return isElement(node) && node.getAttribute(attrName) === attrValue;
-      };
-    }
-
-    function isBogus(node) {
-      return isElement(node) && node.hasAttribute('data-mce-bogus');
-    }
-
-    function hasContentEditableState(value) {
-      return function (node) {
-        if (isElement(node)) {
-          if (node.contentEditable === value) {
-            return true;
-          }
-
-          if (node.getAttribute('data-mce-contenteditable') === value) {
+      return function (x) {
+        for (var i = 0; i < args.length; i++) {
+          if (args[i](x)) {
             return true;
           }
         }
 
         return false;
       };
+    }
+
+    function and() {
+      var args = slice.call(arguments);
+
+      return function (x) {
+        for (var i = 0; i < args.length; i++) {
+          if (!args[i](x)) {
+            return false;
+          }
+        }
+
+        return true;
+      };
+    }
+
+    function curry(fn) {
+      var args = slice.call(arguments);
+
+      if (args.length - 1 >= fn.length) {
+        return fn.apply(this, args.slice(1));
+      }
+
+      return function () {
+        var tempArgs = args.concat([].slice.call(arguments));
+        return curry.apply(this, tempArgs);
+      };
+    }
+
+    function noop() {
     }
 
     return {
-      isText: isNodeType(3),
-      isElement: isElement,
-      isComment: isNodeType(8),
-      isBr: matchNodeNames('br'),
-      isContentEditableTrue: hasContentEditableState('true'),
-      isContentEditableFalse: hasContentEditableState('false'),
-      matchNodeNames: matchNodeNames,
-      hasPropValue: hasPropValue,
-      hasAttribute: hasAttribute,
-      hasAttributeValue: hasAttributeValue,
-      matchStyleValues: matchStyleValues,
-      isBogus: isBogus
+      constant: constant,
+      negate: negate,
+      and: and,
+      or: or,
+      curry: curry,
+      compose: compose,
+      noop: noop
     };
   }
 );
@@ -12879,13 +12206,13 @@ define(
                     break;
                   }
 
-                  // Found a BR/IMG element that we can place the caret before
+                  // Found a BR/IMG/PRE element that we can place the caret before
                   if (nonEmptyElementsMap[node.nodeName.toLowerCase()] && !isTableCell(node)) {
                     offset = dom.nodeIndex(node);
                     container = node.parentNode;
 
-                    // Put caret after image when moving the end point
-                    if (node.nodeName == "IMG" && !directionLeft) {
+                    // Put caret after image and pre tag when moving the end point
+                    if ((node.nodeName === "IMG" || node.nodeName === "PRE") && !directionLeft) {
                       offset++;
                     }
 
@@ -13094,6 +12421,8403 @@ define(
     return RangeUtils;
   }
 );
+
+/**
+ * CaretCandidate.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This module contains logic for handling caret candidates. A caret candidate is
+ * for example text nodes, images, input elements, cE=false elements etc.
+ *
+ * @private
+ * @class tinymce.caret.CaretCandidate
+ */
+define(
+  'tinymce.core.caret.CaretCandidate',
+  [
+    "tinymce.core.dom.NodeType",
+    "tinymce.core.util.Arr",
+    "tinymce.core.caret.CaretContainer"
+  ],
+  function (NodeType, Arr, CaretContainer) {
+    var isContentEditableTrue = NodeType.isContentEditableTrue,
+      isContentEditableFalse = NodeType.isContentEditableFalse,
+      isBr = NodeType.isBr,
+      isText = NodeType.isText,
+      isInvalidTextElement = NodeType.matchNodeNames('script style textarea'),
+      isAtomicInline = NodeType.matchNodeNames('img input textarea hr iframe video audio object'),
+      isTable = NodeType.matchNodeNames('table'),
+      isCaretContainer = CaretContainer.isCaretContainer;
+
+    function isCaretCandidate(node) {
+      if (isCaretContainer(node)) {
+        return false;
+      }
+
+      if (isText(node)) {
+        if (isInvalidTextElement(node.parentNode)) {
+          return false;
+        }
+
+        return true;
+      }
+
+      return isAtomicInline(node) || isBr(node) || isTable(node) || isContentEditableFalse(node);
+    }
+
+    function isInEditable(node, rootNode) {
+      for (node = node.parentNode; node && node != rootNode; node = node.parentNode) {
+        if (isContentEditableFalse(node)) {
+          return false;
+        }
+
+        if (isContentEditableTrue(node)) {
+          return true;
+        }
+      }
+
+      return true;
+    }
+
+    function isAtomicContentEditableFalse(node) {
+      if (!isContentEditableFalse(node)) {
+        return false;
+      }
+
+      return Arr.reduce(node.getElementsByTagName('*'), function (result, elm) {
+        return result || isContentEditableTrue(elm);
+      }, false) !== true;
+    }
+
+    function isAtomic(node) {
+      return isAtomicInline(node) || isAtomicContentEditableFalse(node);
+    }
+
+    function isEditableCaretCandidate(node, rootNode) {
+      return isCaretCandidate(node) && isInEditable(node, rootNode);
+    }
+
+    return {
+      isCaretCandidate: isCaretCandidate,
+      isInEditable: isInEditable,
+      isAtomic: isAtomic,
+      isEditableCaretCandidate: isEditableCaretCandidate
+    };
+  }
+);
+/**
+ * ClientRect.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Utility functions for working with client rects.
+ *
+ * @private
+ * @class tinymce.geom.ClientRect
+ */
+define(
+  'tinymce.core.geom.ClientRect',
+  [
+  ],
+  function () {
+    var round = Math.round;
+
+    function clone(rect) {
+      if (!rect) {
+        return { left: 0, top: 0, bottom: 0, right: 0, width: 0, height: 0 };
+      }
+
+      return {
+        left: round(rect.left),
+        top: round(rect.top),
+        bottom: round(rect.bottom),
+        right: round(rect.right),
+        width: round(rect.width),
+        height: round(rect.height)
+      };
+    }
+
+    function collapse(clientRect, toStart) {
+      clientRect = clone(clientRect);
+
+      if (toStart) {
+        clientRect.right = clientRect.left;
+      } else {
+        clientRect.left = clientRect.left + clientRect.width;
+        clientRect.right = clientRect.left;
+      }
+
+      clientRect.width = 0;
+
+      return clientRect;
+    }
+
+    function isEqual(rect1, rect2) {
+      return (
+        rect1.left === rect2.left &&
+        rect1.top === rect2.top &&
+        rect1.bottom === rect2.bottom &&
+        rect1.right === rect2.right
+      );
+    }
+
+    function isValidOverflow(overflowY, clientRect1, clientRect2) {
+      return overflowY >= 0 && overflowY <= Math.min(clientRect1.height, clientRect2.height) / 2;
+
+    }
+
+    function isAbove(clientRect1, clientRect2) {
+      if ((clientRect1.bottom - clientRect1.height / 2) < clientRect2.top) {
+        return true;
+      }
+
+      if (clientRect1.top > clientRect2.bottom) {
+        return false;
+      }
+
+      return isValidOverflow(clientRect2.top - clientRect1.bottom, clientRect1, clientRect2);
+    }
+
+    function isBelow(clientRect1, clientRect2) {
+      if (clientRect1.top > clientRect2.bottom) {
+        return true;
+      }
+
+      if (clientRect1.bottom < clientRect2.top) {
+        return false;
+      }
+
+      return isValidOverflow(clientRect2.bottom - clientRect1.top, clientRect1, clientRect2);
+    }
+
+    function isLeft(clientRect1, clientRect2) {
+      return clientRect1.left < clientRect2.left;
+    }
+
+    function isRight(clientRect1, clientRect2) {
+      return clientRect1.right > clientRect2.right;
+    }
+
+    function compare(clientRect1, clientRect2) {
+      if (isAbove(clientRect1, clientRect2)) {
+        return -1;
+      }
+
+      if (isBelow(clientRect1, clientRect2)) {
+        return 1;
+      }
+
+      if (isLeft(clientRect1, clientRect2)) {
+        return -1;
+      }
+
+      if (isRight(clientRect1, clientRect2)) {
+        return 1;
+      }
+
+      return 0;
+    }
+
+    function containsXY(clientRect, clientX, clientY) {
+      return (
+        clientX >= clientRect.left &&
+        clientX <= clientRect.right &&
+        clientY >= clientRect.top &&
+        clientY <= clientRect.bottom
+      );
+    }
+
+    return {
+      clone: clone,
+      collapse: collapse,
+      isEqual: isEqual,
+      isAbove: isAbove,
+      isBelow: isBelow,
+      isLeft: isLeft,
+      isRight: isRight,
+      compare: compare,
+      containsXY: containsXY
+    };
+  }
+);
+
+/**
+ * ExtendingChar.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This class contains logic for detecting extending characters.
+ *
+ * @private
+ * @class tinymce.text.ExtendingChar
+ * @example
+ * var isExtending = ExtendingChar.isExtendingChar('a');
+ */
+define(
+  'tinymce.core.text.ExtendingChar',
+  [
+  ],
+  function () {
+    // Generated from: http://www.unicode.org/Public/UNIDATA/DerivedCoreProperties.txt
+    // Only includes the characters in that fit into UCS-2 16 bit
+    var extendingChars = new RegExp(
+      "[\u0300-\u036F\u0483-\u0487\u0488-\u0489\u0591-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7\u0610-\u061A" +
+      "\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7-\u06E8\u06EA-\u06ED\u0711\u0730-\u074A\u07A6-\u07B0" +
+      "\u07EB-\u07F3\u0816-\u0819\u081B-\u0823\u0825-\u0827\u0829-\u082D\u0859-\u085B\u08E3-\u0902\u093A\u093C" +
+      "\u0941-\u0948\u094D\u0951-\u0957\u0962-\u0963\u0981\u09BC\u09BE\u09C1-\u09C4\u09CD\u09D7\u09E2-\u09E3" +
+      "\u0A01-\u0A02\u0A3C\u0A41-\u0A42\u0A47-\u0A48\u0A4B-\u0A4D\u0A51\u0A70-\u0A71\u0A75\u0A81-\u0A82\u0ABC" +
+      "\u0AC1-\u0AC5\u0AC7-\u0AC8\u0ACD\u0AE2-\u0AE3\u0B01\u0B3C\u0B3E\u0B3F\u0B41-\u0B44\u0B4D\u0B56\u0B57" +
+      "\u0B62-\u0B63\u0B82\u0BBE\u0BC0\u0BCD\u0BD7\u0C00\u0C3E-\u0C40\u0C46-\u0C48\u0C4A-\u0C4D\u0C55-\u0C56" +
+      "\u0C62-\u0C63\u0C81\u0CBC\u0CBF\u0CC2\u0CC6\u0CCC-\u0CCD\u0CD5-\u0CD6\u0CE2-\u0CE3\u0D01\u0D3E\u0D41-\u0D44" +
+      "\u0D4D\u0D57\u0D62-\u0D63\u0DCA\u0DCF\u0DD2-\u0DD4\u0DD6\u0DDF\u0E31\u0E34-\u0E3A\u0E47-\u0E4E\u0EB1\u0EB4-\u0EB9" +
+      "\u0EBB-\u0EBC\u0EC8-\u0ECD\u0F18-\u0F19\u0F35\u0F37\u0F39\u0F71-\u0F7E\u0F80-\u0F84\u0F86-\u0F87\u0F8D-\u0F97" +
+      "\u0F99-\u0FBC\u0FC6\u102D-\u1030\u1032-\u1037\u1039-\u103A\u103D-\u103E\u1058-\u1059\u105E-\u1060\u1071-\u1074" +
+      "\u1082\u1085-\u1086\u108D\u109D\u135D-\u135F\u1712-\u1714\u1732-\u1734\u1752-\u1753\u1772-\u1773\u17B4-\u17B5" +
+      "\u17B7-\u17BD\u17C6\u17C9-\u17D3\u17DD\u180B-\u180D\u18A9\u1920-\u1922\u1927-\u1928\u1932\u1939-\u193B\u1A17-\u1A18" +
+      "\u1A1B\u1A56\u1A58-\u1A5E\u1A60\u1A62\u1A65-\u1A6C\u1A73-\u1A7C\u1A7F\u1AB0-\u1ABD\u1ABE\u1B00-\u1B03\u1B34" +
+      "\u1B36-\u1B3A\u1B3C\u1B42\u1B6B-\u1B73\u1B80-\u1B81\u1BA2-\u1BA5\u1BA8-\u1BA9\u1BAB-\u1BAD\u1BE6\u1BE8-\u1BE9" +
+      "\u1BED\u1BEF-\u1BF1\u1C2C-\u1C33\u1C36-\u1C37\u1CD0-\u1CD2\u1CD4-\u1CE0\u1CE2-\u1CE8\u1CED\u1CF4\u1CF8-\u1CF9" +
+      "\u1DC0-\u1DF5\u1DFC-\u1DFF\u200C-\u200D\u20D0-\u20DC\u20DD-\u20E0\u20E1\u20E2-\u20E4\u20E5-\u20F0\u2CEF-\u2CF1" +
+      "\u2D7F\u2DE0-\u2DFF\u302A-\u302D\u302E-\u302F\u3099-\u309A\uA66F\uA670-\uA672\uA674-\uA67D\uA69E-\uA69F\uA6F0-\uA6F1" +
+      "\uA802\uA806\uA80B\uA825-\uA826\uA8C4\uA8E0-\uA8F1\uA926-\uA92D\uA947-\uA951\uA980-\uA982\uA9B3\uA9B6-\uA9B9\uA9BC" +
+      "\uA9E5\uAA29-\uAA2E\uAA31-\uAA32\uAA35-\uAA36\uAA43\uAA4C\uAA7C\uAAB0\uAAB2-\uAAB4\uAAB7-\uAAB8\uAABE-\uAABF\uAAC1" +
+      "\uAAEC-\uAAED\uAAF6\uABE5\uABE8\uABED\uFB1E\uFE00-\uFE0F\uFE20-\uFE2F\uFF9E-\uFF9F]"
+    );
+
+    function isExtendingChar(ch) {
+      return typeof ch == "string" && ch.charCodeAt(0) >= 768 && extendingChars.test(ch);
+    }
+
+    return {
+      isExtendingChar: isExtendingChar
+    };
+  }
+);
+/**
+ * CaretPosition.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This module contains logic for creating caret positions within a document a caretposition
+ * is similar to a DOMRange object but it doesn't have two endpoints and is also more lightweight
+ * since it's now updated live when the DOM changes.
+ *
+ * @private
+ * @class tinymce.caret.CaretPosition
+ * @example
+ * var caretPos1 = new CaretPosition(container, offset);
+ * var caretPos2 = CaretPosition.fromRangeStart(someRange);
+ */
+define(
+  'tinymce.core.caret.CaretPosition',
+  [
+    "tinymce.core.util.Fun",
+    "tinymce.core.dom.NodeType",
+    "tinymce.core.dom.DOMUtils",
+    "tinymce.core.dom.RangeUtils",
+    "tinymce.core.caret.CaretCandidate",
+    "tinymce.core.geom.ClientRect",
+    "tinymce.core.text.ExtendingChar"
+  ],
+  function (Fun, NodeType, DOMUtils, RangeUtils, CaretCandidate, ClientRect, ExtendingChar) {
+    var isElement = NodeType.isElement,
+      isCaretCandidate = CaretCandidate.isCaretCandidate,
+      isBlock = NodeType.matchStyleValues('display', 'block table'),
+      isFloated = NodeType.matchStyleValues('float', 'left right'),
+      isValidElementCaretCandidate = Fun.and(isElement, isCaretCandidate, Fun.negate(isFloated)),
+      isNotPre = Fun.negate(NodeType.matchStyleValues('white-space', 'pre pre-line pre-wrap')),
+      isText = NodeType.isText,
+      isBr = NodeType.isBr,
+      nodeIndex = DOMUtils.nodeIndex,
+      resolveIndex = RangeUtils.getNode;
+
+    function createRange(doc) {
+      return "createRange" in doc ? doc.createRange() : DOMUtils.DOM.createRng();
+    }
+
+    function isWhiteSpace(chr) {
+      return chr && /[\r\n\t ]/.test(chr);
+    }
+
+    function isHiddenWhiteSpaceRange(range) {
+      var container = range.startContainer,
+        offset = range.startOffset,
+        text;
+
+      if (isWhiteSpace(range.toString()) && isNotPre(container.parentNode)) {
+        text = container.data;
+
+        if (isWhiteSpace(text[offset - 1]) || isWhiteSpace(text[offset + 1])) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    function getCaretPositionClientRects(caretPosition) {
+      var clientRects = [], beforeNode, node;
+
+      // Hack for older WebKit versions that doesn't
+      // support getBoundingClientRect on BR elements
+      function getBrClientRect(brNode) {
+        var doc = brNode.ownerDocument,
+          rng = createRange(doc),
+          nbsp = doc.createTextNode('\u00a0'),
+          parentNode = brNode.parentNode,
+          clientRect;
+
+        parentNode.insertBefore(nbsp, brNode);
+        rng.setStart(nbsp, 0);
+        rng.setEnd(nbsp, 1);
+        clientRect = ClientRect.clone(rng.getBoundingClientRect());
+        parentNode.removeChild(nbsp);
+
+        return clientRect;
+      }
+
+      function getBoundingClientRect(item) {
+        var clientRect, clientRects;
+
+        clientRects = item.getClientRects();
+        if (clientRects.length > 0) {
+          clientRect = ClientRect.clone(clientRects[0]);
+        } else {
+          clientRect = ClientRect.clone(item.getBoundingClientRect());
+        }
+
+        if (isBr(item) && clientRect.left === 0) {
+          return getBrClientRect(item);
+        }
+
+        return clientRect;
+      }
+
+      function collapseAndInflateWidth(clientRect, toStart) {
+        clientRect = ClientRect.collapse(clientRect, toStart);
+        clientRect.width = 1;
+        clientRect.right = clientRect.left + 1;
+
+        return clientRect;
+      }
+
+      function addUniqueAndValidRect(clientRect) {
+        if (clientRect.height === 0) {
+          return;
+        }
+
+        if (clientRects.length > 0) {
+          if (ClientRect.isEqual(clientRect, clientRects[clientRects.length - 1])) {
+            return;
+          }
+        }
+
+        clientRects.push(clientRect);
+      }
+
+      function addCharacterOffset(container, offset) {
+        var range = createRange(container.ownerDocument);
+
+        if (offset < container.data.length) {
+          if (ExtendingChar.isExtendingChar(container.data[offset])) {
+            return clientRects;
+          }
+
+          // WebKit returns two client rects for a position after an extending
+          // character a\uxxx|b so expand on "b" and collapse to start of "b" box
+          if (ExtendingChar.isExtendingChar(container.data[offset - 1])) {
+            range.setStart(container, offset);
+            range.setEnd(container, offset + 1);
+
+            if (!isHiddenWhiteSpaceRange(range)) {
+              addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(range), false));
+              return clientRects;
+            }
+          }
+        }
+
+        if (offset > 0) {
+          range.setStart(container, offset - 1);
+          range.setEnd(container, offset);
+
+          if (!isHiddenWhiteSpaceRange(range)) {
+            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(range), false));
+          }
+        }
+
+        if (offset < container.data.length) {
+          range.setStart(container, offset);
+          range.setEnd(container, offset + 1);
+
+          if (!isHiddenWhiteSpaceRange(range)) {
+            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(range), true));
+          }
+        }
+      }
+
+      if (isText(caretPosition.container())) {
+        addCharacterOffset(caretPosition.container(), caretPosition.offset());
+        return clientRects;
+      }
+
+      if (isElement(caretPosition.container())) {
+        if (caretPosition.isAtEnd()) {
+          node = resolveIndex(caretPosition.container(), caretPosition.offset());
+          if (isText(node)) {
+            addCharacterOffset(node, node.data.length);
+          }
+
+          if (isValidElementCaretCandidate(node) && !isBr(node)) {
+            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(node), false));
+          }
+        } else {
+          node = resolveIndex(caretPosition.container(), caretPosition.offset());
+          if (isText(node)) {
+            addCharacterOffset(node, 0);
+          }
+
+          if (isValidElementCaretCandidate(node) && caretPosition.isAtEnd()) {
+            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(node), false));
+            return clientRects;
+          }
+
+          beforeNode = resolveIndex(caretPosition.container(), caretPosition.offset() - 1);
+          if (isValidElementCaretCandidate(beforeNode) && !isBr(beforeNode)) {
+            if (isBlock(beforeNode) || isBlock(node) || !isValidElementCaretCandidate(node)) {
+              addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(beforeNode), false));
+            }
+          }
+
+          if (isValidElementCaretCandidate(node)) {
+            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(node), true));
+          }
+        }
+      }
+
+      return clientRects;
+    }
+
+    /**
+     * Represents a location within the document by a container and an offset.
+     *
+     * @constructor
+     * @param {Node} container Container node.
+     * @param {Number} offset Offset within that container node.
+     * @param {Array} clientRects Optional client rects array for the position.
+     */
+    function CaretPosition(container, offset, clientRects) {
+      function isAtStart() {
+        if (isText(container)) {
+          return offset === 0;
+        }
+
+        return offset === 0;
+      }
+
+      function isAtEnd() {
+        if (isText(container)) {
+          return offset >= container.data.length;
+        }
+
+        return offset >= container.childNodes.length;
+      }
+
+      function toRange() {
+        var range;
+
+        range = createRange(container.ownerDocument);
+        range.setStart(container, offset);
+        range.setEnd(container, offset);
+
+        return range;
+      }
+
+      function getClientRects() {
+        if (!clientRects) {
+          clientRects = getCaretPositionClientRects(new CaretPosition(container, offset));
+        }
+
+        return clientRects;
+      }
+
+      function isVisible() {
+        return getClientRects().length > 0;
+      }
+
+      function isEqual(caretPosition) {
+        return caretPosition && container === caretPosition.container() && offset === caretPosition.offset();
+      }
+
+      function getNode(before) {
+        return resolveIndex(container, before ? offset - 1 : offset);
+      }
+
+      return {
+        /**
+         * Returns the container node.
+         *
+         * @method container
+         * @return {Node} Container node.
+         */
+        container: Fun.constant(container),
+
+        /**
+         * Returns the offset within the container node.
+         *
+         * @method offset
+         * @return {Number} Offset within the container node.
+         */
+        offset: Fun.constant(offset),
+
+        /**
+         * Returns a range out of a the caret position.
+         *
+         * @method toRange
+         * @return {DOMRange} range for the caret position.
+         */
+        toRange: toRange,
+
+        /**
+         * Returns the client rects for the caret position. Might be multiple rects between
+         * block elements.
+         *
+         * @method getClientRects
+         * @return {Array} Array of client rects.
+         */
+        getClientRects: getClientRects,
+
+        /**
+         * Returns true if the caret location is visible/displayed on screen.
+         *
+         * @method isVisible
+         * @return {Boolean} true/false if the position is visible or not.
+         */
+        isVisible: isVisible,
+
+        /**
+         * Returns true if the caret location is at the beginning of text node or container.
+         *
+         * @method isVisible
+         * @return {Boolean} true/false if the position is at the beginning.
+         */
+        isAtStart: isAtStart,
+
+        /**
+         * Returns true if the caret location is at the end of text node or container.
+         *
+         * @method isVisible
+         * @return {Boolean} true/false if the position is at the end.
+         */
+        isAtEnd: isAtEnd,
+
+        /**
+         * Compares the caret position to another caret position. This will only compare the
+         * container and offset not it's visual position.
+         *
+         * @method isEqual
+         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to compare with.
+         * @return {Boolean} true if the caret positions are equal.
+         */
+        isEqual: isEqual,
+
+        /**
+         * Returns the closest resolved node from a node index. That means if you have an offset after the
+         * last node in a container it will return that last node.
+         *
+         * @method getNode
+         * @return {Node} Node that is closest to the index.
+         */
+        getNode: getNode
+      };
+    }
+
+    /**
+     * Creates a caret position from the start of a range.
+     *
+     * @method fromRangeStart
+     * @param {DOMRange} range DOM Range to create caret position from.
+     * @return {tinymce.caret.CaretPosition} Caret position from the start of DOM range.
+     */
+    CaretPosition.fromRangeStart = function (range) {
+      return new CaretPosition(range.startContainer, range.startOffset);
+    };
+
+    /**
+     * Creates a caret position from the end of a range.
+     *
+     * @method fromRangeEnd
+     * @param {DOMRange} range DOM Range to create caret position from.
+     * @return {tinymce.caret.CaretPosition} Caret position from the end of DOM range.
+     */
+    CaretPosition.fromRangeEnd = function (range) {
+      return new CaretPosition(range.endContainer, range.endOffset);
+    };
+
+    /**
+     * Creates a caret position from a node and places the offset after it.
+     *
+     * @method after
+     * @param {Node} node Node to get caret position from.
+     * @return {tinymce.caret.CaretPosition} Caret position from the node.
+     */
+    CaretPosition.after = function (node) {
+      return new CaretPosition(node.parentNode, nodeIndex(node) + 1);
+    };
+
+    /**
+     * Creates a caret position from a node and places the offset before it.
+     *
+     * @method before
+     * @param {Node} node Node to get caret position from.
+     * @return {tinymce.caret.CaretPosition} Caret position from the node.
+     */
+    CaretPosition.before = function (node) {
+      return new CaretPosition(node.parentNode, nodeIndex(node));
+    };
+
+    CaretPosition.isAtStart = function (pos) {
+      return pos ? pos.isAtStart() : false;
+    };
+
+    CaretPosition.isAtEnd = function (pos) {
+      return pos ? pos.isAtEnd() : false;
+    };
+
+    CaretPosition.isTextPosition = function (pos) {
+      return pos ? NodeType.isText(pos.container()) : false;
+    };
+
+    return CaretPosition;
+  }
+);
+/**
+ * CaretBookmark.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This module creates or resolves xpath like string representation of a CaretPositions.
+ *
+ * The format is a / separated list of chunks with:
+ * <element|text()>[index|after|before]
+ *
+ * For example:
+ *  p[0]/b[0]/text()[0],1 = <p><b>a|c</b></p>
+ *  p[0]/img[0],before = <p>|<img></p>
+ *  p[0]/img[0],after = <p><img>|</p>
+ *
+ * @private
+ * @static
+ * @class tinymce.caret.CaretBookmark
+ * @example
+ * var bookmark = CaretBookmark.create(rootElm, CaretPosition.before(rootElm.firstChild));
+ * var caretPosition = CaretBookmark.resolve(bookmark);
+ */
+define(
+  'tinymce.core.caret.CaretBookmark',
+  [
+    'tinymce.core.dom.NodeType',
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.util.Fun',
+    'tinymce.core.util.Arr',
+    'tinymce.core.caret.CaretPosition'
+  ],
+  function (NodeType, DomUtils, Fun, Arr, CaretPosition) {
+    var isText = NodeType.isText,
+      isBogus = NodeType.isBogus,
+      nodeIndex = DomUtils.nodeIndex;
+
+    function normalizedParent(node) {
+      var parentNode = node.parentNode;
+
+      if (isBogus(parentNode)) {
+        return normalizedParent(parentNode);
+      }
+
+      return parentNode;
+    }
+
+    function getChildNodes(node) {
+      if (!node) {
+        return [];
+      }
+
+      return Arr.reduce(node.childNodes, function (result, node) {
+        if (isBogus(node) && node.nodeName != 'BR') {
+          result = result.concat(getChildNodes(node));
+        } else {
+          result.push(node);
+        }
+
+        return result;
+      }, []);
+    }
+
+    function normalizedTextOffset(textNode, offset) {
+      while ((textNode = textNode.previousSibling)) {
+        if (!isText(textNode)) {
+          break;
+        }
+
+        offset += textNode.data.length;
+      }
+
+      return offset;
+    }
+
+    function equal(targetValue) {
+      return function (value) {
+        return targetValue === value;
+      };
+    }
+
+    function normalizedNodeIndex(node) {
+      var nodes, index, numTextFragments;
+
+      nodes = getChildNodes(normalizedParent(node));
+      index = Arr.findIndex(nodes, equal(node), node);
+      nodes = nodes.slice(0, index + 1);
+      numTextFragments = Arr.reduce(nodes, function (result, node, i) {
+        if (isText(node) && isText(nodes[i - 1])) {
+          result++;
+        }
+
+        return result;
+      }, 0);
+
+      nodes = Arr.filter(nodes, NodeType.matchNodeNames(node.nodeName));
+      index = Arr.findIndex(nodes, equal(node), node);
+
+      return index - numTextFragments;
+    }
+
+    function createPathItem(node) {
+      var name;
+
+      if (isText(node)) {
+        name = 'text()';
+      } else {
+        name = node.nodeName.toLowerCase();
+      }
+
+      return name + '[' + normalizedNodeIndex(node) + ']';
+    }
+
+    function parentsUntil(rootNode, node, predicate) {
+      var parents = [];
+
+      for (node = node.parentNode; node != rootNode; node = node.parentNode) {
+        if (predicate && predicate(node)) {
+          break;
+        }
+
+        parents.push(node);
+      }
+
+      return parents;
+    }
+
+    function create(rootNode, caretPosition) {
+      var container, offset, path = [],
+        outputOffset, childNodes, parents;
+
+      container = caretPosition.container();
+      offset = caretPosition.offset();
+
+      if (isText(container)) {
+        outputOffset = normalizedTextOffset(container, offset);
+      } else {
+        childNodes = container.childNodes;
+        if (offset >= childNodes.length) {
+          outputOffset = 'after';
+          offset = childNodes.length - 1;
+        } else {
+          outputOffset = 'before';
+        }
+
+        container = childNodes[offset];
+      }
+
+      path.push(createPathItem(container));
+      parents = parentsUntil(rootNode, container);
+      parents = Arr.filter(parents, Fun.negate(NodeType.isBogus));
+      path = path.concat(Arr.map(parents, function (node) {
+        return createPathItem(node);
+      }));
+
+      return path.reverse().join('/') + ',' + outputOffset;
+    }
+
+    function resolvePathItem(node, name, index) {
+      var nodes = getChildNodes(node);
+
+      nodes = Arr.filter(nodes, function (node, index) {
+        return !isText(node) || !isText(nodes[index - 1]);
+      });
+
+      nodes = Arr.filter(nodes, NodeType.matchNodeNames(name));
+      return nodes[index];
+    }
+
+    function findTextPosition(container, offset) {
+      var node = container, targetOffset = 0, dataLen;
+
+      while (isText(node)) {
+        dataLen = node.data.length;
+
+        if (offset >= targetOffset && offset <= targetOffset + dataLen) {
+          container = node;
+          offset = offset - targetOffset;
+          break;
+        }
+
+        if (!isText(node.nextSibling)) {
+          container = node;
+          offset = dataLen;
+          break;
+        }
+
+        targetOffset += dataLen;
+        node = node.nextSibling;
+      }
+
+      if (offset > container.data.length) {
+        offset = container.data.length;
+      }
+
+      return new CaretPosition(container, offset);
+    }
+
+    function resolve(rootNode, path) {
+      var parts, container, offset;
+
+      if (!path) {
+        return null;
+      }
+
+      parts = path.split(',');
+      path = parts[0].split('/');
+      offset = parts.length > 1 ? parts[1] : 'before';
+
+      container = Arr.reduce(path, function (result, value) {
+        value = /([\w\-\(\)]+)\[([0-9]+)\]/.exec(value);
+        if (!value) {
+          return null;
+        }
+
+        if (value[1] === 'text()') {
+          value[1] = '#text';
+        }
+
+        return resolvePathItem(result, value[1], parseInt(value[2], 10));
+      }, rootNode);
+
+      if (!container) {
+        return null;
+      }
+
+      if (!isText(container)) {
+        if (offset === 'after') {
+          offset = nodeIndex(container) + 1;
+        } else {
+          offset = nodeIndex(container);
+        }
+
+        return new CaretPosition(container.parentNode, offset);
+      }
+
+      return findTextPosition(container, parseInt(offset, 10));
+    }
+
+    return {
+      /**
+       * Create a xpath bookmark location for the specified caret position.
+       *
+       * @method create
+       * @param {Node} rootNode Root node to create bookmark within.
+       * @param {tinymce.caret.CaretPosition} caretPosition Caret position within the root node.
+       * @return {String} String xpath like location of caret position.
+       */
+      create: create,
+
+      /**
+       * Resolves a xpath like bookmark location to the a caret position.
+       *
+       * @method resolve
+       * @param {Node} rootNode Root node to resolve xpath bookmark within.
+       * @param {String} bookmark Bookmark string to resolve.
+       * @return {tinymce.caret.CaretPosition} Caret position resolved from xpath like bookmark.
+       */
+      resolve: resolve
+    };
+  }
+);
+/**
+ * BookmarkManager.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This class handles selection bookmarks.
+ *
+ * @class tinymce.dom.BookmarkManager
+ */
+define(
+  'tinymce.core.dom.BookmarkManager',
+  [
+    'tinymce.core.caret.CaretBookmark',
+    'tinymce.core.caret.CaretContainer',
+    'tinymce.core.caret.CaretPosition',
+    'tinymce.core.dom.NodeType',
+    'tinymce.core.dom.RangeUtils',
+    'tinymce.core.Env',
+    'tinymce.core.text.Zwsp',
+    'tinymce.core.util.Tools'
+  ],
+  function (CaretBookmark, CaretContainer, CaretPosition, NodeType, RangeUtils, Env, Zwsp, Tools) {
+    var isContentEditableFalse = NodeType.isContentEditableFalse;
+
+    var getNormalizedTextOffset = function (container, offset) {
+      var node, trimmedOffset;
+
+      trimmedOffset = Zwsp.trim(container.data.slice(0, offset)).length;
+      for (node = container.previousSibling; node && node.nodeType === 3; node = node.previousSibling) {
+        trimmedOffset += Zwsp.trim(node.data).length;
+      }
+
+      return trimmedOffset;
+    };
+
+    var trimEmptyTextNode = function (node) {
+      if (NodeType.isText(node) && node.data.length === 0) {
+        node.parentNode.removeChild(node);
+      }
+    };
+
+    /**
+     * Constructs a new BookmarkManager instance for a specific selection instance.
+     *
+     * @constructor
+     * @method BookmarkManager
+     * @param {tinymce.dom.Selection} selection Selection instance to handle bookmarks for.
+     */
+    function BookmarkManager(selection) {
+      var dom = selection.dom;
+
+      /**
+       * Returns a bookmark location for the current selection. This bookmark object
+       * can then be used to restore the selection after some content modification to the document.
+       *
+       * @method getBookmark
+       * @param {Number} type Optional state if the bookmark should be simple or not. Default is complex.
+       * @param {Boolean} normalized Optional state that enables you to get a position that it would be after normalization.
+       * @return {Object} Bookmark object, use moveToBookmark with this object to restore the selection.
+       * @example
+       * // Stores a bookmark of the current selection
+       * var bm = tinymce.activeEditor.selection.getBookmark();
+       *
+       * tinymce.activeEditor.setContent(tinymce.activeEditor.getContent() + 'Some new content');
+       *
+       * // Restore the selection bookmark
+       * tinymce.activeEditor.selection.moveToBookmark(bm);
+       */
+      this.getBookmark = function (type, normalized) {
+        var rng, rng2, id, collapsed, name, element, chr = '&#xFEFF;', styles;
+
+        function findIndex(name, element) {
+          var count = 0;
+
+          Tools.each(dom.select(name), function (node) {
+            if (node.getAttribute('data-mce-bogus') === 'all') {
+              return;
+            }
+
+            if (node == element) {
+              return false;
+            }
+
+            count++;
+          });
+
+          return count;
+        }
+
+        function normalizeTableCellSelection(rng) {
+          function moveEndPoint(start) {
+            var container, offset, childNodes, prefix = start ? 'start' : 'end';
+
+            container = rng[prefix + 'Container'];
+            offset = rng[prefix + 'Offset'];
+
+            if (container.nodeType == 1 && container.nodeName == "TR") {
+              childNodes = container.childNodes;
+              container = childNodes[Math.min(start ? offset : offset - 1, childNodes.length - 1)];
+              if (container) {
+                offset = start ? 0 : container.childNodes.length;
+                rng['set' + (start ? 'Start' : 'End')](container, offset);
+              }
+            }
+          }
+
+          moveEndPoint(true);
+          moveEndPoint();
+
+          return rng;
+        }
+
+        function getLocation(rng) {
+          var root = dom.getRoot(), bookmark = {};
+
+          function getPoint(rng, start) {
+            var container = rng[start ? 'startContainer' : 'endContainer'],
+              offset = rng[start ? 'startOffset' : 'endOffset'], point = [], childNodes, after = 0;
+
+            if (container.nodeType === 3) {
+              point.push(normalized ? getNormalizedTextOffset(container, offset) : offset);
+            } else {
+              childNodes = container.childNodes;
+
+              if (offset >= childNodes.length && childNodes.length) {
+                after = 1;
+                offset = Math.max(0, childNodes.length - 1);
+              }
+
+              point.push(dom.nodeIndex(childNodes[offset], normalized) + after);
+            }
+
+            for (; container && container != root; container = container.parentNode) {
+              point.push(dom.nodeIndex(container, normalized));
+            }
+
+            return point;
+          }
+
+          bookmark.start = getPoint(rng, true);
+
+          if (!selection.isCollapsed()) {
+            bookmark.end = getPoint(rng);
+          }
+
+          return bookmark;
+        }
+
+        function findAdjacentContentEditableFalseElm(rng) {
+          function findSibling(node, offset) {
+            var sibling;
+
+            if (NodeType.isElement(node)) {
+              node = RangeUtils.getNode(node, offset);
+              if (isContentEditableFalse(node)) {
+                return node;
+              }
+            }
+
+            if (CaretContainer.isCaretContainer(node)) {
+              if (NodeType.isText(node) && CaretContainer.isCaretContainerBlock(node)) {
+                node = node.parentNode;
+              }
+
+              sibling = node.previousSibling;
+              if (isContentEditableFalse(sibling)) {
+                return sibling;
+              }
+
+              sibling = node.nextSibling;
+              if (isContentEditableFalse(sibling)) {
+                return sibling;
+              }
+            }
+          }
+
+          return findSibling(rng.startContainer, rng.startOffset) || findSibling(rng.endContainer, rng.endOffset);
+        }
+
+        if (type == 2) {
+          element = selection.getNode();
+          name = element ? element.nodeName : null;
+          rng = selection.getRng();
+
+          if (isContentEditableFalse(element) || name == 'IMG') {
+            return { name: name, index: findIndex(name, element) };
+          }
+
+          if (selection.tridentSel) {
+            return selection.tridentSel.getBookmark(type);
+          }
+
+          element = findAdjacentContentEditableFalseElm(rng);
+          if (element) {
+            name = element.tagName;
+            return { name: name, index: findIndex(name, element) };
+          }
+
+          return getLocation(rng);
+        }
+
+        if (type == 3) {
+          rng = selection.getRng();
+
+          return {
+            start: CaretBookmark.create(dom.getRoot(), CaretPosition.fromRangeStart(rng)),
+            end: CaretBookmark.create(dom.getRoot(), CaretPosition.fromRangeEnd(rng))
+          };
+        }
+
+        // Handle simple range
+        if (type) {
+          return { rng: selection.getRng() };
+        }
+
+        rng = selection.getRng();
+        id = dom.uniqueId();
+        collapsed = selection.isCollapsed();
+        styles = 'overflow:hidden;line-height:0px';
+
+        // Explorer method
+        if (rng.duplicate || rng.item) {
+          // Text selection
+          if (!rng.item) {
+            rng2 = rng.duplicate();
+
+            try {
+              // Insert start marker
+              rng.collapse();
+              rng.pasteHTML('<span data-mce-type="bookmark" id="' + id + '_start" style="' + styles + '">' + chr + '</span>');
+
+              // Insert end marker
+              if (!collapsed) {
+                rng2.collapse(false);
+
+                // Detect the empty space after block elements in IE and move the
+                // end back one character <p></p>] becomes <p>]</p>
+                rng.moveToElementText(rng2.parentElement());
+                if (rng.compareEndPoints('StartToEnd', rng2) === 0) {
+                  rng2.move('character', -1);
+                }
+
+                rng2.pasteHTML('<span data-mce-type="bookmark" id="' + id + '_end" style="' + styles + '">' + chr + '</span>');
+              }
+            } catch (ex) {
+              // IE might throw unspecified error so lets ignore it
+              return null;
+            }
+          } else {
+            // Control selection
+            element = rng.item(0);
+            name = element.nodeName;
+
+            return { name: name, index: findIndex(name, element) };
+          }
+        } else {
+          element = selection.getNode();
+          name = element.nodeName;
+          if (name == 'IMG') {
+            return { name: name, index: findIndex(name, element) };
+          }
+
+          // W3C method
+          rng2 = normalizeTableCellSelection(rng.cloneRange());
+
+          // Insert end marker
+          if (!collapsed) {
+            rng2.collapse(false);
+            var endBookmarkNode = dom.create('span', { 'data-mce-type': "bookmark", id: id + '_end', style: styles }, chr);
+            rng2.insertNode(endBookmarkNode);
+            trimEmptyTextNode(endBookmarkNode.nextSibling);
+          }
+
+          rng = normalizeTableCellSelection(rng);
+          rng.collapse(true);
+          var startBookmarkNode = dom.create('span', { 'data-mce-type': "bookmark", id: id + '_start', style: styles }, chr);
+          rng.insertNode(startBookmarkNode);
+          trimEmptyTextNode(startBookmarkNode.previousSibling);
+        }
+
+        selection.moveToBookmark({ id: id, keep: 1 });
+
+        return { id: id };
+      };
+
+      /**
+       * Restores the selection to the specified bookmark.
+       *
+       * @method moveToBookmark
+       * @param {Object} bookmark Bookmark to restore selection from.
+       * @return {Boolean} true/false if it was successful or not.
+       * @example
+       * // Stores a bookmark of the current selection
+       * var bm = tinymce.activeEditor.selection.getBookmark();
+       *
+       * tinymce.activeEditor.setContent(tinymce.activeEditor.getContent() + 'Some new content');
+       *
+       * // Restore the selection bookmark
+       * tinymce.activeEditor.selection.moveToBookmark(bm);
+       */
+      this.moveToBookmark = function (bookmark) {
+        var rng, root, startContainer, endContainer, startOffset, endOffset;
+
+        function setEndPoint(start) {
+          var point = bookmark[start ? 'start' : 'end'], i, node, offset, children;
+
+          if (point) {
+            offset = point[0];
+
+            // Find container node
+            for (node = root, i = point.length - 1; i >= 1; i--) {
+              children = node.childNodes;
+
+              if (point[i] > children.length - 1) {
+                return;
+              }
+
+              node = children[point[i]];
+            }
+
+            // Move text offset to best suitable location
+            if (node.nodeType === 3) {
+              offset = Math.min(point[0], node.nodeValue.length);
+            }
+
+            // Move element offset to best suitable location
+            if (node.nodeType === 1) {
+              offset = Math.min(point[0], node.childNodes.length);
+            }
+
+            // Set offset within container node
+            if (start) {
+              rng.setStart(node, offset);
+            } else {
+              rng.setEnd(node, offset);
+            }
+          }
+
+          return true;
+        }
+
+        function restoreEndPoint(suffix) {
+          var marker = dom.get(bookmark.id + '_' + suffix), node, idx, next, prev, keep = bookmark.keep;
+
+          if (marker) {
+            node = marker.parentNode;
+
+            if (suffix == 'start') {
+              if (!keep) {
+                idx = dom.nodeIndex(marker);
+              } else {
+                node = marker.firstChild;
+                idx = 1;
+              }
+
+              startContainer = endContainer = node;
+              startOffset = endOffset = idx;
+            } else {
+              if (!keep) {
+                idx = dom.nodeIndex(marker);
+              } else {
+                node = marker.firstChild;
+                idx = 1;
+              }
+
+              endContainer = node;
+              endOffset = idx;
+            }
+
+            if (!keep) {
+              prev = marker.previousSibling;
+              next = marker.nextSibling;
+
+              // Remove all marker text nodes
+              Tools.each(Tools.grep(marker.childNodes), function (node) {
+                if (node.nodeType == 3) {
+                  node.nodeValue = node.nodeValue.replace(/\uFEFF/g, '');
+                }
+              });
+
+              // Remove marker but keep children if for example contents where inserted into the marker
+              // Also remove duplicated instances of the marker for example by a
+              // split operation or by WebKit auto split on paste feature
+              while ((marker = dom.get(bookmark.id + '_' + suffix))) {
+                dom.remove(marker, 1);
+              }
+
+              // If siblings are text nodes then merge them unless it's Opera since it some how removes the node
+              // and we are sniffing since adding a lot of detection code for a browser with 3% of the market
+              // isn't worth the effort. Sorry, Opera but it's just a fact
+              if (prev && next && prev.nodeType == next.nodeType && prev.nodeType == 3 && !Env.opera) {
+                idx = prev.nodeValue.length;
+                prev.appendData(next.nodeValue);
+                dom.remove(next);
+
+                if (suffix == 'start') {
+                  startContainer = endContainer = prev;
+                  startOffset = endOffset = idx;
+                } else {
+                  endContainer = prev;
+                  endOffset = idx;
+                }
+              }
+            }
+          }
+        }
+
+        function addBogus(node) {
+          // Adds a bogus BR element for empty block elements
+          if (dom.isBlock(node) && !node.innerHTML && !Env.ie) {
+            node.innerHTML = '<br data-mce-bogus="1" />';
+          }
+
+          return node;
+        }
+
+        function resolveCaretPositionBookmark() {
+          var rng, pos;
+
+          rng = dom.createRng();
+          pos = CaretBookmark.resolve(dom.getRoot(), bookmark.start);
+          rng.setStart(pos.container(), pos.offset());
+
+          pos = CaretBookmark.resolve(dom.getRoot(), bookmark.end);
+          rng.setEnd(pos.container(), pos.offset());
+
+          return rng;
+        }
+
+        if (bookmark) {
+          if (Tools.isArray(bookmark.start)) {
+            rng = dom.createRng();
+            root = dom.getRoot();
+
+            if (selection.tridentSel) {
+              return selection.tridentSel.moveToBookmark(bookmark);
+            }
+
+            if (setEndPoint(true) && setEndPoint()) {
+              selection.setRng(rng);
+            }
+          } else if (typeof bookmark.start == 'string') {
+            selection.setRng(resolveCaretPositionBookmark(bookmark));
+          } else if (bookmark.id) {
+            // Restore start/end points
+            restoreEndPoint('start');
+            restoreEndPoint('end');
+
+            if (startContainer) {
+              rng = dom.createRng();
+              rng.setStart(addBogus(startContainer), startOffset);
+              rng.setEnd(addBogus(endContainer), endOffset);
+              selection.setRng(rng);
+            }
+          } else if (bookmark.name) {
+            selection.select(dom.select(bookmark.name)[bookmark.index]);
+          } else if (bookmark.rng) {
+            selection.setRng(bookmark.rng);
+          }
+        }
+      };
+    }
+
+    /**
+     * Returns true/false if the specified node is a bookmark node or not.
+     *
+     * @static
+     * @method isBookmarkNode
+     * @param {DOMNode} node DOM Node to check if it's a bookmark node or not.
+     * @return {Boolean} true/false if the node is a bookmark node or not.
+     */
+    BookmarkManager.isBookmarkNode = function (node) {
+      return node && node.tagName === 'SPAN' && node.getAttribute('data-mce-type') === 'bookmark';
+    };
+
+    return BookmarkManager;
+  }
+);
+/**
+ * ElementUtils.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Utility class for various element specific functions.
+ *
+ * @private
+ * @class tinymce.dom.ElementUtils
+ */
+define(
+  'tinymce.core.dom.ElementUtils',
+  [
+    "tinymce.core.dom.BookmarkManager",
+    "tinymce.core.util.Tools"
+  ],
+  function (BookmarkManager, Tools) {
+    var each = Tools.each;
+
+    function ElementUtils(dom) {
+      /**
+       * Compares two nodes and checks if it's attributes and styles matches.
+       * This doesn't compare classes as items since their order is significant.
+       *
+       * @method compare
+       * @param {Node} node1 First node to compare with.
+       * @param {Node} node2 Second node to compare with.
+       * @return {boolean} True/false if the nodes are the same or not.
+       */
+      this.compare = function (node1, node2) {
+        // Not the same name
+        if (node1.nodeName != node2.nodeName) {
+          return false;
+        }
+
+        /**
+         * Returns all the nodes attributes excluding internal ones, styles and classes.
+         *
+         * @private
+         * @param {Node} node Node to get attributes from.
+         * @return {Object} Name/value object with attributes and attribute values.
+         */
+        function getAttribs(node) {
+          var attribs = {};
+
+          each(dom.getAttribs(node), function (attr) {
+            var name = attr.nodeName.toLowerCase();
+
+            // Don't compare internal attributes or style
+            if (name.indexOf('_') !== 0 && name !== 'style' && name.indexOf('data-') !== 0) {
+              attribs[name] = dom.getAttrib(node, name);
+            }
+          });
+
+          return attribs;
+        }
+
+        /**
+         * Compares two objects checks if it's key + value exists in the other one.
+         *
+         * @private
+         * @param {Object} obj1 First object to compare.
+         * @param {Object} obj2 Second object to compare.
+         * @return {boolean} True/false if the objects matches or not.
+         */
+        function compareObjects(obj1, obj2) {
+          var value, name;
+
+          for (name in obj1) {
+            // Obj1 has item obj2 doesn't have
+            if (obj1.hasOwnProperty(name)) {
+              value = obj2[name];
+
+              // Obj2 doesn't have obj1 item
+              if (typeof value == "undefined") {
+                return false;
+              }
+
+              // Obj2 item has a different value
+              if (obj1[name] != value) {
+                return false;
+              }
+
+              // Delete similar value
+              delete obj2[name];
+            }
+          }
+
+          // Check if obj 2 has something obj 1 doesn't have
+          for (name in obj2) {
+            // Obj2 has item obj1 doesn't have
+            if (obj2.hasOwnProperty(name)) {
+              return false;
+            }
+          }
+
+          return true;
+        }
+
+        // Attribs are not the same
+        if (!compareObjects(getAttribs(node1), getAttribs(node2))) {
+          return false;
+        }
+
+        // Styles are not the same
+        if (!compareObjects(dom.parseStyle(dom.getAttrib(node1, 'style')), dom.parseStyle(dom.getAttrib(node2, 'style')))) {
+          return false;
+        }
+
+        return !BookmarkManager.isBookmarkNode(node1) && !BookmarkManager.isBookmarkNode(node2);
+      };
+    }
+
+    return ElementUtils;
+  }
+);
+
+/**
+ * CaretUtils.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Utility functions shared by the caret logic.
+ *
+ * @private
+ * @class tinymce.caret.CaretUtils
+ */
+define(
+  'tinymce.core.caret.CaretUtils',
+  [
+    "tinymce.core.util.Fun",
+    "tinymce.core.dom.TreeWalker",
+    "tinymce.core.dom.NodeType",
+    "tinymce.core.caret.CaretPosition",
+    "tinymce.core.caret.CaretContainer",
+    "tinymce.core.caret.CaretCandidate"
+  ],
+  function (Fun, TreeWalker, NodeType, CaretPosition, CaretContainer, CaretCandidate) {
+    var isContentEditableTrue = NodeType.isContentEditableTrue,
+      isContentEditableFalse = NodeType.isContentEditableFalse,
+      isBlockLike = NodeType.matchStyleValues('display', 'block table table-cell table-caption list-item'),
+      isCaretContainer = CaretContainer.isCaretContainer,
+      isCaretContainerBlock = CaretContainer.isCaretContainerBlock,
+      curry = Fun.curry,
+      isElement = NodeType.isElement,
+      isCaretCandidate = CaretCandidate.isCaretCandidate;
+
+    function isForwards(direction) {
+      return direction > 0;
+    }
+
+    function isBackwards(direction) {
+      return direction < 0;
+    }
+
+    function skipCaretContainers(walk, shallow) {
+      var node;
+
+      while ((node = walk(shallow))) {
+        if (!isCaretContainerBlock(node)) {
+          return node;
+        }
+      }
+
+      return null;
+    }
+
+    function findNode(node, direction, predicateFn, rootNode, shallow) {
+      var walker = new TreeWalker(node, rootNode);
+
+      if (isBackwards(direction)) {
+        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
+          node = skipCaretContainers(walker.prev, true);
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+
+        while ((node = skipCaretContainers(walker.prev, shallow))) {
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+      }
+
+      if (isForwards(direction)) {
+        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
+          node = skipCaretContainers(walker.next, true);
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+
+        while ((node = skipCaretContainers(walker.next, shallow))) {
+          if (predicateFn(node)) {
+            return node;
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function getEditingHost(node, rootNode) {
+      for (node = node.parentNode; node && node != rootNode; node = node.parentNode) {
+        if (isContentEditableTrue(node)) {
+          return node;
+        }
+      }
+
+      return rootNode;
+    }
+
+    function getParentBlock(node, rootNode) {
+      while (node && node != rootNode) {
+        if (isBlockLike(node)) {
+          return node;
+        }
+
+        node = node.parentNode;
+      }
+
+      return null;
+    }
+
+    function isInSameBlock(caretPosition1, caretPosition2, rootNode) {
+      return getParentBlock(caretPosition1.container(), rootNode) == getParentBlock(caretPosition2.container(), rootNode);
+    }
+
+    function isInSameEditingHost(caretPosition1, caretPosition2, rootNode) {
+      return getEditingHost(caretPosition1.container(), rootNode) == getEditingHost(caretPosition2.container(), rootNode);
+    }
+
+    function getChildNodeAtRelativeOffset(relativeOffset, caretPosition) {
+      var container, offset;
+
+      if (!caretPosition) {
+        return null;
+      }
+
+      container = caretPosition.container();
+      offset = caretPosition.offset();
+
+      if (!isElement(container)) {
+        return null;
+      }
+
+      return container.childNodes[offset + relativeOffset];
+    }
+
+    function beforeAfter(before, node) {
+      var range = node.ownerDocument.createRange();
+
+      if (before) {
+        range.setStartBefore(node);
+        range.setEndBefore(node);
+      } else {
+        range.setStartAfter(node);
+        range.setEndAfter(node);
+      }
+
+      return range;
+    }
+
+    function isNodesInSameBlock(rootNode, node1, node2) {
+      return getParentBlock(node1, rootNode) == getParentBlock(node2, rootNode);
+    }
+
+    function lean(left, rootNode, node) {
+      var sibling, siblingName;
+
+      if (left) {
+        siblingName = 'previousSibling';
+      } else {
+        siblingName = 'nextSibling';
+      }
+
+      while (node && node != rootNode) {
+        sibling = node[siblingName];
+
+        if (isCaretContainer(sibling)) {
+          sibling = sibling[siblingName];
+        }
+
+        if (isContentEditableFalse(sibling)) {
+          if (isNodesInSameBlock(rootNode, sibling, node)) {
+            return sibling;
+          }
+
+          break;
+        }
+
+        if (isCaretCandidate(sibling)) {
+          break;
+        }
+
+        node = node.parentNode;
+      }
+
+      return null;
+    }
+
+    var before = curry(beforeAfter, true);
+    var after = curry(beforeAfter, false);
+
+    function normalizeRange(direction, rootNode, range) {
+      var node, container, offset, location;
+      var leanLeft = curry(lean, true, rootNode);
+      var leanRight = curry(lean, false, rootNode);
+
+      container = range.startContainer;
+      offset = range.startOffset;
+
+      if (CaretContainer.isCaretContainerBlock(container)) {
+        if (!isElement(container)) {
+          container = container.parentNode;
+        }
+
+        location = container.getAttribute('data-mce-caret');
+
+        if (location == 'before') {
+          node = container.nextSibling;
+          if (isContentEditableFalse(node)) {
+            return before(node);
+          }
+        }
+
+        if (location == 'after') {
+          node = container.previousSibling;
+          if (isContentEditableFalse(node)) {
+            return after(node);
+          }
+        }
+      }
+
+      if (!range.collapsed) {
+        return range;
+      }
+
+      if (NodeType.isText(container)) {
+        if (isCaretContainer(container)) {
+          if (direction === 1) {
+            node = leanRight(container);
+            if (node) {
+              return before(node);
+            }
+
+            node = leanLeft(container);
+            if (node) {
+              return after(node);
+            }
+          }
+
+          if (direction === -1) {
+            node = leanLeft(container);
+            if (node) {
+              return after(node);
+            }
+
+            node = leanRight(container);
+            if (node) {
+              return before(node);
+            }
+          }
+
+          return range;
+        }
+
+        if (CaretContainer.endsWithCaretContainer(container) && offset >= container.data.length - 1) {
+          if (direction === 1) {
+            node = leanRight(container);
+            if (node) {
+              return before(node);
+            }
+          }
+
+          return range;
+        }
+
+        if (CaretContainer.startsWithCaretContainer(container) && offset <= 1) {
+          if (direction === -1) {
+            node = leanLeft(container);
+            if (node) {
+              return after(node);
+            }
+          }
+
+          return range;
+        }
+
+        if (offset === container.data.length) {
+          node = leanRight(container);
+          if (node) {
+            return before(node);
+          }
+
+          return range;
+        }
+
+        if (offset === 0) {
+          node = leanLeft(container);
+          if (node) {
+            return after(node);
+          }
+
+          return range;
+        }
+      }
+
+      return range;
+    }
+
+    function isNextToContentEditableFalse(relativeOffset, caretPosition) {
+      return isContentEditableFalse(getChildNodeAtRelativeOffset(relativeOffset, caretPosition));
+    }
+
+    return {
+      isForwards: isForwards,
+      isBackwards: isBackwards,
+      findNode: findNode,
+      getEditingHost: getEditingHost,
+      getParentBlock: getParentBlock,
+      isInSameBlock: isInSameBlock,
+      isInSameEditingHost: isInSameEditingHost,
+      isBeforeContentEditableFalse: curry(isNextToContentEditableFalse, 0),
+      isAfterContentEditableFalse: curry(isNextToContentEditableFalse, -1),
+      normalizeRange: normalizeRange
+    };
+  }
+);
+
+/**
+ * CaretWalker.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This module contains logic for moving around a virtual caret in logical order within a DOM element.
+ *
+ * It ignores the most obvious invalid caret locations such as within a script element or within a
+ * contentEditable=false element but it will return locations that isn't possible to render visually.
+ *
+ * @private
+ * @class tinymce.caret.CaretWalker
+ * @example
+ * var caretWalker = new CaretWalker(rootElm);
+ *
+ * var prevLogicalCaretPosition = caretWalker.prev(CaretPosition.fromRangeStart(range));
+ * var nextLogicalCaretPosition = caretWalker.next(CaretPosition.fromRangeEnd(range));
+ */
+define(
+  'tinymce.core.caret.CaretWalker',
+  [
+    "tinymce.core.dom.NodeType",
+    "tinymce.core.caret.CaretCandidate",
+    "tinymce.core.caret.CaretPosition",
+    "tinymce.core.caret.CaretUtils",
+    "tinymce.core.util.Arr",
+    "tinymce.core.util.Fun"
+  ],
+  function (NodeType, CaretCandidate, CaretPosition, CaretUtils, Arr, Fun) {
+    var isContentEditableFalse = NodeType.isContentEditableFalse,
+      isText = NodeType.isText,
+      isElement = NodeType.isElement,
+      isBr = NodeType.isBr,
+      isForwards = CaretUtils.isForwards,
+      isBackwards = CaretUtils.isBackwards,
+      isCaretCandidate = CaretCandidate.isCaretCandidate,
+      isAtomic = CaretCandidate.isAtomic,
+      isEditableCaretCandidate = CaretCandidate.isEditableCaretCandidate;
+
+    function getParents(node, rootNode) {
+      var parents = [];
+
+      while (node && node != rootNode) {
+        parents.push(node);
+        node = node.parentNode;
+      }
+
+      return parents;
+    }
+
+    function nodeAtIndex(container, offset) {
+      if (container.hasChildNodes() && offset < container.childNodes.length) {
+        return container.childNodes[offset];
+      }
+
+      return null;
+    }
+
+    function getCaretCandidatePosition(direction, node) {
+      if (isForwards(direction)) {
+        if (isCaretCandidate(node.previousSibling) && !isText(node.previousSibling)) {
+          return CaretPosition.before(node);
+        }
+
+        if (isText(node)) {
+          return CaretPosition(node, 0);
+        }
+      }
+
+      if (isBackwards(direction)) {
+        if (isCaretCandidate(node.nextSibling) && !isText(node.nextSibling)) {
+          return CaretPosition.after(node);
+        }
+
+        if (isText(node)) {
+          return CaretPosition(node, node.data.length);
+        }
+      }
+
+      if (isBackwards(direction)) {
+        if (isBr(node)) {
+          return CaretPosition.before(node);
+        }
+
+        return CaretPosition.after(node);
+      }
+
+      return CaretPosition.before(node);
+    }
+
+    // Jumps over BR elements <p>|<br></p><p>a</p> -> <p><br></p><p>|a</p>
+    function isBrBeforeBlock(node, rootNode) {
+      var next;
+
+      if (!NodeType.isBr(node)) {
+        return false;
+      }
+
+      next = findCaretPosition(1, CaretPosition.after(node), rootNode);
+      if (!next) {
+        return false;
+      }
+
+      return !CaretUtils.isInSameBlock(CaretPosition.before(node), CaretPosition.before(next), rootNode);
+    }
+
+    function findCaretPosition(direction, startCaretPosition, rootNode) {
+      var container, offset, node, nextNode, innerNode,
+        rootContentEditableFalseElm, caretPosition;
+
+      if (!isElement(rootNode) || !startCaretPosition) {
+        return null;
+      }
+
+      if (startCaretPosition.isEqual(CaretPosition.after(rootNode)) && rootNode.lastChild) {
+        caretPosition = CaretPosition.after(rootNode.lastChild);
+        if (isBackwards(direction) && isCaretCandidate(rootNode.lastChild) && isElement(rootNode.lastChild)) {
+          return isBr(rootNode.lastChild) ? CaretPosition.before(rootNode.lastChild) : caretPosition;
+        }
+      } else {
+        caretPosition = startCaretPosition;
+      }
+
+      container = caretPosition.container();
+      offset = caretPosition.offset();
+
+      if (isText(container)) {
+        if (isBackwards(direction) && offset > 0) {
+          return CaretPosition(container, --offset);
+        }
+
+        if (isForwards(direction) && offset < container.length) {
+          return CaretPosition(container, ++offset);
+        }
+
+        node = container;
+      } else {
+        if (isBackwards(direction) && offset > 0) {
+          nextNode = nodeAtIndex(container, offset - 1);
+          if (isCaretCandidate(nextNode)) {
+            if (!isAtomic(nextNode)) {
+              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
+              if (innerNode) {
+                if (isText(innerNode)) {
+                  return CaretPosition(innerNode, innerNode.data.length);
+                }
+
+                return CaretPosition.after(innerNode);
+              }
+            }
+
+            if (isText(nextNode)) {
+              return CaretPosition(nextNode, nextNode.data.length);
+            }
+
+            return CaretPosition.before(nextNode);
+          }
+        }
+
+        if (isForwards(direction) && offset < container.childNodes.length) {
+          nextNode = nodeAtIndex(container, offset);
+          if (isCaretCandidate(nextNode)) {
+            if (isBrBeforeBlock(nextNode, rootNode)) {
+              return findCaretPosition(direction, CaretPosition.after(nextNode), rootNode);
+            }
+
+            if (!isAtomic(nextNode)) {
+              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
+              if (innerNode) {
+                if (isText(innerNode)) {
+                  return CaretPosition(innerNode, 0);
+                }
+
+                return CaretPosition.before(innerNode);
+              }
+            }
+
+            if (isText(nextNode)) {
+              return CaretPosition(nextNode, 0);
+            }
+
+            return CaretPosition.after(nextNode);
+          }
+        }
+
+        node = caretPosition.getNode();
+      }
+
+      if ((isForwards(direction) && caretPosition.isAtEnd()) || (isBackwards(direction) && caretPosition.isAtStart())) {
+        node = CaretUtils.findNode(node, direction, Fun.constant(true), rootNode, true);
+        if (isEditableCaretCandidate(node)) {
+          return getCaretCandidatePosition(direction, node);
+        }
+      }
+
+      nextNode = CaretUtils.findNode(node, direction, isEditableCaretCandidate, rootNode);
+
+      rootContentEditableFalseElm = Arr.last(Arr.filter(getParents(container, rootNode), isContentEditableFalse));
+      if (rootContentEditableFalseElm && (!nextNode || !rootContentEditableFalseElm.contains(nextNode))) {
+        if (isForwards(direction)) {
+          caretPosition = CaretPosition.after(rootContentEditableFalseElm);
+        } else {
+          caretPosition = CaretPosition.before(rootContentEditableFalseElm);
+        }
+
+        return caretPosition;
+      }
+
+      if (nextNode) {
+        return getCaretCandidatePosition(direction, nextNode);
+      }
+
+      return null;
+    }
+
+    return function (rootNode) {
+      return {
+        /**
+         * Returns the next logical caret position from the specificed input
+         * caretPoisiton or null if there isn't any more positions left for example
+         * at the end specified root element.
+         *
+         * @method next
+         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
+         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
+         */
+        next: function (caretPosition) {
+          return findCaretPosition(1, caretPosition, rootNode);
+        },
+
+        /**
+         * Returns the previous logical caret position from the specificed input
+         * caretPoisiton or null if there isn't any more positions left for example
+         * at the end specified root element.
+         *
+         * @method prev
+         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
+         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
+         */
+        prev: function (caretPosition) {
+          return findCaretPosition(-1, caretPosition, rootNode);
+        }
+      };
+    };
+  }
+);
+/**
+ * CaretFinder.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.caret.CaretFinder',
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'tinymce.core.caret.CaretCandidate',
+    'tinymce.core.caret.CaretPosition',
+    'tinymce.core.caret.CaretUtils',
+    'tinymce.core.caret.CaretWalker',
+    'tinymce.core.dom.NodeType'
+  ],
+  function (Fun, Option, CaretCandidate, CaretPosition, CaretUtils, CaretWalker, NodeType) {
+    var walkToPositionIn = function (forward, rootNode, startNode) {
+      var position = forward ? CaretPosition.before(startNode) : CaretPosition.after(startNode);
+      return fromPosition(forward, rootNode, position);
+    };
+
+    var afterElement = function (node) {
+      return NodeType.isBr(node) ? CaretPosition.before(node) : CaretPosition.after(node);
+    };
+
+    var isBeforeOrStart = function (position) {
+      if (CaretPosition.isTextPosition(position)) {
+        return position.offset() === 0;
+      } else {
+        return CaretCandidate.isCaretCandidate(position.getNode());
+      }
+    };
+
+    var isAfterOrEnd = function (position) {
+      if (CaretPosition.isTextPosition(position)) {
+        return position.offset() === position.container().data.length;
+      } else {
+        return CaretCandidate.isCaretCandidate(position.getNode(true));
+      }
+    };
+
+    var isBeforeAfterSameElement = function (from, to) {
+      return !CaretPosition.isTextPosition(from) && !CaretPosition.isTextPosition(to) && from.getNode() === to.getNode(true);
+    };
+
+    var isAtBr = function (position) {
+      return !CaretPosition.isTextPosition(position) && NodeType.isBr(position.getNode());
+    };
+
+    var shouldSkipPosition = function (forward, from, to) {
+      if (forward) {
+        return !isBeforeAfterSameElement(from, to) && !isAtBr(from) && isAfterOrEnd(from) && isBeforeOrStart(to);
+      } else {
+        return !isBeforeAfterSameElement(to, from) && isBeforeOrStart(from) && isAfterOrEnd(to);
+      }
+    };
+
+    // Finds: <p>a|<b>b</b></p> -> <p>a<b>|b</b></p>
+    var fromPosition = function (forward, rootNode, position) {
+      var walker = new CaretWalker(rootNode);
+      return Option.from(forward ? walker.next(position) : walker.prev(position));
+    };
+
+    // Finds: <p>a|<b>b</b></p> -> <p>a<b>b|</b></p>
+    var navigate = function (forward, rootNode, from) {
+      return fromPosition(forward, rootNode, from).bind(function (to) {
+        if (CaretUtils.isInSameBlock(from, to, rootNode) && shouldSkipPosition(forward, from, to)) {
+          return fromPosition(forward, rootNode, to);
+        } else {
+          return Option.some(to);
+        }
+      });
+    };
+
+    var positionIn = function (forward, element) {
+      var startNode = forward ? element.firstChild : element.lastChild;
+      if (NodeType.isText(startNode)) {
+        return Option.some(new CaretPosition(startNode, forward ? 0 : startNode.data.length));
+      } else if (startNode) {
+        if (CaretCandidate.isCaretCandidate(startNode)) {
+          return Option.some(forward ? CaretPosition.before(startNode) : afterElement(startNode));
+        } else {
+          return walkToPositionIn(forward, element, startNode);
+        }
+      } else {
+        return Option.none();
+      }
+    };
+
+    return {
+      fromPosition: fromPosition,
+      nextPosition: Fun.curry(fromPosition, true),
+      prevPosition: Fun.curry(fromPosition, false),
+      navigate: navigate,
+      positionIn: positionIn,
+      firstPositionIn: Fun.curry(positionIn, true),
+      lastPositionIn: Fun.curry(positionIn, false)
+    };
+  }
+);
+
+/**
+ * RangeNormalizer.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.dom.RangeNormalizer',
+  [
+    'tinymce.core.caret.CaretFinder',
+    'tinymce.core.caret.CaretPosition',
+    'tinymce.core.caret.CaretUtils',
+    'tinymce.core.dom.NodeType'
+  ],
+  function (CaretFinder, CaretPosition, CaretUtils, NodeType) {
+    var isTextBlockLike = function (elm) {
+      return NodeType.isElement(elm) && /^(P|H[1-6]|DIV|LI|DT|DD)$/.test(elm.nodeName);
+    };
+
+    var matchEndContainer = function (rng, predicate) {
+      return predicate(rng.endContainer);
+    };
+
+    var createRange = function (sc, so, ec, eo) {
+      var rng = document.createRange();
+      rng.setStart(sc, so);
+      rng.setEnd(ec, eo);
+      return rng;
+    };
+
+    // If you triple click a paragraph in this case:
+    //   <blockquote><p>a</p></blockquote><p>b</p>
+    // It would become this range in webkit:
+    //   <blockquote><p>[a</p></blockquote><p>]b</p>
+    // We would want it to be:
+    //   <blockquote><p>[a]</p></blockquote><p>b</p>
+    // Since it would otherwise produces spans out of thin air on insertContent for example.
+    var normalizeBlockSelectionRange = function (rng) {
+      var startPos = CaretPosition.fromRangeStart(rng);
+      var endPos = CaretPosition.fromRangeEnd(rng);
+      var rootNode = rng.commonAncestorContainer;
+
+      return CaretFinder.fromPosition(false, rootNode, endPos)
+        .map(function (newEndPos) {
+          if (!CaretUtils.isInSameBlock(startPos, endPos, rootNode) && CaretUtils.isInSameBlock(startPos, newEndPos, rootNode)) {
+            return createRange(startPos.container(), startPos.offset(), newEndPos.container(), newEndPos.offset());
+          } else {
+            return rng;
+          }
+        }).getOr(rng);
+    };
+
+    var isEndAtStartOfTextLikeBlock = function (rng) {
+      return matchEndContainer(rng, isTextBlockLike) && rng.endOffset === 0;
+    };
+
+    var normalizeBlockSelection = function (rng) {
+      return rng.collapsed && isEndAtStartOfTextLikeBlock(rng) ? rng : normalizeBlockSelectionRange(rng);
+    };
+
+    var normalize = function (rng) {
+      return normalizeBlockSelection(rng);
+    };
+
+    return {
+      normalize: normalize
+    };
+  }
+);
+define("global!console", [], function () { if (typeof console === "undefined") console = { log: function () {} }; return console; });
+defineGlobal("global!document", document);
+define(
+  'ephox.sugar.api.node.Element',
+
+  [
+    'ephox.katamari.api.Fun',
+    'global!Error',
+    'global!console',
+    'global!document'
+  ],
+
+  function (Fun, Error, console, document) {
+    var fromHtml = function (html, scope) {
+      var doc = scope || document;
+      var div = doc.createElement('div');
+      div.innerHTML = html;
+      if (!div.hasChildNodes() || div.childNodes.length > 1) {
+        console.error('HTML does not have a single root node', html);
+        throw 'HTML must have a single root node';
+      }
+      return fromDom(div.childNodes[0]);
+    };
+
+    var fromTag = function (tag, scope) {
+      var doc = scope || document;
+      var node = doc.createElement(tag);
+      return fromDom(node);
+    };
+
+    var fromText = function (text, scope) {
+      var doc = scope || document;
+      var node = doc.createTextNode(text);
+      return fromDom(node);
+    };
+
+    var fromDom = function (node) {
+      if (node === null || node === undefined) throw new Error('Node cannot be null or undefined');
+      return {
+        dom: Fun.constant(node)
+      };
+    };
+
+    return {
+      fromHtml: fromHtml,
+      fromTag: fromTag,
+      fromText: fromText,
+      fromDom: fromDom
+    };
+  }
+);
+
+define(
+  'ephox.katamari.api.Type',
+
+  [
+    'global!Array',
+    'global!String'
+  ],
+
+  function (Array, String) {
+    var typeOf = function(x) {
+      if (x === null) return 'null';
+      var t = typeof x;
+      if (t === 'object' && Array.prototype.isPrototypeOf(x)) return 'array';
+      if (t === 'object' && String.prototype.isPrototypeOf(x)) return 'string';
+      return t;
+    };
+
+    var isType = function (type) {
+      return function (value) {
+        return typeOf(value) === type;
+      };
+    };
+
+    return {
+      isString: isType('string'),
+      isObject: isType('object'),
+      isArray: isType('array'),
+      isNull: isType('null'),
+      isBoolean: isType('boolean'),
+      isUndefined: isType('undefined'),
+      isFunction: isType('function'),
+      isNumber: isType('number')
+    };
+  }
+);
+
+
+define(
+  'ephox.katamari.data.Immutable',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'global!Array',
+    'global!Error'
+  ],
+
+  function (Arr, Fun, Array, Error) {
+    return function () {
+      var fields = arguments;
+      return function(/* values */) {
+        //  Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
+        var values = new Array(arguments.length);
+        for (var i = 0; i < values.length; i++) values[i] = arguments[i];
+
+        if (fields.length !== values.length)
+          throw new Error('Wrong number of arguments to struct. Expected "[' + fields.length + ']", got ' + values.length + ' arguments');
+
+        var struct = {};
+        Arr.each(fields, function (name, i) {
+          struct[name] = Fun.constant(values[i]);
+        });
+        return struct;
+      };
+    };
+  }
+);
+
+define(
+  'ephox.katamari.api.Obj',
+
+  [
+    'ephox.katamari.api.Option',
+    'global!Object'
+  ],
+
+  function (Option, Object) {
+    // There are many variations of Object iteration that are faster than the 'for-in' style:
+    // http://jsperf.com/object-keys-iteration/107
+    //
+    // Use the native keys if it is available (IE9+), otherwise fall back to manually filtering
+    var keys = (function () {
+      var fastKeys = Object.keys;
+
+      // This technically means that 'each' and 'find' on IE8 iterate through the object twice.
+      // This code doesn't run on IE8 much, so it's an acceptable tradeoff.
+      // If it becomes a problem we can always duplicate the feature detection inside each and find as well.
+      var slowKeys = function (o) {
+        var r = [];
+        for (var i in o) {
+          if (o.hasOwnProperty(i)) {
+            r.push(i);
+          }
+        }
+        return r;
+      };
+
+      return fastKeys === undefined ? slowKeys : fastKeys;
+    })();
+
+
+    var each = function (obj, f) {
+      var props = keys(obj);
+      for (var k = 0, len = props.length; k < len; k++) {
+        var i = props[k];
+        var x = obj[i];
+        f(x, i, obj);
+      }
+    };
+
+    /** objectMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> x)) -> JsObj(k, x) */
+    var objectMap = function (obj, f) {
+      return tupleMap(obj, function (x, i, obj) {
+        return {
+          k: i,
+          v: f(x, i, obj)
+        };
+      });
+    };
+
+    /** tupleMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> { k: x, v: y })) -> JsObj(x, y) */
+    var tupleMap = function (obj, f) {
+      var r = {};
+      each(obj, function (x, i) {
+        var tuple = f(x, i, obj);
+        r[tuple.k] = tuple.v;
+      });
+      return r;
+    };
+
+    /** bifilter :: (JsObj(k, v), (v, k -> Bool)) -> { t: JsObj(k, v), f: JsObj(k, v) } */
+    var bifilter = function (obj, pred) {
+      var t = {};
+      var f = {};
+      each(obj, function(x, i) {
+        var branch = pred(x, i) ? t : f;
+        branch[i] = x;
+      });
+      return {
+        t: t,
+        f: f
+      };
+    };
+
+    /** mapToArray :: (JsObj(k, v), (v, k -> a)) -> [a] */
+    var mapToArray = function (obj, f) {
+      var r = [];
+      each(obj, function(value, name) {
+        r.push(f(value, name));
+      });
+      return r;
+    };
+
+    /** find :: (JsObj(k, v), (v, k, JsObj(k, v) -> Bool)) -> Option v */
+    var find = function (obj, pred) {
+      var props = keys(obj);
+      for (var k = 0, len = props.length; k < len; k++) {
+        var i = props[k];
+        var x = obj[i];
+        if (pred(x, i, obj)) {
+          return Option.some(x);
+        }
+      }
+      return Option.none();
+    };
+
+    /** values :: JsObj(k, v) -> [v] */
+    var values = function (obj) {
+      return mapToArray(obj, function (v) {
+        return v;
+      });
+    };
+
+    var size = function (obj) {
+      return values(obj).length;
+    };
+
+    return {
+      bifilter: bifilter,
+      each: each,
+      map: objectMap,
+      mapToArray: mapToArray,
+      tupleMap: tupleMap,
+      find: find,
+      keys: keys,
+      values: values,
+      size: size
+    };
+  }
+);
+define(
+  'ephox.katamari.util.BagUtils',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Type',
+    'global!Error'
+  ],
+
+  function (Arr, Type, Error) {
+    var sort = function (arr) {
+      return arr.slice(0).sort();
+    };
+
+    var reqMessage = function (required, keys) {
+      throw new Error('All required keys (' + sort(required).join(', ') + ') were not specified. Specified keys were: ' + sort(keys).join(', ') + '.');
+    };
+
+    var unsuppMessage = function (unsupported) {
+      throw new Error('Unsupported keys for object: ' + sort(unsupported).join(', '));
+    };
+
+    var validateStrArr = function (label, array) {
+      if (!Type.isArray(array)) throw new Error('The ' + label + ' fields must be an array. Was: ' + array + '.');
+      Arr.each(array, function (a) {
+        if (!Type.isString(a)) throw new Error('The value ' + a + ' in the ' + label + ' fields was not a string.');
+      });
+    };
+
+    var invalidTypeMessage = function (incorrect, type) {
+      throw new Error('All values need to be of type: ' + type + '. Keys (' + sort(incorrect).join(', ') + ') were not.');
+    };
+
+    var checkDupes = function (everything) {
+      var sorted = sort(everything);
+      var dupe = Arr.find(sorted, function (s, i) {
+        return i < sorted.length -1 && s === sorted[i + 1];
+      });
+
+      dupe.each(function (d) {
+        throw new Error('The field: ' + d + ' occurs more than once in the combined fields: [' + sorted.join(', ') + '].');
+      });
+    };
+
+    return {
+      sort: sort,
+      reqMessage: reqMessage,
+      unsuppMessage: unsuppMessage,
+      validateStrArr: validateStrArr,
+      invalidTypeMessage: invalidTypeMessage,
+      checkDupes: checkDupes
+    };
+  }
+);
+define(
+  'ephox.katamari.data.MixedBag',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Obj',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.util.BagUtils',
+    'global!Error',
+    'global!Object'
+  ],
+
+  function (Arr, Fun, Obj, Option, BagUtils, Error, Object) {
+    
+    return function (required, optional) {
+      var everything = required.concat(optional);
+      if (everything.length === 0) throw new Error('You must specify at least one required or optional field.');
+
+      BagUtils.validateStrArr('required', required);
+      BagUtils.validateStrArr('optional', optional);
+
+      BagUtils.checkDupes(everything);
+
+      return function (obj) {
+        var keys = Obj.keys(obj);
+
+        // Ensure all required keys are present.
+        var allReqd = Arr.forall(required, function (req) {
+          return Arr.contains(keys, req);
+        });
+
+        if (! allReqd) BagUtils.reqMessage(required, keys);
+
+        var unsupported = Arr.filter(keys, function (key) {
+          return !Arr.contains(everything, key);
+        });
+
+        if (unsupported.length > 0) BagUtils.unsuppMessage(unsupported);
+
+        var r = {};
+        Arr.each(required, function (req) {
+          r[req] = Fun.constant(obj[req]);
+        });
+
+        Arr.each(optional, function (opt) {
+          r[opt] = Fun.constant(Object.prototype.hasOwnProperty.call(obj, opt) ? Option.some(obj[opt]): Option.none());
+        });
+
+        return r;
+      };
+    };
+  }
+);
+define(
+  'ephox.katamari.api.Struct',
+
+  [
+    'ephox.katamari.data.Immutable',
+    'ephox.katamari.data.MixedBag'
+  ],
+
+  function (Immutable, MixedBag) {
+    return {
+      immutable: Immutable,
+      immutableBag: MixedBag
+    };
+  }
+);
+
+define(
+  'ephox.sugar.alien.Recurse',
+
+  [
+
+  ],
+
+  function () {
+    /**
+     * Applies f repeatedly until it completes (by returning Option.none()).
+     *
+     * Normally would just use recursion, but JavaScript lacks tail call optimisation.
+     *
+     * This is what recursion looks like when manually unravelled :)
+     */
+    var toArray = function (target, f) {
+      var r = [];
+
+      var recurse = function (e) {
+        r.push(e);
+        return f(e);
+      };
+
+      var cur = f(target);
+      do {
+        cur = cur.bind(recurse);
+      } while (cur.isSome());
+
+      return r;
+    };
+
+    return {
+      toArray: toArray
+    };
+  }
+);
+define(
+  'ephox.katamari.api.Global',
+
+  [
+  ],
+
+  function () {
+    // Use window object as the global if it's available since CSP will block script evals
+    if (typeof window !== 'undefined') {
+      return window;
+    } else {
+      return Function('return this;')();
+    }
+  }
+);
+
+
+define(
+  'ephox.katamari.api.Resolve',
+
+  [
+    'ephox.katamari.api.Global'
+  ],
+
+  function (Global) {
+    /** path :: ([String], JsObj?) -> JsObj */
+    var path = function (parts, scope) {
+      var o = scope !== undefined ? scope : Global;
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
+        o = o[parts[i]];
+      return o;
+    };
+
+    /** resolve :: (String, JsObj?) -> JsObj */
+    var resolve = function (p, scope) {
+      var parts = p.split('.');
+      return path(parts, scope);
+    };
+
+    /** step :: (JsObj, String) -> JsObj */
+    var step = function (o, part) {
+      if (o[part] === undefined || o[part] === null)
+        o[part] = {};
+      return o[part];
+    };
+
+    /** forge :: ([String], JsObj?) -> JsObj */
+    var forge = function (parts, target) {
+      var o = target !== undefined ? target : Global;      
+      for (var i = 0; i < parts.length; ++i)
+        o = step(o, parts[i]);
+      return o;
+    };
+
+    /** namespace :: (String, JsObj?) -> JsObj */
+    var namespace = function (name, target) {
+      var parts = name.split('.');
+      return forge(parts, target);
+    };
+
+    return {
+      path: path,
+      resolve: resolve,
+      forge: forge,
+      namespace: namespace
+    };
+  }
+);
+
+
+define(
+  'ephox.sand.util.Global',
+
+  [
+    'ephox.katamari.api.Resolve'
+  ],
+
+  function (Resolve) {
+    var unsafe = function (name, scope) {
+      return Resolve.resolve(name, scope);
+    };
+
+    var getOrDie = function (name, scope) {
+      var actual = unsafe(name, scope);
+
+      if (actual === undefined) throw name + ' not available on this browser';
+      return actual;
+    };
+
+    return {
+      getOrDie: getOrDie
+    };
+  }
+);
+define(
+  'ephox.sand.api.Node',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * MDN says (yes) for IE, but it's undefined on IE8
+     */
+    var node = function () {
+      var f = Global.getOrDie('Node');
+      return f;
+    };
+
+    /*
+     * Most of numerosity doesn't alter the methods on the object.
+     * We're making an exception for Node, because bitwise and is so easy to get wrong.
+     *
+     * Might be nice to ADT this at some point instead of having individual methods.
+     */
+
+    var compareDocumentPosition = function (a, b, match) {
+      // Returns: 0 if e1 and e2 are the same node, or a bitmask comparing the positions
+      // of nodes e1 and e2 in their documents. See the URL below for bitmask interpretation
+      // https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
+      return (a.compareDocumentPosition(b) & match) !== 0;
+    };
+
+    var documentPositionPreceding = function (a, b) {
+      return compareDocumentPosition(a, b, node().DOCUMENT_POSITION_PRECEDING);
+    };
+
+    var documentPositionContainedBy = function (a, b) {
+      return compareDocumentPosition(a, b, node().DOCUMENT_POSITION_CONTAINED_BY);
+    };
+
+    return {
+      documentPositionPreceding: documentPositionPreceding,
+      documentPositionContainedBy: documentPositionContainedBy
+    };
+  }
+);
+define(
+  'ephox.katamari.api.Thunk',
+
+  [
+  ],
+
+  function () {
+
+    var cached = function (f) {
+      var called = false;
+      var r;
+      return function() {
+        if (!called) {
+          called = true;
+          r = f.apply(null, arguments);
+        }
+        return r;
+      };
+    };
+
+    return {
+      cached: cached
+    };
+  }
+);
+
+defineGlobal("global!Number", Number);
+define(
+  'ephox.sand.detect.Version',
+
+  [
+    'ephox.katamari.api.Arr',
+    'global!Number',
+    'global!String'
+  ],
+
+  function (Arr, Number, String) {
+    var firstMatch = function (regexes, s) {
+      for (var i = 0; i < regexes.length; i++) {
+        var x = regexes[i];
+        if (x.test(s)) return x;
+      }
+      return undefined;
+    };
+
+    var find = function (regexes, agent) {
+      var r = firstMatch(regexes, agent);
+      if (!r) return { major : 0, minor : 0 };
+      var group = function(i) {
+        return Number(agent.replace(r, '$' + i));
+      };
+      return nu(group(1), group(2));
+    };
+
+    var detect = function (versionRegexes, agent) {
+      var cleanedAgent = String(agent).toLowerCase();
+
+      if (versionRegexes.length === 0) return unknown();
+      return find(versionRegexes, cleanedAgent);
+    };
+
+    var unknown = function () {
+      return nu(0, 0);
+    };
+
+    var nu = function (major, minor) {
+      return { major: major, minor: minor };
+    };
+
+    return {
+      nu: nu,
+      detect: detect,
+      unknown: unknown
+    };
+  }
+);
+define(
+  'ephox.sand.core.Browser',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.sand.detect.Version'
+  ],
+
+  function (Fun, Version) {
+    var edge = 'Edge';
+    var chrome = 'Chrome';
+    var ie = 'IE';
+    var opera = 'Opera';
+    var firefox = 'Firefox';
+    var safari = 'Safari';
+
+    var isBrowser = function (name, current) {
+      return function () {
+        return current === name;
+      };
+    };
+
+    var unknown = function () {
+      return nu({
+        current: undefined,
+        version: Version.unknown()
+      });
+    };
+
+    var nu = function (info) {
+      var current = info.current;
+      var version = info.version;
+
+      return {
+        current: current,
+        version: version,
+
+        // INVESTIGATE: Rename to Edge ?
+        isEdge: isBrowser(edge, current),
+        isChrome: isBrowser(chrome, current),
+        // NOTE: isIe just looks too weird
+        isIE: isBrowser(ie, current),
+        isOpera: isBrowser(opera, current),
+        isFirefox: isBrowser(firefox, current),
+        isSafari: isBrowser(safari, current)
+      };
+    };
+
+    return {
+      unknown: unknown,
+      nu: nu,
+      edge: Fun.constant(edge),
+      chrome: Fun.constant(chrome),
+      ie: Fun.constant(ie),
+      opera: Fun.constant(opera),
+      firefox: Fun.constant(firefox),
+      safari: Fun.constant(safari)
+    };
+  }
+);
+define(
+  'ephox.sand.core.OperatingSystem',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.sand.detect.Version'
+  ],
+
+  function (Fun, Version) {
+    var windows = 'Windows';
+    var ios = 'iOS';
+    var android = 'Android';
+    var linux = 'Linux';
+    var osx = 'OSX';
+    var solaris = 'Solaris';
+    var freebsd = 'FreeBSD';
+
+    // Though there is a bit of dupe with this and Browser, trying to 
+    // reuse code makes it much harder to follow and change.
+    var isOS = function (name, current) {
+      return function () {
+        return current === name;
+      };
+    };
+
+    var unknown = function () {
+      return nu({
+        current: undefined,
+        version: Version.unknown()
+      });
+    };
+
+    var nu = function (info) {
+      var current = info.current;
+      var version = info.version;
+
+      return {
+        current: current,
+        version: version,
+
+        isWindows: isOS(windows, current),
+        // TODO: Fix capitalisation
+        isiOS: isOS(ios, current),
+        isAndroid: isOS(android, current),
+        isOSX: isOS(osx, current),
+        isLinux: isOS(linux, current),
+        isSolaris: isOS(solaris, current),
+        isFreeBSD: isOS(freebsd, current)
+      };
+    };
+
+    return {
+      unknown: unknown,
+      nu: nu,
+
+      windows: Fun.constant(windows),
+      ios: Fun.constant(ios),
+      android: Fun.constant(android),
+      linux: Fun.constant(linux),
+      osx: Fun.constant(osx),
+      solaris: Fun.constant(solaris),
+      freebsd: Fun.constant(freebsd)
+    };
+  }
+);
+define(
+  'ephox.sand.detect.DeviceType',
+
+  [
+    'ephox.katamari.api.Fun'
+  ],
+
+  function (Fun) {
+    return function (os, browser, userAgent) {
+      var isiPad = os.isiOS() && /ipad/i.test(userAgent) === true;
+      var isiPhone = os.isiOS() && !isiPad;
+      var isAndroid3 = os.isAndroid() && os.version.major === 3;
+      var isAndroid4 = os.isAndroid() && os.version.major === 4;
+      var isTablet = isiPad || isAndroid3 || ( isAndroid4 && /mobile/i.test(userAgent) === true );
+      var isTouch = os.isiOS() || os.isAndroid();
+      var isPhone = isTouch && !isTablet;
+
+      var iOSwebview = browser.isSafari() && os.isiOS() && /safari/i.test(userAgent) === false;
+
+      return {
+        isiPad : Fun.constant(isiPad),
+        isiPhone: Fun.constant(isiPhone),
+        isTablet: Fun.constant(isTablet),
+        isPhone: Fun.constant(isPhone),
+        isTouch: Fun.constant(isTouch),
+        isAndroid: os.isAndroid,
+        isiOS: os.isiOS,
+        isWebView: Fun.constant(iOSwebview)
+      };
+    };
+  }
+);
+define(
+  'ephox.sand.detect.UaString',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sand.detect.Version',
+    'global!String'
+  ],
+
+  function (Arr, Version, String) {
+    var detect = function (candidates, userAgent) {
+      var agent = String(userAgent).toLowerCase();
+      return Arr.find(candidates, function (candidate) {
+        return candidate.search(agent);
+      });
+    };
+
+    // They (browser and os) are the same at the moment, but they might
+    // not stay that way.
+    var detectBrowser = function (browsers, userAgent) {
+      return detect(browsers, userAgent).map(function (browser) {
+        var version = Version.detect(browser.versionRegexes, userAgent);
+        return {
+          current: browser.name,
+          version: version
+        };
+      });
+    };
+
+    var detectOs = function (oses, userAgent) {
+      return detect(oses, userAgent).map(function (os) {
+        var version = Version.detect(os.versionRegexes, userAgent);
+        return {
+          current: os.name,
+          version: version
+        };
+      });
+    };
+
+    return {
+      detectBrowser: detectBrowser,
+      detectOs: detectOs
+    };
+  }
+);
+define(
+  'ephox.katamari.str.StrAppend',
+
+  [
+
+  ],
+
+  function () {
+    var addToStart = function (str, prefix) {
+      return prefix + str;
+    };
+
+    var addToEnd = function (str, suffix) {
+      return str + suffix;
+    };
+
+    var removeFromStart = function (str, numChars) {
+      return str.substring(numChars);
+    };
+
+    var removeFromEnd = function (str, numChars) {
+      return str.substring(0, str.length - numChars);
+    };
+ 
+    return {
+      addToStart: addToStart,
+      addToEnd: addToEnd,
+      removeFromStart: removeFromStart,
+      removeFromEnd: removeFromEnd
+    };
+  }
+);
+define(
+  'ephox.katamari.str.StringParts',
+
+  [
+    'ephox.katamari.api.Option',
+    'global!Error'
+  ],
+
+  function (Option, Error) {
+    /** Return the first 'count' letters from 'str'.
+-     *  e.g. first("abcde", 2) === "ab"
+-     */
+    var first = function(str, count) {
+     return str.substr(0, count);
+    };
+
+    /** Return the last 'count' letters from 'str'.
+    *  e.g. last("abcde", 2) === "de"
+    */
+    var last = function(str, count) {
+     return str.substr(str.length - count, str.length);
+    };
+
+    var head = function(str) {
+      return str === '' ? Option.none() : Option.some(str.substr(0, 1));
+    };
+
+    var tail = function(str) {
+      return str === '' ? Option.none() : Option.some(str.substring(1));
+    };
+
+    return {
+      first: first,
+      last: last,
+      head: head,
+      tail: tail
+    };
+  }
+);
+define(
+  'ephox.katamari.api.Strings',
+
+  [
+    'ephox.katamari.str.StrAppend',
+    'ephox.katamari.str.StringParts',
+    'global!Error'
+  ],
+
+  function (StrAppend, StringParts, Error) {
+    var checkRange = function(str, substr, start) {
+      if (substr === '') return true;
+      if (str.length < substr.length) return false;
+      var x = str.substr(start, start + substr.length);
+      return x === substr;
+    };
+
+    /** Given a string and object, perform template-replacements on the string, as specified by the object.
+     * Any template fields of the form ${name} are replaced by the string or number specified as obj["name"]
+     * Based on Douglas Crockford's 'supplant' method for template-replace of strings. Uses different template format.
+     */
+    var supplant = function(str, obj) {
+      var isStringOrNumber = function(a) {
+        var t = typeof a;
+        return t === 'string' || t === 'number';
+      };
+
+      return str.replace(/\${([^{}]*)}/g,
+        function (a, b) {
+          var value = obj[b];
+          return isStringOrNumber(value) ? value : a;
+        }
+      );
+    };
+
+    var removeLeading = function (str, prefix) {
+      return startsWith(str, prefix) ? StrAppend.removeFromStart(str, prefix.length) : str;
+    };
+
+    var removeTrailing = function (str, prefix) {
+      return endsWith(str, prefix) ? StrAppend.removeFromEnd(str, prefix.length) : str;
+    };
+
+    var ensureLeading = function (str, prefix) {
+      return startsWith(str, prefix) ? str : StrAppend.addToStart(str, prefix);
+    };
+
+    var ensureTrailing = function (str, prefix) {
+      return endsWith(str, prefix) ? str : StrAppend.addToEnd(str, prefix);
+    };
+ 
+    var contains = function(str, substr) {
+      return str.indexOf(substr) !== -1;
+    };
+
+    var capitalize = function(str) {
+      return StringParts.head(str).bind(function (head) {
+        return StringParts.tail(str).map(function (tail) {
+          return head.toUpperCase() + tail;
+        });
+      }).getOr(str);
+    };
+
+    /** Does 'str' start with 'prefix'?
+     *  Note: all strings start with the empty string.
+     *        More formally, for all strings x, startsWith(x, "").
+     *        This is so that for all strings x and y, startsWith(y + x, y)
+     */
+    var startsWith = function(str, prefix) {
+      return checkRange(str, prefix, 0);
+    };
+
+    /** Does 'str' end with 'suffix'?
+     *  Note: all strings end with the empty string.
+     *        More formally, for all strings x, endsWith(x, "").
+     *        This is so that for all strings x and y, endsWith(x + y, y)
+     */
+    var endsWith = function(str, suffix) {
+      return checkRange(str, suffix, str.length - suffix.length);
+    };
+
+   
+    /** removes all leading and trailing spaces */
+    var trim = function(str) {
+      return str.replace(/^\s+|\s+$/g, '');
+    };
+
+    var lTrim = function(str) {
+      return str.replace(/^\s+/g, '');
+    };
+
+    var rTrim = function(str) {
+      return str.replace(/\s+$/g, '');
+    };
+
+    return {
+      supplant: supplant,
+      startsWith: startsWith,
+      removeLeading: removeLeading,
+      removeTrailing: removeTrailing,
+      ensureLeading: ensureLeading,
+      ensureTrailing: ensureTrailing,
+      endsWith: endsWith,
+      contains: contains,
+      trim: trim,
+      lTrim: lTrim,
+      rTrim: rTrim,
+      capitalize: capitalize
+    };
+  }
+);
+
+define(
+  'ephox.sand.info.PlatformInfo',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Strings'
+  ],
+
+  function (Fun, Strings) {
+    var normalVersionRegex = /.*?version\/\ ?([0-9]+)\.([0-9]+).*/;
+
+    var checkContains = function (target) {
+      return function (uastring) {
+        return Strings.contains(uastring, target);
+      };
+    };
+
+    var browsers = [
+      {
+        name : 'Edge',
+        versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
+        search: function (uastring) {
+          var monstrosity = Strings.contains(uastring, 'edge/') && Strings.contains(uastring, 'chrome') && Strings.contains(uastring, 'safari') && Strings.contains(uastring, 'applewebkit');
+          return monstrosity;
+        }
+      },
+      {
+        name : 'Chrome',
+        versionRegexes: [/.*?chrome\/([0-9]+)\.([0-9]+).*/, normalVersionRegex],
+        search : function (uastring) {
+          return Strings.contains(uastring, 'chrome') && !Strings.contains(uastring, 'chromeframe');
+        }
+      },
+      {
+        name : 'IE',
+        versionRegexes: [/.*?msie\ ?([0-9]+)\.([0-9]+).*/, /.*?rv:([0-9]+)\.([0-9]+).*/],
+        search: function (uastring) {
+          return Strings.contains(uastring, 'msie') || Strings.contains(uastring, 'trident');
+        }
+      },
+      // INVESTIGATE: Is this still the Opera user agent?
+      {
+        name : 'Opera',
+        versionRegexes: [normalVersionRegex, /.*?opera\/([0-9]+)\.([0-9]+).*/],
+        search : checkContains('opera')
+      },
+      {
+        name : 'Firefox',
+        versionRegexes: [/.*?firefox\/\ ?([0-9]+)\.([0-9]+).*/],
+        search : checkContains('firefox')
+      },
+      {
+        name : 'Safari',
+        versionRegexes: [normalVersionRegex, /.*?cpu os ([0-9]+)_([0-9]+).*/],
+        search : function (uastring) {
+          return (Strings.contains(uastring, 'safari') || Strings.contains(uastring, 'mobile/')) && Strings.contains(uastring, 'applewebkit');
+        }
+      }
+    ];
+
+    var oses = [
+      {
+        name : 'Windows',
+        search : checkContains('win'),
+        versionRegexes: [/.*?windows\ nt\ ?([0-9]+)\.([0-9]+).*/]
+      },
+      {
+        name : 'iOS',
+        search : function (uastring) {
+          return Strings.contains(uastring, 'iphone') || Strings.contains(uastring, 'ipad');
+        },
+        versionRegexes: [/.*?version\/\ ?([0-9]+)\.([0-9]+).*/, /.*cpu os ([0-9]+)_([0-9]+).*/, /.*cpu iphone os ([0-9]+)_([0-9]+).*/]
+      },
+      {
+        name : 'Android',
+        search : checkContains('android'),
+        versionRegexes: [/.*?android\ ?([0-9]+)\.([0-9]+).*/]
+      },
+      {
+        name : 'OSX',
+        search : checkContains('os x'),
+        versionRegexes: [/.*?os\ x\ ?([0-9]+)_([0-9]+).*/]
+      },
+      {
+        name : 'Linux',
+        search : checkContains('linux'),
+        versionRegexes: [ ]
+      },
+      { name : 'Solaris',
+        search : checkContains('sunos'),
+        versionRegexes: [ ]
+      },
+      {
+       name : 'FreeBSD',
+       search : checkContains('freebsd'),
+       versionRegexes: [ ]
+      }
+    ];
+
+    return {
+      browsers: Fun.constant(browsers),
+      oses: Fun.constant(oses)
+    };
+  }
+);
+define(
+  'ephox.sand.core.PlatformDetection',
+
+  [
+    'ephox.sand.core.Browser',
+    'ephox.sand.core.OperatingSystem',
+    'ephox.sand.detect.DeviceType',
+    'ephox.sand.detect.UaString',
+    'ephox.sand.info.PlatformInfo'
+  ],
+
+  function (Browser, OperatingSystem, DeviceType, UaString, PlatformInfo) {
+    var detect = function (userAgent) {
+      var browsers = PlatformInfo.browsers();
+      var oses = PlatformInfo.oses();
+
+      var browser = UaString.detectBrowser(browsers, userAgent).fold(
+        Browser.unknown,
+        Browser.nu
+      );
+      var os = UaString.detectOs(oses, userAgent).fold(
+        OperatingSystem.unknown,
+        OperatingSystem.nu
+      );
+      var deviceType = DeviceType(os, browser, userAgent);
+
+      return {
+        browser: browser,
+        os: os,
+        deviceType: deviceType
+      };
+    };
+
+    return {
+      detect: detect
+    };
+  }
+);
+defineGlobal("global!navigator", navigator);
+define(
+  'ephox.sand.api.PlatformDetection',
+
+  [
+    'ephox.katamari.api.Thunk',
+    'ephox.sand.core.PlatformDetection',
+    'global!navigator'
+  ],
+
+  function (Thunk, PlatformDetection, navigator) {
+    var detect = Thunk.cached(function () {
+      var userAgent = navigator.userAgent;
+      return PlatformDetection.detect(userAgent);
+    });
+
+    return {
+      detect: detect
+    };
+  }
+);
+define(
+  'ephox.sugar.api.node.NodeTypes',
+
+  [
+
+  ],
+
+  function () {
+    return {
+      ATTRIBUTE:              2,
+      CDATA_SECTION:          4,
+      COMMENT:                8,
+      DOCUMENT:               9,
+      DOCUMENT_TYPE:          10,
+      DOCUMENT_FRAGMENT:      11,
+      ELEMENT:                1,
+      TEXT:                   3,
+      PROCESSING_INSTRUCTION: 7,
+      ENTITY_REFERENCE:       5,
+      ENTITY:                 6,
+      NOTATION:               12
+    };
+  }
+);
+define(
+  'ephox.sugar.api.search.Selectors',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Option',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.node.NodeTypes',
+    'global!Error',
+    'global!document'
+  ],
+
+  function (Arr, Option, Element, NodeTypes, Error, document) {
+    /*
+     * There's a lot of code here; the aim is to allow the browser to optimise constant comparisons,
+     * instead of doing object lookup feature detection on every call
+     */
+    var STANDARD = 0;
+    var MSSTANDARD = 1;
+    var WEBKITSTANDARD = 2;
+    var FIREFOXSTANDARD = 3;
+
+    var selectorType = (function () {
+      var test = document.createElement('span');
+      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
+      // Still check for the others, but do it last.
+      return test.matches !== undefined ? STANDARD :
+             test.msMatchesSelector !== undefined ? MSSTANDARD :
+             test.webkitMatchesSelector !== undefined ? WEBKITSTANDARD :
+             test.mozMatchesSelector !== undefined ? FIREFOXSTANDARD :
+             -1;
+    })();
+
+
+    var ELEMENT = NodeTypes.ELEMENT;
+    var DOCUMENT = NodeTypes.DOCUMENT;
+
+    var is = function (element, selector) {
+      var elem = element.dom();
+      if (elem.nodeType !== ELEMENT) return false; // documents have querySelector but not matches
+
+      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
+      // Still check for the others, but do it last.
+      else if (selectorType === STANDARD) return elem.matches(selector);
+      else if (selectorType === MSSTANDARD) return elem.msMatchesSelector(selector);
+      else if (selectorType === WEBKITSTANDARD) return elem.webkitMatchesSelector(selector);
+      else if (selectorType === FIREFOXSTANDARD) return elem.mozMatchesSelector(selector);
+      else throw new Error('Browser lacks native selectors'); // unfortunately we can't throw this on startup :(
+    };
+
+    var bypassSelector = function (dom) {
+      // Only elements and documents support querySelector
+      return dom.nodeType !== ELEMENT && dom.nodeType !== DOCUMENT ||
+              // IE fix for complex queries on empty nodes: http://jsfiddle.net/spyder/fv9ptr5L/
+              dom.childElementCount === 0;
+    };
+
+    var all = function (selector, scope) {
+      var base = scope === undefined ? document : scope.dom();
+      return bypassSelector(base) ? [] : Arr.map(base.querySelectorAll(selector), Element.fromDom);
+    };
+
+    var one = function (selector, scope) {
+      var base = scope === undefined ? document : scope.dom();
+      return bypassSelector(base) ? Option.none() : Option.from(base.querySelector(selector)).map(Element.fromDom);
+    };
+
+    return {
+      all: all,
+      is: is,
+      one: one
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.dom.Compare',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.sand.api.Node',
+    'ephox.sand.api.PlatformDetection',
+    'ephox.sugar.api.search.Selectors'
+  ],
+
+  function (Arr, Fun, Node, PlatformDetection, Selectors) {
+
+    var eq = function (e1, e2) {
+      return e1.dom() === e2.dom();
+    };
+
+    var isEqualNode = function (e1, e2) {
+      return e1.dom().isEqualNode(e2.dom());
+    };
+
+    var member = function (element, elements) {
+      return Arr.exists(elements, Fun.curry(eq, element));
+    };
+
+    // DOM contains() method returns true if e1===e2, we define our contains() to return false (a node does not contain itself).
+    var regularContains = function (e1, e2) {
+      var d1 = e1.dom(), d2 = e2.dom();
+      return d1 === d2 ? false : d1.contains(d2);
+    };
+
+    var ieContains = function (e1, e2) {
+      // IE only implements the contains() method for Element nodes.
+      // It fails for Text nodes, so implement it using compareDocumentPosition()
+      // https://connect.microsoft.com/IE/feedback/details/780874/node-contains-is-incorrect
+      // Note that compareDocumentPosition returns CONTAINED_BY if 'e2 *is_contained_by* e1':
+      // Also, compareDocumentPosition defines a node containing itself as false.
+      return Node.documentPositionContainedBy(e1.dom(), e2.dom());
+    };
+
+    var browser = PlatformDetection.detect().browser;
+
+    // Returns: true if node e1 contains e2, otherwise false.
+    // (returns false if e1===e2: A node does not contain itself).
+    var contains = browser.isIE() ? ieContains : regularContains;
+
+    return {
+      eq: eq,
+      isEqualNode: isEqualNode,
+      member: member,
+      contains: contains,
+
+      // Only used by DomUniverse. Remove (or should Selectors.is move here?)
+      is: Selectors.is
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.Traverse',
+
+  [
+    'ephox.katamari.api.Type',
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Struct',
+    'ephox.sugar.alien.Recurse',
+    'ephox.sugar.api.dom.Compare',
+    'ephox.sugar.api.node.Element'
+  ],
+
+  function (Type, Arr, Fun, Option, Struct, Recurse, Compare, Element) {
+    // The document associated with the current element
+    var owner = function (element) {
+      return Element.fromDom(element.dom().ownerDocument);
+    };
+
+    var documentElement = function (element) {
+      // TODO: Avoid unnecessary wrap/unwrap here
+      var doc = owner(element);
+      return Element.fromDom(doc.dom().documentElement);
+    };
+
+    // The window element associated with the element
+    var defaultView = function (element) {
+      var el = element.dom();
+      var defaultView = el.ownerDocument.defaultView;
+      return Element.fromDom(defaultView);
+    };
+
+    var parent = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.parentNode).map(Element.fromDom);
+    };
+
+    var findIndex = function (element) {
+      return parent(element).bind(function (p) {
+        // TODO: Refactor out children so we can avoid the constant unwrapping
+        var kin = children(p);
+        return Arr.findIndex(kin, function (elem) {
+          return Compare.eq(element, elem);
+        });
+      });
+    };
+
+    var parents = function (element, isRoot) {
+      var stop = Type.isFunction(isRoot) ? isRoot : Fun.constant(false);
+
+      // This is used a *lot* so it needs to be performant, not recursive
+      var dom = element.dom();
+      var ret = [];
+
+      while (dom.parentNode !== null && dom.parentNode !== undefined) {
+        var rawParent = dom.parentNode;
+        var parent = Element.fromDom(rawParent);
+        ret.push(parent);
+
+        if (stop(parent) === true) break;
+        else dom = rawParent;
+      }
+      return ret;
+    };
+
+    var siblings = function (element) {
+      // TODO: Refactor out children so we can just not add self instead of filtering afterwards
+      var filterSelf = function (elements) {
+        return Arr.filter(elements, function (x) {
+          return !Compare.eq(element, x);
+        });
+      };
+
+      return parent(element).map(children).map(filterSelf).getOr([]);
+    };
+
+    var offsetParent = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.offsetParent).map(Element.fromDom);
+    };
+
+    var prevSibling = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.previousSibling).map(Element.fromDom);
+    };
+
+    var nextSibling = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.nextSibling).map(Element.fromDom);
+    };
+
+    var prevSiblings = function (element) {
+      // This one needs to be reversed, so they're still in DOM order
+      return Arr.reverse(Recurse.toArray(element, prevSibling));
+    };
+
+    var nextSiblings = function (element) {
+      return Recurse.toArray(element, nextSibling);
+    };
+
+    var children = function (element) {
+      var dom = element.dom();
+      return Arr.map(dom.childNodes, Element.fromDom);
+    };
+
+    var child = function (element, index) {
+      var children = element.dom().childNodes;
+      return Option.from(children[index]).map(Element.fromDom);
+    };
+
+    var firstChild = function (element) {
+      return child(element, 0);
+    };
+
+    var lastChild = function (element) {
+      return child(element, element.dom().childNodes.length - 1);
+    };
+
+    var spot = Struct.immutable('element', 'offset');
+    var leaf = function (element, offset) {
+      var cs = children(element);
+      return cs.length > 0 && offset < cs.length ? spot(cs[offset], 0) : spot(element, offset);
+    };
+
+    return {
+      owner: owner,
+      defaultView: defaultView,
+      documentElement: documentElement,
+      parent: parent,
+      findIndex: findIndex,
+      parents: parents,
+      siblings: siblings,
+      prevSibling: prevSibling,
+      offsetParent: offsetParent,
+      prevSiblings: prevSiblings,
+      nextSibling: nextSibling,
+      nextSiblings: nextSiblings,
+      children: children,
+      child: child,
+      firstChild: firstChild,
+      lastChild: lastChild,
+      leaf: leaf
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.dom.Insert',
+
+  [
+    'ephox.sugar.api.search.Traverse'
+  ],
+
+  function (Traverse) {
+    var before = function (marker, element) {
+      var parent = Traverse.parent(marker);
+      parent.each(function (v) {
+        v.dom().insertBefore(element.dom(), marker.dom());
+      });
+    };
+
+    var after = function (marker, element) {
+      var sibling = Traverse.nextSibling(marker);
+      sibling.fold(function () {
+        var parent = Traverse.parent(marker);
+        parent.each(function (v) {
+          append(v, element);
+        });
+      }, function (v) {
+        before(v, element);
+      });
+    };
+
+    var prepend = function (parent, element) {
+      var firstChild = Traverse.firstChild(parent);
+      firstChild.fold(function () {
+        append(parent, element);
+      }, function (v) {
+        parent.dom().insertBefore(element.dom(), v.dom());
+      });
+    };
+
+    var append = function (parent, element) {
+      parent.dom().appendChild(element.dom());
+    };
+
+    var appendAt = function (parent, element, index) {
+      Traverse.child(parent, index).fold(function () {
+        append(parent, element);
+      }, function (v) {
+        before(v, element);
+      });
+    };
+
+    var wrap = function (element, wrapper) {
+      before(element, wrapper);
+      append(wrapper, element);
+    };
+
+    return {
+      before: before,
+      after: after,
+      prepend: prepend,
+      append: append,
+      appendAt: appendAt,
+      wrap: wrap
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.dom.InsertAll',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.dom.Insert'
+  ],
+
+  function (Arr, Insert) {
+    var before = function (marker, elements) {
+      Arr.each(elements, function (x) {
+        Insert.before(marker, x);
+      });
+    };
+
+    var after = function (marker, elements) {
+      Arr.each(elements, function (x, i) {
+        var e = i === 0 ? marker : elements[i - 1];
+        Insert.after(e, x);
+      });
+    };
+
+    var prepend = function (parent, elements) {
+      Arr.each(elements.slice().reverse(), function (x) {
+        Insert.prepend(parent, x);
+      });
+    };
+
+    var append = function (parent, elements) {
+      Arr.each(elements, function (x) {
+        Insert.append(parent, x);
+      });
+    };
+
+    return {
+      before: before,
+      after: after,
+      prepend: prepend,
+      append: append
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.dom.Remove',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.dom.InsertAll',
+    'ephox.sugar.api.search.Traverse'
+  ],
+
+  function (Arr, InsertAll, Traverse) {
+    var empty = function (element) {
+      // shortcut "empty node" trick. Requires IE 9.
+      element.dom().textContent = '';
+
+      // If the contents was a single empty text node, the above doesn't remove it. But, it's still faster in general
+      // than removing every child node manually.
+      // The following is (probably) safe for performance as 99.9% of the time the trick works and
+      // Traverse.children will return an empty array.
+      Arr.each(Traverse.children(element), function (rogue) {
+        remove(rogue);
+      });
+    };
+
+    var remove = function (element) {
+      var dom = element.dom();
+      if (dom.parentNode !== null)
+        dom.parentNode.removeChild(dom);
+    };
+
+    var unwrap = function (wrapper) {
+      var children = Traverse.children(wrapper);
+      if (children.length > 0)
+        InsertAll.before(wrapper, children);
+      remove(wrapper);
+    };
+
+    return {
+      empty: empty,
+      remove: remove,
+      unwrap: unwrap
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.node.Node',
+
+  [
+    'ephox.sugar.api.node.NodeTypes'
+  ],
+
+  function (NodeTypes) {
+    var name = function (element) {
+      var r = element.dom().nodeName;
+      return r.toLowerCase();
+    };
+
+    var type = function (element) {
+      return element.dom().nodeType;
+    };
+
+    var value = function (element) {
+      return element.dom().nodeValue;
+    };
+
+    var isType = function (t) {
+      return function (element) {
+        return type(element) === t;
+      };
+    };
+
+    var isComment = function (element) {
+      return type(element) === NodeTypes.COMMENT || name(element) === '#comment';
+    };
+
+    var isElement = isType(NodeTypes.ELEMENT);
+    var isText = isType(NodeTypes.TEXT);
+    var isDocument = isType(NodeTypes.DOCUMENT);
+
+    return {
+      name: name,
+      type: type,
+      value: value,
+      isElement: isElement,
+      isText: isText,
+      isDocument: isDocument,
+      isComment: isComment
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.node.Body',
+
+  [
+    'ephox.katamari.api.Thunk',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.node.Node',
+    'global!document'
+  ],
+
+  function (Thunk, Element, Node, document) {
+
+    // Node.contains() is very, very, very good performance
+    // http://jsperf.com/closest-vs-contains/5
+    var inBody = function (element) {
+      // Technically this is only required on IE, where contains() returns false for text nodes.
+      // But it's cheap enough to run everywhere and Sugar doesn't have platform detection (yet).
+      var dom = Node.isText(element) ? element.dom().parentNode : element.dom();
+
+      // use ownerDocument.body to ensure this works inside iframes.
+      // Normally contains is bad because an element "contains" itself, but here we want that.
+      return dom !== undefined && dom !== null && dom.ownerDocument.body.contains(dom);
+    };
+
+    var body = Thunk.cached(function() {
+      return getBody(Element.fromDom(document));
+    });
+
+    var getBody = function (doc) {
+      var body = doc.dom().body;
+      if (body === null || body === undefined) throw 'Body is not available yet';
+      return Element.fromDom(body);
+    };
+
+    return {
+      body: body,
+      getBody: getBody,
+      inBody: inBody
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.PredicateFilter',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.node.Body',
+    'ephox.sugar.api.search.Traverse'
+  ],
+
+  function (Arr, Body, Traverse) {
+    // maybe TraverseWith, similar to traverse but with a predicate?
+
+    var all = function (predicate) {
+      return descendants(Body.body(), predicate);
+    };
+
+    var ancestors = function (scope, predicate, isRoot) {
+      return Arr.filter(Traverse.parents(scope, isRoot), predicate);
+    };
+
+    var siblings = function (scope, predicate) {
+      return Arr.filter(Traverse.siblings(scope), predicate);
+    };
+
+    var children = function (scope, predicate) {
+      return Arr.filter(Traverse.children(scope), predicate);
+    };
+
+    var descendants = function (scope, predicate) {
+      var result = [];
+
+      // Recurse.toArray() might help here
+      Arr.each(Traverse.children(scope), function (x) {
+        if (predicate(x)) {
+          result = result.concat([ x ]);
+        }
+        result = result.concat(descendants(x, predicate));
+      });
+      return result;
+    };
+
+    return {
+      all: all,
+      ancestors: ancestors,
+      siblings: siblings,
+      children: children,
+      descendants: descendants
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.SelectorFilter',
+
+  [
+    'ephox.sugar.api.search.PredicateFilter',
+    'ephox.sugar.api.search.Selectors'
+  ],
+
+  function (PredicateFilter, Selectors) {
+    var all = function (selector) {
+      return Selectors.all(selector);
+    };
+
+    // For all of the following:
+    //
+    // jQuery does siblings of firstChild. IE9+ supports scope.dom().children (similar to Traverse.children but elements only).
+    // Traverse should also do this (but probably not by default).
+    //
+
+    var ancestors = function (scope, selector, isRoot) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all this wrapping and unwrapping
+      return PredicateFilter.ancestors(scope, function (e) {
+        return Selectors.is(e, selector);
+      }, isRoot);
+    };
+
+    var siblings = function (scope, selector) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all the wrapping and unwrapping
+      return PredicateFilter.siblings(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var children = function (scope, selector) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all the wrapping and unwrapping
+      return PredicateFilter.children(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var descendants = function (scope, selector) {
+      return Selectors.all(selector, scope);
+    };
+
+    return {
+      all: all,
+      ancestors: ancestors,
+      siblings: siblings,
+      children: children,
+      descendants: descendants
+    };
+  }
+);
+
+/**
+ * ElementType.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.dom.ElementType',
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Node'
+  ],
+  function (Arr, Fun, Node) {
+    var blocks = [
+      'article', 'aside', 'details', 'div', 'dt', 'figcaption', 'footer',
+      'form', 'fieldset', 'header', 'hgroup', 'html', 'main', 'nav',
+      'section', 'summary', 'body', 'p', 'dl', 'multicol', 'dd', 'figure',
+      'address', 'center', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'listing', 'xmp', 'pre', 'plaintext', 'menu', 'dir', 'ul', 'ol', 'li', 'hr',
+      'table', 'tbody', 'thead', 'tfoot', 'th', 'tr', 'td', 'caption'
+    ];
+
+    var voids = [
+      'area', 'base', 'basefont', 'br', 'col', 'frame', 'hr', 'img', 'input',
+      'isindex', 'link', 'meta', 'param', 'embed', 'source', 'wbr', 'track'
+    ];
+
+    var tableCells = ['td', 'th'];
+
+    var textBlocks = [
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'address', 'pre', 'form',
+      'blockquote', 'center', 'dir', 'fieldset', 'header', 'footer', 'article',
+      'section', 'hgroup', 'aside', 'nav', 'figure'
+    ];
+
+    var headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+
+    var lazyLookup = function (items) {
+      var lookup;
+      return function (node) {
+        lookup = lookup ? lookup : Arr.mapToObject(items, Fun.constant(true));
+        return lookup.hasOwnProperty(Node.name(node));
+      };
+    };
+
+    var isHeading = lazyLookup(headings);
+
+    var isBlock = lazyLookup(blocks);
+
+    var isInline = function (node) {
+      return Node.isElement(node) && !isBlock(node);
+    };
+
+    var isBr = function (node) {
+      return Node.isElement(node) && Node.name(node) === 'br';
+    };
+
+    return {
+      isBlock: isBlock,
+      isInline: isInline,
+      isHeading: isHeading,
+      isTextBlock: lazyLookup(textBlocks),
+      isVoid: lazyLookup(voids),
+      isTableCell: lazyLookup(tableCells),
+      isBr: isBr
+    };
+  }
+);
+
+/**
+ * PaddingBr.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.dom.PaddingBr',
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.dom.Insert',
+    'ephox.sugar.api.dom.Remove',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFilter',
+    'tinymce.core.dom.ElementType'
+  ],
+  function (Arr, Insert, Remove, Element, SelectorFilter, ElementType) {
+    var getLastChildren = function (elm) {
+      var children = [], rawNode = elm.dom();
+
+      while (rawNode) {
+        children.push(Element.fromDom(rawNode));
+        rawNode = rawNode.lastChild;
+      }
+
+      return children;
+    };
+
+    var removeTrailingBr = function (elm) {
+      var allBrs = SelectorFilter.descendants(elm, 'br');
+      var brs = Arr.filter(getLastChildren(elm).slice(-1), ElementType.isBr);
+      if (allBrs.length === brs.length) {
+        Arr.each(brs, Remove.remove);
+      }
+    };
+
+    var fillWithPaddingBr = function (elm) {
+      Remove.empty(elm);
+      Insert.append(elm, Element.fromHtml('<br data-mce-bogus="1">'));
+    };
+
+    return {
+      removeTrailingBr: removeTrailingBr,
+      fillWithPaddingBr: fillWithPaddingBr
+    };
+  }
+);
+/**
+ * FormatUtils.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.FormatUtils',
+  [
+    'tinymce.core.dom.TreeWalker'
+  ],
+  function (TreeWalker) {
+    var isInlineBlock = function (node) {
+      return node && /^(IMG)$/.test(node.nodeName);
+    };
+
+    var moveStart = function (dom, selection, rng) {
+      var container = rng.startContainer,
+        offset = rng.startOffset,
+        walker, node, nodes;
+
+      if (rng.startContainer === rng.endContainer) {
+        if (isInlineBlock(rng.startContainer.childNodes[rng.startOffset])) {
+          return;
+        }
+      }
+
+      // Convert text node into index if possible
+      if (container.nodeType === 3 && offset >= container.nodeValue.length) {
+        // Get the parent container location and walk from there
+        offset = dom.nodeIndex(container);
+        container = container.parentNode;
+      }
+
+      // Move startContainer/startOffset in to a suitable node
+      if (container.nodeType === 1) {
+        nodes = container.childNodes;
+        if (offset < nodes.length) {
+          container = nodes[offset];
+          walker = new TreeWalker(container, dom.getParent(container, dom.isBlock));
+        } else {
+          container = nodes[nodes.length - 1];
+          walker = new TreeWalker(container, dom.getParent(container, dom.isBlock));
+          walker.next(true);
+        }
+
+        for (node = walker.current(); node; node = walker.next()) {
+          if (node.nodeType === 3 && !isWhiteSpaceNode(node)) {
+            rng.setStart(node, 0);
+            selection.setRng(rng);
+
+            return;
+          }
+        }
+      }
+    };
+
+    /**
+     * Returns the next/previous non whitespace node.
+     *
+     * @private
+     * @param {Node} node Node to start at.
+     * @param {boolean} next (Optional) Include next or previous node defaults to previous.
+     * @param {boolean} inc (Optional) Include the current node in checking. Defaults to false.
+     * @return {Node} Next or previous node or undefined if it wasn't found.
+     */
+    var getNonWhiteSpaceSibling = function (node, next, inc) {
+      if (node) {
+        next = next ? 'nextSibling' : 'previousSibling';
+
+        for (node = inc ? node : node[next]; node; node = node[next]) {
+          if (node.nodeType === 1 || !isWhiteSpaceNode(node)) {
+            return node;
+          }
+        }
+      }
+    };
+
+    var isTextBlock = function (editor, name) {
+      if (name.nodeType) {
+        name = name.nodeName;
+      }
+
+      return !!editor.schema.getTextBlockElements()[name.toLowerCase()];
+    };
+
+    var isValid = function (ed, parent, child) {
+      return ed.schema.isValidChild(parent, child);
+    };
+
+    var isWhiteSpaceNode = function (node) {
+      return node && node.nodeType === 3 && /^([\t \r\n]+|)$/.test(node.nodeValue);
+    };
+
+    /**
+     * Replaces variables in the value. The variable format is %var.
+     *
+     * @private
+     * @param {String} value Value to replace variables in.
+     * @param {Object} vars Name/value array with variables to replace.
+     * @return {String} New value with replaced variables.
+     */
+    var replaceVars = function (value, vars) {
+      if (typeof value !== "string") {
+        value = value(vars);
+      } else if (vars) {
+        value = value.replace(/%(\w+)/g, function (str, name) {
+          return vars[name] || str;
+        });
+      }
+
+      return value;
+    };
+
+    /**
+     * Compares two string/nodes regardless of their case.
+     *
+     * @private
+     * @param {String/Node} str1 Node or string to compare.
+     * @param {String/Node} str2 Node or string to compare.
+     * @return {boolean} True/false if they match.
+     */
+    var isEq = function (str1, str2) {
+      str1 = str1 || '';
+      str2 = str2 || '';
+
+      str1 = '' + (str1.nodeName || str1);
+      str2 = '' + (str2.nodeName || str2);
+
+      return str1.toLowerCase() === str2.toLowerCase();
+    };
+
+    var normalizeStyleValue = function (dom, value, name) {
+      // Force the format to hex
+      if (name === 'color' || name === 'backgroundColor') {
+        value = dom.toHex(value);
+      }
+
+      // Opera will return bold as 700
+      if (name === 'fontWeight' && value === 700) {
+        value = 'bold';
+      }
+
+      // Normalize fontFamily so "'Font name', Font" becomes: "Font name,Font"
+      if (name === 'fontFamily') {
+        value = value.replace(/[\'\"]/g, '').replace(/,\s+/g, ',');
+      }
+
+      return '' + value;
+    };
+
+    var getStyle = function (dom, node, name) {
+      return normalizeStyleValue(dom, dom.getStyle(node, name), name);
+    };
+
+    var getTextDecoration = function (dom, node) {
+      var decoration;
+
+      dom.getParent(node, function (n) {
+        decoration = dom.getStyle(n, 'text-decoration');
+        return decoration && decoration !== 'none';
+      });
+
+      return decoration;
+    };
+
+    var getParents = function (dom, node, selector) {
+      return dom.getParents(node, selector, dom.getRoot());
+    };
+
+    return {
+      isInlineBlock: isInlineBlock,
+      moveStart: moveStart,
+      getNonWhiteSpaceSibling: getNonWhiteSpaceSibling,
+      isTextBlock: isTextBlock,
+      isValid: isValid,
+      isWhiteSpaceNode: isWhiteSpaceNode,
+      replaceVars: replaceVars,
+      isEq: isEq,
+      normalizeStyleValue: normalizeStyleValue,
+      getStyle: getStyle,
+      getTextDecoration: getTextDecoration,
+      getParents: getParents
+    };
+  }
+);
+/**
+ * ExpandRange.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.ExpandRange',
+  [
+    'tinymce.core.dom.BookmarkManager',
+    'tinymce.core.dom.TreeWalker',
+    'tinymce.core.fmt.FormatUtils'
+  ],
+  function (BookmarkManager, TreeWalker, FormatUtils) {
+    var isBookmarkNode = BookmarkManager.isBookmarkNode;
+    var getParents = FormatUtils.getParents, isWhiteSpaceNode = FormatUtils.isWhiteSpaceNode, isTextBlock = FormatUtils.isTextBlock;
+
+    // This function walks down the tree to find the leaf at the selection.
+      // The offset is also returned as if node initially a leaf, the offset may be in the middle of the text node.
+    var findLeaf = function (node, offset) {
+      if (typeof offset === 'undefined') {
+        offset = node.nodeType === 3 ? node.length : node.childNodes.length;
+      }
+
+      while (node && node.hasChildNodes()) {
+        node = node.childNodes[offset];
+        if (node) {
+          offset = node.nodeType === 3 ? node.length : node.childNodes.length;
+        }
+      }
+      return { node: node, offset: offset };
+    };
+
+    var excludeTrailingWhitespace = function (endContainer, endOffset) {
+      // Avoid applying formatting to a trailing space,
+      // but remove formatting from trailing space
+      var leaf = findLeaf(endContainer, endOffset);
+      if (leaf.node) {
+        while (leaf.node && leaf.offset === 0 && leaf.node.previousSibling) {
+          leaf = findLeaf(leaf.node.previousSibling);
+        }
+
+        if (leaf.node && leaf.offset > 0 && leaf.node.nodeType === 3 &&
+            leaf.node.nodeValue.charAt(leaf.offset - 1) === ' ') {
+
+          if (leaf.offset > 1) {
+            endContainer = leaf.node;
+            endContainer.splitText(leaf.offset - 1);
+          }
+        }
+      }
+
+      return endContainer;
+    };
+
+    var isBogusBr = function (node) {
+      return node.nodeName === "BR" && node.getAttribute('data-mce-bogus') && !node.nextSibling;
+    };
+
+    var expandRng = function (editor, rng, format, remove) {
+      var lastIdx, endPoint,
+        startContainer = rng.startContainer,
+        startOffset = rng.startOffset,
+        endContainer = rng.endContainer,
+        endOffset = rng.endOffset,
+        dom = editor.dom;
+
+      // This function walks up the tree if there is no siblings before/after the node
+      var findParentContainer = function (start) {
+        var container, parent, sibling, siblingName, root;
+
+        container = parent = start ? startContainer : endContainer;
+        siblingName = start ? 'previousSibling' : 'nextSibling';
+        root = dom.getRoot();
+
+        // If it's a text node and the offset is inside the text
+        if (container.nodeType === 3 && !isWhiteSpaceNode(container)) {
+          if (start ? startOffset > 0 : endOffset < container.nodeValue.length) {
+            return container;
+          }
+        }
+
+        /*eslint no-constant-condition:0 */
+        while (true) {
+          // Stop expanding on block elements
+          if (!format[0].block_expand && dom.isBlock(parent)) {
+            return parent;
+          }
+
+          // Walk left/right
+          for (sibling = parent[siblingName]; sibling; sibling = sibling[siblingName]) {
+            if (!isBookmarkNode(sibling) && !isWhiteSpaceNode(sibling) && !isBogusBr(sibling)) {
+              return parent;
+            }
+          }
+
+          // Check if we can move up are we at root level or body level
+          if (parent === root || parent.parentNode === root) {
+            container = parent;
+            break;
+          }
+
+          parent = parent.parentNode;
+        }
+
+        return container;
+      };
+
+      // If index based start position then resolve it
+      if (startContainer.nodeType === 1 && startContainer.hasChildNodes()) {
+        lastIdx = startContainer.childNodes.length - 1;
+        startContainer = startContainer.childNodes[startOffset > lastIdx ? lastIdx : startOffset];
+
+        if (startContainer.nodeType === 3) {
+          startOffset = 0;
+        }
+      }
+
+      // If index based end position then resolve it
+      if (endContainer.nodeType === 1 && endContainer.hasChildNodes()) {
+        lastIdx = endContainer.childNodes.length - 1;
+        endContainer = endContainer.childNodes[endOffset > lastIdx ? lastIdx : endOffset - 1];
+
+        if (endContainer.nodeType === 3) {
+          endOffset = endContainer.nodeValue.length;
+        }
+      }
+
+      // Expands the node to the closes contentEditable false element if it exists
+      var findParentContentEditable = function (node) {
+        var parent = node;
+
+        while (parent) {
+          if (parent.nodeType === 1 && dom.getContentEditable(parent)) {
+            return dom.getContentEditable(parent) === "false" ? parent : node;
+          }
+
+          parent = parent.parentNode;
+        }
+
+        return node;
+      };
+
+      var findWordEndPoint = function (container, offset, start) {
+        var walker, node, pos, lastTextNode;
+
+        var findSpace = function (node, offset) {
+          var pos, pos2, str = node.nodeValue;
+
+          if (typeof offset === "undefined") {
+            offset = start ? str.length : 0;
+          }
+
+          if (start) {
+            pos = str.lastIndexOf(' ', offset);
+            pos2 = str.lastIndexOf('\u00a0', offset);
+            pos = pos > pos2 ? pos : pos2;
+
+            // Include the space on remove to avoid tag soup
+            if (pos !== -1 && !remove) {
+              pos++;
+            }
+          } else {
+            pos = str.indexOf(' ', offset);
+            pos2 = str.indexOf('\u00a0', offset);
+            pos = pos !== -1 && (pos2 === -1 || pos < pos2) ? pos : pos2;
+          }
+
+          return pos;
+        };
+
+        if (container.nodeType === 3) {
+          pos = findSpace(container, offset);
+
+          if (pos !== -1) {
+            return { container: container, offset: pos };
+          }
+
+          lastTextNode = container;
+        }
+
+        // Walk the nodes inside the block
+        walker = new TreeWalker(container, dom.getParent(container, dom.isBlock) || editor.getBody());
+        while ((node = walker[start ? 'prev' : 'next']())) {
+          if (node.nodeType === 3) {
+            lastTextNode = node;
+            pos = findSpace(node);
+
+            if (pos !== -1) {
+              return { container: node, offset: pos };
+            }
+          } else if (dom.isBlock(node)) {
+            break;
+          }
+        }
+
+        if (lastTextNode) {
+          if (start) {
+            offset = 0;
+          } else {
+            offset = lastTextNode.length;
+          }
+
+          return { container: lastTextNode, offset: offset };
+        }
+      };
+
+      var findSelectorEndPoint = function (container, siblingName) {
+        var parents, i, y, curFormat;
+
+        if (container.nodeType === 3 && container.nodeValue.length === 0 && container[siblingName]) {
+          container = container[siblingName];
+        }
+
+        parents = getParents(dom, container);
+        for (i = 0; i < parents.length; i++) {
+          for (y = 0; y < format.length; y++) {
+            curFormat = format[y];
+
+            // If collapsed state is set then skip formats that doesn't match that
+            if ("collapsed" in curFormat && curFormat.collapsed !== rng.collapsed) {
+              continue;
+            }
+
+            if (dom.is(parents[i], curFormat.selector)) {
+              return parents[i];
+            }
+          }
+        }
+
+        return container;
+      };
+
+      var findBlockEndPoint = function (container, siblingName) {
+        var node, root = dom.getRoot();
+
+        // Expand to block of similar type
+        if (!format[0].wrapper) {
+          node = dom.getParent(container, format[0].block, root);
+        }
+
+        // Expand to first wrappable block element or any block element
+        if (!node) {
+          var scopeRoot = dom.getParent(container, 'LI,TD,TH');
+          node = dom.getParent(container.nodeType === 3 ? container.parentNode : container, function (node) {
+            // Fixes #6183 where it would expand to editable parent element in inline mode
+            return node !== root && isTextBlock(editor, node);
+          }, scopeRoot);
+        }
+
+        // Exclude inner lists from wrapping
+        if (node && format[0].wrapper) {
+          node = getParents(dom, node, 'ul,ol').reverse()[0] || node;
+        }
+
+        // Didn't find a block element look for first/last wrappable element
+        if (!node) {
+          node = container;
+
+          while (node[siblingName] && !dom.isBlock(node[siblingName])) {
+            node = node[siblingName];
+
+            // Break on BR but include it will be removed later on
+            // we can't remove it now since we need to check if it can be wrapped
+            if (FormatUtils.isEq(node, 'br')) {
+              break;
+            }
+          }
+        }
+
+        return node || container;
+      };
+
+      // Expand to closest contentEditable element
+      startContainer = findParentContentEditable(startContainer);
+      endContainer = findParentContentEditable(endContainer);
+
+      // Exclude bookmark nodes if possible
+      if (isBookmarkNode(startContainer.parentNode) || isBookmarkNode(startContainer)) {
+        startContainer = isBookmarkNode(startContainer) ? startContainer : startContainer.parentNode;
+        startContainer = startContainer.nextSibling || startContainer;
+
+        if (startContainer.nodeType === 3) {
+          startOffset = 0;
+        }
+      }
+
+      if (isBookmarkNode(endContainer.parentNode) || isBookmarkNode(endContainer)) {
+        endContainer = isBookmarkNode(endContainer) ? endContainer : endContainer.parentNode;
+        endContainer = endContainer.previousSibling || endContainer;
+
+        if (endContainer.nodeType === 3) {
+          endOffset = endContainer.length;
+        }
+      }
+
+      if (format[0].inline) {
+        if (rng.collapsed) {
+          // Expand left to closest word boundary
+          endPoint = findWordEndPoint(startContainer, startOffset, true);
+          if (endPoint) {
+            startContainer = endPoint.container;
+            startOffset = endPoint.offset;
+          }
+
+          // Expand right to closest word boundary
+          endPoint = findWordEndPoint(endContainer, endOffset);
+          if (endPoint) {
+            endContainer = endPoint.container;
+            endOffset = endPoint.offset;
+          }
+        }
+
+        endContainer = remove ? endContainer : excludeTrailingWhitespace(endContainer, endOffset);
+      }
+
+      // Move start/end point up the tree if the leaves are sharp and if we are in different containers
+      // Example * becomes !: !<p><b><i>*text</i><i>text*</i></b></p>!
+      // This will reduce the number of wrapper elements that needs to be created
+      // Move start point up the tree
+      if (format[0].inline || format[0].block_expand) {
+        if (!format[0].inline || (startContainer.nodeType !== 3 || startOffset === 0)) {
+          startContainer = findParentContainer(true);
+        }
+
+        if (!format[0].inline || (endContainer.nodeType !== 3 || endOffset === endContainer.nodeValue.length)) {
+          endContainer = findParentContainer();
+        }
+      }
+
+      // Expand start/end container to matching selector
+      if (format[0].selector && format[0].expand !== false && !format[0].inline) {
+        // Find new startContainer/endContainer if there is better one
+        startContainer = findSelectorEndPoint(startContainer, 'previousSibling');
+        endContainer = findSelectorEndPoint(endContainer, 'nextSibling');
+      }
+
+      // Expand start/end container to matching block element or text node
+      if (format[0].block || format[0].selector) {
+        // Find new startContainer/endContainer if there is better one
+        startContainer = findBlockEndPoint(startContainer, 'previousSibling');
+        endContainer = findBlockEndPoint(endContainer, 'nextSibling');
+
+        // Non block element then try to expand up the leaf
+        if (format[0].block) {
+          if (!dom.isBlock(startContainer)) {
+            startContainer = findParentContainer(true);
+          }
+
+          if (!dom.isBlock(endContainer)) {
+            endContainer = findParentContainer();
+          }
+        }
+      }
+
+      // Setup index for startContainer
+      if (startContainer.nodeType === 1) {
+        startOffset = dom.nodeIndex(startContainer);
+        startContainer = startContainer.parentNode;
+      }
+
+      // Setup index for endContainer
+      if (endContainer.nodeType === 1) {
+        endOffset = dom.nodeIndex(endContainer) + 1;
+        endContainer = endContainer.parentNode;
+      }
+
+      // Return new range like object
+      return {
+        startContainer: startContainer,
+        startOffset: startOffset,
+        endContainer: endContainer,
+        endOffset: endOffset
+      };
+    };
+
+    return {
+      expandRng: expandRng
+    };
+  }
+);
+/**
+ * MatchFormat.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.MatchFormat',
+  [
+    'tinymce.core.fmt.FormatUtils'
+  ],
+  function (FormatUtils) {
+    var isEq = FormatUtils.isEq;
+
+    var matchesUnInheritedFormatSelector = function (ed, node, name) {
+      var formatList = ed.formatter.get(name);
+
+      if (formatList) {
+        for (var i = 0; i < formatList.length; i++) {
+          if (formatList[i].inherit === false && ed.dom.is(node, formatList[i].selector)) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    };
+
+    var matchParents = function (editor, node, name, vars) {
+      var root = editor.dom.getRoot();
+
+      if (node === root) {
+        return false;
+      }
+
+      // Find first node with similar format settings
+      node = editor.dom.getParent(node, function (node) {
+        if (matchesUnInheritedFormatSelector(editor, node, name)) {
+          return true;
+        }
+
+        return node.parentNode === root || !!matchNode(editor, node, name, vars, true);
+      });
+
+      // Do an exact check on the similar format element
+      return matchNode(editor, node, name, vars);
+    };
+
+    var matchName = function (dom, node, format) {
+      // Check for inline match
+      if (isEq(node, format.inline)) {
+        return true;
+      }
+
+      // Check for block match
+      if (isEq(node, format.block)) {
+        return true;
+      }
+
+      // Check for selector match
+      if (format.selector) {
+        return node.nodeType === 1 && dom.is(node, format.selector);
+      }
+    };
+
+    var matchItems = function (dom, node, format, itemName, similar, vars) {
+      var key, value, items = format[itemName], i;
+
+      // Custom match
+      if (format.onmatch) {
+        return format.onmatch(node, format, itemName);
+      }
+
+      // Check all items
+      if (items) {
+        // Non indexed object
+        if (typeof items.length === 'undefined') {
+          for (key in items) {
+            if (items.hasOwnProperty(key)) {
+              if (itemName === 'attributes') {
+                value = dom.getAttrib(node, key);
+              } else {
+                value = FormatUtils.getStyle(dom, node, key);
+              }
+
+              if (similar && !value && !format.exact) {
+                return;
+              }
+
+              if ((!similar || format.exact) && !isEq(value, FormatUtils.normalizeStyleValue(dom, FormatUtils.replaceVars(items[key], vars), key))) {
+                return;
+              }
+            }
+          }
+        } else {
+          // Only one match needed for indexed arrays
+          for (i = 0; i < items.length; i++) {
+            if (itemName === 'attributes' ? dom.getAttrib(node, items[i]) : FormatUtils.getStyle(dom, node, items[i])) {
+              return format;
+            }
+          }
+        }
+      }
+
+      return format;
+    };
+
+    var matchNode = function (ed, node, name, vars, similar) {
+      var formatList = ed.formatter.get(name), format, i, x, classes, dom = ed.dom;
+
+      if (formatList && node) {
+        // Check each format in list
+        for (i = 0; i < formatList.length; i++) {
+          format = formatList[i];
+
+          // Name name, attributes, styles and classes
+          if (matchName(ed.dom, node, format) && matchItems(dom, node, format, 'attributes', similar, vars) && matchItems(dom, node, format, 'styles', similar, vars)) {
+            // Match classes
+            if ((classes = format.classes)) {
+              for (x = 0; x < classes.length; x++) {
+                if (!ed.dom.hasClass(node, classes[x])) {
+                  return;
+                }
+              }
+            }
+
+            return format;
+          }
+        }
+      }
+    };
+
+    var match = function (editor, name, vars, node) {
+      var startNode;
+
+      // Check specified node
+      if (node) {
+        return matchParents(editor, node, name, vars);
+      }
+
+      // Check selected node
+      node = editor.selection.getNode();
+      if (matchParents(editor, node, name, vars)) {
+        return true;
+      }
+
+      // Check start node if it's different
+      startNode = editor.selection.getStart();
+      if (startNode !== node) {
+        if (matchParents(editor, startNode, name, vars)) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    var matchAll = function (editor, names, vars) {
+      var startElement, matchedFormatNames = [], checkedMap = {};
+
+      // Check start of selection for formats
+      startElement = editor.selection.getStart();
+      editor.dom.getParent(startElement, function (node) {
+        var i, name;
+
+        for (i = 0; i < names.length; i++) {
+          name = names[i];
+
+          if (!checkedMap[name] && matchNode(editor, node, name, vars)) {
+            checkedMap[name] = true;
+            matchedFormatNames.push(name);
+          }
+        }
+      }, editor.dom.getRoot());
+
+      return matchedFormatNames;
+    };
+
+    var canApply = function (editor, name) {
+      var formatList = editor.formatter.get(name), startNode, parents, i, x, selector, dom = editor.dom;
+
+      if (formatList) {
+        startNode = editor.selection.getStart();
+        parents = FormatUtils.getParents(dom, startNode);
+
+        for (x = formatList.length - 1; x >= 0; x--) {
+          selector = formatList[x].selector;
+
+          // Format is not selector based then always return TRUE
+          // Is it has a defaultBlock then it's likely it can be applied for example align on a non block element line
+          if (!selector || formatList[x].defaultBlock) {
+            return true;
+          }
+
+          for (i = parents.length - 1; i >= 0; i--) {
+            if (dom.is(parents[i], selector)) {
+              return true;
+            }
+          }
+        }
+      }
+
+      return false;
+    };
+
+    return {
+      matchNode: matchNode,
+      matchName: matchName,
+      match: match,
+      matchAll: matchAll,
+      canApply: canApply,
+      matchesUnInheritedFormatSelector: matchesUnInheritedFormatSelector
+    };
+  }
+);
+/**
+ * CaretFormat.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.CaretFormat',
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.node.Element',
+    'tinymce.core.dom.PaddingBr',
+    'tinymce.core.dom.RangeUtils',
+    'tinymce.core.dom.TreeWalker',
+    'tinymce.core.fmt.ExpandRange',
+    'tinymce.core.fmt.FormatUtils',
+    'tinymce.core.fmt.MatchFormat',
+    'tinymce.core.text.Zwsp',
+    'tinymce.core.util.Fun',
+    'tinymce.core.util.Tools'
+  ],
+  function (Arr, Element, PaddingBr, RangeUtils, TreeWalker, ExpandRange, FormatUtils, MatchFormat, Zwsp, Fun, Tools) {
+    var ZWSP = Zwsp.ZWSP, CARET_ID = '_mce_caret', DEBUG = false;
+
+    var isCaretNode = function (node) {
+      return node.nodeType === 1 && node.id === CARET_ID;
+    };
+
+    var isCaretContainerEmpty = function (node, nodes) {
+      while (node) {
+        if ((node.nodeType === 3 && node.nodeValue !== ZWSP) || node.childNodes.length > 1) {
+          return false;
+        }
+
+        // Collect nodes
+        if (nodes && node.nodeType === 1) {
+          nodes.push(node);
+        }
+
+        node = node.firstChild;
+      }
+
+      return true;
+    };
+
+    var findFirstTextNode = function (node) {
+      var walker;
+
+      if (node) {
+        walker = new TreeWalker(node, node);
+
+        for (node = walker.current(); node; node = walker.next()) {
+          if (node.nodeType === 3) {
+            return node;
+          }
+        }
+      }
+
+      return null;
+    };
+
+    var createCaretContainer = function (dom, fill) {
+      var caretContainer = dom.create('span', { id: CARET_ID, 'data-mce-bogus': '1', style: DEBUG ? 'color:red' : '' });
+
+      if (fill) {
+        caretContainer.appendChild(dom.doc.createTextNode(ZWSP));
+      }
+
+      return caretContainer;
+    };
+
+    var getParentCaretContainer = function (node) {
+      while (node) {
+        if (node.id === CARET_ID) {
+          return node;
+        }
+
+        node = node.parentNode;
+      }
+    };
+
+    // Checks if the parent caret container node isn't empty if that is the case it
+    // will remove the bogus state on all children that isn't empty
+    var unmarkBogusCaretParents = function (dom, selection) {
+      var caretContainer;
+
+      caretContainer = getParentCaretContainer(selection.getStart());
+      if (caretContainer && !dom.isEmpty(caretContainer)) {
+        Tools.walk(caretContainer, function (node) {
+          if (node.nodeType === 1 && node.id !== CARET_ID && !dom.isEmpty(node)) {
+            dom.setAttrib(node, 'data-mce-bogus', null);
+          }
+        }, 'childNodes');
+      }
+    };
+
+    var trimZwspFromCaretContainer = function (caretContainerNode) {
+      var textNode = findFirstTextNode(caretContainerNode);
+      if (textNode && textNode.nodeValue.charAt(0) === ZWSP) {
+        textNode.deleteData(0, 1);
+      }
+
+      return textNode;
+    };
+
+    var removeCaretContainerNode = function (dom, selection, node, moveCaret) {
+      var rng, block, textNode;
+
+      rng = selection.getRng(true);
+      block = dom.getParent(node, dom.isBlock);
+
+      if (isCaretContainerEmpty(node)) {
+        if (moveCaret !== false) {
+          rng.setStartBefore(node);
+          rng.setEndBefore(node);
+        }
+
+        dom.remove(node);
+      } else {
+        textNode = trimZwspFromCaretContainer(node);
+        if (rng.startContainer === textNode && rng.startOffset > 0) {
+          rng.setStart(textNode, rng.startOffset - 1);
+        }
+
+        if (rng.endContainer === textNode && rng.endOffset > 0) {
+          rng.setEnd(textNode, rng.endOffset - 1);
+        }
+
+        dom.remove(node, true);
+      }
+
+      if (block && dom.isEmpty(block)) {
+        PaddingBr.fillWithPaddingBr(Element.fromDom(block));
+      }
+
+      selection.setRng(rng);
+    };
+
+    // Removes the caret container for the specified node or all on the current document
+    var removeCaretContainer = function (dom, selection, node, moveCaret) {
+      if (!node) {
+        node = getParentCaretContainer(selection.getStart());
+
+        if (!node) {
+          while ((node = dom.get(CARET_ID))) {
+            removeCaretContainerNode(dom, selection, node, false);
+          }
+        }
+      } else {
+        removeCaretContainerNode(dom, selection, node, moveCaret);
+      }
+    };
+
+    var insertCaretContainerNode = function (editor, caretContainer, formatNode) {
+      var dom = editor.dom, block = dom.getParent(formatNode, Fun.curry(FormatUtils.isTextBlock, editor));
+
+      if (block && dom.isEmpty(block)) {
+        // Replace formatNode with caretContainer when removing format from empty block like <p><b>|</b></p>
+        formatNode.parentNode.replaceChild(caretContainer, formatNode);
+      } else {
+        PaddingBr.removeTrailingBr(Element.fromDom(formatNode));
+        if (dom.isEmpty(formatNode)) {
+          formatNode.parentNode.replaceChild(caretContainer, formatNode);
+        } else {
+          dom.insertAfter(caretContainer, formatNode);
+        }
+      }
+    };
+
+    var appendNode = function (parentNode, node) {
+      parentNode.appendChild(node);
+      return node;
+    };
+
+    var insertFormatNodesIntoCaretContainer = function (formatNodes, caretContainer) {
+      var innerMostFormatNode = Arr.foldr(formatNodes, function (parentNode, formatNode) {
+        return appendNode(parentNode, formatNode.cloneNode(false));
+      }, caretContainer);
+
+      return appendNode(innerMostFormatNode, innerMostFormatNode.ownerDocument.createTextNode(ZWSP));
+    };
+
+    var setupCaretEvents = function (editor) {
+      if (!editor._hasCaretEvents) {
+        bindEvents(editor);
+        editor._hasCaretEvents = true;
+      }
+    };
+
+    var applyCaretFormat = function (editor, name, vars) {
+      var rng, caretContainer, textNode, offset, bookmark, container, text;
+      var dom = editor.dom, selection = editor.selection;
+
+      setupCaretEvents(editor);
+
+      rng = selection.getRng(true);
+      offset = rng.startOffset;
+      container = rng.startContainer;
+      text = container.nodeValue;
+
+      caretContainer = getParentCaretContainer(selection.getStart());
+      if (caretContainer) {
+        textNode = findFirstTextNode(caretContainer);
+      }
+
+      // Expand to word if caret is in the middle of a text node and the char before/after is a alpha numeric character
+      var wordcharRegex = /[^\s\u00a0\u00ad\u200b\ufeff]/;
+      if (text && offset > 0 && offset < text.length &&
+        wordcharRegex.test(text.charAt(offset)) && wordcharRegex.test(text.charAt(offset - 1))) {
+        // Get bookmark of caret position
+        bookmark = selection.getBookmark();
+
+        // Collapse bookmark range (WebKit)
+        rng.collapse(true);
+
+        // Expand the range to the closest word and split it at those points
+        rng = ExpandRange.expandRng(editor, rng, editor.formatter.get(name));
+        rng = new RangeUtils(dom).split(rng);
+
+        // Apply the format to the range
+        editor.formatter.apply(name, vars, rng);
+
+        // Move selection back to caret position
+        selection.moveToBookmark(bookmark);
+      } else {
+        if (!caretContainer || textNode.nodeValue !== ZWSP) {
+          caretContainer = createCaretContainer(dom, true);
+          textNode = caretContainer.firstChild;
+
+          rng.insertNode(caretContainer);
+          offset = 1;
+
+          editor.formatter.apply(name, vars, caretContainer);
+        } else {
+          editor.formatter.apply(name, vars, caretContainer);
+        }
+
+        // Move selection to text node
+        selection.setCursorLocation(textNode, offset);
+      }
+    };
+
+    var removeCaretFormat = function (editor, name, vars, similar) {
+      var dom = editor.dom, selection = editor.selection;
+      var rng = selection.getRng(true), container, offset, bookmark;
+      var hasContentAfter, node, formatNode, parents = [], caretContainer;
+
+      setupCaretEvents(editor);
+
+      container = rng.startContainer;
+      offset = rng.startOffset;
+      node = container;
+
+      if (container.nodeType === 3) {
+        if (offset !== container.nodeValue.length) {
+          hasContentAfter = true;
+        }
+
+        node = node.parentNode;
+      }
+
+      while (node) {
+        if (MatchFormat.matchNode(editor, node, name, vars, similar)) {
+          formatNode = node;
+          break;
+        }
+
+        if (node.nextSibling) {
+          hasContentAfter = true;
+        }
+
+        parents.push(node);
+        node = node.parentNode;
+      }
+
+      // Node doesn't have the specified format
+      if (!formatNode) {
+        return;
+      }
+
+      // Is there contents after the caret then remove the format on the element
+      if (hasContentAfter) {
+        bookmark = selection.getBookmark();
+
+        // Collapse bookmark range (WebKit)
+        rng.collapse(true);
+
+        // Expand the range to the closest word and split it at those points
+        rng = ExpandRange.expandRng(editor, rng, editor.formatter.get(name), true);
+        rng = new RangeUtils(dom).split(rng);
+
+        editor.formatter.remove(name, vars, rng);
+        selection.moveToBookmark(bookmark);
+      } else {
+        caretContainer = getParentCaretContainer(formatNode);
+        var newCaretContainer = createCaretContainer(dom, false);
+        var caretNode = insertFormatNodesIntoCaretContainer(parents, newCaretContainer);
+
+        if (caretContainer) {
+          insertCaretContainerNode(editor, newCaretContainer, caretContainer);
+        } else {
+          insertCaretContainerNode(editor, newCaretContainer, formatNode);
+        }
+
+        removeCaretContainerNode(dom, selection, caretContainer, false);
+        selection.setCursorLocation(caretNode, 1);
+
+        if (dom.isEmpty(formatNode)) {
+          dom.remove(formatNode);
+        }
+      }
+    };
+
+    var bindEvents = function (editor) {
+      var dom = editor.dom, selection = editor.selection;
+
+      if (!editor._hasCaretEvents) {
+        var markCaretContainersBogus, disableCaretContainer;
+
+        editor.on('BeforeGetContent', function (e) {
+          if (markCaretContainersBogus && e.format !== 'raw') {
+            markCaretContainersBogus();
+          }
+        });
+
+        editor.on('mouseup keydown', function (e) {
+          if (disableCaretContainer) {
+            disableCaretContainer(e);
+          }
+        });
+
+        // Mark current caret container elements as bogus when getting the contents so we don't end up with empty elements
+        markCaretContainersBogus = function () {
+          var nodes = [], i;
+
+          if (isCaretContainerEmpty(getParentCaretContainer(selection.getStart()), nodes)) {
+            // Mark children
+            i = nodes.length;
+            while (i--) {
+              dom.setAttrib(nodes[i], 'data-mce-bogus', '1');
+            }
+          }
+        };
+
+        disableCaretContainer = function (e) {
+          var keyCode = e.keyCode;
+
+          removeCaretContainer(dom, selection, null, false);
+
+          // Remove caret container if it's empty
+          if (keyCode === 8 && selection.isCollapsed() && selection.getStart().innerHTML === ZWSP) {
+            removeCaretContainer(dom, selection, getParentCaretContainer(selection.getStart()));
+          }
+
+          // Remove caret container on keydown and it's left/right arrow keys
+          if (keyCode === 37 || keyCode === 39) {
+            removeCaretContainer(dom, selection, getParentCaretContainer(selection.getStart()));
+          }
+
+          unmarkBogusCaretParents(dom, selection);
+        };
+
+        // Remove bogus state if they got filled by contents using editor.selection.setContent
+        editor.on('SetContent', function (e) {
+          if (e.selection) {
+            unmarkBogusCaretParents(dom, selection);
+          }
+        });
+        editor._hasCaretEvents = true;
+      }
+    };
+
+    return {
+      applyCaretFormat: applyCaretFormat,
+      removeCaretFormat: removeCaretFormat,
+      isCaretNode: isCaretNode
+    };
+  }
+);
+/**
+ * Hooks.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Internal class for overriding formatting.
+ *
+ * @private
+ * @class tinymce.fmt.Hooks
+ */
+define(
+  'tinymce.core.fmt.Hooks',
+  [
+    "tinymce.core.util.Arr",
+    "tinymce.core.dom.NodeType",
+    "tinymce.core.dom.DomQuery"
+  ],
+  function (Arr, NodeType, $) {
+    var postProcessHooks = {}, filter = Arr.filter, each = Arr.each;
+
+    function addPostProcessHook(name, hook) {
+      var hooks = postProcessHooks[name];
+
+      if (!hooks) {
+        postProcessHooks[name] = hooks = [];
+      }
+
+      postProcessHooks[name].push(hook);
+    }
+
+    function postProcess(name, editor) {
+      each(postProcessHooks[name], function (hook) {
+        hook(editor);
+      });
+    }
+
+    addPostProcessHook("pre", function (editor) {
+      var rng = editor.selection.getRng(), isPre, blocks;
+
+      function hasPreSibling(pre) {
+        return isPre(pre.previousSibling) && Arr.indexOf(blocks, pre.previousSibling) !== -1;
+      }
+
+      function joinPre(pre1, pre2) {
+        $(pre2).remove();
+        $(pre1).append('<br><br>').append(pre2.childNodes);
+      }
+
+      isPre = NodeType.matchNodeNames('pre');
+
+      if (!rng.collapsed) {
+        blocks = editor.selection.getSelectedBlocks();
+
+        each(filter(filter(blocks, isPre), hasPreSibling), function (pre) {
+          joinPre(pre.previousSibling, pre);
+        });
+      }
+    });
+
+    return {
+      postProcess: postProcess
+    };
+  }
+);
+
+/**
+ * RemoveFormat.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.RemoveFormat',
+  [
+    'ephox.katamari.api.Fun',
+    'tinymce.core.dom.BookmarkManager',
+    'tinymce.core.dom.RangeUtils',
+    'tinymce.core.dom.TreeWalker',
+    'tinymce.core.fmt.CaretFormat',
+    'tinymce.core.fmt.ExpandRange',
+    'tinymce.core.fmt.FormatUtils',
+    'tinymce.core.fmt.MatchFormat',
+    'tinymce.core.util.Tools'
+  ],
+  function (Fun, BookmarkManager, RangeUtils, TreeWalker, CaretFormat, ExpandRange, FormatUtils, MatchFormat, Tools) {
+    var MCE_ATTR_RE = /^(src|href|style)$/;
+    var each = Tools.each;
+    var isEq = FormatUtils.isEq;
+
+    var isTableCell = function (node) {
+      return /^(TH|TD)$/.test(node.nodeName);
+    };
+
+    var getContainer = function (ed, rng, start) {
+      var container, offset, lastIdx;
+
+      container = rng[start ? 'startContainer' : 'endContainer'];
+      offset = rng[start ? 'startOffset' : 'endOffset'];
+
+      if (container.nodeType === 1) {
+        lastIdx = container.childNodes.length - 1;
+
+        if (!start && offset) {
+          offset--;
+        }
+
+        container = container.childNodes[offset > lastIdx ? lastIdx : offset];
+      }
+
+      // If start text node is excluded then walk to the next node
+      if (container.nodeType === 3 && start && offset >= container.nodeValue.length) {
+        container = new TreeWalker(container, ed.getBody()).next() || container;
+      }
+
+      // If end text node is excluded then walk to the previous node
+      if (container.nodeType === 3 && !start && offset === 0) {
+        container = new TreeWalker(container, ed.getBody()).prev() || container;
+      }
+
+      return container;
+    };
+
+    var wrap = function (dom, node, name, attrs) {
+      var wrapper = dom.create(name, attrs);
+
+      node.parentNode.insertBefore(wrapper, node);
+      wrapper.appendChild(node);
+
+      return wrapper;
+    };
+
+    /**
+     * Checks if the specified nodes name matches the format inline/block or selector.
+     *
+     * @private
+     * @param {Node} node Node to match against the specified format.
+     * @param {Object} format Format object o match with.
+     * @return {boolean} true/false if the format matches.
+     */
+    var matchName = function (dom, node, format) {
+      // Check for inline match
+      if (isEq(node, format.inline)) {
+        return true;
+      }
+
+      // Check for block match
+      if (isEq(node, format.block)) {
+        return true;
+      }
+
+      // Check for selector match
+      if (format.selector) {
+        return node.nodeType === 1 && dom.is(node, format.selector);
+      }
+    };
+
+    var isColorFormatAndAnchor = function (node, format) {
+      return format.links && node.tagName === 'A';
+    };
+
+    var find = function (dom, node, next, inc) {
+      node = FormatUtils.getNonWhiteSpaceSibling(node, next, inc);
+      return !node || (node.nodeName === 'BR' || dom.isBlock(node));
+    };
+
+    /**
+     * Removes the node and wrap it's children in paragraphs before doing so or
+     * appends BR elements to the beginning/end of the block element if forcedRootBlocks is disabled.
+     *
+     * If the div in the node below gets removed:
+     *  text<div>text</div>text
+     *
+     * Output becomes:
+     *  text<div><br />text<br /></div>text
+     *
+     * So when the div is removed the result is:
+     *  text<br />text<br />text
+     *
+     * @private
+     * @param {Node} node Node to remove + apply BR/P elements to.
+     * @param {Object} format Format rule.
+     * @return {Node} Input node.
+     */
+    var removeNode = function (ed, node, format) {
+      var parentNode = node.parentNode, rootBlockElm;
+      var dom = ed.dom, forcedRootBlock = ed.settings.forced_root_block;
+
+      if (format.block) {
+        if (!forcedRootBlock) {
+          // Append BR elements if needed before we remove the block
+          if (dom.isBlock(node) && !dom.isBlock(parentNode)) {
+            if (!find(dom, node, false) && !find(dom, node.firstChild, true, 1)) {
+              node.insertBefore(dom.create('br'), node.firstChild);
+            }
+
+            if (!find(dom, node, true) && !find(dom, node.lastChild, false, 1)) {
+              node.appendChild(dom.create('br'));
+            }
+          }
+        } else {
+          // Wrap the block in a forcedRootBlock if we are at the root of document
+          if (parentNode === dom.getRoot()) {
+            if (!format.list_block || !isEq(node, format.list_block)) {
+              each(Tools.grep(node.childNodes), function (node) {
+                if (FormatUtils.isValid(ed, forcedRootBlock, node.nodeName.toLowerCase())) {
+                  if (!rootBlockElm) {
+                    rootBlockElm = wrap(dom, node, forcedRootBlock);
+                    dom.setAttribs(rootBlockElm, ed.settings.forced_root_block_attrs);
+                  } else {
+                    rootBlockElm.appendChild(node);
+                  }
+                } else {
+                  rootBlockElm = 0;
+                }
+              });
+            }
+          }
+        }
+      }
+
+      // Never remove nodes that isn't the specified inline element if a selector is specified too
+      if (format.selector && format.inline && !isEq(format.inline, node)) {
+        return;
+      }
+
+      dom.remove(node, 1);
+    };
+
+    /**
+     * Removes the specified format for the specified node. It will also remove the node if it doesn't have
+     * any attributes if the format specifies it to do so.
+     *
+     * @private
+     * @param {Object} format Format object with items to remove from node.
+     * @param {Object} vars Name/value object with variables to apply to format.
+     * @param {Node} node Node to remove the format styles on.
+     * @param {Node} compareNode Optional compare node, if specified the styles will be compared to that node.
+     * @return {Boolean} True/false if the node was removed or not.
+     */
+    var removeFormat = function (ed, format, vars, node, compareNode) {
+      var i, attrs, stylesModified, dom = ed.dom;
+
+      // Check if node matches format
+      if (!matchName(dom, node, format) && !isColorFormatAndAnchor(node, format)) {
+        return false;
+      }
+
+      // Should we compare with format attribs and styles
+      if (format.remove !== 'all') {
+        // Remove styles
+        each(format.styles, function (value, name) {
+          value = FormatUtils.normalizeStyleValue(dom, FormatUtils.replaceVars(value, vars), name);
+
+          // Indexed array
+          if (typeof name === 'number') {
+            name = value;
+            compareNode = 0;
+          }
+
+          if (format.remove_similar || (!compareNode || isEq(FormatUtils.getStyle(dom, compareNode, name), value))) {
+            dom.setStyle(node, name, '');
+          }
+
+          stylesModified = 1;
+        });
+
+        // Remove style attribute if it's empty
+        if (stylesModified && dom.getAttrib(node, 'style') === '') {
+          node.removeAttribute('style');
+          node.removeAttribute('data-mce-style');
+        }
+
+        // Remove attributes
+        each(format.attributes, function (value, name) {
+          var valueOut;
+
+          value = FormatUtils.replaceVars(value, vars);
+
+          // Indexed array
+          if (typeof name === 'number') {
+            name = value;
+            compareNode = 0;
+          }
+
+          if (!compareNode || isEq(dom.getAttrib(compareNode, name), value)) {
+            // Keep internal classes
+            if (name === 'class') {
+              value = dom.getAttrib(node, name);
+              if (value) {
+                // Build new class value where everything is removed except the internal prefixed classes
+                valueOut = '';
+                each(value.split(/\s+/), function (cls) {
+                  if (/mce\-\w+/.test(cls)) {
+                    valueOut += (valueOut ? ' ' : '') + cls;
+                  }
+                });
+
+                // We got some internal classes left
+                if (valueOut) {
+                  dom.setAttrib(node, name, valueOut);
+                  return;
+                }
+              }
+            }
+
+            // IE6 has a bug where the attribute doesn't get removed correctly
+            if (name === "class") {
+              node.removeAttribute('className');
+            }
+
+            // Remove mce prefixed attributes
+            if (MCE_ATTR_RE.test(name)) {
+              node.removeAttribute('data-mce-' + name);
+            }
+
+            node.removeAttribute(name);
+          }
+        });
+
+        // Remove classes
+        each(format.classes, function (value) {
+          value = FormatUtils.replaceVars(value, vars);
+
+          if (!compareNode || dom.hasClass(compareNode, value)) {
+            dom.removeClass(node, value);
+          }
+        });
+
+        // Check for non internal attributes
+        attrs = dom.getAttribs(node);
+        for (i = 0; i < attrs.length; i++) {
+          var attrName = attrs[i].nodeName;
+          if (attrName.indexOf('_') !== 0 && attrName.indexOf('data-') !== 0) {
+            return false;
+          }
+        }
+      }
+
+      // Remove the inline child if it's empty for example <b> or <span>
+      if (format.remove !== 'none') {
+        removeNode(ed, node, format);
+        return true;
+      }
+    };
+
+    var findFormatRoot = function (editor, container, name, vars, similar) {
+      var formatRoot;
+
+      // Find format root
+      each(FormatUtils.getParents(editor.dom, container.parentNode).reverse(), function (parent) {
+        var format;
+
+        // Find format root element
+        if (!formatRoot && parent.id !== '_start' && parent.id !== '_end') {
+          // Is the node matching the format we are looking for
+          format = MatchFormat.matchNode(editor, parent, name, vars, similar);
+          if (format && format.split !== false) {
+            formatRoot = parent;
+          }
+        }
+      });
+
+      return formatRoot;
+    };
+
+    var wrapAndSplit = function (editor, formatList, formatRoot, container, target, split, format, vars) {
+      var parent, clone, lastClone, firstClone, i, formatRootParent, dom = editor.dom;
+
+      // Format root found then clone formats and split it
+      if (formatRoot) {
+        formatRootParent = formatRoot.parentNode;
+
+        for (parent = container.parentNode; parent && parent !== formatRootParent; parent = parent.parentNode) {
+          clone = dom.clone(parent, false);
+
+          for (i = 0; i < formatList.length; i++) {
+            if (removeFormat(editor, formatList[i], vars, clone, clone)) {
+              clone = 0;
+              break;
+            }
+          }
+
+          // Build wrapper node
+          if (clone) {
+            if (lastClone) {
+              clone.appendChild(lastClone);
+            }
+
+            if (!firstClone) {
+              firstClone = clone;
+            }
+
+            lastClone = clone;
+          }
+        }
+
+        // Never split block elements if the format is mixed
+        if (split && (!format.mixed || !dom.isBlock(formatRoot))) {
+          container = dom.split(formatRoot, container);
+        }
+
+        // Wrap container in cloned formats
+        if (lastClone) {
+          target.parentNode.insertBefore(lastClone, target);
+          firstClone.appendChild(target);
+        }
+      }
+
+      return container;
+    };
+
+    var remove = function (ed, name, vars, node, similar) {
+      var formatList = ed.formatter.get(name), format = formatList[0];
+      var bookmark, rng, contentEditable = true, dom = ed.dom, selection = ed.selection;
+
+      var splitToFormatRoot = function (container) {
+        var formatRoot = findFormatRoot(ed, container, name, vars, similar);
+        return wrapAndSplit(ed, formatList, formatRoot, container, container, true, format, vars);
+      };
+
+      // Merges the styles for each node
+      var process = function (node) {
+        var children, i, l, lastContentEditable, hasContentEditableState;
+
+        // Node has a contentEditable value
+        if (node.nodeType === 1 && dom.getContentEditable(node)) {
+          lastContentEditable = contentEditable;
+          contentEditable = dom.getContentEditable(node) === "true";
+          hasContentEditableState = true; // We don't want to wrap the container only it's children
+        }
+
+        // Grab the children first since the nodelist might be changed
+        children = Tools.grep(node.childNodes);
+
+        // Process current node
+        if (contentEditable && !hasContentEditableState) {
+          for (i = 0, l = formatList.length; i < l; i++) {
+            if (removeFormat(ed, formatList[i], vars, node, node)) {
+              break;
+            }
+          }
+        }
+
+        // Process the children
+        if (format.deep) {
+          if (children.length) {
+            for (i = 0, l = children.length; i < l; i++) {
+              process(children[i]);
+            }
+
+            if (hasContentEditableState) {
+              contentEditable = lastContentEditable; // Restore last contentEditable state from stack
+            }
+          }
+        }
+      };
+
+      var unwrap = function (start) {
+        var node = dom.get(start ? '_start' : '_end'),
+          out = node[start ? 'firstChild' : 'lastChild'];
+
+        // If the end is placed within the start the result will be removed
+        // So this checks if the out node is a bookmark node if it is it
+        // checks for another more suitable node
+        if (BookmarkManager.isBookmarkNode(out)) {
+          out = out[start ? 'firstChild' : 'lastChild'];
+        }
+
+        // Since dom.remove removes empty text nodes then we need to try to find a better node
+        if (out.nodeType === 3 && out.data.length === 0) {
+          out = start ? node.previousSibling || node.nextSibling : node.nextSibling || node.previousSibling;
+        }
+
+        dom.remove(node, true);
+
+        return out;
+      };
+
+      var removeRngStyle = function (rng) {
+        var startContainer, endContainer;
+        var commonAncestorContainer = rng.commonAncestorContainer;
+
+        rng = ExpandRange.expandRng(ed, rng, formatList, true);
+
+        if (format.split) {
+          startContainer = getContainer(ed, rng, true);
+          endContainer = getContainer(ed, rng);
+
+          if (startContainer !== endContainer) {
+            // WebKit will render the table incorrectly if we wrap a TH or TD in a SPAN
+            // so let's see if we can use the first child instead
+            // This will happen if you triple click a table cell and use remove formatting
+            if (/^(TR|TH|TD)$/.test(startContainer.nodeName) && startContainer.firstChild) {
+              if (startContainer.nodeName === "TR") {
+                startContainer = startContainer.firstChild.firstChild || startContainer;
+              } else {
+                startContainer = startContainer.firstChild || startContainer;
+              }
+            }
+
+            // Try to adjust endContainer as well if cells on the same row were selected - bug #6410
+            if (commonAncestorContainer &&
+              /^T(HEAD|BODY|FOOT|R)$/.test(commonAncestorContainer.nodeName) &&
+              isTableCell(endContainer) && endContainer.firstChild) {
+              endContainer = endContainer.firstChild || endContainer;
+            }
+
+            if (dom.isChildOf(startContainer, endContainer) && !dom.isBlock(endContainer) &&
+              !isTableCell(startContainer) && !isTableCell(endContainer)) {
+              startContainer = wrap(dom, startContainer, 'span', { id: '_start', 'data-mce-type': 'bookmark' });
+              splitToFormatRoot(startContainer);
+              startContainer = unwrap(true);
+              return;
+            }
+
+            // Wrap start/end nodes in span element since these might be cloned/moved
+            startContainer = wrap(dom, startContainer, 'span', { id: '_start', 'data-mce-type': 'bookmark' });
+            endContainer = wrap(dom, endContainer, 'span', { id: '_end', 'data-mce-type': 'bookmark' });
+
+            // Split start/end
+            splitToFormatRoot(startContainer);
+            splitToFormatRoot(endContainer);
+
+            // Unwrap start/end to get real elements again
+            startContainer = unwrap(true);
+            endContainer = unwrap();
+          } else {
+            startContainer = endContainer = splitToFormatRoot(startContainer);
+          }
+
+          // Update range positions since they might have changed after the split operations
+          rng.startContainer = startContainer.parentNode ? startContainer.parentNode : startContainer;
+          rng.startOffset = dom.nodeIndex(startContainer);
+          rng.endContainer = endContainer.parentNode ? endContainer.parentNode : endContainer;
+          rng.endOffset = dom.nodeIndex(endContainer) + 1;
+        }
+
+        // Remove items between start/end
+        new RangeUtils(dom).walk(rng, function (nodes) {
+          each(nodes, function (node) {
+            process(node);
+
+            // Remove parent span if it only contains text-decoration: underline, yet a parent node is also underlined.
+            if (node.nodeType === 1 && ed.dom.getStyle(node, 'text-decoration') === 'underline' &&
+              node.parentNode && FormatUtils.getTextDecoration(dom, node.parentNode) === 'underline') {
+              removeFormat(ed, {
+                'deep': false,
+                'exact': true,
+                'inline': 'span',
+                'styles': {
+                  'textDecoration': 'underline'
+                }
+              }, null, node);
+            }
+          });
+        });
+      };
+
+      // Handle node
+      if (node) {
+        if (node.nodeType) {
+          rng = dom.createRng();
+          rng.setStartBefore(node);
+          rng.setEndAfter(node);
+          removeRngStyle(rng);
+        } else {
+          removeRngStyle(node);
+        }
+
+        return;
+      }
+
+      if (dom.getContentEditable(selection.getNode()) === "false") {
+        node = selection.getNode();
+        for (var i = 0, l = formatList.length; i < l; i++) {
+          if (formatList[i].ceFalseOverride) {
+            if (removeFormat(ed, formatList[i], vars, node, node)) {
+              break;
+            }
+          }
+        }
+
+        return;
+      }
+
+      if (!selection.isCollapsed() || !format.inline || dom.select('td[data-mce-selected],th[data-mce-selected]').length) {
+        bookmark = selection.getBookmark();
+        removeRngStyle(selection.getRng(true));
+        selection.moveToBookmark(bookmark);
+
+        // Check if start element still has formatting then we are at: "<b>text|</b>text"
+        // and need to move the start into the next text node
+        if (format.inline && MatchFormat.match(ed, name, vars, selection.getStart())) {
+          FormatUtils.moveStart(dom, selection, selection.getRng(true));
+        }
+
+        ed.nodeChanged();
+      } else {
+        CaretFormat.removeCaretFormat(ed, name, vars, similar);
+      }
+    };
+
+    return {
+      removeFormat: removeFormat,
+      remove: remove
+    };
+  }
+);
+/**
+ * ApplyFormat.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.ApplyFormat',
+  [
+    'tinymce.core.dom.BookmarkManager',
+    'tinymce.core.dom.ElementUtils',
+    'tinymce.core.dom.NodeType',
+    'tinymce.core.dom.RangeNormalizer',
+    'tinymce.core.dom.RangeUtils',
+    'tinymce.core.dom.TreeWalker',
+    'tinymce.core.fmt.CaretFormat',
+    'tinymce.core.fmt.ExpandRange',
+    'tinymce.core.fmt.FormatUtils',
+    'tinymce.core.fmt.Hooks',
+    'tinymce.core.fmt.MatchFormat',
+    'tinymce.core.fmt.RemoveFormat',
+    'tinymce.core.util.Fun',
+    'tinymce.core.util.Tools'
+  ],
+  function (
+    BookmarkManager, ElementUtils, NodeType, RangeNormalizer, RangeUtils, TreeWalker, CaretFormat, ExpandRange, FormatUtils, Hooks, MatchFormat, RemoveFormat,
+    Fun, Tools
+  ) {
+    var each = Tools.each;
+
+    var isElementNode = function (node) {
+      return node && node.nodeType === 1 && !BookmarkManager.isBookmarkNode(node) && !CaretFormat.isCaretNode(node) && !NodeType.isBogus(node);
+    };
+
+    var processChildElements = function (node, filter, process) {
+      each(node.childNodes, function (node) {
+        if (isElementNode(node)) {
+          if (filter(node)) {
+            process(node);
+          }
+          if (node.hasChildNodes()) {
+            processChildElements(node, filter, process);
+          }
+        }
+      });
+    };
+
+    var clearChildStyles = function (dom, format, node) {
+      if (format.clear_child_styles) {
+        var selector = format.links ? '*:not(a)' : '*';
+        each(dom.select(selector, node), function (node) {
+          if (isElementNode(node)) {
+            each(format.styles, function (value, name) {
+              dom.setStyle(node, name, '');
+            });
+          }
+        });
+      }
+    };
+
+    var processUnderlineAndColor = function (dom, node) {
+      var textDecoration;
+      if (node.nodeType === 1 && node.parentNode && node.parentNode.nodeType === 1) {
+        textDecoration = FormatUtils.getTextDecoration(dom, node.parentNode);
+        if (dom.getStyle(node, 'color') && textDecoration) {
+          dom.setStyle(node, 'text-decoration', textDecoration);
+        } else if (dom.getStyle(node, 'text-decoration') === textDecoration) {
+          dom.setStyle(node, 'text-decoration', null);
+        }
+      }
+    };
+
+    var hasStyle = function (dom, name) {
+      return Fun.curry(function (name, node) {
+        return !!(node && FormatUtils.getStyle(dom, node, name));
+      }, name);
+    };
+
+    var applyStyle = function (dom, name, value) {
+      return Fun.curry(function (name, value, node) {
+        dom.setStyle(node, name, value);
+      }, name, value);
+    };
+
+    var findElementSibling = function (node, siblingName) {
+      var sibling;
+
+      for (sibling = node; sibling; sibling = sibling[siblingName]) {
+        if (sibling.nodeType === 3 && sibling.nodeValue.length !== 0) {
+          return node;
+        }
+
+        if (sibling.nodeType === 1 && !BookmarkManager.isBookmarkNode(sibling)) {
+          return sibling;
+        }
+      }
+
+      return node;
+    };
+
+    /**
+     * Merges the next/previous sibling element if they match.
+     *
+     * @private
+     * @param {Node} prev Previous node to compare/merge.
+     * @param {Node} next Next node to compare/merge.
+     * @return {Node} Next node if we didn't merge and prev node if we did.
+     */
+    var mergeSiblings = function (dom, prev, next) {
+      var sibling, tmpSibling, elementUtils = new ElementUtils(dom);
+
+      // Check if next/prev exists and that they are elements
+      if (prev && next) {
+        // If previous sibling is empty then jump over it
+        prev = findElementSibling(prev, 'previousSibling');
+        next = findElementSibling(next, 'nextSibling');
+
+        // Compare next and previous nodes
+        if (elementUtils.compare(prev, next)) {
+          // Append nodes between
+          for (sibling = prev.nextSibling; sibling && sibling !== next;) {
+            tmpSibling = sibling;
+            sibling = sibling.nextSibling;
+            prev.appendChild(tmpSibling);
+          }
+
+          dom.remove(next);
+
+          each(Tools.grep(next.childNodes), function (node) {
+            prev.appendChild(node);
+          });
+
+          return prev;
+        }
+      }
+
+      return next;
+    };
+
+    var findSelectionEnd = function (start, end) {
+      var walker = new TreeWalker(end), node;
+
+      for (node = walker.prev2(); node; node = walker.prev2()) {
+        if (node.nodeType === 3 && node.data.length > 0) {
+          return node;
+        }
+
+        if (node.childNodes.length > 1 || node === start || node.tagName === 'BR') {
+          return node;
+        }
+      }
+    };
+
+    // This converts: <p>[a</p><p>]b</p> -> <p>[a]</p><p>b</p>
+    var adjustSelectionToVisibleSelection = function (ed) {
+      // Adjust selection so that a end container with a end offset of zero is not included in the selection
+      // as this isn't visible to the user.
+      var rng = RangeNormalizer.normalize(ed.selection.getRng());
+      var start = rng.startContainer;
+      var end = rng.endContainer;
+
+      if (start !== end && rng.endOffset === 0) {
+        var newEnd = findSelectionEnd(start, end);
+        var endOffset = newEnd.nodeType === 3 ? newEnd.data.length : newEnd.childNodes.length;
+
+        rng.setEnd(newEnd, endOffset);
+      }
+
+      return rng;
+    };
+
+    var applyFormat = function (ed, name, vars, node) {
+      var formatList = ed.formatter.get(name), format = formatList[0], bookmark, rng, isCollapsed = !node && ed.selection.isCollapsed();
+      var dom = ed.dom, selection = ed.selection;
+
+      var setElementFormat = function (elm, fmt) {
+        fmt = fmt || format;
+
+        if (elm) {
+          if (fmt.onformat) {
+            fmt.onformat(elm, fmt, vars, node);
+          }
+
+          each(fmt.styles, function (value, name) {
+            dom.setStyle(elm, name, FormatUtils.replaceVars(value, vars));
+          });
+
+          // Needed for the WebKit span spam bug
+          // TODO: Remove this once WebKit/Blink fixes this
+          if (fmt.styles) {
+            var styleVal = dom.getAttrib(elm, 'style');
+
+            if (styleVal) {
+              elm.setAttribute('data-mce-style', styleVal);
+            }
+          }
+
+          each(fmt.attributes, function (value, name) {
+            dom.setAttrib(elm, name, FormatUtils.replaceVars(value, vars));
+          });
+
+          each(fmt.classes, function (value) {
+            value = FormatUtils.replaceVars(value, vars);
+
+            if (!dom.hasClass(elm, value)) {
+              dom.addClass(elm, value);
+            }
+          });
+        }
+      };
+
+      var applyNodeStyle = function (formatList, node) {
+        var found = false;
+
+        if (!format.selector) {
+          return false;
+        }
+
+        // Look for matching formats
+        each(formatList, function (format) {
+          // Check collapsed state if it exists
+          if ('collapsed' in format && format.collapsed !== isCollapsed) {
+            return;
+          }
+
+          if (dom.is(node, format.selector) && !CaretFormat.isCaretNode(node)) {
+            setElementFormat(node, format);
+            found = true;
+            return false;
+          }
+        });
+
+        return found;
+      };
+
+      var applyRngStyle = function (dom, rng, bookmark, nodeSpecific) {
+        var newWrappers = [], wrapName, wrapElm, contentEditable = true;
+
+        // Setup wrapper element
+        wrapName = format.inline || format.block;
+        wrapElm = dom.create(wrapName);
+        setElementFormat(wrapElm);
+
+        new RangeUtils(dom).walk(rng, function (nodes) {
+          var currentWrapElm;
+
+          /**
+           * Process a list of nodes wrap them.
+           */
+          var process = function (node) {
+            var nodeName, parentName, hasContentEditableState, lastContentEditable;
+
+            lastContentEditable = contentEditable;
+            nodeName = node.nodeName.toLowerCase();
+            parentName = node.parentNode.nodeName.toLowerCase();
+
+            // Node has a contentEditable value
+            if (node.nodeType === 1 && dom.getContentEditable(node)) {
+              lastContentEditable = contentEditable;
+              contentEditable = dom.getContentEditable(node) === "true";
+              hasContentEditableState = true; // We don't want to wrap the container only it's children
+            }
+
+            // Stop wrapping on br elements
+            if (FormatUtils.isEq(nodeName, 'br')) {
+              currentWrapElm = 0;
+
+              // Remove any br elements when we wrap things
+              if (format.block) {
+                dom.remove(node);
+              }
+
+              return;
+            }
+
+            // If node is wrapper type
+            if (format.wrapper && MatchFormat.matchNode(ed, node, name, vars)) {
+              currentWrapElm = 0;
+              return;
+            }
+
+            // Can we rename the block
+            // TODO: Break this if up, too complex
+            if (contentEditable && !hasContentEditableState && format.block &&
+              !format.wrapper && FormatUtils.isTextBlock(ed, nodeName) && FormatUtils.isValid(ed, parentName, wrapName)) {
+              node = dom.rename(node, wrapName);
+              setElementFormat(node);
+              newWrappers.push(node);
+              currentWrapElm = 0;
+              return;
+            }
+
+            // Handle selector patterns
+            if (format.selector) {
+              var found = applyNodeStyle(formatList, node);
+
+              // Continue processing if a selector match wasn't found and a inline element is defined
+              if (!format.inline || found) {
+                currentWrapElm = 0;
+                return;
+              }
+            }
+
+            // Is it valid to wrap this item
+            // TODO: Break this if up, too complex
+            if (contentEditable && !hasContentEditableState && FormatUtils.isValid(ed, wrapName, nodeName) && FormatUtils.isValid(ed, parentName, wrapName) &&
+              !(!nodeSpecific && node.nodeType === 3 &&
+                node.nodeValue.length === 1 &&
+                node.nodeValue.charCodeAt(0) === 65279) &&
+              !CaretFormat.isCaretNode(node) &&
+              (!format.inline || !dom.isBlock(node))) {
+              // Start wrapping
+              if (!currentWrapElm) {
+                // Wrap the node
+                currentWrapElm = dom.clone(wrapElm, false);
+                node.parentNode.insertBefore(currentWrapElm, node);
+                newWrappers.push(currentWrapElm);
+              }
+
+              currentWrapElm.appendChild(node);
+            } else {
+              // Start a new wrapper for possible children
+              currentWrapElm = 0;
+
+              each(Tools.grep(node.childNodes), process);
+
+              if (hasContentEditableState) {
+                contentEditable = lastContentEditable; // Restore last contentEditable state from stack
+              }
+
+              // End the last wrapper
+              currentWrapElm = 0;
+            }
+          };
+
+          // Process siblings from range
+          each(nodes, process);
+        });
+
+        // Apply formats to links as well to get the color of the underline to change as well
+        if (format.links === true) {
+          each(newWrappers, function (node) {
+            var process = function (node) {
+              if (node.nodeName === 'A') {
+                setElementFormat(node, format);
+              }
+
+              each(Tools.grep(node.childNodes), process);
+            };
+
+            process(node);
+          });
+        }
+
+        // Cleanup
+        each(newWrappers, function (node) {
+          var childCount;
+
+          var getChildCount = function (node) {
+            var count = 0;
+
+            each(node.childNodes, function (node) {
+              if (!FormatUtils.isWhiteSpaceNode(node) && !BookmarkManager.isBookmarkNode(node)) {
+                count++;
+              }
+            });
+
+            return count;
+          };
+
+          var getChildElementNode = function (root) {
+            var child = false;
+            each(root.childNodes, function (node) {
+              if (isElementNode(node)) {
+                child = node;
+                return false; // break loop
+              }
+            });
+            return child;
+          };
+
+          var matchNestedWrapper = function (node, filter) {
+            do {
+              if (getChildCount(node) !== 1) {
+                break;
+              }
+
+              node = getChildElementNode(node);
+              if (!node) {
+                break;
+              } else if (filter(node)) {
+                return node;
+              }
+            } while (node);
+
+            return null;
+          };
+
+          var mergeStyles = function (node) {
+            var child, clone;
+
+            child = getChildElementNode(node);
+
+            // If child was found and of the same type as the current node
+            if (child && !BookmarkManager.isBookmarkNode(child) && MatchFormat.matchName(dom, child, format)) {
+              clone = dom.clone(child, false);
+              setElementFormat(clone);
+
+              dom.replace(clone, node, true);
+              dom.remove(child, 1);
+            }
+
+            return clone || node;
+          };
+
+          childCount = getChildCount(node);
+
+          // Remove empty nodes but only if there is multiple wrappers and they are not block
+          // elements so never remove single <h1></h1> since that would remove the
+          // current empty block element where the caret is at
+          if ((newWrappers.length > 1 || !dom.isBlock(node)) && childCount === 0) {
+            dom.remove(node, 1);
+            return;
+          }
+
+          if (format.inline || format.wrapper) {
+            // Merges the current node with it's children of similar type to reduce the number of elements
+            if (!format.exact && childCount === 1) {
+              node = mergeStyles(node);
+            }
+
+            // Remove/merge children
+            each(formatList, function (format) {
+              // Merge all children of similar type will move styles from child to parent
+              // this: <span style="color:red"><b><span style="color:red; font-size:10px">text</span></b></span>
+              // will become: <span style="color:red"><b><span style="font-size:10px">text</span></b></span>
+              each(dom.select(format.inline, node), function (child) {
+                if (!isElementNode(child)) {
+                  return;
+                }
+
+                RemoveFormat.removeFormat(ed, format, vars, child, format.exact ? child : null);
+              });
+
+              clearChildStyles(dom, format, node);
+            });
+
+            // Remove format if direct parent already has the same format
+            if (MatchFormat.matchNode(ed, node.parentNode, name, vars)) {
+              if (RemoveFormat.removeFormat(ed, format, vars, node)) {
+                node = 0;
+              }
+            }
+
+            // Remove format if any ancestor already has the same format
+            if (format.merge_with_parents) {
+              dom.getParent(node.parentNode, function (parent) {
+                if (MatchFormat.matchNode(ed, parent, name, vars)) {
+                  if (RemoveFormat.removeFormat(ed, format, vars, node)) {
+                    node = 0;
+                  }
+                  return true;
+                }
+              });
+            }
+
+            // fontSize defines the line height for the whole branch of nested style wrappers,
+            // therefore it should be set on the outermost wrapper
+            if (node && !dom.isBlock(node) && !FormatUtils.getStyle(dom, node, 'fontSize')) {
+              var styleNode = matchNestedWrapper(node, hasStyle(dom, 'fontSize'));
+              if (styleNode) {
+                applyFormat(ed, 'fontsize', { value: FormatUtils.getStyle(dom, styleNode, 'fontSize') }, node);
+              }
+            }
+
+            // Merge next and previous siblings if they are similar <b>text</b><b>text</b> becomes <b>texttext</b>
+            if (node && format.merge_siblings !== false) {
+              node = mergeSiblings(dom, FormatUtils.getNonWhiteSpaceSibling(node), node);
+              node = mergeSiblings(dom, node, FormatUtils.getNonWhiteSpaceSibling(node, true));
+            }
+          }
+        });
+      };
+
+      if (dom.getContentEditable(selection.getNode()) === "false") {
+        node = selection.getNode();
+        for (var i = 0, l = formatList.length; i < l; i++) {
+          if (formatList[i].ceFalseOverride && dom.is(node, formatList[i].selector)) {
+            setElementFormat(node, formatList[i]);
+            return;
+          }
+        }
+
+        return;
+      }
+
+      if (format) {
+        if (node) {
+          if (node.nodeType) {
+            if (!applyNodeStyle(formatList, node)) {
+              rng = dom.createRng();
+              rng.setStartBefore(node);
+              rng.setEndAfter(node);
+              applyRngStyle(dom, ExpandRange.expandRng(ed, rng, formatList), null, true);
+            }
+          } else {
+            applyRngStyle(dom, node, null, true);
+          }
+        } else {
+          if (!isCollapsed || !format.inline || dom.select('td[data-mce-selected],th[data-mce-selected]').length) {
+            // Obtain selection node before selection is unselected by applyRngStyle
+            var curSelNode = ed.selection.getNode();
+
+            // If the formats have a default block and we can't find a parent block then
+            // start wrapping it with a DIV this is for forced_root_blocks: false
+            // It's kind of a hack but people should be using the default block type P since all desktop editors work that way
+            if (!ed.settings.forced_root_block && formatList[0].defaultBlock && !dom.getParent(curSelNode, dom.isBlock)) {
+              applyFormat(ed, formatList[0].defaultBlock);
+            }
+
+            // Apply formatting to selection
+            ed.selection.setRng(adjustSelectionToVisibleSelection(ed));
+            bookmark = selection.getBookmark();
+            applyRngStyle(dom, ExpandRange.expandRng(ed, selection.getRng(true), formatList), bookmark);
+
+            if (format.styles) {
+              // Colored nodes should be underlined so that the color of the underline matches the text color.
+              if (format.styles.color || format.styles.textDecoration) {
+                Tools.walk(curSelNode, Fun.curry(processUnderlineAndColor, dom), 'childNodes');
+                processUnderlineAndColor(dom, curSelNode);
+              }
+
+              // nodes with font-size should have their own background color as well to fit the line-height (see TINY-882)
+              if (format.styles.backgroundColor) {
+                processChildElements(curSelNode,
+                  hasStyle(dom, 'fontSize'),
+                  applyStyle(dom, 'backgroundColor', FormatUtils.replaceVars(format.styles.backgroundColor, vars))
+                );
+              }
+            }
+
+            selection.moveToBookmark(bookmark);
+            FormatUtils.moveStart(dom, selection, selection.getRng(true));
+            ed.nodeChanged();
+          } else {
+            CaretFormat.applyCaretFormat(ed, name, vars);
+          }
+        }
+
+        Hooks.postProcess(name, ed);
+      }
+    };
+
+    return {
+      applyFormat: applyFormat
+    };
+  }
+);
+/**
+ * FormatChanged.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.FormatChanged',
+  [
+    'ephox.katamari.api.Cell',
+    'tinymce.core.fmt.FormatUtils',
+    'tinymce.core.fmt.MatchFormat',
+    'tinymce.core.util.Tools'
+  ],
+  function (Cell, FormatUtils, MatchFormat, Tools) {
+    var each = Tools.each;
+
+    var setup = function (formatChangeData, editor) {
+      var currentFormats = {};
+
+      formatChangeData.set({});
+
+      editor.on('NodeChange', function (e) {
+        var parents = FormatUtils.getParents(editor.dom, e.element), matchedFormats = {};
+
+        // Ignore bogus nodes like the <a> tag created by moveStart()
+        parents = Tools.grep(parents, function (node) {
+          return node.nodeType === 1 && !node.getAttribute('data-mce-bogus');
+        });
+
+        // Check for new formats
+        each(formatChangeData.get(), function (callbacks, format) {
+          each(parents, function (node) {
+            if (editor.formatter.matchNode(node, format, {}, callbacks.similar)) {
+              if (!currentFormats[format]) {
+                // Execute callbacks
+                each(callbacks, function (callback) {
+                  callback(true, { node: node, format: format, parents: parents });
+                });
+
+                currentFormats[format] = callbacks;
+              }
+
+              matchedFormats[format] = callbacks;
+              return false;
+            }
+
+            if (MatchFormat.matchesUnInheritedFormatSelector(editor, node, format)) {
+              return false;
+            }
+          });
+        });
+
+        // Check if current formats still match
+        each(currentFormats, function (callbacks, format) {
+          if (!matchedFormats[format]) {
+            delete currentFormats[format];
+
+            each(callbacks, function (callback) {
+              callback(false, { node: e.element, format: format, parents: parents });
+            });
+          }
+        });
+      });
+    };
+
+    var addListeners = function (formatChangeData, formats, callback, similar) {
+      var formatChangeItems = formatChangeData.get();
+
+      each(formats.split(','), function (format) {
+        if (!formatChangeItems[format]) {
+          formatChangeItems[format] = [];
+          formatChangeItems[format].similar = similar;
+        }
+
+        formatChangeItems[format].push(callback);
+      });
+
+      formatChangeData.set(formatChangeItems);
+    };
+
+    var formatChanged = function (editor, formatChangeState, formats, callback, similar) {
+      if (formatChangeState.get() === null) {
+        setup(formatChangeState, editor);
+      }
+
+      addListeners(formatChangeState, formats, callback, similar);
+    };
+
+    return {
+      formatChanged: formatChanged
+    };
+  }
+);
+/**
+ * DefaultFormats.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.DefaultFormats',
+  [
+    'tinymce.core.util.Tools'
+  ],
+  function (Tools) {
+    var get = function (dom) {
+      var formats = {
+        valigntop: [
+          { selector: 'td,th', styles: { 'verticalAlign': 'top' } }
+        ],
+
+        valignmiddle: [
+          { selector: 'td,th', styles: { 'verticalAlign': 'middle' } }
+        ],
+
+        valignbottom: [
+          { selector: 'td,th', styles: { 'verticalAlign': 'bottom' } }
+        ],
+
+        alignleft: [
+          {
+            selector: 'figure.image',
+            collapsed: false,
+            classes: 'align-left',
+            ceFalseOverride: true,
+            preview: 'font-family font-size'
+          },
+          {
+            selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
+            styles: {
+              textAlign: 'left'
+            },
+            inherit: false,
+            preview: false,
+            defaultBlock: 'div'
+          },
+          { selector: 'img,table', collapsed: false, styles: { 'float': 'left' }, preview: 'font-family font-size' }
+        ],
+
+        aligncenter: [
+          {
+            selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
+            styles: {
+              textAlign: 'center'
+            },
+            inherit: false,
+            preview: false,
+            defaultBlock: 'div'
+          },
+          {
+            selector: 'figure.image',
+            collapsed: false,
+            classes: 'align-center',
+            ceFalseOverride: true,
+            preview: 'font-family font-size'
+          },
+          {
+            selector: 'img',
+            collapsed: false,
+            styles: {
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto'
+            },
+            preview: false
+          },
+          {
+            selector: 'table',
+            collapsed: false,
+            styles: {
+              marginLeft: 'auto',
+              marginRight: 'auto'
+            },
+            preview: 'font-family font-size'
+          }
+        ],
+
+        alignright: [
+          {
+            selector: 'figure.image',
+            collapsed: false,
+            classes: 'align-right',
+            ceFalseOverride: true,
+            preview: 'font-family font-size'
+          },
+          {
+            selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
+            styles: {
+              textAlign: 'right'
+            },
+            inherit: false,
+            preview: 'font-family font-size',
+            defaultBlock: 'div'
+          },
+          {
+            selector: 'img,table',
+            collapsed: false,
+            styles: {
+              'float': 'right'
+            },
+            preview: 'font-family font-size'
+          }
+        ],
+
+        alignjustify: [
+          {
+            selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
+            styles: {
+              textAlign: 'justify'
+            },
+            inherit: false,
+            defaultBlock: 'div',
+            preview: 'font-family font-size'
+          }
+        ],
+
+        bold: [
+          { inline: 'strong', remove: 'all' },
+          { inline: 'span', styles: { fontWeight: 'bold' } },
+          { inline: 'b', remove: 'all' }
+        ],
+
+        italic: [
+          { inline: 'em', remove: 'all' },
+          { inline: 'span', styles: { fontStyle: 'italic' } },
+          { inline: 'i', remove: 'all' }
+        ],
+
+        underline: [
+          { inline: 'span', styles: { textDecoration: 'underline' }, exact: true },
+          { inline: 'u', remove: 'all' }
+        ],
+
+        strikethrough: [
+          { inline: 'span', styles: { textDecoration: 'line-through' }, exact: true },
+          { inline: 'strike', remove: 'all' }
+        ],
+
+        forecolor: { inline: 'span', styles: { color: '%value' }, links: true, remove_similar: true, clear_child_styles: true },
+        hilitecolor: { inline: 'span', styles: { backgroundColor: '%value' }, links: true, remove_similar: true, clear_child_styles: true },
+        fontname: { inline: 'span', styles: { fontFamily: '%value' }, clear_child_styles: true },
+        fontsize: { inline: 'span', styles: { fontSize: '%value' }, clear_child_styles: true },
+        fontsize_class: { inline: 'span', attributes: { 'class': '%value' } },
+        blockquote: { block: 'blockquote', wrapper: 1, remove: 'all' },
+        subscript: { inline: 'sub' },
+        superscript: { inline: 'sup' },
+        code: { inline: 'code' },
+
+        link: {
+          inline: 'a', selector: 'a', remove: 'all', split: true, deep: true,
+          onmatch: function () {
+            return true;
+          },
+
+          onformat: function (elm, fmt, vars) {
+            Tools.each(vars, function (value, key) {
+              dom.setAttrib(elm, key, value);
+            });
+          }
+        },
+
+        removeformat: [
+          {
+            selector: 'b,strong,em,i,font,u,strike,sub,sup,dfn,code,samp,kbd,var,cite,mark,q,del,ins',
+            remove: 'all',
+            split: true,
+            expand: false,
+            block_expand: true,
+            deep: true
+          },
+          { selector: 'span', attributes: ['style', 'class'], remove: 'empty', split: true, expand: false, deep: true },
+          { selector: '*', attributes: ['style', 'class'], split: false, expand: false, deep: true }
+        ]
+      };
+
+      Tools.each('p h1 h2 h3 h4 h5 h6 div address pre div dt dd samp'.split(/\s/), function (name) {
+        formats[name] = { block: name, remove: 'all' };
+      });
+
+      return formats;
+    };
+
+    return {
+      get: get
+    };
+  }
+);
+/**
+ * FormatRegistry.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.FormatRegistry',
+  [
+    'tinymce.core.fmt.DefaultFormats',
+    'tinymce.core.util.Tools'
+  ],
+  function (DefaultFormats, Tools) {
+    return function (editor) {
+      var formats = {};
+
+      var get = function (name) {
+        return name ? formats[name] : formats;
+      };
+
+      var register = function (name, format) {
+        if (name) {
+          if (typeof name !== 'string') {
+            Tools.each(name, function (format, name) {
+              register(name, format);
+            });
+          } else {
+            // Force format into array and add it to internal collection
+            format = format.length ? format : [format];
+
+            Tools.each(format, function (format) {
+              // Set deep to false by default on selector formats this to avoid removing
+              // alignment on images inside paragraphs when alignment is changed on paragraphs
+              if (typeof format.deep === 'undefined') {
+                format.deep = !format.selector;
+              }
+
+              // Default to true
+              if (typeof format.split === 'undefined') {
+                format.split = !format.selector || format.inline;
+              }
+
+              // Default to true
+              if (typeof format.remove === 'undefined' && format.selector && !format.inline) {
+                format.remove = 'none';
+              }
+
+              // Mark format as a mixed format inline + block level
+              if (format.selector && format.inline) {
+                format.mixed = true;
+                format.block_expand = true;
+              }
+
+              // Split classes if needed
+              if (typeof format.classes === 'string') {
+                format.classes = format.classes.split(/\s+/);
+              }
+            });
+
+            formats[name] = format;
+          }
+        }
+      };
+
+      var unregister = function (name) {
+        if (name && formats[name]) {
+          delete formats[name];
+        }
+
+        return formats;
+      };
+
+      register(DefaultFormats.get(editor.dom));
+      register(editor.settings.formats);
+
+      return {
+        get: get,
+        register: register,
+        unregister: unregister
+      };
+    };
+  }
+);
+
+/**
+ * Preview.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Internal class for generating previews styles for formats.
+ *
+ * Example:
+ *  Preview.getCssText(editor, 'bold');
+ *
+ * @private
+ * @class tinymce.fmt.Preview
+ */
+define(
+  'tinymce.core.fmt.Preview',
+  [
+    "tinymce.core.dom.DOMUtils",
+    "tinymce.core.util.Tools",
+    "tinymce.core.html.Schema"
+  ],
+  function (DOMUtils, Tools, Schema) {
+    var each = Tools.each;
+    var dom = DOMUtils.DOM;
+
+    function parsedSelectorToHtml(ancestry, editor) {
+      var elm, item, fragment;
+      var schema = editor && editor.schema || new Schema({});
+
+      function decorate(elm, item) {
+        if (item.classes.length) {
+          dom.addClass(elm, item.classes.join(' '));
+        }
+        dom.setAttribs(elm, item.attrs);
+      }
+
+      function createElement(sItem) {
+        var elm;
+
+        item = typeof sItem === 'string' ? {
+          name: sItem,
+          classes: [],
+          attrs: {}
+        } : sItem;
+
+        elm = dom.create(item.name);
+        decorate(elm, item);
+        return elm;
+      }
+
+      function getRequiredParent(elm, candidate) {
+        var name = typeof elm !== 'string' ? elm.nodeName.toLowerCase() : elm;
+        var elmRule = schema.getElementRule(name);
+        var parentsRequired = elmRule && elmRule.parentsRequired;
+
+        if (parentsRequired && parentsRequired.length) {
+          return candidate && Tools.inArray(parentsRequired, candidate) !== -1 ? candidate : parentsRequired[0];
+        } else {
+          return false;
+        }
+      }
+
+      function wrapInHtml(elm, ancestry, siblings) {
+        var parent, parentCandidate, parentRequired;
+        var ancestor = ancestry.length > 0 && ancestry[0];
+        var ancestorName = ancestor && ancestor.name;
+
+        parentRequired = getRequiredParent(elm, ancestorName);
+
+        if (parentRequired) {
+          if (ancestorName === parentRequired) {
+            parentCandidate = ancestry[0];
+            ancestry = ancestry.slice(1);
+          } else {
+            parentCandidate = parentRequired;
+          }
+        } else if (ancestor) {
+          parentCandidate = ancestry[0];
+          ancestry = ancestry.slice(1);
+        } else if (!siblings) {
+          return elm;
+        }
+
+        if (parentCandidate) {
+          parent = createElement(parentCandidate);
+          parent.appendChild(elm);
+        }
+
+        if (siblings) {
+          if (!parent) {
+            // if no more ancestry, wrap in generic div
+            parent = dom.create('div');
+            parent.appendChild(elm);
+          }
+
+          Tools.each(siblings, function (sibling) {
+            var siblingElm = createElement(sibling);
+            parent.insertBefore(siblingElm, elm);
+          });
+        }
+
+        return wrapInHtml(parent, ancestry, parentCandidate && parentCandidate.siblings);
+      }
+
+      if (ancestry && ancestry.length) {
+        item = ancestry[0];
+        elm = createElement(item);
+        fragment = dom.create('div');
+        fragment.appendChild(wrapInHtml(elm, ancestry.slice(1), item.siblings));
+        return fragment;
+      } else {
+        return '';
+      }
+    }
+
+
+    function selectorToHtml(selector, editor) {
+      return parsedSelectorToHtml(parseSelector(selector), editor);
+    }
+
+
+    function parseSelectorItem(item) {
+      var tagName;
+      var obj = {
+        classes: [],
+        attrs: {}
+      };
+
+      item = obj.selector = Tools.trim(item);
+
+      if (item !== '*') {
+        // matching IDs, CLASSes, ATTRIBUTES and PSEUDOs
+        tagName = item.replace(/(?:([#\.]|::?)([\w\-]+)|(\[)([^\]]+)\]?)/g, function ($0, $1, $2, $3, $4) {
+          switch ($1) {
+            case '#':
+              obj.attrs.id = $2;
+              break;
+
+            case '.':
+              obj.classes.push($2);
+              break;
+
+            case ':':
+              if (Tools.inArray('checked disabled enabled read-only required'.split(' '), $2) !== -1) {
+                obj.attrs[$2] = $2;
+              }
+              break;
+          }
+
+          // atribute matched
+          if ($3 === '[') {
+            var m = $4.match(/([\w\-]+)(?:\=\"([^\"]+))?/);
+            if (m) {
+              obj.attrs[m[1]] = m[2];
+            }
+          }
+
+          return '';
+        });
+      }
+
+      obj.name = tagName || 'div';
+      return obj;
+    }
+
+
+    function parseSelector(selector) {
+      if (!selector || typeof selector !== 'string') {
+        return [];
+      }
+
+      // take into account only first one
+      selector = selector.split(/\s*,\s*/)[0];
+
+      // tighten
+      selector = selector.replace(/\s*(~\+|~|\+|>)\s*/g, '$1');
+
+      // split either on > or on space, but not the one inside brackets
+      return Tools.map(selector.split(/(?:>|\s+(?![^\[\]]+\]))/), function (item) {
+        // process each sibling selector separately
+        var siblings = Tools.map(item.split(/(?:~\+|~|\+)/), parseSelectorItem);
+        var obj = siblings.pop(); // the last one is our real target
+
+        if (siblings.length) {
+          obj.siblings = siblings;
+        }
+        return obj;
+      }).reverse();
+    }
+
+
+    function getCssText(editor, format) {
+      var name, previewFrag, previewElm, items;
+      var previewCss = '', parentFontSize, previewStyles;
+
+      previewStyles = editor.settings.preview_styles;
+
+      // No preview forced
+      if (previewStyles === false) {
+        return '';
+      }
+
+      // Default preview
+      if (typeof previewStyles !== 'string') {
+        previewStyles = 'font-family font-size font-weight font-style text-decoration ' +
+          'text-transform color background-color border border-radius outline text-shadow';
+      }
+
+      // Removes any variables since these can't be previewed
+      function removeVars(val) {
+        return val.replace(/%(\w+)/g, '');
+      }
+
+      // Create block/inline element to use for preview
+      if (typeof format === "string") {
+        format = editor.formatter.get(format);
+        if (!format) {
+          return;
+        }
+
+        format = format[0];
+      }
+
+      // Format specific preview override
+      // TODO: This should probably be further reduced by the previewStyles option
+      if ('preview' in format) {
+        previewStyles = format.preview;
+        if (previewStyles === false) {
+          return '';
+        }
+      }
+
+      name = format.block || format.inline || 'span';
+
+      items = parseSelector(format.selector);
+      if (items.length) {
+        if (!items[0].name) { // e.g. something like ul > .someClass was provided
+          items[0].name = name;
+        }
+        name = format.selector;
+        previewFrag = parsedSelectorToHtml(items, editor);
+      } else {
+        previewFrag = parsedSelectorToHtml([name], editor);
+      }
+
+      previewElm = dom.select(name, previewFrag)[0] || previewFrag.firstChild;
+
+      // Add format styles to preview element
+      each(format.styles, function (value, name) {
+        value = removeVars(value);
+
+        if (value) {
+          dom.setStyle(previewElm, name, value);
+        }
+      });
+
+      // Add attributes to preview element
+      each(format.attributes, function (value, name) {
+        value = removeVars(value);
+
+        if (value) {
+          dom.setAttrib(previewElm, name, value);
+        }
+      });
+
+      // Add classes to preview element
+      each(format.classes, function (value) {
+        value = removeVars(value);
+
+        if (!dom.hasClass(previewElm, value)) {
+          dom.addClass(previewElm, value);
+        }
+      });
+
+      editor.fire('PreviewFormats');
+
+      // Add the previewElm outside the visual area
+      dom.setStyles(previewFrag, { position: 'absolute', left: -0xFFFF });
+      editor.getBody().appendChild(previewFrag);
+
+      // Get parent container font size so we can compute px values out of em/% for older IE:s
+      parentFontSize = dom.getStyle(editor.getBody(), 'fontSize', true);
+      parentFontSize = /px$/.test(parentFontSize) ? parseInt(parentFontSize, 10) : 0;
+
+      each(previewStyles.split(' '), function (name) {
+        var value = dom.getStyle(previewElm, name, true);
+
+        // If background is transparent then check if the body has a background color we can use
+        if (name === 'background-color' && /transparent|rgba\s*\([^)]+,\s*0\)/.test(value)) {
+          value = dom.getStyle(editor.getBody(), name, true);
+
+          // Ignore white since it's the default color, not the nicest fix
+          // TODO: Fix this by detecting runtime style
+          if (dom.toHex(value).toLowerCase() === '#ffffff') {
+            return;
+          }
+        }
+
+        if (name === 'color') {
+          // Ignore black since it's the default color, not the nicest fix
+          // TODO: Fix this by detecting runtime style
+          if (dom.toHex(value).toLowerCase() === '#000000') {
+            return;
+          }
+        }
+
+        // Old IE won't calculate the font size so we need to do that manually
+        if (name === 'font-size') {
+          if (/em|%$/.test(value)) {
+            if (parentFontSize === 0) {
+              return;
+            }
+
+            // Convert font size from em/% to px
+            value = parseFloat(value, 10) / (/%$/.test(value) ? 100 : 1);
+            value = (value * parentFontSize) + 'px';
+          }
+        }
+
+        if (name === "border" && value) {
+          previewCss += 'padding:0 2px;';
+        }
+
+        previewCss += name + ':' + value + ';';
+      });
+
+      editor.fire('AfterPreviewFormats');
+
+      //previewCss += 'line-height:normal';
+
+      dom.remove(previewFrag);
+
+      return previewCss;
+    }
+
+    return {
+      getCssText: getCssText,
+      parseSelector: parseSelector,
+      selectorToHtml: selectorToHtml
+    };
+  }
+);
+
+/**
+ * ToggleFormat.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.fmt.ToggleFormat',
+  [
+    'tinymce.core.fmt.ApplyFormat',
+    'tinymce.core.fmt.MatchFormat',
+    'tinymce.core.fmt.RemoveFormat'
+  ],
+  function (ApplyFormat, MatchFormat, RemoveFormat) {
+    var toggle = function (editor, formats, name, vars, node) {
+      var fmt = formats.get(name);
+
+      if (MatchFormat.match(editor, name, vars, node) && (!('toggle' in fmt[0]) || fmt[0].toggle)) {
+        RemoveFormat.remove(editor, name, vars, node);
+      } else {
+        ApplyFormat.applyFormat(editor, name, vars, node);
+      }
+    };
+
+    return {
+      toggle: toggle
+    };
+  }
+);
+
+/**
+ * FormatShortcuts.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.keyboard.FormatShortcuts',
+  [
+  ],
+  function () {
+    var setup = function (editor) {
+      // Add some inline shortcuts
+      editor.addShortcut('meta+b', '', 'Bold');
+      editor.addShortcut('meta+i', '', 'Italic');
+      editor.addShortcut('meta+u', '', 'Underline');
+
+      // BlockFormat shortcuts keys
+      for (var i = 1; i <= 6; i++) {
+        editor.addShortcut('access+' + i, '', ['FormatBlock', false, 'h' + i]);
+      }
+
+      editor.addShortcut('access+7', '', ['FormatBlock', false, 'p']);
+      editor.addShortcut('access+8', '', ['FormatBlock', false, 'div']);
+      editor.addShortcut('access+9', '', ['FormatBlock', false, 'address']);
+    };
+
+    return {
+      setup: setup
+    };
+  }
+);
+
+/**
+ * Formatter.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Text formatter engine class. This class is used to apply formats like bold, italic, font size
+ * etc to the current selection or specific nodes. This engine was built to replace the browser's
+ * default formatting logic for execCommand due to its inconsistent and buggy behavior.
+ *
+ * @class tinymce.Formatter
+ * @example
+ *  tinymce.activeEditor.formatter.register('mycustomformat', {
+ *    inline: 'span',
+ *    styles: {color: '#ff0000'}
+ *  });
+ *
+ *  tinymce.activeEditor.formatter.apply('mycustomformat');
+ */
+define(
+  'tinymce.core.api.Formatter',
+  [
+    'ephox.katamari.api.Cell',
+    'ephox.katamari.api.Fun',
+    'tinymce.core.fmt.ApplyFormat',
+    'tinymce.core.fmt.FormatChanged',
+    'tinymce.core.fmt.FormatRegistry',
+    'tinymce.core.fmt.MatchFormat',
+    'tinymce.core.fmt.Preview',
+    'tinymce.core.fmt.RemoveFormat',
+    'tinymce.core.fmt.ToggleFormat',
+    'tinymce.core.keyboard.FormatShortcuts'
+  ],
+  function (Cell, Fun, ApplyFormat, FormatChanged, FormatRegistry, MatchFormat, Preview, RemoveFormat, ToggleFormat, FormatShortcuts) {
+    /**
+     * Constructs a new formatter instance.
+     *
+     * @constructor Formatter
+     * @param {tinymce.Editor} ed Editor instance to construct the formatter engine to.
+     */
+    return function (editor) {
+      var formats = FormatRegistry(editor);
+      var formatChangeState = Cell(null);
+
+      FormatShortcuts.setup(editor);
+
+      return {
+        /**
+         * Returns the format by name or all formats if no name is specified.
+         *
+         * @method get
+         * @param {String} name Optional name to retrieve by.
+         * @return {Array/Object} Array/Object with all registered formats or a specific format.
+         */
+        get: formats.get,
+
+        /**
+         * Registers a specific format by name.
+         *
+         * @method register
+         * @param {Object/String} name Name of the format for example "bold".
+         * @param {Object/Array} format Optional format object or array of format variants
+         * can only be omitted if the first arg is an object.
+         */
+        register: formats.register,
+
+        /**
+         * Unregister a specific format by name.
+         *
+         * @method unregister
+         * @param {String} name Name of the format for example "bold".
+         */
+        unregister: formats.unregister,
+
+        /**
+         * Applies the specified format to the current selection or specified node.
+         *
+         * @method apply
+         * @param {String} name Name of format to apply.
+         * @param {Object} vars Optional list of variables to replace within format before applying it.
+         * @param {Node} node Optional node to apply the format to defaults to current selection.
+         */
+        apply: Fun.curry(ApplyFormat.applyFormat, editor),
+
+        /**
+         * Removes the specified format from the current selection or specified node.
+         *
+         * @method remove
+         * @param {String} name Name of format to remove.
+         * @param {Object} vars Optional list of variables to replace within format before removing it.
+         * @param {Node/Range} node Optional node or DOM range to remove the format from defaults to current selection.
+         */
+        remove: Fun.curry(RemoveFormat.remove, editor),
+
+        /**
+         * Toggles the specified format on/off.
+         *
+         * @method toggle
+         * @param {String} name Name of format to apply/remove.
+         * @param {Object} vars Optional list of variables to replace within format before applying/removing it.
+         * @param {Node} node Optional node to apply the format to or remove from. Defaults to current selection.
+         */
+        toggle: Fun.curry(ToggleFormat.toggle, editor, formats),
+
+        /**
+         * Matches the current selection or specified node against the specified format name.
+         *
+         * @method match
+         * @param {String} name Name of format to match.
+         * @param {Object} vars Optional list of variables to replace before checking it.
+         * @param {Node} node Optional node to check.
+         * @return {boolean} true/false if the specified selection/node matches the format.
+         */
+        match: Fun.curry(MatchFormat.match, editor),
+
+        /**
+         * Matches the current selection against the array of formats and returns a new array with matching formats.
+         *
+         * @method matchAll
+         * @param {Array} names Name of format to match.
+         * @param {Object} vars Optional list of variables to replace before checking it.
+         * @return {Array} Array with matched formats.
+         */
+        matchAll: Fun.curry(MatchFormat.matchAll, editor),
+
+        /**
+         * Return true/false if the specified node has the specified format.
+         *
+         * @method matchNode
+         * @param {Node} node Node to check the format on.
+         * @param {String} name Format name to check.
+         * @param {Object} vars Optional list of variables to replace before checking it.
+         * @param {Boolean} similar Match format that has similar properties.
+         * @return {Object} Returns the format object it matches or undefined if it doesn't match.
+         */
+        matchNode: Fun.curry(MatchFormat.matchNode, editor),
+
+        /**
+         * Returns true/false if the specified format can be applied to the current selection or not. It
+         * will currently only check the state for selector formats, it returns true on all other format types.
+         *
+         * @method canApply
+         * @param {String} name Name of format to check.
+         * @return {boolean} true/false if the specified format can be applied to the current selection/node.
+         */
+        canApply: Fun.curry(MatchFormat.canApply, editor),
+
+        /**
+         * Executes the specified callback when the current selection matches the formats or not.
+         *
+         * @method formatChanged
+         * @param {String} formats Comma separated list of formats to check for.
+         * @param {function} callback Callback with state and args when the format is changed/toggled on/off.
+         * @param {Boolean} similar True/false state if the match should handle similar or exact formats.
+         */
+        formatChanged: Fun.curry(FormatChanged.formatChanged, editor, formatChangeState),
+
+        /**
+         * Returns a preview css text for the specified format.
+         *
+         * @method getCssText
+         * @param {String/Object} format Format to generate preview css text for.
+         * @return {String} Css text for the specified format.
+         * @example
+         * var cssText1 = editor.formatter.getCssText('bold');
+         * var cssText2 = editor.formatter.getCssText({inline: 'b'});
+         */
+        getCssText: Fun.curry(Preview.getCssText, editor)
+      };
+    };
+  }
+);
+
+/**
+ * Rect.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Contains various tools for rect/position calculation.
+ *
+ * @class tinymce.geom.Rect
+ */
+define(
+  'tinymce.core.geom.Rect',
+  [
+  ],
+  function () {
+    "use strict";
+
+    var min = Math.min, max = Math.max, round = Math.round;
+
+    /**
+     * Returns the rect positioned based on the relative position name
+     * to the target rect.
+     *
+     * @method relativePosition
+     * @param {Rect} rect Source rect to modify into a new rect.
+     * @param {Rect} targetRect Rect to move relative to based on the rel option.
+     * @param {String} rel Relative position. For example: tr-bl.
+     */
+    function relativePosition(rect, targetRect, rel) {
+      var x, y, w, h, targetW, targetH;
+
+      x = targetRect.x;
+      y = targetRect.y;
+      w = rect.w;
+      h = rect.h;
+      targetW = targetRect.w;
+      targetH = targetRect.h;
+
+      rel = (rel || '').split('');
+
+      if (rel[0] === 'b') {
+        y += targetH;
+      }
+
+      if (rel[1] === 'r') {
+        x += targetW;
+      }
+
+      if (rel[0] === 'c') {
+        y += round(targetH / 2);
+      }
+
+      if (rel[1] === 'c') {
+        x += round(targetW / 2);
+      }
+
+      if (rel[3] === 'b') {
+        y -= h;
+      }
+
+      if (rel[4] === 'r') {
+        x -= w;
+      }
+
+      if (rel[3] === 'c') {
+        y -= round(h / 2);
+      }
+
+      if (rel[4] === 'c') {
+        x -= round(w / 2);
+      }
+
+      return create(x, y, w, h);
+    }
+
+    /**
+     * Tests various positions to get the most suitable one.
+     *
+     * @method findBestRelativePosition
+     * @param {Rect} rect Rect to use as source.
+     * @param {Rect} targetRect Rect to move relative to.
+     * @param {Rect} constrainRect Rect to constrain within.
+     * @param {Array} rels Array of relative positions to test against.
+     */
+    function findBestRelativePosition(rect, targetRect, constrainRect, rels) {
+      var pos, i;
+
+      for (i = 0; i < rels.length; i++) {
+        pos = relativePosition(rect, targetRect, rels[i]);
+
+        if (pos.x >= constrainRect.x && pos.x + pos.w <= constrainRect.w + constrainRect.x &&
+          pos.y >= constrainRect.y && pos.y + pos.h <= constrainRect.h + constrainRect.y) {
+          return rels[i];
+        }
+      }
+
+      return null;
+    }
+
+    /**
+     * Inflates the rect in all directions.
+     *
+     * @method inflate
+     * @param {Rect} rect Rect to expand.
+     * @param {Number} w Relative width to expand by.
+     * @param {Number} h Relative height to expand by.
+     * @return {Rect} New expanded rect.
+     */
+    function inflate(rect, w, h) {
+      return create(rect.x - w, rect.y - h, rect.w + w * 2, rect.h + h * 2);
+    }
+
+    /**
+     * Returns the intersection of the specified rectangles.
+     *
+     * @method intersect
+     * @param {Rect} rect The first rectangle to compare.
+     * @param {Rect} cropRect The second rectangle to compare.
+     * @return {Rect} The intersection of the two rectangles or null if they don't intersect.
+     */
+    function intersect(rect, cropRect) {
+      var x1, y1, x2, y2;
+
+      x1 = max(rect.x, cropRect.x);
+      y1 = max(rect.y, cropRect.y);
+      x2 = min(rect.x + rect.w, cropRect.x + cropRect.w);
+      y2 = min(rect.y + rect.h, cropRect.y + cropRect.h);
+
+      if (x2 - x1 < 0 || y2 - y1 < 0) {
+        return null;
+      }
+
+      return create(x1, y1, x2 - x1, y2 - y1);
+    }
+
+    /**
+     * Returns a rect clamped within the specified clamp rect. This forces the
+     * rect to be inside the clamp rect.
+     *
+     * @method clamp
+     * @param {Rect} rect Rectangle to force within clamp rect.
+     * @param {Rect} clampRect Rectable to force within.
+     * @param {Boolean} fixedSize True/false if size should be fixed.
+     * @return {Rect} Clamped rect.
+     */
+    function clamp(rect, clampRect, fixedSize) {
+      var underflowX1, underflowY1, overflowX2, overflowY2,
+        x1, y1, x2, y2, cx2, cy2;
+
+      x1 = rect.x;
+      y1 = rect.y;
+      x2 = rect.x + rect.w;
+      y2 = rect.y + rect.h;
+      cx2 = clampRect.x + clampRect.w;
+      cy2 = clampRect.y + clampRect.h;
+
+      underflowX1 = max(0, clampRect.x - x1);
+      underflowY1 = max(0, clampRect.y - y1);
+      overflowX2 = max(0, x2 - cx2);
+      overflowY2 = max(0, y2 - cy2);
+
+      x1 += underflowX1;
+      y1 += underflowY1;
+
+      if (fixedSize) {
+        x2 += underflowX1;
+        y2 += underflowY1;
+        x1 -= overflowX2;
+        y1 -= overflowY2;
+      }
+
+      x2 -= overflowX2;
+      y2 -= overflowY2;
+
+      return create(x1, y1, x2 - x1, y2 - y1);
+    }
+
+    /**
+     * Creates a new rectangle object.
+     *
+     * @method create
+     * @param {Number} x Rectangle x location.
+     * @param {Number} y Rectangle y location.
+     * @param {Number} w Rectangle width.
+     * @param {Number} h Rectangle height.
+     * @return {Rect} New rectangle object.
+     */
+    function create(x, y, w, h) {
+      return { x: x, y: y, w: w, h: h };
+    }
+
+    /**
+     * Creates a new rectangle object form a clientRects object.
+     *
+     * @method fromClientRect
+     * @param {ClientRect} clientRect DOM ClientRect object.
+     * @return {Rect} New rectangle object.
+     */
+    function fromClientRect(clientRect) {
+      return create(clientRect.left, clientRect.top, clientRect.width, clientRect.height);
+    }
+
+    return {
+      inflate: inflate,
+      relativePosition: relativePosition,
+      findBestRelativePosition: findBestRelativePosition,
+      intersect: intersect,
+      clamp: clamp,
+      create: create,
+      fromClientRect: fromClientRect
+    };
+  }
+);
+
+/**
+ * ScriptLoader.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/*globals console*/
+
+/**
+ * This class handles asynchronous/synchronous loading of JavaScript files it will execute callbacks
+ * when various items gets loaded. This class is useful to load external JavaScript files.
+ *
+ * @class tinymce.dom.ScriptLoader
+ * @example
+ * // Load a script from a specific URL using the global script loader
+ * tinymce.ScriptLoader.load('somescript.js');
+ *
+ * // Load a script using a unique instance of the script loader
+ * var scriptLoader = new tinymce.dom.ScriptLoader();
+ *
+ * scriptLoader.load('somescript.js');
+ *
+ * // Load multiple scripts
+ * var scriptLoader = new tinymce.dom.ScriptLoader();
+ *
+ * scriptLoader.add('somescript1.js');
+ * scriptLoader.add('somescript2.js');
+ * scriptLoader.add('somescript3.js');
+ *
+ * scriptLoader.loadQueue(function() {
+ *    alert('All scripts are now loaded.');
+ * });
+ */
+define(
+  'tinymce.core.dom.ScriptLoader',
+  [
+    "tinymce.core.dom.DOMUtils",
+    "tinymce.core.util.Tools"
+  ],
+  function (DOMUtils, Tools) {
+    var DOM = DOMUtils.DOM;
+    var each = Tools.each, grep = Tools.grep;
+
+    var isFunction = function (f) {
+      return typeof f === 'function';
+    };
+
+    function ScriptLoader() {
+      var QUEUED = 0,
+        LOADING = 1,
+        LOADED = 2,
+        FAILED = 3,
+        states = {},
+        queue = [],
+        scriptLoadedCallbacks = {},
+        queueLoadedCallbacks = [],
+        loading = 0,
+        undef;
+
+      /**
+       * Loads a specific script directly without adding it to the load queue.
+       *
+       * @method load
+       * @param {String} url Absolute URL to script to add.
+       * @param {function} callback Optional success callback function when the script loaded successfully.
+       * @param {function} callback Optional failure callback function when the script failed to load.
+       */
+      function loadScript(url, success, failure) {
+        var dom = DOM, elm, id;
+
+        // Execute callback when script is loaded
+        function done() {
+          dom.remove(id);
+
+          if (elm) {
+            elm.onreadystatechange = elm.onload = elm = null;
+          }
+
+          success();
+        }
+
+        function error() {
+          /*eslint no-console:0 */
+
+          // We can't mark it as done if there is a load error since
+          // A) We don't want to produce 404 errors on the server and
+          // B) the onerror event won't fire on all browsers.
+          // done();
+
+          if (isFunction(failure)) {
+            failure();
+          } else {
+            // Report the error so it's easier for people to spot loading errors
+            if (typeof console !== "undefined" && console.log) {
+              console.log("Failed to load script: " + url);
+            }
+          }
+        }
+
+        id = dom.uniqueId();
+
+        // Create new script element
+        elm = document.createElement('script');
+        elm.id = id;
+        elm.type = 'text/javascript';
+        elm.src = Tools._addCacheSuffix(url);
+
+        // Seems that onreadystatechange works better on IE 10 onload seems to fire incorrectly
+        if ("onreadystatechange" in elm) {
+          elm.onreadystatechange = function () {
+            if (/loaded|complete/.test(elm.readyState)) {
+              done();
+            }
+          };
+        } else {
+          elm.onload = done;
+        }
+
+        // Add onerror event will get fired on some browsers but not all of them
+        elm.onerror = error;
+
+        // Add script to document
+        (document.getElementsByTagName('head')[0] || document.body).appendChild(elm);
+      }
+
+      /**
+       * Returns true/false if a script has been loaded or not.
+       *
+       * @method isDone
+       * @param {String} url URL to check for.
+       * @return {Boolean} true/false if the URL is loaded.
+       */
+      this.isDone = function (url) {
+        return states[url] == LOADED;
+      };
+
+      /**
+       * Marks a specific script to be loaded. This can be useful if a script got loaded outside
+       * the script loader or to skip it from loading some script.
+       *
+       * @method markDone
+       * @param {string} url Absolute URL to the script to mark as loaded.
+       */
+      this.markDone = function (url) {
+        states[url] = LOADED;
+      };
+
+      /**
+       * Adds a specific script to the load queue of the script loader.
+       *
+       * @method add
+       * @param {String} url Absolute URL to script to add.
+       * @param {function} success Optional success callback function to execute when the script loades successfully.
+       * @param {Object} scope Optional scope to execute callback in.
+       * @param {function} failure Optional failure callback function to execute when the script failed to load.
+       */
+      this.add = this.load = function (url, success, scope, failure) {
+        var state = states[url];
+
+        // Add url to load queue
+        if (state == undef) {
+          queue.push(url);
+          states[url] = QUEUED;
+        }
+
+        if (success) {
+          // Store away callback for later execution
+          if (!scriptLoadedCallbacks[url]) {
+            scriptLoadedCallbacks[url] = [];
+          }
+
+          scriptLoadedCallbacks[url].push({
+            success: success,
+            failure: failure,
+            scope: scope || this
+          });
+        }
+      };
+
+      this.remove = function (url) {
+        delete states[url];
+        delete scriptLoadedCallbacks[url];
+      };
+
+      /**
+       * Starts the loading of the queue.
+       *
+       * @method loadQueue
+       * @param {function} success Optional callback to execute when all queued items are loaded.
+       * @param {function} failure Optional callback to execute when queued items failed to load.
+       * @param {Object} scope Optional scope to execute the callback in.
+       */
+      this.loadQueue = function (success, scope, failure) {
+        this.loadScripts(queue, success, scope, failure);
+      };
+
+      /**
+       * Loads the specified queue of files and executes the callback ones they are loaded.
+       * This method is generally not used outside this class but it might be useful in some scenarios.
+       *
+       * @method loadScripts
+       * @param {Array} scripts Array of queue items to load.
+       * @param {function} callback Optional callback to execute when scripts is loaded successfully.
+       * @param {Object} scope Optional scope to execute callback in.
+       * @param {function} callback Optional callback to execute if scripts failed to load.
+       */
+      this.loadScripts = function (scripts, success, scope, failure) {
+        var loadScripts, failures = [];
+
+        function execCallbacks(name, url) {
+          // Execute URL callback functions
+          each(scriptLoadedCallbacks[url], function (callback) {
+            if (isFunction(callback[name])) {
+              callback[name].call(callback.scope);
+            }
+          });
+
+          scriptLoadedCallbacks[url] = undef;
+        }
+
+        queueLoadedCallbacks.push({
+          success: success,
+          failure: failure,
+          scope: scope || this
+        });
+
+        loadScripts = function () {
+          var loadingScripts = grep(scripts);
+
+          // Current scripts has been handled
+          scripts.length = 0;
+
+          // Load scripts that needs to be loaded
+          each(loadingScripts, function (url) {
+            // Script is already loaded then execute script callbacks directly
+            if (states[url] === LOADED) {
+              execCallbacks('success', url);
+              return;
+            }
+
+            if (states[url] === FAILED) {
+              execCallbacks('failure', url);
+              return;
+            }
+
+            // Is script not loading then start loading it
+            if (states[url] !== LOADING) {
+              states[url] = LOADING;
+              loading++;
+
+              loadScript(url, function () {
+                states[url] = LOADED;
+                loading--;
+
+                execCallbacks('success', url);
+
+                // Load more scripts if they where added by the recently loaded script
+                loadScripts();
+              }, function () {
+                states[url] = FAILED;
+                loading--;
+
+                failures.push(url);
+                execCallbacks('failure', url);
+
+                // Load more scripts if they where added by the recently loaded script
+                loadScripts();
+              });
+            }
+          });
+
+          // No scripts are currently loading then execute all pending queue loaded callbacks
+          if (!loading) {
+            each(queueLoadedCallbacks, function (callback) {
+              if (failures.length === 0) {
+                if (isFunction(callback.success)) {
+                  callback.success.call(callback.scope);
+                }
+              } else {
+                if (isFunction(callback.failure)) {
+                  callback.failure.call(callback.scope, failures);
+                }
+              }
+            });
+
+            queueLoadedCallbacks.length = 0;
+          }
+        };
+
+        loadScripts();
+      };
+    }
+
+    ScriptLoader.ScriptLoader = new ScriptLoader();
+
+    return ScriptLoader;
+  }
+);
+
+/**
+ * AddOnManager.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This class handles the loading of themes/plugins or other add-ons and their language packs.
+ *
+ * @class tinymce.AddOnManager
+ */
+define(
+  'tinymce.core.AddOnManager',
+  [
+    "tinymce.core.dom.ScriptLoader",
+    "tinymce.core.util.Tools"
+  ],
+  function (ScriptLoader, Tools) {
+    var each = Tools.each;
+
+    function AddOnManager() {
+      var self = this;
+
+      self.items = [];
+      self.urls = {};
+      self.lookup = {};
+    }
+
+    AddOnManager.prototype = {
+      /**
+       * Returns the specified add on by the short name.
+       *
+       * @method get
+       * @param {String} name Add-on to look for.
+       * @return {tinymce.Theme/tinymce.Plugin} Theme or plugin add-on instance or undefined.
+       */
+      get: function (name) {
+        if (this.lookup[name]) {
+          return this.lookup[name].instance;
+        }
+
+        return undefined;
+      },
+
+      dependencies: function (name) {
+        var result;
+
+        if (this.lookup[name]) {
+          result = this.lookup[name].dependencies;
+        }
+
+        return result || [];
+      },
+
+      /**
+       * Loads a language pack for the specified add-on.
+       *
+       * @method requireLangPack
+       * @param {String} name Short name of the add-on.
+       * @param {String} languages Optional comma or space separated list of languages to check if it matches the name.
+       */
+      requireLangPack: function (name, languages) {
+        var language = AddOnManager.language;
+
+        if (language && AddOnManager.languageLoad !== false) {
+          if (languages) {
+            languages = ',' + languages + ',';
+
+            // Load short form sv.js or long form sv_SE.js
+            if (languages.indexOf(',' + language.substr(0, 2) + ',') != -1) {
+              language = language.substr(0, 2);
+            } else if (languages.indexOf(',' + language + ',') == -1) {
+              return;
+            }
+          }
+
+          ScriptLoader.ScriptLoader.add(this.urls[name] + '/langs/' + language + '.js');
+        }
+      },
+
+      /**
+       * Adds a instance of the add-on by it's short name.
+       *
+       * @method add
+       * @param {String} id Short name/id for the add-on.
+       * @param {tinymce.Theme/tinymce.Plugin} addOn Theme or plugin to add.
+       * @return {tinymce.Theme/tinymce.Plugin} The same theme or plugin instance that got passed in.
+       * @example
+       * // Create a simple plugin
+       * tinymce.create('tinymce.plugins.TestPlugin', {
+       *   TestPlugin: function(ed, url) {
+       *   ed.on('click', function(e) {
+       *      ed.windowManager.alert('Hello World!');
+       *   });
+       *   }
+       * });
+       *
+       * // Register plugin using the add method
+       * tinymce.PluginManager.add('test', tinymce.plugins.TestPlugin);
+       *
+       * // Initialize TinyMCE
+       * tinymce.init({
+       *  ...
+       *  plugins: '-test' // Init the plugin but don't try to load it
+       * });
+       */
+      add: function (id, addOn, dependencies) {
+        this.items.push(addOn);
+        this.lookup[id] = { instance: addOn, dependencies: dependencies };
+
+        return addOn;
+      },
+
+      remove: function (name) {
+        delete this.urls[name];
+        delete this.lookup[name];
+      },
+
+      createUrl: function (baseUrl, dep) {
+        if (typeof dep === "object") {
+          return dep;
+        }
+
+        return { prefix: baseUrl.prefix, resource: dep, suffix: baseUrl.suffix };
+      },
+
+      /**
+       * Add a set of components that will make up the add-on. Using the url of the add-on name as the base url.
+       * This should be used in development mode.  A new compressor/javascript munger process will ensure that the
+       * components are put together into the plugin.js file and compressed correctly.
+       *
+       * @method addComponents
+       * @param {String} pluginName name of the plugin to load scripts from (will be used to get the base url for the plugins).
+       * @param {Array} scripts Array containing the names of the scripts to load.
+       */
+      addComponents: function (pluginName, scripts) {
+        var pluginUrl = this.urls[pluginName];
+
+        each(scripts, function (script) {
+          ScriptLoader.ScriptLoader.add(pluginUrl + "/" + script);
+        });
+      },
+
+      /**
+       * Loads an add-on from a specific url.
+       *
+       * @method load
+       * @param {String} name Short name of the add-on that gets loaded.
+       * @param {String} addOnUrl URL to the add-on that will get loaded.
+       * @param {function} success Optional success callback to execute when an add-on is loaded.
+       * @param {Object} scope Optional scope to execute the callback in.
+       * @param {function} failure Optional failure callback to execute when an add-on failed to load.
+       * @example
+       * // Loads a plugin from an external URL
+       * tinymce.PluginManager.load('myplugin', '/some/dir/someplugin/plugin.js');
+       *
+       * // Initialize TinyMCE
+       * tinymce.init({
+       *  ...
+       *  plugins: '-myplugin' // Don't try to load it again
+       * });
+       */
+      load: function (name, addOnUrl, success, scope, failure) {
+        var self = this, url = addOnUrl;
+
+        function loadDependencies() {
+          var dependencies = self.dependencies(name);
+
+          each(dependencies, function (dep) {
+            var newUrl = self.createUrl(addOnUrl, dep);
+
+            self.load(newUrl.resource, newUrl, undefined, undefined);
+          });
+
+          if (success) {
+            if (scope) {
+              success.call(scope);
+            } else {
+              success.call(ScriptLoader);
+            }
+          }
+        }
+
+        if (self.urls[name]) {
+          return;
+        }
+
+        if (typeof addOnUrl === "object") {
+          url = addOnUrl.prefix + addOnUrl.resource + addOnUrl.suffix;
+        }
+
+        if (url.indexOf('/') !== 0 && url.indexOf('://') == -1) {
+          url = AddOnManager.baseURL + '/' + url;
+        }
+
+        self.urls[name] = url.substring(0, url.lastIndexOf('/'));
+
+        if (self.lookup[name]) {
+          loadDependencies();
+        } else {
+          ScriptLoader.ScriptLoader.add(url, loadDependencies, scope, failure);
+        }
+      }
+    };
+
+    AddOnManager.PluginManager = new AddOnManager();
+    AddOnManager.ThemeManager = new AddOnManager();
+
+    return AddOnManager;
+  }
+);
+
+/**
+ * TinyMCE theme class.
+ *
+ * @class tinymce.Theme
+ */
+
+/**
+ * This method is responsible for rendering/generating the overall user interface with toolbars, buttons, iframe containers etc.
+ *
+ * @method renderUI
+ * @param {Object} obj Object parameter containing the targetNode DOM node that will be replaced visually with an editor instance.
+ * @return {Object} an object with items like iframeContainer, editorContainer, sizeContainer, deltaWidth, deltaHeight.
+ */
+
+/**
+ * Plugin base class, this is a pseudo class that describes how a plugin is to be created for TinyMCE. The methods below are all optional.
+ *
+ * @class tinymce.Plugin
+ * @example
+ * tinymce.PluginManager.add('example', function(editor, url) {
+ *     // Add a button that opens a window
+ *     editor.addButton('example', {
+ *         text: 'My button',
+ *         icon: false,
+ *         onclick: function() {
+ *             // Open window
+ *             editor.windowManager.open({
+ *                 title: 'Example plugin',
+ *                 body: [
+ *                     {type: 'textbox', name: 'title', label: 'Title'}
+ *                 ],
+ *                 onsubmit: function(e) {
+ *                     // Insert content when the window form is submitted
+ *                     editor.insertContent('Title: ' + e.data.title);
+ *                 }
+ *             });
+ *         }
+ *     });
+ *
+ *     // Adds a menu item to the tools menu
+ *     editor.addMenuItem('example', {
+ *         text: 'Example plugin',
+ *         context: 'tools',
+ *         onclick: function() {
+ *             // Open window with a specific url
+ *             editor.windowManager.open({
+ *                 title: 'TinyMCE site',
+ *                 url: 'http://www.tinymce.com',
+ *                 width: 800,
+ *                 height: 600,
+ *                 buttons: [{
+ *                     text: 'Close',
+ *                     onclick: 'close'
+ *                 }]
+ *             });
+ *         }
+ *     });
+ * });
+ */
 
 /**
  * Node.js
@@ -15780,18 +23504,13 @@ define(
           }
 
           // Parse HTML
-          rootNode = htmlParser.parse(trim(args.getInner ? node.innerHTML : dom.getOuterHTML(node)), args);
+          content = Zwsp.trim(trim(args.getInner ? node.innerHTML : dom.getOuterHTML(node)));
+          rootNode = htmlParser.parse(content, args);
           trimTrailingBr(rootNode);
 
           // Serialize HTML
           htmlSerializer = new Serializer(settings, schema);
           args.content = htmlSerializer.serialize(rootNode);
-
-          // Replace all BOM characters for now until we can find a better solution
-          if (!args.cleanup) {
-            args.content = Zwsp.trim(args.content);
-            args.content = args.content.replace(/\uFEFF/g, '');
-          }
 
           // Post process
           if (!args.no_events) {
@@ -15905,148 +23624,6 @@ define(
 );
 
 /**
- * ClientRect.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Utility functions for working with client rects.
- *
- * @private
- * @class tinymce.geom.ClientRect
- */
-define(
-  'tinymce.core.geom.ClientRect',
-  [
-  ],
-  function () {
-    var round = Math.round;
-
-    function clone(rect) {
-      if (!rect) {
-        return { left: 0, top: 0, bottom: 0, right: 0, width: 0, height: 0 };
-      }
-
-      return {
-        left: round(rect.left),
-        top: round(rect.top),
-        bottom: round(rect.bottom),
-        right: round(rect.right),
-        width: round(rect.width),
-        height: round(rect.height)
-      };
-    }
-
-    function collapse(clientRect, toStart) {
-      clientRect = clone(clientRect);
-
-      if (toStart) {
-        clientRect.right = clientRect.left;
-      } else {
-        clientRect.left = clientRect.left + clientRect.width;
-        clientRect.right = clientRect.left;
-      }
-
-      clientRect.width = 0;
-
-      return clientRect;
-    }
-
-    function isEqual(rect1, rect2) {
-      return (
-        rect1.left === rect2.left &&
-        rect1.top === rect2.top &&
-        rect1.bottom === rect2.bottom &&
-        rect1.right === rect2.right
-      );
-    }
-
-    function isValidOverflow(overflowY, clientRect1, clientRect2) {
-      return overflowY >= 0 && overflowY <= Math.min(clientRect1.height, clientRect2.height) / 2;
-
-    }
-
-    function isAbove(clientRect1, clientRect2) {
-      if ((clientRect1.bottom - clientRect1.height / 2) < clientRect2.top) {
-        return true;
-      }
-
-      if (clientRect1.top > clientRect2.bottom) {
-        return false;
-      }
-
-      return isValidOverflow(clientRect2.top - clientRect1.bottom, clientRect1, clientRect2);
-    }
-
-    function isBelow(clientRect1, clientRect2) {
-      if (clientRect1.top > clientRect2.bottom) {
-        return true;
-      }
-
-      if (clientRect1.bottom < clientRect2.top) {
-        return false;
-      }
-
-      return isValidOverflow(clientRect2.bottom - clientRect1.top, clientRect1, clientRect2);
-    }
-
-    function isLeft(clientRect1, clientRect2) {
-      return clientRect1.left < clientRect2.left;
-    }
-
-    function isRight(clientRect1, clientRect2) {
-      return clientRect1.right > clientRect2.right;
-    }
-
-    function compare(clientRect1, clientRect2) {
-      if (isAbove(clientRect1, clientRect2)) {
-        return -1;
-      }
-
-      if (isBelow(clientRect1, clientRect2)) {
-        return 1;
-      }
-
-      if (isLeft(clientRect1, clientRect2)) {
-        return -1;
-      }
-
-      if (isRight(clientRect1, clientRect2)) {
-        return 1;
-      }
-
-      return 0;
-    }
-
-    function containsXY(clientRect, clientX, clientY) {
-      return (
-        clientX >= clientRect.left &&
-        clientX <= clientRect.right &&
-        clientY >= clientRect.top &&
-        clientY <= clientRect.bottom
-      );
-    }
-
-    return {
-      clone: clone,
-      collapse: collapse,
-      isEqual: isEqual,
-      isAbove: isAbove,
-      isBelow: isBelow,
-      isLeft: isLeft,
-      isRight: isRight,
-      compare: compare,
-      containsXY: containsXY
-    };
-  }
-);
-
-/**
  * RangePoint.js
  *
  * Released under LGPL License.
@@ -16099,6 +23676,8 @@ define(
   'tinymce.core.dom.ControlSelection',
   [
     'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.Selectors',
     'tinymce.core.dom.NodeType',
     'tinymce.core.dom.RangePoint',
     'tinymce.core.Env',
@@ -16106,7 +23685,7 @@ define(
     'tinymce.core.util.Tools',
     'tinymce.core.util.VK'
   ],
-  function (Fun, NodeType, RangePoint, Env, Delay, Tools, VK) {
+  function (Fun, Element, Selectors, NodeType, RangePoint, Env, Delay, Tools, VK) {
     var isContentEditableFalse = NodeType.isContentEditableFalse;
     var isContentEditableTrue = NodeType.isContentEditableTrue;
 
@@ -16222,7 +23801,7 @@ define(
           return false;
         }
 
-        return editor.dom.is(elm, selector);
+        return Selectors.is(Element.fromDom(elm), selector);
       }
 
       function resizeGhostElement(e) {
@@ -16753,2366 +24332,6 @@ define(
         controlSelect: controlSelect,
         destroy: destroy
       };
-    };
-  }
-);
-
-/**
- * Fun.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Functional utility class.
- *
- * @private
- * @class tinymce.util.Fun
- */
-define(
-  'tinymce.core.util.Fun',
-  [
-  ],
-  function () {
-    var slice = [].slice;
-
-    function constant(value) {
-      return function () {
-        return value;
-      };
-    }
-
-    function negate(predicate) {
-      return function (x) {
-        return !predicate(x);
-      };
-    }
-
-    function compose(f, g) {
-      return function (x) {
-        return f(g(x));
-      };
-    }
-
-    function or() {
-      var args = slice.call(arguments);
-
-      return function (x) {
-        for (var i = 0; i < args.length; i++) {
-          if (args[i](x)) {
-            return true;
-          }
-        }
-
-        return false;
-      };
-    }
-
-    function and() {
-      var args = slice.call(arguments);
-
-      return function (x) {
-        for (var i = 0; i < args.length; i++) {
-          if (!args[i](x)) {
-            return false;
-          }
-        }
-
-        return true;
-      };
-    }
-
-    function curry(fn) {
-      var args = slice.call(arguments);
-
-      if (args.length - 1 >= fn.length) {
-        return fn.apply(this, args.slice(1));
-      }
-
-      return function () {
-        var tempArgs = args.concat([].slice.call(arguments));
-        return curry.apply(this, tempArgs);
-      };
-    }
-
-    function noop() {
-    }
-
-    return {
-      constant: constant,
-      negate: negate,
-      and: and,
-      or: or,
-      curry: curry,
-      compose: compose,
-      noop: noop
-    };
-  }
-);
-/**
- * CaretCandidate.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This module contains logic for handling caret candidates. A caret candidate is
- * for example text nodes, images, input elements, cE=false elements etc.
- *
- * @private
- * @class tinymce.caret.CaretCandidate
- */
-define(
-  'tinymce.core.caret.CaretCandidate',
-  [
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.util.Arr",
-    "tinymce.core.caret.CaretContainer"
-  ],
-  function (NodeType, Arr, CaretContainer) {
-    var isContentEditableTrue = NodeType.isContentEditableTrue,
-      isContentEditableFalse = NodeType.isContentEditableFalse,
-      isBr = NodeType.isBr,
-      isText = NodeType.isText,
-      isInvalidTextElement = NodeType.matchNodeNames('script style textarea'),
-      isAtomicInline = NodeType.matchNodeNames('img input textarea hr iframe video audio object'),
-      isTable = NodeType.matchNodeNames('table'),
-      isCaretContainer = CaretContainer.isCaretContainer;
-
-    function isCaretCandidate(node) {
-      if (isCaretContainer(node)) {
-        return false;
-      }
-
-      if (isText(node)) {
-        if (isInvalidTextElement(node.parentNode)) {
-          return false;
-        }
-
-        return true;
-      }
-
-      return isAtomicInline(node) || isBr(node) || isTable(node) || isContentEditableFalse(node);
-    }
-
-    function isInEditable(node, rootNode) {
-      for (node = node.parentNode; node && node != rootNode; node = node.parentNode) {
-        if (isContentEditableFalse(node)) {
-          return false;
-        }
-
-        if (isContentEditableTrue(node)) {
-          return true;
-        }
-      }
-
-      return true;
-    }
-
-    function isAtomicContentEditableFalse(node) {
-      if (!isContentEditableFalse(node)) {
-        return false;
-      }
-
-      return Arr.reduce(node.getElementsByTagName('*'), function (result, elm) {
-        return result || isContentEditableTrue(elm);
-      }, false) !== true;
-    }
-
-    function isAtomic(node) {
-      return isAtomicInline(node) || isAtomicContentEditableFalse(node);
-    }
-
-    function isEditableCaretCandidate(node, rootNode) {
-      return isCaretCandidate(node) && isInEditable(node, rootNode);
-    }
-
-    return {
-      isCaretCandidate: isCaretCandidate,
-      isInEditable: isInEditable,
-      isAtomic: isAtomic,
-      isEditableCaretCandidate: isEditableCaretCandidate
-    };
-  }
-);
-/**
- * ExtendingChar.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This class contains logic for detecting extending characters.
- *
- * @private
- * @class tinymce.text.ExtendingChar
- * @example
- * var isExtending = ExtendingChar.isExtendingChar('a');
- */
-define(
-  'tinymce.core.text.ExtendingChar',
-  [
-  ],
-  function () {
-    // Generated from: http://www.unicode.org/Public/UNIDATA/DerivedCoreProperties.txt
-    // Only includes the characters in that fit into UCS-2 16 bit
-    var extendingChars = new RegExp(
-      "[\u0300-\u036F\u0483-\u0487\u0488-\u0489\u0591-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7\u0610-\u061A" +
-      "\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7-\u06E8\u06EA-\u06ED\u0711\u0730-\u074A\u07A6-\u07B0" +
-      "\u07EB-\u07F3\u0816-\u0819\u081B-\u0823\u0825-\u0827\u0829-\u082D\u0859-\u085B\u08E3-\u0902\u093A\u093C" +
-      "\u0941-\u0948\u094D\u0951-\u0957\u0962-\u0963\u0981\u09BC\u09BE\u09C1-\u09C4\u09CD\u09D7\u09E2-\u09E3" +
-      "\u0A01-\u0A02\u0A3C\u0A41-\u0A42\u0A47-\u0A48\u0A4B-\u0A4D\u0A51\u0A70-\u0A71\u0A75\u0A81-\u0A82\u0ABC" +
-      "\u0AC1-\u0AC5\u0AC7-\u0AC8\u0ACD\u0AE2-\u0AE3\u0B01\u0B3C\u0B3E\u0B3F\u0B41-\u0B44\u0B4D\u0B56\u0B57" +
-      "\u0B62-\u0B63\u0B82\u0BBE\u0BC0\u0BCD\u0BD7\u0C00\u0C3E-\u0C40\u0C46-\u0C48\u0C4A-\u0C4D\u0C55-\u0C56" +
-      "\u0C62-\u0C63\u0C81\u0CBC\u0CBF\u0CC2\u0CC6\u0CCC-\u0CCD\u0CD5-\u0CD6\u0CE2-\u0CE3\u0D01\u0D3E\u0D41-\u0D44" +
-      "\u0D4D\u0D57\u0D62-\u0D63\u0DCA\u0DCF\u0DD2-\u0DD4\u0DD6\u0DDF\u0E31\u0E34-\u0E3A\u0E47-\u0E4E\u0EB1\u0EB4-\u0EB9" +
-      "\u0EBB-\u0EBC\u0EC8-\u0ECD\u0F18-\u0F19\u0F35\u0F37\u0F39\u0F71-\u0F7E\u0F80-\u0F84\u0F86-\u0F87\u0F8D-\u0F97" +
-      "\u0F99-\u0FBC\u0FC6\u102D-\u1030\u1032-\u1037\u1039-\u103A\u103D-\u103E\u1058-\u1059\u105E-\u1060\u1071-\u1074" +
-      "\u1082\u1085-\u1086\u108D\u109D\u135D-\u135F\u1712-\u1714\u1732-\u1734\u1752-\u1753\u1772-\u1773\u17B4-\u17B5" +
-      "\u17B7-\u17BD\u17C6\u17C9-\u17D3\u17DD\u180B-\u180D\u18A9\u1920-\u1922\u1927-\u1928\u1932\u1939-\u193B\u1A17-\u1A18" +
-      "\u1A1B\u1A56\u1A58-\u1A5E\u1A60\u1A62\u1A65-\u1A6C\u1A73-\u1A7C\u1A7F\u1AB0-\u1ABD\u1ABE\u1B00-\u1B03\u1B34" +
-      "\u1B36-\u1B3A\u1B3C\u1B42\u1B6B-\u1B73\u1B80-\u1B81\u1BA2-\u1BA5\u1BA8-\u1BA9\u1BAB-\u1BAD\u1BE6\u1BE8-\u1BE9" +
-      "\u1BED\u1BEF-\u1BF1\u1C2C-\u1C33\u1C36-\u1C37\u1CD0-\u1CD2\u1CD4-\u1CE0\u1CE2-\u1CE8\u1CED\u1CF4\u1CF8-\u1CF9" +
-      "\u1DC0-\u1DF5\u1DFC-\u1DFF\u200C-\u200D\u20D0-\u20DC\u20DD-\u20E0\u20E1\u20E2-\u20E4\u20E5-\u20F0\u2CEF-\u2CF1" +
-      "\u2D7F\u2DE0-\u2DFF\u302A-\u302D\u302E-\u302F\u3099-\u309A\uA66F\uA670-\uA672\uA674-\uA67D\uA69E-\uA69F\uA6F0-\uA6F1" +
-      "\uA802\uA806\uA80B\uA825-\uA826\uA8C4\uA8E0-\uA8F1\uA926-\uA92D\uA947-\uA951\uA980-\uA982\uA9B3\uA9B6-\uA9B9\uA9BC" +
-      "\uA9E5\uAA29-\uAA2E\uAA31-\uAA32\uAA35-\uAA36\uAA43\uAA4C\uAA7C\uAAB0\uAAB2-\uAAB4\uAAB7-\uAAB8\uAABE-\uAABF\uAAC1" +
-      "\uAAEC-\uAAED\uAAF6\uABE5\uABE8\uABED\uFB1E\uFE00-\uFE0F\uFE20-\uFE2F\uFF9E-\uFF9F]"
-    );
-
-    function isExtendingChar(ch) {
-      return typeof ch == "string" && ch.charCodeAt(0) >= 768 && extendingChars.test(ch);
-    }
-
-    return {
-      isExtendingChar: isExtendingChar
-    };
-  }
-);
-/**
- * CaretPosition.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This module contains logic for creating caret positions within a document a caretposition
- * is similar to a DOMRange object but it doesn't have two endpoints and is also more lightweight
- * since it's now updated live when the DOM changes.
- *
- * @private
- * @class tinymce.caret.CaretPosition
- * @example
- * var caretPos1 = new CaretPosition(container, offset);
- * var caretPos2 = CaretPosition.fromRangeStart(someRange);
- */
-define(
-  'tinymce.core.caret.CaretPosition',
-  [
-    "tinymce.core.util.Fun",
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.dom.DOMUtils",
-    "tinymce.core.dom.RangeUtils",
-    "tinymce.core.caret.CaretCandidate",
-    "tinymce.core.geom.ClientRect",
-    "tinymce.core.text.ExtendingChar"
-  ],
-  function (Fun, NodeType, DOMUtils, RangeUtils, CaretCandidate, ClientRect, ExtendingChar) {
-    var isElement = NodeType.isElement,
-      isCaretCandidate = CaretCandidate.isCaretCandidate,
-      isBlock = NodeType.matchStyleValues('display', 'block table'),
-      isFloated = NodeType.matchStyleValues('float', 'left right'),
-      isValidElementCaretCandidate = Fun.and(isElement, isCaretCandidate, Fun.negate(isFloated)),
-      isNotPre = Fun.negate(NodeType.matchStyleValues('white-space', 'pre pre-line pre-wrap')),
-      isText = NodeType.isText,
-      isBr = NodeType.isBr,
-      nodeIndex = DOMUtils.nodeIndex,
-      resolveIndex = RangeUtils.getNode;
-
-    function createRange(doc) {
-      return "createRange" in doc ? doc.createRange() : DOMUtils.DOM.createRng();
-    }
-
-    function isWhiteSpace(chr) {
-      return chr && /[\r\n\t ]/.test(chr);
-    }
-
-    function isHiddenWhiteSpaceRange(range) {
-      var container = range.startContainer,
-        offset = range.startOffset,
-        text;
-
-      if (isWhiteSpace(range.toString()) && isNotPre(container.parentNode)) {
-        text = container.data;
-
-        if (isWhiteSpace(text[offset - 1]) || isWhiteSpace(text[offset + 1])) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    function getCaretPositionClientRects(caretPosition) {
-      var clientRects = [], beforeNode, node;
-
-      // Hack for older WebKit versions that doesn't
-      // support getBoundingClientRect on BR elements
-      function getBrClientRect(brNode) {
-        var doc = brNode.ownerDocument,
-          rng = createRange(doc),
-          nbsp = doc.createTextNode('\u00a0'),
-          parentNode = brNode.parentNode,
-          clientRect;
-
-        parentNode.insertBefore(nbsp, brNode);
-        rng.setStart(nbsp, 0);
-        rng.setEnd(nbsp, 1);
-        clientRect = ClientRect.clone(rng.getBoundingClientRect());
-        parentNode.removeChild(nbsp);
-
-        return clientRect;
-      }
-
-      function getBoundingClientRect(item) {
-        var clientRect, clientRects;
-
-        clientRects = item.getClientRects();
-        if (clientRects.length > 0) {
-          clientRect = ClientRect.clone(clientRects[0]);
-        } else {
-          clientRect = ClientRect.clone(item.getBoundingClientRect());
-        }
-
-        if (isBr(item) && clientRect.left === 0) {
-          return getBrClientRect(item);
-        }
-
-        return clientRect;
-      }
-
-      function collapseAndInflateWidth(clientRect, toStart) {
-        clientRect = ClientRect.collapse(clientRect, toStart);
-        clientRect.width = 1;
-        clientRect.right = clientRect.left + 1;
-
-        return clientRect;
-      }
-
-      function addUniqueAndValidRect(clientRect) {
-        if (clientRect.height === 0) {
-          return;
-        }
-
-        if (clientRects.length > 0) {
-          if (ClientRect.isEqual(clientRect, clientRects[clientRects.length - 1])) {
-            return;
-          }
-        }
-
-        clientRects.push(clientRect);
-      }
-
-      function addCharacterOffset(container, offset) {
-        var range = createRange(container.ownerDocument);
-
-        if (offset < container.data.length) {
-          if (ExtendingChar.isExtendingChar(container.data[offset])) {
-            return clientRects;
-          }
-
-          // WebKit returns two client rects for a position after an extending
-          // character a\uxxx|b so expand on "b" and collapse to start of "b" box
-          if (ExtendingChar.isExtendingChar(container.data[offset - 1])) {
-            range.setStart(container, offset);
-            range.setEnd(container, offset + 1);
-
-            if (!isHiddenWhiteSpaceRange(range)) {
-              addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(range), false));
-              return clientRects;
-            }
-          }
-        }
-
-        if (offset > 0) {
-          range.setStart(container, offset - 1);
-          range.setEnd(container, offset);
-
-          if (!isHiddenWhiteSpaceRange(range)) {
-            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(range), false));
-          }
-        }
-
-        if (offset < container.data.length) {
-          range.setStart(container, offset);
-          range.setEnd(container, offset + 1);
-
-          if (!isHiddenWhiteSpaceRange(range)) {
-            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(range), true));
-          }
-        }
-      }
-
-      if (isText(caretPosition.container())) {
-        addCharacterOffset(caretPosition.container(), caretPosition.offset());
-        return clientRects;
-      }
-
-      if (isElement(caretPosition.container())) {
-        if (caretPosition.isAtEnd()) {
-          node = resolveIndex(caretPosition.container(), caretPosition.offset());
-          if (isText(node)) {
-            addCharacterOffset(node, node.data.length);
-          }
-
-          if (isValidElementCaretCandidate(node) && !isBr(node)) {
-            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(node), false));
-          }
-        } else {
-          node = resolveIndex(caretPosition.container(), caretPosition.offset());
-          if (isText(node)) {
-            addCharacterOffset(node, 0);
-          }
-
-          if (isValidElementCaretCandidate(node) && caretPosition.isAtEnd()) {
-            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(node), false));
-            return clientRects;
-          }
-
-          beforeNode = resolveIndex(caretPosition.container(), caretPosition.offset() - 1);
-          if (isValidElementCaretCandidate(beforeNode) && !isBr(beforeNode)) {
-            if (isBlock(beforeNode) || isBlock(node) || !isValidElementCaretCandidate(node)) {
-              addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(beforeNode), false));
-            }
-          }
-
-          if (isValidElementCaretCandidate(node)) {
-            addUniqueAndValidRect(collapseAndInflateWidth(getBoundingClientRect(node), true));
-          }
-        }
-      }
-
-      return clientRects;
-    }
-
-    /**
-     * Represents a location within the document by a container and an offset.
-     *
-     * @constructor
-     * @param {Node} container Container node.
-     * @param {Number} offset Offset within that container node.
-     * @param {Array} clientRects Optional client rects array for the position.
-     */
-    function CaretPosition(container, offset, clientRects) {
-      function isAtStart() {
-        if (isText(container)) {
-          return offset === 0;
-        }
-
-        return offset === 0;
-      }
-
-      function isAtEnd() {
-        if (isText(container)) {
-          return offset >= container.data.length;
-        }
-
-        return offset >= container.childNodes.length;
-      }
-
-      function toRange() {
-        var range;
-
-        range = createRange(container.ownerDocument);
-        range.setStart(container, offset);
-        range.setEnd(container, offset);
-
-        return range;
-      }
-
-      function getClientRects() {
-        if (!clientRects) {
-          clientRects = getCaretPositionClientRects(new CaretPosition(container, offset));
-        }
-
-        return clientRects;
-      }
-
-      function isVisible() {
-        return getClientRects().length > 0;
-      }
-
-      function isEqual(caretPosition) {
-        return caretPosition && container === caretPosition.container() && offset === caretPosition.offset();
-      }
-
-      function getNode(before) {
-        return resolveIndex(container, before ? offset - 1 : offset);
-      }
-
-      return {
-        /**
-         * Returns the container node.
-         *
-         * @method container
-         * @return {Node} Container node.
-         */
-        container: Fun.constant(container),
-
-        /**
-         * Returns the offset within the container node.
-         *
-         * @method offset
-         * @return {Number} Offset within the container node.
-         */
-        offset: Fun.constant(offset),
-
-        /**
-         * Returns a range out of a the caret position.
-         *
-         * @method toRange
-         * @return {DOMRange} range for the caret position.
-         */
-        toRange: toRange,
-
-        /**
-         * Returns the client rects for the caret position. Might be multiple rects between
-         * block elements.
-         *
-         * @method getClientRects
-         * @return {Array} Array of client rects.
-         */
-        getClientRects: getClientRects,
-
-        /**
-         * Returns true if the caret location is visible/displayed on screen.
-         *
-         * @method isVisible
-         * @return {Boolean} true/false if the position is visible or not.
-         */
-        isVisible: isVisible,
-
-        /**
-         * Returns true if the caret location is at the beginning of text node or container.
-         *
-         * @method isVisible
-         * @return {Boolean} true/false if the position is at the beginning.
-         */
-        isAtStart: isAtStart,
-
-        /**
-         * Returns true if the caret location is at the end of text node or container.
-         *
-         * @method isVisible
-         * @return {Boolean} true/false if the position is at the end.
-         */
-        isAtEnd: isAtEnd,
-
-        /**
-         * Compares the caret position to another caret position. This will only compare the
-         * container and offset not it's visual position.
-         *
-         * @method isEqual
-         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to compare with.
-         * @return {Boolean} true if the caret positions are equal.
-         */
-        isEqual: isEqual,
-
-        /**
-         * Returns the closest resolved node from a node index. That means if you have an offset after the
-         * last node in a container it will return that last node.
-         *
-         * @method getNode
-         * @return {Node} Node that is closest to the index.
-         */
-        getNode: getNode
-      };
-    }
-
-    /**
-     * Creates a caret position from the start of a range.
-     *
-     * @method fromRangeStart
-     * @param {DOMRange} range DOM Range to create caret position from.
-     * @return {tinymce.caret.CaretPosition} Caret position from the start of DOM range.
-     */
-    CaretPosition.fromRangeStart = function (range) {
-      return new CaretPosition(range.startContainer, range.startOffset);
-    };
-
-    /**
-     * Creates a caret position from the end of a range.
-     *
-     * @method fromRangeEnd
-     * @param {DOMRange} range DOM Range to create caret position from.
-     * @return {tinymce.caret.CaretPosition} Caret position from the end of DOM range.
-     */
-    CaretPosition.fromRangeEnd = function (range) {
-      return new CaretPosition(range.endContainer, range.endOffset);
-    };
-
-    /**
-     * Creates a caret position from a node and places the offset after it.
-     *
-     * @method after
-     * @param {Node} node Node to get caret position from.
-     * @return {tinymce.caret.CaretPosition} Caret position from the node.
-     */
-    CaretPosition.after = function (node) {
-      return new CaretPosition(node.parentNode, nodeIndex(node) + 1);
-    };
-
-    /**
-     * Creates a caret position from a node and places the offset before it.
-     *
-     * @method before
-     * @param {Node} node Node to get caret position from.
-     * @return {tinymce.caret.CaretPosition} Caret position from the node.
-     */
-    CaretPosition.before = function (node) {
-      return new CaretPosition(node.parentNode, nodeIndex(node));
-    };
-
-    CaretPosition.isAtStart = function (pos) {
-      return pos ? pos.isAtStart() : false;
-    };
-
-    CaretPosition.isAtEnd = function (pos) {
-      return pos ? pos.isAtEnd() : false;
-    };
-
-    CaretPosition.isTextPosition = function (pos) {
-      return pos ? NodeType.isText(pos.container()) : false;
-    };
-
-    return CaretPosition;
-  }
-);
-/**
- * CaretBookmark.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This module creates or resolves xpath like string representation of a CaretPositions.
- *
- * The format is a / separated list of chunks with:
- * <element|text()>[index|after|before]
- *
- * For example:
- *  p[0]/b[0]/text()[0],1 = <p><b>a|c</b></p>
- *  p[0]/img[0],before = <p>|<img></p>
- *  p[0]/img[0],after = <p><img>|</p>
- *
- * @private
- * @static
- * @class tinymce.caret.CaretBookmark
- * @example
- * var bookmark = CaretBookmark.create(rootElm, CaretPosition.before(rootElm.firstChild));
- * var caretPosition = CaretBookmark.resolve(bookmark);
- */
-define(
-  'tinymce.core.caret.CaretBookmark',
-  [
-    'tinymce.core.dom.NodeType',
-    'tinymce.core.dom.DOMUtils',
-    'tinymce.core.util.Fun',
-    'tinymce.core.util.Arr',
-    'tinymce.core.caret.CaretPosition'
-  ],
-  function (NodeType, DomUtils, Fun, Arr, CaretPosition) {
-    var isText = NodeType.isText,
-      isBogus = NodeType.isBogus,
-      nodeIndex = DomUtils.nodeIndex;
-
-    function normalizedParent(node) {
-      var parentNode = node.parentNode;
-
-      if (isBogus(parentNode)) {
-        return normalizedParent(parentNode);
-      }
-
-      return parentNode;
-    }
-
-    function getChildNodes(node) {
-      if (!node) {
-        return [];
-      }
-
-      return Arr.reduce(node.childNodes, function (result, node) {
-        if (isBogus(node) && node.nodeName != 'BR') {
-          result = result.concat(getChildNodes(node));
-        } else {
-          result.push(node);
-        }
-
-        return result;
-      }, []);
-    }
-
-    function normalizedTextOffset(textNode, offset) {
-      while ((textNode = textNode.previousSibling)) {
-        if (!isText(textNode)) {
-          break;
-        }
-
-        offset += textNode.data.length;
-      }
-
-      return offset;
-    }
-
-    function equal(targetValue) {
-      return function (value) {
-        return targetValue === value;
-      };
-    }
-
-    function normalizedNodeIndex(node) {
-      var nodes, index, numTextFragments;
-
-      nodes = getChildNodes(normalizedParent(node));
-      index = Arr.findIndex(nodes, equal(node), node);
-      nodes = nodes.slice(0, index + 1);
-      numTextFragments = Arr.reduce(nodes, function (result, node, i) {
-        if (isText(node) && isText(nodes[i - 1])) {
-          result++;
-        }
-
-        return result;
-      }, 0);
-
-      nodes = Arr.filter(nodes, NodeType.matchNodeNames(node.nodeName));
-      index = Arr.findIndex(nodes, equal(node), node);
-
-      return index - numTextFragments;
-    }
-
-    function createPathItem(node) {
-      var name;
-
-      if (isText(node)) {
-        name = 'text()';
-      } else {
-        name = node.nodeName.toLowerCase();
-      }
-
-      return name + '[' + normalizedNodeIndex(node) + ']';
-    }
-
-    function parentsUntil(rootNode, node, predicate) {
-      var parents = [];
-
-      for (node = node.parentNode; node != rootNode; node = node.parentNode) {
-        if (predicate && predicate(node)) {
-          break;
-        }
-
-        parents.push(node);
-      }
-
-      return parents;
-    }
-
-    function create(rootNode, caretPosition) {
-      var container, offset, path = [],
-        outputOffset, childNodes, parents;
-
-      container = caretPosition.container();
-      offset = caretPosition.offset();
-
-      if (isText(container)) {
-        outputOffset = normalizedTextOffset(container, offset);
-      } else {
-        childNodes = container.childNodes;
-        if (offset >= childNodes.length) {
-          outputOffset = 'after';
-          offset = childNodes.length - 1;
-        } else {
-          outputOffset = 'before';
-        }
-
-        container = childNodes[offset];
-      }
-
-      path.push(createPathItem(container));
-      parents = parentsUntil(rootNode, container);
-      parents = Arr.filter(parents, Fun.negate(NodeType.isBogus));
-      path = path.concat(Arr.map(parents, function (node) {
-        return createPathItem(node);
-      }));
-
-      return path.reverse().join('/') + ',' + outputOffset;
-    }
-
-    function resolvePathItem(node, name, index) {
-      var nodes = getChildNodes(node);
-
-      nodes = Arr.filter(nodes, function (node, index) {
-        return !isText(node) || !isText(nodes[index - 1]);
-      });
-
-      nodes = Arr.filter(nodes, NodeType.matchNodeNames(name));
-      return nodes[index];
-    }
-
-    function findTextPosition(container, offset) {
-      var node = container, targetOffset = 0, dataLen;
-
-      while (isText(node)) {
-        dataLen = node.data.length;
-
-        if (offset >= targetOffset && offset <= targetOffset + dataLen) {
-          container = node;
-          offset = offset - targetOffset;
-          break;
-        }
-
-        if (!isText(node.nextSibling)) {
-          container = node;
-          offset = dataLen;
-          break;
-        }
-
-        targetOffset += dataLen;
-        node = node.nextSibling;
-      }
-
-      if (offset > container.data.length) {
-        offset = container.data.length;
-      }
-
-      return new CaretPosition(container, offset);
-    }
-
-    function resolve(rootNode, path) {
-      var parts, container, offset;
-
-      if (!path) {
-        return null;
-      }
-
-      parts = path.split(',');
-      path = parts[0].split('/');
-      offset = parts.length > 1 ? parts[1] : 'before';
-
-      container = Arr.reduce(path, function (result, value) {
-        value = /([\w\-\(\)]+)\[([0-9]+)\]/.exec(value);
-        if (!value) {
-          return null;
-        }
-
-        if (value[1] === 'text()') {
-          value[1] = '#text';
-        }
-
-        return resolvePathItem(result, value[1], parseInt(value[2], 10));
-      }, rootNode);
-
-      if (!container) {
-        return null;
-      }
-
-      if (!isText(container)) {
-        if (offset === 'after') {
-          offset = nodeIndex(container) + 1;
-        } else {
-          offset = nodeIndex(container);
-        }
-
-        return new CaretPosition(container.parentNode, offset);
-      }
-
-      return findTextPosition(container, parseInt(offset, 10));
-    }
-
-    return {
-      /**
-       * Create a xpath bookmark location for the specified caret position.
-       *
-       * @method create
-       * @param {Node} rootNode Root node to create bookmark within.
-       * @param {tinymce.caret.CaretPosition} caretPosition Caret position within the root node.
-       * @return {String} String xpath like location of caret position.
-       */
-      create: create,
-
-      /**
-       * Resolves a xpath like bookmark location to the a caret position.
-       *
-       * @method resolve
-       * @param {Node} rootNode Root node to resolve xpath bookmark within.
-       * @param {String} bookmark Bookmark string to resolve.
-       * @return {tinymce.caret.CaretPosition} Caret position resolved from xpath like bookmark.
-       */
-      resolve: resolve
-    };
-  }
-);
-/**
- * BookmarkManager.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This class handles selection bookmarks.
- *
- * @class tinymce.dom.BookmarkManager
- */
-define(
-  'tinymce.core.dom.BookmarkManager',
-  [
-    'tinymce.core.caret.CaretBookmark',
-    'tinymce.core.caret.CaretContainer',
-    'tinymce.core.caret.CaretPosition',
-    'tinymce.core.dom.NodeType',
-    'tinymce.core.dom.RangeUtils',
-    'tinymce.core.Env',
-    'tinymce.core.text.Zwsp',
-    'tinymce.core.util.Tools'
-  ],
-  function (CaretBookmark, CaretContainer, CaretPosition, NodeType, RangeUtils, Env, Zwsp, Tools) {
-    var isContentEditableFalse = NodeType.isContentEditableFalse;
-
-    var getNormalizedTextOffset = function (container, offset) {
-      var node, trimmedOffset;
-
-      trimmedOffset = Zwsp.trim(container.data.slice(0, offset)).length;
-      for (node = container.previousSibling; node && node.nodeType === 3; node = node.previousSibling) {
-        trimmedOffset += Zwsp.trim(node.data).length;
-      }
-
-      return trimmedOffset;
-    };
-
-    /**
-     * Constructs a new BookmarkManager instance for a specific selection instance.
-     *
-     * @constructor
-     * @method BookmarkManager
-     * @param {tinymce.dom.Selection} selection Selection instance to handle bookmarks for.
-     */
-    function BookmarkManager(selection) {
-      var dom = selection.dom;
-
-      /**
-       * Returns a bookmark location for the current selection. This bookmark object
-       * can then be used to restore the selection after some content modification to the document.
-       *
-       * @method getBookmark
-       * @param {Number} type Optional state if the bookmark should be simple or not. Default is complex.
-       * @param {Boolean} normalized Optional state that enables you to get a position that it would be after normalization.
-       * @return {Object} Bookmark object, use moveToBookmark with this object to restore the selection.
-       * @example
-       * // Stores a bookmark of the current selection
-       * var bm = tinymce.activeEditor.selection.getBookmark();
-       *
-       * tinymce.activeEditor.setContent(tinymce.activeEditor.getContent() + 'Some new content');
-       *
-       * // Restore the selection bookmark
-       * tinymce.activeEditor.selection.moveToBookmark(bm);
-       */
-      this.getBookmark = function (type, normalized) {
-        var rng, rng2, id, collapsed, name, element, chr = '&#xFEFF;', styles;
-
-        function findIndex(name, element) {
-          var count = 0;
-
-          Tools.each(dom.select(name), function (node) {
-            if (node.getAttribute('data-mce-bogus') === 'all') {
-              return;
-            }
-
-            if (node == element) {
-              return false;
-            }
-
-            count++;
-          });
-
-          return count;
-        }
-
-        function normalizeTableCellSelection(rng) {
-          function moveEndPoint(start) {
-            var container, offset, childNodes, prefix = start ? 'start' : 'end';
-
-            container = rng[prefix + 'Container'];
-            offset = rng[prefix + 'Offset'];
-
-            if (container.nodeType == 1 && container.nodeName == "TR") {
-              childNodes = container.childNodes;
-              container = childNodes[Math.min(start ? offset : offset - 1, childNodes.length - 1)];
-              if (container) {
-                offset = start ? 0 : container.childNodes.length;
-                rng['set' + (start ? 'Start' : 'End')](container, offset);
-              }
-            }
-          }
-
-          moveEndPoint(true);
-          moveEndPoint();
-
-          return rng;
-        }
-
-        function getLocation(rng) {
-          var root = dom.getRoot(), bookmark = {};
-
-          function getPoint(rng, start) {
-            var container = rng[start ? 'startContainer' : 'endContainer'],
-              offset = rng[start ? 'startOffset' : 'endOffset'], point = [], childNodes, after = 0;
-
-            if (container.nodeType === 3) {
-              point.push(normalized ? getNormalizedTextOffset(container, offset) : offset);
-            } else {
-              childNodes = container.childNodes;
-
-              if (offset >= childNodes.length && childNodes.length) {
-                after = 1;
-                offset = Math.max(0, childNodes.length - 1);
-              }
-
-              point.push(dom.nodeIndex(childNodes[offset], normalized) + after);
-            }
-
-            for (; container && container != root; container = container.parentNode) {
-              point.push(dom.nodeIndex(container, normalized));
-            }
-
-            return point;
-          }
-
-          bookmark.start = getPoint(rng, true);
-
-          if (!selection.isCollapsed()) {
-            bookmark.end = getPoint(rng);
-          }
-
-          return bookmark;
-        }
-
-        function findAdjacentContentEditableFalseElm(rng) {
-          function findSibling(node, offset) {
-            var sibling;
-
-            if (NodeType.isElement(node)) {
-              node = RangeUtils.getNode(node, offset);
-              if (isContentEditableFalse(node)) {
-                return node;
-              }
-            }
-
-            if (CaretContainer.isCaretContainer(node)) {
-              if (NodeType.isText(node) && CaretContainer.isCaretContainerBlock(node)) {
-                node = node.parentNode;
-              }
-
-              sibling = node.previousSibling;
-              if (isContentEditableFalse(sibling)) {
-                return sibling;
-              }
-
-              sibling = node.nextSibling;
-              if (isContentEditableFalse(sibling)) {
-                return sibling;
-              }
-            }
-          }
-
-          return findSibling(rng.startContainer, rng.startOffset) || findSibling(rng.endContainer, rng.endOffset);
-        }
-
-        if (type == 2) {
-          element = selection.getNode();
-          name = element ? element.nodeName : null;
-          rng = selection.getRng();
-
-          if (isContentEditableFalse(element) || name == 'IMG') {
-            return { name: name, index: findIndex(name, element) };
-          }
-
-          if (selection.tridentSel) {
-            return selection.tridentSel.getBookmark(type);
-          }
-
-          element = findAdjacentContentEditableFalseElm(rng);
-          if (element) {
-            name = element.tagName;
-            return { name: name, index: findIndex(name, element) };
-          }
-
-          return getLocation(rng);
-        }
-
-        if (type == 3) {
-          rng = selection.getRng();
-
-          return {
-            start: CaretBookmark.create(dom.getRoot(), CaretPosition.fromRangeStart(rng)),
-            end: CaretBookmark.create(dom.getRoot(), CaretPosition.fromRangeEnd(rng))
-          };
-        }
-
-        // Handle simple range
-        if (type) {
-          return { rng: selection.getRng() };
-        }
-
-        rng = selection.getRng();
-        id = dom.uniqueId();
-        collapsed = selection.isCollapsed();
-        styles = 'overflow:hidden;line-height:0px';
-
-        // Explorer method
-        if (rng.duplicate || rng.item) {
-          // Text selection
-          if (!rng.item) {
-            rng2 = rng.duplicate();
-
-            try {
-              // Insert start marker
-              rng.collapse();
-              rng.pasteHTML('<span data-mce-type="bookmark" id="' + id + '_start" style="' + styles + '">' + chr + '</span>');
-
-              // Insert end marker
-              if (!collapsed) {
-                rng2.collapse(false);
-
-                // Detect the empty space after block elements in IE and move the
-                // end back one character <p></p>] becomes <p>]</p>
-                rng.moveToElementText(rng2.parentElement());
-                if (rng.compareEndPoints('StartToEnd', rng2) === 0) {
-                  rng2.move('character', -1);
-                }
-
-                rng2.pasteHTML('<span data-mce-type="bookmark" id="' + id + '_end" style="' + styles + '">' + chr + '</span>');
-              }
-            } catch (ex) {
-              // IE might throw unspecified error so lets ignore it
-              return null;
-            }
-          } else {
-            // Control selection
-            element = rng.item(0);
-            name = element.nodeName;
-
-            return { name: name, index: findIndex(name, element) };
-          }
-        } else {
-          element = selection.getNode();
-          name = element.nodeName;
-          if (name == 'IMG') {
-            return { name: name, index: findIndex(name, element) };
-          }
-
-          // W3C method
-          rng2 = normalizeTableCellSelection(rng.cloneRange());
-
-          // Insert end marker
-          if (!collapsed) {
-            rng2.collapse(false);
-            rng2.insertNode(dom.create('span', { 'data-mce-type': "bookmark", id: id + '_end', style: styles }, chr));
-          }
-
-          rng = normalizeTableCellSelection(rng);
-          rng.collapse(true);
-          rng.insertNode(dom.create('span', { 'data-mce-type': "bookmark", id: id + '_start', style: styles }, chr));
-        }
-
-        selection.moveToBookmark({ id: id, keep: 1 });
-
-        return { id: id };
-      };
-
-      /**
-       * Restores the selection to the specified bookmark.
-       *
-       * @method moveToBookmark
-       * @param {Object} bookmark Bookmark to restore selection from.
-       * @return {Boolean} true/false if it was successful or not.
-       * @example
-       * // Stores a bookmark of the current selection
-       * var bm = tinymce.activeEditor.selection.getBookmark();
-       *
-       * tinymce.activeEditor.setContent(tinymce.activeEditor.getContent() + 'Some new content');
-       *
-       * // Restore the selection bookmark
-       * tinymce.activeEditor.selection.moveToBookmark(bm);
-       */
-      this.moveToBookmark = function (bookmark) {
-        var rng, root, startContainer, endContainer, startOffset, endOffset;
-
-        function setEndPoint(start) {
-          var point = bookmark[start ? 'start' : 'end'], i, node, offset, children;
-
-          if (point) {
-            offset = point[0];
-
-            // Find container node
-            for (node = root, i = point.length - 1; i >= 1; i--) {
-              children = node.childNodes;
-
-              if (point[i] > children.length - 1) {
-                return;
-              }
-
-              node = children[point[i]];
-            }
-
-            // Move text offset to best suitable location
-            if (node.nodeType === 3) {
-              offset = Math.min(point[0], node.nodeValue.length);
-            }
-
-            // Move element offset to best suitable location
-            if (node.nodeType === 1) {
-              offset = Math.min(point[0], node.childNodes.length);
-            }
-
-            // Set offset within container node
-            if (start) {
-              rng.setStart(node, offset);
-            } else {
-              rng.setEnd(node, offset);
-            }
-          }
-
-          return true;
-        }
-
-        function restoreEndPoint(suffix) {
-          var marker = dom.get(bookmark.id + '_' + suffix), node, idx, next, prev, keep = bookmark.keep;
-
-          if (marker) {
-            node = marker.parentNode;
-
-            if (suffix == 'start') {
-              if (!keep) {
-                idx = dom.nodeIndex(marker);
-              } else {
-                node = marker.firstChild;
-                idx = 1;
-              }
-
-              startContainer = endContainer = node;
-              startOffset = endOffset = idx;
-            } else {
-              if (!keep) {
-                idx = dom.nodeIndex(marker);
-              } else {
-                node = marker.firstChild;
-                idx = 1;
-              }
-
-              endContainer = node;
-              endOffset = idx;
-            }
-
-            if (!keep) {
-              prev = marker.previousSibling;
-              next = marker.nextSibling;
-
-              // Remove all marker text nodes
-              Tools.each(Tools.grep(marker.childNodes), function (node) {
-                if (node.nodeType == 3) {
-                  node.nodeValue = node.nodeValue.replace(/\uFEFF/g, '');
-                }
-              });
-
-              // Remove marker but keep children if for example contents where inserted into the marker
-              // Also remove duplicated instances of the marker for example by a
-              // split operation or by WebKit auto split on paste feature
-              while ((marker = dom.get(bookmark.id + '_' + suffix))) {
-                dom.remove(marker, 1);
-              }
-
-              // If siblings are text nodes then merge them unless it's Opera since it some how removes the node
-              // and we are sniffing since adding a lot of detection code for a browser with 3% of the market
-              // isn't worth the effort. Sorry, Opera but it's just a fact
-              if (prev && next && prev.nodeType == next.nodeType && prev.nodeType == 3 && !Env.opera) {
-                idx = prev.nodeValue.length;
-                prev.appendData(next.nodeValue);
-                dom.remove(next);
-
-                if (suffix == 'start') {
-                  startContainer = endContainer = prev;
-                  startOffset = endOffset = idx;
-                } else {
-                  endContainer = prev;
-                  endOffset = idx;
-                }
-              }
-            }
-          }
-        }
-
-        function addBogus(node) {
-          // Adds a bogus BR element for empty block elements
-          if (dom.isBlock(node) && !node.innerHTML && !Env.ie) {
-            node.innerHTML = '<br data-mce-bogus="1" />';
-          }
-
-          return node;
-        }
-
-        function resolveCaretPositionBookmark() {
-          var rng, pos;
-
-          rng = dom.createRng();
-          pos = CaretBookmark.resolve(dom.getRoot(), bookmark.start);
-          rng.setStart(pos.container(), pos.offset());
-
-          pos = CaretBookmark.resolve(dom.getRoot(), bookmark.end);
-          rng.setEnd(pos.container(), pos.offset());
-
-          return rng;
-        }
-
-        if (bookmark) {
-          if (Tools.isArray(bookmark.start)) {
-            rng = dom.createRng();
-            root = dom.getRoot();
-
-            if (selection.tridentSel) {
-              return selection.tridentSel.moveToBookmark(bookmark);
-            }
-
-            if (setEndPoint(true) && setEndPoint()) {
-              selection.setRng(rng);
-            }
-          } else if (typeof bookmark.start == 'string') {
-            selection.setRng(resolveCaretPositionBookmark(bookmark));
-          } else if (bookmark.id) {
-            // Restore start/end points
-            restoreEndPoint('start');
-            restoreEndPoint('end');
-
-            if (startContainer) {
-              rng = dom.createRng();
-              rng.setStart(addBogus(startContainer), startOffset);
-              rng.setEnd(addBogus(endContainer), endOffset);
-              selection.setRng(rng);
-            }
-          } else if (bookmark.name) {
-            selection.select(dom.select(bookmark.name)[bookmark.index]);
-          } else if (bookmark.rng) {
-            selection.setRng(bookmark.rng);
-          }
-        }
-      };
-    }
-
-    /**
-     * Returns true/false if the specified node is a bookmark node or not.
-     *
-     * @static
-     * @method isBookmarkNode
-     * @param {DOMNode} node DOM Node to check if it's a bookmark node or not.
-     * @return {Boolean} true/false if the node is a bookmark node or not.
-     */
-    BookmarkManager.isBookmarkNode = function (node) {
-      return node && node.tagName === 'SPAN' && node.getAttribute('data-mce-type') === 'bookmark';
-    };
-
-    return BookmarkManager;
-  }
-);
-define(
-  'ephox.katamari.api.Global',
-
-  [
-  ],
-
-  function () {
-    // Use window object as the global if it's available since CSP will block script evals
-    if (typeof window !== 'undefined') {
-      return window;
-    } else {
-      return Function('return this;')();
-    }
-  }
-);
-
-
-define(
-  'ephox.katamari.api.Resolve',
-
-  [
-    'ephox.katamari.api.Global'
-  ],
-
-  function (Global) {
-    /** path :: ([String], JsObj?) -> JsObj */
-    var path = function (parts, scope) {
-      var o = scope !== undefined ? scope : Global;
-      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
-        o = o[parts[i]];
-      return o;
-    };
-
-    /** resolve :: (String, JsObj?) -> JsObj */
-    var resolve = function (p, scope) {
-      var parts = p.split('.');
-      return path(parts, scope);
-    };
-
-    /** step :: (JsObj, String) -> JsObj */
-    var step = function (o, part) {
-      if (o[part] === undefined || o[part] === null)
-        o[part] = {};
-      return o[part];
-    };
-
-    /** forge :: ([String], JsObj?) -> JsObj */
-    var forge = function (parts, target) {
-      var o = target !== undefined ? target : Global;      
-      for (var i = 0; i < parts.length; ++i)
-        o = step(o, parts[i]);
-      return o;
-    };
-
-    /** namespace :: (String, JsObj?) -> JsObj */
-    var namespace = function (name, target) {
-      var parts = name.split('.');
-      return forge(parts, target);
-    };
-
-    return {
-      path: path,
-      resolve: resolve,
-      forge: forge,
-      namespace: namespace
-    };
-  }
-);
-
-
-define(
-  'ephox.sand.util.Global',
-
-  [
-    'ephox.katamari.api.Resolve'
-  ],
-
-  function (Resolve) {
-    var unsafe = function (name, scope) {
-      return Resolve.resolve(name, scope);
-    };
-
-    var getOrDie = function (name, scope) {
-      var actual = unsafe(name, scope);
-
-      if (actual === undefined) throw name + ' not available on this browser';
-      return actual;
-    };
-
-    return {
-      getOrDie: getOrDie
-    };
-  }
-);
-define(
-  'ephox.sand.api.Node',
-
-  [
-    'ephox.sand.util.Global'
-  ],
-
-  function (Global) {
-    /*
-     * MDN says (yes) for IE, but it's undefined on IE8
-     */
-    var node = function () {
-      var f = Global.getOrDie('Node');
-      return f;
-    };
-
-    /*
-     * Most of numerosity doesn't alter the methods on the object.
-     * We're making an exception for Node, because bitwise and is so easy to get wrong.
-     *
-     * Might be nice to ADT this at some point instead of having individual methods.
-     */
-
-    var compareDocumentPosition = function (a, b, match) {
-      // Returns: 0 if e1 and e2 are the same node, or a bitmask comparing the positions
-      // of nodes e1 and e2 in their documents. See the URL below for bitmask interpretation
-      // https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
-      return (a.compareDocumentPosition(b) & match) !== 0;
-    };
-
-    var documentPositionPreceding = function (a, b) {
-      return compareDocumentPosition(a, b, node().DOCUMENT_POSITION_PRECEDING);
-    };
-
-    var documentPositionContainedBy = function (a, b) {
-      return compareDocumentPosition(a, b, node().DOCUMENT_POSITION_CONTAINED_BY);
-    };
-
-    return {
-      documentPositionPreceding: documentPositionPreceding,
-      documentPositionContainedBy: documentPositionContainedBy
-    };
-  }
-);
-define(
-  'ephox.katamari.api.Thunk',
-
-  [
-  ],
-
-  function () {
-
-    var cached = function (f) {
-      var called = false;
-      var r;
-      return function() {
-        if (!called) {
-          called = true;
-          r = f.apply(null, arguments);
-        }
-        return r;
-      };
-    };
-
-    return {
-      cached: cached
-    };
-  }
-);
-
-defineGlobal("global!Number", Number);
-define(
-  'ephox.sand.detect.Version',
-
-  [
-    'ephox.katamari.api.Arr',
-    'global!Number',
-    'global!String'
-  ],
-
-  function (Arr, Number, String) {
-    var firstMatch = function (regexes, s) {
-      for (var i = 0; i < regexes.length; i++) {
-        var x = regexes[i];
-        if (x.test(s)) return x;
-      }
-      return undefined;
-    };
-
-    var find = function (regexes, agent) {
-      var r = firstMatch(regexes, agent);
-      if (!r) return { major : 0, minor : 0 };
-      var group = function(i) {
-        return Number(agent.replace(r, '$' + i));
-      };
-      return nu(group(1), group(2));
-    };
-
-    var detect = function (versionRegexes, agent) {
-      var cleanedAgent = String(agent).toLowerCase();
-
-      if (versionRegexes.length === 0) return unknown();
-      return find(versionRegexes, cleanedAgent);
-    };
-
-    var unknown = function () {
-      return nu(0, 0);
-    };
-
-    var nu = function (major, minor) {
-      return { major: major, minor: minor };
-    };
-
-    return {
-      nu: nu,
-      detect: detect,
-      unknown: unknown
-    };
-  }
-);
-define(
-  'ephox.sand.core.Browser',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.sand.detect.Version'
-  ],
-
-  function (Fun, Version) {
-    var edge = 'Edge';
-    var chrome = 'Chrome';
-    var ie = 'IE';
-    var opera = 'Opera';
-    var firefox = 'Firefox';
-    var safari = 'Safari';
-
-    var isBrowser = function (name, current) {
-      return function () {
-        return current === name;
-      };
-    };
-
-    var unknown = function () {
-      return nu({
-        current: undefined,
-        version: Version.unknown()
-      });
-    };
-
-    var nu = function (info) {
-      var current = info.current;
-      var version = info.version;
-
-      return {
-        current: current,
-        version: version,
-
-        // INVESTIGATE: Rename to Edge ?
-        isEdge: isBrowser(edge, current),
-        isChrome: isBrowser(chrome, current),
-        // NOTE: isIe just looks too weird
-        isIE: isBrowser(ie, current),
-        isOpera: isBrowser(opera, current),
-        isFirefox: isBrowser(firefox, current),
-        isSafari: isBrowser(safari, current)
-      };
-    };
-
-    return {
-      unknown: unknown,
-      nu: nu,
-      edge: Fun.constant(edge),
-      chrome: Fun.constant(chrome),
-      ie: Fun.constant(ie),
-      opera: Fun.constant(opera),
-      firefox: Fun.constant(firefox),
-      safari: Fun.constant(safari)
-    };
-  }
-);
-define(
-  'ephox.sand.core.OperatingSystem',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.sand.detect.Version'
-  ],
-
-  function (Fun, Version) {
-    var windows = 'Windows';
-    var ios = 'iOS';
-    var android = 'Android';
-    var linux = 'Linux';
-    var osx = 'OSX';
-    var solaris = 'Solaris';
-    var freebsd = 'FreeBSD';
-
-    // Though there is a bit of dupe with this and Browser, trying to 
-    // reuse code makes it much harder to follow and change.
-    var isOS = function (name, current) {
-      return function () {
-        return current === name;
-      };
-    };
-
-    var unknown = function () {
-      return nu({
-        current: undefined,
-        version: Version.unknown()
-      });
-    };
-
-    var nu = function (info) {
-      var current = info.current;
-      var version = info.version;
-
-      return {
-        current: current,
-        version: version,
-
-        isWindows: isOS(windows, current),
-        // TODO: Fix capitalisation
-        isiOS: isOS(ios, current),
-        isAndroid: isOS(android, current),
-        isOSX: isOS(osx, current),
-        isLinux: isOS(linux, current),
-        isSolaris: isOS(solaris, current),
-        isFreeBSD: isOS(freebsd, current)
-      };
-    };
-
-    return {
-      unknown: unknown,
-      nu: nu,
-
-      windows: Fun.constant(windows),
-      ios: Fun.constant(ios),
-      android: Fun.constant(android),
-      linux: Fun.constant(linux),
-      osx: Fun.constant(osx),
-      solaris: Fun.constant(solaris),
-      freebsd: Fun.constant(freebsd)
-    };
-  }
-);
-define(
-  'ephox.sand.detect.DeviceType',
-
-  [
-    'ephox.katamari.api.Fun'
-  ],
-
-  function (Fun) {
-    return function (os, browser, userAgent) {
-      var isiPad = os.isiOS() && /ipad/i.test(userAgent) === true;
-      var isiPhone = os.isiOS() && !isiPad;
-      var isAndroid3 = os.isAndroid() && os.version.major === 3;
-      var isAndroid4 = os.isAndroid() && os.version.major === 4;
-      var isTablet = isiPad || isAndroid3 || ( isAndroid4 && /mobile/i.test(userAgent) === true );
-      var isTouch = os.isiOS() || os.isAndroid();
-      var isPhone = isTouch && !isTablet;
-
-      var iOSwebview = browser.isSafari() && os.isiOS() && /safari/i.test(userAgent) === false;
-
-      return {
-        isiPad : Fun.constant(isiPad),
-        isiPhone: Fun.constant(isiPhone),
-        isTablet: Fun.constant(isTablet),
-        isPhone: Fun.constant(isPhone),
-        isTouch: Fun.constant(isTouch),
-        isAndroid: os.isAndroid,
-        isiOS: os.isiOS,
-        isWebView: Fun.constant(iOSwebview)
-      };
-    };
-  }
-);
-define(
-  'ephox.sand.detect.UaString',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.sand.detect.Version',
-    'global!String'
-  ],
-
-  function (Arr, Version, String) {
-    var detect = function (candidates, userAgent) {
-      var agent = String(userAgent).toLowerCase();
-      return Arr.find(candidates, function (candidate) {
-        return candidate.search(agent);
-      });
-    };
-
-    // They (browser and os) are the same at the moment, but they might
-    // not stay that way.
-    var detectBrowser = function (browsers, userAgent) {
-      return detect(browsers, userAgent).map(function (browser) {
-        var version = Version.detect(browser.versionRegexes, userAgent);
-        return {
-          current: browser.name,
-          version: version
-        };
-      });
-    };
-
-    var detectOs = function (oses, userAgent) {
-      return detect(oses, userAgent).map(function (os) {
-        var version = Version.detect(os.versionRegexes, userAgent);
-        return {
-          current: os.name,
-          version: version
-        };
-      });
-    };
-
-    return {
-      detectBrowser: detectBrowser,
-      detectOs: detectOs
-    };
-  }
-);
-define(
-  'ephox.katamari.str.StrAppend',
-
-  [
-
-  ],
-
-  function () {
-    var addToStart = function (str, prefix) {
-      return prefix + str;
-    };
-
-    var addToEnd = function (str, suffix) {
-      return str + suffix;
-    };
-
-    var removeFromStart = function (str, numChars) {
-      return str.substring(numChars);
-    };
-
-    var removeFromEnd = function (str, numChars) {
-      return str.substring(0, str.length - numChars);
-    };
- 
-    return {
-      addToStart: addToStart,
-      addToEnd: addToEnd,
-      removeFromStart: removeFromStart,
-      removeFromEnd: removeFromEnd
-    };
-  }
-);
-define(
-  'ephox.katamari.str.StringParts',
-
-  [
-    'ephox.katamari.api.Option',
-    'global!Error'
-  ],
-
-  function (Option, Error) {
-    /** Return the first 'count' letters from 'str'.
--     *  e.g. first("abcde", 2) === "ab"
--     */
-    var first = function(str, count) {
-     return str.substr(0, count);
-    };
-
-    /** Return the last 'count' letters from 'str'.
-    *  e.g. last("abcde", 2) === "de"
-    */
-    var last = function(str, count) {
-     return str.substr(str.length - count, str.length);
-    };
-
-    var head = function(str) {
-      return str === '' ? Option.none() : Option.some(str.substr(0, 1));
-    };
-
-    var tail = function(str) {
-      return str === '' ? Option.none() : Option.some(str.substring(1));
-    };
-
-    return {
-      first: first,
-      last: last,
-      head: head,
-      tail: tail
-    };
-  }
-);
-define(
-  'ephox.katamari.api.Strings',
-
-  [
-    'ephox.katamari.str.StrAppend',
-    'ephox.katamari.str.StringParts',
-    'global!Error'
-  ],
-
-  function (StrAppend, StringParts, Error) {
-    var checkRange = function(str, substr, start) {
-      if (substr === '') return true;
-      if (str.length < substr.length) return false;
-      var x = str.substr(start, start + substr.length);
-      return x === substr;
-    };
-
-    /** Given a string and object, perform template-replacements on the string, as specified by the object.
-     * Any template fields of the form ${name} are replaced by the string or number specified as obj["name"]
-     * Based on Douglas Crockford's 'supplant' method for template-replace of strings. Uses different template format.
-     */
-    var supplant = function(str, obj) {
-      var isStringOrNumber = function(a) {
-        var t = typeof a;
-        return t === 'string' || t === 'number';
-      };
-
-      return str.replace(/\${([^{}]*)}/g,
-        function (a, b) {
-          var value = obj[b];
-          return isStringOrNumber(value) ? value : a;
-        }
-      );
-    };
-
-    var removeLeading = function (str, prefix) {
-      return startsWith(str, prefix) ? StrAppend.removeFromStart(str, prefix.length) : str;
-    };
-
-    var removeTrailing = function (str, prefix) {
-      return endsWith(str, prefix) ? StrAppend.removeFromEnd(str, prefix.length) : str;
-    };
-
-    var ensureLeading = function (str, prefix) {
-      return startsWith(str, prefix) ? str : StrAppend.addToStart(str, prefix);
-    };
-
-    var ensureTrailing = function (str, prefix) {
-      return endsWith(str, prefix) ? str : StrAppend.addToEnd(str, prefix);
-    };
- 
-    var contains = function(str, substr) {
-      return str.indexOf(substr) !== -1;
-    };
-
-    var capitalize = function(str) {
-      return StringParts.head(str).bind(function (head) {
-        return StringParts.tail(str).map(function (tail) {
-          return head.toUpperCase() + tail;
-        });
-      }).getOr(str);
-    };
-
-    /** Does 'str' start with 'prefix'?
-     *  Note: all strings start with the empty string.
-     *        More formally, for all strings x, startsWith(x, "").
-     *        This is so that for all strings x and y, startsWith(y + x, y)
-     */
-    var startsWith = function(str, prefix) {
-      return checkRange(str, prefix, 0);
-    };
-
-    /** Does 'str' end with 'suffix'?
-     *  Note: all strings end with the empty string.
-     *        More formally, for all strings x, endsWith(x, "").
-     *        This is so that for all strings x and y, endsWith(x + y, y)
-     */
-    var endsWith = function(str, suffix) {
-      return checkRange(str, suffix, str.length - suffix.length);
-    };
-
-   
-    /** removes all leading and trailing spaces */
-    var trim = function(str) {
-      return str.replace(/^\s+|\s+$/g, '');
-    };
-
-    var lTrim = function(str) {
-      return str.replace(/^\s+/g, '');
-    };
-
-    var rTrim = function(str) {
-      return str.replace(/\s+$/g, '');
-    };
-
-    return {
-      supplant: supplant,
-      startsWith: startsWith,
-      removeLeading: removeLeading,
-      removeTrailing: removeTrailing,
-      ensureLeading: ensureLeading,
-      ensureTrailing: ensureTrailing,
-      endsWith: endsWith,
-      contains: contains,
-      trim: trim,
-      lTrim: lTrim,
-      rTrim: rTrim,
-      capitalize: capitalize
-    };
-  }
-);
-
-define(
-  'ephox.sand.info.PlatformInfo',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Strings'
-  ],
-
-  function (Fun, Strings) {
-    var normalVersionRegex = /.*?version\/\ ?([0-9]+)\.([0-9]+).*/;
-
-    var checkContains = function (target) {
-      return function (uastring) {
-        return Strings.contains(uastring, target);
-      };
-    };
-
-    var browsers = [
-      {
-        name : 'Edge',
-        versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
-        search: function (uastring) {
-          var monstrosity = Strings.contains(uastring, 'edge/') && Strings.contains(uastring, 'chrome') && Strings.contains(uastring, 'safari') && Strings.contains(uastring, 'applewebkit');
-          return monstrosity;
-        }
-      },
-      {
-        name : 'Chrome',
-        versionRegexes: [/.*?chrome\/([0-9]+)\.([0-9]+).*/, normalVersionRegex],
-        search : function (uastring) {
-          return Strings.contains(uastring, 'chrome') && !Strings.contains(uastring, 'chromeframe');
-        }
-      },
-      {
-        name : 'IE',
-        versionRegexes: [/.*?msie\ ?([0-9]+)\.([0-9]+).*/, /.*?rv:([0-9]+)\.([0-9]+).*/],
-        search: function (uastring) {
-          return Strings.contains(uastring, 'msie') || Strings.contains(uastring, 'trident');
-        }
-      },
-      // INVESTIGATE: Is this still the Opera user agent?
-      {
-        name : 'Opera',
-        versionRegexes: [normalVersionRegex, /.*?opera\/([0-9]+)\.([0-9]+).*/],
-        search : checkContains('opera')
-      },
-      {
-        name : 'Firefox',
-        versionRegexes: [/.*?firefox\/\ ?([0-9]+)\.([0-9]+).*/],
-        search : checkContains('firefox')
-      },
-      {
-        name : 'Safari',
-        versionRegexes: [normalVersionRegex, /.*?cpu os ([0-9]+)_([0-9]+).*/],
-        search : function (uastring) {
-          return (Strings.contains(uastring, 'safari') || Strings.contains(uastring, 'mobile/')) && Strings.contains(uastring, 'applewebkit');
-        }
-      }
-    ];
-
-    var oses = [
-      {
-        name : 'Windows',
-        search : checkContains('win'),
-        versionRegexes: [/.*?windows\ nt\ ?([0-9]+)\.([0-9]+).*/]
-      },
-      {
-        name : 'iOS',
-        search : function (uastring) {
-          return Strings.contains(uastring, 'iphone') || Strings.contains(uastring, 'ipad');
-        },
-        versionRegexes: [/.*?version\/\ ?([0-9]+)\.([0-9]+).*/, /.*cpu os ([0-9]+)_([0-9]+).*/, /.*cpu iphone os ([0-9]+)_([0-9]+).*/]
-      },
-      {
-        name : 'Android',
-        search : checkContains('android'),
-        versionRegexes: [/.*?android\ ?([0-9]+)\.([0-9]+).*/]
-      },
-      {
-        name : 'OSX',
-        search : checkContains('os x'),
-        versionRegexes: [/.*?os\ x\ ?([0-9]+)_([0-9]+).*/]
-      },
-      {
-        name : 'Linux',
-        search : checkContains('linux'),
-        versionRegexes: [ ]
-      },
-      { name : 'Solaris',
-        search : checkContains('sunos'),
-        versionRegexes: [ ]
-      },
-      {
-       name : 'FreeBSD',
-       search : checkContains('freebsd'),
-       versionRegexes: [ ]
-      }
-    ];
-
-    return {
-      browsers: Fun.constant(browsers),
-      oses: Fun.constant(oses)
-    };
-  }
-);
-define(
-  'ephox.sand.core.PlatformDetection',
-
-  [
-    'ephox.sand.core.Browser',
-    'ephox.sand.core.OperatingSystem',
-    'ephox.sand.detect.DeviceType',
-    'ephox.sand.detect.UaString',
-    'ephox.sand.info.PlatformInfo'
-  ],
-
-  function (Browser, OperatingSystem, DeviceType, UaString, PlatformInfo) {
-    var detect = function (userAgent) {
-      var browsers = PlatformInfo.browsers();
-      var oses = PlatformInfo.oses();
-
-      var browser = UaString.detectBrowser(browsers, userAgent).fold(
-        Browser.unknown,
-        Browser.nu
-      );
-      var os = UaString.detectOs(oses, userAgent).fold(
-        OperatingSystem.unknown,
-        OperatingSystem.nu
-      );
-      var deviceType = DeviceType(os, browser, userAgent);
-
-      return {
-        browser: browser,
-        os: os,
-        deviceType: deviceType
-      };
-    };
-
-    return {
-      detect: detect
-    };
-  }
-);
-defineGlobal("global!navigator", navigator);
-define(
-  'ephox.sand.api.PlatformDetection',
-
-  [
-    'ephox.katamari.api.Thunk',
-    'ephox.sand.core.PlatformDetection',
-    'global!navigator'
-  ],
-
-  function (Thunk, PlatformDetection, navigator) {
-    var detect = Thunk.cached(function () {
-      var userAgent = navigator.userAgent;
-      return PlatformDetection.detect(userAgent);
-    });
-
-    return {
-      detect: detect
-    };
-  }
-);
-define("global!console", [], function () { if (typeof console === "undefined") console = { log: function () {} }; return console; });
-defineGlobal("global!document", document);
-define(
-  'ephox.sugar.api.node.Element',
-
-  [
-    'ephox.katamari.api.Fun',
-    'global!Error',
-    'global!console',
-    'global!document'
-  ],
-
-  function (Fun, Error, console, document) {
-    var fromHtml = function (html, scope) {
-      var doc = scope || document;
-      var div = doc.createElement('div');
-      div.innerHTML = html;
-      if (!div.hasChildNodes() || div.childNodes.length > 1) {
-        console.error('HTML does not have a single root node', html);
-        throw 'HTML must have a single root node';
-      }
-      return fromDom(div.childNodes[0]);
-    };
-
-    var fromTag = function (tag, scope) {
-      var doc = scope || document;
-      var node = doc.createElement(tag);
-      return fromDom(node);
-    };
-
-    var fromText = function (text, scope) {
-      var doc = scope || document;
-      var node = doc.createTextNode(text);
-      return fromDom(node);
-    };
-
-    var fromDom = function (node) {
-      if (node === null || node === undefined) throw new Error('Node cannot be null or undefined');
-      return {
-        dom: Fun.constant(node)
-      };
-    };
-
-    return {
-      fromHtml: fromHtml,
-      fromTag: fromTag,
-      fromText: fromText,
-      fromDom: fromDom
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.node.NodeTypes',
-
-  [
-
-  ],
-
-  function () {
-    return {
-      ATTRIBUTE:              2,
-      CDATA_SECTION:          4,
-      COMMENT:                8,
-      DOCUMENT:               9,
-      DOCUMENT_TYPE:          10,
-      DOCUMENT_FRAGMENT:      11,
-      ELEMENT:                1,
-      TEXT:                   3,
-      PROCESSING_INSTRUCTION: 7,
-      ENTITY_REFERENCE:       5,
-      ENTITY:                 6,
-      NOTATION:               12
-    };
-  }
-);
-define(
-  'ephox.sugar.api.search.Selectors',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Option',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.node.NodeTypes',
-    'global!Error',
-    'global!document'
-  ],
-
-  function (Arr, Option, Element, NodeTypes, Error, document) {
-    /*
-     * There's a lot of code here; the aim is to allow the browser to optimise constant comparisons,
-     * instead of doing object lookup feature detection on every call
-     */
-    var STANDARD = 0;
-    var MSSTANDARD = 1;
-    var WEBKITSTANDARD = 2;
-    var FIREFOXSTANDARD = 3;
-
-    var selectorType = (function () {
-      var test = document.createElement('span');
-      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
-      // Still check for the others, but do it last.
-      return test.matches !== undefined ? STANDARD :
-             test.msMatchesSelector !== undefined ? MSSTANDARD :
-             test.webkitMatchesSelector !== undefined ? WEBKITSTANDARD :
-             test.mozMatchesSelector !== undefined ? FIREFOXSTANDARD :
-             -1;
-    })();
-
-
-    var ELEMENT = NodeTypes.ELEMENT;
-    var DOCUMENT = NodeTypes.DOCUMENT;
-
-    var is = function (element, selector) {
-      var elem = element.dom();
-      if (elem.nodeType !== ELEMENT) return false; // documents have querySelector but not matches
-
-      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
-      // Still check for the others, but do it last.
-      else if (selectorType === STANDARD) return elem.matches(selector);
-      else if (selectorType === MSSTANDARD) return elem.msMatchesSelector(selector);
-      else if (selectorType === WEBKITSTANDARD) return elem.webkitMatchesSelector(selector);
-      else if (selectorType === FIREFOXSTANDARD) return elem.mozMatchesSelector(selector);
-      else throw new Error('Browser lacks native selectors'); // unfortunately we can't throw this on startup :(
-    };
-
-    var bypassSelector = function (dom) {
-      // Only elements and documents support querySelector
-      return dom.nodeType !== ELEMENT && dom.nodeType !== DOCUMENT ||
-              // IE fix for complex queries on empty nodes: http://jsfiddle.net/spyder/fv9ptr5L/
-              dom.childElementCount === 0;
-    };
-
-    var all = function (selector, scope) {
-      var base = scope === undefined ? document : scope.dom();
-      return bypassSelector(base) ? [] : Arr.map(base.querySelectorAll(selector), Element.fromDom);
-    };
-
-    var one = function (selector, scope) {
-      var base = scope === undefined ? document : scope.dom();
-      return bypassSelector(base) ? Option.none() : Option.from(base.querySelector(selector)).map(Element.fromDom);
-    };
-
-    return {
-      all: all,
-      is: is,
-      one: one
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.dom.Compare',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.sand.api.Node',
-    'ephox.sand.api.PlatformDetection',
-    'ephox.sugar.api.search.Selectors'
-  ],
-
-  function (Arr, Fun, Node, PlatformDetection, Selectors) {
-
-    var eq = function (e1, e2) {
-      return e1.dom() === e2.dom();
-    };
-
-    var isEqualNode = function (e1, e2) {
-      return e1.dom().isEqualNode(e2.dom());
-    };
-
-    var member = function (element, elements) {
-      return Arr.exists(elements, Fun.curry(eq, element));
-    };
-
-    // DOM contains() method returns true if e1===e2, we define our contains() to return false (a node does not contain itself).
-    var regularContains = function (e1, e2) {
-      var d1 = e1.dom(), d2 = e2.dom();
-      return d1 === d2 ? false : d1.contains(d2);
-    };
-
-    var ieContains = function (e1, e2) {
-      // IE only implements the contains() method for Element nodes.
-      // It fails for Text nodes, so implement it using compareDocumentPosition()
-      // https://connect.microsoft.com/IE/feedback/details/780874/node-contains-is-incorrect
-      // Note that compareDocumentPosition returns CONTAINED_BY if 'e2 *is_contained_by* e1':
-      // Also, compareDocumentPosition defines a node containing itself as false.
-      return Node.documentPositionContainedBy(e1.dom(), e2.dom());
-    };
-
-    var browser = PlatformDetection.detect().browser;
-
-    // Returns: true if node e1 contains e2, otherwise false.
-    // (returns false if e1===e2: A node does not contain itself).
-    var contains = browser.isIE() ? ieContains : regularContains;
-
-    return {
-      eq: eq,
-      isEqualNode: isEqualNode,
-      member: member,
-      contains: contains,
-
-      // Only used by DomUniverse. Remove (or should Selectors.is move here?)
-      is: Selectors.is
     };
   }
 );
@@ -19711,614 +24930,6 @@ define(
 );
 
 define(
-  'ephox.katamari.api.Type',
-
-  [
-    'global!Array',
-    'global!String'
-  ],
-
-  function (Array, String) {
-    var typeOf = function(x) {
-      if (x === null) return 'null';
-      var t = typeof x;
-      if (t === 'object' && Array.prototype.isPrototypeOf(x)) return 'array';
-      if (t === 'object' && String.prototype.isPrototypeOf(x)) return 'string';
-      return t;
-    };
-
-    var isType = function (type) {
-      return function (value) {
-        return typeOf(value) === type;
-      };
-    };
-
-    return {
-      isString: isType('string'),
-      isObject: isType('object'),
-      isArray: isType('array'),
-      isNull: isType('null'),
-      isBoolean: isType('boolean'),
-      isUndefined: isType('undefined'),
-      isFunction: isType('function'),
-      isNumber: isType('number')
-    };
-  }
-);
-
-
-define(
-  'ephox.katamari.data.Immutable',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'global!Array',
-    'global!Error'
-  ],
-
-  function (Arr, Fun, Array, Error) {
-    return function () {
-      var fields = arguments;
-      return function(/* values */) {
-        //  Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
-        var values = new Array(arguments.length);
-        for (var i = 0; i < values.length; i++) values[i] = arguments[i];
-
-        if (fields.length !== values.length)
-          throw new Error('Wrong number of arguments to struct. Expected "[' + fields.length + ']", got ' + values.length + ' arguments');
-
-        var struct = {};
-        Arr.each(fields, function (name, i) {
-          struct[name] = Fun.constant(values[i]);
-        });
-        return struct;
-      };
-    };
-  }
-);
-
-define(
-  'ephox.katamari.api.Obj',
-
-  [
-    'ephox.katamari.api.Option',
-    'global!Object'
-  ],
-
-  function (Option, Object) {
-    // There are many variations of Object iteration that are faster than the 'for-in' style:
-    // http://jsperf.com/object-keys-iteration/107
-    //
-    // Use the native keys if it is available (IE9+), otherwise fall back to manually filtering
-    var keys = (function () {
-      var fastKeys = Object.keys;
-
-      // This technically means that 'each' and 'find' on IE8 iterate through the object twice.
-      // This code doesn't run on IE8 much, so it's an acceptable tradeoff.
-      // If it becomes a problem we can always duplicate the feature detection inside each and find as well.
-      var slowKeys = function (o) {
-        var r = [];
-        for (var i in o) {
-          if (o.hasOwnProperty(i)) {
-            r.push(i);
-          }
-        }
-        return r;
-      };
-
-      return fastKeys === undefined ? slowKeys : fastKeys;
-    })();
-
-
-    var each = function (obj, f) {
-      var props = keys(obj);
-      for (var k = 0, len = props.length; k < len; k++) {
-        var i = props[k];
-        var x = obj[i];
-        f(x, i, obj);
-      }
-    };
-
-    /** objectMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> x)) -> JsObj(k, x) */
-    var objectMap = function (obj, f) {
-      return tupleMap(obj, function (x, i, obj) {
-        return {
-          k: i,
-          v: f(x, i, obj)
-        };
-      });
-    };
-
-    /** tupleMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> { k: x, v: y })) -> JsObj(x, y) */
-    var tupleMap = function (obj, f) {
-      var r = {};
-      each(obj, function (x, i) {
-        var tuple = f(x, i, obj);
-        r[tuple.k] = tuple.v;
-      });
-      return r;
-    };
-
-    /** bifilter :: (JsObj(k, v), (v, k -> Bool)) -> { t: JsObj(k, v), f: JsObj(k, v) } */
-    var bifilter = function (obj, pred) {
-      var t = {};
-      var f = {};
-      each(obj, function(x, i) {
-        var branch = pred(x, i) ? t : f;
-        branch[i] = x;
-      });
-      return {
-        t: t,
-        f: f
-      };
-    };
-
-    /** mapToArray :: (JsObj(k, v), (v, k -> a)) -> [a] */
-    var mapToArray = function (obj, f) {
-      var r = [];
-      each(obj, function(value, name) {
-        r.push(f(value, name));
-      });
-      return r;
-    };
-
-    /** find :: (JsObj(k, v), (v, k, JsObj(k, v) -> Bool)) -> Option v */
-    var find = function (obj, pred) {
-      var props = keys(obj);
-      for (var k = 0, len = props.length; k < len; k++) {
-        var i = props[k];
-        var x = obj[i];
-        if (pred(x, i, obj)) {
-          return Option.some(x);
-        }
-      }
-      return Option.none();
-    };
-
-    /** values :: JsObj(k, v) -> [v] */
-    var values = function (obj) {
-      return mapToArray(obj, function (v) {
-        return v;
-      });
-    };
-
-    var size = function (obj) {
-      return values(obj).length;
-    };
-
-    return {
-      bifilter: bifilter,
-      each: each,
-      map: objectMap,
-      mapToArray: mapToArray,
-      tupleMap: tupleMap,
-      find: find,
-      keys: keys,
-      values: values,
-      size: size
-    };
-  }
-);
-define(
-  'ephox.katamari.util.BagUtils',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Type',
-    'global!Error'
-  ],
-
-  function (Arr, Type, Error) {
-    var sort = function (arr) {
-      return arr.slice(0).sort();
-    };
-
-    var reqMessage = function (required, keys) {
-      throw new Error('All required keys (' + sort(required).join(', ') + ') were not specified. Specified keys were: ' + sort(keys).join(', ') + '.');
-    };
-
-    var unsuppMessage = function (unsupported) {
-      throw new Error('Unsupported keys for object: ' + sort(unsupported).join(', '));
-    };
-
-    var validateStrArr = function (label, array) {
-      if (!Type.isArray(array)) throw new Error('The ' + label + ' fields must be an array. Was: ' + array + '.');
-      Arr.each(array, function (a) {
-        if (!Type.isString(a)) throw new Error('The value ' + a + ' in the ' + label + ' fields was not a string.');
-      });
-    };
-
-    var invalidTypeMessage = function (incorrect, type) {
-      throw new Error('All values need to be of type: ' + type + '. Keys (' + sort(incorrect).join(', ') + ') were not.');
-    };
-
-    var checkDupes = function (everything) {
-      var sorted = sort(everything);
-      var dupe = Arr.find(sorted, function (s, i) {
-        return i < sorted.length -1 && s === sorted[i + 1];
-      });
-
-      dupe.each(function (d) {
-        throw new Error('The field: ' + d + ' occurs more than once in the combined fields: [' + sorted.join(', ') + '].');
-      });
-    };
-
-    return {
-      sort: sort,
-      reqMessage: reqMessage,
-      unsuppMessage: unsuppMessage,
-      validateStrArr: validateStrArr,
-      invalidTypeMessage: invalidTypeMessage,
-      checkDupes: checkDupes
-    };
-  }
-);
-define(
-  'ephox.katamari.data.MixedBag',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Obj',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.util.BagUtils',
-    'global!Error',
-    'global!Object'
-  ],
-
-  function (Arr, Fun, Obj, Option, BagUtils, Error, Object) {
-    
-    return function (required, optional) {
-      var everything = required.concat(optional);
-      if (everything.length === 0) throw new Error('You must specify at least one required or optional field.');
-
-      BagUtils.validateStrArr('required', required);
-      BagUtils.validateStrArr('optional', optional);
-
-      BagUtils.checkDupes(everything);
-
-      return function (obj) {
-        var keys = Obj.keys(obj);
-
-        // Ensure all required keys are present.
-        var allReqd = Arr.forall(required, function (req) {
-          return Arr.contains(keys, req);
-        });
-
-        if (! allReqd) BagUtils.reqMessage(required, keys);
-
-        var unsupported = Arr.filter(keys, function (key) {
-          return !Arr.contains(everything, key);
-        });
-
-        if (unsupported.length > 0) BagUtils.unsuppMessage(unsupported);
-
-        var r = {};
-        Arr.each(required, function (req) {
-          r[req] = Fun.constant(obj[req]);
-        });
-
-        Arr.each(optional, function (opt) {
-          r[opt] = Fun.constant(Object.prototype.hasOwnProperty.call(obj, opt) ? Option.some(obj[opt]): Option.none());
-        });
-
-        return r;
-      };
-    };
-  }
-);
-define(
-  'ephox.katamari.api.Struct',
-
-  [
-    'ephox.katamari.data.Immutable',
-    'ephox.katamari.data.MixedBag'
-  ],
-
-  function (Immutable, MixedBag) {
-    return {
-      immutable: Immutable,
-      immutableBag: MixedBag
-    };
-  }
-);
-
-define(
-  'ephox.sugar.alien.Recurse',
-
-  [
-
-  ],
-
-  function () {
-    /**
-     * Applies f repeatedly until it completes (by returning Option.none()).
-     *
-     * Normally would just use recursion, but JavaScript lacks tail call optimisation.
-     *
-     * This is what recursion looks like when manually unravelled :)
-     */
-    var toArray = function (target, f) {
-      var r = [];
-
-      var recurse = function (e) {
-        r.push(e);
-        return f(e);
-      };
-
-      var cur = f(target);
-      do {
-        cur = cur.bind(recurse);
-      } while (cur.isSome());
-
-      return r;
-    };
-
-    return {
-      toArray: toArray
-    };
-  }
-);
-define(
-  'ephox.sugar.api.search.Traverse',
-
-  [
-    'ephox.katamari.api.Type',
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.api.Struct',
-    'ephox.sugar.alien.Recurse',
-    'ephox.sugar.api.dom.Compare',
-    'ephox.sugar.api.node.Element'
-  ],
-
-  function (Type, Arr, Fun, Option, Struct, Recurse, Compare, Element) {
-    // The document associated with the current element
-    var owner = function (element) {
-      return Element.fromDom(element.dom().ownerDocument);
-    };
-
-    var documentElement = function (element) {
-      // TODO: Avoid unnecessary wrap/unwrap here
-      var doc = owner(element);
-      return Element.fromDom(doc.dom().documentElement);
-    };
-
-    // The window element associated with the element
-    var defaultView = function (element) {
-      var el = element.dom();
-      var defaultView = el.ownerDocument.defaultView;
-      return Element.fromDom(defaultView);
-    };
-
-    var parent = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.parentNode).map(Element.fromDom);
-    };
-
-    var findIndex = function (element) {
-      return parent(element).bind(function (p) {
-        // TODO: Refactor out children so we can avoid the constant unwrapping
-        var kin = children(p);
-        return Arr.findIndex(kin, function (elem) {
-          return Compare.eq(element, elem);
-        });
-      });
-    };
-
-    var parents = function (element, isRoot) {
-      var stop = Type.isFunction(isRoot) ? isRoot : Fun.constant(false);
-
-      // This is used a *lot* so it needs to be performant, not recursive
-      var dom = element.dom();
-      var ret = [];
-
-      while (dom.parentNode !== null && dom.parentNode !== undefined) {
-        var rawParent = dom.parentNode;
-        var parent = Element.fromDom(rawParent);
-        ret.push(parent);
-
-        if (stop(parent) === true) break;
-        else dom = rawParent;
-      }
-      return ret;
-    };
-
-    var siblings = function (element) {
-      // TODO: Refactor out children so we can just not add self instead of filtering afterwards
-      var filterSelf = function (elements) {
-        return Arr.filter(elements, function (x) {
-          return !Compare.eq(element, x);
-        });
-      };
-
-      return parent(element).map(children).map(filterSelf).getOr([]);
-    };
-
-    var offsetParent = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.offsetParent).map(Element.fromDom);
-    };
-
-    var prevSibling = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.previousSibling).map(Element.fromDom);
-    };
-
-    var nextSibling = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.nextSibling).map(Element.fromDom);
-    };
-
-    var prevSiblings = function (element) {
-      // This one needs to be reversed, so they're still in DOM order
-      return Arr.reverse(Recurse.toArray(element, prevSibling));
-    };
-
-    var nextSiblings = function (element) {
-      return Recurse.toArray(element, nextSibling);
-    };
-
-    var children = function (element) {
-      var dom = element.dom();
-      return Arr.map(dom.childNodes, Element.fromDom);
-    };
-
-    var child = function (element, index) {
-      var children = element.dom().childNodes;
-      return Option.from(children[index]).map(Element.fromDom);
-    };
-
-    var firstChild = function (element) {
-      return child(element, 0);
-    };
-
-    var lastChild = function (element) {
-      return child(element, element.dom().childNodes.length - 1);
-    };
-
-    var spot = Struct.immutable('element', 'offset');
-    var leaf = function (element, offset) {
-      var cs = children(element);
-      return cs.length > 0 && offset < cs.length ? spot(cs[offset], 0) : spot(element, offset);
-    };
-
-    return {
-      owner: owner,
-      defaultView: defaultView,
-      documentElement: documentElement,
-      parent: parent,
-      findIndex: findIndex,
-      parents: parents,
-      siblings: siblings,
-      prevSibling: prevSibling,
-      offsetParent: offsetParent,
-      prevSiblings: prevSiblings,
-      nextSibling: nextSibling,
-      nextSiblings: nextSiblings,
-      children: children,
-      child: child,
-      firstChild: firstChild,
-      lastChild: lastChild,
-      leaf: leaf
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.dom.Insert',
-
-  [
-    'ephox.sugar.api.search.Traverse'
-  ],
-
-  function (Traverse) {
-    var before = function (marker, element) {
-      var parent = Traverse.parent(marker);
-      parent.each(function (v) {
-        v.dom().insertBefore(element.dom(), marker.dom());
-      });
-    };
-
-    var after = function (marker, element) {
-      var sibling = Traverse.nextSibling(marker);
-      sibling.fold(function () {
-        var parent = Traverse.parent(marker);
-        parent.each(function (v) {
-          append(v, element);
-        });
-      }, function (v) {
-        before(v, element);
-      });
-    };
-
-    var prepend = function (parent, element) {
-      var firstChild = Traverse.firstChild(parent);
-      firstChild.fold(function () {
-        append(parent, element);
-      }, function (v) {
-        parent.dom().insertBefore(element.dom(), v.dom());
-      });
-    };
-
-    var append = function (parent, element) {
-      parent.dom().appendChild(element.dom());
-    };
-
-    var appendAt = function (parent, element, index) {
-      Traverse.child(parent, index).fold(function () {
-        append(parent, element);
-      }, function (v) {
-        before(v, element);
-      });
-    };
-
-    var wrap = function (element, wrapper) {
-      before(element, wrapper);
-      append(wrapper, element);
-    };
-
-    return {
-      before: before,
-      after: after,
-      prepend: prepend,
-      append: append,
-      appendAt: appendAt,
-      wrap: wrap
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.node.Node',
-
-  [
-    'ephox.sugar.api.node.NodeTypes'
-  ],
-
-  function (NodeTypes) {
-    var name = function (element) {
-      var r = element.dom().nodeName;
-      return r.toLowerCase();
-    };
-
-    var type = function (element) {
-      return element.dom().nodeType;
-    };
-
-    var value = function (element) {
-      return element.dom().nodeValue;
-    };
-
-    var isType = function (t) {
-      return function (element) {
-        return type(element) === t;
-      };
-    };
-
-    var isComment = function (element) {
-      return type(element) === NodeTypes.COMMENT || name(element) === '#comment';
-    };
-
-    var isElement = isType(NodeTypes.ELEMENT);
-    var isText = isType(NodeTypes.TEXT);
-    var isDocument = isType(NodeTypes.DOCUMENT);
-
-    return {
-      name: name,
-      type: type,
-      value: value,
-      isElement: isElement,
-      isText: isText,
-      isDocument: isDocument,
-      isComment: isComment
-    };
-  }
-);
-
-define(
   'ephox.sugar.api.properties.Attr',
 
   [
@@ -20412,93 +25023,6 @@ define(
       remove: remove,
       hasNone: hasNone,
       transfer: transfer
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.dom.InsertAll',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.dom.Insert'
-  ],
-
-  function (Arr, Insert) {
-    var before = function (marker, elements) {
-      Arr.each(elements, function (x) {
-        Insert.before(marker, x);
-      });
-    };
-
-    var after = function (marker, elements) {
-      Arr.each(elements, function (x, i) {
-        var e = i === 0 ? marker : elements[i - 1];
-        Insert.after(e, x);
-      });
-    };
-
-    var prepend = function (parent, elements) {
-      Arr.each(elements.slice().reverse(), function (x) {
-        Insert.prepend(parent, x);
-      });
-    };
-
-    var append = function (parent, elements) {
-      Arr.each(elements, function (x) {
-        Insert.append(parent, x);
-      });
-    };
-
-    return {
-      before: before,
-      after: after,
-      prepend: prepend,
-      append: append
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.dom.Remove',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.dom.InsertAll',
-    'ephox.sugar.api.search.Traverse'
-  ],
-
-  function (Arr, InsertAll, Traverse) {
-    var empty = function (element) {
-      // shortcut "empty node" trick. Requires IE 9.
-      element.dom().textContent = '';
-
-      // If the contents was a single empty text node, the above doesn't remove it. But, it's still faster in general
-      // than removing every child node manually.
-      // The following is (probably) safe for performance as 99.9% of the time the trick works and
-      // Traverse.children will return an empty array.
-      Arr.each(Traverse.children(element), function (rogue) {
-        remove(rogue);
-      });
-    };
-
-    var remove = function (element) {
-      var dom = element.dom();
-      if (dom.parentNode !== null)
-        dom.parentNode.removeChild(dom);
-    };
-
-    var unwrap = function (wrapper) {
-      var children = Traverse.children(wrapper);
-      if (children.length > 0)
-        InsertAll.before(wrapper, children);
-      remove(wrapper);
-    };
-
-    return {
-      empty: empty,
-      remove: remove,
-      unwrap: unwrap
     };
   }
 );
@@ -20598,75 +25122,6 @@ define(
 
     return {
       fromElements: fromElements
-    };
-  }
-);
-
-/**
- * ElementType.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.dom.ElementType',
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.sugar.api.node.Node'
-  ],
-  function (Arr, Fun, Node) {
-    var blocks = [
-      'article', 'aside', 'details', 'div', 'dt', 'figcaption', 'footer',
-      'form', 'fieldset', 'header', 'hgroup', 'html', 'main', 'nav',
-      'section', 'summary', 'body', 'p', 'dl', 'multicol', 'dd', 'figure',
-      'address', 'center', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'listing', 'xmp', 'pre', 'plaintext', 'menu', 'dir', 'ul', 'ol', 'li', 'hr',
-      'table', 'tbody', 'thead', 'tfoot', 'th', 'tr', 'td', 'caption'
-    ];
-
-    var voids = [
-      'area', 'base', 'basefont', 'br', 'col', 'frame', 'hr', 'img', 'input',
-      'isindex', 'link', 'meta', 'param', 'embed', 'source', 'wbr', 'track'
-    ];
-
-    var tableCells = ['td', 'th'];
-
-    var textBlocks = [
-      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'address', 'pre', 'form',
-      'blockquote', 'center', 'dir', 'fieldset', 'header', 'footer', 'article',
-      'section', 'hgroup', 'aside', 'nav', 'figure'
-    ];
-
-    var headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-
-    var lazyLookup = function (items) {
-      var lookup;
-      return function (node) {
-        lookup = lookup ? lookup : Arr.mapToObject(items, Fun.constant(true));
-        return lookup.hasOwnProperty(Node.name(node));
-      };
-    };
-
-    var isHeading = lazyLookup(headings);
-
-    var isBlock = lazyLookup(blocks);
-
-    var isInline = function (node) {
-      return Node.isElement(node) && !isBlock(node);
-    };
-
-    return {
-      isBlock: isBlock,
-      isInline: isInline,
-      isHeading: isHeading,
-      isTextBlock: lazyLookup(textBlocks),
-      isVoid: lazyLookup(voids),
-      isTableCell: lazyLookup(tableCells)
     };
   }
 );
@@ -21954,3129 +26409,6 @@ define(
 );
 
 /**
- * ElementUtils.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Utility class for various element specific functions.
- *
- * @private
- * @class tinymce.dom.ElementUtils
- */
-define(
-  'tinymce.core.dom.ElementUtils',
-  [
-    "tinymce.core.dom.BookmarkManager",
-    "tinymce.core.util.Tools"
-  ],
-  function (BookmarkManager, Tools) {
-    var each = Tools.each;
-
-    function ElementUtils(dom) {
-      /**
-       * Compares two nodes and checks if it's attributes and styles matches.
-       * This doesn't compare classes as items since their order is significant.
-       *
-       * @method compare
-       * @param {Node} node1 First node to compare with.
-       * @param {Node} node2 Second node to compare with.
-       * @return {boolean} True/false if the nodes are the same or not.
-       */
-      this.compare = function (node1, node2) {
-        // Not the same name
-        if (node1.nodeName != node2.nodeName) {
-          return false;
-        }
-
-        /**
-         * Returns all the nodes attributes excluding internal ones, styles and classes.
-         *
-         * @private
-         * @param {Node} node Node to get attributes from.
-         * @return {Object} Name/value object with attributes and attribute values.
-         */
-        function getAttribs(node) {
-          var attribs = {};
-
-          each(dom.getAttribs(node), function (attr) {
-            var name = attr.nodeName.toLowerCase();
-
-            // Don't compare internal attributes or style
-            if (name.indexOf('_') !== 0 && name !== 'style' && name.indexOf('data-') !== 0) {
-              attribs[name] = dom.getAttrib(node, name);
-            }
-          });
-
-          return attribs;
-        }
-
-        /**
-         * Compares two objects checks if it's key + value exists in the other one.
-         *
-         * @private
-         * @param {Object} obj1 First object to compare.
-         * @param {Object} obj2 Second object to compare.
-         * @return {boolean} True/false if the objects matches or not.
-         */
-        function compareObjects(obj1, obj2) {
-          var value, name;
-
-          for (name in obj1) {
-            // Obj1 has item obj2 doesn't have
-            if (obj1.hasOwnProperty(name)) {
-              value = obj2[name];
-
-              // Obj2 doesn't have obj1 item
-              if (typeof value == "undefined") {
-                return false;
-              }
-
-              // Obj2 item has a different value
-              if (obj1[name] != value) {
-                return false;
-              }
-
-              // Delete similar value
-              delete obj2[name];
-            }
-          }
-
-          // Check if obj 2 has something obj 1 doesn't have
-          for (name in obj2) {
-            // Obj2 has item obj1 doesn't have
-            if (obj2.hasOwnProperty(name)) {
-              return false;
-            }
-          }
-
-          return true;
-        }
-
-        // Attribs are not the same
-        if (!compareObjects(getAttribs(node1), getAttribs(node2))) {
-          return false;
-        }
-
-        // Styles are not the same
-        if (!compareObjects(dom.parseStyle(dom.getAttrib(node1, 'style')), dom.parseStyle(dom.getAttrib(node2, 'style')))) {
-          return false;
-        }
-
-        return !BookmarkManager.isBookmarkNode(node1) && !BookmarkManager.isBookmarkNode(node2);
-      };
-    }
-
-    return ElementUtils;
-  }
-);
-
-/**
- * Preview.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Internal class for generating previews styles for formats.
- *
- * Example:
- *  Preview.getCssText(editor, 'bold');
- *
- * @private
- * @class tinymce.fmt.Preview
- */
-define(
-  'tinymce.core.fmt.Preview',
-  [
-    "tinymce.core.dom.DOMUtils",
-    "tinymce.core.util.Tools",
-    "tinymce.core.html.Schema"
-  ],
-  function (DOMUtils, Tools, Schema) {
-    var each = Tools.each;
-    var dom = DOMUtils.DOM;
-
-    function parsedSelectorToHtml(ancestry, editor) {
-      var elm, item, fragment;
-      var schema = editor && editor.schema || new Schema({});
-
-      function decorate(elm, item) {
-        if (item.classes.length) {
-          dom.addClass(elm, item.classes.join(' '));
-        }
-        dom.setAttribs(elm, item.attrs);
-      }
-
-      function createElement(sItem) {
-        var elm;
-
-        item = typeof sItem === 'string' ? {
-          name: sItem,
-          classes: [],
-          attrs: {}
-        } : sItem;
-
-        elm = dom.create(item.name);
-        decorate(elm, item);
-        return elm;
-      }
-
-      function getRequiredParent(elm, candidate) {
-        var name = typeof elm !== 'string' ? elm.nodeName.toLowerCase() : elm;
-        var elmRule = schema.getElementRule(name);
-        var parentsRequired = elmRule && elmRule.parentsRequired;
-
-        if (parentsRequired && parentsRequired.length) {
-          return candidate && Tools.inArray(parentsRequired, candidate) !== -1 ? candidate : parentsRequired[0];
-        } else {
-          return false;
-        }
-      }
-
-      function wrapInHtml(elm, ancestry, siblings) {
-        var parent, parentCandidate, parentRequired;
-        var ancestor = ancestry.length > 0 && ancestry[0];
-        var ancestorName = ancestor && ancestor.name;
-
-        parentRequired = getRequiredParent(elm, ancestorName);
-
-        if (parentRequired) {
-          if (ancestorName == parentRequired) {
-            parentCandidate = ancestry[0];
-            ancestry = ancestry.slice(1);
-          } else {
-            parentCandidate = parentRequired;
-          }
-        } else if (ancestor) {
-          parentCandidate = ancestry[0];
-          ancestry = ancestry.slice(1);
-        } else if (!siblings) {
-          return elm;
-        }
-
-        if (parentCandidate) {
-          parent = createElement(parentCandidate);
-          parent.appendChild(elm);
-        }
-
-        if (siblings) {
-          if (!parent) {
-            // if no more ancestry, wrap in generic div
-            parent = dom.create('div');
-            parent.appendChild(elm);
-          }
-
-          Tools.each(siblings, function (sibling) {
-            var siblingElm = createElement(sibling);
-            parent.insertBefore(siblingElm, elm);
-          });
-        }
-
-        return wrapInHtml(parent, ancestry, parentCandidate && parentCandidate.siblings);
-      }
-
-      if (ancestry && ancestry.length) {
-        item = ancestry[0];
-        elm = createElement(item);
-        fragment = dom.create('div');
-        fragment.appendChild(wrapInHtml(elm, ancestry.slice(1), item.siblings));
-        return fragment;
-      } else {
-        return '';
-      }
-    }
-
-
-    function selectorToHtml(selector, editor) {
-      return parsedSelectorToHtml(parseSelector(selector), editor);
-    }
-
-
-    function parseSelectorItem(item) {
-      var tagName;
-      var obj = {
-        classes: [],
-        attrs: {}
-      };
-
-      item = obj.selector = Tools.trim(item);
-
-      if (item !== '*') {
-        // matching IDs, CLASSes, ATTRIBUTES and PSEUDOs
-        tagName = item.replace(/(?:([#\.]|::?)([\w\-]+)|(\[)([^\]]+)\]?)/g, function ($0, $1, $2, $3, $4) {
-          switch ($1) {
-            case '#':
-              obj.attrs.id = $2;
-              break;
-
-            case '.':
-              obj.classes.push($2);
-              break;
-
-            case ':':
-              if (Tools.inArray('checked disabled enabled read-only required'.split(' '), $2) !== -1) {
-                obj.attrs[$2] = $2;
-              }
-              break;
-          }
-
-          // atribute matched
-          if ($3 == '[') {
-            var m = $4.match(/([\w\-]+)(?:\=\"([^\"]+))?/);
-            if (m) {
-              obj.attrs[m[1]] = m[2];
-            }
-          }
-
-          return '';
-        });
-      }
-
-      obj.name = tagName || 'div';
-      return obj;
-    }
-
-
-    function parseSelector(selector) {
-      if (!selector || typeof selector !== 'string') {
-        return [];
-      }
-
-      // take into account only first one
-      selector = selector.split(/\s*,\s*/)[0];
-
-      // tighten
-      selector = selector.replace(/\s*(~\+|~|\+|>)\s*/g, '$1');
-
-      // split either on > or on space, but not the one inside brackets
-      return Tools.map(selector.split(/(?:>|\s+(?![^\[\]]+\]))/), function (item) {
-        // process each sibling selector separately
-        var siblings = Tools.map(item.split(/(?:~\+|~|\+)/), parseSelectorItem);
-        var obj = siblings.pop(); // the last one is our real target
-
-        if (siblings.length) {
-          obj.siblings = siblings;
-        }
-        return obj;
-      }).reverse();
-    }
-
-
-    function getCssText(editor, format) {
-      var name, previewFrag, previewElm, items;
-      var previewCss = '', parentFontSize, previewStyles;
-
-      previewStyles = editor.settings.preview_styles;
-
-      // No preview forced
-      if (previewStyles === false) {
-        return '';
-      }
-
-      // Default preview
-      if (typeof previewStyles !== 'string') {
-        previewStyles = 'font-family font-size font-weight font-style text-decoration ' +
-          'text-transform color background-color border border-radius outline text-shadow';
-      }
-
-      // Removes any variables since these can't be previewed
-      function removeVars(val) {
-        return val.replace(/%(\w+)/g, '');
-      }
-
-      // Create block/inline element to use for preview
-      if (typeof format == "string") {
-        format = editor.formatter.get(format);
-        if (!format) {
-          return;
-        }
-
-        format = format[0];
-      }
-
-      // Format specific preview override
-      // TODO: This should probably be further reduced by the previewStyles option
-      if ('preview' in format) {
-        previewStyles = format.preview;
-        if (previewStyles === false) {
-          return '';
-        }
-      }
-
-      name = format.block || format.inline || 'span';
-
-      items = parseSelector(format.selector);
-      if (items.length) {
-        if (!items[0].name) { // e.g. something like ul > .someClass was provided
-          items[0].name = name;
-        }
-        name = format.selector;
-        previewFrag = parsedSelectorToHtml(items, editor);
-      } else {
-        previewFrag = parsedSelectorToHtml([name], editor);
-      }
-
-      previewElm = dom.select(name, previewFrag)[0] || previewFrag.firstChild;
-
-      // Add format styles to preview element
-      each(format.styles, function (value, name) {
-        value = removeVars(value);
-
-        if (value) {
-          dom.setStyle(previewElm, name, value);
-        }
-      });
-
-      // Add attributes to preview element
-      each(format.attributes, function (value, name) {
-        value = removeVars(value);
-
-        if (value) {
-          dom.setAttrib(previewElm, name, value);
-        }
-      });
-
-      // Add classes to preview element
-      each(format.classes, function (value) {
-        value = removeVars(value);
-
-        if (!dom.hasClass(previewElm, value)) {
-          dom.addClass(previewElm, value);
-        }
-      });
-
-      editor.fire('PreviewFormats');
-
-      // Add the previewElm outside the visual area
-      dom.setStyles(previewFrag, { position: 'absolute', left: -0xFFFF });
-      editor.getBody().appendChild(previewFrag);
-
-      // Get parent container font size so we can compute px values out of em/% for older IE:s
-      parentFontSize = dom.getStyle(editor.getBody(), 'fontSize', true);
-      parentFontSize = /px$/.test(parentFontSize) ? parseInt(parentFontSize, 10) : 0;
-
-      each(previewStyles.split(' '), function (name) {
-        var value = dom.getStyle(previewElm, name, true);
-
-        // If background is transparent then check if the body has a background color we can use
-        if (name == 'background-color' && /transparent|rgba\s*\([^)]+,\s*0\)/.test(value)) {
-          value = dom.getStyle(editor.getBody(), name, true);
-
-          // Ignore white since it's the default color, not the nicest fix
-          // TODO: Fix this by detecting runtime style
-          if (dom.toHex(value).toLowerCase() == '#ffffff') {
-            return;
-          }
-        }
-
-        if (name == 'color') {
-          // Ignore black since it's the default color, not the nicest fix
-          // TODO: Fix this by detecting runtime style
-          if (dom.toHex(value).toLowerCase() == '#000000') {
-            return;
-          }
-        }
-
-        // Old IE won't calculate the font size so we need to do that manually
-        if (name == 'font-size') {
-          if (/em|%$/.test(value)) {
-            if (parentFontSize === 0) {
-              return;
-            }
-
-            // Convert font size from em/% to px
-            value = parseFloat(value, 10) / (/%$/.test(value) ? 100 : 1);
-            value = (value * parentFontSize) + 'px';
-          }
-        }
-
-        if (name == "border" && value) {
-          previewCss += 'padding:0 2px;';
-        }
-
-        previewCss += name + ':' + value + ';';
-      });
-
-      editor.fire('AfterPreviewFormats');
-
-      //previewCss += 'line-height:normal';
-
-      dom.remove(previewFrag);
-
-      return previewCss;
-    }
-
-    return {
-      getCssText: getCssText,
-      parseSelector: parseSelector,
-      selectorToHtml: selectorToHtml
-    };
-  }
-);
-
-/**
- * Hooks.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Internal class for overriding formatting.
- *
- * @private
- * @class tinymce.fmt.Hooks
- */
-define(
-  'tinymce.core.fmt.Hooks',
-  [
-    "tinymce.core.util.Arr",
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.dom.DomQuery"
-  ],
-  function (Arr, NodeType, $) {
-    var postProcessHooks = {}, filter = Arr.filter, each = Arr.each;
-
-    function addPostProcessHook(name, hook) {
-      var hooks = postProcessHooks[name];
-
-      if (!hooks) {
-        postProcessHooks[name] = hooks = [];
-      }
-
-      postProcessHooks[name].push(hook);
-    }
-
-    function postProcess(name, editor) {
-      each(postProcessHooks[name], function (hook) {
-        hook(editor);
-      });
-    }
-
-    addPostProcessHook("pre", function (editor) {
-      var rng = editor.selection.getRng(), isPre, blocks;
-
-      function hasPreSibling(pre) {
-        return isPre(pre.previousSibling) && Arr.indexOf(blocks, pre.previousSibling) != -1;
-      }
-
-      function joinPre(pre1, pre2) {
-        $(pre2).remove();
-        $(pre1).append('<br><br>').append(pre2.childNodes);
-      }
-
-      isPre = NodeType.matchNodeNames('pre');
-
-      if (!rng.collapsed) {
-        blocks = editor.selection.getSelectedBlocks();
-
-        each(filter(filter(blocks, isPre), hasPreSibling), function (pre) {
-          joinPre(pre.previousSibling, pre);
-        });
-      }
-    });
-
-    return {
-      postProcess: postProcess
-    };
-  }
-);
-
-/**
- * Formatter.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Text formatter engine class. This class is used to apply formats like bold, italic, font size
- * etc to the current selection or specific nodes. This engine was built to replace the browser's
- * default formatting logic for execCommand due to its inconsistent and buggy behavior.
- *
- * @class tinymce.Formatter
- * @example
- *  tinymce.activeEditor.formatter.register('mycustomformat', {
- *    inline: 'span',
- *    styles: {color: '#ff0000'}
- *  });
- *
- *  tinymce.activeEditor.formatter.apply('mycustomformat');
- */
-define(
-  'tinymce.core.Formatter',
-  [
-    "tinymce.core.dom.TreeWalker",
-    "tinymce.core.dom.RangeUtils",
-    "tinymce.core.dom.BookmarkManager",
-    "tinymce.core.dom.ElementUtils",
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.util.Fun",
-    "tinymce.core.util.Tools",
-    "tinymce.core.fmt.Preview",
-    "tinymce.core.fmt.Hooks"
-  ],
-  function (TreeWalker, RangeUtils, BookmarkManager, ElementUtils, NodeType, Fun, Tools, Preview, Hooks) {
-    /**
-     * Constructs a new formatter instance.
-     *
-     * @constructor Formatter
-     * @param {tinymce.Editor} ed Editor instance to construct the formatter engine to.
-     */
-    return function (ed) {
-      var formats = {},
-        dom = ed.dom,
-        selection = ed.selection,
-        rangeUtils = new RangeUtils(dom),
-        isValid = ed.schema.isValidChild,
-        isBlock = dom.isBlock,
-        forcedRootBlock = ed.settings.forced_root_block,
-        nodeIndex = dom.nodeIndex,
-        INVISIBLE_CHAR = '\uFEFF',
-        MCE_ATTR_RE = /^(src|href|style)$/,
-        FALSE = false,
-        TRUE = true,
-        formatChangeData,
-        undef,
-        getContentEditable = dom.getContentEditable,
-        disableCaretContainer,
-        markCaretContainersBogus,
-        isBookmarkNode = BookmarkManager.isBookmarkNode;
-
-      var each = Tools.each,
-        grep = Tools.grep,
-        walk = Tools.walk,
-        extend = Tools.extend;
-
-      function isTextBlock(name) {
-        if (name.nodeType) {
-          name = name.nodeName;
-        }
-
-        return !!ed.schema.getTextBlockElements()[name.toLowerCase()];
-      }
-
-      function isTableCell(node) {
-        return /^(TH|TD)$/.test(node.nodeName);
-      }
-
-      function isInlineBlock(node) {
-        return node && /^(IMG)$/.test(node.nodeName);
-      }
-
-      function getParents(node, selector) {
-        return dom.getParents(node, selector, dom.getRoot());
-      }
-
-      function isCaretNode(node) {
-        return node.nodeType === 1 && node.id === '_mce_caret';
-      }
-
-      function defaultFormats() {
-        register({
-          valigntop: [
-            { selector: 'td,th', styles: { 'verticalAlign': 'top' } }
-          ],
-
-          valignmiddle: [
-            { selector: 'td,th', styles: { 'verticalAlign': 'middle' } }
-          ],
-
-          valignbottom: [
-            { selector: 'td,th', styles: { 'verticalAlign': 'bottom' } }
-          ],
-
-          alignleft: [
-            {
-              selector: 'figure.image',
-              collapsed: false,
-              classes: 'align-left',
-              ceFalseOverride: true,
-              preview: 'font-family font-size'
-            },
-            {
-              selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
-              styles: {
-                textAlign: 'left'
-              },
-              inherit: false,
-              preview: false,
-              defaultBlock: 'div'
-            },
-            { selector: 'img,table', collapsed: false, styles: { 'float': 'left' }, preview: 'font-family font-size' }
-          ],
-
-          aligncenter: [
-            {
-              selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
-              styles: {
-                textAlign: 'center'
-              },
-              inherit: false,
-              preview: false,
-              defaultBlock: 'div'
-            },
-            {
-              selector: 'figure.image',
-              collapsed: false,
-              classes: 'align-center',
-              ceFalseOverride: true,
-              preview: 'font-family font-size'
-            },
-            {
-              selector: 'img',
-              collapsed: false,
-              styles: {
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto'
-              },
-              preview: false
-            },
-            {
-              selector: 'table',
-              collapsed: false,
-              styles: {
-                marginLeft: 'auto',
-                marginRight: 'auto'
-              },
-              preview: 'font-family font-size'
-            }
-          ],
-
-          alignright: [
-            {
-              selector: 'figure.image',
-              collapsed: false,
-              classes: 'align-right',
-              ceFalseOverride: true,
-              preview: 'font-family font-size'
-            },
-            {
-              selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
-              styles: {
-                textAlign: 'right'
-              },
-              inherit: false,
-              preview: 'font-family font-size',
-              defaultBlock: 'div'
-            },
-            {
-              selector: 'img,table',
-              collapsed: false,
-              styles: {
-                'float': 'right'
-              },
-              preview: 'font-family font-size'
-            }
-          ],
-
-          alignjustify: [
-            {
-              selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
-              styles: {
-                textAlign: 'justify'
-              },
-              inherit: false,
-              defaultBlock: 'div',
-              preview: 'font-family font-size'
-            }
-          ],
-
-          bold: [
-            { inline: 'strong', remove: 'all' },
-            { inline: 'span', styles: { fontWeight: 'bold' } },
-            { inline: 'b', remove: 'all' }
-          ],
-
-          italic: [
-            { inline: 'em', remove: 'all' },
-            { inline: 'span', styles: { fontStyle: 'italic' } },
-            { inline: 'i', remove: 'all' }
-          ],
-
-          underline: [
-            { inline: 'span', styles: { textDecoration: 'underline' }, exact: true },
-            { inline: 'u', remove: 'all' }
-          ],
-
-          strikethrough: [
-            { inline: 'span', styles: { textDecoration: 'line-through' }, exact: true },
-            { inline: 'strike', remove: 'all' }
-          ],
-
-          forecolor: { inline: 'span', styles: { color: '%value' }, links: true, remove_similar: true, clear_child_styles: true },
-          hilitecolor: { inline: 'span', styles: { backgroundColor: '%value' }, links: true, remove_similar: true, clear_child_styles: true },
-          fontname: { inline: 'span', styles: { fontFamily: '%value' }, clear_child_styles: true },
-          fontsize: { inline: 'span', styles: { fontSize: '%value' }, clear_child_styles: true },
-          fontsize_class: { inline: 'span', attributes: { 'class': '%value' } },
-          blockquote: { block: 'blockquote', wrapper: 1, remove: 'all' },
-          subscript: { inline: 'sub' },
-          superscript: { inline: 'sup' },
-          code: { inline: 'code' },
-
-          link: {
-            inline: 'a', selector: 'a', remove: 'all', split: true, deep: true,
-            onmatch: function () {
-              return true;
-            },
-
-            onformat: function (elm, fmt, vars) {
-              each(vars, function (value, key) {
-                dom.setAttrib(elm, key, value);
-              });
-            }
-          },
-
-          removeformat: [
-            {
-              selector: 'b,strong,em,i,font,u,strike,sub,sup,dfn,code,samp,kbd,var,cite,mark,q,del,ins',
-              remove: 'all',
-              split: true,
-              expand: false,
-              block_expand: true,
-              deep: true
-            },
-            { selector: 'span', attributes: ['style', 'class'], remove: 'empty', split: true, expand: false, deep: true },
-            { selector: '*', attributes: ['style', 'class'], split: false, expand: false, deep: true }
-          ]
-        });
-
-        // Register default block formats
-        each('p h1 h2 h3 h4 h5 h6 div address pre div dt dd samp'.split(/\s/), function (name) {
-          register(name, { block: name, remove: 'all' });
-        });
-
-        // Register user defined formats
-        register(ed.settings.formats);
-      }
-
-      var clearChildStyles = function (format, node) {
-        if (format.clear_child_styles) {
-          each(dom.select('*', node), function (node) {
-            each(format.styles, function (value, name) {
-              dom.setStyle(node, name, '');
-            });
-          });
-        }
-      };
-
-      function addKeyboardShortcuts() {
-        // Add some inline shortcuts
-        ed.addShortcut('meta+b', 'bold_desc', 'Bold');
-        ed.addShortcut('meta+i', 'italic_desc', 'Italic');
-        ed.addShortcut('meta+u', 'underline_desc', 'Underline');
-
-        // BlockFormat shortcuts keys
-        for (var i = 1; i <= 6; i++) {
-          ed.addShortcut('access+' + i, '', ['FormatBlock', false, 'h' + i]);
-        }
-
-        ed.addShortcut('access+7', '', ['FormatBlock', false, 'p']);
-        ed.addShortcut('access+8', '', ['FormatBlock', false, 'div']);
-        ed.addShortcut('access+9', '', ['FormatBlock', false, 'address']);
-      }
-
-      // Public functions
-
-      /**
-       * Returns the format by name or all formats if no name is specified.
-       *
-       * @method get
-       * @param {String} name Optional name to retrieve by.
-       * @return {Array/Object} Array/Object with all registered formats or a specific format.
-       */
-      function get(name) {
-        return name ? formats[name] : formats;
-      }
-
-      /**
-       * Registers a specific format by name.
-       *
-       * @method register
-       * @param {Object/String} name Name of the format for example "bold".
-       * @param {Object/Array} format Optional format object or array of format variants
-       * can only be omitted if the first arg is an object.
-       */
-      function register(name, format) {
-        if (name) {
-          if (typeof name !== 'string') {
-            each(name, function (format, name) {
-              register(name, format);
-            });
-          } else {
-            // Force format into array and add it to internal collection
-            format = format.length ? format : [format];
-
-            each(format, function (format) {
-              // Set deep to false by default on selector formats this to avoid removing
-              // alignment on images inside paragraphs when alignment is changed on paragraphs
-              if (format.deep === undef) {
-                format.deep = !format.selector;
-              }
-
-              // Default to true
-              if (format.split === undef) {
-                format.split = !format.selector || format.inline;
-              }
-
-              // Default to true
-              if (format.remove === undef && format.selector && !format.inline) {
-                format.remove = 'none';
-              }
-
-              // Mark format as a mixed format inline + block level
-              if (format.selector && format.inline) {
-                format.mixed = true;
-                format.block_expand = true;
-              }
-
-              // Split classes if needed
-              if (typeof format.classes === 'string') {
-                format.classes = format.classes.split(/\s+/);
-              }
-            });
-
-            formats[name] = format;
-          }
-        }
-      }
-
-      /**
-       * Unregister a specific format by name.
-       *
-       * @method unregister
-       * @param {String} name Name of the format for example "bold".
-       */
-      function unregister(name) {
-        if (name && formats[name]) {
-          delete formats[name];
-        }
-
-        return formats;
-      }
-
-      function matchesUnInheritedFormatSelector(node, name) {
-        var formatList = get(name);
-
-        if (formatList) {
-          for (var i = 0; i < formatList.length; i++) {
-            if (formatList[i].inherit === false && dom.is(node, formatList[i].selector)) {
-              return true;
-            }
-          }
-        }
-
-        return false;
-      }
-
-      function getTextDecoration(node) {
-        var decoration;
-
-        ed.dom.getParent(node, function (n) {
-          decoration = ed.dom.getStyle(n, 'text-decoration');
-          return decoration && decoration !== 'none';
-        });
-
-        return decoration;
-      }
-
-      function processUnderlineAndColor(node) {
-        var textDecoration;
-        if (node.nodeType === 1 && node.parentNode && node.parentNode.nodeType === 1) {
-          textDecoration = getTextDecoration(node.parentNode);
-          if (ed.dom.getStyle(node, 'color') && textDecoration) {
-            ed.dom.setStyle(node, 'text-decoration', textDecoration);
-          } else if (ed.dom.getStyle(node, 'text-decoration') === textDecoration) {
-            ed.dom.setStyle(node, 'text-decoration', null);
-          }
-        }
-      }
-
-      /**
-       * Applies the specified format to the current selection or specified node.
-       *
-       * @method apply
-       * @param {String} name Name of format to apply.
-       * @param {Object} vars Optional list of variables to replace within format before applying it.
-       * @param {Node} node Optional node to apply the format to defaults to current selection.
-       */
-      function apply(name, vars, node) {
-        var formatList = get(name), format = formatList[0], bookmark, rng, isCollapsed = !node && selection.isCollapsed();
-
-        function setElementFormat(elm, fmt) {
-          fmt = fmt || format;
-
-          if (elm) {
-            if (fmt.onformat) {
-              fmt.onformat(elm, fmt, vars, node);
-            }
-
-            each(fmt.styles, function (value, name) {
-              dom.setStyle(elm, name, replaceVars(value, vars));
-            });
-
-            // Needed for the WebKit span spam bug
-            // TODO: Remove this once WebKit/Blink fixes this
-            if (fmt.styles) {
-              var styleVal = dom.getAttrib(elm, 'style');
-
-              if (styleVal) {
-                elm.setAttribute('data-mce-style', styleVal);
-              }
-            }
-
-            each(fmt.attributes, function (value, name) {
-              dom.setAttrib(elm, name, replaceVars(value, vars));
-            });
-
-            each(fmt.classes, function (value) {
-              value = replaceVars(value, vars);
-
-              if (!dom.hasClass(elm, value)) {
-                dom.addClass(elm, value);
-              }
-            });
-          }
-        }
-
-        function applyNodeStyle(formatList, node) {
-          var found = false;
-
-          if (!format.selector) {
-            return false;
-          }
-
-          // Look for matching formats
-          each(formatList, function (format) {
-            // Check collapsed state if it exists
-            if ('collapsed' in format && format.collapsed !== isCollapsed) {
-              return;
-            }
-
-            if (dom.is(node, format.selector) && !isCaretNode(node)) {
-              setElementFormat(node, format);
-              found = true;
-              return false;
-            }
-          });
-
-          return found;
-        }
-
-        // This converts: <p>[a</p><p>]b</p> -> <p>[a]</p><p>b</p>
-        function adjustSelectionToVisibleSelection() {
-          function findSelectionEnd(start, end) {
-            var walker = new TreeWalker(end);
-            for (node = walker.prev2(); node; node = walker.prev2()) {
-              if (node.nodeType == 3 && node.data.length > 0) {
-                return node;
-              }
-
-              if (node.childNodes.length > 1 || node == start || node.tagName == 'BR') {
-                return node;
-              }
-            }
-          }
-
-          // Adjust selection so that a end container with a end offset of zero is not included in the selection
-          // as this isn't visible to the user.
-          var rng = ed.selection.getRng();
-          var start = rng.startContainer;
-          var end = rng.endContainer;
-
-          if (start != end && rng.endOffset === 0) {
-            var newEnd = findSelectionEnd(start, end);
-            var endOffset = newEnd.nodeType == 3 ? newEnd.data.length : newEnd.childNodes.length;
-
-            rng.setEnd(newEnd, endOffset);
-          }
-
-          return rng;
-        }
-
-        function applyRngStyle(rng, bookmark, nodeSpecific) {
-          var newWrappers = [], wrapName, wrapElm, contentEditable = true;
-
-          // Setup wrapper element
-          wrapName = format.inline || format.block;
-          wrapElm = dom.create(wrapName);
-          setElementFormat(wrapElm);
-
-          rangeUtils.walk(rng, function (nodes) {
-            var currentWrapElm;
-
-            /**
-             * Process a list of nodes wrap them.
-             */
-            function process(node) {
-              var nodeName, parentName, hasContentEditableState, lastContentEditable;
-
-              lastContentEditable = contentEditable;
-              nodeName = node.nodeName.toLowerCase();
-              parentName = node.parentNode.nodeName.toLowerCase();
-
-              // Node has a contentEditable value
-              if (node.nodeType === 1 && getContentEditable(node)) {
-                lastContentEditable = contentEditable;
-                contentEditable = getContentEditable(node) === "true";
-                hasContentEditableState = true; // We don't want to wrap the container only it's children
-              }
-
-              // Stop wrapping on br elements
-              if (isEq(nodeName, 'br')) {
-                currentWrapElm = 0;
-
-                // Remove any br elements when we wrap things
-                if (format.block) {
-                  dom.remove(node);
-                }
-
-                return;
-              }
-
-              // If node is wrapper type
-              if (format.wrapper && matchNode(node, name, vars)) {
-                currentWrapElm = 0;
-                return;
-              }
-
-              // Can we rename the block
-              // TODO: Break this if up, too complex
-              if (contentEditable && !hasContentEditableState && format.block &&
-                !format.wrapper && isTextBlock(nodeName) && isValid(parentName, wrapName)) {
-                node = dom.rename(node, wrapName);
-                setElementFormat(node);
-                newWrappers.push(node);
-                currentWrapElm = 0;
-                return;
-              }
-
-              // Handle selector patterns
-              if (format.selector) {
-                var found = applyNodeStyle(formatList, node);
-
-                // Continue processing if a selector match wasn't found and a inline element is defined
-                if (!format.inline || found) {
-                  currentWrapElm = 0;
-                  return;
-                }
-              }
-
-              // Is it valid to wrap this item
-              // TODO: Break this if up, too complex
-              if (contentEditable && !hasContentEditableState && isValid(wrapName, nodeName) && isValid(parentName, wrapName) &&
-                !(!nodeSpecific && node.nodeType === 3 &&
-                  node.nodeValue.length === 1 &&
-                  node.nodeValue.charCodeAt(0) === 65279) &&
-                !isCaretNode(node) &&
-                (!format.inline || !isBlock(node))) {
-                // Start wrapping
-                if (!currentWrapElm) {
-                  // Wrap the node
-                  currentWrapElm = dom.clone(wrapElm, FALSE);
-                  node.parentNode.insertBefore(currentWrapElm, node);
-                  newWrappers.push(currentWrapElm);
-                }
-
-                currentWrapElm.appendChild(node);
-              } else {
-                // Start a new wrapper for possible children
-                currentWrapElm = 0;
-
-                each(grep(node.childNodes), process);
-
-                if (hasContentEditableState) {
-                  contentEditable = lastContentEditable; // Restore last contentEditable state from stack
-                }
-
-                // End the last wrapper
-                currentWrapElm = 0;
-              }
-            }
-
-            // Process siblings from range
-            each(nodes, process);
-          });
-
-          // Apply formats to links as well to get the color of the underline to change as well
-          if (format.links === true) {
-            each(newWrappers, function (node) {
-              function process(node) {
-                if (node.nodeName === 'A') {
-                  setElementFormat(node, format);
-                }
-
-                each(grep(node.childNodes), process);
-              }
-
-              process(node);
-            });
-          }
-
-          // Cleanup
-          each(newWrappers, function (node) {
-            var childCount;
-
-            function getChildCount(node) {
-              var count = 0;
-
-              each(node.childNodes, function (node) {
-                if (!isWhiteSpaceNode(node) && !isBookmarkNode(node)) {
-                  count++;
-                }
-              });
-
-              return count;
-            }
-
-            function getChildElementNode(root) {
-              var child = false;
-              each(root.childNodes, function (node) {
-                if (isElementNode(node)) {
-                  child = node;
-                  return false; // break loop
-                }
-              });
-              return child;
-            }
-
-            function matchNestedWrapper(node, filter) {
-              do {
-                if (getChildCount(node) !== 1) {
-                  break;
-                }
-
-                node = getChildElementNode(node);
-                if (!node) {
-                  break;
-                } else if (filter(node)) {
-                  return node;
-                }
-              } while (node);
-
-              return null;
-            }
-
-            function mergeStyles(node) {
-              var child, clone;
-
-              child = getChildElementNode(node);
-
-              // If child was found and of the same type as the current node
-              if (child && !isBookmarkNode(child) && matchName(child, format)) {
-                clone = dom.clone(child, FALSE);
-                setElementFormat(clone);
-
-                dom.replace(clone, node, TRUE);
-                dom.remove(child, 1);
-              }
-
-              return clone || node;
-            }
-
-            childCount = getChildCount(node);
-
-            // Remove empty nodes but only if there is multiple wrappers and they are not block
-            // elements so never remove single <h1></h1> since that would remove the
-            // current empty block element where the caret is at
-            if ((newWrappers.length > 1 || !isBlock(node)) && childCount === 0) {
-              dom.remove(node, 1);
-              return;
-            }
-
-            if (format.inline || format.wrapper) {
-              // Merges the current node with it's children of similar type to reduce the number of elements
-              if (!format.exact && childCount === 1) {
-                node = mergeStyles(node);
-              }
-
-              // Remove/merge children
-              each(formatList, function (format) {
-                // Merge all children of similar type will move styles from child to parent
-                // this: <span style="color:red"><b><span style="color:red; font-size:10px">text</span></b></span>
-                // will become: <span style="color:red"><b><span style="font-size:10px">text</span></b></span>
-                each(dom.select(format.inline, node), function (child) {
-                  if (!isElementNode(child)) {
-                    return;
-                  }
-
-                  removeFormat(format, vars, child, format.exact ? child : null);
-                });
-
-                clearChildStyles(format, node);
-              });
-
-              // Remove format if direct parent already has the same format
-              if (matchNode(node.parentNode, name, vars)) {
-                if (removeFormat(format, vars, node)) {
-                  node = 0;
-                }
-              }
-
-              // Remove format if any ancestor already has the same format
-              if (format.merge_with_parents) {
-                dom.getParent(node.parentNode, function (parent) {
-                  if (matchNode(parent, name, vars)) {
-                    if (removeFormat(format, vars, node)) {
-                      node = 0;
-                    }
-                    return TRUE;
-                  }
-                });
-              }
-
-              // fontSize defines the line height for the whole branch of nested style wrappers,
-              // therefore it should be set on the outermost wrapper
-              if (node && !isBlock(node) && !getStyle(node, 'fontSize')) {
-                var styleNode = matchNestedWrapper(node, hasStyle('fontSize'));
-                if (styleNode) {
-                  apply('fontsize', { value: getStyle(styleNode, 'fontSize') }, node);
-                }
-              }
-
-              // Merge next and previous siblings if they are similar <b>text</b><b>text</b> becomes <b>texttext</b>
-              if (node && format.merge_siblings !== false) {
-                node = mergeSiblings(getNonWhiteSpaceSibling(node), node);
-                node = mergeSiblings(node, getNonWhiteSpaceSibling(node, TRUE));
-              }
-            }
-          });
-        }
-
-        if (getContentEditable(selection.getNode()) === "false") {
-          node = selection.getNode();
-          for (var i = 0, l = formatList.length; i < l; i++) {
-            if (formatList[i].ceFalseOverride && dom.is(node, formatList[i].selector)) {
-              setElementFormat(node, formatList[i]);
-              return;
-            }
-          }
-
-          return;
-        }
-
-        if (format) {
-          if (node) {
-            if (node.nodeType) {
-              if (!applyNodeStyle(formatList, node)) {
-                rng = dom.createRng();
-                rng.setStartBefore(node);
-                rng.setEndAfter(node);
-                applyRngStyle(expandRng(rng, formatList), null, true);
-              }
-            } else {
-              applyRngStyle(node, null, true);
-            }
-          } else {
-            if (!isCollapsed || !format.inline || dom.select('td[data-mce-selected],th[data-mce-selected]').length) {
-              // Obtain selection node before selection is unselected by applyRngStyle()
-              var curSelNode = ed.selection.getNode();
-
-              // If the formats have a default block and we can't find a parent block then
-              // start wrapping it with a DIV this is for forced_root_blocks: false
-              // It's kind of a hack but people should be using the default block type P since all desktop editors work that way
-              if (!forcedRootBlock && formatList[0].defaultBlock && !dom.getParent(curSelNode, dom.isBlock)) {
-                apply(formatList[0].defaultBlock);
-              }
-
-              // Apply formatting to selection
-              ed.selection.setRng(adjustSelectionToVisibleSelection());
-              bookmark = selection.getBookmark();
-              applyRngStyle(expandRng(selection.getRng(TRUE), formatList), bookmark);
-
-              if (format.styles) {
-                // Colored nodes should be underlined so that the color of the underline matches the text color.
-                if (format.styles.color || format.styles.textDecoration) {
-                  walk(curSelNode, processUnderlineAndColor, 'childNodes');
-                  processUnderlineAndColor(curSelNode);
-                }
-
-                // nodes with font-size should have their own background color as well to fit the line-height (see TINY-882)
-                if (format.styles.backgroundColor) {
-                  processChildElements(curSelNode,
-                    hasStyle('fontSize'),
-                    applyStyle('backgroundColor', replaceVars(format.styles.backgroundColor, vars))
-                  );
-                }
-              }
-
-              selection.moveToBookmark(bookmark);
-              moveStart(selection.getRng(TRUE));
-              ed.nodeChanged();
-            } else {
-              performCaretAction('apply', name, vars);
-            }
-          }
-
-          Hooks.postProcess(name, ed);
-        }
-      }
-
-      /**
-       * Removes the specified format from the current selection or specified node.
-       *
-       * @method remove
-       * @param {String} name Name of format to remove.
-       * @param {Object} vars Optional list of variables to replace within format before removing it.
-       * @param {Node/Range} node Optional node or DOM range to remove the format from defaults to current selection.
-       */
-      function remove(name, vars, node, similar) {
-        var formatList = get(name), format = formatList[0], bookmark, rng, contentEditable = true;
-
-        // Merges the styles for each node
-        function process(node) {
-          var children, i, l, lastContentEditable, hasContentEditableState;
-
-          // Node has a contentEditable value
-          if (node.nodeType === 1 && getContentEditable(node)) {
-            lastContentEditable = contentEditable;
-            contentEditable = getContentEditable(node) === "true";
-            hasContentEditableState = true; // We don't want to wrap the container only it's children
-          }
-
-          // Grab the children first since the nodelist might be changed
-          children = grep(node.childNodes);
-
-          // Process current node
-          if (contentEditable && !hasContentEditableState) {
-            for (i = 0, l = formatList.length; i < l; i++) {
-              if (removeFormat(formatList[i], vars, node, node)) {
-                break;
-              }
-            }
-          }
-
-          // Process the children
-          if (format.deep) {
-            if (children.length) {
-              for (i = 0, l = children.length; i < l; i++) {
-                process(children[i]);
-              }
-
-              if (hasContentEditableState) {
-                contentEditable = lastContentEditable; // Restore last contentEditable state from stack
-              }
-            }
-          }
-        }
-
-        function findFormatRoot(container) {
-          var formatRoot;
-
-          // Find format root
-          each(getParents(container.parentNode).reverse(), function (parent) {
-            var format;
-
-            // Find format root element
-            if (!formatRoot && parent.id != '_start' && parent.id != '_end') {
-              // Is the node matching the format we are looking for
-              format = matchNode(parent, name, vars, similar);
-              if (format && format.split !== false) {
-                formatRoot = parent;
-              }
-            }
-          });
-
-          return formatRoot;
-        }
-
-        function wrapAndSplit(formatRoot, container, target, split) {
-          var parent, clone, lastClone, firstClone, i, formatRootParent;
-
-          // Format root found then clone formats and split it
-          if (formatRoot) {
-            formatRootParent = formatRoot.parentNode;
-
-            for (parent = container.parentNode; parent && parent != formatRootParent; parent = parent.parentNode) {
-              clone = dom.clone(parent, FALSE);
-
-              for (i = 0; i < formatList.length; i++) {
-                if (removeFormat(formatList[i], vars, clone, clone)) {
-                  clone = 0;
-                  break;
-                }
-              }
-
-              // Build wrapper node
-              if (clone) {
-                if (lastClone) {
-                  clone.appendChild(lastClone);
-                }
-
-                if (!firstClone) {
-                  firstClone = clone;
-                }
-
-                lastClone = clone;
-              }
-            }
-
-            // Never split block elements if the format is mixed
-            if (split && (!format.mixed || !isBlock(formatRoot))) {
-              container = dom.split(formatRoot, container);
-            }
-
-            // Wrap container in cloned formats
-            if (lastClone) {
-              target.parentNode.insertBefore(lastClone, target);
-              firstClone.appendChild(target);
-            }
-          }
-
-          return container;
-        }
-
-        function splitToFormatRoot(container) {
-          return wrapAndSplit(findFormatRoot(container), container, container, true);
-        }
-
-        function unwrap(start) {
-          var node = dom.get(start ? '_start' : '_end'),
-            out = node[start ? 'firstChild' : 'lastChild'];
-
-          // If the end is placed within the start the result will be removed
-          // So this checks if the out node is a bookmark node if it is it
-          // checks for another more suitable node
-          if (isBookmarkNode(out)) {
-            out = out[start ? 'firstChild' : 'lastChild'];
-          }
-
-          // Since dom.remove removes empty text nodes then we need to try to find a better node
-          if (out.nodeType == 3 && out.data.length === 0) {
-            out = start ? node.previousSibling || node.nextSibling : node.nextSibling || node.previousSibling;
-          }
-
-          dom.remove(node, true);
-
-          return out;
-        }
-
-        function removeRngStyle(rng) {
-          var startContainer, endContainer;
-          var commonAncestorContainer = rng.commonAncestorContainer;
-
-          rng = expandRng(rng, formatList, TRUE);
-
-          if (format.split) {
-            startContainer = getContainer(rng, TRUE);
-            endContainer = getContainer(rng);
-
-            if (startContainer != endContainer) {
-              // WebKit will render the table incorrectly if we wrap a TH or TD in a SPAN
-              // so let's see if we can use the first child instead
-              // This will happen if you triple click a table cell and use remove formatting
-              if (/^(TR|TH|TD)$/.test(startContainer.nodeName) && startContainer.firstChild) {
-                if (startContainer.nodeName == "TR") {
-                  startContainer = startContainer.firstChild.firstChild || startContainer;
-                } else {
-                  startContainer = startContainer.firstChild || startContainer;
-                }
-              }
-
-              // Try to adjust endContainer as well if cells on the same row were selected - bug #6410
-              if (commonAncestorContainer &&
-                /^T(HEAD|BODY|FOOT|R)$/.test(commonAncestorContainer.nodeName) &&
-                isTableCell(endContainer) && endContainer.firstChild) {
-                endContainer = endContainer.firstChild || endContainer;
-              }
-
-              if (dom.isChildOf(startContainer, endContainer) && !isBlock(endContainer) &&
-                !isTableCell(startContainer) && !isTableCell(endContainer)) {
-                startContainer = wrap(startContainer, 'span', { id: '_start', 'data-mce-type': 'bookmark' });
-                splitToFormatRoot(startContainer);
-                startContainer = unwrap(TRUE);
-                return;
-              }
-
-              // Wrap start/end nodes in span element since these might be cloned/moved
-              startContainer = wrap(startContainer, 'span', { id: '_start', 'data-mce-type': 'bookmark' });
-              endContainer = wrap(endContainer, 'span', { id: '_end', 'data-mce-type': 'bookmark' });
-
-              // Split start/end
-              splitToFormatRoot(startContainer);
-              splitToFormatRoot(endContainer);
-
-              // Unwrap start/end to get real elements again
-              startContainer = unwrap(TRUE);
-              endContainer = unwrap();
-            } else {
-              startContainer = endContainer = splitToFormatRoot(startContainer);
-            }
-
-            // Update range positions since they might have changed after the split operations
-            rng.startContainer = startContainer.parentNode ? startContainer.parentNode : startContainer;
-            rng.startOffset = nodeIndex(startContainer);
-            rng.endContainer = endContainer.parentNode ? endContainer.parentNode : endContainer;
-            rng.endOffset = nodeIndex(endContainer) + 1;
-          }
-
-          // Remove items between start/end
-          rangeUtils.walk(rng, function (nodes) {
-            each(nodes, function (node) {
-              process(node);
-
-              // Remove parent span if it only contains text-decoration: underline, yet a parent node is also underlined.
-              if (node.nodeType === 1 && ed.dom.getStyle(node, 'text-decoration') === 'underline' &&
-                node.parentNode && getTextDecoration(node.parentNode) === 'underline') {
-                removeFormat({
-                  'deep': false,
-                  'exact': true,
-                  'inline': 'span',
-                  'styles': {
-                    'textDecoration': 'underline'
-                  }
-                }, null, node);
-              }
-            });
-          });
-        }
-
-        // Handle node
-        if (node) {
-          if (node.nodeType) {
-            rng = dom.createRng();
-            rng.setStartBefore(node);
-            rng.setEndAfter(node);
-            removeRngStyle(rng);
-          } else {
-            removeRngStyle(node);
-          }
-
-          return;
-        }
-
-        if (getContentEditable(selection.getNode()) === "false") {
-          node = selection.getNode();
-          for (var i = 0, l = formatList.length; i < l; i++) {
-            if (formatList[i].ceFalseOverride) {
-              if (removeFormat(formatList[i], vars, node, node)) {
-                break;
-              }
-            }
-          }
-
-          return;
-        }
-
-        if (!selection.isCollapsed() || !format.inline || dom.select('td[data-mce-selected],th[data-mce-selected]').length) {
-          bookmark = selection.getBookmark();
-          removeRngStyle(selection.getRng(TRUE));
-          selection.moveToBookmark(bookmark);
-
-          // Check if start element still has formatting then we are at: "<b>text|</b>text"
-          // and need to move the start into the next text node
-          if (format.inline && match(name, vars, selection.getStart())) {
-            moveStart(selection.getRng(true));
-          }
-
-          ed.nodeChanged();
-        } else {
-          performCaretAction('remove', name, vars, similar);
-        }
-      }
-
-      /**
-       * Toggles the specified format on/off.
-       *
-       * @method toggle
-       * @param {String} name Name of format to apply/remove.
-       * @param {Object} vars Optional list of variables to replace within format before applying/removing it.
-       * @param {Node} node Optional node to apply the format to or remove from. Defaults to current selection.
-       */
-      function toggle(name, vars, node) {
-        var fmt = get(name);
-
-        if (match(name, vars, node) && (!('toggle' in fmt[0]) || fmt[0].toggle)) {
-          remove(name, vars, node);
-        } else {
-          apply(name, vars, node);
-        }
-      }
-
-      /**
-       * Return true/false if the specified node has the specified format.
-       *
-       * @method matchNode
-       * @param {Node} node Node to check the format on.
-       * @param {String} name Format name to check.
-       * @param {Object} vars Optional list of variables to replace before checking it.
-       * @param {Boolean} similar Match format that has similar properties.
-       * @return {Object} Returns the format object it matches or undefined if it doesn't match.
-       */
-      function matchNode(node, name, vars, similar) {
-        var formatList = get(name), format, i, classes;
-
-        function matchItems(node, format, itemName) {
-          var key, value, items = format[itemName], i;
-
-          // Custom match
-          if (format.onmatch) {
-            return format.onmatch(node, format, itemName);
-          }
-
-          // Check all items
-          if (items) {
-            // Non indexed object
-            if (items.length === undef) {
-              for (key in items) {
-                if (items.hasOwnProperty(key)) {
-                  if (itemName === 'attributes') {
-                    value = dom.getAttrib(node, key);
-                  } else {
-                    value = getStyle(node, key);
-                  }
-
-                  if (similar && !value && !format.exact) {
-                    return;
-                  }
-
-                  if ((!similar || format.exact) && !isEq(value, normalizeStyleValue(replaceVars(items[key], vars), key))) {
-                    return;
-                  }
-                }
-              }
-            } else {
-              // Only one match needed for indexed arrays
-              for (i = 0; i < items.length; i++) {
-                if (itemName === 'attributes' ? dom.getAttrib(node, items[i]) : getStyle(node, items[i])) {
-                  return format;
-                }
-              }
-            }
-          }
-
-          return format;
-        }
-
-        if (formatList && node) {
-          // Check each format in list
-          for (i = 0; i < formatList.length; i++) {
-            format = formatList[i];
-
-            // Name name, attributes, styles and classes
-            if (matchName(node, format) && matchItems(node, format, 'attributes') && matchItems(node, format, 'styles')) {
-              // Match classes
-              if ((classes = format.classes)) {
-                for (i = 0; i < classes.length; i++) {
-                  if (!dom.hasClass(node, classes[i])) {
-                    return;
-                  }
-                }
-              }
-
-              return format;
-            }
-          }
-        }
-      }
-
-      /**
-       * Matches the current selection or specified node against the specified format name.
-       *
-       * @method match
-       * @param {String} name Name of format to match.
-       * @param {Object} vars Optional list of variables to replace before checking it.
-       * @param {Node} node Optional node to check.
-       * @return {boolean} true/false if the specified selection/node matches the format.
-       */
-      function match(name, vars, node) {
-        var startNode;
-
-        function matchParents(node) {
-          var root = dom.getRoot();
-
-          if (node === root) {
-            return false;
-          }
-
-          // Find first node with similar format settings
-          node = dom.getParent(node, function (node) {
-            if (matchesUnInheritedFormatSelector(node, name)) {
-              return true;
-            }
-
-            return node.parentNode === root || !!matchNode(node, name, vars, true);
-          });
-
-          // Do an exact check on the similar format element
-          return matchNode(node, name, vars);
-        }
-
-        // Check specified node
-        if (node) {
-          return matchParents(node);
-        }
-
-        // Check selected node
-        node = selection.getNode();
-        if (matchParents(node)) {
-          return TRUE;
-        }
-
-        // Check start node if it's different
-        startNode = selection.getStart();
-        if (startNode != node) {
-          if (matchParents(startNode)) {
-            return TRUE;
-          }
-        }
-
-        return FALSE;
-      }
-
-      /**
-       * Matches the current selection against the array of formats and returns a new array with matching formats.
-       *
-       * @method matchAll
-       * @param {Array} names Name of format to match.
-       * @param {Object} vars Optional list of variables to replace before checking it.
-       * @return {Array} Array with matched formats.
-       */
-      function matchAll(names, vars) {
-        var startElement, matchedFormatNames = [], checkedMap = {};
-
-        // Check start of selection for formats
-        startElement = selection.getStart();
-        dom.getParent(startElement, function (node) {
-          var i, name;
-
-          for (i = 0; i < names.length; i++) {
-            name = names[i];
-
-            if (!checkedMap[name] && matchNode(node, name, vars)) {
-              checkedMap[name] = true;
-              matchedFormatNames.push(name);
-            }
-          }
-        }, dom.getRoot());
-
-        return matchedFormatNames;
-      }
-
-      /**
-       * Returns true/false if the specified format can be applied to the current selection or not. It
-       * will currently only check the state for selector formats, it returns true on all other format types.
-       *
-       * @method canApply
-       * @param {String} name Name of format to check.
-       * @return {boolean} true/false if the specified format can be applied to the current selection/node.
-       */
-      function canApply(name) {
-        var formatList = get(name), startNode, parents, i, x, selector;
-
-        if (formatList) {
-          startNode = selection.getStart();
-          parents = getParents(startNode);
-
-          for (x = formatList.length - 1; x >= 0; x--) {
-            selector = formatList[x].selector;
-
-            // Format is not selector based then always return TRUE
-            // Is it has a defaultBlock then it's likely it can be applied for example align on a non block element line
-            if (!selector || formatList[x].defaultBlock) {
-              return TRUE;
-            }
-
-            for (i = parents.length - 1; i >= 0; i--) {
-              if (dom.is(parents[i], selector)) {
-                return TRUE;
-              }
-            }
-          }
-        }
-
-        return FALSE;
-      }
-
-      /**
-       * Executes the specified callback when the current selection matches the formats or not.
-       *
-       * @method formatChanged
-       * @param {String} formats Comma separated list of formats to check for.
-       * @param {function} callback Callback with state and args when the format is changed/toggled on/off.
-       * @param {Boolean} similar True/false state if the match should handle similar or exact formats.
-       */
-      function formatChanged(formats, callback, similar) {
-        var currentFormats;
-
-        // Setup format node change logic
-        if (!formatChangeData) {
-          formatChangeData = {};
-          currentFormats = {};
-
-          ed.on('NodeChange', function (e) {
-            var parents = getParents(e.element), matchedFormats = {};
-
-            // Ignore bogus nodes like the <a> tag created by moveStart()
-            parents = Tools.grep(parents, function (node) {
-              return node.nodeType == 1 && !node.getAttribute('data-mce-bogus');
-            });
-
-            // Check for new formats
-            each(formatChangeData, function (callbacks, format) {
-              each(parents, function (node) {
-                if (matchNode(node, format, {}, callbacks.similar)) {
-                  if (!currentFormats[format]) {
-                    // Execute callbacks
-                    each(callbacks, function (callback) {
-                      callback(true, { node: node, format: format, parents: parents });
-                    });
-
-                    currentFormats[format] = callbacks;
-                  }
-
-                  matchedFormats[format] = callbacks;
-                  return false;
-                }
-
-                if (matchesUnInheritedFormatSelector(node, format)) {
-                  return false;
-                }
-              });
-            });
-
-            // Check if current formats still match
-            each(currentFormats, function (callbacks, format) {
-              if (!matchedFormats[format]) {
-                delete currentFormats[format];
-
-                each(callbacks, function (callback) {
-                  callback(false, { node: e.element, format: format, parents: parents });
-                });
-              }
-            });
-          });
-        }
-
-        // Add format listeners
-        each(formats.split(','), function (format) {
-          if (!formatChangeData[format]) {
-            formatChangeData[format] = [];
-            formatChangeData[format].similar = similar;
-          }
-
-          formatChangeData[format].push(callback);
-        });
-
-        return this;
-      }
-
-      /**
-       * Returns a preview css text for the specified format.
-       *
-       * @method getCssText
-       * @param {String/Object} format Format to generate preview css text for.
-       * @return {String} Css text for the specified format.
-       * @example
-       * var cssText1 = editor.formatter.getCssText('bold');
-       * var cssText2 = editor.formatter.getCssText({inline: 'b'});
-       */
-      function getCssText(format) {
-        return Preview.getCssText(ed, format);
-      }
-
-      // Expose to public
-      extend(this, {
-        get: get,
-        register: register,
-        unregister: unregister,
-        apply: apply,
-        remove: remove,
-        toggle: toggle,
-        match: match,
-        matchAll: matchAll,
-        matchNode: matchNode,
-        canApply: canApply,
-        formatChanged: formatChanged,
-        getCssText: getCssText
-      });
-
-      // Initialize
-      defaultFormats();
-      addKeyboardShortcuts();
-      ed.on('BeforeGetContent', function (e) {
-        if (markCaretContainersBogus && e.format != 'raw') {
-          markCaretContainersBogus();
-        }
-      });
-      ed.on('mouseup keydown', function (e) {
-        if (disableCaretContainer) {
-          disableCaretContainer(e);
-        }
-      });
-
-      // Private functions
-
-      /**
-       * Checks if the specified nodes name matches the format inline/block or selector.
-       *
-       * @private
-       * @param {Node} node Node to match against the specified format.
-       * @param {Object} format Format object o match with.
-       * @return {boolean} true/false if the format matches.
-       */
-      function matchName(node, format) {
-        // Check for inline match
-        if (isEq(node, format.inline)) {
-          return TRUE;
-        }
-
-        // Check for block match
-        if (isEq(node, format.block)) {
-          return TRUE;
-        }
-
-        // Check for selector match
-        if (format.selector) {
-          return node.nodeType == 1 && dom.is(node, format.selector);
-        }
-      }
-
-      /**
-       * Compares two string/nodes regardless of their case.
-       *
-       * @private
-       * @param {String/Node} str1 Node or string to compare.
-       * @param {String/Node} str2 Node or string to compare.
-       * @return {boolean} True/false if they match.
-       */
-      function isEq(str1, str2) {
-        str1 = str1 || '';
-        str2 = str2 || '';
-
-        str1 = '' + (str1.nodeName || str1);
-        str2 = '' + (str2.nodeName || str2);
-
-        return str1.toLowerCase() == str2.toLowerCase();
-      }
-
-      function processChildElements(node, filter, process) {
-        each(node.childNodes, function (node) {
-          if (isElementNode(node)) {
-            if (filter(node)) {
-              process(node);
-            }
-            if (node.hasChildNodes()) {
-              processChildElements(node, filter, process);
-            }
-          }
-        });
-      }
-
-      function isElementNode(node) {
-        return node && node.nodeType === 1 && !isBookmarkNode(node) && !isCaretNode(node) && !NodeType.isBogus(node);
-      }
-
-      function hasStyle(name) {
-        return Fun.curry(function (name, node) {
-          return !!(node && getStyle(node, name));
-        }, name);
-      }
-
-      function applyStyle(name, value) {
-        return Fun.curry(function (name, value, node) {
-          dom.setStyle(node, name, value);
-        }, name, value);
-      }
-
-      /**
-       * Returns the style by name on the specified node. This method modifies the style
-       * contents to make it more easy to match. This will resolve a few browser issues.
-       *
-       * @private
-       * @param {Node} node to get style from.
-       * @param {String} name Style name to get.
-       * @return {String} Style item value.
-       */
-      function getStyle(node, name) {
-        return normalizeStyleValue(dom.getStyle(node, name), name);
-      }
-
-      /**
-       * Normalize style value by name. This method modifies the style contents
-       * to make it more easy to match. This will resolve a few browser issues.
-       *
-       * @private
-       * @param {String} value Value to get style from.
-       * @param {String} name Style name to get.
-       * @return {String} Style item value.
-       */
-      function normalizeStyleValue(value, name) {
-        // Force the format to hex
-        if (name == 'color' || name == 'backgroundColor') {
-          value = dom.toHex(value);
-        }
-
-        // Opera will return bold as 700
-        if (name == 'fontWeight' && value == 700) {
-          value = 'bold';
-        }
-
-        // Normalize fontFamily so "'Font name', Font" becomes: "Font name,Font"
-        if (name == 'fontFamily') {
-          value = value.replace(/[\'\"]/g, '').replace(/,\s+/g, ',');
-        }
-
-        return '' + value;
-      }
-
-      /**
-       * Replaces variables in the value. The variable format is %var.
-       *
-       * @private
-       * @param {String} value Value to replace variables in.
-       * @param {Object} vars Name/value array with variables to replace.
-       * @return {String} New value with replaced variables.
-       */
-      function replaceVars(value, vars) {
-        if (typeof value != "string") {
-          value = value(vars);
-        } else if (vars) {
-          value = value.replace(/%(\w+)/g, function (str, name) {
-            return vars[name] || str;
-          });
-        }
-
-        return value;
-      }
-
-      function isWhiteSpaceNode(node) {
-        return node && node.nodeType === 3 && /^([\t \r\n]+|)$/.test(node.nodeValue);
-      }
-
-      function wrap(node, name, attrs) {
-        var wrapper = dom.create(name, attrs);
-
-        node.parentNode.insertBefore(wrapper, node);
-        wrapper.appendChild(node);
-
-        return wrapper;
-      }
-
-      /**
-       * Expands the specified range like object to depending on format.
-       *
-       * For example on block formats it will move the start/end position
-       * to the beginning of the current block.
-       *
-       * @private
-       * @param {Object} rng Range like object.
-       * @param {Array} format Array with formats to expand by.
-       * @param {Boolean} remove
-       * @return {Object} Expanded range like object.
-       */
-      function expandRng(rng, format, remove) {
-        var lastIdx, leaf, endPoint,
-          startContainer = rng.startContainer,
-          startOffset = rng.startOffset,
-          endContainer = rng.endContainer,
-          endOffset = rng.endOffset;
-
-        // This function walks up the tree if there is no siblings before/after the node
-        function findParentContainer(start) {
-          var container, parent, sibling, siblingName, root;
-
-          container = parent = start ? startContainer : endContainer;
-          siblingName = start ? 'previousSibling' : 'nextSibling';
-          root = dom.getRoot();
-
-          function isBogusBr(node) {
-            return node.nodeName == "BR" && node.getAttribute('data-mce-bogus') && !node.nextSibling;
-          }
-
-          // If it's a text node and the offset is inside the text
-          if (container.nodeType == 3 && !isWhiteSpaceNode(container)) {
-            if (start ? startOffset > 0 : endOffset < container.nodeValue.length) {
-              return container;
-            }
-          }
-
-          /*eslint no-constant-condition:0 */
-          while (true) {
-            // Stop expanding on block elements
-            if (!format[0].block_expand && isBlock(parent)) {
-              return parent;
-            }
-
-            // Walk left/right
-            for (sibling = parent[siblingName]; sibling; sibling = sibling[siblingName]) {
-              if (!isBookmarkNode(sibling) && !isWhiteSpaceNode(sibling) && !isBogusBr(sibling)) {
-                return parent;
-              }
-            }
-
-            // Check if we can move up are we at root level or body level
-            if (parent == root || parent.parentNode == root) {
-              container = parent;
-              break;
-            }
-
-            parent = parent.parentNode;
-          }
-
-          return container;
-        }
-
-        // This function walks down the tree to find the leaf at the selection.
-        // The offset is also returned as if node initially a leaf, the offset may be in the middle of the text node.
-        function findLeaf(node, offset) {
-          if (offset === undef) {
-            offset = node.nodeType === 3 ? node.length : node.childNodes.length;
-          }
-
-          while (node && node.hasChildNodes()) {
-            node = node.childNodes[offset];
-            if (node) {
-              offset = node.nodeType === 3 ? node.length : node.childNodes.length;
-            }
-          }
-          return { node: node, offset: offset };
-        }
-
-        // If index based start position then resolve it
-        if (startContainer.nodeType == 1 && startContainer.hasChildNodes()) {
-          lastIdx = startContainer.childNodes.length - 1;
-          startContainer = startContainer.childNodes[startOffset > lastIdx ? lastIdx : startOffset];
-
-          if (startContainer.nodeType == 3) {
-            startOffset = 0;
-          }
-        }
-
-        // If index based end position then resolve it
-        if (endContainer.nodeType == 1 && endContainer.hasChildNodes()) {
-          lastIdx = endContainer.childNodes.length - 1;
-          endContainer = endContainer.childNodes[endOffset > lastIdx ? lastIdx : endOffset - 1];
-
-          if (endContainer.nodeType == 3) {
-            endOffset = endContainer.nodeValue.length;
-          }
-        }
-
-        // Expands the node to the closes contentEditable false element if it exists
-        function findParentContentEditable(node) {
-          var parent = node;
-
-          while (parent) {
-            if (parent.nodeType === 1 && getContentEditable(parent)) {
-              return getContentEditable(parent) === "false" ? parent : node;
-            }
-
-            parent = parent.parentNode;
-          }
-
-          return node;
-        }
-
-        function findWordEndPoint(container, offset, start) {
-          var walker, node, pos, lastTextNode;
-
-          function findSpace(node, offset) {
-            var pos, pos2, str = node.nodeValue;
-
-            if (typeof offset == "undefined") {
-              offset = start ? str.length : 0;
-            }
-
-            if (start) {
-              pos = str.lastIndexOf(' ', offset);
-              pos2 = str.lastIndexOf('\u00a0', offset);
-              pos = pos > pos2 ? pos : pos2;
-
-              // Include the space on remove to avoid tag soup
-              if (pos !== -1 && !remove) {
-                pos++;
-              }
-            } else {
-              pos = str.indexOf(' ', offset);
-              pos2 = str.indexOf('\u00a0', offset);
-              pos = pos !== -1 && (pos2 === -1 || pos < pos2) ? pos : pos2;
-            }
-
-            return pos;
-          }
-
-          if (container.nodeType === 3) {
-            pos = findSpace(container, offset);
-
-            if (pos !== -1) {
-              return { container: container, offset: pos };
-            }
-
-            lastTextNode = container;
-          }
-
-          // Walk the nodes inside the block
-          walker = new TreeWalker(container, dom.getParent(container, isBlock) || ed.getBody());
-          while ((node = walker[start ? 'prev' : 'next']())) {
-            if (node.nodeType === 3) {
-              lastTextNode = node;
-              pos = findSpace(node);
-
-              if (pos !== -1) {
-                return { container: node, offset: pos };
-              }
-            } else if (isBlock(node)) {
-              break;
-            }
-          }
-
-          if (lastTextNode) {
-            if (start) {
-              offset = 0;
-            } else {
-              offset = lastTextNode.length;
-            }
-
-            return { container: lastTextNode, offset: offset };
-          }
-        }
-
-        function findSelectorEndPoint(container, siblingName) {
-          var parents, i, y, curFormat;
-
-          if (container.nodeType == 3 && container.nodeValue.length === 0 && container[siblingName]) {
-            container = container[siblingName];
-          }
-
-          parents = getParents(container);
-          for (i = 0; i < parents.length; i++) {
-            for (y = 0; y < format.length; y++) {
-              curFormat = format[y];
-
-              // If collapsed state is set then skip formats that doesn't match that
-              if ("collapsed" in curFormat && curFormat.collapsed !== rng.collapsed) {
-                continue;
-              }
-
-              if (dom.is(parents[i], curFormat.selector)) {
-                return parents[i];
-              }
-            }
-          }
-
-          return container;
-        }
-
-        function findBlockEndPoint(container, siblingName) {
-          var node, root = dom.getRoot();
-
-          // Expand to block of similar type
-          if (!format[0].wrapper) {
-            node = dom.getParent(container, format[0].block, root);
-          }
-
-          // Expand to first wrappable block element or any block element
-          if (!node) {
-            node = dom.getParent(container.nodeType == 3 ? container.parentNode : container, function (node) {
-              // Fixes #6183 where it would expand to editable parent element in inline mode
-              return node != root && isTextBlock(node);
-            });
-          }
-
-          // Exclude inner lists from wrapping
-          if (node && format[0].wrapper) {
-            node = getParents(node, 'ul,ol').reverse()[0] || node;
-          }
-
-          // Didn't find a block element look for first/last wrappable element
-          if (!node) {
-            node = container;
-
-            while (node[siblingName] && !isBlock(node[siblingName])) {
-              node = node[siblingName];
-
-              // Break on BR but include it will be removed later on
-              // we can't remove it now since we need to check if it can be wrapped
-              if (isEq(node, 'br')) {
-                break;
-              }
-            }
-          }
-
-          return node || container;
-        }
-
-        // Expand to closest contentEditable element
-        startContainer = findParentContentEditable(startContainer);
-        endContainer = findParentContentEditable(endContainer);
-
-        // Exclude bookmark nodes if possible
-        if (isBookmarkNode(startContainer.parentNode) || isBookmarkNode(startContainer)) {
-          startContainer = isBookmarkNode(startContainer) ? startContainer : startContainer.parentNode;
-          startContainer = startContainer.nextSibling || startContainer;
-
-          if (startContainer.nodeType == 3) {
-            startOffset = 0;
-          }
-        }
-
-        if (isBookmarkNode(endContainer.parentNode) || isBookmarkNode(endContainer)) {
-          endContainer = isBookmarkNode(endContainer) ? endContainer : endContainer.parentNode;
-          endContainer = endContainer.previousSibling || endContainer;
-
-          if (endContainer.nodeType == 3) {
-            endOffset = endContainer.length;
-          }
-        }
-
-        if (format[0].inline) {
-          if (rng.collapsed) {
-            // Expand left to closest word boundary
-            endPoint = findWordEndPoint(startContainer, startOffset, true);
-            if (endPoint) {
-              startContainer = endPoint.container;
-              startOffset = endPoint.offset;
-            }
-
-            // Expand right to closest word boundary
-            endPoint = findWordEndPoint(endContainer, endOffset);
-            if (endPoint) {
-              endContainer = endPoint.container;
-              endOffset = endPoint.offset;
-            }
-          }
-
-          // Avoid applying formatting to a trailing space.
-          leaf = findLeaf(endContainer, endOffset);
-          if (leaf.node) {
-            while (leaf.node && leaf.offset === 0 && leaf.node.previousSibling) {
-              leaf = findLeaf(leaf.node.previousSibling);
-            }
-
-            if (leaf.node && leaf.offset > 0 && leaf.node.nodeType === 3 &&
-              leaf.node.nodeValue.charAt(leaf.offset - 1) === ' ') {
-
-              if (leaf.offset > 1) {
-                endContainer = leaf.node;
-                endContainer.splitText(leaf.offset - 1);
-              }
-            }
-          }
-        }
-
-        // Move start/end point up the tree if the leaves are sharp and if we are in different containers
-        // Example * becomes !: !<p><b><i>*text</i><i>text*</i></b></p>!
-        // This will reduce the number of wrapper elements that needs to be created
-        // Move start point up the tree
-        if (format[0].inline || format[0].block_expand) {
-          if (!format[0].inline || (startContainer.nodeType != 3 || startOffset === 0)) {
-            startContainer = findParentContainer(true);
-          }
-
-          if (!format[0].inline || (endContainer.nodeType != 3 || endOffset === endContainer.nodeValue.length)) {
-            endContainer = findParentContainer();
-          }
-        }
-
-        // Expand start/end container to matching selector
-        if (format[0].selector && format[0].expand !== FALSE && !format[0].inline) {
-          // Find new startContainer/endContainer if there is better one
-          startContainer = findSelectorEndPoint(startContainer, 'previousSibling');
-          endContainer = findSelectorEndPoint(endContainer, 'nextSibling');
-        }
-
-        // Expand start/end container to matching block element or text node
-        if (format[0].block || format[0].selector) {
-          // Find new startContainer/endContainer if there is better one
-          startContainer = findBlockEndPoint(startContainer, 'previousSibling');
-          endContainer = findBlockEndPoint(endContainer, 'nextSibling');
-
-          // Non block element then try to expand up the leaf
-          if (format[0].block) {
-            if (!isBlock(startContainer)) {
-              startContainer = findParentContainer(true);
-            }
-
-            if (!isBlock(endContainer)) {
-              endContainer = findParentContainer();
-            }
-          }
-        }
-
-        // Setup index for startContainer
-        if (startContainer.nodeType == 1) {
-          startOffset = nodeIndex(startContainer);
-          startContainer = startContainer.parentNode;
-        }
-
-        // Setup index for endContainer
-        if (endContainer.nodeType == 1) {
-          endOffset = nodeIndex(endContainer) + 1;
-          endContainer = endContainer.parentNode;
-        }
-
-        // Return new range like object
-        return {
-          startContainer: startContainer,
-          startOffset: startOffset,
-          endContainer: endContainer,
-          endOffset: endOffset
-        };
-      }
-
-      function isColorFormatAndAnchor(node, format) {
-        return format.links && node.tagName == 'A';
-      }
-
-      /**
-       * Removes the specified format for the specified node. It will also remove the node if it doesn't have
-       * any attributes if the format specifies it to do so.
-       *
-       * @private
-       * @param {Object} format Format object with items to remove from node.
-       * @param {Object} vars Name/value object with variables to apply to format.
-       * @param {Node} node Node to remove the format styles on.
-       * @param {Node} compareNode Optional compare node, if specified the styles will be compared to that node.
-       * @return {Boolean} True/false if the node was removed or not.
-       */
-      function removeFormat(format, vars, node, compareNode) {
-        var i, attrs, stylesModified;
-
-        // Check if node matches format
-        if (!matchName(node, format) && !isColorFormatAndAnchor(node, format)) {
-          return FALSE;
-        }
-
-        // Should we compare with format attribs and styles
-        if (format.remove != 'all') {
-          // Remove styles
-          each(format.styles, function (value, name) {
-            value = normalizeStyleValue(replaceVars(value, vars), name);
-
-            // Indexed array
-            if (typeof name === 'number') {
-              name = value;
-              compareNode = 0;
-            }
-
-            if (format.remove_similar || (!compareNode || isEq(getStyle(compareNode, name), value))) {
-              dom.setStyle(node, name, '');
-            }
-
-            stylesModified = 1;
-          });
-
-          // Remove style attribute if it's empty
-          if (stylesModified && dom.getAttrib(node, 'style') === '') {
-            node.removeAttribute('style');
-            node.removeAttribute('data-mce-style');
-          }
-
-          // Remove attributes
-          each(format.attributes, function (value, name) {
-            var valueOut;
-
-            value = replaceVars(value, vars);
-
-            // Indexed array
-            if (typeof name === 'number') {
-              name = value;
-              compareNode = 0;
-            }
-
-            if (!compareNode || isEq(dom.getAttrib(compareNode, name), value)) {
-              // Keep internal classes
-              if (name == 'class') {
-                value = dom.getAttrib(node, name);
-                if (value) {
-                  // Build new class value where everything is removed except the internal prefixed classes
-                  valueOut = '';
-                  each(value.split(/\s+/), function (cls) {
-                    if (/mce\-\w+/.test(cls)) {
-                      valueOut += (valueOut ? ' ' : '') + cls;
-                    }
-                  });
-
-                  // We got some internal classes left
-                  if (valueOut) {
-                    dom.setAttrib(node, name, valueOut);
-                    return;
-                  }
-                }
-              }
-
-              // IE6 has a bug where the attribute doesn't get removed correctly
-              if (name == "class") {
-                node.removeAttribute('className');
-              }
-
-              // Remove mce prefixed attributes
-              if (MCE_ATTR_RE.test(name)) {
-                node.removeAttribute('data-mce-' + name);
-              }
-
-              node.removeAttribute(name);
-            }
-          });
-
-          // Remove classes
-          each(format.classes, function (value) {
-            value = replaceVars(value, vars);
-
-            if (!compareNode || dom.hasClass(compareNode, value)) {
-              dom.removeClass(node, value);
-            }
-          });
-
-          // Check for non internal attributes
-          attrs = dom.getAttribs(node);
-          for (i = 0; i < attrs.length; i++) {
-            var attrName = attrs[i].nodeName;
-            if (attrName.indexOf('_') !== 0 && attrName.indexOf('data-') !== 0) {
-              return FALSE;
-            }
-          }
-        }
-
-        // Remove the inline child if it's empty for example <b> or <span>
-        if (format.remove != 'none') {
-          removeNode(node, format);
-          return TRUE;
-        }
-      }
-
-      /**
-       * Removes the node and wrap it's children in paragraphs before doing so or
-       * appends BR elements to the beginning/end of the block element if forcedRootBlocks is disabled.
-       *
-       * If the div in the node below gets removed:
-       *  text<div>text</div>text
-       *
-       * Output becomes:
-       *  text<div><br />text<br /></div>text
-       *
-       * So when the div is removed the result is:
-       *  text<br />text<br />text
-       *
-       * @private
-       * @param {Node} node Node to remove + apply BR/P elements to.
-       * @param {Object} format Format rule.
-       * @return {Node} Input node.
-       */
-      function removeNode(node, format) {
-        var parentNode = node.parentNode, rootBlockElm;
-
-        function find(node, next, inc) {
-          node = getNonWhiteSpaceSibling(node, next, inc);
-
-          return !node || (node.nodeName == 'BR' || isBlock(node));
-        }
-
-        if (format.block) {
-          if (!forcedRootBlock) {
-            // Append BR elements if needed before we remove the block
-            if (isBlock(node) && !isBlock(parentNode)) {
-              if (!find(node, FALSE) && !find(node.firstChild, TRUE, 1)) {
-                node.insertBefore(dom.create('br'), node.firstChild);
-              }
-
-              if (!find(node, TRUE) && !find(node.lastChild, FALSE, 1)) {
-                node.appendChild(dom.create('br'));
-              }
-            }
-          } else {
-            // Wrap the block in a forcedRootBlock if we are at the root of document
-            if (parentNode == dom.getRoot()) {
-              if (!format.list_block || !isEq(node, format.list_block)) {
-                each(grep(node.childNodes), function (node) {
-                  if (isValid(forcedRootBlock, node.nodeName.toLowerCase())) {
-                    if (!rootBlockElm) {
-                      rootBlockElm = wrap(node, forcedRootBlock);
-                      dom.setAttribs(rootBlockElm, ed.settings.forced_root_block_attrs);
-                    } else {
-                      rootBlockElm.appendChild(node);
-                    }
-                  } else {
-                    rootBlockElm = 0;
-                  }
-                });
-              }
-            }
-          }
-        }
-
-        // Never remove nodes that isn't the specified inline element if a selector is specified too
-        if (format.selector && format.inline && !isEq(format.inline, node)) {
-          return;
-        }
-
-        dom.remove(node, 1);
-      }
-
-      /**
-       * Returns the next/previous non whitespace node.
-       *
-       * @private
-       * @param {Node} node Node to start at.
-       * @param {boolean} next (Optional) Include next or previous node defaults to previous.
-       * @param {boolean} inc (Optional) Include the current node in checking. Defaults to false.
-       * @return {Node} Next or previous node or undefined if it wasn't found.
-       */
-      function getNonWhiteSpaceSibling(node, next, inc) {
-        if (node) {
-          next = next ? 'nextSibling' : 'previousSibling';
-
-          for (node = inc ? node : node[next]; node; node = node[next]) {
-            if (node.nodeType == 1 || !isWhiteSpaceNode(node)) {
-              return node;
-            }
-          }
-        }
-      }
-
-      /**
-       * Merges the next/previous sibling element if they match.
-       *
-       * @private
-       * @param {Node} prev Previous node to compare/merge.
-       * @param {Node} next Next node to compare/merge.
-       * @return {Node} Next node if we didn't merge and prev node if we did.
-       */
-      function mergeSiblings(prev, next) {
-        var sibling, tmpSibling, elementUtils = new ElementUtils(dom);
-
-        function findElementSibling(node, siblingName) {
-          for (sibling = node; sibling; sibling = sibling[siblingName]) {
-            if (sibling.nodeType == 3 && sibling.nodeValue.length !== 0) {
-              return node;
-            }
-
-            if (sibling.nodeType == 1 && !isBookmarkNode(sibling)) {
-              return sibling;
-            }
-          }
-
-          return node;
-        }
-
-        // Check if next/prev exists and that they are elements
-        if (prev && next) {
-          // If previous sibling is empty then jump over it
-          prev = findElementSibling(prev, 'previousSibling');
-          next = findElementSibling(next, 'nextSibling');
-
-          // Compare next and previous nodes
-          if (elementUtils.compare(prev, next)) {
-            // Append nodes between
-            for (sibling = prev.nextSibling; sibling && sibling != next;) {
-              tmpSibling = sibling;
-              sibling = sibling.nextSibling;
-              prev.appendChild(tmpSibling);
-            }
-
-            // Remove next node
-            dom.remove(next);
-
-            // Move children into prev node
-            each(grep(next.childNodes), function (node) {
-              prev.appendChild(node);
-            });
-
-            return prev;
-          }
-        }
-
-        return next;
-      }
-
-      function getContainer(rng, start) {
-        var container, offset, lastIdx;
-
-        container = rng[start ? 'startContainer' : 'endContainer'];
-        offset = rng[start ? 'startOffset' : 'endOffset'];
-
-        if (container.nodeType == 1) {
-          lastIdx = container.childNodes.length - 1;
-
-          if (!start && offset) {
-            offset--;
-          }
-
-          container = container.childNodes[offset > lastIdx ? lastIdx : offset];
-        }
-
-        // If start text node is excluded then walk to the next node
-        if (container.nodeType === 3 && start && offset >= container.nodeValue.length) {
-          container = new TreeWalker(container, ed.getBody()).next() || container;
-        }
-
-        // If end text node is excluded then walk to the previous node
-        if (container.nodeType === 3 && !start && offset === 0) {
-          container = new TreeWalker(container, ed.getBody()).prev() || container;
-        }
-
-        return container;
-      }
-
-      function performCaretAction(type, name, vars, similar) {
-        var caretContainerId = '_mce_caret', debug = ed.settings.caret_debug;
-
-        // Creates a caret container bogus element
-        function createCaretContainer(fill) {
-          var caretContainer = dom.create('span', { id: caretContainerId, 'data-mce-bogus': true, style: debug ? 'color:red' : '' });
-
-          if (fill) {
-            caretContainer.appendChild(ed.getDoc().createTextNode(INVISIBLE_CHAR));
-          }
-
-          return caretContainer;
-        }
-
-        function isCaretContainerEmpty(node, nodes) {
-          while (node) {
-            if ((node.nodeType === 3 && node.nodeValue !== INVISIBLE_CHAR) || node.childNodes.length > 1) {
-              return false;
-            }
-
-            // Collect nodes
-            if (nodes && node.nodeType === 1) {
-              nodes.push(node);
-            }
-
-            node = node.firstChild;
-          }
-
-          return true;
-        }
-
-        // Returns any parent caret container element
-        function getParentCaretContainer(node) {
-          while (node) {
-            if (node.id === caretContainerId) {
-              return node;
-            }
-
-            node = node.parentNode;
-          }
-        }
-
-        // Finds the first text node in the specified node
-        function findFirstTextNode(node) {
-          var walker;
-
-          if (node) {
-            walker = new TreeWalker(node, node);
-
-            for (node = walker.current(); node; node = walker.next()) {
-              if (node.nodeType === 3) {
-                return node;
-              }
-            }
-          }
-        }
-
-        // Removes the caret container for the specified node or all on the current document
-        function removeCaretContainer(node, moveCaret) {
-          var child, rng;
-
-          if (!node) {
-            node = getParentCaretContainer(selection.getStart());
-
-            if (!node) {
-              while ((node = dom.get(caretContainerId))) {
-                removeCaretContainer(node, false);
-              }
-            }
-          } else {
-            rng = selection.getRng(true);
-
-            if (isCaretContainerEmpty(node)) {
-              if (moveCaret !== false) {
-                rng.setStartBefore(node);
-                rng.setEndBefore(node);
-              }
-
-              dom.remove(node);
-            } else {
-              child = findFirstTextNode(node);
-
-              if (child.nodeValue.charAt(0) === INVISIBLE_CHAR) {
-                child.deleteData(0, 1);
-
-                // Fix for bug #6976
-                if (rng.startContainer == child && rng.startOffset > 0) {
-                  rng.setStart(child, rng.startOffset - 1);
-                }
-
-                if (rng.endContainer == child && rng.endOffset > 0) {
-                  rng.setEnd(child, rng.endOffset - 1);
-                }
-              }
-
-              dom.remove(node, 1);
-            }
-
-            selection.setRng(rng);
-          }
-        }
-
-        // Applies formatting to the caret position
-        function applyCaretFormat() {
-          var rng, caretContainer, textNode, offset, bookmark, container, text;
-
-          rng = selection.getRng(true);
-          offset = rng.startOffset;
-          container = rng.startContainer;
-          text = container.nodeValue;
-
-          caretContainer = getParentCaretContainer(selection.getStart());
-          if (caretContainer) {
-            textNode = findFirstTextNode(caretContainer);
-          }
-
-          // Expand to word if caret is in the middle of a text node and the char before/after is a alpha numeric character
-          var wordcharRegex = /[^\s\u00a0\u00ad\u200b\ufeff]/;
-          if (text && offset > 0 && offset < text.length &&
-            wordcharRegex.test(text.charAt(offset)) && wordcharRegex.test(text.charAt(offset - 1))) {
-            // Get bookmark of caret position
-            bookmark = selection.getBookmark();
-
-            // Collapse bookmark range (WebKit)
-            rng.collapse(true);
-
-            // Expand the range to the closest word and split it at those points
-            rng = expandRng(rng, get(name));
-            rng = rangeUtils.split(rng);
-
-            // Apply the format to the range
-            apply(name, vars, rng);
-
-            // Move selection back to caret position
-            selection.moveToBookmark(bookmark);
-          } else {
-            if (!caretContainer || textNode.nodeValue !== INVISIBLE_CHAR) {
-              caretContainer = createCaretContainer(true);
-              textNode = caretContainer.firstChild;
-
-              rng.insertNode(caretContainer);
-              offset = 1;
-
-              apply(name, vars, caretContainer);
-            } else {
-              apply(name, vars, caretContainer);
-            }
-
-            // Move selection to text node
-            selection.setCursorLocation(textNode, offset);
-          }
-        }
-
-        function removeCaretFormat() {
-          var rng = selection.getRng(true), container, offset, bookmark,
-            hasContentAfter, node, formatNode, parents = [], i, caretContainer;
-
-          container = rng.startContainer;
-          offset = rng.startOffset;
-          node = container;
-
-          if (container.nodeType == 3) {
-            if (offset != container.nodeValue.length) {
-              hasContentAfter = true;
-            }
-
-            node = node.parentNode;
-          }
-
-          while (node) {
-            if (matchNode(node, name, vars, similar)) {
-              formatNode = node;
-              break;
-            }
-
-            if (node.nextSibling) {
-              hasContentAfter = true;
-            }
-
-            parents.push(node);
-            node = node.parentNode;
-          }
-
-          // Node doesn't have the specified format
-          if (!formatNode) {
-            return;
-          }
-
-          // Is there contents after the caret then remove the format on the element
-          if (hasContentAfter) {
-            // Get bookmark of caret position
-            bookmark = selection.getBookmark();
-
-            // Collapse bookmark range (WebKit)
-            rng.collapse(true);
-
-            // Expand the range to the closest word and split it at those points
-            rng = expandRng(rng, get(name), true);
-            rng = rangeUtils.split(rng);
-
-            // Remove the format from the range
-            remove(name, vars, rng);
-
-            // Move selection back to caret position
-            selection.moveToBookmark(bookmark);
-          } else {
-            caretContainer = createCaretContainer();
-
-            node = caretContainer;
-            for (i = parents.length - 1; i >= 0; i--) {
-              node.appendChild(dom.clone(parents[i], false));
-              node = node.firstChild;
-            }
-
-            // Insert invisible character into inner most format element
-            node.appendChild(dom.doc.createTextNode(INVISIBLE_CHAR));
-            node = node.firstChild;
-
-            var block = dom.getParent(formatNode, isTextBlock);
-
-            if (block && dom.isEmpty(block)) {
-              // Replace formatNode with caretContainer when removing format from empty block like <p><b>|</b></p>
-              formatNode.parentNode.replaceChild(caretContainer, formatNode);
-            } else {
-              // Insert caret container after the formatted node
-              dom.insertAfter(caretContainer, formatNode);
-            }
-
-            // Move selection to text node
-            selection.setCursorLocation(node, 1);
-
-            // If the formatNode is empty, we can remove it safely.
-            if (dom.isEmpty(formatNode)) {
-              dom.remove(formatNode);
-            }
-          }
-        }
-
-        // Checks if the parent caret container node isn't empty if that is the case it
-        // will remove the bogus state on all children that isn't empty
-        function unmarkBogusCaretParents() {
-          var caretContainer;
-
-          caretContainer = getParentCaretContainer(selection.getStart());
-          if (caretContainer && !dom.isEmpty(caretContainer)) {
-            walk(caretContainer, function (node) {
-              if (node.nodeType == 1 && node.id !== caretContainerId && !dom.isEmpty(node)) {
-                dom.setAttrib(node, 'data-mce-bogus', null);
-              }
-            }, 'childNodes');
-          }
-        }
-
-        // Only bind the caret events once
-        if (!ed._hasCaretEvents) {
-          // Mark current caret container elements as bogus when getting the contents so we don't end up with empty elements
-          markCaretContainersBogus = function () {
-            var nodes = [], i;
-
-            if (isCaretContainerEmpty(getParentCaretContainer(selection.getStart()), nodes)) {
-              // Mark children
-              i = nodes.length;
-              while (i--) {
-                dom.setAttrib(nodes[i], 'data-mce-bogus', '1');
-              }
-            }
-          };
-
-          disableCaretContainer = function (e) {
-            var keyCode = e.keyCode;
-
-            removeCaretContainer();
-
-            // Remove caret container if it's empty
-            if (keyCode == 8 && selection.isCollapsed() && selection.getStart().innerHTML == INVISIBLE_CHAR) {
-              removeCaretContainer(getParentCaretContainer(selection.getStart()));
-            }
-
-            // Remove caret container on keydown and it's left/right arrow keys
-            if (keyCode == 37 || keyCode == 39) {
-              removeCaretContainer(getParentCaretContainer(selection.getStart()));
-            }
-
-            unmarkBogusCaretParents();
-          };
-
-          // Remove bogus state if they got filled by contents using editor.selection.setContent
-          ed.on('SetContent', function (e) {
-            if (e.selection) {
-              unmarkBogusCaretParents();
-            }
-          });
-          ed._hasCaretEvents = true;
-        }
-
-        // Do apply or remove caret format
-        if (type == "apply") {
-          applyCaretFormat();
-        } else {
-          removeCaretFormat();
-        }
-      }
-
-      /**
-       * Moves the start to the first suitable text node.
-       */
-      function moveStart(rng) {
-        var container = rng.startContainer,
-          offset = rng.startOffset,
-          walker, node, nodes;
-
-        if (rng.startContainer == rng.endContainer) {
-          if (isInlineBlock(rng.startContainer.childNodes[rng.startOffset])) {
-            return;
-          }
-        }
-
-        // Convert text node into index if possible
-        if (container.nodeType == 3 && offset >= container.nodeValue.length) {
-          // Get the parent container location and walk from there
-          offset = nodeIndex(container);
-          container = container.parentNode;
-        }
-
-        // Move startContainer/startOffset in to a suitable node
-        if (container.nodeType == 1) {
-          nodes = container.childNodes;
-          if (offset < nodes.length) {
-            container = nodes[offset];
-            walker = new TreeWalker(container, dom.getParent(container, dom.isBlock));
-          } else {
-            container = nodes[nodes.length - 1];
-            walker = new TreeWalker(container, dom.getParent(container, dom.isBlock));
-            walker.next(true);
-          }
-
-          for (node = walker.current(); node; node = walker.next()) {
-            if (node.nodeType == 3 && !isWhiteSpaceNode(node)) {
-              rng.setStart(node, 0);
-              selection.setRng(rng);
-
-              return;
-            }
-          }
-        }
-      }
-    };
-  }
-);
-
-/**
  * Diff.js
  *
  * Released under LGPL License.
@@ -25408,7 +26740,7 @@ define(
     };
 
     var isEq = function (level1, level2) {
-      return getLevelContent(level1) === getLevelContent(level2);
+      return !!level1 && !!level2 && getLevelContent(level1) === getLevelContent(level2);
     };
 
     return {
@@ -25815,48 +27147,6 @@ define(
 );
 
 define(
-  'ephox.sugar.api.node.Body',
-
-  [
-    'ephox.katamari.api.Thunk',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.node.Node',
-    'global!document'
-  ],
-
-  function (Thunk, Element, Node, document) {
-
-    // Node.contains() is very, very, very good performance
-    // http://jsperf.com/closest-vs-contains/5
-    var inBody = function (element) {
-      // Technically this is only required on IE, where contains() returns false for text nodes.
-      // But it's cheap enough to run everywhere and Sugar doesn't have platform detection (yet).
-      var dom = Node.isText(element) ? element.dom().parentNode : element.dom();
-
-      // use ownerDocument.body to ensure this works inside iframes.
-      // Normally contains is bad because an element "contains" itself, but here we want that.
-      return dom !== undefined && dom !== null && dom.ownerDocument.body.contains(dom);
-    };
-
-    var body = Thunk.cached(function() {
-      return getBody(Element.fromDom(document));
-    });
-
-    var getBody = function (doc) {
-      var body = doc.dom().body;
-      if (body === null || body === undefined) throw 'Body is not available yet';
-      return Element.fromDom(body);
-    };
-
-    return {
-      body: body,
-      getBody: getBody,
-      inBody: inBody
-    };
-  }
-);
-
-define(
   'ephox.sugar.impl.ClosestOrAncestor',
 
   [
@@ -25959,681 +27249,6 @@ define(
 );
 
 /**
- * CaretUtils.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * Utility functions shared by the caret logic.
- *
- * @private
- * @class tinymce.caret.CaretUtils
- */
-define(
-  'tinymce.core.caret.CaretUtils',
-  [
-    "tinymce.core.util.Fun",
-    "tinymce.core.dom.TreeWalker",
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.caret.CaretPosition",
-    "tinymce.core.caret.CaretContainer",
-    "tinymce.core.caret.CaretCandidate"
-  ],
-  function (Fun, TreeWalker, NodeType, CaretPosition, CaretContainer, CaretCandidate) {
-    var isContentEditableTrue = NodeType.isContentEditableTrue,
-      isContentEditableFalse = NodeType.isContentEditableFalse,
-      isBlockLike = NodeType.matchStyleValues('display', 'block table table-cell table-caption list-item'),
-      isCaretContainer = CaretContainer.isCaretContainer,
-      isCaretContainerBlock = CaretContainer.isCaretContainerBlock,
-      curry = Fun.curry,
-      isElement = NodeType.isElement,
-      isCaretCandidate = CaretCandidate.isCaretCandidate;
-
-    function isForwards(direction) {
-      return direction > 0;
-    }
-
-    function isBackwards(direction) {
-      return direction < 0;
-    }
-
-    function skipCaretContainers(walk, shallow) {
-      var node;
-
-      while ((node = walk(shallow))) {
-        if (!isCaretContainerBlock(node)) {
-          return node;
-        }
-      }
-
-      return null;
-    }
-
-    function findNode(node, direction, predicateFn, rootNode, shallow) {
-      var walker = new TreeWalker(node, rootNode);
-
-      if (isBackwards(direction)) {
-        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
-          node = skipCaretContainers(walker.prev, true);
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-
-        while ((node = skipCaretContainers(walker.prev, shallow))) {
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-      }
-
-      if (isForwards(direction)) {
-        if (isContentEditableFalse(node) || isCaretContainerBlock(node)) {
-          node = skipCaretContainers(walker.next, true);
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-
-        while ((node = skipCaretContainers(walker.next, shallow))) {
-          if (predicateFn(node)) {
-            return node;
-          }
-        }
-      }
-
-      return null;
-    }
-
-    function getEditingHost(node, rootNode) {
-      for (node = node.parentNode; node && node != rootNode; node = node.parentNode) {
-        if (isContentEditableTrue(node)) {
-          return node;
-        }
-      }
-
-      return rootNode;
-    }
-
-    function getParentBlock(node, rootNode) {
-      while (node && node != rootNode) {
-        if (isBlockLike(node)) {
-          return node;
-        }
-
-        node = node.parentNode;
-      }
-
-      return null;
-    }
-
-    function isInSameBlock(caretPosition1, caretPosition2, rootNode) {
-      return getParentBlock(caretPosition1.container(), rootNode) == getParentBlock(caretPosition2.container(), rootNode);
-    }
-
-    function isInSameEditingHost(caretPosition1, caretPosition2, rootNode) {
-      return getEditingHost(caretPosition1.container(), rootNode) == getEditingHost(caretPosition2.container(), rootNode);
-    }
-
-    function getChildNodeAtRelativeOffset(relativeOffset, caretPosition) {
-      var container, offset;
-
-      if (!caretPosition) {
-        return null;
-      }
-
-      container = caretPosition.container();
-      offset = caretPosition.offset();
-
-      if (!isElement(container)) {
-        return null;
-      }
-
-      return container.childNodes[offset + relativeOffset];
-    }
-
-    function beforeAfter(before, node) {
-      var range = node.ownerDocument.createRange();
-
-      if (before) {
-        range.setStartBefore(node);
-        range.setEndBefore(node);
-      } else {
-        range.setStartAfter(node);
-        range.setEndAfter(node);
-      }
-
-      return range;
-    }
-
-    function isNodesInSameBlock(rootNode, node1, node2) {
-      return getParentBlock(node1, rootNode) == getParentBlock(node2, rootNode);
-    }
-
-    function lean(left, rootNode, node) {
-      var sibling, siblingName;
-
-      if (left) {
-        siblingName = 'previousSibling';
-      } else {
-        siblingName = 'nextSibling';
-      }
-
-      while (node && node != rootNode) {
-        sibling = node[siblingName];
-
-        if (isCaretContainer(sibling)) {
-          sibling = sibling[siblingName];
-        }
-
-        if (isContentEditableFalse(sibling)) {
-          if (isNodesInSameBlock(rootNode, sibling, node)) {
-            return sibling;
-          }
-
-          break;
-        }
-
-        if (isCaretCandidate(sibling)) {
-          break;
-        }
-
-        node = node.parentNode;
-      }
-
-      return null;
-    }
-
-    var before = curry(beforeAfter, true);
-    var after = curry(beforeAfter, false);
-
-    function normalizeRange(direction, rootNode, range) {
-      var node, container, offset, location;
-      var leanLeft = curry(lean, true, rootNode);
-      var leanRight = curry(lean, false, rootNode);
-
-      container = range.startContainer;
-      offset = range.startOffset;
-
-      if (CaretContainer.isCaretContainerBlock(container)) {
-        if (!isElement(container)) {
-          container = container.parentNode;
-        }
-
-        location = container.getAttribute('data-mce-caret');
-
-        if (location == 'before') {
-          node = container.nextSibling;
-          if (isContentEditableFalse(node)) {
-            return before(node);
-          }
-        }
-
-        if (location == 'after') {
-          node = container.previousSibling;
-          if (isContentEditableFalse(node)) {
-            return after(node);
-          }
-        }
-      }
-
-      if (!range.collapsed) {
-        return range;
-      }
-
-      if (NodeType.isText(container)) {
-        if (isCaretContainer(container)) {
-          if (direction === 1) {
-            node = leanRight(container);
-            if (node) {
-              return before(node);
-            }
-
-            node = leanLeft(container);
-            if (node) {
-              return after(node);
-            }
-          }
-
-          if (direction === -1) {
-            node = leanLeft(container);
-            if (node) {
-              return after(node);
-            }
-
-            node = leanRight(container);
-            if (node) {
-              return before(node);
-            }
-          }
-
-          return range;
-        }
-
-        if (CaretContainer.endsWithCaretContainer(container) && offset >= container.data.length - 1) {
-          if (direction === 1) {
-            node = leanRight(container);
-            if (node) {
-              return before(node);
-            }
-          }
-
-          return range;
-        }
-
-        if (CaretContainer.startsWithCaretContainer(container) && offset <= 1) {
-          if (direction === -1) {
-            node = leanLeft(container);
-            if (node) {
-              return after(node);
-            }
-          }
-
-          return range;
-        }
-
-        if (offset === container.data.length) {
-          node = leanRight(container);
-          if (node) {
-            return before(node);
-          }
-
-          return range;
-        }
-
-        if (offset === 0) {
-          node = leanLeft(container);
-          if (node) {
-            return after(node);
-          }
-
-          return range;
-        }
-      }
-
-      return range;
-    }
-
-    function isNextToContentEditableFalse(relativeOffset, caretPosition) {
-      return isContentEditableFalse(getChildNodeAtRelativeOffset(relativeOffset, caretPosition));
-    }
-
-    return {
-      isForwards: isForwards,
-      isBackwards: isBackwards,
-      findNode: findNode,
-      getEditingHost: getEditingHost,
-      getParentBlock: getParentBlock,
-      isInSameBlock: isInSameBlock,
-      isInSameEditingHost: isInSameEditingHost,
-      isBeforeContentEditableFalse: curry(isNextToContentEditableFalse, 0),
-      isAfterContentEditableFalse: curry(isNextToContentEditableFalse, -1),
-      normalizeRange: normalizeRange
-    };
-  }
-);
-
-/**
- * CaretWalker.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This module contains logic for moving around a virtual caret in logical order within a DOM element.
- *
- * It ignores the most obvious invalid caret locations such as within a script element or within a
- * contentEditable=false element but it will return locations that isn't possible to render visually.
- *
- * @private
- * @class tinymce.caret.CaretWalker
- * @example
- * var caretWalker = new CaretWalker(rootElm);
- *
- * var prevLogicalCaretPosition = caretWalker.prev(CaretPosition.fromRangeStart(range));
- * var nextLogicalCaretPosition = caretWalker.next(CaretPosition.fromRangeEnd(range));
- */
-define(
-  'tinymce.core.caret.CaretWalker',
-  [
-    "tinymce.core.dom.NodeType",
-    "tinymce.core.caret.CaretCandidate",
-    "tinymce.core.caret.CaretPosition",
-    "tinymce.core.caret.CaretUtils",
-    "tinymce.core.util.Arr",
-    "tinymce.core.util.Fun"
-  ],
-  function (NodeType, CaretCandidate, CaretPosition, CaretUtils, Arr, Fun) {
-    var isContentEditableFalse = NodeType.isContentEditableFalse,
-      isText = NodeType.isText,
-      isElement = NodeType.isElement,
-      isBr = NodeType.isBr,
-      isForwards = CaretUtils.isForwards,
-      isBackwards = CaretUtils.isBackwards,
-      isCaretCandidate = CaretCandidate.isCaretCandidate,
-      isAtomic = CaretCandidate.isAtomic,
-      isEditableCaretCandidate = CaretCandidate.isEditableCaretCandidate;
-
-    function getParents(node, rootNode) {
-      var parents = [];
-
-      while (node && node != rootNode) {
-        parents.push(node);
-        node = node.parentNode;
-      }
-
-      return parents;
-    }
-
-    function nodeAtIndex(container, offset) {
-      if (container.hasChildNodes() && offset < container.childNodes.length) {
-        return container.childNodes[offset];
-      }
-
-      return null;
-    }
-
-    function getCaretCandidatePosition(direction, node) {
-      if (isForwards(direction)) {
-        if (isCaretCandidate(node.previousSibling) && !isText(node.previousSibling)) {
-          return CaretPosition.before(node);
-        }
-
-        if (isText(node)) {
-          return CaretPosition(node, 0);
-        }
-      }
-
-      if (isBackwards(direction)) {
-        if (isCaretCandidate(node.nextSibling) && !isText(node.nextSibling)) {
-          return CaretPosition.after(node);
-        }
-
-        if (isText(node)) {
-          return CaretPosition(node, node.data.length);
-        }
-      }
-
-      if (isBackwards(direction)) {
-        if (isBr(node)) {
-          return CaretPosition.before(node);
-        }
-
-        return CaretPosition.after(node);
-      }
-
-      return CaretPosition.before(node);
-    }
-
-    // Jumps over BR elements <p>|<br></p><p>a</p> -> <p><br></p><p>|a</p>
-    function isBrBeforeBlock(node, rootNode) {
-      var next;
-
-      if (!NodeType.isBr(node)) {
-        return false;
-      }
-
-      next = findCaretPosition(1, CaretPosition.after(node), rootNode);
-      if (!next) {
-        return false;
-      }
-
-      return !CaretUtils.isInSameBlock(CaretPosition.before(node), CaretPosition.before(next), rootNode);
-    }
-
-    function findCaretPosition(direction, startCaretPosition, rootNode) {
-      var container, offset, node, nextNode, innerNode,
-        rootContentEditableFalseElm, caretPosition;
-
-      if (!isElement(rootNode) || !startCaretPosition) {
-        return null;
-      }
-
-      if (startCaretPosition.isEqual(CaretPosition.after(rootNode)) && rootNode.lastChild) {
-        caretPosition = CaretPosition.after(rootNode.lastChild);
-        if (isBackwards(direction) && isCaretCandidate(rootNode.lastChild) && isElement(rootNode.lastChild)) {
-          return isBr(rootNode.lastChild) ? CaretPosition.before(rootNode.lastChild) : caretPosition;
-        }
-      } else {
-        caretPosition = startCaretPosition;
-      }
-
-      container = caretPosition.container();
-      offset = caretPosition.offset();
-
-      if (isText(container)) {
-        if (isBackwards(direction) && offset > 0) {
-          return CaretPosition(container, --offset);
-        }
-
-        if (isForwards(direction) && offset < container.length) {
-          return CaretPosition(container, ++offset);
-        }
-
-        node = container;
-      } else {
-        if (isBackwards(direction) && offset > 0) {
-          nextNode = nodeAtIndex(container, offset - 1);
-          if (isCaretCandidate(nextNode)) {
-            if (!isAtomic(nextNode)) {
-              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
-              if (innerNode) {
-                if (isText(innerNode)) {
-                  return CaretPosition(innerNode, innerNode.data.length);
-                }
-
-                return CaretPosition.after(innerNode);
-              }
-            }
-
-            if (isText(nextNode)) {
-              return CaretPosition(nextNode, nextNode.data.length);
-            }
-
-            return CaretPosition.before(nextNode);
-          }
-        }
-
-        if (isForwards(direction) && offset < container.childNodes.length) {
-          nextNode = nodeAtIndex(container, offset);
-          if (isCaretCandidate(nextNode)) {
-            if (isBrBeforeBlock(nextNode, rootNode)) {
-              return findCaretPosition(direction, CaretPosition.after(nextNode), rootNode);
-            }
-
-            if (!isAtomic(nextNode)) {
-              innerNode = CaretUtils.findNode(nextNode, direction, isEditableCaretCandidate, nextNode);
-              if (innerNode) {
-                if (isText(innerNode)) {
-                  return CaretPosition(innerNode, 0);
-                }
-
-                return CaretPosition.before(innerNode);
-              }
-            }
-
-            if (isText(nextNode)) {
-              return CaretPosition(nextNode, 0);
-            }
-
-            return CaretPosition.after(nextNode);
-          }
-        }
-
-        node = caretPosition.getNode();
-      }
-
-      if ((isForwards(direction) && caretPosition.isAtEnd()) || (isBackwards(direction) && caretPosition.isAtStart())) {
-        node = CaretUtils.findNode(node, direction, Fun.constant(true), rootNode, true);
-        if (isEditableCaretCandidate(node)) {
-          return getCaretCandidatePosition(direction, node);
-        }
-      }
-
-      nextNode = CaretUtils.findNode(node, direction, isEditableCaretCandidate, rootNode);
-
-      rootContentEditableFalseElm = Arr.last(Arr.filter(getParents(container, rootNode), isContentEditableFalse));
-      if (rootContentEditableFalseElm && (!nextNode || !rootContentEditableFalseElm.contains(nextNode))) {
-        if (isForwards(direction)) {
-          caretPosition = CaretPosition.after(rootContentEditableFalseElm);
-        } else {
-          caretPosition = CaretPosition.before(rootContentEditableFalseElm);
-        }
-
-        return caretPosition;
-      }
-
-      if (nextNode) {
-        return getCaretCandidatePosition(direction, nextNode);
-      }
-
-      return null;
-    }
-
-    return function (rootNode) {
-      return {
-        /**
-         * Returns the next logical caret position from the specificed input
-         * caretPoisiton or null if there isn't any more positions left for example
-         * at the end specified root element.
-         *
-         * @method next
-         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
-         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
-         */
-        next: function (caretPosition) {
-          return findCaretPosition(1, caretPosition, rootNode);
-        },
-
-        /**
-         * Returns the previous logical caret position from the specificed input
-         * caretPoisiton or null if there isn't any more positions left for example
-         * at the end specified root element.
-         *
-         * @method prev
-         * @param {tinymce.caret.CaretPosition} caretPosition Caret position to start from.
-         * @return {tinymce.caret.CaretPosition} CaretPosition or null if no position was found.
-         */
-        prev: function (caretPosition) {
-          return findCaretPosition(-1, caretPosition, rootNode);
-        }
-      };
-    };
-  }
-);
-/**
- * CaretFinder.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.caret.CaretFinder',
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'tinymce.core.caret.CaretCandidate',
-    'tinymce.core.caret.CaretPosition',
-    'tinymce.core.caret.CaretUtils',
-    'tinymce.core.caret.CaretWalker',
-    'tinymce.core.dom.NodeType'
-  ],
-  function (Fun, Option, CaretCandidate, CaretPosition, CaretUtils, CaretWalker, NodeType) {
-    var walkToPositionIn = function (forward, rootNode, startNode) {
-      var position = forward ? CaretPosition.before(startNode) : CaretPosition.after(startNode);
-      return fromPosition(forward, rootNode, position);
-    };
-
-    var afterElement = function (node) {
-      return NodeType.isBr(node) ? CaretPosition.before(node) : CaretPosition.after(node);
-    };
-
-    var isBeforeOrStart = function (position) {
-      if (CaretPosition.isTextPosition(position)) {
-        return position.offset() === 0;
-      } else {
-        return CaretCandidate.isCaretCandidate(position.getNode());
-      }
-    };
-
-    var isAfterOrEnd = function (position) {
-      if (CaretPosition.isTextPosition(position)) {
-        return position.offset() === position.container().data.length;
-      } else {
-        return CaretCandidate.isCaretCandidate(position.getNode(true));
-      }
-    };
-
-    var isBeforeAfterSameElement = function (from, to) {
-      return !CaretPosition.isTextPosition(from) && !CaretPosition.isTextPosition(to) && from.getNode() === to.getNode(true);
-    };
-
-    var isAtBr = function (position) {
-      return !CaretPosition.isTextPosition(position) && NodeType.isBr(position.getNode());
-    };
-
-    var shouldSkipPosition = function (forward, from, to) {
-      if (forward) {
-        return !isBeforeAfterSameElement(from, to) && !isAtBr(from) && isAfterOrEnd(from) && isBeforeOrStart(to);
-      } else {
-        return !isBeforeAfterSameElement(to, from) && isBeforeOrStart(from) && isAfterOrEnd(to);
-      }
-    };
-
-    // Finds: <p>a|<b>b</b></p> -> <p>a<b>|b</b></p>
-    var fromPosition = function (forward, rootNode, position) {
-      var walker = new CaretWalker(rootNode);
-      return Option.from(forward ? walker.next(position) : walker.prev(position));
-    };
-
-    // Finds: <p>a|<b>b</b></p> -> <p>a<b>b|</b></p>
-    var navigate = function (forward, rootNode, from) {
-      return fromPosition(forward, rootNode, from).bind(function (to) {
-        if (CaretUtils.isInSameBlock(from, to, rootNode) && shouldSkipPosition(forward, from, to)) {
-          return fromPosition(forward, rootNode, to);
-        } else {
-          return Option.some(to);
-        }
-      });
-    };
-
-    var positionIn = function (forward, element) {
-      var startNode = forward ? element.firstChild : element.lastChild;
-      if (NodeType.isText(startNode)) {
-        return Option.some(new CaretPosition(startNode, forward ? 0 : startNode.data.length));
-      } else if (startNode) {
-        if (CaretCandidate.isCaretCandidate(startNode)) {
-          return Option.some(forward ? CaretPosition.before(startNode) : afterElement(startNode));
-        } else {
-          return walkToPositionIn(forward, element, startNode);
-        }
-      } else {
-        return Option.none();
-      }
-    };
-
-    return {
-      fromPosition: fromPosition,
-      navigate: navigate,
-      positionIn: positionIn
-    };
-  }
-);
-
-/**
  * DeleteUtils.js
  *
  * Released under LGPL License.
@@ -26680,8 +27295,22 @@ define(
       return Compare.contains(rootNode, elm) ? PredicateFind.closest(elm, isTextBlock, isBeforeRoot(rootNode)) : Option.none();
     };
 
+    var placeCaretInEmptyBody = function (editor) {
+      var body = editor.getBody();
+      var node = body.firstChild && editor.dom.isBlock(body.firstChild) ? body.firstChild : body;
+      editor.selection.setCursorLocation(node, 0);
+    };
+
+    var paddEmptyBody = function (editor) {
+      if (editor.dom.isEmpty(editor.getBody())) {
+        editor.setContent('');
+        placeCaretInEmptyBody(editor);
+      }
+    };
+
     return {
-      getParentTextBlock: getParentTextBlock
+      getParentTextBlock: getParentTextBlock,
+      paddEmptyBody: paddEmptyBody
     };
   }
 );
@@ -27101,11 +27730,13 @@ define(
     'ephox.katamari.api.Options',
     'ephox.sugar.api.dom.Compare',
     'ephox.sugar.api.node.Element',
+    'tinymce.core.caret.CaretFinder',
+    'tinymce.core.caret.CaretPosition',
     'tinymce.core.delete.DeleteUtils',
     'tinymce.core.delete.MergeBlocks'
   ],
-  function (Options, Compare, Element, DeleteUtils, MergeBlocks) {
-    var deleteRange = function (rootNode, selection) {
+  function (Options, Compare, Element, CaretFinder, CaretPosition, DeleteUtils, MergeBlocks) {
+    var deleteRangeMergeBlocks = function (rootNode, selection) {
       var rng = selection.getRng();
 
       return Options.liftN([
@@ -27126,14 +27757,26 @@ define(
       }).getOr(false);
     };
 
-    var backspaceDelete = function (editor, forward) {
-      var rootNode = Element.fromDom(editor.getBody());
+    var isEverythingSelected = function (rootNode, rng) {
+      var noPrevious = CaretFinder.prevPosition(rootNode.dom(), CaretPosition.fromRangeStart(rng)).isNone();
+      var noNext = CaretFinder.nextPosition(rootNode.dom(), CaretPosition.fromRangeEnd(rng)).isNone();
+      return noPrevious && noNext;
+    };
 
-      if (editor.selection.isCollapsed() === false) {
-        return deleteRange(rootNode, editor.selection);
-      } else {
-        return false;
-      }
+    var emptyEditor = function (editor) {
+      editor.setContent('');
+      editor.selection.setCursorLocation();
+      return true;
+    };
+
+    var deleteRange = function (editor) {
+      var rootNode = Element.fromDom(editor.getBody());
+      var rng = editor.selection.getRng();
+      return isEverythingSelected(rootNode, rng) ? emptyEditor(editor) : deleteRangeMergeBlocks(rootNode, editor.selection);
+    };
+
+    var backspaceDelete = function (editor, forward) {
+      return editor.selection.isCollapsed() ? false : deleteRange(editor, editor.selection.getRng());
     };
 
     return {
@@ -27363,155 +28006,6 @@ define(
 );
 
 /**
- * Bidi.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.text.Bidi',
-  [
-  ],
-  function () {
-    var strongRtl = /[\u0591-\u07FF\uFB1D-\uFDFF\uFE70-\uFEFC]/;
-
-    var hasStrongRtl = function (text) {
-      return strongRtl.test(text);
-    };
-
-    return {
-      hasStrongRtl: hasStrongRtl
-    };
-  }
-);
-/**
- * InlineUtils.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.keyboard.InlineUtils',
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.api.Options',
-    'tinymce.core.caret.CaretContainer',
-    'tinymce.core.caret.CaretFinder',
-    'tinymce.core.caret.CaretPosition',
-    'tinymce.core.caret.CaretUtils',
-    'tinymce.core.caret.CaretWalker',
-    'tinymce.core.dom.DOMUtils',
-    'tinymce.core.dom.NodeType',
-    'tinymce.core.text.Bidi'
-  ],
-  function (Arr, Fun, Option, Options, CaretContainer, CaretFinder, CaretPosition, CaretUtils, CaretWalker, DOMUtils, NodeType, Bidi) {
-    var isInlineTarget = function (elm) {
-      return DOMUtils.DOM.is(elm, 'a[href],code');
-    };
-
-    var isRtl = function (element) {
-      return DOMUtils.DOM.getStyle(element, 'direction', true) === 'rtl' || Bidi.hasStrongRtl(element.textContent);
-    };
-
-    var findInlineParents = function (rootNode, pos) {
-      return Arr.filter(DOMUtils.DOM.getParents(pos.container(), '*', rootNode), isInlineTarget);
-    };
-
-    var findInline = function (rootNode, pos) {
-      var parents = findInlineParents(rootNode, pos);
-      return Option.from(parents[0]);
-    };
-
-    var findRootInline = function (rootNode, pos) {
-      var parents = findInlineParents(rootNode, pos);
-      return Option.from(parents[parents.length - 1]);
-    };
-
-    var hasSameParentBlock = function (rootNode, node1, node2) {
-      var block1 = CaretUtils.getParentBlock(node1, rootNode);
-      var block2 = CaretUtils.getParentBlock(node2, rootNode);
-      return block1 && block1 === block2;
-    };
-
-    var isInInline = function (rootNode, pos) {
-      return pos ? findRootInline(rootNode, pos).isSome() : false;
-    };
-
-    var isAtInlineEndPoint = function (rootNode, pos) {
-      return findRootInline(rootNode, pos).map(function (inline) {
-        return findCaretPosition(inline, false, pos).isNone() || findCaretPosition(inline, true, pos).isNone();
-      }).getOr(false);
-    };
-
-    var isAtZwsp = function (pos) {
-      return CaretContainer.isBeforeInline(pos) || CaretContainer.isAfterInline(pos);
-    };
-
-    var findCaretPositionIn = function (node, forward) {
-      return CaretFinder.positionIn(forward, node);
-    };
-
-    var findCaretPosition = function (rootNode, forward, from) {
-      return CaretFinder.fromPosition(forward, rootNode, from);
-    };
-
-    var normalizePosition = function (forward, pos) {
-      var container = pos.container(), offset = pos.offset();
-
-      if (forward) {
-        if (CaretContainer.isCaretContainerInline(container)) {
-          if (NodeType.isText(container.nextSibling)) {
-            return new CaretPosition(container.nextSibling, 0);
-          } else {
-            return CaretPosition.after(container);
-          }
-        } else {
-          return CaretContainer.isBeforeInline(pos) ? new CaretPosition(container, offset + 1) : pos;
-        }
-      } else {
-        if (CaretContainer.isCaretContainerInline(container)) {
-          if (NodeType.isText(container.previousSibling)) {
-            return new CaretPosition(container.previousSibling, container.previousSibling.data.length);
-          } else {
-            return CaretPosition.before(container);
-          }
-        } else {
-          return CaretContainer.isAfterInline(pos) ? new CaretPosition(container, offset - 1) : pos;
-        }
-      }
-    };
-
-    var normalizeForwards = Fun.curry(normalizePosition, true);
-    var normalizeBackwards = Fun.curry(normalizePosition, false);
-
-    return {
-      isInlineTarget: isInlineTarget,
-      findInline: findInline,
-      findRootInline: findRootInline,
-      isInInline: isInInline,
-      isRtl: isRtl,
-      isAtInlineEndPoint: isAtInlineEndPoint,
-      isAtZwsp: isAtZwsp,
-      findCaretPositionIn: findCaretPositionIn,
-      findCaretPosition: findCaretPosition,
-      normalizePosition: normalizePosition,
-      normalizeForwards: normalizeForwards,
-      normalizeBackwards: normalizeBackwards,
-      hasSameParentBlock: hasSameParentBlock
-    };
-  }
-);
-/**
  * DeleteElement.js
  *
  * Released under LGPL License.
@@ -27534,12 +28028,12 @@ define(
     'ephox.sugar.api.search.PredicateFind',
     'ephox.sugar.api.search.Traverse',
     'tinymce.core.caret.CaretCandidate',
+    'tinymce.core.caret.CaretFinder',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.dom.Empty',
-    'tinymce.core.dom.NodeType',
-    'tinymce.core.keyboard.InlineUtils'
+    'tinymce.core.dom.NodeType'
   ],
-  function (Fun, Option, Options, Insert, Remove, Element, Node, PredicateFind, Traverse, CaretCandidate, CaretPosition, Empty, NodeType, InlineUtils) {
+  function (Fun, Option, Options, Insert, Remove, Element, Node, PredicateFind, Traverse, CaretCandidate, CaretFinder, CaretPosition, Empty, NodeType) {
     var needsReposition = function (pos, elm) {
       var container = pos.container();
       var offset = pos.offset();
@@ -27562,7 +28056,7 @@ define(
       if (CaretCandidate.isCaretCandidate(elm.previousSibling)) {
         return Option.some(afterOrEndOf(elm.previousSibling));
       } else {
-        return elm.previousSibling ? InlineUtils.findCaretPositionIn(elm.previousSibling, false) : Option.none();
+        return elm.previousSibling ? CaretFinder.lastPositionIn(elm.previousSibling) : Option.none();
       }
     };
 
@@ -27570,24 +28064,24 @@ define(
       if (CaretCandidate.isCaretCandidate(elm.nextSibling)) {
         return Option.some(beforeOrStartOf(elm.nextSibling));
       } else {
-        return elm.nextSibling ? InlineUtils.findCaretPositionIn(elm.nextSibling, true) : Option.none();
+        return elm.nextSibling ? CaretFinder.firstPositionIn(elm.nextSibling) : Option.none();
       }
     };
 
     var findCaretPositionBackwardsFromElm = function (rootElement, elm) {
       var startPosition = CaretPosition.before(elm.previousSibling ? elm.previousSibling : elm.parentNode);
-      return InlineUtils.findCaretPosition(rootElement, false, startPosition).fold(
+      return CaretFinder.prevPosition(rootElement, startPosition).fold(
         function () {
-          return InlineUtils.findCaretPosition(rootElement, true, CaretPosition.after(elm));
+          return CaretFinder.nextPosition(rootElement, CaretPosition.after(elm));
         },
         Option.some
       );
     };
 
     var findCaretPositionForwardsFromElm = function (rootElement, elm) {
-      return InlineUtils.findCaretPosition(rootElement, true, CaretPosition.after(elm)).fold(
+      return CaretFinder.nextPosition(rootElement, CaretPosition.after(elm)).fold(
         function () {
-          return InlineUtils.findCaretPosition(rootElement, false, CaretPosition.before(elm));
+          return CaretFinder.prevPosition(rootElement, CaretPosition.before(elm));
         },
         Option.some
       );
@@ -27707,16 +28201,20 @@ define(
 define(
   'tinymce.core.delete.CefDelete',
   [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.dom.Remove',
     'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFilter',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.caret.CaretUtils',
     'tinymce.core.delete.BlockBoundary',
     'tinymce.core.delete.CefDeleteAction',
     'tinymce.core.delete.DeleteElement',
+    'tinymce.core.delete.DeleteUtils',
     'tinymce.core.delete.MergeBlocks',
     'tinymce.core.dom.NodeType'
   ],
-  function (Element, CaretPosition, CaretUtils, BlockBoundary, CefDeleteAction, DeleteElement, MergeBlocks, NodeType) {
+  function (Arr, Remove, Element, SelectorFilter, CaretPosition, CaretUtils, BlockBoundary, CefDeleteAction, DeleteElement, DeleteUtils, MergeBlocks, NodeType) {
     var deleteElement = function (editor, forward) {
       return function (element) {
         DeleteElement.deleteElement(editor, forward, Element.fromDom(element));
@@ -27751,10 +28249,16 @@ define(
       return result.getOr(false);
     };
 
+    var deleteOffscreenSelection = function (rootElement) {
+      Arr.each(SelectorFilter.descendants(rootElement, '.mce-offscreen-selection'), Remove.remove);
+    };
+
     var backspaceDeleteRange = function (editor, forward) {
       var selectedElement = editor.selection.getNode();
       if (NodeType.isContentEditableFalse(selectedElement)) {
+        deleteOffscreenSelection(Element.fromDom(editor.getBody()));
         DeleteElement.deleteElement(editor, forward, Element.fromDom(editor.selection.getNode()));
+        DeleteUtils.paddEmptyBody(editor);
         return true;
       } else {
         return false;
@@ -28006,6 +28510,233 @@ define(
   }
 );
 /**
+ * DefaultSettings.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.EditorSettings',
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Type',
+    'tinymce.core.util.Tools'
+  ],
+  function (Fun, Option, Type, Tools) {
+    var getEditorSettings = function (editor, id, documentBaseUrl, defaultOverrideSettings, settings) {
+      settings = Tools.extend(
+        // Default settings
+        {
+          id: id,
+          theme: 'modern',
+          delta_width: 0,
+          delta_height: 0,
+          popup_css: '',
+          plugins: '',
+          document_base_url: documentBaseUrl,
+          add_form_submit_trigger: true,
+          submit_patch: true,
+          add_unload_trigger: true,
+          convert_urls: true,
+          relative_urls: true,
+          remove_script_host: true,
+          object_resizing: true,
+          doctype: '<!DOCTYPE html>',
+          visual: true,
+          font_size_style_values: 'xx-small,x-small,small,medium,large,x-large,xx-large',
+
+          // See: http://www.w3.org/TR/CSS2/fonts.html#propdef-font-size
+          font_size_legacy_values: 'xx-small,small,medium,large,x-large,xx-large,300%',
+          forced_root_block: 'p',
+          hidden_input: true,
+          padd_empty_editor: true,
+          render_ui: true,
+          indentation: '30px',
+          inline_styles: true,
+          convert_fonts_to_spans: true,
+          indent: 'simple',
+          indent_before: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
+          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
+          indent_after: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
+          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
+          entity_encoding: 'named',
+          url_converter: editor.convertURL,
+          url_converter_scope: editor,
+          ie7_compat: true
+        },
+
+        // tinymce.overrideDefaults settings
+        defaultOverrideSettings,
+
+        // User settings
+        settings,
+
+        // Forced settings
+        {
+          validate: true,
+          content_editable: settings.inline
+        }
+      );
+
+      // Merge external_plugins
+      if (defaultOverrideSettings && defaultOverrideSettings.external_plugins && settings.external_plugins) {
+        settings.external_plugins = Tools.extend({}, defaultOverrideSettings.external_plugins, settings.external_plugins);
+      }
+
+      return settings;
+    };
+
+    var get = function (editor, name) {
+      return Option.from(editor.settings[name]);
+    };
+
+    var getFiltered = function (predicate, editor, name) {
+      return Option.from(editor.settings[name]).filter(predicate);
+    };
+
+    return {
+      getEditorSettings: getEditorSettings,
+      get: get,
+      getString: Fun.curry(getFiltered, Type.isString)
+    };
+  }
+);
+
+/**
+ * Bidi.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.text.Bidi',
+  [
+  ],
+  function () {
+    var strongRtl = /[\u0591-\u07FF\uFB1D-\uFDFF\uFE70-\uFEFC]/;
+
+    var hasStrongRtl = function (text) {
+      return strongRtl.test(text);
+    };
+
+    return {
+      hasStrongRtl: hasStrongRtl
+    };
+  }
+);
+/**
+ * InlineUtils.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.keyboard.InlineUtils',
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Options',
+    'ephox.katamari.api.Type',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.Selectors',
+    'tinymce.core.caret.CaretContainer',
+    'tinymce.core.caret.CaretFinder',
+    'tinymce.core.caret.CaretPosition',
+    'tinymce.core.caret.CaretUtils',
+    'tinymce.core.caret.CaretWalker',
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.dom.NodeType',
+    'tinymce.core.EditorSettings',
+    'tinymce.core.text.Bidi'
+  ],
+  function (
+    Arr, Fun, Option, Options, Type, Element, Selectors, CaretContainer, CaretFinder, CaretPosition, CaretUtils, CaretWalker, DOMUtils, NodeType, EditorSettings,
+    Bidi
+  ) {
+    var isInlineTarget = function (editor, elm) {
+      var selector = EditorSettings.getString(editor, 'inline_boundaries_selector').getOr('a[href],code');
+      return Selectors.is(Element.fromDom(elm), selector);
+    };
+
+    var isRtl = function (element) {
+      return DOMUtils.DOM.getStyle(element, 'direction', true) === 'rtl' || Bidi.hasStrongRtl(element.textContent);
+    };
+
+    var findInlineParents = function (isInlineTarget, rootNode, pos) {
+      return Arr.filter(DOMUtils.DOM.getParents(pos.container(), '*', rootNode), isInlineTarget);
+    };
+
+    var findRootInline = function (isInlineTarget, rootNode, pos) {
+      var parents = findInlineParents(isInlineTarget, rootNode, pos);
+      return Option.from(parents[parents.length - 1]);
+    };
+
+    var hasSameParentBlock = function (rootNode, node1, node2) {
+      var block1 = CaretUtils.getParentBlock(node1, rootNode);
+      var block2 = CaretUtils.getParentBlock(node2, rootNode);
+      return block1 && block1 === block2;
+    };
+
+    var isAtZwsp = function (pos) {
+      return CaretContainer.isBeforeInline(pos) || CaretContainer.isAfterInline(pos);
+    };
+
+    var normalizePosition = function (forward, pos) {
+      var container = pos.container(), offset = pos.offset();
+
+      if (forward) {
+        if (CaretContainer.isCaretContainerInline(container)) {
+          if (NodeType.isText(container.nextSibling)) {
+            return new CaretPosition(container.nextSibling, 0);
+          } else {
+            return CaretPosition.after(container);
+          }
+        } else {
+          return CaretContainer.isBeforeInline(pos) ? new CaretPosition(container, offset + 1) : pos;
+        }
+      } else {
+        if (CaretContainer.isCaretContainerInline(container)) {
+          if (NodeType.isText(container.previousSibling)) {
+            return new CaretPosition(container.previousSibling, container.previousSibling.data.length);
+          } else {
+            return CaretPosition.before(container);
+          }
+        } else {
+          return CaretContainer.isAfterInline(pos) ? new CaretPosition(container, offset - 1) : pos;
+        }
+      }
+    };
+
+    var normalizeForwards = Fun.curry(normalizePosition, true);
+    var normalizeBackwards = Fun.curry(normalizePosition, false);
+
+    return {
+      isInlineTarget: isInlineTarget,
+      findRootInline: findRootInline,
+      isRtl: isRtl,
+      isAtZwsp: isAtZwsp,
+      normalizePosition: normalizePosition,
+      normalizeForwards: normalizeForwards,
+      normalizeBackwards: normalizeBackwards,
+      hasSameParentBlock: hasSameParentBlock
+    };
+  }
+);
+/**
  * BoundaryCaret.js
  *
  * Released under LGPL License.
@@ -28022,11 +28753,12 @@ define(
     'tinymce.core.caret.CaretContainer',
     'tinymce.core.caret.CaretContainerInline',
     'tinymce.core.caret.CaretContainerRemove',
+    'tinymce.core.caret.CaretFinder',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.dom.NodeType',
     'tinymce.core.keyboard.InlineUtils'
   ],
-  function (Option, CaretContainer, CaretContainerInline, CaretContainerRemove, CaretPosition, NodeType, InlineUtils) {
+  function (Option, CaretContainer, CaretContainerInline, CaretContainerRemove, CaretFinder, CaretPosition, NodeType, InlineUtils) {
     var insertInlinePos = function (pos, before) {
       if (NodeType.isText(pos.container())) {
         return CaretContainerInline.insertInline(before, pos.container());
@@ -28049,7 +28781,7 @@ define(
           return Option.some(new CaretPosition(text, text.length - 1));
         },
         function (element) { // Start
-          return InlineUtils.findCaretPositionIn(element, true).map(function (pos) {
+          return CaretFinder.firstPositionIn(element).map(function (pos) {
             if (!isPosCaretContainer(pos, caret)) {
               CaretContainerRemove.remove(caret.get());
               var text = insertInlinePos(pos, true);
@@ -28061,7 +28793,7 @@ define(
           });
         },
         function (element) { // End
-          return InlineUtils.findCaretPositionIn(element, false).map(function (pos) {
+          return CaretFinder.lastPositionIn(element).map(function (pos) {
             if (!isPosCaretContainer(pos, caret)) {
               CaretContainerRemove.remove(caret.get());
               var text = insertInlinePos(pos, false);
@@ -28136,13 +28868,14 @@ define(
     'ephox.katamari.api.Option',
     'ephox.katamari.api.Options',
     'tinymce.core.caret.CaretContainer',
+    'tinymce.core.caret.CaretFinder',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.caret.CaretUtils',
     'tinymce.core.dom.NodeType',
     'tinymce.core.keyboard.InlineUtils',
     'tinymce.core.util.LazyEvaluator'
   ],
-  function (Adt, Fun, Option, Options, CaretContainer, CaretPosition, CaretUtils, NodeType, InlineUtils, LazyEvaluator) {
+  function (Adt, Fun, Option, Options, CaretContainer, CaretFinder, CaretPosition, CaretUtils, NodeType, InlineUtils, LazyEvaluator) {
     var Location = Adt.generate([
       { before: [ 'element' ] },
       { start: [ 'element' ] },
@@ -28155,13 +28888,13 @@ define(
       return parentBlock ? parentBlock : rootNode;
     };
 
-    var before = function (rootNode, pos) {
+    var before = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeForwards(pos);
       var scope = rescope(rootNode, nPos.container());
-      return InlineUtils.findRootInline(scope, nPos).fold(
+      return InlineUtils.findRootInline(isInlineTarget, scope, nPos).fold(
         function () {
-          return InlineUtils.findCaretPosition(scope, true, nPos)
-            .bind(Fun.curry(InlineUtils.findRootInline, scope))
+          return CaretFinder.nextPosition(scope, nPos)
+            .bind(Fun.curry(InlineUtils.findRootInline, isInlineTarget, scope))
             .map(function (inline) {
               return Location.before(inline);
             });
@@ -28170,29 +28903,29 @@ define(
       );
     };
 
-    var start = function (rootNode, pos) {
+    var start = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeBackwards(pos);
-      return InlineUtils.findRootInline(rootNode, nPos).bind(function (inline) {
-        var prevPos = InlineUtils.findCaretPosition(inline, false, nPos);
+      return InlineUtils.findRootInline(isInlineTarget, rootNode, nPos).bind(function (inline) {
+        var prevPos = CaretFinder.prevPosition(inline, nPos);
         return prevPos.isNone() ? Option.some(Location.start(inline)) : Option.none();
       });
     };
 
-    var end = function (rootNode, pos) {
+    var end = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeForwards(pos);
-      return InlineUtils.findRootInline(rootNode, nPos).bind(function (inline) {
-        var nextPos = InlineUtils.findCaretPosition(inline, true, nPos);
+      return InlineUtils.findRootInline(isInlineTarget, rootNode, nPos).bind(function (inline) {
+        var nextPos = CaretFinder.nextPosition(inline, nPos);
         return nextPos.isNone() ? Option.some(Location.end(inline)) : Option.none();
       });
     };
 
-    var after = function (rootNode, pos) {
+    var after = function (isInlineTarget, rootNode, pos) {
       var nPos = InlineUtils.normalizeBackwards(pos);
       var scope = rescope(rootNode, nPos.container());
-      return InlineUtils.findRootInline(scope, nPos).fold(
+      return InlineUtils.findRootInline(isInlineTarget, scope, nPos).fold(
         function () {
-          return InlineUtils.findCaretPosition(scope, false, nPos)
-            .bind(Fun.curry(InlineUtils.findRootInline, scope))
+          return CaretFinder.prevPosition(scope, nPos)
+            .bind(Fun.curry(InlineUtils.findRootInline, isInlineTarget, scope))
             .map(function (inline) {
               return Location.after(inline);
             });
@@ -28205,13 +28938,13 @@ define(
       return InlineUtils.isRtl(getElement(location)) === false;
     };
 
-    var readLocation = function (rootNode, pos) {
+    var readLocation = function (isInlineTarget, rootNode, pos) {
       var location = LazyEvaluator.evaluateUntil([
         before,
         start,
         end,
         after
-      ], [rootNode, pos]);
+      ], [isInlineTarget, rootNode, pos]);
 
       return location.filter(isValidLocation);
     };
@@ -28256,10 +28989,10 @@ define(
       return getName(location1) === getName(location2) && getElement(location1) === getElement(location2);
     };
 
-    var betweenInlines = function (forward, rootNode, from, to, location) {
+    var betweenInlines = function (forward, isInlineTarget, rootNode, from, to, location) {
       return Options.liftN([
-        InlineUtils.findRootInline(rootNode, from),
-        InlineUtils.findRootInline(rootNode, to)
+        InlineUtils.findRootInline(isInlineTarget, rootNode, from),
+        InlineUtils.findRootInline(isInlineTarget, rootNode, to)
       ], function (fromInline, toInline) {
         if (fromInline !== toInline && InlineUtils.hasSameParentBlock(rootNode, fromInline, toInline)) {
           // Force after since some browsers normalize and lean left into the closest inline
@@ -28279,17 +29012,17 @@ define(
       );
     };
 
-    var findLocationTraverse = function (forward, rootNode, fromLocation, pos) {
+    var findLocationTraverse = function (forward, isInlineTarget, rootNode, fromLocation, pos) {
       var from = InlineUtils.normalizePosition(forward, pos);
-      var to = InlineUtils.findCaretPosition(rootNode, forward, from).map(Fun.curry(InlineUtils.normalizePosition, forward));
+      var to = CaretFinder.fromPosition(forward, rootNode, from).map(Fun.curry(InlineUtils.normalizePosition, forward));
 
       var location = to.fold(
         function () {
           return fromLocation.map(outside);
         },
         function (to) {
-          return readLocation(rootNode, to)
-            .map(Fun.curry(betweenInlines, forward, rootNode, from, to))
+          return readLocation(isInlineTarget, rootNode, to)
+            .map(Fun.curry(betweenInlines, forward, isInlineTarget, rootNode, from, to))
             .filter(Fun.curry(skipNoMovement, fromLocation));
         }
       );
@@ -28315,17 +29048,18 @@ define(
       }
     };
 
-    var findLocation = function (forward, rootNode, pos) {
+    var findLocation = function (forward, isInlineTarget, rootNode, pos) {
       var from = InlineUtils.normalizePosition(forward, pos);
-      var fromLocation = readLocation(rootNode, from);
+      var fromLocation = readLocation(isInlineTarget, rootNode, from);
 
-      return readLocation(rootNode, from).bind(Fun.curry(findLocationSimple, forward)).orThunk(function () {
-        return findLocationTraverse(forward, rootNode, fromLocation, pos);
+      return readLocation(isInlineTarget, rootNode, from).bind(Fun.curry(findLocationSimple, forward)).orThunk(function () {
+        return findLocationTraverse(forward, isInlineTarget, rootNode, fromLocation, pos);
       });
     };
 
     return {
       readLocation: readLocation,
+      findLocation: findLocation,
       prevLocation: Fun.curry(findLocation, false),
       nextLocation: Fun.curry(findLocation, true),
       getElement: getElement,
@@ -28334,39 +29068,6 @@ define(
     };
   }
 );
-define(
-  'ephox.katamari.api.Cell',
-
-  [
-  ],
-
-  function () {
-    var Cell = function (initial) {
-      var value = initial;
-
-      var get = function () {
-        return value;
-      };
-
-      var set = function (v) {
-        value = v;
-      };
-
-      var clone = function () {
-        return Cell(get());
-      };
-
-      return {
-        get: get,
-        set: set,
-        clone: clone
-      };
-    };
-
-    return Cell;
-  }
-);
-
 /**
  * BoundarySelection.js
  *
@@ -28419,15 +29120,16 @@ define(
     var findLocation = function (editor, caret, forward) {
       var rootNode = editor.getBody();
       var from = CaretPosition.fromRangeStart(editor.selection.getRng());
-      var location = forward ? BoundaryLocation.nextLocation(rootNode, from) : BoundaryLocation.prevLocation(rootNode, from);
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
+      var location = BoundaryLocation.findLocation(forward, isInlineTarget, rootNode, from);
       return location.bind(function (location) {
         return renderCaretLocation(editor, caret, location);
       });
     };
 
-    var toggleInlines = function (dom, elms) {
-      var selectedInlines = dom.select('a[href][data-mce-selected],code[data-mce-selected]');
-      var targetInlines = Arr.filter(elms, InlineUtils.isInlineTarget);
+    var toggleInlines = function (isInlineTarget, dom, elms) {
+      var selectedInlines = Arr.filter(dom.select('*[data-mce-selected]'), isInlineTarget);
+      var targetInlines = Arr.filter(elms, isInlineTarget);
       Arr.each(Arr.difference(selectedInlines, targetInlines), Fun.curry(setSelected, false));
       Arr.each(Arr.difference(targetInlines, selectedInlines), Fun.curry(setSelected, true));
     };
@@ -28442,12 +29144,12 @@ define(
       }
     };
 
-    var renderInsideInlineCaret = function (editor, caret, elms) {
+    var renderInsideInlineCaret = function (isInlineTarget, editor, caret, elms) {
       if (editor.selection.isCollapsed()) {
-        var inlines = Arr.filter(elms, InlineUtils.isInlineTarget);
+        var inlines = Arr.filter(elms, isInlineTarget);
         Arr.each(inlines, function (inline) {
           var pos = CaretPosition.fromRangeStart(editor.selection.getRng());
-          BoundaryLocation.readLocation(editor.getBody(), pos).bind(function (location) {
+          BoundaryLocation.readLocation(isInlineTarget, editor.getBody(), pos).bind(function (location) {
             return renderCaretLocation(editor, caret, location);
           });
         });
@@ -28462,12 +29164,13 @@ define(
 
     var setupSelectedState = function (editor) {
       var caret = new Cell(null);
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
 
       editor.on('NodeChange', function (e) {
         if (isFeatureEnabled(editor)) {
-          toggleInlines(editor.dom, e.parents);
+          toggleInlines(isInlineTarget, editor.dom, e.parents);
           safeRemoveCaretContainer(editor, caret);
-          renderInsideInlineCaret(editor, caret, e.parents);
+          renderInsideInlineCaret(isInlineTarget, editor, caret, e.parents);
         }
       });
 
@@ -28528,13 +29231,13 @@ define(
     // Checks for delete at <code>|a</code> when there is only one item left except the zwsp caret container nodes
     var hasOnlyTwoOrLessPositionsLeft = function (elm) {
       return Options.liftN([
-        InlineUtils.findCaretPositionIn(elm, true),
-        InlineUtils.findCaretPositionIn(elm, false)
+        CaretFinder.firstPositionIn(elm),
+        CaretFinder.lastPositionIn(elm)
       ], function (firstPos, lastPos) {
         var normalizedFirstPos = InlineUtils.normalizePosition(true, firstPos);
         var normalizedLastPos = InlineUtils.normalizePosition(false, lastPos);
 
-        return InlineUtils.findCaretPosition(elm, true, normalizedFirstPos).map(function (pos) {
+        return CaretFinder.nextPosition(elm, normalizedFirstPos).map(function (pos) {
           return pos.isEqual(normalizedLastPos);
         }).getOr(true);
       }).getOr(true);
@@ -28551,12 +29254,13 @@ define(
 
     var deleteFromTo = function (editor, caret, from, to) {
       var rootNode = editor.getBody();
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
 
       editor.undoManager.ignore(function () {
         editor.selection.setRng(rangeFromPositions(from, to));
         editor.execCommand('Delete');
 
-        BoundaryLocation.readLocation(rootNode, CaretPosition.fromRangeStart(editor.selection.getRng()))
+        BoundaryLocation.readLocation(isInlineTarget, rootNode, CaretPosition.fromRangeStart(editor.selection.getRng()))
           .map(BoundaryLocation.inside)
           .map(setCaretLocation(editor, caret));
       });
@@ -28571,7 +29275,8 @@ define(
 
     var backspaceDeleteCollapsed = function (editor, caret, forward, from) {
       var rootNode = rescope(editor.getBody(), from.container());
-      var fromLocation = BoundaryLocation.readLocation(rootNode, from);
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
+      var fromLocation = BoundaryLocation.readLocation(isInlineTarget, rootNode, from);
 
       return fromLocation.bind(function (location) {
         if (forward) {
@@ -28594,11 +29299,11 @@ define(
       .getOrThunk(function () {
         var toPosition = CaretFinder.navigate(forward, rootNode, from);
         var toLocation = toPosition.bind(function (pos) {
-          return BoundaryLocation.readLocation(rootNode, pos);
+          return BoundaryLocation.readLocation(isInlineTarget, rootNode, pos);
         });
 
         if (fromLocation.isSome() && toLocation.isSome()) {
-          return InlineUtils.findRootInline(rootNode, from).map(function (elm) {
+          return InlineUtils.findRootInline(isInlineTarget, rootNode, from).map(function (elm) {
             if (hasOnlyTwoOrLessPositionsLeft(elm)) {
               DeleteElement.deleteElement(editor, forward, Element.fromDom(elm));
               return true;
@@ -28652,30 +29357,12 @@ define(
     'tinymce.core.delete.BlockBoundaryDelete',
     'tinymce.core.delete.BlockRangeDelete',
     'tinymce.core.delete.CefDelete',
+    'tinymce.core.delete.DeleteUtils',
     'tinymce.core.delete.InlineBoundaryDelete'
   ],
-  function (BlockBoundaryDelete, BlockRangeDelete, CefDelete, BoundaryDelete) {
+  function (BlockBoundaryDelete, BlockRangeDelete, CefDelete, DeleteUtils, BoundaryDelete) {
     var nativeCommand = function (editor, command) {
       editor.getDoc().execCommand(command, false, null);
-    };
-
-    var paddEmptyBody = function (editor) {
-      var dom = editor.dom;
-
-      // Check if body is empty after the delete call if so then set the contents
-      // to an empty string and move the caret to any block produced by that operation
-      // this fixes the issue with root blocks not being properly produced after a delete call on IE
-      var body = editor.getBody();
-
-      if (dom.isEmpty(body)) {
-        editor.setContent('');
-
-        if (body.firstChild && dom.isBlock(body.firstChild)) {
-          editor.selection.setCursorLocation(body.firstChild, 0);
-        } else {
-          editor.selection.setCursorLocation(body, 0);
-        }
-      }
     };
 
     var deleteCommand = function (editor) {
@@ -28689,7 +29376,7 @@ define(
         return;
       } else {
         nativeCommand(editor, 'Delete');
-        paddEmptyBody(editor);
+        DeleteUtils.paddEmptyBody(editor);
       }
     };
 
@@ -28710,75 +29397,6 @@ define(
     return {
       deleteCommand: deleteCommand,
       forwardDeleteCommand: forwardDeleteCommand
-    };
-  }
-);
-/**
- * RangeNormalizer.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.dom.RangeNormalizer',
-  [
-    'tinymce.core.caret.CaretFinder',
-    'tinymce.core.caret.CaretPosition',
-    'tinymce.core.caret.CaretUtils',
-    'tinymce.core.dom.NodeType'
-  ],
-  function (CaretFinder, CaretPosition, CaretUtils, NodeType) {
-    var isTextBlock = function (elm) {
-      return NodeType.isElement(elm) && /^(P|H[1-6]|DIV)$/.test(elm.nodeName);
-    };
-
-    var matchEndContainer = function (rng, predicate) {
-      return predicate(rng.endContainer);
-    };
-
-    var createRange = function (sc, so, ec, eo) {
-      var rng = document.createRange();
-      rng.setStart(sc, so);
-      rng.setEnd(ec, eo);
-      return rng;
-    };
-
-    // If you tripple click a paragraph in this case:
-    //   <blockquote><p>a</p></blockquote><p>b</p>
-    // It would become this range in webkit:
-    //   <blockquote><p>[a</p></blockquote><p>]b</p>
-    // We would want it to be:
-    //   <blockquote><p>[a]</p></blockquote><p>b</p>
-    // Since it would otherwise produces spans out of thin air on insertContent for example.
-    var normalizeBlockSelection = function (rng) {
-      var startPos = CaretPosition.fromRangeStart(rng);
-      var endPos = CaretPosition.fromRangeEnd(rng);
-      var rootNode = rng.commonAncestorContainer;
-
-      if (rng.collapsed === false && matchEndContainer(rng, isTextBlock) && rng.endOffset === 0) {
-        return CaretFinder.fromPosition(false, rootNode, endPos)
-          .map(function (newEndPos) {
-            if (!CaretUtils.isInSameBlock(startPos, endPos, rootNode) && CaretUtils.isInSameBlock(startPos, newEndPos, rootNode)) {
-              return createRange(startPos.container(), startPos.offset(), newEndPos.container(), newEndPos.offset());
-            } else {
-              return rng;
-            }
-          }).getOr(rng);
-      } else {
-        return rng;
-      }
-    };
-
-    var normalize = function (rng) {
-      return normalizeBlockSelection(rng);
-    };
-
-    return {
-      normalize: normalize
     };
   }
 );
@@ -37450,6 +38068,10 @@ define(
     "tinymce.core.util.Delay"
   ],
   function (Control, Movable, Progress, Delay) {
+    var updateLiveRegion = function (ctx, text) {
+      ctx.getEl().lastChild.textContent = text + (ctx.progressBar ? ' ' + ctx.progressBar.value() + '%' : '');
+    };
+
     return Control.extend({
       Mixins: [Movable],
 
@@ -37527,6 +38149,8 @@ define(
           '<div class="' + prefix + 'notification-inner">' + self.state.get('text') + '</div>' +
           progressBar +
           closeButton +
+          '<div style="clip: rect(1px, 1px, 1px, 1px);height: 1px;overflow: hidden;position: absolute;width: 1px;"' +
+          ' aria-live="assertive" aria-relevant="additions" aria-atomic="true"></div>' +
           '</div>'
         );
       },
@@ -37536,7 +38160,8 @@ define(
 
         Delay.setTimeout(function () {
           self.$el.addClass(self.classPrefix + 'in');
-        });
+          updateLiveRegion(self, self.state.get('text'));
+        }, 100);
 
         return self._super();
       },
@@ -37545,10 +38170,14 @@ define(
         var self = this;
 
         self.state.on('change:text', function (e) {
-          self.getEl().childNodes[1].innerHTML = e.value;
+          self.getEl().firstChild.innerHTML = e.value;
+          updateLiveRegion(self, e.value);
         });
         if (self.progressBar) {
           self.progressBar.bindStates();
+          self.progressBar.state.on('change:value', function (e) {
+            updateLiveRegion(self, self.state.get('text'));
+          });
         }
         return self._super();
       },
@@ -38232,91 +38861,6 @@ define(
   }
 );
 
-/**
- * DefaultSettings.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.EditorSettings',
-  [
-    'tinymce.core.util.Tools'
-  ],
-  function (Tools) {
-    var getEditorSettings = function (editor, id, documentBaseUrl, defaultOverrideSettings, settings) {
-      settings = Tools.extend(
-        // Default settings
-        {
-          id: id,
-          theme: 'modern',
-          delta_width: 0,
-          delta_height: 0,
-          popup_css: '',
-          plugins: '',
-          document_base_url: documentBaseUrl,
-          add_form_submit_trigger: true,
-          submit_patch: true,
-          add_unload_trigger: true,
-          convert_urls: true,
-          relative_urls: true,
-          remove_script_host: true,
-          object_resizing: true,
-          doctype: '<!DOCTYPE html>',
-          visual: true,
-          font_size_style_values: 'xx-small,x-small,small,medium,large,x-large,xx-large',
-
-          // See: http://www.w3.org/TR/CSS2/fonts.html#propdef-font-size
-          font_size_legacy_values: 'xx-small,small,medium,large,x-large,xx-large,300%',
-          forced_root_block: 'p',
-          hidden_input: true,
-          padd_empty_editor: true,
-          render_ui: true,
-          indentation: '30px',
-          inline_styles: true,
-          convert_fonts_to_spans: true,
-          indent: 'simple',
-          indent_before: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
-          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
-          indent_after: 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,th,ul,ol,li,dl,dt,dd,area,table,thead,' +
-          'tfoot,tbody,tr,section,article,hgroup,aside,figure,figcaption,option,optgroup,datalist',
-          entity_encoding: 'named',
-          url_converter: editor.convertURL,
-          url_converter_scope: editor,
-          ie7_compat: true
-        },
-
-        // tinymce.overrideDefaults settings
-        defaultOverrideSettings,
-
-        // User settings
-        settings,
-
-        // Forced settings
-        {
-          validate: true,
-          content_editable: settings.inline
-        }
-      );
-
-      // Merge external_plugins
-      if (defaultOverrideSettings && defaultOverrideSettings.external_plugins && settings.external_plugins) {
-        settings.external_plugins = Tools.extend({}, defaultOverrideSettings.external_plugins, settings.external_plugins);
-      }
-
-      return settings;
-    };
-
-    return {
-      getEditorSettings: getEditorSettings
-    };
-  }
-);
-
 defineGlobal("global!window", window);
 /**
  * ErrorReporter.js
@@ -38426,11 +38970,15 @@ define(
   'tinymce.core.caret.CaretContainerInput',
   [
     'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFind',
     'tinymce.core.caret.CaretContainer'
   ],
-  function (Fun, CaretContainer) {
+  function (Fun, Element, SelectorFind, CaretContainer) {
     var findBlockCaretContainer = function (editor) {
-      return editor.dom.select('*[data-mce-caret]')[0];
+      return SelectorFind.descendant(Element.fromDom(editor.getBody()), '*[data-mce-caret]').fold(Fun.constant(null), function (elm) {
+        return elm.dom();
+      });
     };
 
     var removeIeControlRect = function (editor) {
@@ -40474,9 +41022,16 @@ define(
       };
     };
 
+    var execute = function (patterns, evt) {
+      return Arr.find(match(patterns, evt), function (pattern) {
+        return pattern.action();
+      });
+    };
+
     return {
       match: match,
-      action: action
+      action: action,
+      execute: execute
     };
   }
 );
@@ -40493,27 +41048,21 @@ define(
 define(
   'tinymce.core.keyboard.ArrowKeys',
   [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Cell',
     'tinymce.core.keyboard.BoundarySelection',
     'tinymce.core.keyboard.CefNavigation',
     'tinymce.core.keyboard.MatchKeys',
     'tinymce.core.util.VK'
   ],
-  function (Arr, Cell, BoundarySelection, CefNavigation, MatchKeys, VK) {
+  function (BoundarySelection, CefNavigation, MatchKeys, VK) {
     var executeKeydownOverride = function (editor, caret, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.RIGHT, action: CefNavigation.moveH(editor, true) },
         { keyCode: VK.LEFT, action: CefNavigation.moveH(editor, false) },
         { keyCode: VK.UP, action: CefNavigation.moveV(editor, false) },
         { keyCode: VK.DOWN, action: CefNavigation.moveV(editor, true) },
         { keyCode: VK.RIGHT, action: BoundarySelection.move(editor, caret, true) },
         { keyCode: VK.LEFT, action: BoundarySelection.move(editor, caret, false) }
-      ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      }).each(function (_) {
+      ], evt).each(function (_) {
         evt.preventDefault();
       });
     };
@@ -40545,7 +41094,6 @@ define(
 define(
   'tinymce.core.keyboard.DeleteBackspaceKeys',
   [
-    'ephox.katamari.api.Arr',
     'tinymce.core.delete.BlockBoundaryDelete',
     'tinymce.core.delete.BlockRangeDelete',
     'tinymce.core.delete.CefDelete',
@@ -40553,9 +41101,9 @@ define(
     'tinymce.core.keyboard.MatchKeys',
     'tinymce.core.util.VK'
   ],
-  function (Arr, BlockBoundaryDelete, BlockRangeDelete, CefDelete, InlineBoundaryDelete, MatchKeys, VK) {
+  function (BlockBoundaryDelete, BlockRangeDelete, CefDelete, InlineBoundaryDelete, MatchKeys, VK) {
     var executeKeydownOverride = function (editor, caret, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(CefDelete.backspaceDelete, editor, false) },
         { keyCode: VK.DELETE, action: MatchKeys.action(CefDelete.backspaceDelete, editor, true) },
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(InlineBoundaryDelete.backspaceDelete, editor, caret, false) },
@@ -40564,24 +41112,16 @@ define(
         { keyCode: VK.DELETE, action: MatchKeys.action(BlockRangeDelete.backspaceDelete, editor, true) },
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(BlockBoundaryDelete.backspaceDelete, editor, false) },
         { keyCode: VK.DELETE, action: MatchKeys.action(BlockBoundaryDelete.backspaceDelete, editor, true) }
-      ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      }).each(function (_) {
+      ], evt).each(function (_) {
         evt.preventDefault();
       });
     };
 
     var executeKeyupOverride = function (editor, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.BACKSPACE, action: MatchKeys.action(CefDelete.paddEmptyElement, editor) },
         { keyCode: VK.DELETE, action: MatchKeys.action(CefDelete.paddEmptyElement, editor) }
       ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      });
     };
 
     var setup = function (editor, caret) {
@@ -40639,6 +41179,14 @@ define(
       return node && /^(TD|TH|CAPTION)$/.test(node.nodeName);
     };
 
+    var hasFirstChild = function (elm, name) {
+      return elm.firstChild && elm.firstChild.nodeName == name;
+    };
+
+    var hasParent = function (elm, parentName) {
+      return elm && elm.parentNode && elm.parentNode.nodeName === parentName;
+    };
+
     var emptyBlock = function (elm) {
       // BR is needed in empty blocks on non IE browsers
       elm.innerHTML = !isIE ? '<br data-mce-bogus="1">' : '';
@@ -40646,6 +41194,14 @@ define(
 
     var containerAndSiblingName = function (container, nodeName) {
       return container.nodeName === nodeName || (container.previousSibling && container.previousSibling.nodeName === nodeName);
+    };
+
+    var isListBlock = function (elm) {
+      return elm && /^(OL|UL|LI)$/.test(elm.nodeName);
+    };
+
+    var isNestedList = function (elm) {
+      return isListBlock(elm) && isListBlock(elm.parentNode);
     };
 
     // Returns true if the block can be split into two blocks or not
@@ -41032,16 +41588,14 @@ define(
             return;
           }
 
-          // Check if we are in an nested list
-          var containerBlockParentName = containerBlock.parentNode.nodeName;
-          if (/^(OL|UL|LI)$/.test(containerBlockParentName)) {
+          if (isNestedList(containerBlock)) {
             newBlockName = 'LI';
           }
 
           newBlock = newBlockName ? createNewBlock(newBlockName) : dom.create('BR');
 
           if (isFirstOrLastLi(true) && isFirstOrLastLi()) {
-            if (containerBlockParentName == 'LI') {
+            if (hasParent(containerBlock, 'LI')) {
               // Nested list is inside a LI
               dom.insertAfter(newBlock, getContainerBlock());
             } else {
@@ -41049,7 +41603,7 @@ define(
               dom.replace(newBlock, containerBlock);
             }
           } else if (isFirstOrLastLi(true)) {
-            if (containerBlockParentName == 'LI') {
+            if (hasParent(containerBlock, 'LI')) {
               // List nested in an LI then move the list to a new sibling LI
               dom.insertAfter(newBlock, getContainerBlock());
               newBlock.appendChild(dom.doc.createTextNode(' ')); // Needed for IE so the caret can be placed
@@ -41071,7 +41625,7 @@ define(
             tmpRng.setEndAfter(containerBlock);
             fragment = tmpRng.extractContents();
 
-            if (newBlockName == 'LI' && fragment.firstChild.nodeName == 'LI') {
+            if (newBlockName === 'LI' && hasFirstChild(fragment, 'LI')) {
               newBlock = fragment.firstChild;
               dom.insertAfter(fragment, containerBlock);
             } else {
@@ -41224,6 +41778,7 @@ define(
         // Enter inside block contained within a LI then split or insert before/after LI
         if (containerBlockName == 'LI' && !evt.ctrlKey) {
           parentBlock = containerBlock;
+          containerBlock = containerBlock.parentNode;
           parentBlockName = containerBlockName;
         }
 
@@ -41350,9 +41905,10 @@ define(
     'ephox.katamari.api.Fun',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.dom.NodeType',
-    'tinymce.core.keyboard.BoundaryLocation'
+    'tinymce.core.keyboard.BoundaryLocation',
+    'tinymce.core.keyboard.InlineUtils'
   ],
-  function (Fun, CaretPosition, NodeType, BoundaryLocation) {
+  function (Fun, CaretPosition, NodeType, BoundaryLocation, InlineUtils) {
     var isValidInsertPoint = function (location, caretPosition) {
       return isAtStartOrEnd(location) && NodeType.isText(caretPosition.container());
     };
@@ -41375,8 +41931,9 @@ define(
     };
 
     var insertAtCaret = function (editor) {
+      var isInlineTarget = Fun.curry(InlineUtils.isInlineTarget, editor);
       var caretPosition = CaretPosition.fromRangeStart(editor.selection.getRng());
-      var boundaryLocation = BoundaryLocation.readLocation(editor.getBody(), caretPosition);
+      var boundaryLocation = BoundaryLocation.readLocation(isInlineTarget, editor.getBody(), caretPosition);
       return boundaryLocation.map(Fun.curry(insertAtLocation, editor, caretPosition)).getOr(false);
     };
 
@@ -41412,20 +41969,15 @@ define(
 define(
   'tinymce.core.keyboard.SpaceKey',
   [
-    'ephox.katamari.api.Arr',
     'tinymce.core.keyboard.InsertSpace',
     'tinymce.core.keyboard.MatchKeys',
     'tinymce.core.util.VK'
   ],
-  function (Arr, InsertSpace, MatchKeys, VK) {
+  function (InsertSpace, MatchKeys, VK) {
     var executeKeydownOverride = function (editor, evt) {
-      var matches = MatchKeys.match([
+      MatchKeys.execute([
         { keyCode: VK.SPACEBAR, action: MatchKeys.action(InsertSpace.insertAtSelection, editor) }
-      ], evt);
-
-      Arr.find(matches, function (pattern) {
-        return pattern.action();
-      }).each(function (_) {
+      ], evt).each(function (_) {
         evt.preventDefault();
       });
     };
@@ -41568,9 +42120,10 @@ define(
       editor.on('SelectionChange', function () {
         var startElm = editor.selection.getStart(true);
 
+        // When focusout from after cef element to other input element the startelm can be undefined.
         // IE 8 will fire a selectionchange event with an incorrect selection
         // when focusing out of table cells. Click inside cell -> toolbar = Invalid SelectionChange event
-        if (!Env.range && editor.selection.isCollapsed()) {
+        if (!startElm || (!Env.range && editor.selection.isCollapsed())) {
           return;
         }
 
@@ -42510,6 +43063,12 @@ define(
 define(
   'tinymce.core.SelectionOverrides',
   [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.dom.Remove',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.search.SelectorFilter',
+    'ephox.sugar.api.search.SelectorFind',
     'tinymce.core.caret.CaretContainer',
     'tinymce.core.caret.CaretPosition',
     'tinymce.core.caret.CaretUtils',
@@ -42526,8 +43085,8 @@ define(
     'tinymce.core.util.VK'
   ],
   function (
-    CaretContainer, CaretPosition, CaretUtils, CaretWalker, FakeCaret, LineUtils, NodeType, RangePoint, DragDropOverrides, EditorView, Env, CefUtils, Delay,
-    VK
+    Arr, Remove, Element, Attr, SelectorFilter, SelectorFind, CaretContainer, CaretPosition, CaretUtils, CaretWalker, FakeCaret, LineUtils, NodeType, RangePoint,
+    DragDropOverrides, EditorView, Env, CefUtils, Delay, VK
   ) {
     var isContentEditableTrue = NodeType.isContentEditableTrue,
       isContentEditableFalse = NodeType.isContentEditableFalse,
@@ -42917,8 +43476,16 @@ define(
           return null;
         }
 
+        $realSelectionContainer = SelectorFind.descendant(Element.fromDom(editor.getBody()), '#' + realSelectionId).fold(
+          function () {
+            return $([]);
+          },
+          function (elm) {
+            return $([elm.dom()]);
+          }
+        );
+
         targetClone = e.targetClone;
-        $realSelectionContainer = $('#' + realSelectionId);
         if ($realSelectionContainer.length === 0) {
           $realSelectionContainer = $(
             '<div data-mce-bogus="all" class="mce-offscreen-selection"></div>'
@@ -42951,7 +43518,10 @@ define(
         sel.removeAllRanges();
         sel.addRange(range);
 
-        editor.$('*[data-mce-selected]').removeAttr('data-mce-selected');
+        Arr.each(SelectorFilter.descendants(Element.fromDom(editor.getBody()), '*[data-mce-selected]'), function (elm) {
+          Attr.remove(elm, 'data-mce-selected');
+        });
+
         node.setAttribute('data-mce-selected', 1);
         selectedContentEditableNode = node;
         hideFakeCaret();
@@ -42962,7 +43532,7 @@ define(
       function removeContentEditableSelection() {
         if (selectedContentEditableNode) {
           selectedContentEditableNode.removeAttribute('data-mce-selected');
-          editor.$('#' + realSelectionId).remove();
+          SelectorFind.descendant(Element.fromDom(editor.getBody()), '#' + realSelectionId).each(Remove.remove);
           selectedContentEditableNode = null;
         }
       }
@@ -44097,50 +44667,6 @@ define(
         return (!sel || !sel.rangeCount || sel.rangeCount === 0);
       }
 
-      /**
-       * Properly empties the editor if all contents is selected and deleted this to
-       * prevent empty paragraphs from being produced at beginning/end of contents.
-       */
-      function emptyEditorOnDeleteEverything() {
-        function isEverythingSelected(editor) {
-          var caretWalker = new CaretWalker(editor.getBody());
-          var rng = editor.selection.getRng();
-          var startCaretPos = CaretPosition.fromRangeStart(rng);
-          var endCaretPos = CaretPosition.fromRangeEnd(rng);
-          var prev = caretWalker.prev(startCaretPos);
-          var next = caretWalker.next(endCaretPos);
-
-          return !editor.selection.isCollapsed() &&
-            (!prev || (prev.isAtStart() && startCaretPos.isEqual(prev))) &&
-            (!next || (next.isAtEnd() && startCaretPos.isEqual(next)));
-        }
-
-        // Type over case delete and insert this won't cover typeover with a IME but at least it covers the common case
-        editor.on('keypress', function (e) {
-          if (!isDefaultPrevented(e) && !selection.isCollapsed() && e.charCode > 31 && !VK.metaKeyPressed(e)) {
-            if (isEverythingSelected(editor)) {
-              e.preventDefault();
-              editor.setContent(String.fromCharCode(e.charCode));
-              editor.selection.select(editor.getBody(), true);
-              editor.selection.collapse(false);
-              editor.nodeChanged();
-            }
-          }
-        });
-
-        editor.on('keydown', function (e) {
-          var keyCode = e.keyCode;
-
-          if (!isDefaultPrevented(e) && (keyCode == DELETE || keyCode == BACKSPACE)) {
-            if (isEverythingSelected(editor)) {
-              e.preventDefault();
-              editor.setContent('');
-              editor.nodeChanged();
-            }
-          }
-        });
-      }
-
       // All browsers
       removeBlockQuoteOnBackSpace();
       emptyEditorWhenDeleting();
@@ -44153,7 +44679,6 @@ define(
 
       // WebKit
       if (isWebKit) {
-        emptyEditorOnDeleteEverything();
         inputMethodFocus();
         selectControlElements();
         setDefaultBlockType();
@@ -44198,7 +44723,6 @@ define(
 
       // Gecko
       if (isGecko) {
-        emptyEditorOnDeleteEverything();
         removeHrOnBackspace();
         focusBody();
         removeStylesWhenDeletingAcrossBlockElements();
@@ -44232,6 +44756,7 @@ define(
   [
     'global!document',
     'global!window',
+    'tinymce.core.api.Formatter',
     'tinymce.core.caret.CaretContainerInput',
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.dom.Selection',
@@ -44239,7 +44764,6 @@ define(
     'tinymce.core.EditorUpload',
     'tinymce.core.ErrorReporter',
     'tinymce.core.ForceBlocks',
-    'tinymce.core.Formatter',
     'tinymce.core.html.DomParser',
     'tinymce.core.html.Node',
     'tinymce.core.html.Schema',
@@ -44252,7 +44776,7 @@ define(
     'tinymce.core.util.Tools'
   ],
   function (
-    document, window, CaretContainerInput, DOMUtils, Selection, Serializer, EditorUpload, ErrorReporter, ForceBlocks, Formatter, DomParser, Node, Schema, KeyboardOverrides,
+    document, window, Formatter, CaretContainerInput, DOMUtils, Selection, Serializer, EditorUpload, ErrorReporter, ForceBlocks, DomParser, Node, Schema, KeyboardOverrides,
     NodeChange, SelectionOverrides, UndoManager, Delay, Quirks, Tools
   ) {
     var DOM = DOMUtils.DOM;
@@ -45463,7 +45987,10 @@ define(
             } else {
               // Restore previous selection before focus to prevent Chrome from
               // jumping to the top of the document in long inline editors
-              self.selection.setRng(self.lastRng);
+              if (self.inline && document.activeElement !== body) {
+                self.selection.setRng(self.lastRng);
+              }
+
               body.focus();
             }
 
@@ -46854,25 +47381,6 @@ define(
                 }
               });
             }
-
-            // Handles the issue with WebKit not retaining selection within inline document
-            // If the user releases the mouse out side the body since a mouse up event wont occur on the body
-            if (Env.webkit && !selectionChangeHandler) {
-              selectionChangeHandler = function () {
-                var activeEditor = editorManager.activeEditor;
-
-                if (activeEditor && activeEditor.selection) {
-                  var rng = activeEditor.selection.getRng();
-
-                  // Store when it's non collapsed
-                  if (rng && !rng.collapsed) {
-                    editor.lastRng = rng;
-                  }
-                }
-              };
-
-              DOM.bind(document, 'selectionchange', selectionChangeHandler);
-            }
           }
         });
 
@@ -47223,7 +47731,7 @@ define(
        * @property minorVersion
        * @type String
        */
-      minorVersion: '6.4',
+      minorVersion: '6.5',
 
       /**
        * Release date of TinyMCE build.
@@ -47231,7 +47739,7 @@ define(
        * @property releaseDate
        * @type String
        */
-      releaseDate: '2017-06-13',
+      releaseDate: '2017-08-02',
 
       /**
        * Collection of editor instances.
@@ -47262,6 +47770,8 @@ define(
        * tinymce.EditorManager.activeEditor.selection.getContent();
        */
       activeEditor: null,
+
+      settings: {},
 
       setup: function () {
         var self = this, baseURL, documentBaseURL, suffix = "", preInit, src;
@@ -48455,106 +48965,6 @@ define(
 );
 
 /**
- * Compat.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * TinyMCE core class.
- *
- * @static
- * @class tinymce
- * @borrow-members tinymce.EditorManager
- * @borrow-members tinymce.util.Tools
- */
-define(
-  'tinymce.core.api.Compat',
-  [
-    "tinymce.core.dom.DOMUtils",
-    "tinymce.core.dom.EventUtils",
-    "tinymce.core.dom.ScriptLoader",
-    "tinymce.core.AddOnManager",
-    "tinymce.core.util.Tools",
-    "tinymce.core.Env"
-  ],
-  function (DOMUtils, EventUtils, ScriptLoader, AddOnManager, Tools, Env) {
-    var register = function (tinymce) {
-      /**
-       * @property {tinymce.dom.DOMUtils} DOM Global DOM instance.
-       * @property {tinymce.dom.ScriptLoader} ScriptLoader Global ScriptLoader instance.
-       * @property {tinymce.AddOnManager} PluginManager Global PluginManager instance.
-       * @property {tinymce.AddOnManager} ThemeManager Global ThemeManager instance.
-       */
-      tinymce.DOM = DOMUtils.DOM;
-      tinymce.ScriptLoader = ScriptLoader.ScriptLoader;
-      tinymce.PluginManager = AddOnManager.PluginManager;
-      tinymce.ThemeManager = AddOnManager.ThemeManager;
-
-      tinymce.dom = tinymce.dom || {};
-      tinymce.dom.Event = EventUtils.Event;
-
-      Tools.each(
-        'trim isArray is toArray makeMap each map grep inArray extend create walk createNS resolve explode _addCacheSuffix'.split(' '),
-        function (key) {
-          tinymce[key] = Tools[key];
-        }
-      );
-
-      Tools.each('isOpera isWebKit isIE isGecko isMac'.split(' '), function (name) {
-        tinymce[name] = Env[name.substr(2).toLowerCase()];
-      });
-    };
-
-    return {
-      register: register
-    };
-  }
-);
-
-// Describe the different namespaces
-
-/**
- * Root level namespace this contains classes directly related to the TinyMCE editor.
- *
- * @namespace tinymce
- */
-
-/**
- * Contains classes for handling the browsers DOM.
- *
- * @namespace tinymce.dom
- */
-
-/**
- * Contains html parser and serializer logic.
- *
- * @namespace tinymce.html
- */
-
-/**
- * Contains the different UI types such as buttons, listboxes etc.
- *
- * @namespace tinymce.ui
- */
-
-/**
- * Contains various utility classes such as json parser, cookies etc.
- *
- * @namespace tinymce.util
- */
-
-/**
- * Contains modules to handle data binding.
- *
- * @namespace tinymce.data
- */
-
-/**
  * Color.js
  *
  * Released under LGPL License.
@@ -49130,7 +49540,7 @@ define(
 
         return (
           '<div id="' + id + '" class="' + self.classes + '" tabindex="-1">' +
-          '<button role="presentation" type="button" tabindex="-1">' +
+          '<button id="' + id + '-button" role="presentation" type="button" tabindex="-1">' +
           (icon ? '<i class="' + icon + '"' + image + '></i>' : '') +
           textHtml +
           '</button>' +
@@ -50949,6 +51359,8 @@ define(
 define(
   'tinymce.core.content.LinkTargets',
   [
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFilter',
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.dom.NodeType',
     'tinymce.core.util.Arr',
@@ -50956,7 +51368,7 @@ define(
     'tinymce.core.util.Tools',
     'tinymce.core.util.Uuid'
   ],
-  function (DOMUtils, NodeType, Arr, Fun, Tools, Uuid) {
+  function (Element, SelectorFilter, DOMUtils, NodeType, Arr, Fun, Tools, Uuid) {
     var trim = Tools.trim;
 
     var create = function (type, title, url, level, attach) {
@@ -50981,7 +51393,9 @@ define(
     };
 
     var select = function (selector, root) {
-      return DOMUtils.DOM.select(selector, root);
+      return Arr.map(SelectorFilter.descendants(Element.fromDom(root), selector), function (element) {
+        return element.dom();
+      });
     };
 
     var getElementText = function (elm) {
@@ -51822,17 +52236,20 @@ define(
 define(
   'tinymce.core.ui.FormatControls',
   [
-    "tinymce.core.ui.Control",
-    "tinymce.core.ui.Widget",
-    "tinymce.core.ui.FloatPanel",
-    "tinymce.core.util.Tools",
-    "tinymce.core.util.Arr",
-    "tinymce.core.dom.DOMUtils",
-    "tinymce.core.EditorManager",
-    "tinymce.core.Env",
-    "tinymce.core.fmt.FontInfo"
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.SelectorFind',
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.EditorManager',
+    'tinymce.core.Env',
+    'tinymce.core.fmt.FontInfo',
+    'tinymce.core.ui.Control',
+    'tinymce.core.ui.FloatPanel',
+    'tinymce.core.ui.Widget',
+    'tinymce.core.util.Arr',
+    'tinymce.core.util.Tools'
   ],
-  function (Control, Widget, FloatPanel, Tools, Arr, DOMUtils, EditorManager, Env, FontInfo) {
+  function (Fun, Element, SelectorFind, DOMUtils, EditorManager, Env, FontInfo, Control, FloatPanel, Widget, Arr, Tools) {
     var each = Tools.each;
 
     var flatten = function (ar) {
@@ -51857,7 +52274,9 @@ define(
 
     function setupContainer(editor) {
       if (editor.settings.ui_container) {
-        Env.container = DOMUtils.DOM.select(editor.settings.ui_container)[0];
+        Env.container = SelectorFind.descendant(Element.fromDom(document.body), editor.settings.ui_container).fold(Fun.constant(null), function (elm) {
+          return elm.dom();
+        });
       }
     }
 
@@ -55418,6 +55837,278 @@ define(
   }
 );
 
+defineGlobal("global!RegExp", RegExp);
+/**
+ * DropZone.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Creates a new dropzone.
+ *
+ * @-x-less DropZone.less
+ * @class tinymce.ui.DropZone
+ * @extends tinymce.ui.Widget
+ */
+define(
+  'tinymce.core.ui.DropZone',
+  [
+    'tinymce.core.ui.Widget',
+    'tinymce.core.util.Tools',
+    'tinymce.core.ui.DomUtils',
+    'global!RegExp'
+  ],
+  function (Widget, Tools, DomUtils, RegExp) {
+    return Widget.extend({
+      /**
+       * Constructs a instance with the specified settings.
+       *
+       * @constructor
+       * @param {Object} settings Name/value object with settings.
+       * @setting {Boolean} multiple True if the dropzone is a multiple control.
+       * @setting {Number} maxLength Max length for the dropzone.
+       * @setting {Number} size Size of the dropzone in characters.
+       */
+      init: function (settings) {
+        var self = this;
+
+        settings = Tools.extend({
+          height: 100,
+          text: "Drop an image here",
+          multiple: false,
+          accept: null // by default accept any files
+        }, settings);
+
+        self._super(settings);
+
+        self.classes.add('dropzone');
+
+        if (settings.multiple) {
+          self.classes.add('multiple');
+        }
+      },
+
+      /**
+       * Renders the control as a HTML string.
+       *
+       * @method renderHtml
+       * @return {String} HTML representing the control.
+       */
+      renderHtml: function () {
+        var self = this, attrs, elm;
+        var cfg = self.settings;
+
+        attrs = {
+          id: self._id,
+          hidefocus: '1'
+        };
+
+        elm = DomUtils.create('div', attrs, '<span>' + cfg.text + '</span>');
+
+        if (cfg.height) {
+          DomUtils.css(elm, 'height', cfg.height + 'px');
+        }
+
+        if (cfg.width) {
+          DomUtils.css(elm, 'width', cfg.width + 'px');
+        }
+
+        elm.className = self.classes;
+
+        return elm.outerHTML;
+      },
+
+
+        /**
+       * Called after the control has been rendered.
+       *
+       * @method postRender
+       */
+      postRender: function () {
+        var self = this;
+
+        var toggleDragClass = function (e) {
+          e.preventDefault();
+          self.classes.toggle('dragenter');
+          self.getEl().className = self.classes;
+        };
+
+        var filter = function (files) {
+          var accept = self.settings.accept;
+          if (typeof accept !== 'string') {
+            return files;
+          }
+
+          var re = new RegExp('(' + accept.split(/\s*,\s*/).join('|') + ')$', 'i');
+          return Tools.grep(files, function (file) {
+            return re.test(file.name);
+          });
+        };
+
+        self._super();
+
+        self.$el.on('dragover', function (e) {
+          e.preventDefault();
+        });
+
+        self.$el.on('dragenter', toggleDragClass);
+        self.$el.on('dragleave', toggleDragClass);
+
+        self.$el.on('drop', function (e) {
+          e.preventDefault();
+
+          if (self.state.get('disabled')) {
+            return;
+          }
+
+          var files = filter(e.dataTransfer.files);
+
+          self.value = function () {
+            if (!files.length) {
+              return null;
+            } else if (self.settings.multiple) {
+              return files;
+            } else {
+              return files[0];
+            }
+          };
+
+          if (files.length) {
+            self.fire('change', e);
+          }
+        });
+      },
+
+      remove: function () {
+        this.$el.off();
+        this._super();
+      }
+    });
+  }
+);
+
+/**
+ * BrowseButton.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Creates a new browse button.
+ *
+ * @-x-less BrowseButton.less
+ * @class tinymce.ui.BrowseButton
+ * @extends tinymce.ui.Widget
+ */
+define(
+  'tinymce.core.ui.BrowseButton',
+  [
+    'tinymce.core.ui.Button',
+    'tinymce.core.util.Tools',
+    'tinymce.core.ui.DomUtils',
+    'tinymce.core.dom.DomQuery',
+    'global!RegExp'
+  ],
+  function (Button, Tools, DomUtils, $, RegExp) {
+    return Button.extend({
+      /**
+       * Constructs a instance with the specified settings.
+       *
+       * @constructor
+       * @param {Object} settings Name/value object with settings.
+       * @setting {Boolean} multiple True if the dropzone is a multiple control.
+       * @setting {Number} maxLength Max length for the dropzone.
+       * @setting {Number} size Size of the dropzone in characters.
+       */
+      init: function (settings) {
+        var self = this;
+
+        settings = Tools.extend({
+          text: "Browse...",
+          multiple: false,
+          accept: null // by default accept any files
+        }, settings);
+
+        self._super(settings);
+
+        self.classes.add('browsebutton');
+
+        if (settings.multiple) {
+          self.classes.add('multiple');
+        }
+      },
+
+       /**
+       * Called after the control has been rendered.
+       *
+       * @method postRender
+       */
+      postRender: function () {
+        var self = this;
+
+        var input = DomUtils.create('input', {
+          type: 'file',
+          id: self._id + '-browse',
+          accept: self.settings.accept
+        });
+
+        self._super();
+
+        $(input).on('change', function (e) {
+          var files = e.target.files;
+
+          self.value = function () {
+            if (!files.length) {
+              return null;
+            } else if (self.settings.multiple) {
+              return files;
+            } else {
+              return files[0];
+            }
+          };
+
+          e.preventDefault();
+
+          if (files.length) {
+            self.fire('change', e);
+          }
+        });
+
+        // ui.Button prevents default on click, so we shouldn't let the click to propagate up to it
+        $(input).on('click', function (e) {
+          e.stopPropagation();
+        });
+
+        $(self.getEl('button')).on('click', function (e) {
+          e.stopPropagation();
+          input.click();
+        });
+
+        // in newer browsers input doesn't have to be attached to dom to trigger browser dialog
+        // however older IE11 (< 11.1358.14393.0) still requires this
+        self.getEl().appendChild(input);
+      },
+
+
+      remove: function () {
+        $(this.getEl('button')).off();
+        $(this.getEl('input')).off();
+
+        this._super();
+      }
+    });
+  }
+);
+
 /**
  * Api.js
  *
@@ -55489,7 +56180,9 @@ define(
     'tinymce.core.ui.SplitButton',
     'tinymce.core.ui.StackLayout',
     'tinymce.core.ui.TabPanel',
-    'tinymce.core.ui.TextBox'
+    'tinymce.core.ui.TextBox',
+    'tinymce.core.ui.DropZone',
+    'tinymce.core.ui.BrowseButton'
   ],
   function (
     Selector, Collection, ReflowQueue, Control, Factory, KeyboardNavigation, Container, DragHelper, Scrollable, Panel, Movable,
@@ -55497,7 +56190,7 @@ define(
     ButtonGroup, Checkbox, ComboBox, ColorBox, PanelButton, ColorButton, ColorPicker, Path, ElementPath, FormItem, Form,
     FieldSet, FilePicker, FitLayout, FlexLayout, FlowLayout, FormatControls, GridLayout, Iframe, InfoBox, Label, Toolbar,
     MenuBar, MenuButton, MenuItem, Throbber, Menu, ListBox, Radio, ResizeHandle, SelectBox, Slider, Spacer, SplitButton,
-    StackLayout, TabPanel, TextBox
+    StackLayout, TabPanel, TextBox, DropZone, BrowseButton
   ) {
     "use strict";
 
@@ -55582,6 +56275,8 @@ define(
       expose(target, 'ui.StackLayout', StackLayout);
       expose(target, 'ui.TabPanel', TabPanel);
       expose(target, 'ui.TextBox', TextBox);
+      expose(target, 'ui.DropZone', DropZone);
+      expose(target, 'ui.BrowseButton', BrowseButton);
       expose(target, 'ui.Api', Api);
     };
 
@@ -55605,6 +56300,7 @@ define(
 define(
   'tinymce.core.api.Tinymce',
   [
+    'tinymce.core.api.Formatter',
     'tinymce.core.geom.Rect',
     'tinymce.core.util.Promise',
     'tinymce.core.util.Delay',
@@ -55631,7 +56327,6 @@ define(
     'tinymce.core.dom.ControlSelection',
     'tinymce.core.dom.BookmarkManager',
     'tinymce.core.dom.Selection',
-    'tinymce.core.Formatter',
     'tinymce.core.UndoManager',
     'tinymce.core.EditorCommands',
     'tinymce.core.util.URI',
@@ -55651,138 +56346,119 @@ define(
     'tinymce.core.util.JSONRequest',
     'tinymce.core.util.JSONP',
     'tinymce.core.util.LocalStorage',
-    'tinymce.core.api.Compat',
     'tinymce.core.util.Color',
     'tinymce.core.ui.Api'
   ],
   function (
-    Rect, Promise, Delay, Env, EventUtils, Sizzle, Tools, DomQuery, Styles, TreeWalker, Entities, DOMUtils, ScriptLoader, AddOnManager,
+    Formatter, Rect, Promise, Delay, Env, EventUtils, Sizzle, Tools, DomQuery, Styles, TreeWalker, Entities, DOMUtils, ScriptLoader, AddOnManager,
     RangeUtils, Node, Schema, SaxParser, DomParser, Writer, HtmlSerializer, DomSerializer, VK, ControlSelection, BookmarkManager, Selection,
-    Formatter, UndoManager, EditorCommands, URI, Class, EventDispatcher, Observable, WindowManager,
+    UndoManager, EditorCommands, URI, Class, EventDispatcher, Observable, WindowManager,
     NotificationManager, EditorObservable, Shortcuts, Editor, I18n, FocusManager, EditorManager,
-    XHR, JSON, JSONRequest, JSONP, LocalStorage, Compat, Color, Api
+    XHR, JSON, JSONRequest, JSONP, LocalStorage, Color, UiApi
   ) {
     var tinymce = EditorManager;
 
-    var expose = function (target, id, ref) {
-      var i, fragments;
+    /**
+     * @include ../../../../../../tools/docs/tinymce.js
+     */
+    var publicApi = {
+      geom: {
+        Rect: Rect
+      },
 
-      fragments = id.split(/[.\/]/);
-      for (i = 0; i < fragments.length - 1; ++i) {
-        if (target[fragments[i]] === undefined) {
-          target[fragments[i]] = {};
-        }
+      util: {
+        Promise: Promise,
+        Delay: Delay,
+        Tools: Tools,
+        VK: VK,
+        URI: URI,
+        Class: Class,
+        EventDispatcher: EventDispatcher,
+        Observable: Observable,
+        I18n: I18n,
+        XHR: XHR,
+        JSON: JSON,
+        JSONRequest: JSONRequest,
+        JSONP: JSONP,
+        LocalStorage: LocalStorage,
+        Color: Color
+      },
 
-        target = target[fragments[i]];
-      }
+      dom: {
+        EventUtils: EventUtils,
+        Sizzle: Sizzle,
+        DomQuery: DomQuery,
+        TreeWalker: TreeWalker,
+        DOMUtils: DOMUtils,
+        ScriptLoader: ScriptLoader,
+        RangeUtils: RangeUtils,
+        Serializer: DomSerializer,
+        ControlSelection: ControlSelection,
+        BookmarkManager: BookmarkManager,
+        Selection: Selection,
+        Event: EventUtils.Event
+      },
 
-      target[fragments[fragments.length - 1]] = ref;
+      html: {
+        Styles: Styles,
+        Entities: Entities,
+        Node: Node,
+        Schema: Schema,
+        SaxParser: SaxParser,
+        DomParser: DomParser,
+        Writer: Writer,
+        Serializer: HtmlSerializer
+      },
+
+      Env: Env,
+      AddOnManager: AddOnManager,
+      Formatter: Formatter,
+      UndoManager: UndoManager,
+      EditorCommands: EditorCommands,
+      WindowManager: WindowManager,
+      NotificationManager: NotificationManager,
+      EditorObservable: EditorObservable,
+      Shortcuts: Shortcuts,
+      Editor: Editor,
+      FocusManager: FocusManager,
+      EditorManager: EditorManager,
+
+      // Global instances
+      DOM: DOMUtils.DOM,
+      ScriptLoader: ScriptLoader.ScriptLoader,
+      PluginManager: AddOnManager.PluginManager,
+      ThemeManager: AddOnManager.ThemeManager,
+
+      // Global utility functions
+      trim: Tools.trim,
+      isArray: Tools.isArray,
+      is: Tools.is,
+      toArray: Tools.toArray,
+      makeMap: Tools.makeMap,
+      each: Tools.each,
+      map: Tools.map,
+      grep: Tools.grep,
+      inArray: Tools.inArray,
+      extend: Tools.extend,
+      create: Tools.create,
+      walk: Tools.walk,
+      createNS: Tools.createNS,
+      resolve: Tools.resolve,
+      explode: Tools.explode,
+      _addCacheSuffix: Tools._addCacheSuffix,
+
+      // Legacy browser detection
+      isOpera: Env.opera,
+      isWebKit: Env.webkit,
+      isIE: Env.ie,
+      isGecko: Env.gecko,
+      isMac: Env.mac
     };
 
-    expose(tinymce, 'geom.Rect', Rect);
-    expose(tinymce, 'util.Promise', Promise);
-    expose(tinymce, 'util.Delay', Delay);
-    expose(tinymce, 'Env', Env);
-    expose(tinymce, 'dom.EventUtils', EventUtils);
-    expose(tinymce, 'dom.Sizzle', Sizzle);
-    expose(tinymce, 'util.Tools', Tools);
-    expose(tinymce, 'dom.DomQuery', DomQuery);
-    expose(tinymce, 'html.Styles', Styles);
-    expose(tinymce, 'dom.TreeWalker', TreeWalker);
-    expose(tinymce, 'html.Entities', Entities);
-    expose(tinymce, 'dom.DOMUtils', DOMUtils);
-    expose(tinymce, 'dom.ScriptLoader', ScriptLoader);
-    expose(tinymce, 'AddOnManager', AddOnManager);
-    expose(tinymce, 'dom.RangeUtils', RangeUtils);
-    expose(tinymce, 'html.Node', Node);
-    expose(tinymce, 'html.Schema', Schema);
-    expose(tinymce, 'html.SaxParser', SaxParser);
-    expose(tinymce, 'html.DomParser', DomParser);
-    expose(tinymce, 'html.Writer', Writer);
-    expose(tinymce, 'html.Serializer', HtmlSerializer);
-    expose(tinymce, 'dom.Serializer', DomSerializer);
-    expose(tinymce, 'util.VK', VK);
-    expose(tinymce, 'dom.ControlSelection', ControlSelection);
-    expose(tinymce, 'dom.BookmarkManager', BookmarkManager);
-    expose(tinymce, 'dom.Selection', Selection);
-    expose(tinymce, 'Formatter', Formatter);
-    expose(tinymce, 'UndoManager', UndoManager);
-    expose(tinymce, 'EditorCommands', EditorCommands);
-    expose(tinymce, 'util.URI', URI);
-    expose(tinymce, 'util.Class', Class);
-    expose(tinymce, 'util.EventDispatcher', EventDispatcher);
-    expose(tinymce, 'util.Observable', Observable);
-    expose(tinymce, 'WindowManager', WindowManager);
-    expose(tinymce, 'NotificationManager', NotificationManager);
-    expose(tinymce, 'EditorObservable', EditorObservable);
-    expose(tinymce, 'Shortcuts', Shortcuts);
-    expose(tinymce, 'Editor', Editor);
-    expose(tinymce, 'util.I18n', I18n);
-    expose(tinymce, 'FocusManager', FocusManager);
-    expose(tinymce, 'EditorManager', EditorManager);
-    expose(tinymce, 'util.XHR', XHR);
-    expose(tinymce, 'util.JSON', JSON);
-    expose(tinymce, 'util.JSONRequest', JSONRequest);
-    expose(tinymce, 'util.JSONP', JSONP);
-    expose(tinymce, 'util.LocalStorage', LocalStorage);
-    expose(tinymce, 'Compat', Compat);
-    expose(tinymce, 'util.Color', Color);
-
-    Api.appendTo(tinymce);
-
-    Compat.register(tinymce);
+    tinymce = Tools.extend(tinymce, publicApi);
+    UiApi.appendTo(tinymce);
 
     return tinymce;
-  }
-);
-
-/**
- * Register.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This registers tinymce in common module loaders.
- *
- * @private
- * @class tinymce.Register
- */
-define(
-  'tinymce.core.Register',
-  [
-  ],
-  function () {
-    /*eslint consistent-this: 0 */
-    var context = this || window;
-
-    var exposeToModuleLoaders = function (tinymce) {
-      if (typeof context.define === "function") {
-        // Bolt
-        if (!context.define.amd) {
-          context.define("ephox/tinymce", [], function () {
-            return tinymce;
-          });
-
-          context.define("tinymce.core.EditorManager", [], function () {
-            return tinymce;
-          });
-        }
-      }
-
-      if (typeof module === 'object') {
-        /* global module */
-        module.exports = tinymce;
-      }
-    };
-
-    return {
-      exposeToModuleLoaders: exposeToModuleLoaders
-    };
   }
 );
 
@@ -55799,15 +56475,36 @@ define(
 define(
   'tinymce.core.api.Main',
   [
-    'tinymce.core.api.Tinymce',
-    'tinymce.core.Register'
+    'ephox.katamari.api.Fun',
+    'tinymce.core.api.Tinymce'
   ],
-  function (tinymce, Register) {
-    return function () {
+  function (Fun, Tinymce) {
+    /*eslint consistent-this: 0 */
+    var context = this || window;
+
+    var exportToModuleLoaders = function (tinymce) {
+      // Bolt
+      if (typeof context.define === "function" && !context.define.amd) {
+        context.define("ephox/tinymce", [], Fun.constant(tinymce));
+        context.define("tinymce.core.EditorManager", [], Fun.constant(tinymce));
+      }
+
+      // CommonJS
+      if (typeof module === 'object') {
+        /* global module */
+        module.exports = tinymce;
+      }
+    };
+
+    var exportToWindowGlobal = function (tinymce) {
       window.tinymce = tinymce;
       window.tinyMCE = tinymce;
-      Register.exposeToModuleLoaders(tinymce);
-      return tinymce;
+    };
+
+    return function () {
+      exportToWindowGlobal(Tinymce);
+      exportToModuleLoaders(Tinymce);
+      return Tinymce;
     };
   }
 );

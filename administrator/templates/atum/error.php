@@ -29,6 +29,8 @@ $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
+// Alerts
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -39,6 +41,8 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 
 	<link href="<?php echo 'templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="<?php echo 'templates/' . $this->template . '/css/bootstrap.min.css'; ?>" rel="stylesheet">
+	<link href="<?php echo 'templates/' . $this->template . '/css/font-awesome.min.css'; ?>" rel="stylesheet">
 	<link href="<?php echo 'templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
 
 	<?php $userCss = 'administrator/templates/' . $this->template . '/css/user.css'; ?>
@@ -51,9 +55,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
-	<script src="/media/vendor/jquery/js/jquery.min.js"></script>
-	<script src="/media/vendor/tether/js/tether.min.js"></script>
-	<script src="/media/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/media/system/js/core.min.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
@@ -195,6 +196,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				<div class="row">
 
 					<div class="col-md-12">
+						<jdoc:include type="message" />
 						<h1><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<blockquote class="blockquote">
 							<span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>

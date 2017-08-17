@@ -918,6 +918,8 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       widget = document.createElement("span");
       widget.appendChild(text);
       widget.className = "CodeMirror-foldmarker";
+    } else if (widget) {
+      widget = widget.cloneNode(true)
     }
     return widget;
   }

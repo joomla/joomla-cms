@@ -129,8 +129,9 @@ class Tags extends ListModel
 		$query = $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.*')
+		$query->select('a.*, u.name as created_by_user_name, u.email')
 			->from($db->quoteName('#__tags') . ' AS a')
+			->join('LEFT', '#__users AS u ON a.created_user_id = u.id')
 			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))

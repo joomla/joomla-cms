@@ -305,7 +305,7 @@ class Toolbar
 		\JLog::add(
 			sprintf(
 				'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 5.0.'
-				. ' %1$s objects should be autoloaded or a custom %2%s implementation supporting path lookups provided.',
+				. ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
 				ToolbarButton::class,
 				ToolbarFactoryInterface::class
 			),

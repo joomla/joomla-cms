@@ -148,11 +148,6 @@ class Html extends HtmlView
 			ToolbarHelper::addNew('group.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
-		{
-			ToolbarHelper::editList('group.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::publish('groups.publish', 'JTOOLBAR_PUBLISH', true);

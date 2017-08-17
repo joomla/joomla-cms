@@ -207,7 +207,7 @@ class Article extends Admin
 		}
 
 		// Default to component settings if neither article nor category known.
-		return parent::canEditState();
+		return parent::canEditState($record);
 	}
 
 	/**

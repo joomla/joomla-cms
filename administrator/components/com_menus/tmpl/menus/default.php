@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 $uri       = JUri::getInstance();
@@ -29,7 +28,6 @@ foreach ($this->items as $item)
 	{
 		$itemIds[] = $item->id;
 	}
-
 }
 
 JFactory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
@@ -96,8 +94,8 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td>
 									<?php if ($canManageItems) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>

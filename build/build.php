@@ -104,6 +104,7 @@ $doNotPackage = array(
 	'.drone.yml',
 	'.github',
 	'.gitignore',
+	'.hound.yml',
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
@@ -123,7 +124,10 @@ $doNotPackage = array(
 	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
+	'drone-package.json',
 	'codeception.yml',
+	'Jenkinsfile',
+	'jenkins-phpunit.xml',
 	'RoboFile.php',
 	'RoboFile.dist.ini',
 	// Remove the testing sample data from all packages

@@ -237,8 +237,12 @@ class Contact extends Form
 				$registry = new Registry($data->metadata);
 				$data->metadata = $registry;
 
-				$data->tags = new TagsHelper;
-				$data->tags->getItemTags('com_contact.contact', $data->id);
+				// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+				if ($this->getState('load_tags', true))
+				{
+					$data->tags = new TagsHelper;
+					$data->tags->getItemTags('com_contact.contact', $data->id);
+				}
 
 				// Compute access permissions.
 				if (($access = $this->getState('filter.access')))
@@ -367,10 +371,7 @@ class Contact extends Form
 		PluginHelper::importPlugin('user');
 
 		// Get the form.
-		\JForm::addFormPath(JPATH_SITE . '/components/com_users/models/forms');
-		\JForm::addFieldPath(JPATH_SITE . '/components/com_users/models/fields');
-		\JForm::addFormPath(JPATH_SITE . '/components/com_users/model/form');
-		\JForm::addFieldPath(JPATH_SITE . '/components/com_users/model/field');
+		\JForm::addFormPath(JPATH_SITE . '/components/com_users/forms');
 
 		$form = \JForm::getInstance('com_users.profile', 'profile');
 

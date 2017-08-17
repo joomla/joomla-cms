@@ -1,6 +1,7 @@
 // Global
-$atum-template-color-dark:         #0d1321 !default;
 $atum-template-color:              #1c3d5c !default;
+$atum-template-color-light:        #2e5a84 !default;
+$atum-template-color-dark:         #0d1321 !default;
 $atum-container-main-bg:           #f2f2f2 !default;
 $atum-border-color:                #ccc !default;
 $atum-box-shadow:                  0 0 3px rgba(0,0,0,.04) !default;
@@ -11,13 +12,14 @@ $atum-hl-grad-inner:               #59afff;
 $atum-hl-grad-outer:               #59daff;
 
 $brand-primary:                    #006898;
-$brand-success:                    #348534;
+$brand-success:                    #438243;
 $brand-info:                       #5bc0de;
 $brand-warning:                    #f0ad4e;
 $brand-danger:                     #d9534f;
 
 // Header
 $header-height:                    48px;
+$header-icons-bg:                  $atum-template-color-light;
 
 // Toolbar
 $atum-toolbar-line-height:         1.8rem;
@@ -50,6 +52,7 @@ $font-size-h4:                     1rem;
 $font-size-h5:                     .9286rem;
 $font-size-h6:                     .8571rem;
 $font-size-small:                  .8rem;
+$fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
 // Tables
@@ -87,11 +90,6 @@ $state-danger-text:                #fff !default;
 $state-danger-bg:                  $brand-danger !default;
 $state-danger-border:              darken($brand-danger, 5%) !default;
 
-// Switchers
-$switcher-color-success:           rgb(100,189,99);
-$switcher-color-danger:            rgb(188,101,100);
-$switcher-color-primary:           rgb(100,143,186);
-
 // Treeselect
 $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
@@ -107,6 +105,13 @@ $modal-header-height:              46px;
 
 // Badges
 $badge-default-bg:                 #5e7082;
+
+// Quickicons
+$quickicon-bg:                     $atum-template-color;
+$quickicon-text-color:             #fff;
+$quickicon-box-shadow:             0 0 5px 0 $quickicon-bg;
+$quickicon-box-shadow-success:     0 0 5px 0 lighten($brand-success, 7%);
+$quickicon-box-shadow-danger:      0 0 5px 0 lighten($brand-danger, 7%);
 
 // Gutter
 $grid-gutter-width-base:           15px !default;
