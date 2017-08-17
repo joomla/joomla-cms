@@ -136,7 +136,7 @@ class ContentRouter extends JComponentRouterView
 	}
 
 	/**
-	 * Method to get the segment(s) for an form
+	 * Method to get the segment(s) for a form
 	 *
 	 * @param   string  $id     ID of the article form to retrieve the segments for
 	 * @param   array   $query  The request that is built right now

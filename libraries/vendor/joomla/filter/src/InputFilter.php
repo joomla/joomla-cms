@@ -94,19 +94,6 @@ class InputFilter
 	public $attrMethod;
 
 	/**
-	 * A special list of blacklisted chars
-	 *
-	 * @var    array
-	 * @since  1.0
-	 */
-	private $blacklistedChars = array(
-		'&tab;',
-		'&space;',
-		'&colon;',
-		'&column;',
-	);
-
-	/**
 	 * A flag for XSS checks. Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 *
 	 * @var    integer
@@ -158,6 +145,19 @@ class InputFilter
 		'dynsrc',
 		'formaction',
 		'lowsrc',
+	);
+
+	/**
+	 * A special list of blacklisted chars
+	 *
+	 * @var    array
+	 * @since  1.3.3
+	 */
+	private $blacklistedChars = array(
+		'&tab;',
+		'&space;',
+		'&colon;',
+		'&column;',
 	);
 
 	/**
@@ -570,7 +570,7 @@ class InputFilter
 			$temp = $source;
 			$source = $this->cleanTags($source);
 		}
-		while ($temp != $source);
+		while ($temp !== $source);
 
 		return $source;
 	}
@@ -647,7 +647,7 @@ class InputFilter
 			$currentSpace = StringHelper::strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (StringHelper::substr($currentTag, 0, 1) == '/')
+			if (StringHelper::substr($currentTag, 0, 1) === '/')
 			{
 				// Close Tag
 				$isCloseTag = true;
@@ -710,7 +710,7 @@ class InputFilter
 				}
 
 				// Do we have an attribute to process? [check for equal sign]
-				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
+				if ($fromSpace !== '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
 				{
 					if (!$nextEqual)
 					{
@@ -745,16 +745,16 @@ class InputFilter
 					}
 				}
 				else
-					// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
+				// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
 				{
-					if ($fromSpace != '/')
+					if ($fromSpace !== '/')
 					{
 						$attr = StringHelper::substr($fromSpace, 0, $nextSpace);
 					}
 				}
 
 				// Last Attribute Pair
-				if (!$attr && $fromSpace != '/')
+				if (!$attr && $fromSpace !== '/')
 				{
 					$attr = $fromSpace;
 				}
@@ -796,7 +796,7 @@ class InputFilter
 					}
 				}
 				else
-					// Closing tag
+				// Closing tag
 				{
 					$preTag .= '</' . $tagName . '>';
 				}
@@ -808,7 +808,7 @@ class InputFilter
 		}
 
 		// Append any code after the end of tags and return
-		if ($postTag != '<')
+		if ($postTag !== '<')
 		{
 			$preTag .= $postTag;
 		}
@@ -865,7 +865,7 @@ class InputFilter
 			// AND blacklisted attributes
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0]))
 				|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
-						|| (substr($attrSubSet[0], 0, 2) == 'on'))))
+				|| (substr($attrSubSet[0], 0, 2) == 'on'))))
 			{
 				continue;
 			}
