@@ -100,21 +100,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td>
 							<label for="cb<?php echo $i; ?>">
 								<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
-									<?php switch($item->type) :
-										case 'plugin': ?>
-											<a href="index.php?option=com_plugins&task=plugin.edit&extension_id=<?php echo $item->extension_id; ?>">
-												<?php echo $item->name; ?>
-											</a>
-										<?php break; ?>
+								    <?php switch($item->type) :
+									case 'plugin': ?>
+										<a href="index.php?option=com_plugins&task=plugin.edit&extension_id=<?php echo $item->extension_id; ?>">
+										    <?php echo $item->name; ?>
+										</a>
+									<?php break; ?>
 										<?php case 'template': ?>
-											<a href="index.php?option=com_templates&view=template&id=<?php echo $item->extension_id; ?>">
-												<?php echo $item->name; ?>
-											</a>
-											<?php break; ?>
-										<?php default : ?>
-											<?php echo $item->name; ?>
-											<?php break; ?>
-									<?php endswitch; ?>
+										<a href="index.php?option=com_templates&view=template&id=<?php echo $item->extension_id; ?>">
+										    <?php echo $item->name; ?>
+										</a>
+										<?php break; ?>
+									<?php default : ?>
+										<?php echo $item->name; ?>
+										<?php break; ?>
+								    <?php endswitch; ?>
 								</span>
 							</label>
 						</td>
