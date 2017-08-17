@@ -32,7 +32,7 @@ elseif ($current->hasChildren())
 {
 	if ($current->getLevel() == 1)
 	{
-		$class = ' class="dropdown"';
+		$class = ' class="parent"';
 	}
 	elseif ($current->get('class') == 'scrollable-menu')
 	{
@@ -49,7 +49,7 @@ else
 }
 
 // Print the item
-echo '<li' . $class . '>';
+echo '<li' . $class . ' role="menuitem">';
 
 // Print a link if it exists
 $linkClass     = array();
