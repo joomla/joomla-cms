@@ -323,17 +323,17 @@ if ($im || $mm || $pm || $tm || $lm)
 	if ($im)
 	{
 
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer'), $im);
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer'), $im);
 
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites'));
-		$this->addChild(new MenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DOWNLOADKEYS'), 'index.php?option=com_installer&view=downloadkeys'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites'));
+		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_DOWNLOADKEYS'), 'index.php?option=com_installer&view=downloadkeys'));
 		$this->getParent();
 	}
 
