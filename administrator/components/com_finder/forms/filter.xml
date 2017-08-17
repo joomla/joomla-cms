@@ -5,7 +5,6 @@
 			name="filter_id"  
 			type="text" 
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC" 
 			class="readonly" 
 			size="10" 
 			default="0"
@@ -16,7 +15,6 @@
 			name="title" 
 			type="text" 
 			label="JGLOBAL_TITLE"
-			description="COM_FINDER_FILTER_TITLE_DESCRIPTION"
 			class="input-xxlarge input-large-text"
 			size="40"
 			id="title"
@@ -27,7 +25,6 @@
 			name="alias" 
 			type="text" 
 			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER" 
 			size="45" 
 		/>
@@ -36,7 +33,6 @@
 			name="created"
 			type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL"
-			description="JGLOBAL_FIELD_CREATED_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -47,7 +43,6 @@
 			name="modified"
 			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
-			description="COM_FINDER_FIELD_MODIFIED_DESCRIPTION"
 			class="readonly"
 			translateformat="true"
 			showtime="true"
@@ -60,14 +55,12 @@
 			name="created_by" 
 			type="user"
 			label="COM_FINDER_FIELD_CREATED_BY_LABEL" 
-			description="COM_FINDER_FIELD_CREATED_BY_DESC" 
 		/>
 
 		<field 
 			name="created_by_alias" 
 			type="text"
 			label="COM_FINDER_FIELD_CREATED_BY_ALIAS_LABEL" 
-			description="COM_FINDER_FIELD_CREATED_BY_ALIAS_DESC"
 			size="20" 
 		/>
 		
@@ -96,7 +89,6 @@
 			name="state" 
 			type="list" 
 			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
 			class="custom-select-color-state"
 			filter="intval"
 			size="1"
@@ -110,7 +102,6 @@
 			name="map_count" 
 			type="text" 
 			label="COM_FINDER_FILTER_MAP_COUNT" 
-			description="COM_FINDER_FILTER_MAP_COUNT_DESCRIPTION"
 			class="readonly"
 			size="10" 
 			default="0" 
@@ -124,7 +115,6 @@
 				name="w1"
 				type="list"
 				label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
-				description="COM_FINDER_FILTER_WHEN_START_DATE_DESCRIPTION"
 				default=""
 				filter="string"
 				>
@@ -138,7 +128,6 @@
 				name="d1"
 				type="calendar"
 				label="COM_FINDER_FILTER_START_DATE_LABEL"
-				description="COM_FINDER_FILTER_START_DATE_DESCRIPTION"
 				translateformat="true"
 				size="22"
 				filter="user_utc"
@@ -148,7 +137,6 @@
 				name="w2"
 				type="list"
 				label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
-				description="COM_FINDER_FILTER_WHEN_END_DATE_DESCRIPTION"
 				default=""
 				filter="string"
 				>
@@ -162,7 +150,6 @@
 				name="d2"
 				type="calendar"
 				label="COM_FINDER_FILTER_END_DATE_LABEL"
-				description="COM_FINDER_FILTER_END_DATE_DESCRIPTION"
 				translateformat="true"
 				size="22"
 				filter="user_utc"

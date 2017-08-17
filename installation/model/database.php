@@ -168,6 +168,71 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		// Per Default allowed DB Hosts
+		$localhost = array(
+			'localhost',
+			'127.0.0.1',
+			'::1',
+		);
+
+		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
+		if (!in_array($options->db_host, $localhost))
+		{
+			// Add the general message
+			JFactory::getApplication()->enqueueMessage(
+				JText::sprintf(
+					'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_GENERAL_MESSAGE',
+					'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
+				),
+				'warning'
+			);
+
+			$remoteDbFile = JFactory::getSession()->get('remoteDbFile', false);
+
+			if ($remoteDbFile === false)
+			{
+				// This is the remote database file you need to remove if you want to use a remote database
+				$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
+				JFactory::getSession()->set('remoteDbFile', $remoteDbFile);
+
+				// Get the path
+				$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+
+				// When the path is not writable the user need to create the file itself
+				if (!JFile::write($remoteDbPath, ''))
+				{
+					// Request to create the file manually
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+
+					JFactory::getSession()->set('remoteDbFileUnwritable', true);
+
+					return false;
+				}
+
+				// Save the file name to the session
+				JFactory::getSession()->set('remoteDbFileWrittenByJoomla', true);
+
+				// Request to delete that file
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+
+				return false;
+			}
+
+			if (JFactory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+
+				return false;
+			}
+
+			if (JFactory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+
+				return false;
+			}
+		}
+
 		// Get a database object.
 		try
 		{

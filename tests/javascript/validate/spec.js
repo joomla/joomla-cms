@@ -125,7 +125,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-numeric-nan', function () {
-			var elNan = document.getElementById('validate-numeric-nan'),
+			var elNan   = document.getElementById('validate-numeric-nan'),
 				res = document.formvalidator.validate(elNan);
 
 			it('should return false', function () {
@@ -133,15 +133,21 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 
 			it('should add class invalid to element', function () {
-				expect(elNan).toHaveClass('invalid');
+				setTimeout(function() {
+					expect(elNan).toHaveClass('invalid');
+				}, 100)
 			});
 
 			it('should have aria-invalid = true in element', function () {
-				expect(elNan).toHaveAttr('aria-invalid', 'true');
+				setTimeout(function() {
+					expect(elNan).toHaveAttr('aria-invalid', 'true');
+				}, 100)
 			});
 
 			it('should add class invalid to the label for element', function () {
-				expect(document.querySelector('[for="validate-numeric-nan"]')).toHaveClass('invalid');
+				setTimeout(function() {
+					expect(document.querySelector('[for="validate-numeric-nan"]')).toHaveClass('invalid');
+				}, 100)
 			});
 		});
 

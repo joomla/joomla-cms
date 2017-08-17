@@ -2,7 +2,7 @@
 
 /* autoprefixer: off */
 @supports (display: grid) {
-  body {
+  .site-grid {
     display: grid;
     grid-template-areas:
       ". head head head head ."
@@ -15,6 +15,7 @@
       ". footer footer footer footer .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $aurora-grid-gutter;
+
     > div {
       width: auto;
       max-width: none;

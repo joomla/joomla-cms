@@ -5,7 +5,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
 			class="readonly"
@@ -15,7 +14,6 @@
 			name="name"
 			type="text"
 			label="COM_BANNERS_FIELD_NAME_LABEL"
-			description="COM_BANNERS_FIELD_CLIENT_NAME_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
@@ -25,7 +23,6 @@
 			name="contact"
 			type="text"
 			label="COM_BANNERS_FIELD_CONTACT_LABEL"
-			description="COM_BANNERS_FIELD_CONTACT_DESC"
 			size="40"
 			required="true"
 		/>
@@ -34,7 +31,6 @@
 			name="email"
 			type="email"
 			label="COM_BANNERS_FIELD_EMAIL_LABEL"
-			description="COM_BANNERS_FIELD_EMAIL_DESC"
 			size="40"
 			validate="email"
 			required="true"
@@ -44,7 +40,6 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
 			class="custom-select-color-state"
 			size="1"
 			default="1"
@@ -59,7 +54,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			maxlength="255"
 			size="45"
 			labelclass="control-label"
@@ -69,7 +63,6 @@
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
-			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
@@ -84,7 +77,6 @@
 			name="track_impressions"
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 			default="0"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
@@ -96,7 +88,6 @@
 			name="track_clicks"
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
-			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			default="0"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
@@ -111,7 +102,6 @@
 			name="metakey"
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
-			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDS_DESC"
 			rows="3"
 			cols="30"
 		/>
@@ -121,7 +111,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
-			description="COM_BANNERS_FIELD_CLIENTOWNPREFIX_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -141,7 +130,6 @@
 			name="extrainfo"
 			type="textarea"
 			label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
-			description="COM_BANNERS_FIELD_EXTRAINFO_DESC"
 			rows="5"
 			cols="80"
 		/>

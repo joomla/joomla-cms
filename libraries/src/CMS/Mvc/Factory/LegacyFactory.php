@@ -53,7 +53,7 @@ class LegacyFactory implements MvcFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\View\View  The view object
+	 * @return  \Joomla\CMS\View\AbstractView  The view object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception

@@ -23,7 +23,6 @@
 					name="detect_browser"
 					type="list"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_DESC"
 					default="0"
 					>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_SITE_LANGUAGE</option>
@@ -35,7 +34,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -47,7 +45,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -59,7 +56,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -71,7 +67,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
 					default="1"
 					showon="alternate_meta:1"
 					>
@@ -83,7 +78,6 @@
 					name="xdefault_language"
 					type="contentlanguage"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_DESC"
 					default="default"
 					showon="alternate_meta:1[AND]xdefault:1"
 					>
@@ -95,7 +89,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -106,7 +99,6 @@
 					name="lang_cookie"
 					type="list"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
 					default="0"
 					>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>

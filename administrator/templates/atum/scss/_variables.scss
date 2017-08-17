@@ -90,11 +90,6 @@ $state-danger-text:                #fff !default;
 $state-danger-bg:                  $brand-danger !default;
 $state-danger-border:              darken($brand-danger, 5%) !default;
 
-// Switchers
-$switcher-color-success:           rgb(100,189,99);
-$switcher-color-danger:            rgb(188,101,100);
-$switcher-color-primary:           rgb(100,143,186);
-
 // Treeselect
 $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
@@ -112,7 +107,11 @@ $modal-header-height:              46px;
 $badge-default-bg:                 #5e7082;
 
 // Quickicons
-$quickicon-bg:                     #447aad;
+$quickicon-bg:                     $atum-template-color;
+$quickicon-text-color:             #fff;
+$quickicon-box-shadow:             0 0 5px 0 $quickicon-bg;
+$quickicon-box-shadow-success:     0 0 5px 0 lighten($brand-success, 7%);
+$quickicon-box-shadow-danger:      0 0 5px 0 lighten($brand-danger, 7%);
 
 // Gutter
 $grid-gutter-width-base:           15px !default;

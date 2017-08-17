@@ -104,8 +104,13 @@ class Category extends ListModel
 			{
 				$item->params = new Registry($item->params);
 			}
-			$this->tags = new TagsHelper;
-			$this->tags->getItemTags('com_contact.contact', $item->id);
+
+			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+			if ($this->getState('load_tags', true))
+			{
+				$this->tags = new TagsHelper;
+				$this->tags->getItemTags('com_contact.contact', $item->id);
+			}
 		}
 
 		return $items;

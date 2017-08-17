@@ -8,7 +8,6 @@
 			name="mode"
 			type="radio"
 			label="COM_REDIRECT_MODE_LABEL"
-			description="COM_REDIRECT_MODE_DESC"
 			class="switcher"
 			default="0"
 			>
