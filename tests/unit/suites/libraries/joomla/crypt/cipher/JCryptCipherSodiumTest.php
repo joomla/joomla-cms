@@ -73,11 +73,11 @@ class JCryptCipherSodiumTest extends TestCase
 		$key    = $cipher->generateKey();
 
 		// Assert that the key is the correct type.
-		$this->assertInstanceOf('Joomla\\CMS\\Crypt\\Key', $key);
+		$this->assertInstanceOf('Joomla\\Crypt\\Key', $key);
 
 		// Assert the keys pass validation
-		$this->assertSame(Crypt::safeStrlen($key->private), 32);
-		$this->assertSame(Crypt::safeStrlen($key->public), 32);
+		$this->assertSame(Crypt::safeStrlen($key->getPrivate()), 32);
+		$this->assertSame(Crypt::safeStrlen($key->getPublic()), 32);
 
 		// Assert the key is of the correct type.
 		$this->assertAttributeEquals('sodium', 'type', $key);
