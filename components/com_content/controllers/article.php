@@ -157,29 +157,30 @@ class ContentControllerArticle extends JControllerForm
 	 * @since   1.6
 	 */
 	public function cancel($key = 'a_id')
- 	{
- 		parent::cancel($key);
-		
-		$app       = JFactory::getApplication();
+	{
+		parent::cancel($key);
+
+		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params   = $app->getParams();
+		$params = $app->getParams();
 
 		$customCancelRedir = (bool) $params->get('custom_cancel_redirect');
-		
+
 		if ($customCancelRedir)
 		{
 			$cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
+
 			if ($cancelMenuitemId > 0)
 			{				
 				$item = $app->getMenu()->getItem($cancelMenuitemId);
-				
 				$lang = '';
+
 				if (JLanguageMultilang::isEnabled())
 				{
-					$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 				}
-				
+
 				// Redirect to the user specified return page.
 				$redirlink = $item->link . $lang . '&Itemid=' . $cancelMenuitemId;
 			}
@@ -198,7 +199,7 @@ class ContentControllerArticle extends JControllerForm
 			{
 				$lang = '';
 				$item = $app->getMenu()->getItem($menuitemId);
-				
+
 				if (JLanguageMultilang::isEnabled())
 				{
 					$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
@@ -213,7 +214,7 @@ class ContentControllerArticle extends JControllerForm
 				$redirlink = $this->getReturnPage();
 			}
 		}
-		
+
 		$this->setRedirect(JRoute::_($redirlink, false));
  	}
 
