@@ -31,8 +31,11 @@ class Updatesite extends Form
 	{
 		$model = $this->getModel('updatesites');
 
-		// Get the id of the UpdateSite that we are trying to edit
+		// Get the first update_site_id checked in the table
 		$recordId = $this->input->post->get('cid', array(), 'array')[0];
+
+		// If no checkbox was selected then the user clicked on the update site name
+		$recordId = $recordId ? $recordId : $this->input->getInt('update_site_id');
 
 		// Get the list of the Joomla Core UpdateSites
 		$joomlaUpdateSitesIds = $model->getJoomlaUpdateSitesIds(0);
