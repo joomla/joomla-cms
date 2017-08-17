@@ -26,7 +26,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
-        // skipped because dateset that allows these test not to fail let other tests fail.
+        // Skipped because dataset that allows these test not to fail let other tests fail.
 	    $this->markTestSkipped('skipped RD 3.Feb 2017');
 
 	    parent::setUp();

@@ -184,10 +184,12 @@ class FieldsModelField extends JModelAdmin
 			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
 				$names = array();
+
 				foreach ($newParams as $param)
 				{
 					$names[] = $db->q($param['value']);
 				}
+
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
 					->where('value NOT IN (' . implode(',', $names) . ')');
@@ -195,6 +197,8 @@ class FieldsModelField extends JModelAdmin
 				$db->execute();
 			}
 		}
+
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -545,7 +549,7 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Setting the value for the gven field id, context and item id.
+	 * Setting the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
 	 * @param   string  $itemId   The ID of the item.
@@ -642,6 +646,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		$this->valueCache = array();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -940,12 +945,14 @@ class FieldsModelField extends JModelAdmin
 
 			// Allow to override the default value label and description through the plugin
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
+
 			if (JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'label', $key);
 			}
 
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
+
 			if (JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);

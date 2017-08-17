@@ -613,6 +613,7 @@ class MenusModelItem extends JModelAdmin
 		{
 			// Get selected fields
 			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
 			$data['access'] = (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
@@ -689,8 +690,7 @@ class MenusModelItem extends JModelAdmin
 		{
 
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id !== (int) $this->getState('item.id')
-				|| MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && is_null($table->id))
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) 
 			{
 				$table->link = $link;
 			}
