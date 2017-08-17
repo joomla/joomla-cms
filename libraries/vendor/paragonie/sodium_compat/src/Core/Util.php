@@ -138,6 +138,84 @@ abstract class ParagonIE_Sodium_Core_Util
     }
 
     /**
+     * If a variable does not match a given type, throw a TypeError.
+     *
+     * @param mixed $mixedVar
+     * @param string $type
+     * @param int $argumentIndex
+     * @throws TypeError
+     * @throws Error
+     * @return void
+     */
+    public static function declareScalarType(&$mixedVar = null, $type = 'void', $argumentIndex = 0)
+    {
+        if (func_num_args() === 0) {
+            /* Tautology, by default */
+            return;
+        }
+        if (func_num_args() === 1) {
+            throw new TypeError('Declared void, but passed a variable');
+        }
+        $realType = strtolower(gettype($mixedVar));
+        $type = strtolower($type);
+        switch ($type) {
+            case 'null':
+                if ($mixedVar !== null) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be null, ' . $realType . ' given.');
+                }
+                break;
+            case 'integer':
+            case 'int':
+                $allow = array('int', 'integer');
+                if (!in_array($type, $allow)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be an integer, ' . $realType . ' given.');
+                }
+                $mixedVar = (int) $mixedVar;
+                break;
+            case 'boolean':
+            case 'bool':
+                $allow = array('bool', 'boolean');
+                if (!in_array($type, $allow)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be a boolean, ' . $realType . ' given.');
+                }
+                $mixedVar = (bool) $mixedVar;
+                break;
+            case 'string':
+                if (!is_string($mixedVar)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be a string, ' . $realType . ' given.');
+                }
+                $mixedVar = (string) $mixedVar;
+                break;
+            case 'decimal':
+            case 'double':
+            case 'float':
+                $allow = array('decimal', 'double', 'float');
+                if (!in_array($type, $allow)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be a float, ' . $realType . ' given.');
+                }
+                $mixedVar = (float) $mixedVar;
+                break;
+            case 'object':
+                if (!is_object($mixedVar)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be an object, ' . $realType . ' given.');
+                }
+                break;
+            case 'array':
+                if (!is_array($mixedVar)) {
+                    if (is_object($mixedVar)) {
+                        if ($mixedVar instanceof ArrayAccess) {
+                            return;
+                        }
+                    }
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be an array, ' . $realType . ' given.');
+                }
+                break;
+            default:
+                throw new Error('Unknown type (' . $realType .') does not match expect type (' . $type . ')');
+        }
+    }
+
+    /**
      * Evaluate whether or not two strings are equal (in constant-time)
      *
      * @param string $left
