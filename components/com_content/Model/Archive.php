@@ -119,10 +119,9 @@ class Archive extends Articles
 			$query->where('c.id IN (' . implode(', ', $catids) . ')');
 		}
 
-		if ((int) $state > 0)
+		if (count($state) > 0)
 		{
-//			$query->where($db->qn('s.condition') . ' IN (-2, 0, 1)');
-			$query->where($db->qn('a.state') . ' = ' . $state);
+			$query->where($db->qn('a.state') . ' IN (' . implode(', ', $state) . ')');
 		}
 
 		return $query;

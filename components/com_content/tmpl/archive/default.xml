@@ -32,6 +32,9 @@
 			    sql_from="#__workflow_states"
 			    key_field="id"
 			    value_field="title"
+				multiple="true"
+				size="5"
+			    label="COM_CONTENT_STATE"
 			    >
 
 			</field>
