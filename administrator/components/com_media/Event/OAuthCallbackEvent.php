@@ -29,12 +29,12 @@ class OAuthCallbackEvent extends AbstractEvent
 	private $context = null;
 
 	/**
-	 * The event parameters
+	 * The event input
 	 *
-	 * @var array
+	 * @var \JInput
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $parameters = null;
+	private $input = null;
 
 	/**
 	 * Get the event context
@@ -63,28 +63,28 @@ class OAuthCallbackEvent extends AbstractEvent
 	}
 
 	/**
-	 * Get the event parameters
+	 * Get the event input
 	 *
-	 * @return array
+	 * @return \JInput
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getParameters()
+	public function getInput()
 	{
-		return $this->parameters;
+		return $this->input;
 	}
 
 	/**
-	 * Set the event parameters
+	 * Set the event input
 	 *
-	 * @param   array  $parameters  Event parameters
+	 * @param   \JInput  $input  Event input
 	 *
 	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setParameters($parameters)
+	public function setParameters($input)
 	{
-		$this->parameters = $parameters;
+		$this->input = $input;
 	}
 }

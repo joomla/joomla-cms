@@ -40,13 +40,10 @@ class Plugin extends Controller
 	 */
 	public function oauthcallback()
 	{
-		// Get the input
-		$input = $this->input->request->getArray();
-
 		try
 		{
 			// Load plugin names
-			$pluginName = $this->input->request->getString('plugin', null);
+			$pluginName = $this->input->getString('plugin', null);
 			$plugins = PluginHelper::getPlugin('filesystem');
 
 			// If plugin name was not found in parameters redirect back to control panel
@@ -65,7 +62,7 @@ class Plugin extends Controller
 			PluginHelper::importPlugin('filesystem', $pluginName);
 
 			// Event parameters
-			$eventParameters = ['context' => $pluginName, 'parameters' => $input];
+			$eventParameters = ['context' => $pluginName, 'input' => $this->input];
 			$event = new OAuthCallbackEvent('onFilesystemOAuthCallback', $eventParameters);
 
 			// Get results from event
@@ -120,7 +117,7 @@ class Plugin extends Controller
 					{
 						throw new \Exception("Redirect URI must be set in the plugin");
 					}
-					$this->setRedirect(($eventResults['redirect_uri']));
+					$this->setRedirect($eventResults['redirect_uri']);
 					break;
 
 				// Redirect browser to Media Manager
