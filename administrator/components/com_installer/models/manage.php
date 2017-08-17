@@ -298,11 +298,11 @@ class InstallerModelManage extends InstallerModel
 			->where('state = 0');
 
 		// Process select filters.
-		$status     = $this->getState('filter.status');
-		$type       = $this->getState('filter.type');
-		$clientId   = $this->getState('filter.client_id');
-		$folder     = $this->getState('filter.folder');
-		$packageId  = $this->getState('filter.package_id');
+		$status    = $this->getState('filter.status');
+		$type      = $this->getState('filter.type');
+		$clientId  = $this->getState('filter.client_id');
+		$folder    = $this->getState('filter.folder');
+		$packageId = $this->getState('filter.package_id');
 
 		if ($status != '')
 		{
