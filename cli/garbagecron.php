@@ -47,6 +47,9 @@ class GarbageCron extends \Joomla\CMS\Application\CliApplication
 /** @var \Joomla\DI\Container $container */
 $container = require JPATH_LIBRARIES . '/container.php';
 
+// Set the container as global one
+\Joomla\CMS\Factory::$container = $container;
+
 // Set up the container
 $container->share(
 	'GarbageCron',
