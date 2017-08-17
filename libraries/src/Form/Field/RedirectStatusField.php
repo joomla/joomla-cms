@@ -17,7 +17,7 @@ FormHelper::loadFieldClass('predefinedlist');
 /**
  * Redirect Status field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class RedirectStatusField extends \JFormFieldPredefinedList
 {
@@ -25,7 +25,7 @@ class RedirectStatusField extends \JFormFieldPredefinedList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public $type = 'Redirect_Status';
 
@@ -33,7 +33,7 @@ class RedirectStatusField extends \JFormFieldPredefinedList
 	 * Available statuses
 	 *
 	 * @var  array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $predefinedOptions = array(
 		'-2' => 'JTRASHED',
