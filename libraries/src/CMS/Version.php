@@ -28,10 +28,46 @@ final class Version
 	const PRODUCT = 'Joomla!';
 
 	/**
+	 * Major release version.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const MAJOR_VERSION = 4;
+
+	/**
+	 * Minor release version.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const MINOR_VERSION = 0;
+
+	/**
+	 * Patch release version.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PATCH_VERSION = 0;
+
+	/**
+	 * Extra release version info.
+	 *
+	 * This constant when not empty adds an additional identifier to the version string to reflect the development state.
+	 * For example, for 3.8.0 when this is set to 'dev' the version string will be `3.8.0-dev`.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const EXTRA_VERSION = 'dev';
+
+	/**
 	 * Release version.
 	 *
 	 * @var    string
 	 * @since  3.5
+	 * @deprecated  4.0  Use separated version constants instead
 	 */
 	const RELEASE = '4.0';
 
@@ -40,6 +76,7 @@ final class Version
 	 *
 	 * @var    string
 	 * @since  3.5
+	 * @deprecated  4.0  Use separated version constants instead
 	 */
 	const DEV_LEVEL = '0-dev';
 
@@ -56,6 +93,7 @@ final class Version
 	 *
 	 * @var    string
 	 * @since  3.5
+	 * @deprecated  4.0
 	 */
 	const BUILD = '';
 
@@ -143,7 +181,7 @@ final class Version
 	 */
 	public function getHelpVersion()
 	{
-		return '.' . str_replace('.', '', self::RELEASE);
+		return '.' . self::MAJOR_VERSION . self::MINOR_VERSION;
 	}
 
 	/**
@@ -155,7 +193,17 @@ final class Version
 	 */
 	public function getShortVersion()
 	{
-		return self::RELEASE . '.' . self::DEV_LEVEL;
+		$version = self::MAJOR_VERSION . '.' . self::MINOR_VERSION . '.' . self::PATCH_VERSION;
+
+		// Has to be assigned to a variable to support PHP 5.3 and 5.4
+		$extraVersion = self::EXTRA_VERSION;
+
+		if (!empty($extraVersion))
+		{
+			$version .= '-' . $extraVersion;
+		}
+
+		return $version;
 	}
 
 	/**
@@ -167,7 +215,7 @@ final class Version
 	 */
 	public function getLongVersion()
 	{
-		return self::PRODUCT . ' ' . self::RELEASE . '.' . self::DEV_LEVEL . ' '
+		return self::PRODUCT . ' ' . $this->getShortVersion() . ' '
 			. self::DEV_STATUS . ' [ ' . self::CODENAME . ' ] ' . self::RELDATE . ' '
 			. self::RELTIME . ' ' . self::RELTZ;
 	}

@@ -340,8 +340,9 @@
 
 		<field
 			name="urls_position"
-			type="list"
+			type="radio"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
+			class="switcher"
 			default="0"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>

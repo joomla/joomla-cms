@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
@@ -45,7 +46,7 @@ final class SiteApplication extends CMSApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInput    $input      An optional argument to provide dependency injection for the application's input
+	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
 	 *                                 object.  If the argument is a JInput object that object will become the
 	 *                                 application's input object, otherwise a default input object is created.
 	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
@@ -58,7 +59,7 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(\JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
 		$this->name = 'site';

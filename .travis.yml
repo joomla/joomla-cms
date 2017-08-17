@@ -21,9 +21,12 @@ matrix:
       env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
     - php: 7.1
       env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
+    - php: 7.2
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
     - php: nightly
       env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
   allow_failures:
+    - php: 7.2
     - php: nightly
 
 services:

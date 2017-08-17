@@ -23,7 +23,7 @@ interface FactoryInterface
 	 * @param   string  $type        The document type to instantiate
 	 * @param   array   $attributes  Array of attributes
 	 *
-	 * @return  \JDocument
+	 * @return  Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -32,12 +32,12 @@ interface FactoryInterface
 	/**
 	 * Creates a new renderer object.
 	 *
-	 * @param   \JDocument  $document  The JDocument instance to attach to the renderer
+	 * @param   Document  $document  The JDocument instance to attach to the renderer
 	 * @param   string      $type      The renderer type to instantiate
 	 *
 	 * @return  RendererInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createRenderer(\JDocument $document, $type);
+	public function createRenderer(Document $document, $type);
 }

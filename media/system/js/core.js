@@ -205,27 +205,32 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-			    str, element, option;
+				str, element, option, counter = 0;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
 				str     = element.text || element.textContent;
 				option  = JSON.parse(str);
 
-				option ? Joomla.loadOptions(option) : null;
+				if (option) {
+					Joomla.loadOptions(option);
+					counter++;
+				}
 
 				element.className = element.className.replace(' new', ' loaded');
 			}
 
-			return;
+			if (counter) {
+				return;
+			}
 		}
 
 		// Initial loading
 		if (!Joomla.optionsStorage) {
-			Joomla.optionsStorage = options;
+			Joomla.optionsStorage = options || {};
 		}
 		// Merge with existing
-		else {
+		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
 					Joomla.optionsStorage[p] = options[p];
@@ -687,10 +692,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 *          /installation/template/js/installation.js
 	 *
-	 * @param   {string}  task           The task to do [load, show, hide] (defaults to show).
-	 * @param   {object}  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 * @param   {String}       task           The task to do [load, show, hide] (defaults to show).
+	 * @param   {HTMLElement}  parentElement  The HTML element where we are appending the layer (defaults to body).
 	 *
-	 * @return  object  The HTML loading layer element.
+	 * @return  {HTMLElement}  The HTML loading layer element.
 	 *
 	 * @since  3.6.0
 	 */
@@ -700,10 +705,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		parentElement = parentElement || document.body;
 
 		// Create the loading layer (hidden by default).
-		if (task == 'load')
+		if (task === 'load')
 		{
-			// Gets the site base path from the body element (defaults to empty - no subfolder)
-			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+			// Gets the site base path
+			var systemPaths = Joomla.getOptions('system.paths') || {},
+				basePath    = systemPaths.root || '';
 
 			var loadingDiv = document.createElement('div');
 
@@ -804,24 +810,33 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}, options);
 
 		// Use POST for send the data
-		options.method = options.data ? 'POST' : options.method;
+		options.method = options.data ? 'POST' : options.method.toUpperCase();
 
 		// Set up XMLHttpRequest instance
 		try{
 			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+
 			xhr.open(options.method, options.url, true);
 
 			// Set the headers
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-			if (options.method === 'POST' && (!options.headers || !options.headers['Content-Type'])) {
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			if (options.method === 'POST') {
+				var token = Joomla.getOptions('csrf.token', '');
+
+				if (token) {
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				}
+
+				if (!options.headers || !options.headers['Content-Type']) {
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				}
 			}
 
 			// Custom headers
 			if (options.headers){
-				for (var p in options.headers){
+				for (var p in options.headers) {
 					if (options.headers.hasOwnProperty(p)) {
 						xhr.setRequestHeader(p, options.headers[p]);
 					}
@@ -1098,4 +1113,3 @@ Joomla.editors.instances = Joomla.editors.instances || {
 document.addEventListener('DOMContentLoaded', function() {
 	Joomla.WebComponents();
 });
-

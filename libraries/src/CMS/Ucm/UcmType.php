@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Ucm;
+namespace Joomla\CMS\UCM;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -51,12 +51,12 @@ use Joomla\Application\AbstractApplication;
  *
  * @since  3.1
  */
-class UcmType implements Ucm
+class UCMType implements UCM
 {
 	/**
 	 * The UCM Type
 	 *
-	 * @var    UcmType
+	 * @var    UCMType
 	 * @since  3.1
 	 */
 	public $type;

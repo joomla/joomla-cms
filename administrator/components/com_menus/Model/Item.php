@@ -619,6 +619,7 @@ class Item extends Admin
 		{
 			// Get selected fields
 			$filters = \JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
 			$data['access'] = (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access'));

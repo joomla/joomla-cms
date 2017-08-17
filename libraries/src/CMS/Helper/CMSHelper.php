@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\TableInterface;
@@ -35,7 +37,7 @@ class CMSHelper
 	 */
 	public function getCurrentLanguage($detectBrowser = true)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Get the languagefilter parameters
 		if (Multilanguage::isEnabled())
@@ -58,7 +60,7 @@ class CMSHelper
 		{
 			if ($detectBrowser)
 			{
-				$langCode = \JLanguageHelper::detectLanguage();
+				$langCode = LanguageHelper::detectLanguage();
 			}
 			else
 			{
@@ -80,7 +82,7 @@ class CMSHelper
 	 */
 	public function getLanguageId($langCode)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('lang_id')
 			->from('#__languages')
