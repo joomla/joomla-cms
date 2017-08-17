@@ -36,17 +36,7 @@ if (!defined('_JDEFINES'))
 define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
-
-// Import the configuration.
-require_once JPATH_CONFIGURATION . '/configuration.php';
-
-// System configuration.
-$config = new JConfig;
-define('JDEBUG', $config->debug);
+require_once JPATH_BASE . '/includes/framework.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -65,7 +55,7 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  *
  * @since  2.5
  */
-class FinderCli extends JApplicationCli
+class FinderCli extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Start time for the index process
@@ -98,7 +88,7 @@ class FinderCli extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function doExecute()
+	protected function doExecute()
 	{
 		// Print a blank line.
 		$this->out(JText::_('FINDER_CLI'));
@@ -112,7 +102,6 @@ class FinderCli extends JApplicationCli
 
 		// Fool the system into thinking we are running as JSite with Smart Search as the active component.
 		$_SERVER['HTTP_HOST'] = 'domain.com';
-		JFactory::getApplication('site');
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->input->getString('purge', false))
@@ -170,7 +159,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
-		JEventDispatcher::getInstance()->trigger('onStartIndex');
+		JFactory::getApplication()->triggerEvent('onStartIndex');
 
 		// Remove the script time limit.
 		@set_time_limit(0);
@@ -182,7 +171,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
-		JEventDispatcher::getInstance()->trigger('onBeforeIndex');
+		JFactory::getApplication()->triggerEvent('onBeforeIndex');
 
 		// Startup reporting.
 		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
@@ -204,7 +193,7 @@ class FinderCli extends JApplicationCli
 				$state->batchOffset = 0;
 
 				// Trigger the onBuildIndex event.
-				JEventDispatcher::getInstance()->trigger('onBuildIndex');
+				JFactory::getApplication()->triggerEvent('onBuildIndex');
 
 				// Batch reporting.
 				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->qtime, 3)), true);
@@ -371,6 +360,22 @@ class FinderCli extends JApplicationCli
 	}
 }
 
-// Instantiate the application object, passing the class name to JCli::getInstance
-// and use chaining to execute the application.
-JApplicationCli::getInstance('FinderCli')->execute();
+// Set up the container
+JFactory::getContainer()->share(
+	'FinderCli',
+	function (\Joomla\DI\Container $container)
+	{
+		return new FinderCli(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('FinderCli');
+JFactory::$application = $app;
+$app->execute();

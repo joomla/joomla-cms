@@ -77,7 +77,7 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
                                         'order_text'     => 'precedes @package',
                                        ),
                        'package'    => array(
-                                        'required'       => true,
+                                        'required'       => false,
                                         'allow_multiple' => false,
                                         'order_text'     => 'must follows @category (if used)',
                                        ),
@@ -362,6 +362,16 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
 
             // Required tag missing.
             if ($info['required'] === true && in_array($tag, $foundTags) === false) {
+                // We don't use package tags in namespaced code or the bootstrap file
+                if ($tag == 'package') {
+                    // this should return 0 if there is no namespaced tokens
+                    $namespaced = $this->currentFile->findNext(T_NAMESPACE, 0);
+
+                    if ($namespaced !== 0 || strpos($this->currentFile->getFilename(), '/libraries/bootstrap.php')) {
+                        continue;
+                    }
+                }
+
                 $error = 'Missing @%s tag in %s comment';
                 $data  = array(
                               $tag,

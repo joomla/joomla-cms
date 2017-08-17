@@ -131,7 +131,7 @@ class PlgUserJoomla extends JPlugin
 		$userParams = new Registry($user['params']);
 		$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
-		if ($userLocale != $defaultLocale)
+		if ($userLocale !== $defaultLocale)
 		{
 			$lang->setLanguage($userLocale);
 		}
@@ -169,7 +169,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Set application language back to default if we changed it
-		if ($userLocale != $defaultLocale)
+		if ($userLocale !== $defaultLocale)
 		{
 			$lang->setLanguage($defaultLocale);
 		}
@@ -222,6 +222,9 @@ class PlgUserJoomla extends JPlugin
 		// Mark the user as logged in
 		$instance->guest = 0;
 
+		// Load the logged in user to the application
+		$this->app->loadIdentity($instance);
+
 		$session = JFactory::getSession();
 
 		// Grab the current session ID
@@ -230,6 +233,7 @@ class PlgUserJoomla extends JPlugin
 		// Fork the session
 		$session->fork();
 
+		// Register the needed session variables
 		$session->set('user', $instance);
 
 		// Ensure the new session's metadata is written to the database

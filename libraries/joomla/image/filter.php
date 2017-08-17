@@ -9,58 +9,31 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Image\ImageFilter;
+
+JLog::add('JImageFilter is deprecated, use Joomla\Image\ImageFilter instead.', JLog::WARNING, 'deprecated');
+
 /**
  * Class to manipulate an image.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
  */
-abstract class JImageFilter
+abstract class JImageFilter extends ImageFilter
 {
-	/**
-	 * @var    resource  The image resource handle.
-	 * @since  11.3
-	 */
-	protected $handle;
-
 	/**
 	 * Class constructor.
 	 *
 	 * @param   resource  $handle  The image resource on which to apply the filter.
 	 *
 	 * @since   11.3
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
+	 * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
 	 */
 	public function __construct($handle)
 	{
-		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter'))
-		{
-			// @codeCoverageIgnoreStart
-			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException('The imagefilter function for PHP is not available.');
+		// Inject the PSR-3 compatible logger in for forward compatibility
+		$this->setLogger(JLog::createDelegatedLogger());
 
-			// @codeCoverageIgnoreEnd
-		}
-
-		// Make sure the file handle is valid.
-		if (!is_resource($handle) || (get_resource_type($handle) != 'gd'))
-		{
-			JLog::add('The image handle is invalid for the image filter.', JLog::ERROR);
-			throw new InvalidArgumentException('The image handle is invalid for the image filter.');
-		}
-
-		$this->handle = $handle;
+		parent::__construct($handle);
 	}
-
-	/**
-	 * Method to apply a filter to an image resource.
-	 *
-	 * @param   array  $options  An array of options for the filter.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	abstract public function execute(array $options = array());
 }

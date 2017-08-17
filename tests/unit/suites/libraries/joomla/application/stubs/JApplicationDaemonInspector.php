@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -275,5 +275,18 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	public function pcntlWait(&$status, $options = 0)
 	{
 		return self::$pcntlWait;
+	}
+
+	/**
+	 * Method to run the application routines.  Most likely you will want to instantiate a controller
+	 * and execute it, or perform some sort of task directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	protected function doExecute()
+	{
+		return;
 	}
 }

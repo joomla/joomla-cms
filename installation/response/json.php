@@ -39,7 +39,7 @@ class InstallationResponseJson
 		{
 			foreach ($messages as $msg)
 			{
-				if (isset($msg['type']) && isset($msg['message']))
+				if (isset($msg['type'], $msg['message']))
 				{
 					$lists[$msg['type']][] = $msg['message'];
 				}
@@ -53,7 +53,7 @@ class InstallationResponseJson
 		}
 
 		// Check if we are dealing with an error.
-		if ($data instanceof Exception)
+		if ($data instanceof Exception || $data instanceof Throwable)
 		{
 			// Prepare the error response.
 			$this->error   = true;

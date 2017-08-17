@@ -128,17 +128,17 @@ class PlgExtensionJoomla extends JPlugin
 	 *
 	 * @param   JInstaller  $installer  Installer instance
 	 * @param   integer     $eid        Extension id
-	 * @param   boolean     $result     Installation result
+	 * @param   boolean     $removed    Installation result
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onExtensionAfterUninstall($installer, $eid, $result)
+	public function onExtensionAfterUninstall($installer, $eid, $removed)
 	{
 		// If we have a valid extension ID and the extension was successfully uninstalled wipe out any
 		// update sites for it
-		if ($eid && $result)
+		if ($eid && $removed)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -254,7 +254,7 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$data = trim((string) $updateservers);
 
-			if (strlen($data))
+			if ($data !== '')
 			{
 				// We have a single entry in the update server line, let us presume this is an extension line
 				$this->addUpdateSite(JText::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);

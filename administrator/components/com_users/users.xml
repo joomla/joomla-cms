@@ -9,14 +9,16 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_USERS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Users</namespace>
 
 	<files folder="site">
-		<filename>controller.php</filename>
 		<filename>router.php</filename>
-		<filename>users.php</filename>
-		<folder>controllers</folder>
+		<filename>dispatcher.php</filename>		
+		<folder>Controller</folder>
 		<folder>helpers</folder>
+		<folder>Model</folder>
 		<folder>models</folder>
+		<folder>View</folder>
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
@@ -25,11 +27,15 @@
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>users.php</filename>
-			<folder>controllers</folder>
+			<filename>access.xml</filename>
+			<filename>dispatcher.php</filename>			
+			<folder>Controller</folder>
+			<folder>Helper</folder>
 			<folder>helpers</folder>
+			<folder>Model</folder>
 			<folder>models</folder>
+			<folder>Table</folder>
+			<folder>View</folder>
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">

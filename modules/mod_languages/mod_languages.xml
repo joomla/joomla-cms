@@ -36,7 +36,6 @@
 					name="header_text"
 					type="textarea"
 					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
-					description="MOD_LANGUAGES_FIELD_HEADER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -46,7 +45,6 @@
 					name="footer_text"
 					type="textarea"
 					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
-					description="MOD_LANGUAGES_FIELD_FOOTER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
@@ -55,52 +53,48 @@
 				<field
 					name="dropdown"
 					type="radio"
+					class="switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="dropdownimage"
 					type="radio"
+					class="switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdown:1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="lineheight"
 					type="radio"
+					class="switcher"
 					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
-					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					showon="dropdown:1[AND]dropdownimage:1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="image"
 					type="radio"
+					class="switcher"
 					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdown:0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -114,40 +108,37 @@
 				<field
 					name="show_active"
 					type="radio"
+					class="switcher"
 					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
-					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdownimage:1[OR]dropdown:0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="full_name"
 					type="radio"
+					class="switcher"
 					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
-					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC"
-					class="btn-group btn-group-yesno"
 					showon="dropdown:0[AND]image:0"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="inline"
 					type="radio"
+					class="switcher"
 					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
-					description="MOD_LANGUAGES_FIELD_INLINE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdown:0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
@@ -155,21 +146,18 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="MOD_LANGUAGES_FIELD_CACHING_DESC"
 					default="0"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -180,7 +168,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 

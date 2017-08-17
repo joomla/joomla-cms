@@ -6,8 +6,6 @@
 			type="installation.language"
 			label="INSTL_LANGUAGE_LABEL"
 			id="language"
-			class="chzn-select-deselect"
-			size="20"
 			default="en-GB"
 			required="true"
 			onchange="Install.setlanguage();"

@@ -40,7 +40,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	{
 		$pubkey = $this->params->get('public_key', '');
 
-		if ($pubkey == null || $pubkey == '')
+		if ($pubkey === '')
 		{
 			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
@@ -111,44 +111,41 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '1.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$challenge  = null;
+		$response   = null;
+		$spam       = false;
 
 		switch ($version)
 		{
 			case '1.0':
 				$challenge = $input->get('recaptcha_challenge_field', '', 'string');
 				$response  = $input->get('recaptcha_response_field', '', 'string');
-				$spam      = ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0);
+				$spam      = ($challenge === '' || $response === '');
 				break;
 			case '2.0':
 				// Challenge Not needed in 2.0 but needed for getResponse call
 				$challenge = null;
 				$response  = $input->get('g-recaptcha-response', '', 'string');
-				$spam      = ($response == null || strlen($response) == 0);
+				$spam      = ($response === '');
 				break;
 		}
 
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'));
-
-			return false;
+			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'));
-
-			return false;
+			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
-
-			return false;
+			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response, $challenge);
@@ -187,10 +184,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				if (trim($answers[0]) !== 'true')
 				{
-					// @todo use exceptions here
-					$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
-
-					return false;
+					throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))), 403);
 				}
 				break;
 			case '2.0':
@@ -201,12 +195,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				if ( !isset($response->success) || !$response->success)
 				{
-					// @todo use exceptions here
 					if (is_array($response->errorCodes))
 					{
 						foreach ($response->errorCodes as $error)
 						{
-							$this->_subject->setError($error);
+							throw new RuntimeException($error, 403);
 						}
 					}
 
@@ -268,7 +261,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		$response = '';
 
-		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) == false )
+		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) === false)
 		{
 			die('Could not open socket');
 		}

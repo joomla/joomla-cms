@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/banner.php');
-$baseurl = JUri::base();
+use Joomla\Component\Banners\Site\Helper\BannerHelper;
 ?>
-<div class="bannergroup<?php echo $moduleclass_sfx; ?>">
+<div class="bannergroup">
 <?php if ($headerText) : ?>
 	<?php echo $headerText; ?>
 <?php endif; ?>
@@ -29,6 +28,7 @@ $baseurl = JUri::base();
 			<?php $height = $item->params->get('height'); ?>
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
 				<?php // Image based banner ?>
+				<?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : \JUri::base(); ?>
 				<?php $alt = $item->params->get('alt'); ?>
 				<?php $alt = $alt ?: $item->name; ?>
 				<?php $alt = $alt ?: JText::_('MOD_BANNERS_BANNER'); ?>
@@ -41,11 +41,11 @@ $baseurl = JUri::base();
 							href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
-								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-							/>
+								src="<?php echo $baseurl . $imageurl; ?>"
+								alt="<?php echo $alt; ?>"
+								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+							>
 						</a>
 					<?php elseif ($target == 2) : ?>
 						<?php // Open in a popup window ?>
@@ -55,11 +55,11 @@ $baseurl = JUri::base();
 								return false"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
-								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-							/>
+								src="<?php echo $baseurl . $imageurl; ?>"
+								alt="<?php echo $alt; ?>"
+								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+							>
 						</a>
 					<?php else : ?>
 						<?php // Open in parent window ?>
@@ -67,21 +67,21 @@ $baseurl = JUri::base();
 							href="<?php echo $link; ?>"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
-								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-							/>
+								src="<?php echo $baseurl . $imageurl; ?>"
+								alt="<?php echo $alt; ?>"
+								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+							>
 						</a>
 					<?php endif; ?>
 				<?php else : ?>
 					<?php // Just display the image if no link specified ?>
 					<img
-						src="<?php echo $baseurl . $imageurl;?>"
-						alt="<?php echo $alt;?>"
-						<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-						<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-					/>
+						src="<?php echo $baseurl . $imageurl; ?>"
+						alt="<?php echo $alt; ?>"
+						<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+						<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+					>
 				<?php endif; ?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) : ?>
 				<object

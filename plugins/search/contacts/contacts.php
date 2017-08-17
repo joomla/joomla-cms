@@ -64,12 +64,9 @@ class PlgSearchContacts extends JPlugin
 		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent  = $this->params->get('search_content', 1);
@@ -94,7 +91,7 @@ class PlgSearchContacts extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -122,32 +119,23 @@ class PlgSearchContacts extends JPlugin
 
 		$query = $db->getQuery(true);
 
-		// SQLSRV changes.
-		$case_when  = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias', '!=', '0');
-		$case_when .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
-		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-		$case_when .= ' ELSE ';
-		$case_when .= $a_id . ' END as slug';
+		$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
+			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+			. ' ELSE a.id END AS slug';
 
-		$case_when1  = ' CASE WHEN ';
-		$case_when1 .= $query->charLength('c.alias', '!=', '0');
-		$case_when1 .= ' THEN ';
-		$c_id        = $query->castAsChar('c.id');
-		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-		$case_when1 .= ' ELSE ';
-		$case_when1 .= $c_id . ' END as catslug';
+		$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
+			. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
+			. ' ELSE c.id END AS catslug';
 
-		$query->select(
-			'a.name AS title, \'\' AS created, a.con_position, a.misc, '
-				. $case_when . ',' . $case_when1 . ', '
-				. $query->concatenate(array('a.name', 'a.con_position', 'a.misc'), ',') . ' AS text,'
-				. $query->concatenate(array($db->quote($section), 'c.title'), ' / ') . ' AS section,'
-				. '\'2\' AS browsernav'
-		);
-		$query->from('#__contact_details AS a')
-			->join('INNER', '#__categories AS c ON c.id = a.catid')
+		$query->select('a.name AS title')
+			->select($db->quote('') . ' AS created, a.con_position, a.misc')
+			->select($case_when)
+			->select($case_when1)
+			->select($query->concatenate(array('a.name', 'a.con_position', 'a.misc'), ',') . ' AS text')
+			->select($query->concatenate(array($db->quote($section), 'c.title'), ' / ') . ' AS section')
+			->select($db->quote('2') . ' AS browsernav')
+			->from($db->quoteName('#__contact_details', 'a'))
+			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 			->where(
 				'(a.name LIKE ' . $text . ' OR a.misc LIKE ' . $text . ' OR a.con_position LIKE ' . $text
 					. ' OR a.address LIKE ' . $text . ' OR a.suburb LIKE ' . $text . ' OR a.state LIKE ' . $text

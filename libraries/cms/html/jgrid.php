@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -57,8 +57,6 @@ abstract class JHtmlJGrid
 
 		if ($tip)
 		{
-			JHtml::_('bootstrap.tooltip');
-
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? JText::_($title) : $title;
 			$title = JHtml::_('tooltipText', $title, '', 0);
@@ -66,7 +64,7 @@ abstract class JHtmlJGrid
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-micro' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
@@ -75,11 +73,11 @@ abstract class JHtmlJGrid
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-micro disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="tbody-icon disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
-			if ($active_class == 'protected')
+			if ($active_class === 'protected')
 			{
 				$html[] = '<span class="icon-lock"></span>';
 			}
@@ -196,7 +194,7 @@ abstract class JHtmlJGrid
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
 			}
 
-			$tip = empty($tips) ? false : implode('<br />', $tips);
+			$tip = empty($tips) ? false : implode('<br>', $tips);
 
 			// Add tips and special titles
 			foreach ($states as $key => $state)
@@ -223,8 +221,8 @@ abstract class JHtmlJGrid
 				if ($tip)
 				{
 					$states[$key][1] = JText::_($states[$key][1]);
-					$states[$key][2] = JText::_($states[$key][2]) . '<br />' . $tip;
-					$states[$key][3] = JText::_($states[$key][3]) . '<br />' . $tip;
+					$states[$key][2] = JText::_($states[$key][2]) . '<br>' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '<br>' . $tip;
 					$states[$key][4] = true;
 				}
 			}
@@ -253,10 +251,10 @@ abstract class JHtmlJGrid
 	{
 		if (is_array($prefix))
 		{
-			$options = $prefix;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$options  = $prefix;
+			$enabled  = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
 		$states = array(
@@ -328,8 +326,6 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		if (is_array($prefix))
 		{
 			$options = $prefix;
@@ -338,7 +334,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = $editorName . '<br />' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br />' . JHtml::_('date', $time, 'H:i');
+		$text = $editorName . '<br>' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br>' . JHtml::_('date', $time, 'H:i');
 		$active_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKIN'), $text, 0);
 		$inactive_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 

@@ -65,12 +65,9 @@ class PlgSearchCategories extends JPlugin
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$searchText = $text;
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent = $this->params->get('search_content', 1);
@@ -95,7 +92,7 @@ class PlgSearchCategories extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -146,16 +143,15 @@ class PlgSearchCategories extends JPlugin
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 		$query = $db->getQuery(true);
 
-		// SQLSRV changes.
-		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias', '!=', '0');
-		$case_when .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
-		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-		$case_when .= ' ELSE ';
-		$case_when .= $a_id . ' END as slug';
-		$query->select('a.title, a.description AS text, a.created_time AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
-			->from('#__categories AS a')
+		$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
+			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+			. ' ELSE a.id END AS slug';
+
+		$query->select('a.title, a.description AS text, a.created_time AS created')
+			->select($db->quote('2') . ' AS browsernav')
+			->select('a.id AS catid')
+			->select($case_when)
+			->from($db->quoteName('#__categories', 'a'))
 			->where(
 				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = '
 				. $db->quote('com_content') . 'AND a.access IN (' . $groups . ')'

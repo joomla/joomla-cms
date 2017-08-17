@@ -50,7 +50,7 @@ abstract class JHtmlLanguages
 			. ' value="' . htmlspecialchars($language, ENT_COMPAT, 'UTF-8') . '"'
 			. ' onclick="Joomla.isChecked(this.checked);"'
 			. ' title="' . ($rowNum + 1) . '"'
-			. '/>';
+			. '>';
 	}
 
 	/**

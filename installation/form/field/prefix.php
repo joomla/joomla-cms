@@ -36,8 +36,8 @@ class InstallationFormFieldPrefix extends JFormField
 		$size      = $this->element['size'] ? abs((int) $this->element['size']) : 5;
 		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
 		$class     = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$readonly  = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$disabled  = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$readonly  = (string) $this->element['readonly'] === 'true' ? ' readonly="readonly"' : '';
+		$disabled  = (string) $this->element['disabled'] === 'true' ? ' disabled="disabled"' : '';
 
 		// Make sure somebody doesn't put in a too large prefix size value.
 		if ($size > 10)
@@ -81,6 +81,6 @@ class InstallationFormFieldPrefix extends JFormField
 
 		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' .
 				' value="' . htmlspecialchars($prefix, ENT_COMPAT, 'UTF-8') . '"' .
-				$class . $disabled . $readonly . $onchange . $maxLength . '/>';
+				$class . $disabled . $readonly . $onchange . $maxLength . '>';
 	}
 }

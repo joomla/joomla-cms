@@ -7,7 +7,7 @@
 				type="radio"
 				label="INSTL_FTP_ENABLE_LABEL"
 				id="ftp_enable"
-				class="btn-group"
+				class="btn-group btn-group-reverse"
 				default="0"
 				filter="int"
 				required="true"
@@ -21,7 +21,7 @@
 				type="text"
 				label="INSTL_FTP_USER_LABEL"
 				id="ftp_user"
-				class="inputbox"
+				class="form-control"
 			/>
 
 			<field
@@ -29,7 +29,7 @@
 				type="password"
 				label="INSTL_FTP_PASSWORD_LABEL"
 				id="ftp_pass"
-				class="inputbox"
+				class="form-control"
 				filter="raw"
 			/>
 
@@ -38,7 +38,7 @@
 				type="text"
 				label="INSTL_FTP_ROOT_LABEL"
 				id="ftp_root"
-				class="inputbox"
+				class="form-control"
 			/>
 		</fieldset>
 
@@ -49,7 +49,7 @@
 				type="text"
 				label="INSTL_FTP_HOST_LABEL"
 				id="ftp_host"
-				class="inputbox"
+				class="form-control"
 				default="127.0.0.1"
 			/>
 
@@ -58,7 +58,7 @@
 				type="text"
 				label="INSTL_FTP_PORT_LABEL"
 				id="ftp_port"
-				class="inputbox"
+				class="form-control"
 				default="21"
 				filter="int"
 			/>
@@ -68,7 +68,7 @@
 				type="radio"
 				label="INSTL_FTP_SAVE_LABEL"
 				id="ftp_save"
-				class="btn-group"
+				class="btn-group btn-group-reverse"
 				default="0"
 				required="true"
 				filter="int"

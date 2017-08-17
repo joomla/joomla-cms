@@ -118,9 +118,7 @@ class PlgSystemLanguagecode extends JPlugin
 		// Check we have a form.
 		if (!($form instanceof JForm))
 		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
+			throw new RuntimeException(JText::_('JERROR_NOT_A_FORM'), 500);
 		}
 
 		// Check we are manipulating the languagecode plugin.
@@ -146,9 +144,9 @@ class PlgSystemLanguagecode extends JPlugin
 								<field
 									name="' . strtolower($tag) . '"
 									type="text"
+									label="' . $tag . '"
 									description="' . htmlspecialchars(JText::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
 									translate_description="false"
-									label="' . $tag . '"
 									translate_label="false"
 									size="7"
 									filter="cmd"

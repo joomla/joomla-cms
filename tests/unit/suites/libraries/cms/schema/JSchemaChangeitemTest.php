@@ -4,7 +4,7 @@
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -20,7 +20,6 @@ class JSchemaChangeitemTest extends TestCase
 	public function dataGetInstance()
 	{
 		return array(
-			'MySQL'      => array('Mysql', 'Mysql', 'mysql'),
 			'MySQLi'     => array('Mysqli', 'Mysql', 'mysql'),
 			'PDO MySQL'  => array('Pdomysql', 'Mysql', 'mysql'),
 			'PostgreSQL' => array('Postgresql', 'Postgresql', 'postgresql'),

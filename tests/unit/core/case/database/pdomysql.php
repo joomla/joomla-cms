@@ -3,7 +3,7 @@
  * @package    Joomla.Test
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -78,6 +78,9 @@ abstract class TestCaseDatabasePdomysql extends TestCaseDatabase
 					break;
 				case 'pass':
 					self::$_options['password'] = $v;
+					break;
+				case 'charset':
+					self::$_options['charset'] = $v;
 					break;
 			}
 		}

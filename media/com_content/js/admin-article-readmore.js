@@ -22,11 +22,6 @@ window.insertReadmore = function(editor) {
 		alert(options.exists);
 		return false;
 	} else {
-		/** Use the API, if editor supports it **/
-		if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
-			window.Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
-		} else {
-			window.jInsertEditorText('<hr id="system-readmore" />', editor);
-		}
+		Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
 	}
 };

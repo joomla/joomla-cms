@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory as JFactory;
+
 /**
  * Adapter Class
  * Retains common adapter pattern functions
@@ -76,7 +78,7 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  JDatabaseDriver  Database connector object
+	 * @return  \Joomla\Database\DatabaseDriver  Database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -130,6 +132,24 @@ class JAdapter extends JObject
 			return true;
 		}
 
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name);
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
 		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
 
 		if (!file_exists($fullpath))
@@ -147,7 +167,15 @@ class JAdapter extends JObject
 			return false;
 		}
 
-		$this->_adapters[$name] = new $class($this, $this->_db, $options);
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($class))
+		{
+			$this->_adapters[$name] = JFactory::getContainer()->get($class);
+		}
+		else
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+		}
 
 		return true;
 	}

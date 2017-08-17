@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -43,6 +43,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	public function setUp()
 	{
 		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -54,6 +58,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 
@@ -66,17 +72,18 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	{
 		$mockInstaller = $this->getMockBuilder('JInstaller')->getMock();
 		$mockDatabase = $this->getMockDatabase();
-		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('foo' => 'bar')));
+		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('type' => 'component')));
 
 		$this->assertAttributeInstanceOf('JTableExtension', 'extension', $object);
 
 		$this->assertAttributeSame($mockDatabase, 'db', $object);
 		$this->assertAttributeSame($mockInstaller, 'parent', $object);
 
-		$this->assertEquals(
-			'bar',
-			$object->foo,
-			'Tests any options are set as class variables by JObject'
+		$this->assertAttributeSame(
+			'component',
+			'type',
+			$object,
+			'Options which are valid class variables should be set'
 		);
 	}
 
@@ -556,7 +563,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Mock setupInstallPaths throwing an exception
 		$object->expects($this->once())
 			->method($method)
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		unset($manifestObject->description);
@@ -1036,7 +1043,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Check that setupUpdates has been called
 		$object->expects($this->once())
 			->method('setupUpdates')
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		TestReflection::setValue($object, 'manifest', $manifestObject);
@@ -1200,7 +1207,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Mock setupInstallPaths throwing an exception
 		$object->expects($this->once())
 			->method($method)
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		unset($manifestObject->description);
@@ -1263,7 +1270,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Mock setupInstallPaths throwing an exception
 		$object->expects($this->once())
 			->method('finaliseInstall')
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		unset($manifestObject->description);

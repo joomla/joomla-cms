@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
+class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -22,47 +22,78 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         '05d739a990f75f0c44ebe1f032b33148' => __DIR__ . '/..' . '/joomla/string/src/phputf8/ucwords.php',
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
-        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
-        'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'Z' => 
+        array (
+            'Zend\\Diactoros\\' => 15,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php56\\' => 23,
-            'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\WebLink\\' => 26,
         ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'Psr\\Link\\' => 9,
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'J' => 
         array (
             'Joomla\\Utilities\\' => 17,
-            'Joomla\\Uri\\Tests\\' => 17,
             'Joomla\\Uri\\' => 11,
             'Joomla\\String\\' => 14,
+            'Joomla\\Session\\' => 15,
             'Joomla\\Registry\\' => 16,
+            'Joomla\\OAuth2\\' => 14,
+            'Joomla\\OAuth1\\' => 14,
             'Joomla\\Ldap\\Tests\\' => 18,
             'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
+            'Joomla\\Image\\' => 13,
+            'Joomla\\Http\\' => 12,
             'Joomla\\Filter\\' => 14,
-            'Joomla\\Event\\Tests\\' => 19,
+            'Joomla\\Filesystem\\' => 18,
             'Joomla\\Event\\' => 13,
-            'Joomla\\Data\\Tests\\' => 18,
+            'Joomla\\Database\\' => 16,
             'Joomla\\Data\\' => 12,
-            'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
+            'Joomla\\Crypt\\' => 13,
+            'Joomla\\Controller\\' => 18,
+            'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
+            'Joomla\\' => 7,
+        ),
+        'F' => 
+        array (
+            'Fig\\Link\\' => 9,
+        ),
+        'D' => 
+        array (
+            'Defuse\\Crypto\\' => 14,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Zend\\Diactoros\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
+        ),
         'Symfony\\Polyfill\\Util\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
@@ -71,25 +102,37 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
         ),
-        'Symfony\\Polyfill\\Php55\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php55',
-        ),
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Symfony\\Component\\WebLink\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/web-link',
         ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
+        'Psr\\Link\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/link/src',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Joomla\\Utilities\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/utilities/src',
-        ),
-        'Joomla\\Uri\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/uri/Tests',
         ),
         'Joomla\\Uri\\' => 
         array (
@@ -99,9 +142,21 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/string/src',
         ),
+        'Joomla\\Session\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/session/src',
+        ),
         'Joomla\\Registry\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
+        ),
+        'Joomla\\OAuth2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/oauth2/src',
+        ),
+        'Joomla\\OAuth1\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/oauth1/src',
         ),
         'Joomla\\Ldap\\Tests\\' => 
         array (
@@ -119,82 +174,83 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
         ),
+        'Joomla\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/image/src',
+        ),
+        'Joomla\\Http\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/http/src',
+        ),
         'Joomla\\Filter\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
         ),
-        'Joomla\\Event\\Tests\\' => 
+        'Joomla\\Filesystem\\' => 
         array (
-            0 => __DIR__ . '/..' . '/joomla/event/Tests',
+            0 => __DIR__ . '/..' . '/joomla/filesystem/src',
         ),
         'Joomla\\Event\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
         ),
-        'Joomla\\Data\\Tests\\' => 
+        'Joomla\\Database\\' => 
         array (
-            0 => __DIR__ . '/..' . '/joomla/data/Tests',
+            0 => __DIR__ . '/..' . '/joomla/database/src',
         ),
         'Joomla\\Data\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
         ),
-        'Joomla\\DI\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/di/Tests',
-        ),
         'Joomla\\DI\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/di/src',
+        ),
+        'Joomla\\Crypt\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/crypt/src',
+        ),
+        'Joomla\\Controller\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/controller/src',
+        ),
+        'Joomla\\Archive\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/archive/src',
         ),
         'Joomla\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
         ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'S' => 
+        'Joomla\\' => 
         array (
-            'SimplePie' => 
-            array (
-                0 => __DIR__ . '/..' . '/simplepie/simplepie/library',
-            ),
+            0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
-        'J' => 
+        'Fig\\Link\\' => 
         array (
-            'Joomla\\Session' => 
-            array (
-                0 => __DIR__ . '/..' . '/joomla/session',
-            ),
+            0 => __DIR__ . '/..' . '/fig/link-util/src',
+        ),
+        'Defuse\\Crypto\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
     public static $classMap = array (
         'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
-        'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
-        'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
-        'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
-        'PHPMailerOAuthGoogle' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
-        'POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.pop3.php',
-        'SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.smtp.php',
-        'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_formatter_lessjs' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_parser' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
-        'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$classMap;
 
         }, null, ClassLoader::class);
     }

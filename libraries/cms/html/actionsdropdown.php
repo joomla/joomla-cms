@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -35,12 +35,12 @@ abstract class JHtmlActionsDropdown
 	{
 		$html = array();
 
-		$html[] = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-micro">';
+		$html[] = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">';
 		$html[] = '<span class="caret"></span>';
 
 		if ($item)
 		{
-			$html[] = '<span class="element-invisible">' . JText::sprintf('JACTIONS', $item) . '</span>';
+			$html[] = '<span class="sr-only">' . JText::sprintf('JACTIONS', $item) . '</span>';
 		}
 
 		$html[] = '</button>';

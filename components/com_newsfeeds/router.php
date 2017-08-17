@@ -14,44 +14,35 @@ defined('_JEXEC') or die;
  *
  * @since  3.3
  */
-class NewsfeedsRouter extends JComponentRouterView
+class NewsfeedsRouter extends \JComponentRouterView
 {
 	protected $noIDs = false;
 
 	/**
 	 * Newsfeeds Component router constructor
 	 *
-	 * @param   JApplicationCms  $app   The application object
-	 * @param   JMenu            $menu  The menu object to work with
+	 * @param   \JApplicationCms  $app   The application object
+	 * @param   \JMenu            $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
-		$params = JComponentHelper::getParams('com_newsfeeds');
+		$params = \JComponentHelper::getParams('com_newsfeeds');
 		$this->noIDs = (bool) $params->get('sef_ids');
-		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories = new \JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
-		$category = new JComponentRouterViewconfiguration('category');
+		$category = new \JComponentRouterViewconfiguration('category');
 		$category->setKey('id')->setParent($categories, 'catid')->setNestable();
 		$this->registerView($category);
-		$newsfeed = new JComponentRouterViewconfiguration('newsfeed');
+		$newsfeed = new \JComponentRouterViewconfiguration('newsfeed');
 		$newsfeed->setKey('id')->setParent($category, 'catid');
 		$this->registerView($newsfeed);
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new JComponentRouterRulesMenu($this));
-
-		if ($params->get('sef_advanced', 0))
-		{
-			$this->attachRule(new JComponentRouterRulesStandard($this));
-			$this->attachRule(new JComponentRouterRulesNomenu($this));
-		}
-		else
-		{
-			JLoader::register('NewsfeedsRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
-			$this->attachRule(new NewsfeedsRouterRulesLegacy($this));
-		}
+		$this->attachRule(new \JComponentRouterRulesMenu($this));
+		$this->attachRule(new \JComponentRouterRulesStandard($this));
+		$this->attachRule(new \JComponentRouterRulesNomenu($this));
 	}
 
 	/**
@@ -64,7 +55,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = JCategories::getInstance($this->getName())->get($id);
+		$category = \JCategories::getInstance($this->getName())->get($id);
 		if ($category)
 		{
 			$path = array_reverse($category->getPath(), true);
@@ -109,7 +100,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	{
 		if (!strpos($id, ':'))
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('alias'))
 				->from($dbquery->qn('#__newsfeeds'))
@@ -141,13 +132,13 @@ class NewsfeedsRouter extends JComponentRouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = JCategories::getInstance($this->getName())->get($query['id']);
+			$category = \JCategories::getInstance($this->getName())->get($query['id']);
 
 			foreach ($category->getChildren() as $child)
 			{
 				if ($this->noIDs)
 				{
-					if ($child->alias == $segment)
+					if ($child->alias === $segment)
 					{
 						return $child->id;
 					}
@@ -190,7 +181,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	{
 		if ($this->noIDs)
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('id'))
 				->from($dbquery->qn('#__newsfeeds'))
@@ -203,41 +194,4 @@ class NewsfeedsRouter extends JComponentRouterView
 
 		return (int) $segment;
 	}
-}
-
-/**
- * newsfeedsBuildRoute
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  The segments of the URL to parse.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function newsfeedsBuildRoute(&$query)
-{
-	$app = JFactory::getApplication();
-	$router = new NewsfeedsRouter($app, $app->getMenu());
-
-	return $router->build($query);
-}
-
-/**
- * newsfeedsParseRoute
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function newsfeedsParseRoute($segments)
-{
-	$app = JFactory::getApplication();
-	$router = new NewsfeedsRouter($app, $app->getMenu());
-
-	return $router->parse($segments);
 }

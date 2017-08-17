@@ -4,7 +4,7 @@
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/nested.php';
@@ -801,9 +801,13 @@ class JTableNestedTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
-// 		$this->saveFactoryState();
+ 		$this->saveFactoryState();
 
-// 		JFactory::$session = $this->getMockSession();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
 
 		$this->class = new NestedTable(self::$driver);
 	}
@@ -819,8 +823,9 @@ class JTableNestedTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-// 		$this->restoreFactoryState();
 		unset($this->class);
+ 		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 }

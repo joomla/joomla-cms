@@ -10,24 +10,28 @@
 	<version>3.0.0</version>
 	<description>COM_SEARCH_XML_DESCRIPTION</description>
 	<files folder="site">
-		<filename>controller.php</filename>
-		<filename>router.php</filename>
-		<filename>search.php</filename>
-		<folder>models</folder>
+		<filename>dispatcher.php</filename>
+		<filename>router.php</filename>		
+		<folder>Controller</folder>
+		<folder>Model</folder>
+		<folder>View</folder>
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_search.ini</language>
 	</languages>
 	<administration>
-		<menu link="option=com_search" img="class:search">Search</menu>
+		<menu link="option=com_search">Search</menu>
 		<files folder="admin">
+			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>search.php</filename>
-			<folder>controllers</folder>
+			<filename>dispatcher.php</filename>			
+			<folder>Controller</folder>
+			<folder>Helper</folder>
 			<folder>helpers</folder>
+			<folder>Model</folder>
 			<folder>models</folder>
+			<folder>View</folder>
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">

@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -168,7 +168,7 @@ class JDocumentHtmlTest extends TestCase
 	 */
 	public function testTheDefaultReturnForIsHtml5()
 	{
-		$this->assertNull($this->object->isHtml5());
+		$this->assertTrue($this->object->isHtml5());
 	}
 
 	/**

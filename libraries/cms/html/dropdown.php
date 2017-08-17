@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -91,7 +91,7 @@ abstract class JHtmlDropdown
 		}
 
 		$dropDownList = '<div class="btn-group" style="margin-left:6px;display:none">
-							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-mini">
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-secondary btn-xs">
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">';

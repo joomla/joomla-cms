@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * JHtml helper class.
  *
@@ -28,7 +30,7 @@ class JHtmlTemplates
 	 */
 	public static function thumb($template, $clientId = 0)
 	{
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
 		$thumb = $basePath . '/template_thumbnail.png';
 		$preview = $basePath . '/template_preview.png';
@@ -36,15 +38,13 @@ class JHtmlTemplates
 
 		if (file_exists($thumb))
 		{
-			JHtml::_('bootstrap.tooltip');
-
 			$clientPath = ($clientId == 0) ? '' : 'administrator/';
 			$thumb = $clientPath . 'templates/' . $template . '/template_thumbnail.png';
 			$html = JHtml::_('image', $thumb, JText::_('COM_TEMPLATES_PREVIEW'));
 
 			if (file_exists($preview))
 			{
-				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail pull-left hasTooltip" data-toggle="modal" title="' .
+				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail float-left hasTooltip" data-toggle="modal" title="' .
 					JHtml::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
 			}
 		}
@@ -64,7 +64,7 @@ class JHtmlTemplates
 	 */
 	public static function thumbModal($template, $clientId = 0)
 	{
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
 		$baseUrl = ($clientId == 0) ? JUri::root(true) : JUri::root(true) . '/administrator';
 		$thumb = $basePath . '/template_thumbnail.png';
@@ -76,17 +76,17 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-				$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+				$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 					. JText::_('JTOOLBAR_CLOSE') . '</button>';
 
 				$html .= JHtml::_(
 					'bootstrap.renderModal',
 					$template . '-Modal',
 					array(
-						'title' => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
+						'title'  => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
 						'height' => '500px',
-						'width' => '800px',
-						'footer' => $footer
+						'width'  => '800px',
+						'footer' => $footer,
 					),
 					$body = '<div><img src="' . $preview . '" style="max-width:100%" alt="' . $template . '"></div>'
 				);

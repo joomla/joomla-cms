@@ -94,7 +94,7 @@ class JStream extends JObject
 	/**
 	 * File Handle
 	 *
-	 * @var    array
+	 * @var    resource
 	 * @since  12.1
 	 */
 	protected $fh;
@@ -1411,7 +1411,7 @@ class JStream extends JObject
 	/**
 	 * Return the internal file handle
 	 *
-	 * @return  File handler
+	 * @return  resource  File handler
 	 *
 	 * @since   11.1
 	 */

@@ -4,11 +4,10 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
-require_once JPATH_TESTS . '/suites/libraries/joomla/database/stubs/nosqldriver.php';
 
 use Joomla\Registry\Registry;
 
@@ -94,12 +93,12 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @since   3.0
 	 * @covers  FinderIndexer::getInstance
 	 */
-	public function testGetInstanceSqlazure()
+	public function testGetInstancePostgresql()
 	{
-		JFactory::$database = $this->getMockDatabase('Sqlazure');
+		JFactory::$database = $this->getMockDatabase('Postgresql');
 
 		$this->assertInstanceOf(
-			'FinderIndexerDriverSqlsrv',
+			'FinderIndexerDriverPostgresql',
 			FinderIndexer::getInstance()
 		);
 	}
@@ -115,7 +114,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceException()
 	{
-		JFactory::$database = $this->getMockDatabase('Nosql');
+		JFactory::$database = $this->getMockDatabase('Oracle');
 
 		FinderIndexer::getInstance();
 	}

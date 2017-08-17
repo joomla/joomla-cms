@@ -4,7 +4,7 @@
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -23,7 +23,7 @@ class TableDbTestComposite extends JTable
 	 *
 	 * @since   12.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__dbtest_composite', array('id1', 'id2'), $db);
 	}

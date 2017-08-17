@@ -496,8 +496,6 @@
 		<column>protected</column>
 		<column>manifest_cache</column>
 		<column>params</column>
-		<column>custom_data</column>
-		<column>system_data</column>
 		<column>checked_out</column>
 		<column>checked_out_time</column>
 		<column>ordering</column>
@@ -512,8 +510,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -533,8 +529,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -550,8 +544,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -571,8 +563,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;purchase_type&quot;:&quot;1&quot;,&quot;track_impressions&quot;:&quot;0&quot;,&quot;track_clicks&quot;:&quot;0&quot;,&quot;metakey_prefix&quot;:&quot;&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -588,8 +578,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -609,8 +597,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -626,8 +612,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -647,8 +631,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;show_contact_list&quot;:&quot;0&quot;,&quot;show_name&quot;:&quot;1&quot;,&quot;show_position&quot;:&quot;1&quot;,&quot;show_email&quot;:&quot;0&quot;,&quot;show_street_address&quot;:&quot;1&quot;,&quot;show_suburb&quot;:&quot;1&quot;,&quot;show_state&quot;:&quot;1&quot;,&quot;show_postcode&quot;:&quot;1&quot;,&quot;show_country&quot;:&quot;1&quot;,&quot;show_telephone&quot;:&quot;1&quot;,&quot;show_mobile&quot;:&quot;1&quot;,&quot;show_fax&quot;:&quot;1&quot;,&quot;show_webpage&quot;:&quot;1&quot;,&quot;show_misc&quot;:&quot;1&quot;,&quot;show_image&quot;:&quot;1&quot;,&quot;allow_vcard&quot;:&quot;0&quot;,&quot;show_articles&quot;:&quot;1&quot;,&quot;show_profile&quot;:&quot;1&quot;,&quot;show_links&quot;:&quot;1&quot;,&quot;linka_name&quot;:&quot;&quot;,&quot;linkb_name&quot;:&quot;&quot;,&quot;linkc_name&quot;:&quot;&quot;,&quot;linkd_name&quot;:&quot;&quot;,&quot;linke_name&quot;:&quot;&quot;,&quot;contact_icons&quot;:&quot;0&quot;,&quot;icon_address&quot;:&quot;&quot;,&quot;icon_email&quot;:&quot;&quot;,&quot;icon_telephone&quot;:&quot;&quot;,&quot;icon_mobile&quot;:&quot;&quot;,&quot;icon_fax&quot;:&quot;&quot;,&quot;icon_misc&quot;:&quot;&quot;,&quot;show_headings&quot;:&quot;1&quot;,&quot;show_position_headings&quot;:&quot;1&quot;,&quot;show_email_headings&quot;:&quot;0&quot;,&quot;show_telephone_headings&quot;:&quot;1&quot;,&quot;show_mobile_headings&quot;:&quot;1&quot;,&quot;show_fax_headings&quot;:&quot;1&quot;,&quot;allow_vcard_headings&quot;:&quot;0&quot;,&quot;show_email_form&quot;:&quot;1&quot;,&quot;email_description&quot;:&quot;&quot;,&quot;show_email_copy&quot;:&quot;1&quot;,&quot;banned_email&quot;:&quot;&quot;,&quot;banned_subject&quot;:&quot;&quot;,&quot;banned_text&quot;:&quot;&quot;,&quot;validate_session&quot;:&quot;1&quot;,&quot;custom_reply&quot;:&quot;0&quot;,&quot;redirect&quot;:&quot;&quot;,&quot;show_category_crumb&quot;:&quot;0&quot;,&quot;metakey&quot;:&quot;&quot;,&quot;metadesc&quot;:&quot;&quot;,&quot;robots&quot;:&quot;&quot;,&quot;author&quot;:&quot;&quot;,&quot;rights&quot;:&quot;&quot;,&quot;xreference&quot;:&quot;&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -664,8 +646,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -685,8 +665,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -704,8 +682,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;administrator&quot;:&quot;en-GB&quot;,&quot;site&quot;:&quot;en-GB&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -721,8 +697,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -742,8 +716,6 @@
 			<value>1</value>
 			<value></value>
 			<value>{&quot;upload_extensions&quot;:&quot;bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS&quot;,&quot;upload_maxsize&quot;:&quot;10485760&quot;,&quot;file_path&quot;:&quot;images&quot;,&quot;image_path&quot;:&quot;images&quot;,&quot;restrict_uploads&quot;:&quot;1&quot;,&quot;allowed_media_usergroup&quot;:&quot;3&quot;,&quot;check_mime&quot;:&quot;1&quot;,&quot;image_extensions&quot;:&quot;bmp,gif,jpg,png&quot;,&quot;ignore_extensions&quot;:&quot;&quot;,&quot;upload_mime&quot;:&quot;image\/jpeg,image\/gif,image\/png,image\/bmp,application\/x-shockwave-flash,application\/msword,application\/excel,application\/pdf,application\/powerpoint,text\/plain,application\/x-zip&quot;,&quot;upload_mime_illegal&quot;:&quot;text\/html&quot;,&quot;enable_flash&quot;:&quot;0&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -759,8 +731,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -780,8 +750,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -797,8 +765,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -818,8 +784,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -835,8 +799,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -856,8 +818,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -873,8 +833,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -894,8 +852,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -911,8 +867,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -932,8 +886,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -949,8 +901,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -970,8 +920,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -987,8 +935,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1008,8 +954,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1025,8 +969,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1046,8 +988,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1063,8 +1003,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1084,8 +1022,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1101,8 +1037,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1122,8 +1056,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1139,8 +1071,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1160,8 +1090,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1177,8 +1105,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1198,8 +1124,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1215,8 +1139,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1236,8 +1158,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1253,8 +1173,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1274,8 +1192,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1291,8 +1207,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1312,8 +1226,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1329,8 +1241,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1350,8 +1260,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1367,8 +1275,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1388,8 +1294,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1405,8 +1309,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1426,8 +1328,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1443,8 +1343,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1464,8 +1362,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1481,8 +1377,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1502,8 +1396,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1519,8 +1411,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1540,8 +1430,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1557,8 +1445,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1578,8 +1464,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1595,8 +1479,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1616,8 +1498,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1633,8 +1513,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1654,8 +1532,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1671,8 +1547,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1692,8 +1566,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;applysuffix&quot;:&quot;0&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;verifypeer&quot;:&quot;1&quot;,&quot;user_blacklist&quot;:&quot;&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1711,8 +1583,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1730,8 +1600,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;host&quot;:&quot;&quot;,&quot;port&quot;:&quot;389&quot;,&quot;use_ldapV3&quot;:&quot;0&quot;,&quot;negotiate_tls&quot;:&quot;0&quot;,&quot;no_referrals&quot;:&quot;0&quot;,&quot;auth_method&quot;:&quot;bind&quot;,&quot;base_dn&quot;:&quot;&quot;,&quot;search_string&quot;:&quot;&quot;,&quot;users_dn&quot;:&quot;&quot;,&quot;username&quot;:&quot;&quot;,&quot;password&quot;:&quot;&quot;,&quot;ldap_fullname&quot;:&quot;fullName&quot;,&quot;ldap_email&quot;:&quot;mail&quot;,&quot;ldap_uid&quot;:&quot;uid&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1749,8 +1617,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;usermode&quot;:&quot;2&quot;,&quot;phishing-resistant&quot;:&quot;0&quot;,&quot;multi-factor&quot;:&quot;0&quot;,&quot;multi-factor-physical&quot;:&quot;0&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1768,8 +1634,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;mode&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1787,8 +1651,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;mode&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1806,8 +1668,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1825,8 +1685,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;style&quot;:&quot;none&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1844,8 +1702,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;enabled&quot;:&quot;1&quot;,&quot;title&quot;:&quot;1&quot;,&quot;multipage_toc&quot;:&quot;1&quot;,&quot;showall&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1863,8 +1719,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;position&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1882,8 +1736,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1901,8 +1753,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;linenumbers&quot;:&quot;0&quot;,&quot;tabmode&quot;:&quot;indent&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1920,8 +1770,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1939,8 +1787,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;mode&quot;:&quot;1&quot;,&quot;skin&quot;:&quot;0&quot;,&quot;compressed&quot;:&quot;0&quot;,&quot;cleanup_startup&quot;:&quot;0&quot;,&quot;cleanup_save&quot;:&quot;2&quot;,&quot;entity_encoding&quot;:&quot;raw&quot;,&quot;lang_mode&quot;:&quot;0&quot;,&quot;lang_code&quot;:&quot;en&quot;,&quot;text_direction&quot;:&quot;ltr&quot;,&quot;content_css&quot;:&quot;1&quot;,&quot;content_css_custom&quot;:&quot;&quot;,&quot;relative_urls&quot;:&quot;1&quot;,&quot;newlines&quot;:&quot;0&quot;,&quot;invalid_elements&quot;:&quot;script,applet,iframe&quot;,&quot;extended_elements&quot;:&quot;&quot;,&quot;toolbar&quot;:&quot;top&quot;,&quot;toolbar_align&quot;:&quot;left&quot;,&quot;html_height&quot;:&quot;550&quot;,&quot;html_width&quot;:&quot;750&quot;,&quot;element_path&quot;:&quot;1&quot;,&quot;fonts&quot;:&quot;1&quot;,&quot;paste&quot;:&quot;1&quot;,&quot;searchreplace&quot;:&quot;1&quot;,&quot;insertdate&quot;:&quot;1&quot;,&quot;format_date&quot;:&quot;%Y-%m-%d&quot;,&quot;inserttime&quot;:&quot;1&quot;,&quot;format_time&quot;:&quot;%H:%M:%S&quot;,&quot;colors&quot;:&quot;1&quot;,&quot;table&quot;:&quot;1&quot;,&quot;smilies&quot;:&quot;1&quot;,&quot;media&quot;:&quot;1&quot;,&quot;hr&quot;:&quot;1&quot;,&quot;directionality&quot;:&quot;1&quot;,&quot;fullscreen&quot;:&quot;1&quot;,&quot;style&quot;:&quot;1&quot;,&quot;layer&quot;:&quot;1&quot;,&quot;xhtmlxtras&quot;:&quot;1&quot;,&quot;visualchars&quot;:&quot;1&quot;,&quot;nonbreaking&quot;:&quot;1&quot;,&quot;template&quot;:&quot;1&quot;,&quot;blockquote&quot;:&quot;1&quot;,&quot;wordcount&quot;:&quot;1&quot;,&quot;advimage&quot;:&quot;1&quot;,&quot;advlink&quot;:&quot;1&quot;,&quot;autosave&quot;:&quot;1&quot;,&quot;contextmenu&quot;:&quot;1&quot;,&quot;inlinepopups&quot;:&quot;1&quot;,&quot;safari&quot;:&quot;0&quot;,&quot;custom_plugin&quot;:&quot;&quot;,&quot;custom_button&quot;:&quot;&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1958,8 +1804,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1977,8 +1821,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -1996,8 +1838,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2015,8 +1855,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2034,8 +1872,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;search_limit&quot;:&quot;50&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2053,8 +1889,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;search_limit&quot;:&quot;50&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2072,8 +1906,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;host&quot;:&quot;&quot;,&quot;port&quot;:&quot;389&quot;,&quot;use_ldapV3&quot;:&quot;0&quot;,&quot;negotiate_tls&quot;:&quot;0&quot;,&quot;no_referrals&quot;:&quot;0&quot;,&quot;auth_method&quot;:&quot;bind&quot;,&quot;base_dn&quot;:&quot;&quot;,&quot;search_string&quot;:&quot;&quot;,&quot;users_dn&quot;:&quot;&quot;,&quot;username&quot;:&quot;&quot;,&quot;password&quot;:&quot;&quot;,&quot;ldap_fullname&quot;:&quot;fullName&quot;,&quot;ldap_email&quot;:&quot;mail&quot;,&quot;ldap_uid&quot;:&quot;uid&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2091,8 +1923,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;search_limit&quot;:&quot;50&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2110,8 +1940,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;search_limit&quot;:&quot;50&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2129,8 +1957,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;browsercache&quot;:&quot;0&quot;,&quot;cachetime&quot;:&quot;15&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2148,8 +1974,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;profile&quot;:&quot;1&quot;,&quot;queries&quot;:&quot;1&quot;,&quot;memory&quot;:&quot;1&quot;,&quot;language_files&quot;:&quot;1&quot;,&quot;language_strings&quot;:&quot;1&quot;,&quot;strip-first&quot;:&quot;1&quot;,&quot;strip-prefix&quot;:&quot;&quot;,&quot;strip-suffix&quot;:&quot;&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2167,8 +1991,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2186,8 +2008,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2205,8 +2025,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2224,8 +2042,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2243,8 +2059,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;autowebpage&quot;:&quot;&quot;,&quot;category&quot;:&quot;26&quot;,&quot;autopublish&quot;:&quot;0&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2262,8 +2076,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;autoregister&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2279,8 +2091,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -2300,8 +2110,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2317,8 +2125,6 @@
 			<value>1</value>
 			<value>1</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -2338,8 +2144,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2355,8 +2159,6 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -2376,8 +2178,6 @@
 			<value>1</value>
 			<value></value>
 			<value>{&quot;show_category&quot;:&quot;1&quot;,&quot;link_category&quot;:&quot;1&quot;,&quot;show_title&quot;:&quot;1&quot;,&quot;link_titles&quot;:&quot;1&quot;,&quot;show_intro&quot;:&quot;1&quot;,&quot;show_author&quot;:&quot;1&quot;,&quot;show_create_date&quot;:&quot;1&quot;,&quot;show_modify_date&quot;:&quot;1&quot;,&quot;show_publish_date&quot;:&quot;1&quot;,&quot;show_item_navigation&quot;:&quot;1&quot;,&quot;show_readmore&quot;:&quot;1&quot;,&quot;show_icons&quot;:&quot;1&quot;,&quot;show_print_icon&quot;:&quot;1&quot;,&quot;show_email_icon&quot;:&quot;1&quot;,&quot;show_hits&quot;:&quot;1&quot;,&quot;num_leading_articles&quot;:&quot;1&quot;,&quot;num_intro_articles&quot;:&quot;4&quot;,&quot;num_columns&quot;:&quot;2&quot;,&quot;num_links&quot;:&quot;4&quot;,&quot;multi_column_order&quot;:&quot;0&quot;,&quot;show_pagination_results&quot;:&quot;1&quot;,&quot;display_num&quot;:&quot;10&quot;,&quot;list_type&quot;:&quot;single&quot;,&quot;show_headings&quot;:&quot;1&quot;,&quot;show_date&quot;:&quot;hide&quot;,&quot;date_format&quot;:&quot;&quot;,&quot;filter_field&quot;:&quot;hide&quot;,&quot;show_pagination_limit&quot;:&quot;1&quot;,&quot;list_hits&quot;:&quot;1&quot;,&quot;list_author&quot;:&quot;1&quot;,&quot;show_description&quot;:&quot;0&quot;,&quot;show_description_image&quot;:&quot;0&quot;,&quot;drill_down_layout&quot;:&quot;0&quot;,&quot;all_subcategories&quot;:&quot;all&quot;,&quot;empty_categories&quot;:&quot;1&quot;,&quot;article_count&quot;:&quot;0&quot;,&quot;orderby_pri&quot;:&quot;alpha&quot;,&quot;orderby_sec&quot;:&quot;rdate&quot;,&quot;order_date&quot;:&quot;created&quot;,&quot;show_pagination&quot;:&quot;1&quot;,&quot;show_noauth&quot;:&quot;0&quot;,&quot;show_feed_link&quot;:&quot;1&quot;,&quot;feed_summary&quot;:&quot;0&quot;,&quot;filter_type&quot;:&quot;BL&quot;,&quot;filter_tags&quot;:&quot;&quot;,&quot;filter_attritbutes&quot;:&quot;&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2393,8 +2193,6 @@
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
-			<value></value>
-			<value></value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -2414,8 +2212,6 @@
 			<value>1</value>
 			<value></value>
 			<value>{&quot;allowUserRegistration&quot;:&quot;0&quot;,&quot;new_usertype&quot;:&quot;2&quot;,&quot;useractivation&quot;:&quot;1&quot;,&quot;frontend_userparams&quot;:&quot;1&quot;,&quot;mailSubjectPrefix&quot;:&quot;&quot;,&quot;mailBodySuffix&quot;:&quot;&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>
@@ -2433,8 +2229,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;register-require_address1&quot;:&quot;0&quot;,&quot;register-require_address2&quot;:&quot;0&quot;,&quot;register-require_city&quot;:&quot;0&quot;,&quot;register-require_region&quot;:&quot;0&quot;,&quot;register-require_country&quot;:&quot;0&quot;,&quot;register-require_postal_code&quot;:&quot;0&quot;,&quot;register-require_phone&quot;:&quot;0&quot;,&quot;register-require_website&quot;:&quot;0&quot;,&quot;profile-require_address1&quot;:&quot;1&quot;,&quot;profile-require_address2&quot;:&quot;1&quot;,&quot;profile-require_city&quot;:&quot;1&quot;,&quot;profile-require_region&quot;:&quot;1&quot;,&quot;profile-require_country&quot;:&quot;1&quot;,&quot;profile-require_postal_code&quot;:&quot;1&quot;,&quot;profile-require_phone&quot;:&quot;1&quot;,&quot;profile-require_website&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
 			<value>0</value>
 			<value>0000-00-00 00:00:00</value>
 			<value>0</value>

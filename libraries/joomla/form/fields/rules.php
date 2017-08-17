@@ -136,10 +136,8 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		// Add Javascript for permission change
-		JHtml::_('script', 'system/permissions.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/fields/permissions.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Load JavaScript message titles
 		JText::script('ERROR');
@@ -231,7 +229,7 @@ class JFormFieldRules extends JFormField
 		$groups = $this->getUserGroups();
 
 		// Ajax request data.
-		$ajaxUri = JRoute::_('index.php?option=com_config&task=config.store&format=json&' . JSession::getFormToken() . '=1');
+		$ajaxUri = JRoute::_('index.php?option=com_config&task=application.store&format=json&' . JSession::getFormToken() . '=1');
 
 		// Prepare output
 		$html = array();
@@ -240,26 +238,28 @@ class JFormFieldRules extends JFormField
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
 
 		// Begin tabs
-		$html[] = '<div class="tabbable tabs-left" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">';
+		$html[] = '<div class="row mb-2" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">';
 
 		// Building tab nav
-		$html[] = '<ul class="nav nav-tabs">';
+		$html[] = '<div class="col-md-3">';
+		$html[] = '<ul class="nav nav-pills flex-column">';
 
 		foreach ($groups as $group)
 		{
 			// Initial Active Tab
-			$active = (int) $group->value === 1 ? ' class="active"' : '';
+			$active = (int) $group->value === 1 ? ' active' : '';
 
-			$html[] = '<li' . $active . '>';
-			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
+			$html[] = '<li class="nav-item">';
+			$html[] = '<a class="nav-link' . $active . '" href="#permission-' . $group->value . '" data-toggle="tab">';
 			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
 			$html[] = '</li>';
 		}
 
 		$html[] = '</ul>';
+		$html[] = '</div>';
 
-		$html[] = '<div class="tab-content">';
+		$html[] = '<div class="tab-content col-md-9">';
 
 		// Start a row for each user group.
 		foreach ($groups as $group)
@@ -303,7 +303,7 @@ class JFormFieldRules extends JFormField
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small novalidate"'
+				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="custom-select novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
 					. ' title="' . strip_tags(JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text))) . '">';
@@ -346,7 +346,7 @@ class JFormFieldRules extends JFormField
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
 				{
-					$result['class'] = 'label label-success';
+					$result['class'] = 'badge badge-success';
 					$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 				}
 				// Not super user.
@@ -357,13 +357,13 @@ class JFormFieldRules extends JFormField
 					// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 					if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'badge badge-danger';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 					}
 					// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 					else
 					{
-						$result['class'] = 'label label-success';
+						$result['class'] = 'badge badge-success';
 						$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 					}
 
@@ -378,13 +378,13 @@ class JFormFieldRules extends JFormField
 					// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 					if ($assetRule === false)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'badge badge-danger';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 					}
 					// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 					elseif ($assetRule === true)
 					{
-						$result['class'] = 'label label-success';
+						$result['class'] = 'badge badge-success';
 						$result['text']  = JText::_('JLIB_RULES_ALLOWED');
 					}
 
@@ -393,7 +393,7 @@ class JFormFieldRules extends JFormField
 					// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 					if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'badge badge-danger';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
 
@@ -404,7 +404,7 @@ class JFormFieldRules extends JFormField
 					 */
 					elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'badge badge-danger';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
 				}
@@ -419,8 +419,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		$html[] = '</div></div>';
-		$html[] = '<div class="clr"></div>';
-		$html[] = '<div class="alert">';
+		$html[] = '<div class="alert alert-warning">';
 
 		if ($section === 'component' || !$section)
 		{

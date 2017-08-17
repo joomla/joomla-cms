@@ -4,7 +4,7 @@
  * @subpackage  Plugin
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -33,7 +33,7 @@ class PlgSystemBase extends JPlugin
 		$config['type']   = 'System';
 		$config['params'] = new Registry;
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = JFactory::getApplication()->getDispatcher();
 
 		// Call the parent constructor
 		parent::__construct($dispatcher, $config);

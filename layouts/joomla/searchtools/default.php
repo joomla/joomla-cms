@@ -28,7 +28,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 	{
 		$showSelector = $selectorField->getAttribute('filtermode', '') == 'selector' ? true : $showSelector;
 
-		// Checks if a selector shoudl be shown in the current layout.
+		// Checks if a selector should be shown in the current layout.
 		if (isset($data['view']->layout))
 		{
 			$showSelector = $selectorField->getAttribute('layout', 'default') != $data['view']->layout ? false : $showSelector;
@@ -89,16 +89,14 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 		<div class="js-stools-container-bar">
 			<?php echo $this->sublayout('bar', $data); ?>
 		</div>
-		<div class="js-stools-container-list hidden-phone hidden-tablet">
-			<?php echo $this->sublayout('list', $data); ?>
-		</div>
 	</div>
 	<!-- Filters div -->
-	<?php if ($data['options']['filterButton']) : ?>
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
+	<div class="js-stools-container-filters clearfix<?php echo $filtersActiveClass; ?>">
+		<?php echo $this->sublayout('list', $data); ?>
+		<?php if ($data['options']['filterButton']) : ?>
 		<?php echo $this->sublayout('filters', $data); ?>
+		<?php endif; ?>
 	</div>
-	<?php endif; ?>
 </div>
 <?php if ($data['options']['showNoResults']) : ?>
 	<?php echo $this->sublayout('noitems', $data); ?>

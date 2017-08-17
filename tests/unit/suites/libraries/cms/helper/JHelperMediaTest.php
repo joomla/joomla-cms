@@ -4,7 +4,7 @@
  * @subpackage  Media
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -134,8 +134,9 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testCountFiles()
 	{
-		$countFiles = $this->object->countFiles(JPATH_LIBRARIES . '/phputf8');
-		$this->assertSame(array(2, 3), $countFiles);
+		// If changes are made to the tests/unit/schema directory this test requires updates
+		$countFiles = $this->object->countFiles(JPATH_TESTS . '/schema');
+		$this->assertSame(array(4, 0), $countFiles);
 	}
 
 	/**

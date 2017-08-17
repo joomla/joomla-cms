@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -68,7 +68,7 @@ abstract class JHtmlList
 			$images,
 			$name,
 			array(
-				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
+				'list.attr' => 'size="1" ' . $javascript,
 				'list.select' => $active,
 			)
 		);
@@ -141,7 +141,7 @@ abstract class JHtmlList
 	{
 		if (empty($attribs))
 		{
-			$attribs = 'class="inputbox" size="1"';
+			$attribs = 'size="1"';
 		}
 
 		if (empty($neworder))
@@ -160,7 +160,7 @@ abstract class JHtmlList
 				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
 
-			$html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '" /><span class="readonly">' . $text . '</span>';
+			$html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '"><span class="readonly">' . $text . '</span>';
 		}
 
 		return $html;
@@ -206,7 +206,7 @@ abstract class JHtmlList
 			$users,
 			$name,
 			array(
-				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
+				'list.attr' => 'size="1" ' . $javascript,
 				'list.select' => $active,
 			)
 		);
@@ -259,7 +259,7 @@ abstract class JHtmlList
 			'select.genericlist', $pos, $name,
 			array(
 				'id' => $id,
-				'list.attr' => 'class="inputbox" size="1"' . $javascript,
+				'list.attr' => 'size="1"' . $javascript,
 				'list.select' => $active,
 				'option.key' => null,
 			)

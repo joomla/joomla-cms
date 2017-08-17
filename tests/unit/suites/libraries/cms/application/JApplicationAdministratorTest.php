@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -104,7 +104,11 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		// Get a new JApplicationAdministrator instance.
 		$this->class = new JApplicationAdministrator($this->getMockInput(), $config);
+		$this->class->setSession(JFactory::$session);
+		$this->class->setDispatcher($this->getMockDispatcher());
 		TestReflection::setValue('JApplicationCms', 'instances', array('administrator' => $this->class));
+
+		JFactory::$application = $this->class;
 	}
 
 	/**
@@ -117,14 +121,12 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher and application instances.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
+		// Reset the application instance.
 		TestReflection::setValue('JApplicationCms', 'instances', array());
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -197,11 +199,13 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @expectedException  RuntimeException
 	 * @covers  JApplicationAdministrator::getPathway
 	 */
 	public function testGetPathway()
 	{
-		$this->assertNull($this->class->getPathway());
+		$this->class->getPathway();
 	}
 
 	/**
@@ -233,7 +237,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('isis', $template->template);
+		$this->assertEquals('atum', $template->template);
 	}
 
 	/**
@@ -286,8 +290,6 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		JFactory::$application = $this->class;
-
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
@@ -297,6 +299,105 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
+	}
+
+	/**
+	 * Tests the findOption() method simulating a guest.
+	 */
+	public function testFindOptionGuest()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(true);
+		$user->expects($this->never())
+			->method('authorise');
+		$this->class->loadIdentity($user);
+		$this->assertEquals(
+			'com_login',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_login',
+			$this->class->input->get('option')
+		);
+	}
+
+	/**
+	 * Tests the findOption() method simulating an user without login admin permissions.
+	 */
+	public function testFindOptionCanNotLoginAdmin()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(false);
+		$user->expects($this->once())
+			->method('authorise')
+			->with($this->equalTo('core.login.admin'))
+			->willReturn(false);
+		$this->class->loadIdentity($user);
+		$this->assertEquals(
+			'com_login',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_login',
+			$this->class->input->get('option')
+		);
+	}
+
+	/**
+	 * Tests the findOption() method simulating an user who is able to log in to admin.
+	 */
+	public function testFindOptionCanLoginAdmin()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(false);
+		$user->expects($this->once())
+			->method('authorise')
+			->with($this->equalTo('core.login.admin'))
+			->willReturn(true);
+		$this->class->loadIdentity($user);
+		$this->assertEquals(
+			'com_cpanel',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_cpanel',
+			$this->class->input->get('option')
+		);
+	}
+
+	/**
+	 * Tests the findOption() method simulating the option at a special value.
+	 */
+	public function testFindOptionCanLoginAdminOptionSet()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(false);
+		$user->expects($this->once())
+			->method('authorise')
+			->with($this->equalTo('core.login.admin'))
+			->willReturn(false);
+		$this->class->loadIdentity($user);
+		$this->class->input->set('option', 'foo');
+		$this->assertEquals(
+			'com_login',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_login',
+			JFactory::$application->input->get('option')
+		);
 	}
 }

@@ -438,7 +438,7 @@ class PlgSystemStats extends JPlugin
 		$this->params->set('lastrun', time());
 		$this->params->set('unique_id', $this->getUniqueId());
 		$interval = (int) $this->params->get('interval', 12);
-		$this->params->set('interval', $interval ? $interval : 12);
+		$this->params->set('interval', $interval ?: 12);
 
 		$query = $this->db->getQuery(true)
 				->update($this->db->quoteName('#__extensions'))
@@ -500,7 +500,7 @@ class PlgSystemStats extends JPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
+			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
 		}
 		catch (UnexpectedValueException $e)
 		{

@@ -53,7 +53,7 @@ class JReCaptcha
 	 */
 	public function __construct($secret)
 	{
-		if ($secret == null || $secret == '')
+		if ($secret === null || $secret === '')
 		{
 			die("To use reCAPTCHA you must get an API key from <a href='"
 				. self::$_signupUrl . "'>" . self::$_signupUrl . "</a>");
@@ -93,9 +93,8 @@ class JReCaptcha
 	private function _submitHTTPGet($path, $data)
 	{
 		$req = $this->_encodeQS($data);
-		$http = JHttpFactory::getHttp();
 
-		return $http->get($path . '?' . $req)->body;
+		return JHttpFactory::getHttp()->get($path . '?' . $req)->body;
 	}
 
 	/**
@@ -110,7 +109,7 @@ class JReCaptcha
 	public function verifyResponse($remoteIp, $response)
 	{
 		// Discard empty solution submissions
-		if ($response == null || strlen($response) == 0)
+		if ($response === null || $response === '')
 		{
 			$recaptchaResponse = new JReCaptchaResponse();
 			$recaptchaResponse->success = false;
@@ -131,7 +130,7 @@ class JReCaptcha
 		$answers = json_decode($getResponse, true);
 		$recaptchaResponse = new JReCaptchaResponse();
 
-		if (trim($answers['success']) == true)
+		if (trim($answers['success']) !== '')
 		{
 			$recaptchaResponse->success = true;
 		}

@@ -25,7 +25,6 @@
 					name="directory"
 					type="folderlist"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
-					description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 					directory="images"
 					required="true"
 					hide_none="true"
@@ -40,19 +39,17 @@
 					name="multiple"
 					type="radio"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 	
 				<field
 					name="image_class"
 					type="textarea"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
-					description="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_DESC"
 					size="40"
 				/>
 			</fieldset>

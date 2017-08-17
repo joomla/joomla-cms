@@ -4,7 +4,7 @@
  * @subpackage  Version
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -84,7 +84,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$this->assertEquals($this->object->RELEASE . '.' . $this->object->DEV_LEVEL, $this->object->getShortVersion());
+		$this->assertEquals(JVersion::RELEASE . '.' . JVersion::DEV_LEVEL, $this->object->getShortVersion());
 	}
 
 	/**
