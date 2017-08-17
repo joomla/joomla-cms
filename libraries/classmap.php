@@ -219,7 +219,7 @@ JLoader::registerAlias('JHttpTransport',                    '\\Joomla\\CMS\\Http
 JLoader::registerAlias('JHttpTransportCurl',                '\\Joomla\\CMS\\Http\\Transport\\CurlTransport', '5.0');
 JLoader::registerAlias('JHttpTransportSocket',              '\\Joomla\\CMS\\Http\\Transport\\SocketTransport', '5.0');
 JLoader::registerAlias('JHttpTransportStream',              '\\Joomla\\CMS\\Http\\Transport\\StreamTransport', '5.0');
-JLoader::registerAlias('JHttpWrapperFactory',               '\\Joomla\\CMS\\Http\\Wrapper\\FactoryWrapper', '5.0');
+JLoader::registerAlias('JHttpWrapperFactory',               '\\Joomla\\CMS\\Http\\Wrapper\\FactoryWrapper', '4.0');
 
 JLoader::registerAlias('JInstaller',                        '\\Joomla\\CMS\\Installer\\Installer', '5.0');
 JLoader::registerAlias('JInstallerAdapter',                 '\\Joomla\\CMS\\Installer\\InstallerAdapter', '5.0');
@@ -415,3 +415,7 @@ JLoader::registerAlias('JImageFilterEmboss',                '\\Joomla\\Image\\Fi
 JLoader::registerAlias('JImageFilterNegate',                '\\Joomla\\Image\\Filter\\Negate', '5.0');
 JLoader::registerAlias('JImageFilterSketchy',               '\\Joomla\\Image\\Filter\\Sketchy', '5.0');
 JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\Image\\Filter\\Smooth', '5.0');
+
+JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Object\\CMSObject', '5.0');
+
+JLoader::registerAlias('JExtensionHelper',                  '\\Joomla\\CMS\\Extension\\ExtensionHelper', '5.0');

@@ -38,7 +38,7 @@ class SodiumCipher implements CipherInterface
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   3.8.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function decrypt($data, Key $key)
 	{
@@ -61,7 +61,7 @@ class SodiumCipher implements CipherInterface
 
 		if ($decrypted === false)
 		{
-			throw new RuntimeException('Malformed message or invalid MAC');
+			throw new \RuntimeException('Malformed message or invalid MAC');
 		}
 
 		return $decrypted;
@@ -76,7 +76,7 @@ class SodiumCipher implements CipherInterface
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   3.8.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function encrypt($data, Key $key)
 	{
