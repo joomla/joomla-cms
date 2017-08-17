@@ -100,7 +100,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td>
 							<label for="cb<?php echo $i; ?>">
 								<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
-									<?php echo $item->name; ?>
+                  <?php
+                  switch($item->type) {
+                    case 'plugin':
+                      ?>
+    									<a href="index.php?option=com_plugins&task=plugin.edit&extension_id=<?php echo $item->extension_id; ?>"><?php echo $item->name; ?></a>
+                      <?php
+                      break;
+                    case 'template':
+                      ?>
+    									<a href="index.php?option=com_templates&view=template&id=<?php echo $item->extension_id; ?>"><?php echo $item->name; ?></a>
+                      <?php
+                      break;
+                    default:
+    									echo $item->name;
+                      break;
+                  }
+                  ?>
 								</span>
 							</label>
 						</td>

@@ -302,6 +302,7 @@ class InstallerModelManage extends InstallerModel
 		$type     = $this->getState('filter.type');
 		$clientId = $this->getState('filter.client_id');
 		$folder   = $this->getState('filter.folder');
+		$packageId  = $this->getState('filter.package_id');
 
 		if ($status != '')
 		{
@@ -333,6 +334,11 @@ class InstallerModelManage extends InstallerModel
 		if ($folder != '')
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+		}
+
+		if ($packageId != '')
+		{
+			$query->where('package_id = ' . (int) $packageId);
 		}
 
 		// Process search filter (extension id).

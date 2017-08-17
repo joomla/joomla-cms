@@ -44,6 +44,14 @@
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
+
+		<field
+			name="package_id"
+			type="package"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_INSTALLER_VALUE_PACKAGE_SELECT</option>
+		</field>
 	</fields>
 
 	<fields name="list">

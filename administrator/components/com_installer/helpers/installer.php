@@ -51,7 +51,7 @@ class InstallerHelper
 			$vName == 'database'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
+		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 			'index.php?option=com_installer&view=warnings',
 			$vName == 'warnings'
 		);
@@ -181,6 +181,34 @@ class InstallerHelper
 		$options[] = JHtml::_('select.option', '1', JText::_('JENABLED'));
 		$options[] = JHtml::_('select.option', '2', JText::_('JPROTECTED'));
 		$options[] = JHtml::_('select.option', '3', JText::_('JUNPROTECTED'));
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of filter options for the pakcages.
+	 *
+	 * @return  array  An array of stdClass objects.
+	 *
+	 * @since   3.0
+	 */
+	public static function getPackages()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('extension_id, name')
+			->from('#__extensions')
+			->where('type = ' . $db->quote('package'))
+			->order('name');
+		$db->setQuery($query);
+		$packages = $db->loadObjectList();
+
+		$options = array();
+
+		foreach ($packages as $package)
+		{
+			$options[] = JHtml::_('select.option', $package->extension_id, $package->name);
+		}
 
 		return $options;
 	}
