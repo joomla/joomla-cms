@@ -716,4 +716,67 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);
 	}
+
+	/**
+	 * Displays a modal button for the extensions that have a download key
+	 *
+	 * @param   string  $alt          Title for the modal button.
+	 * @param   string  $extensionId  Id of the extension.
+	 * @param   string  $module       Id of the module.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function downloadkey($alt, $extensionId, $module = null)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('s.update_site_id'))
+			->from($db->quoteName('#__update_sites', 's'))
+			->innerJoin($db->quoteName('#__update_sites_extensions', 'se') . ' ON ' . $db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id'))
+			->innerJoin($db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id'));
+
+		if ($module == null)
+		{
+			$query->where($db->quoteName('e.extension_id') . ' = ' . $db->quote($extensionId));
+		}
+		else
+		{
+			$query->where($db->quoteName('e.element') . ' = ' . $db->quote($module));
+		}
+
+		$db->setQuery($query);
+
+		$updateSiteId = $db->loadResult();
+
+		$title = \JText::_($alt);
+
+		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+
+		$dhtml = '<button data-toggle="modal" data-target="#download_key_modal" class="btn btn-outline-primary btn-sm">
+			<span class="fa fa-key" title="' . $title . '"></span> ' . $title . '</button>';
+
+		$dhtml .= \JHtml::_(
+			'bootstrap.renderModal',
+			'download_key_modal',
+			array(
+				'title' => \JText::_('JGLOBAL_DOWNLOAD_KEY_MODAL_TITLE'),
+				'bodyHeight'  => '45',
+				'modalWidth'  => '80',
+				'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					. ' data-dismiss="modal">'
+					. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+					. '<a role="button" class="btn btn-success" aria-hidden="true"'
+					. ' onclick="window.processModalEdit(this, \'jform_request_id\', \'edit\', \'downloadkey\', \'apply\', \'adminForm\'); return false;">'
+					. \JText::_('JAPPLY') . '</a>',
+			),
+			'<iframe class="iframe" id="Frame_download_key_modal" ' .
+				'src="index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . $updateSiteId . '&tmpl=component">' .
+			'</iframe>'
+		);
+
+		$bar = Toolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $dhtml, $alt);
+	}
 }

@@ -66,6 +66,11 @@ class InstallerHelper
 			'index.php?option=com_installer&view=updatesites',
 			$vName == 'updatesites'
 		);
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_INSTALLER_SUBMENU_DOWNLOADKEYS'),
+			'index.php?option=com_installer&view=downloadkeys',
+			$vName == 'downloadkeys'
+		);
 	}
 
 	/**
@@ -156,5 +161,86 @@ class InstallerHelper
 		$options[] = \JHtml::_('select.option', '3', \JText::_('JUNPROTECTED'));
 
 		return $options;
+	}
+
+	/**
+	 * Get the Installation XML of a given extension
+	 *
+	 * @param   object  $extension  item from #__extensions
+	 *
+	 * @return  SimpleXMLElement  Installation XML
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getInstallationXML($extension)
+	{
+		$path = JPATH_ROOT;
+
+		if ($extension->client_id)
+		{
+			$path = JPATH_ADMINISTRATOR;
+		}
+
+		switch ($extension->type)
+		{
+			case 'component':
+				$path .= '/components/' . $extension->element . '/' . substr($extension->element, 4) . '.xml';
+				break;
+			case 'plugin':
+				$path .= '/plugins/' . $extension->folder . '/' . $extension->element . '/' . $extension->element . '.xml';
+				break;
+			case 'module':
+				$path .= '/modules/' . $extension->element . '/' . $extension->element . '.xml';
+				break;
+			case 'template':
+				$path .= '/templates/' . $extension->element . '/templateDetails.xml';
+				break;
+			case 'library':
+				$path = JPATH_ADMINISTRATOR . '/manifests/libraries/' . $extension->element . '.xml';
+				break;
+			case 'file':
+				$path = JPATH_ADMINISTRATOR . '/manifests/files/' . $extension->element . '.xml';
+				break;
+			case 'package':
+				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $extension->element . '.xml';
+		}
+
+		return $installXmlFile = simplexml_load_file($path);
+	}
+
+	/**
+	 * Get the download key of an extension going through their installation xml
+	 *
+	 * @param   object  $extension  element of an extension
+	 *
+	 * @return  array  An array with the prefix, suffix and value of the download key
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDownloadKey($extension)
+	{
+		$installXmlFile = self::getInstallationXML($extension);
+
+		if (!isset($installXmlFile->dlid))
+		{
+			return null;
+		}
+
+		$prefix = (string) $installXmlFile->dlid['prefix'];
+		$suffix = (string) $installXmlFile->dlid['suffix'];
+		$value  = substr($extension->extra_query, strlen($prefix));
+
+		if ($suffix != null)
+		{
+			$value = substr($value, 0, -strlen($suffix));
+		}
+
+		$downloadKey = array(
+			'prefix'  => $prefix,
+			'suffix'  => $suffix,
+			'value'   => $value
+		);
+
+		return $downloadKey;
 	}
 }

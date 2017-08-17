@@ -322,6 +322,7 @@ if ($im || $mm || $pm || $tm || $lm)
 
 	if ($im)
 	{
+<<<<<<< HEAD
 		$this->addChild(new MenuNode(\JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer'), $im);
 
 		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer'));
@@ -332,6 +333,19 @@ if ($im || $mm || $pm || $tm || $lm)
 		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings'));
 		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages'));
 		$this->addChild(new MenuNode(\JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites'));
+=======
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer'), $im);
+
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites'));
+		$this->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DOWNLOADKEYS'), 'index.php?option=com_installer&view=downloadkeys'));
+>>>>>>> 5eeafdad932b626de1115a90d97aa1ce39a7f8b6
 		$this->getParent();
 	}
 
