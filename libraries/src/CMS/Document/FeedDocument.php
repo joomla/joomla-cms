@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Factory;
 
 /**
  * FeedDocument class, provides an easy interface to parse and display any feed document
@@ -179,8 +180,8 @@ class FeedDocument extends Document
 		$this->_type = 'feed';
 
 		// Gets and sets timezone offset from site configuration
-		$this->lastBuildDate = JFactory::getDate();
-		$this->lastBuildDate->setTimeZone(new DateTimeZone(JFactory::getApplication()->get('offset', 'UTC')));
+		$this->lastBuildDate = Factory::getDate();
+		$this->lastBuildDate->setTimeZone(new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**
@@ -205,7 +206,7 @@ class FeedDocument extends Document
 
 		if (!($renderer instanceof DocumentRenderer))
 		{
-			throw new \Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+			throw new \Exception(\JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
 		}
 
 		$this->setMimeEncoding($renderer->getContentType());
