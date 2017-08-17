@@ -51,7 +51,7 @@ class InstallerHelper
 			$vName == 'database'
 		);
 		JHtmlSidebar::addEntry(
-		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
+			JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 			'index.php?option=com_installer&view=warnings',
 			$vName == 'warnings'
 		);
@@ -190,7 +190,7 @@ class InstallerHelper
 	 *
 	 * @return  array  An array of stdClass objects.
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getPackages()
 	{
