@@ -216,7 +216,7 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		$this->setRedirect(JRoute::_($redirlink, false));
- 	}
+	}
 
 	/**
 	 * Method to edit an existing record.
