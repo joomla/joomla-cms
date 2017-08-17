@@ -29,8 +29,6 @@ class JFactoryTest extends TestCaseDatabase
 		parent::setUp();
 
 		$this->saveFactoryState();
-
-		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**

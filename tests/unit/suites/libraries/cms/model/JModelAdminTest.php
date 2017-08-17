@@ -32,12 +32,6 @@ class JModelAdminTest extends TestCase
 	 */
 	public function setUp()
 	{
-		parent::setUp();
-
-		$this->saveFactoryState();
-
-		JFactory::$application = $this->getMockCmsApp();
-
 		// Create mock of abstract class JModelAdmin to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelAdmin');
 	}
@@ -54,10 +48,6 @@ class JModelAdminTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->object);
-
-		$this->restoreFactoryState();
-
-		parent::tearDown();
 	}
 
 	/**

@@ -52,6 +52,9 @@ class JToolbarButtonHelpTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->toolbar = JToolbar::getInstance();
+		$this->object  = $this->toolbar->loadButtonType('help');
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
@@ -61,9 +64,6 @@ class JToolbarButtonHelpTest extends TestCaseDatabase
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
-
-		$this->toolbar = JToolbar::getInstance();
-		$this->object  = $this->toolbar->loadButtonType('help');
 	}
 
 	/**

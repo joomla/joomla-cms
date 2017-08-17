@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/EditorObserver.php';
  * @subpackage  Editor
  * @since       3.0
  */
-class JEditorTest extends TestCase
+class JEditorTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Object under test
@@ -36,12 +36,6 @@ class JEditorTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
-		$this->saveFactoryState();
-
-		\Joomla\CMS\Factory::$application = $this->getMockCmsApp();
-
 		$this->object = new JEditor;
 	}
 
@@ -56,9 +50,6 @@ class JEditorTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->object);
-
-		$this->restoreFactoryState();
-
 		parent::tearDown();
 	}
 

@@ -14,7 +14,7 @@
  * @subpackage  Toolbar
  * @since       3.0
  */
-class JToolbarButtonSliderTest extends TestCase
+class JToolbarButtonSliderTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Toolbar object
@@ -44,10 +44,6 @@ class JToolbarButtonSliderTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->saveFactoryState();
-
-		JFactory::$application = $this->getMockCmsApp();
-
 		$this->toolbar = JToolbar::getInstance();
 		$this->object  = $this->toolbar->loadButtonType('slider');
 	}
@@ -63,9 +59,6 @@ class JToolbarButtonSliderTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->toolbar, $this->object);
-
-		$this->restoreFactoryState();
-
 		parent::tearDown();
 	}
 

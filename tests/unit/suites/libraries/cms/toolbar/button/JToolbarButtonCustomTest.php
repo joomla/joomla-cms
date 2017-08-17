@@ -14,7 +14,7 @@
  * @subpackage  Toolbar
  * @since       3.0
  */
-class JToolbarButtonCustomTest extends TestCase
+class JToolbarButtonCustomTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Toolbar object
@@ -44,10 +44,6 @@ class JToolbarButtonCustomTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->saveFactoryState();
-
-		JFactory::$application = $this->getMockCmsApp();
-
 		$this->toolbar = JToolbar::getInstance();
 		$this->object  = $this->toolbar->loadButtonType('custom');
 	}
@@ -63,9 +59,6 @@ class JToolbarButtonCustomTest extends TestCase
 	protected function tearDown()
 	{
 		unset($this->toolbar, $this->object);
-
-		$this->restoreFactoryState();
-
 		parent::tearDown();
 	}
 

@@ -40,6 +40,8 @@ class JToolbarTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->object = new JToolbar('toolbar');
+
 		parent::setUp();
 
 		$this->saveFactoryState();
@@ -49,8 +51,6 @@ class JToolbarTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/';
 
 		JFactory::$application = $this->getMockCmsApp();
-
-		$this->object = new JToolbar('toolbar');
 	}
 
 	/**

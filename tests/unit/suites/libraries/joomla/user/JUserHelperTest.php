@@ -305,6 +305,13 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testActivateUser($activation, $expected)
 	{
+		// Configure the container
+		$container = (new \Joomla\DI\Container)
+			->set('dispatcher', $this->getMockDispatcher())
+			->set('db', static::$driver);
+
+		JFactory::$container = $container;
+
 		$this->assertEquals(
 			JUserHelper::activateUser($activation),
 			$expected
