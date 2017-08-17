@@ -16,7 +16,6 @@
 				name="enable_category"
 				type="radio"
 				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
-				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC"
 				class="switcher"
 				default="0"
 				>
@@ -28,7 +27,6 @@
 				name="catid"
 				type="modal_category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
 				select="true"
 				new="true"

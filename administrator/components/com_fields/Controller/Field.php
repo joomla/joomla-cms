@@ -10,6 +10,7 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Form;
 use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
@@ -42,7 +43,7 @@ class Field extends Form
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.7.0
@@ -54,44 +55,6 @@ class Field extends Form
 		$this->internalContext = \JFactory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
 		$parts = \FieldsHelper::extract($this->internalContext);
 		$this->component = $parts ? $parts[0] : null;
-	}
-
-	/**
-	 * Stores the form data into the user state.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function storeform()
-	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
-
-		$app = \JFactory::getApplication();
-		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
-
-		$parts = \FieldsHelper::extract($this->input->getCmd('context'));
-
-		if ($parts)
-		{
-			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
-		}
-
-		if ($this->input->get('userstatevariable'))
-		{
-			$app->setUserState($this->input->get('userstatevariable'), $data);
-		}
-
-		$redirectUrl = base64_decode($this->input->get->getBase64('return'));
-
-		// Don't redirect to an external URL.
-		If (!\JUri::isInternal($redirectUrl))
-		{
-			$redirectUrl = 'index.php';
-		}
-
-		$app->redirect($redirectUrl);
-		$app->close();
 	}
 
 	/**

@@ -18,9 +18,13 @@ matrix:
     - php: 5.6
       env: INSTALL_APCU="yes"
     - php: 7.0
-      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
     - php: 7.1
-      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
+    - php: nightly
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
+  allow_failures:
+    - php: nightly
 
 services:
   - memcache

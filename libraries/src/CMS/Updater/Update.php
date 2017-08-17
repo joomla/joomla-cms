@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
+use Joomla\Registry\Registry;
 
 /**
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for
@@ -448,9 +449,14 @@ class Update extends \JObject
 	 */
 	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
 	{
+		$version    = new Version;
+		$httpOption = new Registry;
+		$httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
 		try
 		{
-			$response = \JHttpFactory::getHttp()->get($url);
+			$http = \JHttpFactory::getHttp($httpOption);
+			$response = $http->get($url);
 		}
 		catch (\RuntimeException $e)
 		{
