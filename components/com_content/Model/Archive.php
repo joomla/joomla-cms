@@ -10,7 +10,8 @@ namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\CMS\Factory;
+use Joomla\Component\Content\Site\Model\Articles;
 
 /**
  * Content Component Archive Model
@@ -42,13 +43,13 @@ class Archive extends Articles
 	{
 		parent::populateState();
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Add archive properties
 		$params = $this->state->params;
 
 		// Filter on archived articles
-		$this->setState('filter.condition', 3);
+		$this->setState('filter.condition', 1);
 
 		// Filter on month, year
 		$this->setState('filter.month', $app->input->getInt('month'));
@@ -83,12 +84,16 @@ class Archive extends Articles
 	protected function getListQuery()
 	{
 		$params           = $this->state->params;
-		$app              = JFactory::getApplication('site');
+		$app              = Factory::getApplication('site');
 		$catids           = $app->input->getVar('catid', array());
+		$state            = $app->input->getVar('state', 0);
 		$catids           = array_values(array_diff($catids, array('')));
 		$articleOrderDate = $params->get('order_date');
 
+		$this->setState('filter.condition', array("-2", "0", "1"));
+
 		// Create a new query object.
+		$db = $this->getDbo();
 		$query = parent::getListQuery();
 
 		// Add routing for archive
@@ -109,9 +114,15 @@ class Archive extends Articles
 			$query->where($query->year($queryDate) . ' = ' . $year);
 		}
 
-		if (count($catids)>0)
+		if (count($catids) > 0)
 		{
 			$query->where('c.id IN (' . implode(', ', $catids) . ')');
+		}
+
+		if ((int) $state > 0)
+		{
+//			$query->where($db->qn('s.condition') . ' IN (-2, 0, 1)');
+			$query->where($db->qn('a.state') . ' = ' . $state);
 		}
 
 		return $query;
@@ -125,7 +136,7 @@ class Archive extends Articles
 	 */
 	public function getData()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -183,7 +194,7 @@ class Archive extends Articles
 	{
 		$db = $this->getDbo();
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
 		$years = $query->year($db->qn('created'));

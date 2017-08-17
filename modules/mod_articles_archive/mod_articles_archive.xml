@@ -28,6 +28,16 @@
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 				/>
+
+				<field
+					name="state"
+					type="sql"
+					label="MOD_ARTICLES_CHOOSE_STATE"
+					sql_select="id, title"
+				    sql_from="#__workflow_states"
+				    key_field="id"
+				    value_field="title"
+				/>
 			</fieldset>
 
 			<fieldset name="advanced">

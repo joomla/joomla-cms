@@ -194,7 +194,7 @@ class Articles extends ListModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
-					'a.checked_out, a.checked_out_time, s.condition, ' .
+					'a.checked_out, a.checked_out_time,' .
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Published/archived article in archive category is treats as archive article
 					// If category is not published then force 0
@@ -231,7 +231,9 @@ class Articles extends ListModel
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
-		$query->join('LEFT', '#__workflow_states AS s ON s.id = a.state');
+		$query
+			->select($db->qn("s.condition"))
+			->join('LEFT', '#__workflow_states AS s ON s.id = a.state');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
@@ -275,7 +277,13 @@ class Articles extends ListModel
 		}
 		elseif (is_array($condition))
 		{
-			$condition = ArrayHelper::toInteger($condition);
+			$condition = array_map(
+				function ($data) use ($db)
+				{
+					return $db->quote($data);
+				},
+				$condition
+			);
 			$condition = implode(',', $condition);
 
 			// Category has to be published
