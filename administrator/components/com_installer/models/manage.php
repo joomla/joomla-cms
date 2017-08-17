@@ -338,7 +338,8 @@ class InstallerModelManage extends InstallerModel
 
 		if ($packageId != '')
 		{
-			$query->where('package_id = ' . (int) $packageId);
+      $query->select((int) $packageId . ' AS search_package_id')
+            ->where((int) $packageId . ' IN (extension_id, package_id)');
 		}
 
 		// Process search filter (extension id).
