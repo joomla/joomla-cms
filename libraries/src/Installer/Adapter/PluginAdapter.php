@@ -526,7 +526,7 @@ class PluginAdapter extends InstallerAdapter
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// If there is an manifest class file, let's load it; we'll copy it later (don't have dest yet)
+		// If there is a manifest class file, let's load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)

@@ -720,7 +720,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
 	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
-	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * To avoid this conflict, this function creates a specific SEF in case of existing conflict:
 	 * For example: www.mywebsite.com/en-au/
 	 *
 	 * @param   stdClass    $itemLanguage   Language Object.
