@@ -22,6 +22,14 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field 
+					name="parentTag"
+					type="tag"
+					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
+					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
+					multiple="true"
+				/>
+
 				<field
 					name="maximum"
 					type="integer"

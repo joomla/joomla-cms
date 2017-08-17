@@ -205,7 +205,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is an setTransliterator, this test is wrong
+		// Only if there is a setTransliterator, this test is wrong
 		$this->assertNull(
 			$lang->getTransliterator()
 		);
