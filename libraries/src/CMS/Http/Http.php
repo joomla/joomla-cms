@@ -11,7 +11,7 @@ namespace Joomla\CMS\Http;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Http\Http as FrameworkHttp;
-use Joomla\Http\TransportInterface;
+use Joomla\Http\TransportInterface as FrameworkTransportInterface;
 
 /**
  * HTTP client class.
@@ -23,14 +23,14 @@ class Http extends FrameworkHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   array|\ArrayAccess   $options    Client options array. If the registry contains any headers.* elements,
-	 *                                          these will be added to the request headers.
-	 * @param   TransportInterface  $transport  The HTTP transport object.
+	 * @param   array|\ArrayAccess           $options    Client options array. If the registry contains any headers.* elements,
+	 *                                                   these will be added to the request headers.
+	 * @param   FrameworkTransportInterface  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($options = [], TransportInterface $transport = null)
+	public function __construct($options = [], FrameworkTransportInterface $transport = null)
 	{
 		if (!is_array($options) && !($options instanceof \ArrayAccess))
 		{
@@ -46,8 +46,8 @@ class Http extends FrameworkHttp
 			$transport = HttpFactory::getAvailableDriver($this->options);
 		}
 
-		// Ensure the transport is a TransportInterface instance or bail out
-		if (!($transport instanceof TransportInterface))
+		// Ensure the transport is a framework TransportInterface instance or bail out
+		if (!($transport instanceof FrameworkTransportInterface))
 		{
 			throw new \InvalidArgumentException('A valid TransportInterface object was not set.');
 		}
