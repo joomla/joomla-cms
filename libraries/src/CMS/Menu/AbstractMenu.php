@@ -92,6 +92,7 @@ abstract class AbstractMenu
 	 *
 	 * @since   1.5
 	 * @throws  \Exception
+	 * @deprecated  5.0 Use the menu factory instead
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -102,7 +103,7 @@ abstract class AbstractMenu
 
 		if (empty(self::$instances[$client]))
 		{
-			self::$instances[$client] = \JFactory::getApplication()->getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options);
+			self::$instances[$client] = \JFactory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options);
 		}
 
 		return self::$instances[$client];

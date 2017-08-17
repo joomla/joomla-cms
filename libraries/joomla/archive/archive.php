@@ -188,9 +188,9 @@ class JArchive
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (JFactory::getApplication()->getContainer()->exists($class))
+			if (JFactory::getContainer()->exists($class))
 			{
-				self::$adapters[$type] = JFactory::getApplication()->getContainer()->get($class);
+				self::$adapters[$type] = JFactory::getContainer()->get($class);
 			}
 			else
 			{

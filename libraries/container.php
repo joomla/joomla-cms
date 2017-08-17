@@ -19,4 +19,6 @@ $container = (new \Joomla\DI\Container)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
 
+\Joomla\CMS\Factory::$container = $container;
+
 return $container;

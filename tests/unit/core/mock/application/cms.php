@@ -28,7 +28,6 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getMenu',
 			'getPathway',
 			'getTemplate',
-			'getContainer',
 			'getLanguageFilter',
 			'initialiseApp',
 			'isClient',
@@ -57,9 +56,6 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	{
 		// Mock calls to JApplicationCms::getMenu();
 		$mockObject->expects($test->any())->method('getMenu')->will($test->returnValue(TestMockMenu::create($test)));
-
-		// Mock calls to JApplicationCms::getContainer();
-		$mockObject->expects($test->any())->method('getContainer')->will($test->returnValue(TestMockContainer::create($test)));
 
 		return parent::addBehaviours($test, $mockObject, $options);
 	}

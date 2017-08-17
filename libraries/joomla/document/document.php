@@ -323,7 +323,8 @@ class JDocument
 	 *
 	 * @return  object  The document object.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the document factory
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -331,7 +332,7 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = JFactory::getApplication()->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
+			self::$instances[$signature] = JFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 		}
 
 		return self::$instances[$signature];

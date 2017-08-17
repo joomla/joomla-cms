@@ -51,8 +51,9 @@ class Pathway
 	 *
 	 * @return  Pathway  A Pathway object.
 	 *
-	 * @since   1.5
-	 * @throws  \RuntimeException
+	 * @since       1.5
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Instantiate the object directly
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -67,9 +68,9 @@ class Pathway
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getApplication()->getContainer()->has($classname))
+			if (\JFactory::getContainer()->has($classname))
 			{
-				self::$instances[$client] = \JFactory::getApplication()->getContainer()->get($classname);
+				self::$instances[$client] = \JFactory::getContainer()->get($classname);
 			}
 			else
 			{

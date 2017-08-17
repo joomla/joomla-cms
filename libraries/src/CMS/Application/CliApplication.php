@@ -68,7 +68,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 			$this->close();
 		}
 
-		$container = $container ?: new Container;
+		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
 		$this->input    = $input ?: new \JInputCli;
@@ -107,7 +107,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @since       11.1
 	 * @throws      \RuntimeException
-	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getApplication()->getContainer()->get($name) instead
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
 	public static function getInstance($name = null)
 	{

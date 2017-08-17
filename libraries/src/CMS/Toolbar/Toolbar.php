@@ -89,7 +89,7 @@ class Toolbar
 			);
 
 			$factory = new ContainerAwareToolbarFactory;
-			$factory->setContainer(\JFactory::getApplication()->getContainer());
+			$factory->setContainer(\JFactory::getContainer());
 		}
 
 		$this->setFactory($factory);
@@ -105,13 +105,14 @@ class Toolbar
 	 *
 	 * @return  Toolbar  The Toolbar object.
 	 *
-	 * @since   1.5
+	 * @since       1.5
+	 * @deprecated  5.0 Use the toolbar factory instead
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
 		if (empty(self::$instances[$name]))
 		{
-			self::$instances[$name] = \JFactory::getApplication()->getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
+			self::$instances[$name] = \JFactory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
 		}
 
 		return self::$instances[$name];

@@ -19,6 +19,7 @@ use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseDriver;
+use Joomla\DI\Container;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -54,6 +55,15 @@ abstract class Factory
 	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static $config = null;
+
+	/**
+	 * Global container object
+	 *
+	 * @var         Container
+	 * @since       4.0
+	 * @deprecated  Don't us it, it is needed for the transition period
+	 */
+	public static $container = null;
 
 	/**
 	 * Container for Date instances
@@ -165,6 +175,28 @@ abstract class Factory
 		}
 
 		return self::$config;
+	}
+
+	/**
+	 * Get a container object
+	 *
+	 * Returns the global service container object, only creating it if it doesn't already exist.
+	 *
+	 * This function is for internal purposes only. Extensions should NOT use it!!
+	 *
+	 * @return  Container
+	 *
+	 * @since       4.0
+	 * @deprecated  For the current state it is not known when this function will be removed
+	 */
+	public static function getContainer()
+	{
+		if (!self::$container)
+		{
+			self::$container = self::createContainer();
+		}
+
+		return self::$container;
 	}
 
 	/**
@@ -316,9 +348,9 @@ abstract class Factory
 	{
 		if (!self::$database)
 		{
-			if (self::getApplication()->getContainer()->exists('JDatabaseDriver'))
+			if (self::getContainer()->exists('JDatabaseDriver'))
 			{
-				self::$database = self::getApplication()->getContainer()->get('JDatabaseDriver');
+				self::$database = self::getContainer()->get('JDatabaseDriver');
 			}
 			else
 			{
@@ -453,6 +485,29 @@ abstract class Factory
 		}
 
 		return $registry;
+	}
+
+	/**
+	 * Create a container object
+	 *
+	 * @return  Container
+	 *
+	 * @since       4.0
+	 * @deprecated  See Factory::getContainer()
+	 */
+	protected static function createContainer()
+	{
+		$container = (new Container)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
+
+		return $container;
 	}
 
 	/**

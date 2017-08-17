@@ -181,7 +181,8 @@ abstract class Model extends \JObject
 	 *
 	 * @return  self|boolean   A \JModelLegacy instance or false on failure
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  5.0 Get the model from the MvcFactory
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{
@@ -214,9 +215,9 @@ abstract class Model extends \JObject
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getApplication()->getContainer()->exists($modelClass))
+		if (\JFactory::getContainer()->exists($modelClass))
 		{
-			return \JFactory::getApplication()->getContainer()->get($modelClass);
+			return \JFactory::getContainer()->get($modelClass);
 		}
 
 		return new $modelClass($config);

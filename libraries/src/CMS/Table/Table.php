@@ -257,7 +257,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the MvcFactory instead
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
@@ -300,9 +301,9 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getApplication()->getContainer()->exists($tableClass))
+		if (\JFactory::getContainer()->exists($tableClass))
 		{
-			return \JFactory::getApplication()->getContainer()->get($tableClass);
+			return \JFactory::getContainer()->get($tableClass);
 		}
 
 		// Instantiate a new table class and return it.

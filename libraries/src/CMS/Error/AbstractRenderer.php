@@ -76,9 +76,9 @@ abstract class AbstractRenderer implements RendererInterface
 		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst(strtolower($type)) . 'Renderer';
 
 		// First check if an object may exist in the container and prefer that over everything else
-		if (\JFactory::getApplication()->getContainer()->exists($class))
+		if (\JFactory::getContainer()->exists($class))
 		{
-			return \JFactory::getApplication()->getContainer()->get($class);
+			return \JFactory::getContainer()->get($class);
 		}
 
 		// Next check if a local class exists and use that
