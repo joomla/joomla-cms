@@ -25,11 +25,11 @@ class JCryptCipherSodiumTest extends TestCase
 	{
 		parent::setUp();
 
-		// The lib sodium_compat does not support PHP_INT_SIZE === 4 see https://github.com/paragonie/sodium_compat/issues/38
-		if (PHP_INT_SIZE === 4)
+		// Skip if neither the `libsodium` (PECL 1.x) or `sodium` (PHP 7.2+ or PECL 2.x) extensions are available and this PHP build does not support 64-bit integers
+		if (!extension_loaded('libsodium') && !extension_loaded('sodium') && PHP_INT_SIZE === 4)
 		{
 			$this->markTestSkipped(
-				'The lib sodium_compat does not support PHP_INT_SIZE === 4 please see https://github.com/paragonie/sodium_compat/issues/38.'
+				'Cannot run tests on this environment due to not having the sodium PHP extension and not running a x64 PHP build'
 			);
 		}
 	}
