@@ -186,7 +186,7 @@ class InstallerHelper
 	}
 
 	/**
-	 * Get a list of filter options for the pakcages.
+	 * Get a list of filter options for the packages.
 	 *
 	 * @return  array  An array of stdClass objects.
 	 *
