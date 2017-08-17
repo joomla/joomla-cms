@@ -90,7 +90,7 @@ class Archive extends Articles
 		$catids           = array_values(array_diff($catids, array('')));
 		$articleOrderDate = $params->get('order_date');
 
-		$this->setState('filter.condition', array("-2", "0", "1"));
+		$this->setState('filter.condition', false);
 
 		// Create a new query object.
 		$db = $this->getDbo();
