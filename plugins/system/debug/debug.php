@@ -288,7 +288,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$html[] = '<div id="system-debug" class="profiler">';
+		$html[] = '<div id="system-debug" class="system-debug profiler full-width">';
 
 		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
 
