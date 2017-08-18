@@ -8,10 +8,16 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\TableInterface;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\TableInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Base Helper class.
@@ -31,15 +37,30 @@ class CMSHelper
 	 */
 	public function getCurrentLanguage($detectBrowser = true)
 	{
-		$app = \JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(\JApplicationHelper::getHash('language'));
+		$app = Factory::getApplication();
+
+		// Get the languagefilter parameters
+		if (Multilanguage::isEnabled())
+		{
+			$plugin       = PluginHelper::getPlugin('system', 'languagefilter');
+			$pluginParams = new Registry($plugin->params);
+
+			if ((int) $pluginParams->get('lang_cookie', 1) === 1)
+			{
+				$langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+			}
+			else
+			{
+				$langCode = Factory::getSession()->get('plg_system_languagefilter.language');
+			}
+		}
 
 		// No cookie - let's try to detect browser language or use site default
 		if (!$langCode)
 		{
 			if ($detectBrowser)
 			{
-				$langCode = \JLanguageHelper::detectLanguage();
+				$langCode = LanguageHelper::detectLanguage();
 			}
 			else
 			{
@@ -61,7 +82,7 @@ class CMSHelper
 	 */
 	public function getLanguageId($langCode)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('lang_id')
 			->from('#__languages')
