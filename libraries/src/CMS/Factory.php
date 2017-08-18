@@ -62,7 +62,7 @@ abstract class Factory
 	 *
 	 * @var         Container
 	 * @since       4.0
-	 * @deprecated  Don't us it, it is needed for the transition period
+	 * @deprecated  5.0 Don't us it, it is needed for the transition period
 	 */
 	public static $container = null;
 
@@ -183,12 +183,14 @@ abstract class Factory
 	 *
 	 * Returns the global service container object, only creating it if it doesn't already exist.
 	 *
-	 * This function is for internal purposes only. Extensions should NOT use it!!
+	 * This method exists to bridge the CMS architecture to a service injection based structure.
+	 * Use of this method outside of service factory methods (i.e. a static getInstance() method
+	 * or a method which builds class services) is highly discouraged.
 	 *
 	 * @return  Container
 	 *
 	 * @since       4.0
-	 * @deprecated  For the current state it is not known when this function will be removed
+	 * @deprecated  5.0 For the current state it is not known when this function will be removed
 	 */
 	public static function getContainer()
 	{

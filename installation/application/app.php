@@ -39,6 +39,9 @@ JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
 /** @var \Joomla\DI\Container $container */
 $container = require JPATH_LIBRARIES . '/container.php';
 
+// Set the container as global one
+\Joomla\CMS\Factory::$container = $container;
+
 // Register installation specific service providers
 $container->registerServiceProvider(new InstallationServiceProviderApplication);
 
