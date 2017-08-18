@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Document\Document;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
@@ -470,13 +471,13 @@ final class InstallationApplicationWeb extends CMSApplication
 	 * but for many applications it will make sense to override this method and create a document,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 * @param   Document  $document  An optional document object. If omitted, the factory document is created.
 	 *
 	 * @return  InstallationApplicationWeb This method is chainable.
 	 *
 	 * @since   3.2
 	 */
-	public function loadDocument(JDocument $document = null)
+	public function loadDocument(Document $document = null)
 	{
 		if ($document === null)
 		{
@@ -493,7 +494,7 @@ final class InstallationApplicationWeb extends CMSApplication
 				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
-			$document = JDocument::getInstance($type, $attributes);
+			$document = Document::getInstance($type, $attributes);
 
 			// Register the instance to JFactory.
 			JFactory::$document = $document;
