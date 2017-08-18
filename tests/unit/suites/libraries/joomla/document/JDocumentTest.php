@@ -10,7 +10,7 @@
 /**
  * Test class for JDocument.
  */
-class JDocumentTest extends TestCase
+class JDocumentTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var  JDocument
@@ -36,7 +36,6 @@ class JDocumentTest extends TestCase
 	{
 		JDocument::$_buffer = null;
 		unset($this->object);
-
 		parent::tearDown();
 	}
 
