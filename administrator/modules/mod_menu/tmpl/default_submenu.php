@@ -110,6 +110,7 @@ if ($this->enabled && $current->hasChildren())
 	else
 	{
 		echo '<ul class="nav panel-collapse collapse-level-1 collapse">' . "\n";
+		echo '<li role="menuitem">' . JText::_($current->get('title')) . '</li>';
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
