@@ -112,7 +112,14 @@ if ($this->enabled && $current->hasChildren())
 		echo '<ul class="nav panel-collapse collapse-level-1 collapse">' . "\n";
 	}
 
-	echo '<li role="menuitem">' . JText::_($current->get('title')) . '</li>';
+	echo '<li role="menuitem">' . JText::_($current->get('title'));
+
+	if ($current->getLevel() === 1)
+	{
+		echo '<a href="#" class="close"><span aria-label="Close Menu">×</span></a>';
+	}
+
+	echo '</li>';
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
 	$this->renderSubmenu(__FILE__);
