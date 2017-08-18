@@ -346,7 +346,7 @@ class HtmlView extends AbstractView
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		// Change the template folder if alternative layout is in different template
-		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
+		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
 		{
 			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
 		}

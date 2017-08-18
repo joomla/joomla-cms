@@ -51,6 +51,7 @@ class Items extends ListModel
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'parent_id', 'a.parent_id',
 				'a.ordering'
 			);
 
@@ -94,9 +95,6 @@ class Items extends ListModel
 		{
 			$this->context .= '.' . $forcedLanguage;
 		}
-
-		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-		$this->setState('filter.parent_id', $parentId);
 
 		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);

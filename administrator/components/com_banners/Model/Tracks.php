@@ -10,6 +10,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Model\ListModel;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
@@ -510,7 +511,9 @@ class Tracks extends ListModel
 					}
 				}
 
-				if (!$packager = \JArchive::getAdapter('zip'))
+				$archive = new Archive;
+
+				if (!$packager = $archive->getAdapter('zip'))
 				{
 					$this->setError(\JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 

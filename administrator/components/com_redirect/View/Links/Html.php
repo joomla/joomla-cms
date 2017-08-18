@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
@@ -35,6 +36,14 @@ class Html extends HtmlView
 	 * @var  boolean
 	 */
 	protected $collect_urls_enabled;
+
+	/**
+	 * The id of the redirect plugin in mysql
+	 *
+	 * @var    integer
+	 * @since  3.8.0
+	 */
+	protected $redirectPluginId = 0;
 
 	/**
 	 * An array of items
@@ -81,13 +90,11 @@ class Html extends HtmlView
 	 * @return  mixed  False if unsuccessful, otherwise void.
 	 *
 	 * @since   1.6
+	 * @throws  \JViewGenericdataexception
 	 */
 	public function display($tpl = null)
 	{
 		// Set variables
-		$app                        = \JFactory::getApplication();
-		$this->enabled              = RedirectHelper::isEnabled();
-		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->items                = $this->get('Items');
 		$this->pagination           = $this->get('Pagination');
 		$this->state                = $this->get('State');
@@ -100,31 +107,20 @@ class Html extends HtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Show messages about the enabled plugin and if the plugin should collect URLs
-		if ($this->enabled && $this->collect_urls_enabled)
+		if (!(PluginHelper::isEnabled('system', 'redirect') && RedirectHelper::collectUrlsEnabled()))
 		{
-			$app->enqueueMessage(\JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-		}
-		elseif ($this->enabled && !$this->collect_urls_enabled)
-		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			$app->enqueueMessage(\JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
-		}
-		else
-		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			$app->enqueueMessage(\JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
+			$this->redirectPluginId = RedirectHelper::getRedirectPluginId();
 		}
 
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -171,6 +167,8 @@ class Html extends HtmlView
 
 			$title = \JText::_('JTOOLBAR_BULK_IMPORT');
 
+			\JHtml::_('bootstrap.renderModal', 'collapseModal');
+
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('toolbar.batch');
 
@@ -197,6 +195,5 @@ class Html extends HtmlView
 		}
 
 		\JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
-
 	}
 }

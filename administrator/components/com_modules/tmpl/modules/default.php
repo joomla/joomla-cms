@@ -60,6 +60,10 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+						</th>
 						<?php endif; ?>
 						<th style="width:5%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -165,6 +169,16 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td class="small hidden-sm-down text-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+							<td class="small hidden-phone">
+								<?php if ($item->language == ''):?>
+									<?php echo JText::_('JUNDEFINED'); ?>
+								<?php elseif ($item->language == '*'):?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else:?>
+									<?php echo $this->escape($item->language); ?>
+								<?php endif; ?>
+							</td>
 						<?php endif; ?>
 						<td class="hidden-sm-down text-center">
 							<?php echo (int) $item->id; ?>

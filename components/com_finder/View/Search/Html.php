@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\SearchHelper;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\View\HtmlView;
 
 /**
@@ -38,40 +39,16 @@ class Html extends HtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The logged in user
 	 *
-	 * @var    \JUser|null
+	 * @var  \JUser|null
 	 */
 	protected $user = null;
-
-	/**
-	 * The results of the search
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $results = array();
-
-	/**
-	 * The total number of results for the search query
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $total = 0;
-
-	/**
-	 * The pagination object
-	 *
-	 * @var    \Joomla\CMS\Pagination\Pagination|null
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $pagination = null;
 
 	/**
 	 * The suggested search query
@@ -98,6 +75,33 @@ class Html extends HtmlView
 	protected $pageclass_sfx = '';
 
 	/**
+	 * An array of results
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $results;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $total;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    Pagination
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pagination;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -108,7 +112,7 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app = \JFactory::getApplication();
+		$app    = \JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get view data.
@@ -135,11 +139,11 @@ class Html extends HtmlView
 		}
 
 		// Push out the view data.
-		$this->state = &$state;
-		$this->params = &$params;
-		$this->query = &$query;
-		$this->results = &$results;
-		$this->total = &$total;
+		$this->state      = &$state;
+		$this->params     = &$params;
+		$this->query      = &$query;
+		$this->results    = &$results;
+		$this->total      = &$total;
 		$this->pagination = &$pagination;
 
 		// Check for a double quote in the query string.
@@ -236,7 +240,7 @@ class Html extends HtmlView
 		// Check if the file exists.
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists = \JPath::find($this->_path['template'], $filetofind);
+		$exists     = \JPath::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}
@@ -252,7 +256,7 @@ class Html extends HtmlView
 	 */
 	protected function prepareDocument($query)
 	{
-		$app = \JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -301,12 +305,12 @@ class Html extends HtmlView
 		// Configure the document meta-keywords.
 		if (!empty($query->highlight))
 		{
-			$this->document->setMetadata('keywords', implode(', ', $query->highlight));
+			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		// Add feed link to the document head.

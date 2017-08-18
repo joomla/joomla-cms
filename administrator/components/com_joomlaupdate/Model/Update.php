@@ -401,7 +401,9 @@ class Update extends Model
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',
 	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0'
+	'kickstart.setup.dryrun' => '0',
+	'kickstart.setup.renamefiles' => array(),
+	'kickstart.setup.postrenamefiles' => false
 ENDDATA;
 
 		if ($method != 'direct')

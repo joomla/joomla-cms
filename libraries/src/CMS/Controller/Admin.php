@@ -218,7 +218,7 @@ class Admin extends Controller
 				$errors = $model->getErrors();
 				$ntext = null;
 
-				if ($value == 1)
+				if ($value === 1)
 				{
 					if ($errors)
 					{
@@ -229,11 +229,11 @@ class Admin extends Controller
 						$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
 					}
 				}
-				elseif ($value == 0)
+				elseif ($value === 0)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
 				}
-				elseif ($value == 2)
+				elseif ($value === 2)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
 				}
@@ -271,7 +271,7 @@ class Admin extends Controller
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
-		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
+		$inc = $this->getTask() === 'orderup' ? -1 : 1;
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);

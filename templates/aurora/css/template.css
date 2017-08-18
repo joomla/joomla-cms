@@ -8774,6 +8774,9 @@ header {
 .container-footer {
   display: block; }
 
+.system-debug {
+  display: block; }
+
 .modal .btn {
   margin-right: .5rem; }
 
@@ -8900,7 +8903,7 @@ joomla-alert {
 @supports (display: grid) {
   .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer .";
+    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
     .site-grid > div {
@@ -8913,11 +8916,13 @@ joomla-alert {
     .site-grid .container-bottom-b > div {
       display: inline-grid;
       margin: 0; }
+    .site-grid .container-main {
+      margin: -7.5px -7.5px 7.5px; }
     .site-grid > .full-width {
       grid-column: full-start / full-end; }
     @media (max-width: 575px) {
       .site-grid {
-        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ."; } }
+        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
   header {
     margin-bottom: 0; }
     header + div:not(.container-banner) {
@@ -8925,9 +8930,7 @@ joomla-alert {
   .container-banner {
     margin: 0 0 15px; }
     .container-banner p {
-      margin-bottom: 0; }
-  .container-main {
-    margin: -7.5px -7.5px 7.5px; } }
+      margin-bottom: 0; } }
 
 header {
   grid-area: head; }
@@ -8970,6 +8973,9 @@ header {
 
 .container-footer {
   grid-area: footer; }
+
+.system-debug {
+  grid-area: debug; }
 
 .container-component {
   grid-column: auto 2fr; }

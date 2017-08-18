@@ -283,6 +283,58 @@
             "time": "2017-06-20T02:25:07+00:00"
         },
         {
+            "name": "joomla/archive",
+            "version": "1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/archive.git",
+                "reference": "2b5d645804c6af7c363716ba1956929f8b9665d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/2b5d645804c6af7c363716ba1956929f8b9665d3",
+                "reference": "2b5d645804c6af7c363716ba1956929f8b9665d3",
+                "shasum": ""
+            },
+            "require": {
+                "joomla/filesystem": "~1.3|~2.0",
+                "php": "^5.3.10|~7.0"
+            },
+            "require-dev": {
+                "joomla/test": "~1.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "suggest": {
+                "ext-bz2": "To extract bzip2 compressed packages",
+                "ext-zip": "To extract zip compressed packages",
+                "ext-zlib": "To extract gzip or zip compressed packages"
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Archive\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Archive Package",
+            "homepage": "https://github.com/joomla-framework/archive",
+            "keywords": [
+                "archive",
+                "framework",
+                "joomla"
+            ],
+            "time": "2017-06-12T11:32:11+00:00"
+        },
+        {
             "name": "joomla/compat",
             "version": "1.2.0",
             "source": {
@@ -622,6 +674,55 @@
                 "joomla"
             ],
             "time": "2017-05-27T01:10:08+00:00"
+        },
+        {
+            "name": "joomla/filesystem",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/filesystem.git",
+                "reference": "6e2840a82a3958cf8f23ae869e2292d812cfa5d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/6e2840a82a3958cf8f23ae869e2292d812cfa5d3",
+                "reference": "6e2840a82a3958cf8f23ae869e2292d812cfa5d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.10|~7.0"
+            },
+            "require-dev": {
+                "paragonie/random_compat": "~1.0|~2.0",
+                "phpunit/phpunit": "~4.8|~5.0",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "suggest": {
+                "paragonie/random_compat": "Required to use Joomla\\Filesystem\\Path::isOwner()"
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Filesystem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Filesystem Package",
+            "homepage": "https://github.com/joomla/joomla-framework-filesystem",
+            "keywords": [
+                "filesystem",
+                "framework",
+                "joomla"
+            ],
+            "time": "2016-12-10T17:45:15+00:00"
         },
         {
             "name": "joomla/filter",
@@ -1283,6 +1384,87 @@
             "time": "2017-03-13T16:27:32+00:00"
         },
         {
+            "name": "paragonie/sodium_compat",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/sodium_compat.git",
+                "reference": "3c6b3b7ffd256df19c39b0f4aa0bb28badd08aaa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/3c6b3b7ffd256df19c39b0f4aa0bb28badd08aaa",
+                "reference": "3c6b3b7ffd256df19c39b0f4aa0bb28badd08aaa",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": "^1|^2",
+                "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^3|^4|^5"
+            },
+            "suggest": {
+                "ext-libsodium": "Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com"
+                },
+                {
+                    "name": "Frank Denis",
+                    "email": "jedisct1@pureftpd.org"
+                }
+            ],
+            "description": "Pure PHP implementation of libsodium; uses the PHP extension if it exists",
+            "keywords": [
+                "Authentication",
+                "BLAKE2b",
+                "ChaCha20",
+                "ChaCha20-Poly1305",
+                "Chapoly",
+                "Curve25519",
+                "Ed25519",
+                "EdDSA",
+                "Edwards-curve Digital Signature Algorithm",
+                "Elliptic Curve Diffie-Hellman",
+                "Poly1305",
+                "Pure-PHP cryptography",
+                "RFC 7748",
+                "RFC 8032",
+                "Salpoly",
+                "Salsa20",
+                "X25519",
+                "XChaCha20-Poly1305",
+                "XSalsa20-Poly1305",
+                "Xchacha20",
+                "Xsalsa20",
+                "aead",
+                "cryptography",
+                "ecdh",
+                "elliptic curve",
+                "elliptic curve cryptography",
+                "encryption",
+                "libsodium",
+                "php",
+                "public-key cryptography",
+                "secret-key cryptography",
+                "side-channel resistant"
+            ],
+            "time": "2017-06-09T22:35:18+00:00"
+        },
+        {
             "name": "phpmailer/phpmailer",
             "version": "v6.0.0rc5",
             "source": {
@@ -1691,7 +1873,7 @@
             ],
             "authors": [
                 {
-                    "name": "Kévin Dunglas",
+                    "name": "K??vin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -1925,7 +2107,7 @@
             ],
             "authors": [
                 {
-                    "name": "Dariusz Rumiński",
+                    "name": "Dariusz Rumi??ski",
                     "email": "dariusz.ruminski@gmail.com"
                 },
                 {

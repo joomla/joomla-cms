@@ -299,6 +299,7 @@ class Toolbar
 	 *
 	 * @return  void
 	 *
+	 * @since       1.5
 	 * @deprecated  5.0  ToolbarButton classes should be autoloaded
 	 */
 	public function addButtonPath($path)

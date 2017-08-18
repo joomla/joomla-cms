@@ -244,6 +244,11 @@ class CategoryeditField extends \JFormFieldList
 			$db->setQuery($query);
 			$language = $db->loadResult();
 
+			if ($options[$i]->level != 0)
+			{
+				$options[$i]->level = $options[$i]->level -1;
+			}
+
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;

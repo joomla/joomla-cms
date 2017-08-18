@@ -11,7 +11,7 @@ namespace Joomla\CMS\Component;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Component\Exception\MissingException;
+use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 
@@ -302,7 +302,7 @@ class ComponentHelper
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @throws  MissingException
+	 * @throws  MissingComponentException
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -316,7 +316,7 @@ class ComponentHelper
 
 		if (empty($option))
 		{
-			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
@@ -353,7 +353,7 @@ class ComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option))
 		{
-			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Handle template preview outlining.

@@ -69,7 +69,7 @@ class Menu extends Form
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $type    The table type to instantiate
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
@@ -175,6 +175,10 @@ class Menu extends Form
 		if (empty($data))
 		{
 			$data = $this->getItem();
+		}
+		else
+		{
+			unset($data['preset']);
 		}
 
 		$this->preprocessData('com_menus.menu', $data);
