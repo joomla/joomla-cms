@@ -239,6 +239,9 @@ class JHtmlNumberTest extends TestCase
 	 */
 	public function testBytes($result, $bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{
-		$this->assertEquals($result, JHtmlNumber::bytes($bytes, $unit, $precision, $iec));
+		$translator = $this->getMockBuilder('\\Joomla\\CMS\\Language\\Translator')
+			->setConstructorArgs(array($this->getMockLanguage(), $this->getMockDocument()))
+			->getMock();
+		$this->assertEquals($result, JHtmlNumber::bytes($bytes, $unit, $precision, $iec, $translator));
 	}
 }

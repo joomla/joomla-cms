@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Translator;
+
 /**
  * HTML helper class for rendering numbers.
  *
@@ -24,22 +26,24 @@ abstract class JHtmlNumber
 	 * However, one of the allowed unit types (viz. 'b', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB') may also be used instead.
 	 * IEC standard unit types ('KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB') can be used as well.
 	 *
-	 * @param   string   $bytes      The number of bytes. Can be either numeric or suffixed format: 32M, 60K, 12G or 812b
-	 * @param   string   $unit       The type of unit to return, few special values are:
-	 *                               Blank string '' for no unit,
-	 *                               'auto' to choose automatically (default)
-	 *                               'binary' to choose automatically but use binary unit prefix
-	 * @param   integer  $precision  The number of digits to be used after the decimal place.
-	 * @param   bool     $iec        Whether to be aware of IEC standards. IEC prefixes are always acceptable in input.
-	 *                               When IEC is ON:  KiB = 1024 B, KB = 1000 B
-	 *                               When IEC is OFF: KiB = 1024 B, KB = 1024 B
+	 * @param   string      $bytes       The number of bytes. Can be either numeric or suffixed format: 32M, 60K, 12G or 812b
+	 * @param   string      $unit        The type of unit to return, few special values are:
+	 *                                   Blank string '' for no unit,
+	 *                                   'auto' to choose automatically (default)
+	 *                                   'binary' to choose automatically but use binary unit prefix
+	 * @param   integer     $precision   The number of digits to be used after the decimal place.
+	 * @param   bool        $iec         Whether to be aware of IEC standards. IEC prefixes are always acceptable in input.
+	 *                                   When IEC is ON:  KiB = 1024 B, KB = 1000 B
+	 *                                   When IEC is OFF: KiB = 1024 B, KB = 1024 B
+	 *
+	 * @param   Translator  $translator  The translator.
 	 *
 	 * @return  string   The number of bytes in the proper units.
 	 *
 	 * @since   1.6
 	 * @link    https://en.wikipedia.org/wiki/Binary_prefix
 	 */
-	public static function bytes($bytes, $unit = 'auto', $precision = 2, $iec = false)
+	public static function bytes($bytes, $unit = 'auto', $precision = 2, $iec = false, Translator $translator = null)
 	{
 		/*
 		 * Allowed 123.45, 123.45 M, 123.45 Mi, 123.45 MB, 123.45 MiB, 1.2345E+12MB, 1.2345E+12 MB , 1.2345E+12 MiB etc.
@@ -105,8 +109,16 @@ abstract class JHtmlNumber
 			$suffix = $stdSuffixes[$i];
 		}
 
+		if (!$translator)
+		{
+			$translator = JFactory::getApplication()->getTranslator();
+		}
+
 		return number_format(
-			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')
+			round($oBytes / pow($base, $i), (int) $precision),
+			(int) $precision,
+			$translator->translate('DECIMALS_SEPARATOR'),
+			$translator->translate('THOUSANDS_SEPARATOR')
 		) . ' ' . $suffix;
 	}
 }
