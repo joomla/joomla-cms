@@ -57,8 +57,7 @@ class Json extends AbstractRegistryFormat
 	 */
 	public function stringToObject($data, array $options = array('processSections' => false))
 	{
-		$data = trim($data);
-
+		$data = trim(preg_replace('/\s\s+/', ' ', $data));
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}'))
 		{
 			return AbstractRegistryFormat::getInstance('Ini')->stringToObject($data, $options);
