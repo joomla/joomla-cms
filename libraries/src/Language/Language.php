@@ -831,7 +831,12 @@ class Language
 			ini_set('track_errors', true);
 		}
 
-		if (!function_exists('parse_ini_file'))
+		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
+		// issue it is solving
+		$disabledFunctions = explode(',', ini_get('disable_functions'));
+		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+
+		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($filename);
 			$contents = str_replace('_QQ_', '"\""', $contents);
