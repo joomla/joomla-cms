@@ -163,7 +163,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Remove sections of data marked as private in the privateSettings
 	 *
 	 * @param   array   $dataArray  Array with data tha may contain private informati
-	 * @param   string  $dataType   Type of data to search for an specific section in the privateSettings array
+	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
 	 *
