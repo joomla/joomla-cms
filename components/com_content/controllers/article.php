@@ -202,7 +202,7 @@ class ContentControllerArticle extends JControllerForm
 
 				if (JLanguageMultilang::isEnabled())
 				{
-					$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 				}
 
 				// Redirect to the general (redirect_menuitem) user specified return page.
