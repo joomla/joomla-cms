@@ -23,6 +23,14 @@ use Joomla\CMS\Language\LanguageHelper;
 class Controller extends BaseController
 {
 	/**
+	 * The default view for the display method.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $default_view = 'menus';
+
+	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
