@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
@@ -92,7 +93,7 @@ abstract class Factory
 	/**
 	 * Global document object
 	 *
-	 * @var    \JDocument
+	 * @var    Document
 	 * @since  11.1
 	 */
 	public static $document = null;
@@ -261,11 +262,11 @@ abstract class Factory
 	/**
 	 * Get a document object.
 	 *
-	 * Returns the global {@link \JDocument} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link \Joomla\CMS\Document\Document} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JDocument object
+	 * @return  Document object
 	 *
-	 * @see     \JDocument
+	 * @see     Document
 	 * @since   11.1
 	 */
 	public static function getDocument()
@@ -690,9 +691,9 @@ abstract class Factory
 	/**
 	 * Create a document object
 	 *
-	 * @return  \JDocument object
+	 * @return  Document object
 	 *
-	 * @see     \JDocument
+	 * @see     Document
 	 * @since   11.1
 	 */
 	protected static function createDocument()
@@ -713,7 +714,7 @@ abstract class Factory
 			'mediaversion' => $version->getMediaVersion(),
 		);
 
-		return \JDocument::getInstance($type, $attributes);
+		return Document::getInstance($type, $attributes);
 	}
 
 	/**
