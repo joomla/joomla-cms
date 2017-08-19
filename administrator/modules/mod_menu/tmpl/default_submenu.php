@@ -85,8 +85,6 @@ if ($current->get('link') === '#')
 	$link = '#collapse' . $this->tree->getCounter();
 }
 
-//var_dump($current->get('class'));
-
 if ($link != null && $current->get('target') != null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
