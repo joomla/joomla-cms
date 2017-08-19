@@ -60,9 +60,7 @@ class UsersViewGroups extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -119,8 +117,8 @@ class UsersViewGroups extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'a.title' => JText::_('COM_USERS_HEADING_GROUP_TITLE'),
-				'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.title' => JText::_('COM_USERS_HEADING_GROUP_TITLE'),
+			'a.id'    => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

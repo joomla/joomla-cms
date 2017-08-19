@@ -14,7 +14,7 @@ JLoader::register('PluginsHelper', JPATH_ADMINISTRATOR . '/components/com_plugin
 JFormHelper::loadFieldClass('list');
 
 /**
- * Plugin Type Field class for the Joomla Framework.
+ * Plugin Type field.
  *
  * @since  3.5
  */

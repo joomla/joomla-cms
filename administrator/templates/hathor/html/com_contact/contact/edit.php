@@ -31,6 +31,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 	}
 ");
+$fieldSets = $this->form->getFieldsets();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
 	<div class="col main-section">
@@ -173,6 +174,25 @@ JFactory::getDocument()->addScriptDeclaration("
 			</fieldset>
 
 			<?php echo $this->loadTemplate('params'); ?>
+
+			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+				<?php if ($name != 'details' && $name != 'display' && $name != 'item_associations' && $name != 'jmetadata' && $name != 'email') : ?>
+					<?php echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options'); ?>
+					<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+						<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+					<?php endif; ?>
+					<fieldset class="panelform">
+						<ul class="adminformlist">
+						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+							<li>
+								<?php echo $field->label; ?>
+								<?php echo $field->input; ?>
+							</li>
+						<?php endforeach; ?>
+						</ul>
+					</fieldset>
+				<?php endif ?>
+			<?php endforeach; ?>
 
 			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">

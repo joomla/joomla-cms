@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @see    https://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @link   https://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  * @since  12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
@@ -92,16 +92,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
-	}
-
-	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -134,7 +124,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
-			throw new JDatabaseExceptionConnecting('Database sqlsrv_connect failed');
+			throw new JDatabaseExceptionConnecting('Database sqlsrv_connect failed, ' . print_r(sqlsrv_errors(), true));
 		}
 
 		// Make sure that DB warnings are not returned as errors.

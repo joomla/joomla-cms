@@ -24,14 +24,14 @@
 			<field
 				name="logout"
 				type="modal_menu"
-				disable="separator,alias,heading,url"
 				label="JFIELD_LOGOUT_REDIRECT_PAGE_LABEL"
 				description="JFIELD_LOGOUT_REDIRECT_PAGE_DESC"
+				disable="separator,alias,heading,url"
 				select="true"
 				new="true"
 				edit="true"
 				clear="true"
-			>
+				>
 				<option value="">JDEFAULT</option>
 			</field>
 		</fieldset>

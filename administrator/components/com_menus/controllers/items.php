@@ -222,14 +222,15 @@ class MenusControllerItems extends JControllerAdmin
 			try
 			{
 				$model->publish($cid, $value);
-				$errors = $model->getErrors();
+				$errors      = $model->getErrors();
+				$messageType = 'message';
 
 				if ($value == 1)
 				{
 					if ($errors)
 					{
-						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+						$messageType = 'error';
+						$ntext       = $this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING';
 					}
 					else
 					{
@@ -245,7 +246,8 @@ class MenusControllerItems extends JControllerAdmin
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				$this->setMessage(JText::plural($ntext, count($cid)), $messageType);
+
 			}
 			catch (Exception $e)
 			{

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,21 +10,23 @@ window.insertReadmore = function(editor) {
 		return false;
 	}
 
-	var options, content;
+	var content, options = window.Joomla.getOptions('xtd-readmore');
 
-	options = window.parent.Joomla.getOptions('xtd-readmore');
-
-	content = (new Function('return ' + options.editor))();
+	if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
+		content = window.Joomla.editors.instances[editor].getValue();
+	} else {
+		content = (new Function('return ' + options.editor))();
+	}
 
 	if (content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
 		alert(options.exists);
 		return false;
 	} else {
 		/** Use the API, if editor supports it **/
-		if (window.Joomla && window.Joomla.editors && Joomla.editors.instances && Joomla.editors.instances.hasOwnProperty(editor)) {
-			Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />')
+		if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
+			window.Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
 		} else {
-			window.parent.jInsertEditorText('<hr id="system-readmore" />', editor);
+			window.jInsertEditorText('<hr id="system-readmore" />', editor);
 		}
 	}
 };

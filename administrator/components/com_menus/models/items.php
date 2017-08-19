@@ -44,6 +44,7 @@ class MenusModelItems extends JModelList
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'parent_id', 'a.parent_id',
 				'a.ordering'
 			);
 
@@ -89,9 +90,6 @@ class MenusModelItems extends JModelList
 		{
 			$this->context .= '.' . $forcedLanguage;
 		}
-
-		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-		$this->setState('filter.parent_id', $parentId);
 
 		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -160,6 +158,12 @@ class MenusModelItems extends JModelList
 		// Client id filter
 		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
 		$this->setState('filter.client_id', $clientId);
+
+		// Use a different filter file when client is administrator
+		if ($clientId == 1)
+		{
+			$this->filterFormName = 'filter_itemsadmin';
+		}
 
 		$this->setState('filter.menutype', $menuType);
 

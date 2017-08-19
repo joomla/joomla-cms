@@ -159,17 +159,17 @@ JFactory::getDocument()->addScriptDeclaration("
 				</ul>
 			</fieldset>
 		<?php  endif; ?>
-		<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
+		<?php  $fieldSets = $this->form->getFieldsets(); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 				<?php
 					// If the parameter says to show the article options or if the parameters have never been set, we will
 					// show the article options.
 
-					if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))):
+					if ($params['show_article_options'] || ($params['show_article_options'] == '' && !empty($editoroptions))):
 
 					// Go through all the fieldsets except the configuration and basic-limited, which are
 					// handled separately below.
-					if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+					if ($name != 'editorConfig' && $name != 'basic-limited' && $name != 'item_associations' && $name != 'jmetadata') : ?>
 						<?php echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options'); ?>
 						<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 							<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
