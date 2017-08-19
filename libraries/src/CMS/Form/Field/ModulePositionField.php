@@ -10,14 +10,13 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+FormHelper::loadFieldClass('text');
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 
-FormHelper::loadFieldClass('text');
-
-use Joomla\CMS\Application\ApplicationHelper;
 
 /**
  * Module Position field.
