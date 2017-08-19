@@ -8,8 +8,8 @@
 
 namespace Joomla\CMS\Controller;
 
-use Joomla\CMS\Mvc\Factory\LegacyFactory;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -130,7 +130,7 @@ class Controller extends \JObject
 	/**
 	 * The factory.
 	 *
-	 * @var    MvcFactoryInterface
+	 * @var    MVCFactoryInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $factory;
@@ -319,11 +319,11 @@ class Controller extends \JObject
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		$this->methods = array();
 		$this->message = null;
