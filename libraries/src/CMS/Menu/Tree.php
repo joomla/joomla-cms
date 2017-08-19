@@ -44,6 +44,13 @@ class Tree
 	protected $css = array();
 
 	/**
+	 * Counter
+	 *
+	 * @var  int
+	 */
+	protected static $counter = 0;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -173,6 +180,7 @@ class Tree
 		static $classes = array();
 
 		$identifier = $this->current->get('class');
+		$html       = '';
 
 		// Top level is special
 		if (trim($identifier) == '' || !$this->current->hasParent())
@@ -190,19 +198,19 @@ class Tree
 			// We were passed background icon url. Build the CSS class for the icon
 			else
 			{
+				if ($identifier == null)
+				{
+					return null;
+				}
+
 				$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
-
-				if ($class)
-				{
-					$this->css[] = ".menu-$class {background: url($identifier) no-repeat;}";
-				}
 			}
 
-			$classes[$identifier] = "menu-$class";
+			$html = 'fa fa-' . $class;
 		}
 
-		return $classes[$identifier];
+		return $html;
 	}
 
 	/**
@@ -215,5 +223,19 @@ class Tree
 	public function getCss()
 	{
 		return $this->css;
+	}
+
+	/**
+	 * Create unique identifier
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCounter()
+	{
+		self::$counter++;
+
+		return self::$counter;
 	}
 }

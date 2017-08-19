@@ -52,47 +52,48 @@ else
 echo '<li' . $class . ' role="menuitem">';
 
 // Print a link if it exists
-$linkClass     = array();
-$dataToggle    = '';
-$dropdownCaret = '';
+$linkClass  = [];
+$dataToggle = '';
+$iconClass  = '';
 
 if ($current->hasChildren())
 {
 	$linkClass[] = 'collapse-arrow';
 	$dataToggle  = ' data-toggle="dropdown"';
-
-	if ($current->getLevel() == 1)
-	{
-		$dropdownCaret = ' <span class="caret"></span>';
-	}
 }
 else
 {
 	$linkClass[] = 'no-dropdown';
 }
 
-if (!($current instanceof Separator) && ($current->getLevel() > 1))
-{
-	$iconClass = $this->tree->getIconClass();
-
-	if (trim($iconClass))
-	{
-		$linkClass[] = $iconClass;
-	}
-}
+$iconClass = $this->tree->getIconClass();
 
 // Implode out $linkClass for rendering
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 
-// Links: component/url/heading/container
-if ($link = $current->get('link'))
+if ($current->get('link') === '#')
 {
-	$target = $current->get('target') ? 'target="' . $current->get('target') . '"' : '';
-
-	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" ' . $target . '>' .
-				JText::_($current->get('title')) . ' ' . $current->get('icon') . $dropdownCaret . '</a>';
+	$link = '#collapse' . $this->tree->getCounter();
 }
-// Separator
+
+if ($current->get('link') != null && $current->get('target') != null)
+{
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $current->get('link') . "\" target=\"" . $current->get('target') . "\">" 
+		. '<span class="' . $iconClass . '"></span>'
+		. '<span class="sidebar-item-title">' . JText::_($current->get('title')) . "</span></a>";
+}
+elseif ($current->get('link') != null && $current->get('target') == null)
+{
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $current->get('link') . "\">"
+		. '<span class="' . $iconClass . '"></span>'
+		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
+}
+elseif ($current->get('title') != null && $current->get('class') != 'separator')
+{
+	echo "<a" . $linkClass . $dataToggle . ">"
+		. '<span class="' . $iconClass . '"></span>'
+		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
+}
 else
 {
 	echo '<span>' . JText::_($current->get('title')) . '</span>';
