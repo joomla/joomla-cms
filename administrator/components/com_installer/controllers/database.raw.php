@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Installer Database raw Controller
  *
@@ -39,20 +41,34 @@ class InstallerControllerDatabase extends JControllerLegacy
 		echo (new JResponseJson($result));
 	}
 
-	public function zip()
+	public function delete()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
 		{
 			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.path');
+
+		$app = JFactory::getApplication();
+
 		$hash = $this->input->get('hash');
 
-		$model = $this->getModel('database');
+		if (StringHelper::strlen($hash) != 20)
+		{
+			return;
+		}
 
-		$result = $model->zip($hash);
+		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
+		$dump = JPath::check($path . '/' . $hash . '.php');
 
-		echo (new JResponseJson($result));
+		$file = JPath::check($dump);
+
+		if (JFile::exists($path))
+		{
+			JFile::delete($file);
+		}
 	}
 
 	public function download()
@@ -71,19 +87,19 @@ class InstallerControllerDatabase extends JControllerLegacy
 		$hash = $this->input->get('hash');
 
 		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
-		$zipfile = JPath::check($path . '/' . $hash . '.zip');
+		$dump = JPath::check($path . '/' . $hash . '.php');
 
-		if (!JFile::exists($zipfile))
+		if (StringHelper::strlen($hash) != 20 || !JFile::exists($dump))
 		{
 			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
 		}
 
-		$handle = fopen($zipfile, 'rb');
+		$handle = fopen($dump, 'rb');
 
 		JFactory::getApplication()->setHeader('Pragma', 'public')
-			->setHeader('Content-Type', 'application/zip')
-			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '.zip')
-			->setHeader('Content-Length', filesize($zipfile));
+			->setHeader('Content-Type', 'application/sql')
+			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '.sql')
+			->setHeader('Content-Length', filesize($dump));
 
 		$sizelimit = 1024 * 1024;
 
@@ -94,7 +110,7 @@ class InstallerControllerDatabase extends JControllerLegacy
 
 		fclose($handle);
 
-		JFile::delete($zipfile);
+		JFile::delete($dump);
 
 	}
 }

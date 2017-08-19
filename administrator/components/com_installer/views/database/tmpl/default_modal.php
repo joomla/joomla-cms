@@ -23,6 +23,7 @@ $js = "
 			.on('hidden', function()
 			{
 				progress.width('0%');
+				progress.removeClass('bar-success bar-danger').addClass('bar-primary');
 			});
 
 			var generateDump = function(hash)
@@ -47,7 +48,9 @@ $js = "
 						}
 						else
 						{
-							generateZip(data.data.hash);
+							progress.removeClass('bar-primary bar-primary').addClass('bar-success');
+
+							location.href = 'index.php?option=com_installer&view=database&task=database.download&format=raw&hash=' + hash;
 						}
 					}
 				}).
@@ -55,37 +58,16 @@ $js = "
 				{
 					$('#installer-dump-modal').modal('hide');
 
-					// @TODO delete files
-				});
-			};
+					progress.removeClass('bar-success bar-primary').addClass('bar-danger');
 
-			var generateZip = function(hash)
-			{
-				if (typeof hash == 'undefined')
-				{
-					$('#installer-dump-modal').modal('hide');
+					var deletelink = 'index.php?option=com_installer&view=database&task=database.delete&format=raw';
 
-					return false;
-				}
-
-				var link = 'index.php?option=com_installer&view=database&task=database.zip&format=raw&hash=' + hash;
-				var download = 'index.php?option=com_installer&view=database&task=database.download&format=raw&hash=' + hash;
-
-				$.getJSON(link)
-				.done(function(data)
-				{
-					if (data.success)
+					if (typeof hash !== 'undefined')
 					{
-						$('#installer-dump-modal').modal('hide');
+						deletelink += '&hash=' + hash;
 
-						location.href = download;
+						$.getJSON(deletelink);
 					}
-				}).
-				fail(function()
-				{
-					$('#installer-dump-modal').modal('hide');
-
-					// @TODO delete files
 				});
 			};
 		});
@@ -99,7 +81,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 	<div class="row-fluid">
 		<div class="span12">
 			<div class="progress progress-striped active">
-				<div id="dump-progress" class="bar bar-success" style=""></div>
+				<div id="dump-progress" class="bar bar-primary" style=""></div>
 			</div>
 		</div>
 	</div>

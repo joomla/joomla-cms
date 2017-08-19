@@ -215,53 +215,6 @@ class InstallerModelDatabase extends InstallerModel
 		return $result;
 	}
 
-	public function zip($hash)
-	{
-		jimport('joomla.filesystem.path');
-		jimport('joomla.filesystem.file');
-
-		$app = JFactory::getApplication();
-
-		if (StringHelper::strlen($hash) != 20)
-		{
-			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-
-		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
-
-		if (!is_writable($path))
-		{
-			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
-		}
-
-		$file = JPath::check($path . '/' . $hash . '.php');
-
-		if (!JFile::exists($file))
-		{
-			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
-		}
-
-		$archive = new ZipArchive;
-
-		$zipfile = JPath::check($path . '/' . $hash . '.zip');
-
-		$archive->open($zipfile, ZipArchive::CREATE);
-
-		$filename = JApplicationHelper::stringURLSafe($app->get('db')) . '.sql';
-
-		$archive->addFile($file, $filename);
-
-		$archive->close();
-
-		JFile::delete($file);
-
-		$result = array(
-			'hash' => $hash
-		);
-
-		return $result;
-	}
-
 	protected function prepareDump($hash)
 	{
 		$app = JFactory::getApplication();
