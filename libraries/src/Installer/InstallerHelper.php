@@ -333,4 +333,47 @@ abstract class InstallerHelper
 
 		return $db->splitSql($query);
 	}
+
+		/**
+	 * Return the result of the checksum of a package and the SHA1/MD5 tags in the update server manifest
+	 *
+	 * @param   string     $packagefile           Location of the package to be installed
+	 * @param   Installer  $updateServerManifest  Update Server manifest
+	 *
+	 * @return  mixed  boolean if the hashes match, null if hashes not found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isChecksumValid($packagefile, $updateServerManifest)
+	{
+		$hashes     = array("sha256", "sha1", "md5");
+		$hashOnFile = false;
+
+		$update     = new \JUpdate;
+		$update->loadFromXml($updateServerManifest);
+
+		foreach ($hashes as $hash)
+		{
+			
+			if ($update->get($hash, false))
+			{
+				$hash_package = hash_file($hash, $packagefile);
+				$hash_remote  = $update->$hash->_data;
+
+				$hashOnFile = true;
+
+				if ($hash_package !== $hash_remote)
+				{
+					return false;
+				}
+			}
+		}
+
+		if ($hashOnFile)
+		{
+			return true;
+		}
+
+		return null;
+	}
 }
