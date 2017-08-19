@@ -78,7 +78,7 @@ $link      = $current->get('link');
 
 // Get the menu icon
 $icon      = $this->tree->getIconClass();
-$iconClass = $icon != '' ? '<span class="' . $icon . '"></span>' : '';
+$iconClass = ($icon != '' && $current->getLevel() == 1) ? '<span class="' . $icon . '"></span>' : '';
 
 if ($current->get('link') === '#')
 {
