@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Helper for mod_sampledata
  *
@@ -26,8 +28,7 @@ abstract class ModSampledataHelper
 	public static function getList()
 	{
 		JPluginHelper::importPlugin('sampledata');
-		$dispatcher = JEventDispatcher::getInstance();
-		$data = $dispatcher->trigger('onSampledataGetOverview', array('test', 'foo'));
+		$data = Factory::getApplication()->triggerEvent('onSampledataGetOverview', array('test', 'foo'));
 
 		return $data;
 	}
