@@ -76,7 +76,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
 		<dl class="contact-position dl-horizontal">
-		<dt><?php echo JText::_('COM_CONTACT_POSITION') ;?>:</dt>
+		<dt><?php echo JText::_('COM_CONTACT_POSITION'); ?>:</dt>
 			<dd>
 				<?php echo $this->contact->con_position; ?>
 			</dd>
