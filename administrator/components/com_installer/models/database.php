@@ -219,6 +219,15 @@ class InstallerModelDatabase extends InstallerModel
 		return $result;
 	}
 
+	/**
+	 * Initialize the dump file and set the session values
+	 *
+	 * @param   string  $hash  A unique hash to generate the dump in multiple steps
+	 *
+	 * return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected function prepareDump($hash)
 	{
 		$app = JFactory::getApplication();
