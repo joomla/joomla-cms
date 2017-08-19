@@ -111,7 +111,8 @@ if ($this->enabled && $current->hasChildren())
 	}
 	else
 	{
-		echo '<ul class="nav panel-collapse collapse-level-1 collapse">' . "\n";
+		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
+		   <li>' . JText::_($current->get('title')) . '<a href="#" class="close"><span aria-label="Close Menu">×</span></a></li>' . "\n";
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

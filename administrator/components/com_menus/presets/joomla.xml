@@ -55,39 +55,18 @@
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=users">
-			<menuitem
-				title="MOD_MENU_COM_USERS_ADD_USER"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;task=user.add"
-				scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 			title="MOD_MENU_COM_USERS_GROUPS"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=groups">
-			<menuitem
-				title="MOD_MENU_COM_USERS_ADD_GROUP"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;task=group.add"
-				scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 			title="MOD_MENU_COM_USERS_LEVELS"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=levels">
-			<menuitem
-				title="MOD_MENU_COM_USERS_ADD_LEVEL"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;task=level.add"
-				scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 			type="separator"
@@ -97,26 +76,12 @@
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=notes">
-			<menuitem
-				title="MOD_MENU_COM_USERS_ADD_NOTE"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;task=note.add"
-				scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
 			type="component"
 			element="com_categories"
 			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
-			<menuitem
-				title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
-				type="component"
-				element="com_categories"
-				link="index.php?option=com_categories&amp;task=category.add&amp;extension=com_users"
-				scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 			title="MOD_MENU_FIELDS"
@@ -235,26 +200,12 @@
 			type="component"
 			element="com_content"
 			link="index.php?option=com_content">
-			<menuitem
-				title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
-				type="component"
-				element="com_content"
-				link="index.php?option=com_content&amp;task=article.add"
-				scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
 			type="component"
 			element="com_categories"
 			link="index.php?option=com_categories&amp;extension=com_content">
-			<menuitem
-				title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
-				type="component"
-				element="com_categories"
-				link="index.php?option=com_categories&amp;task=category.add&amp;extension=com_content"
-				scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 			title="MOD_MENU_FIELDS"
