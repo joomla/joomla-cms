@@ -50,7 +50,7 @@
 			type="package"
 			onchange="this.form.submit();"
 			>
-			<option value="">COM_INSTALLER_VALUE_PACKAGE_SELECT</option>
+			<option value="">JGLOBAL_FILTER_PACKAGE</option>
 		</field>
 	</fields>
 
