@@ -138,8 +138,9 @@
 
     }
 
-    a:not([href]):not([tabindex]) {
-      color: $white;
+    &.menuitem-group a:hover {
+      cursor: text;
+      background: none;
     }
 
     ul {
@@ -232,6 +233,7 @@
       display: none;
     }
 
+    .menuitem-group,
     > li:first-of-type {
       margin: 6px 0 0;
       color: rgba($white, .7);
