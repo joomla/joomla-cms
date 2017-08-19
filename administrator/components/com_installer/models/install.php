@@ -170,6 +170,27 @@ class InstallerModelInstall extends JModelLegacy
 			}
 		}
 
+		// Check the package
+		$children = $installer->manifest->updateservers->children();
+
+		foreach ($children as $child)
+		{
+			$check = JInstallerHelper::isChecksumValid($package['packagefile'], (string) $child);
+
+			if ($check === null)
+			{
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
+			}
+			elseif ($check === false)
+			{
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+			}
+			else
+			{
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+			}
+		}
+
 		// Was the package unpacked?
 		if (!$package || !$package['type'])
 		{
