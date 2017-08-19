@@ -224,7 +224,7 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @param   string  $hash  A unique hash to generate the dump in multiple steps
 	 *
-	 * return void
+	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
