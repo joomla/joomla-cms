@@ -54,6 +54,8 @@ class InstallerModelDatabase extends InstallerModel
 	 * Fixes database problems.
 	 *
 	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function fix()
 	{
@@ -89,6 +91,8 @@ class InstallerModelDatabase extends InstallerModel
 	 * @return string  The dump string
 	 *
 	 * @throws RuntimeException
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function dump($hash = '')
 	{

@@ -24,6 +24,8 @@ class InstallerControllerDatabase extends JControllerLegacy
 	 * @return  void
 	 *
 	 * @throws JAccessExceptionNotallowed
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function dump()
 	{
@@ -41,6 +43,15 @@ class InstallerControllerDatabase extends JControllerLegacy
 		echo (new JResponseJson($result));
 	}
 
+	/**
+	 * Delete a (broken) dump
+	 *
+	 * @return  void
+	 *
+	 * @throws JAccessExceptionNotallowed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function delete()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
@@ -71,6 +82,15 @@ class InstallerControllerDatabase extends JControllerLegacy
 		}
 	}
 
+	/**
+	 * Download a finished dump
+	 *
+	 * @return  void
+	 *
+	 * @throws JAccessExceptionNotallowed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function download()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
