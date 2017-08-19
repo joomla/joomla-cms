@@ -16,8 +16,6 @@ use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('groupedlist');
 
-use Joomla\CMS\Application\ApplicationHelper;
-
 /**
  * Supports a select grouped list of template styles
  *
