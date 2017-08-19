@@ -59,7 +59,11 @@ $iconClass  = '';
 if ($current->hasChildren())
 {
 	$linkClass[] = 'collapse-arrow';
-	$dataToggle  = ' data-toggle="dropdown"';
+
+	if ($current->getLevel() > 2)
+	{
+		$dataToggle  = ' data-toggle="dropdown"';
+	}
 }
 else
 {
