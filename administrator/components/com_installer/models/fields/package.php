@@ -14,7 +14,7 @@ JLoader::register('InstallerHelper', JPATH_ADMINISTRATOR . '/components/com_inst
 JFormHelper::loadFieldClass('list');
 
 /**
- * Type field.
+ * Package Type field.
  *
  * @since  __DEPLOY_VERSION__
  */
