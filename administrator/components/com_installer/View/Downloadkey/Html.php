@@ -81,7 +81,6 @@ class Html extends HtmlView
 		$userId     = $user->id;
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
-		// Since we don't track these assets at the item level, use the category id.
 		$canDo = \JHelperContent::getActions('com_installer', 'downloadkey');
 
 		\JToolbarHelper::title(\JText::_('COM_INSTALLER_DOWNLOADKEY_EDIT_TITLE'), 'bookmark downloadkeys');

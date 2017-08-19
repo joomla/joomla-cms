@@ -69,10 +69,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<tbody>
 						<?php $itemsSkipped = 0; ?>
 						<?php foreach ($this->items as $i => $item) : ?>
-							<?php if ($item->extra_query == null): ?>
+							<?php if ($item->extra_query == null) : ?>
 								<?php $itemsSkipped++; ?>
 								<?php continue; ?>
-							<?php endif;?>
+							<?php endif; ?>
 
 							<tr class="row<?php echo ($i + $itemsSkipped) % 2; ?>">
 								<td class="text-center">

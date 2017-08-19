@@ -27,7 +27,7 @@ if ($this->modal != null)
 			<legend><?php echo JText::_('COM_INSTALLER_DOWNLOADKEY_EDIT_DETAILS'); ?></legend>
 			<div class="row">
 				<div class="col">
-					<?php foreach ($this->form->getFieldset() as $field): ?>
+					<?php foreach ($this->form->getFieldset() as $field) : ?>
 						<div class="control-group">
 							<div class="control-label"><?php echo $field->label; ?></div>
 							<div class="controls"><?php echo $field->input; ?></div>
