@@ -69,8 +69,12 @@ else
 // Implode out $linkClass for rendering
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 
+// Get the menu link
 $link      = $current->get('link');
-$iconClass = $this->tree->getIconClass();
+
+// Get the menu icon
+$icon      = $this->tree->getIconClass();
+$iconClass = $icon != '' ? '<span class="' . $icon . '"></span>' : '';
 
 if ($current->get('link') === '#')
 {
@@ -80,19 +84,19 @@ if ($current->get('link') === '#')
 if ($link != null && $current->get('target') != null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
-		. '<span class="' . $iconClass . '"></span>'
+		. $iconClass
 		. '<span class="sidebar-item-title">' . JText::_($current->get('title')) . "</span></a>";
 }
 elseif ($link != null && $current->get('target') == null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
-		. '<span class="' . $iconClass . '"></span>'
+		. $iconClass
 		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
 }
 elseif ($current->get('title') != null && $current->get('class') != 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . ">"
-		. '<span class="' . $iconClass . '"></span>'
+		. $iconClass
 		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
 }
 else

@@ -177,8 +177,8 @@ Joomla = window.Joomla || {};
 			}
 
 			// Menu close 
-			for(var i=0;i<subMenuClose.length;i++){
-				subMenuClose[i].addEventListener('click', function(e) {
+			for (var i = 0; i < subMenuClose.length; i++) {
+				subMenuClose[i].addEventListener('click', function() {
 					var menuChildOpen = mainNav.querySelectorAll('.open');
 
 					for (var i = 0; i < menuChildOpen.length; i++) {
@@ -192,7 +192,11 @@ Joomla = window.Joomla || {};
 			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
 			for (var i = 0; i < allLiEl.length; i++) {
 				// We care for enter and space
-				allLiEl[i].addEventListener('keyup', function(e) { if (e.keyCode == 32 || e.keyCode == 13 ) e.target.querySelector('a').click(); });
+				allLiEl[i].addEventListener('keyup', function(e) { 
+					if (e.keyCode == 32 || e.keyCode == 13) {
+						e.target.querySelector('a').click();
+					}
+				});
 			}
 
 			// Set the height of the menu to prevent overlapping
@@ -224,8 +228,6 @@ Joomla = window.Joomla || {};
 				document.getElementsByClassName('wrapper')[0].style.paddingLeft = '0';
 			}
 		}
-
-
 
 		/**
 		 * Turn radios into btn-group
