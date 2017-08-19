@@ -389,7 +389,6 @@ class InstallerModelUpdate extends JModelList
 	 * Handles the actual update installation.
 	 *
 	 * @param   JUpdate  $update     An update definition
-	 *
 	 * @param   string   $updateurl  Update Server manifest
 	 *
 	 * @return  boolean   Result of install
@@ -437,6 +436,7 @@ class InstallerModelUpdate extends JModelList
 
 		// Check the package
 		$check = JInstallerHelper::isChecksumValid($package['packagefile'], (string) $updateurl);
+
 		if ($check === null)
 		{
 			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
