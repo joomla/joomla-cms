@@ -42,6 +42,7 @@ class PluginsModelPlugins extends JModelList
 				'access', 'a.access', 'access_level',
 				'ordering', 'a.ordering',
 				'client_id', 'a.client_id',
+				'package_id',
 			);
 		}
 
@@ -78,6 +79,9 @@ class PluginsModelPlugins extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string');
 		$this->setState('filter.language', $language);
 
+		$packageId = $this->getUserStateFromRequest($this->context . '.filter.package_id', 'filter_package_id', '', 'cmd');
+		$this->setState('filter.package_id', $packageId);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_plugins');
 		$this->setState('params', $params);
@@ -105,6 +109,7 @@ class PluginsModelPlugins extends JModelList
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.package_id');
 
 		return parent::getStoreId($id);
 	}
@@ -261,6 +266,14 @@ class PluginsModelPlugins extends JModelList
 		if ($folder = $this->getState('filter.folder'))
 		{
 			$query->where('a.folder = ' . $db->quote($folder));
+		}
+
+		// Filter by package id.
+		$packageId = $this->getState('filter.package_id');
+		if ($packageId != '')
+		{
+			$query->select((int) $packageId . ' AS search_package_id')
+						->where('package_id = ' . (int) $packageId);
 		}
 
 		// Filter by search in name or id.
