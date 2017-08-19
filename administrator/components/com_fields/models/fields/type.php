@@ -68,25 +68,6 @@ class JFormFieldType extends JFormFieldList
 			}
 		);
 
-		// Reload the page when the type changes
-		$uri = clone JUri::getInstance('index.php');
-
-		// Removing the catid parameter from the actual URL and set it as
-		// return
-		$returnUri = clone JUri::getInstance();
-		$returnUri->setVar('catid', null);
-		$uri->setVar('return', base64_encode($returnUri->toString()));
-
-		// Setting the options
-		$uri->setVar('option', 'com_fields');
-		$uri->setVar('task', 'field.storeform');
-		$uri->setVar('context', 'com_fields.field');
-		$uri->setVar('formcontrol', $this->form->getFormControl());
-		$uri->setVar('userstatevariable', 'com_fields.edit.field.data');
-		$uri->setVar('view', null);
-		$uri->setVar('layout', null);
-
-
 		JFactory::getDocument()->addScriptDeclaration("
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
@@ -94,11 +75,11 @@ class JFormFieldType extends JFormFieldList
 			function typeHasChanged(element){
 				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
-				jQuery('input[name=task]').val('field.storeform');
-				element.form.action='" . $uri . "';
+				jQuery('input[name=task]').val('field.reload');
 				element.form.submit();
 			}
-		");
+		"
+		);
 
 		return $options;
 	}
