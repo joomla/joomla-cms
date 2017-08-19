@@ -104,7 +104,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -449,7 +449,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -493,7 +493,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');

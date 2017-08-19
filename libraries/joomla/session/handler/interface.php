@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @since  3.5
+ * @since       3.5
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 interface JSessionHandlerInterface
 {

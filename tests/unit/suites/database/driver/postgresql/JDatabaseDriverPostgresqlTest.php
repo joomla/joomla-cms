@@ -111,6 +111,10 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function dataTestQuoteName()
 	{
 		return array(
+			/* test escape double quote */
+			array('protected`title', null, '"protected`title"'),
+			array('protected"title', null, '"protected""title"'),
+			array('protected]title', null, '"protected]title"'),
 			/* no dot inside var */
 			array('jos_dbtest', null, '"jos_dbtest"'),
 			/* a dot inside var */
@@ -252,7 +256,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testGetCollation()
 	{
-		$this->assertContains('UTF-8', self::$driver->getCollation());
+		$this->assertNotEmpty(self::$driver->getCollation());
 	}
 
 	/**
@@ -482,9 +486,9 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function testGetVersion()
 	{
 		$versionRow = self::$driver->setQuery('SELECT version();')->loadRow();
-		$versionArray = explode(' ', $versionRow[0]);
+		preg_match('/((\d+)\.)((\d+)\.)(\*|\d+)/', $versionRow[0], $versionArray);
 
-		$this->assertGreaterThanOrEqual($versionArray[1], self::$driver->getVersion());
+		$this->assertGreaterThanOrEqual($versionArray[0], self::$driver->getVersion());
 	}
 
 	/**

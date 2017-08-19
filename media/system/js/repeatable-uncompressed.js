@@ -40,7 +40,7 @@
  * 			<thead>
  * 				<tr>
  * 					<th>Field label 1</th>
- * 					<th>Field lable 2</th>
+ * 					<th>Field label 2</th>
  * 					<th><a href="#" class="add">Add new</a></th>
  * 				</tr>
  * 			</thead>

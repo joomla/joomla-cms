@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Ldap\LdapClient;
+
 /**
  * LDAP Authentication Plugin
  *
@@ -54,7 +56,7 @@ class PlgAuthenticationLdap extends JPlugin
 		$ldap_uid      = $this->params->get('ldap_uid');
 		$auth_method   = $this->params->get('auth_method');
 
-		$ldap = new JClientLdap($this->params);
+		$ldap = new LdapClient($this->params);
 
 		if (!$ldap->connect())
 		{

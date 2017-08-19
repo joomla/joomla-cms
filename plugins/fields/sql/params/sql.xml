@@ -9,6 +9,7 @@
 				label="PLG_FIELDS_SQL_PARAMS_QUERY_LABEL"
 				description="PLG_FIELDS_SQL_PARAMS_QUERY_DESC"
 				rows="10"
+				required="true"
 			/>
 
 			<field

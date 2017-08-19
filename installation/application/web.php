@@ -250,7 +250,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Returns the language code and help url set in the localise.xml file.
+	 * Returns the language code and help URL set in the localise.xml file.
 	 * Used for forcing a particular language in localised releases.
 	 *
 	 * @return  mixed  False on failure, array on success.

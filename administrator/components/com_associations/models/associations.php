@@ -369,8 +369,7 @@ class AssociationsModelAssociations extends JModelList
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$tableAlias = in_array($extensionName, array('com_menus', 'com_categories')) ? 'a' : 'c';
-			$query->where($db->qn($tableAlias . '.level') . ' <= ' . ((int) $level + (int) $baselevel - 1));
+			$query->where($db->qn('a.level') . ' <= ' . ((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by menu type.

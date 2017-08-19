@@ -1929,11 +1929,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			if (strlen($q) == 1)
 			{
-				$parts[] = $q . $part . $q;
+				$parts[] = $q . str_replace($q, $q . $q, $part) . $q;
 			}
 			else
 			{
-				$parts[] = $q{0} . $part . $q{1};
+				$parts[] = $q{0} . str_replace($q{1}, $q{1} . $q{1}, $part) . $q{1};
 			}
 		}
 

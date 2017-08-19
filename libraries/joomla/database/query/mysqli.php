@@ -29,6 +29,47 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	protected $limit;
 
 	/**
+	 * Magic function to convert the query to a string.
+	 *
+	 * @return  string  The completed query.
+	 *
+	 * @since   11.1
+	 */
+	public function __toString()
+	{
+		switch ($this->type)
+		{
+			case 'select':
+				if ($this->selectRowNumber)
+				{
+					$orderBy      = $this->selectRowNumber['orderBy'];
+					$tmpOffset    = $this->offset;
+					$tmpLimit     = $this->limit;
+					$this->offset = 0;
+					$this->limit  = 0;
+					$tmpOrder     = $this->order;
+					$this->order  = null;
+					$query        = parent::__toString();
+					$this->order  = $tmpOrder;
+					$this->offset = $tmpOffset;
+					$this->limit  = $tmpLimit;
+
+					// Add support for second order by, offset and limit
+					$query = PHP_EOL . 'SELECT * FROM (' . $query . PHP_EOL . "ORDER BY $orderBy" . PHP_EOL . ') w';
+
+					if ($this->order)
+					{
+						$query .= (string) $this->order;
+					}
+
+					return $this->processLimit($query, $this->limit, $this->offset);
+				}
+		}
+
+		return parent::__toString();
+	}
+
+	/**
 	 * Method to modify a query already in string format with the needed
 	 * additions to make the query limited to a particular number of
 	 * results, or start at a particular offset.
@@ -143,23 +184,21 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	}
 
 	/**
-	 * Find a value in a varchar used like a set.
+	 * Return the number of the current row.
 	 *
-	 * Ensure that the value is an integer before passing to the method.
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
 	 *
-	 * Usage:
-	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
-	 *
-	 * @param   string  $value  The value to search for.
-	 *
-	 * @param   string  $set    The set of values.
-	 *
-	 * @return  string  Returns the find_in_set() Mysql translation.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   3.7.0
+	 * @throws  RuntimeException
 	 */
-	public function findInSet($value, $set)
+	public function selectRowNumber($orderBy, $orderColumnAlias)
 	{
-		return ' find_in_set(' . $value . ', ' . $set . ')';
+		$this->validateRowNumber($orderBy, $orderColumnAlias);
+		$this->select("(SELECT @rownum := @rownum + 1 FROM (SELECT @rownum := 0) AS r) AS $orderColumnAlias");
+
+		return $this;
 	}
 }

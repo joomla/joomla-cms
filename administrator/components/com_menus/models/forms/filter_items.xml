@@ -17,7 +17,7 @@
 		description="JOPTION_FILTER_CATEGORY_DESC"
 		accesstype="manage"
 		clientid=""
-		showAll="true"
+		showAll="false"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>

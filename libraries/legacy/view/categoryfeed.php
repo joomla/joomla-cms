@@ -67,6 +67,12 @@ class JViewCategoryfeed extends JViewLegacy
 		$items    = $this->get('Items');
 		$category = $this->get('Category');
 
+		// Don't display feed if category id missing or non existent
+		if ($category == false || $category->alias == "root")
+		{
+			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
+
 		foreach ($items as $item)
 		{
 			$this->reconcileNames($item);

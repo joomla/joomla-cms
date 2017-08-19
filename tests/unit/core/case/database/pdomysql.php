@@ -113,7 +113,12 @@ abstract class TestCaseDatabasePdomysql extends TestCaseDatabase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		static::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
@@ -125,12 +130,13 @@ abstract class TestCaseDatabasePdomysql extends TestCaseDatabase
 	 */
 	protected function getConnection()
 	{
-		// Compile the connection DSN.
-		$dsn = 'mysql:host=' . self::$_options['host'] . ';dbname=' . self::$_options['database'];
+		if (static::$driver === null)
+		{
+			static::fail('Could not fetch a database driver to establish the connection.');
+		}
 
-		// Create the PDO object from the DSN and options.
-		$pdo = new PDO($dsn, self::$_options['user'], self::$_options['password']);
+		static::$driver->connect();
 
-		return $this->createDefaultDBConnection($pdo, self::$_options['database']);
+		return $this->createDefaultDBConnection(static::$driver->getConnection(), self::$_options['database']);
 	}
 }

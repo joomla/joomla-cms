@@ -26,12 +26,13 @@ class FieldsHelper
 	 * be in the format component.context.
 	 *
 	 * @param   string  $contextString  contextString
+	 * @param   object  $item           optional item object
 	 *
 	 * @return  array|null
 	 *
 	 * @since   3.7.0
 	 */
-	public static function extract($contextString)
+	public static function extract($contextString, $item = null)
 	{
 		$parts = explode('.', $contextString, 2);
 
@@ -53,7 +54,7 @@ class FieldsHelper
 
 			if (class_exists($cName) && is_callable(array($cName, 'validateSection')))
 			{
-				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1]));
+				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1], $item));
 
 				if ($section)
 				{
@@ -74,7 +75,7 @@ class FieldsHelper
 	 * Should the value being prepared to be shown in an HTML context then
 	 * prepareValue must be set to true. No further escaping needs to be done.
 	 * The values of the fields can be overridden by an associative array where the keys
-	 * can be an id or an alias and it's corresponding value.
+	 * has to be an id or an alias and it's corresponding value.
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
@@ -141,9 +142,7 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-					'ignore_request' => true)
-				);
+				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 			}
 
 			$new = array();
@@ -305,7 +304,7 @@ class FieldsHelper
 			$uri = clone JUri::getInstance('index.php');
 
 			/*
-			 * Removing the catid parameter from the actual url and set it as
+			 * Removing the catid parameter from the actual URL and set it as
 			 * return
 			*/
 			$returnUri = clone JUri::getInstance();
@@ -356,7 +355,7 @@ class FieldsHelper
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
 		$fieldsNode = $xml->appendChild(new DOMElement('form'))->appendChild(new DOMElement('fields'));
-		$fieldsNode->setAttribute('name', 'params');
+		$fieldsNode->setAttribute('name', 'com_fields');
 
 		// Organizing the fields according to their group
 		$fieldsPerGroup = array(
@@ -431,7 +430,7 @@ class FieldsHelper
 						$key = 'JGLOBAL_FIELDS';
 					}
 
-					$label = JText::_($key);
+					$label = $key;
 				}
 
 				if (!$description)
@@ -440,7 +439,7 @@ class FieldsHelper
 
 					if ($lang->hasKey($key))
 					{
-						$description = JText::_($key);
+						$description = $key;
 					}
 				}
 			}
@@ -480,9 +479,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-				'ignore_request' => true)
-		);
+		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isClient('site'))
@@ -509,7 +506,7 @@ class FieldsHelper
 			if (!is_array($value) && $value !== '')
 			{
 				// Function getField doesn't cache the fields, so we try to do it only when necessary
-				$formField = $form->getField($field->alias, 'params');
+				$formField = $form->getField($field->alias, 'com_fields');
 
 				if ($formField && $formField->forceMultiple)
 				{
@@ -518,7 +515,7 @@ class FieldsHelper
 			}
 
 			// Setting the value on the field
-			$form->setValue($field->alias, 'params', $value);
+			$form->setValue($field->alias, 'com_fields', $value);
 		}
 
 		return true;

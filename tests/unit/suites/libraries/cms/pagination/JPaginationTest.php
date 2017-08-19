@@ -192,7 +192,7 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
-	 * This method tests the getAdditionalUrlParam function by setting a url with Reflection then retrieving it.
+	 * This method tests the getAdditionalUrlParam function by setting a URL with Reflection then retrieving it.
 	 *
 	 * @return  void
 	 *

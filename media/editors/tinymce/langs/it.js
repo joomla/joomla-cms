@@ -214,6 +214,17 @@ tinymce.addI18n('it',{
 "Custom...": "Personalizza...",
 "Custom color": "Personalizz colore",
 "No color": "Nessun colore",
+"Id": "Id",
+"Id should start with a letter, followed only by letters, numbers, dashes, dots, colons or underscores.": "L'Id dovrebbe iniziare con una lettera, seguita solo da lettere, numeri, trattini, due punti, virgole o underscore.",
+"Insert/Edit code sample": "Inserisci/Modifica codice di esempio",
+"Language": "Lingua",
+"Image": "Immagine",
+"Date/time": "Data/ora",
+"Link": "Link",
+"Paste or type a link": "Incolla o scrivi un link",
+"Insert/Edit Media": "Inserisci/Modifica Media",
+"Media": "Media",
+"Table of Contents": "Tabella di contenuti",
 "The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?": "L'URL inserito sembra essere un collegamento esterno. Vuoi aggiungere il prefisso necessario http:\/\/?",
 "The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "L'URL inserito sembra essere un indirizzo email. Vuoi aggiungere il prefisso necessario mailto:?"
 });

@@ -197,7 +197,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			if ($extension)
 			{
-				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
+				$source = $path ?: ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
 				$folder = (string) $this->getManifest()->files->attributes()->folder;
 
 				if ($folder && file_exists($path . '/' . $folder))

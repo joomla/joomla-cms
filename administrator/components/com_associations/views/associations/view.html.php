@@ -128,7 +128,7 @@ class AssociationsViewAssociations extends JViewLegacy
 					unset($this->activeFilters['state']);
 					$this->filterForm->removeField('state', 'filter');
 				}
-				if ($type !== 'category')
+				if (empty($support['category']))
 				{
 					unset($this->activeFilters['category_id']);
 					$this->filterForm->removeField('category_id', 'filter');
@@ -138,7 +138,7 @@ class AssociationsViewAssociations extends JViewLegacy
 					unset($this->activeFilters['menutype']);
 					$this->filterForm->removeField('menutype', 'filter');
 				}
-				if (!in_array($extensionName, array('com_categories', 'com_menus')))
+				if (empty($support['level']))
 				{
 					unset($this->activeFilters['level']);
 					$this->filterForm->removeField('level', 'filter');
@@ -213,7 +213,7 @@ class AssociationsViewAssociations extends JViewLegacy
 		{
 			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract');
 		}
-	
+
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
 		{
 			if (!isset($this->typeName))

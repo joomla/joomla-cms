@@ -95,7 +95,14 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (!$mediaHelper->canUpload($file, 'com_media'))
 			{
-				JLog::add('Invalid: ' . $filepath, JLog::INFO, 'upload');
+				try
+				{
+					JLog::add('Invalid: ' . $filepath, JLog::INFO, 'upload');
+				}
+				catch (RuntimeException $exception)
+				{
+					// Informational log only
+				}
 
 				$response = array(
 					'status'  => '0',
@@ -118,7 +125,18 @@ class MediaControllerFile extends JControllerLegacy
 			if (in_array(false, $result, true))
 			{
 				// There are some errors in the plugins
-				JLog::add('Errors before save: ' . $object_file->filepath . ' : ' . implode(', ', $object_file->getErrors()), JLog::INFO, 'upload');
+				try
+				{
+					JLog::add(
+						'Errors before save: ' . $object_file->filepath . ' : ' . implode(', ', $object_file->getErrors()),
+						JLog::INFO,
+						'upload'
+					);
+				}
+				catch (RuntimeException $exception)
+				{
+					// Informational log only
+				}
 
 				$response = array(
 					'status'  => '0',
@@ -134,7 +152,14 @@ class MediaControllerFile extends JControllerLegacy
 			if (JFile::exists($object_file->filepath))
 			{
 				// File exists
-				JLog::add('File exists: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
+				try
+				{
+					JLog::add('File exists: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
+				}
+				catch (RuntimeException $exception)
+				{
+					// Informational log only
+				}
 
 				$response = array(
 					'status'   => '0',
@@ -150,7 +175,14 @@ class MediaControllerFile extends JControllerLegacy
 			elseif (!$user->authorise('core.create', 'com_media'))
 			{
 				// File does not exist and user is not authorised to create
-				JLog::add('Create not permitted: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
+				try
+				{
+					JLog::add('Create not permitted: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
+				}
+				catch (RuntimeException $exception)
+				{
+					// Informational log only
+				}
 
 				$response = array(
 					'status'  => '0',
@@ -166,7 +198,14 @@ class MediaControllerFile extends JControllerLegacy
 			if (!JFile::upload($object_file->tmp_name, $object_file->filepath))
 			{
 				// Error in upload
-				JLog::add('Error on upload: ' . $object_file->filepath, JLog::INFO, 'upload');
+				try
+				{
+					JLog::add('Error on upload: ' . $object_file->filepath, JLog::INFO, 'upload');
+				}
+				catch (RuntimeException $exception)
+				{
+					// Informational log only
+				}
 
 				$response = array(
 					'status'  => '0',
@@ -182,7 +221,15 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
-				JLog::add($folder, JLog::INFO, 'upload');
+
+				try
+				{
+					JLog::add($folder, JLog::INFO, 'upload');
+				}
+				catch (RuntimeException $exception)
+				{
+					// Informational log only
+				}
 
 				$returnUrl = str_replace(JPATH_ROOT, '',  $object_file->filepath);
 

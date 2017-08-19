@@ -9,7 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JLog::add('ModulesHelperXML is deprecated. Do not use.', JLog::WARNING, 'deprecated');
+try
+{
+	JLog::add('ModulesHelperXML is deprecated. Do not use.', JLog::WARNING, 'deprecated');
+}
+catch (RuntimeException $exception)
+{
+	// Informational log only
+}
 
 /**
  * Helper for parse XML module files

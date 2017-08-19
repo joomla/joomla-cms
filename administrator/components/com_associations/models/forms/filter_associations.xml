@@ -58,6 +58,7 @@
 			type="menu"
 			label="COM_ASSOCIATIONS_FILTER_MENUTYPE_LABEL"
 			description="COM_ASSOCIATIONS_FILTER_MENUTYPE_DESC"
+			clientid="0"
 			onchange="this.form.submit();"
 		>
 			<option value="">COM_ASSOCIATIONS_SELECT_MENU</option>

@@ -314,7 +314,7 @@ class JEditor extends JObject
 		$args['col'] = $col;
 		$args['row'] = $row;
 		$args['buttons'] = $buttons;
-		$args['id'] = $id ? $id : $name;
+		$args['id'] = $id ?: $name;
 		$args['event'] = 'onDisplay';
 
 		$results[] = $this->_editor->update($args);
@@ -499,7 +499,7 @@ class JEditor extends JObject
 	/**
 	 * Load the editor
 	 *
-	 * @param   array  $config  Associative array of editor config paramaters
+	 * @param   array  $config  Associative array of editor config parameters
 	 *
 	 * @return  mixed
 	 *

@@ -1,0 +1,46 @@
+// Status
+
+#status {
+	background: #ebebeb;
+	border-top: 1px solid #d4d4d4;
+	padding: 4px 10px;
+	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
+	color: #626262;
+
+	.btn-group {
+		margin: 0;
+	}
+	.btn-group.separator:after {
+		content: ' ';
+		display: block;
+		float: left;
+		background: #ADADAD;
+		margin: 0 10px;
+		height: 15px;
+		width: 1px;
+	}
+	.btn-toolbar, p {
+		margin: 0px;
+	}
+	.btn-toolbar, .btn-group {
+		font-size: 12px;
+	}
+	a {
+		color: #626262;
+	}
+	.badge {
+		margin-right: .25em;
+	}
+}
+/* Status Module in top position */
+#status.status-top {
+	background: @headerBackground;
+	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px -1px 0px rgba(0, 0, 0, 0.3) inset, 0px -1px 0px rgba(0, 0, 0, 0.3)");
+	border-top: 0;
+	color: @navbarInverseText;
+	padding: 2px 20px 6px 20px;
+
+	a {
+		color: @navbarInverseLinkColor;
+	}
+}

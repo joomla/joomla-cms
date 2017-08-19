@@ -64,9 +64,7 @@ class JHelper
 			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
 		$db->setQuery($query);
 
-		$id = $db->loadResult();
-
-		return $id;
+		return $db->loadResult();
 	}
 
 	/**

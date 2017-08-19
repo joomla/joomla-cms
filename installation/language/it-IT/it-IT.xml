@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.6"
+	version="3.7"
 	client="installation">
 	<name>Italian -Italy</name>
-	<version>3.6.3</version>
+	<version>3.7.0</version>
 	<creationDate>August 2016</creationDate>
 	<author>Italian Translation team</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
@@ -13,6 +13,7 @@
 	</files>
 	<metadata>
 		<name>Italian (Italy)</name>
+		<nativeName>Italiano (Italia)</nativeName>
 		<tag>it-IT</tag>
 		<rtl>0</rtl>
 	</metadata>

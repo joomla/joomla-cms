@@ -139,7 +139,7 @@ class JGithubPackageGistsTest extends PHPUnit_Framework_TestCase
 		$data = json_encode(
 			array(
 				'files' => array(
-					'gittest' => array('content' => 'GistContent' . PHP_EOL)
+					'gittest' => array('content' => 'GistContent' . "\n")
 				),
 				'public' => true,
 				'description' => 'This is a gist'

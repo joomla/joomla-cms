@@ -161,4 +161,29 @@ class JTableModule extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+
+	/**
+	 * Stores a module.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   3.7.0
+	 */
+	public function store($updateNulls = false)
+	{
+		// Set publish_up, publish_down and checked_out_time to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
+		return parent::store($updateNulls);
+	}
 }

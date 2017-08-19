@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Exception class defining an unsupported session storage object
  *
- * @since  3.6.3
+ * @since       3.6.3
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionExceptionUnsupported extends RuntimeException
 {

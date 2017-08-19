@@ -1494,7 +1494,7 @@ class JHtmlTest extends TestCase
 			$this->assertArrayHasKey(
 				'/media/system/js/fields/calendar-locales/en.js',
 				JFactory::getDocument()->_scripts,
-				'Line:' . __LINE__ . ' JS file "calendar-vanilla.min.js" should be loaded'
+				'Line:' . __LINE__ . ' JS file "calendar-locales/en.js" should be loaded'
 			);
 
 			$this->assertArrayHasKey(
@@ -1504,9 +1504,9 @@ class JHtmlTest extends TestCase
 			);
 
 			$this->assertArrayHasKey(
-				'/media/system/js/fields/calendar-vanilla.min.js',
+				'/media/system/js/fields/calendar.min.js',
 				JFactory::getDocument()->_scripts,
-				'Line:' . __LINE__ . ' JS file "calendar-vanilla.min.js" should be loaded'
+				'Line:' . __LINE__ . ' JS file "calendar.min.js" should be loaded'
 			);
 		}
 	}

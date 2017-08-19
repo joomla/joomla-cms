@@ -84,7 +84,7 @@ class FinderViewSearch extends JViewLegacy
 			$item->title       = $result->title;
 			$item->link        = JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date        = (int) $result->start_date ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
+			$item->date        = (int) $result->start_date ? JHtml::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();

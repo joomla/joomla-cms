@@ -43,7 +43,18 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function save()
 	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationSave instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use ConfigControllerApplicationSave instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$controller = new ConfigControllerApplicationSave;
 
@@ -59,7 +70,18 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function cancel()
 	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationCancel instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use ConfigControllerApplicationCancel instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$controller = new ConfigControllerApplicationCancel;
 
@@ -76,7 +98,18 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function removeroot()
 	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRemoveroot instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use ConfigControllerApplicationRemoveroot instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$controller = new ConfigControllerApplicationRemoveroot;
 

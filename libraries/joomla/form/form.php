@@ -1298,7 +1298,16 @@ class JForm
 					$offset = JFactory::getConfig()->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{
@@ -1331,7 +1340,16 @@ class JForm
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
 					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{

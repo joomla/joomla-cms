@@ -84,9 +84,9 @@ abstract class JHtmlTabs
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
-			$opt['onActive']            = (isset($params['onActive'])) ? '\\' . $params['onActive'] : null;
-			$opt['onBackground']        = (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
-			$opt['display']             = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
+			$opt['onActive']            = isset($params['onActive']) ? '\\' . $params['onActive'] : null;
+			$opt['onBackground']        = isset($params['onBackground']) ? '\\' . $params['onBackground'] : null;
+			$opt['display']             = isset($params['startOffset']) ? (int) $params['startOffset'] : null;
 			$opt['titleSelector']       = 'dt.tabs';
 			$opt['descriptionSelector'] = 'dd.tabs';
 

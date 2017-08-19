@@ -269,7 +269,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			if ($name)
 			{
 				$extension = "plg_${group}_${name}";
-				$source = $path ? $path : JPATH_PLUGINS . "/$group/$name";
+				$source = $path ?: JPATH_PLUGINS . "/$group/$name";
 				$folder = (string) $element->attributes()->folder;
 
 				if ($folder && file_exists("$path/$folder"))

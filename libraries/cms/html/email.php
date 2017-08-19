@@ -36,7 +36,7 @@ abstract class JHtmlEmail
 		if ($mailto && (empty($text) || $email))
 		{
 			// Use dedicated $text whereas $mail is used as href and must be punycoded.
-			$text = JStringPunycode::emailToUTF8($text ? $text : $mail);
+			$text = JStringPunycode::emailToUTF8($text ?: $mail);
 		}
 		elseif (!$mailto)
 		{

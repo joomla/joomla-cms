@@ -190,7 +190,7 @@ class JFormFieldMedia extends JFormField
 			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
 			$this->authorField   = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset         = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+			$this->asset         = $this->form->getValue($assetField) ?: (string) $this->element['asset_id'];
 			$this->link          = (string) $this->element['link'];
 			$this->width  	     = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 			$this->height 	     = isset($this->element['height']) ? (int) $this->element['height'] : 500;

@@ -124,7 +124,6 @@
 		>
 			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
 			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
-			<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
 		</field>
 
 		<field

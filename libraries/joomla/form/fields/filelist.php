@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.path');
 
 JFormHelper::loadFieldClass('list');
 
@@ -193,6 +194,8 @@ class JFormFieldFileList extends JFormFieldList
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
+		
+		$path = JPath::clean($path);
 
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)

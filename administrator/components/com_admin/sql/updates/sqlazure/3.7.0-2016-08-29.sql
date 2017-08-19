@@ -1,4 +1,4 @@
-/****** Object:  Table [#__fields] ******/
+/****** Object:  Table [#__fields] ******/
 
 SET QUOTED_IDENTIFIER ON;
 
@@ -12,7 +12,6 @@ CREATE TABLE [#__fields] (
 	[label] [nvarchar](255) NOT NULL DEFAULT '',
 	[default_value] [nvarchar](max) NOT NULL DEFAULT '',
 	[type] [nvarchar](255) NOT NULL DEFAULT '',
-	[options] [nvarchar](255) NOT NULL DEFAULT '',
 	[note] [nvarchar](255) NOT NULL DEFAULT '',
 	[description] [nvarchar](max) NOT NULL DEFAULT '',
 	[state] [smallint] NOT NULL DEFAULT 0,
@@ -22,15 +21,11 @@ CREATE TABLE [#__fields] (
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL DEFAULT '',
 	[fieldparams] [nvarchar](max) NOT NULL DEFAULT '',
-	[attributes] [nvarchar](max) NOT NULL DEFAULT '',
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[created_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[created_user_id] [bigint] NOT NULL DEFAULT 0,
-	[created_by_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[modified_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[modified_by] [bigint] NOT NULL DEFAULT 0,
-	[publish_up] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[publish_down] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[access] [int] NOT NULL DEFAULT 1,
 CONSTRAINT [PK_#__fields_id] PRIMARY KEY CLUSTERED(
 	[id] ASC)
@@ -57,15 +52,15 @@ CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields](
 	[language] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-/****** Object:  Table [#__fields_categories] ******/
+/****** Object:  Table [#__fields_categories] ******/
 
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__fields_categories] ( 
-	[field_id] [int] NOT NULL DEFAULT 0,   
-	[category_id] [int] NOT NULL DEFAULT 0,   
+CREATE TABLE [#__fields_categories] (
+	[field_id] [int] NOT NULL DEFAULT 0,
+	[category_id] [int] NOT NULL DEFAULT 0,
 CONSTRAINT [PK_#__fields_categories_id] PRIMARY KEY CLUSTERED(
-	[field_id] ASC, 
+	[field_id] ASC,
 	[category_id] ASC)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
 ) ON [PRIMARY]) ON [PRIMARY];
@@ -120,7 +115,7 @@ CREATE NONCLUSTERED INDEX [idx_language] ON [#__fields_groups](
 	[language] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-/****** Object:  Table [#__fields_values] ******/
+/****** Object:  Table [#__fields_values] ******/
 
 SET QUOTED_IDENTIFIER ON;
 
@@ -143,7 +138,7 @@ CREATE NONCLUSTERED INDEX [idx_item_id] ON [#__fields_values](
 	[item_id] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__extensions] ON;
+SET IDENTITY_INSERT [#__extensions] ON;
 
 INSERT INTO [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 33, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -151,4 +146,4 @@ UNION ALL
 SELECT 461, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 
 
-SET IDENTITY_INSERT [#__extensions] OFF; 
+SET IDENTITY_INSERT [#__extensions] OFF;

@@ -162,7 +162,7 @@ class UsersControllerUser extends UsersController
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
 
-		// Get the return url from the request and validate that it is internal.
+		// Get the return URL from the request and validate that it is internal.
 		$return = $input->$method->get('return', '', 'BASE64');
 		$return = base64_decode($return);
 

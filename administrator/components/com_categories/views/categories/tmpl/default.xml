@@ -9,11 +9,13 @@
 		<fields name="request">
 			<field
 				name="extension"
-				type="components"
+				type="componentscategory"
 				label="COM_CATEGORIES_CHOOSE_COMPONENT_LABEL"
 				description="COM_CATEGORIES_CHOOSE_COMPONENT_DESC"
 				required="true"
-			/>
+			>
+				<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
+			</field>
 		</fields>
 	</fieldset>
 </metadata>

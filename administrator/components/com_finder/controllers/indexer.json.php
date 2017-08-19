@@ -38,7 +38,14 @@ class FinderControllerIndexer extends JControllerLegacy
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer', JLog::INFO);
+		try
+		{
+			JLog::add('Starting the indexer', JLog::INFO);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// We don't want this form to be cached.
 		$app = JFactory::getApplication();
@@ -102,7 +109,14 @@ class FinderControllerIndexer extends JControllerLegacy
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer batch process', JLog::INFO);
+		try
+		{
+			JLog::add('Starting the indexer batch process', JLog::INFO);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// We don't want this form to be cached.
 		$app = JFactory::getApplication();
@@ -187,7 +201,14 @@ class FinderControllerIndexer extends JControllerLegacy
 			$app = $admin;
 
 			// Log batch completion and memory high-water mark.
-			JLog::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', JLog::INFO);
+			try
+			{
+				JLog::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', JLog::INFO);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
 
 			// Send the response.
 			$this->sendResponse($state);
@@ -277,7 +298,15 @@ class FinderControllerIndexer extends JControllerLegacy
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
 		{
-			JLog::add($data->getMessage(), JLog::ERROR);
+			try
+			{
+				JLog::add($data->getMessage(), JLog::ERROR);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+
 			$app->setHeader('status', $data->getCode());
 		}
 
@@ -329,7 +358,14 @@ class FinderIndexerResponse
 		if ($state instanceof Exception)
 		{
 			// Log the error
-			JLog::add($state->getMessage(), JLog::ERROR);
+			try
+			{
+				JLog::add($state->getMessage(), JLog::ERROR);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
 
 			// Prepare the error response.
 			$this->error = true;

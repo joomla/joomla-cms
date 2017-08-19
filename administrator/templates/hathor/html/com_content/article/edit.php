@@ -209,7 +209,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						</fieldset>
 				<?php endif ?>
 
-		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
+		<?php // The URL and images fields only show if the configuration is set to allow them.  ?>
 		<?php // This is for legacy reasons. ?>
 		<?php if ($params['show_urls_images_backend']) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
@@ -245,7 +245,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</fieldset>
 
 		<?php if ($assoc) : ?>
-			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 			<?php echo $this->loadTemplate('associations'); ?>
 		<?php endif; ?>
 

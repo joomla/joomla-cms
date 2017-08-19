@@ -32,15 +32,16 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-	
+
 				<field
 					name="hide"
-					type="text"
-					default="pagebreak,readmore"
+					type="plugins"
+					folder="editors-xtd"
+					multiple="true"
 					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
 					description="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_DESC"
 				/>
-	
+
 				<field
 					name="width"
 					type="text"
@@ -49,7 +50,7 @@
 					description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
 					size="5"
 				/>
-	
+
 				<field
 					name="height"
 					type="text"
@@ -58,6 +59,24 @@
 					description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
 					size="5"
 				/>
+
+				<field
+					name="filter"
+					type="list"
+					class="btn-group"
+					default="JComponentHelper::filterText"
+					label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_FILTER_DESC"
+				>
+					<option value="0">JNO</option>
+					<option value="raw">PLG_FIELDS_EDITOR_PARAMS_FILTER_RAW</option>
+					<option value="safehtml">PLG_FIELDS_EDITOR_PARAMS_FILTER_SAFEHTML</option>
+					<option value="JComponentHelper::filterText">PLG_FIELDS_EDITOR_PARAMS_FILTER_TEXT</option>
+					<option value="alnum">PLG_FIELDS_EDITOR_PARAMS_FILTER_ALNUM</option>
+					<option value="integer">PLG_FIELDS_EDITOR_PARAMS_FILTER_INTEGER</option>
+					<option value="float">PLG_FIELDS_EDITOR_PARAMS_FILTER_FLOAT</option>
+					<option value="tel">PLG_FIELDS_EDITOR_PARAMS_FILTER_TEL</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

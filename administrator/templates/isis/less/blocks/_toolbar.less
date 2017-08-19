@@ -1,0 +1,165 @@
+// Toolbar
+
+/* Subhead */
+.subhead {
+	background: @wellBackground;
+	border-bottom: 1px solid darken(@wellBackground, 7%);
+	color: #0C192E;
+	text-shadow: 0 1px 0 #FFF;
+	margin-bottom: 10px;
+	min-height: 51px;
+}
+
+.subhead-collapse {
+	margin-bottom: 19px;
+}
+
+.subhead-collapse.collapse {
+	height: auto;
+	overflow: visible;
+}
+
+.btn-toolbar {
+	margin-bottom: 5px;
+	.btn-wrapper {
+		display: inline-block;
+		margin: 0 0 8px 5px;
+	}
+}
+
+.subhead-fixed {
+	position: fixed;
+	width: 100%;
+	top: 30px;
+	z-index: 100;
+}
+@media (max-width: 767px) {
+	/* Fix ios scrolling inside bootstrap modals */
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
+	.subhead {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
+.subhead h1 {
+	font-size: 17px;
+	font-weight: normal;
+	margin-left: 10px;
+	margin-top: 6px;
+}
+
+/* Toolbar */
+#toolbar {
+	margin-bottom: 2px;
+    margin-top: 12px;
+	.btn {
+	    line-height: 24px;
+	    margin-right: 4px;
+	    padding: 0 10px;
+	}
+	.btn-success {
+		width: 148px;
+	}
+	.btn-primary,
+	.btn-warning,
+	.btn-danger,
+	.btn-success,
+	.btn-info,
+	.btn-inverse {
+		[class^="icon-"], [class*=" icon-"] {
+			background-color: transparent;
+			border-right: 0;
+			border-left: 0;
+			width: 16px;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+	#toolbar-options, #toolbar-help {
+		float: right;
+	}
+	[class^="icon-"], [class*=" icon-"] {
+		background-color: @btnBackgroundHighlight;
+	    border-radius: 3px 0 0 3px;
+	    border-right: 1px solid @btnBorder;
+	    height: auto;
+	    line-height: inherit;
+	    margin: 0 6px 0 -10px;
+	    opacity: 1;
+	    text-shadow: none;
+	    width: 28px;
+	    z-index: -1;
+	}
+	iframe .btn-group .btn {
+		margin-left: -1px !important;
+	}
+} 
+html[dir=rtl] #toolbar #toolbar-options,
+html[dir=rtl] #toolbar #toolbar-help {
+	float: left;
+}
+
+@media (max-width: 767px) {
+	.subhead-fixed {
+		position: static;
+		width: auto;
+	}
+}
+
+/* Subhead (toolbar) Collapse Button */
+.btn-subhead {
+	display: none;
+}
+@media (min-width: 481px) {
+	#filter-bar {
+		// Fix for Firefox
+		height: 29px;
+	}
+}
+
+@media (max-width: 480px) {
+	.navbar .btn {
+		margin: 0;
+	}
+
+	.btn-subhead {
+		display: block;
+		margin: 10px 0;
+	}
+
+	.subhead-collapse.collapse {
+		height: 0;
+		overflow: hidden;
+	}
+
+	.btn-toolbar .btn-wrapper {
+		display: block;
+		margin:0px 10px 5px 10px;
+	}
+
+	.btn-toolbar .btn-wrapper .btn {
+		width: 100% !important;
+	}
+
+	.subhead {
+		background: none repeat scroll 0 0 transparent;
+		border-bottom: 0 solid darken(@wellBackground, 7%);
+	}
+
+	#toolbar [class^="icon-"], #toolbar [class*=" icon-"] {
+	    background-color: transparent;
+	    border-right: medium none;
+	    width: 10px;
+	}
+}
+
+@media (max-width: 320px) {
+	.view-login .navbar-fixed-bottom {
+		display: none;
+	}
+}

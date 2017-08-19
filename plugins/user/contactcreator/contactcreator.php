@@ -38,7 +38,7 @@ class PlgUserContactCreator extends JPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */

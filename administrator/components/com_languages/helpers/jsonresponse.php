@@ -71,7 +71,14 @@ class JJsonResponse
 	 */
 	public function __construct($response = null, $message = null, $error = false)
 	{
-		JLog::add('Class JJsonResponse is deprecated. Use class JResponseJson instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(sprintf('%s is deprecated, use JResponseJson instead.', __CLASS__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$this->message = $message;
 

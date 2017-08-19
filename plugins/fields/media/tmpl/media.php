@@ -9,6 +9,12 @@
 defined('_JEXEC') or die;
 
 $value = $field->value;
+$class = $fieldParams->get('image_class');
+
+if ($class)
+{
+	$class = ' class="' . $class . '"';
+}
 
 if ($value == '')
 {
@@ -25,7 +31,7 @@ foreach ($value as $path)
 		continue;
 	}
 
-	$buffer .= '<img src="' . $path . '" class="' . $fieldParams->get('image_class') . '"/>';
+	$buffer .= '<img src="' . $path . '"' . $class . '/>';
 }
 
 echo $buffer;

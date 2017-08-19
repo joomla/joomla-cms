@@ -75,7 +75,7 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.3.7
 	 */
-	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParamaterIsEmpty()
+	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParameterIsEmpty()
 	{
 		$this->layoutBase->setOptions();
 
@@ -88,7 +88,7 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.3.7
 	 */
-	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParamaterIsAnArray()
+	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParameterIsAnArray()
 	{
 		$options = array();
 		$this->layoutBase->setOptions($options);
