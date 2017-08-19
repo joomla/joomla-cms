@@ -324,8 +324,11 @@ class Update extends \JObject
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
 				$patchVersion = $this->get('jversion.dev_level', Version::PATCH_VERSION);
-				$patchMinimumSupported = !isset($this->currentUpdate->targetplatform->min_dev_level) || $patchVersion >= $this->currentUpdate->targetplatform->min_dev_level;
-				$patchMaximumSupported = !isset($this->currentUpdate->targetplatform->max_dev_level) || $patchVersion <= $this->currentUpdate->targetplatform->max_dev_level;
+				$patchMinimumSupported = !isset($this->currentUpdate->targetplatform->min_dev_level)
+					|| $patchVersion >= $this->currentUpdate->targetplatform->min_dev_level;
+
+				$patchMaximumSupported = !isset($this->currentUpdate->targetplatform->max_dev_level)
+					|| $patchVersion <= $this->currentUpdate->targetplatform->max_dev_level;
 
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
