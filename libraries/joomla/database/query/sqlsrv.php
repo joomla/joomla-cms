@@ -233,15 +233,24 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
 	 *
-	 * @param   string  $value  The value to cast as a char.
+	 * @param   string  $value  The value to cast as a char.	 
+	 *
+	 * @param   string  $len    The lenght of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *
 	 * @since   11.1
 	 */
-	public function castAsChar($value)
+	public function castAsChar($value, $len = null)
 	{
-		return 'CAST(' . $value . ' as NVARCHAR(10))';
+		if (!$len)
+		{			
+			return 'CAST(' . $value . ' as NVARCHAR(30))';
+		}
+		else
+		{
+			return 'CAST(' . $value . ' as NVARCHAR(' . $len . '))';
+		}
 	}
 
 	/**
@@ -392,7 +401,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  array[]  The columns from the input string separated into an array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function splitSqlExpression($string)
 	{
@@ -627,7 +636,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  array[]  Array of columns with added missing aliases.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function fixSelectAliases()
 	{
@@ -746,7 +755,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function fixGroupColumns($selectColumns)
 	{

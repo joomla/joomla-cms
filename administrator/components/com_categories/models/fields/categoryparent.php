@@ -12,9 +12,10 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Category Parent field.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  4.0  Use categoryedit instead.
  */
 class JFormFieldCategoryParent extends JFormFieldList
 {

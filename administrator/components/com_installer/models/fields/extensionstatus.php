@@ -14,7 +14,7 @@ JLoader::register('InstallerHelper', JPATH_ADMINISTRATOR . '/components/com_inst
 JFormHelper::loadFieldClass('list');
 
 /**
- * Status Field class for the Joomla Framework.
+ * Extension Status field.
  *
  * @since  3.5
  */

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
 
 /**
- * Methods supporting a list of user records.
+ * Methods supporting a list of User ACL permissions
  *
  * @since  1.6
  */
@@ -66,6 +66,7 @@ class UsersModelDebugUser extends JModelList
 	public function getItems()
 	{
 		$userId = $this->getState('user_id');
+		$user   = JFactory::getUser($userId);
 
 		if (($assets = parent::getItems()) && $userId)
 		{
@@ -84,7 +85,7 @@ class UsersModelDebugUser extends JModelList
 					if ($level === null || $level >= $asset->level)
 					{
 						// We need to test this action.
-						$asset->checks[$name] = JAccess::check($userId, $name, $asset->name);
+						$asset->checks[$name] = $user->authorise($name, $asset->name);
 					}
 					else
 					{

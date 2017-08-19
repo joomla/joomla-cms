@@ -25,6 +25,8 @@
 		name="asset_id"
 		type="hidden"
 		filter="unset"
+		label="JFIELD_ASSET_ID_LABEL"
+		description="JFIELD_ASSET_ID_DESC"
 	/>
 
 	<field

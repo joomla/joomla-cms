@@ -14,7 +14,7 @@ JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_temp
 JFormHelper::loadFieldClass('list');
 
 /**
- * Template Style Field class for the Joomla Framework.
+ * Template Name field.
  *
  * @since  3.5
  */

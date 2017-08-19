@@ -17,7 +17,7 @@ JHtml::_('bootstrap.tooltip');
 			<div class="span8">
 				<?php if ($user->client_id == 0) : ?>
 					<a title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-mini hasTooltip">
-						<span class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT'); ?>"></span>
+						<span class="icon-remove icon-white" aria-hidden="true"><span class="element-invisible"><?php echo JText::_('JLOGOUT'); ?></span></span>
 					</a>
 				<?php endif; ?>
 
@@ -42,7 +42,7 @@ JHtml::_('bootstrap.tooltip');
 			</div>
 			<div class="span4">
 				<div class="small pull-right hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?>">
-					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>
+					<span class="icon-calendar" aria-hidden="true"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>
 				</div>
 			</div>
 		</div>
