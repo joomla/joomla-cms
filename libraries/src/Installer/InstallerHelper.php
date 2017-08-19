@@ -349,12 +349,11 @@ abstract class InstallerHelper
 		$hashes     = array("sha256", "sha1", "md5");
 		$hashOnFile = false;
 
-		$update     = new \JUpdate;
+		$update = new \JUpdate;
 		$update->loadFromXml($updateServerManifest);
 
 		foreach ($hashes as $hash)
 		{
-			
 			if ($update->get($hash, false))
 			{
 				$hash_package = hash_file($hash, $packagefile);
