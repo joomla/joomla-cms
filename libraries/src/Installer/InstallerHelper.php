@@ -334,7 +334,7 @@ abstract class InstallerHelper
 		return $db->splitSql($query);
 	}
 
-		/**
+	/**
 	 * Return the result of the checksum of a package and the SHA1/MD5 tags in the update server manifest
 	 *
 	 * @param   string     $packagefile           Location of the package to be installed
