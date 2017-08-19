@@ -66,25 +66,26 @@ else
 	$linkClass[] = 'no-dropdown';
 }
 
-$iconClass = $this->tree->getIconClass();
-
 // Implode out $linkClass for rendering
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
+
+$link      = $current->get('link');
+$iconClass = $this->tree->getIconClass();
 
 if ($current->get('link') === '#')
 {
 	$link = '#collapse' . $this->tree->getCounter();
 }
 
-if ($current->get('link') != null && $current->get('target') != null)
+if ($link != null && $current->get('target') != null)
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $current->get('link') . "\" target=\"" . $current->get('target') . "\">" 
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
 		. '<span class="' . $iconClass . '"></span>'
 		. '<span class="sidebar-item-title">' . JText::_($current->get('title')) . "</span></a>";
 }
-elseif ($current->get('link') != null && $current->get('target') == null)
+elseif ($link != null && $current->get('target') == null)
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $current->get('link') . "\">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. '<span class="' . $iconClass . '"></span>'
 		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
 }

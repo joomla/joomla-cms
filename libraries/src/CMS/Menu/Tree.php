@@ -207,7 +207,7 @@ class Tree
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 			}
 
-			$html = 'fa fa-' . $class;
+			$html = 'fa-fw fa fa-' . $class;
 		}
 
 		return $html;

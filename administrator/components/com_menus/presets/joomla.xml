@@ -15,9 +15,6 @@
 			element="com_cpanel"
 		/>
 		<menuitem
-			type="separator"
-		/>
-		<menuitem
 			title="MOD_MENU_CONFIGURATION"
 			type="component"
 			element="com_config"
@@ -40,9 +37,6 @@
 			type="component"
 			element="com_cache"
 			link="index.php?option=com_cache&amp;view=purge"
-		/>
-		<menuitem
-			type="separator"
 		/>
 		<menuitem
 			title="MOD_MENU_SYSTEM_INFORMATION"
