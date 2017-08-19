@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Type field.
  *
- * @since  3.5
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldPackage extends JFormFieldList
 {
@@ -24,7 +24,7 @@ class JFormFieldPackage extends JFormFieldList
 	 * The form field package.
 	 *
 	 * @var	   string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Package';
 
@@ -33,7 +33,7 @@ class JFormFieldPackage extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getOptions()
 	{
