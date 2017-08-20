@@ -164,7 +164,7 @@ elseif ($input->get('template'))
 
 	if ($templateId && $table->load($templateId) && $table->enabled)
 	{
-		$basePath   = ($table->client_id) ? JPATH_ROOT . '/administrator' : JPATH_ROOT;
+		$basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		$helperFile = $basePath . '/templates/' . $template . '/helper.php';
 
 		if (strpos($template, '_'))
