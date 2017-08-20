@@ -118,7 +118,7 @@ abstract class JHtml
 	 * @since   1.5
 	 * @throws  InvalidArgumentException
 	 */
-	public static function _($key)
+	final public static function _($key)
 	{
 		list($key, $prefix, $file, $func) = static::extract($key);
 
