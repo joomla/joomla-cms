@@ -31,7 +31,7 @@ final class Version
 	 * Major release version.
 	 *
 	 * @var    integer
-	 * @since  3.8.0
+	 * @since  3.9.0
 	 */
 	const MAJOR_VERSION = 3;
 
@@ -39,7 +39,7 @@ final class Version
 	 * Minor release version.
 	 *
 	 * @var    integer
-	 * @since  3.8.0
+	 * @since  3.9.0
 	 */
 	const MINOR_VERSION = 8;
 
@@ -47,7 +47,7 @@ final class Version
 	 * Patch release version.
 	 *
 	 * @var    integer
-	 * @since  3.8.0
+	 * @since  3.9.0
 	 */
 	const PATCH_VERSION = 0;
 
@@ -55,10 +55,10 @@ final class Version
 	 * Extra release version info.
 	 *
 	 * This constant when not empty adds an additional identifier to the version string to reflect the development state.
-	 * For example, for 3.8.0 when this is set to 'dev' the version string will be `3.8.0-dev`.
+	 * For example, for 3.9.0 when this is set to 'dev' the version string will be `3.9.0-dev`.
 	 *
 	 * @var    string
-	 * @since  3.8.0
+	 * @since  3.9.0
 	 */
 	const EXTRA_VERSION = 'dev';
 
