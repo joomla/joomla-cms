@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Controller;
+namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Mvc\Factory\LegacyFactory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5.5
  */
-class Controller extends \JObject
+class BaseController extends \JObject
 {
 	/**
 	 * The base path of the controller
