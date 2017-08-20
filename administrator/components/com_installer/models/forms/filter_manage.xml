@@ -47,7 +47,7 @@
 
 		<field
 			name="package_id"
-			type="package"
+			type="packagelist"
 			onchange="this.form.submit();"
 			>
 			<option value="">JGLOBAL_FILTER_PACKAGE</option>

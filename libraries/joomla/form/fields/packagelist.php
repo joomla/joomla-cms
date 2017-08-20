@@ -18,23 +18,23 @@ JFormHelper::loadFieldClass('list');
  *
  * Provides a list box of installed extension packages.
  *
- * @since  3.8
+ * @since  __DEPLOY_VERSION__
  */
-class JFormFieldPackage extends JFormFieldList
+class JFormFieldPackagelist extends JFormFieldList
 {
   /**
    * The form field package.
    *
    * @var    string
-   * @since  3.8
+   * @since  __DEPLOY_VERSION__
    */
-  protected $type = 'Package';
+  protected $type = 'Packagelist';
 
   /**
    * Only packages containing extensions of specified type
    *
    * @var    float
-   * @since  3.8
+   * @since  __DEPLOY_VERSION__
    */
   protected $extensiontype = null;
 
@@ -42,7 +42,7 @@ class JFormFieldPackage extends JFormFieldList
    * Only packages with the given value of enabled field
    *
    * @var    float
-   * @since  3.8
+   * @since  __DEPLOY_VERSION__
    */
   protected $packageenabled = null;
 
@@ -58,7 +58,7 @@ class JFormFieldPackage extends JFormFieldList
    * @return  boolean  True on success.
    *
    * @see     JFormField::setup()
-   * @since   3.8
+   * @since   __DEPLOY_VERSION__
    */
   public function setup(SimpleXMLElement $element, $value, $group = null)
   {
@@ -78,7 +78,7 @@ class JFormFieldPackage extends JFormFieldList
    *
    * @return  array  The field option objects.
    *
-   * @since   3.8
+   * @since   __DEPLOY_VERSION__
    */
   public function getOptions()
   {

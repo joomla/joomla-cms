@@ -39,7 +39,7 @@
 
 		<field
 				name="package_id"
-				type="package"
+				type="packagelist"
 				extensiontype="plugin"
 				onchange="this.form.submit();"
 		>
