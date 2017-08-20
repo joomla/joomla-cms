@@ -11,7 +11,7 @@ set -e
 phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 # Make sure all dev dependencies are installed
-composer install
+composer install --ignore-platform-reqs
 
 # Setup databases for testing
 mysql -u root -e 'create database joomla_ut;'
