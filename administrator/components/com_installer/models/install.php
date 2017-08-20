@@ -177,17 +177,19 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			$check = JInstallerHelper::isChecksumValid($package['packagefile'], (string) $child);
 
-			if ($check === null)
+			switch ($check)
 			{
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
-			}
-			elseif ($check === false)
-			{
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
-			}
-			else
-			{
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+				case 0:
+					$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+					break;
+
+				case 1:
+					$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+					break;
+
+				case 2:
+					$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
+					break;
 			}
 		}
 
