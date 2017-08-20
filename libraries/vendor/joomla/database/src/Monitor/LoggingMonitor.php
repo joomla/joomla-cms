@@ -30,7 +30,7 @@ class LoggingMonitor implements QueryMonitorInterface, LoggerAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function startQuery($sql)
+	public function startQuery(string $sql)
 	{
 		if ($this->logger)
 		{

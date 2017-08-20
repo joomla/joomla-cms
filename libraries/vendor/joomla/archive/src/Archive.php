@@ -24,7 +24,7 @@ class Archive
 	 * @var    ExtractableInterface[]
 	 * @since  1.0
 	 */
-	protected $adapters = array();
+	protected $adapters = [];
 
 	/**
 	 * Holds the options array.
@@ -32,7 +32,7 @@ class Archive
 	 * @var    array|\ArrayAccess
 	 * @since  1.0
 	 */
-	public $options = array();
+	public $options = [];
 
 	/**
 	 * Create a new Archive object.
@@ -42,7 +42,7 @@ class Archive
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		if (!is_array($options) && !($options instanceof \ArrayAccess))
 		{
@@ -70,8 +70,8 @@ class Archive
 	 */
 	public function extract($archivename, $extractdir)
 	{
-		$ext = pathinfo($archivename, PATHINFO_EXTENSION);
-		$path = pathinfo($archivename, PATHINFO_DIRNAME);
+		$ext      = pathinfo($archivename, PATHINFO_EXTENSION);
+		$path     = pathinfo($archivename, PATHINFO_DIRNAME);
 		$filename = pathinfo($archivename, PATHINFO_FILENAME);
 
 		switch ($ext)
@@ -147,7 +147,7 @@ class Archive
 				break;
 
 			default:
-				throw new \InvalidArgumentException(sprintf('Unknown archive type: %s', $ext));
+				throw new \InvalidArgumentException(sprintf('Unsupported archive type: %s', $ext));
 		}
 
 		return $result;
@@ -160,7 +160,7 @@ class Archive
 	 * @param   string   $class     FQCN of your class which implements ExtractableInterface.
 	 * @param   boolean  $override  True to force override the adapter type.
 	 *
-	 * @return  Archive  This object for chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
@@ -169,26 +169,25 @@ class Archive
 	{
 		if ($override || !isset($this->adapters[$type]))
 		{
-			$error = !is_object($class) && !class_exists($class)
-					? 'Archive adapter "%s" (class "%s") not found.'
-					: '';
+			$error = !is_object($class) && !class_exists($class) ? 'Archive adapter "%s" (class "%s") not found.' : '';
 
-			$error = $error == '' && !($class instanceof ExtractableInterface)
-					? 'The provided adapter "%s" (class "%s") must implement Joomla\\Archive\\ExtractableInterface'
-					: $error;
+			$error = $error == '' && !$class::isSupported() ? 'Archive adapter "%s" (class "%s") not supported.' : $error;
 
-			$error = $error == '' && !$class::isSupported()
-					? 'Archive adapter "%s" (class "%s") not supported.'
-					: $error;
+			if ($error == '')
+			{
+				$object = new $class($this->options);
+
+				$error = $error == '' && !($object instanceof ExtractableInterface)
+						? 'The provided adapter "%s" (class "%s") must implement Joomla\\Archive\\ExtractableInterface'
+						: $error;
+			}
 
 			if ($error != '')
 			{
-				throw new \InvalidArgumentException(
-					sprintf($error, $type, $class)
-				);
+				throw new \InvalidArgumentException(sprintf($error, $type, $class));
 			}
 
-			$this->adapters[$type] = new $class($this->options);
+			$this->adapters[$type] = $object;
 		}
 
 		return $this;
@@ -202,7 +201,6 @@ class Archive
 	 * @return  ExtractableInterface  Adapter for the requested type
 	 *
 	 * @since   1.0
-	 * @throws  \InvalidArgumentException
 	 */
 	public function getAdapter($type)
 	{
@@ -211,21 +209,7 @@ class Archive
 		if (!isset($this->adapters[$type]))
 		{
 			// Try to load the adapter object
-			/* @var  ExtractableInterface  $class */
-			$class = 'Joomla\\Archive\\' . ucfirst($type);
-
-			if (!class_exists($class) || !$class::isSupported())
-			{
-				throw new \InvalidArgumentException(
-					sprintf(
-						'Archive adapter "%s" (class "%s") not found or supported.',
-						$type,
-						$class
-					)
-				);
-			}
-
-			$this->adapters[$type] = new $class($this->options);
+			$this->setAdapter($type, __NAMESPACE__ . '\\' . ucfirst($type));
 		}
 
 		return $this->adapters[$type];

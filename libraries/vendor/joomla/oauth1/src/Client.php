@@ -88,8 +88,8 @@ abstract class Client
 		}
 
 		$this->application = $application;
-		$this->client      = $client instanceof Http ? $client : HttpFactory::getHttp($options);
-		$this->input       = $input instanceof Input ? $input : $application->input;
+		$this->client      = $client ?: HttpFactory::getHttp($options);
+		$this->input       = $input ?: $application->input;
 		$this->options     = $options;
 		$this->version     = $version;
 	}
@@ -340,13 +340,13 @@ abstract class Client
 	/**
 	 * Method used to create the header for the POST request.
 	 *
-	 * @param   array $parameters Array containing request parameters.
+	 * @param   array  $parameters  Array containing request parameters.
 	 *
 	 * @return  string  The header.
 	 *
 	 * @since   1.0
 	 */
-	private function createHeader($parameters)
+	private function createHeader(array $parameters): string
 	{
 		$header = 'OAuth ';
 
@@ -429,7 +429,7 @@ abstract class Client
 	 *
 	 * @since   1.0
 	 */
-	private function signRequest($url, $method, $parameters)
+	private function signRequest(string $url, string $method, array $parameters): array
 	{
 		// Create the signature base string.
 		$base = $this->baseString($url, $method, $parameters);
@@ -454,7 +454,7 @@ abstract class Client
 	 *
 	 * @since   1.0
 	 */
-	private function baseString($url, $method, $parameters)
+	private function baseString(string $url, string $method, array $parameters): string
 	{
 		// Sort the parameters alphabetically
 		uksort($parameters, 'strcmp');
@@ -542,7 +542,7 @@ abstract class Client
 	 *
 	 * @since   1.0
 	 */
-	private function prepareSigningKey()
+	private function prepareSigningKey(): string
 	{
 		return $this->safeEncode($this->getOption('consumer_secret')) . '&' . $this->safeEncode(($this->token) ? $this->token['secret'] : '');
 	}
@@ -569,7 +569,7 @@ abstract class Client
 	 */
 	public function getOption($key, $default = null)
 	{
-		return isset($this->options[$key]) ? $this->options[$key] : $default;
+		return $this->options[$key] ?? $default;
 	}
 
 	/**

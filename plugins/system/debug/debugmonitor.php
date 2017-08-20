@@ -71,7 +71,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function startQuery($sql)
+	public function startQuery(string $sql)
 	{
 		if ($this->enabled)
 		{

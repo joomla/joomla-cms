@@ -31,7 +31,7 @@ class Tar implements ExtractableInterface
 	 * @var    array
 	 * @since  1.0
 	 */
-	private $types = array(
+	private $types = [
 		0x0  => 'Unix file',
 		0x30 => 'File',
 		0x31 => 'Link',
@@ -41,7 +41,7 @@ class Tar implements ExtractableInterface
 		0x35 => 'Directory',
 		0x36 => 'FIFO special file',
 		0x37 => 'Contiguous file'
-	);
+	];
 
 	/**
 	 * Tar file data buffer
@@ -65,7 +65,7 @@ class Tar implements ExtractableInterface
 	 * @var    array|\ArrayAccess
 	 * @since  1.0
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * Create a new Archive object.
@@ -75,7 +75,7 @@ class Tar implements ExtractableInterface
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		if (!is_array($options) && !($options instanceof \ArrayAccess))
 		{
@@ -170,25 +170,15 @@ class Tar implements ExtractableInterface
 	 */
 	protected function getTarInfo(&$data)
 	{
-		$position = 0;
-		$return_array = array();
+		$position     = 0;
+		$return_array = [];
 
 		while ($position < strlen($data))
 		{
-			if (version_compare(PHP_VERSION, '5.5', '>='))
-			{
-				$info = @unpack(
-					"Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor",
-					substr($data, $position)
-				);
-			}
-			else
-			{
-				$info = @unpack(
-					"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
-					substr($data, $position)
-				);
-			}
+			$info = @unpack(
+				"Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor",
+				substr($data, $position)
+			);
 
 			/*
 			 * This variable has been set in the previous loop, meaning that the filename was present in the previous block
@@ -211,13 +201,14 @@ class Tar implements ExtractableInterface
 
 			if ($info['filename'])
 			{
-				$file = array(
+				$file = [
 					'attr' => null,
 					'data' => null,
 					'date' => octdec($info['mtime']),
 					'name' => trim($info['filename']),
 					'size' => octdec($info['size']),
-					'type' => isset($this->types[$info['typeflag']]) ? $this->types[$info['typeflag']] : null);
+					'type' => isset($this->types[$info['typeflag']]) ? $this->types[$info['typeflag']] : null
+				];
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35))
 				{

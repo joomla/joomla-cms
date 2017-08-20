@@ -81,16 +81,6 @@ class Session implements ServiceProviderInterface
 
 					switch ($handlerType)
 					{
-						case 'apc':
-							if (!Handler\ApcHandler::isSupported())
-							{
-								throw new RuntimeException('APC is not supported on this system.');
-							}
-
-							$handler = new Handler\ApcHandler;
-
-							break;
-
 						case 'apcu':
 							if (!Handler\ApcuHandler::isSupported())
 							{
@@ -136,25 +126,6 @@ class Session implements ServiceProviderInterface
 
 							ini_set('session.save_path', "$host:$port");
 							ini_set('session.save_handler', 'memcached');
-
-							break;
-
-						case 'memcache':
-							if (!Handler\MemcacheHandler::isSupported())
-							{
-								throw new RuntimeException('Memcache is not supported on this system.');
-							}
-
-							$host = $config->get('session_memcache_server_host', 'localhost');
-							$port = $config->get('session_memcache_server_port', 11211);
-
-							$memcache = new Memcache($config->get('session_memcache_server_id', 'joomla_cms'));
-							$memcache->addserver($host, $port);
-
-							$handler = new Handler\MemcacheHandler($memcache, array('ttl' => $lifetime));
-
-							ini_set('session.save_path', "$host:$port");
-							ini_set('session.save_handler', 'memcache');
 
 							break;
 

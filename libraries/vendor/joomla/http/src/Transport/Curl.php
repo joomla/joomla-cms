@@ -281,15 +281,8 @@ class Curl extends AbstractTransport
 	 *
 	 * @since   1.2.1
 	 */
-	private function redirectsAllowed()
+	private function redirectsAllowed(): bool
 	{
-		// There are no issues on PHP 5.6 and later
-		if (version_compare(PHP_VERSION, '5.6', '>='))
-		{
-			return true;
-		}
-
-		// For PHP 5.4 and 5.5, we only need to check if open_basedir is disabled
-		return !ini_get('open_basedir');
+		return true;
 	}
 }

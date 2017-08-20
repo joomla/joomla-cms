@@ -31,7 +31,7 @@ class Php implements FormatInterface
 	public function objectToString($object, array $params = [])
 	{
 		// A class must be provided
-		$class = !empty($params['class']) ? $params['class'] : 'Registry';
+		$class = $params['class'] ?? 'Registry';
 
 		// Build the object variables string
 		$vars = '';
@@ -44,14 +44,14 @@ class Php implements FormatInterface
 		$str = "<?php\n";
 
 		// If supplied, add a namespace to the class object
-		if (isset($params['namespace']) && $params['namespace'] != '')
+		if (isset($params['namespace']) && $params['namespace'] !== '')
 		{
-			$str .= "namespace " . $params['namespace'] . ";\n\n";
+			$str .= 'namespace ' . $params['namespace'] . ";\n\n";
 		}
 
 		$str .= "class $class {\n";
 		$str .= $vars;
-		$str .= "}";
+		$str .= '}';
 
 		// Use the closing tag if it not set to false in parameters.
 		if (!isset($params['closingtag']) || $params['closingtag'] !== false)
@@ -111,7 +111,7 @@ class Php implements FormatInterface
 	 *
 	 * @param   array  $a  The array to get as a string.
 	 *
-	 * @return  array
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */
@@ -122,7 +122,7 @@ class Php implements FormatInterface
 
 		foreach ($a as $k => $v)
 		{
-			$s .= ($i) ? ', ' : '';
+			$s .= $i ? ', ' : '';
 			$s .= "'" . addcslashes($k, '\\\'') . "' => ";
 			$s .= $this->formatValue($v);
 

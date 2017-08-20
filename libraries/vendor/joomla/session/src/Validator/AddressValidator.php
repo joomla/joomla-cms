@@ -60,7 +60,7 @@ class AddressValidator implements ValidatorInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  InvalidSessionException
 	 */
-	public function validate($restart = false)
+	public function validate(bool $restart = false)
 	{
 		if ($restart)
 		{

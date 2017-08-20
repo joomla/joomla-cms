@@ -23,8 +23,8 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
+        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
@@ -57,7 +57,6 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
             'Joomla\\Registry\\' => 16,
             'Joomla\\OAuth2\\' => 14,
             'Joomla\\OAuth1\\' => 14,
-            'Joomla\\Ldap\\Tests\\' => 18,
             'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
@@ -158,10 +157,6 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth1/src',
         ),
-        'Joomla\\Ldap\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
-        ),
         'Joomla\\Ldap\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/ldap/src',
@@ -240,17 +235,11 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
         ),
     );
 
-    public static $classMap = array (
-        'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
-        'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$classMap;
 
         }, null, ClassLoader::class);
     }

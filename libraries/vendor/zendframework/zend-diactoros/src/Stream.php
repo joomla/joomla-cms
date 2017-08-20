@@ -48,7 +48,10 @@ class Stream implements StreamInterface
         }
 
         try {
-            $this->rewind();
+            if ($this->isSeekable()) {
+                $this->rewind();
+            }
+
             return $this->getContents();
         } catch (RuntimeException $e) {
             return '';

@@ -305,42 +305,7 @@ final class ArrayHelper
 	 */
 	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
-		// As of PHP 7, array_column() supports an array of objects so we'll use that
-		if (PHP_VERSION_ID >= 70000)
-		{
-			return array_column($array, $valueCol, $keyCol);
-		}
-
-		$result = [];
-
-		foreach ($array as $item)
-		{
-			// Convert object to array
-			$subject = is_object($item) ? static::fromObject($item) : $item;
-
-			/*
-			 * We process arrays (and objects already converted to array)
-			 * Only if the value column (if required) exists in this item
-			 */
-			if (is_array($subject) && (!isset($valueCol) || isset($subject[$valueCol])))
-			{
-				// Use whole $item if valueCol is null, else use the value column.
-				$value = isset($valueCol) ? $subject[$valueCol] : $item;
-
-				// Array keys can only be integer or string. Casting will occur as per the PHP Manual.
-				if (isset($keyCol) && isset($subject[$keyCol]) && is_scalar($subject[$keyCol]))
-				{
-					$key          = $subject[$keyCol];
-					$result[$key] = $value;
-				}
-				else
-				{
-					$result[] = $value;
-				}
-			}
-		}
-
-		return $result;
+		return array_column($array, $valueCol, $keyCol);
 	}
 
 	/**
