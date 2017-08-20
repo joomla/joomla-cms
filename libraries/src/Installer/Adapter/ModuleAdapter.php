@@ -577,7 +577,7 @@ class ModuleAdapter extends InstallerAdapter
 		// Attempt to load the language file; might have uninstall strings
 		$this->loadLanguage(($this->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $element);
 
-		// If there is an manifest class file, let's load it
+		// If there is a manifest class file, let's load it
 		$this->scriptElement = $this->getManifest()->scriptfile;
 		$manifestScript      = (string) $this->getManifest()->scriptfile;
 

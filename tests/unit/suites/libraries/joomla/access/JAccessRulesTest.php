@@ -44,7 +44,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
-			'Checks input as an string.'
+			'Checks input as a string.'
 		);
 	}
 

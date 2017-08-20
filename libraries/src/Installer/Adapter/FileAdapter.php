@@ -349,7 +349,7 @@ class FileAdapter extends InstallerAdapter
 
 			$this->setManifest($xml);
 
-			// If there is an manifest class file, let's load it
+			// If there is a manifest class file, let's load it
 			$this->scriptElement = $this->getManifest()->scriptfile;
 			$manifestScript = (string) $this->getManifest()->scriptfile;
 
