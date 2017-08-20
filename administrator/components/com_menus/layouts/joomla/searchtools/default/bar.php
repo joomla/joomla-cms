@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /** @var  array  $displayData */
 $data = $displayData;
 
-if ($data['view'] instanceof MenusViewItems)
+if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Html)
 {
 	// We will get the menutype filter & remove it from the form filters
 	$menuTypeField = $data['view']->filterForm->getField('menutype');
@@ -31,7 +31,7 @@ if ($data['view'] instanceof MenusViewItems)
 	</div>
 	<?php
 }
-elseif ($data['view'] instanceof MenusViewMenus)
+elseif ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\Html)
 {
 	// Add the client selector before the form filters.
 	$clientIdField = $data['view']->filterForm->getField('client_id');
