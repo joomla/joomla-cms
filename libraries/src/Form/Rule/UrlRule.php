@@ -57,7 +57,7 @@ class UrlRule extends FormRule
 		if ($element['schemes'] == '')
 		{
 			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais', 'mid', 'cid', 'nntp', 
-			'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
+				'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
 		}
 		else
 		{
@@ -101,7 +101,7 @@ class UrlRule extends FormRule
 		}
 
 		// For some schemes here must be two slashes.
-		$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 				'sftp', 'telnet', 'git');
+		$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 	'sftp', 'telnet', 'git');
 
 		if (in_array($urlScheme, $scheme) && substr($value, strlen($urlScheme), 3) !== '://')
 		{
