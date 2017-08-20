@@ -1221,7 +1221,6 @@ class MenusModelItem extends JModelAdmin
 				}
 			}
 
-
 			// Get the help data from the XML file if present.
 			$help = $xml->xpath('/metadata/layout/help');
 		}
