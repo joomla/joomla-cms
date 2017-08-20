@@ -36,11 +36,11 @@ if (($renderClassSuffix = $field->params->get('render_class', '')))
 }
 
 ?>
-<?php if ($showLabel) : ?>
 <dt class="<?php echo $this->escape($renderClass); ?>">
+<?php if ($showLabel) : ?>
 	<span class="field-label"><?php echo $this->escape($field->label); ?>:</span>
-</dt>
 <?php endif; ?>
+</dt>
 <dd class="<?php echo $this->escape($renderClass); ?>">
 	<span class="field-value"><?php echo $this->escape($field->value); ?></span>
 </dd>
