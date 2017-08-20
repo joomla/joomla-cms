@@ -77,7 +77,7 @@ JLoader::registerAlias('JAccess',                           '\\Joomla\\CMS\\Acce
 JLoader::registerAlias('JAccessRule',                       '\\Joomla\\CMS\\Access\\Rule', '5.0');
 JLoader::registerAlias('JAccessRules',                      '\\Joomla\\CMS\\Access\\Rules', '5.0');
 JLoader::registerAlias('JAccessWrapperAccess',              '\\Joomla\\CMS\\Access\\Wrapper\\Access', '4.0');
-JLoader::registerAlias('JAccessExceptionNotallowed',        '\\Joomla\\CMS\\Access\\Exception\\Notallowed', '5.0');
+JLoader::registerAlias('JAccessExceptionNotallowed',        '\\Joomla\\CMS\\Access\\Exception\\NotAllowed', '5.0');
 JLoader::registerAlias('JRule',                             '\\Joomla\\CMS\\Access\\Rule', '5.0');
 JLoader::registerAlias('JRules',                            '\\Joomla\\CMS\\Access\\Rules', '5.0');
 
@@ -97,7 +97,7 @@ JLoader::registerAlias('JLanguageWrapperTransliterate',     '\\Joomla\\CMS\\Lang
 
 JLoader::registerAlias('JComponentHelper',                  '\\Joomla\\CMS\\Component\\ComponentHelper', '5.0');
 JLoader::registerAlias('JComponentRecord',                  '\\Joomla\\CMS\\Component\\ComponentRecord', '5.0');
-JLoader::registerAlias('JComponentExceptionMissing',        '\\Joomla\\CMS\\Component\\Exception\\MissingException', '5.0');
+JLoader::registerAlias('JComponentExceptionMissing',        '\\Joomla\\CMS\\Component\\Exception\\MissingComponentException', '5.0');
 JLoader::registerAlias('JComponentRouterBase',              '\\Joomla\\CMS\\Component\\Router\\RouterBase', '5.0');
 JLoader::registerAlias('JComponentRouterInterface',         '\\Joomla\\CMS\\Component\\Router\\RouterInterface', '5.0');
 JLoader::registerAlias('JComponentRouterLegacy',            '\\Joomla\\CMS\\Component\\Router\\RouterLegacy', '5.0');
@@ -116,12 +116,13 @@ JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\CMS\\Help
 JLoader::registerAlias('JHelper',                           '\\Joomla\\CMS\\Helper\\CMSHelper', '5.0');
 JLoader::registerAlias('JHelperContent',                    '\\Joomla\\CMS\\Helper\\ContentHelper', '5.0');
 JLoader::registerAlias('JHelperContenthistory',             '\\Joomla\\CMS\\Helper\\ContentHistoryHelper', '5.0');
-JLoader::registerAlias('JHelperRoute',                      '\\Joomla\\CMS\\Helper\\RouteHelper', '5.0');
+JLoader::registerAlias('JLibraryHelper',                    '\\Joomla\\CMS\\Helper\\LibraryHelper', '5.0');
 JLoader::registerAlias('JHelperMedia',                      '\\Joomla\\CMS\\Helper\\MediaHelper', '5.0');
 JLoader::registerAlias('JModuleHelper',                     '\\Joomla\\CMS\\Helper\\ModuleHelper', '5.0');
+JLoader::registerAlias('JHelperRoute',                      '\\Joomla\\CMS\\Helper\\RouteHelper', '5.0');
+JLoader::registerAlias('JSearchHelper',                     '\\Joomla\\CMS\\Helper\\SearchHelper', '5.0');
 JLoader::registerAlias('JHelperTags',                       '\\Joomla\\CMS\\Helper\\TagsHelper', '5.0');
 JLoader::registerAlias('JHelperUsergroups',                 '\\Joomla\\CMS\\Helper\\UserGroupsHelper', '5.0');
-JLoader::registerAlias('JLibraryHelper',                    '\\Joomla\\CMS\\Helper\\LibraryHelper', '5.0');
 
 JLoader::registerAlias('JLayoutBase',                       '\\Joomla\\CMS\\Layout\\BaseLayout', '5.0');
 JLoader::registerAlias('JLayoutFile',                       '\\Joomla\\CMS\\Layout\\FileLayout', '5.0');
@@ -150,10 +151,10 @@ JLoader::registerAlias('JSchemaChangeitemMysql',            '\\Joomla\\CMS\\Sche
 JLoader::registerAlias('JSchemaChangeitemPostgresql',       '\\Joomla\\CMS\\Schema\\ChangeItem\\PostgresqlChangeItem', '5.0');
 JLoader::registerAlias('JSchemaChangeitemSqlsrv',           '\\Joomla\\CMS\\Schema\\ChangeItem\\SqlsrvChangeItem', '5.0');
 
-JLoader::registerAlias('JUcm',                              '\\Joomla\\CMS\\Ucm\\Ucm', '5.0');
-JLoader::registerAlias('JUcmBase',                          '\\Joomla\\CMS\\Ucm\\UcmBase', '5.0');
-JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\Ucm\\UcmContent', '5.0');
-JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\\UcmType', '5.0');
+JLoader::registerAlias('JUcm',                              '\\Joomla\\CMS\\UCM\\UCM', '5.0');
+JLoader::registerAlias('JUcmBase',                          '\\Joomla\\CMS\\UCM\\UCMBase', '5.0');
+JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\UCM\\UCMContent', '5.0');
+JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\UCM\\UCMType', '5.0');
 
 JLoader::registerAlias('JToolbar',                          '\\Joomla\\CMS\\Toolbar\\Toolbar', '5.0');
 JLoader::registerAlias('JToolbarButton',                    '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '5.0');
@@ -179,9 +180,47 @@ JLoader::registerAlias('JBrowser',                          '\\Joomla\\CMS\\Envi
 JLoader::registerAlias('JAssociationExtensionInterface',    '\\Joomla\\CMS\\Association\\AssociationExtensionInterface', '5.0');
 JLoader::registerAlias('JAssociationExtensionHelper',       '\\Joomla\\CMS\\Association\\AssociationExtensionHelper', '5.0');
 
+JLoader::registerAlias('JDocument',                         '\\Joomla\\CMS\\Document\\Document', '5.0');
+JLoader::registerAlias('JDocumentError',                    '\\Joomla\\CMS\\Document\\ErrorDocument', '5.0');
+JLoader::registerAlias('JDocumentFeed',                     '\\Joomla\\CMS\\Document\\FeedDocument', '5.0');
+JLoader::registerAlias('JDocumentHtml',                     '\\Joomla\\CMS\\Document\\HtmlDocument', '5.0');
+JLoader::registerAlias('JDocumentImage',                    '\\Joomla\\CMS\\Document\\ImageDocument', '5.0');
+JLoader::registerAlias('JDocumentJson',                     '\\Joomla\\CMS\\Document\\JsonDocument', '5.0');
+JLoader::registerAlias('JDocumentOpensearch',               '\\Joomla\\CMS\\Document\\OpensearchDocument', '5.0');
+JLoader::registerAlias('JDocumentRaw',                      '\\Joomla\\CMS\\Document\\RawDocument', '5.0');
+JLoader::registerAlias('JDocumentRenderer',                 '\\Joomla\\CMS\\Document\\DocumentRenderer', '5.0');
+JLoader::registerAlias('JDocumentXml',                      '\\Joomla\\CMS\\Document\\XmlDocument', '5.0');
+JLoader::registerAlias('JDocumentRendererFeedAtom',         '\\Joomla\\CMS\\Document\\Renderer\\Feed\\AtomRenderer', '5.0');
+JLoader::registerAlias('JDocumentRendererFeedRss',          '\\Joomla\\CMS\\Document\\Renderer\\Feed\\RssRenderer', '5.0');
+JLoader::registerAlias('JDocumentRendererHtmlComponent',    '\\Joomla\\CMS\\Document\\Renderer\\Html\\ComponentRenderer', '5.0');
+JLoader::registerAlias('JDocumentRendererHtmlHead',         '\\Joomla\\CMS\\Document\\Renderer\\Html\\HeadRenderer', '5.0');
+JLoader::registerAlias('JDocumentRendererHtmlMessage',      '\\Joomla\\CMS\\Document\\Renderer\\Html\\MessageRenderer', '5.0');
+JLoader::registerAlias('JDocumentRendererHtmlModule',       '\\Joomla\\CMS\\Document\\Renderer\\Html\\ModuleRenderer', '5.0');
+JLoader::registerAlias('JDocumentRendererHtmlModules',      '\\Joomla\\CMS\\Document\\Renderer\\Html\\ModulesRenderer', '5.0');
+JLoader::registerAlias('JDocumentRendererAtom',             '\\Joomla\\CMS\\Document\\Renderer\\Feed\\AtomRenderer', '4.0');
+JLoader::registerAlias('JDocumentRendererRSS',              '\\Joomla\\CMS\\Document\\Renderer\\Feed\\RssRenderer', '4.0');
+JLoader::registerAlias('JDocumentRendererComponent',        '\\Joomla\\CMS\\Document\\Renderer\\Html\\ComponentRenderer', '4.0');
+JLoader::registerAlias('JDocumentRendererHead',             '\\Joomla\\CMS\\Document\\Renderer\\Html\\HeadRenderer', '4.0');
+JLoader::registerAlias('JDocumentRendererMessage',          '\\Joomla\\CMS\\Document\\Renderer\\Html\\MessageRenderer', '4.0');
+JLoader::registerAlias('JDocumentRendererModule',           '\\Joomla\\CMS\\Document\\Renderer\\Html\\ModuleRenderer', '4.0');
+JLoader::registerAlias('JDocumentRendererModules',          '\\Joomla\\CMS\\Document\\Renderer\\Html\\ModulesRenderer', '4.0');
+JLoader::registerAlias('JFeedEnclosure',                    '\\Joomla\\CMS\\Document\\Feed\\FeedEnclosure', '5.0');
+JLoader::registerAlias('JFeedImage',                        '\\Joomla\\CMS\\Document\\Feed\\FeedImage', '5.0');
+JLoader::registerAlias('JFeedItem',                         '\\Joomla\\CMS\\Document\\Feed\\FeedItem', '5.0');
+JLoader::registerAlias('JOpenSearchImage',                  '\\Joomla\\CMS\\Document\\Opensearch\\OpensearchImage', '5.0');
+JLoader::registerAlias('JOpenSearchUrl',                    '\\Joomla\\CMS\\Document\\Opensearch\\OpensearchUrl', '5.0');
+
 JLoader::registerAlias('JFilterInput',                      '\\Joomla\\CMS\\Filter\\InputFilter', '5.0');
 JLoader::registerAlias('JFilterOutput',                     '\\Joomla\\CMS\\Filter\\OutputFilter', '5.0');
 JLoader::registerAlias('JFilterWrapperOutput',              '\\Joomla\\CMS\\Filter\\Wrapper\\OutputFilterWrapper', '4.0');
+
+JLoader::registerAlias('JHttp',                             '\\Joomla\\CMS\\Http\\Http', '5.0');
+JLoader::registerAlias('JHttpFactory',                      '\\Joomla\\CMS\\Http\\HttpFactory', '5.0');
+JLoader::registerAlias('JHttpResponse',                     '\\Joomla\\CMS\\Http\\Response', '5.0');
+JLoader::registerAlias('JHttpTransport',                    '\\Joomla\\CMS\\Http\\TransportInterface', '5.0');
+JLoader::registerAlias('JHttpTransportCurl',                '\\Joomla\\CMS\\Http\\Transport\\CurlTransport', '5.0');
+JLoader::registerAlias('JHttpTransportSocket',              '\\Joomla\\CMS\\Http\\Transport\\SocketTransport', '5.0');
+JLoader::registerAlias('JHttpTransportStream',              '\\Joomla\\CMS\\Http\\Transport\\StreamTransport', '5.0');
 
 JLoader::registerAlias('JInstaller',                        '\\Joomla\\CMS\\Installer\\Installer', '5.0');
 JLoader::registerAlias('JInstallerAdapter',                 '\\Joomla\\CMS\\Installer\\InstallerAdapter', '5.0');
@@ -266,8 +305,35 @@ JLoader::registerAlias('JFormField',                        '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormHelper',                       '\\Joomla\\CMS\\Form\\FormHelper', '5.0');
 JLoader::registerAlias('JFormRule',                         '\\Joomla\\CMS\\Form\\FormRule', '5.0');
 JLoader::registerAlias('JFormWrapper',                      '\\Joomla\\CMS\\Form\\FormWrapper', '4.0');
+JLoader::registerAlias('JFormFieldAuthor',                  '\\Joomla\\CMS\\Form\\Field\\AuthorField', '5.0');
+JLoader::registerAlias('JFormFieldCaptcha',                 '\\Joomla\\CMS\\Form\\Field\\CaptchaField', '5.0');
+JLoader::registerAlias('JFormFieldChromeStyle',             '\\Joomla\\CMS\\Form\\Field\\ChromeStyleField', '5.0');
+JLoader::registerAlias('JFormFieldContenthistory',          '\\Joomla\\CMS\\Form\\Field\\ContenthistoryField', '5.0');
+JLoader::registerAlias('JFormFieldContentlanguage',         '\\Joomla\\CMS\\Form\\Field\\ContentlanguageField', '5.0');
+JLoader::registerAlias('JFormFieldContenttype',             '\\Joomla\\CMS\\Form\\Field\\ContenttypeField', '5.0');
+JLoader::registerAlias('JFormFieldEditor',                  '\\Joomla\\CMS\\Form\\Field\\EditorField', '5.0');
+JLoader::registerAlias('JFormFieldFrontend_Language',       '\\Joomla\\CMS\\Form\\Field\\FrontendLanguageField', '5.0');
+JLoader::registerAlias('JFormFieldHeadertag',               '\\Joomla\\CMS\\Form\\Field\\HeadertagField', '5.0');
+JLoader::registerAlias('JFormFieldHelpsite',                '\\Joomla\\CMS\\Form\\Field\\HelpsiteField', '5.0');
+JLoader::registerAlias('JFormFieldLastvisitDateRange',      '\\Joomla\\CMS\\Form\\Field\\LastvisitDateRangeField', '5.0');
+JLoader::registerAlias('JFormFieldLimitbox',                '\\Joomla\\CMS\\Form\\Field\\LimitboxField', '5.0');
 JLoader::registerAlias('JFormFieldMedia',                   '\\Joomla\\CMS\\Form\\Field\\MediaField', '5.0');
+JLoader::registerAlias('JFormFieldMenu',                    '\\Joomla\\CMS\\Form\\Field\\MenuField', '5.0');
+JLoader::registerAlias('JFormFieldMenuitem',                '\\Joomla\\CMS\\Form\\Field\\MenuitemField', '5.0');
+JLoader::registerAlias('JFormFieldModuleOrder',             '\\Joomla\\CMS\\Form\\Field\\ModuleOrderField', '5.0');
+JLoader::registerAlias('JFormFieldModulePosition',          '\\Joomla\\CMS\\Form\\Field\\ModulePositionField', '5.0');
+JLoader::registerAlias('JFormFieldModuletag',               '\\Joomla\\CMS\\Form\\Field\\ModuletagField', '5.0');
+JLoader::registerAlias('JFormFieldOrdering',                '\\Joomla\\CMS\\Form\\Field\\OrderingField', '5.0');
+JLoader::registerAlias('JFormFieldPlugin_Status',           '\\Joomla\\CMS\\Form\\Field\\PluginStatusField', '5.0');
+JLoader::registerAlias('JFormFieldRegistrationDateRange',   '\\Joomla\\CMS\\Form\\Field\\RegistrationDateRangeField', '5.0');
+JLoader::registerAlias('JFormFieldStatus',                  '\\Joomla\\CMS\\Form\\Field\\StatusField', '5.0');
+JLoader::registerAlias('JFormFieldTag',                     '\\Joomla\\CMS\\Form\\Field\\TagField', '5.0');
+JLoader::registerAlias('JFormFieldTemplatestyle',           '\\Joomla\\CMS\\Form\\Field\\TemplatestyleField', '5.0');
 JLoader::registerAlias('JFormFieldText',                    '\\Joomla\\CMS\\Form\\Field\\TextField', '5.0');
+JLoader::registerAlias('JFormFieldUserActive',              '\\Joomla\\CMS\\Form\\Field\\UserActiveField', '5.0');
+JLoader::registerAlias('JFormFieldUserGroupList',           '\\Joomla\\CMS\\Form\\Field\\UserGroupListField', '5.0');
+JLoader::registerAlias('JFormFieldUserState',               '\\Joomla\\CMS\\Form\\Field\\UserStateField', '5.0');
+JLoader::registerAlias('JFormFieldUser',                    '\\Joomla\\CMS\\Form\\Field\\UserField', '5.0');
 JLoader::registerAlias('JFormRuleBoolean',                  '\\Joomla\\CMS\\Form\\Rule\\BooleanRule', '5.0');
 JLoader::registerAlias('JFormRuleCalendar',                 '\\Joomla\\CMS\\Form\\Rule\\CalendarRule', '5.0');
 JLoader::registerAlias('JFormRuleCaptcha',                  '\\Joomla\\CMS\\Form\\Rule\\CaptchaRule', '5.0');
@@ -282,7 +348,6 @@ JLoader::registerAlias('JFormRuleRules',                    '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormRuleTel',                      '\\Joomla\\CMS\\Form\\Rule\\TelRule', '5.0');
 JLoader::registerAlias('JFormRuleUrl',                      '\\Joomla\\CMS\\Form\\Rule\\UrlRule', '5.0');
 JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form\\Rule\\UsernameRule', '5.0');
-JLoader::registerAlias('JFormFieldText',                    '\\Joomla\\CMS\\Form\\Field\\Text', '5.0');
 
 JLoader::registerAlias('JMicrodata',                        '\\Joomla\\CMS\\Microdata\\Microdata', '5.0');
 
@@ -337,7 +402,7 @@ JLoader::registerAlias('JMailHelper',                       '\\Joomla\\CMS\\Mail
 JLoader::registerAlias('JMailWrapperHelper',                '\\Joomla\\CMS\\Mail\\MailWrapper', '5.0');
 
 JLoader::registerAlias('JClientHelper',                     '\\Joomla\\CMS\\Client\\ClientHelper', '5.0');
-JLoader::registerAlias('JClientWrapperHelper',              '\\Joomla\\CMS\\Client\\ClienWrapper', '5.0');
+JLoader::registerAlias('JClientWrapperHelper',              '\\Joomla\\CMS\\Client\\ClientWrapper', '5.0');
 JLoader::registerAlias('JClientFtp',                        '\\Joomla\\CMS\\Client\\FtpClient', '5.0');
 JLoader::registerAlias('JFTP',                              '\\Joomla\\CMS\\Client\\FtpClient', '4.0');
 JLoader::registerAlias('JClientLdap',                       '\\Joomla\\Ldap\\LdapClient', '5.0');
@@ -348,3 +413,33 @@ JLoader::registerAlias('JUpdateAdapter',                    '\\Joomla\\CMS\\Upda
 JLoader::registerAlias('JUpdater',                          '\\Joomla\\CMS\\Updater\\Updater', '5.0');
 JLoader::registerAlias('JUpdaterCollection',                '\\Joomla\\CMS\\Updater\\Adapter\\CollectionAdapter', '5.0');
 JLoader::registerAlias('JUpdaterExtension',                 '\\Joomla\\CMS\\Updater\\Adapter\\ExtensionAdapter', '5.0');
+
+JLoader::registerAlias('JCrypt',                            '\\Joomla\\CMS\\Crypt\\Crypt', '5.0');
+JLoader::registerAlias('JCryptCipher',                      '\\Joomla\\Crypt\\CipherInterface', '5.0');
+JLoader::registerAlias('JCryptKey',                         '\\Joomla\\Crypt\\Key', '5.0');
+JLoader::registerAlias('\\Joomla\\CMS\\Crypt\\CipherInterface',  '\\Joomla\\Crypt\\CipherInterface', '5.0');
+JLoader::registerAlias('\\Joomla\\CMS\\Crypt\\Key',         '\\Joomla\\Crypt\\Key', '5.0');
+JLoader::registerAlias('JCryptCipherCrypto',                '\\Joomla\\CMS\\Crypt\\Cipher\\CryptoCipher', '5.0');
+
+JLoader::registerAlias('JStringPunycode',                   '\\Joomla\\CMS\\String\\PunycodeHelper', '5.0');
+
+JLoader::registerAlias('JBuffer',                           '\\Joomla\\CMS\\Utility\\BufferStreamHandler', '5.0');
+JLoader::registerAlias('JUtility',                          '\\Joomla\\CMS\\Utility\\Utility', '5.0');
+
+JLoader::registerAlias('JInputCli',                         '\\Joomla\\CMS\\Input\\Cli', '5.0');
+JLoader::registerAlias('JInputCookie',                      '\\Joomla\\CMS\\Input\\Cookie', '5.0');
+JLoader::registerAlias('JInputFiles',                       '\\Joomla\\CMS\\Input\\Files', '5.0');
+JLoader::registerAlias('JInput',                            '\\Joomla\\CMS\\Input\\Input', '5.0');
+JLoader::registerAlias('JInputJSON',                        '\\Joomla\\CMS\\Input\\Json', '5.0');
+
+JLoader::registerAlias('JFeed',                             '\\Joomla\\CMS\\Feed\\Feed', '5.0');
+JLoader::registerAlias('JFeedEntry',                        '\\Joomla\\CMS\\Feed\\FeedEntry', '5.0');
+JLoader::registerAlias('JFeedFactory',                      '\\Joomla\\CMS\\Feed\\FeedFactory', '5.0');
+JLoader::registerAlias('JFeedLink',                         '\\Joomla\\CMS\\Feed\\FeedLink', '5.0');
+JLoader::registerAlias('JFeedParser',                       '\\Joomla\\CMS\\Feed\\FeedParser', '5.0');
+JLoader::registerAlias('JFeedPerson',                       '\\Joomla\\CMS\\Feed\\FeedPerson', '5.0');
+JLoader::registerAlias('JFeedParserAtom',                   '\\Joomla\\CMS\\Feed\\Parser\\AtomParser', '5.0');
+JLoader::registerAlias('JFeedParserNamespace',              '\\Joomla\\CMS\\Feed\\Parser\\NamespaceParserInterface', '5.0');
+JLoader::registerAlias('JFeedParserRss',                    '\\Joomla\\CMS\\Feed\\Parser\\RssParser', '5.0');
+JLoader::registerAlias('JFeedParserRssItunes',              '\\Joomla\\CMS\\Feed\\Parser\\Rss\\ItunesRssParser', '5.0');
+JLoader::registerAlias('JFeedParserRssMedia',               '\\Joomla\\CMS\\Feed\\Parser\\Rss\\MediaRssParser', '5.0');

@@ -231,7 +231,7 @@ class Index extends ListModel
 		$listOrder = $this->getState('list.ordering', 'l.title');
 		$listDir   = $this->getState('list.direction', 'ASC');
 
-		if ($listOrder == 't.title')
+		if ($listOrder === 't.title')
 		{
 			$ordering = $db->quoteName('t.title') . ' ' . $db->escape($listDir) . ', ' . $db->quoteName('l.title') . ' ' . $db->escape($listDir);
 		}
@@ -422,16 +422,13 @@ class Index extends ListModel
 		{
 			$table->reset();
 
-			if ($table->load($pk))
+			if ($table->load($pk) && !$this->canEditState($table))
 			{
-				if (!$this->canEditState($table))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
-					return false;
-				}
+				return false;
 			}
 		}
 

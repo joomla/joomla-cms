@@ -12,7 +12,8 @@
       ". main main main main ."
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b ."
-      ". footer footer footer footer .";
+      ". footer footer footer footer ."
+      ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $aurora-grid-gutter;
 
@@ -32,6 +33,10 @@
       }
     }
 
+    .container-main {
+      margin: ($aurora-grid-gutter / -2) ($aurora-grid-gutter / -2) ($aurora-grid-gutter / 2);
+    }
+
     > .full-width {
       grid-column: full-start / full-end;
     }
@@ -45,7 +50,8 @@
         ". top-b top-b top-b top-b ."
         ". bot-a bot-a bot-a bot-a ."
         ". bot-b bot-b bot-b bot-b ."
-        ". footer footer footer footer .";
+        ". footer footer footer footer ."
+        ". debug debug debug debug .";
     }
   }
 
@@ -64,26 +70,23 @@
     }
   }
 
-  .container-main {
-    margin: ($aurora-grid-gutter / -2) ($aurora-grid-gutter / -2) ($aurora-grid-gutter / 2);
-  }
-
 }
 
-header                   { grid-area: head; }
-.container-banner        { grid-area: banner; }
-.container-top-a         { grid-area: top-a; }
-.container-top-b         { grid-area: top-b; }
-.container-main          { grid-area: main; }
-.container-component     { grid-area: comp; }
-.container-sidebar-left  { grid-area: side-l; }
-.container-sidebar-right { grid-area: side-r; }
-.container-main-top      { grid-area: main-t; }
-.container-main-bottom   { grid-area: main-b; }
-.container-bradcrumbs    { grid-area: bread; }
-.container-bottom-a      { grid-area: bot-a; }
-.container-bottom-b      { grid-area: bot-b; }
-.container-footer        { grid-area: footer; }
+header                    { grid-area: head; }
+.container-banner         { grid-area: banner; }
+.container-top-a          { grid-area: top-a; }
+.container-top-b          { grid-area: top-b; }
+.container-main           { grid-area: main; }
+.container-component      { grid-area: comp; }
+.container-sidebar-left   { grid-area: side-l; }
+.container-sidebar-right  { grid-area: side-r; }
+.container-main-top       { grid-area: main-t; }
+.container-main-bottom    { grid-area: main-b; }
+.container-bradcrumbs     { grid-area: bread; }
+.container-bottom-a       { grid-area: bot-a; }
+.container-bottom-b       { grid-area: bot-b; }
+.container-footer         { grid-area: footer; }
+.system-debug             { grid-area: debug; }
 
 .container-component {
   grid-column: auto 2fr;

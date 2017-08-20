@@ -114,6 +114,12 @@ class Modules extends ListModel
 			$this->setState('client_id', $clientId);
 		}
 
+		// Use a different filter file when client is administrator
+		if ($clientId == 1)
+		{
+			$this->filterFormName = 'filter_modulesadmin';
+		}
+
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);

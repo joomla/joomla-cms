@@ -11,6 +11,9 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Modules manager master display controller.
@@ -50,6 +53,48 @@ class Controller extends BaseController
 			$this->setRedirect(\JRoute::_('index.php?option=com_modules&view=modules', false));
 
 			return false;
+		}
+
+		// Check custom administrator menu modules
+		if (ModuleHelper::isAdminMultilang())
+		{
+			$languages = LanguageHelper::getInstalledLanguages(1, true);
+			$langCodes = array();
+
+			foreach ($languages as $language)
+			{
+				if (isset($language->metadata['nativeName']))
+				{
+					$languageName = $language->metadata['nativeName'];
+				}
+				else
+				{
+					$languageName = $language->metadata['name'];
+				}
+
+				$langCodes[$language->metadata['tag']] = $languageName;
+			}
+
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select($db->qn('m.language'))
+				->from($db->qn('#__modules', 'm'))
+				->where($db->qn('m.module') . ' = ' . $db->quote('mod_menu'))
+				->where($db->qn('m.published') . ' = 1')
+				->where($db->qn('m.client_id') . ' = 1')
+				->group($db->qn('m.language'));
+
+			$mLanguages = $db->setQuery($query)->loadColumn();
+
+			// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
+			if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages)))
+			{
+				$app         = Factory::getApplication();
+				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
+
+				$app->enqueueMessage(\JText::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
+			}
 		}
 
 		return parent::display();

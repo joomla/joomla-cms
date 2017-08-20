@@ -230,7 +230,7 @@ abstract class Admin extends Form
 		{
 			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
 
-			if ($cmd == 'c')
+			if ($cmd === 'c')
 			{
 				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
@@ -247,7 +247,7 @@ abstract class Admin extends Form
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands[$this->batch_copymove], $pks, $contexts))
+			elseif ($cmd === 'm' && !$this->batchMove($commands[$this->batch_copymove], $pks, $contexts))
 			{
 				return false;
 			}
@@ -1218,7 +1218,7 @@ abstract class Admin extends Form
 			}
 
 			// Show a warning if the item isn't assigned to a language but we have associations.
-			if ($associations && ($table->language == '*'))
+			if ($associations && $table->language === '*')
 			{
 				\JFactory::getApplication()->enqueueMessage(
 					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
@@ -1255,7 +1255,7 @@ abstract class Admin extends Form
 			$db->execute();
 
 			// Adding self to the association
-			if ($table->language != '*')
+			if ($table->language !== '*')
 			{
 				$associations[$table->language] = (int) $table->$key;
 			}

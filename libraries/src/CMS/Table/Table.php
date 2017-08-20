@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 \JLoader::import('joomla.filesystem.path');
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -64,7 +66,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	/**
 	 * \JDatabaseDriver object.
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -417,8 +419,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	/**
 	 * Method to append the primary keys for this table to a query.
 	 *
-	 * @param   \JDatabaseQuery  $query  A query object to append.
-	 * @param   mixed            $pk     Optional primary key parameter.
+	 * @param   DatabaseQuery  $query  A query object to append.
+	 * @param   mixed          $pk     Optional primary key parameter.
 	 *
 	 * @return  void
 	 *
