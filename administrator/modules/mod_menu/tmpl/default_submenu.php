@@ -116,21 +116,13 @@ if ($this->enabled && $current->hasChildren())
 		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
 
 		echo '<ul' . $id . ' class="nav panel-collapse collapse collapse-level-' . $current->getLevel() . '">' . "\n";
+		echo '<li role="menuitem">' . JText::_($current->get('title')) . '</li>';
 	}
 	else
 	{
 		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
 		   <li>' . JText::_($current->get('title')) . '<a href="#" class="close"><span aria-label="Close Menu">×</span></a></li>' . "\n";
 	}
-
-	echo '<li role="menuitem">' . JText::_($current->get('title'));
-
-	if ($current->getLevel() === 1)
-	{
-		echo '<a href="#" class="close"><span aria-label="Close Menu">×</span></a>';
-	}
-
-	echo '</li>';
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
 	$this->renderSubmenu(__FILE__);
