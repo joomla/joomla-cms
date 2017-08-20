@@ -85,19 +85,19 @@ if ($current->get('link') === '#')
 	$link = '#collapse' . $this->tree->getCounter();
 }
 
-if ($link != null && $current->get('target') != null)
+if ($link !== null && $current->get('target') !== null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
 		. $iconClass
 		. '<span class="sidebar-item-title">' . JText::_($current->get('title')) . "</span></a>";
 }
-elseif ($link != null && $current->get('target') == null)
+elseif ($link !== null && $current->get('target') === null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. $iconClass
 		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
 }
-elseif ($current->get('title') != null && $current->get('class') != 'separator')
+elseif ($current->get('title') !== null && $current->get('class') !== 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . ">"
 		. $iconClass
