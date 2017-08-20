@@ -15,7 +15,8 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if ($data['view'] instanceof MenusViewItems || $data['view'] instanceof MenusViewMenus)
+if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Html
+	|| $data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\Html)
 {
 	// Client selector doesn't have to activate the filter bar.
 	unset($data['view']->activeFilters['client_id']);
