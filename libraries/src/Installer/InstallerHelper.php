@@ -340,7 +340,7 @@ abstract class InstallerHelper
 	 * @param   string     $packagefile           Location of the package to be installed
 	 * @param   Installer  $updateServerManifest  Update Server manifest
 	 *
-	 * @return  mixed  boolean if the hashes match, null if hashes not found
+	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -359,20 +359,20 @@ abstract class InstallerHelper
 				$hash_package = hash_file($hash, $packagefile);
 				$hash_remote  = $update->$hash->_data;
 
-				$hashOnFile = true;
+				$hashOnFile   = true;
 
 				if ($hash_package !== $hash_remote)
 				{
-					return false;
+					return 0;
 				}
 			}
 		}
 
 		if ($hashOnFile)
 		{
-			return true;
+			return 1;
 		}
 
-		return null;
+		return 2;
 	}
 }
