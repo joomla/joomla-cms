@@ -10,9 +10,6 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Model\Model;
-
 /**
  * Factory to create MVC objects based on a namespace.
  *
