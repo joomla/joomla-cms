@@ -1051,14 +1051,9 @@ class PlgSystemDebug extends CMSPlugin
 
 				if ($timing[$id]['1'])
 				{
-<<<<<<< HEAD
-					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST',
-							sprintf('<span class="badge badge-secondary">%.2f&nbsp;ms</span>', $timing[$id]['1'])
-=======
 					$htmlTiming .= ' ' . JText::sprintf(
 							'PLG_DEBUG_QUERY_AFTER_LAST',
-							sprintf('<span class="badge badge-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
->>>>>>> upstream/4.0-dev
+							sprintf('<span class="badge badge-secondary">%.2f&nbsp;ms</span>', $timing[$id]['1'])
 						);
 				}
 
@@ -1114,7 +1109,7 @@ class PlgSystemDebug extends CMSPlugin
 						}
 
 						$htmlResultsReturned = '<span class="badge ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
-						$htmlTiming          .= ' <span class="dbg-query-rowsnumber">'
+						$htmlTiming         .= ' <span class="dbg-query-rowsnumber">'
 							. JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
