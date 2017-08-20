@@ -21,13 +21,16 @@ if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Ht
 	$clientIdField = $data['view']->filterForm->getField('client_id');
 
 	if ($clientIdField): ?>
-	<div class="js-stools-field-filter js-stools-client_id">
-		<?php echo $clientIdField->input; ?>
+	<div class="js-stools-container-selector">
+		<div class="js-stools-field-selector js-stools-client_id">
+			<?php echo $clientIdField->input; ?>
+		</div>
 	</div>
 	<?php endif; ?>
-
-	<div class="js-stools-field-filter js-stools-menutype">
-		<?php echo $menuTypeField->input; ?>
+	<div class="js-stools-container-selector">
+		<div class="js-stools-field-selector js-stools-menutype">
+			<?php echo $menuTypeField->input; ?>
+		</div>
 	</div>
 	<?php
 }
