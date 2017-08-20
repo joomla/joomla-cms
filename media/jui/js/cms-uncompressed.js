@@ -63,7 +63,7 @@ if (typeof(Joomla) === 'undefined') {
 				fieldName = condition.field;
 				$fields   = $('[name="' + fieldName + '"], [name="' + fieldName + '[]"]');
 
-				condition['valid'] = 0;
+				condition.valid = 0;
 
 				// Test in each of the elements in the field array if condition is valid
 				$fields.each(function() {
@@ -78,27 +78,27 @@ if (typeof(Joomla) === 'undefined') {
 						itemval = $field.val();
 					}
 					else {
-						// select lists, textarea etc. Note that multiple-select list returns an Array here 
+						// select lists, textarea etc. Note that multiple-select list returns an Array here
 						// se we can always tream 'itemval' as an array
 						itemval = $field.val();
 						// a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
-						if (itemval == null && $field.prop("tagName").toLowerCase() == "select") {
+						if (itemval === null && $field.prop("tagName").toLowerCase() == "select") {
 							itemval = [];
 						}
 					}
 
 					// Convert to array to allow multiple values in the field (e.g. type=list multiple)
 					// and normalize as string
-					if (!(typeof itemval === 'object')) {
+					if (typeof itemval !== 'object') {
 						itemval = JSON.parse('["' + itemval + '"]');
 					}
 
-					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match 
+					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match
 					// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
 					// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
+					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 					// We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
-					// 
+					//
 					// Test if any of the values of the field exists in showon conditions
 					for (var i in itemval) {
 						// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
@@ -107,12 +107,12 @@ if (typeof(Joomla) === 'undefined') {
 							continue;
 						}
 						// ":" Equal to one or more of the values condition
-						if (jsondata[j]['sign'] == '=' && jsondata[j]['values'].indexOf(itemval[i]) !== -1) {
-							jsondata[j]['valid'] = 1;
+						if (jsondata[j].sign == '=' && jsondata[j].values.indexOf(itemval[i]) !== -1) {
+							jsondata[j].valid = 1;
 						}
 						// "!:" Not equal to one or more of the values condition
-						if (jsondata[j]['sign'] == '!=' && jsondata[j]['values'].indexOf(itemval[i]) === -1) {
-							jsondata[j]['valid'] = 1;
+						if (jsondata[j].sign == '!=' && jsondata[j].values.indexOf(itemval[i]) === -1) {
+							jsondata[j].valid = 1;
 						}
 
 					}
@@ -121,19 +121,19 @@ if (typeof(Joomla) === 'undefined') {
 
 				// Verify conditions
 				// First condition (no operator): current condition must be valid
-				if (condition['op'] === '') {
-					if (condition['valid'] === 0) {
+				if (condition.op === '') {
+					if (condition.valid === 0) {
 						showfield = false;
 					}
 				}
 				// Other conditions (if exists)
 				else {
 					// AND operator: both the previous and current conditions must be valid
-					if (condition['op'] === 'AND' && condition['valid'] + jsondata[j - 1]['valid'] < 2) {
+					if (condition.op === 'AND' && condition.valid + jsondata[j - 1].valid < 2) {
 						showfield = false;
 					}
 					// OR operator: one of the previous and current conditions must be valid
-					if (condition['op'] === 'OR' && condition['valid'] + jsondata[j - 1]['valid'] > 0) {
+					if (condition.op === 'OR' && condition.valid + jsondata[j - 1].valid > 0) {
 						showfield = true;
 					}
 				}
@@ -165,7 +165,7 @@ if (typeof(Joomla) === 'undefined') {
 
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
-						field   = jsondata[ij]['field'];
+						field   = jsondata[ij].field;
 						$fields = $fields.add($('[name="' + field + '"], [name="' + field + '[]"]'));
 					}
 
