@@ -125,8 +125,42 @@ class PlgSystemRedirect extends JPlugin
 		$urlWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
+		$plugin = JPluginHelper::getPlugin('system', 'redirect');
+
+		$params = new Registry($plugin->params);
+
+		$excludes = (array) $params->get('exclude_urls');
+
+		$skipUrl = false;
+
+		foreach ($excludes as $exclude)
+		{
+			if (empty($exclude->term))
+			{
+				continue;
+			}
+
+			if (!empty($exclude->regexp))
+			{
+				// Only check $url, because it includes all other sub urls
+				if (preg_match('/' . $exclude->term . '/i', $url))
+				{
+					$skipUrl = true;
+					break;
+				}
+			}
+			else
+			{
+				if (StringHelper::strpos($url, $exclude->term))
+				{
+					$skipUrl = true;
+					break;
+				}
+			}
+		}
+
 		// Why is this (still) here?
-		if ((strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
+		if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
 		{
 			JErrorPage::render($error);
 		}
