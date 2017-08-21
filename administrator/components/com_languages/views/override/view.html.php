@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * View to edit an language override
+ * View to edit a language override
  *
  * @since  2.5
  */
