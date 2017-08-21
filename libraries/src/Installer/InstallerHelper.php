@@ -26,6 +26,30 @@ use Joomla\CMS\Version;
 abstract class InstallerHelper
 {
 	/**
+	 * Hash not validated identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */	
+	const HASH_NOT_VALIDATED = 0;
+
+	/**
+	 * Hash validated identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_VALIDATED     = 1;
+
+	/**
+	 * Hash not provided identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_NOT_PROVIDED  = 2;
+
+	/**
 	 * Downloads a package
 	 *
 	 * @param   string  $url     URL of file to download
@@ -346,7 +370,7 @@ abstract class InstallerHelper
 	 */
 	public static function isChecksumValid($packagefile, $updateServerManifest)
 	{
-		$hashes     = array("sha256", "sha1", "md5");
+		$hashes     = array("sha256");
 		$hashOnFile = false;
 
 		$update = new \JUpdate;
@@ -363,16 +387,16 @@ abstract class InstallerHelper
 
 				if ($hash_package !== $hash_remote)
 				{
-					return 0;
+					return self::HASH_NOT_VALIDATED;
 				}
 			}
 		}
 
 		if ($hashOnFile)
 		{
-			return 1;
+			return self::HASH_VALIDATED;
 		}
 
-		return 2;
+		return self::HASH_NOT_PROVIDED;
 	}
 }
