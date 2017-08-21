@@ -47,6 +47,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Generic submit form
+	 *
+	 * @param  {String}  task      The given task
+	 * @param  {node}    form      The form element
+	 * @param  {bool}    validate  The form element
+	 *
+	 * @returns  {void}
 	 */
 	Joomla.submitform = function(task, form, validate) {
 
@@ -81,7 +87,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * Default function. Usually would be overriden by the component
+	 * Default function. Can be overriden by the component to add custom logic
+	 *
+	 * @param  {bool}  task  The given task
+	 *
+	 * @returns {void}
 	 */
 	Joomla.submitbutton = function( pressbutton ) {
 		Joomla.submitform( pressbutton );
@@ -89,6 +99,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Custom behavior for JavaScript I18N in Joomla! 1.6
+	 *
+	 * @type {{}}
 	 *
 	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
 	 */
@@ -148,10 +160,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Get script(s) options
 	 *
-	 * @param {String} key  Name in Storage
-	 * @param mixed    def  Default value if nothing found
+	 * @param  {String}  key  Name in Storage
+	 * @param  {mixed}   def  Default value if nothing found
 	 *
-	 * @return mixed
+	 * @return {mixed}
 	 *
 	 * @since 3.7.0
 	 */
@@ -167,7 +179,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Load new options from given options object or from Element
 	 *
-	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+	 * @param  {Object|undefined}  options  The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
 	 *
 	 * @since 3.7.0
 	 */
@@ -211,6 +223,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Method to replace all request tokens on the page with a new one.
+	 *
+	 * @param {String}  newToken  The token
+	 *
 	 * Used in Joomla Installation
 	 */
 	Joomla.replaceTokens = function( newToken ) {
@@ -234,8 +249,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Verifies if the string is in a valid email format
 	 *
-	 * @param string
-	 * @return boolean
+	 * @param  {string}  text  The text for validation
+	 *
+	 * @return {boolean}
+	 *
+	 * @deprecated  4.0 No replacement. Use formvalidator
 	 */
 	Joomla.isEmail = function( text ) {
 		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
@@ -249,8 +267,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Checkboxes must have an id attribute in the form cb0, cb1...
 	 *
-	 * @param   mixed   The number of box to 'check', for a checkbox element
-	 * @param   string  An alternative field name
+	 * @param   {mixed}   checkbox  The number of box to 'check', for a checkbox element
+	 * @param   {string}  stub      An alternative field name
+	 *
+	 * @return  {boolean}
 	 */
 	Joomla.checkAll = function( checkbox, stub ) {
 		if (!checkbox.form) return false;
@@ -280,12 +300,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
 	 *
-	 * @param   object  messages    JavaScript object containing the messages to render. Example:
+	 * @param   {object}  messages    JavaScript object containing the messages to render. Example:
 	 *                              var messages = {
-	 *                              	"message": ["Message one", "Message two"],
-	 *                              	"error": ["Error one", "Error two"]
+	 *                                  "message": ["Message one", "Message two"],
+	 *                                  "error": ["Error one", "Error two"]
 	 *                              };
-	 * @return  void
+	 * @return  {void}
 	 */
 	Joomla.renderMessages = function( messages ) {
 		Joomla.removeMessages();
@@ -337,11 +357,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 	};
 
-
 	/**
 	 * Remove messages
 	 *
-	 * @return  void
+	 * @return  {void}
 	 */
 	Joomla.removeMessages = function() {
 		var messageContainer = document.getElementById( 'system-message-container' );
@@ -359,11 +378,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Treat AJAX errors.
 	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
-	 * @param   object  xhr          XHR object.
-	 * @param   string  textStatus   Type of error that occurred.
-	 * @param   string  error        Textual portion of the HTTP status.
+	 * @param   {object}  xhr         XHR object.
+	 * @param   {string}  textStatus  Type of error that occurred.
+	 * @param   {string}  error       Textual portion of the HTTP status.
 	 *
-	 * @return  object  JavaScript object containing the system error message.
+	 * @return  {object}  JavaScript object containing the system error message.
 	 *
 	 * @since  3.6.0
 	 */
@@ -421,9 +440,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * administrator/components/com_languages/helpers/html/languages.php
 	 * libraries/joomla/html/html/grid.php
 	 *
-	 * @param isitchecked
-	 * @param form
-	 * @return
+	 * @param  {boolean}  isitchecked  Flag for checked
+	 * @param  {node}     form         The form
+	 *
+	 * @return  {void}
 	 */
 	Joomla.isChecked = function( isitchecked, form ) {
 		if ( typeof form  === 'undefined' ) {
@@ -455,6 +475,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * USED IN: libraries/joomla/html/toolbar/button/help.php
 	 *
 	 * Pops up a new window in the middle of the screen
+	 * @deprecated  4.0 No replacement
 	 */
 	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
 		var winl = ( screen.width - w ) / 2,
@@ -473,6 +494,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * In other words, on any reorderable table
+	 *
+	 * @param  {string}  order  The order value
+	 * @param  {string}  dir    The direction
+	 * @param  {string}  task   The task
+	 * @param  {node}    form   The form
+	 *
+	 * return  {void}
 	 */
 	Joomla.tableOrdering = function( order, dir, task, form ) {
 		if ( typeof form  === 'undefined' ) {
@@ -501,6 +529,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *          The original item value that was selected
 	 * @param string
 	 *          The elem where the list will be written
+	 *
+	 * @deprecated  4.0 No replacement
 	 */
 	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
 		var html = '<select ' + selectParams + '>',
@@ -550,6 +580,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *          The original key that was selected
 	 * @param string
 	 *          The original item value that was selected
+	 *
+	 * @deprecated  4.0 No replacement
 	 */
 	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
 		var list = document.adminForm[ listname ],
@@ -588,6 +620,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * @param radioObj
 	 * @return
+	 *
+	 * @deprecated  4.0 No replacement
 	 */
 	// return the value of the radio button that is checked
 	// return an empty string if none are checked, or
@@ -618,6 +652,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param frmName
 	 * @param srcListName
 	 * @return
+	 *
+	 * @deprecated  4.0 No replacement
 	 */
 	window.getSelectedValue = function ( frmName, srcListName ) {
 		var srcList = document[ frmName ][ srcListName ],
@@ -636,8 +672,22 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param id
 	 * @param task
 	 * @return
+	 *
+	 * @deprecated 4.0  Use Joomla.listItemTask() instead
 	 */
 	window.listItemTask = function ( id, task ) {
+		Joomla.listItemTask( id, task );
+	};
+
+	/**
+	 * USED IN: all over :)
+	 *
+	 * @param  {string}  id    The id
+	 * @param  {string}  task  The task
+	 *
+	 * @return {boolean}
+	 */
+	Joomla.listItemTask = function ( id, task ) {
 		var f = document.adminForm,
 			i = 0, cbx,
 			cb = f[ id ];
@@ -664,7 +714,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Default function. Usually would be overriden by the component
 	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
+	 * @deprecated 4.0  Use Joomla.submitbutton() instead.
 	 */
 	window.submitbutton = function ( pressbutton ) {
 		Joomla.submitbutton( pressbutton );
@@ -673,7 +723,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Submit the admin form
 	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
+	 * @deprecated 4.0  Use Joomla.submitform() instead.
 	 */
 	window.submitform = function ( pressbutton ) {
 		Joomla.submitform(pressbutton);
@@ -683,6 +733,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * There's a better way to do this now, can we try to kill it?
+	 *
+	 * @deprecated 4.0  No replacement
 	 */
 	window.saveorder = function ( n, task ) {
 		window.checkAll_button( n, task );
@@ -696,6 +748,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param   string   task  The task to perform
 	 *
 	 * @return  void
+	 *
+	 * @deprecated 4.0  No replacement
 	 */
 	window.checkAll_button = function ( n, task ) {
 		task = task ? task : 'saveorder';
@@ -722,10 +776,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 *          /installation/template/js/installation.js
 	 *
-	 * @param   string  task           The task to do [load, show, hide] (defaults to show).
-	 * @param   object  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 * @param   {String}       task           The task to do [load, show, hide] (defaults to show).
+	 * @param   {HTMLElement}  parentElement  The HTML element where we are appending the layer (defaults to body).
 	 *
-	 * @return  object  The HTML loading layer element.
+	 * @return  {HTMLElement}  The HTML loading layer element.
 	 *
 	 * @since  3.6.0
 	 */
@@ -735,10 +789,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		parentElement = parentElement || document.body;
 
 		// Create the loading layer (hidden by default).
-		if (task == 'load')
+		if (task === 'load')
 		{
-			// Gets the site base path from the body element (defaults to empty - no subfolder)
-			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+			// Gets the site base path
+			var systemPaths = Joomla.getOptions('system.paths') || {},
+				basePath    = systemPaths.root || '';
 
 			var loadingDiv = document.createElement('div');
 
@@ -839,24 +894,33 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}, options);
 
 		// Use POST for send the data
-		options.method = options.data ? 'POST' : options.method;
+		options.method = options.data ? 'POST' : options.method.toUpperCase();
 
 		// Set up XMLHttpRequest instance
 		try{
 			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+
 			xhr.open(options.method, options.url, true);
 
 			// Set the headers
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-			if (options.method === 'POST' && (!options.headers || !options.headers['Content-Type'])) {
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			if (options.method === 'POST') {
+				var token = Joomla.getOptions('csrf.token', '');
+
+				if (token) {
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				}
+
+				if (!options.headers || !options.headers['Content-Type']) {
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				}
 			}
 
 			// Custom headers
 			if (options.headers){
-				for (var p in options.headers){
+				for (var p in options.headers) {
 					if (options.headers.hasOwnProperty(p)) {
 						xhr.setRequestHeader(p, options.headers[p]);
 					}
