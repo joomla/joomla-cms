@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Model;
+namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +17,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ListModel extends Model
+class ListModel extends BaseModel
 {
 	/**
 	 * Internal memory based cache array of data.
