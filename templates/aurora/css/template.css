@@ -8287,7 +8287,9 @@ iframe {
 .modal iframe {
   width: 100%; }
 
-body > div, body header > nav, body footer {
+body > div,
+body header > nav,
+body footer {
   display: flex;
   width: 100%;
   max-width: 1140px;
@@ -8311,7 +8313,7 @@ header {
   flex: 1;
   margin: 7.5px; }
 
-@media (max-width: 575px) {
+@media (max-width: 767px) {
   .container-top-a,
   .container-top-b,
   .container-bottom-a,
@@ -8326,7 +8328,7 @@ header {
 .container-main > div {
   margin: 7.5px; }
 
-@media (max-width: 575px) {
+@media (max-width: 767px) {
   .container-main {
     flex-direction: column; }
     .container-main > div {
@@ -8349,7 +8351,7 @@ header {
     .container-sidebar-left > div:last-of-type,
     .container-sidebar-right > div:last-of-type {
       margin-bottom: 0; }
-  @media (max-width: 575px) {
+  @media (max-width: 767px) {
     .container-sidebar-left,
     .container-sidebar-right {
       width: calc(100% - 15px);
@@ -8571,6 +8573,18 @@ header {
   display: grid;
   grid-gap: 15px;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  @media (max-width: 991px) {
+    .container-top-a,
+    .container-top-b,
+    .container-bottom-a,
+    .container-bottom-b {
+      grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 767px) {
+    .container-top-a,
+    .container-top-b,
+    .container-bottom-a,
+    .container-bottom-b {
+      grid-template-columns: 1fr; } }
 
 .awesomplete {
   display: block; }
