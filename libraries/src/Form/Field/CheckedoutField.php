@@ -69,7 +69,7 @@ class CheckedoutField extends \JFormFieldList
 			else
 			{
 				$this->alias = $matches[2];
-				$this->from = $db->quoteName($matches[1]). ' AS ' . $this->alias;
+				$this->from = $db->quoteName($matches[1]) . ' AS ' . $this->alias;
 			}
 		}
 		else
