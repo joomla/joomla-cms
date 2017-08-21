@@ -41,7 +41,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const MINOR_VERSION = 8;
+	const MINOR_VERSION = 9;
 
 	/**
 	 * Patch release version.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '8-August-2017';
+	const RELDATE = '15-August-2017';
 
 	/**
 	 * Release time.

@@ -249,6 +249,7 @@ class JAdminCssMenu
 			}
 
 			$item->scope = isset($item->scope) ? $item->scope : 'default';
+			$item->icon  = isset($item->icon) ? $item->icon : '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
 			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
@@ -352,7 +353,7 @@ class JAdminCssMenu
 			elseif ($item->type == 'heading')
 			{
 				// We already excluded heading type menu item with no children.
-				$this->tree->addChild(new Node\Heading($item->title, $class), $this->enabled);
+				$this->tree->addChild(new Node\Heading($item->title, $class, null, $item->icon), $this->enabled);
 
 				if ($this->enabled)
 				{
@@ -362,7 +363,7 @@ class JAdminCssMenu
 			}
 			elseif ($item->type == 'url')
 			{
-				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class);
+				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
 
 				if ($this->enabled)
@@ -373,7 +374,7 @@ class JAdminCssMenu
 			}
 			elseif ($item->type == 'component')
 			{
-				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class);
+				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
 
 				if ($this->enabled)
@@ -385,7 +386,7 @@ class JAdminCssMenu
 			elseif ($item->type == 'container')
 			{
 				// We already excluded container type menu item with no children.
-				$this->tree->addChild(new Node\Container($item->title, $item->class), $this->enabled);
+				$this->tree->addChild(new Node\Container($item->title, $item->class, null, $item->icon), $this->enabled);
 
 				if ($this->enabled)
 				{
