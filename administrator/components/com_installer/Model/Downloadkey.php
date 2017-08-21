@@ -96,11 +96,13 @@ class Downloadkey extends Admin
 				)
 			)
 			->from($db->quoteName('#__update_sites', 's'))
-			->innerJoin($db->quoteName('#__update_sites_extensions', 'se') .
+			->innerJoin(
+				$db->quoteName('#__update_sites_extensions', 'se') .
 				' ON ' . $db->quoteName('se.update_site_id') .
 				' = ' . $db->quoteName('s.update_site_id')
 			)
-			->innerJoin($db->quoteName('#__extensions', 'e') .
+			->innerJoin(
+				$db->quoteName('#__extensions', 'e') .
 				' ON ' . $db->quoteName('e.extension_id') .
 				' = ' . $db->quoteName('se.extension_id')
 			)
