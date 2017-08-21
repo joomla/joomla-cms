@@ -997,4 +997,138 @@ ENDDATA;
 			}
 		}
 	}
+
+	/**
+	 * Method to get a list of 3rd party extensions, sorted by compatibility
+	 *
+	 * @param   string  $latest_version  The Joomla! version to test against
+	 *
+	 * @return  array  An array of data items.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getExtensions($latest_version)
+	{
+		$coreExtensions = JExtensionHelper::getCoreExtensions();
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Build query to exclude language extensions and language packages
+		$query->select('e1.*')
+			->from($db->qn('#__extensions', 'e1'))
+			->leftJoin($db->qn('#__extensions', 'e2') . ' ON e1.extension_id = e2.package_id')
+			->where('e1.' . $db->qn('protected') . ' = 0')
+			->where('e1.' . $db->qn('type') . ' <> ' . $db->q('language'))
+			->where('(e2.' . $db->qn('type') . ' IS NULL OR e2.' . $db->qn('type') . ' <> ' . $db->q('language') . ')');
+
+		// Add condition to exclude core extensions if not already excluded before
+		foreach ($coreExtensions as $coreExtension)
+		{
+			if ($coreExtension[0] !== 'language' && $coreExtension[1] !== 'pkg_en-GB')
+			{
+				$query->where(
+					'(' . 'e1.' . $db->qn('type') . ' <> ' . $db->q($coreExtension[0])
+					. ' OR ' . 'e1.' . $db->qn('element') . ' <> ' . $db->q($coreExtension[1])
+					. ' OR ' . 'e1.' . $db->qn('folder') . ' <> ' . $db->q($coreExtension[2])
+					. ' OR ' . 'e1.' . $db->qn('client_id') . ' <> ' . $coreExtension[3] . ')'
+				);
+			}
+		}
+
+		$db->setQuery($query);
+
+		$extensions = $db->loadObjectList();
+
+		return $this->checkCompatibility($extensions, $latest_version);
+	}
+
+	/**
+	 * Method to filter 3rd party extensions by the compatibility versions
+	 *
+	 * @param   array   $extensions      The items to check as an object list. See getExtensions().
+	 * @param   string  $latest_version  The Joomla! version to test against
+	 *
+	 * @return  array  An array of data items.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function checkCompatibility($extensions, $latest_version)
+	{
+		// If empty, return the current value
+		if (empty($extensions) || !is_array($extensions))
+		{
+			return array();
+		}
+
+		// Return variable
+		$extensions_compatibility = array(
+			'compatible' => array(),
+			'not_compatible' => array(),
+			'na' => array()
+		);
+
+		jimport('joomla.updater.update');
+
+		preg_match('/^(\d+\.\d+\.(\d+))/', $latest_version, $version);
+
+		foreach ($extensions as $extension)
+		{
+			$locations = $this->getUpdateSitesLocations($extension->extension_id);
+
+			// If there are no update servers then we do not know if there is a compatible update
+			if (empty($locations))
+			{
+				$extensions_compatibility['na'][] = $extension;
+				continue;
+			}
+
+			foreach ($locations as $location)
+			{
+				$update = new JUpdate;
+				$update->set('jversion.full', $version[1]);
+				$update->set('jversion.dev_level', $version[2]);
+				$update->loadFromXML($location);
+
+				// If there is a download URL then there is probably a compatible update
+				$download_url = $update->get('downloadurl');
+				if (!empty($download_url) && !empty($download_url->_data))
+				{
+					$extensions_compatibility['compatible'][] = $extension;
+					continue 2;
+				}
+			}
+
+			$extensions_compatibility['not_compatible'][] = $extension;
+		}
+
+		return $extensions_compatibility;
+	}
+
+	/**
+	 * Get an array with URLs to update servers for a given extension ID
+	 *
+	 * @param   int  $extension_id  The extension ID
+	 * 
+	 * @return  array  An array with URLs
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getUpdateSitesLocations($extension_id)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('us.location'))
+			->from($db->qn('#__update_sites', 'us'))
+			->leftJoin(
+				$db->qn('#__update_sites_extensions', 'e')
+				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+			)
+			->where($db->qn('e.extension_id') . ' = ' . (int) $extension_id);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
 }
