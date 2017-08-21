@@ -197,7 +197,7 @@ class SysInfo extends Model
 	}
 
 	/**
-	 * Offuscate section values
+	 * Obfuscate section values
 	 *
 	 * @param   mixed  $sectionValues  Section data
 	 *

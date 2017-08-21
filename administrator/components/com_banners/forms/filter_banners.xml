@@ -12,8 +12,6 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
-			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,8 +20,6 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_banners"
 			onchange="this.form.submit();"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
@@ -34,8 +30,6 @@
 		<field
 			name="client_id"
 			type="bannerclient"
-			label="COM_BANNERS_FILTER_CLIENT"
-			description="COM_BANNERS_FILTER_CLIENT_DESC"
 			extension="com_content"
 			onchange="this.form.submit();"
 			>
@@ -45,8 +39,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -56,8 +48,6 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -71,8 +61,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.name ASC"
@@ -104,8 +92,6 @@
 			name="limit"
 			type="limitbox"
 			class="input-mini custom-select"
-			label="COM_BANNERS_LIST_LIMIT"
-			description="COM_BANNERS_LIST_LIMIT_DESC"
 			default="25"
 			onchange="this.form.submit();"
 		/>

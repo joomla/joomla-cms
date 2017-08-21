@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
-
 $token   = JSession::getFormToken();
 $return  = JFactory::getApplication()->input->getBase64('return');
 $maxSize = JFilesystemHelper::fileUploadMaxSize();

@@ -13,9 +13,23 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('bootstrap.tooltip');
 
 $this->fieldsets = $this->form->getFieldsets('params');
+
+// Joomla4Upgrade TODO: Make work with J4 Modals
+JFactory::getDocument()->addScriptDeclaration("
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
+			Joomla.submitform(task, document.getElementById('style-form'));
+		}
+		
+		if (self !== top) {
+			window.top.setTimeout('window.parent.location = window.top.location.href', 1000);
+			window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
+		}
+	};
+");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
@@ -42,10 +56,10 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							?>
 						</h3>
 						<div class="info-labels mb-1">
-							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
+							<span class="badge badge-default">
 								<?php echo $this->form->getValue('folder'); ?>
 							</span> /
-							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_ELEMENT_LABEL', 'COM_PLUGINS_FIELD_ELEMENT_DESC'); ?>">
+							<span class="badge badge-default">
 								<?php echo $this->form->getValue('element'); ?>
 							</span>
 						</div>

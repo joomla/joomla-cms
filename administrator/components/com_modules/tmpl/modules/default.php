@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-
 
 $clientId  = (int) $this->state->get('client_id', 0);
 $user      = JFactory::getUser();
@@ -61,6 +59,10 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<?php if ($clientId === 0) : ?>
 						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
+						</th>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
 						<th style="width:5%" class="nowrap text-center hidden-sm-down">
@@ -127,8 +129,9 @@ $colSpan = $clientId === 1 ? 8 : 10;
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
@@ -166,6 +169,16 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td class="small hidden-sm-down text-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+							<td class="small hidden-phone">
+								<?php if ($item->language == ''):?>
+									<?php echo JText::_('JUNDEFINED'); ?>
+								<?php elseif ($item->language == '*'):?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else:?>
+									<?php echo $this->escape($item->language); ?>
+								<?php endif; ?>
+							</td>
 						<?php endif; ?>
 						<td class="hidden-sm-down text-center">
 							<?php echo (int) $item->id; ?>

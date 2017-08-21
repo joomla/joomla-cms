@@ -309,11 +309,11 @@ class JHtmlTest extends TestCase
 	public function testImage()
 	{
 		// These are some paths to pass to JHtml for testing purposes.
-		$urlpath = 'test1/';
-		$urlfilename = 'image1.jpg';
+		$urlpath = uniqid() . 'test1/';
+		$urlfilename = 'image' . uniqid() . '.jpg';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -402,8 +402,8 @@ class JHtmlTest extends TestCase
 			'JHtml::image failed when we should get it from the media directory in path only mode'
 		);
 
-		$extension = 'testextension';
-		$element = 'element';
+		$extension = uniqid() . 'testextension';
+		$element = uniqid() . 'element';
 		$urlpath = 'path1/';
 		$urlfilename = 'image1.jpg';
 
@@ -493,22 +493,27 @@ class JHtmlTest extends TestCase
 			'JHtml::image with an absolute path'
 		);
 
-		mkdir(JPATH_ROOT . '/test', 0777, true);
-		file_put_contents(JPATH_ROOT . '/test/image.jpg', 'test');
+		$id  = uniqid();
+		$dir = JPATH_ROOT . '/' . $id;
+
+		mkdir($dir . '/test', 0777, true);
+		file_put_contents($dir . '/test/image.jpg', 'test');
+
 		$this->assertEquals(
-			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
-			'<img src="' . JUri::root(true) . '/test/image.jpg" alt="My Alt Text" width="150" height="150">',
+			JHtml::image($id . '/test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
+			'<img src="' . JUri::root(true) . '/' . $id . '/test/image.jpg" alt="My Alt Text" width="150" height="150">',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
 
-		unlink(JPATH_ROOT . '/test/image.jpg');
-		rmdir(JPATH_ROOT . '/test');
+		unlink($dir . '/test/image.jpg');
+		rmdir($dir . '/test');
 
 		$this->assertEquals(
 			JHtml::image('test/image.jpg', 'My Alt Text', array('width' => 150, 'height' => 150), false),
 			'<img src="" alt="My Alt Text" width="150" height="150">',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
+
 	}
 
 	/**
@@ -574,11 +579,11 @@ class JHtmlTest extends TestCase
 	public function testScript()
 	{
 		// These are some paths to pass to JHtml for testing purposes.
-		$urlpath = 'test1/';
-		$urlfilename = 'script1.js';
+		$urlpath = 'test' . uniqid() . '/';
+		$urlfilename = 'script' . uniqid() . '.js';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -677,9 +682,9 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
 		);
 
-		$extension = 'testextension';
-		$element = 'element';
-		$urlpath = 'path1/';
+		$extension = 'testextension' . uniqid();
+		$element = 'element' . uniqid();
+		$urlpath = 'path' . uniqid() . '/';
 		$urlfilename = 'script1.js';
 
 		mkdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/js/' . $urlpath, 0777, true);
@@ -917,11 +922,11 @@ class JHtmlTest extends TestCase
 	public function testStylesheet()
 	{
 		// These are some paths to pass to JHtml for testing purposes.
-		$urlpath = 'test1/';
-		$urlfilename = 'style1.css';
+		$urlpath = 'test' . uniqid() . '/';
+		$urlfilename = 'style' . uniqid() . '.css';
 
 		// We generate a random template name so that we don't collide or hit anything.
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
@@ -1018,9 +1023,9 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
-		$extension = 'testextension';
-		$element = 'element';
-		$urlpath = 'path1/';
+		$extension = 'testextension' . uniqid();
+		$element = 'element' . uniqid();
+		$urlpath = 'path' . uniqid() . '/';
 		$urlfilename = 'style1.css';
 
 		mkdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/css/' . $urlpath, 0777, true);
@@ -1296,7 +1301,7 @@ class JHtmlTest extends TestCase
 	public function testTooltip()
 	{
 		// We generate a random template name so that we don't collide or hit anything
-		$template = 'mytemplate' . mt_rand(1, 10000);
+		$template = 'mytemplate' . uniqid();
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate

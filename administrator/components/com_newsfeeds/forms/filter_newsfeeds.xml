@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field">
 
 	<fields name="filter">
 
@@ -14,8 +14,6 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_NEWSFEEDS_FILTER_PUBLISHED"
-			description="COM_NEWSFEEDS_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -24,9 +22,8 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_newsfeeds"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
@@ -35,8 +32,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -45,8 +40,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -56,8 +49,6 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
 			mode="nested"
 			onchange="this.form.submit();"
 			>
@@ -67,8 +58,6 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -84,8 +73,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_NEWSFEEDS_LIST_FULL_ORDERING"
-			description="COM_NEWSFEEDS_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.name ASC"
 			>
@@ -125,8 +112,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_NEWSFEEDS_LIST_LIMIT"
-			description="COM_NEWSFEEDS_LIST_LIMIT_DESC"
 			default="25"
 			onchange="this.form.submit();"
 		/>

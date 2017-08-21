@@ -14,6 +14,7 @@ use Joomla\Application\AbstractCliApplication;
 use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
 use Joomla\Application\Cli\Output\Stdout;
+use Joomla\CMS\Input\Cli;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -42,7 +43,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInputCli           $input       An optional argument to provide dependency injection for the application's
+	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
 	 *                                            input object.  If the argument is a JInputCli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
@@ -58,7 +59,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(\JInputCli $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
+	public function __construct(Cli $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
 		DispatcherInterface $dispatcher = null, Container $container = null)
 	{
 		// Close the application if we are not executed from the command line.
@@ -70,7 +71,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 		$container = $container ?: \JFactory::getContainer();
 		$this->setContainer($container);
 
-		$this->input    = $input ?: new \JInputCli;
+		$this->input    = $input ?: new Cli;
 		$this->config   = $config ?: new Registry;
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;

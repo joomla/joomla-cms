@@ -59,10 +59,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Add core and base uri paths so javascript scripts can use them.
-		JFactory::getDocument()->addScriptOptions('system.paths', array('root' => JUri::root(true), 'base' => JUri::base(true)));
+		JFactory::getDocument()->addScriptOptions(
+			'system.paths',
+			[
+				'root' => JUri::root(true),
+				'rootFull' => JUri::root(),
+				'base' => JUri::base(true),
+			]
+		);
 
 		static::$loaded[__METHOD__] = true;
 	}

@@ -5,7 +5,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			class="readonly"
 			readonly="true"
@@ -38,7 +37,6 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
 			class="chzn-color-state"
 			default="1"
 			>
@@ -74,19 +72,15 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-			description="JGLOBAL_FIELD_CREATED_BY_DESC"
 		/>
 
 		<field
 			name="modified"
-			type="calendar"
+			type="text"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
-			translateformat="true"
-			showtime="true"
-			size="22"
 			class="readonly"
+			filter="unset"
 			readonly="true"
-			filter="user_utc"
 		/>
 
 		<field
@@ -102,7 +96,6 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_FIELDS_FIELD_LANGUAGE_DESC"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -111,7 +104,6 @@
 			name="note"
 			type="text"
 			label="COM_FIELDS_FIELD_NOTE_LABEL"
-			description="COM_FIELDS_FIELD_NOTE_DESC"
 			class="col-md-12"
 			size="40"
 		/>
@@ -128,7 +120,6 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
 		/>
 
 		<field
@@ -146,7 +137,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
 			class="inputbox"
 		/>
 	</fieldset>

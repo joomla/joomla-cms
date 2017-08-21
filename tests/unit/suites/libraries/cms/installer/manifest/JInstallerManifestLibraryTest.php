@@ -85,7 +85,7 @@ class JInstallerManifestLibraryTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'http://update.joomla.org/libraries/joomla',
+			'https://update.joomla.org/libraries/joomla',
 			$this->object->update
 		);
 	}

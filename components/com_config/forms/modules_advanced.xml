@@ -8,7 +8,6 @@
 				name="module_tag"
 				type="moduletag"
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
-				description="COM_MODULES_FIELD_MODULE_TAG_DESC"
 				default="div"
 			/>
 
@@ -16,7 +15,6 @@
 				name="bootstrap_size"
 				type="integer"
 				label="COM_MODULES_FIELD_BOOTSTRAP_SIZE_LABEL"
-				description="COM_MODULES_FIELD_BOOTSTRAP_SIZE_DESC"
 				first="0"
 				last="12"
 				step="1"
@@ -26,7 +24,6 @@
 				name="header_tag"
 				type="headertag"
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
-				description="COM_MODULES_FIELD_HEADER_TAG_DESC"
 				default="h3"
 			/>
 
@@ -34,14 +31,12 @@
 				name="header_class"
 				type="text"
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
-				description="COM_MODULES_FIELD_HEADER_CLASS_DESC"
 			/>
 
 			<field
 				name="style"
 				type="chromestyle"
 				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
-				description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
 			/>
 		</fieldset>
 	</fields>

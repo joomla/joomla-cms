@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
-
-JHtml::_('bootstrap.tooltip');
-
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
@@ -90,7 +87,8 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
-										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>"><?php echo $this->escape($key); ?></a>
+										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
+											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>

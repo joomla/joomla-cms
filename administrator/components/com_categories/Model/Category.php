@@ -67,6 +67,9 @@ class Category extends Admin
 		$extension = \JFactory::getApplication()->input->get('extension', 'com_content');
 		$this->typeAlias = $extension . '.category';
 
+		// Add a new batch command
+		$this->batch_commands['flip_ordering'] = 'batchFlipordering';
+
 		parent::__construct($config, $factory);
 	}
 
@@ -784,6 +787,56 @@ class Category extends Admin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Batch flip category ordering.
+	 *
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed    An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   3.6.3
+	 */
+	protected function batchFlipordering($value, $pks, $contexts)
+	{
+		$successful = array();
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		/**
+		 * For each category get the max ordering value
+		 * Re-order with max - ordering
+		 */
+		foreach ($pks as $id)
+		{
+			$query->select('MAX(ordering)')
+				->from('#__content')
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			$max = (int) $db->loadresult();
+			$max++;
+
+			$query->clear();
+
+			$query->update('#__content')
+				->set($db->qn('ordering') . ' = ' . $max . ' - ' . $db->qn('ordering'))
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			if ($db->execute())
+			{
+				$successful[] = $id;
+			}
+		}
+
+		return empty($successful) ? false : $successful;
 	}
 
 	/**

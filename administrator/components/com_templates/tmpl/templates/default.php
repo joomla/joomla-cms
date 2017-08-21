@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-
 
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
