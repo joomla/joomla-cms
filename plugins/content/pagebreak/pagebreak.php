@@ -270,11 +270,16 @@ class PlgContentPagebreak extends JPlugin
 			}
 
 			$row->toc .= '<h3>' . $headingtext . '</h3>';
+
+			// Toggle-Button to collapse TOC
+			$row->toc .= ' <a class="btn btn-small" role="button" data-toggle="collapse" href="#articletoc" aria-expanded="false" aria-controls="articletoc">' . JText::_('PLG_CONTENT_PAGEBREAK_TOGGLE_TOC') . '</a>';
 		}
 
 		// TOC first Page link.
 		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$row->toc .= '<ul class="nav nav-tabs nav-stacked">
+		
+		// Collapsable TOC uses bootstrap collapse.js. The 'collapse' class and a target #id are required
+		$row->toc .= '<ul class="nav nav-tabs nav-stacked collapse" id="articletoc">
 		<li class="' . $class . '">
 			<a href="'
 			. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=')
