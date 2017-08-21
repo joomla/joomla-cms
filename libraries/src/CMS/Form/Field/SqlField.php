@@ -282,15 +282,14 @@ class SQLField extends \JFormFieldList
 			// Set the query and get the result list.
 			$db->setQuery($this->query);
 
-
-
-		try
-		{
-			$items = $db->loadObjectlist();
-		}
-		catch (\JDatabaseExceptionExecuting $e)
-		{
-			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');}
+			try
+			{
+				$items = $db->loadObjectlist();
+			}
+			catch (\JDatabaseExceptionExecuting $e)
+			{
+				Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			}
 		}
 
 		// Add header.
