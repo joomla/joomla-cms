@@ -270,16 +270,35 @@ class PlgContentPagebreak extends JPlugin
 			}
 
 			$row->toc .= '<h3>' . $headingtext . '</h3>';
-
-			// Toggle-Button to collapse TOC
-			$row->toc .= ' <a class="btn btn-small" role="button" data-toggle="collapse" href="#articletoc" aria-expanded="false" aria-controls="articletoc">' . JText::_('PLG_CONTENT_PAGEBREAK_TOGGLE_TOC') . '</a>';
+			
+			// Show TOC collapse button if set in params
+			if ($this->params->get('toc_toggler') == 1)
+			{
+				$start_expanded = ($this->params->get('toc_toggler_default_status') == 1) ? "true" : "false";
+				
+				// Add toc-toggler using bootstrap collapse.js attribs
+				$row->toc .= ' <a class="btn btn-small" role="button" data-toggle="collapse" href="#articletoc" aria-expanded="' . $start_expanded . '" aria-controls="articletoc">'
+							. JText::_('PLG_CONTENT_PAGEBREAK_TOC_COLLAPSE_BUTTON_MSG') . '</a>';
+			}
 		}
 
 		// TOC first Page link.
 		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 		
-		// Collapsable TOC uses bootstrap collapse.js. The 'collapse' class and a target #id are required
-		$row->toc .= '<ul class="nav nav-tabs nav-stacked collapse" id="articletoc">
+		// Get class and id attribs ready, based on 'article index' and 'TOC toggler button' params
+		if ( ($this->params->get('article_index') == 1) && ($this->params->get('toc_toggler') == 1) )
+		{
+			// To have a collapsable element (bootstrap collapse.js) set 'collapse' class and a target #id
+			$collapsable_target_id = ' id="articletoc"';
+			$collapsable_class = ($this->params->get('toc_toggler_default_status') == 1) ? " collapse in" : " collapse";
+		}
+		else
+		{
+			$collapsable_target_id = "";
+			$collapsable_class = "";
+		}
+		
+		$row->toc .= '<ul class="nav nav-tabs nav-stacked' . $collapsable_class . '"' . $collapsable_target_id . '>
 		<li class="' . $class . '">
 			<a href="'
 			. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=')
