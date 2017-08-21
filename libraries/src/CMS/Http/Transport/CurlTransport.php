@@ -306,23 +306,10 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	{
 		$curlVersion = curl_version();
 
-		// In PHP 5.6.0 or later there are no issues with curl redirects
-		if (version_compare(PHP_VERSION, '5.6', '>='))
+		// If open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
+		if (!ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>='))
 		{
-			// But if open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
-			if (!ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>='))
-			{
-				return true;
-			}
-		}
-
-		// In the PHP 5.5 branch, curl redirects are only allowed if open_basedir is disabled
-		if (version_compare(PHP_VERSION, '5.5.9', '>='))
-		{
-			if (!ini_get('open_basedir'))
-			{
-				return true;
-			}
+			return true;
 		}
 
 		return false;
