@@ -55,7 +55,19 @@ class ContentControllerArticle extends JControllerForm
 		{
 			// Redirect to the return page.
 			$this->setRedirect($this->getReturnPage());
+
+			return;
 		}
+
+		// Redirect to the edit screen.
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_item . '&a_id=0'
+				. $this->getRedirectToItemAppend(), false
+			)
+		);
+
+		return true;
 	}
 
 	/**
@@ -149,7 +161,7 @@ class ContentControllerArticle extends JControllerForm
 		parent::cancel($key);
 
 		// Redirect to the return page.
-		$this->setRedirect(JRoute::_($this->getReturnPage()));
+		$this->setRedirect(JRoute::_($this->getReturnPage(), false));
 	}
 
 	/**
@@ -169,7 +181,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if (!$result)
 		{
-			$this->setRedirect(JRoute::_($this->getReturnPage()));
+			$this->setRedirect(JRoute::_($this->getReturnPage(), false));
 		}
 
 		return $result;
@@ -231,7 +243,7 @@ class ContentControllerArticle extends JControllerForm
 
 		$itemId = $this->input->getInt('Itemid');
 		$return = $this->getReturnPage();
-		$catId  = $this->input->getInt('catid', null, 'get');
+		$catId  = $this->input->getInt('catid');
 
 		if ($itemId)
 		{
@@ -305,12 +317,10 @@ class ContentControllerArticle extends JControllerForm
 				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
 
-			$return = base64_encode('index.php?Itemid=' . $menuitem . $lang);
-
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_(base64_decode($return)));
+				$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
 		else
@@ -318,7 +328,7 @@ class ContentControllerArticle extends JControllerForm
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_($this->getReturnPage()));
+				$this->setRedirect(JRoute::_($this->getReturnPage(), false));
 			}
 		}
 

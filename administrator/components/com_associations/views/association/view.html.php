@@ -134,7 +134,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
 			$task                   = $typeName . '.' . $this->targetAction;
-			$this->defaultTargetSrc = JRoute::_($this->editUri . '&task= ' . $task . ' &id=' . (int) $this->targetId);
+			$this->defaultTargetSrc = JRoute::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 
@@ -154,7 +154,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			// We also need to change the category filter to show show categories with All or the forced language.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
@@ -197,13 +197,13 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white" aria-hidden="true"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white" aria-hidden="true"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 

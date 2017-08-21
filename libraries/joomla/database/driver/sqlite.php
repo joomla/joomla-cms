@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite database driver
  *
- * @see    https://secure.php.net/pdo
+ * @link   https://secure.php.net/pdo
  * @since  12.1
  */
 class JDatabaseDriverSqlite extends JDatabaseDriverPdo
@@ -43,17 +43,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @since  12.1
 	 */
 	protected $nameQuote = '`';
-
-	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->freeResult();
-		$this->connection = null;
-	}
 
 	/**
 	 * Connects to the database if needed.
@@ -116,6 +105,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public function disconnect()
 	{
 		$this->freeResult();
+
 		$this->connection = null;
 	}
 

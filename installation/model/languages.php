@@ -135,10 +135,12 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function install($lids)
 	{
+		$installerBase = new JInstaller;
+
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
-			$installer = new JInstaller;
+			$installer = clone $installerBase;
 
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
@@ -401,7 +403,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getPath()
 	{
-		if (is_null($this->path))
+		if ($this->path === null)
 		{
 			$client     = $this->getClient();
 			$this->path = JLanguageHelper::getLanguagePath($client->path);
@@ -702,14 +704,11 @@ class InstallationModelLanguages extends JModelBase
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
 		{
-			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				if (!$tableLanguage->publish())
-				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
-					continue;
-				}
+				continue;
 			}
 		}
 
@@ -721,7 +720,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
 	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
-	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * To avoid this conflict, this function creates a specific SEF in case of existing conflict:
 	 * For example: www.mywebsite.com/en-au/
 	 *
 	 * @param   stdClass    $itemLanguage   Language Object.

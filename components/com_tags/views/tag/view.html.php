@@ -116,8 +116,7 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		// Categories store the images differently so lets re-map it so the display is correct
-		$count = count($items);
-		if ($count > 0 && $items[0]->type_alias === 'com_content.category')
+		if ($items && $items[0]->type_alias === 'com_content.category')
 		{
 			foreach ($items as $row)
 			{
@@ -151,7 +150,7 @@ class TagsViewTag extends JViewLegacy
 		{
 			$currentLink = $active->link;
 
-			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
+			// If the current view is the active item and a tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id))
 			{
 				// $item[0]->params are the tag params, $temp are the menu item params
@@ -209,28 +208,28 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
-		// Generate the tags title to use for page title, page heading and show tags title option
+		$app              = JFactory::getApplication();
+		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
+		$title            = '';
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		// Highest priority for "Browser Page Title".
+		if ($menu)
+		{
+			$title = $menu->params->get('page_title', '');
+		}
 
 		if ($this->tags_title)
 		{
 			$this->params->def('page_heading', $this->tags_title);
-			$title = $this->tags_title;
+			$title = $title ?: $this->tags_title;
 		}
 		elseif ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-			$title = $this->params->get('page_title', $menu->title);
+			$title = $title ?: $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] != 'com_tags')
+			if ($menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}

@@ -15,7 +15,7 @@ JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
- * Installer Manage Model
+ * Installer Database Model
  *
  * @since  1.6
  */
@@ -99,6 +99,7 @@ class InstallerModelDatabase extends InstallerModel
 
 			return false;
 		}
+
 		return $changeSet;
 	}
 
@@ -309,16 +310,18 @@ class InstallerModelDatabase extends InstallerModel
 		if ($count > 1)
 		{
 			// Table messed up somehow, clear it
-			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
-				. ';')->execute();
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion') . ';')
+				->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)->execute();
 		}
 		elseif ($count == 0)
 		{
 			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)->execute();
 		}
 	}
 }

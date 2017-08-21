@@ -7,7 +7,6 @@
 .form-horizontal {
 	// Float the labels left
 	.control-label {
-		width: auto;
 		padding-right: 5px;
 		text-align: left;
 		// Set a width for the spacer hr so it shows
@@ -17,6 +16,9 @@
 				width: 220px;
 			}
 		}
+	}
+	.field-spacer>.control-label{
+		width: auto;
 	}
 	#jform_catid_chzn {
 		vertical-align: middle;
@@ -209,7 +211,7 @@ textarea.noResize {
 				border-width: 0 0 1px 1px;
 				.icon-minus:before {
 					content: "I";
-					
+
 				}
 			}
 			&.btn-primary {
@@ -277,15 +279,15 @@ textarea.noResize {
 				padding-bottom: 15px;
 			}
 		}
-		table, thead, tbody, th, td, tr { 
-			display: block; 
+		table, thead, tbody, th, td, tr {
+			display: block;
 		}
 		table {
 			border: 1px solid #ddd;
 		}
 		thead {
-			
-			th { 
+
+			th {
 				position: absolute;
 				top: -9999px;
 				left: -9999px;
@@ -298,15 +300,15 @@ textarea.noResize {
 				}
 			}
 		}
-		tr { 
+		tr {
 			margin: 0;
     		padding: 0;
 			border: 0;
 		}
-		td { 
+		td {
 			border: none;
 			position: relative;
-			padding-left: 50%; 
+			padding-left: 50%;
 		}
 		tbody {
 			td:first-of-type {
@@ -315,13 +317,13 @@ textarea.noResize {
 				&:before {top:18px;}
 			}
 		}
-		
-		td:before { 
+
+		td:before {
 			content: attr(data-column);
 			position: absolute;
 			top: 13px;
 			left: 10px;
-			padding-right: 10px; 
+			padding-right: 10px;
 		}
 	}
 }
