@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>">
 <?php endif; ?>
-	<?php echo '<img src="'.$image->folder.'/'.$image->name.'" style="max-width:'.($image->width>100?100:$image->width).'%; height:auto;" />'; ?>
+	<?php echo '<img src="' . $image->folder . '/' . $image->name . '" style="max-width:' . ($image->width>100?100:$image->width) . '%; height:auto;" />'; ?>
 <?php if ($link) : ?>
 </a>
 <?php endif; ?>
