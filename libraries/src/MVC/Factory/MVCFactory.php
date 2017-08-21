@@ -10,15 +10,14 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\Application\CMSApplication;
 
 /**
  * Factory to create MVC objects based on a namespace.
  *
  * @since  __DEPLOY_VERSION__
  */
-class MvcFactory implements MvcFactoryInterface
+class MVCFactory implements MVCFactoryInterface
 {
 	/**
 	 * The namespace to create the objects from.
@@ -30,7 +29,7 @@ class MvcFactory implements MvcFactoryInterface
 	/**
 	 * The application.
 	 *
-	 * @var \JApplicationCms
+	 * @var CMSApplication
 	 */
 	private $application = null;
 
@@ -38,12 +37,12 @@ class MvcFactory implements MvcFactoryInterface
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string            $namespace    The namespace.
-	 * @param   \JApplicationCms  $application  The application
+	 * @param   string          $namespace    The namespace.
+	 * @param   CMSApplication  $application  The application
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, \JApplicationCms $application)
+	public function __construct($namespace, CMSApplication $application)
 	{
 		$this->namespace   = $namespace;
 		$this->application = $application;
@@ -56,7 +55,7 @@ class MvcFactory implements MvcFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\Model\BaseModel  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -74,7 +73,7 @@ class MvcFactory implements MvcFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\View\View  The view object
+	 * @return  \Joomla\CMS\MVC\View\HtmlView  The view object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
