@@ -91,7 +91,6 @@ class ContentViewFeatured extends JViewLegacy
 		}
 
 		// Levels filter - Used in Hathor.
-		// @deprecated  4.0 To be removed with Hathor
 		$this->f_levels = array(
 			JHtml::_('select.option', '1', JText::_('J1')),
 			JHtml::_('select.option', '2', JText::_('J2')),

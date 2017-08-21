@@ -87,7 +87,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
 
 		// Add core and base uri paths so javascript scripts can use them.

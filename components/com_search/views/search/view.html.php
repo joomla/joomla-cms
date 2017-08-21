@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
@@ -105,7 +106,7 @@ class SearchViewSearch extends JViewLegacy
 		$lists['searchphrase'] = JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// Log the search
-		\Joomla\CMS\Helper\SearchHelper::logSearch($searchWord, 'com_search');
+		JSearchHelper::logSearch($searchWord, 'com_search');
 
 		// Limit search-word
 		$lang        = JFactory::getLanguage();

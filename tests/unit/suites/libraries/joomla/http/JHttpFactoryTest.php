@@ -76,7 +76,7 @@ class JHttpFactoryTest extends \PHPUnit\Framework\TestCase
 		$transports = JHttpFactory::getHttpTransports();
 
 		$this->assertEquals(
-			'Curl',
+			'curl',
 			$transports[0],
 			'CURL should be the first transport returned.'
 		);

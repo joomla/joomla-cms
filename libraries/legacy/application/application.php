@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\BaseApplication;
 use Joomla\Registry\Registry;
 
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
@@ -22,9 +21,9 @@ JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
  * and render() functions.
  *
  * @since       1.5
- * @deprecated  3.2  Use CMSApplication instead unless specified otherwise
+ * @deprecated  3.2  Use JApplicationCms instead unless specified otherwise
  */
-class JApplication extends BaseApplication
+class JApplication extends JApplicationBase
 {
 	/**
 	 * The client identifier.

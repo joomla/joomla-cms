@@ -22,8 +22,6 @@ class FinderViewMaps extends JViewLegacy
 	 * An array of items
 	 *
 	 * @var  array
-	 *
-	 * @since  3.6.1
 	 */
 	protected $items;
 
@@ -31,8 +29,6 @@ class FinderViewMaps extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var  JPagination
-	 *
-	 * @since  3.6.1
 	 */
 	protected $pagination;
 
@@ -40,8 +36,6 @@ class FinderViewMaps extends JViewLegacy
 	 * The HTML markup for the sidebar
 	 *
 	 * @var  string
-	 *
-	 * @since  3.6.1
 	 */
 	protected $sidebar;
 
@@ -49,8 +43,6 @@ class FinderViewMaps extends JViewLegacy
 	 * The model state
 	 *
 	 * @var  object
-	 *
-	 * @since  3.6.1
 	 */
 	protected $state;
 
@@ -58,8 +50,6 @@ class FinderViewMaps extends JViewLegacy
 	 * The total number of items
 	 *
 	 * @var  object
-	 *
-	 * @since  3.6.1
 	 */
 	protected $total;
 

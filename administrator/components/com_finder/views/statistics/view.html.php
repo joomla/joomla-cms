@@ -20,8 +20,6 @@ class FinderViewStatistics extends JViewLegacy
 	 * The index statistics
 	 *
 	 * @var  JObject
-	 *
-	 * @since  3.6.1
 	 */
 	protected $data;
 

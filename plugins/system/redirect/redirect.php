@@ -119,16 +119,10 @@ class PlgSystemRedirect extends JPlugin
 
 		$uri = JUri::getInstance();
 
-		// These are the original URLs
-		$orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
-		$orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
-		$orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
-		$orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
+		$url = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
+		$urlRel = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
 
-		// These are the URLs we save and use
-		$url                = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
-		$urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
-		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
+		$urlWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
 		// Why is this (still) here?
@@ -152,14 +146,6 @@ class PlgSystemRedirect extends JPlugin
 				. $db->quoteName('old_url') . ' = ' . $db->quote($urlWithoutQuery)
 				. ' OR '
 				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRelWithoutQuery)
-				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurl)
-				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRel)
-				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlWithoutQuery)
-				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRelWithoutQuery)
 				. ')'
 			);
 
@@ -177,16 +163,7 @@ class PlgSystemRedirect extends JPlugin
 		}
 
 		$possibleMatches = array_unique(
-			array(
-				$url,
-				$urlRel,
-				$urlWithoutQuery,
-				$urlRelWithoutQuery,
-				$orgurl,
-				$orgurlRel,
-				$orgurlWithoutQuery,
-				$orgurlRelWithoutQuery,
-			)
+			array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
 		);
 
 		foreach ($possibleMatches as $match)

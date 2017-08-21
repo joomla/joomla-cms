@@ -6,9 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Log\LogEntry;
-
 /**
  * Class with general helper methods for testing
  *
@@ -175,15 +172,15 @@ class TestHelper
 	 */
 	public static function registerDeprecationLogger()
 	{
-		Log::addLogger(
+		JLog::addLogger(
 			array(
 				'logger'   => 'callback',
-				'callback' => function (LogEntry $entry)
+				'callback' => function (JLogEntry $entry)
 				{
 					@trigger_error($entry->message, E_USER_DEPRECATED);
 				},
 			),
-			Log::ALL,
+			JLog::ALL,
 			array('deprecated')
 		);
 	}
@@ -199,7 +196,7 @@ class TestHelper
 	{
 		if (defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
 		{
-			Log::addLogger(
+			JLog::addLogger(
 				array(
 					'logger'         => 'formattedtext',
 					'text_file'      => 'unit_test.php',

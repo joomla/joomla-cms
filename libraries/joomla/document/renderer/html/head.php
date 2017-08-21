@@ -94,17 +94,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				}
 				elseif ($type != 'http-equiv' && !empty($content))
 				{
-					if (is_array($content))
-					{
-						foreach ($content as $value)
-						{
-							$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
-						}
-					}
-					else
-					{
-						$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
-					}
+					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
 			}
 		}

@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Archieve class interface
  *
- * @since       12.1
- * @deprecated  4.0 use the Joomla\Archive\ExtractableInterface interface instead
+ * @since  12.1
  */
 interface JArchiveExtractable
 {

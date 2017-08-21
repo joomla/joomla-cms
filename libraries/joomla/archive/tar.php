@@ -22,8 +22,7 @@ jimport('joomla.filesystem.path');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since       11.1
- * @deprecated  4.0 use the Joomla\Archive\Tar class instead
+ * @since  11.1
  */
 class JArchiveTar implements JArchiveExtractable
 {

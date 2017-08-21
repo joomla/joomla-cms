@@ -21,9 +21,6 @@
 # Test Related Files #
 /phpunit.xml
 
-# Stubs file holding mapped classes
-/stubs.php
-
 # Node modules #
 node_modules/
 

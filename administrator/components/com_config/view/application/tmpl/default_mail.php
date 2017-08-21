@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.token');
 JHtml::_('script', 'system/sendtestmail.js', array('version' => 'auto', 'relative' => true));
 
 // Load JavaScript message titles
@@ -26,7 +25,7 @@ JText::script('JLIB_JS_AJAX_ERROR_PARSE');
 JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Ajax request data.
-$ajaxUri = JRoute::_('index.php?option=com_config&task=config.sendtestmail.application&format=json');
+$ajaxUri = JRoute::_('index.php?option=com_config&task=config.sendtestmail.application&format=json&' . JSession::getFormToken() . '=1');
 
 $this->name = JText::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
