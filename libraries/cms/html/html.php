@@ -109,28 +109,25 @@ abstract class JHtml
 	 * Additional arguments may be supplied and are passed to the sub-class.
 	 * Additional include paths are also able to be specified for third-party use
 	 *
-	 * @param   string  $key  The name of helper method to load, (prefix).(class).function
-	 *                        prefix and class are optional and can be used to load custom
-	 *                        html helpers.
+	 * @param   string  $key         The name of helper method to load, (prefix).(class).function
+	 *                               prefix and class are optional and can be used to load custom
+	 *                               html helpers.
+	 * @param   array   $methodArgs  The arguments to pass forward to the method being called
 	 *
 	 * @return  mixed  Result of JHtml::call($function, $args)
 	 *
 	 * @since   1.5
 	 * @throws  InvalidArgumentException
 	 */
-	public static function _($key)
+	final public static function _(string $key, ...$methodArgs)
 	{
 		list($key, $prefix, $file, $func) = static::extract($key);
 
 		if (array_key_exists($key, static::$registry))
 		{
 			$function = static::$registry[$key];
-			$args     = func_get_args();
 
-			// Remove function name from arguments
-			array_shift($args);
-
-			return static::call($function, $args);
+			return static::call($function, $methodArgs);
 		}
 
 		/*
@@ -149,12 +146,8 @@ abstract class JHtml
 			}
 
 			static::register($key, $toCall);
-			$args = func_get_args();
 
-			// Remove function name from arguments
-			array_shift($args);
-
-			return static::call($toCall, $args);
+			return static::call($toCall, $methodArgs);
 		}
 
 		$className = $prefix . ucfirst($file);
@@ -193,12 +186,8 @@ abstract class JHtml
 		}
 
 		static::register($key, $toCall);
-		$args = func_get_args();
 
-		// Remove function name from arguments
-		array_shift($args);
-
-		return static::call($toCall, $args);
+		return static::call($toCall, $methodArgs);
 	}
 
 	/**
