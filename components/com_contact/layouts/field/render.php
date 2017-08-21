@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-if (empty($field = $displayData['field']) || !($field instanceof stdClass))
+$field = isset($displayData['field']) ? $displayData['field'] : null;
+
+if (empty($field) || !($field instanceof stdClass))
 {
 	return;
 }

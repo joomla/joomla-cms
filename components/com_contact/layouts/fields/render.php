@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-if (empty($item = $displayData['item']) || !($item instanceof stdClass) || empty($context = $displayData['context']))
+$item = isset($displayData['item']) ? $displayData['item'] : null;
+$context = isset($displayData['context']) ? $displayData['context'] : null;
+
+if (empty($item) || !($item instanceof stdClass) || empty($context))
 {
 	return;
 }
