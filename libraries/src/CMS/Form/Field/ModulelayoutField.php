@@ -1,24 +1,28 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
-
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormField;
+
+\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.
  *
  * @since  1.6
  */
-class JFormFieldModulelayout extends JFormField
+class ModulelayoutField extends FormField
 {
 	/**
 	 * The form field type.
@@ -40,7 +44,7 @@ class JFormFieldModulelayout extends JFormField
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
-		if ($clientId === null && $this->form instanceof JForm)
+		if ($clientId === null && $this->form instanceof Form)
 		{
 			$clientId = $this->form->getValue('client_id');
 		}
@@ -52,7 +56,7 @@ class JFormFieldModulelayout extends JFormField
 		// Get the module.
 		$module = (string) $this->element['module'];
 
-		if (empty($module) && ($this->form instanceof JForm))
+		if (empty($module) && ($this->form instanceof Form))
 		{
 			$module = $this->form->getValue('module');
 		}
@@ -65,7 +69,7 @@ class JFormFieldModulelayout extends JFormField
 
 		// Get the style.
 		$template_style_id = '';
-		if ($this->form instanceof JForm)
+		if ($this->form instanceof Form)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
 			$template_style_id = preg_replace('#\W#', '', $template_style_id);
@@ -75,12 +79,12 @@ class JFormFieldModulelayout extends JFormField
 		if ($module && $client)
 		{
 			// Load language file
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 			$lang->load($module . '.sys', $client->path, null, false, true)
 				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, null, false, true);
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
@@ -106,7 +110,7 @@ class JFormFieldModulelayout extends JFormField
 			$templates = $db->loadObjectList('element');
 
 			// Build the search paths for module layouts.
-			$module_path = JPath::clean($client->path . '/modules/' . $module . '/tmpl');
+			$module_path = \JPath::clean($client->path . '/modules/' . $module . '/tmpl');
 
 			// Prepare array of component layouts
 			$module_layouts = array();
@@ -115,20 +119,20 @@ class JFormFieldModulelayout extends JFormField
 			$groups = array();
 
 			// Add the layout options from the module path.
-			if (is_dir($module_path) && ($module_layouts = JFolder::files($module_path, '^[^_]*\.php$')))
+			if (is_dir($module_path) && ($module_layouts = \JFolder::files($module_path, '^[^_]*\.php$')))
 			{
 				// Create the group for the module
 				$groups['_'] = array();
 				$groups['_']['id'] = $this->id . '__';
-				$groups['_']['text'] = JText::sprintf('JOPTION_FROM_MODULE');
+				$groups['_']['text'] = \JText::sprintf('JOPTION_FROM_MODULE');
 				$groups['_']['items'] = array();
 
 				foreach ($module_layouts as $file)
 				{
 					// Add an option to the module group
 					$value = basename($file, '.php');
-					$text = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? JText::_($key) : $value;
-					$groups['_']['items'][] = JHtml::_('select.option', '_:' . $value, $text);
+					$text = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? \JText::_($key) : $value;
+					$groups['_']['items'][] = \JHtml::_('select.option', '_:' . $value, $text);
 				}
 			}
 
@@ -141,10 +145,10 @@ class JFormFieldModulelayout extends JFormField
 					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
 
-					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
+					$template_path = \JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 
 					// Add the layout options from the template path.
-					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$')))
+					if (is_dir($template_path) && ($files = \JFolder::files($template_path, '^[^_]*\.php$')))
 					{
 						foreach ($files as $i => $file)
 						{
@@ -160,7 +164,7 @@ class JFormFieldModulelayout extends JFormField
 							// Create the group for the template
 							$groups[$template->element] = array();
 							$groups[$template->element]['id'] = $this->id . '_' . $template->element;
-							$groups[$template->element]['text'] = JText::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
+							$groups[$template->element]['text'] = \JText::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
 							$groups[$template->element]['items'] = array();
 
 							foreach ($files as $file)
@@ -168,8 +172,8 @@ class JFormFieldModulelayout extends JFormField
 								// Add an option to the template group
 								$value = basename($file, '.php');
 								$text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
-									? JText::_($key) : $value;
-								$groups[$template->element]['items'][] = JHtml::_('select.option', $template->element . ':' . $value, $text);
+									? \JText::_($key) : $value;
+								$groups[$template->element]['items'][] = \JHtml::_('select.option', $template->element . ':' . $value, $text);
 							}
 						}
 					}
@@ -186,7 +190,7 @@ class JFormFieldModulelayout extends JFormField
 			$selected = array($this->value);
 
 			// Add a grouped list
-			$html[] = JHtml::_(
+			$html[] = \JHtml::_(
 				'select.groupedlist', $groups, $this->name,
 				array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected)
 			);
