@@ -163,6 +163,6 @@ class Controller extends BaseController
 			$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
 		}
 
-		$this->setRedirect('index.php?option=com_cache&view=purge');
+		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 }
