@@ -28,7 +28,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				return false;
 			}
 		}
-
 		Joomla.submitform(pressbutton);
 	};
 ');
