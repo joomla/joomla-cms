@@ -159,14 +159,14 @@ abstract class JError
 	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
-	 * @param   JException  &$e  Add an exception to the stack.
+	 * @param   JException  $e  Add an exception to the stack.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 * @deprecated  1.7
 	 */
-	public static function addToStack(JException &$e)
+	public static function addToStack(JException $e)
 	{
 		JLog::add('JError::addToStack() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -381,13 +381,13 @@ abstract class JError
 
 		foreach ($levels as $eLevel => $eTitle)
 		{
-			if (($level & $eLevel) != $eLevel)
+			if (($level & $eLevel) !== $eLevel)
 			{
 				continue;
 			}
 
 			// Set callback options
-			if ($mode == 'callback')
+			if ($mode === 'callback')
 			{
 				if (!is_array($options))
 				{

@@ -801,7 +801,7 @@ class JTableNestedTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
- 		$this->saveFactoryState();
+		$this->saveFactoryState();
 
 		$mockApp = $this->getMockCmsApp();
 		$mockApp->expects($this->any())
@@ -824,7 +824,7 @@ class JTableNestedTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		unset($this->class);
- 		$this->restoreFactoryState();
+		$this->restoreFactoryState();
 
 		parent::tearDown();
 	}

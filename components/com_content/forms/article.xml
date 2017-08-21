@@ -377,7 +377,6 @@
 					type="hidden"
 					label="JFIELD_META_RIGHTS_LABEL"
 					filter="unset"
-					required="false"
 					labelclass="control-label"
 				/>
 

@@ -655,11 +655,5 @@ class JHtmlBootstrapTest extends TestCase
 			$document->_styleSheets,
 			'Verify that the base Bootstrap CSS is loaded'
 		);
-
-//		$this->assertArrayHasKey(
-//			'/media/vendor/bootstrap/css/bootstrap-rtl.css',
-//			$document->_styleSheets,
-//			'Verify that the RTL Bootstrap CSS is loaded'
-//		);
 	}
 }

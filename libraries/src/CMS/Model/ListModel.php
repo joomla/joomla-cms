@@ -386,7 +386,7 @@ class ListModel extends Model
 		$hash = md5($source . serialize($options));
 
 		// Check if we can use a previously loaded form.
-		if (isset($this->_forms[$hash]) && !$clear)
+		if (!$clear && isset($this->_forms[$hash]))
 		{
 			return $this->_forms[$hash];
 		}
@@ -688,7 +688,7 @@ class ListModel extends Model
 		$app       = \JFactory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
-		$cur_state = (!is_null($old_state)) ? $old_state : $default;
+		$cur_state = $old_state !== null ? $old_state : $default;
 		$new_state = $input->get($request, null, $type);
 
 		// BC for Search Tools which uses different naming
@@ -737,7 +737,7 @@ class ListModel extends Model
 
 		foreach ($searchArr as $key => $searchString)
 		{
-			if (strlen(trim($searchString)) == 0)
+			if (trim($searchString) === '')
 			{
 				unset($searchArr[$key]);
 				continue;

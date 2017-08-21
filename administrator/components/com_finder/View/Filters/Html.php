@@ -27,6 +27,8 @@ class Html extends HtmlView
 	 * An array of items
 	 *
 	 * @var  array
+	 *
+	 * @since  3.6.1
 	 */
 	protected $items;
 
@@ -34,6 +36,8 @@ class Html extends HtmlView
 	 * The pagination object
 	 *
 	 * @var  \Joomla\CMS\Pagination\Pagination
+	 *
+	 * @since  3.6.1
 	 */
 	protected $pagination;
 
@@ -41,6 +45,8 @@ class Html extends HtmlView
 	 * The HTML markup for the sidebar
 	 *
 	 * @var  string
+	 *
+	 * @since  3.6.1
 	 */
 	protected $sidebar;
 
@@ -48,6 +54,8 @@ class Html extends HtmlView
 	 * The model state
 	 *
 	 * @var  \JObject
+	 *
+	 * @since  3.6.1
 	 */
 	protected $state;
 
@@ -55,6 +63,8 @@ class Html extends HtmlView
 	 * The total number of items
 	 *
 	 * @var  integer
+	 *
+	 * @since  3.6.1
 	 */
 	protected $total;
 

@@ -16,5 +16,4 @@ defined('_JEXEC') or die;
  */
 class MenusHelper extends \Joomla\Component\Menus\Administrator\Helper\MenusHelper
 {
-
 }

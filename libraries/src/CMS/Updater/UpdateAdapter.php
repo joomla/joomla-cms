@@ -11,6 +11,7 @@ namespace Joomla\CMS\Updater;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
@@ -252,7 +253,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		// JHttp transport throws an exception when there's no response.
 		try
 		{
-			$http = \JHttpFactory::getHttp($httpOption);
+			$http = HttpFactory::getHttp($httpOption);
 			$response = $http->get($url, array(), 20);
 		}
 		catch (\RuntimeException $e)

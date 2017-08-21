@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -130,7 +131,8 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$extract = \JArchive::extract($archivename, $extractdir);
+			$archive = new Archive;
+			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
 		{

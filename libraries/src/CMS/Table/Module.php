@@ -127,7 +127,7 @@ class Module extends Table
 		}
 
 		// Check for valid name
-		if (trim($this->title) == '')
+		if (trim($this->title) === '')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
 
