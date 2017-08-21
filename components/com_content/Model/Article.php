@@ -357,7 +357,7 @@ class Article extends Item
 			return true;
 		}
 
-		\JError::raiseWarning('SOME_ERROR_CODE', \JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		\JError::raiseWarning(500, \JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
 
 		return false;
 	}

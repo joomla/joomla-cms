@@ -203,11 +203,18 @@ abstract class Form extends Model
 		// Handle the optional arguments.
 		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
 
-		// Create a signature hash.
-		$hash = md5($source . serialize($options));
+		// Create a signature hash. But make sure, that loading the data does not create a new instance
+		$sigoptions = $options;
+
+		if (isset($sigoptions['load_data']))
+		{
+			unset($sigoptions['load_data']);
+		}
+
+		$hash = md5($source . serialize($sigoptions));
 
 		// Check if we can use a previously loaded form.
-		if (isset($this->_forms[$hash]) && !$clear)
+		if (!$clear && isset($this->_forms[$hash]))
 		{
 			return $this->_forms[$hash];
 		}
@@ -352,7 +359,7 @@ abstract class Form extends Model
 		}
 
 		// Tags B/C break at 3.1.2
-		if (isset($data['metadata']['tags']) && !isset($data['tags']))
+		if (!isset($data['tags']) && isset($data['metadata']['tags']))
 		{
 			$data['tags'] = $data['metadata']['tags'];
 		}

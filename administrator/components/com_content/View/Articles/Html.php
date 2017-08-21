@@ -156,11 +156,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
-		{
-			\JToolbarHelper::editList('article.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);

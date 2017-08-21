@@ -642,7 +642,7 @@ class ModuleAdapter extends InstallerAdapter
 			// Create unpublished module
 			$name = preg_replace('#[\*?]#', '', \JText::_($this->name));
 
-			/** @var JTableModule $module */
+			/** @var \JTableModule $module */
 			$module            = Table::getInstance('module');
 			$module->title     = $name;
 			$module->content   = '';

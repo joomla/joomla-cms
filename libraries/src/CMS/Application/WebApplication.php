@@ -12,13 +12,14 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
-use Joomla\String\StringHelper;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -33,7 +34,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	/**
 	 * The application document object.
 	 *
-	 * @var    \JDocument
+	 * @var    Document
 	 * @since  11.3
 	 */
 	protected $document;
@@ -57,7 +58,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInput            $input     An optional argument to provide dependency injection for the application's
+	 * @param   Input              $input     An optional argument to provide dependency injection for the application's
 	 *                                        input object.  If the argument is a JInput object that object will become
 	 *                                        the application's input object, otherwise a default input object is created.
 	 * @param   Registry           $config    An optional argument to provide dependency injection for the application's
@@ -73,10 +74,10 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(\JInput $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
+	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
 	{
-		// Ensure we have a \JInput object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
-		$input = $input ?: new \JInput;
+		// Ensure we have a CMS Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
+		$input = $input ?: new Input;
 
 		parent::__construct($input, $config, $client, $response);
 
@@ -138,7 +139,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		$this->triggerEvent('onAfterExecute');
 
 		// If we have an application document object, render it.
-		if ($this->document instanceof \JDocument)
+		if ($this->document instanceof Document)
 		{
 			// Trigger the onBeforeRender event.
 			$this->triggerEvent('onBeforeRender');
@@ -207,7 +208,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	/**
 	 * Method to get the application document object.
 	 *
-	 * @return  \JDocument  The document object
+	 * @return  Document  The document object
 	 *
 	 * @since   11.3
 	 */
@@ -247,13 +248,13 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * but for many applications it will make sense to override this method and create a document,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   \JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 * @param   Document  $document  An optional document object. If omitted, the factory document is created.
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	public function loadDocument(\JDocument $document = null)
+	public function loadDocument(Document $document = null)
 	{
 		$this->document = ($document === null) ? \JFactory::getDocument() : $document;
 

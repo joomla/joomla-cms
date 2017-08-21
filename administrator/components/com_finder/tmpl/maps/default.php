@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
-JHtml::_('bootstrap.tooltip');
-
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = JFactory::getLanguage();
@@ -97,7 +95,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							</td>
 							<td>
 							<?php
-							if (trim($item->parent_title, '**') == 'Language')
+							if (trim($item->parent_title, '**') === 'Language')
 							{
 								$title = FinderHelperLanguage::branchLanguageTitle($item->title);
 							}
@@ -113,7 +111,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<label for="cb<?php echo $i; ?>" style="display:inline-block;">
 								<?php echo $this->escape($title); ?>
 							</label>
-							<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
+							<?php if ($this->escape(trim($title, '**')) === 'Language' && JLanguageMultilang::isEnabled()) : ?>
 								<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 							<?php endif; ?>
 							</td>

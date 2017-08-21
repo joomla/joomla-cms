@@ -107,126 +107,23 @@ class JCacheStorageTest extends TestCase
 	}
 
 	/**
-	 * Test Cases for getInstance
-	 *
-	 * @return array
-	 */
-	public function casesGetInstance()
-	{
-		$this->checkStores();
-
-		return array(
-			'defaultapc' => array(
-				'apc',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'now' => time(),
-				),
-				($this->available['apc'] ? 'JCacheStorageApc' : false),
-			),
-			'defaultapcu' => array(
-				'apcu',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'now' => time(),
-				),
-				($this->available['apcu'] ? 'JCacheStorageApcu' : false),
-			),
-			'defaultfile' => array(
-				'file',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'cachebase' => JPATH_BASE . '/cache',
-					'now' => time(),
-				),
-				'JCacheStorageFile',
-			),
-			'defaultmemcache' => array(
-				'memcache',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'now' => time(),
-				),
-				$this->available['memcache'] ? 'JCacheStorageMemcache' : false,
-			),
-			'defaultmemcached' => array(
-				'memcached',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'now' => time(),
-				),
-				$this->available['memcached'] ? 'JCacheStorageMemcached' : false,
-			),
-			'defaultredis' => array(
-				'redis',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'now' => time(),
-				),
-				$this->available['redis'] ? 'JCacheStorageRedis' : false,
-			),
-			'defaultwincache' => array(
-				'wincache',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'now' => time(),
-				),
-				$this->available['wincache'] ? 'JCacheStorageWincache' : false,
-			),
-			'defaultxcache' => array(
-				'xcache',
-				array(
-					'application' => null,
-					'language' => 'en-GB',
-					'locking' => true,
-					'lifetime' => null,
-					'now' => time(),
-				),
-				$this->available['xcache'] ? 'JCacheStorageXcache' : false,
-			),
-		);
-	}
-
-	/**
 	 * Testing getInstance
 	 *
-	 * @param   string  $handler   cache storage
-	 * @param   array   $options   options for cache storage
-	 * @param   string  $expClass  name of expected cache storage class
-	 *
 	 * @return void
-	 *
-	 * @dataProvider casesGetInstance
 	 */
-	public function testGetInstance($handler, $options, $expClass)
+	public function testGetInstance()
 	{
-		if (is_bool($expClass))
-		{
-			$this->markTestSkipped('The caching method ' . $handler . ' is not supported on this system.');
-		}
-
-		$this->object = JCacheStorage::getInstance($handler, $options);
+		$this->object = JCacheStorage::getInstance(
+			"file",
+			array(
+				'application' => null,
+				'language' => 'en-GB',
+				'locking' => true,
+				'lifetime' => null,
+				'cachebase' => JPATH_BASE . '/cache',
+				'now' => time(),
+			)
+		);
 
 		if (class_exists('JTestConfig'))
 		{
@@ -235,35 +132,32 @@ class JCacheStorageTest extends TestCase
 
 		$this->assertThat(
 			$this->object,
-			$this->isInstanceOf($expClass),
+			$this->isInstanceOf("JCacheStorageFile"),
 			'The wrong class was received.'
 		);
 
 		$this->assertThat(
 			$this->object->_application,
-			$this->equalTo($options['application']),
+			$this->equalTo(null),
 			'Unexpected value for _application.'
 		);
 
 		$this->assertThat(
 			$this->object->_language,
-			$this->equalTo($options['language']),
+			$this->equalTo('en-GB'),
 			'Unexpected value for _language.'
 		);
 
 		$this->assertThat(
 			$this->object->_locking,
-			$this->equalTo($options['locking']),
+			$this->equalTo(true),
 			'Unexpected value for _locking.'
 		);
 
 		$config = JFactory::getConfig();
-		$lifetime = !is_null($options['lifetime']) ? $options['lifetime'] * 60 : $config->get('cachetime', 1) * 60;
 		$this->assertThat(
 			$this->object->_lifetime,
-
-			// @todo remove: $this->equalTo(empty($options['lifetime']) ? $config->get('cachetime')*60 : $options['lifetime']*60),
-			$this->equalTo($lifetime),
+			$this->equalTo($config->get('cachetime', 1) * 60),
 			'Unexpected value for _lifetime.'
 		);
 

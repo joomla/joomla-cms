@@ -3,9 +3,7 @@
   position: absolute;
   margin: 0;
   background: transparent;
-  -webkit-transition-property: left, top, width, height;
   transition-property: left, top, width, height;
-  -webkit-transition-timing-function: cubic-bezier(0, 1, 0, 1);
   transition-timing-function: cubic-bezier(0, 1, 0, 1);
   visibility: hidden;
   pointer-events: none;
@@ -15,7 +13,7 @@
     visibility: visible;
     z-index: 9999; }
   @media screen and (-webkit-min-device-pixel-ratio: 0) {
-    #flying-focus #flying-focus {
+    #flying-focus {
       box-shadow: none;
       outline: 5px auto -webkit-focus-ring-color;
       outline-offset: -3px; } }
@@ -8580,13 +8578,6 @@ legend {
 .modal label {
   width: 100%; }
 
-.invalid {
-  color: #bc6564;
-  border-color: #bc6564; }
-
-.valid {
-  border-color: #64bd63; }
-
 .custom-select[multiple] {
   height: auto;
   background: none; }
@@ -8597,6 +8588,9 @@ legend {
 
 .valid {
   border-color: #64bd63; }
+
+.form-control-feedback {
+  display: block; }
 
 .header {
   position: relative;
@@ -8780,6 +8774,9 @@ header {
 .container-footer {
   display: block; }
 
+.system-debug {
+  display: block; }
+
 .modal .btn {
   margin-right: .5rem; }
 
@@ -8899,28 +8896,33 @@ header {
   display: none;
   visibility: hidden; }
 
+joomla-alert {
+  display: none; }
+
 /* autoprefixer: off */
 @supports (display: grid) {
-  body {
+  .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer .";
+    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
-    body > div {
+    .site-grid > div {
       width: auto;
       max-width: none;
       margin: 0 0 15px; }
-    body .container-top-a > div,
-    body .container-top-b > div,
-    body .container-bottom-a > div,
-    body .container-bottom-b > div {
+    .site-grid .container-top-a > div,
+    .site-grid .container-top-b > div,
+    .site-grid .container-bottom-a > div,
+    .site-grid .container-bottom-b > div {
       display: inline-grid;
       margin: 0; }
-    body > .full-width {
+    .site-grid .container-main {
+      margin: -7.5px -7.5px 7.5px; }
+    .site-grid > .full-width {
       grid-column: full-start / full-end; }
     @media (max-width: 575px) {
-      body {
-        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ."; } }
+      .site-grid {
+        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
   header {
     margin-bottom: 0; }
     header + div:not(.container-banner) {
@@ -8928,9 +8930,7 @@ header {
   .container-banner {
     margin: 0 0 15px; }
     .container-banner p {
-      margin-bottom: 0; }
-  .container-main {
-    margin: -7.5px -7.5px 7.5px; } }
+      margin-bottom: 0; } }
 
 header {
   grid-area: head; }
@@ -8973,6 +8973,9 @@ header {
 
 .container-footer {
   grid-area: footer; }
+
+.system-debug {
+  grid-area: debug; }
 
 .container-component {
   grid-column: auto 2fr; }

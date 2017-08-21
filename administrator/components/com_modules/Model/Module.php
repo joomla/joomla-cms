@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Model\Admin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -547,6 +548,12 @@ class Module extends Admin
 		if ($clientId == 1)
 		{
 			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+
+			// Display language field to filter admin custom menus per language
+			if (!ModuleHelper::isAdminMultilang())
+			{
+				$form->setFieldAttribute('language', 'type', 'hidden');
+			}
 		}
 		else
 		{

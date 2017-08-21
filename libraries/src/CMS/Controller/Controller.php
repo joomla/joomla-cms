@@ -149,7 +149,7 @@ class Controller implements ControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    \Joomla\CMS\View\View[]
+	 * @var    \Joomla\CMS\View\AbstractView[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -196,7 +196,7 @@ class Controller implements ControllerInterface
 			case 'controller':
 				if (!empty($parts['format']))
 				{
-					if ($parts['format'] == 'html')
+					if ($parts['format'] === 'html')
 					{
 						$parts['format'] = '';
 					}
@@ -377,7 +377,7 @@ class Controller implements ControllerInterface
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if (!in_array($mName, $xMethods) || $mName == 'display')
+			if ($mName === 'display' || !in_array($mName, $xMethods))
 			{
 				$this->methods[] = strtolower($mName);
 
@@ -587,7 +587,7 @@ class Controller implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  View|null  View object on success; null or error result on failure.
+	 * @return  AbstractView|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -630,7 +630,7 @@ class Controller implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType != 'feed' && \JFactory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && \JFactory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
@@ -728,17 +728,9 @@ class Controller implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
-			// We need this ugly code to deal with non-namespaced MVC code
-			if ($this->factory instanceof LegacyFactory)
-			{
-				$prefix = $this->model_prefix;
-			}
-			else
-			{
-				$prefix = $this->app->getName();
-			}
+			$prefix = $this->model_prefix;
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
@@ -749,15 +741,12 @@ class Controller implements ControllerInterface
 			// Let's get the application object and set menu information if it's available
 			$menu = \JFactory::getApplication()->getMenu();
 
-			if (is_object($menu))
+			if (is_object($menu) && $item = $menu->getActive())
 			{
-				if ($item = $menu->getActive())
-				{
-					$params = $menu->getParams($item->id);
+				$params = $menu->getParams($item->id);
 
-					// Set default state data
-					$model->setState('parameters.menu', $params);
-				}
+				// Set default state data
+				$model->setState('parameters.menu', $params);
 			}
 		}
 
@@ -842,17 +831,9 @@ class Controller implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
-			// We need this ugly code to deal with non-namespaced MVC code
-			if ($this->factory instanceof LegacyFactory)
-			{
-				$prefix = $this->getName() . 'View';
-			}
-			else
-			{
-				$prefix = $this->app->getName();
-			}
+			$prefix = $this->getName() . 'View';
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))

@@ -50,7 +50,7 @@ class Menu extends Nested
 	public function bind($array, $ignore = '')
 	{
 		// Verify that the default home menu is not unset
-		if ($this->home == '1' && $this->language == '*' && ($array['home'] == '0'))
+		if ($this->home == '1' && $this->language === '*' && $array['home'] == '0')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 
@@ -58,7 +58,7 @@ class Menu extends Nested
 		}
 
 		// Verify that the default home menu set to "all" languages" is not unset
-		if ($this->home == '1' && $this->language == '*' && ($array['language'] != '*'))
+		if ($this->home == '1' && $this->language === '*' && $array['language'] !== '*')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 
@@ -66,7 +66,7 @@ class Menu extends Nested
 		}
 
 		// Verify that the default home menu is not unpublished
-		if ($this->home == '1' && $this->language == '*' && $array['published'] != '1')
+		if ($this->home == '1' && $this->language === '*' && $array['published'] != '1')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 
@@ -104,7 +104,7 @@ class Menu extends Nested
 		}
 
 		// Check for a title.
-		if (trim($this->title) == '')
+		if (trim($this->title) === '')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
@@ -112,17 +112,17 @@ class Menu extends Nested
 		}
 
 		// Check for a path.
-		if (trim($this->path) == '')
+		if (trim($this->path) === '')
 		{
 			$this->path = $this->alias;
 		}
 		// Check for params.
-		if (trim($this->params) == '')
+		if (trim($this->params) === '')
 		{
 			$this->params = '{}';
 		}
 		// Check for img.
-		if (trim($this->img) == '')
+		if (trim($this->img) === '')
 		{
 			$this->img = ' ';
 		}
@@ -131,7 +131,7 @@ class Menu extends Nested
 		$this->home = (int) $this->home;
 
 		// Verify that the home item is a component.
-		if ($this->home && $this->type != 'component')
+		if ($this->home && $this->type !== 'component')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
 
@@ -290,7 +290,7 @@ class Menu extends Nested
 		foreach ($pathNodes as $node)
 		{
 			// Don't include root in path
-			if ($node->alias != 'root')
+			if ($node->alias !== 'root')
 			{
 				$segments[] = $node->alias;
 			}

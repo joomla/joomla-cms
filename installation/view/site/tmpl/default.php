@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewDefault $this */
 ?>
-<?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <div class="btn-toolbar justify-content-end">
 	<div class="btn-group">
 		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>

@@ -6,13 +6,8 @@
 
 // Bootstrap
 @import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/bootstrap";
-
-// FontAwesome
-@import "../../../../media/vendor/font-awesome/scss/font-awesome";
-
-// B/C for Icomoon
-@import "../../../../media/system/scss/icomoon";
+@import "../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../media/vendor/bootstrap/scss/custom";
 
 // Alert
 @import "../../../../media/system/scss/jalert";
@@ -60,6 +55,7 @@
 @import "pages/com_config";
 @import "pages/com_cpanel";
 @import "pages/com_modules";
+@import "pages/com_templates";
 @import "pages/com_users";
 
 .container-main,
@@ -120,11 +116,7 @@
 .input-group-btn {
   flex-direction: row;
 }
-// This adds the correct cursor on hover for buttons
-.btn:hover,
-.btn:focus {
-  cursor: pointer;
-}
+
 // Multilingual associations specific
 .item-associations {
   padding: 0;

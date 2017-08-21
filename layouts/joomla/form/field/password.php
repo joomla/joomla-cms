@@ -47,7 +47,7 @@ extract($displayData);
 if ($meter)
 {
 	JHtml::_('behavior.formvalidator');
-	JHtml::_('script', 'system/fields/passwordstrength.js', false, true);
+	JHtml::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
 
 	$class = 'js-password-strength ' . $class;
 
@@ -57,8 +57,12 @@ if ($meter)
 	}
 }
 
+JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+
 JText::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 JText::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
+JText::script('JSHOW');
+JText::script('JHIDE');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -79,9 +83,17 @@ $attributes = array(
 );
 
 ?>
-<input
-	type="password"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+<div class="password-group">
+	<div class="input-group">
+		<input
+			type="password"
+			name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo implode(' ', $attributes); ?>>
+		<span class="input-group-addon">
+			<span class="fa fa-eye" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
+		</span>
+	</div>
+</div>
