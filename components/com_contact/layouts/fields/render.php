@@ -19,9 +19,9 @@ if (empty($item) || !($item instanceof stdClass) || empty($context))
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-$fields = null;
+$fields = !empty($displayData['fields']) ? $displayData['fields'] : array();
 
-if (empty($fields = $displayData['fields']))
+if (empty($fields))
 {
 	$fields = $item->jcfields ?: FieldsHelper::getFields($context, $item, true);
 }
