@@ -3173,9 +3173,6 @@ input[type="submit"].btn.btn-mini {
 	margin-top: -1px;
 	margin-bottom: 0;
 }
-.tabs-below > .nav-tabs > li:last-child {
-	margin-bottom: inherit;
-}
 .tabs-below > .nav-tabs > li > a {
 	-webkit-border-radius: 0 0 4px 4px;
 	-moz-border-radius: 0 0 4px 4px;
