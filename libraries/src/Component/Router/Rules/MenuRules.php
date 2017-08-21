@@ -92,7 +92,7 @@ class MenuRules implements RulesInterface
 			$layout = ':' . $query['layout'];
 		}
 
-		if ($needles)
+		if (!isset($query['Itemid']) && $needles)
 		{
 			foreach ($needles as $view => $ids)
 			{
