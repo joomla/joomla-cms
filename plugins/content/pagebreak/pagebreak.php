@@ -277,8 +277,10 @@ class PlgContentPagebreak extends JPlugin
 				$start_expanded = ($this->params->get('toc_toggler_default_status') == 1) ? "true" : "false";
 				
 				// Add toc-toggler using bootstrap collapse.js attribs
-				$row->toc .= ' <a class="btn btn-small" role="button" data-toggle="collapse" href="#articletoc" aria-expanded="' . $start_expanded . '" aria-controls="articletoc">'
-							. JText::_('PLG_CONTENT_PAGEBREAK_TOC_COLLAPSE_BUTTON_MSG') . '</a>';
+				$row->toc .= ' <a class="btn btn-small" role="button" data-toggle="collapse" href="#articletoc" aria-expanded="' . $start_expanded
+							. '" aria-controls="articletoc">'
+							. JText::_('PLG_CONTENT_PAGEBREAK_TOC_COLLAPSE_BUTTON_MSG')
+						. '</a>';
 			}
 		}
 
