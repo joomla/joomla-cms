@@ -5,7 +5,6 @@
 	<!-- Exclude folders not containing production code -->
 	<exclude-pattern type="relative">build/*</exclude-pattern>
 	<exclude-pattern type="relative">docs/*</exclude-pattern>
-	<exclude-pattern type="relative">tests/*</exclude-pattern>
 	<exclude-pattern type="relative">cache/*</exclude-pattern>
 	<exclude-pattern type="relative">tmp/*</exclude-pattern>
 	<exclude-pattern type="relative">logs/*</exclude-pattern>
@@ -23,23 +22,27 @@
 	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation.php</exclude-pattern>
 	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
 	<exclude-pattern type="relative">configuration.php</exclude-pattern>
+	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
+	<!-- Exclude some test related files that don't actually include PHP code -->
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/model/stubs/barbaz.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/fringe/division.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/olivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/peter.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts2/fauxlivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts2/olivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component1/controller.json.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component2/controller.php</exclude-pattern>
+
+	<!-- Exclude the RoboFile.php -->
+	<exclude-pattern type="relative">RoboFile.php</exclude-pattern>
 
 	<!-- Include all sniffs in an external standard directory -->
-	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
-		<!-- These exceptions are temporary for now -->
-		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/joomla/*</exclude-pattern>
-	</rule>
 	<rule ref="Generic.Files.EndFileNewline">
 		<!-- These exceptions are temporary for now, possibly permanent -->
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<!-- Use Unix newlines -->
@@ -59,14 +62,13 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Formatting.DisallowMultipleStatements">
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 	<rule ref="Generic.Functions.FunctionCallArgumentSpacing" />
 
@@ -95,7 +97,7 @@
 		<!-- These exceptions are temporary for now -->
 		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
+		<exclude-pattern type="relative">modules/mod_articles_category/helper.php</exclude-pattern>
 		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
 	</rule>
 	<rule ref="PEAR.NamingConventions.ValidClassName">
@@ -143,12 +145,23 @@
 
 	<!-- Remove the following when the folder limitations are dropped -->
 
-	<rule ref="Joomla.Classes.MethodScope"/>
+	<rule ref="Joomla.Classes.MethodScope">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FileComment">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Functions.FunctionCallSignature">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
 
 	<rule ref="Joomla.Commenting.FunctionComment">
 		<!-- We only want this for libraries, language and cli for now -->
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.Commenting.SingleComment">
@@ -158,14 +171,15 @@
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 	</rule>
 
-	<rule ref="Joomla.Commenting.ClassComment"/>
+	<rule ref="Joomla.Commenting.ClassComment">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
 
 	<rule ref="Joomla.ControlStructures.ControlSignature">
 		<!-- These exceptions are permanent -->
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.ControlStructures.InlineControlStructure">
@@ -173,7 +187,6 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.ControlStructures.MultiLineCondition">
@@ -181,7 +194,6 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.WhiteSpace.ConcatenationSpacing">

@@ -3,7 +3,7 @@
 	<name>mod_tags_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -22,6 +22,14 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field 
+					name="parentTag"
+					type="tag"
+					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
+					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
+					multiple="true"
+				/>
+
 				<field
 					name="maximum"
 					type="integer"

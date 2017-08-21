@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_breadcrumbs
  *
- * @package     Joomla.Site
- * @subpackage  mod_breadcrumbs
- * @since       1.5
+ * @since  1.5
  */
 class ModBreadCrumbsHelper
 {
@@ -83,7 +81,7 @@ class ModBreadCrumbsHelper
 
 		// If a custom separator has not been provided we try to load a template
 		// specific one first, and if that is not present we load the default separator
-		if ($custom == null)
+		if ($custom === null)
 		{
 			if ($lang->isRtl())
 			{

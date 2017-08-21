@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,21 +28,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
-		<div class="clearfix"></div>
-		<?php if (empty($this->rows)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th width="1%">
 						&#160;
 					</th>
-					<th width="25%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
+					<th width="15%" class="nowrap">
+						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
+					</th>
+					<th width="15%" class="hidden-phone">
+						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
@@ -69,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="9">
+					<td colspan="10">
 						<?php echo $this->pagination->getListFooter(); ?>
 					</td>
 				</tr>
@@ -92,6 +90,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($row->name); ?>
 						</label>
 					</td>
+					<td class="hidden-phone">
+						<?php echo $this->escape($row->nativeName); ?>
+					</td>
 					<td>
 						<?php echo $this->escape($row->language); ?>
 					</td>
@@ -99,8 +100,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
 					</td>
 					<td class="center small">
+					<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 					<?php // Display a Note if language pack version is not equal to Joomla version ?>
-					<?php if (substr($row->version, 0, 3) != $version::RELEASE || substr($row->version, 0, 5) != $currentShortVersion) : ?>
+					<?php if (substr($row->version, 0, 3) != $minorVersion || substr($row->version, 0, 5) != $currentShortVersion) : ?>
 						<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
 					<?php else : ?>
 						<span class="label label-success"><?php echo $row->version; ?></span>

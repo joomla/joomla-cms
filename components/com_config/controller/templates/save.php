@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class ConfigControllerTemplatesSave extends JControllerBase
 
 		$app = JFactory::getApplication();
 
-		// Access back-end com_templates
+		// Access backend com_templates
 		JLoader::register('TemplatesControllerStyle', JPATH_ADMINISTRATOR . '/components/com_templates/controllers/style.php');
 		JLoader::register('TemplatesModelStyle', JPATH_ADMINISTRATOR . '/components/com_templates/models/style.php');
 		JLoader::register('TemplatesTableStyle', JPATH_ADMINISTRATOR . '/components/com_templates/tables/style.php');
@@ -53,11 +53,11 @@ class ConfigControllerTemplatesSave extends JControllerBase
 		// Get a document object
 		$document = JFactory::getDocument();
 
-		// Set back-end required params
+		// Set backend required params
 		$document->setType('json');
 		$this->input->set('id', $app->getTemplate('template')->id);
 
-		// Execute back-end controller
+		// Execute backend controller
 		$return = $controllerClass->save();
 
 		// Reset params back after requesting from service

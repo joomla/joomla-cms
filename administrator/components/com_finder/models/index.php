@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -38,7 +38,7 @@ class FinderModelIndex extends JModelList
 	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -69,13 +69,11 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -85,9 +83,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -219,7 +215,7 @@ class FinderModelIndex extends JModelList
 			// Filter by indexdate only if $search doesn't contains non-ascii characters
 			if (!preg_match('/[^\x00-\x7F]/', $search))
 			{
-				$orSearchSql .= ' OR ' . $db->quoteName('l.indexdate') . ' LIKE  ' . $search;
+				$orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $search;
 			}
 
 			$query->where('(' . $orSearchSql . ')');
@@ -229,7 +225,7 @@ class FinderModelIndex extends JModelList
 		$listOrder = $this->getState('list.ordering', 'l.title');
 		$listDir   = $this->getState('list.direction', 'ASC');
 
-		if ($listOrder == 't.title')
+		if ($listOrder === 't.title')
 		{
 			$ordering = $db->quoteName('t.title') . ' ' . $db->escape($listDir) . ', ' . $db->quoteName('l.title') . ' ' . $db->escape($listDir);
 		}
@@ -244,9 +240,9 @@ class FinderModelIndex extends JModelList
 	}
 
 	/**
-	 * Method to get the state of the Smart Search plug-ins.
+	 * Method to get the state of the Smart Search Plugins.
 	 *
-	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.
+	 * @return  array  Array of relevant plugins and whether they are enabled or not.
 	 *
 	 * @since   2.5
 	 */
@@ -260,10 +256,8 @@ class FinderModelIndex extends JModelList
 			->where($db->quoteName('folder') . ' IN (' . $db->quote('system') . ',' . $db->quote('content') . ')')
 			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
 		$db->setQuery($query);
-		$db->execute();
-		$plugins = $db->loadObjectList('name');
 
-		return $plugins;
+		return $db->loadObjectList('name');
 	}
 
 	/**
@@ -423,16 +417,13 @@ class FinderModelIndex extends JModelList
 		{
 			$table->reset();
 
-			if ($table->load($pk))
+			if ($table->load($pk) && !$this->canEditState($table))
 			{
-				if (!$this->canEditState($table))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
-					return false;
-				}
+				return false;
 			}
 		}
 

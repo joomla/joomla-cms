@@ -3,7 +3,7 @@
 	<name>plg_system_languagefilter</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -61,7 +61,6 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-					showon="item_associations:1"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -74,7 +73,7 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-					showon="item_associations:1[AND]alternate_meta:1"
+					showon="alternate_meta:1"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -86,7 +85,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_DESC"
 					default="default"
-					showon="item_associations:1[AND]alternate_meta:1[AND]xdefault:1"
+					showon="alternate_meta:1[AND]xdefault:1"
 					>
 					<option value="default">PLG_SYSTEM_LANGUAGEFILTER_OPTION_DEFAULT_LANGUAGE</option>
 				</field>

@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die();
@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die();
 JFormHelper::loadFieldClass('list');
 
 /**
- * Search Filter field for the Finder package.
+ * Search Branches field for the Finder package.
  *
  * @since  3.5
  */

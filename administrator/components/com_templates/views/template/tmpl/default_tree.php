@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,18 @@ ksort($this->files, SORT_STRING);
 ?>
 
 <ul class='nav nav-list directory-tree'>
-	<?php foreach($this->files as $key => $value): ?>
-		<?php if(is_array($value)): ?>
+	<?php foreach ($this->files as $key => $value) : ?>
+		<?php if (is_array($value)) : ?>
 			<?php
 			$keyArray  = explode('/', $key);
 			$fileArray = explode('/', $this->fileName);
 			$count     = 0;
 
-			if (count($fileArray) >= count($keyArray))
+			$keyArrayCount = count($keyArray);
+
+			if (count($fileArray) >= $keyArrayCount)
 			{
-				for ($i = 0; $i < count($keyArray); $i++)
+				for ($i = 0; $i < $keyArrayCount; $i++)
 				{
 					if ($keyArray[$i] === $fileArray[$i])
 					{
@@ -29,32 +31,32 @@ ksort($this->files, SORT_STRING);
 					}
 				}
 
-				if ($count == count($keyArray))
+				if ($count === $keyArrayCount)
 				{
-					$class = "folder show";
+					$class = 'folder show';
 				}
 				else
 				{
-					$class = "folder";
+					$class = 'folder';
 				}
 			}
 			else
 			{
-				$class = "folder";
+				$class = 'folder';
 			}
 
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class='folder-url nowrap' href=''>
-					<span class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></span>
+					<span class='icon-folder'>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?></span>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>
 		<?php endif; ?>
-		<?php if(is_object($value)): ?>
+		<?php if (is_object($value)) : ?>
 			<li>
 				<a class="file nowrap" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) ?>'>
-					<span class='icon-file'>&nbsp;<?php echo $value->name; ?></span>
+					<span class='icon-file'>&nbsp;<?php echo $this->escape($value->name); ?></span>
 				</a>
 			</li>
 		<?php endif; ?>

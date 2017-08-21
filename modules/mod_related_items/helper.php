@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/he
 /**
  * Helper for mod_related_items
  *
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModRelatedItemsHelper
 {
@@ -63,7 +61,7 @@ abstract class ModRelatedItemsHelper
 		$related  = array();
 		$query    = $db->getQuery(true);
 
-		if ($option == 'com_content' && $view == 'article' && $id)
+		if ($option === 'com_content' && $view === 'article' && $id)
 		{
 			// Select the meta keywords from the item
 			$query->select('metakey')
@@ -117,15 +115,7 @@ abstract class ModRelatedItemsHelper
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 				$case_when .= ' ELSE ';
 				$case_when .= $a_id . ' END as slug';
-				$query->select($case_when);
 
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('cc.alias', '!=', '0');
-				$case_when .= ' THEN ';
-				$c_id = $query->castAsChar('cc.id');
-				$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $c_id . ' END as catslug';
 				$query->select($case_when)
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
@@ -188,9 +178,11 @@ abstract class ModRelatedItemsHelper
 			foreach ($related as &$item)
 			{
 				$item->slug    = $item->id . ':' . $item->alias;
+
+				/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 				$item->catslug = $item->catid . ':' . $item->category_alias;
 
-				$item->route = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->route   = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,7 +143,7 @@ class SearchModelSearches extends JModelList
 			if (!class_exists('JSite'))
 			{
 				// This fools the routers in the search plugins into thinking it's in the frontend
-				JLoader::register('JSite', JPATH_COMPONENT . '/helpers/site.php');
+				JLoader::register('JSite', JPATH_ADMINISTRATOR . '/components/com_search/helpers/site.php');
 			}
 
 			foreach ($items as &$item)

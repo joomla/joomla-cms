@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of plugin records.
@@ -58,7 +60,7 @@ class PluginsModelPlugins extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'folder', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string');
@@ -81,7 +83,7 @@ class PluginsModelPlugins extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('folder', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -124,7 +126,7 @@ class PluginsModelPlugins extends JModelList
 		// If "Sort Table By:" is not set, set ordering to name
 		if ($ordering == '')
 		{
-			$ordering = "name";
+			$ordering = 'name';
 		}
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
@@ -146,8 +148,9 @@ class PluginsModelPlugins extends JModelList
 				}
 			}
 
-			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
-			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
+			$orderingDirection = strtolower($this->getState('list.direction'));
+			$direction         = ($orderingDirection == 'desc') ? -1 : 1;
+			$result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
@@ -158,7 +161,7 @@ class PluginsModelPlugins extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 		else
 		{

@@ -1,101 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field name="lang_id" type="text"
-			class="readonly"
-			description="JGLOBAL_FIELD_ID_DESC"
+		<field 
+			name="lang_id" 
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			class="readonly"
 			default="0"
 			readonly="true"
 		/>
 
-		<field name="lang_code" type="text"
-			description="COM_LANGUAGES_FIELD_LANG_TAG_DESC"
+		<field 
+			name="lang_code" 
+			type="text"
 			label="COM_LANGUAGES_FIELD_LANG_TAG_LABEL"
+			description="COM_LANGUAGES_FIELD_LANG_TAG_DESC"
 			maxlength="7"
 			required="true"
 			size="10"
 		/>
 
-		<field name="title" type="text"
-			description="COM_LANGUAGES_FIELD_TITLE_DESC"
+		<field 
+			name="title"
+			type="text"
 			label="JGLOBAL_TITLE"
+			description="COM_LANGUAGES_FIELD_TITLE_DESC"
 			maxlength="50"
 			required="true"
 			size="40"
 		/>
 
-		<field name="title_native" type="text"
-			description="COM_LANGUAGES_FIELD_TITLE_NATIVE_DESC"
+		<field 
+			name="title_native"
+			type="text"
 			label="COM_LANGUAGES_FIELD_TITLE_NATIVE_LABEL"
+			description="COM_LANGUAGES_FIELD_TITLE_NATIVE_DESC"
 			maxlength="50"
 			required="true"
 			size="40"
 		/>
 
-		<field name="sef" type="text"
-			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
+		<field 
+			name="sef" 
+			type="text"
 			label="COM_LANGUAGES_FIELD_LANG_CODE_LABEL"
+			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
 			maxlength="50"
 			required="true"
 			size="10"
 		/>
 
-		<field name="image" type="filelist"
-			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
+		<field
+			name="image"
+			type="filelist"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
+			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			stripext="1"
 			directory="media/mod_languages/images/"
 			hide_none="1"
 			hide_default="1"
-			required="true"
 			filter="\.gif$"
 			size="10"
-		/>
+			>
+			<option value="">JNONE</option>
+		</field>
 
-		<field name="description" type="textarea"
-			cols="80"
-			description="COM_LANGUAGES_FIELD_DESCRIPTION_DESC"
+		<field 
+			name="description" 
+			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
+			description="COM_LANGUAGES_FIELD_DESCRIPTION_DESC"
+			cols="80"
 			rows="5"
 		/>
 
-		<field name="published" type="list"
-			default="1"
-			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
+		<field 
+			name="published" 
+			type="list"
 			label="JSTATUS"
+			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
+			default="1"
 			size="1"
-		>
+			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
 		
-		<field name="access" type="accesslevel"
-		size="1"
-		label="JFIELD_ACCESS_LABEL"
-		description="JFIELD_ACCESS_DESC"
+		<field 
+			name="access" 
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			size="1"
 		/>
 	</fieldset>
 	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-		<field name="metakey" type="textarea"
-			description="JFIELD_META_KEYWORDS_DESC"
+		<field 
+			name="metakey" 
+			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
+			description="JFIELD_META_KEYWORDS_DESC"
 			rows="3"
 			cols="30"
 		/>
 
-		<field name="metadesc" type="textarea"
-			description="JFIELD_META_DESCRIPTION_DESC"
+		<field 
+			name="metadesc" 
+			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
+			description="JFIELD_META_DESCRIPTION_DESC"
 			rows="3"
 			cols="30"
 		/>
 	</fieldset>
 	<fieldset name="site_name" label="COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL">
-		<field name="sitename" type="text"
-			description="COM_LANGUAGES_FIELD_SITE_NAME_DESC"
+		<field 
+			name="sitename" 
+			type="text"
 			label="COM_LANGUAGES_FIELD_SITE_NAME_LABEL"
+			description="COM_LANGUAGES_FIELD_SITE_NAME_DESC"
 			filter="string"
 			size="50"
 		/>

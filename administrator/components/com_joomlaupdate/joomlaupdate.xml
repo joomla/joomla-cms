@@ -3,11 +3,11 @@
 	<name>com_joomlaupdate</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2012</creationDate>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.6.0</version>
+	<version>3.6.2</version>
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<media destination="com_joomlaupdate" folder="media">
 		<folder>js</folder>

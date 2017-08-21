@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,11 +72,17 @@ Joomla.submitbutton = function(task, type){
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 
+// In case of modal
+$input = JFactory::getApplication()->input;
+$isModal  = $input->get('layout') == 'modal' ? true : false;
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$clientId = $this->state->get('item.client_id', 0);
 ?>
 
 <div class="menuitem-edit">
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 <div class="col main-section">
 	<fieldset class="adminform">
@@ -143,7 +149,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
-		</ul>
+
+                <li><?php echo $this->form->getLabel('client_id'); ?>
+					<?php echo $this->form->getInput('client_id'); ?></li>
+            </ul>
 
 	</fieldset>
 </div>

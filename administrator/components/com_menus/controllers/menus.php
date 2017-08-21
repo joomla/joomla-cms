@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 * Display the view
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached.
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController        This object to support chaining.
 	 *
@@ -45,9 +45,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function getModel($name = 'Menu', $prefix = 'MenusModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -140,9 +138,9 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
-	 * @return   void
+	 * @return  JException|void  JException instance on error
 	 *
-	 * @since  1.6
+	 * @since   1.6
 	 */
 	public function resync()
 	{
