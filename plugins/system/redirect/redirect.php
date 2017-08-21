@@ -149,7 +149,7 @@ class PlgSystemRedirect extends JPlugin
 			if (!empty($exclude->regexp))
 			{
 				// Only check $url, because it includes all other sub urls
-				if (preg_match('/' . $exclude->term . '/i', $url))
+				if (preg_match('/' . $exclude->term . '/i', $urlRel))
 				{
 					$skipUrl = true;
 					break;
