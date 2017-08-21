@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\Registry;
+use Joomla\CMS\Log\Log;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.environment.browser');
@@ -40,6 +42,7 @@ abstract class JHtml
 	 *
 	 * @var    string[]
 	 * @since  1.5
+	 * @deprecated  5.0
 	 */
 	protected static $includePaths = array();
 
@@ -48,8 +51,17 @@ abstract class JHtml
 	 *
 	 * @var    callable[]
 	 * @since  1.6
+	 * @deprecated  5.0
 	 */
 	protected static $registry = array();
+
+	/**
+	 * The service registry for custom and overridden JHtml helpers
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $serviceRegistry;
 
 	/**
 	 * Method to extract a key
@@ -68,6 +80,22 @@ abstract class JHtml
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
+		if (count($parts) === 3)
+		{
+			try
+			{
+				Log::add(
+					'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+					Log::WARNING,
+					'deprecated'
+				);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational message only, continue on
+			}
+		}
+
 		$prefix = count($parts) === 3 ? array_shift($parts) : 'JHtml';
 		$file   = count($parts) === 2 ? array_shift($parts) : '';
 		$func   = array_shift($parts);
@@ -81,28 +109,45 @@ abstract class JHtml
 	 * Additional arguments may be supplied and are passed to the sub-class.
 	 * Additional include paths are also able to be specified for third-party use
 	 *
-	 * @param   string  $key  The name of helper method to load, (prefix).(class).function
-	 *                        prefix and class are optional and can be used to load custom
-	 *                        html helpers.
+	 * @param   string  $key         The name of helper method to load, (prefix).(class).function
+	 *                               prefix and class are optional and can be used to load custom
+	 *                               html helpers.
+	 * @param   array   $methodArgs  The arguments to pass forward to the method being called
 	 *
 	 * @return  mixed  Result of JHtml::call($function, $args)
 	 *
 	 * @since   1.5
 	 * @throws  InvalidArgumentException
 	 */
-	public static function _($key)
+	final public static function _(string $key, ...$methodArgs)
 	{
 		list($key, $prefix, $file, $func) = static::extract($key);
 
 		if (array_key_exists($key, static::$registry))
 		{
 			$function = static::$registry[$key];
-			$args     = func_get_args();
 
-			// Remove function name from arguments
-			array_shift($args);
+			return static::call($function, $methodArgs);
+		}
 
-			return static::call($function, $args);
+		/*
+		 * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
+		 * the service comes from a class other than this one, and a service has been registered for the file.
+		 */
+		if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file))
+		{
+			$service = static::getServiceRegistry()->getService($file);
+
+			$toCall = array($service, $func);
+
+			if (!is_callable($toCall))
+			{
+				throw new InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
+			}
+
+			static::register($key, $toCall);
+
+			return static::call($toCall, $methodArgs);
 		}
 
 		$className = $prefix . ucfirst($file);
@@ -124,6 +169,15 @@ abstract class JHtml
 			}
 		}
 
+		// If calling a method from this class, do not allow access to internal methods
+		if ($className === __CLASS__)
+		{
+			if (!((new ReflectionMethod($className, $func))->isPublic()))
+			{
+				throw new InvalidArgumentException('Access to internal class methods is not allowed.');
+			}
+		}
+
 		$toCall = array($className, $func);
 
 		if (!is_callable($toCall))
@@ -132,36 +186,40 @@ abstract class JHtml
 		}
 
 		static::register($key, $toCall);
-		$args = func_get_args();
 
-		// Remove function name from arguments
-		array_shift($args);
-
-		return static::call($toCall, $args);
+		return static::call($toCall, $methodArgs);
 	}
 
 	/**
 	 * Registers a function to be called with a specific key
 	 *
-	 * @param   string  $key       The name of the key
-	 * @param   string  $function  Function or method
+	 * @param   string    $key       The name of the key
+	 * @param   callable  $function  Function or method
 	 *
 	 * @return  boolean  True if the function is callable
 	 *
 	 * @since   1.6
 	 */
-	public static function register($key, $function)
+	public static function register($key, callable $function)
 	{
-		list($key) = static::extract($key);
-
-		if (is_callable($function))
+		try
 		{
-			static::$registry[$key] = $function;
-
-			return true;
+			Log::add(
+				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				Log::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational message only, continue on
 		}
 
-		return false;
+		list($key) = static::extract($key);
+
+		static::$registry[$key] = $function;
+
+		return true;
 	}
 
 	/**
@@ -175,6 +233,19 @@ abstract class JHtml
 	 */
 	public static function unregister($key)
 	{
+		try
+		{
+			Log::add(
+				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				Log::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational message only, continue on
+		}
+
 		list($key) = static::extract($key);
 
 		if (isset(static::$registry[$key]))
@@ -204,6 +275,22 @@ abstract class JHtml
 	}
 
 	/**
+	 * Retrieves the service registry.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getServiceRegistry()
+	{
+		if (!static::$serviceRegistry)
+		{
+			static::$serviceRegistry = new Registry;
+		}
+
+		return static::$serviceRegistry;
+	}
+	/**
 	 * Function caller method
 	 *
 	 * @param   callable  $function  Function or method to call
@@ -215,13 +302,8 @@ abstract class JHtml
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
-	protected static function call($function, $args)
+	protected static function call(callable $function, $args)
 	{
-		if (!is_callable($function))
-		{
-			throw new InvalidArgumentException('Function not supported', 500);
-		}
-
 		// PHP 5.3 workaround
 		$temp = array();
 
@@ -581,7 +663,7 @@ abstract class JHtml
 			return $file;
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs) . ' /') . '>';
+		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
 	/**
@@ -733,6 +815,74 @@ abstract class JHtml
 			}
 
 			$document->addScript($include, $options, $attribs);
+		}
+	}
+
+	/**
+	 * Loads the name and path of a custom element or webcomponent into the scriptOptions object
+	 *
+	 * @param   array  $component  The name and path of the web component.
+	 *                             Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
+	 *                             of just the custom element. (Polyfills loaded as needed, no force load)
+	 * @param   array  $options    The relative, version, detect browser and detect debug options for the custom element
+	 *                             or web component. Files need to have a -es5(.min).js (or -es5(.min).html) for the non ES6
+	 *                             Browsers.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public static function webcomponent($component = [], $options = [])
+	{
+		if (empty($component))
+		{
+			return;
+		}
+
+		// Script core.js is responsible for the polyfills and the async loading of the web components
+		static::_('behavior.core');
+
+		foreach ($component as $key => $value)
+		{
+			if ($key === 'fullPolyfill' && $value === true)
+			{
+				JFactory::getDocument()->addScriptOptions('webcomponents', ['fullPolyfill' => true]);
+				continue;
+			}
+			$version      = '';
+			$mediaVersion = \JFactory::getDocument()->getMediaVersion();
+			$includes     = static::includeRelativeFiles(
+				'webcomponents',
+				$value,
+				isset($options['relative']) ? $options['relative'] : true,
+				isset($options['detectBrowser']) ? $options['detectBrowser'] : false,
+				isset($options['detectDebug']) ? $options['detectDebug'] : false
+			);
+
+			if (count($includes) === 0)
+			{
+				continue;
+			}
+
+			if (isset($options['version']))
+			{
+				if ($options['version'] === 'auto')
+				{
+					$version = '?' . $mediaVersion;
+				}
+				else
+				{
+					$version = '?' . $options['version'];
+				}
+			}
+
+			if (count($includes) === 1)
+			{
+				JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '')]);
+				continue;
+			}
+
+			JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes . ((strpos($includes, '?') === false) ? $version : '')]);
 		}
 	}
 
@@ -949,7 +1099,7 @@ abstract class JHtml
 			// Use a formatted string combining the title and content.
 			elseif ($content !== '')
 			{
-				$result = '<strong>' . $title . '</strong><br />' . $content;
+				$result = '<strong>' . $title . '</strong><br>' . $content;
 			}
 			else
 			{
@@ -1088,6 +1238,19 @@ abstract class JHtml
 	 */
 	public static function addIncludePath($path = '')
 	{
+		try
+		{
+			Log::add(
+				'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				Log::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational message only, continue on
+		}
+
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{

@@ -52,56 +52,30 @@ abstract class JHtmlSortablelist
 			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
-		$displayData = array(
-			'tableId'                => $tableId,
-			'formId'                 => $formId,
-			'sortDir'                => $sortDir,
-			'saveOrderingUrl'        => $saveOrderingUrl,
-			'nestedList'             => $nestedList,
-			'proceedSaveOrderButton' => $proceedSaveOrderButton,
-		);
+		// Depends on Joomla.getOptions()
+		JHtml::_('behavior.core');
 
-		JLayoutHelper::render('joomla.html.sortablelist', $displayData);
+		// Depends on jQuery UI
+		JHtml::_('jquery.ui', array('core', 'sortable'));
+
+		JHtml::_('script', 'system/legacy/sortablelist.min.js', false, true);
+		JHtml::_('stylesheet', 'system/sortablelist.css', false, true, false);
+
+		// Attach sortable to document
+		JFactory::getDocument()->addScriptOptions(
+			'sortable-list',
+			array(
+				'id'         => '#' . $tableId . ' tbody',
+				'formId'     => $formId,
+				'direction'  => $sortDir,
+				'url'        => $saveOrderingUrl,
+				'options'    => '',
+				'nestedList' => $nestedList,
+				'button'     => $proceedSaveOrderButton
+			)
+		);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
-
-		return;
-	}
-
-	/**
-	 * Method to inject script for enabled and disable Save order button
-	 * when changing value of ordering input boxes
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 4.0 The logic is merged in the JLayout file
-	 */
-	public static function _proceedSaveOrderButton()
-	{
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function ($){
-				$(document).ready(function (){
-					var saveOrderButton = $('.saveorder');
-					saveOrderButton.css({'opacity':'0.2', 'cursor':'default'}).attr('onclick','return false;');
-					var oldOrderingValue = '';
-					$('.text-area-order').focus(function ()
-					{
-						oldOrderingValue = $(this).attr('value');
-					})
-					.keyup(function (){
-						var newOrderingValue = $(this).attr('value');
-						if (oldOrderingValue != newOrderingValue)
-						{
-							saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
-						}
-					});
-				});
-			})(jQuery);"
-		);
-
-		return;
 	}
 }

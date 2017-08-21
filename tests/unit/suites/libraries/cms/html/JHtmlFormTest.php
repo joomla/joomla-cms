@@ -79,7 +79,27 @@ class JHtmlFormTest extends TestCase
 
 		$this->assertThat(
 			JHtmlForm::token(),
-			$this->equalTo('<input type="hidden" name="' . $token . '" value="1" />')
+			$this->equalTo('<input type="hidden" name="' . $token . '" value="1">')
 		);
+	}
+
+	/**
+	 * Tests the JHtmlForm::csrf method.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCsrf()
+	{
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$document = new JDocumentHtml;
+
+		JHtmlForm::csrf();
+
+		$doc = JFactory::getDocument();
+		$options = $this->getObjectAttribute($doc, 'scriptOptions');
+
+		$this->assertEquals(JSession::getFormToken(), $options['csrf.token']);
 	}
 }

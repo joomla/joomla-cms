@@ -6,7 +6,7 @@
 			type="radio"
 			label="INSTL_DEFAULTLANGUAGE_ACTIVATE_MULTILANGUAGE"
 			id="activateMultilanguage"
-			class="btn-group"
+			class="btn-group btn-group-reverse"
 			filter="integer"
 			default="0"
 			>
@@ -19,7 +19,7 @@
 			type="radio"
 			label="INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT"
 			id="installLocalisedContent"
-			class="btn-group"
+			class="btn-group btn-group-reverse"
 			filter="integer"
 			default="1"
 			>
@@ -32,7 +32,7 @@
 			type="radio"
 			label="INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN"
 			id="activatePluginLanguageCode"
-			class="btn-group"
+			class="btn-group btn-group-reverse"
 			filter="integer"
 			default="0"
 			>

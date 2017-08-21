@@ -69,11 +69,10 @@ abstract class MenusHtmlMenus
 			{
 				foreach ($items as &$item)
 				{
-					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
+					$text    = strtoupper($item->lang_sef);
+					$url     = JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+					$classes = 'hasPopover badge badge-association badge-' . $item->lang_sef;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
@@ -252,6 +251,6 @@ abstract class MenusHtmlMenus
 
 		$show_menu = $registry->get('menu_show');
 
-		return ($show_menu === 0) ? '<span class="label">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
+		return ($show_menu === 0) ? '<span class="badge badge-default">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
 }

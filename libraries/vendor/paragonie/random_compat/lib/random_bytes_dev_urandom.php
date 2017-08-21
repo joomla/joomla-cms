@@ -4,8 +4,8 @@
  * for using the new PHP 7 random_* API in PHP 5 projects
  * 
  * The MIT License (MIT)
- * 
- * Copyright (c) 2015 Paragon Initiative Enterprises
+ *
+ * Copyright (c) 2015 - 2017 Paragon Initiative Enterprises
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -67,16 +67,16 @@ if (!is_callable('random_bytes')) {
             if (!empty($fp)) {
                 /**
                  * stream_set_read_buffer() does not exist in HHVM
-                 * 
+                 *
                  * If we don't set the stream's read buffer to 0, PHP will
                  * internally buffer 8192 bytes, which can waste entropy
-                 * 
+                 *
                  * stream_set_read_buffer returns 0 on success
                  */
-                if (function_exists('stream_set_read_buffer')) {
+                if (is_callable('stream_set_read_buffer')) {
                     stream_set_read_buffer($fp, RANDOM_COMPAT_READ_BUFFER);
                 }
-                if (function_exists('stream_set_chunk_size')) {
+                if (is_callable('stream_set_chunk_size')) {
                     stream_set_chunk_size($fp, RANDOM_COMPAT_READ_BUFFER);
                 }
             }
@@ -104,33 +104,50 @@ if (!is_callable('random_bytes')) {
          * page load.
          */
         if (!empty($fp)) {
+            /**
+             * @var int
+             */
             $remaining = $bytes;
+
+            /**
+             * @var string|bool
+             */
             $buf = '';
 
             /**
              * We use fread() in a loop to protect against partial reads
              */
             do {
+                /**
+                 * @var string|bool
+                 */
                 $read = fread($fp, $remaining);
-                if ($read === false) {
-                    /**
-                     * We cannot safely read from the file. Exit the
-                     * do-while loop and trigger the exception condition
-                     */
-                    $buf = false;
-                    break;
+                if (!is_string($read)) {
+                    if ($read === false) {
+                        /**
+                         * We cannot safely read from the file. Exit the
+                         * do-while loop and trigger the exception condition
+                         *
+                         * @var string|bool
+                         */
+                        $buf = false;
+                        break;
+                    }
                 }
                 /**
                  * Decrease the number of bytes returned from remaining
                  */
                 $remaining -= RandomCompat_strlen($read);
-                $buf .= $read;
+                /**
+                 * @var string|bool
+                 */
+                $buf = $buf . $read;
             } while ($remaining > 0);
 
             /**
              * Is our result valid?
              */
-            if ($buf !== false) {
+            if (is_string($buf)) {
                 if (RandomCompat_strlen($buf) === $bytes) {
                     /**
                      * Return our random entropy buffer here:

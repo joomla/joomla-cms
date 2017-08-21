@@ -1660,9 +1660,20 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 			return false;
 		}
 
-		$session = JTable::getInstance('session');
+		$query = $this->_db->getQuery(true)
+			->select('COUNT(userid)')
+			->from($this->_db->quoteName('#__session'))
+			->where($this->_db->quoteName('userid') . ' = ' . $this->_db->quote($against));
+		$this->_db->setQuery($query);
 
-		return $session->exists($against);
+		if (!$result = $this->_db->loadResult())
+		{
+			$this->setError($this->_db->stderr());
+
+			return false;
+		}
+
+		return (boolean) $result;
 	}
 
 	/**

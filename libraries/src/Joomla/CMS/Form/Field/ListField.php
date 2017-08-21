@@ -47,7 +47,7 @@ class ListField extends FormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';
@@ -80,12 +80,12 @@ class ListField extends FormField
 
 				foreach ($this->value as $value)
 				{
-					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
+					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
 				}
 			}
 			else
 			{
-				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
+				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
 			}
 		}
 		else
@@ -122,6 +122,12 @@ class ListField extends FormField
 
 				// Requires associations
 				if (in_array('associations', $requires) && !Associations::isEnabled())
+				{
+					continue;
+				}
+
+				// Requires adminlanguage
+				if (in_array('adminlanguage', $requires) && !JModuleHelper::isAdminMultilang())
 				{
 					continue;
 				}

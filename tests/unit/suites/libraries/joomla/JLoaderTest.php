@@ -61,6 +61,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
 		self::$cache['classAliases'] = TestReflection::getValue('JLoader', 'classAliases');
 		self::$cache['classAliasesInverse'] = TestReflection::getValue('JLoader', 'classAliasesInverse');
+		self::$cache['extensionRootFolders'] = TestReflection::getValue('JLoader', 'extensionRootFolders');
 	}
 
 	/**
@@ -79,6 +80,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
 		TestReflection::setValue('JLoader', 'classAliases', self::$cache['classAliases']);
 		TestReflection::setValue('JLoader', 'classAliasesInverse', self::$cache['classAliasesInverse']);
+		TestReflection::setValue('JLoader', 'extensionRootFolders', self::$cache['extensionRootFolders']);
 	}
 
 	/**
@@ -241,8 +243,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('AliasNewClass'));
 		$this->assertTrue(class_exists('AliasOldClass'));
 
-		$newClass = new AliasNewClass();
-		$oldClass = new AliasOldClass();
+		$newClass = new AliasNewClass;
+		$oldClass = new AliasOldClass;
 
 		// Check if really the override is used
 		$this->assertEquals('Alias Override Class', $newClass->getName());
@@ -271,8 +273,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('OriginalNewClass'));
 		$this->assertTrue(class_exists('OriginalOldClass'));
 
-		$newClass = new OriginalNewClass();
-		$oldClass = new OriginalOldClass();
+		$newClass = new OriginalNewClass;
+		$oldClass = new OriginalOldClass;
 
 		// Check if really the override is used
 		$this->assertEquals('Original Override Class', $newClass->getName());
@@ -316,6 +318,58 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('JoomlaPatchTester'), 'Tests that a class with multiple parts is loaded from the correct path.');
 		$this->assertTrue(class_exists('JoomlaTester'), 'Tests that a class with a single part is loaded from a folder (legacy behavior).');
 		$this->assertFalse(class_exists('JoomlaNotPresent'), 'Tests that a non-existing class is not found.');
+	}
+
+	/**
+	 * Tests if JLoader can autoload a component.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadComponentClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Component\\Foo\\Administrator\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a module.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadModuleClass()
+	{
+		JLoader::registerExtensionRootFolder('Site', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Module\\FooBar\\Site\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadPluginClass()
+	{
+		JLoader::registerExtensionRootFolder('', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Plugin\\Test\\Foo\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader fails to autoload an extension which doesn't exist.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadNotExistingExtensionClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertFalse(class_exists('Vendor\\Component\\Fooinvalid\\Administrator\\Helper\\Bar'));
 	}
 
 	/**

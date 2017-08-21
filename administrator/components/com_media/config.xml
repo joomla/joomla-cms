@@ -53,11 +53,11 @@
 			type="radio"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -65,11 +65,11 @@
 			type="radio"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

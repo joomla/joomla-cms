@@ -25,7 +25,8 @@ class JAccessTest extends TestCaseDatabase
 	protected $object;
 
 	/**
-	 * @var string
+	 * @var    string
+	 * @since  3.7.4
 	 */
 	protected $outputPath;
 
@@ -479,6 +480,14 @@ class JAccessTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
+
 		// Clear the static caches.
 		\Joomla\CMS\Access\Access::clearStatics();
 
@@ -500,6 +509,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$this->_cleanupTestFiles();
 		unset($this->object);
+		$this->restoreFactoryState();
 		parent::tearDown();
 	}
 

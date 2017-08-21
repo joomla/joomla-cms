@@ -39,32 +39,31 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	{
 		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
 		{
-			return;
+			return array();
 		}
 
-		JHtml::_('jquery.framework');
+		$token    = JSession::getFormToken() . '=1';
+		$options  = array(
+			'url' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
+			'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
+		);
 
-		$token    = JSession::getFormToken() . '=' . 1;
-		$url      = JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token;
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
-		$script   = array();
-		$script[] = 'var plg_quickicon_extensionupdate_url = \'' . $url . '\';';
-		$script[] = 'var plg_quickicon_extensionupdate_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_extensionupdate_text = {'
-			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true) . '",'
-			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true) . '",'
-			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true) . '",'
-			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true) . '",'
-			. '"ERROR": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true) . '",'
-			. '};';
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JFactory::getDocument()->addScriptOptions('js-extensions-update', $options);
+
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
+
+		JHtml::_('behavior.core');
 		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
 			array(
 				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-				'image' => 'asterisk',
-				'icon'  => 'header/icon-48-extension.png',
+				'image' => 'fa fa-star-o',
+				'icon'  => '',
 				'text'  => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'

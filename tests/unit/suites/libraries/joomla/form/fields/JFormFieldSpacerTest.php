@@ -188,7 +188,7 @@ class JFormFieldSpacerTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$expected = '<span class="spacer"><span class="before"></span><span><hr /></span>' .
+		$expected = '<span class="spacer"><span class="before"></span><span><hr></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(

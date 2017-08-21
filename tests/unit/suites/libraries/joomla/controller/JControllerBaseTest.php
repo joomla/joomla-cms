@@ -34,82 +34,15 @@ class JControllerBaseTest extends TestCase
 	public function test__construct()
 	{
 		// New controller with no dependencies.
-		$this->assertEquals('default', TestReflection::getValue($this->_instance, 'app')->input, 'Checks the mock application came from the factory.');
-		$this->assertAttributeEquals('default', 'input', $this->_instance, 'Checks the input came from the application.');
+		$this->assertAttributeSame(JFactory::$application, 'app', $this->_instance, 'Checks the mock application came from the factory.');
 
 		// New controller with dependencies
-		$app = TestMockApplicationWeb::create($this);
-		$app->test = 'ok';
+		$app   = $this->getMockWeb();
+		$input = new JInput;
 
-		$class = new BaseController(new JInputCookie, $app);
-		$this->assertAttributeInstanceOf('JInputCookie', 'input', $class, 'Checks the type of the injected input.');
+		$class = new BaseController($input, $app);
+		$this->assertAttributeSame($input, 'input', $class, 'Checks the injected input.');
 		$this->assertAttributeSame($app, 'app', $class, 'Checks the injected application.');
-	}
-
-	/**
-	 * Tests the getApplication method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testGetApplication()
-	{
-		TestReflection::setValue($this->_instance, 'app', 'application');
-		$this->assertEquals('application', $this->_instance->getApplication());
-	}
-
-	/**
-	 * Tests the getInput method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testGetInput()
-	{
-		TestReflection::setValue($this->_instance, 'input', 'input');
-		$this->assertEquals('input', $this->_instance->getInput());
-	}
-
-	/**
-	 * Tests the serialize method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testSerialise()
-	{
-		$this->assertEquals('s:7:"default";', $this->_instance->serialize());
-	}
-
-	/**
-	 * Tests the unserialize method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testUnserialise()
-	{
-		$input = serialize(new JInput);
-
-		$this->assertSame($this->_instance, $this->_instance->unserialize($input), 'Checks chaining and target method.');
-		$this->assertInstanceOf('JInput', $this->_instance->getInput());
-	}
-
-	/**
-	 * Tests the unserialize method for an expected exception.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @expectedException  UnexpectedValueException
-	 */
-	public function testUnserialise_exception()
-	{
-		$this->_instance->unserialize('s:7:"default";');
 	}
 
 	/**
@@ -121,8 +54,11 @@ class JControllerBaseTest extends TestCase
 	 */
 	public function testLoadApplication()
 	{
-		JFactory::$application = 'application';
-		$this->assertEquals('application', TestReflection::invoke($this->_instance, 'loadApplication'));
+		JFactory::$application = $this->getMockCmsApp();
+
+		TestReflection::invoke($this->_instance, 'loadApplication');
+
+		$this->assertAttributeSame(JFactory::$application, 'app', $this->_instance);
 	}
 
 	/**
@@ -134,10 +70,11 @@ class JControllerBaseTest extends TestCase
 	 */
 	public function testLoadInput()
 	{
-		// Reset the input property so we know it changes based on the mock application.
-		TestReflection::setValue($this->_instance, 'input', null);
+		JFactory::$application->input = $this->getMockBuilder('JInput')->disableOriginalConstructor()->getMock();
 
-		$this->assertEquals('default', TestReflection::invoke($this->_instance, 'loadInput'));
+		TestReflection::invoke($this->_instance, 'loadInput');
+
+		$this->assertAttributeSame(JFactory::$application->input, 'input', $this->_instance);
 	}
 
 	/**
@@ -153,8 +90,7 @@ class JControllerBaseTest extends TestCase
 
 		$this->saveFactoryState();
 
-		$app = TestMockApplicationWeb::create($this);
-		$app->input = 'default';
+		$app = $this->getMockWeb();
 
 		JFactory::$application = $app;
 

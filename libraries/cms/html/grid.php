@@ -32,7 +32,6 @@ abstract class JHtmlGrid
 	{
 		// Load the behavior.
 		static::behavior();
-		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
 		$title = $value ? JText::_('JYES') : JText::_('JNO');
@@ -130,10 +129,9 @@ abstract class JHtmlGrid
 	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
 	{
 		JHtml::_('behavior.core');
-		JHtml::_('bootstrap.tooltip');
 
 		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::_('tooltipText', $tip)
-			. '" onclick="' . $action . '" />';
+			. '" onclick="' . $action . '">';
 	}
 
 	/**
@@ -152,7 +150,7 @@ abstract class JHtmlGrid
 	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
 		return $checkedOut ? '' : '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-			. '" onclick="Joomla.isChecked(this.checked);" />';
+			. '" onclick="Joomla.isChecked(this.checked);">';
 	}
 
 	/**
@@ -259,7 +257,7 @@ abstract class JHtmlGrid
 			$state,
 			'filter_state',
 			array(
-				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'list.attr' => 'class="form-control" size="1" onchange="Joomla.submitform();"',
 				'list.select' => $filter_state,
 				'option.key' => null,
 			)
@@ -280,7 +278,7 @@ abstract class JHtmlGrid
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
 		return '<a href="javascript:saveorder('
-			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-xs btn-secondary float-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 
@@ -300,13 +298,11 @@ abstract class JHtmlGrid
 
 		if ($overlib)
 		{
-			JHtml::_('bootstrap.tooltip');
-
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
 			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor)
-				. '<br />' . $date . '<br />' . $time . '">';
+				. '<br>' . $date . '<br>' . $time . '">';
 		}
 
 		return $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';

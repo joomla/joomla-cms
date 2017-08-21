@@ -9,11 +9,6 @@
 	// This line is for Mootools b/c
 	window.getSize = window.getSize || function(){return {x: window.innerWidth, y: window.innerHeight};};
 
-	// @deprecated 4.0 Use directly Joomla.editors.instances[editor].replaceSelection(text);
-	window.jInsertEditorText = function ( text, editor ) {
-		Joomla.editors.instances[editor].replaceSelection(text);
-	};
-
 	var JoomlaTinyMCE = {
 
 		/**
@@ -93,7 +88,7 @@
 
 			/** On save **/
 			document.getElementById(ed.id).form.addEventListener('submit', function() {
-				Joomla.editors.instances[ed.targetElm.id].onSave();
+        return Joomla.editors.instances[ed.targetElm.id].onSave();
 			})
 		}
 

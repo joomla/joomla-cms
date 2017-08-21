@@ -1,6 +1,7 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Platform
+ * @subpackage  Form
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -125,15 +126,6 @@ class TimezoneField extends \JFormFieldGroupedList
 	protected function getGroups()
 	{
 		$groups = array();
-
-		$keyField = !empty($this->keyField) ? $this->keyField : 'id';
-		$keyValue = $this->form->getValue($keyField);
-
-		// If the timezone is not set use the server setting.
-		if (strlen($this->value) == 0 && empty($keyValue))
-		{
-			$this->value = Factory::getConfig()->get('offset');
-		}
 
 		// Get the list of time zones from the server.
 		$zones = DateTimeZone::listIdentifiers();

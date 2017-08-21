@@ -9,30 +9,48 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Document\Document;
+use Joomla\Database\DatabaseInterface;
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionEvent;
 
 /**
  * Joomla! Installation Application class.
  *
  * @since  3.1
  */
-final class InstallationApplicationWeb extends JApplicationCms
+final class InstallationApplicationWeb extends CMSApplication
 {
 	/**
 	 * Class constructor.
 	 *
+	 * @param   JInput     $input      An optional argument to provide dependency injection for the application's input
+	 *                                 object.  If the argument is a JInput object that object will become the
+	 *                                 application's input object, otherwise a default input object is created.
+	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's
+	 *                                 config object.  If the argument is a Registry object that object will become
+	 *                                 the application's config object, otherwise a default config object is created.
+	 * @param   WebClient  $client     An optional argument to provide dependency injection for the application's
+	 *                                 client object.  If the argument is a WebClient object that object will become the
+	 *                                 application's client object, otherwise a default client object is created.
+	 * @param   Container  $container  Dependency injection container.
+	 *
 	 * @since   3.1
 	 */
-	public function __construct()
+	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name.
-		$this->_name = 'installation';
+		$this->name = 'installation';
 
 		// Register the client ID.
-		$this->_clientId = 2;
+		$this->clientId = 2;
 
 		// Run the parent constructor.
-		parent::__construct();
+		parent::__construct($input, $config, $client, $container);
 
 		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
@@ -40,13 +58,29 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Register the config to JFactory.
 		JFactory::$config = $this->config;
 
-		// Register the application to JFactory.
-		JFactory::$application = $this;
-
 		// Set the root in the URI one level up.
 		$parts = explode('/', JUri::base(true));
 		array_pop($parts);
 		JUri::root(null, implode('/', $parts));
+	}
+
+	/**
+	 * After the session has been started we need to populate it with some default values.
+	 *
+	 * @param   SessionEvent  $event  Session event being triggered
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function afterSessionStart(SessionEvent $event)
+	{
+		$session = $event->getSession();
+
+		if ($session->isNew())
+		{
+			$session->set('registry', new Registry('session'));
+		}
 	}
 
 	/**
@@ -132,56 +166,36 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function dispatch()
 	{
-		try
+		// Load the document to the API.
+		$this->loadDocument();
+
+		// Set up the params
+		$document = $this->getDocument();
+
+		// Register the document object with JFactory.
+		JFactory::$document = $document;
+
+		// Register our JHtml service
+		JHtml::getServiceRegistry()->register('installation', new InstallationHtmlHelper($this));
+
+		// Define component path.
+		define('JPATH_COMPONENT', JPATH_BASE);
+		define('JPATH_COMPONENT_SITE', JPATH_SITE);
+		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
+
+		// Execute the task.
+		$this->fetchController($this->input->getCmd('task'))->execute();
+
+		// If debug language is set, append its output to the contents.
+		if ($this->config->get('debug_lang'))
 		{
-			// Load the document to the API.
-			$this->loadDocument();
-
-			// Set up the params
-			$document = $this->getDocument();
-
-			// Register the document object with JFactory.
-			JFactory::$document = $document;
-
-			if ($document->getType() === 'html')
-			{
-				// Set metadata
-				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
-			}
-
-			// Define component path.
-			define('JPATH_COMPONENT', JPATH_BASE);
-			define('JPATH_COMPONENT_SITE', JPATH_SITE);
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
-			// Execute the task.
-			try
-			{
-				$controller = $this->fetchController($this->input->getCmd('task'));
-				$contents   = $controller->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				echo $e->getMessage();
-				$this->close($e->getCode());
-			}
-
-			// If debug language is set, append its output to the contents.
-			if ($this->config->get('debug_lang'))
-			{
-				$contents .= $this->debugLanguage();
-			}
+			$contents = $document->getBuffer('component');
+			$contents .= $this->debugLanguage();
 
 			$document->setBuffer($contents, 'component');
-			$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 		}
 
-		// Mop up any uncaught exceptions.
-		catch (Exception $e)
-		{
-			echo $e->getMessage();
-			$this->close($e->getCode());
-		}
+		$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
@@ -198,6 +212,35 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		// Dispatch the application.
 		$this->dispatch();
+	}
+
+	/**
+	 * Execute the application.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function execute()
+	{
+		// Perform application routines.
+		$this->doExecute();
+
+		// If we have an application document object, render it.
+		if ($this->document instanceof JDocument)
+		{
+			// Render the application output.
+			$this->render();
+		}
+
+		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		{
+			$this->compress();
+		}
+
+		// Send the application response.
+		$this->respond();
 	}
 
 	/**
@@ -283,23 +326,22 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Returns the installed language files in the administrative and
-	 * frontend area.
+	 * Returns the installed language files in the administrative and frontend area.
 	 *
-	 * @param   mixed  $db  JDatabaseDriver instance.
+	 * @param   DatabaseInterface  $db  Database driver.
 	 *
 	 * @return  array  Array with installed language packs in admin and site area.
 	 *
 	 * @since   3.1
 	 */
-	public function getLocaliseAdmin($db = false)
+	public function getLocaliseAdmin(DatabaseInterface $db = null)
 	{
 		$langfiles = array();
 
 		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			foreach (JLanguageHelper::getInstalledLanguages() as $clientId => $language)
+			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language)
 			{
 				$clientName = $clientId === 0 ? 'site' : 'admin';
 
@@ -312,8 +354,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
@@ -387,7 +429,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			}
 			else
 			{
-				$options['language'] = JLanguageHelper::detectLanguage();
+				$options['language'] = LanguageHelper::detectLanguage();
 
 				if (empty($options['language']))
 				{
@@ -429,13 +471,13 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 * but for many applications it will make sense to override this method and create a document,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 * @param   Document  $document  An optional document object. If omitted, the factory document is created.
 	 *
 	 * @return  InstallationApplicationWeb This method is chainable.
 	 *
 	 * @since   3.2
 	 */
-	public function loadDocument(JDocument $document = null)
+	public function loadDocument(Document $document = null)
 	{
 		if ($document === null)
 		{
@@ -452,59 +494,13 @@ final class InstallationApplicationWeb extends JApplicationCms
 				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
-			$document = JDocument::getInstance($type, $attributes);
+			$document = Document::getInstance($type, $attributes);
 
 			// Register the instance to JFactory.
 			JFactory::$document = $document;
 		}
 
 		$this->document = $document;
-
-		return $this;
-	}
-
-	/**
-	 * Allows the application to load a custom or default session.
-	 *
-	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create a session,
-	 * if required, based on more specific needs.
-	 *
-	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
-	 *
-	 * @return  InstallationApplicationWeb  This method is chainable.
-	 *
-	 * @since   3.1
-	 */
-	public function loadSession(JSession $session = null)
-	{
-		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name' => $name,
-			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl'),
-		);
-
-		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
-
-		// Instantiate the session object.
-		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input, $this->dispatcher);
-
-		// Set the session object.
-		$this->session = $session;
-
-		// Register the session with JFactory.
-		JFactory::$session = $session;
 
 		return $this;
 	}

@@ -43,9 +43,6 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 	});
 
 	describe('Core Joomla.getOptions', function () {
-		it('should be Joomla.optionsStorage = null', function () {
-			expect(Joomla.optionsStorage).toEqual(null)
-		});
 		it('should return options array Joomla.getOptions("com_foobar")', function () {
 			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
 		});
@@ -58,7 +55,9 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should return default value for not existing key Joomla.getOptions("com_foobar4", 123)', function () {
 			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
 		});
+	});
 
+	describe('Core Joomla.getOptions programmatically', function () {
 		// Test dynamically added options
 		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
 			$('#get-options').append($('<script>', {
@@ -182,20 +181,24 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('renderMessages should render messages inside a div having class alert-message', function () {
-			var $messages = $('div.alert-success').children('div');
+			var $messages = $('joomla-alert[level="success"]').children('div');
 			expect($messages[0]).toContainText('Message two');
 			expect($messages[1]).toContainText('Message one');
 		});
 
 		it('renderMessages should render errors inside a div having class alert-error', function () {
-			var $messages = $('div.alert-error').children('div');
+			var $messages = $('joomla-alert[level="danger"]').children('div');
 			expect($messages[0]).toContainText('Error two');
 			expect($messages[1]).toContainText('Error one');
 		});
 
 		it('removeMessages should remove all content from system-message-container', function () {
 			Joomla.removeMessages();
-			expect($("#system-message-container")).toBeEmpty();
+
+			// Alerts need some time for the close animation
+			setTimeout(function () {
+				expect($("#system-message-container")).toBeEmpty();
+			}, 400);
 		});
 	});
 

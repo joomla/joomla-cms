@@ -1,12 +1,9 @@
-fail_on_violations: false
+fail_on_violations: true
 
 scss:
-  enabled: false
+  config_file: scss-lint.yml
 
 jshint:
-  enabled: false
-  
-eslint:
   enabled: false
 
 ruby:

@@ -224,7 +224,7 @@ class SubformField extends FormField
 	 */
 	protected function getInput()
 	{
-		$value = $this->value ? $this->value : array();
+		$value = $this->value ? (array) $this->value : array();
 
 		// Prepare data for renderer
 		$data    = parent::getLayoutData();
@@ -298,7 +298,7 @@ class SubformField extends FormField
 		// for allow to submit an empty value
 		if ($this->multiple)
 		{
-			$html = '<input name="' . $this->name . '" type="hidden" value="" />' . $html;
+			$html = '<input name="' . $this->name . '" type="hidden" value="">' . $html;
 		}
 
 		return $html;

@@ -16,13 +16,33 @@ defined('_JEXEC') or die;
 class InstallationHtmlHelper
 {
 	/**
+	 * The active application
+	 *
+	 * @var    InstallationApplicationWeb
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $application;
+
+	/**
+	 * Service constructor
+	 *
+	 * @param   InstallationApplicationWeb  $application  The active application
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(InstallationApplicationWeb $application)
+	{
+		$this->application = $application;
+	}
+
+	/**
 	 * Method to generate the side bar.
 	 *
 	 * @return  string  Markup for the side bar.
 	 *
 	 * @since   1.6
 	 */
-	public static function stepbar()
+	public function stepbar()
 	{
 		// Determine if the configuration file path is writable.
 		$path   = JPATH_CONFIGURATION . '/configuration.php';
@@ -40,11 +60,11 @@ class InstallationHtmlHelper
 		$tabs[] = 'summary';
 
 		$html = array();
-		$html[] = '<ul class="nav nav-tabs">';
+		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)
 		{
-			$html[] = static::getTab($tab, $tabs);
+			$html[] = $this->getTab($tab, $tabs);
 		}
 
 		$html[] = '</ul>';
@@ -59,7 +79,7 @@ class InstallationHtmlHelper
 	 *
 	 * @since   3.1
 	 */
-	public static function stepbarlanguages()
+	public function stepbarlanguages()
 	{
 		$tabs = array();
 		$tabs[] = 'languages';
@@ -67,11 +87,11 @@ class InstallationHtmlHelper
 		$tabs[] = 'complete';
 
 		$html = array();
-		$html[] = '<ul class="nav nav-tabs">';
+		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)
 		{
-			$html[] = static::getTab($tab, $tabs);
+			$html[] = $this->getTab($tab, $tabs);
 		}
 
 		$html[] = '</ul>';
@@ -89,27 +109,28 @@ class InstallationHtmlHelper
 	 *
 	 * @since   3.1
 	 */
-	private static function getTab($id, $tabs)
+	private function getTab($id, $tabs)
 	{
-		$input = JFactory::getApplication()->input;
-		$num   = static::getTabNumber($id, $tabs);
-		$view  = static::getTabNumber($input->getWord('view'), $tabs);
-		$tab   = '<span class="badge">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$input  = $this->application->input;
+		$num    = $this->getTabNumber($id, $tabs);
+		$view   = $this->getTabNumber($input->getWord('view'), $tabs);
+		$tab    = '<span class="badge badge-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$active = $num == $view ? ' active' : '';
 
 		if ($view + 1 === $num)
 		{
-			$tab = '<a href="#" onclick="Install.submitform();">' . $tab . '</a>';
+			$tab = '<a class="nav-link' . $active . '" href="#" onclick="Install.submitform();">' . $tab . '</a>';
 		}
 		elseif ($view < $num)
 		{
-			$tab = '<span>' . $tab . '</span>';
+			$tab = '<a class="nav-link disabled">' . $tab . '</a>';
 		}
 		else
 		{
-			$tab = '<a href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
+			$tab = '<a class="nav-link' . $active . '" href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
 		}
 
-		return '<li class="step' . ($num === $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
+		return '<li class="nav-item step" id="' . $id . '">' . $tab . '</li>';
 	}
 
 	/**
@@ -122,7 +143,7 @@ class InstallationHtmlHelper
 	 *
 	 * @since   3.1
 	 */
-	private static function getTabNumber($id, $tabs)
+	private function getTabNumber($id, $tabs)
 	{
 		$num = (int) array_search($id, $tabs, true);
 		$num++;

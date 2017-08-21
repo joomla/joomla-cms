@@ -9,10 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JImageFilterNegate is deprecated, use Joomla\Image\Filter\Negate instead.', JLog::WARNING, 'deprecated');
+
 /**
  * Image Filter class to negate the colors of an image.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  5.0  Use Joomla\Image\Filter\Negate instead
  */
 class JImageFilterNegate extends JImageFilter
 {
@@ -24,6 +27,7 @@ class JImageFilterNegate extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @deprecated  5.0  Use Joomla\Image\Filter\Negate::execute() instead
 	 */
 	public function execute(array $options = array())
 	{

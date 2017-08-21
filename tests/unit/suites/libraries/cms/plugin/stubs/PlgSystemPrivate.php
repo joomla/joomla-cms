@@ -21,7 +21,7 @@ class PlgSystemPrivate extends JPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationBase
+	 * @var    \Joomla\Application\AbstractApplication
 	 * @since  3.1
 	 */
 	private $app;
@@ -49,7 +49,7 @@ class PlgSystemPrivate extends JPlugin
 		$config['type']   = 'System';
 		$config['params'] = new Registry;
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = JFactory::getApplication()->getDispatcher();
 
 		// Call the parent constructor
 		parent::__construct($dispatcher, $config);

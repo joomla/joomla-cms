@@ -35,7 +35,7 @@ class JUtilityTest extends TestCase
 				array('style' => 'fred')
 			),
 			'xml' => array(
-				"<img hear=\"something\" there=\"somethingelse\" />",
+				"<img hear=\"something\" there=\"somethingelse\">",
 				array('hear' => 'something', 'there' => 'somethingelse')
 			),
 		);

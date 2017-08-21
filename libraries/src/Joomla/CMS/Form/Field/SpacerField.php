@@ -61,7 +61,7 @@ class SpacerField extends FormField
 
 		if ((string) $this->element['hr'] == 'true')
 		{
-			$html[] = '<hr' . $class . ' />';
+			$html[] = '<hr' . $class . '>';
 		}
 		else
 		{
@@ -81,7 +81,6 @@ class SpacerField extends FormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				\JHtml::_('bootstrap.tooltip');
 				$label .= ' title="' . \JHtml::_('tooltipText', trim($text, ':'), \JText::_($this->description), 0) . '"';
 			}
 

@@ -12,12 +12,20 @@
 define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($) {
 
 	describe('JCaption applied to single image', function () {
+		// Set up the script
+		beforeAll(function () {
+			new Joomla.JCaption('#single img.test');
+		});
+
 		it('Should have caption as "Joomla Title 1" under image', function () {
 			expect($('#single').find('p')).toHaveText('Joomla Title 1');
 		});
 	});
 
 	describe('JCaption applied for multiple images', function () {
+		beforeAll(function () {
+			new Joomla.JCaption('#multiple img.test');
+		});
 		it('Should have caption "Joomla Title 1" under image 1', function () {
 			expect($('#multiple').find('p').first()).toHaveText('Joomla Title 1');
 		});
@@ -28,6 +36,9 @@ define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($)
 	});
 
 	describe('JCaption with empty title attribute value', function () {
+		beforeAll(function () {
+			new Joomla.JCaption('#empty img.test');
+		});
 		it('Should not have a <p> element inside the image container', function () {
 			expect($('#empty')).not.toContainElement('p');
 		});
@@ -43,16 +54,24 @@ define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($)
 	});
 
 	describe('JCaption with additional options', function () {
+		beforeAll(function () {
+			new Joomla.JCaption('#options img.test');
+		});
+
 		it('Should have 2 elements with class right', function () {
 			expect($('#options').find('.right').length).toEqual(2);
 		});
 
 		it('Should have container width as 100 when element width attribute is set to 100', function () {
-			expect($('img#width-attr').parent().width()).toEqual(100);
+			expect($('img#width-attr').parent()).toHaveCss({
+				width: '100px'
+			});
 		});
 
 		it('Should have container width as 90 when element style is set to width: 90px', function () {
-			expect($('img#width-style').parent().width()).toEqual(90);
+			expect($('img#width-style').parent()).toHaveCss({
+				width: '90px'
+			});
 		});
 
 		it('Should have float: right in container CSS when element attribute align is set to right', function () {

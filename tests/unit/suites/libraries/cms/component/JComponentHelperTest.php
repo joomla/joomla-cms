@@ -17,6 +17,21 @@
 class JComponentHelperTest extends TestCaseDatabase
 {
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	protected function tearDown()
+	{
+		TestReflection::setValue('JComponentHelper', 'components', array());
+
+		parent::tearDown();
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet

@@ -1,0 +1,31 @@
+// Buttons
+
+.btn.btn-xs,
+.btn-group-xs > .btn {
+  padding: .09rem .4rem;
+  font-size: .7rem;
+  line-height: 1.2;
+  border-radius: .2rem;
+}
+
+.btn.btn-xs .caret {
+  font-size: 16px;
+  line-height: 13px;
+}
+
+.btn:focus,
+.btn.focus,
+.btn:active:focus,
+.btn.focus:active,
+.btn.active:focus,
+.btn.active.focus {
+  text-decoration: none;
+}
+
+.btn.group-move {
+  cursor: move;
+}
+
+.btn-secondary {
+  background-color: $white-offset;
+}

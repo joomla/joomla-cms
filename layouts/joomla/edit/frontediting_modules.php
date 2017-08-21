@@ -30,7 +30,7 @@ $editUrl = JUri::base() . 'administrator/index.php?option=com_modules&task=modul
 
 if ($parameters->get('redirect_edit', 'site') === 'site')
 {
-	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
+	$editUrl = JUri::base() . 'index.php?option=com_config&view=modules&id=' . (int) $mod->id . $redirectUri;
 	$target  = '_self';
 }
 
@@ -43,7 +43,7 @@ $moduleHtml = preg_replace(
 	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-target="' . $target . '" data-jmodtip="'
 	.	JHtml::_('tooltipText', 
 			JText::_('JLIB_HTML_EDIT_MODULE'),
-			htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br />' . sprintf(JText::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')),
+			htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>' . sprintf(JText::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')),
 			0
 		)
 	. '"'
@@ -60,10 +60,9 @@ $moduleHtml = preg_replace(
 
 if ($count)
 {
-	// Load once booststrap tooltip and add stylesheet and javascript to head:
-	JHtml::_('bootstrap.tooltip');
+	// Load stylesheet and javascript to head:
 	JHtml::_('bootstrap.popover');
 
 	JHtml::_('stylesheet', 'system/frontediting.css', array('version' => 'auto', 'relative' => true));
-	JHtml::_('script', 'system/frontediting.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'system/frontediting.min.js', array('version' => 'auto', 'relative' => true));
 }

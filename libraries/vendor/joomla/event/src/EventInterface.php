@@ -10,12 +10,24 @@ namespace Joomla\Event;
 
 /**
  * Interface for events.
- * An event has a name and its propagation can be stopped (if the implementation supports it).
+ * An event has a name and its propagation can be stopped.
  *
  * @since  1.0
  */
 interface EventInterface
 {
+	/**
+	 * Get an event argument value.
+	 *
+	 * @param   string  $name     The argument name.
+	 * @param   mixed   $default  The default value if not found.
+	 *
+	 * @return  mixed  The argument value or the default value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getArgument($name, $default = null);
+
 	/**
 	 * Get the event name.
 	 *
@@ -33,4 +45,13 @@ interface EventInterface
 	 * @since   1.0
 	 */
 	public function isStopped();
+
+	/**
+	 * Stops the propagation of the event to further event listeners.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function stopPropagation();
 }
