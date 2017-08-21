@@ -43,7 +43,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
-			<?php echo '<label for="select_contact">'.JText::_('COM_CONTACT_SELECT_CONTACT').'</label>'; ?>
+			<label for="select_contact"><?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
 			<?php echo JHtml::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link); ?>
 		</form>
 	<?php endif; ?>
