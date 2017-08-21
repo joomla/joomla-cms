@@ -1,15 +1,18 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -17,7 +20,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  __DEPLOY_VERSION__
  */
-class JFormFieldRadioBasic extends JFormFieldList
+class RadiobasicField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -25,7 +28,7 @@ class JFormFieldRadioBasic extends JFormFieldList
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $type = 'RadioBasic';
+	protected $type = 'Radiobasic';
 
 	/**
 	 * Name of the layout being used to render the field
