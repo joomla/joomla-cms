@@ -307,7 +307,9 @@ JLoader::registerAlias('JFormRule',                         '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormWrapper',                      '\\Joomla\\CMS\\Form\\FormWrapper', '4.0');
 JLoader::registerAlias('JFormFieldAuthor',                  '\\Joomla\\CMS\\Form\\Field\\AuthorField', '5.0');
 JLoader::registerAlias('JFormFieldCaptcha',                 '\\Joomla\\CMS\\Form\\Field\\CaptchaField', '5.0');
+JLoader::registerAlias('JFormFieldCategory',                '\\Joomla\\CMS\\Form\\Field\\CategoryField', '5.0');
 JLoader::registerAlias('JFormFieldChromeStyle',             '\\Joomla\\CMS\\Form\\Field\\ChromeStyleField', '5.0');
+JLoader::registerAlias('JFormFieldComponentlayout',         '\\Joomla\\CMS\\Form\\Field\\ComponentlayoutField', '5.0');
 JLoader::registerAlias('JFormFieldContenthistory',          '\\Joomla\\CMS\\Form\\Field\\ContenthistoryField', '5.0');
 JLoader::registerAlias('JFormFieldContentlanguage',         '\\Joomla\\CMS\\Form\\Field\\ContentlanguageField', '5.0');
 JLoader::registerAlias('JFormFieldContenttype',             '\\Joomla\\CMS\\Form\\Field\\ContenttypeField', '5.0');
@@ -320,6 +322,7 @@ JLoader::registerAlias('JFormFieldLimitbox',                '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldMedia',                   '\\Joomla\\CMS\\Form\\Field\\MediaField', '5.0');
 JLoader::registerAlias('JFormFieldMenu',                    '\\Joomla\\CMS\\Form\\Field\\MenuField', '5.0');
 JLoader::registerAlias('JFormFieldMenuitem',                '\\Joomla\\CMS\\Form\\Field\\MenuitemField', '5.0');
+JLoader::registerAlias('JFormFieldModulelayout',            '\\Joomla\\CMS\\Form\\Field\\ModulelayoutField', '5.0');
 JLoader::registerAlias('JFormFieldModuleOrder',             '\\Joomla\\CMS\\Form\\Field\\ModuleOrderField', '5.0');
 JLoader::registerAlias('JFormFieldModulePosition',          '\\Joomla\\CMS\\Form\\Field\\ModulePositionField', '5.0');
 JLoader::registerAlias('JFormFieldModuletag',               '\\Joomla\\CMS\\Form\\Field\\ModuletagField', '5.0');
