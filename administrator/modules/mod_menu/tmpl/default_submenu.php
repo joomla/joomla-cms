@@ -116,7 +116,6 @@ if ($this->enabled && $current->hasChildren())
 		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
 
 		echo '<ul' . $id . ' class="nav panel-collapse collapse collapse-level-' . $current->getLevel() . '">' . "\n";
-		echo '<li role="menuitem">' . JText::_($current->get('title')) . '</li>';
 	}
 	else
 	{
