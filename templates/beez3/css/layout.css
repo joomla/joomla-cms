@@ -1100,6 +1100,9 @@ div.current {
 .collapse.in {
 	height: auto;
 }
+a[data-toggle*="collapse"] + ul.collapse {
+	padding-left: 15px;
+}
 #finder-search .in.collapse {
 	overflow: visible;
 }
