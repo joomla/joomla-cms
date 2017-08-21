@@ -32,7 +32,6 @@ abstract class JHtmlGrid
 	{
 		// Load the behavior.
 		static::behavior();
-		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
 		$title = $value ? JText::_('JYES') : JText::_('JNO');
@@ -130,7 +129,6 @@ abstract class JHtmlGrid
 	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
 	{
 		JHtml::_('behavior.core');
-		JHtml::_('bootstrap.tooltip');
 
 		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::_('tooltipText', $tip)
 			. '" onclick="' . $action . '">';
@@ -300,8 +298,6 @@ abstract class JHtmlGrid
 
 		if ($overlib)
 		{
-			JHtml::_('bootstrap.tooltip');
-
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 

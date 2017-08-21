@@ -142,11 +142,6 @@ class Html extends HtmlView
 			ToolbarHelper::addNew('tag.add');
 		}
 
-		if ($canDo->get('core.edit'))
-		{
-			ToolbarHelper::editList('tag.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::publish('tags.publish', 'JTOOLBAR_PUBLISH', true);

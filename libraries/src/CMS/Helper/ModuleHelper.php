@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -403,6 +404,12 @@ abstract class ModuleHelper
 			$cacheId .= $lang . '*';
 		}
 
+		if ($app->isClient('administrator') && static::isAdminMultilang())
+		{
+			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
+			$cacheId .= $lang . '*';
+		}
+
 		$query->order('m.position, m.ordering');
 
 		// Set the query
@@ -610,5 +617,24 @@ abstract class ModuleHelper
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Method to determine if filtering by language is enabled in back-end for modules.
+	 *
+	 * @return  boolean  True if enabled; false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isAdminMultilang()
+	{
+		static $enabled = false;
+
+		if (count(LanguageHelper::getInstalledLanguages(1)) > 1)
+		{
+			$enabled = (bool) ComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
+		}
+
+		return $enabled;
 	}
 }

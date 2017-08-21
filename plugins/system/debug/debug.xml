@@ -24,7 +24,6 @@
 					name="filter_groups"
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
-					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					multiple="true"
 					size="10"
 				/>
@@ -34,7 +33,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
-					description="PLG_DEBUG_FIELD_SESSION_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -46,7 +44,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
-					description="PLG_DEBUG_FIELD_PROFILING_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -58,7 +55,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
-					description="PLG_DEBUG_FIELD_QUERIES_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -70,7 +66,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
-					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -82,7 +77,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					description="PLG_DEBUG_FIELD_MEMORY_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -94,7 +88,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-					description="PLG_DEBUG_FIELD_LOGS_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -105,7 +98,6 @@
 					name="log_priorities"
 					type="list"
 					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
 					multiple="true"
 					default="all"
 					>
@@ -134,7 +126,6 @@
 					type="radio"
 					class="switcher switcher-danger"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 					default="0"
 					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
@@ -164,7 +155,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -176,7 +166,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -188,7 +177,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -200,7 +188,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -235,7 +222,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -247,7 +233,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -259,7 +244,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
-					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>

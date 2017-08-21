@@ -41,7 +41,6 @@
 					name="backgroundimage"
 					type="media"
 					label="MOD_CUSTOM_FIELD_BACKGROUNDIMAGE_LABEL"
-					description="MOD_BACKGROUNDIMAGE_FIELD_LOGO_DESC"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -49,14 +48,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -64,7 +61,6 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -75,7 +71,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 

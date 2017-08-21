@@ -1,29 +1,34 @@
 /**
+ * @package         Joomla.JavaScript
+ * @copyright       Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/**
  * Function to send Permissions via Ajax to Com-Config Application Controller
  */
 function sendPermissions(event) {
 	// set the icon while storing the values
 	var icon = document.getElementById('icon_' + this.id);
 	icon.removeAttribute('class');
-	icon.setAttribute('style', 'background: url(../media/system/images/modal/spinner.gif); display: inline-block; width: 16px; height: 16px');
+	icon.setAttribute('class', 'fa fa-spinner fa-spin');
 
 	//get values and prepare GET-Parameter
-	var asset = 'not';
-	var component = getUrlParam('component');
-	var extension = getUrlParam('extension');
-	var option    = getUrlParam('option');
-	var view      = getUrlParam('view');
-	var title     = component;
-	var value     = this.value;
-	var context   = '';
+	var asset     = 'not',
+	    component = getUrlParam('component'),
+	    extension = getUrlParam('extension'),
+	    option    = getUrlParam('option'),
+	    view      = getUrlParam('view'),
+	    title     = component,
+	    value     = this.value,
+	    context   = '';
 
 	if (document.getElementById('jform_context')){
 		context = document.getElementById('jform_context').value;
 		context = context.split('.')[0];
 	}
 
-	if (option == 'com_config' && component == false && extension == false)
-	{
+	if (option == 'com_config' && component == false && extension == false) {
 		asset = 'root.1';
 	}
 	else if (extension == false && view == 'component'){
@@ -47,8 +52,8 @@ function sendPermissions(event) {
 		title = document.getElementById('jform_title').value;
 	}
 
-	var id = this.id.replace('jform_rules_', '');
-	var lastUnderscoreIndex = id.lastIndexOf('_');
+	var id                  = this.id.replace('jform_rules_', ''),
+	    lastUnderscoreIndex = id.lastIndexOf('_');
 
 	var permission_data = {
 		comp   : asset,
@@ -63,7 +68,7 @@ function sendPermissions(event) {
 
 	// doing ajax request
 	jQuery.ajax({
-		method: "POST",
+		method: 'POST',
 		url: document.getElementById('permissions-sliders').getAttribute('data-ajaxuri'),
 		data: permission_data,
 		datatype: 'json'
@@ -76,7 +81,7 @@ function sendPermissions(event) {
 
 		window.scrollTo(0, 0);
 
-		icon.setAttribute('class', 'icon-cancel');
+		icon.setAttribute('class', 'fa fa-times');
 	})
 	.done(function (response) {
 		// Remove the spinning icon.
@@ -87,9 +92,9 @@ function sendPermissions(event) {
 			// Check if everything is OK
 			if (response.data.result == true)
 			{
-				icon.setAttribute('class', 'icon-save');
+				icon.setAttribute('class', 'fa fa-check');
 
-				jQuery(event.target).parents().next("td").find("span")
+				jQuery(event.target).parents().next('td').find('span')
 					.removeClass()
 					.addClass(response['data']['class'])
 					.html(response.data.text);
@@ -103,11 +108,11 @@ function sendPermissions(event) {
 
 			if (response.data && response.data.result == true)
 			{
-				icon.setAttribute('class', 'icon-save');
+				icon.setAttribute('class', 'fa fa-check');
 			}
 			else
 			{
-				icon.setAttribute('class', 'icon-cancel');
+				icon.setAttribute('class', 'fa fa-times');
 			}
 
 			window.scrollTo(0, 0);

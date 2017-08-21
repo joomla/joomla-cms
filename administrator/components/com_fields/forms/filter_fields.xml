@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
 	<fieldset name="group">
 		<field
 			name="context"
@@ -38,6 +38,7 @@
 			name="assigned_cat_ids"
 			type="category"
 			onchange="this.form.submit();"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_CATEGORY</option>
 		</field>
@@ -63,8 +64,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
@@ -91,8 +90,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_FIELDS_LIST_LIMIT"
-			description="COM_FIELDS_LIST_LIMIT_DESC"
 			default="25"
 			onchange="this.form.submit();"
 		/>

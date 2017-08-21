@@ -100,8 +100,6 @@ abstract class JHtmlContentAdministrator
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),

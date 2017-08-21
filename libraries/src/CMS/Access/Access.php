@@ -405,7 +405,7 @@ class Access
 		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
 
 		// Add root to asset names list.
-		$components = array();
+		$components = array('root.1');
 
 		// Add enabled components to asset names list.
 		foreach (\JComponentHelper::getComponents() as $component)
@@ -423,7 +423,7 @@ class Access
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
 			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ') OR ' . $db->qn('parent_id') . ' = 0');
+			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
 
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();

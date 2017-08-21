@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
 ?>
 <ul class="list-group list-group-flush">
 	<?php foreach ($users as $user) : ?>

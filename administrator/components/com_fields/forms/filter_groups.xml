@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
 	<fieldset name="group">
 		<field
 			name="context"
@@ -45,7 +45,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
 			>

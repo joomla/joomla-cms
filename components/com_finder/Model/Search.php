@@ -267,11 +267,11 @@ class Search extends ListModel
 			$date1 = $db->quote($this->query->date1);
 
 			// Add the appropriate WHERE condition.
-			if ($this->query->when1 == 'before')
+			if ($this->query->when1 === 'before')
 			{
 				$query->where($db->quoteName('l.start_date') . ' <= ' . $date1);
 			}
-			elseif ($this->query->when1 == 'after')
+			elseif ($this->query->when1 === 'after')
 			{
 				$query->where($db->quoteName('l.start_date') . ' >= ' . $date1);
 			}
@@ -288,11 +288,11 @@ class Search extends ListModel
 			$date2 = $db->quote($this->query->date2);
 
 			// Add the appropriate WHERE condition.
-			if ($this->query->when2 == 'before')
+			if ($this->query->when2 === 'before')
 			{
 				$query->where($db->quoteName('l.start_date') . ' <= ' . $date2);
 			}
-			elseif ($this->query->when2 == 'after')
+			elseif ($this->query->when2 === 'after')
 			{
 				$query->where($db->quoteName('l.start_date') . ' >= ' . $date2);
 			}
@@ -428,7 +428,7 @@ class Search extends ListModel
 					$temp = $this->_db->loadObjectList();
 
 					// Set the more flag to true if any of the sets equal the limit.
-					$more = (count($temp) === $limit) ? true : false;
+					$more = count($temp) === $limit;
 
 					// We loaded the data unkeyed but we need it to be keyed for later.
 					$junk = $temp;
@@ -539,7 +539,7 @@ class Search extends ListModel
 						$temp = $this->_db->loadObjectList('link_id');
 
 						// Set the required token more flag to true if the set equal the limit.
-						$reqMore = (count($temp) === $limit) ? true : false;
+						$reqMore = count($temp) === $limit;
 
 						// Merge the matching set for this token.
 						$reqTemp += $temp;
@@ -547,7 +547,7 @@ class Search extends ListModel
 						// Increment the term offset.
 						$reqStart += $limit;
 					}
-					while ($reqMore == true);
+					while ($reqMore === true);
 
 					// Store this set in cache.
 					$this->store($setId, $reqTemp);
@@ -714,7 +714,7 @@ class Search extends ListModel
 				}
 
 				// Set the more flag to true if any of the sets equal the limit.
-				$more = (count($temp) === $limit) ? true : false;
+				$more = count($temp) === $limit;
 
 				// Merge the results.
 				$results = array_merge($results, $temp);
@@ -860,7 +860,7 @@ class Search extends ListModel
 						$temp = $this->_db->loadObjectList('link_id');
 
 						// Set the required token more flag to true if the set equal the limit.
-						$reqMore = (count($temp) === $limit) ? true : false;
+						$reqMore = count($temp) === $limit;
 
 						// Merge the matching set for this token.
 						$reqTemp += $temp;
@@ -868,7 +868,7 @@ class Search extends ListModel
 						// Increment the term offset.
 						$reqStart += $limit;
 					}
-					while ($reqMore == true);
+					while ($reqMore === true);
 
 					// Store this set in cache.
 					$this->store($setId, $reqTemp);
@@ -1047,10 +1047,10 @@ class Search extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app = \JFactory::getApplication();
-		$input = $app->input;
+		$app    = \JFactory::getApplication();
+		$input  = $app->input;
 		$params = $app->getParams();
-		$user = \JFactory::getUser();
+		$user   = \JFactory::getUser();
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
@@ -1116,7 +1116,7 @@ class Search extends ListModel
 				$this->setState('list.ordering', 'l.list_price');
 				break;
 
-			case ($order == 'relevance' && !empty($this->includedTerms)) :
+			case ($order === 'relevance' && !empty($this->includedTerms)) :
 				$this->setState('list.ordering', 'm.weight');
 				break;
 

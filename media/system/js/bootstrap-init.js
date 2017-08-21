@@ -96,7 +96,7 @@
 					}
 				}).on('hide.bs.modal', function () {
 					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
-					$('.modalTooltip').tooltip('destroy');
+					$('.modalTooltip').tooltip('dispose');
 				});
 			});
 		}

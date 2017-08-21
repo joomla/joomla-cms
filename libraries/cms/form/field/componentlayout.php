@@ -41,7 +41,7 @@ class JFormFieldComponentlayout extends JFormField
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
-		if (is_null($clientId) && $this->form instanceof JForm)
+		if ($clientId === null && $this->form instanceof JForm)
 		{
 			$clientId = $this->form->getValue('client_id');
 		}
@@ -110,6 +110,12 @@ class JFormFieldComponentlayout extends JFormField
 			// Build the search paths for component layouts.
 			$component_path = JPath::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
 
+			// Check if the old layouts folder exists, else use the new one
+			if (!file_exists($component_path))
+			{
+				$component_path = JPath::clean($client->path . '/components/' . $extension . '/tmpl/' . $view);
+			}
+
 			// Prepare array of component layouts
 			$component_layouts = array();
 
@@ -117,7 +123,7 @@ class JFormFieldComponentlayout extends JFormField
 			$groups = array();
 
 			// Add a Use Global option if useglobal="true" in XML file
-			if ($this->element['useglobal'] == 'true')
+			if ($this->element['useglobal'] === 'true')
 			{
 				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][] = JHtml::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
 			}

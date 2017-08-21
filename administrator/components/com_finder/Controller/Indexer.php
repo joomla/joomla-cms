@@ -13,7 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Session\Session;
 
 // Register dependent classes.
 \JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
@@ -40,13 +44,13 @@ class Indexer extends Controller
 		{
 			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 			$options['text_file'] = 'indexer.php';
-			\JLog::addLogger($options);
+			Log::addLogger($options);
 		}
 
 		// Log the start
 		try
 		{
-			\JLog::add('Starting the indexer', \JLog::INFO);
+			Log::add('Starting the indexer', Log::INFO);
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -54,14 +58,10 @@ class Indexer extends Controller
 		}
 
 		// We don't want this form to be cached.
-		$app = \JFactory::getApplication();
-		$app->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
-		$app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-		$app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-		$app->setHeader('Pragma', 'no-cache');
+		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		\JSession::checkToken('request') or $this->sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -87,12 +87,12 @@ class Indexer extends Controller
 			$state->start = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -111,13 +111,13 @@ class Indexer extends Controller
 		{
 			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 			$options['text_file'] = 'indexer.php';
-			\JLog::addLogger($options);
+			Log::addLogger($options);
 		}
 
 		// Log the start
 		try
 		{
-			\JLog::add('Starting the indexer batch process', \JLog::INFO);
+			Log::add('Starting the indexer batch process', Log::INFO);
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -125,14 +125,10 @@ class Indexer extends Controller
 		}
 
 		// We don't want this form to be cached.
-		$app = \JFactory::getApplication();
-		$app->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
-		$app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-		$app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-		$app->setHeader('Pragma', 'no-cache');
+		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		\JSession::checkToken('request') or $this->sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -157,8 +153,8 @@ class Indexer extends Controller
 		 * in order to work around some plugins that don't do proper environment
 		 * checks before trying to use HTML document functions.
 		 */
-		$raw = clone \JFactory::getDocument();
-		$lang = \JFactory::getLanguage();
+		$raw = clone Factory::getDocument();
+		$lang = Factory::getLanguage();
 
 		// Get the document properties.
 		$attributes = array (
@@ -170,30 +166,34 @@ class Indexer extends Controller
 		);
 
 		// Get the HTML document.
-		$html = \JDocument::getInstance('html', $attributes);
-		$doc = \JFactory::getDocument();
+		$html = Document::getInstance('html', $attributes);
+
+		// TODO: Why is this document fetched and immediately overwritten?
+		$doc  = Factory::getDocument();
 
 		// Swap the documents.
 		$doc = $html;
 
 		// Get the admin application.
-		$admin = clone \JFactory::getApplication();
+		$admin = clone Factory::getApplication();
 
 		// Get the site app.
 		$site = CMSApplication::getInstance('site');
 
 		// Swap the app.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
+
+		// TODO: Why is the app fetched and immediately overwritten?
 		$app = $site;
 
 		// Start the indexer.
 		try
 		{
 			// Trigger the onBeforeIndex event.
-			\JFactory::getApplication()->triggerEvent('onBeforeIndex');
+			Factory::getApplication()->triggerEvent('onBeforeIndex');
 
 			// Trigger the onBuildIndex event.
-			\JFactory::getApplication()->triggerEvent('onBuildIndex');
+			Factory::getApplication()->triggerEvent('onBuildIndex');
 
 			// Get the indexer state.
 			$state = \FinderIndexer::getState();
@@ -209,7 +209,7 @@ class Indexer extends Controller
 			// Log batch completion and memory high-water mark.
 			try
 			{
-				\JLog::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', \JLog::INFO);
+				Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
 			}
 			catch (\RuntimeException $exception)
 			{
@@ -217,7 +217,7 @@ class Indexer extends Controller
 			}
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (\Exception $e)
@@ -226,7 +226,7 @@ class Indexer extends Controller
 			$doc = $raw;
 
 			// Send the response.
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -240,14 +240,10 @@ class Indexer extends Controller
 	public function optimize()
 	{
 		// We don't want this form to be cached.
-		$app = \JFactory::getApplication();
-		$app->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
-		$app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-		$app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-		$app->setHeader('Pragma', 'no-cache');
+		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		\JSession::checkToken('request') or $this->sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -266,12 +262,12 @@ class Indexer extends Controller
 			$state->complete = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -288,9 +284,7 @@ class Indexer extends Controller
 	 */
 	public static function sendResponse($data = null)
 	{
-		// This method always sends a \JSON response
-		$app = \JFactory::getApplication();
-		$app->mimeType = 'application/json';
+		$app = Factory::getApplication();
 
 		$params = ComponentHelper::getParams('com_finder');
 
@@ -298,7 +292,7 @@ class Indexer extends Controller
 		{
 			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 			$options['text_file'] = 'indexer.php';
-			\JLog::addLogger($options);
+			Log::addLogger($options);
 		}
 
 		// Send the assigned error code if we are catching an exception.
@@ -306,7 +300,7 @@ class Indexer extends Controller
 		{
 			try
 			{
-				\JLog::add($data->getMessage(), \JLog::ERROR);
+				Log::add($data->getMessage(), Log::ERROR);
 			}
 			catch (\RuntimeException $exception)
 			{
@@ -322,13 +316,8 @@ class Indexer extends Controller
 		// Add the buffer.
 		$response->buffer = \JDEBUG ? ob_get_contents() : ob_end_clean();
 
-		// Send the \JSON response.
-		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
-		$app->sendHeaders();
+		// Send the JSON response.
 		echo json_encode($response);
-
-		// Close the application.
-		$app->close();
 	}
 }
 
@@ -354,11 +343,11 @@ class FinderIndexerResponse
 		{
 			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 			$options['text_file'] = 'indexer.php';
-			\JLog::addLogger($options);
+			Log::addLogger($options);
 		}
 
 		// The old token is invalid so send a new one.
-		$this->token = \JFactory::getSession()->getFormToken();
+		$this->token = Factory::getSession()->getFormToken();
 
 		// Check if we are dealing with an error.
 		if ($state instanceof \Exception)
@@ -366,7 +355,7 @@ class FinderIndexerResponse
 			// Log the error
 			try
 			{
-				\JLog::add($state->getMessage(), \JLog::ERROR);
+				Log::add($state->getMessage(), Log::ERROR);
 			}
 			catch (\RuntimeException $exception)
 			{
@@ -386,7 +375,7 @@ class FinderIndexerResponse
 			$this->totalItems = (int) $state->totalItems;
 
 			$this->startTime = $state->startTime;
-			$this->endTime = \JFactory::getDate()->toSql();
+			$this->endTime = Factory::getDate()->toSql();
 
 			$this->start = !empty($state->start) ? (int) $state->start : 0;
 			$this->complete = !empty($state->complete) ? (int) $state->complete : 0;

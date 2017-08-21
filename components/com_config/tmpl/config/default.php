@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 // Load tooltips behavior
 JHtml::_('behavior.formvalidator');
-JHtml::_('bootstrap.tooltip');
-
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)

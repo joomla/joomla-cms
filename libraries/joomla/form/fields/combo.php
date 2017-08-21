@@ -28,6 +28,14 @@ class JFormFieldCombo extends JFormFieldList
 	protected $type = 'Combo';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layout = 'joomla.form.field.combo';
+
+	/**
 	 * Method to get the field input markup for a combo box field.
 	 *
 	 * @return  string  The field input markup.
@@ -36,35 +44,32 @@ class JFormFieldCombo extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$val  = array();
-		$attr = '';
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
 
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="awesomplete form-control ' . $this->class . '"' : ' class="awesomplete form-control"';
-		$attr .= $this->readonly ? ' readonly' : '';
-		$attr .= $this->disabled ? ' disabled' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
 
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
 		// Get the field options.
 		$options = $this->getOptions();
 
-		// Load the combobox behavior.
-		JHtml::_('behavior.combobox');
+		$extraData = array(
+			'options' => $options,
+		);
 
-		foreach ($options as $option)
-		{
-			$val[] = $option->text;
-		}
-
-		// Build the input for the combo box.
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . ' data-list="' . implode(', ', $val) . '">';
-
-		return implode($html);
+		return array_merge($data, $extraData);
 	}
 }

@@ -268,8 +268,7 @@ class Html extends HtmlView
 				$row = &$results[$i]->text;
 
 				// Doing HTML entity decoding here, just in case we get any HTML entities here.
-				$quoteStyle   = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_NOQUOTES | ENT_HTML401 : ENT_NOQUOTES;
-				$row          = html_entity_decode($row, $quoteStyle, 'UTF-8');
+				$row          = html_entity_decode($row, ENT_NOQUOTES | ENT_HTML401, 'UTF-8');
 				$row          = SearchHelper::prepareSearchContent($row, $needle);
 				$searchWords  = array_values(array_unique($searchWords));
 				$lowerCaseRow = $mbString ? mb_strtolower($row) : StringHelper::strtolower($row);
@@ -332,10 +331,12 @@ class Html extends HtmlView
 					{
 						$pos += $cnt * $highlighterLen;
 
-						/* Avoid overlapping/corrupted highlighter-spans
+						/*
+						 * Avoid overlapping/corrupted highlighter-spans
 						 * TODO $chkOverlap could be used to highlight remaining part
 						 * of search-word outside last highlighter-span.
-						 * At the moment no additional highlighter is set.*/
+						 * At the moment no additional highlighter is set.
+						 */
 						$chkOverlap = $pos - $lastHighlighterEnd;
 
 						if ($chkOverlap >= 0)
@@ -362,17 +363,14 @@ class Html extends HtmlView
 				}
 
 				$result = &$results[$i];
+				$created = '';
 
 				if ($result->created)
 				{
 					$created = \JHtml::_('date', $result->created, \JText::_('DATE_FORMAT_LC3'));
 				}
-				else
-				{
-					$created = '';
-				}
 
-				$result->title   = StringHelper::str_ireplace($needle, $hl1 . $needle . $hl2, htmlspecialchars($result->title, ENT_COMPAT, 'UTF-8'));
+				$result->title   = preg_replace("/\b($needle)\b/ui", $hl1 . "$1" . $hl2, htmlspecialchars($result->title, ENT_COMPAT, 'UTF-8'));
 				$result->text    = \JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;

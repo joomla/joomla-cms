@@ -12,15 +12,17 @@ module.exports = function (config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			{pattern: 'tests/javascript/node_modules/jquery/dist/jquery.min.js', included: false},
-			{pattern: 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
-			{pattern: 'tests/javascript/node_modules/text/text.js', included: false},
+			{pattern: 'node_modules/jquery/dist/jquery.min.js', included: false},
+			{pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
+			{pattern: 'node_modules/text/text.js', included: false},
 			{pattern: 'media/vendor/bootstrap/js/bootstrap.min.js', included: false},
 			{pattern: 'media/vendor/jquery-ui/js/jquery.ui.core.min.js', included: false},
 			{pattern: 'media/vendor/jquery-ui/js/jquery.ui.sortable.min.js', included: false},
 			{pattern: 'media/system/js/*.js', included: false},
 			{pattern: 'media/system/js/legacy/*.js', included: false},
 			{pattern: 'media/system/js/fields/*.js', included: false},
+			{pattern: 'media/system/js/polyfills/webcomponents/webcomponents-ce.min.js', included: true},
+			{pattern: 'media/system/webcomponents/joomla-alert.min.js', included: true},
 			{pattern: 'media/system/js/fields/calendar-locales/*.js', included: false},
 			{pattern: 'media/system/js/fields/calendar-locales/date/gregorian/*.js', included: false},
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
