@@ -11,6 +11,28 @@ defined('_JEXEC') or die;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+JText::script('COM_CACHE_RESOURCE_INTENSIVE_WARNING');
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == "purge")
+		{
+			if (confirm(Joomla.JText._("COM_CACHE_RESOURCE_INTENSIVE_WARNING")))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		Joomla.submitform(pressbutton);
+	};
+');
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
