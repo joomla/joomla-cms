@@ -56,8 +56,8 @@ class UrlRule extends FormRule
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
 		{
-			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais', 'mid', 'cid', 'nntp', 
-				'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
+			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais', 
+					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
 		}
 		else
 		{
