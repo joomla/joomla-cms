@@ -628,7 +628,7 @@ class FieldsHelper
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			$result = 0;
 		}
 

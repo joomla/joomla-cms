@@ -138,7 +138,7 @@ class Category extends HtmlView
 
 		if (!in_array($category->access, $groups))
 		{
-			return \JError::raiseError(403, \JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check whether category access level allows access.

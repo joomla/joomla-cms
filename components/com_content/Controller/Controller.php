@@ -104,7 +104,7 @@ class Controller extends \Joomla\CMS\Controller\Controller
 		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			return \JError::raiseError(403, \JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
 		}
 
 		if ($vName === 'article')

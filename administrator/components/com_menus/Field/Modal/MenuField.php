@@ -217,7 +217,7 @@ class MenuField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseWarning(500, $e->getMessage());
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
@@ -242,7 +242,7 @@ class MenuField extends FormField
 		{
 			$html .= '<span class="input-group">';
 		}
-		
+
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)

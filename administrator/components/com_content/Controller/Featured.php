@@ -40,13 +40,13 @@ class Featured extends Articles
 			{
 				// Prune items that you can't delete.
 				unset($ids[$i]);
-				\JError::raiseNotice(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			\JError::raiseWarning(500, \JText::_('JERROR_NO_ITEMS_SELECTED'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -57,7 +57,7 @@ class Featured extends Articles
 			// Remove the items.
 			if (!$model->featured($ids, 0))
 			{
-				\JError::raiseWarning(500, $model->getError());
+				\JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
 			}
 		}
 
