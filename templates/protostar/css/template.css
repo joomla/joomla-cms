@@ -3001,7 +3001,7 @@ input[type="submit"].btn.btn-mini {
 	margin-bottom: -1px;
 }
 .nav-tabs > li:last-child {
-	margin-bottom: inherit;
+	margin-bottom: 0px;
 }
 .nav-tabs > li > a {
 	padding-top: 8px;
