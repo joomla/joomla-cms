@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/extensions.classmap.php';
 
 JLoader::registerAlias('JRegistry',                         '\\Joomla\\Registry\\Registry', '5.0');
-JLoader::registerAlias('JRegistryFormat',                   '\\Joomla\\Registry\\AbstractRegistryFormat', '5.0');
 JLoader::registerAlias('JRegistryFormatIni',                '\\Joomla\\Registry\\Format\\Ini', '5.0');
 JLoader::registerAlias('JRegistryFormatJson',               '\\Joomla\\Registry\\Format\\Json', '5.0');
 JLoader::registerAlias('JRegistryFormatPhp',                '\\Joomla\\Registry\\Format\\Php', '5.0');
@@ -69,9 +68,6 @@ JLoader::registerAlias('JTableContent',                     '\\Joomla\\CMS\\Tabl
 JLoader::registerAlias('JTableMenu',                        '\\Joomla\\CMS\\Table\\Menu', '5.0');
 JLoader::registerAlias('JTableMenuType',                    '\\Joomla\\CMS\\Table\\MenuType', '5.0');
 JLoader::registerAlias('JTableModule',                      '\\Joomla\\CMS\\Table\\Module', '5.0');
-JLoader::registerAlias('JTableObserver',                    '\\Joomla\\CMS\\Table\\Observer\\AbstractObserver', '5.0');
-JLoader::registerAlias('JTableObserverContenthistory',      '\\Joomla\\CMS\\Table\\Observer\\ContentHistory', '5.0');
-JLoader::registerAlias('JTableObserverTags',                '\\Joomla\\CMS\\Table\\Observer\\Tags', '5.0');
 
 JLoader::registerAlias('JAccess',                           '\\Joomla\\CMS\\Access\\Access', '5.0');
 JLoader::registerAlias('JAccessRule',                       '\\Joomla\\CMS\\Access\\Rule', '5.0');
@@ -283,7 +279,6 @@ JLoader::registerAlias('JCacheControllerView',              '\\Joomla\\CMS\\Cach
 JLoader::registerAlias('JCacheStorageApc',                  '\\Joomla\\CMS\\Cache\\Storage\\ApcStorage', '5.0');
 JLoader::registerAlias('JCacheStorageApcu',                 '\\Joomla\\CMS\\Cache\\Storage\\ApcuStorage', '5.0');
 JLoader::registerAlias('JCacheStorageHelper',               '\\Joomla\\CMS\\Cache\\Storage\\CacheStorageHelper', '5.0');
-JLoader::registerAlias('JCacheStorageCachelite',            '\\Joomla\\CMS\\Cache\\Storage\\CacheliteStorage', '5.0');
 JLoader::registerAlias('JCacheStorageFile',                 '\\Joomla\\CMS\\Cache\\Storage\\FileStorage', '5.0');
 JLoader::registerAlias('JCacheStorageMemcached',            '\\Joomla\\CMS\\Cache\\Storage\\MemcachedStorage', '5.0');
 JLoader::registerAlias('JCacheStorageMemcache',             '\\Joomla\\CMS\\Cache\\Storage\\MemcacheStorage', '5.0');
@@ -358,7 +353,6 @@ JLoader::registerAlias('JFormFieldPredefinedList',          '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldRadio',                   '\\Joomla\\CMS\\Form\\Field\\RadioField', '5.0');
 JLoader::registerAlias('JFormFieldRange',                   '\\Joomla\\CMS\\Form\\Field\\RangeField', '5.0');
 JLoader::registerAlias('JFormFieldRegistrationDateRange',   '\\Joomla\\CMS\\Form\\Field\\RegistrationDateRangeField', '5.0');
-JLoader::registerAlias('JFormFieldRepeatable',              '\\Joomla\\CMS\\Form\\Field\\RepeatableField', '5.0');
 JLoader::registerAlias('JFormFieldRules',                   '\\Joomla\\CMS\\Form\\Field\\RulesField', '5.0');
 JLoader::registerAlias('JFormFieldSessionHandler',          '\\Joomla\\CMS\\Form\\Field\\SessionhandlerField', '5.0');
 JLoader::registerAlias('JFormFieldSpacer',                  '\\Joomla\\CMS\\Form\\Field\\SpacerField', '5.0');
