@@ -184,7 +184,7 @@ class Node
 	/**
 	 * Find the current node depth in the tree hierarchy
 	 *
-	 * @return  int  The node level in the hierarchy, where ROOT == 0, First level menu item == 1, an so on.
+	 * @return  int  The node level in the hierarchy, where ROOT == 0, First level menu item == 1, and so on.
 	 *
 	 * @since   3.8.0
 	 */
