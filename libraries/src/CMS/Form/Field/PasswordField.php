@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 /**
@@ -127,15 +129,15 @@ class PasswordField extends FormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
@@ -158,13 +160,13 @@ class PasswordField extends FormField
 			$this->minUppercase = 0;
 			$this->minLowercase = 0;
 
-			if (JFactory::getConfig()->get('db') != '')
+			if (Factory::getConfig()->get('db') != '')
 			{
-				$this->minLength    = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
-				$this->minIntegers  = (int) JComponentHelper::getParams('com_users')->get('minimum_integers', 0);
-				$this->minSymbols   = (int) JComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
-				$this->minUppercase = (int) JComponentHelper::getParams('com_users')->get('minimum_uppercase', 0);
-				$this->minLowercase = (int) JComponentHelper::getParams('com_users')->get('minimum_lowercase', 0);
+				$this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 4);
+				$this->minIntegers  = (int) ComponentHelper::getParams('com_users')->get('minimum_integers', 0);
+				$this->minSymbols   = (int) ComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
+				$this->minUppercase = (int) ComponentHelper::getParams('com_users')->get('minimum_uppercase', 0);
+				$this->minLowercase = (int) ComponentHelper::getParams('com_users')->get('minimum_lowercase', 0);
 			}
 		}
 
