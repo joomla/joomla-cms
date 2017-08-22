@@ -59,7 +59,7 @@ class Update extends Model
 				}
 				else
 				{
-					return \JError::raiseWarning(403, \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'));
+					return \JFactory::getApplication()->enqueueMessage(\JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 				}
 				break;
 

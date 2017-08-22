@@ -156,13 +156,13 @@ class Article extends Item
 
 				if (empty($data))
 				{
-					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 				if (is_numeric($published) && $data->condition != $published)
 				{
-					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -225,7 +225,7 @@ class Article extends Item
 				if ($e->getCode() == 404)
 				{
 					// Need to go through the error handler to allow Redirect to work.
-					\JError::raiseError(404, $e->getMessage());
+					throw new \Exception($e->getMessage(), 404);
 				}
 				else
 				{
@@ -295,7 +295,7 @@ class Article extends Item
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseWarning(500, $e->getMessage());
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -319,7 +319,7 @@ class Article extends Item
 				}
 				catch (\RuntimeException $e)
 				{
-					\JError::raiseWarning(500, $e->getMessage());
+					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 					return false;
 				}
@@ -346,7 +346,7 @@ class Article extends Item
 					}
 					catch (\RuntimeException $e)
 					{
-						\JError::raiseWarning(500, $e->getMessage());
+						\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 						return false;
 					}
@@ -360,7 +360,7 @@ class Article extends Item
 			return true;
 		}
 
-		\JError::raiseWarning(500, \JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
 
 		return false;
 	}

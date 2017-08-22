@@ -68,7 +68,7 @@ class PluginsHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $options;

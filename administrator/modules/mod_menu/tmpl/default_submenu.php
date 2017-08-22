@@ -52,18 +52,17 @@ else
 echo '<li' . $class . ' role="menuitem">';
 
 // Print a link if it exists
-$linkClass     = array();
-$dataToggle    = '';
-$dropdownCaret = '';
+$linkClass  = [];
+$dataToggle = '';
+$iconClass  = '';
 
 if ($current->hasChildren())
 {
 	$linkClass[] = 'collapse-arrow';
-	$dataToggle  = ' data-toggle="dropdown"';
 
-	if ($current->getLevel() == 1)
+	if ($current->getLevel() > 2)
 	{
-		$dropdownCaret = ' <span class="caret"></span>';
+		$dataToggle  = ' data-toggle="dropdown"';
 	}
 }
 else
@@ -71,28 +70,39 @@ else
 	$linkClass[] = 'no-dropdown';
 }
 
-if (!($current instanceof Separator) && ($current->getLevel() > 1))
-{
-	$iconClass = $this->tree->getIconClass();
-
-	if (trim($iconClass))
-	{
-		$linkClass[] = $iconClass;
-	}
-}
-
 // Implode out $linkClass for rendering
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 
-// Links: component/url/heading/container
-if ($link = $current->get('link'))
-{
-	$target = $current->get('target') ? 'target="' . $current->get('target') . '"' : '';
+// Get the menu link
+$link      = $current->get('link');
 
-	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" ' . $target . '>' .
-				JText::_($current->get('title')) . ' ' . $current->get('icon') . $dropdownCaret . '</a>';
+// Get the menu icon
+$icon      = $this->tree->getIconClass();
+$iconClass = ($icon != '' && $current->getLevel() == 1) ? '<span class="' . $icon . '"></span>' : '';
+
+if ($current->get('link') === '#')
+{
+	$link = '#collapse' . $this->tree->getCounter();
 }
-// Separator
+
+if ($link !== null && $current->get('target') !== null)
+{
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
+		. $iconClass
+		. '<span class="sidebar-item-title">' . JText::_($current->get('title')) . "</span></a>";
+}
+elseif ($link !== null && $current->get('target') === null)
+{
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
+		. $iconClass
+		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
+}
+elseif ($current->get('title') !== null && $current->get('class') !== 'separator')
+{
+	echo "<a" . $linkClass . $dataToggle . ">"
+		. $iconClass
+		. '<span class="sidebar-item-title" >' . JText::_($current->get('title')) . "</span></a>";
+}
 else
 {
 	echo '<span>' . JText::_($current->get('title')) . '</span>';
@@ -109,17 +119,9 @@ if ($this->enabled && $current->hasChildren())
 	}
 	else
 	{
-		echo '<ul class="nav panel-collapse collapse-level-1 collapse">' . "\n";
+		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
+		   <li>' . JText::_($current->get('title')) . '<a href="#" class="close"><span aria-label="Close Menu">×</span></a></li>' . "\n";
 	}
-
-	echo '<li role="menuitem">' . JText::_($current->get('title'));
-
-	if ($current->getLevel() === 1)
-	{
-		echo '<a href="#" class="close"><span aria-label="Close Menu">×</span></a>';
-	}
-
-	echo '</li>';
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
 	$this->renderSubmenu(__FILE__);

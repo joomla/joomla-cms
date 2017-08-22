@@ -883,13 +883,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 					switch ($authorisation->status)
 					{
 						case Authentication::STATUS_EXPIRED:
-							return \JError::raiseWarning('102002', \JText::_('JLIB_LOGIN_EXPIRED'));
+							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_EXPIRED'), 'error');
 
 						case Authentication::STATUS_DENIED:
-							return \JError::raiseWarning('102003', \JText::_('JLIB_LOGIN_DENIED'));
+							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_DENIED'), 'error');
 
 						default:
-							return \JError::raiseWarning('102004', \JText::_('JLIB_LOGIN_AUTHORISATION'));
+							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_AUTHORISATION'), 'error');
 					}
 				}
 			}

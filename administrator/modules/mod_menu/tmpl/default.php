@@ -27,8 +27,6 @@ if ($root->hasChildren())
 
 	echo "</ul></div>\n";
 
-	echo '<ul id="nav-empty" class="dropdown-menu nav-empty hidden-phone"></ul>';
-
 	if ($css = $menuTree->getCss())
 	{
 		$doc->addStyleDeclaration(implode("\n", $css));
