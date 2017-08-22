@@ -18,7 +18,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  1.6
  */
-class ModuleOrderField extends FormField
+class ModuleorderField extends FormField
 {
 	/**
 	 * The form field type.
