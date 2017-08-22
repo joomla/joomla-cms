@@ -102,9 +102,8 @@ class Article extends Item
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
-				$query
-					->select($db->qn('ws.condition'))
-					->join('LEFT', '#__workflow_states AS ws ON ws.id = 1');
+				$query->select($db->qn('ws.condition'))
+					->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state');
 
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
@@ -146,7 +145,7 @@ class Article extends Item
 
 				if (is_numeric($published))
 				{
-					$query->where($db->qn('ws.condition') . ' = ' . (int) $published);
+					$query->where($db->qn('ws.condition') . ' = ' . $db->quote((int) $published));
 				}
 
 
