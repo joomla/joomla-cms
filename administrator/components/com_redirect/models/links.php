@@ -212,8 +212,6 @@ class RedirectModelLinks extends JModelList
 
 		$query->columns($columns);
 
-		$runQuery = false;
-
 		foreach ($batch_urls as $batch_url)
 		{
 			$old_url = $batch_url[0];
@@ -228,7 +226,6 @@ class RedirectModelLinks extends JModelList
 				$new_url = '';
 			}
 
-			$runQuery = true;
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
 					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
@@ -236,11 +233,10 @@ class RedirectModelLinks extends JModelList
 				);
 		}
 
-		if ($runQuery)
-		{
-			$db->setQuery($query);
-			$db->execute();
-		}
+
+		$db->setQuery($query);
+		$db->execute();
+
 		return true;
 	}
 }
