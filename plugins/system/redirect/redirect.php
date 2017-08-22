@@ -122,16 +122,24 @@ class PlgSystemRedirect extends JPlugin
 		// These are the original URLs
 		$orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 		$orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
-		$orgurlRootRel         = str_replace(JUri::root(), '', $orgurl); // The above doesn't work for sub directories, so do this
-		$orgurlRootRelSlash    = str_replace(JUri::root(), '/', $orgurl); // Cater for when users have added / to the url
+
+		// The above doesn't work for sub directories, so do this
+		$orgurlRootRel         = str_replace(JUri::root(), '', $orgurl);
+
+		// Cater for when users have added / to the url
+		$orgurlRootRelSlash    = str_replace(JUri::root(), '/', $orgurl);
 		$orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
 		$orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
 
 		// These are the URLs we save and use
 		$url                = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
 		$urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
-		$urlRootRel         = str_replace(JUri::root(), '', $url); // The above doesn't work for sub directories, so do this
-		$urlRootRelSlash    = str_replace(JUri::root(), '/', $url); // Cater for when users have added / to the url
+
+		// The above doesn't work for sub directories, so do this
+		$urlRootRel         = str_replace(JUri::root(), '', $url);
+
+		// Cater for when users have added / to the url
+		$urlRootRelSlash    = str_replace(JUri::root(), '/', $url);
 		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
