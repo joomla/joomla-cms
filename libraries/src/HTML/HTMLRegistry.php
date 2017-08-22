@@ -23,7 +23,7 @@ final class HTMLRegistry
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $serviceMap = [];
+	private $serviceMap = array();
 
 	/**
 	 * Get the service for a given key
