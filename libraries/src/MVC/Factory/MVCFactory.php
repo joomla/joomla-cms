@@ -103,9 +103,9 @@ class MVCFactory implements MVCFactoryInterface
 	/**
 	 * Creates a standard classname and returns an instance of this class.
 	 *
-	 * @param  string  $suffix  The suffix
-	 * @param  string  $prefix  The prefix
-	 * @param  array   $config  The config
+	 * @param   string  $suffix  The suffix
+	 * @param   string  $prefix  The prefix
+	 * @param   array   $config  The config
 	 *
 	 * @return object  The instance
 	 *
