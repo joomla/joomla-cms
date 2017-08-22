@@ -11,6 +11,7 @@ namespace Joomla\Component\Modules\Administrator\View\Modules;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\View\HtmlView;
 
@@ -92,7 +93,7 @@ class Html extends HtmlView
 		}
 
 		// We do not need the Language filter when modules are not filtered
-		if ($this->clientId == 1 && !JModuleHelper::isAdminMultilang())
+		if ($this->clientId == 1 && !ModuleHelper::isAdminMultilang())
 		{
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');

@@ -68,7 +68,10 @@ class Controller extends BaseController
 
 				if ($pluginEnabled && !$collectUrlsEnabled)
 				{
-					$this->app->enqueueMessage(\JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', \JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link), 'notice');
+					$this->app->enqueueMessage(
+						\JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', \JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link),
+						'notice'
+					);
 				}
 				else
 				{

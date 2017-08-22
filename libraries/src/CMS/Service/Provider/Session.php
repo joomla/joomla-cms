@@ -205,7 +205,7 @@ class Session implements ServiceProviderInterface
 					}
 					else
 					{
-						$storage = new JoomlaStorage($input, $handler, array('cookie_lifetime' => $lifetime));
+						$storage = new JoomlaStorage($input, $handler);
 					}
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');

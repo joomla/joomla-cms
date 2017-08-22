@@ -643,8 +643,11 @@ class PlgSystemDebug extends CMSPlugin
 			$totalTime += $mark->time;
 			$totalMem  += (float) $mark->memory;
 			$htmlMark  = sprintf(
-				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="badge badge-default">%.2f&nbsp;ms</span>'
-				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="badge badge-default">%0.2f MB</span>'
+				JText::_('PLG_DEBUG_TIME')
+				. ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="badge badge-default">%.2f&nbsp;ms</span>'
+				. ' '
+				. JText::_('PLG_DEBUG_MEMORY')
+				. ': <span class="label label-memory">%0.3f MB</span> / <span class="badge badge-default">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
 				$mark->totalTime,

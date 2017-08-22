@@ -249,7 +249,7 @@ class Install extends Model
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
 			return false;
 		}
@@ -257,7 +257,7 @@ class Install extends Model
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
 
 			return false;
 		}
@@ -265,7 +265,7 @@ class Install extends Model
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
 
 			return false;
 		}
@@ -273,9 +273,9 @@ class Install extends Model
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
-			\JError::raiseWarning(
-				'',
-				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
+			\JFactory::getApplication()->enqueueMessage(
+				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+				'error'
 			);
 
 			return false;
@@ -284,9 +284,9 @@ class Install extends Model
 		// Is the max upload size too small in php.ini?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
-			\JError::raiseWarning(
-				'',
-				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
+			\JFactory::getApplication()->enqueueMessage(
+				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				'error'
 			);
 
 			return false;
@@ -295,7 +295,7 @@ class Install extends Model
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 
 			return false;
 		}
@@ -333,7 +333,7 @@ class Install extends Model
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir))
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'error');
 
 			return false;
 		}
@@ -344,7 +344,7 @@ class Install extends Model
 		// Did you give us a valid package?
 		if (!$type)
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'error');
 		}
 
 		$package['packagefile'] = null;
@@ -372,7 +372,7 @@ class Install extends Model
 		// Did you give us a URL?
 		if (!$url)
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
 
 			return false;
 		}
@@ -399,7 +399,7 @@ class Install extends Model
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
 
 			return false;
 		}

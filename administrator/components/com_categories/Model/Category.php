@@ -607,7 +607,7 @@ class Category extends Admin
 
 			if ($allLanguage && !empty($associations))
 			{
-				\JError::raiseNotice(403, \JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
 			// Get associationskey for edited item

@@ -314,7 +314,7 @@ class Tag extends ListModel
 
 		if (!$this->item)
 		{
-			return \JError::raiseError(404, \JText::_('COM_TAGS_TAG_NOT_FOUND'));
+			throw new \Exception(\JText::_('COM_TAGS_TAG_NOT_FOUND'), 404);
 		}
 
 		return $this->item;
@@ -345,7 +345,7 @@ class Tag extends ListModel
 
 			if (!$table->hasPrimaryKey())
 			{
-				\JError::raiseError(404, \JText::_('COM_TAGS_TAG_NOT_FOUND'));
+				throw new \Exception(\JText::_('COM_TAGS_TAG_NOT_FOUND'), 404);
 			}
 		}
 

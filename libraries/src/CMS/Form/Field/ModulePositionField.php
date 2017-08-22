@@ -17,8 +17,6 @@ use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('text');
 
-use Joomla\CMS\Application\ApplicationHelper;
-
 /**
  * Module Position field.
  *

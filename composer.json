@@ -7,7 +7,7 @@
     "license": "GPL-2.0+",
     "config": {
         "platform": {
-            "php": "5.5.9"
+            "php": "7.0"
         },
         "preferred-install": {
             "joomla/application": "dist",
@@ -42,7 +42,7 @@
         }
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.0",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
         "joomla/controller": "~2.0@dev",

@@ -45,35 +45,21 @@ class RssRenderer extends DocumentRenderer
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-<<<<<<< HEAD:libraries/joomla/document/renderer/feed/rss.php
-		$app = JFactory::getApplication();
-		$tz  = new DateTimeZone($app->get('offset'));
+		$app = \JFactory::getApplication();
+		$tz  = new \DateTimeZone($app->get('offset'));
 
 		$data = $this->_doc;
 
 		// If the last build date from the document isn't a JDate object, create one
-		if (!($data->lastBuildDate instanceof JDate))
+		if (!($data->lastBuildDate instanceof \JDate))
 		{
 			// Gets and sets timezone offset from site configuration
-			$data->lastBuildDate = JFactory::getDate();
-			$data->lastBuildDate->setTimeZone(new DateTimeZone($app->get('offset')));
+			$data->lastBuildDate = \JFactory::getDate();
+			$data->lastBuildDate->setTimeZone(new \DateTimeZone($app->get('offset')));
 		}
 
-		$url = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = JRoute::_('&format=feed&type=rss');
-=======
-		$app = \JFactory::getApplication();
-
-		// Gets and sets timezone offset from site configuration
-		$tz  = new \DateTimeZone($app->get('offset'));
-		$now = \JFactory::getDate();
-		$now->setTimeZone($tz);
-
-		$data = $this->_doc;
-
-		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$url = \JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = \JRoute::_('&format=feed&type=rss');
->>>>>>> cb79438f5f3622aa5782e9ec5e9667edade62746:libraries/src/Joomla/CMS/Document/Renderer/Feed/RssRenderer.php
 
 		$title = $data->getTitle();
 

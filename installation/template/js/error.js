@@ -5,7 +5,7 @@
 			text1 = document.getElementById('descText1');
 
 		// Get the minimum PHP version
-		window.phpVersion = document.body.getAttribute('data-php-version') || '5.5.9';
+		window.phpVersion = document.body.getAttribute('data-php-version') || '7.0';
 
 		// Create links for all the languages
 		Object.keys(errorLocale).forEach(function(key) {

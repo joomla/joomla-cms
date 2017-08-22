@@ -23,7 +23,7 @@ $version = new JVersion;
 	}
 </script>
 
-<?php echo JHtml::_('InstallationHtml.helper.stepbarlanguages'); ?>
+<?php echo JHtml::_('installation.stepbarlanguages'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div class="btn-toolbar justify-content-end">
 		<div class="btn-group">
