@@ -31,7 +31,7 @@ class JAccessTest extends TestCaseDatabase
 	protected $outputPath;
 
 	/**
-	 * Tests the JAccess::getAuthorisedViewLevels method.
+	 * Tests the \Joomla\CMS\Access\Access::getAuthorisedViewLevels method.
 	 *
 	 * @return  void
 	 *
@@ -434,7 +434,6 @@ class JAccessTest extends TestCaseDatabase
 
 		$this->assertThat(
 			\Joomla\CMS\Access\Access::getActionsFromFile($this->outputPath . '/access.xml'),
-
 			$this->equalTo(
 				array(
 					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),

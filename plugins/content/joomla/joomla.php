@@ -153,7 +153,7 @@ class PlgContentJoomla extends JPlugin
 				{
 					$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 						. JText::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
-					JError::raiseWarning(403, $msg);
+					JFactory::getApplication()->enqueueMessage($msg, 'error');
 					$result = false;
 				}
 
@@ -170,7 +170,7 @@ class PlgContentJoomla extends JPlugin
 					{
 						$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 							. JText::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
-						JError::raiseWarning(403, $msg);
+						JFactory::getApplication()->enqueueMessage($msg, 'error');
 						$result = false;
 					}
 				}
@@ -207,7 +207,7 @@ class PlgContentJoomla extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -258,7 +258,7 @@ class PlgContentJoomla extends JPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage());
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}

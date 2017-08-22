@@ -54,7 +54,7 @@ class Banner extends Model
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseError(500, $e->getMessage());
+			throw new \Exception($e->getMessage(), 500);
 		}
 
 		$item = $this->getItem();
@@ -92,7 +92,7 @@ class Banner extends Model
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseError(500, $e->getMessage());
+				throw new \Exception($e->getMessage(), 500);
 			}
 
 			$count = $db->loadResult();
@@ -129,7 +129,7 @@ class Banner extends Model
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseError(500, $e->getMessage());
+				throw new \Exception($e->getMessage(), 500);
 			}
 		}
 	}

@@ -399,7 +399,7 @@ class Update extends ListModel
 
 		if (!isset($update->get('downloadurl')->_data))
 		{
-			\JError::raiseWarning('', \JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'), 'error');
 
 			return false;
 		}
@@ -417,7 +417,7 @@ class Update extends ListModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			\JError::raiseWarning('', \JText::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url));
+			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
 
 			return false;
 		}

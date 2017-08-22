@@ -173,14 +173,14 @@ class Login extends Model
 			}
 			catch (\JDatabaseExceptionExecuting $databaseException)
 			{
-				\JError::raiseWarning(500, \JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
+				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 				return array();
 			}
 		}
 		catch (\JDatabaseExceptionExecuting $databaseException)
 		{
-			\JError::raiseWarning(500, \JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
+			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 			return array();
 		}

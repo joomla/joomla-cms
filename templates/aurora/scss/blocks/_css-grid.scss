@@ -12,7 +12,8 @@
       ". main main main main ."
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b ."
-      ". footer footer footer footer .";
+      ". footer footer footer footer ."
+      ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $aurora-grid-gutter;
 
@@ -30,6 +31,9 @@
         margin: 0;
       }
     }
+    .container-main {
+      margin: ($aurora-grid-gutter / -2) ($aurora-grid-gutter / -2) ($aurora-grid-gutter / 2);
+    }
     > .full-width {
       grid-column: full-start / full-end;
     }
@@ -42,7 +46,8 @@
         ". top-b top-b top-b top-b ."
         ". bot-a bot-a bot-a bot-a ."
         ". bot-b bot-b bot-b bot-b ."
-        ". footer footer footer footer .";
+        ". footer footer footer footer ."
+        ". debug debug debug debug .";
     }
   }
 
@@ -58,10 +63,6 @@
     p {
       margin-bottom: 0;
     }
-  }
-
-  .container-main {
-    margin: ($aurora-grid-gutter / -2) ($aurora-grid-gutter / -2) ($aurora-grid-gutter / 2);
   }
 
 }
@@ -80,6 +81,7 @@ header                    { grid-area: head; }
 .container-bottom-a       { grid-area: bot-a; }
 .container-bottom-b       { grid-area: bot-b; }
 .container-footer         { grid-area: footer; }
+.system-debug             { grid-area: debug; }
 
 .container-component {
   grid-column: auto 2fr;
