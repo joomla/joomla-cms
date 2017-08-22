@@ -362,7 +362,7 @@ JLoader::registerAlias('JFormFieldRepeatable',              '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldRules',                   '\\Joomla\\CMS\\Form\\Field\\RulesField', '5.0');
 JLoader::registerAlias('JFormFieldSessionHandler',          '\\Joomla\\CMS\\Form\\Field\\SessionhandlerField', '5.0');
 JLoader::registerAlias('JFormFieldSpacer',                  '\\Joomla\\CMS\\Form\\Field\\SpacerField', '5.0');
-JLoader::registerAlias('JFormFieldSQL',                     '\\Joomla\\CMS\\Form\\Field\\SQLField', '5.0');
+JLoader::registerAlias('JFormFieldSQL',                     '\\Joomla\\CMS\\Form\\Field\\SqlField', '5.0');
 JLoader::registerAlias('JFormFieldStatus',                  '\\Joomla\\CMS\\Form\\Field\\StatusField', '5.0');
 JLoader::registerAlias('JFormFieldSubform',                 '\\Joomla\\CMS\\Form\\Field\\SubformField', '5.0');
 JLoader::registerAlias('JFormFieldTag',                     '\\Joomla\\CMS\\Form\\Field\\TagField', '5.0');
