@@ -233,7 +233,6 @@ class RedirectModelLinks extends JModelList
 				);
 		}
 
-
 		$db->setQuery($query);
 		$db->execute();
 
