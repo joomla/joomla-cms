@@ -212,17 +212,11 @@ class RedirectModelLinks extends JModelList
 
 		$query->columns($columns);
 
+		$runQuery = false;
+
 		foreach ($batch_urls as $batch_url)
 		{
-			// Source URLs need to have the correct URL format to work properly
-			if (strpos($batch_url[0], JUri::root()) === false)
-			{
-				$old_url = JUri::root() . $batch_url[0];
-			}
-			else
-			{
-				$old_url = $batch_url[0];
-			}
+			$old_url = $batch_url[0];
 
 			// Destination URL can also be an external URL
 			if (!empty($batch_url[1]))
@@ -234,6 +228,7 @@ class RedirectModelLinks extends JModelList
 				$new_url = '';
 			}
 
+			$runQuery = true;
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
 					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
@@ -241,9 +236,11 @@ class RedirectModelLinks extends JModelList
 				);
 		}
 
-		$db->setQuery($query);
-		$db->execute();
-
+		if ($runQuery)
+		{
+			$db->setQuery($query);
+			$db->execute();
+		}
 		return true;
 	}
 }
