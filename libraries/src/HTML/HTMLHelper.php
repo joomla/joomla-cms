@@ -137,33 +137,9 @@ abstract class HTMLHelper
 			return static::call($function, $args);
 		}
 
-		/*
-		 * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
-		 * the service comes from a class other than this one, and a service has been registered for the file.
-		 */
-		if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file))
-		{
-			$service = static::getServiceRegistry()->getService($file);
-
-			$toCall = array($service, $func);
-
-			if (!is_callable($toCall))
-			{
-				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
-			}
-
-			static::register($key, $toCall);
-			$args = func_get_args();
-
-			// Remove function name from arguments
-			array_shift($args);
-
-			return static::call($toCall, $args);
-		}
-
 		$className = $prefix . ucfirst($file);
 
-		if (!class_exists($className))
+		if (!class_exists($className, false))
 		{
 			$default = JPATH_LIBRARIES . '/cms/html';
 
@@ -188,6 +164,17 @@ abstract class HTMLHelper
 		}
 
 		$toCall = array($className, $func);
+
+		if (!is_callable($toCall) && $prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file))
+		{
+			/*
+			* Support fetching services from the registry if a custom class prefix was not given (a three segment key),
+			* the service comes from a class other than this one, and a service has been registered for the file.
+			*/
+			$service = static::getServiceRegistry()->getService($file);
+
+			$toCall = array($service, $func);
+		}
 
 		if (!is_callable($toCall))
 		{
