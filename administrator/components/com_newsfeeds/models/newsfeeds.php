@@ -19,7 +19,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
 	 */
@@ -46,6 +46,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'numarticles',
 				'tag',
 				'level', 'c.level',
+				'tag',
 			);
 
 			$assoc = JLanguageAssociations::isEnabled();
@@ -63,8 +64,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -118,7 +119,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
@@ -130,8 +131,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
-		$id .= ':' . $this->getState('filter.tag');
 		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . serialize($this->getState('filter.tag'));
 
 		return parent::getStoreId($id);
 	}
@@ -153,9 +154,9 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
-					' a.numarticles, a.cache_time, a.created_by,' .
-					' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
+				'DISTINCT a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
+				' a.numarticles, a.cache_time, a.created_by,' .
+				' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__newsfeeds', 'a'));
@@ -248,21 +249,38 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
-		$tagId = $this->getState('filter.tag');
+		// Filter by a single or group of tags.
+		$hasTag = false;
+		$tagId  = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed')
-				);
+			$hasTag = true;
+
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+		}
+		elseif (is_array($tagId))
+		{
+			ArrayHelper::toInteger($tagId);
+			$tagId = implode(',', $tagId);
+			if (!empty($tagId))
+			{
+				$hasTag = true;
+
+				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+			}
+		}
+
+		if ($hasTag)
+		{
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed')
+			);
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.name');
+		$orderCol  = $this->state->get('list.ordering', 'a.name');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
