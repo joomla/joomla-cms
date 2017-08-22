@@ -24,7 +24,7 @@ class Feed extends HtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  \JError object on failure, void on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */

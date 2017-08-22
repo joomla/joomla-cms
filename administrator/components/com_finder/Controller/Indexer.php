@@ -399,6 +399,3 @@ class FinderIndexerResponse
 		}
 	}
 }
-
-// Register the error handler.
-\JError::setErrorHandling(E_ALL, 'callback', array('FinderControllerIndexer', 'sendResponse'));

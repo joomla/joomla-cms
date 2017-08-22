@@ -389,7 +389,6 @@ class Message extends Admin
 			$mailer->setSubject($subject);
 			$mailer->setBody($msg);
 
-			// The Send method will raise an error via JError on a failure, we do not need to check it ourselves here
 			$mailer->Send();
 		}
 

@@ -30,22 +30,6 @@ class JCacheStorageTest extends TestCase
 	private $available = array();
 
 	/**
-	 * Receives the callback from JError and logs the required error information for the test.
-	 *
-	 * @param   JException  $error  The JException object from JError
-	 *
-	 * @return  boolean  To not continue with JError processing
-	 */
-	public static function errorCallback($error)
-	{
-		self::$actualError['code'] = $error->get('code');
-		self::$actualError['msg'] = $error->get('message');
-		self::$actualError['info'] = $error->get('info');
-
-		return false;
-	}
-
-	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -55,8 +39,6 @@ class JCacheStorageTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->saveErrorHandlers();
-		$this->setErrorCallback('JCacheStorageTest');
 		self::$actualError = array();
 
 		$this->object = new JCacheStorage;
@@ -100,7 +82,6 @@ class JCacheStorageTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->restoreErrorHandlers();
 		$this->restoreFactoryState();
 		unset($this->object);
 		parent::tearDown();

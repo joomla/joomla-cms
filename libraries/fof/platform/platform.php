@@ -354,10 +354,6 @@ abstract class FOFPlatform implements FOFPlatformInterface
 	 */
 	public function setErrorHandling($level, $log_level, $options = array())
 	{
-		if (version_compare(JVERSION, '3.0', 'lt') )
-		{
-			return JError::setErrorHandling($level, $log_level, $options);
-		}
 	}
 
 	/**

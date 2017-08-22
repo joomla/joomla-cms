@@ -109,7 +109,7 @@ class Item extends Form
 	/**
 	 * Method to add a new menu item.
 	 *
-	 * @return  mixed  True if the record can be added, a \JError object if not.
+	 * @return  mixed  True if the record can be added, otherwise false.
 	 *
 	 * @since   1.6
 	 */
@@ -555,7 +555,7 @@ class Item extends Form
 		}
 
 		unset($data['request']);
-		
+
 		$data['type'] = $title;
 
 		if ($this->input->get('fieldtype') == 'type')
