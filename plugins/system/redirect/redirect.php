@@ -126,7 +126,7 @@ class PlgSystemRedirect extends JPlugin
 		// The above doesn't work for sub directories, so do this
 		$orgurlRootRel         = str_replace(JUri::root(), '', $orgurl);
 
-		// Cater for when users have added / to the url
+		// For when users have added / to the url
 		$orgurlRootRelSlash    = str_replace(JUri::root(), '/', $orgurl);
 		$orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
 		$orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
@@ -138,7 +138,7 @@ class PlgSystemRedirect extends JPlugin
 		// The above doesn't work for sub directories, so do this
 		$urlRootRel         = str_replace(JUri::root(), '', $url);
 
-		// Cater for when users have added / to the url
+		// For when users have added / to the url
 		$urlRootRelSlash    = str_replace(JUri::root(), '/', $url);
 		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
@@ -249,7 +249,7 @@ class PlgSystemRedirect extends JPlugin
 					JRoute::_(JUri::root() . $redirect->new_url) :
 					$redirect->new_url;
 
-				// Incase the url contains double // lets remove it
+				// In case the url contains double // lets remove it
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
 
 				$app->redirect($destination, (int) $redirect->header);
