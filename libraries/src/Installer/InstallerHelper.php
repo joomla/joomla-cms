@@ -370,7 +370,7 @@ abstract class InstallerHelper
 	 */
 	public static function isChecksumValid($packagefile, $updateServerManifest)
 	{
-		$hashes     = array("md5", "sha1", "sha256", "sha512");
+		$hashes     = array("sha256", "sha384", "sha512");
 		$hashOnFile = false;
 
 		$update = new \JUpdate;
