@@ -27,9 +27,6 @@ if (!defined('_JDEFINES'))
 // Get the Platform with legacy libraries.
 require_once JPATH_LIBRARIES . '/bootstrap.php';
 
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
-
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
