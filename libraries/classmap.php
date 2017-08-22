@@ -354,7 +354,7 @@ JLoader::registerAlias('JFormFieldOrdering',                '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldPassword',                '\\Joomla\\CMS\\Form\\Field\\PasswordField', '5.0');
 JLoader::registerAlias('JFormFieldPlugins',                 '\\Joomla\\CMS\\Form\\Field\\PluginsField', '5.0');
 JLoader::registerAlias('JFormFieldPlugin_Status',           '\\Joomla\\CMS\\Form\\Field\\PluginStatusField', '5.0');
-JLoader::registerAlias('JFormFieldPredefinedList',          '\\Joomla\\CMS\\Form\\Field\\RegistrationDateRangeField', '5.0');
+JLoader::registerAlias('JFormFieldPredefinedList',          '\\Joomla\\CMS\\Form\\Field\\PredefinedListField', '5.0');
 JLoader::registerAlias('JFormFieldRadio',                   '\\Joomla\\CMS\\Form\\Field\\RadioField', '5.0');
 JLoader::registerAlias('JFormFieldRange',                   '\\Joomla\\CMS\\Form\\Field\\RangeField', '5.0');
 JLoader::registerAlias('JFormFieldRegistrationDateRange',   '\\Joomla\\CMS\\Form\\Field\\RegistrationDateRangeField', '5.0');

@@ -10,8 +10,11 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -104,15 +107,15 @@ class RulesField extends FormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
@@ -165,7 +168,7 @@ class RulesField extends FormField
 		$isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
-		$actions = JAccess::getActions($component, $section);
+		$actions = Access::getActions($component, $section);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
@@ -227,7 +230,7 @@ class RulesField extends FormField
 		// Full width format.
 
 		// Get the rules for just this asset (non-recursive).
-		$assetRules = \JAccess::getAssetRules($assetId, false, false);
+		$assetRules = Access::getAssetRules($assetId, false, false);
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
@@ -255,7 +258,7 @@ class RulesField extends FormField
 
 			$html[] = '<li class="nav-item">';
 			$html[] = '<a class="nav-link' . $active . '" href="#permission-' . $group->value . '" data-toggle="tab">';
-			$html[] = \JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
+			$html[] = LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
 			$html[] = '</li>';
 		}
@@ -293,7 +296,7 @@ class RulesField extends FormField
 			$html[] = '<tbody>';
 
 			// Check if this group has super user permissions
-			$isSuperUserGroup = \JAccess::checkGroup($group->value, 'core.admin');
+			$isSuperUserGroup = Access::checkGroup($group->value, 'core.admin');
 
 			foreach ($actions as $action)
 			{
@@ -343,9 +346,9 @@ class RulesField extends FormField
 				$result = array();
 
 				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-				$inheritedGroupRule            = \JAccess::checkGroup((int) $group->value, $action->name, $assetId);
-				$inheritedGroupParentAssetRule = !empty($parentAssetId) ? \JAccess::checkGroup($group->value, $action->name, $parentAssetId) : null;
-				$inheritedParentGroupRule      = !empty($group->parent_id) ? \JAccess::checkGroup($group->parent_id, $action->name, $assetId) : null;
+				$inheritedGroupRule            = Access::checkGroup((int) $group->value, $action->name, $assetId);
+				$inheritedGroupParentAssetRule = !empty($parentAssetId) ? Access::checkGroup($group->value, $action->name, $parentAssetId) : null;
+				$inheritedParentGroupRule      = !empty($group->parent_id) ? Access::checkGroup($group->parent_id, $action->name, $assetId) : null;
 
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
@@ -448,7 +451,7 @@ class RulesField extends FormField
 	 */
 	protected function getUserGroups()
 	{
-		$options = \JHelperUsergroups::getInstance()->getAll();
+		$options = UserGroupsHelper::getInstance()->getAll();
 
 		foreach ($options as &$option)
 		{

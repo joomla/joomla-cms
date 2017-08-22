@@ -12,14 +12,12 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Form Field to load a list of predefined values
  *
  * @since  3.2
  */
-abstract class PredefinedlistField extends \JFormFieldList
+abstract class PredefinedlistField extends ListField
 {
 	/**
 	 * The form field type.
@@ -79,7 +77,7 @@ abstract class PredefinedlistField extends \JFormFieldList
 			{
 				if (empty($filter) || in_array($value, $filter))
 				{
-					$text = $this->translate ? JText::_($text) : $text;
+					$text = $this->translate ? \JText::_($text) : $text;
 
 					$options[] = (object) array(
 						'value' => $value,

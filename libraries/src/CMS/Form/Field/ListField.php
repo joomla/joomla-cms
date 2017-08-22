@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
@@ -127,7 +128,7 @@ class ListField extends FormField
 				}
 
 				// Requires adminlanguage
-				if (in_array('adminlanguage', $requires) && !JModuleHelper::isAdminMultilang())
+				if (in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang())
 				{
 					continue;
 				}
@@ -165,7 +166,7 @@ class ListField extends FormField
 
 		if ($this->element['useglobal'])
 		{
-			$tmp        = new stdClass;
+			$tmp        = new \stdClass;
 			$tmp->value = '';
 			$tmp->text  = \JText::_('JGLOBAL_USE_GLOBAL');
 			$component  = Factory::getApplication()->input->getCmd('option');
@@ -224,7 +225,7 @@ class ListField extends FormField
 	 * @param   string  $text        Text/Language variable of the option.
 	 * @param   array   $attributes  Array of attributes ('name' => 'value' format)
 	 *
-	 * @return  JFormFieldList  For chaining.
+	 * @return  ListField  For chaining.
 	 *
 	 * @since   3.7.0
 	 */
