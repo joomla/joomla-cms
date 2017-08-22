@@ -117,6 +117,12 @@ class JFormFieldList extends JFormField
 				{
 					continue;
 				}
+
+				// Requires adminlanguage
+				if (in_array('adminlanguage', $requires) && !JModuleHelper::isAdminMultilang())
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];

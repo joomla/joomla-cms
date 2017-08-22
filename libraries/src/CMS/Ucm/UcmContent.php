@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Ucm;
+namespace Joomla\CMS\UCM;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Table\TableInterface;
  *
  * @since  3.1
  */
-class UcmContent extends UcmBase
+class UCMContent extends UCMBase
 {
 	/**
 	 * The related table object
@@ -38,15 +38,15 @@ class UcmContent extends UcmBase
 	public $ucmData;
 
 	/**
-	 * Instantiate UcmContent.
+	 * Instantiate UCMContent.
 	 *
 	 * @param   TableInterface  $table  The table object
 	 * @param   string          $alias  The type alias
-	 * @param   UcmType         $type   The type object
+	 * @param   UCMType         $type   The type object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(TableInterface $table = null, $alias = null, UcmType $type = null)
+	public function __construct(TableInterface $table = null, $alias = null, UCMType $type = null)
 	{
 		parent::__construct($alias, $type);
 
@@ -65,13 +65,13 @@ class UcmContent extends UcmBase
 	 * Method to save the data
 	 *
 	 * @param   array    $original  The original data to be saved
-	 * @param   UcmType  $type      The UCM Type object
+	 * @param   UCMType  $type      The UCM Type object
 	 *
 	 * @return  boolean  true
 	 *
 	 * @since   3.1
 	 */
-	public function save($original = null, UcmType $type = null)
+	public function save($original = null, UCMType $type = null)
 	{
 		$type    = $type ?: $this->type;
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
@@ -93,13 +93,13 @@ class UcmContent extends UcmBase
 	 * Delete content from the Core Content table
 	 *
 	 * @param   mixed    $pk    The string/array of id's to delete
-	 * @param   UcmType  $type  The content type object
+	 * @param   UCMType  $type  The content type object
 	 *
 	 * @return  boolean  True if success
 	 *
 	 * @since   3.1
 	 */
-	public function delete($pk, UcmType $type = null)
+	public function delete($pk, UCMType $type = null)
 	{
 		$db   = \JFactory::getDbo();
 		$type = $type ?: $this->type;
@@ -124,13 +124,13 @@ class UcmContent extends UcmBase
 	 * Map the original content to the Core Content fields
 	 *
 	 * @param   array    $original  The original data array
-	 * @param   UcmType  $type      Type object for this data
+	 * @param   UCMType  $type      Type object for this data
 	 *
 	 * @return  array  $ucmData  The mapped UCM data
 	 *
 	 * @since   3.1
 	 */
-	public function mapData($original, UcmType $type = null)
+	public function mapData($original, UCMType $type = null)
 	{
 		$contentType = isset($type) ? $type : $this->type;
 

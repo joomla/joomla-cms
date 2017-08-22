@@ -59,7 +59,7 @@ class CategoryFeed extends HtmlView
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != 'none')
+		if ($feedEmail !== 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -69,7 +69,7 @@ class CategoryFeed extends HtmlView
 		$category = $this->get('Category');
 
 		// Don't display feed if category id missing or non existent
-		if ($category == false || $category->alias == "root")
+		if ($category == false || $category->alias === 'root')
 		{
 			return \JError::raiseError(404, \JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
@@ -116,7 +116,7 @@ class CategoryFeed extends HtmlView
 			$feeditem->author      = $author;
 
 			// We don't have the author email so we have to use site in both cases.
-			if ($feedEmail == 'site')
+			if ($feedEmail === 'site')
 			{
 				$feeditem->authorEmail = $siteEmail;
 			}

@@ -198,7 +198,7 @@ class StandardRules implements RulesInterface
 		{
 			$view = $views[$query['view']];
 
-			if (isset($item->query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
+			if (isset($item->query[$view->key], $query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
 

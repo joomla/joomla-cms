@@ -252,7 +252,7 @@ class Content extends Table
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
+		if ($this->publish_down < $this->publish_up && $this->publish_down > $this->_db->getNullDate())
 		{
 			// Swap the dates.
 			$temp = $this->publish_up;

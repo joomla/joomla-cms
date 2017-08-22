@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -60,7 +61,7 @@ class Indexer extends Controller
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or $this->sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -86,12 +87,12 @@ class Indexer extends Controller
 			$state->start = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -127,7 +128,7 @@ class Indexer extends Controller
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or $this->sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -165,8 +166,10 @@ class Indexer extends Controller
 		);
 
 		// Get the HTML document.
-		$html = \JDocument::getInstance('html', $attributes);
-		$doc = Factory::getDocument();
+		$html = Document::getInstance('html', $attributes);
+
+		// TODO: Why is this document fetched and immediately overwritten?
+		$doc  = Factory::getDocument();
 
 		// Swap the documents.
 		$doc = $html;
@@ -179,6 +182,8 @@ class Indexer extends Controller
 
 		// Swap the app.
 		$app = Factory::getApplication();
+
+		// TODO: Why is the app fetched and immediately overwritten?
 		$app = $site;
 
 		// Start the indexer.
@@ -212,7 +217,7 @@ class Indexer extends Controller
 			}
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (\Exception $e)
@@ -221,7 +226,7 @@ class Indexer extends Controller
 			$doc = $raw;
 
 			// Send the response.
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -238,7 +243,7 @@ class Indexer extends Controller
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or $this->sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -257,12 +262,12 @@ class Indexer extends Controller
 			$state->complete = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 

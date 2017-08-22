@@ -13,7 +13,7 @@
 /**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-define('JOOMLA_MINIMUM_PHP', '5.5.9');
+define('JOOMLA_MINIMUM_PHP', '7.0');
 
 ini_set('display_errors', 1); 
 error_reporting(E_ALL);

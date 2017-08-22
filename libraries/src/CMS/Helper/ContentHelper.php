@@ -14,7 +14,9 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -62,7 +64,7 @@ class ContentHelper
 
 		$result = new \JObject;
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$actions = Access::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
@@ -70,8 +72,8 @@ class ContentHelper
 
 		if ($actions === false)
 		{
-			\JLog::add(
-				\JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), \JLog::ERROR, 'jerror'
+			Log::add(
+				\JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
 			);
 
 			return $result;
@@ -120,7 +122,7 @@ class ContentHelper
 		{
 			if ($detectBrowser)
 			{
-				$langCode = \JLanguageHelper::detectLanguage();
+				$langCode = LanguageHelper::detectLanguage();
 			}
 			else
 			{
@@ -143,7 +145,7 @@ class ContentHelper
 	 */
 	public static function getLanguageId($langCode)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('lang_id')
 			->from('#__languages')

@@ -25,6 +25,7 @@ class Html extends HtmlView
 	 * The filter object
 	 *
 	 * @var  \Joomla\Component\Finder\Administrator\Table\Filter
+	 * @since  3.6.2
 	 */
 	protected $filter;
 
@@ -32,13 +33,16 @@ class Html extends HtmlView
 	 * The \JForm object
 	 *
 	 * @var  \JForm
+	 * @since  3.6.2
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var  \JObject|boolean
+	 *
+	 * @since  3.6.2
 	 */
 	protected $item;
 
@@ -46,13 +50,14 @@ class Html extends HtmlView
 	 * The model state
 	 *
 	 * @var  \JObject
+	 * @since  3.6.2
 	 */
 	protected $state;
 
 	/**
-	 * The total number of indexed items
+	 * The total indexed items
 	 *
-	 * @var    integer
+	 * @var  integer
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $total;
@@ -134,19 +139,16 @@ class Html extends HtmlView
 			$toolbarButtons = [];
 
 			// Can't save the record if it's checked out.
-			if (!$checkedOut)
+			// Since it's an existing record, check the edit permission.
+			if (!$checkedOut && $canDo->get('core.edit'))
 			{
-				// Since it's an existing record, check the edit permission.
-				if ($canDo->get('core.edit'))
-				{
-					$toolbarButtons[] = ['apply', 'filter.apply'];
-					$toolbarButtons[] = ['save', 'filter.save'];
+				$toolbarButtons[] = ['apply', 'filter.apply'];
+				$toolbarButtons[] = ['save', 'filter.save'];
 
-					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create'))
-					{
-						$toolbarButtons[] = ['save2new', 'filter.save2new'];
-					}
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					$toolbarButtons[] = ['save2new', 'filter.save2new'];
 				}
 			}
 

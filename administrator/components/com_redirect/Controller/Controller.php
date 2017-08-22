@@ -11,6 +11,7 @@ namespace Joomla\Component\Redirect\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
 /**
@@ -47,23 +48,32 @@ class Controller extends BaseController
 
 		if ($view === 'links')
 		{
-			$pluginEnabled      = RedirectHelper::isEnabled();
+			$pluginEnabled      = PluginHelper::isEnabled('system', 'redirect');
 			$collectUrlsEnabled = RedirectHelper::collectUrlsEnabled();
 
 			// Show messages about the enabled plugin and if the plugin should collect URLs
 			if ($pluginEnabled && $collectUrlsEnabled)
 			{
-				$this->app->enqueueMessage(\JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . \JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-			}
-			elseif ($pluginEnabled && !$collectUrlsEnabled)
-			{
-				$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-				$this->app->enqueueMessage(\JText::_('COM_REDIRECT_PLUGIN_ENABLED') . \JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
+				$this->app->enqueueMessage(\JText::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', \JText::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
 			}
 			else
 			{
-				$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-				$this->app->enqueueMessage(\JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
+				$redirectPluginId = RedirectHelper::getRedirectPluginId();
+				$link = \JHtml::_(
+					'link',
+					'#plugin' . $redirectPluginId . 'Modal',
+					\JText::_('COM_REDIRECT_SYSTEM_PLUGIN'),
+					'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
+				);
+
+				if ($pluginEnabled && !$collectUrlsEnabled)
+				{
+					$this->app->enqueueMessage(\JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', \JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link), 'notice');
+				}
+				else
+				{
+					$this->app->enqueueMessage(\JText::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
+				}
 			}
 		}
 

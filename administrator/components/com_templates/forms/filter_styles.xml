@@ -25,7 +25,7 @@
 			showon="client_id:0"
 			onchange="this.form.submit();"
 			>
-			<option	value="">COM_TEMPLATES_OPTION_SELECT_PAGE</option>
+			<option	value="">COM_TEMPLATES_OPTION_SELECT_MENU_ITEM</option>
 			<option	value="-1">COM_TEMPLATES_OPTION_NONE</option>
 		</field>
 		<field

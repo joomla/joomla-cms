@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Ucm;
+namespace Joomla\CMS\UCM;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -19,12 +19,12 @@ use Joomla\CMS\Table\TableInterface;
  *
  * @since  3.1
  */
-class UcmBase implements Ucm
+class UCMBase implements UCM
 {
 	/**
 	 * The UCM type object
 	 *
-	 * @var    UcmType
+	 * @var    UCMType
 	 * @since  3.1
 	 */
 	protected $type;
@@ -38,14 +38,14 @@ class UcmBase implements Ucm
 	protected $alias;
 
 	/**
-	 * Instantiate the UcmBase.
+	 * Instantiate the UCMBase.
 	 *
 	 * @param   string   $alias  The alias string
-	 * @param   UcmType  $type   The type object
+	 * @param   UCMType  $type   The type object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($alias = null, UcmType $type = null)
+	public function __construct($alias = null, UCMType $type = null)
 	{
 		// Setup dependencies.
 		$input = \JFactory::getApplication()->input;
@@ -64,7 +64,7 @@ class UcmBase implements Ucm
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	protected function store($data, TableInterface $table = null, $primaryKey = null)
 	{
@@ -105,7 +105,7 @@ class UcmBase implements Ucm
 	/**
 	 * Get the UCM Content type.
 	 *
-	 * @return  UcmType  The UCM content type
+	 * @return  UCMType  The UCM content type
 	 *
 	 * @since   3.1
 	 */
@@ -113,7 +113,7 @@ class UcmBase implements Ucm
 	{
 		if (!$this->type)
 		{
-			$this->type = new UcmType($this->alias);
+			$this->type = new UCMType($this->alias);
 		}
 
 		return $this->type;
@@ -123,13 +123,13 @@ class UcmBase implements Ucm
 	 * Method to map the base ucm fields
 	 *
 	 * @param   array    $original  Data array
-	 * @param   UcmType  $type      UCM Content Type
+	 * @param   UCMType  $type      UCM Content Type
 	 *
 	 * @return  array  Data array of UCM mappings
 	 *
 	 * @since   3.1
 	 */
-	public function mapBase($original, UcmType $type = null)
+	public function mapBase($original, UCMType $type = null)
 	{
 		$type = $type ?: $this->type;
 
