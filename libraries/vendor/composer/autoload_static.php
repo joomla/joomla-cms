@@ -71,9 +71,9 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
             'Joomla\\DI\\' => 10,
             'Joomla\\Crypt\\' => 13,
             'Joomla\\Controller\\' => 18,
+            'Joomla\\CMS\\' => 11,
             'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
-            'Joomla\\' => 7,
         ),
         'F' => 
         array (
@@ -214,6 +214,10 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
         array (
             0 => __DIR__ . '/..' . '/joomla/controller/src',
         ),
+        'Joomla\\CMS\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/libraries/src',
+        ),
         'Joomla\\Archive\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/archive/src',
@@ -221,10 +225,6 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
         'Joomla\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
-        ),
-        'Joomla\\' => 
-        array (
-            0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
         'Fig\\Link\\' => 
         array (
