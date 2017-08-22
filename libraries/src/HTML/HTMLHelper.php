@@ -1,28 +1,32 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  HTML
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\HTML;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\HTML\Registry;
+use Joomla\CMS\Environment\Browser;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
-jimport('joomla.environment.browser');
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.path');
+\JLoader::import('joomla.environment.browser');
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.path');
 
 /**
  * Utility class for all HTML drawing classes
  *
  * @since  1.5
  */
-abstract class JHtml
+abstract class HTMLHelper
 {
 	/**
 	 * Option values related to the generation of HTML output. Recognized
@@ -56,9 +60,9 @@ abstract class JHtml
 	protected static $registry = array();
 
 	/**
-	 * The service registry for custom and overridden JHtml helpers
+	 * The service registry for custom and overridden HtmlHelper helpers
 	 *
-	 * @var    Registry
+	 * @var    HTMLRegistry
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $serviceRegistry;
@@ -90,7 +94,7 @@ abstract class JHtml
 					'deprecated'
 				);
 			}
-			catch (RuntimeException $exception)
+			catch (\RuntimeException $exception)
 			{
 				// Informational message only, continue on
 			}
@@ -113,10 +117,10 @@ abstract class JHtml
 	 *                        prefix and class are optional and can be used to load custom
 	 *                        html helpers.
 	 *
-	 * @return  mixed  Result of JHtml::call($function, $args)
+	 * @return  mixed  Result of HtmlHelper::call($function, $args)
 	 *
 	 * @since   1.5
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public static function _($key)
 	{
@@ -145,7 +149,7 @@ abstract class JHtml
 
 			if (!is_callable($toCall))
 			{
-				throw new InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
+				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
 			}
 
 			static::register($key, $toCall);
@@ -161,18 +165,25 @@ abstract class JHtml
 
 		if (!class_exists($className))
 		{
-			$path = JPath::find(static::$includePaths, strtolower($file) . '.php');
+			$default = JPATH_LIBRARIES . '/cms/html';
+
+			if (!in_array($default, static::$includePaths))
+			{
+				static::addIncludePath($default);
+			}
+
+			$path = \JPath::find(static::$includePaths, strtolower($file) . '.php');
 
 			if (!$path)
 			{
-				throw new InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
+				throw new \InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
 			}
 
-			JLoader::register($className, $path);
+			\JLoader::register($className, $path);
 
 			if (!class_exists($className))
 			{
-				throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
+				throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
 			}
 		}
 
@@ -180,7 +191,7 @@ abstract class JHtml
 
 		if (!is_callable($toCall))
 		{
-			throw new InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
+			throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
 
 		static::register($key, $toCall);
@@ -212,7 +223,7 @@ abstract class JHtml
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational message only, continue on
 		}
@@ -248,7 +259,7 @@ abstract class JHtml
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational message only, continue on
 		}
@@ -284,7 +295,7 @@ abstract class JHtml
 	/**
 	 * Retrieves the service registry.
 	 *
-	 * @return  Registry
+	 * @return  HTMLRegistry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -292,7 +303,8 @@ abstract class JHtml
 	{
 		if (!static::$serviceRegistry)
 		{
-			static::$serviceRegistry = new Registry;
+			static::$serviceRegistry = new HTMLRegistry;
+			static::$serviceRegistry->register('jquery', 'Joomla\\CMS\\HTML\\Service\\JQuery');
 		}
 
 		return static::$serviceRegistry;
@@ -307,13 +319,13 @@ abstract class JHtml
 	 *
 	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	protected static function call($function, $args)
 	{
 		if (!is_callable($function))
 		{
-			throw new InvalidArgumentException('Function not supported', 500);
+			throw new \InvalidArgumentException('Function not supported', 500);
 		}
 
 		// PHP 5.3 workaround
@@ -387,7 +399,7 @@ abstract class JHtml
 
 		if (file_exists($md5))
 		{
-			JLog::add('Usage of MD5SUM files is deprecated, use version instead.', JLog::WARNING, 'deprecated');
+			Log::add('Usage of MD5SUM files is deprecated, use version instead.', Log::WARNING, 'deprecated');
 
 			return '?' . file_get_contents($md5);
 		}
@@ -418,8 +430,8 @@ abstract class JHtml
 		}
 
 		// Extract extension and strip the file
-		$strip = JFile::stripExt($file);
-		$ext   = JFile::getExt($file);
+		$strip = \JFile::stripExt($file);
+		$ext   = \JFile::getExt($file);
 
 		// Prepare array of files
 		$includes = array();
@@ -427,7 +439,7 @@ abstract class JHtml
 		// Detect browser and compute potential files
 		if ($detect_browser)
 		{
-			$navigator = JBrowser::getInstance();
+			$navigator = Browser::getInstance();
 			$browser   = $navigator->getBrowser();
 			$major     = $navigator->getMajor();
 			$minor     = $navigator->getMinor();
@@ -450,7 +462,7 @@ abstract class JHtml
 		if ($relative)
 		{
 			// Get the template
-			$template = JFactory::getApplication()->getTemplate();
+			$template = Factory::getApplication()->getTemplate();
 
 			// For each potential files
 			foreach ($potential as $strip)
@@ -458,7 +470,7 @@ abstract class JHtml
 				$files = array();
 
 				// Detect debug mode
-				if ($detect_debug && JFactory::getConfig()->get('debug'))
+				if ($detect_debug && Factory::getConfig()->get('debug'))
 				{
 					/*
 					 * Detect if we received a file in the format name.min.ext
@@ -488,7 +500,7 @@ abstract class JHtml
 
 					if (file_exists($path))
 					{
-						$includes[] = JUri::base(true) . "/templates/$template/$folder/$file" . static::getMd5Version($path);
+						$includes[] = Uri::base(true) . "/templates/$template/$folder/$file" . static::getMd5Version($path);
 
 						break;
 					}
@@ -511,7 +523,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/media/$extension/$element/$folder/$file" . static::getMd5Version($path);
+									$includes[] = Uri::root(true) . "/media/$extension/$element/$folder/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -521,7 +533,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/media/$extension/$folder/$element/$file" . static::getMd5Version($path);
+									$includes[] = Uri::root(true) . "/media/$extension/$folder/$element/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -531,7 +543,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$element/$file" . static::getMd5Version($path);
+									$includes[] = Uri::root(true) . "/templates/$template/$folder/system/$element/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -541,7 +553,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/media/system/$folder/$element/$file" . static::getMd5Version($path);
+									$includes[] = Uri::root(true) . "/media/system/$folder/$element/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -553,7 +565,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/media/$extension/$folder/$file" . static::getMd5Version($path);
+									$includes[] = Uri::root(true) . "/media/$extension/$folder/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -563,7 +575,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$file" . static::getMd5Version($path);
+									$includes[] = Uri::root(true) . "/templates/$template/$folder/system/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -573,7 +585,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
+									$includes[] = Uri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -586,7 +598,7 @@ abstract class JHtml
 
 							if (file_exists($path))
 							{
-								$includes[] = JUri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
+								$includes[] = Uri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
 
 								break;
 							}
@@ -603,7 +615,7 @@ abstract class JHtml
 				$files = array();
 
 				// Detect debug mode
-				if ($detect_debug && JFactory::getConfig()->get('debug'))
+				if ($detect_debug && Factory::getConfig()->get('debug'))
 				{
 					/*
 					 * Detect if we received a file in the format name.min.ext
@@ -632,7 +644,7 @@ abstract class JHtml
 
 					if (file_exists($path))
 					{
-						$includes[] = JUri::root(true) . "/$file" . static::getMd5Version($path);
+						$includes[] = Uri::root(true) . "/$file" . static::getMd5Version($path);
 
 						break;
 					}
@@ -687,7 +699,7 @@ abstract class JHtml
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
-	 * @see     JBrowser
+	 * @see     Browser
 	 * @since   1.5
 	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
 	 *                  use (file, options, attributes) instead.
@@ -697,7 +709,7 @@ abstract class JHtml
 		// B/C before 3.7.0
 		if (!is_array($attribs))
 		{
-			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+			Log::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -736,7 +748,7 @@ abstract class JHtml
 		}
 
 		// If inclusion is required
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -759,7 +771,7 @@ abstract class JHtml
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
-	 * @see     JHtml::stylesheet()
+	 * @see     HtmlHelper::stylesheet()
 	 * @since   1.5
 	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
 	 *                  use (file, options, attributes) instead.
@@ -769,7 +781,7 @@ abstract class JHtml
 		// B/C before 3.7.0
 		if (!is_array($options))
 		{
-			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+			Log::add('The script method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -816,7 +828,7 @@ abstract class JHtml
 		}
 
 		// If inclusion is required
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -839,7 +851,7 @@ abstract class JHtml
 	 *
 	 * @return  void
 	 *
-	 * @see     JHtml::$formatOptions
+	 * @see     HtmlHelper::$formatOptions
 	 * @since   1.5
 	 */
 	public static function setFormatOptions($options)
@@ -870,14 +882,14 @@ abstract class JHtml
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
 		// Get some system objects.
-		$config = JFactory::getConfig();
-		$user   = JFactory::getUser();
+		$config = Factory::getConfig();
+		$user   = Factory::getUser();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
 		{
 			// Get a date object based on UTC.
-			$date = JFactory::getDate($input, 'UTC');
+			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
 			$date->setTimezone($user->getTimezone());
@@ -886,35 +898,35 @@ abstract class JHtml
 		elseif ($tz === false)
 		{
 			// Get a date object based on UTC.
-			$date = JFactory::getDate($input, 'UTC');
+			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new DateTimeZone($config->get('offset')));
+			$date->setTimezone(new \DateTimeZone($config->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
 		{
-			$date = JFactory::getDate($input);
+			$date = Factory::getDate($input);
 		}
 		// UTC date converted to given time zone.
 		else
 		{
 			// Get a date object based on UTC.
-			$date = JFactory::getDate($input, 'UTC');
+			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new DateTimeZone($tz));
+			$date->setTimezone(new \DateTimeZone($tz));
 		}
 
 		// If no format is given use the default locale based format.
 		if (!$format)
 		{
-			$format = JText::_('DATE_FORMAT_LC1');
+			$format = \JText::_('DATE_FORMAT_LC1');
 		}
 		// $format is an existing language key
-		elseif (JFactory::getLanguage()->hasKey($format))
+		elseif (Factory::getLanguage()->hasKey($format))
 		{
-			$format = JText::_($format);
+			$format = \JText::_($format);
 		}
 
 		if ($gregorian)
@@ -1026,8 +1038,8 @@ abstract class JHtml
 			// Pass texts through JText if required.
 			if ($translate)
 			{
-				$title = JText::_($title);
-				$content = JText::_($content);
+				$title = \JText::_($title);
+				$content = \JText::_($content);
 			}
 
 			// Use only the content if no title is given.
@@ -1082,9 +1094,9 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		$tag       = JFactory::getLanguage()->getTag();
-		$calendar  = JFactory::getLanguage()->getCalendar();
-		$direction = strtolower(JFactory::getDocument()->getDirection());
+		$tag       = Factory::getLanguage()->getTag();
+		$calendar  = Factory::getLanguage()->getCalendar();
+		$direction = strtolower(Factory::getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
@@ -1129,7 +1141,7 @@ abstract class JHtml
 		$singleHeader = ($singleHeader) ? "1" : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($value && $value !== JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
+		if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
@@ -1167,11 +1179,11 @@ abstract class JHtml
 			'onchange'     => $onchange,
 		);
 
-		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
+		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}
 
 	/**
-	 * Add a directory where JHtml should search for helpers. You may
+	 * Add a directory where HtmlHelper should search for helpers. You may
 	 * either pass a string or an array of directories.
 	 *
 	 * @param   string  $path  A path to search.
@@ -1190,7 +1202,7 @@ abstract class JHtml
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational message only, continue on
 		}
@@ -1200,7 +1212,7 @@ abstract class JHtml
 		{
 			if (!empty($dir) && !in_array($dir, static::$includePaths))
 			{
-				array_unshift(static::$includePaths, JPath::clean($dir));
+				array_unshift(static::$includePaths, \JPath::clean($dir));
 			}
 		}
 
@@ -1219,9 +1231,9 @@ abstract class JHtml
 	 */
 	public static function getJSObject(array $array = array())
 	{
-		JLog::add(
+		Log::add(
 			__METHOD__ . " is deprecated. Use json_encode() or \\Joomla\\Registry\\Registry::toString('json') instead.",
-			JLog::WARNING,
+			Log::WARNING,
 			'deprecated'
 		);
 

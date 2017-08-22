@@ -419,3 +419,6 @@ JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\Image\\Fi
 JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Object\\CMSObject', '5.0');
 
 JLoader::registerAlias('JExtensionHelper',                  '\\Joomla\\CMS\\Extension\\ExtensionHelper', '5.0');
+
+JLoader::registerAlias('JHtml',                             '\\Joomla\\CMS\\HTML\\HTMLHelper', '5.0');
+JLoader::registerAlias('JHtmlJquery',                       '\\Joomla\\CMS\\HTML\\Service\\JQuery', '5.0');

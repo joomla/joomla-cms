@@ -15,50 +15,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class Registry
+final class HTMLRegistry
 {
-	/**
-	 * Mapping array of the core CMS JHtml helpers
-	 *
-	 * As of 5.0, the $serviceMap will be prepopulated with the contents of this array
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $coreServiceMap = [
-		'access'          => \JHtmlAccess::class,
-		'actionsdropdown' => \JHtmlActionsDropdown::class,
-		'batch'           => \JHtmlBatch::class,
-		'behavior'        => \JHtmlBehavior::class,
-		'bootstrap'       => \JHtmlBootstrap::class,
-		'category'        => \JHtmlCategory::class,
-		'content'         => \JHtmlContent::class,
-		'contentlanguage' => \JHtmlContentlanguage::class,
-		'date'            => \JHtmlDate::class,
-		'debug'           => \JHtmlDebug::class,
-		'draggablelist'   => \JHtmlDraggablelist::class,
-		'dropdown'        => \JHtmlDropdown::class,
-		'email'           => \JHtmlEmail::class,
-		'form'            => \JHtmlForm::class,
-		'formbehavior'    => \JHtmlFormbehavior::class,
-		'grid'            => \JHtmlGrid::class,
-		'icons'           => \JHtmlIcons::class,
-		'jgrid'           => \JHtmlJGrid::class,
-		'jquery'          => \JHtmlJquery::class,
-		'links'           => \JHtmlLinks::class,
-		'list'            => \JHtmlList::class,
-		'menu'            => \JHtmlMenu::class,
-		'number'          => \JHtmlNumber::class,
-		'searchtools'     => \JHtmlSearchtools::class,
-		'select'          => \JHtmlSelect::class,
-		'sidebar'         => \JHtmlSidebar::class,
-		'sortablelist'    => \JHtmlSortablelist::class,
-		'string'          => \JHtmlString::class,
-		'tag'             => \JHtmlTag::class,
-		'tel'             => \JHtmlTel::class,
-		'user'            => \JHtmlUser::class,
-	];
-
 	/**
 	 * Array holding the registered services
 	 *
