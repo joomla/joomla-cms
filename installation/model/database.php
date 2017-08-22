@@ -181,7 +181,7 @@ class InstallationModelDatabase extends JModelBase
 		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
 		{
 			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
-			
+
 			// When all checks have been passed we don't need to do this here again.
 			if ($remoteDbFileTestsPassed === false)
 			{
@@ -228,7 +228,7 @@ class InstallationModelDatabase extends JModelBase
 				{
 					// Add the general message
 					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-					
+
 					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
 
 					return false;
@@ -375,15 +375,6 @@ class InstallationModelDatabase extends JModelBase
 			throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
 		}
 
-		if ($db->getServerType() === 'mysql')
-		{
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
-			{
-				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-			}
-		}
-
 		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
@@ -394,37 +385,6 @@ class InstallationModelDatabase extends JModelBase
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
 			throw new RuntimeException(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
-		}
-
-		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if ($db->getServerType() === 'postgresql' && !version_compare($db_version, '9.0.0', '>='))
-		{
-			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
-
-			try
-			{
-				$db->execute();
-			}
-			catch (ExecutionFailureException $e)
-			{
-				throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
-			}
-
-			$column = $db->loadResult();
-
-			if ($column != 't')
-			{
-				$db->setQuery('CREATE LANGUAGE plpgsql');
-
-				try
-				{
-					$db->execute();
-				}
-				catch (ExecutionFailureException $e)
-				{
-					throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
-				}
-			}
 		}
 
 		// Get database's UTF support.

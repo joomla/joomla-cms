@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$direction = \Joomla\CMS\Factory::getDocument()->direction == 'rtl' ? 'float-right' : '';
+$doc       = \Joomla\CMS\Factory::getDocument();
+$direction = $doc->direction == 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav navbar-nav nav-stacked main-nav clearfix ' . $direction : 'nav navbar-nav nav-stacked main-nav clearfix disabled ' . $direction;
 
 // Recurse through children of root node if they exist
@@ -25,8 +26,6 @@ if ($root->hasChildren())
 	$menu->renderSubmenu(JModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
 
 	echo "</ul></div>\n";
-
-	echo '<ul id="nav-empty" class="dropdown-menu nav-empty hidden-phone"></ul>';
 
 	if ($css = $menuTree->getCss())
 	{

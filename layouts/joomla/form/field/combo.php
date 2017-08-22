@@ -54,14 +54,14 @@ $val  = [];
 
 foreach ($options as $option)
 {
-    $val[] = $option->text;
+	$val[] = $option->text;
 }
 ?>
 <input
-    type="text"
-    name="<?php echo $name; ?>"
-    id="<?php echo $id; ?>"
-    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-    <?php echo $attr; ?>
-    data-list="<?php echo implode(', ', $val); ?>"
+	type="text"
+	name="<?php echo $name; ?>"
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo $attr; ?>
+	data-list="<?php echo implode(', ', $val); ?>"
 />

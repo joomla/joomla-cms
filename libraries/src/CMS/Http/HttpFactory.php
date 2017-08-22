@@ -24,7 +24,7 @@ class HttpFactory
 	 * Method to create a JHttp instance.
 	 *
 	 * @param   array|\ArrayAccess  $options   Client options array.
-	 * @param   array|string       $adapters  Adapter (string) or queue of adapters (array) to use for communication.
+	 * @param   array|string        $adapters  Adapter (string) or queue of adapters (array) to use for communication.
 	 *
 	 * @return  Http
 	 *
@@ -59,7 +59,7 @@ class HttpFactory
 	 * Finds an available http transport object for communication
 	 *
 	 * @param   array|\ArrayAccess  $options  Options for creating TransportInterface object
-	 * @param   array|string       $default  Adapter (string) or queue of adapters (array) to use
+	 * @param   array|string        $default  Adapter (string) or queue of adapters (array) to use
 	 *
 	 * @return  TransportInterface|boolean  Interface sub-class or boolean false if no adapters are available
 	 *

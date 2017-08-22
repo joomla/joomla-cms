@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Model\Admin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -337,7 +338,7 @@ class Module extends Admin
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
-					\JError::raiseWarning(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 					return;
 				}
@@ -462,7 +463,7 @@ class Module extends Admin
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JError::raiseWarning(500, $e->getMessage());
+				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
@@ -549,7 +550,7 @@ class Module extends Admin
 			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
 
 			// Display language field to filter admin custom menus per language
-			if (!JModuleHelper::isAdminMultilang())
+			if (!ModuleHelper::isAdminMultilang())
 			{
 				$form->setFieldAttribute('language', 'type', 'hidden');
 			}
@@ -1074,7 +1075,7 @@ class Module extends Admin
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

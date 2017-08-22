@@ -240,7 +240,7 @@ abstract class FOFUtilsInstallscript
 				}
 				else
 				{
-					JError::raiseWarning(100, $msg);
+					JFactory::getApplication()->enqueueMessage($msg, 'error');
 				}
 
 				return false;
@@ -258,7 +258,7 @@ abstract class FOFUtilsInstallscript
 			}
 			else
 			{
-				JError::raiseWarning(100, $msg);
+				JFactory::getApplication()->enqueueMessage($msg, 'error');
 			}
 
 			return false;
@@ -275,7 +275,7 @@ abstract class FOFUtilsInstallscript
 			}
 			else
 			{
-				JError::raiseWarning(100, $msg);
+				JFactory::getApplication()->enqueueMessage($msg, 'error');
 			}
 
 			return false;
@@ -1784,7 +1784,7 @@ abstract class FOFUtilsInstallscript
 			if (empty($menu_ids_level1))
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
-				JError::raiseWarning(1, $table->getError());
+				JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 				return false;
 			}
@@ -1821,7 +1821,7 @@ abstract class FOFUtilsInstallscript
 				if (!$table->bind($data) || !$table->check() || !$table->store())
 				{
 					// Install failed, warn user and rollback changes
-					JError::raiseWarning(1, $table->getError());
+					JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 					return false;
 				}

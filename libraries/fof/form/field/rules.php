@@ -140,7 +140,7 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
 
             if ($error = $db->getErrorMsg())
             {
-                JError::raiseNotice(500, $error);
+                JFactory::getApplication()->enqueueMessage($error, 'notice');
             }
         }
         else

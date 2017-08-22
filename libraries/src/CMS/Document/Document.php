@@ -317,7 +317,7 @@ class Document
 	 * @param   string  $type        The document type to instantiate
 	 * @param   array   $attributes  Array of attributes
 	 *
-	 * @return  object  The document object.
+	 * @return  static  The document object.
 	 *
 	 * @since   11.1
 	 */
