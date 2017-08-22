@@ -33,7 +33,7 @@ interface FactoryInterface
 	 * Creates a new renderer object.
 	 *
 	 * @param   Document  $document  The JDocument instance to attach to the renderer
-	 * @param   string      $type      The renderer type to instantiate
+	 * @param   string    $type      The renderer type to instantiate
 	 *
 	 * @return  RendererInterface
 	 *
