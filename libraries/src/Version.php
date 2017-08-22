@@ -31,7 +31,7 @@ final class Version
 	 * Major release version.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	const MAJOR_VERSION = 4;
 
@@ -39,7 +39,7 @@ final class Version
 	 * Minor release version.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	const MINOR_VERSION = 0;
 
@@ -47,7 +47,7 @@ final class Version
 	 * Patch release version.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	const PATCH_VERSION = 0;
 
@@ -58,7 +58,7 @@ final class Version
 	 * For example, for 3.8.0 when this is set to 'dev' the version string will be `3.8.0-dev`.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	const EXTRA_VERSION = 'dev';
 

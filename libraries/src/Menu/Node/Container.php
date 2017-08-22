@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @see    Node
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class Container extends Heading
 {

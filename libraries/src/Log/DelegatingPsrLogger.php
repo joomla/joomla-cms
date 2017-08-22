@@ -15,7 +15,7 @@ use Psr\Log\LogLevel;
 /**
  * Delegating logger which delegates log messages received from the PSR-3 interface to the Joomla! Log object.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class DelegatingPsrLogger extends AbstractLogger
 {
@@ -23,7 +23,7 @@ class DelegatingPsrLogger extends AbstractLogger
 	 * The Log instance to delegate messages to.
 	 *
 	 * @var    Log
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $logger;
 
@@ -31,7 +31,7 @@ class DelegatingPsrLogger extends AbstractLogger
 	 * Mapping array to map a PSR-3 level to a Joomla priority.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $priorityMap = array(
 		LogLevel::EMERGENCY => Log::EMERGENCY,
@@ -49,7 +49,7 @@ class DelegatingPsrLogger extends AbstractLogger
 	 *
 	 * @param   Log  $logger  The Log instance to delegate messages to.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct(Log $logger)
 	{
@@ -65,7 +65,7 @@ class DelegatingPsrLogger extends AbstractLogger
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function log($level, $message, array $context = array())

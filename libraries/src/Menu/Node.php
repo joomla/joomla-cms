@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @see    Tree
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class Node
 {
@@ -25,7 +25,7 @@ class Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $id = null;
 
@@ -34,7 +34,7 @@ class Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $class = null;
 
@@ -43,7 +43,7 @@ class Node
 	 *
 	 * @var  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $active = false;
 
@@ -52,7 +52,7 @@ class Node
 	 *
 	 * @var  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $params;
 
@@ -61,7 +61,7 @@ class Node
 	 *
 	 * @var  Node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $parent = null;
 
@@ -70,14 +70,14 @@ class Node
 	 *
 	 * @var  Node[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $children = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct()
 	{
@@ -93,7 +93,7 @@ class Node
 	 *
 	 * @return  Node  The new added child
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function addChild(Node $child)
 	{
@@ -119,7 +119,7 @@ class Node
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function removeChild(Node $child)
 	{
@@ -138,7 +138,7 @@ class Node
 	 *
 	 * @return  bool  True if there is a parent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function hasParent()
 	{
@@ -150,7 +150,7 @@ class Node
 	 *
 	 * @return  Node  The Node object's parent or null for no parent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getParent()
 	{
@@ -162,7 +162,7 @@ class Node
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function hasChildren()
 	{
@@ -174,7 +174,7 @@ class Node
 	 *
 	 * @return  Node[]  The children
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getChildren()
 	{
@@ -186,7 +186,7 @@ class Node
 	 *
 	 * @return  int  The node level in the hierarchy, where ROOT == 0, First level menu item == 1, an so on.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getLevel()
 	{
@@ -198,7 +198,7 @@ class Node
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function isRoot()
 	{
@@ -212,7 +212,7 @@ class Node
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function setActive($active)
 	{
@@ -226,7 +226,7 @@ class Node
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function setParams(Registry $params)
 	{
@@ -240,7 +240,7 @@ class Node
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getParam($key)
 	{
@@ -254,7 +254,7 @@ class Node
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function get($name)
 	{

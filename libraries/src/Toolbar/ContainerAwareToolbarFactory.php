@@ -30,7 +30,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 *
 	 * @return  ToolbarButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function createButton(Toolbar $toolbar, $type)

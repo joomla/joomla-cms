@@ -255,7 +255,7 @@ class Log
 	 *
 	 * @return  DelegatingPsrLogger
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function createDelegatedLogger()
 	{

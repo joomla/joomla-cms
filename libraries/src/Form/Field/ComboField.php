@@ -34,7 +34,7 @@ class ComboField extends \JFormFieldList
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $layout = 'joomla.form.field.combo';
 
@@ -60,7 +60,7 @@ class ComboField extends \JFormFieldList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function getLayoutData()
 	{

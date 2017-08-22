@@ -19,21 +19,21 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 /**
  * The HTML Menus Menu Item View.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class Xml extends HtmlView
 {
 	/**
 	 * @var  \stdClass[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $items;
 
 	/**
 	 * @var  \JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $state;
 
@@ -44,7 +44,7 @@ class Xml extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function display($tpl = null)
 	{
@@ -109,7 +109,7 @@ class Xml extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function addXmlChild($xml, $item)
 	{

@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Menu Helper utility
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class MenuHelper
 {
@@ -23,14 +23,14 @@ class MenuHelper
 	 *
 	 * @var  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected static $presets = null;
 
 	/**
 	 * Private constructor
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	private function __construct()
 	{
@@ -47,7 +47,7 @@ class MenuHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function addPreset($name, $title, $path, $replace = true)
 	{
@@ -78,7 +78,7 @@ class MenuHelper
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function getPresets()
 	{
@@ -121,7 +121,7 @@ class MenuHelper
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function loadPreset($name, $fallback = true)
 	{
@@ -150,7 +150,7 @@ class MenuHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function resolveAlias(&$item)
 	{
@@ -200,7 +200,7 @@ class MenuHelper
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function createLevels($menuItems)
 	{
@@ -254,7 +254,7 @@ class MenuHelper
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected static function loadXml($elements, &$items, $replace = array())
 	{
@@ -337,7 +337,7 @@ class MenuHelper
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected static function parseXmlNode($node, $replace = array())
 	{

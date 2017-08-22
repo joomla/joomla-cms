@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Tree class to represent a menu tree hierarchy
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class Tree
 {
@@ -21,7 +21,7 @@ class Tree
 	 *
 	 * @var  Node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $root = null;
 
@@ -30,7 +30,7 @@ class Tree
 	 *
 	 * @var  Node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $current = null;
 
@@ -39,7 +39,7 @@ class Tree
 	 *
 	 * @var  string[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $css = array();
 
@@ -53,7 +53,7 @@ class Tree
 	/**
 	 * Constructor
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct()
 	{
@@ -66,7 +66,7 @@ class Tree
 	 *
 	 * @return  Node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getRoot()
 	{
@@ -78,7 +78,7 @@ class Tree
 	 *
 	 * @return  Node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getCurrent()
 	{
@@ -92,7 +92,7 @@ class Tree
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function setCurrent($node)
 	{
@@ -109,7 +109,7 @@ class Tree
 	 *
 	 * @return  Node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getParent($setCurrent = true)
 	{
@@ -130,7 +130,7 @@ class Tree
 	 *
 	 * @return  Node  The root node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function reset($clear = false)
 	{
@@ -153,7 +153,7 @@ class Tree
 	 *
 	 * @return  Node  The newly added node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function addChild(Node $node, $setCurrent = false)
 	{
@@ -173,7 +173,7 @@ class Tree
 	 *
 	 * @return  string	CSS class name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getIconClass()
 	{
@@ -218,7 +218,7 @@ class Tree
 	 *
 	 * @return  string[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getCss()
 	{

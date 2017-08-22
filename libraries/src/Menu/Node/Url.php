@@ -16,7 +16,7 @@ use Joomla\CMS\Menu\Node;
  *
  * @see    Node
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class Url extends Node
 {
@@ -25,7 +25,7 @@ class Url extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $title = null;
 
@@ -34,7 +34,7 @@ class Url extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $link = null;
 
@@ -43,7 +43,7 @@ class Url extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $target = null;
 
@@ -52,7 +52,7 @@ class Url extends Node
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $icon = null;
 
@@ -66,7 +66,7 @@ class Url extends Node
 	 * @param   string  $id      The node id
 	 * @param   string  $icon    The title icon for the node
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct($title, $link, $target = null, $class = null, $id = null, $icon = null)
 	{
@@ -87,7 +87,7 @@ class Url extends Node
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function get($name)
 	{
