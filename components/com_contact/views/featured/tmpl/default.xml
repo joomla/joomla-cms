@@ -201,6 +201,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -212,6 +213,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -224,6 +226,7 @@
 				label="JGLOBAL_EMAIL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -235,6 +238,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -246,6 +250,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -257,6 +262,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -268,6 +274,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -279,6 +286,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -290,6 +298,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -301,6 +310,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -312,6 +322,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -323,6 +334,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -334,6 +346,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

@@ -2145,6 +2145,7 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
 			'/administrator/modules/mod_menu/preset',
+			'/administrator/components/com_content/models/fields/votelist.php',
 		);
 
 		jimport('joomla.filesystem.file');
