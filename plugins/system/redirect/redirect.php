@@ -237,7 +237,7 @@ class PlgSystemRedirect extends JPlugin
 					$redirect->new_url .= '?' . $urlQuery;
 				}
 
-				$dest = JUri::isInternal($redirect->new_url) || strpos('http', $redirect->new_url) === FALSE ?
+				$dest = JUri::isInternal($redirect->new_url) || strpos('http', $redirect->new_url) === false ?
 					JRoute::_(JUri::root() . $redirect->new_url) :
 					$redirect->new_url;
 
