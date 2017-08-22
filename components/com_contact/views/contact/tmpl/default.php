@@ -84,7 +84,7 @@ $tparams = $this->item->params;
 
 		<?php if ($this->contact->image && $tparams->get('show_image')) : ?>
 			<div class="thumbnail pull-right">
-				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('style' => 'vertical-align: middle;', 'itemprop' => 'image')); ?>
+				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>
 
