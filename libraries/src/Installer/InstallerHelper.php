@@ -359,7 +359,7 @@ abstract class InstallerHelper
 	}
 
 	/**
-	 * Return the result of the checksum of a package and the SHA1/MD5 tags in the update server manifest
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
 	 *
 	 * @param   string     $packagefile           Location of the package to be installed
 	 * @param   Installer  $updateServerManifest  Update Server manifest
