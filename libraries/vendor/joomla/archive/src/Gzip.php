@@ -30,7 +30,7 @@ class Gzip implements ExtractableInterface
 	 * @var    array
 	 * @since  1.0
 	 */
-	private $flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
+	private $flags = ['FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10];
 
 	/**
 	 * Gzip file data buffer
@@ -46,7 +46,7 @@ class Gzip implements ExtractableInterface
 	 * @var    array|\ArrayAccess
 	 * @since  1.0
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * Create a new Archive object.
@@ -56,7 +56,7 @@ class Gzip implements ExtractableInterface
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		if (!is_array($options) && !($options instanceof \ArrayAccess))
 		{

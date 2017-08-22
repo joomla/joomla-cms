@@ -207,7 +207,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setName($name)
+	public function setName(string $name)
 	{
 		$this->store->setName($name);
 
@@ -235,7 +235,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setId($id)
+	public function setId(string $id)
 	{
 		$this->store->setId($id);
 
@@ -249,7 +249,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getHandlers()
+	public static function getHandlers(): array
 	{
 		$connectors = [];
 
@@ -324,7 +324,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isStarted()
+	public function isStarted(): bool
 	{
 		return $this->store->isStarted();
 	}
@@ -397,7 +397,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function remove($name)
+	public function remove(string $name)
 	{
 		if (!$this->isActive())
 		{
@@ -603,7 +603,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function createToken($length = 32)
+	protected function createToken(int $length = 32): string
 	{
 		return bin2hex(random_bytes($length));
 	}
@@ -711,7 +711,10 @@ class Session implements SessionInterface, DispatcherAwareInterface
 		}
 
 		// Sync the session maxlifetime
-		ini_set('session.gc_maxlifetime', $this->getExpire());
+		if (!headers_sent())
+		{
+			ini_set('session.gc_maxlifetime', $this->getExpire());
+		}
 
 		return true;
 	}

@@ -96,7 +96,7 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(Container $container, $value, $mode = 0)
+	public function __construct(Container $container, $value, int $mode = 0)
 	{
 		$this->container = $container;
 		$this->shared    = ($mode & self::SHARE) === self::SHARE;
@@ -137,7 +137,7 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isShared()
+	public function isShared(): bool
 	{
 		return $this->shared;
 	}
@@ -149,7 +149,7 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isProtected()
+	public function isProtected(): bool
 	{
 		return $this->protected;
 	}
@@ -203,7 +203,7 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function reset()
+	public function reset(): bool
 	{
 		if ($this->isShared() && !$this->isProtected())
 		{

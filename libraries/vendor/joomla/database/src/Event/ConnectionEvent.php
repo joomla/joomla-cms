@@ -34,7 +34,7 @@ class ConnectionEvent extends Event
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($name, DatabaseInterface $driver)
+	public function __construct(string $name, DatabaseInterface $driver)
 	{
 		parent::__construct($name);
 
@@ -48,7 +48,7 @@ class ConnectionEvent extends Event
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDriver()
+	public function getDriver(): DatabaseInterface
 	{
 		return $this->driver;
 	}

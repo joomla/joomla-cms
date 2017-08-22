@@ -32,7 +32,7 @@ class Factory
 		$type = strtolower(preg_replace('/[^A-Z0-9_]/i', '', $type));
 
 		$localNamespace = __NAMESPACE__ . '\\Format';
-		$namespace      = isset($options['format_namespace']) ? $options['format_namespace'] : $localNamespace;
+		$namespace      = $options['format_namespace'] ?? $localNamespace;
 		$class          = $namespace . '\\' . ucfirst($type);
 
 		if (!class_exists($class))

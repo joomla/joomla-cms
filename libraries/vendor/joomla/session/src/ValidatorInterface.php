@@ -25,5 +25,5 @@ interface ValidatorInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception\InvalidSessionException
 	 */
-	public function validate($restart = false);
+	public function validate(bool $restart = false);
 }

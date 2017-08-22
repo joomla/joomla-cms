@@ -53,7 +53,8 @@ class Ini implements FormatInterface
 	 */
 	public function objectToString($object, array $options = [])
 	{
-		$options = array_merge(static::$options, $options);
+		$options            = array_merge(static::$options, $options);
+		$supportArrayValues = $options['supportArrayValues'];
 
 		$local  = [];
 		$global = [];
@@ -83,14 +84,14 @@ class Ini implements FormatInterface
 				// Add the properties for this section.
 				foreach (get_object_vars($value) as $k => $v)
 				{
-					if (is_array($v) && $options['supportArrayValues'])
+					if (is_array($v) && $supportArrayValues)
 					{
 						$assoc = ArrayHelper::isAssociative($v);
 
 						foreach ($v as $array_key => $item)
 						{
-							$array_key = ($assoc) ? $array_key : '';
-							$local[] = $k . '[' . $array_key . ']=' . $this->getValueAsIni($item);
+							$array_key = $assoc ? $array_key : '';
+							$local[]   = $k . '[' . $array_key . ']=' . $this->getValueAsIni($item);
 						}
 					}
 					else
@@ -100,25 +101,25 @@ class Ini implements FormatInterface
 				}
 
 				// Add empty line after section if it is not the last one
-				if (0 != --$last)
+				if (0 !== --$last)
 				{
 					$local[] = '';
 				}
 			}
-			elseif (is_array($value) && $options['supportArrayValues'])
+			elseif (is_array($value) && $supportArrayValues)
 			{
 				$assoc = ArrayHelper::isAssociative($value);
 
 				foreach ($value as $array_key => $item)
 				{
-					$array_key = ($assoc) ? $array_key : '';
-					$global[] = $key . '[' . $array_key . ']=' . $this->getValueAsIni($item);
+					$array_key = $assoc ? $array_key : '';
+					$global[]  = $key . '[' . $array_key . ']=' . $this->getValueAsIni($item);
 				}
 			}
 			else
 			{
 				// Not in a section so add the property to the global array.
-				$global[] = $key . '=' . $this->getValueAsIni($value);
+				$global[]   = $key . '=' . $this->getValueAsIni($value);
 				$in_section = false;
 			}
 		}
@@ -154,10 +155,10 @@ class Ini implements FormatInterface
 			return new \stdClass;
 		}
 
-		$obj = new \stdClass;
+		$obj     = new \stdClass;
 		$section = false;
-		$array = false;
-		$lines = explode("\n", $data);
+		$array   = false;
+		$lines   = explode("\n", $data);
 
 		// Process the lines.
 		foreach ($lines as $line)
@@ -166,7 +167,7 @@ class Ini implements FormatInterface
 			$line = trim($line);
 
 			// Ignore empty lines and comments.
-			if (empty($line) || ($line{0} == ';'))
+			if (empty($line) || ($line[0] === ';'))
 			{
 				continue;
 			}
@@ -176,14 +177,14 @@ class Ini implements FormatInterface
 				$length = strlen($line);
 
 				// If we are processing sections and the line is a section add the object and continue.
-				if (($line[0] == '[') && ($line[$length - 1] == ']'))
+				if ($line[0] === '[' && ($line[$length - 1] === ']'))
 				{
-					$section = substr($line, 1, $length - 2);
+					$section       = substr($line, 1, $length - 2);
 					$obj->$section = new \stdClass;
 					continue;
 				}
 			}
-			elseif ($line{0} == '[')
+			elseif ($line[0] === '[')
 			{
 				continue;
 			}
@@ -199,11 +200,11 @@ class Ini implements FormatInterface
 			list ($key, $value) = explode('=', $line, 2);
 
 			// If we have an array item
-			if (substr($key, -1) == ']' && ($open_brace = strpos($key, '[', 1)) !== false)
+			if (substr($key, -1) === ']' && ($open_brace = strpos($key, '[', 1)) !== false)
 			{
 				if ($options['supportArrayValues'])
 				{
-					$array = true;
+					$array     = true;
 					$array_key = substr($key, $open_brace + 1, -1);
 
 					// If we have a multi-dimensional array or malformed key
@@ -231,10 +232,10 @@ class Ini implements FormatInterface
 			// If the value is quoted then we assume it is a string.
 			$length = strlen($value);
 
-			if ($length && ($value[0] == '"') && ($value[$length - 1] == '"'))
+			if ($length && ($value[0] === '"') && ($value[$length - 1] === '"'))
 			{
 				// Strip the quotes and Convert the new line characters.
-				$value = stripcslashes(substr($value, 1, ($length - 2)));
+				$value = stripcslashes(substr($value, 1, $length - 2));
 				$value = str_replace('\n', "\n", $value);
 			}
 			else
@@ -242,19 +243,19 @@ class Ini implements FormatInterface
 				// If the value is not quoted, we assume it is not a string.
 
 				// If the value is 'false' assume boolean false.
-				if ($value == 'false')
+				if ($value === 'false')
 				{
 					$value = false;
 				}
-				elseif ($value == 'true')
+				elseif ($value === 'true')
 				// If the value is 'true' assume boolean true.
 				{
 					$value = true;
 				}
-				elseif ($options['parseBooleanWords'] && in_array(strtolower($value), ['yes', 'no']))
+				elseif ($options['parseBooleanWords'] && in_array(strtolower($value), ['yes', 'no'], true))
 				// If the value is 'yes' or 'no' and option is enabled assume appropriate boolean
 				{
-					$value = (strtolower($value) == 'yes');
+					$value = (strtolower($value) === 'yes');
 				}
 				elseif (is_numeric($value))
 				// If the value is numeric than it is either a float or int.
@@ -354,7 +355,7 @@ class Ini implements FormatInterface
 
 			case 'string':
 				// Sanitize any CRLF characters..
-				$string = '"' . str_replace(array("\r\n", "\n"), '\\n', $value) . '"';
+				$string = '"' . str_replace(["\r\n", "\n"], '\\n', $value) . '"';
 				break;
 		}
 

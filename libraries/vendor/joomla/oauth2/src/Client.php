@@ -72,8 +72,8 @@ class Client
 		}
 
 		$this->options = $options;
-		$this->http = $http instanceof Http ? $http : HttpFactory::getHttp($this->options);
-		$this->input = $input instanceof Input ? $input : ($application instanceof AbstractWebApplication ? $application->input : new Input);
+		$this->http = $http ?: HttpFactory::getHttp($this->options);
+		$this->input = $input ?: ($application ? $application->input : new Input);
 		$this->application = $application;
 	}
 
@@ -286,7 +286,7 @@ class Client
 	 */
 	public function getOption($key, $default = null)
 	{
-		return isset($this->options[$key]) ? $this->options[$key] : $default;
+		return $this->options[$key] ?? $default;
 	}
 
 	/**

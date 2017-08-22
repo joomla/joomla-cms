@@ -48,7 +48,9 @@ final class RelativeStream implements StreamInterface
      */
     public function __toString()
     {
-        $this->seek(0);
+        if ($this->isSeekable()) {
+            $this->seek(0);
+        }
         return $this->getContents();
     }
 

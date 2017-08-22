@@ -59,7 +59,7 @@ class PhpInputStream extends Stream
     public function read($length)
     {
         $content = parent::read($length);
-        if ($content && ! $this->reachedEof) {
+        if (! $this->reachedEof) {
             $this->cache .= $content;
         }
 

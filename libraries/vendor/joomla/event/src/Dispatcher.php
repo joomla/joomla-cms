@@ -179,7 +179,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   1.0
 	 */
-	public function addListener($eventName, callable $callback, $priority = 0)
+	public function addListener(string $eventName, callable $callback, int $priority = 0): bool
 	{
 		if (!isset($this->listeners[$eventName]))
 		{
@@ -275,7 +275,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener($eventName, callable $listener)
+	public function removeListener(string $eventName, callable $listener)
 	{
 		if (isset($this->listeners[$eventName]))
 		{
@@ -340,7 +340,7 @@ class Dispatcher implements DispatcherInterface
 		{
 			if (is_array($params))
 			{
-				$this->addListener($eventName, [$subscriber, $params[0]], isset($params[1]) ? $params[1] : Priority::NORMAL);
+				$this->addListener($eventName, [$subscriber, $params[0]], $params[1] ?? Priority::NORMAL);
 			}
 			else
 			{
@@ -383,7 +383,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dispatch($name, EventInterface $event = null)
+	public function dispatch(string $name, EventInterface $event = null): EventInterface
 	{
 		if (!($event instanceof EventInterface))
 		{
@@ -435,7 +435,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getDefaultEvent($name)
+	private function getDefaultEvent(string $name): EventInterface
 	{
 		if (isset($this->events[$name]))
 		{

@@ -79,7 +79,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function all()
+	public function all(): array
 	{
 		return $this->data->toArray();
 	}
@@ -137,7 +137,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function get($name, $default)
+	public function get(string $name, $default)
 	{
 		if (!$this->isStarted())
 		{
@@ -156,7 +156,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function has($name)
+	public function has(string $name): bool
 	{
 		if (!$this->isStarted())
 		{
@@ -175,7 +175,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function remove($name)
+	public function remove(string $name)
 	{
 		if (!$this->isStarted())
 		{
@@ -199,7 +199,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function set($name, $value = null)
+	public function set(string $name, $value = null)
 	{
 		if (!$this->isStarted())
 		{

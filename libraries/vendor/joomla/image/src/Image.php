@@ -95,6 +95,12 @@ class Image implements LoggerAwareInterface
 	protected static $formats = [];
 
 	/**
+	 * @var    boolean  Flag if an image should use the best quality available.  Disable for improved performance.
+	 * @since  1.4.0
+	 */
+	protected $generateBestQuality = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -206,8 +212,8 @@ class Image implements LoggerAwareInterface
 			'height'      => $info[1],
 			'type'        => $info[2],
 			'attributes'  => $info[3],
-			'bits'        => isset($info['bits']) ? $info['bits'] : null,
-			'channels'    => isset($info['channels']) ? $info['channels'] : null,
+			'bits'        => $info['bits'] ?? null,
+			'channels'    => $info['channels'] ?? null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
 			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
@@ -243,7 +249,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @since   1.2.0
 	 */
-	private static function getOrientationString($width, $height)
+	private static function getOrientationString(int $width, int $height): string
 	{
 		switch (true)
 		{
@@ -442,13 +448,16 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
+			$rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
 			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized($handle, $this->getHandle(), 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
@@ -732,11 +741,37 @@ class Image implements LoggerAwareInterface
 			imagefill($handle, 0, 0, $color);
 		}
 
-		// Use resampling for better quality
-		imagecopyresampled(
-			$handle, $this->getHandle(),
-			$offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight()
-		);
+		if (!$this->generateBestQuality)
+		{
+			imagecopyresized(
+				$handle,
+				$this->getHandle(),
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
+		}
+		else
+		{
+			// Use resampling for better quality
+			imagecopyresampled(
+				$handle,
+				$this->getHandle(),
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
+		}
 
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew)
@@ -957,7 +992,7 @@ class Image implements LoggerAwareInterface
 		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
 
 		// Verify that the filter type exists.
-		$className = 'Joomla\\Image\\Filter\\' . ucfirst($type);
+		$className = __NAMESPACE__ . '\\Filter\\' . ucfirst($type);
 
 		if (!class_exists($className))
 		{
@@ -1131,5 +1166,19 @@ class Image implements LoggerAwareInterface
 	public function __destruct()
 	{
 		$this->destroy();
+	}
+
+	/**
+	 * Method for set option of generate thumbnail method
+	 *
+	 * @param   boolean  $quality  True for best quality. False for best speed.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.4.0
+	 */
+	public function setThumbnailGenerate($quality = true)
+	{
+		$this->generateBestQuality = (boolean) $quality;
 	}
 }
