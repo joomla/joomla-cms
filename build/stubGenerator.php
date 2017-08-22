@@ -27,9 +27,6 @@ if (!defined('_JDEFINES'))
 // Get the Platform with legacy libraries.
 require_once JPATH_LIBRARIES . '/bootstrap.php';
 
-// Get the Platform with legacy libraries.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
