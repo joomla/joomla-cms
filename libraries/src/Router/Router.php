@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Router;
 
+defined('JPATH_PLATFORM') or die;
+
 /**
  * Class to create and parse routes
  *
