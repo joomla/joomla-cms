@@ -21,7 +21,7 @@
 			label="COM_REDIRECT_BULK_SEPARATOR_LABEL"
 			description="COM_REDIRECT_BULK_SEPARATOR_DESC"
 			default="|"
-			/>
+		/>
 	</fieldset>
 
 	<fieldset
