@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -156,7 +157,7 @@ class TagsHelper extends CMSHelper
 				{
 					$aliasesMapper = $db->loadAssocList('alias');
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					return false;
 				}
@@ -312,7 +313,7 @@ class TagsHelper extends CMSHelper
 
 		$result = $this->unTagItem($contentItemId[$key], $table);
 
-		/** @var \JTableCorecontent $ucmContentTable */
+		/** @var  CoreContent $ucmContentTable */
 		$ucmContentTable = Table::getInstance('Corecontent');
 
 		return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);

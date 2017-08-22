@@ -219,7 +219,7 @@ class CategoryeditField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -243,6 +243,11 @@ class CategoryeditField extends \JFormFieldList
 
 			$db->setQuery($query);
 			$language = $db->loadResult();
+
+			if ($options[$i]->level != 0)
+			{
+				$options[$i]->level = $options[$i]->level -1;
+			}
 
 			if ($options[$i]->published == 1)
 			{

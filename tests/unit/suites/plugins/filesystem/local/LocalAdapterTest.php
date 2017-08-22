@@ -616,8 +616,8 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->cleanRootFolder();
 
 		// Create some conflicts
-		JFile::write($this->root. 'src/some-text', 'some text');
-		JFile::write($this->root. 'src/some-another-text', 'some other text');
+		JFile::write($this->root . 'src/some-text', 'some text');
+		JFile::write($this->root . 'src/some-another-text', 'some other text');
 		JFolder::create($this->root . 'src/some/folder');
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 
@@ -638,7 +638,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->cleanRootFolder();
 
 		// Create some conflicts
-		JFile::write($this->root. 'src/some-text', 'some text');
+		JFile::write($this->root . 'src/some-text', 'some text');
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 
 		// Test file move without force
@@ -682,8 +682,8 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->cleanRootFolder();
 
 		// Create some conflicts
-		JFile::write($this->root. 'src/some-text', 'some text');
-		JFile::write($this->root. 'src/some-another-text', 'some other text');
+		JFile::write($this->root . 'src/some-text', 'some text');
+		JFile::write($this->root . 'src/some-another-text', 'some other text');
 		JFolder::create($this->root . 'src/some/folder');
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 
@@ -703,8 +703,8 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->cleanRootFolder();
 
 		// Create some conflicts
-		JFile::write($this->root. 'src/some-text', 'some text');
-		JFile::write($this->root. 'src/some-another-text', 'some other text');
+		JFile::write($this->root . 'src/some-text', 'some text');
+		JFile::write($this->root . 'src/some-another-text', 'some other text');
 		JFolder::create($this->root . 'src/some/folder');
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 

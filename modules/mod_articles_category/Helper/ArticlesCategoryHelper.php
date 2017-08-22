@@ -59,7 +59,7 @@ abstract class ArticlesCategoryHelper
 		$articles->setState('filter.published', 1);
 
 		// This module does not use tags data
-		$articles->setState('load_tags', false);
+		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
@@ -203,6 +203,10 @@ abstract class ArticlesCategoryHelper
 		}
 
 		// New Parameters
+		if ($params->get('filter_tag', ''))
+		{
+			$articles->setState('filter.tag', $params->get('filter_tag', ''));
+		}
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
 		$articles->setState('filter.author_id', $params->get('created_by', ''));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));

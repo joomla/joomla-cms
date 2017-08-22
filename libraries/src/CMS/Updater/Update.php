@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
@@ -322,13 +323,14 @@ class Update extends \JObject
 				 *
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
+				$patchMinimumSupported = $this->get('jversion.dev_level', Version::PATCH_VERSION) >= $this->currentUpdate->targetplatform->min_dev_level;
+				$patchMaximumSupported = $this->get('jversion.dev_level', Version::PATCH_VERSION) <= $this->currentUpdate->targetplatform->max_dev_level;
+
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
 					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) 
-					|| $this->get('jversion.dev_level', Version::DEV_LEVEL) >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) 
-					|| $this->get('jversion.dev_level', Version::DEV_LEVEL) <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $patchMinimumSupported)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $patchMaximumSupported))
 				{
 					$phpMatch = false;
 
@@ -455,7 +457,7 @@ class Update extends \JObject
 
 		try
 		{
-			$http = \JHttpFactory::getHttp($httpOption);
+			$http = HttpFactory::getHttp($httpOption);
 			$response = $http->get($url);
 		}
 		catch (\RuntimeException $e)

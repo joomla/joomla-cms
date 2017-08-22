@@ -430,7 +430,6 @@
 				name="rights"
 				type="text"
 				label="JFIELD_META_RIGHTS_LABEL"
-				required="false"
 				rows="2"
 				cols="30"
 				filter="string"

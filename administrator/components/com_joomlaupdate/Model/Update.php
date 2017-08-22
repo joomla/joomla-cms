@@ -59,7 +59,7 @@ class Update extends Model
 				}
 				else
 				{
-					return \JError::raiseWarning(403, \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'));
+					return \JFactory::getApplication()->enqueueMessage(\JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 				}
 				break;
 
@@ -401,7 +401,9 @@ class Update extends Model
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',
 	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0'
+	'kickstart.setup.dryrun' => '0',
+	'kickstart.setup.renamefiles' => array(),
+	'kickstart.setup.postrenamefiles' => false
 ENDDATA;
 
 		if ($method != 'direct')

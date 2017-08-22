@@ -10,9 +10,10 @@ namespace Joomla\Component\Menus\Administrator\View\Menus;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
@@ -134,6 +135,11 @@ class Html extends HtmlView
 		}
 
 		ToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+
+		if ($canDo->get('core.admin') && $this->state->get('client_id') == 1)
+		{
+			ToolbarHelper::custom('menu.exportXml', 'download', 'download', 'COM_MENUS_MENU_EXPORT_BUTTON', true);
+		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{

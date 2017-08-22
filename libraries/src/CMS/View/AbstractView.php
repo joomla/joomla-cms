@@ -10,6 +10,7 @@ namespace Joomla\CMS\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Model\Model;
 
 /**
@@ -24,7 +25,7 @@ abstract class AbstractView extends \JObject
 	/**
 	 * The active document object
 	 *
-	 * @var    \JDocument
+	 * @var    Document
 	 * @since  3.0
 	 */
 	public $document;
@@ -121,7 +122,7 @@ abstract class AbstractView extends \JObject
 	public function get($property, $default = null)
 	{
 		// If $model is null we use the default model
-		if (is_null($default))
+		if ($default === null)
 		{
 			$model = $this->_defaultModel;
 		}

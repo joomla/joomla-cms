@@ -286,25 +286,19 @@ class Form extends Controller
 		$recordId = $this->input->getInt($key);
 
 		// Attempt to check-in the current record.
-		if ($recordId)
+		if ($recordId && property_exists($table, 'checked_out') && $model->checkin($recordId) === false)
 		{
-			if (property_exists($table, 'checked_out'))
-			{
-				if ($model->checkin($recordId) === false)
-				{
-					// Check-in failed, go back to the record and display a notice.
-					$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+			// Check-in failed, go back to the record and display a notice.
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
-					$this->setRedirect(
-						\JRoute::_(
-							'index.php?option=' . $this->option . '&view=' . $this->view_item
-							. $this->getRedirectToItemAppend($recordId, $key), false
-						)
-					);
+			$this->setRedirect(
+				\JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $key), false
+				)
+			);
 
-					return false;
-				}
-			}
+			return false;
 		}
 
 		// Clean the session data and redirect.
@@ -626,7 +620,7 @@ class Form extends Controller
 		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
+		if ($task === 'save2copy')
 		{
 			// Check-in the original row.
 			if ($checkin && $model->checkin($data[$key]) === false)
@@ -755,10 +749,10 @@ class Form extends Controller
 			return false;
 		}
 
-		$langKey = $this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+		$langKey = $this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
 		$prefix  = \JFactory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
-		$this->setMessage(\JText::_($prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+		$this->setMessage(\JText::_($prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -833,9 +827,9 @@ class Form extends Controller
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app     = JFactory::getApplication();
+		$app     = \JFactory::getApplication();
 		$model   = $this->getModel();
 		$data    = $this->input->post->get('jform', array(), 'array');
 
@@ -856,7 +850,7 @@ class Form extends Controller
 		if (!$this->allowEdit($data, $key))
 		{
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -868,7 +862,7 @@ class Form extends Controller
 		$data[$key] = $recordId;
 
 		// The redirect url
-		$redirectUrl = JRoute::_(
+		$redirectUrl = \JRoute::_(
 			'index.php?option=' . $this->option . '&view=' . $this->view_item .
 			$this->getRedirectToItemAppend($recordId, $urlVar),
 			false

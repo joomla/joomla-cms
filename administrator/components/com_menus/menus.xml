@@ -18,6 +18,7 @@
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
+			<folder>presets</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_menus.ini</language>
