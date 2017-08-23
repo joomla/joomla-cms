@@ -21,7 +21,7 @@ FormHelper::loadFieldClass('list');
  * @see    JFormFieldLanguage for a select list of application languages.
  * @since  3.5
  */
-class FrontendLanguageField extends \JFormFieldList
+class FrontendlanguageField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
