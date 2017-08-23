@@ -123,3 +123,80 @@ defined('_JEXEC') or die;
 		</tfoot>
 	</table>
 </fieldset>
+
+<h2>
+	Joomla!
+	<?php echo $this->updateInfo['latest']; ?>
+	<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK'); ?>
+</h2>
+
+<table>
+	<tr>
+		<td>
+			<fieldset>
+				<legend>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
+				</legend>
+				<table class="table table-striped">
+					<tbody>
+					<?php foreach ($this->phpOptions as $option): ?>
+					<tr>
+						<td>
+							<?php echo $option->label; ?>
+						</td>
+						<td>
+							<p class="label"><?php echo $option->state ?></p>
+						</td>
+						<td>
+							<p class=""><?php echo $option->notice ?></p>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
+			</fieldset>
+		</td>
+		<td>
+			<fieldset>
+				<legend>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
+				</legend>
+				<p>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
+				</p>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<td>
+								Directive
+							</td>
+							<td>
+								Recommended
+							</td>
+							<td>
+								Actual
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($this->phpSettings as $setting): ?>
+						<tr>
+							<td>
+								<?php echo $setting->label; ?>
+							</td>
+							<td>
+								<?php echo $setting->recommended; ?>
+							</td>
+							<td>
+								<?php echo $setting->state ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
+			</fieldset>
+		</td>
+	</tr>
+</table>
+

@@ -44,6 +44,24 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	protected $methodSelectUpload = null;
 
 	/**
+	 * PHP options.
+	 *
+	 * @var   array  Array of PHP config options
+	 *
+	 * @since   3.9
+	 */
+	protected $phpOptions = null;
+
+	/**
+	 * PHP settings.
+	 *
+	 * @var   array  Array of PHP settings
+	 *
+	 * @since   3.9
+	 */
+	protected $phpSettings = null;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -65,6 +83,10 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		// Assign view variables.
 		$ftp           = $model->getFTPOptions();
 		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
+
+		// Get results of pre update check evaluations
+		$this->phpOptions  = $model->getPhpOptions();
+		$this->phpSettings = $model->getPhpSettings();
 
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
