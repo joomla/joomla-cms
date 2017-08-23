@@ -62,7 +62,7 @@ class MVCFactory implements MVCFactoryInterface
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Model\\' . ucfirst($name), $prefix, $config);
+		return $this->createInstance('Model\\' . ucfirst($name) .'Model', $prefix, $config);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class MVCFactory implements MVCFactoryInterface
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array())
 	{
-		return $this->createInstance('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix, $config);
+		return $this->createInstance('View\\' . ucfirst($name) . '\\' . ucfirst($type) . 'View', $prefix, $config);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class MVCFactory implements MVCFactoryInterface
 	 */
 	public function createTable($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Table\\' . ucfirst($name), $prefix, $config);
+		return $this->createInstance('Table\\' . ucfirst($name) . 'Table', $prefix, $config);
 	}
 
 	/**
