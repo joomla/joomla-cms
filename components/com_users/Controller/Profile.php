@@ -10,6 +10,7 @@ namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
 
@@ -235,14 +236,14 @@ class Profile extends BaseController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$item = $model->getData();
 		$tags = $validData['tags'];

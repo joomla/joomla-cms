@@ -10,6 +10,8 @@ namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * Reset controller class for Users.
  *
