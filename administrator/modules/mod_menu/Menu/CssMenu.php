@@ -33,7 +33,7 @@ class CssMenu
 	 *
 	 * @var   Tree
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $tree;
 
@@ -60,7 +60,7 @@ class CssMenu
 	 *
 	 * @return  Tree
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function getTree()
 	{
@@ -139,7 +139,7 @@ class CssMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function renderSubmenu($layoutFile)
 	{
@@ -165,7 +165,7 @@ class CssMenu
 	 *
 	 * @return  bool  Whether to show recovery menu
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function check($items, Registry $params)
 	{
@@ -235,7 +235,7 @@ class CssMenu
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function preprocess($items)
 	{
@@ -343,7 +343,7 @@ class CssMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function populateTree($levels)
 	{

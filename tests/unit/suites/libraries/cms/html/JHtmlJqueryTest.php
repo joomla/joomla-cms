@@ -131,7 +131,7 @@ class JHtmlJqueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testToken()
 	{
