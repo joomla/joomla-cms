@@ -129,10 +129,10 @@ class InstallerControllerDatabase extends JControllerLegacy
 
 		$sizelimit = 1024 * 1024;
 
+		set_time_limit(0);
+
 		while (!feof($handle))
 		{
-			set_time_limit(0);
-
 			echo fread($handle, $sizelimit);
 
 			flush();
