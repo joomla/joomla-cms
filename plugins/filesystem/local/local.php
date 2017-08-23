@@ -31,7 +31,7 @@ class PlgFileSystemLocal extends CMSPlugin
 	/**
 	 * Returns a local media adapter to the caller which can be used to manipulate files
 	 *
-	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter
+	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter[]
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
@@ -42,6 +42,6 @@ class PlgFileSystemLocal extends CMSPlugin
 		$root = JPATH_ROOT . '/' . $filePath;
 		$root = rtrim($root) . '/';
 
-		return new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath);
+		return [new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath)];
 	}
 }

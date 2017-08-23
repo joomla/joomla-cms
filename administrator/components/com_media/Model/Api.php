@@ -27,7 +27,7 @@ class Api extends Model
 	/**
 	 * Holds avaliable media file adapters
 	 *
-	 * @var   AdapterInterface[]
+	 * @var   AdapterInterface[][]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $adapters = null;
@@ -74,7 +74,7 @@ class Api extends Model
 	/**
 	 * Return the requested adapter
 	 *
-	 * @param   string  $name  Name of the adapter
+	 * @param   string  $name  Name of the provider
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @return AdapterInterface
@@ -83,9 +83,16 @@ class Api extends Model
 	 */
 	private function getAdapter($name)
 	{
-		if (isset($this->adapters[$name]))
+		list($adapter, $account) = array_pad(explode('-', $name, 2), 2, null);
+
+		if ($account == null)
 		{
-			return $this->adapters[$name];
+			throw new \Exception('Account was not set');
+		}
+
+		if (isset($this->adapters[$adapter][$account]))
+		{
+			return $this->adapters[$adapter][$account];
 		}
 
 		// Todo Use a translated string
@@ -99,7 +106,7 @@ class Api extends Model
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception

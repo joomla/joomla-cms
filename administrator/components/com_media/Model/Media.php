@@ -31,16 +31,25 @@ class Media extends Model
 	 */
 	public function getProviders()
 	{
+		PluginHelper::importPlugin('filesystem');
 		$providerInfo = PluginHelper::getPlugin('filesystem');
+		$adapterInfo  = \JFactory::getApplication()->triggerEvent('onFileSystemGetAdapters');
 		$results      = array();
 
-		foreach ($providerInfo as $provider)
+		for ($i = 0, $len = count($providerInfo); $i < $len; $i++)
 		{
-			$params            = new Registry($provider->params);
+			$params            = new Registry($providerInfo[$i]->params);
 			$info              = new \stdClass;
-			$info->name        = $provider->name;
+			$info->name        = $providerInfo[$i]->name;
 			$info->displayName = $params->get('display_name');
-			$results[]         = $info;
+			$adapters          = $adapterInfo[$i];
+
+			for ($adapter = 0, $adapterCount = count($adapters); $adapter < $adapterCount; $adapter++)
+			{
+				$info->adapterNames[] = $adapters[$adapter]->getAdapterName();
+			}
+
+			$results[] = $info;
 		}
 
 		return $results;

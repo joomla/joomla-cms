@@ -162,4 +162,14 @@ interface AdapterInterface
 	 * @throws FileNotFoundException
 	 */
 	public function getUrl($path);
+
+	/**
+	 * Return the name of the adapter.
+	 * It will be shown in the Media Manager
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapterName();
 }

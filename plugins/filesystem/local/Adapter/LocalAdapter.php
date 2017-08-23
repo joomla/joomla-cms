@@ -573,4 +573,15 @@ class LocalAdapter implements AdapterInterface
 		return Uri::root() . \JPath::clean($this->filePath . $path, '/');
 	}
 
+	/**
+	 * Returns the name of this adapter
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapterName()
+	{
+		return 'images';
+	}
 }

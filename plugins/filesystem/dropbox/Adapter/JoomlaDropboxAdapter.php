@@ -426,4 +426,15 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		return $this->client->getTemporaryLink($path);
 	}
 
+	/**
+	 * Returns the name of this adapter
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapterName()
+	{
+		return "Dropbox Adapter";
+	}
 }

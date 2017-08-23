@@ -30,7 +30,7 @@ class PlgFileSystemDropbox extends CMSPlugin
 	/**
 	 * Returns a dropbox media adapter to the caller which can be used to manipulate files
 	 *
-	 * @return   \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter
+	 * @return   \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter[]
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
@@ -38,6 +38,6 @@ class PlgFileSystemDropbox extends CMSPlugin
 	{
 		$apiToken = $this->params->get('api_token');
 
-		return new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($apiToken);
+		return [new \Joomla\Plugin\Filesystem\Dropbox\Adapter\JoomlaDropboxAdapter($apiToken)];
 	}
 }
