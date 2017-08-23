@@ -131,7 +131,11 @@ class InstallerControllerDatabase extends JControllerLegacy
 
 		while (!feof($handle))
 		{
+			set_time_limit(0);
+
 			echo fread($handle, $sizelimit);
+
+			flush();
 		}
 
 		fclose($handle);
