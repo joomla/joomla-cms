@@ -67,7 +67,7 @@ class MVCFactory implements MVCFactoryInterface
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$className = $this->getClassName('Model\\' . ucfirst($name) .'Model', $prefix);
+		$className = $this->getClassName('Model\\' . ucfirst($name) . 'Model', $prefix);
 
 		if (!$className)
 		{
