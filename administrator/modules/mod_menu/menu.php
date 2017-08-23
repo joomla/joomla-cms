@@ -36,7 +36,7 @@ class JAdminCssMenu
 	 *
 	 * @var   Registry
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $params;
 
@@ -45,7 +45,7 @@ class JAdminCssMenu
 	 *
 	 * @var   bool
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $enabled;
 
