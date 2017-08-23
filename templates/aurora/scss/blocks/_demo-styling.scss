@@ -3,17 +3,16 @@
 $inverted-color: rgba(255,255,255,.9);
 
 .demo-module {
-  color: #666;
   text-align: center;
 
   .demo-title {
     font-size: 20px;
-    color: $brand-primary;
+    color: theme-color("primary");
   }
 
   .fa-joomla {
     font-size: 32px;
-    color: $brand-primary;
+    color: theme-color("primary");
   }
 
   .badge {
@@ -23,20 +22,13 @@ $inverted-color: rgba(255,255,255,.9);
   }
 }
 
-.card-primary,
-.card-info,
-.card-success,
-.card-warning,
-.card-danger {
-  .demo-module {
-    color: $inverted-color;
-
-    .demo-title {
-      color: $inverted-color;
-    }
-
-    .fa-joomla {
-      color: $inverted-color;
+@each $color, $value in $theme-colors {
+  .bg-#{$color} {
+    .demo-module {
+      .demo-title,
+      .fa-joomla {
+        color: $inverted-color;
+      }
     }
   }
 }

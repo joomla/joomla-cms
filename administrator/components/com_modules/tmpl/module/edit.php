@@ -71,7 +71,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							?>
 						</h3>
 						<div class="info-labels">
-							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
+							<span class="badge badge-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
 								<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 							</span>
 						</div>
@@ -122,32 +122,34 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				?>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<fieldset class="form-vertical form-no-margin">
-						<?php echo $this->form->renderField('showtitle'); ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('position'); ?>
+				<div class="card card-light">
+					<div class="card-body">
+						<fieldset class="form-vertical form-no-margin">
+							<?php echo $this->form->renderField('showtitle'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('position'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->loadTemplate('positions'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->loadTemplate('positions'); ?>
-							</div>
-						</div>
-					</fieldset>
-					<?php
-					// Set main fields.
-					$this->fields = array(
-						'published',
-						'publish_up',
-						'publish_down',
-						'access',
-						'ordering',
-						'language',
-						'note'
-					);
+						</fieldset>
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'published',
+							'publish_up',
+							'publish_down',
+							'access',
+							'ordering',
+							'language',
+							'note'
+						);
 
-					?>
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						?>
+						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
 				</div>
 			</div>
 		</div>
