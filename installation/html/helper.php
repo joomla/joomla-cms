@@ -114,7 +114,7 @@ class InstallationHtmlHelper
 		$input  = $this->application->input;
 		$num    = $this->getTabNumber($id, $tabs);
 		$view   = $this->getTabNumber($input->getWord('view'), $tabs);
-		$tab    = '<span class="badge badge-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$tab    = '<span class="badge badge-secondary">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
 		$active = $num == $view ? ' active' : '';
 
 		if ($view + 1 === $num)
