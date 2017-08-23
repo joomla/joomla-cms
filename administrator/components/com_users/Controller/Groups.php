@@ -9,7 +9,7 @@
 namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 defined('_JEXEC') or die;
 
@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class Groups extends Admin
+class Groups extends AdminController
 {
 	/**
 	 * @var     string  The prefix to use with controller messages.

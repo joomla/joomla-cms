@@ -10,14 +10,14 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * The Tags List Controller
  *
  * @since  3.1
  */
-class Tags extends Admin
+class Tags extends AdminController
 {
 	/**
 	 * Proxy for getModel

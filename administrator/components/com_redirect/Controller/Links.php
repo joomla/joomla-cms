@@ -10,7 +10,7 @@ namespace Joomla\Component\Redirect\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Links extends Admin
+class Links extends AdminController
 {
 	/**
 	 * Method to update a record.

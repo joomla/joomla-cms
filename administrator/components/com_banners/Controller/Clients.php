@@ -10,14 +10,14 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Clients list controller class.
  *
  * @since  1.6
  */
-class Clients extends Admin
+class Clients extends AdminController
 {
 	/**
 	 * The prefix to use with controller messages.

@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Articles list controller class.
  *
  * @since  1.6
  */
-class Articles extends Admin
+class Articles extends AdminController
 {
 	/**
 	 * Constructor.

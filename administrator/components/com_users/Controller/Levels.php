@@ -10,14 +10,14 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * User view levels list controller class.
  *
  * @since  1.6
  */
-class Levels extends Admin
+class Levels extends AdminController
 {
 	/**
 	 * @var     string  The prefix to use with controller messages.

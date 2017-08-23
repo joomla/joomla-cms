@@ -10,7 +10,7 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  1.6
  */
-class Items extends Admin
+class Items extends AdminController
 {
 	/**
 	 * Constructor.

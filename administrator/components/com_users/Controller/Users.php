@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Users extends Admin
+class Users extends AdminController
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.

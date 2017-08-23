@@ -10,14 +10,14 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Filters controller class for Finder.
  *
  * @since  2.5
  */
-class Filters extends Admin
+class Filters extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.

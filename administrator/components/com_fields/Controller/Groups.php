@@ -10,14 +10,14 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Groups list controller class.
  *
  * @since  3.7.0
  */
-class Groups extends Admin
+class Groups extends AdminController
 {
 	/**
 	 * The prefix to use with controller messages.

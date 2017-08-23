@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Languages\Administrator\Controller;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 
 defined('_JEXEC') or die;
@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.5
  */
-class Strings extends Admin
+class Strings extends AdminController
 {
 	/**
 	 * Method for refreshing the cache in the database with the known language strings
