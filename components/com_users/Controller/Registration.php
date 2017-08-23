@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class Registration extends Controller
+class Registration extends BaseController
 {
 	/**
 	 * Method to activate a user.

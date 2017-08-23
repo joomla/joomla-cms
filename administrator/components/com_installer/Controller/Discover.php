@@ -10,14 +10,14 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Discover Installation Controller
  *
  * @since  1.6
  */
-class Discover extends Controller
+class Discover extends BaseController
 {
 	/**
 	 * Refreshes the cache of discovered extensions.

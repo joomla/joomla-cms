@@ -10,7 +10,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  * @subpackage  com_installer
  * @since       3.4
  */
-class Updatesites extends Controller
+class Updatesites extends BaseController
 {
 	/**
 	 * Constructor.

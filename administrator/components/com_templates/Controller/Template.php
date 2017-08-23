@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 \JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  1.6
  */
-class Template extends Controller
+class Template extends BaseController
 {
 	/**
 	 * Constructor.

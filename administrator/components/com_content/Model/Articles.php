@@ -27,7 +27,7 @@ class Articles extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
-	 * @see     \Joomla\CMS\Controller\Controller
+	 * @see     \Joomla\CMS\MVC\Controller\BaseController
 	 */
 	public function __construct($config = array())
 	{

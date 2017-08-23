@@ -10,14 +10,14 @@ namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Contenthistory list controller class.
  *
  * @since  3.2
  */
-class Preview extends Controller
+class Preview extends BaseController
 {
 	/**
 	 * Proxy for getModel.

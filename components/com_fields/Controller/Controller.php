@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  3.7.0
  */
-class Controller extends \Joomla\CMS\Controller\Controller
+class Controller extends \Joomla\CMS\MVC\Controller\BaseController
 {
 
 	/**

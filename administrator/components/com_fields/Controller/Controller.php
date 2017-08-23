@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.7.0
  */
-class Controller extends \Joomla\CMS\Controller\Controller
+class Controller extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
 	 * The default view.

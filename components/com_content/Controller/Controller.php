@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class Controller extends \Joomla\CMS\Controller\Controller
+class Controller extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
 	 * Constructor.
@@ -56,7 +56,7 @@ class Controller extends \Joomla\CMS\Controller\Controller
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  \Joomla\CMS\Controller\Controller  This object to support chaining.
+	 * @return  \Joomla\CMS\MVC\Controller\BaseController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class Reset extends Controller
+class Reset extends BaseController
 {
 	/**
 	 * Method to request a password reset.

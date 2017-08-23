@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class Profile extends Controller
+class Profile extends BaseController
 {
 	/**
 	 * Method to check out a user for editing and redirect to the edit form.

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class Remind extends Controller
+class Remind extends BaseController
 {
 	/**
 	 * Method to request a username reminder.

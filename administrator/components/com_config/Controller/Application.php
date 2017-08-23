@@ -12,7 +12,7 @@ namespace Joomla\Component\Config\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Response\JsonResponse;
  *
  * @since  1.5
  */
-class Application extends Controller
+class Application extends BaseController
 {
 	/**
 	 * Constructor.

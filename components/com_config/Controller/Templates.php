@@ -12,7 +12,7 @@ namespace Joomla\Component\Config\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Controller\Style;
 
@@ -21,7 +21,7 @@ use Joomla\Component\Templates\Administrator\Controller\Style;
  *
  * @since  1.5
  */
-class Templates extends Controller
+class Templates extends BaseController
 {
 	/**
 	 * Constructor.

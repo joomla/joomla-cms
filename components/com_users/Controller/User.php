@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class User extends Controller
+class User extends BaseController
 {
 	/**
 	 * Method to log in a user.
