@@ -119,7 +119,13 @@ class InstallerControllerDatabase extends JControllerLegacy
 		JFactory::getApplication()->setHeader('Pragma', 'public')
 			->setHeader('Content-Type', 'application/sql')
 			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '.sql')
-			->setHeader('Content-Length', filesize($dump));
+			->setHeader('Content-Length', filesize($dump))
+			->sendHeaders();
+
+		if (ob_get_length())
+		{
+			ob_end_clean();
+		}
 
 		$sizelimit = 1024 * 1024;
 
