@@ -548,7 +548,7 @@ abstract class FormField
 				break;
 
 			case $this->dataAttributeName = $this->dataAttributeName ? $this->dataAttributeName : '' === $name:
-				$this->dataAttributeValues[] = $name . '="' . htmlspecialchars(JText::_($value), ENT_COMPAT, 'UTF-8') . '"';
+				$this->dataAttributeValues[] = $name . '="' . htmlspecialchars(\JText::_($value), ENT_COMPAT, 'UTF-8') . '"';
 				break;
 
 			default:
