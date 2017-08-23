@@ -200,6 +200,11 @@ body {
     width: 0;
 }
 
+.hidden {
+	display: none;
+    visibility: hidden;
+}
+
 /* ++++++++++++++  nav after content  ++++++++++++++ */
 .left {
     padding-top: 0;
