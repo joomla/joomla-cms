@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * HTML View class for the search component
@@ -24,6 +24,8 @@ class SearchViewSearch extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since 1.0
 	 */
 	public function display($tpl = null)
 	{
@@ -32,14 +34,13 @@ class SearchViewSearch extends JViewLegacy
 		$app     = JFactory::getApplication();
 		$uri     = JUri::getInstance();
 		$error   = null;
-		$rows    = null;
 		$results = null;
 		$total   = 0;
 
 		// Get some data from the model
 		$areas      = $this->get('areas');
 		$state      = $this->get('state');
-		$searchword = $state->get('keyword');
+		$searchWord = $state->get('keyword');
 		$params     = $app->getParams();
 
 		$menus = $app->getMenu();
@@ -48,10 +49,7 @@ class SearchViewSearch extends JViewLegacy
 		// Because the application sets a default page title, we need to get it right from the menu item itself
 		if (is_object($menu))
 		{
-			$menu_params = new Registry;
-			$menu_params->loadString($menu->params);
-
-			if (!$menu_params->get('page_title'))
+			if (!$menu->params->get('page_title'))
 			{
 				$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
 			}
@@ -107,129 +105,113 @@ class SearchViewSearch extends JViewLegacy
 		$lists['searchphrase'] = JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// Log the search
-		JSearchHelper::logSearch($searchword, 'com_search');
+		\Joomla\CMS\Helper\SearchHelper::logSearch($searchWord, 'com_search');
 
-		// Limit searchword
+		// Limit search-word
 		$lang        = JFactory::getLanguage();
 		$upper_limit = $lang->getUpperLimitSearchWord();
 		$lower_limit = $lang->getLowerLimitSearchWord();
 
-		if (SearchHelper::limitSearchWord($searchword))
+		if (SearchHelper::limitSearchWord($searchWord))
 		{
 			$error = JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
 		}
 
-		// Sanitise searchword
-		if (SearchHelper::santiseSearchWord($searchword, $state->get('match')))
+		// Sanitise search-word
+		if (SearchHelper::santiseSearchWord($searchWord, $state->get('match')))
 		{
 			$error = JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
 		}
 
-		if (!$searchword && !empty($this->input) && count($this->input->post))
+		if (!$searchWord && !empty($this->input) && count($this->input->post))
 		{
 			// $error = JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
 		}
 
 		// Put the filtered results back into the model
 		// for next release, the checks should be done in the model perhaps...
-		$state->set('keyword', $searchword);
+		$state->set('keyword', $searchWord);
 
-		if ($error == null)
+		if ($error === null)
 		{
 			$results    = $this->get('data');
 			$total      = $this->get('total');
 			$pagination = $this->get('pagination');
 
+			$hl1            = '<span class="highlight">';
+			$hl2            = '</span>';
+			$mbString       = extension_loaded('mbstring');
+			$highlighterLen = strlen($hl1 . $hl2);
+
+			if ($state->get('match') === 'exact')
+			{
+				$searchWords = array($searchWord);
+				$needle      = $searchWord;
+			}
+			else
+			{
+				$searchWordA = preg_replace('#\xE3\x80\x80#', ' ', $searchWord);
+				$searchWords = preg_split("/\s+/u", $searchWordA);
+				$needle      = $searchWords[0];
+			}
+
 			JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
-			for ($i = 0, $count = count($results); $i < $count; $i++)
+			for ($i = 0, $count = count($results); $i < $count; ++$i)
 			{
-				$row = & $results[$i]->text;
+				$row = &$results[$i]->text;
 
-				if ($state->get('match') == 'exact')
-				{
-					$searchwords = array($searchword);
-					$needle      = $searchword;
-				}
-				else
-				{
-					$searchworda = preg_replace('#\xE3\x80\x80#s', ' ', $searchword);
-					$searchwords = preg_split("/\s+/u", $searchworda);
-					$needle      = $searchwords[0];
-				}
-
+				// Doing HTML entity decoding here, just in case we get any HTML entities here.
+				$quoteStyle   = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_NOQUOTES | ENT_HTML401 : ENT_NOQUOTES;
+				$row          = html_entity_decode($row, $quoteStyle, 'UTF-8');
 				$row          = SearchHelper::prepareSearchContent($row, $needle);
-				$searchwords  = array_values(array_unique($searchwords));
-				$srow         = strtolower(SearchHelper::remove_accents($row));
-				$hl1          = '<span class="highlight">';
-				$hl2          = '</span>';
+				$searchWords  = array_values(array_unique($searchWords));
+				$lowerCaseRow = $mbString ? mb_strtolower($row) : StringHelper::strtolower($row);
+
+				$transliteratedLowerCaseRow = SearchHelper::remove_accents($lowerCaseRow);
+
 				$posCollector = array();
-				$mbString     = extension_loaded('mbstring');
 
-				if ($mbString)
+				foreach ($searchWords as $highlightWord)
 				{
-					// E.g. german umlauts like ä are converted to ae and so
-					// $pos calculated with $srow doesn't match for $row
-					$correctPos     = (mb_strlen($srow) > mb_strlen($row));
-					$highlighterLen = mb_strlen($hl1 . $hl2);
-				}
-				else
-				{
-					// E.g. german umlauts like ä are converted to ae and so
-					// $pos calculated with $srow desn't match for $row
-					$correctPos     = (JString::strlen($srow) > JString::strlen($row));
-					$highlighterLen = JString::strlen($hl1 . $hl2);
-				}
+					$found = false;
 
-				foreach ($searchwords as $hlword)
-				{
 					if ($mbString)
 					{
-						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
+						$lowerCaseHighlightWord = mb_strtolower($highlightWord);
+
+						if (($pos = mb_strpos($lowerCaseRow, $lowerCaseHighlightWord)) !== false)
 						{
-							// Iconv transliterates '€' to 'EUR'
-							// TODO: add other expanding translations?
-							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos              -= $eur_compensation;
-
-							if ($correctPos)
-							{
-								// Calculate necessary corrections from 0 to current $pos
-								$ChkRow     = mb_substr($row, 0, $pos);
-								$sChkRowLen = mb_strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
-								$ChkRowLen  = mb_strlen($ChkRow);
-
-								// Correct $pos
-								$pos -= ($sChkRowLen - $ChkRowLen);
-							}
-
-							// Collect pos and searchword
-							$posCollector[$pos] = $hlword;
+							$found = true;
+						}
+						elseif (($pos = mb_strpos($transliteratedLowerCaseRow, $lowerCaseHighlightWord)) !== false)
+						{
+							$found = true;
 						}
 					}
 					else
 					{
-						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
+						$lowerCaseHighlightWord = StringHelper::strtolower($highlightWord);
+
+						if (($pos = StringHelper::strpos($lowerCaseRow, $lowerCaseHighlightWord)) !== false)
 						{
-							// Iconv transliterates '€' to 'EUR'
-							// TODO: add other expanding translations?
-							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos              -= $eur_compensation;
-
-							if ($correctPos)
-							{
-								// Calculate necessary corrections from 0 to current $pos
-								$ChkRow     = JString::substr($row, 0, $pos);
-								$sChkRowLen = JString::strlen(strtolower(SearchHelper::remove_accents($ChkRow)));
-								$ChkRowLen  = JString::strlen($ChkRow);
-
-								// Correct $pos
-								$pos -= ($sChkRowLen - $ChkRowLen);
-							}
-
-							// Collect pos and searchword
-							$posCollector[$pos] = $hlword;
+							$found = true;
 						}
+						elseif (($pos = StringHelper::strpos($transliteratedLowerCaseRow, $lowerCaseHighlightWord)) !== false)
+						{
+							$found = true;
+						}
+					}
+
+					if ($found === true)
+					{
+						// Iconv transliterates '€' to 'EUR'
+						// TODO: add other expanding translations?
+						$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
+						$pos -= $eur_compensation;
+
+						// Collect pos and search-word
+						$posCollector[$pos] = $highlightWord;
 					}
 				}
 
@@ -240,48 +222,50 @@ class SearchViewSearch extends JViewLegacy
 					$cnt                = 0;
 					$lastHighlighterEnd = -1;
 
-					foreach ($posCollector as  $pos => $hlword)
+					foreach ($posCollector as $pos => $highlightWord)
 					{
 						$pos += $cnt * $highlighterLen;
 
-						/* Avoid overlapping/corrupted highlighter-spans
+						/*
+						 * Avoid overlapping/corrupted highlighter-spans
 						 * TODO $chkOverlap could be used to highlight remaining part
-						 * of searchword outside last highlighter-span.
-						 * At the moment no additional highlighter is set.*/
+						 * of search-word outside last highlighter-span.
+						 * At the moment no additional highlighter is set.
+						 */
 						$chkOverlap = $pos - $lastHighlighterEnd;
 
 						if ($chkOverlap >= 0)
 						{
-							// Set highlighter around searchword
+							// Set highlighter around search-word
 							if ($mbString)
 							{
-								$hlwordLen = mb_strlen($hlword);
-								$row       = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, $hlwordLen) . $hl2 . mb_substr($row, $pos + $hlwordLen);
+								$highlightWordLen = mb_strlen($highlightWord);
+								$row              = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, $highlightWordLen)
+									. $hl2 . mb_substr($row, $pos + $highlightWordLen);
 							}
 							else
 							{
-								$hlwordLen = JString::strlen($hlword);
-								$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword))
-									. $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
+								$highlightWordLen = StringHelper::strlen($highlightWord);
+								$row              = StringHelper::substr($row, 0, $pos)
+									. $hl1 . StringHelper::substr($row, $pos, StringHelper::strlen($highlightWord))
+									. $hl2 . StringHelper::substr($row, $pos + StringHelper::strlen($highlightWord));
 							}
 
 							$cnt++;
-							$lastHighlighterEnd = $pos + $hlwordLen + $highlighterLen;
+							$lastHighlighterEnd = $pos + $highlightWordLen + $highlighterLen;
 						}
 					}
 				}
 
-				$result = & $results[$i];
+				$result = &$results[$i];
+				$created = '';
 
 				if ($result->created)
 				{
 					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
-				else
-				{
-					$created = '';
-				}
 
+				$result->title   = preg_replace("/\b($needle)\b/ui", $hl1 . "$1" . $hl2, htmlspecialchars($result->title, ENT_COMPAT, 'UTF-8'));
 				$result->text    = JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;
@@ -303,7 +287,7 @@ class SearchViewSearch extends JViewLegacy
 		$this->lists         = &$lists;
 		$this->params        = &$params;
 		$this->ordering      = $state->get('ordering');
-		$this->searchword    = $searchword;
+		$this->searchword    = $searchWord;
 		$this->origkeyword   = $state->get('origkeyword');
 		$this->searchphrase  = $state->get('match');
 		$this->searchareas   = $areas;

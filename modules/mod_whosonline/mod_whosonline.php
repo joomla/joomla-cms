@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_whosonline
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,6 @@ if ($showmode > 0)
 	$names = ModWhosonlineHelper::getOnlineUserNames($params);
 }
 
-$linknames = $params->get('linknames', 0);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));

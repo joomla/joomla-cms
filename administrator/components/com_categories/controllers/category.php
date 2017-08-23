@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -177,15 +177,13 @@ class CategoriesControllerCategory extends JControllerForm
 
 		if (isset($item->params) && is_array($item->params))
 		{
-			$registry = new Registry;
-			$registry->loadArray($item->params);
+			$registry = new Registry($item->params);
 			$item->params = (string) $registry;
 		}
 
 		if (isset($item->metadata) && is_array($item->metadata))
 		{
-			$registry = new Registry;
-			$registry->loadArray($item->metadata);
+			$registry = new Registry($item->metadata);
 			$item->metadata = (string) $registry;
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -177,7 +177,7 @@ class ConfigModelModules extends ConfigModelForm
 	 *
 	 * @return  array  A list of positions
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public static function getActivePositions($clientId, $editPositions = false)
 	{
@@ -228,7 +228,7 @@ class ConfigModelModules extends ConfigModelForm
 	 *
 	 * @return  object  The option as an object (stdClass instance)
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	private static function createOption($value = '', $text = '')
 	{
@@ -252,7 +252,7 @@ class ConfigModelModules extends ConfigModelForm
 	 *
 	 * @return  array  Return the new group as an array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	private static function createOptionGroup($label = '', $options = array())
 	{

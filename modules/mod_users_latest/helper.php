@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_users_latest
  *
- * @package     Joomla.Site
- * @subpackage  mod_users_latest
- *
- * @since       1.6
+ * @since  1.6
  */
 class ModUsersLatestHelper
 {

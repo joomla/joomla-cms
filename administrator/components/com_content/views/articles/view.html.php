@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,18 +16,61 @@ defined('_JEXEC') or die;
  */
 class ContentViewArticles extends JViewLegacy
 {
+	/**
+	 * The item authors
+	 *
+	 * @var  stdClass
+	 */
+	protected $authors;
+
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var  JForm
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
+	 * The sidebar markup
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
 
 	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -42,29 +85,28 @@ class ContentViewArticles extends JViewLegacy
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->vote          = JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		// Levels filter.
-		$options   = array();
-		$options[] = JHtml::_('select.option', '1', JText::_('J1'));
-		$options[] = JHtml::_('select.option', '2', JText::_('J2'));
-		$options[] = JHtml::_('select.option', '3', JText::_('J3'));
-		$options[] = JHtml::_('select.option', '4', JText::_('J4'));
-		$options[] = JHtml::_('select.option', '5', JText::_('J5'));
-		$options[] = JHtml::_('select.option', '6', JText::_('J6'));
-		$options[] = JHtml::_('select.option', '7', JText::_('J7'));
-		$options[] = JHtml::_('select.option', '8', JText::_('J8'));
-		$options[] = JHtml::_('select.option', '9', JText::_('J9'));
-		$options[] = JHtml::_('select.option', '10', JText::_('J10'));
-
-		$this->f_levels = $options;
+		// Levels filter - Used in Hathor.
+		// @deprecated  4.0 To be removed with Hathor
+		$this->f_levels = array(
+			JHtml::_('select.option', '1', JText::_('J1')),
+			JHtml::_('select.option', '2', JText::_('J2')),
+			JHtml::_('select.option', '3', JText::_('J3')),
+			JHtml::_('select.option', '4', JText::_('J4')),
+			JHtml::_('select.option', '5', JText::_('J5')),
+			JHtml::_('select.option', '6', JText::_('J6')),
+			JHtml::_('select.option', '7', JText::_('J7')),
+			JHtml::_('select.option', '8', JText::_('J8')),
+			JHtml::_('select.option', '9', JText::_('J9')),
+			JHtml::_('select.option', '10', JText::_('J10')),
+		);
 
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
@@ -78,7 +120,7 @@ class ContentViewArticles extends JViewLegacy
 			// We also need to change the category filter to show show categories with All or the forced language.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
@@ -90,7 +132,7 @@ class ContentViewArticles extends JViewLegacy
 			}
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -110,12 +152,12 @@ class ContentViewArticles extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0)
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('article.add');
 		}
 
-		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
 			JToolbarHelper::editList('article.edit');
 		}

@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -38,7 +38,14 @@ class FinderControllerIndexer extends JControllerLegacy
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer', JLog::INFO);
+		try
+		{
+			JLog::add('Starting the indexer', JLog::INFO);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// We don't want this form to be cached.
 		$app = JFactory::getApplication();
@@ -48,7 +55,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -74,12 +81,13 @@ class FinderControllerIndexer extends JControllerLegacy
 			$state->start = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -102,7 +110,14 @@ class FinderControllerIndexer extends JControllerLegacy
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer batch process', JLog::INFO);
+		try
+		{
+			JLog::add('Starting the indexer batch process', JLog::INFO);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// We don't want this form to be cached.
 		$app = JFactory::getApplication();
@@ -112,7 +127,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -151,6 +166,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Get the HTML document.
 		$html = JDocument::getInstance('html', $attributes);
+
+		// Todo: Why is this document fetched and immediately overwritten?
 		$doc = JFactory::getDocument();
 
 		// Swap the documents.
@@ -164,6 +181,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Swap the app.
 		$app = JFactory::getApplication();
+
+		// Todo: Why is the app fetched and immediately overwritten?
 		$app = $site;
 
 		// Start the indexer.
@@ -186,9 +205,20 @@ class FinderControllerIndexer extends JControllerLegacy
 			// Swap the applications back.
 			$app = $admin;
 
+			// Log batch completion and memory high-water mark.
+			try
+			{
+				JLog::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', JLog::INFO);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
@@ -196,7 +226,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			$doc = $raw;
 
 			// Send the response.
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -217,7 +247,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -236,12 +266,13 @@ class FinderControllerIndexer extends JControllerLegacy
 			$state->complete = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -274,7 +305,15 @@ class FinderControllerIndexer extends JControllerLegacy
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
 		{
-			JLog::add($data->getMessage(), JLog::ERROR);
+			try
+			{
+				JLog::add($data->getMessage(), JLog::ERROR);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+
 			$app->setHeader('status', $data->getCode());
 		}
 
@@ -326,7 +365,14 @@ class FinderIndexerResponse
 		if ($state instanceof Exception)
 		{
 			// Log the error
-			JLog::add($state->getMessage(), JLog::ERROR);
+			try
+			{
+				JLog::add($state->getMessage(), JLog::ERROR);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
 
 			// Prepare the error response.
 			$this->error = true;

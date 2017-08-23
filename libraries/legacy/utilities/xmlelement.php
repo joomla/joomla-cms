@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,8 +14,8 @@ JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'de
 /**
  * Wrapper class for php SimpleXMLElement.
  *
- * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXMLElement instead.
+ * @since       1.6
+ * @deprecated  3.0  Use SimpleXMLElement instead.
  */
 class JXMLElement extends SimpleXMLElement
 {
@@ -24,8 +24,8 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::getName() instead.
+	 * @since   1.6
+	 * @deprecated  3.0  Use SimpleXMLElement::getName() instead.
 	 */
 	public function name()
 	{
@@ -43,8 +43,8 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::asXml() instead.
+	 * @since   1.6
+	 * @deprecated  3.0  Use SimpleXMLElement::asXml() instead.
 	 */
 	public function asFormattedXml($compressed = false, $indent = "\t", $level = 0)
 	{
@@ -52,7 +52,7 @@ class JXMLElement extends SimpleXMLElement
 		$out = '';
 
 		// Start a new line, indent by the number indicated in $level
-		$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
+		$out .= $compressed ? '' : "\n" . str_repeat($indent, $level);
 
 		// Add a <, and add the name of the tag
 		$out .= '<' . $this->getName();
@@ -64,9 +64,9 @@ class JXMLElement extends SimpleXMLElement
 		}
 
 		// If there are no children and it contains no data, end it off with a />
-		if (!count($this->children()) && !(string) $this)
+		if (!(string) $this && !count($this->children()))
 		{
-			$out .= " />";
+			$out .= ' />';
 		}
 		else
 		{
@@ -87,7 +87,7 @@ class JXMLElement extends SimpleXMLElement
 				$level--;
 
 				// Add the newline and indentation to go along with the close tag
-				$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
+				$out .= $compressed ? '' : "\n" . str_repeat($indent, $level);
 			}
 			elseif ((string) $this)
 			{

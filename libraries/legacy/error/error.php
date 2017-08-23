@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,8 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Error Definition: Illegal Options
  *
  * @var    integer
- * @since  11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @since  1.5
+ * @deprecated  4.0
  */
 const JERROR_ILLEGAL_OPTIONS = 1;
 
@@ -22,8 +22,8 @@ const JERROR_ILLEGAL_OPTIONS = 1;
  * Error Definition: Callback does not exist
  *
  * @var    integer
- * @since  11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @since  1.5
+ * @deprecated  4.0
  */
 const JERROR_CALLBACK_NOT_CALLABLE = 2;
 
@@ -31,8 +31,8 @@ const JERROR_CALLBACK_NOT_CALLABLE = 2;
  * Error Definition: Illegal Handler
  *
  * @var    integer
- * @since  11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @since  1.5
+ * @deprecated  4.0
  */
 const JERROR_ILLEGAL_MODE = 3;
 
@@ -46,8 +46,8 @@ const JERROR_ILLEGAL_MODE = 3;
  * - Sebastian Mordziol	<argh@php-tools.net>
  * - Stephan Schmidt		<scst@php-tools.net>
  *
- * @since       11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS) - Use PHP Exception
+ * @since       1.5
+ * @deprecated  4.0 Will be removed without replacement
  */
 abstract class JError
 {
@@ -57,8 +57,8 @@ abstract class JError
 	 * @var    boolean  True to enable legacy error handling using JError, false to use exception handling.  This flag
 	 *                  is present to allow an easy transition into exception handling for code written against the
 	 *                  existing JError API in Joomla.
-	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @since  1.7
+	 * @deprecated  4.0
 	 */
 	public static $legacy = false;
 
@@ -66,8 +66,8 @@ abstract class JError
 	 * Array of message levels
 	 *
 	 * @var    array
-	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @since  1.6
+	 * @deprecated  4.0
 	 */
 	protected static $levels = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error');
 
@@ -75,8 +75,8 @@ abstract class JError
 	 * Array of message handlers
 	 *
 	 * @var    array
-	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @since  1.6
+	 * @deprecated  4.0
 	 */
 	protected static $handlers = array(
 		E_NOTICE => array('mode' => 'ignore'),
@@ -88,8 +88,8 @@ abstract class JError
 	 * Array containing the error stack
 	 *
 	 * @var    JException[]
-	 * @since  11.1
-	 * @deprecated  12.1 (Platform) & 4.0 (CMS)
+	 * @since  1.6
+	 * @deprecated  4.0
 	 */
 	protected static $stack = array();
 
@@ -100,8 +100,8 @@ abstract class JError
 	 *
 	 * @return  boolean  True if argument is an exception, false otherwise.
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public static function isError($object)
 	{
@@ -117,8 +117,8 @@ abstract class JError
 	 *
 	 * @return  JException|boolean  Last JException object in the error stack or boolean false if none exist
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public static function getError($unset = false)
 	{
@@ -146,8 +146,8 @@ abstract class JError
 	 *
 	 * @return  JException[]  Chronological array of errors that have been stored during script execution
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public static function getErrors()
 	{
@@ -159,14 +159,14 @@ abstract class JError
 	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
-	 * @param   JException  &$e  Add an exception to the stack.
+	 * @param   JException  $e  Add an exception to the stack.
 	 *
 	 * @return  void
 	 *
-	 * @since       11.1
-	 * @deprecated  12.1
+	 * @since   1.6
+	 * @deprecated  4.0
 	 */
-	public static function addToStack(JException &$e)
+	public static function addToStack(JException $e)
 	{
 		JLog::add('JError::addToStack() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -188,8 +188,8 @@ abstract class JError
 	 *
 	 * @return  JException
 	 *
-	 * @since       11.1
-	 * @deprecated  12.1  Use PHP Exception
+	 * @since   1.5
+	 * @deprecated  4.0
 	 * @see         JException
 	 */
 	public static function raise($level, $code, $msg, $info = null, $backtrace = false)
@@ -209,9 +209,9 @@ abstract class JError
 	 *
 	 * @return  JException  A reference to the handled JException object
 	 *
-	 * @deprecated  12.1  Use PHP Exception
+	 * @since   1.6
+	 * @deprecated  4.0 Just throw an Exception
 	 * @see     JException
-	 * @since   11.1
 	 */
 	public static function throwError(&$exception)
 	{
@@ -238,7 +238,7 @@ abstract class JError
 
 		if (is_callable(array('JError', $function)))
 		{
-			$reference = call_user_func_array(array('JError', $function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
+			$reference = call_user_func_array(array('JError', $function), array(&$exception, isset($handler['options']) ? $handler['options'] : array()));
 		}
 		else
 		{
@@ -266,9 +266,9 @@ abstract class JError
 	 *
 	 * @return  JException  $error  The thrown JException object
 	 *
-	 * @deprecated   12.1       Use PHP Exception
-	 * @see        JError::raise()
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0 Just throw an Exception
+	 * @see     JError::raise()
 	 */
 	public static function raiseError($code, $msg, $info = null)
 	{
@@ -288,9 +288,9 @@ abstract class JError
 	 *
 	 * @return  JException  $error  The thrown JException object
 	 *
-	 * @deprecated  12.1  Use PHP Exception
-	 * @see        JError::raise()
-	 * @since      11.1
+	 * @since   1.5
+	 * @deprecated  4.0 Use \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg, 'warning') when wou want to notify the UI
+	 * @see     JError::raise()
 	 */
 	public static function raiseWarning($code, $msg, $info = null)
 	{
@@ -310,9 +310,9 @@ abstract class JError
 	 *
 	 * @return  JException  $error  The thrown JException object
 	 *
-	 * @deprecated       12.1   Use PHP Exception
-	 * @see     raise()
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0 Use \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg, 'notice') when wou want to notify the UI
+	 * @see     JError::raise()
 	 */
 	public static function raiseNotice($code, $msg, $info = null)
 	{
@@ -329,8 +329,8 @@ abstract class JError
 	 *
 	 * @return  array    All error handling details
 	 *
-	 * @deprecated   12.1  Use PHP Exception
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public static function getErrorHandling($level)
 	{
@@ -363,8 +363,8 @@ abstract class JError
 	 *
 	 * @return  boolean|JException  True on success or a JException object if failed.
 	 *
-	 * @deprecated  12.1  Use PHP Exception
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public static function setErrorHandling($level, $mode, $options = null)
 	{
@@ -381,13 +381,13 @@ abstract class JError
 
 		foreach ($levels as $eLevel => $eTitle)
 		{
-			if (($level & $eLevel) != $eLevel)
+			if (($level & $eLevel) !== $eLevel)
 			{
 				continue;
 			}
 
 			// Set callback options
-			if ($mode == 'callback')
+			if ($mode === 'callback')
 			{
 				if (!is_array($options))
 				{
@@ -434,9 +434,9 @@ abstract class JError
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 * @see     set_error_handler
-	 * @since   11.1
 	 */
 	public static function attachHandler()
 	{
@@ -450,9 +450,9 @@ abstract class JError
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 * @see     restore_error_handler
-	 * @since   11.1
 	 */
 	public static function detachHandler()
 	{
@@ -475,8 +475,8 @@ abstract class JError
 	 *
 	 * @return  boolean  True on success; false if the level already has been registered
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public static function registerErrorLevel($level, $name, $handler = 'ignore')
 	{
@@ -501,10 +501,9 @@ abstract class JError
 	 *
 	 * @return  string|boolean  Human readable error level name or boolean false if it doesn't exist
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
-
 	public static function translateErrorLevel($level)
 	{
 		JLog::add('JError::translateErrorLevel() is deprecated.', JLog::WARNING, 'deprecated');
@@ -526,9 +525,9 @@ abstract class JError
 	 *
 	 * @return  JException   The exception object
 	 *
-	 * @deprecated  12.1
+	 * @since   1.5
+	 * @deprecated  4.0
 	 * @see     JError::raise()
-	 * @since   11.1
 	 */
 	public static function handleIgnore(&$error, $options)
 	{
@@ -546,9 +545,9 @@ abstract class JError
 	 *
 	 * @return  JException  The exception object
 	 *
-	 * @deprecated  12.1
-	 * @see         JError::raise()
-	 * @since       11.1
+	 * @since   1.5
+	 * @deprecated  4.0
+	 * @see    JError::raise()
 	 */
 	public static function handleEcho(&$error, $options)
 	{
@@ -622,9 +621,9 @@ abstract class JError
 	 *
 	 * @return  JException  The exception object
 	 *
-	 * @deprecated  12.1
-	 * @see         JError::raise()
-	 * @since       11.1
+	 * @since   1.5
+	 * @deprecated  4.0
+	 * @see    JError::raise()
 	 */
 	public static function handleVerbose(&$error, $options)
 	{
@@ -640,7 +639,7 @@ abstract class JError
 
 			if ($info != null)
 			{
-				echo "&#160;&#160;&#160;" . $info . "<br />\n";
+				echo '&#160;&#160;&#160;' . $info . "<br />\n";
 			}
 
 			echo $error->getBacktrace(true);
@@ -668,9 +667,9 @@ abstract class JError
 	 *
 	 * @return  void  Calls die()
 	 *
-	 * @deprecated  12.1
-	 * @see         JError::raise()
-	 * @since       11.1
+	 * @since   1.5
+	 * @deprecated  4.0
+	 * @see    JError::raise()
 	 */
 	public static function handleDie(&$error, $options)
 	{
@@ -709,9 +708,9 @@ abstract class JError
 	 *
 	 * @return  JException  The exception object
 	 *
-	 * @deprecated  12.1
-	 * @see         JError::raise()
-	 * @since       11.1
+	 * @since   1.5
+	 * @deprecated  4.0
+	 * @see    JError::raise()
 	 */
 	public static function handleMessage(&$error, $options)
 	{
@@ -733,9 +732,9 @@ abstract class JError
 	 *
 	 * @return  JException  The exception object
 	 *
-	 * @deprecated  12.1
-	 * @see         JError::raise()
-	 * @since       11.1
+	 * @since   1.5
+	 * @deprecated  4.0
+	 * @see    JError::raise()
 	 */
 	public static function handleLog(&$error, $options)
 	{
@@ -770,9 +769,9 @@ abstract class JError
 	 *
 	 * @return  JException  The exception object
 	 *
-	 * @deprecated  12.1
-	 * @see         JError::raise()
-	 * @since       11.1
+	 * @since   1.5
+	 * @deprecated  4.0
+	 * @see    JError::raise()
 	 */
 	public static function handleCallback(&$error, $options)
 	{
@@ -788,14 +787,14 @@ abstract class JError
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0 Use \Joomla\CMS\Exception\ExceptionHandler::render() instead
 	 */
 	public static function customErrorPage($error)
 	{
 		JLog::add('JError::customErrorPage() is deprecated, use JErrorPage::render() instead.', JLog::WARNING, 'deprecated');
 
-		JErrorPage::render($error);
+		\Joomla\CMS\Exception\ExceptionHandler::render($error);
 	}
 
 	/**
@@ -808,8 +807,8 @@ abstract class JError
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0 Throw an Exception or enqueue the message to the application, eg. \Joomla\CMS\Factory::getApplication()->enqueueMessage($msg)
 	 */
 	public static function customErrorHandler($level, $msg)
 	{
@@ -825,62 +824,13 @@ abstract class JError
 	 *
 	 * @return  string  Contents of the backtrace
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  4.0 Use JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace())) instead
 	 */
 	public static function renderBacktrace($error)
 	{
 		JLog::add('JError::renderBacktrace() is deprecated.', JLog::WARNING, 'deprecated');
 
-		$contents = null;
-		$backtrace = $error->getTrace();
-
-		if (is_array($backtrace))
-		{
-			ob_start();
-			$j = 1;
-			echo '<table cellpadding="0" cellspacing="0" class="Table">';
-			echo '		<tr>';
-			echo '				<td colspan="3" class="TD"><strong>Call stack</strong></td>';
-			echo '		</tr>';
-			echo '		<tr>';
-			echo '				<td class="TD"><strong>#</strong></td>';
-			echo '				<td class="TD"><strong>Function</strong></td>';
-			echo '				<td class="TD"><strong>Location</strong></td>';
-			echo '		</tr>';
-
-			for ($i = count($backtrace) - 1; $i >= 0; $i--)
-			{
-				echo '		<tr>';
-				echo '				<td class="TD">' . $j . '</td>';
-
-				if (isset($backtrace[$i]['class']))
-				{
-					echo '		<td class="TD">' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-				}
-				else
-				{
-					echo '		<td class="TD">' . $backtrace[$i]['function'] . '()</td>';
-				}
-
-				if (isset($backtrace[$i]['file']))
-				{
-					echo '				<td class="TD">' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
-				}
-				else
-				{
-					echo '				<td class="TD">&#160;</td>';
-				}
-
-				echo '		</tr>';
-				$j++;
-			}
-
-			echo '</table>';
-			$contents = ob_get_contents();
-			ob_end_clean();
-		}
-
-		return $contents;
+		return \Joomla\CMS\Layout\LayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
 	}
 }

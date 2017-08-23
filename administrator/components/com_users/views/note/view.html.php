@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,13 +91,13 @@ class UsersViewNote extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'users user');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || (count($user->getAuthorisedCategories('com_users', 'core.create')))))
+		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
 			JToolbarHelper::apply('note.apply');
 			JToolbarHelper::save('note.save');
 		}
 
-		if (!$checkedOut && (count($user->getAuthorisedCategories('com_users', 'core.create'))))
+		if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create')))
 		{
 			JToolbarHelper::save2new('note.save2new');
 		}
@@ -114,7 +114,7 @@ class UsersViewNote extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_users.note', $this->item->id);
 			}

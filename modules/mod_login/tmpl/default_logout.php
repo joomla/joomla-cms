@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,14 @@ JHtml::_('behavior.keepalive');
 		<?php echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username'), ENT_COMPAT, 'UTF-8')); ?>
 	<?php endif; ?>
 	</div>
+<?php endif; ?>
+<?php if ($params->get('profilelink')) : ?>
+	<ul class="unstyled">
+		<li>
+			<a href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>">
+			<?php echo JText::_('MOD_LOGIN_PROFILE'); ?></a>
+		</li>
+	</ul>
 <?php endif; ?>
 	<div class="logout-button">
 		<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGOUT'); ?>" />

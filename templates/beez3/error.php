@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+/** @var JDocumentError $this */
 
 $showRightColumn = 0;
 $showleft        = 0;
@@ -31,7 +33,7 @@ $navposition = $params->get('navposition');
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" rel="stylesheet" media="screen" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" rel="stylesheet" media="print" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" rel="stylesheet" />
-	<?php $files = JHtml::_('stylesheet', 'templates/' . $this->template . '/css/general.css', null, false, true); ?>
+	<?php $files = JHtml::_('stylesheet', 'general.css', array('relative' => true, 'returnPath' => true)); ?>
 	<?php if ($files) : ?>
 		<?php if (!is_array($files)) : ?>
 			<?php $files = array($files); ?>
@@ -41,7 +43,7 @@ $navposition = $params->get('navposition');
 	<?php endforeach; ?>
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>.css" rel="stylesheet" />
-	<?php if ($this->direction == 'rtl') : ?>
+	<?php if ($this->direction === 'rtl') : ?>
 		<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" rel="stylesheet" />
 		<?php if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) : ?>
 			<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>_rtl.css" rel="stylesheet" />
@@ -141,8 +143,12 @@ $navposition = $params->get('navposition');
 							<h3>
 								<?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>
 							</h3>
-							<h2>#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+							<h2>
+								#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 							</h2>
+							<?php if ($this->debug) : ?>
+								<br/><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
+							<?php endif; ?>
 							<br />
 						</div><!-- end errorboxbody -->
 					</div><!-- end wrapper2 -->
@@ -158,7 +164,10 @@ $navposition = $params->get('navposition');
 							<?php $this->setError($this->_error->getPrevious()); ?>
 							<?php while ($loop === true) : ?>
 								<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-								<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+								<p>
+									<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+									<br/><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
+								</p>
 								<?php echo $this->renderBacktrace(); ?>
 								<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 							<?php endwhile; ?>

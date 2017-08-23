@@ -108,8 +108,14 @@ body.site.fluid{
 /* Site Title (if no logo) */
 .site-title {
 	font-size: 40px;
+	font-size: calc(~"16px + 2.16vw");
 	line-height: 48px;
 	font-weight: bold;
+}
+@media (min-width: 1024px) {
+	.site-title {
+		font-size: 40px;
+	}
 }
 .brand {
 	color: darken(@linkColor, 20%);
@@ -234,6 +240,15 @@ p {
 .breadcrumb > li,
 .breadcrumb > .active {
    color: #515151;
+}
+/* mod_login */
+#login-form {
+	margin-top: 8px;
+}
+.add-on {
+	+ #modlgn-username, + #modlgn-passwd {
+		width: 132px;
+	}
 }
 /* Caption fixes */
 .img_caption .left {
@@ -538,6 +553,12 @@ figcaption {
 		height: 0;
 		z-index: 100;
 	}
+	.nav-collapse .nav > li.active > a {
+		color: #fff;
+	}
+	.nav-collapse .nav > li.active > a:hover {
+		color: #555;
+	}
 }
 @media (min-width: 768px) and (max-width: 979px) {
 	#login-form .input-small {
@@ -620,7 +641,7 @@ code {
 .search span.highlight {
 	background-color:#FFFFCC;
 	font-weight:bold;
-	padding:1px 4px;
+	padding:1px 0;
 }
 
 /* Com_search break long titles & text */
@@ -641,6 +662,21 @@ body.modal-open {
 /* Align fields for the profile display */
 #users-profile-custom label {
 	display: inline;
+}
+
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
 }
 
 /* Corrects the modals padding */
@@ -673,4 +709,20 @@ body.modal-open {
 }
 li {
 	word-wrap: break-word;
+}
+
+ul.manager .height-50 .icon-folder-2 {
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+    font-size: 30px;
+}
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
+}
+
+/* Smart search select field margin */
+.finder-selects {
+    margin: 0 15px 15px 0;
 }

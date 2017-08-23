@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,7 +67,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * JDatabaseDriverPostgresqlQuery object returned by getQuery
 	 *
-	 * @var    JDatabaseDriverPostgresqlQuery
+	 * @var    JDatabaseQueryPostgresql
 	 * @since  12.1
 	 */
 	protected $queryObject = null;
@@ -88,16 +88,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Finalize initialization
 		parent::__construct($options);
-	}
-
-	/**
-	 * Database object destructor
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
 	}
 
 	/**
@@ -407,21 +397,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->type);
+				$result[$field->column_name] = preg_replace('/[(0-9)]/', '', $field->type);
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->type), "character varying"))
+				if (stristr(strtolower($field->type), 'character varying'))
 				{
-					$field->Default = "";
+					$field->Default = '';
 				}
 
-				if (stristr(strtolower($field->type), "text"))
+				if (stristr(strtolower($field->type), 'text'))
 				{
-					$field->Default = "";
+					$field->Default = '';
 				}
 				// Do some dirty translation to MySQL output.
 				// TODO: Come up with and implement a standard across databases.
@@ -443,7 +433,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		/* Change Postgresql's NULL::* type with PHP's null one */
 		foreach ($fields as $field)
 		{
-			if (preg_match("/^NULL::*/", $field->Default))
+			if (preg_match('/^NULL::*/', $field->Default))
 			{
 				$field->Default = null;
 			}
@@ -623,7 +613,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$colNameQuery = $this->getQuery(true);
 		$colNameQuery->select('column_default')
 			->from('information_schema.columns')
-			->where("table_name=" . $this->quote($this->replacePrefix(str_replace('"', '', $table[0]))), 'AND')
+			->where('table_name=' . $this->quote($this->replacePrefix(str_replace('"', '', $table[0]))), 'AND')
 			->where("column_default LIKE '%nextval%'");
 
 		$this->setQuery($colNameQuery);
@@ -736,7 +726,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage($query);
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -751,7 +741,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1130,7 +1120,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Ignore any internal fields or primary keys with value 0.
-			if (($k[0] == "_") || ($k == $key && (($v === 0) || ($v === '0'))))
+			if (($k[0] == '_') || ($k == $key && (($v === 0) || ($v === '0'))))
 			{
 				continue;
 			}
@@ -1310,7 +1300,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('currval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1323,7 +1313,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('nextval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1336,7 +1326,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('setval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1346,7 +1336,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			$explodedQuery = explode('\'', $query);
 
-			for ($nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2)
+			for ($nIndex = 0, $nIndexMax = count($explodedQuery); $nIndex < $nIndexMax; $nIndex += 2)
 			{
 				if (strpos($explodedQuery[$nIndex], $prefix))
 				{
@@ -1492,7 +1482,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
+		$this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)));
 
 		return $this->execute();
 	}
@@ -1503,22 +1493,29 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @return  integer  The SQL Error number
 	 *
 	 * @since   3.4.6
+	 *
+	 * @throws  \JDatabaseExceptionExecuting  Thrown if the global cursor is false indicating a query failed
 	 */
 	protected function getErrorNumber()
 	{
+		if ($this->cursor === false)
+		{
+			$this->errorMsg = pg_last_error($this->connection);
+
+			throw new JDatabaseExceptionExecuting($this->sql, $this->errorMsg);
+		}
+
 		return (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
 	}
 
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) pg_last_error($this->connection);
 
@@ -1526,10 +1523,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . "SQL=" . $query;
+		return $errorMessage;
 	}
 
 	/**

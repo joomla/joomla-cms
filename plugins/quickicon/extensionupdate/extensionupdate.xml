@@ -3,7 +3,7 @@
 	<name>plg_quickicon_extensionupdate</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -19,7 +19,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="context"
+				<field 
+					name="context"
 					type="text"
 					label="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_LABEL"
 					description="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_DESC"

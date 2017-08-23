@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -19,18 +19,19 @@ abstract class JHtmlDate
 	/**
 	 * Function to convert a static time into a relative measurement
 	 *
-	 * @param   string  $date  The date to convert
-	 * @param   string  $unit  The optional unit of measurement to return
-	 *                         if the value of the diff is greater than one
-	 * @param   string  $time  An optional time to compare to, defaults to now
+	 * @param   string  $date    The date to convert
+	 * @param   string  $unit    The optional unit of measurement to return
+	 *                           if the value of the diff is greater than one
+	 * @param   string  $time    An optional time to compare to, defaults to now
+	 * @param   string  $format  An optional format for the JHtml::date output
 	 *
 	 * @return  string  The converted time string
 	 *
 	 * @since   2.5
 	 */
-	public static function relative($date, $unit = null, $time = null)
+	public static function relative($date, $unit = null, $time = null, $format = null)
 	{
-		if (is_null($time))
+		if ($time === null)
 		{
 			// Get now
 			$time = new JDate('now');
@@ -49,7 +50,7 @@ abstract class JHtmlDate
 		$diff = round($diff / 60);
 
 		// 1 to 59 minutes
-		if ($diff < 60 || $unit == 'minute')
+		if ($diff < 60 || $unit === 'minute')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_MINUTES', $diff);
 		}
@@ -58,7 +59,7 @@ abstract class JHtmlDate
 		$diff = round($diff / 60);
 
 		// 1 to 23 hours
-		if ($diff < 24 || $unit == 'hour')
+		if ($diff < 24 || $unit === 'hour')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_HOURS', $diff);
 		}
@@ -67,7 +68,7 @@ abstract class JHtmlDate
 		$diff = round($diff / 24);
 
 		// 1 to 6 days
-		if ($diff < 7 || $unit == 'day')
+		if ($diff < 7 || $unit === 'day')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_DAYS', $diff);
 		}
@@ -76,12 +77,12 @@ abstract class JHtmlDate
 		$diff = round($diff / 7);
 
 		// 1 to 4 weeks
-		if ($diff <= 4 || $unit == 'week')
+		if ($diff <= 4 || $unit === 'week')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
 		}
 
 		// Over a month, return the absolute time
-		return JHtml::_('date', $date);
+		return JHtml::_('date', $date, $format);
 	}
 }

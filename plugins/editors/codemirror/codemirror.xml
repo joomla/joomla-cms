@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>5.18.0</version>
+	<version>5.28</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
 	<authorUrl>http://codemirror.net/</authorUrl>
-	<copyright>Copyright (C) 2014 by Marijn Haverbeke &lt;marijnh@gmail.com&gt; and others</copyright>
+	<copyright>Copyright (C) 2014 - 2017 by Marijn Haverbeke &lt;marijnh@gmail.com&gt; and others</copyright>
 	<license>MIT license: http://codemirror.net/LICENSE</license>
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<files>
@@ -44,7 +44,7 @@
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
 					filter="options"
 					>
 					<option value="1">JON</option>
@@ -57,7 +57,7 @@
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
 					class="btn-group btn-group-yesno"
-					default="1"
+					default="0"
 					filter="options"
 					>
 					<option value="1">JON</option>
@@ -83,7 +83,7 @@
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
 					filter="options"
 					>
 					<option value="1">JON</option>
@@ -227,16 +227,9 @@
 					type="hidden"
 					default="media/editors/codemirror/mode/%N/%N"
 				/>
-
 			</fieldset>
 
-
-			<fieldset
-				name="appearance"
-				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
-				addfieldpath="plugins/editors/codemirror"
-				>
-
+			<fieldset name="appearance" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL" addfieldpath="plugins/editors/codemirror">
 				<field
 					name="theme"
 					type="filelist"
@@ -327,9 +320,7 @@
 					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>
 					<option value="overlay">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY</option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

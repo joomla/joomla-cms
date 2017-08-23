@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Contact Table class.
@@ -55,8 +56,7 @@ class ContactTableContact extends JTable
 		// Transform the params field
 		if (is_array($this->params))
 		{
-			$registry = new Registry;
-			$registry->loadArray($this->params);
+			$registry = new Registry($this->params);
 			$this->params = (string) $registry;
 		}
 
@@ -161,7 +161,7 @@ class ContactTableContact extends JTable
 		}
 
 		// Sanity check for user_id
-		if (!($this->user_id))
+		if (!$this->user_id)
 		{
 			$this->user_id = 0;
 		}
@@ -182,34 +182,34 @@ class ContactTableContact extends JTable
 		if (!empty($this->metakey))
 		{
 			// Array of characters to remove.
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
+			$badCharacters = array("\n", "\r", "\"", '<', '>');
 
 			// Remove bad characters.
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
 
 			// Create array using commas as delimiter.
-			$keys = explode(',', $after_clean);
-			$clean_keys = array();
+			$keys = explode(',', $afterClean);
+			$cleanKeys = array();
 
 			foreach ($keys as $key)
 			{
 				// Ignore blank keywords.
 				if (trim($key))
 				{
-					$clean_keys[] = trim($key);
+					$cleanKeys[] = trim($key);
 				}
 			}
 
 			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
+			$this->metakey = implode(', ', $cleanKeys);
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
-			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
+			$badCharacters = array("\"", '<', '>');
+			$this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
 		}
 
 		return true;
@@ -232,7 +232,7 @@ class ContactTableContact extends JTable
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return $this->alias;

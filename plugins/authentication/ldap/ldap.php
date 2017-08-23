@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Ldap\LdapClient;
 
 /**
  * LDAP Authentication Plugin
@@ -54,7 +56,7 @@ class PlgAuthenticationLdap extends JPlugin
 		$ldap_uid      = $this->params->get('ldap_uid');
 		$auth_method   = $this->params->get('auth_method');
 
-		$ldap = new JClientLdap($this->params);
+		$ldap = new LdapClient($this->params);
 
 		if (!$ldap->connect())
 		{
@@ -70,7 +72,7 @@ class PlgAuthenticationLdap extends JPlugin
 			{
 				// Bind using Connect Username/password
 				// Force anon bind to mitigate misconfiguration like [#7119]
-				if (strlen($this->params->get('username')))
+				if ($this->params->get('username', '') !== '')
 				{
 					$bindtest = $ldap->bind();
 				}
@@ -82,9 +84,9 @@ class PlgAuthenticationLdap extends JPlugin
 				if ($bindtest)
 				{
 					// Search for users DN
-					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
+					$binddata = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
 
-					if (isset($binddata[0]) && isset($binddata[0]['dn']))
+					if (isset($binddata[0], $binddata[0]['dn']))
 					{
 						// Verify Users Credentials
 						$success = $ldap->bind($binddata[0]['dn'], $credentials['password'], 1);
@@ -112,7 +114,7 @@ class PlgAuthenticationLdap extends JPlugin
 
 				if ($success)
 				{
-					$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
+					$userdetails = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
 				}
 				else
 				{
@@ -126,7 +128,7 @@ class PlgAuthenticationLdap extends JPlugin
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
 
-			if (!strlen($response->error_message))
+			if ($response->error_message === '')
 			{
 				$response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
 			}

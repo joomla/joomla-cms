@@ -3,7 +3,7 @@
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -27,6 +27,18 @@
 					multiple="true"
 					size="10"
 				/>
+
+				<field
+					name="session"
+					type="radio"
+					label="PLG_DEBUG_FIELD_SESSION_LABEL"
+					description="PLG_DEBUG_FIELD_SESSION_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 
 				<field
 					name="profile"
@@ -127,6 +139,18 @@
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
+
+				<field
+					name="refresh_assets"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
+					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 
 			<fieldset
@@ -191,10 +215,12 @@
 					rows="4"
 				/>
 
-				<field name="strip-suffix" type="textarea"
-					cols="30"
-					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
+				<field
+					name="strip-suffix"
+					type="textarea"
 					label="PLG_DEBUG_FIELD_STRIP_SUFFIX_LABEL"
+					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
+					cols="30"
 					rows="4"
 				/>
 			</fieldset>

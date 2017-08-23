@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ function modChrome_html5($module, &$params, &$attribs)
 	$moduleTag      = $params->get('module_tag', 'div');
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
+	$moduleClass    = $bootstrapSize !== 0 ? ' span' . $bootstrapSize : '';
 
 	// Temporarily store header class in variable
 	$headerClass    = $params->get('header_class');
@@ -91,11 +91,11 @@ function modChrome_xhtml($module, &$params, &$attribs)
 	$moduleTag      = $params->get('module_tag', 'div');
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
+	$moduleClass    = $bootstrapSize !== 0 ? ' span' . $bootstrapSize : '';
 
 	// Temporarily store header class in variable
 	$headerClass    = $params->get('header_class');
-	$headerClass    = ($headerClass) ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
+	$headerClass    = $headerClass ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
 
 	if (!empty ($module->content)) : ?>
 		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
@@ -139,8 +139,8 @@ function modChrome_outline($module, &$params, &$attribs)
 		$css = true;
 		$doc = JFactory::getDocument();
 
-		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
-		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
+		$doc->addStyleDeclaration('.mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}');
+		$doc->addStyleDeclaration('.mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}');
 	}
 	?>
 	<div class="mod-preview">

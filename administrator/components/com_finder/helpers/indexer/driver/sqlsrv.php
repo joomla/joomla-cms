@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -41,7 +41,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -125,24 +125,24 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ? $item->list_price : 0) . ', '
-				. (double) ($item->sale_price ? $item->sale_price : 0)
-			);
+					$db->quote($item->url) . ', '
+					. $db->quote($item->route) . ', '
+					. $db->quote($item->title) . ', '
+					. $db->quote($item->description) . ', '
+					. $query->currentTimestamp() . ', '
+					. '1, '
+					. (int) $item->state . ', '
+					. (int) $item->access . ', '
+					. $db->quote($item->language) . ', '
+					. (int) $item->type_id . ', '
+					. $db->quote(serialize($item)) . ', '
+					. $db->quote($item->publish_start_date) . ', '
+					. $db->quote($item->publish_end_date) . ', '
+					. $db->quote($item->start_date) . ', '
+					. $db->quote($item->end_date) . ', '
+					. (double) ($item->list_price ?: 0) . ', '
+					. (double) ($item->sale_price ?: 0)
+				);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -167,8 +167,8 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
 				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
 				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
-				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0))
-				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0))
+				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ?: 0))
+				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ?: 0))
 				->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
@@ -458,7 +458,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Update the link counts and remove the mapping records.
@@ -466,7 +466,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		{
 			// Update the link counts for the terms.
 			$query->update('t')
-				->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS AS m ON m.term_id = t.term_id')
+				->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS m ON m.term_id = t.term_id')
 				->where('m.link_id = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();
@@ -514,7 +514,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -543,8 +543,9 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	protected function addTokensToDb($tokens, $context = '')
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db = $this->db;
+
+		$query = clone $this->addTokensToDbQueryTemplate;
 
 		// Force tokens to an array.
 		$tokens = is_array($tokens) ? $tokens : array($tokens);
@@ -572,57 +573,28 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				. (int) $context . ', '
 				. $db->quote($token->language)
 			);
-			$values++;
-			$iterations++;
-			$remaining--;
+			++$values;
+			++$iterations;
+			--$remaining;
 
 			// Run the query if we've reached 1000 iterations or there are no tokens remaining
-			if ($iterations == 1000 || $remaining == 0)
+			if ($iterations === 1000 || $remaining === 0)
 			{
-				// Insert the tokens into the database.
-				$query->insert($db->quoteName('#__finder_tokens'))
-					->columns(
-					array(
-						$db->quoteName('term'),
-						$db->quoteName('stem'),
-						$db->quoteName('common'),
-						$db->quoteName('phrase'),
-						$db->quoteName('weight'),
-						$db->quoteName('context'),
-						$db->quoteName('language')
-					)
-				);
 				$db->setQuery($query);
 				$db->execute();
 
 				// Reset the query
-				$query->clear();
+				$query = clone $this->addTokensToDbQueryTemplate;
 			}
 
 			// If there's nothing remaining, we're done looping
-			if ($remaining == 0)
+			if ($remaining === 0)
 			{
 				$loop = false;
 			}
 		}
-		while ($loop == true);
+		while ($loop === true);
 
 		return $values;
-	}
-
-	/**
-	 * Method to switch the token tables from Memory tables to MyISAM tables
-	 * when they are close to running out of memory.
-	 *
-	 * @param   boolean  $memory  Flag to control how they should be toggled.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  Exception on database error.
-	 */
-	protected function toggleTables($memory)
-	{
-		return true;
 	}
 }

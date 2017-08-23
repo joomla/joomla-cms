@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,22 +16,24 @@ JHtml::_('bootstrap.tooltip');
 		<div class="row-fluid">
 			<div class="span8">
 				<?php if ($user->client_id == 0) : ?>
-					<a title="<?php echo JHtml::tooltipText('MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-mini hasTooltip">
-						<span class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT'); ?>"></span>
+					<a title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-mini hasTooltip">
+						<span class="icon-remove icon-white" aria-hidden="true"><span class="element-invisible"><?php echo JText::_('JLOGOUT'); ?></span></span>
 					</a>
 				<?php endif; ?>
 
 				<strong class="row-title">
 					<?php if (isset($user->editLink)) : ?>
-						<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
+						<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
 							<?php echo $user->name; ?></a>
 					<?php else : ?>
 						<?php echo $user->name; ?>
 					<?php endif; ?>
 				</strong>
 
-				<small class="small hasTooltip" title="<?php echo JHtml::tooltipText('JCLIENT'); ?>">
-					<?php if ($user->client_id) : ?>
+				<small class="small hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JCLIENT'); ?>">
+					<?php if ($user->client_id === null) : ?>
+						<?php // Don't display a client ?>
+					<?php elseif ($user->client_id) : ?>
 						<?php echo JText::_('JADMINISTRATION'); ?>
 					<?php else : ?>
 						<?php echo JText::_('JSITE'); ?>
@@ -39,8 +41,8 @@ JHtml::_('bootstrap.tooltip');
 				</small>
 			</div>
 			<div class="span4">
-				<div class="small pull-right hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY'); ?>">
-					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>
+				<div class="small pull-right hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?>">
+					<span class="icon-calendar" aria-hidden="true"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>
 				</div>
 			</div>
 		</div>

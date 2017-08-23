@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @see    https://secure.php.net/manual/en/book.mysqli.php
+ * @link   https://secure.php.net/manual/en/book.mysqli.php
  * @since  12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
@@ -85,16 +85,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Finalize initialisation.
 		parent::__construct($options);
-	}
-
-	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
 	}
 
 	/**
@@ -201,8 +191,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysqli_query($this->connection, "SET profiling_history_size = 100;");
-			mysqli_query($this->connection, "SET profiling = 1;");
+			mysqli_query($this->connection, 'SET profiling_history_size = 100;');
+			mysqli_query($this->connection, 'SET profiling = 1;');
 		}
 	}
 
@@ -444,7 +434,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
@@ -626,7 +616,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$this->errorNum = $this->getErrorNumber();
-			$this->errorMsg = $this->getErrorMessage($query);
+			$this->errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -642,7 +632,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = $this->getErrorMessage();
 
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
@@ -990,13 +980,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) mysqli_error($this->connection);
 
@@ -1004,9 +992,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . ' SQL=' . $query;
+		return $errorMessage;
 	}
 }

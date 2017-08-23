@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,11 +89,11 @@ class PlgFinderTags extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -120,7 +120,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle tags here.
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
@@ -153,7 +153,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle news feeds here
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -181,12 +181,12 @@ class PlgFinderTags extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle tags here
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 		// Handle when the plugin is disabled
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
@@ -195,7 +195,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format
 	 *
 	 * @return  void
@@ -206,7 +206,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
@@ -214,14 +214,11 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
+		$registry = new Registry($item->params);
 		$item->params = JComponentHelper::getParams('com_tags', true);
 		$item->params->merge($registry);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
@@ -259,6 +256,9 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
+
+		// Get content extras.
+		FinderIndexerHelper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
@@ -298,7 +298,6 @@ class PlgFinderTags extends FinderIndexerAdapter
 			->select('a.created_time AS start_date, a.created_user_id AS created_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
 			->select('a.modified_time AS modified, a.modified_user_id AS modified_by')
-			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
 			->select('a.published AS state, a.access, a.created_time AS start_date, a.params');
 
 		// Handle the alias CASE WHEN portion of the query

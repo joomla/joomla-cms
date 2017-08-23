@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'moduleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
-$colSpan = $clientId === 1 ? 9 : 10;
+$colSpan = $clientId === 1 ? 8 : 10;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -34,15 +34,8 @@ $colSpan = $clientId === 1 ? 9 : 10;
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<?php
-		// Search tools bar and filters
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-		?>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
-			</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>
@@ -72,9 +65,15 @@ $colSpan = $clientId === 1 ? 9 : 10;
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($clientId === 0) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+						</th>
+						<?php endif; ?>
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -95,7 +94,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position ? $item->position : 'none'; ?>">
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position ?: 'none'; ?>">
 						<td class="order nowrap center hidden-phone">
 							<?php
 							$iconClass = '';
@@ -105,7 +104,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
@@ -141,7 +140,9 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+								<button class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+									<span class="icon-ban-circle" aria-hidden="true"></span>
+								</button>
 							<?php endif; ?>
 							</div>
 						</td>
@@ -176,7 +177,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone hidden-tablet">
-							<?php echo $item->name;?>
+							<?php echo $item->name; ?>
 						</td>
 						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone hidden-tablet">
@@ -186,15 +187,21 @@ $colSpan = $clientId === 1 ? 9 : 10;
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
+						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone">
-							<?php if ($item->language == '') : ?>
-								<?php echo JText::_('JDEFAULT'); ?>
-							<?php elseif ($item->language == '*'):?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+							<td class="small hidden-phone">
+								<?php if ($item->language == ''):?>
+									<?php echo JText::_('JUNDEFINED'); ?>
+								<?php elseif ($item->language == '*'):?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else:?>
+									<?php echo $this->escape($item->language); ?>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
@@ -202,7 +209,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<?php // Load the batch processing form. ?>
 		<?php if ($user->authorise('core.create', 'com_modules')
@@ -212,8 +219,8 @@ $colSpan = $clientId === 1 ? 9 : 10;
 				'bootstrap.renderModal',
 				'collapseModal',
 				array(
-					'title' => JText::_('COM_MODULES_BATCH_OPTIONS'),
-					'footer' => $this->loadTemplate('batch_footer')
+					'title'  => JText::_('COM_MODULES_BATCH_OPTIONS'),
+					'footer' => $this->loadTemplate('batch_footer'),
 				),
 				$this->loadTemplate('batch_body')
 			); ?>

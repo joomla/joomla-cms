@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,7 @@ if ($params->get('show_button'))
 	}
 }
 
-JHtml::_('stylesheet', 'com_finder/finder.css', false, true, false);
+JHtml::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
 
 $script = "
 jQuery(document).ready(function() {
@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
  */
 if ($params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
+	JHtml::_('script', 'jui/jquery.autocomplete.min.js', array('version' => 'auto', 'relative' => true));
 
 	$script .= "
 	var suggest = jQuery('#mod-finder-searchword" . $module->id . "').autocomplete({
@@ -142,7 +142,7 @@ if ($params->get('show_autosuggest', 1))
 	});";
 }
 
-$script .= "});";
+$script .= '});';
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>

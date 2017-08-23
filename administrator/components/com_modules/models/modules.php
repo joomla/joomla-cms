@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,7 @@ class ModulesModelModules extends JModelList
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 
 		// If in modal layout on the frontend, state and language are always forced.
-		if ($app->isSite() && $layout === 'modal')
+		if ($app->isClient('site') && $layout === 'modal')
 		{
 			$this->setState('filter.language', 'current');
 			$this->setState('filter.state', 1);
@@ -100,7 +100,7 @@ class ModulesModelModules extends JModelList
 		}
 
 		// Special case for the client id.
-		if ($app->isSite() || $layout === 'modal')
+		if ($app->isClient('site') || $layout === 'modal')
 		{
 			$this->setState('client_id', 0);
 		}
@@ -109,6 +109,12 @@ class ModulesModelModules extends JModelList
 			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
 			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
 			$this->setState('client_id', $clientId);
+		}
+
+		// Use a different filter file when client is administrator
+		if ($clientId == 1)
+		{
+			$this->filterFormName = 'filter_modulesadmin';
 		}
 
 		// Load the parameters.
@@ -181,7 +187,7 @@ class ModulesModelModules extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 
 		// If ordering by fields that doesn't need translate just order the query.

@@ -4,6 +4,7 @@
 	<field
 		name="client_id"
 		type="list"
+		filtermode="selector"
 		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
 		>
 		<option value="0">JSITE</option>
@@ -16,16 +17,17 @@
 			label="JSEARCH_FILTER"
 			description="COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="COM_TEMPLATES_MSG_MANAGE_NO_STYLES"
 		/>
 		<field
 			name="menuitem"
 			type="menuitem"
-			label="COM_TEMPLATES_OPTION_SELECT_PAGE"
+			label="COM_TEMPLATES_OPTION_SELECT_MENU_ITEM"
 			disable="separator,alias,heading,url"
 			showon="client_id:0"
 			onchange="this.form.submit();"
 			>
-			<option	value="">COM_TEMPLATES_OPTION_SELECT_PAGE</option>
+			<option	value="">COM_TEMPLATES_OPTION_SELECT_MENU_ITEM</option>
 			<option	value="-1">COM_TEMPLATES_OPTION_NONE</option>
 		</field>
 		<field

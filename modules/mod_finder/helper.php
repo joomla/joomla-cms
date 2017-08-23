@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Finder module helper.
  *
- * @package     Joomla.Site
- * @subpackage  mod_finder
- * @since       2.5
+ * @since  2.5
  */
 class ModFinderHelper
 {
@@ -49,7 +47,7 @@ class ModFinderHelper
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
-			$id       = $paramItem ? $paramItem : JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$id       = $paramItem ?: JFactory::getApplication()->input->get('Itemid', '0', 'int');
 			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
 
@@ -74,7 +72,7 @@ class ModFinderHelper
 
 		// Get the static taxonomy filters.
 		$options = array();
-		$options['filter'] = ($request->get('f', 0, 'int') != 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
+		$options['filter'] = ($request->get('f', 0, 'int') !== 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 
 		// Get the dynamic taxonomy filters.
@@ -83,8 +81,6 @@ class ModFinderHelper
 		$options['filters'] = ArrayHelper::toInteger($options['filters']);
 
 		// Instantiate a query object.
-		$query = new FinderIndexerQuery($options);
-
-		return $query;
+		return new FinderIndexerQuery($options);
 	}
 }

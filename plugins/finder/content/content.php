@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_content categories.
-		if ($extension == 'com_content')
+		if ($extension === 'com_content')
 		{
 			$this->categoryStateChange($pks, $value);
 		}
@@ -103,11 +103,11 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_content.article')
+		if ($context === 'com_content.article')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -138,7 +138,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here.
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context === 'com_content.article' || $context === 'com_content.form')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_access != $row->access)
@@ -152,7 +152,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Check for access changes in the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -180,7 +180,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here.
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context === 'com_content.article' || $context === 'com_content.form')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -190,7 +190,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Check for access levels from the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -218,13 +218,13 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle articles here.
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context === 'com_content.article' || $context === 'com_content.form')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled.
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
@@ -233,7 +233,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void
@@ -246,20 +246,17 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
 
 		// Initialise the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
+		$registry = new Registry($item->params);
 		$item->params = JComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);

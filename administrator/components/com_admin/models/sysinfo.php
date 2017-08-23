@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,11 +118,15 @@ class AdminModelSysInfo extends JModelLegacy
 			'proxy_host',
 			'proxy_user',
 			'proxy_pass',
+			'redis_server_host',
+			'redis_server_auth',
 			'secret',
 			'sendmail',
 			'session.save_path',
 			'session_memcache_server_host',
 			'session_memcached_server_host',
+			'session_redis_server_host',
+			'session_redis_server_auth',
 			'sitename',
 			'smtphost',
 			'tmp_path',
@@ -159,7 +163,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Remove sections of data marked as private in the privateSettings
 	 *
 	 * @param   array   $dataArray  Array with data tha may contain private informati
-	 * @param   string  $dataType   Type of data to search for an specific section in the privateSettings array
+	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
 	 *
@@ -193,7 +197,7 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * Offuscate section values
+	 * Obfuscate section values
 	 *
 	 * @param   mixed  $sectionValues  Section data
 	 *
@@ -313,7 +317,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'sapi_name'             => php_sapi_name(),
 			'version'               => $version->getLongVersion(),
 			'platform'              => $platform->getLongVersion(),
-			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "",
+			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);
 
 		return $this->info;
@@ -445,7 +449,17 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 		catch (Exception $e)
 		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			try
+			{
+				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			}
+			catch (RuntimeException $exception)
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+					'warning'
+				);
+			}
 
 			return $installed;
 		}
@@ -472,18 +486,13 @@ class AdminModelSysInfo extends JModelLegacy
 				'authorUrl'    => 'unknown',
 			);
 
-			$manifest = json_decode($extension->manifest_cache);
-
-			if (!$manifest instanceof stdClass)
-			{
-				continue;
-			}
+			$manifest = new Registry($extension->manifest_cache);
 
 			$extraData = array(
-				'author'       => $manifest->author,
-				'version'      => $manifest->version,
-				'creationDate' => $manifest->creationDate,
-				'authorUrl'    => $manifest->authorUrl,
+				'author'       => $manifest->get('author', ''),
+				'version'      => $manifest->get('version', ''),
+				'creationDate' => $manifest->get('creationDate', ''),
+				'authorUrl'    => $manifest->get('authorUrl', '')
 			);
 
 			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);

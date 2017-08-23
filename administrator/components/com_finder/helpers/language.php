@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -29,7 +29,7 @@ class FinderHelperLanguage
 	{
 		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
 
-		if ($return != '_')
+		if ($return !== '_')
 		{
 			return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
 		}
@@ -66,13 +66,14 @@ class FinderHelperLanguage
 	{
 		$title = $branchName;
 
-		if ($branchName == '*')
+		if ($branchName === '*')
 		{
 			$title = JText::_('JALL_LANGUAGE');
 		}
 		else
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
+
 			if (isset($languages[$branchName]))
 			{
 				$title = $languages[$branchName]->title;
@@ -116,7 +117,7 @@ class FinderHelperLanguage
 		// Get array of all the enabled Smart Search plugin names.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('name')
+			->select(array($db->qn('name'), $db->qn('element')))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))
@@ -136,7 +137,8 @@ class FinderHelperLanguage
 		// Load language file for each plugin.
 		foreach ($plugins as $plugin)
 		{
-			$lang->load($plugin->name, JPATH_ADMINISTRATOR);
+			$lang->load($plugin->name, JPATH_ADMINISTRATOR)
+				|| $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
 		}
 	}
 }

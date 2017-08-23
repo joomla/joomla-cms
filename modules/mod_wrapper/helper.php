@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_wrapper
  *
- * @package     Joomla.Site
- * @subpackage  mod_wrapper
- * @since       1.5
+ * @since  1.5
  */
 class ModWrapperHelper
 {
@@ -42,12 +40,12 @@ class ModWrapperHelper
 		if ($params->get('add'))
 		{
 			// Adds 'http://' if none is set
-			if (substr($url, 0, 1) == '/')
+			if (strpos($url, '/') === 0)
 			{
-				// Relative url in component. use server http_host.
+				// Relative URL in component. use server http_host.
 				$url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
 			}
-			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
+			elseif (strpos($url, 'http') === false && strpos($url, 'https') === false)
 			{
 				$url = 'http://' . $url;
 			}

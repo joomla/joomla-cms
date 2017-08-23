@@ -2,23 +2,22 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
 
 defined('_JEXEC') or die;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$lang            = JFactory::getLanguage();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
-$input           = $app->input;
-$user            = JFactory::getUser();
+/** @var JDocumentHtml $this */
+
+$app   = JFactory::getApplication();
+$lang  = JFactory::getLanguage();
+$input = $app->input;
+$user  = JFactory::getUser();
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
@@ -28,35 +27,32 @@ $mainPageUri = $frontEndUri->toString();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+// Add filter polyfill for IE8
+JHtml::_('behavior.polyfill', array('filter'), 'lte IE 9');
+
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	$doc->addStyleSheetVersion($languageCss);
-}
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
-
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	$doc->addStyleSheetVersion($customCss);
-}
+JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
 $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
-$itemid   = $input->get('Itemid', '');
+$itemid   = $input->get('Itemid', 0, 'int');
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
-$cpanel   = ($option === 'com_cpanel');
+$cpanel   = $option === 'com_cpanel';
 
 $hidden = $app->input->get('hidemainmenu');
 
@@ -67,7 +63,7 @@ foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
 
-	if (strlen($output))
+	if ($output !== '')
 	{
 		$showSubmenu = true;
 		break;
@@ -80,10 +76,10 @@ $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 // Header classes
-$navbar_color = $this->params->get('templateColor') ? $this->params->get('templateColor') : '';
-$header_color = ($displayHeader && $this->params->get('headerColor')) ? $this->params->get('headerColor') : '';
-$navbar_is_light = ($navbar_color && colorIsLight($navbar_color));
-$header_is_light = ($header_color && colorIsLight($header_color));
+$navbar_color    = $this->params->get('templateColor') ?: '';
+$header_color    = $displayHeader && $this->params->get('headerColor') ? $this->params->get('headerColor') : '';
+$navbar_is_light = $navbar_color && colorIsLight($navbar_color);
+$header_is_light = $header_color && colorIsLight($header_color);
 
 if ($displayHeader)
 {
@@ -103,6 +99,7 @@ function colorIsLight($color)
 	$r = hexdec(substr($color, 1, 2));
 	$g = hexdec(substr($color, 3, 2));
 	$b = hexdec(substr($color, 5, 2));
+
 	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 	return $yiq >= 200;
@@ -126,7 +123,7 @@ if ($stickyToolbar)
 // Template color
 if ($navbar_color)
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.navbar-inner,
 	.navbar-inverse .navbar-inner,
 	.dropdown-menu li > a:hover,
@@ -136,37 +133,37 @@ if ($navbar_color)
 	.navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
 	.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle,
 	#status.status-top {
-		background: " . $navbar_color . ";
-	}");
+		background: ' . $navbar_color . ';
+	}');
 }
 
 // Template header color
 if ($header_color)
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.header {
-		background: " . $header_color . ";
-	}");
+		background: ' . $header_color . ';
+	}');
 }
 
 // Sidebar background color
 if ($this->params->get('sidebarColor'))
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.nav-list > .active > a,
 	.nav-list > .active > a:hover {
-		background: " . $this->params->get('sidebarColor') . ";
-	}");
+		background: ' . $this->params->get('sidebarColor') . ';
+	}');
 }
 
 // Link color
 if ($this->params->get('linkColor'))
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	a,
 	.j-toggle-sidebar-button {
-		color: " . $this->params->get('linkColor') . ";
-	}");
+		color: ' . $this->params->get('linkColor') . ';
+	}');
 }
 ?>
 <!DOCTYPE html>
@@ -175,7 +172,6 @@ if ($this->params->get('linkColor'))
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" data-basepath="<?php echo JURI::root(true); ?>">
 <!-- Top Navigation -->
@@ -184,6 +180,7 @@ if ($this->params->get('linkColor'))
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
 				<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="element-invisible"><?php echo JTEXT::_('TPL_ISIS_TOGGLE_MENU'); ?></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -251,7 +248,7 @@ if ($this->params->get('linkColor'))
 		</div>
 	</header>
 <?php endif; ?>
-<?php if ((!$statusFixed) && ($this->countModules('status'))) : ?>
+<?php if (!$statusFixed && $this->countModules('status')) : ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar status-top hidden-phone">
 		<div class="btn-toolbar">
@@ -317,7 +314,7 @@ if ($this->params->get('linkColor'))
 		</footer>
 	<?php endif; ?>
 </div>
-<?php if (($statusFixed) && ($this->countModules('status'))) : ?>
+<?php if ($statusFixed && $this->countModules('status')) : ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,8 +26,8 @@ extract($displayData);
 // Depends on jQuery UI
 JHtml::_('jquery.ui', array('core', 'sortable'));
 
-JHtml::_('script', 'jui/sortablelist.js', false, true);
-JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
+JHtml::_('script', 'jui/sortablelist.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'jui/sortablelist.css', array('version' => 'auto', 'relative' => true));
 
 // Attach sortable to document
 JFactory::getDocument()->addScriptDeclaration(

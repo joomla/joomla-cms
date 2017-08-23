@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,7 +14,6 @@ JFormHelper::loadFieldClass('groupedlist');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
- * Form Field class for the Joomla CMS.
  * Supports a select grouped list of finder content map.
  *
  * @since  3.6.0
@@ -94,7 +93,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 				{
 					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
 
-					if (trim($name, '**') == 'Language')
+					if (trim($name, '**') === 'Language')
 					{
 						$text = FinderHelperLanguage::branchLanguageTitle($branch->text);
 					}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 ?>
 <div id="installer-database" class="clearfix">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
 
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
@@ -20,14 +20,14 @@ defined('_JEXEC') or die;
 		<div id="j-main-container" class="span10">
 	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php if ($this->errorCount === 0) : ?>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
 				<fieldset class="panelform">
-						<ul>
+					<ul>
 						<?php if (!$this->filterParams) : ?>
 							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 						<?php endif; ?>
@@ -44,15 +44,14 @@ defined('_JEXEC') or die;
 							<?php $key = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
 							$msgs = $error->msgElements;
 							$file = basename($error->file);
-							$msg0 = (isset($msgs[0])) ? $msgs[0] : ' ';
-							$msg1 = (isset($msgs[1])) ? $msgs[1] : ' ';
-							$msg2 = (isset($msgs[2])) ? $msgs[2] : ' ';
+							$msg0 = isset($msgs[0]) ? $msgs[0] : ' ';
+							$msg1 = isset($msgs[1]) ? $msgs[1] : ' ';
+							$msg2 = isset($msgs[2]) ? $msgs[2] : ' ';
 							$message = JText::sprintf($key, $file, $msg0, $msg1, $msg2); ?>
 							<li><?php echo $message; ?></li>
 						<?php endforeach; ?>
-						</ul>
-					</fieldset>
-
+					</ul>
+				</fieldset>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>

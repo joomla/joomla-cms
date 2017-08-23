@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API User class for the Joomla Platform.
  *
- * @see         http://developers.facebook.com/docs/reference/api/user/
+ * @link        http://developers.facebook.com/docs/reference/api/user/
  * @since       13.1
  * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
@@ -306,7 +306,7 @@ class JFacebookUser extends JFacebookObject
 	 * @param   mixed   $user         Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $name         Album name.
 	 * @param   string  $description  Album description.
-	 * @param   json    $privacy      A JSON-encoded object that defines the privacy setting for the album.
+	 * @param   string  $privacy      A JSON-encoded object that defines the privacy setting for the album.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
@@ -538,7 +538,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @param   mixed   $user     Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $link     Link URL.
-	 * @param   strin   $message  Link message.
+	 * @param   string  $message  Link message.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *

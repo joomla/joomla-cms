@@ -347,18 +347,6 @@ fieldset.radio.btn-group {
 	margin: 2px 0px 10px 0px;
 	padding-bottom: 5px;
 }
-.input-prepend .chzn-container-single .chzn-single,
-.input-append .chzn-container-single .chzn-single {
-	border-color: #ccc;
-	height: 26px;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-.input-prepend .chzn-container-single .chzn-drop,
-.input-append .chzn-container-single .chzn-drop {
-	border-color: #ccc;
-}
 .input-prepend > .add-on,
 .input-append > .add-on {
 	vertical-align: top;
@@ -431,6 +419,7 @@ fieldset.radio.btn-group {
 }
 input.invalid {
 	border: 1px solid #9d261d;
+	background: #f2dede;
 }
 select.chzn-done.invalid + .chzn-container.chzn-container-single > a.chzn-single,
 select.chzn-done.invalid + .chzn-container.chzn-container-multi > ul.chzn-choices {

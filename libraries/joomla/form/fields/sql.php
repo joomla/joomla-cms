@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Supports an custom SQL select list
+ * Supports a custom SQL select list
  *
  * @since  11.1
  */
@@ -112,7 +112,7 @@ class JFormFieldSQL extends JFormFieldList
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -133,47 +133,48 @@ class JFormFieldSQL extends JFormFieldList
 			if (empty($this->query))
 			{
 				// Get the query from the form
-				$query = array();
+				$query    = array();
 				$defaults = array();
 
-				$query['select'] = (string) $this->element['sql_select'];
+				$sql_select = (string) $this->element['sql_select'];
+				$sql_from   = (string) $this->element['sql_from'];
 
-				$query['from'] = (string) $this->element['sql_from'];
-
-				$query['join'] = isset($this->element['sql_join']) ? (string) $this->element['sql_join'] : '';
-
-				$query['where'] = isset($this->element['sql_where']) ? (string) $this->element['sql_where'] : '';
-
-				$query['group'] = isset($this->element['sql_group']) ? (string) $this->element['sql_group'] : '';
-
-				$query['order'] = (string) $this->element['sql_order'];
-
-				// Get the filters
-				$filters = isset($this->element['sql_filter']) ? explode(",", $this->element['sql_filter']) : '';
-
-				// Get the default value for query if empty
-				if (is_array($filters))
+				if ($sql_select && $sql_from)
 				{
-					foreach ($filters as $key => $val)
-					{
-						$name = "sql_default_{$val}";
-						$attrib = (string) $this->element[$name];
+					$query['select'] = $sql_select;
+					$query['from']   = $sql_from;
+					$query['join']   = (string) $this->element['sql_join'];
+					$query['where']  = (string) $this->element['sql_where'];
+					$query['group']  = (string) $this->element['sql_group'];
+					$query['order']  = (string) $this->element['sql_order'];
 
-						if (!empty($attrib))
+					// Get the filters
+					$filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : '';
+
+					// Get the default value for query if empty
+					if (is_array($filters))
+					{
+						foreach ($filters as $filter)
 						{
-							$defaults[$val] = $attrib;
+							$name   = "sql_default_{$filter}";
+							$attrib = (string) $this->element[$name];
+
+							if (!empty($attrib))
+							{
+								$defaults[$filter] = $attrib;
+							}
 						}
 					}
-				}
 
-				// Process the query
-				$this->query = $this->processQuery($query, $filters, $defaults);
+					// Process the query
+					$this->query = $this->processQuery($query, $filters, $defaults);
+				}
 			}
 
-			$this->keyField   = isset($this->element['key_field']) ? (string) $this->element['key_field'] : 'value';
-			$this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : (string) $this->element['name'];
-			$this->translate  = isset($this->element['translate']) ? (string) $this->element['translate'] : false;
-			$this->header     = $this->element['header'] ? (string) $this->element['header'] : false;
+			$this->keyField   = (string) $this->element['key_field'] ?: 'value';
+			$this->valueField = (string) $this->element['value_field'] ?: (string) $this->element['name'];
+			$this->translate  = (string) $this->element['translate'] ?: false;
+			$this->header     = (string) $this->element['header'] ?: false;
 		}
 
 		return $return;
@@ -270,12 +271,23 @@ class JFormFieldSQL extends JFormFieldList
 		$value = $this->valueField;
 		$header = $this->header;
 
-		// Get the database object.
-		$db = JFactory::getDbo();
+		if ($this->query)
+		{
+			// Get the database object.
+			$db = JFactory::getDbo();
 
-		// Set the query and get the result list.
-		$db->setQuery($this->query);
-		$items = $db->loadObjectlist();
+			// Set the query and get the result list.
+			$db->setQuery($this->query);
+
+			try
+			{
+				$items = $db->loadObjectlist();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			}
+		}
 
 		// Add header.
 		if (!empty($header))

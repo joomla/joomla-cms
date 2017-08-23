@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -58,13 +58,8 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('COM_FINDER_INDEX_NO_CONTENT'); ?>
-		</div>
-		<?php else : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -123,8 +118,9 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
 					<td class="center hidden-phone hidden-tablet">
-						<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
-							<span class="icon-calendar pop hasPopover" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
+						<?php if ((int) $item->publish_start_date || (int) $item->publish_end_date || (int) $item->start_date || (int) $item->end_date) : ?>
+							<span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
+							<span class="element-invisible"><?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
 						<?php endif; ?>
 					</td>
 					<td class="small break-word hidden-phone hidden-tablet">
@@ -135,7 +131,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php endif; ?>
 		<input type="hidden" name="task" value="display" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

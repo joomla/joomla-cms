@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ $saveOrder = $listOrder == 'ordering';
 				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_state">
+			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_state" id="filter_state">
@@ -57,7 +57,7 @@ $saveOrder = $listOrder == 'ordering';
 				<?php echo JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_position">
+			<label class="selectlabel" for="filter_position">
 				<?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION'); ?>
 			</label>
 			<select name="filter_position" id="filter_position">
@@ -105,22 +105,22 @@ $saveOrder = $listOrder == 'ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 				</th>
-                <th class="width-5">
+				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-20">
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
-                <th class="nowrap ordering-col">
+				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder) :?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'modules.saveorder'); ?>
 					<?php endif; ?>
 				</th>
 				<th class="width-10">
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 				</th>
-                	<th class="width-10">
+				<th class="width-10">
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title access-col">
@@ -162,21 +162,29 @@ $saveOrder = $listOrder == 'ordering';
 						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?></p>
 					<?php endif; ?>
 				</td>
-                <td class="center">
-					<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
+				<td class="center">
+					<?php // Check if extension is enabled ?>
+					<?php if ($item->enabled > 0) : ?>
+						<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
+					<?php else : ?>
+						<?php // Extension is not enabled, show a message that indicates this. ?>
+							<button class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+								<span class="icon-ban-circle" aria-hidden="true"></span>
+							</button>
+					<?php endif; ?>					
 				</td>
 				<td class="center">
 					<?php echo $item->position; ?>
 				</td>
-                <td class="order">
+				<td class="order">
 					<?php if ($canChange) : ?>
 						<?php if ($saveOrder) :?>
 							<?php if ($listDirn == 'asc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i - 1]->position == $item->position), 'modules.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i + 1]->position == $item->position), 'modules.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderUpIcon($i, @$this->items[$i - 1]->position == $item->position, 'modules.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, @$this->items[$i + 1]->position == $item->position, 'modules.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php elseif ($listDirn == 'desc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i - 1]->position == $item->position), 'modules.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i + 1]->position == $item->position), 'modules.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderUpIcon($i, @$this->items[$i - 1]->position == $item->position, 'modules.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, @$this->items[$i + 1]->position == $item->position, 'modules.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
@@ -185,7 +193,7 @@ $saveOrder = $listOrder == 'ordering';
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
-                <td class="left">
+				<td class="left">
 					<?php echo $item->name;?>
 				</td>
 				<td class="center">
@@ -212,10 +220,20 @@ $saveOrder = $listOrder == 'ordering';
 		</tbody>
 	</table>
 
-	<?php //Load the batch processing form.is user is allowed ?>
-	<?php if ($user->authorise('core.create', 'com_modules') || $user->authorise('core.edit', 'com_modules')) : ?>
-		<?php echo $this->loadTemplate('batch'); ?>
-	<?php endif;?>
+	<?php // Load the batch processing form. ?>
+	<?php if ($user->authorise('core.create', 'com_modules')
+		&& $user->authorise('core.edit', 'com_modules')
+		&& $user->authorise('core.edit.state', 'com_modules')) : ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'collapseModal',
+			array(
+				'title' => JText::_('COM_MODULES_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer')
+			),
+			$this->loadTemplate('batch_body')
+		); ?>
+	<?php endif; ?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 

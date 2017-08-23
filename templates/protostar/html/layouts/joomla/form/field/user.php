@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,12 +53,15 @@ $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=com
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
 // Invalidate the input value if no user selected
-if (JText::_('JLIB_FORM_SELECT_USER') == htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
+if (JText::_('JLIB_FORM_SELECT_USER') === htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
 {
-	$userName = "";
+	$userName = '';
 }
 
-JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
+if (!$readonly)
+{
+	JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+}
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <div class="field-user-wrapper"
@@ -93,7 +96,9 @@ JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
 		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
-	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
-		class="field-user-input <?php echo $class ? (string) $class : ''?>"
-		data-onchange="<?php echo $this->escape($onchange); ?>"/>
+	<?php if (!$readonly) : ?>
+		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
+			class="field-user-input <?php echo $class ? (string) $class : ''?>"
+			data-onchange="<?php echo $this->escape($onchange); ?>"/>
+	<?php endif; ?>
 </div>

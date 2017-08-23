@@ -22,33 +22,46 @@ class FOFEncryptAes
 	 *
 	 * @var   string
 	 */
-	private $key = '';
+	protected $key = '';
 
 	/**
 	 * The AES encryption adapter in use.
 	 *
 	 * @var  FOFEncryptAesInterface
 	 */
-	private $adapter;
-
+	protected $adapter;
+	
 	/**
 	 * Initialise the AES encryption object.
 	 *
 	 * Note: If the key is not 16 bytes this class will do a stupid key expansion for legacy reasons (produce the
 	 * SHA-256 of the key string and throw away half of it).
 	 *
-	 * @param   string   $key       The encryption key (password). It can be a raw key (16 bytes) or a passphrase.
-	 * @param   int      $strength  Bit strength (128, 192 or 256) – ALWAYS USE 128 BITS. THIS PARAMETER IS DEPRECATED.
-	 * @param   string   $mode      Encryption mode. Can be ebc or cbc. We recommend using cbc.
-	 * @param   FOFUtilsPhpfunc  $phpfunc   For testing
+	 * @param   string          $key      The encryption key (password). It can be a raw key (16 bytes) or a passphrase.
+	 * @param   int             $strength Bit strength (128, 192 or 256) – ALWAYS USE 128 BITS. THIS PARAMETER IS DEPRECATED.
+	 * @param   string          $mode     Encryption mode. Can be ebc or cbc. We recommend using cbc.
+	 * @param   FOFUtilsPhpfunc $phpfunc  For testing
+	 * @param   string          $priority Priority which adapter we should try first
 	 */
-	public function __construct($key, $strength = 128, $mode = 'cbc', FOFUtilsPhpfunc $phpfunc = null)
+	public function __construct($key, $strength = 128, $mode = 'cbc', FOFUtilsPhpfunc $phpfunc = null, $priority = 'openssl')
 	{
-		$this->adapter = new FOFEncryptAesOpenssl();
-
-		if (!$this->adapter->isSupported($phpfunc))
+		if ($priority == 'openssl')
+		{
+			$this->adapter = new FOFEncryptAesOpenssl();
+			
+			if (!$this->adapter->isSupported($phpfunc))
+			{
+				$this->adapter = new FOFEncryptAesMcrypt();
+			}
+		}
+		else
 		{
 			$this->adapter = new FOFEncryptAesMcrypt();
+			
+			if (!$this->adapter->isSupported($phpfunc))
+			{
+				$this->adapter = new FOFEncryptAesOpenssl();
+			}
 		}
 
 		$this->adapter->setEncryptionMode($mode, $strength);

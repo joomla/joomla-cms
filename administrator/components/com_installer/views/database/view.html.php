@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
- * Extension Manager Manage View
+ * Extension Manager Database View
  *
  * @since  1.6
  */
@@ -29,6 +29,9 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		// Set variables
+		$app = JFactory::getApplication();
+
 		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->changeSet = $this->get('Items');
@@ -37,8 +40,8 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->schemaVersion = $this->get('SchemaVersion');
 		$this->updateVersion = $this->get('UpdateVersion');
 		$this->filterParams  = $this->get('DefaultTextFilters');
-		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : JText::_('JNONE');
-		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : JText::_('JNONE');
+		$this->schemaVersion = $this->schemaVersion ?: JText::_('JNONE');
+		$this->updateVersion = $this->updateVersion ?: JText::_('JNONE');
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
 
@@ -59,11 +62,11 @@ class InstallerViewDatabase extends InstallerViewDefault
 
 		if ($this->errorCount === 0)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
 		}
 
 		parent::display($tpl);

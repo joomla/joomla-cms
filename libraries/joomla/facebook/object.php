@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,11 +58,11 @@ abstract class JFacebookObject
 	 * add appropriate pagination details if necessary and also prepend the API url
 	 * to have a complete URL for the request.
 	 *
-	 * @param   string     $path    URL to inflect.
-	 * @param   integer    $limit   The number of objects per page.
-	 * @param   integer    $offset  The object's number on the page.
-	 * @param   timestamp  $until   A unix timestamp or any date accepted by strtotime.
-	 * @param   timestamp  $since   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $path    URL to inflect.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   integer  $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   integer  $since   A unix timestamp or any date accepted by strtotime.
 	 *
 	 * @return  string  The request URL.
 	 *

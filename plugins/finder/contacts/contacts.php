@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_contact categories
-		if ($extension == 'com_contact')
+		if ($extension === 'com_contact')
 		{
 			$this->categoryStateChange($pks, $value);
 		}
@@ -113,11 +113,11 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -144,7 +144,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle contacts here
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
@@ -158,7 +158,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		// Check for access changes in the category
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -187,7 +187,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle contacts here
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -197,7 +197,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		// Check for access levels from the category
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -225,13 +225,13 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle contacts here
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
@@ -240,7 +240,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format
 	 *
 	 * @return  void
@@ -251,7 +251,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
@@ -259,9 +259,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = new Registry($item->params);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);

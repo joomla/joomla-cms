@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,13 +108,10 @@ class ConfigModelTemplates extends ConfigModelForm
 			$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
-		if (file_exists($formFile))
+		// Get the template form.
+		if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config'))
 		{
-			// Get the template form.
-			if (!$form->loadFile($formFile, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Attempt to load the xml file.

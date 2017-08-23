@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,23 +19,23 @@ defined('_JEXEC') or die;
 	<div class="alert alert-success">
 		<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
 	</div>
-	<div class="row-fluid">	
+	<div id="languages" class="row-fluid">
 		<h3><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></h3>
 		<hr class="hr-condensed" />
-		<div class="row-fluid">	
+		<div class="row-fluid">
 			<div class="span6">
-				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?></p>
+				<p><?php echo JText::sprintf('INSTL_COMPLETE_LANGUAGE_DESC', 'installation'); ?></p>
 				<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
 			</div>
-			<div class="alert span6">
+			<div class="alert alert-info span6">
 				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC2'); ?></p>
 			</div>
 		</div>
 	</div>
 	<div class="row-fluid">
 		<div class="alert">
-			<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
-			<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
+			<p><?php echo JText::sprintf('INSTL_COMPLETE_REMOVE_INSTALLATION', 'installation'); ?></p>
+			<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?>" />
 		</div>
 	</div>
 	<div class="row-fluid">

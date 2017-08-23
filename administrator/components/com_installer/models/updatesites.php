@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -254,7 +254,7 @@ class InstallerModelUpdatesites extends InstallerModel
 				{
 					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 					{
-						array_push($pathsToSearch, $extensionFolderPath);
+						$pathsToSearch[] = $extensionFolderPath;
 					}
 				}
 
@@ -265,7 +265,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					{
 						foreach (glob($pluginGroupFolderPath . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 						{
-							array_push($pathsToSearch, $extensionFolderPath);
+							$pathsToSearch[] = $extensionFolderPath;
 						}
 					}
 				}
@@ -388,8 +388,9 @@ class InstallerModelUpdatesites extends InstallerModel
 				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
-				. ')');
-		
+				. ')'
+			);
+
 		$db->setQuery($query);
 
 		return $db->loadColumn($column);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,11 +44,12 @@ class JHtmlNewsfeed
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.name as title')
-				->select('l.sef as lang_sef')
+				->select('l.sef as lang_sef, lang_code')
 				->from('#__newsfeeds as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
 				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
+				->where('c.id != ' . $newsfeedid)
 				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
@@ -69,27 +70,16 @@ class JHtmlNewsfeed
 				{
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
-					$tooltipParts = array(
-						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						),
-						$item->title,
-						'(' . $item->category_title . ')'
-					);
-					$item->link = JHtml::_(
-						'tooltip',
-						implode(' ', $tooltipParts),
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
-					);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
+
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}

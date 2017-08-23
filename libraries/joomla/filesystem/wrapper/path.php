@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -118,7 +118,7 @@ class JFilesystemWrapperPath
 	/**
 	 * Helper wrapper method for find
 	 *
-	 * @param   mixed   $paths  An path string or array of path strings to search in
+	 * @param   mixed   $paths  A path string or array of path strings to search in
 	 * @param   string  $file   The file name to look for.
 	 *
 	 * @return mixed   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.

@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model for the global configuration
@@ -56,20 +57,20 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the config data.
 		$config = new JConfig;
-		$data   = JArrayHelper::fromObject($config);
+		$data   = ArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
 		$params          = JComponentHelper::getParams('com_config');
-		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
+		$data['filters'] = ArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
 		if (empty($data['filters']))
 		{
 			$contentParams = JComponentHelper::getParams('com_content');
-			$data['filters'] = JArrayHelper::fromObject($contentParams->get('filters'));
+			$data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
 		}
 
 		// Check for data in the session.
@@ -109,7 +110,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+			JDatabaseDriver::getInstance($options)->getVersion();
 		}
 		catch (Exception $e)
 		{
@@ -142,7 +143,7 @@ class ConfigModelApplication extends ConfigModelForm
 				// If available in HTTPS check also the status code.
 				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
-					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
+					throw new RuntimeException(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
 				}
 			}
 			catch (RuntimeException $e)
@@ -153,7 +154,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$app->setUserState('com_config.config.global.data.force_ssl', 0);
 
 				// Inform the user
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'warning');
+				$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE', $e->getMessage()), 'warning');
 			}
 		}
 
@@ -183,7 +184,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$asset->check() || !$asset->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage($asset->getError(), 'error');
 
 					return;
 				}
@@ -201,21 +202,20 @@ class ConfigModelApplication extends ConfigModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new Registry;
-			$registry->loadArray(array('filters' => $data['filters']));
+			$registry = new Registry(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
 
 			// Get extension_id
-			$extension_id = $extension->find(array('name' => 'com_config'));
+			$extensionId = $extension->find(array('name' => 'com_config'));
 
-			if ($extension->load((int) $extension_id))
+			if ($extension->load((int) $extensionId))
 			{
 				$extension->params = (string) $registry;
 
 				if (!$extension->check() || !$extension->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					$app->enqueueMessage($extension->getError(), 'error');
 
 					return;
 				}
@@ -232,7 +232,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
 		$data = array_merge($prev, $data);
@@ -254,30 +254,132 @@ class ConfigModelApplication extends ConfigModelForm
 			$table->purge(-1);
 		}
 
+		// Set the shared session configuration
+		if (isset($data['shared_session']))
+		{
+			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+
+			// Has the user enabled shared sessions?
+			if ($data['shared_session'] == 1 && $currentShared == 0)
+			{
+				// Generate a random shared session name
+				$data['session_name'] = JUserHelper::genRandomPassword(16);
+			}
+
+			// Has the user disabled shared sessions?
+			if ($data['shared_session'] == 0 && $currentShared == 1)
+			{
+				// Remove the session name value
+				unset($data['session_name']);
+			}
+		}
+
 		if (empty($data['cache_handler']))
 		{
 			$data['caching'] = 0;
 		}
 
-		$path = JPATH_SITE . '/cache';
+		/*
+		 * Look for a custom cache_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		if (!empty($data['cache_path']))
+		{
+			$path = $data['cache_path'];
+		}
+		elseif (!empty($prev['cache_path']))
+		{
+			$path = $prev['cache_path'];
+		}
+		else
+		{
+			$path = JPATH_SITE . '/cache';
+		}
 
 		// Give a warning if the cache-folder can not be opened
 		if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false)
 		{
-			JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
-			$data['caching'] = 0;
+			$error = true;
+
+			// If a custom path is in use, try using the system default instead of disabling cache
+			if ($path !== JPATH_SITE . '/cache' && @opendir(JPATH_SITE . '/cache') != false)
+			{
+				try
+				{
+					JLog::add(
+						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						JLog::WARNING,
+						'jerror'
+					);
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						'warning'
+					);
+				}
+
+				$path  = JPATH_SITE . '/cache';
+				$error = false;
+
+				$data['cache_path'] = '';
+			}
+
+			if ($error)
+			{
+				try
+				{
+					JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $exception)
+				{
+					$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), 'warning');
+				}
+
+				$data['caching'] = 0;
+			}
 		}
 
-		// Clean the cache if disabled but previously enabled.
-		if (!$data['caching'] && $prev['caching'])
+		// Did the user remove their custom cache path?  Don't save the variable to the config
+		if (empty($data['cache_path']))
 		{
-			$cache = JFactory::getCache();
-			$cache->clean();
+			unset($data['cache_path']);
+		}
+
+		// Clean the cache if disabled but previously enabled or changing cache handlers; these operations use the `$prev` data already in memory
+		if ((!$data['caching'] && $prev['caching']) || $data['cache_handler'] !== $prev['cache_handler'])
+		{
+			try
+			{
+				JFactory::getCache()->clean();
+			}
+			catch (JCacheExceptionConnecting $exception)
+			{
+				try
+				{
+					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
+				}
+			}
+			catch (JCacheExceptionUnsupported $exception)
+			{
+				try
+				{
+					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $logException)
+				{
+					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
+				}
+			}
 		}
 
 		// Create the new configuration object.
-		$config = new Registry('config');
-		$config->loadArray($data);
+		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
 		$temp = JFactory::getConfig();
@@ -310,12 +412,11 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
-		$config = new Registry('config');
 		unset($prev['root_user']);
-		$config->loadArray($prev);
+		$config = new Registry($prev);
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
@@ -463,60 +564,86 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			// Load the current settings for this component.
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName(array('name', 'rules')))
-				->from($this->db->quoteName('#__assets'))
-				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+			$asset  = JTable::getInstance('asset');
+			$result = $asset->loadByName($permission['component']);
 
-			$this->db->setQuery($query);
-
-			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
-			$results = $this->db->loadAssocList();
-		}
-		catch (Exception $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
-
-		// No record found, let's create one.
-		if (empty($results))
-		{
-			$data = array();
-			$data[$permission['action']] = array($permission['rule'] => $permission['value']);
-
-			$rules        = new JAccessRules($data);
-			$asset        = JTable::getInstance('asset');
-			$asset->rules = (string) $rules;
-			$asset->name  = (string) $permission['component'];
-			$asset->title = (string) $permission['title'];
-
-			// Get the parent asset id so we have a correct tree.
-			$parentAsset = JTable::getInstance('Asset');
-
-			if (strpos($asset->name, '.') !== false)
+			if ($result === false)
 			{
-				$assetParts = explode('.', $asset->name);
-				$parentAsset->loadByName($assetParts[0]);
-				$parentAssetId = $parentAsset->id;
+				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
+
+				$rules        = new JAccessRules($data);
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $permission['component'];
+				$asset->title = (string) $permission['title'];
+
+				// Get the parent asset id so we have a correct tree.
+				$parentAsset = JTable::getInstance('Asset');
+
+				if (strpos($asset->name, '.') !== false)
+				{
+					$assetParts = explode('.', $asset->name);
+					$parentAsset->loadByName($assetParts[0]);
+					$parentAssetId = $parentAsset->id;
+				}
+				else
+				{
+					$parentAssetId = $parentAsset->getRootId();
+				}
+
+				/**
+				 * @to do: incorrect ACL stored
+				 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
+				 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
+				 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
+				 * because a wrong parent asset id (the component) is stored.
+				 * Happens when there is no row in the asset table (ex: deleted or not created on update).
+				 */
+
+				$asset->setLocation($parentAssetId, 'last-child');
 			}
 			else
 			{
-				$parentAssetId = $parentAsset->getRootId();
+				// Decode the rule settings.
+				$temp = json_decode($asset->rules, true);
+
+				// Check if a new value is to be set.
+				if (isset($permission['value']))
+				{
+					// Check if we already have an action entry.
+					if (!isset($temp[$permission['action']]))
+					{
+						$temp[$permission['action']] = array();
+					}
+
+					// Check if we already have a rule entry.
+					if (!isset($temp[$permission['action']][$permission['rule']]))
+					{
+						$temp[$permission['action']][$permission['rule']] = array();
+					}
+
+					// Set the new permission.
+					$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
+
+					// Check if we have an inherited setting.
+					if ($permission['value'] === '')
+					{
+						unset($temp[$permission['action']][$permission['rule']]);
+					}
+
+					// Check if we have any rules.
+					if (!$temp[$permission['action']])
+					{
+						unset($temp[$permission['action']]);
+					}
+				}
+				else
+				{
+					// There is no value so remove the action as it's not needed.
+					unset($temp[$permission['action']]);
+				}
+
+				$asset->rules = json_encode($temp, JSON_FORCE_OBJECT);
 			}
-
-			/**
-			 * @to do: incorrect ACL stored
-			 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
-			 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
-			 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
-			 * because a wrong parent asset id (the component) is stored.
-			 * Happens when there is no row in the asset table (ex: deleted or not created on update).
-			 */
-
-			$asset->setLocation($parentAssetId, 'last-child');
 
 			if (!$asset->check() || !$asset->store())
 			{
@@ -525,58 +652,13 @@ class ConfigModelApplication extends ConfigModelForm
 				return false;
 			}
 		}
-		else
+		catch (Exception $e)
 		{
-			// Decode the rule settings.
-			$temp = json_decode($results[0]['rules'], true);
+			$app->enqueueMessage($e->getMessage(), 'error');
 
-			// Check if a new value is to be set.
-			if (isset($permission['value']))
-			{
-				// Check if we already have an action entry.
-				if (!isset($temp[$permission['action']]))
-				{
-					$temp[$permission['action']] = array();
-				}
-
-				// Check if we already have a rule entry.
-				if (!isset($temp[$permission['action']][$permission['rule']]))
-				{
-					$temp[$permission['action']][$permission['rule']] = array();
-				}
-
-				// Set the new permission.
-				$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
-
-				// Check if we have an inherited setting.
-				if (strlen($permission['value']) === 0)
-				{
-					unset($temp[$permission['action']][$permission['rule']]);
-				}
-			}
-			else
-			{
-				// There is no value so remove the action as it's not needed.
-				unset($temp[$permission['action']]);
-			}
-
-			// Store the new permissions.
-			try
-			{
-				$query->clear()
-					->update($this->db->quoteName('#__assets'))
-					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp)))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
-
-				$this->db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				$app->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
-			}
+			return false;
 		}
+
 
 		// All checks done.
 		$result = array(
@@ -590,7 +672,7 @@ class ConfigModelApplication extends ConfigModelForm
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query->clear()
+			$query = $this->db->getQuery(true)
 				->select($this->db->quoteName('id'))
 				->from($this->db->quoteName('#__assets'))
 				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
@@ -677,7 +759,7 @@ class ConfigModelApplication extends ConfigModelForm
 		if ($isSuperUserGroupAfter)
 		{
 			$result['class'] = 'label label-success';
-			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -701,7 +783,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 			/**
 			 * @to do: incorect info
-			 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */
 
@@ -735,7 +817,7 @@ class ConfigModelApplication extends ConfigModelForm
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 

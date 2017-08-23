@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,14 @@
  *
  * @return  boolean
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.6.3
  */
 function updatecachetime_postinstall_condition()
 {
 	$cacheTimeout = (int) JComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
 
 	// Check if cachetimeout is eq zero
-	if ($cacheTimeout == 0 && JPluginHelper::isEnabled('system', 'updatenotification'))
+	if ($cacheTimeout === 0 && JPluginHelper::isEnabled('system', 'updatenotification'))
 	{
 		return true;
 	}
@@ -32,7 +32,7 @@ function updatecachetime_postinstall_condition()
  *
  * @return  void
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.6.3
  */
 function updatecachetime_postinstall_action()
 {
@@ -49,7 +49,7 @@ function updatecachetime_postinstall_action()
 	// Store the changes
 	if (!$table->store())
 	{
-		// If there is a error show it to the admin
+		// If there is an error show it to the admin
 		JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 	}
 }

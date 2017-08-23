@@ -92,7 +92,7 @@
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC"
 			filter="JComponentHelper::filterText"
 			buttons="true"
-			hide="readmore,pagebreak,module,article"
+			hide="readmore,pagebreak,module,article,contact,menu"
 		/>
 
 		<field
@@ -133,7 +133,8 @@
 			label="COM_BANNERS_FIELD_CREATED_LABEL"
 			description="COM_BANNERS_FIELD_CREATED_DESC"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			filter="user_utc"
 		/>
 
@@ -160,7 +161,8 @@
 			class="readonly"
 			size="22"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			filter="user_utc"
 		/>
 
@@ -190,7 +192,8 @@
 			type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL"
 			description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>
@@ -200,7 +203,8 @@
 			type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL"
 			description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>
