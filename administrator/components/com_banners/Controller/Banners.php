@@ -54,7 +54,7 @@ class Banners extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
 	 *
 	 * @since   1.6
 	 */

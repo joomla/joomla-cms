@@ -73,7 +73,7 @@ class History extends Admin
 	 * @param   string  $prefix  The prefix for the model
 	 * @param   array   $config  An additional array of parameters
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model
 	 *
 	 * @since   3.2
 	 */

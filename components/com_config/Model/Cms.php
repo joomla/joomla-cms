@@ -13,7 +13,7 @@ namespace Joomla\Component\Config\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use \Joomla\CMS\Model\Model;
+use \Joomla\CMS\MVC\Model\BaseModel;
 
 
 /**
@@ -21,7 +21,7 @@ use \Joomla\CMS\Model\Model;
  *
  * @since  3.2
  */
-abstract class Cms extends Model
+abstract class Cms extends BaseModel
 {
 	/**
 	 * The model (base) name

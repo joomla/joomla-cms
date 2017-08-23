@@ -11,7 +11,7 @@ namespace Joomla\CMS\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Base class for a Joomla View

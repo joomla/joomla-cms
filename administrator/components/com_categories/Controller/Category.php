@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Controller\Form;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -170,7 +170,7 @@ class Category extends Form
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   \Joomla\CMS\Model\Model  $model      The data model object.
+	 * @param   \Joomla\CMS\MVC\Model\BaseModel  $model      The data model object.
 	 * @param   array                    $validData  The validated data.
 	 *
 	 * @return  void

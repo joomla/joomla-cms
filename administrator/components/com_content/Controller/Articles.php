@@ -122,7 +122,7 @@ class Articles extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel
 	 *
 	 * @since   1.6
 	 */

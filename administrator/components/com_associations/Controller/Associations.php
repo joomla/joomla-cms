@@ -36,7 +36,7 @@ class Associations extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model|bool
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel|bool
 	 *
 	 * @since  3.7.0
 	 */

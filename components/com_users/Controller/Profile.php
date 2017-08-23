@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
 
 defined('_JEXEC') or die;

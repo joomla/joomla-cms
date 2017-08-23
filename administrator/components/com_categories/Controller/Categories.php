@@ -27,7 +27,7 @@ class Categories extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
