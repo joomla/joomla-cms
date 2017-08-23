@@ -10,14 +10,14 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * Group Model
  *
  * @since  3.7.0
  */
-class Group extends Admin
+class Group extends AdminModel
 {
 	/**
 	 * @var null|string

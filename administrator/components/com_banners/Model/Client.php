@@ -10,7 +10,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  1.6
  */
-class Client extends Admin
+class Client extends AdminModel
 {
 	/**
 	 * The type alias for this content type.

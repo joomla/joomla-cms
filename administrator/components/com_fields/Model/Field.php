@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -24,7 +24,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.7.0
  */
-class Field extends Admin
+class Field extends AdminModel
 {
 	/**
 	 * @var null|string

@@ -14,7 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -27,7 +27,7 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
  *
  * @since  1.6
  */
-class Category extends Admin
+class Category extends AdminModel
 {
 	/**
 	 * The prefix to use with controller messages.
