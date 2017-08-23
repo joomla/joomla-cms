@@ -154,7 +154,7 @@ class Group extends FormController
 	 *
 	 * @since   3.7.0
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$item = $model->getItem();
 

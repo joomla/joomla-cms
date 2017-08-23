@@ -164,7 +164,7 @@ class Module extends FormController
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$app = \JFactory::getApplication();
 		$task = $this->getTask();

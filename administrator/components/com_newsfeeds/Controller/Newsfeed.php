@@ -122,7 +122,7 @@ class Newsfeed extends FormController
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 
 	}
