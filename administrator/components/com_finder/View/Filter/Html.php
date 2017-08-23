@@ -57,8 +57,8 @@ class Html extends HtmlView
 	/**
 	 * The total indexed items
 	 *
-	 * @var  integer
-	 * @since  __DEPLOY_VERSION__
+	 * @var    integer
+	 * @since  3.8.0
 	 */
 	protected $total;
 

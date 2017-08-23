@@ -15,7 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Helper for mod_sampledata
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 abstract class ModSampledataHelper
 {
@@ -24,7 +24,7 @@ abstract class ModSampledataHelper
 	 *
 	 * @return  mixed  An array of sampledata, or false on error.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public static function getList()
 	{

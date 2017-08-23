@@ -91,7 +91,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * Database object.
 	 *
 	 * @var    DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $db;
 
