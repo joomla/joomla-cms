@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JLoader::register('ModRandomImageHelper', __DIR__ . '/helper.php');
 
 $link   = $params->get('link');
+$resp   = $params->get('responsive');
 $folder = ModRandomImageHelper::getFolder($params);
 $images = ModRandomImageHelper::getImages($params, $folder);
 
