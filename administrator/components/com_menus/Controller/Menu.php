@@ -77,7 +77,7 @@ class Menu extends Form
 
 		if (!$form)
 		{
-			\JError::raiseError(500, $model->getError());
+			throw new \Exception($model->getError(), 500);
 
 			return false;
 		}
@@ -189,7 +189,7 @@ class Menu extends Form
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function exportXml()
 	{

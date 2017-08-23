@@ -191,7 +191,7 @@ class Levels extends ListModel
 
 		if (empty($pks))
 		{
-			return \JError::raiseWarning(500, \JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'));
+			return \JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
 		}
 
 		// Update ordering values
@@ -206,7 +206,7 @@ class Levels extends ListModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 			}
 			elseif ($table->ordering != $order[$i])
 			{

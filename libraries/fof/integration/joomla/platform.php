@@ -49,14 +49,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 
     public function raiseError($code, $message)
     {
-        if (version_compare($this->version, '3.0', 'ge'))
-        {
-            throw new Exception($message, $code);
-        }
-        else
-        {
-            return JError::raiseError($code, $message);
-        }
+    	throw new Exception($message, $code);
     }
 
 	/**

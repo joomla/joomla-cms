@@ -338,7 +338,7 @@ class Module extends Admin
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
-					\JError::raiseWarning(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 					return;
 				}
@@ -463,7 +463,7 @@ class Module extends Admin
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JError::raiseWarning(500, $e->getMessage());
+				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
@@ -1075,7 +1075,7 @@ class Module extends Admin
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
