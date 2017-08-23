@@ -14,11 +14,11 @@
     &.nav-header {
       padding-top: .5rem;
       font-size: .85rem;
-      color: $gray-dark;
+      color: $gray-200;
     }
 
     a {
-      color: darken($brand-primary, 15%);
+      color: darken(theme-color("primary"), 15%);
     }
 
   }

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Sampledata - Testing Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class PlgSampledataTesting extends JPlugin
 {
@@ -21,7 +21,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @var    JDatabaseDriver
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $db;
 
@@ -30,7 +30,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @var    JApplicationCms
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $app;
 
@@ -39,7 +39,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -48,7 +48,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @var    CategoriesModelCategory
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	private $categoryModel;
 
@@ -57,7 +57,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @var    MenusModelItem
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	private $menuItemModel;
 
@@ -66,7 +66,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  object  Object containing the name, title, description, icon and steps.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onSampledataGetOverview()
 	{
@@ -85,7 +85,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
@@ -196,7 +196,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
@@ -379,7 +379,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
@@ -994,7 +994,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
@@ -1350,7 +1350,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
@@ -1481,7 +1481,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
@@ -3214,7 +3214,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
@@ -4532,7 +4532,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @throws  Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	private function addCategories(array $categories, $extension, $level)
 	{
@@ -4592,7 +4592,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @throws  Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	private function addArticles(array $articles)
 	{
@@ -4667,7 +4667,7 @@ class PlgSampledataTesting extends JPlugin
 	 *
 	 * @throws  Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	private function addMenuItems(array $menuItems, $level)
 	{
