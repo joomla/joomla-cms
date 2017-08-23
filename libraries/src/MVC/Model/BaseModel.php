@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
-use Joomla\CMS\Mvc\Factory\MVCFactory;
+use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;

@@ -11,7 +11,7 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Tracks list controller class.

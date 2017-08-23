@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Mvc\Factory\MvcFactory;
+use Joomla\CMS\MVC\Factory\MVCFactory;
 
 /**
  * Base class for a Joomla Dispatcher
@@ -206,7 +206,7 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, new MvcFactory($namespace, $this->app), $this->app, $this->input);
+		$controller = new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
 
 		return $controller;
 	}

@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Model\BaseModel;
-use Joomla\CMS\Mvc\Factory\LegacyFactory;
-use Joomla\CMS\Mvc\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\View\AbstractView;
 
 /**

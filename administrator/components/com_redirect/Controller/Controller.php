@@ -10,7 +10,7 @@ namespace Joomla\Component\Redirect\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 

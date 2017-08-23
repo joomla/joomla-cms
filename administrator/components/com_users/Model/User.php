@@ -14,7 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Model\Admin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -39,12 +39,12 @@ class User extends Admin
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\Model\Model
 	 * @since   3.2
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		$config = array_merge(
 			array(
@@ -124,7 +124,7 @@ class User extends Admin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$pluginParams = new Registry;
-		
+
 		if (PluginHelper::isEnabled('user', 'joomla'))
 		{
 			$plugin = PluginHelper::getPlugin('user', 'joomla');

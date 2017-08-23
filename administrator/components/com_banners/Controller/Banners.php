@@ -11,7 +11,7 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CmsApplication;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Controller\Admin;
 use Joomla\Utilities\ArrayHelper;
 
@@ -34,13 +34,13 @@ class Banners extends Admin
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 \JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
 
 use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Template style controller class.
@@ -26,14 +26,14 @@ class Template extends Controller
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -445,7 +445,7 @@ class Template extends Controller
 	{
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
-		
+
 		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
