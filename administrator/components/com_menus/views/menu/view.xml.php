@@ -13,21 +13,21 @@ use Joomla\CMS\Menu\MenuHelper;
 /**
  * The HTML Menus Menu Item View.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class MenusViewMenu extends JViewLegacy
 {
 	/**
 	 * @var  stdClass[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $items;
 
 	/**
 	 * @var  JObject
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $state;
 
@@ -38,7 +38,7 @@ class MenusViewMenu extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function display($tpl = null)
 	{
@@ -103,7 +103,7 @@ class MenusViewMenu extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function addXmlChild($xml, $item)
 	{
