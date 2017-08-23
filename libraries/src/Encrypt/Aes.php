@@ -1,12 +1,18 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @subpackage encrypt
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+
+namespace Joomla\CMS\Encrypt;
+
+use Joomla\CMS\Encrypt\AES\AesInterface;
+use Joomla\CMS\Encrypt\AES\Mcrypt;
+use Joomla\CMS\Encrypt\AES\Openssl;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * A simple implementation of AES-128, AES-192 and AES-256 encryption using the
@@ -15,7 +21,7 @@ defined('FOF_INCLUDED') or die;
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-class FOFEncryptAes
+class Aes
 {
 	/**
 	 * The cipher key.
@@ -27,7 +33,7 @@ class FOFEncryptAes
 	/**
 	 * The AES encryption adapter in use.
 	 *
-	 * @var  FOFEncryptAesInterface
+	 * @var  AesInterface
 	 */
 	protected $adapter;
 	
@@ -40,27 +46,26 @@ class FOFEncryptAes
 	 * @param   string          $key      The encryption key (password). It can be a raw key (16 bytes) or a passphrase.
 	 * @param   int             $strength Bit strength (128, 192 or 256) – ALWAYS USE 128 BITS. THIS PARAMETER IS DEPRECATED.
 	 * @param   string          $mode     Encryption mode. Can be ebc or cbc. We recommend using cbc.
-	 * @param   FOFUtilsPhpfunc $phpfunc  For testing
 	 * @param   string          $priority Priority which adapter we should try first
 	 */
-	public function __construct($key, $strength = 128, $mode = 'cbc', FOFUtilsPhpfunc $phpfunc = null, $priority = 'openssl')
+	public function __construct($key, $strength = 128, $mode = 'cbc', $priority = 'openssl')
 	{
 		if ($priority == 'openssl')
 		{
-			$this->adapter = new FOFEncryptAesOpenssl();
+			$this->adapter = new Openssl;
 			
-			if (!$this->adapter->isSupported($phpfunc))
+			if (!$this->adapter->isSupported())
 			{
-				$this->adapter = new FOFEncryptAesMcrypt();
+				$this->adapter = new Mcrypt;
 			}
 		}
 		else
 		{
-			$this->adapter = new FOFEncryptAesMcrypt();
+			$this->adapter = new Mcrypt;
 			
-			if (!$this->adapter->isSupported($phpfunc))
+			if (!$this->adapter->isSupported())
 			{
-				$this->adapter = new FOFEncryptAesOpenssl();
+				$this->adapter = new Openssl;
 			}
 		}
 
@@ -110,7 +115,7 @@ class FOFEncryptAes
 	public function encryptString($stringToEncrypt, $base64encoded = true)
 	{
 		$blockSize = $this->adapter->getBlockSize();
-		$randVal   = new FOFEncryptRandval();
+		$randVal   = new Randval;
 		$iv        = $randVal->generate($blockSize);
 
 		$key        = $this->getExpandedKey($blockSize, $iv);
@@ -156,45 +161,38 @@ class FOFEncryptAes
 	/**
 	 * Is AES encryption supported by this PHP installation?
 	 *
-	 * @param   FOFUtilsPhpfunc  $phpfunc
-	 *
 	 * @return boolean
 	 */
-	public static function isSupported(FOFUtilsPhpfunc $phpfunc = null)
+	public static function isSupported()
 	{
-		if (!is_object($phpfunc) || !($phpfunc instanceof $phpfunc))
+		$adapter = new Mcrypt;
+
+		if (!$adapter->isSupported())
 		{
-			$phpfunc = new FOFUtilsPhpfunc();
+			$adapter = new Openssl;
 		}
 
-		$adapter = new FOFEncryptAesMcrypt();
-
-		if (!$adapter->isSupported($phpfunc))
-		{
-			$adapter = new FOFEncryptAesOpenssl();
-		}
-
-		if (!$adapter->isSupported($phpfunc))
+		if (!$adapter->isSupported())
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('base64_encode'))
+		if (!function_exists('base64_encode'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('base64_decode'))
+		if (!function_exists('base64_decode'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('hash_algos'))
+		if (!function_exists('hash_algos'))
 		{
 			return false;
 		}
 
-		$algorightms = $phpfunc->hash_algos();
+		$algorightms = hash_algos();
 
 		if (!in_array('sha256', $algorightms))
 		{

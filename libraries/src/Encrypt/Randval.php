@@ -1,42 +1,20 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  utils
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+namespace Joomla\CMS\Encrypt;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Generates cryptographically-secure random values.
  */
-class FOFEncryptRandval implements FOFEncryptRandvalinterface
+class Randval implements Randvalinterface
 {
-	/**
-	 * @var FOFUtilsPhpfunc
-	 */
-	protected $phpfunc;
-
-	/**
-	 *
-	 * Constructor.
-	 *
-	 * @param FOFUtilsPhpfunc $phpfunc An object to intercept PHP function calls;
-	 *                         this makes testing easier.
-	 *
-	 */
-	public function __construct(FOFUtilsPhpfunc $phpfunc = null)
-	{
-		if (!is_object($phpfunc) || !($phpfunc instanceof FOFUtilsPhpfunc))
-		{
-			$phpfunc = new FOFUtilsPhpfunc();
-		}
-
-		$this->phpfunc = $phpfunc;
-	}
-
 	/**
 	 *
 	 * Returns a cryptographically secure random value.
@@ -47,7 +25,7 @@ class FOFEncryptRandval implements FOFEncryptRandvalinterface
 	 */
 	public function generate($bytes = 32)
 	{
-		if ($this->phpfunc->extension_loaded('openssl') && (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
+		if (extension_loaded('openssl') && (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
 		{
 			$strong = false;
 			$randBytes = openssl_random_pseudo_bytes($bytes, $strong);
@@ -58,9 +36,9 @@ class FOFEncryptRandval implements FOFEncryptRandvalinterface
 			}
 		}
 
-		if ($this->phpfunc->extension_loaded('mcrypt'))
+		if (extension_loaded('mcrypt'))
 		{
-			return $this->phpfunc->mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
+			return mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
 		}
 
 		return $this->genRandomBytes($bytes);
@@ -93,7 +71,7 @@ class FOFEncryptRandval implements FOFEncryptRandvalinterface
 		$handle = null;
 
 		// This is PHP 5.3.3 and up
-		if ($this->phpfunc->function_exists('stream_set_read_buffer') && @is_readable('/dev/urandom'))
+		if (function_exists('stream_set_read_buffer') && @is_readable('/dev/urandom'))
 		{
 			$handle = @fopen('/dev/urandom', 'rb');
 

@@ -1,19 +1,22 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @subpackage encrypt
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('FOF_INCLUDED') or die;
+
+namespace Joomla\CMS\Encrypt;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
- * FOFEncryptBase32
+ * Base32 encryption class
  *
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-class FOFEncryptBase32
+class Base32
 {
 	/**
 	 * CSRFC3548
@@ -48,18 +51,18 @@ class FOFEncryptBase32
 	 *
 	 * @return  string  The ascii output
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function bin2str($str)
 	{
 		if (strlen($str) % 8 > 0)
 		{
-			throw new Exception('Length must be divisible by 8');
+			throw new \Exception('Length must be divisible by 8');
 		}
 
 		if (!preg_match('/^[01]+$/', $str))
 		{
-			throw new Exception('Only 0\'s and 1\'s are permitted');
+			throw new \Exception('Only 0\'s and 1\'s are permitted');
 		}
 
 		preg_match_all('/.{8}/', $str, $chrs);
@@ -80,18 +83,18 @@ class FOFEncryptBase32
 	 *
 	 * @return  string  String encoded as base32
 	 *
-	 * @throws exception
+	 * @throws  \Exception
 	 */
 	private function fromBin($str)
 	{
 		if (strlen($str) % 8 > 0)
 		{
-			throw new Exception('Length must be divisible by 8');
+			throw new \Exception('Length must be divisible by 8');
 		}
 
 		if (!preg_match('/^[01]+$/', $str))
 		{
-			throw new Exception('Only 0\'s and 1\'s are permitted');
+			throw new \Exception('Only 0\'s and 1\'s are permitted');
 		}
 
 		// Base32 works on the first 5 bits of a byte, so we insert blanks to pad it out
@@ -124,13 +127,13 @@ class FOFEncryptBase32
 	 *
 	 * @return  string  Ascii binary string
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	private function toBin($str)
 	{
 		if (!preg_match('/^[' . self::CSRFC3548 . ']+$/', $str))
 		{
-			throw new Exception('Must match character set');
+			throw new \Exception('Must match character set');
 		}
 
 		// Convert the base32 string back to a binary string

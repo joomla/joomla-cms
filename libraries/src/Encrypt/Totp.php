@@ -1,20 +1,22 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @subpackage encrypt
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('FOF_INCLUDED') or die;
+
+namespace Joomla\CMS\Encrypt;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * This class provides an RFC6238-compliant Time-based One Time Passwords,
  * compatible with Google Authenticator (with PassCodeLength = 6 and TimePeriod = 30).
  *
- * @package  FrameworkOnFramework
- * @since    1.0
+ * @since    __DEPLOY_VERSION__
  */
-class FOFEncryptTotp
+class Totp
 {
 	private $_passCodeLength = 6;
 
@@ -46,7 +48,7 @@ class FOFEncryptTotp
 
 		if (is_null($base32))
 		{
-			$this->_base32 = new FOFEncryptBase32;
+			$this->_base32 = new Base32;
 		}
 		else
 		{
@@ -174,7 +176,7 @@ class FOFEncryptTotp
 			$c = rand(0, 255);
 			$secret .= pack("c", $c);
 		}
-		$base32 = new FOFEncryptBase32;
+		$base32 = new Base32;
 
 		return $this->_base32->encode($secret);
 	}

@@ -1,18 +1,19 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  utils
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+namespace Joomla\CMS\Encrypt\AES;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract AES encryption class
  */
-abstract class FOFEncryptAesAbstract
+abstract class AbstractAES
 {
 	/**
 	 * Trims or zero-pads a key / IV

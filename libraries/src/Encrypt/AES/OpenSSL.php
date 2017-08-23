@@ -1,15 +1,18 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  utils
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+namespace Joomla\CMS\Encrypt\AES;
 
-class FOFEncryptAesOpenssl extends FOFEncryptAesAbstract implements FOFEncryptAesInterface
+use Joomla\CMS\Encrypt\Randval;
+
+defined('JPATH_PLATFORM') or die;
+
+class Openssl extends AbstractAES implements AesInterface
 {
 	/**
 	 * The OpenSSL options for encryption / decryption
@@ -81,7 +84,7 @@ class FOFEncryptAesOpenssl extends FOFEncryptAesAbstract implements FOFEncryptAe
 
 		if (empty($iv))
 		{
-			$randVal   = new FOFEncryptRandval();
+			$randVal   = new Randval;
 			$iv        = $randVal->generate($iv_size);
 		}
 
@@ -103,56 +106,51 @@ class FOFEncryptAesOpenssl extends FOFEncryptAesAbstract implements FOFEncryptAe
 		return $plainText;
 	}
 
-	public function isSupported(FOFUtilsPhpfunc $phpfunc = null)
+	public function isSupported()
 	{
-		if (!is_object($phpfunc) || !($phpfunc instanceof $phpfunc))
-		{
-			$phpfunc = new FOFUtilsPhpfunc();
-		}
-
-		if (!$phpfunc->function_exists('openssl_get_cipher_methods'))
+		if (!function_exists('openssl_get_cipher_methods'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('openssl_random_pseudo_bytes'))
+		if (!function_exists('openssl_random_pseudo_bytes'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('openssl_cipher_iv_length'))
+		if (!function_exists('openssl_cipher_iv_length'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('openssl_encrypt'))
+		if (!function_exists('openssl_encrypt'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('openssl_decrypt'))
+		if (!function_exists('openssl_decrypt'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('hash'))
+		if (!function_exists('hash'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('hash_algos'))
+		if (!function_exists('hash_algos'))
 		{
 			return false;
 		}
 
-		$algorightms = $phpfunc->openssl_get_cipher_methods();
+		$algorightms = openssl_get_cipher_methods();
 
 		if (!in_array('aes-128-cbc', $algorightms))
 		{
 			return false;
 		}
 
-		$algorightms = $phpfunc->hash_algos();
+		$algorightms = hash_algos();
 
 		if (!in_array('sha256', $algorightms))
 		{

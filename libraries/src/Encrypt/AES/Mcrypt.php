@@ -1,15 +1,18 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  utils
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+namespace Joomla\CMS\Encrypt\AES;
 
-class FOFEncryptAesMcrypt extends FOFEncryptAesAbstract implements FOFEncryptAesInterface
+use Joomla\CMS\Encrypt\Randval;
+
+defined('JPATH_PLATFORM') or die;
+
+class Mcrypt extends AbstractAES implements AesInterface
 {
 	protected $cipherType = MCRYPT_RIJNDAEL_128;
 
@@ -55,7 +58,7 @@ class FOFEncryptAesMcrypt extends FOFEncryptAesAbstract implements FOFEncryptAes
 
 		if (empty($iv))
 		{
-			$randVal   = new FOFEncryptRandval();
+			$randVal   = new Randval;
 			$iv        = $randVal->generate($iv_size);
 		}
 
@@ -76,54 +79,49 @@ class FOFEncryptAesMcrypt extends FOFEncryptAesAbstract implements FOFEncryptAes
 		return $plainText;
 	}
 
-	public function isSupported(FOFUtilsPhpfunc $phpfunc = null)
+	public function isSupported()
 	{
-		if (!is_object($phpfunc) || !($phpfunc instanceof $phpfunc))
-		{
-			$phpfunc = new FOFUtilsPhpfunc();
-		}
-
-		if (!$phpfunc->function_exists('mcrypt_get_key_size'))
+		if (!function_exists('mcrypt_get_key_size'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('mcrypt_get_iv_size'))
+		if (!function_exists('mcrypt_get_iv_size'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('mcrypt_create_iv'))
+		if (!function_exists('mcrypt_create_iv'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('mcrypt_encrypt'))
+		if (!function_exists('mcrypt_encrypt'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('mcrypt_decrypt'))
+		if (!function_exists('mcrypt_decrypt'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('mcrypt_list_algorithms'))
+		if (!function_exists('mcrypt_list_algorithms'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('hash'))
+		if (!function_exists('hash'))
 		{
 			return false;
 		}
 
-		if (!$phpfunc->function_exists('hash_algos'))
+		if (!function_exists('hash_algos'))
 		{
 			return false;
 		}
 
-		$algorightms = $phpfunc->mcrypt_list_algorithms();
+		$algorightms = mcrypt_list_algorithms();
 
 		if (!in_array('rijndael-128', $algorightms))
 		{
@@ -140,7 +138,7 @@ class FOFEncryptAesMcrypt extends FOFEncryptAesAbstract implements FOFEncryptAes
 			return false;
 		}
 
-		$algorightms = $phpfunc->hash_algos();
+		$algorightms = hash_algos();
 
 		if (!in_array('sha256', $algorightms))
 		{
