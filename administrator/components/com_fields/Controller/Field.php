@@ -11,7 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class Field extends Form
+class Field extends FormController
 {
 	private $internalContext;
 

@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * The article controller
  *
  * @since  1.6
  */
-class Article extends Form
+class Article extends FormController
 {
 	/**
 	 * Constructor.

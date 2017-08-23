@@ -10,7 +10,7 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Response\JsonResponse;
  *
  * @since  1.6
  */
-class Module extends Form
+class Module extends FormController
 {
 	/**
 	 * Override parent add method.

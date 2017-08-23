@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Model\BaseModel;
  *
  * @since  1.6
  */
-class User extends Form
+class User extends FormController
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.

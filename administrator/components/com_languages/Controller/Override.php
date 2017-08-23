@@ -10,14 +10,14 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Languages Override Controller
  *
  * @since  2.5
  */
-class Override extends Form
+class Override extends FormController
 {
 	/**
 	 * Method to edit an existing override.

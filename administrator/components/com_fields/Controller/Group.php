@@ -10,7 +10,7 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class Group extends Form
+class Group extends FormController
 {
 	/**
 	 * The prefix to use with controller messages.

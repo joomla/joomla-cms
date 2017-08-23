@@ -10,14 +10,14 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Template style controller class.
  *
  * @since  1.6
  */
-class Style extends Form
+class Style extends FormController
 {
 	/**
 	 * The prefix to use with controller messages.

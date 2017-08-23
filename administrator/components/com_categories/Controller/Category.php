@@ -11,7 +11,7 @@ namespace Joomla\Component\Categories\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Registry\Registry;
 
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class Category extends Form
+class Category extends FormController
 {
 	/**
 	 * The extension for which the categories apply.
