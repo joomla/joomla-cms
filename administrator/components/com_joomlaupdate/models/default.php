@@ -1133,4 +1133,32 @@ ENDDATA;
 
 		return $db->loadColumn();
 	}
+
+	/**
+	 * Gets PHP options.
+	 *
+	 * @return  array  Array of PHP config options
+	 *
+	 * @since   3.9
+	 */
+	public function getPhpOptions()
+	{
+		$options = array();
+
+		return $options;
+	}
+
+	/**
+	 * Gets PHP Settings.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9
+	 */
+	public function getPhpSettings()
+	{
+		$settings = array();
+
+		return $settings;
+	}
 }
