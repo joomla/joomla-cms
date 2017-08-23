@@ -1,13 +1,16 @@
 // Layout
 
 body {
-  > div, header > nav, footer {
+  > div,
+  header > nav,
+  footer {
     display: flex;
     width: 100%;
     max-width: 1080px + ($aurora-grid-gutter * 4);
     margin-right: auto;
     margin-left: auto;
   }
+
   > .full-width {
     max-width: none;
   }
@@ -30,8 +33,10 @@ header {
     flex: 1;
     margin: ($aurora-grid-gutter / 2);
   }
-  @include media-breakpoint-down(xs) {
+
+  @include media-breakpoint-down(sm) {
     flex-direction: column;
+
     > div {
       flex: 0 1 auto;
     }
@@ -42,8 +47,10 @@ header {
   > div {
     margin: ($aurora-grid-gutter / 2);
   }
-  @include media-breakpoint-down(xs) {
+
+  @include media-breakpoint-down(sm) {
     flex-direction: column;
+
     > div {
       flex: 0 1 auto;
     }
@@ -52,8 +59,10 @@ header {
 
 .container-component {
   flex: 1;
+
   > div {
     margin-bottom: $aurora-grid-gutter;
+
     &:last-of-type {
       margin-bottom: 0;
     }
@@ -64,18 +73,25 @@ header {
 .container-sidebar-right, {
   flex: 0 0 auto;
   width: calc(25% - #{$aurora-grid-gutter});
+
   > div {
     margin-bottom: $aurora-grid-gutter;
+
     &:last-of-type {
       margin-bottom: 0;
     }
   }
-  @include media-breakpoint-down(xs) {
+
+  @include media-breakpoint-down(sm) {
     width: calc(100% - #{$aurora-grid-gutter});
     order: 1;
   }
 }
 
 .container-footer {
+  display: block;
+}
+
+.system-debug {
   display: block;
 }

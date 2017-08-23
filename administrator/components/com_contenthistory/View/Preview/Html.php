@@ -51,7 +51,7 @@ class Html extends HtmlView
 		{
 			\JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
 
-			\JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+			throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 
 			return false;
 		}
