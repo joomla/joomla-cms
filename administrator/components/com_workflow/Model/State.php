@@ -108,7 +108,7 @@ class State extends Admin
 		{
 			return true;
 		}
-		elseif (is_null($isAssigned) && !$record->default)
+		elseif ($isAssigned === null && !$record->default)
 		{
 			return true;
 		}

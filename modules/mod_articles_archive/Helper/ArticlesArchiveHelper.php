@@ -39,9 +39,8 @@ class ArticlesArchiveHelper
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
-			->select($db->qn("ws.condition", "state"))
 			->from('#__content')
-			->join("LEFT", $db->qn("#__workflow_states", "ws") . ' ON ' . $db->qn("ws.id") . " = " . (int) $params->get("state"))
+			->where($db->qn('state') . ' IN (' . implode(', ', $params->get("state")) . ')')
 			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
 			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
 
@@ -59,8 +58,7 @@ class ArticlesArchiveHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
+			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			return;
 		}
 

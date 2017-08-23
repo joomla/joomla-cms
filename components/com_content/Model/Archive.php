@@ -86,8 +86,9 @@ class Archive extends Articles
 		$params           = $this->state->params;
 		$app              = Factory::getApplication('site');
 		$catids           = $app->input->getVar('catid', array());
-		$state            = $app->input->getVar('state', 0);
 		$catids           = array_values(array_diff($catids, array('')));
+		$state            = $app->input->getVar('state', array());
+		$state            = array_values(array_diff($state, array('')));
 		$articleOrderDate = $params->get('order_date');
 
 		$this->setState('filter.condition', false);

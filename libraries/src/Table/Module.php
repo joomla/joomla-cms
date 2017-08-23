@@ -197,6 +197,12 @@ class Module extends Table
 			$this->publish_down = $this->_db->getNullDate();
 		}
 
+		if (!$this->ordering)
+		{
+			$query = $this->_db->getQuery(true);
+			$this->ordering = $this->getNextOrder($query->qn('position') . ' = ' . $query->q($this->position));
+		}
+
 		return parent::store($updateNulls);
 	}
 }

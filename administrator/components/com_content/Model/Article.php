@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Model\Admin;
@@ -322,6 +323,8 @@ class Article extends Admin
 		}
 
 		$jinput = \JFactory::getApplication()->input;
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -330,15 +333,22 @@ class Article extends Admin
 		$id = $jinput->get('a_id', $jinput->get('id', 0));
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
+		if ($id = $this->getState('article.id'))
 		{
-			$id = $this->getState('article.id');
-
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+
+			$table = $this->getTable();
+
+			if ($table->load(array('id' => $id)))
+			{
+				// Transition field
+				$form->setFieldAttribute('transition', 'sql_where', $db->quoteName('from_state_id') . ' = ' . (int) $table->state);
+			}
+
 		}
 		else
 		{
@@ -346,7 +356,7 @@ class Article extends Admin
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = \JFactory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -606,6 +616,14 @@ class Article extends Admin
 
 			$data['state'] = $state;
 		}
+		var_dump($data['transition']);
+		exit;
+		if ($data['transition'] !== "")
+		{
+			WorkflowHelper::runTransitions(array($data['id']), array((int) $data['transition']), 'com_content', '#__content');
+		}
+
+		unset($data['transition']);
 
 		// Automatic handling of alias for empty fields
 		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
@@ -899,58 +917,13 @@ class Article extends Admin
 				return $var !== 0;
 			}
 		);
+		$runTransaction = WorkflowHelper::runTransitions($pks, $transitions, "com_content", "#__content");
 
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$select = $db->quoteName(
-			array(
-				'tran.id',
-				'tran.to_state_id'
-			)
-		);
-
-		$query
-			->select($select)
-			->from($db->quoteName("#__workflow_transitions", "tran"))
-			->where($db->qn("tran.id") . ' IN (' . implode(",", $transitions) . ')')
-			->andWhere($db->qn("tran.published") . '=1');
-
-		var_dump((string) $query);
-
-		$db->setQuery($query);
-		$result = $db->loadObjectList();
-
-
-		foreach ($result as $k => $v)
+		if (is_string($runTransaction))
 		{
-			$query->clear();
-			$pk = (int) $pks[0];
-
-			if ($pk > 0)
-			{
-				try
-				{
-					$query
-						->update('#__content')
-						->set(
-							array(
-								$db->qn('state') . '=' . $db->quote($v->to_state_id)
-							)
-						)
-						->where($db->qn("id") . '=' . $pk);
-					$db->setQuery($query);
-					$db->execute();
-				}
-				catch (\Exception $e)
-				{
-					$this->setError("COM_CONTENT_ERROR_UPDATE_STATE");
-
-					return false;
-				}
-			}
+			$this->setError($runTransaction);
 		}
 
-		return true;
+		return $runTransaction;
 	}
 }

@@ -32,6 +32,8 @@
 				<field
 					name="state"
 					type="sql"
+					multiple="true"
+					size="5"
 					label="MOD_ARTICLES_CHOOSE_STATE"
 					sql_select="id, title"
 				    sql_from="#__workflow_states"

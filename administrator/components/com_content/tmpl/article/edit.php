@@ -42,6 +42,11 @@ $this->fields = array(
 	'version_note',
 );
 
+if ($this->item->id)
+{
+	array_unshift($this->fields, 	'transition');
+}
+
 $assoc = JLanguageAssociations::isEnabled();
 
 // In case of modal

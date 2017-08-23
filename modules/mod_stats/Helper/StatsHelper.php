@@ -92,7 +92,8 @@ class StatsHelper
 			$query->clear()
 				->select('COUNT(id) AS count_items')
 				->from('#__content')
-				->where('state = 1');
+				->join('LEFT', '#__workflow_states AS ws ON ws.id = state')
+				->where('ws.condition = 1');
 			$db->setQuery($query);
 
 			try
@@ -126,7 +127,8 @@ class StatsHelper
 			$query->clear()
 				->select('SUM(hits) AS count_hits')
 				->from('#__content')
-				->where('state = 1');
+				->join('LEFT', '#__workflow_states AS ws ON ws.id = state')
+				->where('ws.condition = 1');
 			$db->setQuery($query);
 
 			try

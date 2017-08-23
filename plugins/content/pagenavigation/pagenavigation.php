@@ -117,7 +117,7 @@ class PlgContentPagenavigation extends JPlugin
 					break;
 			}
 
-			$xwhere = ' AND (a.state = 1 OR a.state = -1)'
+			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
 				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
 				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
