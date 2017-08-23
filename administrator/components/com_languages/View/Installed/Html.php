@@ -11,7 +11,7 @@ namespace Joomla\Component\Languages\Administrator\View\Installed;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**

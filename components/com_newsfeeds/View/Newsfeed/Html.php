@@ -11,7 +11,7 @@ namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\Component\Newsfeeds\Site\Model\Category;
 

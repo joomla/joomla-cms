@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Banners\Administrator\View\Banner;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 defined('_JEXEC') or die;
 

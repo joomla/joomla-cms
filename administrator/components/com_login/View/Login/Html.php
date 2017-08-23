@@ -10,7 +10,7 @@ namespace Joomla\Component\Login\Administrator\View\Login;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Login component
