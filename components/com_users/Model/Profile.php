@@ -14,7 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class Profile extends Form
+class Profile extends FormModel
 {
 	/**
 	 * @var		object	The user profile data.

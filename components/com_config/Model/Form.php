@@ -12,7 +12,7 @@ namespace Joomla\Component\Config\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use \Joomla\CMS\Model\Form as BaseForm;
+use \Joomla\CMS\MVC\Model\FormModel as BaseForm;
 
 
 /**

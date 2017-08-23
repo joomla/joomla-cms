@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access as JAccess;
 use Joomla\CMS\Access\Rules as JAccessRules;
 use Joomla\CMS\Component\ComponentHelper;
-use \Joomla\CMS\Model\Form;
+use \Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 
@@ -23,7 +23,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  3.2
  */
-class Component extends Form
+class Component extends FormModel
 {
 	/**
 	 * Method to auto-populate the model state.

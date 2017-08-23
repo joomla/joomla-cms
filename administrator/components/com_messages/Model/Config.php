@@ -11,14 +11,14 @@ namespace Joomla\Component\Messages\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Message configuration model.
  *
  * @since  1.6
  */
-class Config extends Form
+class Config extends FormModel
 {
 	/**
 	 * Method to auto-populate the model state.

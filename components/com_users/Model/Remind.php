@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class Remind extends Form
+class Remind extends FormModel
 {
 	/**
 	 * Method to get the username remind request form.
