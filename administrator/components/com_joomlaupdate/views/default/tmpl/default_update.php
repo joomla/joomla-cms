@@ -11,6 +11,16 @@ defined('_JEXEC') or die;
 
 /** @var JoomlaupdateViewDefault $this */
 ?>
+
+<style>
+	fieldset.col {
+		display: inline-block;
+		width: 40%;
+		vertical-align: top;
+		margin-right: 20pt;
+	}
+</style>
+
 <fieldset>
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
@@ -130,42 +140,38 @@ defined('_JEXEC') or die;
 	<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK'); ?>
 </h2>
 
-<fieldset>
+<fieldset class="col">
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
 	</legend>
-	<table class="table table-striped">
+	<table class="table">
 		<tbody>
 		<?php foreach ($this->phpOptions as $option): ?>
-		<tr>
-			<td>
-				<?php echo $option->label; ?>
-			</td>
-			<td>
-				<?php if ($option->state == 1): ?>
-				<p class="label label-success">
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>
-				</p>
-				<?php elseif ($option->state == 0): ?>
-				<p class="label label-failure">
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>
-				</p>
-				<?php else : ?>
-					<p class="label">
-						<?php echo $option->state ?>
-					</p>
-				<?php endif; ?>
-			</td>
-			<td>
-				<p class=""><?php echo $option->notice ?></p>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					<?php echo $option->label; ?>
+				</td>
+				<td>
+					<?php if ($option->state == true): ?>
+						<p class="label label-success">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>
+						</p>
+					<?php else: ?>
+						<p class="label label-important">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>
+						</p>
+					<?php endif; ?>
+				</td>
+				<td>
+					<p class=""><?php echo $option->notice ?></p>
+				</td>
+			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
 </fieldset>
 
-<fieldset>
+<fieldset class="col">
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 	</legend>
@@ -173,19 +179,19 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
 	</p>
 
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
-			<tr>
-				<td>
-					Directive
-				</td>
-				<td>
-					Recommended
-				</td>
-				<td>
-					Actual
-				</td>
-			</tr>
+		<tr>
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
+			</td>
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
+			</td>
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
+			</td>
+		</tr>
 		</thead>
 		<tbody>
 		<?php foreach ($this->phpSettings as $setting): ?>
@@ -194,10 +200,29 @@ defined('_JEXEC') or die;
 					<?php echo $setting->label; ?>
 				</td>
 				<td>
-					<?php echo $setting->recommended; ?>
+					<?php if ($setting->recommended == true): ?>
+						<p class="label label-success">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
+						</p>
+					<?php else: ?>
+						<p class="label">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
+						</p>
+					<?php endif; ?>
 				</td>
 				<td>
-					<?php echo $setting->state ?>
+					<?php if ($setting->state == $setting->recommended): ?>
+					<p class="label label-success">
+					<?php else: ?>
+					<p class="label label-important">
+					<?php endif; ?>
+					<?php if ($setting->state == true): ?>
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
+						</p>
+					<?php else: ?>
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
+						</p>
+					<?php endif; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
@@ -205,3 +230,50 @@ defined('_JEXEC') or die;
 	</table>
 </fieldset>
 
+<fieldset class="col">
+	<legend>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+	</legend>
+
+	<table class="table">
+		<thead>
+		<tr>
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+			</td>
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
+			</td>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach (array((object)array("label" => "com_thmusers", "state" => 1), (object)array("label" => "plg_thmusers", "state" => 0), (object)array("label" => "mod_thmusers", "state" => 2), (object)array("label" => "com_mycomp", "state" => 3)) as $extension): ?>
+			<tr>
+				<td>
+					<?php echo $extension->label; ?>
+				</td>
+				<td id="versionresult_<?php echo $extension->label; ?>">
+					<img src="../media/system/images/mootree_loader.gif">
+					<?php if ($extension->state == 0): ?>
+						<p class="label label-important">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>
+						</p>
+					<?php elseif ($extension->state == 1): ?>
+						<p class="label label-success">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>
+						</p>
+					<?php elseif ($extension->state == 2): ?>
+						<p class="label label-warning">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING'); ?>
+						</p>
+					<?php else: ?>
+						<p class="label">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN'); ?>
+						</p>
+					<?php endif; ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</fieldset>
