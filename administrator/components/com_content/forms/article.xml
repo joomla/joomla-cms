@@ -61,11 +61,9 @@
 
 		<field
 			name="transition"
-			type="sql"
-			sql_select="id, title"
-			sql_from="#__workflow_transitions"
-			key_field="id"
-			value_field="title"
+			type="transition"
+			component="com_content"
+			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 			label="COM_CONTENT_TRANSITION"
 		>
 			<option	value="">COM_CONTENT_SELECT_TRANSITION</option>

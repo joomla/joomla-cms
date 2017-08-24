@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Model\Form;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -308,7 +309,7 @@ class Article extends Admin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -346,7 +347,7 @@ class Article extends Admin
 			if ($table->load(array('id' => $id)))
 			{
 				// Transition field
-				$form->setFieldAttribute('transition', 'sql_where', $db->quoteName('from_state_id') . ' = ' . (int) $table->state);
+				$form->setFieldAttribute('transition', 'state', (int) $table->state);
 			}
 
 		}
@@ -616,8 +617,7 @@ class Article extends Admin
 
 			$data['state'] = $state;
 		}
-		var_dump($data['transition']);
-		exit;
+
 		if ($data['transition'] !== "")
 		{
 			WorkflowHelper::runTransitions(array($data['id']), array((int) $data['transition']), 'com_content', '#__content');
