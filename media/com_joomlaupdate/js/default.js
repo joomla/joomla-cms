@@ -77,15 +77,13 @@ function extractionMethodHandler(target, prefix)
             result.state = PreUpdateChecker.STATE.SERVER_ERROR;
             return result;
         }
-
+        
         // Iterate all updates..
         $xmlDoc.find('update').each(function() {
-            // TODO: fix check, respect 3.[1234] as well
-            // TODO: set state: current version compatible or update compatible
-            // TODO: check all updates, don't break loop. Chose oldest update
-            // TODO: check if .attr breaks code in case there is no targetplatform node
+            // TODO: Choose oldest update
             // Check if update matches new joomla version
-            if($(this).find('targetplatform[name="joomla"]').attr('version') == PreUpdateChecker.joomlaTargetVersion) {
+            var versionRegex = new RegExp($(this).find('targetplatform[name="joomla"]').attr('version'));
+            if(versionRegex.test(PreUpdateChecker.joomlaTargetVersion)) {
                 result.state = PreUpdateChecker.STATE.COMPATIBLE;
                 result.version = $(this).find('version').text();
             }
