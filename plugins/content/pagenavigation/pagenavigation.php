@@ -136,7 +136,8 @@ class PlgContentPagenavigation extends JPlugin
 				->select($case_when)
 				->select($case_when1)
 				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+				->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
