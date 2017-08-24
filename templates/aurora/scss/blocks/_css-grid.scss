@@ -53,13 +53,13 @@
         ". footer footer footer footer ."
         ". debug debug debug debug .";
     }
-  }
 
-  header {
-    margin-bottom: 0;
+	header {
+      margin-bottom: 0;
 
-    + div:not(.container-banner) {
-      margin-top: $aurora-grid-gutter;
+      + div:not(.container-banner) {
+        margin-top: $aurora-grid-gutter;
+      }
     }
   }
 
