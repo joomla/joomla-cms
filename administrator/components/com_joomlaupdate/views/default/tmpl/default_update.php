@@ -208,15 +208,13 @@ defined('_JEXEC') or die;
 					<?php echo $setting->label; ?>
 				</td>
 				<td>
-					<?php if ($setting->recommended == true): ?>
-						<p class="label label-success">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
-						</p>
-					<?php else: ?>
-						<p class="label">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
-						</p>
-					<?php endif; ?>
+					<p class="">
+						<?php if ($setting->recommended == true): ?>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
+						<?php else: ?>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
+						<?php endif; ?>
+					</p>
 				</td>
 				<td>
 					<p class="label label-<?php echo ($setting->state == $setting->recommended) ? "success" : "important" ?>">
