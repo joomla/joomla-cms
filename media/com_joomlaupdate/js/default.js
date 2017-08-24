@@ -49,6 +49,7 @@ function extractionMethodHandler(target, prefix)
         if(!extension.updateUrl) {
             extension.state = PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG;
             callback(extension);
+            return;
         }
 
         $.get(PreUpdateChecker.config.proxyUrl + extension.updateUrl, function (data) {
@@ -76,7 +77,7 @@ function extractionMethodHandler(target, prefix)
             result.state = PreUpdateChecker.STATE.SERVER_ERROR;
             return result;
         }
-        
+
         // Iterate all updates..
         $xmlDoc.find('update').each(function() {
             // TODO: fix check, respect 3.[1234] as well
