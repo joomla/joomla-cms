@@ -19,7 +19,7 @@ use Joomla\Input\Input;
  * @since       12.1
  * @deprecated  5.0  Implement Joomla\CMS\MVC\Controller\ControllerInterface instead
  */
-interface JController extends BaseControllerInterface
+interface JController extends ControllerInterface
 {
 	/**
 	 * Get the application object.
