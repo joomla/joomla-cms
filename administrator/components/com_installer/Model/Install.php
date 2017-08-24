@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Model\Model;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
  * Extension Manager Install Model
@@ -171,27 +172,15 @@ class Install extends Model
 			}
 		}
 
-		$isValidChecksum = $this->isChecksumValid($package['packagefile'], $installer->manifest->updateservers);
+		$isValidChecksum = InstallerHelper::isChecksumValid(
+			$package['packagefile'],
+			InstallerHelper::getUpdateServer($installer->manifest->updateservers),
+			$app->input->getString('force_install')
+		);
 
-		if ($isValidChecksum === null)
+		if (!$isValidChecksum)
 		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
-		}
-		elseif ($isValidChecksum === false)
-		{
-			if (!$app->input->getString('force_install'))
-			{
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG_NO_INSTALL'), 'error');
-
-				return false;
-			}
-
-			// Checksum failed but forced installation is activated
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
-		}
-		else
-		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+			return false;
 		}
 
 		// Was the package unpacked?
@@ -434,57 +423,5 @@ class Install extends Model
 		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
-	}
-
-	/**
-	 * Return the result of the checksum of a package and the SHA1/MD5 tags in the update server manifest
-	 *
-	 * @param   string     $packagefile           Location of the package to be installed
-	 * @param   Installer  $updateServerManifest  Update Server manifest
-	 *
-	 * @return  mixed  boolean if the hashes match, null if hashes not found
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function isChecksumValid($packagefile, $updateServerManifest)
-	{
-		$children = array();
-
-		if ($updateServerManifest)
-		{
-			$children = $updateServerManifest->children();
-		}
-
-		foreach ($children as $child)
-		{
-			$update = new \JUpdate;
-			$update->loadFromXml((string) $child);
-		}
-
-		$hashes = array("sha256", "sha1", "md5");
-		$hashOnFile = false;
-
-		foreach ($hashes as $hash)
-		{
-			$hash_package = hash_file($hash, $packagefile);
-			$hash_remote  = $update->$hash->_data;
-
-			if ($hash_remote)
-			{
-				$hashOnFile = true;
-
-				if ($hash_package !== $hash_remote)
-				{
-					return false;
-				}
-			}
-		}
-
-		if ($hashOnFile)
-		{
-			return true;
-		}
-
-		return null;
 	}
 }

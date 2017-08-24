@@ -16,6 +16,7 @@ use Joomla\CMS\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
  * Installer Update Model
@@ -424,9 +425,21 @@ class Update extends ListModel
 
 		$config   = $app->getConfig();
 		$tmp_dest = $config->get('tmp_path');
+		$pathToDownloadedFile = $tmp_dest . '/' . $p_file;
+
+		$isValidChecksum = InstallerHelper::isChecksumValid(
+			$pathToDownloadedFile,
+			$update,
+			true
+		);
+
+		if (!$isValidChecksum)
+		{
+			return false;
+		}
 
 		// Unpack the downloaded package file
-		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = \JInstallerHelper::unpack($pathToDownloadedFile);
 
 		// Get an installer instance
 		$installer = \JInstaller::getInstance();

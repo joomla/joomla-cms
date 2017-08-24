@@ -157,4 +157,81 @@ class InstallerHelper
 
 		return $options;
 	}
+
+	/**
+	 * Get the correct <update> section in the update server manifest
+	 *
+	 * @param   string  $updateServerManifest  List of update servers in the manifest XML
+	 *
+	 * @return  JUpdate  The update
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUpdateServer($updateServerManifest)
+	{
+		$pathToServerManifest = array();
+
+		if ($updateServerManifest)
+		{
+			$pathToServerManifest = $updateServerManifest->children();
+		}
+
+		foreach ($pathToServerManifest as $child)
+		{
+			$update = new \JUpdate;
+			$update->loadFromXml((string) $child);
+		}
+
+		return $update;
+	}
+
+	/**
+	 * Return the result of the checksum of a package and the SHA1/MD5 tags in the update server manifest
+	 *
+	 * @param   string     $packagefile           Location of the package to be installed
+	 * @param   Installer  $updateServerManifest  Update Server manifest
+	 * @param   boolean    $forceValidation       Boolean if force validation is activated
+	 *
+	 * @return  boolean  if the installation can continue or not
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isChecksumValid($packagefile, $updateServerManifest, $forceValidation)
+	{
+		$app = \JFactory::getApplication();
+
+		$hashes = array("sha256", "sha1", "md5");
+		$hashOnFile = false;
+
+		foreach ($hashes as $hash)
+		{
+			$hashPackage = hash_file($hash, $packagefile);
+			$hashRemote  = $updateServerManifest->$hash->_data;
+
+			if ($hashRemote)
+			{
+				$hashOnFile = true;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					if (!$forceValidation)
+					{
+						$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG_NO_INSTALL'), 'error');
+
+						return false;
+					}
+
+					// Checksum failed but forced installation is activated
+					$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+				}
+			}
+		}
+
+		if (!$hashOnFile)
+		{
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
+		}
+
+		return true;
+	}
 }
