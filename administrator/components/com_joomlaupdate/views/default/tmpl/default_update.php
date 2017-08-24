@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 ?>
 
+<script>
+	var joomlaTargetVersion = <?php echo $this->updateInfo['latest']; ?>;
+</script>
+
 <style>
 	fieldset.col {
 		display: inline-block;
@@ -252,7 +256,7 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo $extension->label; ?>
 				</td>
-				<td id="versionresult_<?php echo $extension->label; ?>">
+				<td class="extension-check" data-extension-update-url="http://comp/test.xml" data-extension-current-version="1.2.3">
 					<img src="../media/system/images/mootree_loader.gif">
 					<?php if ($extension->state == 0): ?>
 						<p class="label label-important">
