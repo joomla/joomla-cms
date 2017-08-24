@@ -8509,9 +8509,9 @@ joomla-alert {
     @media (max-width: 575px) {
       .site-grid {
         grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
-    .site-grid header {
+    .site-grid .header {
       margin-bottom: 0; }
-      .site-grid header + div:not(.container-banner) {
+      .site-grid .header + div:not(.container-banner) {
         margin-top: 15px; }
   .container-banner {
     margin: 0 0 15px; }

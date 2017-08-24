@@ -4,6 +4,7 @@
 @supports (display: grid) {
   .site-grid {
     display: grid;
+
     grid-template-areas:
       ". head head head head ."
       ". banner banner banner banner ."
@@ -54,7 +55,7 @@
         ". debug debug debug debug .";
     }
 
-	header {
+	.header {
       margin-bottom: 0;
 
       + div:not(.container-banner) {
