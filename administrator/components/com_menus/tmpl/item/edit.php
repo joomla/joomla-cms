@@ -70,28 +70,30 @@ $clientId = $this->state->get('item.client_id', 0);
 				?>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php
-					// Set main fields.
-					$this->fields = array(
-						'id',
-						'client_id',
-						'menutype',
-						'parent_id',
-						'menuordering',
-						'published',
-						'home',
-						'access',
-						'language',
-						'note',
-					);
+				<div class="card card-light">
+					<div class="card-body">
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'id',
+							'client_id',
+							'menutype',
+							'parent_id',
+							'menuordering',
+							'published',
+							'home',
+							'access',
+							'language',
+							'note',
+						);
 
-					if ($this->item->type != 'component')
-					{
-						$this->fields = array_diff($this->fields, array('home'));
-					}
+						if ($this->item->type != 'component')
+						{
+							$this->fields = array_diff($this->fields, array('home'));
+						}
 
-					echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
 				</div>
 			</div>
 		</div>
