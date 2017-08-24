@@ -14,10 +14,10 @@ defined('_JEXEC') or die;
 
 <script>
 	var joomlaTargetVersion = <?php echo $this->updateInfo['latest']; ?>;
-	var COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES = <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>;
-    var COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO = <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>;
-    var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING = <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING'); ?>;
-    var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN = <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN'); ?>;
+	var COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES = "<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>";
+    var COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO = "<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>";
+    var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING = "<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING'); ?>";
+    var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN = "<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN'); ?>";
 </script>
 
 <style>
@@ -247,6 +247,9 @@ defined('_JEXEC') or die;
 			<td>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
 			</td>
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_CURRENT_VERSION'); ?>
+			</td>
 		</tr>
 		</thead>
 		<tbody>
@@ -257,6 +260,9 @@ defined('_JEXEC') or die;
 				</td>
 				<td class="extension-check" data-extension-update-url="<?php echo $extension->location; ?>" data-extension-current-version="<?php echo $extension->version; ?>">
 					<img src="../media/system/images/mootree_loader.gif">
+				</td>
+				<td>
+					<p><?php echo $extension->version; ?></p>
 				</td>
 			</tr>
 		<?php endforeach; ?>
