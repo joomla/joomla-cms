@@ -62,6 +62,15 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	protected $phpSettings = null;
 
 	/**
+	 * Non Core Extensions.
+	 *
+	 * @var   array  Array of Non-Core-Extensions
+	 *
+	 * @since   3.9
+	 */
+	protected $nonCoreExtensions = null;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -85,8 +94,9 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
 
 		// Get results of pre update check evaluations
-		$this->phpOptions  = $model->getPhpOptions();
-		$this->phpSettings = $model->getPhpSettings();
+		$this->phpOptions        = $model->getPhpOptions();
+		$this->phpSettings       = $model->getPhpSettings();
+		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
