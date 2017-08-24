@@ -154,6 +154,7 @@ defined('_JEXEC') or die;
 			<tr>
 				<td>
 					<?php echo $option->label; ?>
+					<p class=""><?php echo $option->notice ?></p>
 				</td>
 				<td>
 					<?php if ($option->state == true): ?>
@@ -167,7 +168,6 @@ defined('_JEXEC') or die;
 					<?php endif; ?>
 				</td>
 				<td>
-					<p class=""><?php echo $option->notice ?></p>
 				</td>
 			</tr>
 		<?php endforeach; ?>
@@ -215,18 +215,13 @@ defined('_JEXEC') or die;
 					<?php endif; ?>
 				</td>
 				<td>
-					<?php if ($setting->state == $setting->recommended): ?>
-					<p class="label label-success">
-					<?php else: ?>
-					<p class="label label-important">
-					<?php endif; ?>
+					<p class="label label-<?php echo ($setting->state == $setting->recommended) ? "success" : "important" ?>">
 					<?php if ($setting->state == true): ?>
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
-						</p>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
 					<?php else: ?>
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
-						</p>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
 					<?php endif; ?>
+					</p>
 				</td>
 			</tr>
 		<?php endforeach; ?>
