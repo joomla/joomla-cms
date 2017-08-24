@@ -78,14 +78,14 @@ function extractionMethodHandler(target, prefix)
 
     PreUpdateChecker.setResultView = function (extensionData) {
         extensionData.$element.empty();
-        // TODO: localize strings
-        var html = '<p class="label label-important">NO</p>';
+
+        var html = '<p class="label label-important">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO + '</p>';
         if(extensionData.error) {
-            html = '<p class="label">Error</p>';
+            html = '<p class="label">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN + '</p>';
         }
         if(extensionData.compatible) {
             // TODO: distinct, current version compatible and future version compatible
-            html = '<p class="label label-success">YES (' + extensionData.compatible + ')</p>';
+            html = '<p class="label label-success">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES + ' (' + extensionData.compatible + ')</p>';
         }
         extensionData.$element.html(html);
     }
