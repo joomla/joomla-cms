@@ -107,7 +107,7 @@ function extractionMethodHandler(target, prefix)
                 html = '<p class="label label-important">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO + '</p>';
                 break;
             case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
-                html = '<p class="label">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING + '</p>';
+                html = '<p class="label label-warning">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING + '</p>';
                 break;
             default:
                 html = '<p class="label">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN + '</p>';
