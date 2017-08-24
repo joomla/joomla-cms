@@ -19,7 +19,7 @@ function extractionMethodHandler(target, prefix)
     PreUpdateChecker.config = {
         selector: '.extension-check'
     };
-    
+
     PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
 
     PreUpdateChecker.run = function () {
@@ -34,24 +34,32 @@ function extractionMethodHandler(target, prefix)
             $element: $extension,
             updateUrl: $extension.data('extensionUpdateUrl'),
             version: $extension.data('extensionCurrentVersion'),
-            compatible: false
+            compatible: false,
+            error: false
         };
 
-        if(extension.updateUrl != undefined) {
-            // TODO: set status: no update server
+        if(extension.updateUrl == undefined) {
+            extension.error = true;
             callback(extension);
         }
 
         $.get(extension.updateUrl, function (data) {
             extension.compatible = PreUpdateChecker.parseXML(extension.version, data);
             callback(extension);
+        }).fail(function() {
+            extension.error = true;
+            callback(extension);
         });
     }
 
     PreUpdateChecker.parseXML = function (currentVersion, xml) {
-        // Parse XML via browser's native parsing function and convert it to a valid jQuery object
-        var $xmlDoc = $($.parseXML(xml));
         var compatible = false;
+        // Parse XML via browser's native parsing function and convert it to a valid jQuery object
+        try {
+            var $xmlDoc = $($.parseXML(xml));
+        } catch(e) {
+            return compatible;
+        }
         // Iterate all updates..
         $xmlDoc.find('update').each(function() {
             // TODO: fix check, respect 3.[1234] as well
@@ -70,7 +78,9 @@ function extractionMethodHandler(target, prefix)
         extensionData.$element.empty();
         // TODO: localize strings
         var html = '<p class=\"label label-important\">NO</p>';
-
+        if(extensionData.error) {
+            html = '<p class=\"label\">Error</p>';
+        }
         if(extensionData.compatible) {
             html = '<p class=\"label label-success\">YES</p>';
         }
