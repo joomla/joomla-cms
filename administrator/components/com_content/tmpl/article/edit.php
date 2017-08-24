@@ -30,23 +30,6 @@ $params->merge(new Registry($this->item->attribs));
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$this->fields = array(
-	array('parent', 'parent_id'),
-	array('category', 'catid'),
-	'featured',
-	'sticky',
-	'access',
-	'language',
-	'tags',
-	'note',
-	'version_note',
-);
-
-if ($this->item->id)
-{
-	array_unshift($this->fields, 	'transition');
-}
-
 $assoc = JLanguageAssociations::isEnabled();
 
 // In case of modal
