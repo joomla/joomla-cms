@@ -208,6 +208,12 @@
 			link="index.php?option=com_categories&amp;extension=com_content">
 		</menuitem>
 		<menuitem
+			title="MOD_MENU_COM_CONTENT_WORKFLOW"
+			type="component"
+			element="com_workflow"
+			link="index.php?option=com_workflow&amp;extension=com_content">
+		</menuitem>
+		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
