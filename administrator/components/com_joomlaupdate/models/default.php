@@ -1308,6 +1308,44 @@ ENDDATA;
 	}
 
 	/**
+	 * Gets an array containing all installed extensions, that are not core extensions.
+	 *
+	 * @return  array  name,version,updateserver
+	 *
+	 * @since   3.9
+	 */
+	function getNonCoreExtensions()
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('ex.name') . ', ' . $db->qn('ex.manifest_cache') .', ' . $db->qn('si.location'))
+			->from($db->qn('#__extensions', 'ex'))
+			->leftJoin(
+				$db->qn('#__update_sites_extensions', 'se')
+				. ' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
+			)
+			->leftJoin(
+				$db->qn('#__update_sites', 'si')
+				. ' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
+			)
+			->where($db->qn('ex.extension_id') . ' >= 10000');
+
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+
+		foreach ($rows as $extension)
+		{
+			$decode = json_decode($extension->manifest_cache);
+			$extension->version = $decode->version;
+			unset($extension->manifest_cache);
+		}
+
+		return $rows;
+	}
+
+
+	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
 	 * @return  boolean  True if the method exists.
