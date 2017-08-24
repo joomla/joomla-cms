@@ -73,7 +73,6 @@ class JExtensionHelper
 		array('language', 'en-GB', '', 0),
 
 		// Core library extensions
-		array('library', 'fof', '', 0),
 		array('library', 'idna_convert', '', 0),
 		array('library', 'joomla', '', 0),
 		array('library', 'phpass', '', 0),

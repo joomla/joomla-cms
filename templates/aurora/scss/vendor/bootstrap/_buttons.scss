@@ -27,5 +27,13 @@
 }
 
 .btn-secondary {
+  color: $gray-800;
   background-color: $white-offset;
+  border-color: $gray-400;
+
+  &:hover,
+  &:focus {
+    color: $gray-800;
+    background-color: $gray-100;
+  }
 }

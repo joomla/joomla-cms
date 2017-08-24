@@ -52,7 +52,7 @@ module.exports = function(grunt) {
 				src: [
 					'media/vendor/jquery/js/*',
 					'media/vendor/bootstrap/**',
-					'media/vendor/tether/**',
+					'media/vendor/popper/**',
 					'media/vendor/jcrop/**',
 					'media/vendor/dragula/**',
 					'media/vendor/font-awesome/**',
@@ -139,33 +139,33 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>jquery/dist/', src: ['*', '!(core.js)'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
 					// jQuery js migrate files
 					{ expand: true, cwd: '<%= folder.node_module %>jquery-migrate/dist/', src: ['**'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
-					//Bootastrap js files
+					// Bootastrap js files
 					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/dist/js/', src: ['**'], dest: 'media/vendor/bootstrap/js/', filter: 'isFile'},
-					//Bootastrap scss files
+					// Bootastrap scss files
 					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/scss/', src: ['**'], dest: 'media/vendor/bootstrap/scss/', filter: 'isFile'},
-					//Bootastrap css files
+					// Bootastrap css files
 					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/dist/css/', src: ['**'], dest: 'media/vendor/bootstrap/css/', filter: 'isFile'},
-					//Teether js files
-					{ expand: true, cwd: '<%= folder.node_module %>tether/dist/js/', src: ['**'], dest: 'media/vendor/tether/js/', filter: 'isFile'},
+					// Popper js files
+					{ expand: true, cwd: '<%= folder.node_module %>popper.js/dist/umd/', src: ['*.js'], dest: 'media/vendor/popper/js/', filter: 'isFile'},
 					// Punycode js files
 					{ expand: true, cwd: '<%= folder.node_module %>punycode/', src: ['punycode.js', 'LICENSE-MIT.txt'], dest: 'media/vendor/punycode/js/', filter: 'isFile'},
 					// Cropperjs css files
 					{ expand: true, cwd: '<%= folder.node_module %>cropperjs/dist', src: ['*.css'], dest: 'media/vendor/cropperjs/css/', filter: 'isFile'},
 					// Cropperjs js files
 					{ expand: true, cwd: '<%= folder.node_module %>cropperjs/dist', src: ['*.js'], dest: 'media/vendor/cropperjs/js/', filter: 'isFile'},
-					//Font Awesome css files
+					// Font Awesome css files
 					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/css/', src: ['**'], dest: 'media/vendor/font-awesome/css/', filter: 'isFile'},
-					//Font Awesome scss files
+					// Font Awesome scss files
 					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/scss/', src: ['**'], dest: 'media/vendor/font-awesome/scss/', filter: 'isFile'},
-					//Font Awesome fonts files
+					// Font Awesome fonts files
 					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/fonts/', src: ['**'], dest: 'media/vendor/font-awesome/fonts/', filter: 'isFile'},
-					// tinyMCE plugins
+					// TinyMCE plugins
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/plugins/', src: ['**'], dest: 'media/vendor/tinymce/plugins/', filter: 'isFile'},
-					// tinyMCE skins
+					// TinyMCE skins
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/skins/', src: ['**'], dest: 'media/vendor/tinymce/skins/', filter: 'isFile'},
-					// tinyMCE themes
+					// TinyMCE themes
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/themes/', src: ['**'], dest: 'media/vendor/tinymce/themes/', filter: 'isFile'},
-					// tinyMCE js files
+					// TinyMCE js files
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/', src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'], dest: 'media/vendor/tinymce/', filter: 'isFile'},
 					// Code mirror addon files
 					{ expand: true, cwd: '<%= folder.node_module %>codemirror/addon/', src: ['**'], dest: 'media/vendor/codemirror/addon/', filter: 'isFile'},

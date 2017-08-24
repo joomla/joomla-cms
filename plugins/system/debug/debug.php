@@ -644,10 +644,10 @@ class PlgSystemDebug extends CMSPlugin
 			$totalMem  += (float) $mark->memory;
 			$htmlMark  = sprintf(
 				JText::_('PLG_DEBUG_TIME')
-				. ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="badge badge-default">%.2f&nbsp;ms</span>'
+				. ': <span class="badge badge-secondary label-time">%.2f&nbsp;ms</span> / <span class="badge badge-secondary">%.2f&nbsp;ms</span>'
 				. ' '
 				. JText::_('PLG_DEBUG_MEMORY')
-				. ': <span class="label label-memory">%0.3f MB</span> / <span class="badge badge-default">%0.2f MB</span>'
+				. ': <span class="badge badge-secondary badge-memory">%0.3f MB</span> / <span class="badge badge-secondary">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
 				$mark->totalTime,
@@ -794,8 +794,8 @@ class PlgSystemDebug extends CMSPlugin
 	{
 		$bytes = memory_get_usage();
 
-		return '<span class="badge badge-default">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="badge badge-default">'
+		return '<span class="badge badge-secondary">' . JHtml::_('number.bytes', $bytes) . '</span>'
+			. ' (<span class="badge badge-secondary">'
 			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
 			. ' '
 			. JText::_('PLG_DEBUG_BYTES')
@@ -1056,7 +1056,7 @@ class PlgSystemDebug extends CMSPlugin
 				{
 					$htmlTiming .= ' ' . JText::sprintf(
 							'PLG_DEBUG_QUERY_AFTER_LAST',
-							sprintf('<span class="badge badge-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
+							sprintf('<span class="badge badge-secondary">%.2f&nbsp;ms</span>', $timing[$id]['1'])
 						);
 				}
 
@@ -1085,7 +1085,7 @@ class PlgSystemDebug extends CMSPlugin
 						. JText::sprintf(
 							'PLG_DEBUG_MEMORY_USED_FOR_QUERY',
 							sprintf('<span class="badge ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
-							sprintf('<span class="badge badge-default">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
+							sprintf('<span class="badge badge-secondary">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
 						)
 						. '</span>';
 
@@ -1112,7 +1112,7 @@ class PlgSystemDebug extends CMSPlugin
 						}
 
 						$htmlResultsReturned = '<span class="badge ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
-						$htmlTiming          .= ' <span class="dbg-query-rowsnumber">'
+						$htmlTiming         .= ' <span class="dbg-query-rowsnumber">'
 							. JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -1018,8 +1019,8 @@ class User extends AdminModel
 
 		if (strpos($config, '{') === false)
 		{
-			$openssl         = new \FOFEncryptAes($key, 256);
-			$mcrypt          = new \FOFEncryptAes($key, 256, 'cbc', null, 'mcrypt');
+			$openssl         = new Aes($key, 256);
+			$mcrypt          = new Aes($key, 256, 'cbc', null, 'mcrypt');
 
 			$decryptedConfig = $mcrypt->decryptString($config);
 
@@ -1051,7 +1052,7 @@ class User extends AdminModel
 		}
 
 		// Create an encryptor class
-		$aes = new \FOFEncryptAes($key, 256);
+		$aes = new Aes($key, 256);
 
 		// Decrypt the data
 		$decryptedOtep = $aes->decryptString($encryptedOtep);
@@ -1118,7 +1119,7 @@ class User extends AdminModel
 
 		// Create an encryptor class
 		$key = $this->getOtpConfigEncryptionKey();
-		$aes = new \FOFEncryptAes($key, 256);
+		$aes = new Aes($key, 256);
 
 		// Create the encrypted option strings
 		if (!empty($otpConfig->method) && ($otpConfig->method != 'none'))
