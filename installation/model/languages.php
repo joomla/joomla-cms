@@ -974,7 +974,23 @@ class InstallationModelLanguages extends JModelBase
 			'parent_id'    => 1,
 			'level'        => 1,
 			'home'         => 0,
-			'params'       => '{"show_base_description":"","categories_description":"","maxLevelcat":"","show_empty_categories_cat":"","show_subcat_desc_cat":"","show_cat_num_articles_cat":"","show_category_title":"","show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","num_leading_articles":"","num_intro_articles":"","num_columns":"","num_links":"","multi_column_order":"","show_subcategory_content":"","orderby_pri":"","orderby_sec":"","order_date":"","show_pagination_limit":"","filter_field":"","show_headings":"","list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","display_num":"10","show_pagination":"","show_pagination_results":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+			'params'       => '{"show_base_description":"","categories_description":"","maxLevelcat":"",'
+				. '"show_empty_categories_cat":"","show_subcat_desc_cat":"","show_cat_num_articles_cat":"",'
+				. '"show_category_title":"","show_description":"","show_description_image":"","maxLevel":"",'
+				. '"show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"",'
+				. '"num_leading_articles":"","num_intro_articles":"","num_columns":"","num_links":"",'
+				. '"multi_column_order":"","show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
+				. '"order_date":"","show_pagination_limit":"","filter_field":"","show_headings":"",'
+				. '"list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","display_num":"10",'
+				. '"show_pagination":"","show_pagination_results":"","show_title":"","link_titles":"",'
+				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
+				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
+				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
+				. '"show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
+				. '"show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"",'
+				. '"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,'
+				. '"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"",'
+				. '"menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -1313,7 +1329,21 @@ class InstallationModelLanguages extends JModelBase
 			'parent_id'    => 1,
 			'level'        => 1,
 			'home'         => 1,
-			'params'       => '{"layout_type":"blog","show_category_heading_title_text":"","show_category_title":"","show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"","page_subheading":"","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_featured":"","show_title":"","link_titles":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_associations":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
+			'params'       => '{"layout_type":"blog","show_category_heading_title_text":"","show_category_title":"",'
+				. '"show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"",'
+				. '"show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"",'
+				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3",'
+				. '"num_links":"0","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"",'
+				. '"orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1",'
+				. '"show_featured":"","show_title":"","link_titles":"","show_intro":"","info_block_position":"",'
+				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
+				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
+				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
+				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
+				. '"show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1",'
+				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
+				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
+				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
