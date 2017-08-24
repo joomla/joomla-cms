@@ -470,4 +470,14 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// Redirect back to the actual finalise page
 		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1');
 	}
+
+	/**
+	 * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
+	 * Used by calling index.php?option=com_joomlaupdate&task=update.fetchextensions&url=myurl
+	 */
+	public function fetchExtensions() {
+		$url = $this->input->get('url', '', 'DEFAULT');
+		echo file_get_contents($url);
+		exit;
+	}
 }
