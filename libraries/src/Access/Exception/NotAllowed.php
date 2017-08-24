@@ -11,7 +11,7 @@ namespace Joomla\CMS\Access\Exception;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Exception class defining an not allowed access
+ * Exception class defining a not allowed access
  *
  * @since  3.6.3
  */

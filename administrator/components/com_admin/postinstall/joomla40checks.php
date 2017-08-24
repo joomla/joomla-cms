@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
  * @since   3.7
  *
  * @link    https://developer.joomla.org/news/658-joomla4-manifesto.html
+ * @link    https://developer.joomla.org/news/704-looking-forward-with-joomla-4.html
  */
 function admin_postinstall_joomla40checks_condition()
 {
@@ -50,6 +51,6 @@ function admin_postinstall_joomla40checks_condition()
 		return true;
 	}
 
-	// PHP minimum version is 5.5
-	return version_compare(PHP_VERSION, '5.5.9', 'lt');
+	// PHP minimum version is 7.0
+	return version_compare(PHP_VERSION, '7.0', 'lt');
 }
