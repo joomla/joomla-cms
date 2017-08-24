@@ -43,7 +43,7 @@ function extractionMethodHandler(target, prefix)
             callback(extension);
         }
 
-        $.get(extension.updateUrl, function (data) {
+        $.get('index.php?option=com_joomlaupdate&task=update.fetchurl&url=' + extension.updateUrl, function (data) {
             extension.compatible = PreUpdateChecker.parseXML(extension.version, data);
             callback(extension);
         }).fail(function() {
@@ -60,13 +60,15 @@ function extractionMethodHandler(target, prefix)
         } catch(e) {
             return compatible;
         }
+        
         // Iterate all updates..
         $xmlDoc.find('update').each(function() {
             // TODO: fix check, respect 3.[1234] as well
             // TODO: set state: current version compatible or update compatible
+            // TODO: check all updates, don't break loop. Chose oldest update
             // Check if update matches new joomla version
             if($(this).find('targetplatform[name="joomla"]').attr('version') == PreUpdateChecker.joomlaTargetVersion) {
-                compatible = true;
+                compatible = $(this).find('version').text();
                 return;
             }
         });
@@ -77,12 +79,13 @@ function extractionMethodHandler(target, prefix)
     PreUpdateChecker.setResultView = function (extensionData) {
         extensionData.$element.empty();
         // TODO: localize strings
-        var html = '<p class=\"label label-important\">NO</p>';
+        var html = '<p class="label label-important">NO</p>';
         if(extensionData.error) {
-            html = '<p class=\"label\">Error</p>';
+            html = '<p class="label">Error</p>';
         }
         if(extensionData.compatible) {
-            html = '<p class=\"label label-success\">YES</p>';
+            // TODO: distinct, current version compatible and future version compatible
+            html = '<p class="label label-success">YES (' + extensionData.compatible + ')</p>';
         }
         extensionData.$element.html(html);
     }
