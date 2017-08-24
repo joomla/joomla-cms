@@ -28,9 +28,9 @@ function extractionMethodHandler(target, prefix)
         SERVER_ERROR: 3
     };
 
-    PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
 
     PreUpdateChecker.run = function () {
+        PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
         var $extensions = $(PreUpdateChecker.config.selector);
         $extensions.each(function () {
             PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
