@@ -508,7 +508,7 @@ class ContentModelArticles extends JModelList
 		$hasTag = false;
 		$tagId  = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		if (!empty($tagId) && is_numeric($tagId))
 		{
 			$hasTag = true;
 
