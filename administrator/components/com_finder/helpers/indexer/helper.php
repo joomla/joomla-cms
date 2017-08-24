@@ -16,7 +16,6 @@ JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
 JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
-
 /**
  * Helper class for the Finder indexer package.
  *
@@ -28,8 +27,8 @@ class FinderIndexerHelper
 	 * The token stemmer object. The stemmer is set by whatever class
 	 * wishes to use it but it must be an instance of FinderIndexerStemmer.
 	 *
-	 * @var      FinderIndexerStemmer
-	 * @since    2.5
+	 * @var		FinderIndexerStemmer
+	 * @since	2.5
 	 */
 	public static $stemmer;
 
@@ -445,7 +444,7 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *

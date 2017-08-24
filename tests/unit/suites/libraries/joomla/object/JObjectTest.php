@@ -25,7 +25,7 @@ class JObjectTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @var  JObject  Test-Object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $o;
 

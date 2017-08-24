@@ -923,11 +923,37 @@
 		/>
 
 		<field
+			name="session_redis_server_host"
+			type="text"
+			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
+			default="localhost"
+			filter="string"
+			showon="session_handler:redis"
+			size="25"
+		/>
+
+		<field
+			name="session_redis_server_port"
+			type="number"
+			label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
+			showon="session_handler:redis"
+			min="1"
+			max="65535"
+			default="6379"
+			validate="number"
+			filter="integer"
+			size="5"
+		/>
+
+		<field
 			name="lifetime"
 			type="number"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
 			min="1"
+			max="16383"
 			default="15"
 			required="true"
 			filter="integer"

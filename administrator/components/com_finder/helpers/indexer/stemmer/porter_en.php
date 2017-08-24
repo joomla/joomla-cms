@@ -95,9 +95,9 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 		if (substr($word, -1) === 's')
 		{
 			self::replace($word, 'sses', 'ss')
-			or self::replace($word, 'ies', 'i')
-			or self::replace($word, 'ss', 'ss')
-			or self::replace($word, 's', '');
+			|| self::replace($word, 'ies', 'i')
+			|| self::replace($word, 'ss', 'ss')
+			|| self::replace($word, 's', '');
 		}
 
 		// Part b
@@ -108,14 +108,14 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 
 			// Words ending with ing and ed
 			// Note use of && and OR, for precedence reasons
-			if ((preg_match("#$v+#", substr($word, 0, -3)) && self::replace($word, 'ing', ''))
-				|| (preg_match("#$v+#", substr($word, 0, -2)) && self::replace($word, 'ed', '')))
+			if (preg_match("#$v+#", substr($word, 0, -3)) && self::replace($word, 'ing', '')
+				|| preg_match("#$v+#", substr($word, 0, -2)) && self::replace($word, 'ed', ''))
 			{
 				// If one of above two test successful
 				if (!self::replace($word, 'at', 'ate') && !self::replace($word, 'bl', 'ble') && !self::replace($word, 'iz', 'ize'))
 				{
 					// Double consonant ending
-					$wordSubStr=substr($word, -2);
+					$wordSubStr = substr($word, -2);
 
 					if ($wordSubStr !== 'll' && $wordSubStr !== 'ss' && $wordSubStr !== 'zz' && self::doubleConsonant($word))
 					{
@@ -168,11 +168,11 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 		{
 			case 'a':
 				self::replace($word, 'ational', 'ate', 0)
-				or self::replace($word, 'tional', 'tion', 0);
+				|| self::replace($word, 'tional', 'tion', 0);
 				break;
 			case 'c':
 				self::replace($word, 'enci', 'ence', 0)
-				or self::replace($word, 'anci', 'ance', 0);
+				|| self::replace($word, 'anci', 'ance', 0);
 				break;
 			case 'e':
 				self::replace($word, 'izer', 'ize', 0);
@@ -182,26 +182,26 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				break;
 			case 'l':
 				self::replace($word, 'entli', 'ent', 0)
-				or self::replace($word, 'ousli', 'ous', 0)
-				or self::replace($word, 'alli', 'al', 0)
-				or self::replace($word, 'bli', 'ble', 0)
-				or self::replace($word, 'eli', 'e', 0);
+				|| self::replace($word, 'ousli', 'ous', 0)
+				|| self::replace($word, 'alli', 'al', 0)
+				|| self::replace($word, 'bli', 'ble', 0)
+				|| self::replace($word, 'eli', 'e', 0);
 				break;
 			case 'o':
 				self::replace($word, 'ization', 'ize', 0)
-				or self::replace($word, 'ation', 'ate', 0)
-				or self::replace($word, 'ator', 'ate', 0);
+				|| self::replace($word, 'ation', 'ate', 0)
+				|| self::replace($word, 'ator', 'ate', 0);
 				break;
 			case 's':
 				self::replace($word, 'iveness', 'ive', 0)
-				or self::replace($word, 'fulness', 'ful', 0)
-				or self::replace($word, 'ousness', 'ous', 0)
-				or self::replace($word, 'alism', 'al', 0);
+				|| self::replace($word, 'fulness', 'ful', 0)
+				|| self::replace($word, 'ousness', 'ous', 0)
+				|| self::replace($word, 'alism', 'al', 0);
 				break;
 			case 't':
 				self::replace($word, 'biliti', 'ble', 0)
-				or self::replace($word, 'aliti', 'al', 0)
-				or self::replace($word, 'iviti', 'ive', 0);
+				|| self::replace($word, 'aliti', 'al', 0)
+				|| self::replace($word, 'iviti', 'ive', 0);
 				break;
 		}
 
@@ -229,7 +229,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				break;
 			case 't':
 				self::replace($word, 'icate', 'ic', 0)
-				or self::replace($word, 'iciti', 'ic', 0);
+				|| self::replace($word, 'iciti', 'ic', 0);
 				break;
 			case 'u':
 				self::replace($word, 'ful', '', 0);
@@ -262,8 +262,8 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				self::replace($word, 'al', '', 1);
 				break;
 			case 'c':
-					self::replace($word, 'ance', '', 1)
-				or self::replace($word, 'ence', '', 1);
+				self::replace($word, 'ance', '', 1)
+				|| self::replace($word, 'ence', '', 1);
 				break;
 			case 'e':
 				self::replace($word, 'er', '', 1);
@@ -273,13 +273,13 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				break;
 			case 'l':
 				self::replace($word, 'able', '', 1)
-				or self::replace($word, 'ible', '', 1);
+				|| self::replace($word, 'ible', '', 1);
 				break;
 			case 'n':
 				self::replace($word, 'ant', '', 1)
-				or self::replace($word, 'ement', '', 1)
-				or self::replace($word, 'ment', '', 1)
-				or self::replace($word, 'ent', '', 1);
+				|| self::replace($word, 'ement', '', 1)
+				|| self::replace($word, 'ment', '', 1)
+				|| self::replace($word, 'ent', '', 1);
 				break;
 			case 'o':
 				$wordSubStr = substr($word, -4);
@@ -297,8 +297,8 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				self::replace($word, 'ism', '', 1);
 				break;
 			case 't':
-					self::replace($word, 'ate', '', 1)
-				or self::replace($word, 'iti', '', 1);
+				self::replace($word, 'ate', '', 1)
+				|| self::replace($word, 'iti', '', 1);
 				break;
 			case 'u':
 				self::replace($word, 'ous', '', 1);
