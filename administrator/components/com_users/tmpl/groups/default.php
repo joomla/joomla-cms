@@ -97,11 +97,11 @@ JHtml::_('script', 'com_users/admin-users-groups.min.js', array('version' => 'au
 									<?php endif; ?>
 								</td>
 								<td class="text-center btns">
-									<a class="badge <?php echo $item->count_enabled > 0 ? 'badge-success' : 'badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
+									<a class="badge <?php echo $item->count_enabled > 0 ? 'badge-success' : 'badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 										<?php echo $item->count_enabled; ?></a>
 								</td>
 								<td class="text-center btns">
-									<a class="badge <?php echo $item->count_disabled > 0 ? 'badge-danger' : 'badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
+									<a class="badge <?php echo $item->count_disabled > 0 ? 'badge-danger' : 'badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 										<?php echo $item->count_disabled; ?></a>
 								</td>
 								<td class="hidden-sm-down text-center">

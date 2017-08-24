@@ -17,7 +17,7 @@ use Joomla\CMS\Controller\Form;
  *
  * @since  1.6
  */
-class Client extends Form
+class ClientController extends Form
 {
 	/**
 	 * The prefix to use with controller messages.
