@@ -50,12 +50,17 @@ class ContentViewForm extends JViewLegacy
 		$this->form        = $this->get('Form');
 		$this->return_page = $this->get('ReturnPage');
 
+		$authorised = false;
+
 		if (empty($this->item->id))
 		{
 			if ($this->state->params->get('enable_category') == 1)
 			{
 				$catid = $this->state->params->get('catid');
-				$authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
+				if (!empty($catid))
+				{
+					$authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
+				}
 			}
 			else
 			{
