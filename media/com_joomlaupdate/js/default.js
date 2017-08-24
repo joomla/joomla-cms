@@ -38,7 +38,7 @@ function extractionMethodHandler(target, prefix)
             error: false
         };
 
-        if(extension.updateUrl == undefined) {
+        if(!extension.updateUrl) {
             extension.error = true;
             callback(extension);
         }
