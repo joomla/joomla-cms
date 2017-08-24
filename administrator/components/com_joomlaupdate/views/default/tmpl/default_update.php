@@ -246,30 +246,13 @@ defined('_JEXEC') or die;
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach (array((object)array("label" => "com_thmusers", "state" => 1), (object)array("label" => "plg_thmusers", "state" => 0), (object)array("label" => "mod_thmusers", "state" => 2), (object)array("label" => "com_mycomp", "state" => 3)) as $extension): ?>
+		<?php foreach ($this->nonCoreExtensions as $extension): ?>
 			<tr>
 				<td>
-					<?php echo $extension->label; ?>
+					<?php echo $extension->name; ?>
 				</td>
-				<td class="extension-check" data-extension-update-url="http://comp/test.xml" data-extension-current-version="1.2.3">
+				<td class="extension-check" data-extension-update-url="<?php echo $extension->location; ?>" data-extension-current-version="<?php echo $extension->version; ?>">
 					<img src="../media/system/images/mootree_loader.gif">
-					<?php if ($extension->state == 0): ?>
-						<p class="label label-important">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>
-						</p>
-					<?php elseif ($extension->state == 1): ?>
-						<p class="label label-success">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>
-						</p>
-					<?php elseif ($extension->state == 2): ?>
-						<p class="label label-warning">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING'); ?>
-						</p>
-					<?php else: ?>
-						<p class="label">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN'); ?>
-						</p>
-					<?php endif; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
