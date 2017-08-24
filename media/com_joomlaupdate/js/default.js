@@ -86,6 +86,7 @@ function extractionMethodHandler(target, prefix)
             if(versionRegex.test(PreUpdateChecker.joomlaTargetVersion)) {
                 result.state = PreUpdateChecker.STATE.COMPATIBLE;
                 result.version = $(this).find('version').text();
+                // todo: set flag to check if there is no compatible version or just no compatibily tag
             }
         });
         // Return compatibility = false in case no update matches
