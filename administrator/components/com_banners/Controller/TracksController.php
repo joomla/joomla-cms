@@ -11,14 +11,14 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\Controller\Controller;
 
 /**
  * Tracks list controller class.
  *
  * @since  1.6
  */
-class Tracks extends BaseController
+class TracksController extends Controller
 {
 	/**
 	 * The prefix to use with controller messages.

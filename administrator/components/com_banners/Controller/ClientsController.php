@@ -17,7 +17,7 @@ use Joomla\CMS\Controller\Admin;
  *
  * @since  1.6
  */
-class Clients extends Admin
+class ClientsController extends Admin
 {
 	/**
 	 * The prefix to use with controller messages.
