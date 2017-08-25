@@ -111,11 +111,11 @@ class ContentModelArticles extends JModelList
 		$this->setState('params', $params);
 		$user = JFactory::getUser();
 
-		// Here would be the best place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
+		// Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
 		//
-		// But here it's too early, we don't have article ids: or we find a way to authorize using just SQL queries (!),
-		// or we here can just authorise at component level, not at article level.
-		// So, to have fine-grained authorization at article level, postpone checks, filtering and authorizations to getItems function.
+		// But here it's too early: we don't have article ids.
+		// Or we find a way to authorize using just SQL queries (!), or we here can just authorise at component level, not at article level.
+		// So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
 		//
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
@@ -431,11 +431,11 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Here would be the best place to authorise user on edit and edit.state permissions, and eventually filter just non-expired articles.
+		// Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just non-expired articles.
 		//
-		// But here it's too early, we don't have article ids: or we find a way to authorize using just SQL queries (!),
-		// or we here can just authorise at component level, not at article level.
-		// So, to have fine-grained authorization at article level, postpone checks, filtering and authorizations to getItems function.
+		// But here it's too early: we don't have article ids.
+		// Or we find a way to authorize using just SQL queries (!), or we here can just authorise at component level, not at article level.
+		// So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
 		//
 
 		// Filter by Date Range or Relative Date
@@ -561,8 +561,9 @@ class ContentModelArticles extends JModelList
 		// Convert the parameter fields into objects.
 		foreach ($items as $key => &$item)
 		{
-			// We could not authorise in populateState not in getListQuery, as it was too early, there we hadn't article ids
-			// so we authorise here at article level, using article id.
+			// We could not authorise at article level in populateState nor in getListQuery, as it was too early,
+			// we hadn't article ids there.
+			// So we authorise here at article level, using article ids.
 
 			$asset = 'com_content.article.' . $item->id;
 
@@ -570,7 +571,7 @@ class ContentModelArticles extends JModelList
 			if ((!$user->authorise('core.edit.state', $asset)) || (!$user->authorise('core.edit', $asset)))
 			{								
 				$db = $this->getDbo();
-				$null_date = $db->getNullDate(); //$null_date = '0000-00-00 00:00:00';
+				$null_date = $db->getNullDate();
 				$now_date  = JFactory::getDate();
 				
 				$is_published = ($item->published == 1);
