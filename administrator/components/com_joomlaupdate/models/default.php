@@ -1319,7 +1319,7 @@ ENDDATA;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('ex.name') . ', ' . $db->qn('ex.manifest_cache') .', ' . $db->qn('si.location'))
+		$query->select($db->qn('ex.name') . ', ' . $db->qn('ex.extension_id') . ', ' . $db->qn('ex.manifest_cache') .', ' . $db->qn('si.location'))
 			->from($db->qn('#__extensions', 'ex'))
 			->leftJoin(
 				$db->qn('#__update_sites_extensions', 'se')
