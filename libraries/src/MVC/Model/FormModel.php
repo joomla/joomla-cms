@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Model;
+namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  * @see    \JFormRule
  * @since  1.6
  */
-abstract class Form extends Model
+abstract class FormModel extends BaseModel
 {
 	/**
 	 * Array of form objects.
