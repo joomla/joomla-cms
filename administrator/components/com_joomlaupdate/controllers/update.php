@@ -478,11 +478,17 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function fetchExtensionCompatibility() {
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
-		// todo get xml location from id
 
+		$updateFileUrl = $this->getModel('default')->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
-
-		echo file_get_contents($url);
+		try
+		{
+			echo new JResponseJson($updateFileUrl);
+		}
+		catch(Exception $e)
+		{
+			echo new JResponseJson($e);
+		}
 		exit;
 	}
 }
