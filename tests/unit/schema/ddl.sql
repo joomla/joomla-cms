@@ -295,6 +295,8 @@ CREATE TABLE `jos_menu` (
   `home` INTEGER NOT NULL DEFAULT '0',
   `language` TEXT NOT NULL DEFAULT '',
   `client_id` INTEGER NOT NULL DEFAULT '0',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   CONSTRAINT `idx_menu_lookup` UNIQUE (`client_id`,`parent_id`,`alias`)
 );
 
