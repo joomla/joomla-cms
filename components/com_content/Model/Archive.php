@@ -72,6 +72,10 @@ class Archive extends Articles
 
 		$this->setState('list.ordering', $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
+		$this->state->set('filter.states', explode(',', $this->state->get('filter.states')));
+
+		var_dump($this->state);
+		exit;
 	}
 
 	/**
@@ -89,6 +93,9 @@ class Archive extends Articles
 		$catids           = array_values(array_diff($catids, array('')));
 		$state            = $app->input->getVar('state', array());
 		$state            = array_values(array_diff($state, array('')));
+var_dump($this->getState('filter.states'));
+exit;
+
 		$articleOrderDate = $params->get('order_date');
 
 		$this->setState('filter.condition', false);

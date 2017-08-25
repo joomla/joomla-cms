@@ -35,12 +35,14 @@ class ArticlesArchiveHelper
 	{
 		// Get database
 		$db    = Factory::getDbo();
+		$states = $params->get("state");
+
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
-			->where($db->qn('state') . ' IN (' . implode(', ', $params->get("state")) . ')')
+			->where($db->qn('state') . ' IN (' . implode(', ', $states) . ')')
 			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
 			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
 
@@ -70,6 +72,16 @@ class ArticlesArchiveHelper
 		$i     = 0;
 		$lists = array();
 
+		$states = array_map(
+			function ($el)
+			{
+				return '&filter[states][]=' . $el;
+			},
+			$states
+		);
+
+		$states = implode("", $states);
+
 		foreach ($rows as $row)
 		{
 			$date = Factory::getDate($row->created);
@@ -82,7 +94,7 @@ class ArticlesArchiveHelper
 
 			$lists[$i] = new \stdClass;
 
-			$lists[$i]->link = \JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
+			$lists[$i]->link = \JRoute::_('index.php?option=com_content&view=archive' . $states . '&year=' . $created_year . '&month=' . $created_month . $itemid);
 			$lists[$i]->text = \JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
 
 			$i++;
