@@ -481,6 +481,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$updateFileUrl = $this->getModel('default')->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
+		// ToDo: Change to native function
+		header('content-type: application/json; charset=utf-8');
+
 		try
 		{
 			echo new JResponseJson($updateFileUrl);
@@ -489,6 +492,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			echo new JResponseJson($e);
 		}
-		exit;
+
+		JFactory::getApplication()->close();
 	}
 }
