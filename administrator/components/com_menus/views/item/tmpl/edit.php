@@ -139,6 +139,8 @@ $clientId = $this->state->get('item.client_id', 0);
 					'parent_id',
 					'menuordering',
 					'published',
+					'publish_up',
+					'publish_down',
 					'home',
 					'access',
 					'language',
