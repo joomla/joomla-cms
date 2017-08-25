@@ -73,7 +73,7 @@ class UserField extends FormField
 		$return = parent::setup($element, $value, $group);
 
 		// If user can't access com_users the field should be readonly.
-		if ($return)
+		if ($return && !$this->readonly)
 		{
 			$this->readonly = !Factory::getUser()->authorise('core.manage', 'com_users');
 		}
