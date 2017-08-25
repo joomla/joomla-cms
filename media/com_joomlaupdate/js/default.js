@@ -49,6 +49,7 @@ function extractionMethodHandler(target, prefix)
         }).done(function(response) {
             extension.state = response.data.state;
             extension.compatibleVersion = response.data.compatibleVersion;
+            extension.currentVersion = $extension.data('extensionCurrentVersion')
 
             callback(extension);
         }).fail(function(e) {
@@ -63,8 +64,14 @@ function extractionMethodHandler(target, prefix)
         var html = '';
         switch (extensionData.state) {
             case PreUpdateChecker.STATE.COMPATIBLE:
-                html = '<p class="label label-success">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES
-                    + ' (' + extensionData.compatibleVersion + ')</p>';
+                if (extensionData.compatibleVersion == extensionData.currentVersion)
+                {
+                    html = '<p class="label label-success">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES + '</p>';
+                }
+                else
+                {
+                    html = '<p class="label label-warning">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES
+                        + ' (Version: ' + extensionData.compatibleVersion + ')</p>';}
                 break;
             case PreUpdateChecker.STATE.INCOMPATIBLE:
                 html = '<p class="label label-important">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO + '</p>';
