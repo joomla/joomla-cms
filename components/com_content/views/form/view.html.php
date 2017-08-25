@@ -54,13 +54,10 @@ class ContentViewForm extends JViewLegacy
 
 		if (empty($this->item->id))
 		{
-			if ($this->state->params->get('enable_category') == 1)
+			$catid = $this->state->params->get('catid');
+			if ($this->state->params->get('enable_category') == 1 && $catid)
 			{
-				$catid = $this->state->params->get('catid');
-				if (!empty($catid))
-				{
-					$authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
-				}
+				$authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
 			}
 			else
 			{
