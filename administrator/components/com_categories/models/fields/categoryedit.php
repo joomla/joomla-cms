@@ -220,6 +220,17 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
+		// Get language of the categories and cache it per extension
+		static $cat_languages = array();
+		if (!isset($cat_languages[$extension]))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('language') . ', ' . $db->quoteName('id'))
+				->from($db->quoteName('#__categories'));
+			$cat_languages[$extension] = $db->setQuery($query)->loadObjectList('id');
+		}
+
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
@@ -233,14 +244,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			}
 
 			// Displays language code if not set to All
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('language'))
-				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
-				->from($db->quoteName('#__categories'));
-
-			$db->setQuery($query);
-			$language = $db->loadResult();
+			$language = $cat_languages[$extension][$options[$i]->value]->language;
 
 			if ($options[$i]->level != 0)
 			{
