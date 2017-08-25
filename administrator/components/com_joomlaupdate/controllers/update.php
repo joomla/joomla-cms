@@ -479,7 +479,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
 
-		$updateFileUrl = $this->getModel('default')->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('default');
+		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
 		// ToDo: Change to native function
 		header('content-type: application/json; charset=utf-8');

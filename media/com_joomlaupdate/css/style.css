@@ -1,0 +1,6 @@
+fieldset.col {
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+    margin-right: 20pt;
+}

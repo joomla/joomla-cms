@@ -1256,6 +1256,7 @@ ENDDATA;
 	function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
 		$updateFileUrl = $this->getUpdateSiteLocation($extensionID);
+
 		if($updateFileUrl == "")
 		{
 			return (object) array("state"=>2);
@@ -1263,6 +1264,7 @@ ENDDATA;
 		else
 		{
 			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+
 			if($compatibleVersion)
 			{
 				return (object) array("state"=>1, "compatibleVersion"=> $compatibleVersion->_data);
@@ -1283,7 +1285,7 @@ ENDDATA;
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getUpdateSiteLocation($extension_id)
+	private function getUpdateSiteLocation($extensionID)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -1294,7 +1296,7 @@ ENDDATA;
 				$db->qn('#__update_sites_extensions', 'e')
 				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
 			)
-			->where($db->qn('e.extension_id') . ' = ' . (int) $extension_id);
+			->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
 
 		$db->setQuery($query);
 
@@ -1309,7 +1311,7 @@ ENDDATA;
 	 * @param   array   $extensions      The items to check as an object list. See getExtensions().
 	 * @param   string  $latest_version  The Joomla! version to test against
 	 *
-	 * @return  array  An array of data items.
+	 * @return  mixed  An array of data items or false.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -1321,12 +1323,12 @@ ENDDATA;
 
 		// If there is a download URL then there is probably a compatible update
 		$download_url = $update->get('downloadurl');
+
 		if (!empty($download_url) && !empty($download_url->_data))
 		{
 			return $update->get('version');
 		}
-		else{
-			return false;
-		}
+
+		return false;
 	}
 }
