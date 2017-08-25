@@ -46,9 +46,9 @@ function extractionMethodHandler(target, prefix)
         $.getJSON(PreUpdateChecker.config.serverUrl, {
             'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
             'extension-id': $extension.data('extensionId')
-        }).done(function() {
-            extension.state = data.state;
-            extension.compatibleVersion = data.compatibleVersion;
+        }).done(function(response) {
+            extension.state = response.data.state;
+            extension.compatibleVersion = response.data.compatibleVersion;
 
             callback(extension);
         }).fail(function(e) {
