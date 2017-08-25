@@ -22,7 +22,7 @@ FormHelper::loadFieldClass('text');
  *
  * @since  1.6
  */
-class ModulePositionField extends \JFormFieldText
+class ModulepositionField extends \JFormFieldText
 {
 	/**
 	 * The form field type.

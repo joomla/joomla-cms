@@ -21,7 +21,7 @@ FormHelper::loadFieldClass('predefinedlist');
  *
  * @since  3.6
  */
-class LastvisitDateRangeField extends \JFormFieldPredefinedList
+class LastvisitdaterangeField extends \JFormFieldPredefinedList
 {
 	/**
 	 * Method to instantiate the form field object.
