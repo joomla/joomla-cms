@@ -1055,10 +1055,10 @@ ENDDATA;
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function checkCompatibility($updateFileUrl, $latest_version)
+	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
 		$update = new JUpdate;
-		$update->set('jversion.full', $latest_version);
+		$update->set('jversion.full', $joomlaTargetVersion);
 		$update->loadFromXML($updateFileUrl);
 
 		// If there is a download URL then there is probably a compatible update
