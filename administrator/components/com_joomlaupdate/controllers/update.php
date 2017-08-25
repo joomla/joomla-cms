@@ -473,10 +473,15 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 	/**
 	 * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
-	 * Used by calling index.php?option=com_joomlaupdate&task=update.fetchurl&url=myurl
+	 * Returns true or false
 	 */
-	public function fetchUrl() {
-		$url = $this->input->get('url', '', 'DEFAULT');
+	public function fetchExtensionCompatibility() {
+		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
+		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
+		// todo get xml location from id
+
+
+
 		echo file_get_contents($url);
 		exit;
 	}
