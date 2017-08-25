@@ -118,7 +118,7 @@ function extractionMethodHandler(target, prefix)
                 break;
             case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
                 // Could not check compatibility state -> display warning
-                html = '<p class="label label-warning">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING + '</p>';
+                html = '<p class="label">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING + '</p>';
                 break;
             default:
                 // An error occured -> show unknown error note
