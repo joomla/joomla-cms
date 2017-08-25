@@ -72,9 +72,10 @@ class SiteMenu extends AbstractMenu
 	public function load()
 	{
 		// For PHP 5.3 compat we can't use $this in the lambda function below
-		$db = $this->db;
+		$db          = $this->db;
+		$currentDate = \JFactory::getDate()->toSql();
 
-		$loader = function () use ($db)
+		$loader = function () use ($db, $currentDate)
 		{
 			$query = $db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
@@ -83,6 +84,8 @@ class SiteMenu extends AbstractMenu
 				->from('#__menu AS m')
 				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 				->where('m.published = 1')
+				->where('(m.publish_up = ' . $db->quote($db->getNullDate()) . ' OR m.publish_up <= ' . $db->quote($currentDate) . ')')
+				->where('(m.publish_down = ' . $db->quote($db->getNullDate()) . ' OR m.publish_down >= ' . $db->quote($currentDate) . ')')
 				->where('m.parent_id > 0')
 				->where('m.client_id = 0')
 				->order('m.lft');
