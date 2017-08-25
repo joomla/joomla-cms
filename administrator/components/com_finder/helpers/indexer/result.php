@@ -315,8 +315,8 @@ class FinderIndexerResult
 		// Check if the property exists in the group.
 		if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true))
 		{
-				// Add the property to the group.
-				$this->instructions[$group][] = $property;
+			// Add the property to the group.
+			$this->instructions[$group][] = $property;
 		}
 	}
 
