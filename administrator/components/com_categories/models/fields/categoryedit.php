@@ -227,7 +227,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('language') . ', ' . $db->quoteName('id'))
-				->from($db->quoteName('#__categories'));
+				->from($db->quoteName('#__categories'))
+				->where($db->quoteName('extension') . ' = ' . $db->quote($extension));
 			$cat_languages[$extension] = $db->setQuery($query)->loadObjectList('id');
 		}
 
