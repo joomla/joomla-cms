@@ -111,11 +111,12 @@ class ContentModelArticles extends JModelList
 		$this->setState('params', $params);
 		$user = JFactory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
-		{
-			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
-		}
+		// Here would be the best place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
+		//
+		// But here it's too early, we don't have article ids: or we find a way to authorize using just SQL queries (!),
+		// or we here can just authorise at component level, not at article level.
+		// So, to have fine-grained authorization at article level, postpone checks, filtering and authorizations to getItems function.
+		//
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
@@ -430,16 +431,12 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Define null and now dates
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(JFactory::getDate()->toSql());
-
-		// Filter by start and end dates.
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
-		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
-		}
+		// Here would be the best place to authorise user on edit and edit.state permissions, and eventually filter just non-expired articles.
+		//
+		// But here it's too early, we don't have article ids: or we find a way to authorize using just SQL queries (!),
+		// or we here can just authorise at component level, not at article level.
+		// So, to have fine-grained authorization at article level, postpone checks, filtering and authorizations to getItems function.
+		//
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');
@@ -562,8 +559,32 @@ class ContentModelArticles extends JModelList
 		$globalParams = JComponentHelper::getParams('com_content', true);
 
 		// Convert the parameter fields into objects.
-		foreach ($items as &$item)
+		foreach ($items as $key => &$item)
 		{
+			// We could not authorise in populateState not in getListQuery, as it was too early, there we hadn't article ids
+			// so we authorise here at article level, using article id.
+
+			$asset = 'com_content.article.' . $item->id;
+
+			// If user has not permissions to edit or edit.state then keep published articles only
+			if ((!$user->authorise('core.edit.state', $asset)) || (!$user->authorise('core.edit', $asset)))
+			{								
+				$db = $this->getDbo();
+				$null_date = $db->getNullDate(); //$null_date = '0000-00-00 00:00:00';
+				$now_date  = JFactory::getDate();
+				
+				$is_published = ($item->published == 1);
+				$is_expired = !( (($item->publish_up == $null_date) || ($item->publish_up <= $now_date)) &&
+								(($item->publish_down == $null_date) || ($item->publish_down >= $now_date)) );
+				
+				// Remove article if unpublished or expired
+				if(!$is_published || $is_expired)
+				{
+					unset($items[$key]);
+					continue;
+				}
+			}
+
 			$articleParams = new Registry($item->attribs);
 
 			// Unpack readmore and layout params
