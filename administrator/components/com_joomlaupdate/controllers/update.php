@@ -474,8 +474,11 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
 	 * Returns true or false
+	 *
+	 * @return void
 	 */
-	public function fetchExtensionCompatibility() {
+	public function fetchExtensionCompatibility()
+	{
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
 
@@ -490,7 +493,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			echo new JResponseJson($updateFileUrl);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			echo new JResponseJson($e);
 		}
