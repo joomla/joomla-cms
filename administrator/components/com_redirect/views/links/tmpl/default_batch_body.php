@@ -15,7 +15,7 @@ $separator = $params->get('separator', '|');
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="control-group span12">
-			<p><?php echo JText::sprintf('COM_REDIRECT_BATCH_TIP', $separator, $separator); ?></p>
+			<p><?php echo JText::sprintf('COM_REDIRECT_BATCH_TIP', $separator); ?></p>
 			<div class="controls">
 				<textarea class="span12" rows="10" aria-required="true" value="" id="batch_urls" name="batch_urls"></textarea>
 			</div>
