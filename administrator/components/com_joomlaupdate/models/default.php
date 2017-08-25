@@ -1345,6 +1345,36 @@ ENDDATA;
 	}
 
 
+	function fetchCompatibility($extensionID, $targetVersion)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('si.location'))
+			->from($db->qn('#__update_sites', 'si'))
+			->leftJoin(
+				$db->qn('#__update_sites_extensions', 'se')
+				. ' ON ' . $db->qn('se.update_site_id') . ' = ' . $db->qn('si.update_site_id')
+			)
+
+			->where($db->qn('se.extension_id') . ' = ' . $extensionID);
+
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+
+		if (count($rows) == 1)
+		{
+			$updateFileUrl = $rows[0]->location;
+			//todo check compatibility with this url
+			return (object) array("state"=>"1", "compatibleVersion"=>"1.5");
+		}
+		else
+		{
+			return (object) array("state"=>"2");
+		}
+	}
+
+
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
