@@ -15,28 +15,28 @@ use Joomla\CMS\Form\FormHelper;
 FormHelper::loadFieldClass('predefinedlist');
 
 /**
- * Plugin Status field.
+ * Field to load a list of available users statuses
  *
- * @since  3.5
+ * @since  3.2
  */
-class PluginStatusField extends \JFormFieldPredefinedList
+class UserstateField extends \JFormFieldPredefinedList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  3.5
+	 * @var		string
+	 * @since   3.2
 	 */
-	public $type = 'Plugin_Status';
+	protected $type = 'UserState';
 
 	/**
 	 * Available statuses
 	 *
 	 * @var  array
-	 * @since  3.5
+	 * @since  3.2
 	 */
 	protected $predefinedOptions = array(
-		'0'  => 'JDISABLED',
-		'1'  => 'JENABLED',
+		'0'  => 'JENABLED',
+		'1'  => 'JDISABLED',
 	);
 }
