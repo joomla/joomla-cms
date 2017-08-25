@@ -1055,56 +1055,21 @@ ENDDATA;
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function checkCompatibility($extensions, $latest_version)
+	private function checkCompatibility($updateFileUrl, $latest_version)
 	{
-		// If empty, return the current value
-		if (empty($extensions) || !is_array($extensions))
+		$update = new JUpdate;
+		$update->set('jversion.full', $latest_version);
+		$update->loadFromXML($updateFileUrl);
+
+		// If there is a download URL then there is probably a compatible update
+		$download_url = $update->get('downloadurl');
+		if (!empty($download_url) && !empty($download_url->_data))
 		{
-			return array();
+			return $update->get('version');
 		}
-
-		// Return variable
-		$extensions_compatibility = array(
-			'compatible' => array(),
-			'not_compatible' => array(),
-			'na' => array()
-		);
-
-		jimport('joomla.updater.update');
-
-		preg_match('/^(\d+\.\d+\.(\d+))/', $latest_version, $version);
-
-		foreach ($extensions as $extension)
-		{
-			$locations = $this->getUpdateSitesLocations($extension->extension_id);
-
-			// If there are no update servers then we do not know if there is a compatible update
-			if (empty($locations))
-			{
-				$extensions_compatibility['na'][] = $extension;
-				continue;
-			}
-
-			foreach ($locations as $location)
-			{
-				$update = new JUpdate;
-				$update->set('jversion.full', $version[1]);
-				$update->set('jversion.dev_level', $version[2]);
-				$update->loadFromXML($location);
-
-				// If there is a download URL then there is probably a compatible update
-				$download_url = $update->get('downloadurl');
-				if (!empty($download_url) && !empty($download_url->_data))
-				{
-					$extensions_compatibility['compatible'][] = $extension;
-					continue 2;
-				}
-			}
-
-			$extensions_compatibility['not_compatible'][] = $extension;
+		else{
+			return false;
 		}
-
-		return $extensions_compatibility;
 	}
 
 	/**
@@ -1116,7 +1081,7 @@ ENDDATA;
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getUpdateSitesLocations($extension_id)
+	private function getUpdateSiteLocation($extension_id)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -1131,7 +1096,9 @@ ENDDATA;
 
 		$db->setQuery($query);
 
-		return $db->loadColumn();
+		$rows = $db->loadObjectList();
+
+		return count($rows)>=1 ? $rows[0]->location : "";
 	}
 
 	/**
@@ -1347,30 +1314,22 @@ ENDDATA;
 
 	function fetchCompatibility($extensionID, $targetVersion)
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select($db->qn('si.location'))
-			->from($db->qn('#__update_sites', 'si'))
-			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'se')
-				. ' ON ' . $db->qn('se.update_site_id') . ' = ' . $db->qn('si.update_site_id')
-			)
-
-			->where($db->qn('se.extension_id') . ' = ' . $extensionID);
-
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-
-		if (count($rows) == 1)
+		$updateFileUrl = $this->getUpdateSiteLocation($extensionID);
+		if($updateFileUrl == "")
 		{
-			$updateFileUrl = $rows[0]->location;
-			//todo check compatibility with this url
-			return (object) array("state"=>1, "compatibleVersion"=>"1.5");
+			return (object) array("state"=>2);
 		}
 		else
 		{
-			return (object) array("state"=>2);
+			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $targetVersion);
+			if($compatibleVersion)
+			{
+				return (object) array("state"=>1, "compatibleVersion"=> $compatibleVersion->_data);
+			}
+			else
+			{
+				return (object) array("state"=>0);
+			}
 		}
 	}
 
