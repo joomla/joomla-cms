@@ -50,8 +50,6 @@ class ContentViewForm extends JViewLegacy
 		$this->form        = $this->get('Form');
 		$this->return_page = $this->get('ReturnPage');
 
-		$authorised = false;
-
 		if (empty($this->item->id))
 		{
 			$catid = $this->state->params->get('catid');
