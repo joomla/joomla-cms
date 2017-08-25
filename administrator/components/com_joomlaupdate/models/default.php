@@ -1184,20 +1184,20 @@ ENDDATA;
 	 */
 	public function getIniParserAvailability()
 	{
-		$disabled_functions = ini_get('disable_functions');
+		$disabledFunctions = ini_get('disable_functions');
 
-		if (!empty($disabled_functions))
+		if (!empty($disabledFunctions))
 		{
 			// Attempt to detect them in the disable_functions blacklist.
-			$disabled_functions = explode(',', trim($disabled_functions));
-			$number_of_disabled_functions = count($disabled_functions);
+			$disabledFunctions = explode(',', trim($disabledFunctions));
+			$numberOfDisabledFunctions = count($disabledFunctions);
 
-			for ($i = 0; $i < $number_of_disabled_functions; $i++)
+			for ($i = 0; $i < $numberOfDisabledFunctions; $i++)
 			{
-				$disabled_functions[$i] = trim($disabled_functions[$i]);
+				$disabledFunctions[$i] = trim($disabledFunctions[$i]);
 			}
 
-			$result = !in_array('parse_ini_string', $disabled_functions);
+			$result = !in_array('parse_ini_string', $disabledFunctions);
 		}
 		else
 		{
