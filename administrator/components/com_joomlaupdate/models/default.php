@@ -1366,11 +1366,11 @@ ENDDATA;
 		{
 			$updateFileUrl = $rows[0]->location;
 			//todo check compatibility with this url
-			return (object) array("state"=>"1", "compatibleVersion"=>"1.5");
+			return (object) array("state"=>1, "compatibleVersion"=>"1.5");
 		}
 		else
 		{
-			return (object) array("state"=>"2");
+			return (object) array("state"=>2);
 		}
 	}
 
