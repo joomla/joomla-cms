@@ -12,12 +12,11 @@ function extractionMethodHandler(target, prefix)
 	});
 }
 
-
 (function($, document, window) {
     var PreUpdateChecker = {};  // PreUpdateChecker namespace
 
     PreUpdateChecker.config = {
-        proxyUrl: 'index.php?option=com_joomlaupdate&task=update.fetchurl&url=',
+        serverUrl: 'index.php?option=com_joomlaupdate&task=update.fetchextensioncompatibility',
         selector: '.extension-check'
     };
 
@@ -28,9 +27,9 @@ function extractionMethodHandler(target, prefix)
         SERVER_ERROR: 3
     };
 
-
     PreUpdateChecker.run = function () {
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
+
         var $extensions = $(PreUpdateChecker.config.selector);
         $extensions.each(function () {
             PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
@@ -40,57 +39,22 @@ function extractionMethodHandler(target, prefix)
     PreUpdateChecker.checkCompatibility = function ($extension, callback) {
         var extension = {
             $element: $extension,
-            updateUrl: $extension.data('extensionUpdateUrl'),
-            version: $extension.data('extensionCurrentVersion'),
             state: PreUpdateChecker.STATE.SERVER_ERROR,
             compatibleVersion: 0
         };
 
-        if(!extension.updateUrl) {
-            extension.state = PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG;
-            callback(extension);
-            return;
-        }
-
-        $.get(PreUpdateChecker.config.proxyUrl + extension.updateUrl, function (data) {
-            var parseResult = PreUpdateChecker.parseXML(extension.version, data);
-            extension.compatibleVersion = parseResult.version;
-            extension.state = parseResult.state;
+        $.getJSON(PreUpdateChecker.config.serverUrl, {
+            'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
+            'extension-id': $extension.data('extensionId')
+        }).done(function() {
+            extension.state = data.state;
+            extension.compatibleVersion = data.compatibleVersion;
 
             callback(extension);
-        }).fail(function() {
+        }).fail(function(e) {
             extension.state = PreUpdateChecker.STATE.SERVER_ERROR;
             callback(extension);
         });
-    }
-
-    PreUpdateChecker.parseXML = function (currentVersion, xml) {
-        var result = {
-            version: 0,
-            state: PreUpdateChecker.STATE.INCOMPATIBLE
-        };
-
-        // Parse XML via browser's native parsing function and convert it to a valid jQuery object
-        try {
-            var $xmlDoc = $($.parseXML(xml));
-        } catch(e) {
-            result.state = PreUpdateChecker.STATE.SERVER_ERROR;
-            return result;
-        }
-        
-        // Iterate all updates..
-        $xmlDoc.find('update').each(function() {
-            // TODO: Choose oldest update
-            // Check if update matches new joomla version
-            var versionRegex = new RegExp($(this).find('targetplatform[name="joomla"]').attr('version'));
-            if(versionRegex.test(PreUpdateChecker.joomlaTargetVersion)) {
-                result.state = PreUpdateChecker.STATE.COMPATIBLE;
-                result.version = $(this).find('version').text();
-                // todo: set flag to check if there is no compatible version or just no compatibily tag
-            }
-        });
-        // Return compatibility = false in case no update matches
-        return result;
     }
 
     PreUpdateChecker.setResultView = function (extensionData) {
