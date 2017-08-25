@@ -1001,113 +1001,12 @@ ENDDATA;
 	}
 
 	/**
-	 * Method to get a list of 3rd party extensions, sorted by compatibility
-	 *
-	 * @param   string  $latest_version  The Joomla! version to test against
-	 *
-	 * @return  array  An array of data items.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getExtensions($latest_version)
-	{
-		$coreExtensions = ExtensionHelper::getCoreExtensions();
-
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		// Build query to exclude language extensions and language packages
-		$query->select('e1.*')
-			->from($db->qn('#__extensions', 'e1'))
-			->leftJoin($db->qn('#__extensions', 'e2') . ' ON e1.extension_id = e2.package_id')
-			->where('e1.' . $db->qn('protected') . ' = 0')
-			->where('e1.' . $db->qn('type') . ' <> ' . $db->q('language'))
-			->where('(e2.' . $db->qn('type') . ' IS NULL OR e2.' . $db->qn('type') . ' <> ' . $db->q('language') . ')');
-
-		// Add condition to exclude core extensions if not already excluded before
-		foreach ($coreExtensions as $coreExtension)
-		{
-			if ($coreExtension[0] !== 'language' && $coreExtension[1] !== 'pkg_en-GB')
-			{
-				$query->where(
-					'(' . 'e1.' . $db->qn('type') . ' <> ' . $db->q($coreExtension[0])
-					. ' OR ' . 'e1.' . $db->qn('element') . ' <> ' . $db->q($coreExtension[1])
-					. ' OR ' . 'e1.' . $db->qn('folder') . ' <> ' . $db->q($coreExtension[2])
-					. ' OR ' . 'e1.' . $db->qn('client_id') . ' <> ' . $coreExtension[3] . ')'
-				);
-			}
-		}
-
-		$db->setQuery($query);
-
-		$extensions = $db->loadObjectList();
-
-		return $this->checkCompatibility($extensions, $latest_version);
-	}
-
-	/**
-	 * Method to filter 3rd party extensions by the compatibility versions
-	 *
-	 * @param   array   $extensions      The items to check as an object list. See getExtensions().
-	 * @param   string  $latest_version  The Joomla! version to test against
-	 *
-	 * @return  array  An array of data items.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
-	{
-		$update = new JUpdate;
-		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXML($updateFileUrl);
-
-		// If there is a download URL then there is probably a compatible update
-		$download_url = $update->get('downloadurl');
-		if (!empty($download_url) && !empty($download_url->_data))
-		{
-			return $update->get('version');
-		}
-		else{
-			return false;
-		}
-	}
-
-	/**
-	 * Get an array with URLs to update servers for a given extension ID
-	 *
-	 * @param   int  $extension_id  The extension ID
-	 *
-	 * @return  array  An array with URLs
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function getUpdateSiteLocation($extension_id)
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select($db->qn('us.location'))
-			->from($db->qn('#__update_sites', 'us'))
-			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
-			)
-			->where($db->qn('e.extension_id') . ' = ' . (int) $extension_id);
-
-		$db->setQuery($query);
-
-		$rows = $db->loadObjectList();
-
-		return count($rows)>=1 ? $rows[0]->location : "";
-	}
-
-	/**
 	 * Gets PHP options.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  array  Array of PHP config options
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getPhpOptions()
 	{
@@ -1213,10 +1112,11 @@ ENDDATA;
 
 	/**
 	 * Gets PHP Settings.
+	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  array
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getPhpSettings()
 	{
@@ -1275,11 +1175,45 @@ ENDDATA;
 	}
 
 	/**
+	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
+	 * TODO: Outsource, build common code base for pre install and pre update check
+	 *
+	 * @return  boolean  True if the method exists.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getIniParserAvailability()
+	{
+		$disabled_functions = ini_get('disable_functions');
+
+		if (!empty($disabled_functions))
+		{
+			// Attempt to detect them in the disable_functions blacklist.
+			$disabled_functions = explode(',', trim($disabled_functions));
+			$number_of_disabled_functions = count($disabled_functions);
+
+			for ($i = 0; $i < $number_of_disabled_functions; $i++)
+			{
+				$disabled_functions[$i] = trim($disabled_functions[$i]);
+			}
+
+			$result = !in_array('parse_ini_string', $disabled_functions);
+		}
+		else
+		{
+			// Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
+			$result = function_exists('parse_ini_string');
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Gets an array containing all installed extensions, that are not core extensions.
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	function getNonCoreExtensions()
 	{
@@ -1311,8 +1245,15 @@ ENDDATA;
 		return $rows;
 	}
 
-
-	function fetchCompatibility($extensionID, $targetVersion)
+	/**
+	 * @param $extensionID   Int The ID of the checked extension
+	 * @param $joomlaTargetVersion Target version of Joomla.
+	 *
+	 * @return object
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
 		$updateFileUrl = $this->getUpdateSiteLocation($extensionID);
 		if($updateFileUrl == "")
@@ -1321,7 +1262,7 @@ ENDDATA;
 		}
 		else
 		{
-			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $targetVersion);
+			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 			if($compatibleVersion)
 			{
 				return (object) array("state"=>1, "compatibleVersion"=> $compatibleVersion->_data);
@@ -1333,37 +1274,59 @@ ENDDATA;
 		}
 	}
 
+	/**
+	 * Get an array with URLs to update servers for a given extension ID
+	 *
+	 * @param   int  $extension_id  The extension ID
+	 *
+	 * @return  array  An array with URLs
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getUpdateSiteLocation($extension_id)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('us.location'))
+			->from($db->qn('#__update_sites', 'us'))
+			->leftJoin(
+				$db->qn('#__update_sites_extensions', 'e')
+				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+			)
+			->where($db->qn('e.extension_id') . ' = ' . (int) $extension_id);
+
+		$db->setQuery($query);
+
+		$rows = $db->loadObjectList();
+
+		return count($rows)>=1 ? $rows[0]->location : "";
+	}
 
 	/**
-	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
+	 * Method to filter 3rd party extensions by the compatibility versions
 	 *
-	 * @return  boolean  True if the method exists.
+	 * @param   array   $extensions      The items to check as an object list. See getExtensions().
+	 * @param   string  $latest_version  The Joomla! version to test against
 	 *
-	 * @since   3.1
+	 * @return  array  An array of data items.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getIniParserAvailability()
+	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
-		$disabled_functions = ini_get('disable_functions');
+		$update = new JUpdate;
+		$update->set('jversion.full', $joomlaTargetVersion);
+		$update->loadFromXML($updateFileUrl);
 
-		if (!empty($disabled_functions))
+		// If there is a download URL then there is probably a compatible update
+		$download_url = $update->get('downloadurl');
+		if (!empty($download_url) && !empty($download_url->_data))
 		{
-			// Attempt to detect them in the disable_functions blacklist.
-			$disabled_functions = explode(',', trim($disabled_functions));
-			$number_of_disabled_functions = count($disabled_functions);
-
-			for ($i = 0; $i < $number_of_disabled_functions; $i++)
-			{
-				$disabled_functions[$i] = trim($disabled_functions[$i]);
-			}
-
-			$result = !in_array('parse_ini_string', $disabled_functions);
+			return $update->get('version');
 		}
-		else
-		{
-			// Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
-			$result = function_exists('parse_ini_string');
+		else{
+			return false;
 		}
-
-		return $result;
 	}
 }
