@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\View;
+namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class CategoryFeed extends HtmlView
+class CategoryFeedView extends HtmlView
 {
 	/**
 	 * Execute and display a template script.
