@@ -35,7 +35,7 @@ class ArticlesArchiveHelper
 	{
 		// Get database
 		$db    = Factory::getDbo();
-		$states = $params->get("state");
+		$states = $params->get('state');
 
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
@@ -75,12 +75,12 @@ class ArticlesArchiveHelper
 		$states = array_map(
 			function ($el)
 			{
-				return '&filter[states][]=' . $el;
+				return '&states[]=' . (int) $el;
 			},
 			$states
 		);
 
-		$states = implode("", $states);
+		$states = implode($states);
 
 		foreach ($rows as $row)
 		{
