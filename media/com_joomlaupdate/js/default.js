@@ -105,24 +105,24 @@ function extractionMethodHandler(target, prefix)
             case PreUpdateChecker.STATE.COMPATIBLE:
                 if (extensionData.compatibleVersion == extensionData.currentVersion) {
                     // The compatible version matches the current version -> diplay success label
-                    html = '<p class="label label-success">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES + '</p>';
+                    html = '<p class="label label-success">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES') + '</p>';
                 } else {
                     // The compatible version does not match the current version -> display warning label
-                    html = '<p class="label label-warning">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES
+                    html = '<p class="label label-warning">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES')
                         + ' (Version: ' + extensionData.compatibleVersion + ')</p>';
                 }
                 break;
             case PreUpdateChecker.STATE.INCOMPATIBLE:
                 // No compatible version found -> display error label
-                html = '<p class="label label-important">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO + '</p>';
+                html = '<p class="label label-important">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO') + '</p>';
                 break;
             case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
                 // Could not check compatibility state -> display warning
-                html = '<p class="label">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING + '</p>';
+                html = '<p class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING') + '</p>';
                 break;
             default:
                 // An error occured -> show unknown error note
-                html = '<p class="label">' + COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN + '</p>';
+                html = '<p class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</p>';
         }
         // Insert the generated html
         extensionData.$element.html(html);
