@@ -16159,7 +16159,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1e444e05", __vue__options__)
   }
 })()}
-},{"./../store/mutation-types":412,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
+},{"./../store/mutation-types":413,"vue":388,"vue-hot-reload-api":387}],394:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16323,7 +16323,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1bc645b6", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":412,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
+},{"./../../store/mutation-types":413,"babel-runtime/helpers/toConsumableArray":11,"vue":388,"vue-hot-reload-api":387}],396:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16548,7 +16548,7 @@ exports.default = {
     }
 };
 
-},{"./../../../store/mutation-types":412,"./directory.vue":396,"./file.vue":397,"./image.vue":398}],400:[function(require,module,exports){
+},{"./../../../store/mutation-types":413,"./directory.vue":396,"./file.vue":397,"./image.vue":398}],400:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16656,7 +16656,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-e447843c", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":412,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],402:[function(require,module,exports){
+},{"./../../store/mutation-types":413,"vue":388,"vue-focus":386,"vue-hot-reload-api":387}],402:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/** TODO DN extract styles **/\n.modal-body {\n    width: auto;\n    padding: 15px;\n}\n\n.media-modal-backdrop {\n    position: fixed;\n    z-index: 1040;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, .5);\n    display: table;\n    transition: opacity .3s ease;\n}")
 ;(function(){
 'use strict';
@@ -16724,7 +16724,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-7dde5310", __vue__options__)
   }
 })()}
-},{"./../../store/mutation-types":412,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],403:[function(require,module,exports){
+},{"./../../store/mutation-types":413,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],403:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16759,18 +16759,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
     name: 'media-disk',
-    props: ['disk'],
-    methods: {
-        selectDisk: function selectDisk() {
-            this.$store.dispatch('getContents', this.disk.root);
-        }
-    }
+    props: ['disk']
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-disk",on:{"click":_vm.selectDisk}},[_c('div',{staticClass:"media-disk-name"},[_vm._v(_vm._s(_vm.disk.displayName))]),_vm._v(" "),_c('media-tree',{attrs:{"root":_vm.disk.root}})],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-disk"},[_c('div',{staticClass:"media-disk-name"},[_vm._v(_vm._s(_vm.disk.displayName))]),_vm._v(" "),_vm._l((_vm.disk.drives),function(drive){return _c('media-drive',{attrs:{"drive":drive}})})],2)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -16783,6 +16778,38 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
+;(function(){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    name: 'media-drive',
+    props: ['drive'],
+    methods: {
+        selectDrive: function selectDrive() {
+            this.$store.dispatch('getContents', this.drive.root);
+        }
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-drive",on:{"click":_vm.selectDrive}},[_c('div',{staticClass:"media-drive-name"},[_vm._v(_vm._s(_vm.drive.displayName))]),_vm._v(" "),_c('media-tree',{attrs:{"root":_vm.drive.root}})],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-283fcaa5", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-283fcaa5", __vue__options__)
+  }
+})()}
+},{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16832,7 +16859,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-31461c48", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],406:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16870,7 +16897,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-3db5d753", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],407:[function(require,module,exports){
+},{"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16982,7 +17009,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6502cbb3", __vue__options__)
   }
 })()}
-},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],408:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":3,"vue":388,"vue-hot-reload-api":387}],409:[function(require,module,exports){
 "use strict";
 
 require("babel-polyfill");
@@ -17002,6 +17029,10 @@ var _app2 = _interopRequireDefault(_app);
 var _disk = require("./components/tree/disk.vue");
 
 var _disk2 = _interopRequireDefault(_disk);
+
+var _drive = require("./components/tree/drive.vue");
+
+var _drive2 = _interopRequireDefault(_drive);
 
 var _tree = require("./components/tree/tree.vue");
 
@@ -17057,6 +17088,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(_translate2.default);
 
 // Register the vue components
+_vue2.default.component('media-drive', _drive2.default);
 _vue2.default.component('media-disk', _disk2.default);
 _vue2.default.component('media-tree', _tree2.default);
 _vue2.default.component('media-tree-item', _item2.default);
@@ -17085,7 +17117,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 
-},{"./app/Event":392,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":400,"./components/modals/create-folder-modal.vue":401,"./components/modals/modal.vue":402,"./components/toolbar/toolbar.vue":403,"./components/tree/disk.vue":404,"./components/tree/item.vue":405,"./components/tree/tree.vue":406,"./components/upload/upload.vue":407,"./plugins/translate":409,"./store/store":415,"babel-polyfill":1,"vue":388}],409:[function(require,module,exports){
+},{"./app/Event":392,"./components/app.vue":393,"./components/breadcrumb/breadcrumb.vue":394,"./components/browser/browser.vue":395,"./components/browser/items/item":399,"./components/infobar/infobar.vue":400,"./components/modals/create-folder-modal.vue":401,"./components/modals/modal.vue":402,"./components/toolbar/toolbar.vue":403,"./components/tree/disk.vue":404,"./components/tree/drive.vue":405,"./components/tree/item.vue":406,"./components/tree/tree.vue":407,"./components/upload/upload.vue":408,"./plugins/translate":410,"./store/store":416,"babel-polyfill":1,"vue":388}],410:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17109,7 +17141,7 @@ Translate.install = function (Vue, options) {
 
 exports.default = Translate;
 
-},{}],410:[function(require,module,exports){
+},{}],411:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17230,7 +17262,7 @@ var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedI
     }
 };
 
-},{"../app/Api":391,"./mutation-types":412}],411:[function(require,module,exports){
+},{"../app/Api":391,"./mutation-types":413}],412:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17274,7 +17306,7 @@ var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function get
     });
 };
 
-},{}],412:[function(require,module,exports){
+},{}],413:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17297,7 +17329,7 @@ var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_F
 // Delete items
 var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
 
-},{}],413:[function(require,module,exports){
+},{}],414:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17458,49 +17490,52 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showCreateFolderModal = false;
 }), _types$SELECT_DIRECTO);
 
-},{"./mutation-types":412,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],414:[function(require,module,exports){
+},{"./mutation-types":413,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],415:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 // Get the disks from joomla option storage
 var options = Joomla.getOptions('com_media', {});
 if (options.providers === undefined || options.providers.length === 0) {
     throw new TypeError('Media providers are not defined.');
 }
 
+// Load disks from options
+var loadedDisks = options.providers.map(function (disk) {
+    return {
+        displayName: disk.displayName,
+        drives: disk.adapterNames.map(function (account, index) {
+            return { root: disk.name + '-' + index + ':/', displayName: account };
+        })
+    };
+});
+
+if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0) {
+    throw new TypeError("No default media drive was found");
+}
+
 // The initial state
 exports.default = {
     // Will hold the activated filesystem disks
-    disks: options.providers.map(function (disk) {
-        return (0, _assign2.default)(disk, {
-            root: disk.name + ':/'
-        });
-    }),
+    disks: loadedDisks,
     // The loaded directories
-    directories: options.providers.map(function (disk) {
-        return { path: disk.name + ':/', name: disk.displayName, directories: [], files: [], directory: null };
+    directories: loadedDisks.map(function (disk) {
+        return { path: disk.drives[0].root, name: disk.displayName, directories: [], files: [], directory: null };
     }),
     // The loaded files
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
-    // in the list as the default provider.
-    selectedDirectory: options.providers[0].name + ':/',
+    // in the list as the default provider and loads first drive on it as default
+    selectedDirectory: loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
-    // The state of cre
+    // The state of create folder model
     showCreateFolderModal: false
 };
 
-},{"babel-runtime/core-js/object/assign":5}],415:[function(require,module,exports){
+},{}],416:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17547,4 +17582,4 @@ _vue2.default.use(_vuex2.default
     strict: true
 });
 
-},{"./actions":410,"./getters":411,"./mutations":413,"./state":414,"vue":388,"vuex":390}]},{},[408]);
+},{"./actions":411,"./getters":412,"./mutations":414,"./state":415,"vue":388,"vuex":390}]},{},[409]);

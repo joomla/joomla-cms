@@ -1,7 +1,7 @@
 <template>
-    <div class="media-disk" @click="selectDisk">
+    <div class="media-disk">
         <div class="media-disk-name">{{ disk.displayName }}</div>
-        <media-tree :root="disk.root" ></media-tree>
+        <media-drive v-for="drive in disk.drives" :drive="drive"></media-drive>
     </div>
 </template>
 
@@ -9,10 +9,5 @@
     export default {
         name: 'media-disk',
         props: ['disk'],
-        methods: {
-            selectDisk() {
-                this.$store.dispatch('getContents', this.disk.root);
-            }
-        }
     }
 </script>
