@@ -582,6 +582,6 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getAdapterName()
 	{
-		return 'images';
+		return $this->filePath;
 	}
 }

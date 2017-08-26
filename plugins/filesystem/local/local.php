@@ -37,11 +37,27 @@ class PlgFileSystemLocal extends CMSPlugin
 	 */
 	public function onFileSystemGetAdapters()
 	{
-		// Compile the root path
-		$filePath = ComponentHelper::getParams('com_media')->get('file_path', 'images');
-		$root = JPATH_ROOT . '/' . $filePath;
-		$root = rtrim($root) . '/';
+		$adapters = [];
+		$directories = $this->params->get('directories', '[{"directory":{"directory": "images"}}]');
 
-		return [new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root, $filePath)];
+		// Do a check if default settings are not saved by user
+		// If not initialize them manually
+		if (is_string($directories))
+		{
+			$directories = json_decode($directories);
+			list($directories) = $directories;
+		}
+
+		foreach ($directories as $directoryEntity)
+		{
+			if ($directoryEntity->directory)
+			{
+				$directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
+				$directoryPath = rtrim($directoryPath) . '/';
+				$adapters[]    = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($directoryPath, $directoryEntity->directory);
+			}
+		}
+
+		return $adapters;
 	}
 }

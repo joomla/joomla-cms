@@ -29,6 +29,28 @@
 					description="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_DESC"
 					default="Local"
 				/>
+				<field
+					name="directories"
+					type="subform"
+					label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_LABEL"
+					description="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DESC"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable-table"
+					buttons="add,remove,move"
+					default='[{"directory":{"directory": "images"}}]'
+				>
+					<form>
+						<field
+							name="directory"
+							type="folderlist"
+							default="images"
+							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_LABEL"
+							filter=""
+							exclude=""
+							stripext=""
+						/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
