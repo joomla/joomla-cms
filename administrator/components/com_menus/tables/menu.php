@@ -89,6 +89,15 @@ class MenusTableMenu extends JTableMenu
 					return false;
 				}
 
+				// Check the publish up date is not greater than now for home.
+				if ((int) $this->publish_up > 0 && $this->publish_up > \JFactory::getDate()->toSql())
+				{
+
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+
+					return false;
+				}
+
 			}
 		
 			return $return;
