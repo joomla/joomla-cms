@@ -573,7 +573,7 @@ class ContentModelArticles extends JModelList
 				$nullDate = $db->getNullDate();
 				$nowDate  = JFactory::getDate();
 
-				$isPublished = ($item->published == 1);
+				$isPublished = ($item->state == 1);
 				$isExpired = !( (($item->publish_up == $nullDate) || ($item->publish_up <= $nowDate)) &&
 						(($item->publish_down == $nullDate) || ($item->publish_down >= $nowDate)) );
 
