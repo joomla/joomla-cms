@@ -174,7 +174,7 @@ if ($menuType == '')
 						</td>
 						<td class="center">
 							<?php
-							echo JHtml::_('jgrid.published', $item->published, $i, 'menus.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+							echo JHtml::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 						</td>
 						<td>
 							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
