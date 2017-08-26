@@ -174,9 +174,7 @@ if ($menuType == '')
 						</td>
 						<td class="center">
 							<?php
-							// Show protected items as published always. We don't allow state change for them. Show/Hide is the module's job.
-							$published = $item->protected ? 3 : $item->published;
-							echo JHtml::_('MenusHtml.Menus.state', $published, $i, $canChange && !$item->protected, 'cb'); ?>
+							echo JHtml::_('jgrid.published', $item->published, $i, 'menus.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 						</td>
 						<td>
 							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
