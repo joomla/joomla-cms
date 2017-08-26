@@ -111,10 +111,10 @@ class ContentModelArticles extends JModelList
 		$this->setState('params', $params);
 		$user = JFactory::getUser();
 
-		/*	Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
-			But here it's too early: we don't have article ids.
-			Or we find a way to authorize using just SQL queries (!), or we here can just authorise at component level, not at article level.
-			So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
+		/* Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
+		But here it's too early: we don't have article ids.
+		Or we find a way to authorize using just SQL queries (!), or we here can just authorise at component level, not at article level.
+		So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
 		*/
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
@@ -430,10 +430,10 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		/*	Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just non-expired articles.
-			But here it's too early: we don't have article ids.
-			Or we find a way to authorize using just SQL queries (!), or we here can just authorise at component level, not at article level.
-			So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
+		/* Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just non-expired articles.
+		But here it's too early: we don't have article ids.
+		Or we find a way to authorize using just SQL queries (!), or we here can just authorise at component level, not at article level.
+		So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
 		*/
 
 		// Filter by Date Range or Relative Date
@@ -570,15 +570,15 @@ class ContentModelArticles extends JModelList
 			if ((!$user->authorise('core.edit.state', $asset)) || (!$user->authorise('core.edit', $asset)))
 			{								
 				$db = $this->getDbo();
-				$null_date = $db->getNullDate();
-				$now_date  = JFactory::getDate();
+				$nullDate = $db->getNullDate();
+				$nowDate  = JFactory::getDate();
 
-				$is_published = ($item->published == 1);
-				$is_expired = !( (($item->publish_up == $null_date) || ($item->publish_up <= $now_date)) &&
-						(($item->publish_down == $null_date) || ($item->publish_down >= $now_date)) );
+				$isPublished = ($item->published == 1);
+				$isExpired = !( (($item->publish_up == $nullDate) || ($item->publish_up <= $nowDate)) &&
+						(($item->publish_down == $nullDate) || ($item->publish_down >= $nowDate)) );
 
 				// Article to be removed
-				if (!$is_published || $is_expired)
+				if (!$isPublished || $isExpired)
 				{
 					/* Annotate current key/index for later removal, for performance reasons:
 					in fact we could use directly array_splice here, but it would reset $items array index counter
@@ -716,7 +716,7 @@ class ContentModelArticles extends JModelList
 
 		TODO: evaluate performance/memory costs: is it better using array_splice or copying the array, skipping elements to-be-removed ?
 		*/
-		foreach ($iToRemove as $j=>$i)
+		foreach ($iToRemove as $j => $i)
 		{
 			array_splice($items, $i-$j, 1);
 		}
