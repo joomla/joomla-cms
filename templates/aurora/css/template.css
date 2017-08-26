@@ -8489,7 +8489,7 @@ joomla-alert {
 @supports (display: grid) {
   .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
+    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
     .site-grid > div {
@@ -8508,11 +8508,11 @@ joomla-alert {
       grid-column: full-start / full-end; }
     @media (max-width: 575px) {
       .site-grid {
-        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
-  header {
-    margin-bottom: 0; }
-    header + div:not(.container-banner) {
-      margin-top: 15px; }
+        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
+    .site-grid header {
+      margin-bottom: 0; }
+      .site-grid header + div:not(.container-banner) {
+        margin-top: 15px; }
   .container-banner {
     margin: 0 0 15px; }
     .container-banner p {
