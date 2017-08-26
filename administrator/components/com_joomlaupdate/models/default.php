@@ -1215,73 +1215,80 @@ ENDDATA;
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function getNonCoreExtensions()
+	public function getNonCoreExtensions()
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('ex.name') . ', ' . $db->qn('ex.extension_id') . ', ' . $db->qn('ex.manifest_cache') .', ' . $db->qn('si.location'))
-			->from($db->qn('#__extensions', 'ex'))
-			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'se')
-				. ' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
-			)
-			->leftJoin(
-				$db->qn('#__update_sites', 'si')
-				. ' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
-			)
-			->where($db->qn('ex.extension_id') . ' >= 10000');
+		$query->select(
+			$db->qn('ex.name') . ', ' .
+			$db->qn('ex.extension_id', 'extensionID') . ', ' .
+			$db->qn('ex.manifest_cache', 'manifestCache') . ', ' .
+			$db->qn('si.location')
+		)->from(
+			$db->qn('#__extensions', 'ex')
+		)->leftJoin(
+			$db->qn('#__update_sites_extensions', 'se') .
+			' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
+		)->leftJoin(
+			$db->qn('#__update_sites', 'si') .
+			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
+		)->where(
+			$db->qn('ex.extension_id') . ' >= 10000'
+		);
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
 		foreach ($rows as $extension)
 		{
-			$decode = json_decode($extension->manifest_cache);
+			$decode = json_decode($extension->manifestCache);
 			$extension->version = $decode->version;
-			unset($extension->manifest_cache);
+			unset($extension->manifestCache);
 		}
 
 		return $rows;
 	}
 
 	/**
-	 * @param $extensionID   Int The ID of the checked extension
-	 * @param $joomlaTargetVersion Target version of Joomla.
+	 * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
+	 *
+	 * @param   string $extensionID         The ID of the checked extension
+	 * @param   string $joomlaTargetVersion Target version of Joomla
 	 *
 	 * @return object
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	function fetchCompatibility($extensionID, $joomlaTargetVersion)
+	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
 		$updateFileUrl = $this->getUpdateSiteLocation($extensionID);
 
-		if($updateFileUrl == "")
+		if (!$updateFileUrl)
 		{
-			return (object) array("state"=>2);
+			return (object) array("state" => 2);
 		}
 		else
 		{
 			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-			if($compatibleVersion)
+			if ($compatibleVersion)
 			{
-				return (object) array("state"=>1, "compatibleVersion"=> $compatibleVersion->_data);
+				return (object) array("state" => 1, "compatibleVersion" => $compatibleVersion->_data);
 			}
 			else
 			{
-				return (object) array("state"=>0);
+				return (object) array("state" => 0);
 			}
 		}
 	}
 
 	/**
-	 * Get an array with URLs to update servers for a given extension ID
+	 * Get an URL to update servers for a given extension ID
 	 *
-	 * @param   int  $extension_id  The extension ID
+	 * @param   int  $extensionID  The extension ID
 	 *
-	 * @return  array  An array with URLs
+	 * @return  mixed  URL or false
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -1302,14 +1309,14 @@ ENDDATA;
 
 		$rows = $db->loadObjectList();
 
-		return count($rows)>=1 ? $rows[0]->location : "";
+		return count($rows) >= 1 ? end($rows)->location : false;
 	}
 
 	/**
-	 * Method to filter 3rd party extensions by the compatibility versions
+	 * Method to check 3rd party extensions for compatibility.
 	 *
-	 * @param   array   $extensions      The items to check as an object list. See getExtensions().
-	 * @param   string  $latest_version  The Joomla! version to test against
+	 * @param   string  $updateFileUrl        The items update XML url.
+	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against
 	 *
 	 * @return  mixed  An array of data items or false.
 	 *
@@ -1322,9 +1329,9 @@ ENDDATA;
 		$update->loadFromXML($updateFileUrl);
 
 		// If there is a download URL then there is probably a compatible update
-		$download_url = $update->get('downloadurl');
+		$downloadUrl = $update->get('downloadurl');
 
-		if (!empty($download_url) && !empty($download_url->_data))
+		if (!empty($downloadUrl) && !empty($downloadUrl->_data))
 		{
 			return $update->get('version');
 		}
