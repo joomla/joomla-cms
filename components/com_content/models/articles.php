@@ -575,14 +575,14 @@ class ContentModelArticles extends JModelList
 
 				$is_published = ($item->published == 1);
 				$is_expired = !( (($item->publish_up == $null_date) || ($item->publish_up <= $now_date)) &&
-								(($item->publish_down == $null_date) || ($item->publish_down >= $now_date)) );
+						(($item->publish_down == $null_date) || ($item->publish_down >= $now_date)) );
 
 				// Article to be removed
 				if (!$is_published || $is_expired)
 				{
-					/*	Annotate current key/index for later removal, for performance reasons:
-						in fact we could use directly array_splice here, but it would reset $items array index counter
-						and the foreach loop would restart from beginning! */
+					/* Annotate current key/index for later removal, for performance reasons:
+					in fact we could use directly array_splice here, but it would reset $items array index counter
+					and the foreach loop would restart from beginning! */
 					$iToRemove[] = $i;
 
 					continue;
@@ -711,10 +711,10 @@ class ContentModelArticles extends JModelList
 			}
 		}
 
-		/*	Now we have to remove from $items all elements/articles that we previously set in $iToRemove array,
-			as they are unpublished or expired articles and user is not authorised to see them (hasn't 'edit' or 'edit.own' permissions on them)
+		/* Now we have to remove from $items all elements/articles that we previously set in $iToRemove array,
+		as they are unpublished or expired articles and user is not authorised to see them (hasn't 'edit' or 'edit.own' permissions on them)
 
-			TODO: evaluate performance/memory costs: is it better using array_splice or copying the array, skipping elements to-be-removed ?
+		TODO: evaluate performance/memory costs: is it better using array_splice or copying the array, skipping elements to-be-removed ?
 		*/
 		foreach ($iToRemove as $j=>$i)
 		{
