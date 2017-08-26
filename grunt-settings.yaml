@@ -17,11 +17,11 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': 'jquery'
     'bootstrap':
-                  'version': '4.0.0-alpha.6'
-                  'dependencies': 'jquery, tether'
-    'tether':
-                  'version': '1.4.0'
-                  'dependencies': 'jquery, tether'
+                  'version': '4.0.0-beta'
+                  'dependencies': 'jquery, popper.js'
+    'popper.js':
+                  'version': '1.11.1'
+                  'dependencies': ''
     'font-awesome':
                   'version': '4.7.0'
                   'dependencies': ''

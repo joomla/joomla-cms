@@ -13,9 +13,9 @@
 }
 
 .icon-publish {
-  color: $brand-success;
+  color: theme-color("success");
 }
 
 .icon-unpublish {
-  color: $brand-danger;
+  color: theme-color("danger");
 }

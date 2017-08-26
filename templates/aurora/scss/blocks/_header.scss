@@ -12,19 +12,13 @@
     width: 100%;
     height: 3px;
     content: "";
-    background-color: $brand-primary;
+    background-color: theme-color("primary");
     background-image: linear-gradient(to right, $aurora-hl-grad-inner 0%, $aurora-hl-grad-outer 100%);
   }
 
   .site-description {
     font-size: 1rem;
     color: $white-offset;
-  }
-
-  .navbar {
-    @include media-breakpoint-down(md) {
-      display: block;
-    }
   }
 
   .navbar-brand {
@@ -126,7 +120,7 @@
       top: 2px;
       margin-right: 12px;
       margin-left: 5px;
-      font-size: $font-size-h1;
+      font-size: $h1-font-size;
       color: lighten($aurora-template-color, 10%);
     }
 
