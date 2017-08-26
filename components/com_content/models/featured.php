@@ -55,12 +55,11 @@ class ContentModelFeatured extends ContentModelArticles
 
 		$this->setState('filter.frontpage', true);
 
-		// Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
-		//
-		// But here it's too early: we don't have article ids.
-		// Or we find a way to authorize using just SQL queries (!), or we can here just authorise at component level, not at article level.
-		// So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
-		//
+		/*	Here would be a good place to authorise user on edit and edit.state permissions, and eventually filter just published articles.
+			But here it's too early: we don't have article ids.
+			Or we find a way to authorize using just SQL queries (!), or we can here just authorise at component level, not at article level.
+			So, to have fine-grained authorization at article level, we postpone checks, filtering and authorizations to getItems function.
+		*/
 
 		// Check for category selection
 		if ($params->get('featured_categories') && implode(',', $params->get('featured_categories')) == true)
