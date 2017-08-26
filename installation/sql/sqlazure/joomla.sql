@@ -1934,7 +1934,7 @@ CREATE TABLE "#__menu" (
   "language" nvarchar(7) NOT NULL DEFAULT '',
   "client_id" smallint NOT NULL DEFAULT 0,
   "publish_up" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
-  "èublish_down" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+  "publish_down" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
  CONSTRAINT "PK_#__menu_id" PRIMARY KEY CLUSTERED
 (
   "id" ASC
@@ -2002,7 +2002,7 @@ CREATE NONCLUSTERED INDEX "idx_img" ON "#__menu"
 
 SET IDENTITY_INSERT "#__menu" ON;
 
-INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id") VALUES
+INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down") VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:00', 0, 0, '', 0, '', 0, 43, 0, '*', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00'),
 (2, 'main', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 1, 1, 1, 4, 0, '1900-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0, '*', 1, '1900-01-01 00:00:00', '1900-01-01 00:00:00'),
 (3, 'main', 'com_banners', 'Banners', '', 'Banners/Banners', 'index.php?option=com_banners', 'component', 1, 2, 2, 4, 0, '1900-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 2, 3, 0, '*', 1, '1900-01-01 00:00:00', '1900-01-01 00:00:00'),
