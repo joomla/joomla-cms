@@ -473,7 +473,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 	/**
 	 * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
-	 * Returns true or false
+	 * Prints an JSON string.
+	 * Called from JS.
 	 *
 	 * @return void
 	 */

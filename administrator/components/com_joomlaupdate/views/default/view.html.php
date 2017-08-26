@@ -48,7 +48,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   array  Array of PHP config options
 	 *
-	 * @since   3.9
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $phpOptions = null;
 
@@ -57,7 +57,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   array  Array of PHP settings
 	 *
-	 * @since   3.9
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $phpSettings = null;
 
@@ -66,7 +66,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   array  Array of Non-Core-Extensions
 	 *
-	 * @since   3.9
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $nonCoreExtensions = null;
 
