@@ -260,6 +260,8 @@ CREATE TABLE "jos_menu" (
   "home" smallint DEFAULT 0 NOT NULL,
   "language" character(7) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
+  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "idx_client_id_parent_id_alias" UNIQUE ("client_id", "parent_id", "alias")
 );
