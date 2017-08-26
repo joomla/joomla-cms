@@ -23,7 +23,8 @@ JHtml::_('bootstrap.tooltip');
 			<?php $class = ''; ?>
 				<h3 class="page-header item-title">
 					<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
-					<?php echo $this->escape($item->title); ?></a>
+						<?php echo $this->escape($item->title); ?>
+					</a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
 						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTACT_NUM_ITEMS'); ?>">
 							<?php echo JText::_('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
@@ -32,7 +33,9 @@ JHtml::_('bootstrap.tooltip');
 					<?php endif; ?>
 					<?php if ($this->maxLevelcat > 1 && count($item->getChildren()) > 0) : ?>
 						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
+								<span class="icon-plus"></span>
+						</a>
 					<?php endif; ?>
 				</h3>
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
