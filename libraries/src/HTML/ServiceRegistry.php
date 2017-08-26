@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class HTMLRegistry
+final class ServiceRegistry
 {
 	/**
 	 * Array holding the registered services
