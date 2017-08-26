@@ -239,7 +239,7 @@ class MenusModelItems extends JModelList
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
-						null, 'a.published', null, null, null, null,
+						null, null, null, null, null, null,
 						null, null, null, null, null, null, null, null, 
 						null, null, null
 					)
@@ -259,7 +259,7 @@ class MenusModelItems extends JModelList
 				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published = -2 THEN a.published-1 ' .
 				' WHEN a.type = ' . $db->quote('container') . ' AND a.published != -2 THEN a.published+8 ' .
 				' WHEN a.type = ' . $db->quote('container') . ' AND a.published = -2 THEN a.published-1 ' .
-			' END AS published '
+			' END AS protected '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
