@@ -558,16 +558,17 @@ class ContentModelArticles extends JModelList
 		// Get the global params
 		$globalParams = JComponentHelper::getParams('com_content', true);
 
-		// Convert the parameter fields into objects.
-		foreach ($items as $key => &$item)
-		{
-			// We could not authorise at article level in populateState nor in getListQuery, as it was too early,
-			// we hadn't article ids there.
-			// So we authorise here at article level, using article ids.
+		// Array of indexes of elements to be removed from $items; to be done after this foreach loop
+		$i_to_remove=array();
 
+		// Convert the parameter fields into objects.
+		foreach ($items as $i => &$item)
+		{
+			// We could not authorise at article level in populateState nor in getListQuery, as it was too early: we hadn't article ids there.
+			// So we authorise here at article level, using article id.
 			$asset = 'com_content.article.' . $item->id;
 
-			// If user has not permissions to edit or edit.state then keep published articles only
+			// If user has not permissions to 'edit' or 'edit.state' then keep published articles only
 			if ((!$user->authorise('core.edit.state', $asset)) || (!$user->authorise('core.edit', $asset)))
 			{								
 				$db = $this->getDbo();
@@ -578,10 +579,14 @@ class ContentModelArticles extends JModelList
 				$is_expired = !( (($item->publish_up == $null_date) || ($item->publish_up <= $now_date)) &&
 								(($item->publish_down == $null_date) || ($item->publish_down >= $now_date)) );
 				
-				// Remove article if unpublished or expired
+				// Article to be removed
 				if(!$is_published || $is_expired)
 				{
-					unset($items[$key]);
+					// Annotate current key/index for later removal, for performance reasons:
+					// in fact we could use directly array_splice here, but it would reset $items array index counter
+					// and the foreach loop would restart from begining!
+					$i_to_remove[] = $i;
+					
 					continue;
 				}
 			}
@@ -707,6 +712,13 @@ class ContentModelArticles extends JModelList
 				$item->associations = ContentHelperAssociation::displayAssociations($item->id);
 			}
 		}
+
+		// Now we have to remove from $items all elements/articles that we previously set in $i_to_remove array,
+		// as they are unpublished or expired articles and user is not authorised to see them (hasn't 'edit' or 'edit.own' permissions on them)
+		//
+		// TODO: evaluate performance/memory costs: is it better using array_splice or copying the array, skipping elements to-be-removed ?
+		foreach($i_to_remove as $j=>$i)
+			array_splice($items, $i-$j, 1);
 
 		return $items;
 	}
