@@ -145,7 +145,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft')
+			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
 			->from('#__categories AS a');
 
 		// Filter by the extension type
@@ -220,18 +220,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
-		// Get language of the categories and cache it per extension
-		static $cat_languages = array();
-		if (!isset($cat_languages[$extension]))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('language') . ', ' . $db->quoteName('id'))
-				->from($db->quoteName('#__categories'))
-				->where($db->quoteName('extension') . ' = ' . $db->quote($extension));
-			$cat_languages[$extension] = $db->setQuery($query)->loadObjectList('id');
-		}
-
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
@@ -243,9 +231,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 				}
 			}
-
-			// Displays language code if not set to All
-			$language = $cat_languages[$extension][$options[$i]->value]->language;
 
 			if ($options[$i]->level != 0)
 			{
@@ -261,9 +246,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
 			}
 
-			if ($language !== '*')
+			// Displays language code if not set to All
+			if ($options[$i]->language !== '*')
 			{
-				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
+				$options[$i]->text = $options[$i]->text . ' (' . $options[$i]->language . ')';
 			}
 		}
 
