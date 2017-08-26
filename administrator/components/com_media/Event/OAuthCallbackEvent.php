@@ -83,7 +83,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setParameters($input)
+	public function setInput($input)
 	{
 		$this->input = $input;
 	}
