@@ -557,7 +557,7 @@ class ContentModelArticles extends JModelList
 		$globalParams = JComponentHelper::getParams('com_content', true);
 
 		// Array of indexes of elements to be removed from $items; to be done after this foreach loop
-		$i_to_remove=array();
+		$iToRemove = array();
 
 		// Convert the parameter fields into objects.
 		foreach ($items as $i => &$item)
@@ -572,19 +572,19 @@ class ContentModelArticles extends JModelList
 				$db = $this->getDbo();
 				$null_date = $db->getNullDate();
 				$now_date  = JFactory::getDate();
-				
+
 				$is_published = ($item->published == 1);
 				$is_expired = !( (($item->publish_up == $null_date) || ($item->publish_up <= $now_date)) &&
 								(($item->publish_down == $null_date) || ($item->publish_down >= $now_date)) );
-				
+
 				// Article to be removed
 				if (!$is_published || $is_expired)
 				{
 					/*	Annotate current key/index for later removal, for performance reasons:
 						in fact we could use directly array_splice here, but it would reset $items array index counter
-						and the foreach loop would restart from begining! */
-					$i_to_remove[] = $i;
-					
+						and the foreach loop would restart from beginning! */
+					$iToRemove[] = $i;
+
 					continue;
 				}
 			}
@@ -711,12 +711,12 @@ class ContentModelArticles extends JModelList
 			}
 		}
 
-		/*	Now we have to remove from $items all elements/articles that we previously set in $i_to_remove array,
+		/*	Now we have to remove from $items all elements/articles that we previously set in $iToRemove array,
 			as they are unpublished or expired articles and user is not authorised to see them (hasn't 'edit' or 'edit.own' permissions on them)
 
 			TODO: evaluate performance/memory costs: is it better using array_splice or copying the array, skipping elements to-be-removed ?
 		*/
-		foreach ($i_to_remove as $j=>$i)
+		foreach ($iToRemove as $j=>$i)
 		{
 			array_splice($items, $i-$j, 1);
 		}
