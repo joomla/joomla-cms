@@ -130,7 +130,19 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					continue;
 				}
 
-				if (!$tableMenuItem = $model->addMenuItem($siteLang))
+				if (!$data['installLocalisedContent'])
+				{
+					if (!$tableMenuItem = $model->addFeaturedMenuItem($siteLang))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+				}
+
+				if (!$tableMenuItem = $model->addAllCategoriesMenuItem($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
 
@@ -156,6 +168,15 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					}
 
 					$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
+
+					if (!$tableMenuItem = $model->addBlogMenuItem($siteLang, $tableCategory->id))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
 
 					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
 					{
