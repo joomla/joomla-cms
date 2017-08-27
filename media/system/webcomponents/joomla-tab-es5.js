@@ -36,20 +36,40 @@ var _createClass = function () {
       return ['recall', 'orientation', 'view'];
     } }]), _createClass(b, [{ key: 'connectedCallback', value: function connectedCallback() {
       var a = this;(!this.orientation || this.orientation && -1 === ['horizontal', 'vertical'].indexOf(this.orientation)) && (this.orientation = 'horizontal');var b = this,
-          c = [].slice.call(this.querySelectorAll('section'));if (c) {
-        var d = [];if (this.findAncestor(this, 'joomla-tab') && (this.isNested = !0), this.querySelector('joomla-tab') ? (this.hasNested = !0, c.forEach(function (a) {
-          a.parentNode === b && d.push(a);
-        })) : d = c, 'accordion' !== this.view && this.createNavigation(d), d.forEach(function (b) {
+          c = [].slice.call(this.querySelectorAll('section')),
+          d = [],
+          e = [];if (c) {
+        if (this.findAncestor(this, 'joomla-tab') && (this.isNested = !0), this.querySelector('joomla-tab') && (this.hasNested = !0), this.hasAttribute('recall')) {
+          var f = sessionStorage.getItem(this.getStorageKey());f && e.push(f);
+        }if (this.hasNested) {
+          var g = sessionStorage.getItem(this.getStorageKey());if (g && e.push(g), console.log(e), e.length && '' !== e[0]) {
+            var h = e[0].substring(5),
+                i = this.querySelector('#' + h);if (i) {
+              var j = this.findAncestor(i, 'joomla-tab'),
+                  k = this.findAncestor(j, 'joomla-tab');if (k) {
+                var l = this.findAncestor(j, 'section');l && e.push('#tab-' + l.id);
+              }
+            }
+          }c.forEach(function (a) {
+            if (e.length) {
+              var c = '#tab-' + a.id;-1 === e.indexOf(c) ? a.removeAttribute('active') : a.setAttribute('active', '');
+            }a.parentNode === b && d.push(a);
+          });
+        } else c.forEach(function (a) {
+          if (e.length) {
+            var b = '#tab-' + a.hash;-1 < e.indexOf(b) ? a.removeAttribute('active') : a.setAttribute('active', '');
+          }
+        }), d = c;if ('accordion' !== this.view && this.createNavigation(d), d.forEach(function (b) {
           b.setAttribute('role', 'tabpanel'), a.tabs.push('#tab-' + b.id), b.hasAttribute('active') && (a.hasActive = !0, a.currentActive = b.id, a.querySelector('#tab-' + b.id).setAttribute('aria-selected', 'true'), a.querySelector('#tab-' + b.id).setAttribute('active', ''), a.querySelector('#tab-' + b.id).setAttribute('tabindex', '0'));
         }), this.hasActive || (d[0].setAttribute('active', ''), this.hasActive = !0, this.currentActive = d[0].id, this.querySelector('#tab-' + d[0].id).setAttribute('aria-selected', 'true'), this.querySelector('#tab-' + d[0].id).setAttribute('tabindex', '0'), this.querySelector('#tab-' + d[0].id).setAttribute('active', '')), window.location.href.match(/#\S[^&]*/)) {
-          var e = window.location.href.match(/#\S[^&]*/),
-              f = this.querySelector(e[0]);if (f) {
-            var g = this.findAncestor(f, 'joomla-tab'),
-                h = this.findAncestor(g, 'joomla-tab');if (h) {
-              var i = this.findAncestor(g, 'section');h.showTab(i), this.show(f);
-            } else this.showTab(f);
+          var m = window.location.href.match(/#\S[^&]*/),
+              n = this.querySelector(m[0]);if (n) {
+            var o = this.findAncestor(n, 'joomla-tab'),
+                p = this.findAncestor(o, 'joomla-tab');if (p) {
+              var q = this.findAncestor(o, 'section');p.showTab(q), this.show(n);
+            } else this.showTab(n);
           }
-        }this.hasAttribute('recall') && this.restoreState(), window.addEventListener('resize', function () {
+        }window.addEventListener('resize', function () {
           b.checkView(b);
         });
       }
@@ -62,7 +82,7 @@ var _createClass = function () {
     } }, { key: 'createNavigation', value: function createNavigation(a) {
       var b = this;if ('ul' !== this.firstElementChild.nodeName.toLowerCase()) {
         var c = document.createElement('ul');c.setAttribute('role', 'tablist');var d = function d(a) {
-          a.preventDefault(), b.hasActive && b.hideCurrent();var c = b.currentActive;b.dispatchCustomEvent('joomla.tab.show', a.target, b.querySelector('#tab-' + c)), a.target.setAttribute('active', ''), a.target.setAttribute('aria-selected', 'true'), a.target.setAttribute('tabindex', '0'), b.querySelector(a.target.hash).setAttribute('active', ''), b.querySelector(a.target.hash).removeAttribute('aria-hidden'), b.currentActive = a.target.hash.substring(1), b.dispatchCustomEvent('joomla.tab.shown', a.target, b.querySelector('#tab-' + c));
+          a.preventDefault(), b.hasActive && b.hideCurrent();var c = b.currentActive;b.dispatchCustomEvent('joomla.tab.show', a.target, b.querySelector('#tab-' + c)), a.target.setAttribute('active', ''), a.target.setAttribute('aria-selected', 'true'), a.target.setAttribute('tabindex', '0'), b.querySelector(a.target.hash).setAttribute('active', ''), b.querySelector(a.target.hash).removeAttribute('aria-hidden'), b.currentActive = a.target.hash.substring(1), b.dispatchCustomEvent('joomla.tab.shown', a.target, b.querySelector('#tab-' + c)), b.saveState('#tab-' + a.target.hash.substring(1));
         };a.forEach(function (a) {
           if (a.id) {
             var b = a.hasAttribute('active'),
@@ -76,30 +96,19 @@ var _createClass = function () {
         var a = this.querySelector('a[aria-controls="' + this.currentActive + '"]');this.dispatchCustomEvent('joomla.tab.hide', a, this.querySelector('#tab-' + this.currentActive)), a.removeAttribute('active'), a.setAttribute('tabindex', '-1'), this.querySelector('#' + this.currentActive).removeAttribute('active'), this.querySelector('#' + this.currentActive).setAttribute('aria-hidden', 'true'), a.removeAttribute('aria-selected'), this.dispatchCustomEvent('joomla.tab.hidden', a, this.querySelector('#tab-' + this.currentActive));
       }
     } }, { key: 'showTab', value: function showTab(a) {
-      var b = document.querySelector('#tab-' + a.id);b.click(), this.saveState('#' + a.id);
+      var b = document.querySelector('#tab-' + a.id);b.click();
     } }, { key: 'show', value: function show(a) {
-      a.click(), this.saveState(a.hash);
+      a.click();
     } }, { key: 'addKeyListeners', value: function addKeyListeners() {
       var a = this;this.querySelector('ul').addEventListener('keyup', function keyBehaviour(b) {
         var c = a.querySelector('#tab-' + a.currentActive),
             d = c.parentNode.previousElementSibling || c.parentNode.parentNode.lastElementChild,
-            e = c.parentNode.nextElementSibling || c.parentNode.parentNode.firstElementChild;if (!(b.metaKey || b.altKey) && (console.log(a.tabs), console.log('#' + document.activeElement.id), console.log(-1 < a.tabs.indexOf('#' + document.activeElement.id)), console.log(), -1 !== a.tabs.indexOf('#' + document.activeElement.id))) switch (b.keyCode) {case 37:case 38:
+            e = c.parentNode.nextElementSibling || c.parentNode.parentNode.firstElementChild;if (!(b.metaKey || b.altKey) && -1 !== a.tabs.indexOf('#' + document.activeElement.id)) switch (b.keyCode) {case 37:case 38:
             d.querySelector('a').click(), d.querySelector('a').focus(), b.preventDefault();break;case 39:case 40:
             e.querySelector('a').click(), e.querySelector('a').focus(), b.preventDefault();break;default:}
       });
     } }, { key: 'getStorageKey', value: function getStorageKey() {
       return window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').split('#')[0];
-    } }, { key: 'restoreState', value: function restoreState() {
-      if (-1 !== this.tabs.indexOf(document.activeElement.id)) {
-        var a = sessionStorage.getItem(this.getStorageKey());if (a) {
-          var b = this.querySelector(a);if (b) {
-            var c = this.findAncestor(b, 'joomla-tab'),
-                d = this.findAncestor(c, 'joomla-tab');if (d) {
-              var e = this.findAncestor(c, 'section');d.showTab(e), this.show(b);
-            } else this.showTab(b);
-          }
-        }
-      }
     } }, { key: 'saveState', value: function saveState(a) {
       var b = this.getStorageKey();sessionStorage.setItem(b, a);
     } }, { key: 'checkView', value: function checkView(a) {
