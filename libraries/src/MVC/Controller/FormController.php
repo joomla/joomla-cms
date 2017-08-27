@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Controller;
+namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  1.6
  * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
-class Form extends Controller
+class FormController extends BaseController
 {
 	/**
 	 * The context for storing internal data, e.g. record.
