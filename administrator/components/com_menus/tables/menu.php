@@ -78,7 +78,7 @@ class MenusTableMenu extends JTableMenu
 				return false;
 			}
 
-			if ((int) $this->home  && $this->language === '*')
+			if ((int) $this->home)
 			{
 				// Check the publish down date is not earlier than now for home.
 				if ((int) $this->publish_down > 0 && $this->publish_down < \JFactory::getDate()->toSql())
