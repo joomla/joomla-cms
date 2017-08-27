@@ -17,7 +17,7 @@ $columns = 9;
 
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
