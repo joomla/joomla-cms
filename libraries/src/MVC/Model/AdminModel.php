@@ -223,7 +223,7 @@ abstract class AdminModel extends FormModel
 			$this->type = $type->getTypeByAlias($this->typeAlias);
 		}
 
-		$this->tagsObserver = $this->table->getObserverOfClass('\JTableObserverTags');
+		$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
@@ -631,7 +631,7 @@ abstract class AdminModel extends FormModel
 				/**
 				 * @var  \JTableObserverTags  $tagsObserver
 				 */
-				$tagsObserver = $table->getObserverOfClass('\JTableObserverTags');
+				$tagsObserver = $table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 				$result = $tagsObserver->setNewTags($tags, false);
 
 				if (!$result)
@@ -1311,7 +1311,7 @@ abstract class AdminModel extends FormModel
 		$tableClassName = get_class($table);
 		$contentType = new \JUcmType;
 		$type = $contentType->getTypeByTable($tableClassName);
-		$tagsObserver = $table->getObserverOfClass('\JTableObserverTags');
+		$tagsObserver = $table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 		$conditions = array();
 
 		if (empty($pks))
