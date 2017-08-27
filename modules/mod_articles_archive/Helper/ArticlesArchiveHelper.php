@@ -94,7 +94,9 @@ class ArticlesArchiveHelper
 
 			$lists[$i] = new \stdClass;
 
-			$lists[$i]->link = \JRoute::_('index.php?option=com_content&view=archive' . $states . '&year=' . $created_year . '&month=' . $created_month . $itemid);
+			$route = 'index.php?option=com_content&view=archive' . $states . '&year=' . $created_year . '&month=' . $created_month . $itemid;
+
+			$lists[$i]->link = \JRoute::_($route);
 			$lists[$i]->text = \JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
 
 			$i++;

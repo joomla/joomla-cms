@@ -120,11 +120,6 @@ class State extends Admin
 		}
 	}
 
-	protected function getRedirectToItemAppend()
-	{
-
-	}
-
 	/**
 	 * Abstract method for getting the form from the model.
 	 *
