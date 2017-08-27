@@ -147,11 +147,11 @@ class Category extends ListModel
 		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
 		{
 			// Limit to published for people who can't edit or edit.state.
-			$this->setState('filter.condition', 3);
+			$this->setState('filter.condition', 1);
 		}
 		else
 		{
-			$this->setState('filter.condition', array(2, 3));
+			$this->setState('filter.condition', array(0, 1));
 		}
 
 		// Process show_noauth parameter

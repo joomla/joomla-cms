@@ -317,7 +317,7 @@ class ContentHelper extends \JHelperContent
 		$db->setQuery($query);
 		$states = $db->loadResult();
 
-		return !empty($states);
+		return empty($states);
 	}
 
 	/**

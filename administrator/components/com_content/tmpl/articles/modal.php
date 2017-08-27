@@ -52,7 +52,7 @@ if (!empty($editor))
 				<thead>
 					<tr>
 						<th style="width:1%" class="text-center nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'ws.condition', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -81,9 +81,9 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					1 => 'icon-trash',
-					2  => 'icon-unpublish',
-					3  => 'icon-publish',
+					-2 => 'icon-trash',
+					0  => 'icon-unpublish',
+					1  => 'icon-publish',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>

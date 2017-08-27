@@ -60,7 +60,7 @@ class Categories extends ListModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.condition',	3);
+		$this->setState('filter.condition',	1);
 		$this->setState('filter.access',	true);
 	}
 

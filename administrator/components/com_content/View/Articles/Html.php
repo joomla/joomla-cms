@@ -159,11 +159,8 @@ class Html extends HtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			\JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
 			\JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			\JToolbarHelper::archiveList('articles.archive');
 			\JToolbarHelper::checkin('articles.checkin');
 		}
 
@@ -184,10 +181,6 @@ class Html extends HtmlView
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('articles.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))

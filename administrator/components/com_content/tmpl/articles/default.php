@@ -168,7 +168,7 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
-									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id[]', 'class="inputbox" size="1" onchange="Joomla.submitform(\'articles.runTransition\')"', 'value', 'text',  0); ?>
+									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id[]', 'class="inputbox" size="1" onclick="event.stopPropagation()" onchange="Joomla.uncheckAll(this); Joomla.toggleOne(this, true); Joomla.submitform(\'articles . runTransition\');"', 'value', 'text',  0); ?>
 								</td>
 								<td class="has-context">
 									<div class="break-word">

@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Model\ListModel;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Model class for items
@@ -189,12 +190,14 @@ class Transitions extends ListModel
 	{
 		$form = parent::getFilterForm($data, $loadData);
 		$id = (int) $this->getState('filter.workflow_id');
-		$db = $this->getDbo();
+
+		$sqlStatesFrom = WorkflowHelper::getStatesSQL('from_state', $id);
+		$sqlStatesTo = WorkflowHelper::getStatesSQL('to_state', $id);
 
 		if ($form)
 		{
-			$form->setFieldAttribute('from_state', 'sql_where', $db->quoteName('workflow_id') . ' = ' . $id, 'filter');
-			$form->setFieldAttribute('to_state', 'sql_where', $db->quoteName('workflow_id') . ' = ' . $id, 'filter');
+			$form->setFieldAttribute('from_state', 'query', $sqlStatesFrom, 'filter');
+			$form->setFieldAttribute('to_state', 'query', $sqlStatesTo, 'filter');
 		}
 
 		return $form;

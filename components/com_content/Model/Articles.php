@@ -273,7 +273,7 @@ class Articles extends ListModel
 		if (is_numeric($condition))
 		{
 			// Category has to be published
-			$query->where('c.published = 1 AND s.condition = ' . (int) $condition);
+			$query->where("c.published = 1 AND s.condition = " . $db->quote($condition));
 		}
 		elseif (is_array($condition))
 		{

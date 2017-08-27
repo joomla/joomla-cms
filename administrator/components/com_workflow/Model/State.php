@@ -100,7 +100,7 @@ class State extends Admin
 		}
 
 		$app = \JFactory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$isAssigned = WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $record->id);
 
@@ -120,7 +120,10 @@ class State extends Admin
 		}
 	}
 
+	protected function getRedirectToItemAppend()
+	{
 
+	}
 
 	/**
 	 * Abstract method for getting the form from the model.
@@ -232,7 +235,7 @@ class State extends Admin
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
 
 		// Default item existence checks.
 		if ($value != 1)
@@ -244,13 +247,12 @@ class State extends Admin
 					// Prune items that you can't change.
 					$app->enqueueMessage(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'), 'error');
 					unset($pks[$i]);
-					break;
 				}
-				elseif (WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $pk))
+
+				if (!WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $pks[$i]))
 				{
 					$app->enqueueMessage(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'), 'error');
 					unset($pks[$i]);
-					break;
 				}
 			}
 		}

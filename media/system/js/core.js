@@ -315,6 +315,76 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
+	 * Toggles the check state of a group of boxes
+	 *
+	 * Checkboxes must have an id attribute in the form cb0, cb1...
+	 *
+	 * @param   {node}     item      The form
+	 * @param   {string}   stub      An alternative field name
+	 *
+	 * @return {void}
+	 */
+	Joomla.uncheckAll = function( item, stub ) {
+		if (!item.form) return false;
+
+		stub = stub ? stub : 'cb';
+
+		var c = 0,
+			i, e, n;
+
+		for ( i = 0, n = item.form.elements.length; i < n; i++ ) {
+			e = item.form.elements[ i ];
+
+			if ( e.type === 'checkbox' && e.id.indexOf( stub ) === 0 ) {
+				e.checked = false;
+			}
+		}
+
+		if ( item.form.boxchecked ) {
+			item.form.boxchecked.value = c;
+		}
+
+		return true;
+	};
+
+	/**
+	 * Toggles the check state of a group of boxes
+	 *
+	 * Checkboxes must have an id attribute in the form cb0, cb1...
+	 *
+	 * @param   {node}     el        The form item
+	 * @param   {bool}     cond      An alternative value to set checkbox
+	 *
+	 * @return {void}
+	 */
+	Joomla.toggleOne = function( el, cond ) {
+		if (!el.form) return false;
+
+		var item = el;
+
+		while (item = item.parentNode) {
+			if (item.tagName.toLowerCase() === 'tr') {
+				break;
+			}
+		}
+
+		var checkbox = item.querySelector('input[name="cid[]"]');
+
+		if (checkbox) {
+			checkbox.checked = cond ? cond : !checkbox.checked;
+			if (checkbox.checked) {
+				cond = checkbox.checked;
+			}
+		}
+
+		if ( el.form.boxchecked && cond) {
+			el.form.boxchecked.value = parseInt(el.form.boxchecked.value) + 1;
+		}
+
+		return true;
+	};
+
+	/**
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
 	 *

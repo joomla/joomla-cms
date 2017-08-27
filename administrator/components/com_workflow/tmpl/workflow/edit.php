@@ -38,40 +38,42 @@ $this->form->setFieldAttribute('modified', 'default', date("Y-m-d H:i:s"));
 			</div>
 			<div class="col-md-3">
 				<div class="card card-block card-light">
-					<fieldset class="form-vertical form-no-margin">
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('published'); ?>
+					<div class="card-body">
+						<fieldset class="form-vertical form-no-margin">
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('published'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('published'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('published'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('default'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('default'); ?>
+								</div>
 							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('default'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('created'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('created'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('default'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('modified'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('modified'); ?>
+								</div>
 							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('created'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('created'); ?>
-							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('modified'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('modified'); ?>
-							</div>
-						</div>
-					</fieldset>
+						</fieldset>
+					</div>
 				</div>
 			</div>
 		</div>

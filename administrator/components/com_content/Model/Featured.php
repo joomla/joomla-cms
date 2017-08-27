@@ -137,11 +137,15 @@ class Featured extends Articles
 
 		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query
+				->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state')
+				->where('ws.condition = ' . $db->escape($published));
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.state = 0 OR a.state = 1)');
+			$query
+				->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state')
+				->where("(ws.condition = '0' OR ws.condition = '1')");
 		}
 
 		// Filter by a single or group of categories.

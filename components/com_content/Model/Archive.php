@@ -80,10 +80,6 @@ class Archive extends Articles
 		$states = array_filter($states);
 
 		$this->setState('filter.states', $states);
-		
-
-		var_dump($this->state);
-		exit;
 	}
 
 	/**
@@ -99,10 +95,8 @@ class Archive extends Articles
 		$app              = Factory::getApplication('site');
 		$catids           = $app->input->getVar('catid', array());
 		$catids           = array_values(array_diff($catids, array('')));
-		$state            = $app->input->getVar('state', array());
+		$state            = $app->input->getVar('state', $this->getState('filter.states', array()));
 		$state            = array_values(array_diff($state, array('')));
-var_dump($this->getState('filter.states'));
-exit;
 
 		$articleOrderDate = $params->get('order_date');
 
