@@ -798,7 +798,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$tags = array($value);
 
 				/** @var  JTableObserverTags  $tagsObserver */
-				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+				$tagsObserver = $table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 				$result = $tagsObserver->setNewTags($tags, false);
 
 				if (!$result)
