@@ -11,6 +11,8 @@ namespace Joomla\CMS\Cache\Storage;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Log\Log;
 
 /**
@@ -56,76 +58,68 @@ class RedisStorage extends CacheStorage
 	/**
 	 * Create the Redis connection
 	 *
-	 * @return  \Redis|boolean  Redis connection object on success, boolean on failure
+	 * @return  void
 	 *
 	 * @since   3.4
-	 * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
+	 * @throws  \RuntimeException
 	 */
 	protected function getConnection()
 	{
 		if (static::isSupported() == false)
 		{
-			return false;
+			throw new UnsupportedCacheException('Redis Extension is not available');
 		}
 
-		$app = \JFactory::getApplication();
+		$config = \JFactory::getConfig();
 
-		$this->_persistent = $app->get('redis_persist', true);
+		$this->_persistent = $config->get('redis_persist', true);
 
 		$server = array(
-			'host' => $app->get('redis_server_host', 'localhost'),
-			'port' => $app->get('redis_server_port', 6379),
-			'auth' => $app->get('redis_server_auth', null),
-			'db'   => (int) $app->get('redis_server_db', null),
+			'host' => $config->get('redis_server_host', 'localhost'),
+			'port' => $config->get('redis_server_port', 6379),
+			'auth' => $config->get('redis_server_auth', null),
+			'db'   => (int) $config->get('redis_server_db', null),
 		);
 
 		static::$_redis = new \Redis;
 
-		if ($this->_persistent)
+		try
 		{
-			try
+			if ($this->_persistent)
 			{
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
-		}
-		else
-		{
-			try
+			else
 			{
 				$connection = static::$_redis->connect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
+		}
+		catch (\RedisException $e)
+		{
+			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
 		if ($connection == false)
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis connection failed');
-			}
+			throw new CacheConnectingException('Could not connect to redis server');
+		}
 
-			return false;
+		try
+		{
+			$auth = empty($server['auth']) ? true : static::$_redis->auth($server['auth']);
+		}
+		catch (\RedisException $e)
+		{
+			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
 		if ($auth == false)
 		{
-			if ($app->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis authentication failed');
-			}
+			static::$_redis = null;
 
-			return false;
+			throw new CacheConnectingException('Redis authentication failed');
 		}
 
 		$select = static::$_redis->select($server['db']);
@@ -134,12 +128,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis failed to select database');
-			}
-
-			return false;
+			throw new CacheConnectingException('Redis failed to select database');
 		}
 
 		try
@@ -150,15 +139,8 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
-			{
-				\JError::raiseWarning(500, 'Redis ping failed');
-			}
-
-			return false;
+			throw new CacheConnectingException('Redis ping failed');
 		}
-
-		return static::$_redis;
 	}
 
 	/**
