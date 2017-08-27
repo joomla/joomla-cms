@@ -75,7 +75,7 @@ class ArticlesArchiveHelper
 		$states = array_map(
 			function ($el)
 			{
-				return '&states[]=' . (int) $el;
+				return '&state[]=' . (int) $el;
 			},
 			$states
 		);

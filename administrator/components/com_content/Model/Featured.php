@@ -111,6 +111,10 @@ class Featured extends Articles
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join over the states.
+		$query->select('ws.title AS state_title, ws.id AS state, ws.condition AS status')
+			->join('LEFT', '#__workflow_states AS ws ON a.state = ws.id');
+
 		// Join on voting table
 		if (\JPluginHelper::isEnabled('content', 'vote'))
 		{

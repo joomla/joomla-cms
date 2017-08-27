@@ -96,6 +96,7 @@ class Html extends HtmlView
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->transitions   = $this->get('Transitions');
 		$this->vote          = \JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
@@ -131,20 +132,13 @@ class Html extends HtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			\JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			\JToolbarHelper::archiveList('articles.archive');
 			\JToolbarHelper::checkin('articles.checkin');
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('articles.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
