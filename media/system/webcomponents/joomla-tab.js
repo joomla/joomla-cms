@@ -23,6 +23,7 @@ class JoomlaTabElement extends HTMLElement {
     this.currentActive = '';
     this.hasNested = false;
     this.isNested = false;
+    this.tabs = [];
   }
 
   /* Lifecycle, element appended to the DOM */
@@ -42,31 +43,32 @@ class JoomlaTabElement extends HTMLElement {
 
     let tabsEl = [];
 
-    if (this.findAncestor(this, 'joomla-tab'))
+    if (this.findAncestor(this, 'joomla-tab')) {
       this.isNested = true;
+    }
 
     if (this.querySelector('joomla-tab')) {
       this.hasNested = true;
 
       // remove the cascaded tabs
-      for (let i = 0, l = tabs.length; i < l; ++i) {
-        var child = tabs[i];
-        if (child.parentNode === self) {
-          tabsEl.push(child);
+      tabs.forEach((tab) => {
+        if (tab.parentNode === self) {
+          tabsEl.push(tab);
         }
-      }
+      });
     } else {
       tabsEl = tabs;
     }
 
     // Create the navigation
     if (this.view !== 'accordion') {
-      this.createNavigation(tabsEl)
+      this.createNavigation(tabsEl);
     }
 
     // Add missing role
     tabsEl.forEach((tab) => {
       tab.setAttribute('role', 'tabpanel');
+      this.tabs.push(`#tab-${tab.id}`);
       if (tab.hasAttribute('active')) {
         this.hasActive = true;
         this.currentActive = tab.id;
@@ -85,9 +87,6 @@ class JoomlaTabElement extends HTMLElement {
       this.querySelector(`#tab-${tabsEl[0].id}`).setAttribute('tabindex', '0');
       this.querySelector(`#tab-${tabsEl[0].id}`).setAttribute('active', '');
     }
-
-    // Keyboard access
-    this.addKeyListeners(tabsEl);
 
     // Check if there is a hash in the URI
     if (window.location.href.match(/#\S[^&]*/)) {
@@ -117,9 +116,9 @@ class JoomlaTabElement extends HTMLElement {
     }
 
     // Convert tabs to accordian (for non nested tabs only)
-      window.addEventListener('resize', () => {
-        self.checkView(self);
-      });
+    window.addEventListener('resize', () => {
+      self.checkView(self);
+    });
   }
 
   /* Lifecycle, element removed from the DOM */
@@ -143,27 +142,27 @@ class JoomlaTabElement extends HTMLElement {
     nav.setAttribute('role', 'tablist');
 
     /** Activate Tab */
-    let activateTabFromLink = (e) => {
+    const activateTabFromLink = (e) => {
       e.preventDefault();
 
       if (this.hasActive) {
-        this.hideCurrent()
+        this.hideCurrent();
       }
 
       const currentTabLink = this.currentActive;
 
       // Set the selected tab as active
       // Emit show event
-      this.dispatchCustomEvent('joomla.tab.show', e.target, this.querySelector('#tab-' + currentTabLink));
+      this.dispatchCustomEvent('joomla.tab.show', e.target, this.querySelector(`#tab-${currentTabLink}`));
       e.target.setAttribute('active', '');
       e.target.setAttribute('aria-selected', 'true');
       e.target.setAttribute('tabindex', '0');
       this.querySelector(e.target.hash).setAttribute('active', '');
       this.querySelector(e.target.hash).removeAttribute('aria-hidden');
-      this.currentActive = e.target.hash.substring(1)
+      this.currentActive = e.target.hash.substring(1);
       // Emit shown event
-      this.dispatchCustomEvent('joomla.tab.shown', e.target, this.querySelector('#tab-' + currentTabLink));
-    }
+      this.dispatchCustomEvent('joomla.tab.shown', e.target, this.querySelector(`#tab-${currentTabLink}`));
+    };
 
     tabs.forEach((tab) => {
       if (!tab.id) {
@@ -179,9 +178,9 @@ class JoomlaTabElement extends HTMLElement {
       aElement.setAttribute('aria-controls', tab.id);
       aElement.setAttribute('aria-selected', active ? 'true' : 'false');
       aElement.setAttribute('tabindex', active ? '0' : '-1');
-      aElement.setAttribute('href', '#' + tab.id);
-      aElement.setAttribute('id', 'tab-' + tab.id);
-      aElement.innerHTML = tab.getAttribute('name')
+      aElement.setAttribute('href', `#${tab.id}`);
+      aElement.setAttribute('id', `tab-${tab.id}`);
+      aElement.innerHTML = tab.getAttribute('name');
 
       if (active) {
         aElement.setAttribute('active', '');
@@ -190,14 +189,14 @@ class JoomlaTabElement extends HTMLElement {
       aElement.addEventListener('click', activateTabFromLink);
 
       liElement.append(aElement);
-      nav.append(liElement)
+      nav.append(liElement);
 
       // aElement.addEventListener('joomla.tab.show', function (e) { console.log('show', e) });
       // aElement.addEventListener('joomla.tab.shown', function (e) { console.log('shown', e) });
       // aElement.addEventListener('joomla.tab.hide', function (e) { console.log('hide', e) });
       // aElement.addEventListener('joomla.tab.hidden', function (e) { console.log('hidden', e) });
 
-      tab.setAttribute('aria-labelledby', 'tab-' + tab.id);
+      tab.setAttribute('aria-labelledby', `tab-${tab.id}`);
       if (!active) {
         tab.setAttribute('aria-hidden', 'true');
       }
@@ -205,7 +204,7 @@ class JoomlaTabElement extends HTMLElement {
 
     this.insertAdjacentElement('afterbegin', nav);
     // Keyboard access
-    this.addKeyListeners()
+    this.addKeyListeners();
   }
 
   hideCurrent() {
@@ -238,18 +237,28 @@ class JoomlaTabElement extends HTMLElement {
   addKeyListeners() {
     const keyBehaviour = (e) => {
       // collect tab targets, and their parents' prev/next (or first/last)
-      let currentTab = this.querySelector('#tab-' + this.currentActive);
-      let tablist = [].slice.call(this.querySelector('ul').querySelectorAll('a'));
+      const currentTab = this.querySelector(`#tab-${this.currentActive}`);
+      // const tablist = [].slice.call(this.querySelector('ul').querySelectorAll('a'));
 
-      let previousTabItem = currentTab.parentNode.previousElementSibling ||
+      const previousTabItem = currentTab.parentNode.previousElementSibling ||
         currentTab.parentNode.parentNode.lastElementChild;
-      let nextTabItem = currentTab.parentNode.nextElementSibling || currentTab.parentNode.parentNode.firstElementChild;
+      const nextTabItem = currentTab.parentNode.nextElementSibling ||
+        currentTab.parentNode.parentNode.firstElementChild;
 
       // don't catch key events when ⌘ or Alt modifier is present
-      if (e.metaKey || e.altKey) return;
-      if (document.activeElement !== currentTab) {
-        e.preventDefault();
-        return
+      if (e.metaKey || e.altKey) {
+        return;
+      }
+
+      console.log(this.tabs);
+      console.log(`#${document.activeElement.id}`)
+      console.log(this.tabs.indexOf(`#${document.activeElement.id}`) > -1)
+      console.log()
+      if (this.tabs.indexOf(`#${document.activeElement.id}`) === -1) {
+        // if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+          //e.preventDefault();
+        // }
+        return;
       }
 
       // catch left/right and up/down arrow key events
@@ -266,21 +275,11 @@ class JoomlaTabElement extends HTMLElement {
           nextTabItem.querySelector('a').focus();
           e.preventDefault();
           break;
-        // case 9:
-        // 	if (event.shiftKey && this.findAncestor(document.getElementById(this.currentActive), 'joomla-tab')) {
-        // 		console.log(this.findAncestor(document.getElementById(this.currentActive), 'joomla-tab'))
-        // 		this.currentActive = '';
-        // 		this.findAncestor(document.getElementById(this.currentActive), 'joomla-tab').currentActive = document.activeElement.id;
-        // 	} else if (document.getElementById(this.currentActive).firstElementChild.tagName.toLocaleLowerCase() === 'joomla-tab') {
-        // 		console.log(document.getElementById(this.currentActive).firstElementChild.tagName.toLocaleLowerCase())
-        // 		this.currentActive = document.activeElement.id;
-        // 	}
-        // 	break;
         default:
           break;
       }
-    }
-    this.querySelector('ul').addEventListener('keyup', keyBehaviour)
+    };
+    this.querySelector('ul').addEventListener('keyup', keyBehaviour);
   }
 
   /*eslint-disable */
@@ -290,6 +289,10 @@ class JoomlaTabElement extends HTMLElement {
   /*eslint-disable */
 
   restoreState() {
+    if (this.tabs.indexOf(document.activeElement.id) === -1) {
+      return;
+    }
+
     const tabLinkHash = sessionStorage.getItem(this.getStorageKey());
     if (tabLinkHash) {
       const element = this.querySelector(tabLinkHash);
@@ -331,7 +334,6 @@ class JoomlaTabElement extends HTMLElement {
 
       // remove the cascaded tabs
       for (let i = 0, l = panels.length; i < l; ++i) {
-        console.log(panels[i])
         if (panels[i].parentNode.parentNode.parentNode === self) {
           tabsEl.push(panels[i]);
         }
