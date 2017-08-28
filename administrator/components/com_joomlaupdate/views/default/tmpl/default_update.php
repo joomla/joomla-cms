@@ -145,17 +145,19 @@ defined('_JEXEC') or die;
 			<tr>
 				<td>
 					<?php echo $option->label; ?>
+					<?php if($option->notice): ?>
 					<p class=""><?php echo $option->notice ?></p>
+					<?php endif; ?>
 				</td>
 				<td>
 					<?php if ($option->state == true): ?>
-						<p class="label label-success">
+						<span class="label label-success">
 							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>
-						</p>
+						</span>
 					<?php else: ?>
-						<p class="label label-important">
+						<span class="label label-important">
 							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>
-						</p>
+						</span>
 					<?php endif; ?>
 				</td>
 				<td>
@@ -195,22 +197,22 @@ defined('_JEXEC') or die;
 					<?php echo $setting->label; ?>
 				</td>
 				<td>
-					<p class="">
+					<span class="">
 						<?php if ($setting->recommended == true): ?>
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
 						<?php else: ?>
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
 						<?php endif; ?>
-					</p>
+					</span>
 				</td>
 				<td>
-					<p class="label label-<?php echo ($setting->state == $setting->recommended) ? "success" : "important" ?>">
+					<span class="label label-<?php echo ($setting->state == $setting->recommended) ? "success" : "important" ?>">
 					<?php if ($setting->state == true): ?>
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
 					<?php else: ?>
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
 					<?php endif; ?>
-					</p>
+					</span>
 				</td>
 			</tr>
 		<?php endforeach; ?>
@@ -241,7 +243,7 @@ defined('_JEXEC') or die;
 		<?php foreach ($this->nonCoreExtensions as $extension): ?>
 			<tr>
 				<td>
-					<?php echo $extension->name; ?>
+					<?php echo JText::_($extension->name); ?>
 				</td>
 				<td class="extension-check"
 					data-extension-id="<?php echo $extension->extensionID; ?>"
@@ -249,7 +251,7 @@ defined('_JEXEC') or die;
 					<img src="../media/system/images/mootree_loader.gif">
 				</td>
 				<td>
-					<p><?php echo $extension->version; ?></p>
+					<?php echo $extension->version; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
