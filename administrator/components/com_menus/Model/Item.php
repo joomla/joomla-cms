@@ -1234,6 +1234,7 @@ class Item extends Admin
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
 				$fieldset->addAttribute('name', 'item_associations');
+				$fieldset->addAttribute('addfieldprefix', 'Joomla\Component\Menus\Administrator\Field');
 
 				foreach ($languages as $language)
 				{

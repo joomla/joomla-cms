@@ -93,12 +93,21 @@ class Form extends Controller
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
+			$match = 'Controller';
+
+			// If there is a namespace append a backslash
+			if (strpos(get_class($this), '\\'))
+			{
+				$match .= '\\\\';
+			}
+
+			if (!preg_match('/(.*)' . $match . '(.*)/i', get_class($this), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
-			$this->context = str_replace('\\', '', strtolower($r[2]));
+			// Remove the backslashes and the suffix controller
+			$this->context = str_replace(array('\\', 'controller'), '', strtolower($r[2]));
 		}
 
 		// Guess the item view as the context.
