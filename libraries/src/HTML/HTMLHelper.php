@@ -1094,19 +1094,6 @@ abstract class HTMLHelper
 	 */
 	public static function addIncludePath($path = '')
 	{
-		try
-		{
-			Log::add(
-				'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
-
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{
