@@ -246,7 +246,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_($extension->name); ?>
 				</td>
 				<td class="extension-check"
-					data-extension-id="<?php echo $extension->extensionID; ?>"
+					data-extension-id="<?php echo $extension->extension_id; ?>"
 					data-extension-current-version="<?php echo $extension->version; ?>">
 					<img src="../media/system/images/mootree_loader.gif">
 				</td>
