@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Sampledata - Blog Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class PlgSampledataBlog extends JPlugin
 {
@@ -21,7 +21,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @var    JDatabaseDriver
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $db;
 
@@ -30,7 +30,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @var    JApplicationCms
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $app;
 
@@ -39,7 +39,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -48,7 +48,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @var    MenusModelItem
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	private $menuItemModel;
 
@@ -57,7 +57,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onSampledataGetOverview()
 	{
@@ -76,7 +76,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
@@ -258,7 +258,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
@@ -557,7 +557,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
@@ -915,7 +915,7 @@ class PlgSampledataBlog extends JPlugin
 	 *
 	 * @return  array  IDs of the inserted menuitems.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 *
 	 * @throws  Exception
 	 */

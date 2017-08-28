@@ -22,7 +22,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::setUp()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function setUp()
 	{
