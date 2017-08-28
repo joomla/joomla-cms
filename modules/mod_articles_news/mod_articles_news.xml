@@ -42,7 +42,6 @@
 					mode="nested"
 					multiple="true"
 					class="multipleTags"
-
 				/>
 
 				<field
