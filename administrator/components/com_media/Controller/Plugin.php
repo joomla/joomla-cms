@@ -75,13 +75,7 @@ class Plugin extends Controller
 					. 'onFileSystemOAuthCallback method');
 			}
 
-			// Check if any action is specified
-			if (!isset($eventResults['action']))
-			{
-				throw new \Exception('Action must be set in ' . $pluginName);
-			}
-
-			$action = $eventResults['action'];
+			$action = isset($eventResults['action']) ? $eventResults['action'] : null;
 			$message = null;
 
 			// If there are any messages display them
