@@ -15,7 +15,7 @@ What is this?
 ---------------------
 * This is a Joomla! 4.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 4.0 [version history](https://docs.joomla.org/Joomla_4.0_version_history).
+* Joomla! 4.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.0_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.0-dev).
 
 What is Joomla?

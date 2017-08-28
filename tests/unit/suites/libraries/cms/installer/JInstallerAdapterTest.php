@@ -563,7 +563,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Mock setupInstallPaths throwing an exception
 		$object->expects($this->once())
 			->method($method)
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		unset($manifestObject->description);
@@ -1043,7 +1043,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Check that setupUpdates has been called
 		$object->expects($this->once())
 			->method('setupUpdates')
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		TestReflection::setValue($object, 'manifest', $manifestObject);
@@ -1207,7 +1207,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Mock setupInstallPaths throwing an exception
 		$object->expects($this->once())
 			->method($method)
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		unset($manifestObject->description);
@@ -1270,7 +1270,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Mock setupInstallPaths throwing an exception
 		$object->expects($this->once())
 			->method('finaliseInstall')
-			->willThrowException(new RuntimeException());
+			->willThrowException(new RuntimeException);
 
 		$manifestObject = simplexml_load_string($this->sampleManifest);
 		unset($manifestObject->description);

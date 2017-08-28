@@ -251,7 +251,7 @@ class Banners extends ListModel
 		}
 		catch (\JDatabaseExceptionExecuting $e)
 		{
-			\JError::raiseError(500, $e->getMessage());
+			throw new \Exception($e->getMessage(), 500);
 		}
 
 		foreach ($items as $item)
@@ -289,7 +289,7 @@ class Banners extends ListModel
 				}
 				catch (\JDatabaseExceptionExecuting $e)
 				{
-					\JError::raiseError(500, $e->getMessage());
+					throw new \Exception($e->getMessage(), 500);
 				}
 
 				if ($db->getAffectedRows() === 0)
@@ -314,7 +314,7 @@ class Banners extends ListModel
 					}
 					catch (\JDatabaseExceptionExecuting $e)
 					{
-						\JError::raiseError(500, $e->getMessage());
+						throw new \Exception($e->getMessage(), 500);
 					}
 				}
 			}

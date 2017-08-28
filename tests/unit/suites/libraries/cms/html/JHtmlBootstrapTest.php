@@ -85,9 +85,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -119,9 +119,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -153,9 +153,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -187,9 +187,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -227,9 +227,9 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -261,9 +261,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -313,9 +313,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -347,9 +347,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -381,9 +381,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -410,9 +410,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -474,9 +474,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -536,9 +536,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/tether/js/tether.min.js',
+			'/media/vendor/popper/js/popper.min.js',
 			$document->_scripts,
-			'Verify that tether.js is loaded'
+			'Verify that popper.js is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -655,11 +655,5 @@ class JHtmlBootstrapTest extends TestCase
 			$document->_styleSheets,
 			'Verify that the base Bootstrap CSS is loaded'
 		);
-
-//		$this->assertArrayHasKey(
-//			'/media/vendor/bootstrap/css/bootstrap-rtl.css',
-//			$document->_styleSheets,
-//			'Verify that the RTL Bootstrap CSS is loaded'
-//		);
 	}
 }
