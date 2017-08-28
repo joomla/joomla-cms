@@ -46,7 +46,6 @@ abstract class HTMLHelper
 	 *
 	 * @var    string[]
 	 * @since  1.5
-	 * @deprecated  5.0
 	 */
 	protected static $includePaths = array();
 
@@ -55,17 +54,8 @@ abstract class HTMLHelper
 	 *
 	 * @var    callable[]
 	 * @since  1.6
-	 * @deprecated  5.0
 	 */
 	protected static $registry = array();
-
-	/**
-	 * The service registry for custom and overridden HtmlHelper helpers
-	 *
-	 * @var    HTMLRegistry
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $serviceRegistry;
 
 	/**
 	 * Method to extract a key
@@ -83,22 +73,6 @@ abstract class HTMLHelper
 
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
-
-		if (count($parts) === 3)
-		{
-			try
-			{
-				Log::add(
-					'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-					Log::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational message only, continue on
-			}
-		}
 
 		$prefix = count($parts) === 3 ? array_shift($parts) : 'JHtml';
 		$file   = count($parts) === 2 ? array_shift($parts) : '';
@@ -139,15 +113,8 @@ abstract class HTMLHelper
 
 		$className = $prefix . ucfirst($file);
 
-		if (!class_exists($className, false))
+		if (!class_exists($className))
 		{
-			$default = JPATH_LIBRARIES . '/cms/html';
-
-			if (!in_array($default, static::$includePaths))
-			{
-				static::addIncludePath($default);
-			}
-
 			$path = \JPath::find(static::$includePaths, strtolower($file) . '.php');
 
 			if (!$path)
@@ -164,17 +131,6 @@ abstract class HTMLHelper
 		}
 
 		$toCall = array($className, $func);
-
-		if (!is_callable($toCall) && $prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file))
-		{
-			/*
-			* Support fetching services from the registry if a custom class prefix was not given (a three segment key),
-			* the service comes from a class other than this one, and a service has been registered for the file.
-			*/
-			$service = static::getServiceRegistry()->getService($file);
-
-			$toCall = array($service, $func);
-		}
 
 		if (!is_callable($toCall))
 		{
@@ -202,19 +158,6 @@ abstract class HTMLHelper
 	 */
 	public static function register($key, $function)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
-
 		list($key) = static::extract($key);
 
 		if (is_callable($function))
@@ -238,19 +181,6 @@ abstract class HTMLHelper
 	 */
 	public static function unregister($key)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
-
 		list($key) = static::extract($key);
 
 		if (isset(static::$registry[$key]))
@@ -279,22 +209,6 @@ abstract class HTMLHelper
 		return isset(static::$registry[$key]);
 	}
 
-	/**
-	 * Retrieves the service registry.
-	 *
-	 * @return  ServiceRegistry
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getServiceRegistry()
-	{
-		if (!static::$serviceRegistry)
-		{
-			static::$serviceRegistry = new ServiceRegistry;
-		}
-
-		return static::$serviceRegistry;
-	}
 	/**
 	 * Function caller method
 	 *
