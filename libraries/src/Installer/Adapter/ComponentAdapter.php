@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Asset;
@@ -363,7 +364,25 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	public function getElement($element = null)
 	{
-		$element = parent::getElement($element);
+		if (!$element)
+		{
+			// Ensure the element is a string
+			$element = (string) $this->getManifest()->element;
+		}
+
+		if (!$element)
+		{
+			// Creates element from option in admin menu link
+			$element = $this->getMenuLinkOption();
+		}
+
+		if (!$element)
+		{
+			$element = $this->getName();
+		}
+
+		// Filter the name for illegal characters
+		$element = strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
 
 		if (strpos($element, 'com_') !== 0)
 		{
@@ -371,6 +390,44 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		return $element;
+	}
+
+	/**
+	 * Get the filtered administrator menu link option from the manifest
+	 *
+	 * @return  string  The filtered option
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMenuLinkOption()
+	{
+		// Get the component root menu element
+		$menuElement = $this->getManifest()->administration->menu;
+
+		if ($menuElement)
+		{
+			// Check link attribute exists and is a string
+			$link = (string) $menuElement->attributes()->link;
+
+			if ($link)
+			{
+				$delimiter = 'option=';
+
+				// Checks delimiter is in the link string
+				if (strpos($link, $delimiter) !== false)
+				{
+					// Gets the option from the link attribute
+					$option = substr($link, strpos($link, $delimiter), strlen($delimiter));
+
+					// Filter the option for illegal characters
+					$option = InputFilter::getInstance()->clean($option, 'string');
+
+					return $option;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
