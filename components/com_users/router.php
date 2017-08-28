@@ -24,6 +24,10 @@ class UsersRouter extends JComponentRouterView
 	 */
 	public function __construct($app = null, $menu = null)
 	{
+		$params = JComponentHelper::getParams('com_users');
+
+		$this->sefAdvanced = (bool) $params->get('sef_advanced');
+
 		$this->registerView(new JComponentRouterViewconfiguration('login'));
 		$profile = new JComponentRouterViewconfiguration('profile');
 		$profile->addLayout('edit');
@@ -36,9 +40,7 @@ class UsersRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		$params = JComponentHelper::getParams('com_users');
-
-		if ($params->get('sef_advanced', 0))
+		if ($this->sefAdvanced)
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
 			$this->attachRule(new JComponentRouterRulesNomenu($this));

@@ -292,6 +292,15 @@ class StandardRules implements RulesInterface
 						}
 						elseif (($view->parent && !$view->parent->key) || $last_id === (int) $id)
 						{
+							/**
+							 * Note: To be more strict on J4 should be another test if ($view->parent_key !== false || ...)
+							 *
+							 * Check relations between views.
+							 *
+							 * If there is no view->parent_key and there is defined view->parent->key
+							 * then this view has relative segments,
+							 * this means this view has to skip segments added in parent view until last_id == id.
+							 */
 							$found2 = true;
 						}
 					}

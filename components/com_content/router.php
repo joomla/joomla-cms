@@ -27,7 +27,10 @@ class ContentRouter extends JComponentRouterView
 	public function __construct($app = null, $menu = null)
 	{
 		$params = JComponentHelper::getParams('com_content');
-		$this->noIDs = (bool) $params->get('sef_ids');
+
+		$this->noIDs       = (bool) $params->get('sef_ids');
+		$this->sefAdvanced = (bool) $params->get('sef_advanced');
+
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
@@ -47,7 +50,7 @@ class ContentRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		if ($params->get('sef_advanced', 0))
+		if ($this->sefAdvanced)
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
 			$this->attachRule(new JComponentRouterRulesNomenu($this));

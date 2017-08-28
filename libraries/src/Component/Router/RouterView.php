@@ -93,44 +93,49 @@ abstract class RouterView extends RouterBase
 		// Get the path from the current item to the root view with all IDs
 		if (isset($viewobj))
 		{
-			$path     = array_reverse($viewobj->path);
-			$start    = true;
-			$childkey = false;
+			$path   = array_reverse($viewobj->path);
+			$child  = null;
+			$oldKey = null;
 
 			foreach ($path as $element)
 			{
 				$view = $views[$element];
+				$key  = $child !== null ? $child->parent_key : $view->key;
 
-				if ($start)
-				{
-					$key   = $view->key;
-					$start = false;
-				}
-				else
-				{
-					$key = $childkey;
-				}
+				$callable = array($this, 'get' . ucfirst($view->name) . 'Segment');
 
-				$childkey = $view->parent_key;
-
-				if (($key || $view->key) && is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment')))
+				if (($key !== false || $view->key !== false) && is_callable($callable))
 				{
-					if (isset($query[$key]))
+					if ($key !== false && isset($query[$key]))
 					{
-						$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
+						$result[$view->name] = call_user_func_array($callable, array($query[$key], $query));
 					}
-					elseif (isset($query[$view->key]))
+					elseif ($view->key !== false && $oldKey !== false && isset($query[$oldKey]))
 					{
-						$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+						/**
+						 * Note: To be more strict on J4 should be another test elseif ($key === false && ...
+						 *
+						 * For child view which has parent_key as false but URL should be build with parent menu item.
+						 */
+						$result[$view->name] = call_user_func_array($callable, array($query[$oldKey], $query));
 					}
 					else
 					{
+						// Key parameter is missing in the query
 						$result[$view->name] = array();
 					}
 				}
 				else
 				{
 					$result[$view->name] = true;
+				}
+
+				$child  = $view;
+
+				// Condition uses on nestedView -> nestedView -> ... when $key can be false, but oldKey should stay
+				if ($key || $view->key === false)
+				{
+					$oldKey = $key;
 				}
 			}
 		}
