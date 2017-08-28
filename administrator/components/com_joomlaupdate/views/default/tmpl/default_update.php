@@ -145,20 +145,14 @@ defined('_JEXEC') or die;
 			<tr>
 				<td>
 					<?php echo $option->label; ?>
-					<?php if($option->notice): ?>
-					<p class=""><?php echo $option->notice ?></p>
-					<?php endif; ?>
 				</td>
 				<td>
-					<?php if ($option->state == true): ?>
-						<span class="label label-success">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES'); ?>
-						</span>
-					<?php else: ?>
-						<span class="label label-important">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO'); ?>
-						</span>
-					<?php endif; ?>
+					<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
+                        <?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
+                        <?php if ($option->notice) : ?>
+                            <span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
+                        <?php endif;?>
+                    </span>
 				</td>
 				<td>
 				</td>
@@ -196,24 +190,14 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo $setting->label; ?>
 				</td>
-				<td>
-					<span class="">
-						<?php if ($setting->recommended == true): ?>
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
-						<?php else: ?>
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
-						<?php endif; ?>
-					</span>
-				</td>
-				<td>
-					<span class="label label-<?php echo ($setting->state == $setting->recommended) ? "success" : "important" ?>">
-					<?php if ($setting->state == true): ?>
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_ON'); ?>
-					<?php else: ?>
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_OFF'); ?>
-					<?php endif; ?>
-					</span>
-				</td>
+                <td>
+                    <?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+                </td>
+                <td>
+                    <span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+                        <?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
+                    </span>
+                </td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

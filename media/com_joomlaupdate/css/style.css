@@ -4,3 +4,7 @@ fieldset.col {
     vertical-align: top;
     margin-right: 20pt;
 }
+
+.label span {
+    margin: 0 0 0 2px;
+}
