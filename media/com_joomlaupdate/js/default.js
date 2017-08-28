@@ -96,10 +96,8 @@ function extractionMethodHandler(target, prefix)
      * @param {Object} extensionData
      */
     PreUpdateChecker.setResultView = function (extensionData) {
-        // Clear the html (remove loading spinner)
-        extensionData.$element.empty();
-
         var html = '';
+        
         // Switch the compatibility state
         switch (extensionData.state) {
             case PreUpdateChecker.STATE.COMPATIBLE:
