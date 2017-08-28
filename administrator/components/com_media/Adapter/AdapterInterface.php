@@ -151,20 +151,21 @@ interface AdapterInterface
 	public function copy($sourcePath, $destinationPath, $force = false);
 
 	/**
-	 * Returns an url for serve media files from adapter.
-	 * Url must provide a valid image type to be displayed on Joomla! site.
+	 * Returns a public url for the given path. This function can be used by the cloud
+	 * adapter to publish the media file and create a permanent public accessible
+	 * url.
 	 *
 	 * @param   string  $path  The path to file
 	 *
 	 * @return string
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws FileNotFoundException
+	 * @throws \FileNotFoundException
 	 */
 	public function getUrl($path);
 
 	/**
-	 * Return the name of the adapter.
+	 * Returns the name of the adapter.
 	 * It will be shown in the Media Manager
 	 *
 	 * @return string
