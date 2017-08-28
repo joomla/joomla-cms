@@ -25,7 +25,7 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 class Api extends Model
 {
 	/**
-	 * Holds avaliable media file adapters
+	 * Holds available media file adapters.
 	 *
 	 * @var   AdapterInterface[][]
 	 * @since  __DEPLOY_VERSION__
@@ -57,6 +57,7 @@ class Api extends Model
 			// Import enabled file system plugins
 			PluginHelper::importPlugin('filesystem');
 
+			// @Todo change to Joomla 4 event system
 			$results = \JFactory::getApplication()->triggerEvent('onFileSystemGetAdapters');
 			$adapters = array();
 
