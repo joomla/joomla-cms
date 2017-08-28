@@ -76,6 +76,12 @@ if ($showPreview)
 	{
 		$src = JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY');
 	}
+
+	if ($showAsTooltip) {
+		$showPreview = 'tooltip';
+	} else {
+		$showPreview = 'static';
+	}
 }
 
 // The url for the modal
@@ -85,22 +91,21 @@ $url    = ($readonly ? ''
 		. $asset . '&amp;author=' . $authorId)
 	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
 ?>
-<div class="field-media-wrapper"
-	data-basepath="<?php echo JUri::root(); ?>"
-	data-root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
-	data-url="<?php echo $url; ?>"
-	data-modal=".modal"
-	data-modal-width="100%"
-	data-modal-height="400px"
-	data-input=".field-media-input"
-	data-button-select=".button-select"
-	data-button-clear=".button-clear"
-	data-button-save-selected=".button-save-selected"
-	data-preview="<?php echo $showPreview ? 'true' : 'false'; ?>"
-	data-preview-as-tooltip="<?php echo $showAsTooltip ? 'true' : 'false'; ?>"
-	data-preview-container=".field-media-preview"
-	data-preview-width="<?php echo $previewWidth; ?>"
-	data-preview-height="<?php echo $previewHeight; ?>"
+<joomla-field-media class="field-media-wrapper"
+		basepath="<?php echo JUri::root(); ?>"
+		rootfolder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
+		url="<?php echo $url; ?>"
+		modalcont=".modal"
+		modalwidth="100%"
+		modalheight="400px"
+		input=".field-media-input"
+		buttonselect=".button-select"
+		buttonclear=".button-clear"
+		buttonsaveselected=".button-save-selected"
+		preview="<?php echo $showPreview; ?>"
+		previewcontainer=".field-media-preview"
+		previewwidth="<?php echo $previewWidth; ?>"
+		previewheight="<?php echo $previewHeight; ?>"
 >
 	<?php
 	// Render the modal
@@ -118,13 +123,14 @@ $url    = ($readonly ? ''
 		)
 	);
 
-	JHtml::_('script', 'system/fields/mediafield.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('webcomponent', ['joomla-field-media' => 'system/joomla-field-media.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+	JText::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
 	<div class="input-group">
 		<?php if ($showPreview && $showAsTooltip) : ?>
 			<div rel="popover" class="input-group-addon pop-helper field-media-preview"
-				title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
-				data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
+					title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>"
+					data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
 				<span class="icon-eye" aria-hidden="true"></span>
 			</div>
 		<?php endif; ?>
@@ -136,4 +142,4 @@ $url    = ($readonly ? ''
 			</div>
 		<?php endif; ?>
 	</div>
-</div>
+</joomla-field-media>
