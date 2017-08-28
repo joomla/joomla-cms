@@ -14,7 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * FileSystem Local plugin.
- * The plugin used to manipulate local filesystem in Media Manager
+ *
+ * The plugin to deal with the local filesystem in Media Manager.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -29,7 +30,7 @@ class PlgFileSystemLocal extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Returns a local media adapter to the caller which can be used to manipulate files
+	 * Returns a local media adapter array which can be used to manipulate files.
 	 *
 	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter[]
 	 *
