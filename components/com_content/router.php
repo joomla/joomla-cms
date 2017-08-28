@@ -41,7 +41,7 @@ class ContentRouter extends RouterView
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new RouterViewConfiguration('category');
-		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
+		$category->setKey('id')->setParent($categories)->setNestable()->addLayout('blog');
 		$this->registerView($category);
 		$article = new RouterViewConfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');

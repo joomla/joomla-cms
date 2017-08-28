@@ -152,6 +152,10 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22'),
 			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49'));
 
+		// Check indirect link to a nested view with a key if the layout is different
+		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'blog'),
+			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'blog'));
+
 		// Check indirect link to a nested view with a key and a language
 		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB'),
 			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB', 'Itemid' => '49'));
@@ -168,7 +172,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42'),
 			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '49'));
 
-		// Check indirect link to a single view behind a nested view with a key and language
+		// Check indirect link to a single view behind a nested view with a key and language, return active menu item, not default
 		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB'),
 			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB', 'Itemid' => '49'));
 
@@ -244,12 +248,20 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		$router = $this->object->get('router');
+		$router->menu->active = null;
+
+		// Legacy route use a default Itemid for article that does not have own menu item
+		$query  = array('option' => 'com_content', 'view' => 'article', 'id' => '2');
+		$expect = array('option' => 'com_content', 'view' => 'article', 'id' => '2', 'Itemid' => '47');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
 
 		// Set an active menu
 		$router->menu->active = 53;
 
-		// Test if the active Itemid is used although an article has other Itemid with id=52
-		$expect = $query = array('option' => 'com_content', 'view' => 'article', 'id' => '1', 'Itemid' => '53');
+		// Legacy route use an active Itemid for article that does not have own menu item
+		$query  = array('option' => 'com_content', 'view' => 'article', 'id' => '2');
+		$expect = array('option' => 'com_content', 'view' => 'article', 'id' => '2', 'Itemid' => '53');
 		$this->object->preprocess($query);
 		$this->assertEquals($expect, $query);
 
@@ -259,6 +271,25 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'view' => 'article',
 			'id' => '1:some-alias',
 			'Itemid' => '53');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		// Use new routing that does not add active or default menu item if Itemid is missing
+		$router->sefAdvanced = true;
+
+		// The system does not use an active, nor default Itemid for article that does not have menu item
+		$query  = array('option' => 'com_content', 'view' => 'article', 'id' => '2', 'Itemid' => '53');
+		$expect = array('option' => 'com_content', 'view' => 'article', 'id' => '2');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		// Check non-existing menu link which should not depend on default item
+		$expect = $query = array('option' => 'com_content', 'view' => 'categories', 'id' => '42');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		// Check non-existing menu link which should not depend on default item
+		$expect = $query = array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB');
 		$this->object->preprocess($query);
 		$this->assertEquals($expect, $query);
 

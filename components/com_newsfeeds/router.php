@@ -42,7 +42,7 @@ class NewsfeedsRouter extends RouterView
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new RouterViewConfiguration('category');
-		$category->setKey('id')->setParent($categories, 'catid')->setNestable();
+		$category->setKey('id')->setParent($categories)->setNestable();
 		$this->registerView($category);
 		$newsfeed = new RouterViewConfiguration('newsfeed');
 		$newsfeed->setKey('id')->setParent($category, 'catid');

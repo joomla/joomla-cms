@@ -247,65 +247,95 @@ class StandardRules implements RulesInterface
 		}
 
 		// Get the path from the view of the current URL and parse it to the menu item
-		$path   = array_reverse($this->router->getPath($query), true);
-		$found  = false;
-		$found2 = false;
+		$path  = array_reverse($this->router->getPath($query), true);
+		$found = false;
 
-		for ($i = 0, $j = count($path); $i < $j; $i++)
+		// Id of the last added segment
+		$last_id = 0;
+
+		foreach ($path as $element => $ids)
 		{
-			reset($path);
-			$view = key($path);
+			$view = $views[$element];
 
-			if ($found)
+			if ($found === false && $item && $item->query['view'] === $element)
 			{
-				$ids = array_shift($path);
-
-				if ($views[$view]->nestable)
+				if ($view->key !== false)
 				{
+					// Get id from menu item
+					$last_id = (int) $item->query[$view->key];
+				}
+
+				if ($view->nestable)
+				{
+					$found = true;
+				}
+				elseif ($view->children)
+				{
+					$found = true;
+
+					continue;
+				}
+			}
+
+			if ($found === false)
+			{
+				// Jump to the next view
+				continue;
+			}
+
+			if ($ids)
+			{
+				if ($view->nestable)
+				{
+					$found2 = false;
+
 					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
 							$segments[] = str_replace(':', '-', $segment);
+							$last_id    = (int) $id;
 						}
-						elseif ((int) $item->query[$views[$view]->key] == (int) $id)
+						elseif ($view->parent === false
+								|| $view->parent->key === false
+								|| $last_id === (int) $id)
 						{
+							/**
+							 * Note: To be more strict on J4 should be another test if ($view->parent_key !== false || ...)
+							 *
+							 * Check relations between views.
+							 *
+							 * If there is no view->parent_key and there is defined view->parent->key
+							 * then this view has relative segments,
+							 * this means this view has to skip segments added in parent view until last_id == id.
+							 */
 							$found2 = true;
 						}
 					}
 				}
-				elseif (is_bool($ids))
+				elseif ($ids === true)
 				{
-					$segments[] = $views[$view]->name;
+					$segments[] = $element;
+					$last_id    = 0;
 				}
 				else
 				{
-					$segments[] = str_replace(':', '-', array_shift($ids));
-				}
-			}
-			elseif ($item->query['view'] !== $view)
-			{
-				array_shift($path);
-			}
-			else
-			{
-				if (!$views[$view]->nestable)
-				{
-					array_shift($path);
-				}
-				else
-				{
-					$i--;
-					$found2 = false;
-				}
-
-				if (count($views[$view]->children))
-				{
-					$found = true;
+					$segments[] = str_replace(':', '-', current($ids));
+					$last_id    = (int) key($ids);
 				}
 			}
 
-			unset($query[$views[$view]->parent_key]);
+			if ($view->name === $query['view'])
+			{
+				// Remove key from query
+				unset($query[$view->key]);
+			}
+
+			if ($view->parent_key !== false)
+			{
+				// Remove parent key from query
+				unset($query[$view->parent_key]);
+			}
 		}
 
 		if ($found)
