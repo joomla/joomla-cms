@@ -36,7 +36,7 @@ interface AdapterInterface
 	 *
 	 * @param   string  $path  The path to the file or folder
 	 *
-	 * @return  \stdClass[]
+	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -149,4 +149,28 @@ interface AdapterInterface
 	 * @throws  \Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false);
+
+	/**
+	 * Returns a public url for the given path. This function can be used by the cloud
+	 * adapter to publish the media file and create a permanent public accessible
+	 * url.
+	 *
+	 * @param   string  $path  The path to file
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws \FileNotFoundException
+	 */
+	public function getUrl($path);
+
+	/**
+	 * Returns the name of the adapter.
+	 * It will be shown in the Media Manager
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapterName();
 }

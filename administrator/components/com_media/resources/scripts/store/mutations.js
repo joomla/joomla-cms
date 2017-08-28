@@ -7,7 +7,7 @@ import * as types from "./mutation-types";
 export default {
 
     /**
-     * The load content success mutation
+     * Select a directory
      * @param state
      * @param payload
      */

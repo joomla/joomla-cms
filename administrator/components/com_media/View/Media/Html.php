@@ -24,6 +24,13 @@ use Joomla\CMS\View\HtmlView;
 class Html extends HtmlView
 {
 	/**
+	 * @var array|string Holds a list of providers
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $providers = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -36,6 +43,9 @@ class Html extends HtmlView
 	{
 		// Prepare the toolbar
 		$this->prepareToolbar();
+
+		// Get enabled adapters
+		$this->providers = $this->get('Providers');
 
 		parent::display($tpl);
 	}

@@ -1,0 +1,5 @@
+index.php
+.phpintel/
+/vendor/
+composer.lock
+/.idea

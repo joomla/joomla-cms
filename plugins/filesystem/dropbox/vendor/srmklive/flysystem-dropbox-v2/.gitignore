@@ -1,0 +1,6 @@
+composer.phar
+build
+docs
+/vendor/
+composer.lock
+/.idea/

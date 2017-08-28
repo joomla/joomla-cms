@@ -65,7 +65,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 		$this->pluginClass = new PlgFileSystemLocal($dispatcher, $plugin);
 
 		// Set up the temp root folder
-		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
+		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/', 'tmp/test');
 		JFolder::create($this->root);
 	}
 
@@ -87,6 +87,6 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	public function testOnFileSystemGetAdapters()
 	{
 		$adapter = $this->pluginClass->onFileSystemGetAdapters();
-		self::assertInstanceOf(\Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::class, $adapter);
+		self::containsOnlyInstancesOf(\Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::class, $adapter);
 	}
 }

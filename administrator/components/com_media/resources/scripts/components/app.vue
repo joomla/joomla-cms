@@ -1,7 +1,7 @@
 <template>
     <div class="media-container row" :style="{minHeight: fullHeight}">
         <div class="media-sidebar col-md-2 hidden-sm-down">
-            <media-tree :root="'/'"></media-tree>
+            <media-disk v-for="disk in disks" :disk="disk"></media-disk>
         </div>
         <div class="col-md-10">
             <div class="media-main">
@@ -25,6 +25,11 @@
                 // The full height of the app in px
                 fullHeight: '',
             };
+        },
+        computed: {
+            disks() {
+                return this.$store.state.disks;
+            }
         },
         methods: {
             /* Set the full height on the app container */

@@ -86,14 +86,14 @@ class Api extends Controller
 	 */
 	public function files()
 	{
-		// Get the required variables
-		$path = $this->input->getPath('path', '/', 'path');
-
-		// Determine the method
-		$method = strtolower($this->input->getMethod() ? : 'GET');
-
 		try
 		{
+			// Get the required variables
+			list($adapter, $path) = explode(':', $this->input->getString('path', ''), 2);
+
+			// Determine the method
+			$method = strtolower($this->input->getMethod() ? : 'GET');
+
 			// Check token for requests which do modify files (all except get requests)
 			if ($method != 'get' && !\JSession::checkToken('json'))
 			{
@@ -104,14 +104,19 @@ class Api extends Controller
 			switch ($method)
 			{
 				case 'get':
-					$data = $this->getModel()->getFiles($path, $this->input->getWord('filter'));
+					// Grab options
+					$options = array();
+					$options['url'] = $this->input->getBool('url', false);
+					$data = $this->getModel()->getFiles($adapter, $path, $this->input->getWord('filter'), $options);
 					break;
+
 				case 'delete':
-					$this->getModel()->delete($path);
+					$this->getModel()->delete($adapter, $path);
 
 					// Define this for capability with other cases
 					$data = null;
 					break;
+
 				case 'post':
 					$content      = $this->input->json;
 					$name         = $content->getString('name');
@@ -123,16 +128,17 @@ class Api extends Controller
 						$this->checkContent($name, $mediaContent);
 
 						// A file needs to be created
-						$this->getModel()->createFile($name, $path, $mediaContent);
+						$this->getModel()->createFile($adapter, $name, $path, $mediaContent);
 					}
 					else
 					{
 						// A file needs to be created
-						$this->getModel()->createFolder($name, $path);
+						$this->getModel()->createFolder($adapter, $name, $path);
 					}
 
-					$data = $this->getModel()->getFile($path . '/' . $name);
+					$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
 					break;
+
 				case 'put':
 					$content      = $this->input->json;
 					$name         = basename($path);
@@ -140,10 +146,11 @@ class Api extends Controller
 
 					$this->checkContent($name, $mediaContent);
 
-					$this->getModel()->updateFile($name, str_replace($name, '', $path), $mediaContent);
+					$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 
-					$data = $this->getModel()->getFile($path);
+					$data = $this->getModel()->getFile($adapter, $path);
 					break;
+
 				default:
 					throw new \BadMethodCallException('Method not supported yet!');
 			}

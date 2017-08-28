@@ -14,7 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * FileSystem Local plugin.
- * The plugin used to manipulate local filesystem in Media Manager
+ *
+ * The plugin to deal with the local filesystem in Media Manager.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -29,18 +30,35 @@ class PlgFileSystemLocal extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Returns a local media adapter to the caller which can be used to manipulate files
+	 * Returns a local media adapter array which can be used to manipulate files.
 	 *
-	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter
+	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter[]
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
 	public function onFileSystemGetAdapters()
 	{
-		// Compile the root path
-		$root = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('file_path', 'images');
-		$root = rtrim($root) . '/';
+		$adapters = [];
+		$directories = $this->params->get('directories', '[{"directory":{"directory": "images"}}]');
 
-		return new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($root);
+		// Do a check if default settings are not saved by user
+		// If not initialize them manually
+		if (is_string($directories))
+		{
+			$directories = json_decode($directories);
+			list($directories) = $directories;
+		}
+
+		foreach ($directories as $directoryEntity)
+		{
+			if ($directoryEntity->directory)
+			{
+				$directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
+				$directoryPath = rtrim($directoryPath) . '/';
+				$adapters[]    = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter($directoryPath, $directoryEntity->directory);
+			}
+		}
+
+		return $adapters;
 	}
 }
