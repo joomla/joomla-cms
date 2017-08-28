@@ -1250,10 +1250,10 @@ ENDDATA;
 
 		foreach ($rows as $extension)
 		{
-			$decode = json_decode($extension->manifestCache);
+			$decode = json_decode($extension->manifest_cache);
 			$this->translateExtensionName($extension);
 			$extension->version = $decode->version;
-			unset($extension->manifestCache);
+			unset($extension->manifest_cache);
 		}
 
 		return $rows;
