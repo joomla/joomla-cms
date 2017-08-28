@@ -81,7 +81,8 @@ if ($spacing > 0)
 					autocomplete="off"
 					id="mod-login-secretkey"
 					type="text"
-					class="form-control input-full"
+					class="form-control input-full required"
+					required="true"
 				>
 			</div>
 		<?php endif; ?>
