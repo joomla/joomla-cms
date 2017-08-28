@@ -11,11 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 
-\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
-
 /**
  * FileSystem Dropbox plugin.
- * The plugin used to manipulate dropbox filesystem in Media Manager
+ * The plugin used to manipulate dropbox filesystem in Media Manager.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -38,6 +36,8 @@ class PlgFileSystemDropbox extends CMSPlugin
 	 */
 	public function onFileSystemGetAdapters()
 	{
+		\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
+
 		$accessToken = $this->params->get('access_token');
 		$accountName = $this->params->get('account_name');
 
@@ -58,6 +58,8 @@ class PlgFileSystemDropbox extends CMSPlugin
 	 */
 	public function onFileSystemOAuthCallback(\Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent $event)
 	{
+		\JLoader::import('filesystem.dropbox.vendor.autoload', JPATH_PLUGINS);
+
 		// Set default result to be returned
 		$result = [
 			"action" => "control-panel"
