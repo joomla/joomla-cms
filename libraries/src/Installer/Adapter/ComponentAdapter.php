@@ -417,7 +417,7 @@ class ComponentAdapter extends InstallerAdapter
 				if (strpos($link, $delimiter) !== false)
 				{
 					// Gets the option from the link attribute
-					$option = substr($link, strpos($link, $delimiter), strlen($delimiter));
+					$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
 
 					// Filter the option for illegal characters
 					$option = InputFilter::getInstance()->clean($option, 'string');
