@@ -1,24 +1,20 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\HTML\Service;
-
 defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HtmlHelper;
 
 /**
  * Utility class for jQuery JavaScript behaviors
  *
  * @since  3.0
  */
-abstract class JQuery
+abstract class JHtmlJquery
 {
 	/**
 	 * @var    array  Array containing information for loaded files
@@ -50,21 +46,21 @@ abstract class JQuery
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$debug = (boolean) Factory::getConfig()->get('debug');
+			$debug = (boolean) JFactory::getConfig()->get('debug');
 		}
 
-		HtmlHelper::_('script', 'jui/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'jui/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			HtmlHelper::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			HtmlHelper::_('script', 'jui/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			JHtml::_('script', 'jui/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;
@@ -104,7 +100,7 @@ abstract class JQuery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				HtmlHelper::_('script', 'jui/jquery.ui.' . $component . '.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 				static::$loaded[__METHOD__][$component] = true;
 			}
 		}
@@ -132,9 +128,9 @@ abstract class JQuery
 		}
 
 		static::framework();
-		HtmlHelper::_('form.csrf', $name);
+		JHtml::_('form.csrf', $name);
 
-		$doc = Factory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$doc->addScriptDeclaration(
 <<<JS

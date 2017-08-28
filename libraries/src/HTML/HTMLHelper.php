@@ -291,7 +291,6 @@ abstract class HTMLHelper
 		if (!static::$serviceRegistry)
 		{
 			static::$serviceRegistry = new ServiceRegistry;
-			static::$serviceRegistry->register('jquery', 'Joomla\\CMS\\HTML\\Service\\JQuery');
 		}
 
 		return static::$serviceRegistry;
