@@ -89,7 +89,7 @@ class Api extends Controller
 		try
 		{
 			// Get the required variables
-			list($adapter, $path) = explode(':', $this->input->getString('path', ''));
+			list($adapter, $path) = explode(':', $this->input->getString('path', ''), 2);
 
 			// Determine the method
 			$method = strtolower($this->input->getMethod() ? : 'GET');
