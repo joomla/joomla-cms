@@ -1242,7 +1242,9 @@ ENDDATA;
 			$db->qn('#__update_sites', 'si') .
 			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
 		)->where(
-			$db->qn('ex.extension_id') . ' >= 10000'
+			$db->qn('ex.extension_id') . ' >= 10000' .
+			' AND ' .
+			$db->qn('ex.package_id') . ' = 0'
 		);
 
 		$db->setQuery($query);
