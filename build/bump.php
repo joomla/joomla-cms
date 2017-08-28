@@ -67,7 +67,6 @@ $directoryLoopExcludeDirectories = array(
 			'/libraries/php-encryption/',
 			'/libraries/phpass/',
 			'/libraries/idna_convert/',
-			'/libraries/fof/',
 			);
 
 $directoryLoopExcludeFiles = array(
