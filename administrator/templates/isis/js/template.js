@@ -134,7 +134,10 @@ jQuery(function($)
 	if ($w.width() > 767)
 	{
 		var menuScroll = $('#menu > li > ul'),
-			emptyMenu  = $('#nav-empty');
+			emptyMenu  = $('#nav-empty'),
+			linkWidth,
+			menuWidth,
+			offsetLeft;
 
 		$('#menu > li').on('click mouseenter', function() {
 
@@ -146,7 +149,8 @@ jQuery(function($)
 				menuHeight       = $dropdownMenu.height(),
 				menuOuterHeight  = $dropdownMenu.outerHeight(true),
 				scrollMenuWidth  = $dropdownMenu.width() + 15,
-				maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
+				maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20),
+				linkPaddingLeft  = $(this).children('a').css('padding-left');
 
 			if (maxHeight < menuHeight)
 			{
@@ -160,10 +164,9 @@ jQuery(function($)
 			$dropdownMenu.css('max-height', maxHeight);
 
 			// Get the submenu position
-			var linkWidth        = $(this).outerWidth(true);
-			var menuWidth        = $dropdownMenu.width();
-			var linkPaddingLeft  = $(this).children('a').css('padding-left');
-			var offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
+			linkWidth   = $(this).outerWidth(true);
+			menuWidth   = $dropdownMenu.width();
+			offsetLeft  = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
 
 			emptyMenu.empty().hide();
 
