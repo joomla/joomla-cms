@@ -1004,19 +1004,24 @@ ENDDATA;
 	 * Gets PHP options.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
-	 * @return  array  Array of PHP config options
+	 * @param   string $joomlaMinimumPHP The target PHP version for the Joomla! version
+	 *
+	 * @return array Array of PHP config options
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPhpOptions()
+	public function getPhpOptions($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP)
 	{
 		$options = array();
 
-		// Check the PHP Version.
-		// TODO: Check the PHP Version of the upcoming version
+		/*
+		 * Check the PHP Version. It is already checked in JUpdate.
+		 * An Joomla! Update which is not supported by current PHP
+		 * version is not shown. So this check is actually unnecessary.
+		 */
 		$option = new stdClass;
-		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', JOOMLA_MINIMUM_PHP);
-		$option->state  = version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '>=');
+		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', $joomlaMinimumPHP);
+		$option->state  = version_compare(PHP_VERSION, $joomlaMinimumPHP, '>=');
 		$option->notice = null;
 		$options[] = $option;
 

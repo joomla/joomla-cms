@@ -93,14 +93,15 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$ftp           = $model->getFTPOptions();
 		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
 
-		// Get results of pre update check evaluations
-		$this->phpOptions        = $model->getPhpOptions();
-		$this->phpSettings       = $model->getPhpSettings();
-		$this->nonCoreExtensions = $model->getNonCoreExtensions();
-
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
+
+		// Get results of pre update check evaluations
+		$phpMinimum = $this->updateInfo['object']->php_minimum->_data;
+		$this->phpOptions        = $model->getPhpOptions($phpMinimum);
+		$this->phpSettings       = $model->getPhpSettings();
+		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
