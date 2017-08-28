@@ -50,20 +50,20 @@ class JoomlaFieldMedia extends HTMLElement {
       case 'buttonclear':
       case 'buttonsaveselected':
       case 'previewContainer':
-        //string
+        // string
         break;
       case 'modalwidth':
       case 'modalheight':
       case 'previewwidth':
       case 'previewheight':
-        //int
+        // int
         // const value = parseInt(newValue, 10);
         // if (value !== parseInt(oldValue, 10)) {
-        // 	this.setAttribute(attr, value);
+        //  this.setAttribute(attr, value);
         // }
         break;
       case 'preview':
-        //bool|string
+        // bool|string
         if (['true', 'false', 'tooltip', 'static'].indexOf(newValue) > -1 && oldValue !== newValue) {
           this.preview = newValue;
         } else {
@@ -76,13 +76,8 @@ class JoomlaFieldMedia extends HTMLElement {
     }
   }
 
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     const self = this;
-    console.log(this.buttonselect)
     const button = this.querySelector(this.buttonselect);
     const buttonClear = this.querySelector(this.buttonclear);
 
@@ -101,8 +96,6 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   show(self) {
-    console.log(this.buttonsaveselected)
-    console.log(self)
     window.jQuery(this.querySelector('[role="dialog"]')).modal('show');
 
     window.jQuery(this.querySelector(this.buttonsaveselected)).on('click', (e) => {
@@ -119,30 +112,29 @@ class JoomlaFieldMedia extends HTMLElement {
     });
 
     window.document.addEventListener('onMediaFileSelected', (e) => {
-      var path = e.item.path;
+      const path = e.item.path;
 
       if (path.match(/.jpg|.jpeg|.gif|.png/)) {
         self.selectedPath = e.item.path;
       } else {
         self.selectedPath = '';
       }
-
     });
   }
 
   modalClose(self) {
     window.jQuery(self.querySelector('[role="dialog"]')).modal('hide');
-  };
+  }
 
   setValue(value) {
     const input = window.jQuery(this.querySelector(this.input));
     input.val(value).trigger('change');
     this.updatePreview();
-  };
+  }
 
   clearValue() {
     this.setValue('');
-  };
+  }
 
   updatePreview() {
     if (['true', 'tooltip', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
@@ -155,30 +147,22 @@ class JoomlaFieldMedia extends HTMLElement {
       const input = window.jQuery(this.querySelector(this.input));
       const value = input.val();
 
-      console.log(this.previewcontainer)
-      console.log(containerPreview)
-      console.log(input)
-      console.log(value)
-      console.log(this.preview)
-
       containerPreview.popover('dispose');
       input.tooltip('dispose');
 
       if (!value) {
         containerPreview.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: true });
       } else {
-        var imgPreview = new Image(this.previewwidth, this.previewheight);
+        const imgPreview = new Image(this.previewwidth, this.previewheight);
         imgPreview.src = this.basepath + value;
 
-        console.log(imgPreview)
-        console.log(imgPreview.src)
         containerPreview.popover({
           content: imgPreview,
-          html: true
+          html: true,
         });
         input.tooltip({ placement: 'top', title: value });
       }
     }
-  };
+  }
 }
 customElements.define('joomla-field-media', JoomlaFieldMedia);

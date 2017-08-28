@@ -19,12 +19,42 @@ var _createClass = function () {
   if ('function' != typeof b && null !== b) throw new TypeError('Super expression must either be null or a function, not ' + (typeof b === 'undefined' ? 'undefined' : _typeof(b)));a.prototype = Object.create(b && b.prototype, { constructor: { value: a, enumerable: !1, writable: !0, configurable: !0 } }), b && (Object.setPrototypeOf ? Object.setPrototypeOf(a, b) : a.__proto__ = b);
 }var JoomlaFieldMedia = function (a) {
   function b() {
-    return _classCallCheck(this, b), _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).call(this));
+    return _classCallCheck(this, b), _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).apply(this, arguments));
   }return _inherits(b, a), _createClass(b, [{ key: 'attributeChangedCallback', value: function attributeChangedCallback(a, b, c) {
       switch (a) {case 'basepath':case 'rootfolder':case 'url':case 'modalcont':case 'input':case 'buttonselect':case 'buttonclear':case 'buttonsaveselected':case 'previewContainer':
           break;case 'modalwidth':case 'modalheight':case 'previewwidth':case 'previewheight':
           break;case 'preview':
           -1 < ['true', 'false', 'tooltip', 'static'].indexOf(c) && b !== c && (this.preview = c);break;default:}
+    } }, { key: 'connectedCallback', value: function connectedCallback() {
+      var a = this,
+          b = this.querySelector(this.buttonselect),
+          c = this.querySelector(this.buttonclear);b.addEventListener('click', function () {
+        a.show(a);
+      }), c && c.addEventListener('click', function () {
+        a.clearValue();
+      }), this.updatePreview();
+    } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {
+      var a = this.querySelector(this.buttonselect);a.removeEventListener('click', self);
+    } }, { key: 'show', value: function show(a) {
+      window.jQuery(this.querySelector('[role="dialog"]')).modal('show'), window.jQuery(this.querySelector(this.buttonsaveselected)).on('click', function (b) {
+        return b.preventDefault(), b.stopPropagation(), a.selectedPath ? a.setValue(a.rootfolder + a.selectedPath) : a.setValue(''), a.modalClose(a), !1;
+      }), window.document.addEventListener('onMediaFileSelected', function (b) {
+        var c = b.item.path;a.selectedPath = c.match(/.jpg|.jpeg|.gif|.png/) ? b.item.path : '';
+      });
+    } }, { key: 'modalClose', value: function modalClose(a) {
+      window.jQuery(a.querySelector('[role="dialog"]')).modal('hide');
+    } }, { key: 'setValue', value: function setValue(a) {
+      var b = window.jQuery(this.querySelector(this.input));b.val(a).trigger('change'), this.updatePreview();
+    } }, { key: 'clearValue', value: function clearValue() {
+      this.setValue('');
+    } }, { key: 'updatePreview', value: function updatePreview() {
+      if (-1 !== ['true', 'tooltip', 'static'].indexOf(this.preview) && 'false' !== this.preview && this.preview) {
+        var a = window.jQuery(this.querySelector(this.previewcontainer)),
+            b = window.jQuery(this.querySelector(this.input)),
+            c = b.val();if (a.popover('dispose'), b.tooltip('dispose'), !c) a.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: !0 });else {
+          var d = new Image(this.previewwidth, this.previewheight);d.src = this.basepath + c, a.popover({ content: d, html: !0 }), b.tooltip({ placement: 'top', title: c });
+        }
+      }
     } }, { key: 'basepath', get: function get() {
       return this.getAttribute('basepath');
     }, set: function set(a) {
@@ -81,35 +111,6 @@ var _createClass = function () {
       return this.getAttribute('previewcontainer');
     } }], [{ key: 'observedAttributes', get: function get() {
       return ['basepath', 'rootfolder', 'url', 'modalcont', 'modalwidth', 'modalheight', 'input', 'buttonselect', 'buttonclear', 'buttonsaveselected', 'preview', 'previewwidth', 'previewheight'];
-    } }]), _createClass(b, [{ key: 'connectedCallback', value: function connectedCallback() {
-      var a = this;console.log(this.buttonselect);var b = this.querySelector(this.buttonselect),
-          c = this.querySelector(this.buttonclear);b.addEventListener('click', function () {
-        a.show(a);
-      }), c && c.addEventListener('click', function () {
-        a.clearValue();
-      }), this.updatePreview();
-    } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {
-      var a = this.querySelector(this.buttonselect);a.removeEventListener('click', self);
-    } }, { key: 'show', value: function show(a) {
-      console.log(this.buttonsaveselected), console.log(a), window.jQuery(this.querySelector('[role="dialog"]')).modal('show'), window.jQuery(this.querySelector(this.buttonsaveselected)).on('click', function (b) {
-        return b.preventDefault(), b.stopPropagation(), a.selectedPath ? a.setValue(a.rootfolder + a.selectedPath) : a.setValue(''), a.modalClose(a), !1;
-      }), window.document.addEventListener('onMediaFileSelected', function (b) {
-        var c = b.item.path;a.selectedPath = c.match(/.jpg|.jpeg|.gif|.png/) ? b.item.path : '';
-      });
-    } }, { key: 'modalClose', value: function modalClose(a) {
-      window.jQuery(a.querySelector('[role="dialog"]')).modal('hide');
-    } }, { key: 'setValue', value: function setValue(a) {
-      var b = window.jQuery(this.querySelector(this.input));b.val(a).trigger('change'), this.updatePreview();
-    } }, { key: 'clearValue', value: function clearValue() {
-      this.setValue('');
-    } }, { key: 'updatePreview', value: function updatePreview() {
-      if (-1 !== ['true', 'tooltip', 'static'].indexOf(this.preview) && 'false' !== this.preview && this.preview) {
-        var b = window.jQuery(this.querySelector(this.previewcontainer)),
-            c = window.jQuery(this.querySelector(this.input)),
-            d = c.val();if (console.log(this.previewcontainer), console.log(b), console.log(c), console.log(d), console.log(this.preview), b.popover('dispose'), c.tooltip('dispose'), !d) b.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: !0 });else {
-          var a = new Image(this.previewwidth, this.previewheight);a.src = this.basepath + d, console.log(a), console.log(a.src), b.popover({ content: a, html: !0 }), c.tooltip({ placement: 'top', title: d });
-        }
-      }
     } }]), b;
 }(HTMLElement);customElements.define('joomla-field-media', JoomlaFieldMedia);
 
