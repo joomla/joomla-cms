@@ -20,11 +20,11 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 
 <div id="uploader-wrapper">
 	<div class="control-group">
-		<label for="force_install" class="control-label" title="<?php echo \JText::_('PLG_INSTALLER_URLINSTALLER_FORCE_INSTALL_DETAILS') ?>">
+		<label for="force_install" class="control-label" title="<?php echo \JText::_('PLG_INSTALLER_URLINSTALLER_FORCE_INSTALL_DETAILS'); ?>">
 			<?php echo \JText::_('PLG_INSTALLER_URLINSTALLER_FORCE_INSTALL'); ?>
 		</label>
 		<fieldset class="checkboxes">
-			<input type="checkbox" id="force_install" name="force_install" value="1">
+			<input type="checkbox" id="force_install_a" name="force_install_a" value="1">
 		</fieldset>
 	</div>
 	<div id="dragarea">

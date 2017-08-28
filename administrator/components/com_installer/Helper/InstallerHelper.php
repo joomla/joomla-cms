@@ -200,7 +200,7 @@ class InstallerHelper
 	{
 		$app = \JFactory::getApplication();
 
-		$hashes = array("sha256", "sha1", "md5");
+		$hashes = array("sha256", "sha384", "sha512");
 		$hashOnFile = false;
 
 		foreach ($hashes as $hash)
