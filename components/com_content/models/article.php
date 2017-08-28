@@ -40,19 +40,6 @@ class ContentModelArticle extends JModelItem
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');
-
-		// Check for malformed url, lacking article id (empty $pk)
-		if (empty($pk))
-		{
-			// Retrieve article id from current menuitem
-			$currMenuItem = empty($menu = $app->getMenu()) ? null : $menu->getActive();
-			$pk = empty($currMenuItem) ? 0 : $currMenuItem->query['id'];
-			
-			// If also menuitem query is malformed, lacks article id, then use 0: unexistent article that wont't be found
-			// and subsequent authorisation will look up the tree, on category, component, root eventually denying permissions.
-			$pk = empty($pk) ? 0 : $pk;
-		}
-
 		$this->setState('article.id', $pk);
 
 		$offset = $app->input->getUInt('limitstart');
@@ -62,10 +49,12 @@ class ContentModelArticle extends JModelItem
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		// TODO: Tune these values based on other permissions.
 		$user = JFactory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content.article.' . $pk)) && (!$user->authorise('core.edit', 'com_content.article.' . $pk)))
+		// If $pk is set then authorise on complete asset, else on component only
+		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+		
+		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
