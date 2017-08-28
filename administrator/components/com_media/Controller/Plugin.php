@@ -19,19 +19,19 @@ use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
 /**
  * Plugin Controller for OAuth2.0 callbacks
  *
- * This controller is used for handle OAuth2 Callbacks
+ * This controller handles OAuth2 Callbacks
  *
  * @since  __DEPLOY_VERSION__
  */
 class Plugin extends Controller
 {
 	/**
-	 * Handles an OAuth Callback request for a specified plugin
+	 * Handles an OAuth Callback request for a specified plugin.
 	 *
 	 * URLs containing [sitename]/administrator/index.php?option=com_media&task=plugin.oauthcallback
-	 *  &plugin=[plugin_name]&status=[csrf_token]&....
+	 *  &plugin=[plugin_name]
 	 *
-	 * Will be handled by this endpoint.
+	 * will be handled by this endpoint.
 	 * It will select the plugin specified by plugin_name and pass all the data received from the provider
 	 *
 	 * @return void
@@ -120,20 +120,15 @@ class Plugin extends Controller
 					$this->setRedirect($eventResults['redirect_uri']);
 					break;
 
-				// Redirect browser to Media Manager
-				case 'media-manager':
-					$this->setRedirect(\JRoute::_('index.php?option=com_media', false));
-					break;
-
 				// Redirect browser to Control Panel
 				case 'control-panel':
 					$this->setRedirect(\JRoute::_('index.php', false));
 					break;
 
-				// Redirect browser to control panel with a warning when no action specified
+				// Redirect browser to Media Manager
+				case 'media-manager':
 				default:
-					throw new \Exception('Unknown action ' . $action . ' was defined in ' . $pluginName);
-					break;
+					$this->setRedirect(\JRoute::_('index.php?option=com_media', false));
 			}
 		}
 		catch (\Exception $e)
@@ -148,7 +143,7 @@ class Plugin extends Controller
 	}
 
 	/**
-	 * Check whether a plugin exists in given plugin array
+	 * Check whether a plugin exists in given plugin array.
 	 *
 	 * @param   array   $plugins     Array of plugin names
 	 * @param   string  $pluginName  Plugin name to look up
