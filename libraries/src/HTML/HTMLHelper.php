@@ -91,7 +91,7 @@ abstract class HTMLHelper
 	 *                        prefix and class are optional and can be used to load custom
 	 *                        html helpers.
 	 *
-	 * @return  mixed  Result of HtmlHelper::call($function, $args)
+	 * @return  mixed  Result of HTMLHelper::call($function, $args)
 	 *
 	 * @since   1.5
 	 * @throws  \InvalidArgumentException
@@ -671,7 +671,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
-	 * @see     HtmlHelper::stylesheet()
+	 * @see     HTMLHelper::stylesheet()
 	 * @since   1.5
 	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
 	 *                  use (file, options, attributes) instead.
@@ -751,7 +751,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  void
 	 *
-	 * @see     HtmlHelper::$formatOptions
+	 * @see     HTMLHelper::$formatOptions
 	 * @since   1.5
 	 */
 	public static function setFormatOptions($options)
@@ -1083,7 +1083,7 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Add a directory where HtmlHelper should search for helpers. You may
+	 * Add a directory where HTMLHelper should search for helpers. You may
 	 * either pass a string or an array of directories.
 	 *
 	 * @param   string  $path  A path to search.
