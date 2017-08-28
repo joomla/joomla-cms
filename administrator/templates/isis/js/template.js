@@ -142,15 +142,16 @@ jQuery(function($)
 		$('#menu > li').on('click mouseenter', function() {
 
 			// Set max-height (and width if scroll) for dropdown menu, depending of window height
-			var $dropdownMenu    = $(this).children('ul'),
+			var $self            = $(this),
+				$dropdownMenu    = $self.children('ul'),
 				windowHeight     = $w.height(),
-				linkHeight       = $(this).outerHeight(true),
+				linkHeight       = $self.outerHeight(true),
 				statusHeight     = $('#status').outerHeight(true),
 				menuHeight       = $dropdownMenu.height(),
 				menuOuterHeight  = $dropdownMenu.outerHeight(true),
 				scrollMenuWidth  = $dropdownMenu.width() + 15,
 				maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20),
-				linkPaddingLeft  = $(this).children('a').css('padding-left');
+				linkPaddingLeft  = $self.children('a').css('padding-left');
 
 			if (maxHeight < menuHeight)
 			{
@@ -164,9 +165,9 @@ jQuery(function($)
 			$dropdownMenu.css('max-height', maxHeight);
 
 			// Get the submenu position
-			linkWidth   = $(this).outerWidth(true);
+			linkWidth   = $self.outerWidth(true);
 			menuWidth   = $dropdownMenu.width();
-			offsetLeft  = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
+			offsetLeft  = Math.round($self.offset().left) - parseInt(linkPaddingLeft);
 
 			emptyMenu.empty().hide();
 
@@ -178,7 +179,7 @@ jQuery(function($)
 				dropdown        = $self.next('ul'),
 				submenuWidth    = dropdown.outerWidth(),
 				offsetTop       = $self.offset().top,
-				linkPaddingTop  = parseInt(dropdown.css('padding-top')) + parseInt($(this).css('padding-top')),
+				linkPaddingTop  = parseInt(dropdown.css('padding-top')) + parseInt($self.css('padding-top')),
 				scroll          = $w.scrollTop() + linkPaddingTop;
 
 			// Set the submenu position
