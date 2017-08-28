@@ -1242,13 +1242,12 @@ ENDDATA;
 			$db->qn('#__update_sites', 'si') .
 			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
 		)->where(
-			$db->qn('ex.extension_id') . ' >= 10000' .
-			' AND ' .
 			$db->qn('ex.package_id') . ' = 0'
 		);
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
+		$rows = array_filter($rows, "JoomlaupdateModelDefault::isNonCoreExtension");
 
 		foreach ($rows as $extension)
 		{
@@ -1259,6 +1258,31 @@ ENDDATA;
 		}
 
 		return $rows;
+	}
+
+	/**
+	 * Checks if extension is non core extension.
+	 *
+	 * @param   object  $extension  The extension to be checked
+	 *
+	 * @return  bool  true if extension is not a core extension
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private static function isNonCoreExtension($extension)
+	{
+		$coreExtensions = JExtensionHelper::getCoreExtensions();
+
+		foreach ($coreExtensions as $coreExtension)
+		{
+			if ($coreExtension[1] == $extension->element)
+			{
+				return false;
+			}
+		}
+
+		return true;
+
 	}
 
 	/**
