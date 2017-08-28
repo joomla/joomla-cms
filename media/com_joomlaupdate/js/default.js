@@ -103,11 +103,14 @@ function extractionMethodHandler(target, prefix)
         // Switch the compatibility state
         switch (extensionData.state) {
             case PreUpdateChecker.STATE.COMPATIBLE:
-                    // TODO: Add version check to determine whether the current version is compatible.
-                    // The backend only finds the latest compatible update at the moment.
-
-                    // The update is compatible -> diplay success label
+                if (extensionData.compatibleVersion == extensionData.currentVersion) {
+                    // The compatible version matches the current version -> diplay success label.
                     html = '<span class="label label-success">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES') + '</span>';
+                } else {
+                    // The compatible version does not match the current version => display warning label.
+                    html = '<span class="label label-warning">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES')
+                        + ' (' + extensionData.compatibleVersion + ')</span>';
+                }
                 break;
             case PreUpdateChecker.STATE.INCOMPATIBLE:
                 // No compatible version found -> display error label
