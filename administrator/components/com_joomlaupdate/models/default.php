@@ -1222,8 +1222,11 @@ ENDDATA;
 
 		$query->select(
 			$db->qn('ex.name') . ', ' .
-			$db->qn('ex.extension_id', 'extensionID') . ', ' .
-			$db->qn('ex.manifest_cache', 'manifestCache') . ', ' .
+			$db->qn('ex.extension_id') . ', ' .
+			$db->qn('ex.manifest_cache') . ', ' .
+			$db->qn('ex.type') . ', ' .
+			$db->qn('ex.folder') . ', ' .
+			$db->qn('ex.element') . ', ' .
 			$db->qn('si.location')
 		)->from(
 			$db->qn('#__extensions', 'ex')
@@ -1239,6 +1242,8 @@ ENDDATA;
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
+
+		$this->translateExtensionNames($rows);
 
 		foreach ($rows as $extension)
 		{
@@ -1328,14 +1333,51 @@ ENDDATA;
 		$update->set('jversion.full', $joomlaTargetVersion);
 		$update->loadFromXML($updateFileUrl);
 
-		// If there is a download URL then there is probably a compatible update
 		$downloadUrl = $update->get('downloadurl');
 
-		if (!empty($downloadUrl) && !empty($downloadUrl->_data))
-		{
-			return $update->get('version');
-		}
+		return !empty($downloadUrl) && !empty($downloadUrl->_data) ? $update->get('version') : false;
+	}
 
-		return false;
+	/**
+	 * Translate a list of objects
+	 *
+	 * @param   array  $items  The array of extensions
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function translateExtensionNames(&$items)
+	{
+		// ToDo: Cleanup duplicated code. from com_installer/models/extension.php
+		$lang = JFactory::getLanguage();
+
+		foreach ($items as &$item)
+		{
+			switch ($item->type)
+			{
+				case 'component':
+					$extension = $item->element;
+					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load("$extension.sys", $source, null, false, true);
+					break;
+				case 'module':
+					$extension = $item->element;
+					$source = JPATH_ADMINISTRATOR . '/modules/' . $extension;
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load("$extension.sys", $source, null, false, true);
+					break;
+				case 'plugin':
+					$extension = 'plg_' . $item->folder . '_' . $item->element;
+					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load("$extension.sys", $source, null, false, true);
+					break;
+			}
+
+			// Translate the extension name if possible
+			$item->name = JText::_($item->name);
+		}
 	}
 }
