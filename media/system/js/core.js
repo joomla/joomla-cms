@@ -322,7 +322,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param   {node}     item      The form
 	 * @param   {string}   stub      An alternative field name
 	 *
-	 * @return {void}
+	 * @return  {boolean}
 	 */
 	Joomla.uncheckAll = function( item, stub ) {
 		if (!item.form) return false;
@@ -355,7 +355,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param   {node}     el        The form item
 	 * @param   {bool}     cond      An alternative value to set checkbox
 	 *
-	 * @return {void}
+	 * @return  {boolean}
 	 */
 	Joomla.toggleOne = function( el, cond ) {
 		if (!el.form) return false;
