@@ -105,16 +105,16 @@ function extractionMethodHandler(target, prefix)
             case PreUpdateChecker.STATE.COMPATIBLE:
                 if (extensionData.compatibleVersion == extensionData.currentVersion) {
                     // The compatible version matches the current version -> diplay success label.
-                    html = '<span class="label label-success">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES') + '</span>';
+                    html = '<span class="label label-success">' + Joomla.JText._('JYES') + '</span>';
                 } else {
                     // The compatible version does not match the current version => display warning label.
-                    html = '<span class="label label-warning">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES')
+                    html = '<span class="label label-warning">' + Joomla.JText._('JYES')
                         + ' (' + extensionData.compatibleVersion + ')</span>';
                 }
                 break;
             case PreUpdateChecker.STATE.INCOMPATIBLE:
                 // No compatible version found -> display error label
-                html = '<span class="label label-important">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO') + '</span>';
+                html = '<span class="label label-important">' + Joomla.JText._('JNO') + '</span>';
                 break;
             case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
                 // Could not check compatibility state -> display warning

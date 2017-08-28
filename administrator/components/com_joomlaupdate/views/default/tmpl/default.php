@@ -17,8 +17,8 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'com_joomlaupdate/style.css', array('version' => 'auto', 'relative' => true));
 
-JText::script("COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_YES");
-JText::script("COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK_NO");
+JText::script("JYES");
+JText::script("JNO");
 JText::script("COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING");
 JText::script("COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN");
 
