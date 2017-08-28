@@ -80,23 +80,9 @@ class MenusTableMenu extends JTableMenu
 
 			if ((int) $this->home)
 			{
-				// Check the publish down date is not earlier than now for home.
-				if ((int) $this->publish_down > 0 && $this->publish_down < \JFactory::getDate()->toSql())
-				{
-
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
-
-					return false;
-				}
-
-				// Check the publish up date is not greater than now for home.
-				if ((int) $this->publish_up > 0 && $this->publish_up > \JFactory::getDate()->toSql())
-				{
-
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
-
-					return false;
-				}
+				// Set the publish down/up always for home.
+				$this->publish_up   = $this->_db->getNullDate();
+				$this->publish_down = $this->_db->getNullDate();
 
 			}
 		
