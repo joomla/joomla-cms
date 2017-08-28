@@ -91,10 +91,10 @@ class PlgFileSystemDropbox extends CMSPlugin
 
 			$db = \Joomla\CMS\Factory::getDbo();
 			$query = $db->getQuery(true)
-						->update($db->qn('#__extensions'))
-						->set($db->qn('params') . '=' . $db->q($this->params->toString()))
-						->where($db->qn('element') . '=' . $db->q('dropbox'))
-						->where($db->qn('type') . '=' . $db->q('plugin'));
+				->update($db->qn('#__extensions'))
+				->set($db->qn('params') . '=' . $db->q($this->params->toString()))
+				->where($db->qn('element') . '=' . $db->q('dropbox'))
+				->where($db->qn('type') . '=' . $db->q('plugin'));
 			$db->setQuery($query);
 			$db->execute();
 
