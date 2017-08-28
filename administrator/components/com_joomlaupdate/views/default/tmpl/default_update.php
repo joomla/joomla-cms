@@ -148,13 +148,11 @@ defined('_JEXEC') or die;
 				</td>
 				<td>
 					<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
-                        <?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
-                        <?php if ($option->notice) : ?>
-                            <span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
-                        <?php endif;?>
-                    </span>
-				</td>
-				<td>
+						<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
+						<?php if ($option->notice) : ?>
+							<span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
+						<?php endif;?>
+					</span>
 				</td>
 			</tr>
 		<?php endforeach; ?>
@@ -190,14 +188,14 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo $setting->label; ?>
 				</td>
-                <td>
-                    <?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
-                </td>
-                <td>
-                    <span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-                        <?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
-                    </span>
-                </td>
+				<td>
+					<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+				</td>
+				<td>
+					<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+						<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
+					</span>
+				</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
