@@ -261,3 +261,4 @@ defined('_JEXEC') or die;
 
 <p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESC1'); ?></p>
 <p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESC2'); ?></p>
+<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESC3'); ?></p>
