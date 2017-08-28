@@ -1369,9 +1369,9 @@ ENDDATA;
 	}
 
 	/**
-	 * Translate a list of objects
+	 * Translates an extension name
 	 *
-	 * @param   array  $item  The array of extensions
+	 * @param   object  $item  The extension of which the name needs to be translated
 	 *
 	 * @return  void
 	 *
