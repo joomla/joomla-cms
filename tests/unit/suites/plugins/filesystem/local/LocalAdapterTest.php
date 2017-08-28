@@ -750,6 +750,11 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->assertFalse(JFile::exists($this->root . 'src/bar.txt'));
 	}
 
+	/**
+	 * LocalAdapter::getUrl to a file
+	 *
+	 * @return void
+	 */
 	public function testGetUrl()
 	{
 		$adapter = new LocalAdapter($this->root, $this->imagePath);
@@ -762,5 +767,19 @@ class LocalAdapterTest extends TestCaseDatabase
 		$actualUrl =  \Joomla\CMS\Uri\Uri::root() . JPath::clean($this->imagePath . 'foo.bar');
 
 		$this->assertSame($urlPath, $actualUrl);
+	}
+
+	/**
+	 * LocalAdapter::getAdapterName for image path
+	 *
+	 * @return void
+	 */
+	public function testGetAdapterName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		// Check if adapter name is equal to imagePath
+		$this->assertEquals($adapter->getAdapterName(), $this->imagePath);
 	}
 }

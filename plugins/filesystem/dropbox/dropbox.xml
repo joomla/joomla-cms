@@ -15,6 +15,7 @@
 		<filename plugin="dropbox">dropbox.php</filename>
 		<folder>language</folder>
 		<folder>Adapter</folder>
+		<folder>field</folder>
 	</files>
 
 	<!-- Language files -->
@@ -25,7 +26,7 @@
 
 	<!-- Config parameter -->
 	<config>
-		<fields name="params">
+		<fields name="params" addfieldpath="plugins/filesystem/dropbox/field">
 			<fieldset name="basic">
 				<field
 					name="display_name"
@@ -33,14 +34,42 @@
 					label="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_LABEL"
 					description="PLG_FILESYSTEM_DROPBOX_DISPLAY_NAME_DESC"
 					default="Dropbox"
+					required="true"
 				/>
 				<field
-					name="api_token"
+					type="text"
+					name="account_name"
+					label="PLG_FILESYSTEM_DROPBOX_ACCOUNT_NAME_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_ACCOUNT_NAME_DESC"
+					default="Your Dropbox"
+					required="true"
+				/>
+				<field
+					name="client_id"
+					type="text"
+					default=""
+					required="true"
+					label="PLG_FILESYSTEM_DROPBOX_CLIENT_ID_LABEL"
+					description="PLG_FILESYSTEM_DROPBOX_CLIENT_ID_DESC"
+				/>
+				<field
+					name="client_secret"
+					type="text"
+					default=""
+					required="true"
+					description="PLG_FILESYSTEM_DROPBOX_CLIENT_SECRET_DESC"
+					label="PLG_FILESYSTEM_DROPBOX_CLIENT_SECRET_LABEL"
+				/>
+				<field
+					name="access_token"
 					type="text"
 					default=""
 					label="PLG_FILESYSTEM_DROPBOX_API_TOKEN_LABEL"
-					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESCRIPTION"
-					required="true"
+					description="PLG_FILESYSTEM_DROPBOX_API_TOKEN_DESC"
+				/>
+				<field
+					name="auth_button"
+					type="authbutton"
 				/>
 			</fieldset>
 		</fields>

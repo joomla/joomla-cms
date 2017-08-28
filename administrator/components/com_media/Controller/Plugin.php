@@ -63,16 +63,16 @@ class Plugin extends Controller
 
 			// Event parameters
 			$eventParameters = ['context' => $pluginName, 'input' => $this->input];
-			$event = new OAuthCallbackEvent('onFilesystemOAuthCallback', $eventParameters);
+			$event = new OAuthCallbackEvent('onFileSystemOAuthCallback', $eventParameters);
 
 			// Get results from event
-			$eventResults = (array) Factory::getApplication()->triggerEvent('onFilesystemOAuthCallback', $event);
+			$eventResults = (array) Factory::getApplication()->triggerEvent('onFileSystemOAuthCallback', $event);
 
 			// If event was not triggered in the selected Plugin, raise a warning and fallback to Control Panel
 			if (!$eventResults)
 			{
 				throw new \Exception('Plugin ' . $pluginName . ' should have implemented '
-					. 'onFilesystemOAuthCallback method');
+					. 'onFileSystemOAuthCallback method');
 			}
 
 			// Check if any action is specified

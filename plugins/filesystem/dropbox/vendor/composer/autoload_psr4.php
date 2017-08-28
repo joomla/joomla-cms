@@ -9,6 +9,7 @@ return array(
     'Srmklive\\Dropbox\\' => array($vendorDir . '/srmklive/flysystem-dropbox-v2/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
+    'Kunnu\\Dropbox\\' => array($vendorDir . '/kunalvarma05/dropbox-php-sdk/src/Dropbox'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/support'),
     'Illuminate\\Contracts\\' => array($vendorDir . '/illuminate/contracts'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),

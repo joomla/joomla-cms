@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: kasun
- * Date: 6/27/17
- * Time: 11:16 PM
+ * @package     Joomla.Plugin
+ * @subpackage  FileSystem.Dropbox
+ *
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\Filesystem\Dropbox\Adapter;
@@ -18,10 +19,21 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 /**
  * Class JoomlaDropboxAdapter
- * @package Joomla\Plugin\Filesystem\Dropbox\Adapter
+ *
+ * @package  Joomla\Plugin\Filesystem\Dropbox\Adapter
+ *
+ * @since    __DEPLOY_VERSION__
  */
 class JoomlaDropboxAdapter implements AdapterInterface
 {
+	/**
+	 * Account name
+	 *
+	 * @var string
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $accountName = 'Your Dropbox';
+
 	/**
 	 * Supported extension for thumbnails
 	 *
@@ -57,7 +69,8 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * DropboxAdapter constructor.
 	 *
-	 * @param   string $apiToken  API Token received from dropbox API
+	 * @param   string  $apiToken  API Token received from dropbox API
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($apiToken)
@@ -70,9 +83,10 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Returns a client for dropbox
 	 *
-	 * @param   string  $apiToken API Token obtained from the dropbox API
+	 * @param   string  $apiToken  API Token obtained from the dropbox API
 	 *
 	 * @return \Srmklive\Dropbox\Client\DropboxClient
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getClient($apiToken)
@@ -83,9 +97,10 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Returns an adapter for flysystem
 	 *
-	 * @param   \Srmklive\Dropbox\Client\DropboxClient $client Client object
+	 * @param   \Srmklive\Dropbox\Client\DropboxClient  $client  Client object
 	 *
 	 * @return \Srmklive\Dropbox\Adapter\DropboxAdapter
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getAdapter($client)
@@ -96,9 +111,10 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Returns a flysystem adapter
 	 *
-	 * @param   \Srmklive\Dropbox\Adapter\DropboxAdapter $adapter Adapter object
+	 * @param   \Srmklive\Dropbox\Adapter\DropboxAdapter  $adapter  Adapter object
 	 *
 	 * @return \League\Flysystem\Filesystem
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getDropbox($adapter)
@@ -122,11 +138,12 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string $path The path to the file or folder
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  \stdClass
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @throws  \Exception
 	 */
 	public function getFile($path = '/')
@@ -158,8 +175,8 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string $path   The folder
-	 * @param   string $filter The filter
+	 * @param   string  $path    The folder
+	 * @param   string  $filter  The filter
 	 *
 	 * @return  \stdClass[]
 	 *
@@ -190,6 +207,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * @param   array  $fileEntry  File entry from dropbox
 	 *
 	 * @return \stdClass
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getFileInfo($fileEntry)
@@ -245,23 +263,26 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		if ($file->type == 'file')
 		{
-			$file->extension = substr(strrchr($file->name,'.'),1);
+			$file->extension = substr(strrchr($file->name, '.'), 1);
 		}
 
 		if (in_array($file->extension, $this->supportedThumbnailImageFormats))
 		{
-			$file->thumb_path = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted , $file->path);
+			$file->thumb_path = $this->getThumbnailUrl($fileEntry['id'], $file->modified_date_formatted, $file->path);
 		}
 
 		return $file;
 	}
 
 	/**
+	 * Returns a url for thumbnails
+	 *
 	 * @param   string  $id            File ID provided by dropbox
 	 * @param   string  $timeModified  Time modified
 	 * @param   string  $path          Path to file
 	 *
 	 * @return string
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getThumbnailUrl($id, $timeModified , $path)
@@ -269,7 +290,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 
 		$name = explode(":", $id)[1];
 		$timeStamp = strtotime($timeModified);
-		$filePath = \JPath::clean(JPATH_SITE . '/media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg' , '/');
+		$filePath = \JPath::clean(JPATH_SITE . '/media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg', '/');
 
 		if (!\JFile::exists($filePath))
 		{
@@ -277,15 +298,15 @@ class JoomlaDropboxAdapter implements AdapterInterface
 			\JFile::write($filePath, $content);
 		}
 
-		return Uri::root() . \JPath::clean( 'media/plg_filesystem_dropbox/.thumb_cache/'. $name . $timeStamp . '.jpg', '/');
+		return Uri::root() . \JPath::clean('media/plg_filesystem_dropbox/.thumb_cache/' . $name . $timeStamp . '.jpg', '/');
 	}
 
 
 	/**
 	 * Creates a folder with the given name in the given path.
 	 *
-	 * @param   string $name The name
-	 * @param   string $path The folder
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
 	 *
 	 * @return  void
 	 *
@@ -294,15 +315,15 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function createFolder($name, $path)
 	{
-		$this->client->createFolder(\JPath::clean($path . '/' .$name));
+		$this->client->createFolder(\JPath::clean($path . '/' . $name));
 	}
 
 	/**
 	 * Creates a file with the given name in the given path with the data.
 	 *
-	 * @param   string $name The name
-	 * @param   string $path The folder
-	 * @param   binary $data The data
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   binary  $data  The data
 	 *
 	 * @return  void
 	 *
@@ -324,9 +345,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Updates the file with the given name in the given path with the data.
 	 *
-	 * @param   string $name The name
-	 * @param   string $path The folder
-	 * @param   binary $data The data
+	 * @param   string  $name  The name
+	 * @param   string  $path  The folder
+	 * @param   binary  $data  The data
 	 *
 	 * @return  void
 	 *
@@ -351,7 +372,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Deletes the folder or file of the given path.
 	 *
-	 * @param   string $path The path to the file or folder
+	 * @param   string  $path  The path to the file or folder
 	 *
 	 * @return  void
 	 *
@@ -371,9 +392,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Moves a file or folder from source to destination
 	 *
-	 * @param   string $sourcePath      The source path
-	 * @param   string $destinationPath The destination path
-	 * @param   bool   $force           Force to overwrite
+	 * @param   string  $sourcePath       The source path
+	 * @param   string  $destinationPath  The destination path
+	 * @param   bool    $force            Force to overwrite
 	 *
 	 * @return void
 	 *
@@ -393,9 +414,9 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Copies a file or folder from source to destination
 	 *
-	 * @param   string $sourcePath      The source path
-	 * @param   string $destinationPath The destination path
-	 * @param   bool   $force           Force to overwrite
+	 * @param   string  $sourcePath       The source path
+	 * @param   string  $destinationPath  The destination path
+	 * @param   bool    $force            Force to overwrite
 	 *
 	 * @return void
 	 *
@@ -415,9 +436,10 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	/**
 	 * Returns a permanent link for media file.
 	 *
-	 * @param   string $path The path to file
+	 * @param   string  $path  The path to file
 	 *
 	 * @return string
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws FileNotFoundException
 	 */
@@ -435,6 +457,20 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function getAdapterName()
 	{
-		return "Dropbox Adapter";
+		return $this->accountName;
+	}
+
+	/**
+	 * Sets the account name
+	 *
+	 * @param   string  $name  The account name of user
+	 *
+	 * @return void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAccountName($name)
+	{
+		$this->accountName = $name;
 	}
 }
