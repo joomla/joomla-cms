@@ -9,19 +9,19 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
-use Joomla\CMS\Event\AbstractEvent;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
+
 /**
- * Event object for retreving OAuthCallbacks
+ * Event object to retrieve OAuthCallbacks.
  *
  * @since  __DEPLOY_VERSION__
  */
 class OAuthCallbackEvent extends AbstractEvent
 {
 	/**
-	 * The event context
+	 * The event context.
 	 *
 	 * @var string
 	 * @since  __DEPLOY_VERSION__
@@ -29,7 +29,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	private $context = null;
 
 	/**
-	 * The event input
+	 * The event input.
 	 *
 	 * @var \JInput
 	 * @since  __DEPLOY_VERSION__
@@ -37,7 +37,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	private $input = null;
 
 	/**
-	 * Get the event context
+	 * Get the event context.
 	 *
 	 * @return string
 	 *
@@ -49,7 +49,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	}
 
 	/**
-	 * Set the event context
+	 * Set the event context.
 	 *
 	 * @param   string  $context  Event context
 	 *
@@ -63,7 +63,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	}
 
 	/**
-	 * Get the event input
+	 * Get the event input.
 	 *
 	 * @return \JInput
 	 *
@@ -75,7 +75,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	}
 
 	/**
-	 * Set the event input
+	 * Set the event input.
 	 *
 	 * @param   \JInput  $input  Event input
 	 *
