@@ -1004,7 +1004,7 @@ ENDDATA;
 	 * Gets PHP options.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
-	 * @param   string $joomlaMinimumPHP The target PHP version for the Joomla! version
+	 * @param   string  $joomlaMinimumPHP  The target PHP version for the Joomla! version
 	 *
 	 * @return array Array of PHP config options
 	 *
@@ -1288,8 +1288,8 @@ ENDDATA;
 	/**
 	 * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
 	 *
-	 * @param   string $extensionID         The ID of the checked extension
-	 * @param   string $joomlaTargetVersion Target version of Joomla
+	 * @param   string  $extensionID          The ID of the checked extension
+	 * @param   string  $joomlaTargetVersion  Target version of Joomla
 	 *
 	 * @return object
 	 *
@@ -1371,7 +1371,7 @@ ENDDATA;
 	/**
 	 * Translates an extension name
 	 *
-	 * @param   object  $item  The extension of which the name needs to be translated
+	 * @param   object  &$item  The extension of which the name needs to be translated
 	 *
 	 * @return  void
 	 *
