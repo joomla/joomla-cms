@@ -236,12 +236,6 @@ class MenusModelItems extends JModelList
 						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
 						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 
 						'a.client_id', 'a.publish_up', 'a.publish_down'
-					),
-					array(
-						null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null, null,
-						null, null, null, null, null, null, null, null, 
-						null, null, null
 					)
 				)
 			)
