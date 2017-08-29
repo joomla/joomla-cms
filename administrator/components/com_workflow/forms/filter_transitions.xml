@@ -7,7 +7,6 @@
 				name="search"
 				type="text"
 				label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
-				description="COM_WORKFLOW_FILTER_SEARCH_DESC"
 				hint="JSEARCH_FILTER"
 		/>
 
