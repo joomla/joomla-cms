@@ -1016,7 +1016,7 @@ ENDDATA;
 
 		/*
 		 * Check the PHP Version. It is already checked in JUpdate.
-		 * An Joomla! Update which is not supported by current PHP
+		 * A Joomla! Update which is not supported by current PHP
 		 * version is not shown. So this check is actually unnecessary.
 		 */
 		$option = new stdClass;
@@ -1182,7 +1182,7 @@ ENDDATA;
 		}
 		else
 		{
-			// Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
+			// Attempt to detect their existence; even pure PHP implementations of them will trigger a positive response, though.
 			$result = function_exists('parse_ini_string');
 		}
 
