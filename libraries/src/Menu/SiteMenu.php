@@ -73,10 +73,10 @@ class SiteMenu extends AbstractMenu
 	{
 		// For PHP 5.3 compat we can't use $this in the lambda function below
 		$db          = $this->db;
-		$currentDate = \JFactory::getDate()->toSql();
 
-		$loader = function () use ($db, $currentDate)
+		$loader = function () use ($db)
 		{
+			$currentDate = \JFactory::getDate()->toSql();
 			$query = $db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
 				->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
