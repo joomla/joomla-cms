@@ -1011,7 +1011,7 @@ ENDDATA;
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPhpOptions($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP, $targetJoomlaVersion = "0.0.0")
+	public function getPhpOptions($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP, $targetJoomlaVersion = '0.0.0')
 	{
 		$options = array();
 
@@ -1027,7 +1027,7 @@ ENDDATA;
 		$options[]      = $option;
 
 		// Only check if required PHP version is less than 7.
-		if (version_compare($joomlaMinimumPHP, "7", '<'))
+		if (version_compare($joomlaMinimumPHP, '7', '<'))
 		{
 			// Check for magic quotes gpc.
 			$option         = new stdClass;
@@ -1059,10 +1059,10 @@ ENDDATA;
 		$options[]      = $option;
 
 		// Check of configured database is compatible with Joomla 4
-		if (version_compare($targetJoomlaVersion, "4", '>='))
+		if (version_compare($targetJoomlaVersion, '4', '>='))
 		{
-			$unsupportedDatabaseTypes = array("sqlsrv", "sqlazure");
-			$currentDatabaseType = JFactory::getApplication()->get("dbtype");
+			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
+			$currentDatabaseType = JFactory::getApplication()->get('dbtype');
 			$option = new stdClass;
 			$option->label  = sprintf(JText::_('INSTL_DATABASE_SUPPORTED'), $currentDatabaseType);
 			$option->state  = !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
@@ -1116,7 +1116,7 @@ ENDDATA;
 	 * Gets PHP Settings.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
-	 * @param   string  $joomlaMinimumPHP     The target PHP version for the Joomla! version
+	 * @param   string  $joomlaMinimumPHP  The target PHP version for the Joomla! version
 	 *
 	 * @return  array
 	 *
@@ -1141,7 +1141,7 @@ ENDDATA;
 		$settings[] = $setting;
 
 		// Only check if required PHP version is less than 7.
-		if (version_compare($joomlaMinimumPHP, "7", '<'))
+		if (version_compare($joomlaMinimumPHP, '7', '<'))
 		{
 			// Check for magic quotes runtimes.
 			$setting = new stdClass;
@@ -1250,7 +1250,7 @@ ENDDATA;
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		$rows = array_filter($rows, "JoomlaupdateModelDefault::isNonCoreExtension");
+		$rows = array_filter($rows, 'JoomlaupdateModelDefault::isNonCoreExtension');
 
 		foreach ($rows as $extension)
 		{
@@ -1304,7 +1304,7 @@ ENDDATA;
 
 		if (!$updateFileUrl)
 		{
-			return (object) array("state" => 2);
+			return (object) array('state' => 2);
 		}
 		else
 		{
@@ -1312,11 +1312,11 @@ ENDDATA;
 
 			if ($compatibleVersion)
 			{
-				return (object) array("state" => 1, "compatibleVersion" => $compatibleVersion->_data);
+				return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
 			}
 			else
 			{
-				return (object) array("state" => 0);
+				return (object) array('state' => 0);
 			}
 		}
 	}
@@ -1390,20 +1390,20 @@ ENDDATA;
 			case 'component':
 				$extension = $item->element;
 				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-				||	$lang->load("$extension.sys", $source, null, false, true);
+				$lang->load('$extension.sys', JPATH_ADMINISTRATOR, null, false, true)
+				||	$lang->load('$extension.sys', $source, null, false, true);
 				break;
 			case 'module':
 				$extension = $item->element;
 				$source = JPATH_ADMINISTRATOR . '/modules/' . $extension;
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-				||	$lang->load("$extension.sys", $source, null, false, true);
+				$lang->load('$extension.sys', JPATH_ADMINISTRATOR, null, false, true)
+				||	$lang->load('$extension.sys', $source, null, false, true);
 				break;
 			case 'plugin':
 				$extension = 'plg_' . $item->folder . '_' . $item->element;
 				$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-				||	$lang->load("$extension.sys", $source, null, false, true);
+				$lang->load('$extension.sys', JPATH_ADMINISTRATOR, null, false, true)
+				||	$lang->load('$extension.sys', $source, null, false, true);
 				break;
 		}
 

@@ -151,7 +151,7 @@ defined('_JEXEC') or die;
 						<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 						<?php if ($option->notice) : ?>
 							<span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
-						<?php endif;?>
+						<?php endif; ?>
 					</span>
 				</td>
 			</tr>
@@ -243,4 +243,4 @@ defined('_JEXEC') or die;
 
 <p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></p>
 <p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></p>
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIERED'); ?></p>
+<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></p>
