@@ -141,13 +141,13 @@ JFactory::getDocument()->addScriptDeclaration("
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
 					<span class="icon-ok"></span>
-					<?php echo JText::_('JSAVE') ?>
+					<?php echo JText::_('JSAVE'); ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
 					<span class="icon-cancel"></span>
-					<?php echo JText::_('JCANCEL') ?>
+					<?php echo JText::_('JCANCEL'); ?>
 				</button>
 			</div>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>

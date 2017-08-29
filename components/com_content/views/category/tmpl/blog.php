@@ -32,7 +32,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 <div class="blog<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
-			<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
+			<h1>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			</h1>
 		</div>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
@@ -108,7 +110,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
 		<div class="cat-children">
 			<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
-				<h3> <?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
+				<h3>
+					<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
+				</h3>
 			<?php endif; ?>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
@@ -116,7 +120,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 		<div class="pagination">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
+				<p class="counter pull-right">
+					<?php echo $this->pagination->getPagesCounter(); ?>
+				</p>
 			<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?> </div>
 	<?php endif; ?>
