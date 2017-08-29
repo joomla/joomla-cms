@@ -103,7 +103,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			$this->updateInfo['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 		$this->phpOptions        = $model->getPhpOptions($phpMinimum, $this->updateInfo['latest']);
-		$this->phpSettings       = $model->getPhpSettings();
+		$this->phpSettings       = $model->getPhpSettings($phpMinimum);
 		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		// Set the toolbar information.
