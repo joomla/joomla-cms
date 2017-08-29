@@ -53,7 +53,7 @@ class FeedFactory
 
 			try
 			{
-				$response = JHttpFactory::getHttp($options)->get($uri);
+				$response = HttpFactory::getHttp($options)->get($uri);
 			}
 			catch (RuntimeException $e)
 			{
