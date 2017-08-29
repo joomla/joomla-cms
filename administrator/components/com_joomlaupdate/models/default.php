@@ -1010,7 +1010,7 @@ ENDDATA;
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPhpOptions($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP)
+	public function getPhpOptions($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP, $targetJoomlaVersion = "0.0.0")
 	{
 		$options = array();
 
@@ -1019,35 +1019,37 @@ ENDDATA;
 		 * A Joomla! Update which is not supported by current PHP
 		 * version is not shown. So this check is actually unnecessary.
 		 */
-		$option = new stdClass;
+		$option         = new stdClass;
 		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', $joomlaMinimumPHP);
 		$option->state  = version_compare(PHP_VERSION, $joomlaMinimumPHP, '>=');
 		$option->notice = null;
-		$options[] = $option;
+		$options[]      = $option;
 
 		// Check for zlib support.
-		$option = new stdClass;
+		$option         = new stdClass;
 		$option->label  = JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
 		$option->state  = extension_loaded('zlib');
 		$option->notice = null;
-		$options[] = $option;
+		$options[]      = $option;
 
 		// Check for XML support.
-		$option = new stdClass;
+		$option         = new stdClass;
 		$option->label  = JText::_('INSTL_XML_SUPPORT');
 		$option->state  = extension_loaded('xml');
 		$option->notice = null;
-		$options[] = $option;
+		$options[]      = $option;
 
-		// Check for database support.
-		// We are satisfied if there is at least one database driver available.
-		$available = JDatabaseDriver::getConnectors();
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
-		$option->label .= '<br />(' . implode(', ', $available) . ')';
-		$option->state  = count($available);
-		$option->notice = null;
-		$options[] = $option;
+		// Check of configured database is compatible with Joomla 4
+		if (version_compare($targetJoomlaVersion, "4", '>='))
+		{
+			$unsupportedDatabaseTypes = array("sqlsrv", "sqlazure");
+			$currentDatabaseType = JFactory::getApplication()->get("dbtype");
+			$option = new stdClass;
+			$option->label  = sprintf(JText::_('INSTL_DATABASE_SUPPORTED'), $currentDatabaseType);
+			$option->state  = !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
+			$option->notice = null;
+			$options[]      = $option;
+		}
 
 		// Check for mbstring options.
 		if (extension_loaded('mbstring'))

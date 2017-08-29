@@ -99,10 +99,10 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		// Get results of pre update check evaluations
 
-		$phpMinimum = isset($this->updateInfo["object"]->php_minimum) ?
-			$this->updateInfo["object"]->php_minimum->_data :
+		$phpMinimum = isset($this->updateInfo['object']->php_minimum) ?
+			$this->updateInfo['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
-		$this->phpOptions        = $model->getPhpOptions($phpMinimum);
+		$this->phpOptions        = $model->getPhpOptions($phpMinimum, $this->updateInfo['latest']);
 		$this->phpSettings       = $model->getPhpSettings();
 		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
