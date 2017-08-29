@@ -92,7 +92,7 @@ $url    = ($readonly ? ''
 	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
 ?>
 <joomla-field-media class="field-media-wrapper"
-	type="image" <? // @TODO add this attribute to the field in order to use it for all media types ?>
+	type="image" <? /* @TODO add this attribute to the field in order to use it for all media types */ ?>
 	base-path="<?php echo JUri::root(); ?>"
 	root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
 	url="<?php echo $url; ?>"
