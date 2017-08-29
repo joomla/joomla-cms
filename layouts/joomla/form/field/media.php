@@ -92,20 +92,21 @@ $url    = ($readonly ? ''
 	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
 ?>
 <joomla-field-media class="field-media-wrapper"
-	basepath="<?php echo JUri::root(); ?>"
-	rootfolder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
+	type="image" <? // @TODO add this attribute to the field in order to use it for all media types ?>
+	base-path="<?php echo JUri::root(); ?>"
+	root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
 	url="<?php echo $url; ?>"
-	modalcont=".modal"
-	modalwidth="100%"
-	modalheight="400px"
+	modal-container=".modal"
+	modal-width="100%"
+	modal-height="400px"
 	input=".field-media-input"
-	buttonselect=".button-select"
-	buttonclear=".button-clear"
-	buttonsaveselected=".button-save-selected"
+	button-select=".button-select"
+	button-clear=".button-clear"
+	button-save-selected=".button-save-selected"
 	preview="<?php echo $showPreview; ?>"
-	previewcontainer=".field-media-preview"
-	previewwidth="<?php echo $previewWidth; ?>"
-	previewheight="<?php echo $previewHeight; ?>"
+	preview-container=".field-media-preview"
+	preview-width="<?php echo $previewWidth; ?>"
+	preview-height="<?php echo $previewHeight; ?>"
 >
 	<?php
 	// Render the modal
