@@ -61,8 +61,8 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 								</th>
-								<?php endif; ?>
-							<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+							<?php endif; ?>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
 							<th width="10%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 							</th>
