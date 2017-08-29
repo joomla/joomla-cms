@@ -17,8 +17,8 @@
 			default="name ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="name ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="name DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="name ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="name DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="element ASC">COM_INSTALLER_HEADING_LANGUAGE_TAG_ASC</option>
 			<option value="element DESC">COM_INSTALLER_HEADING_LANGUAGE_TAG_DESC</option>
 		</field>
