@@ -1025,20 +1025,6 @@ ENDDATA;
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for magic quotes gpc.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MAGIC_QUOTES_GPC');
-		$option->state  = (ini_get('magic_quotes_gpc') == false);
-		$option->notice = null;
-		$options[] = $option;
-
-		// Check for register globals.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_REGISTER_GLOBALS');
-		$option->state  = (ini_get('register_globals') == false);
-		$option->notice = null;
-		$options[] = $option;
-
 		// Check for zlib support.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
@@ -1100,16 +1086,6 @@ ENDDATA;
 		$option->label  = JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
 		$option->state  = is_callable('mcrypt_encrypt');
 		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
-		$options[] = $option;
-
-		// Check for configuration file writable.
-		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
-			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
-
-		$option = new stdClass;
-		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
-		$option->state  = $writable;
-		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
 		return $options;
