@@ -84,9 +84,9 @@ class MenusTableMenu extends JTableMenu
 				$this->publish_up   = $this->_db->getNullDate();
 				$this->publish_down = $this->_db->getNullDate();
 
-			}
-		
-			return $return;
+			}		
 		}
+
+		return $return;
 	}
 }
