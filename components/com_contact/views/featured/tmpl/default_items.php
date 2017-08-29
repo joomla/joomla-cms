@@ -93,10 +93,14 @@ $params = &$this->item->params;
 						</td>
 						<td class="item-title">
 							<?php if ($this->items[$i]->published == 0) : ?>
-								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+								<span class="label label-warning">
+									<?php echo JText::_('JUNPUBLISHED'); ?>
+								</span>
 							<?php endif; ?>
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>" itemprop="url">
-								<span itemprop="name"><?php echo $item->name; ?></span>
+								<span itemprop="name">
+									<?php echo $item->name; ?>
+								</span>
 							</a>
 						</td>
 						<?php if ($this->params->get('show_position_headings')) : ?>
@@ -126,17 +130,23 @@ $params = &$this->item->params;
 						<?php endif; ?>
 						<?php if ($this->params->get('show_suburb_headings')) : ?>
 							<td class="item-suburb" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-								<span itemprop="addressLocality"><?php echo $item->suburb; ?></span>
+								<span itemprop="addressLocality">
+									<?php echo $item->suburb; ?>
+								</span>
 							</td>
 						<?php endif; ?>
 						<?php if ($this->params->get('show_state_headings')) : ?>
 							<td class="item-state" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-								<span itemprop="addressRegion"><?php echo $item->state; ?></span>
+								<span itemprop="addressRegion">
+									<?php echo $item->state; ?>
+								</span>
 							</td>
 						<?php endif; ?>
 						<?php if ($this->params->get('show_country_headings')) : ?>
 							<td class="item-state" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-								<span itemprop="addressCountry"><?php echo $item->country; ?></span>
+								<span itemprop="addressCountry">
+									<?php echo $item->country; ?>
+								</span>
 							</td>
 						<?php endif; ?>
 					</tr>
