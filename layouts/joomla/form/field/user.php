@@ -47,8 +47,7 @@ extract($displayData);
 
 if (!$readonly)
 {
-	JHtml::_('behavior.modal', 'a.modal_' . $id);
-	JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('webcomponent', ['joomla-field-user' =>'system/joomla-field-user.min.js'], ['version' => 'auto', 'relative' => true]);
 }
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
@@ -97,14 +96,14 @@ if (!$readonly)
 }
 ?>
 <?php // Create a dummy text field with the user name. ?>
-<div class="field-user-wrapper"
-	data-url="<?php echo (string) $uri; ?>"
-	data-modal=".modal"
-	data-modal-width="100%"
-	data-modal-height="400px"
-	data-input=".field-user-input"
-	data-input-name=".field-user-input-name"
-	data-button-select=".button-select">
+<joomla-field-user class="field-user-wrapper"
+	url="<?php echo (string) $uri; ?>"
+	modal=".modal"
+	modal-width="100%"
+	modal-height="400px"
+	input=".field-user-input"
+	input-name=".field-user-input-name"
+	button-select=".button-select">
 	<div class="input-group">
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
 			<?php if (!$readonly) : ?>
@@ -133,4 +132,4 @@ if (!$readonly)
             class="field-user-input <?php echo $class ? (string) $class : ''?>"
             data-onchange="<?php echo $this->escape($onchange); ?>">
 	<?php endif; ?>
-</div>
+</joomla-field-user>
