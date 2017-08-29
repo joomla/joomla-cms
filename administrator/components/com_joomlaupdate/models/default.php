@@ -1004,7 +1004,8 @@ ENDDATA;
 	 * Gets PHP options.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
-	 * @param   string  $joomlaMinimumPHP  The target PHP version for the Joomla! version
+	 * @param   string  $joomlaMinimumPHP     The target PHP version for the Joomla! version
+	 * @param   string  $targetJoomlaVersion  The target Joomla! version
 	 *
 	 * @return array Array of PHP config options
 	 *
@@ -1024,6 +1025,24 @@ ENDDATA;
 		$option->state  = version_compare(PHP_VERSION, $joomlaMinimumPHP, '>=');
 		$option->notice = null;
 		$options[]      = $option;
+
+		// Only check if required PHP version is less than 7.
+		if (version_compare($joomlaMinimumPHP, "7", '<'))
+		{
+			// Check for magic quotes gpc.
+			$option         = new stdClass;
+			$option->label  = JText::_('INSTL_MAGIC_QUOTES_GPC');
+			$option->state  = (ini_get('magic_quotes_gpc') == false);
+			$option->notice = null;
+			$options[]      = $option;
+
+			// Check for register globals.
+			$option         = new stdClass;
+			$option->label  = JText::_('INSTL_REGISTER_GLOBALS');
+			$option->state  = (ini_get('register_globals') == false);
+			$option->notice = null;
+			$options[]      = $option;
+		}
 
 		// Check for zlib support.
 		$option         = new stdClass;
@@ -1097,20 +1116,15 @@ ENDDATA;
 	 * Gets PHP Settings.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
+	 * @param   string  $joomlaMinimumPHP     The target PHP version for the Joomla! version
+	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPhpSettings()
+	public function getPhpSettings($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP)
 	{
 		$settings = array();
-
-		// Check for safe mode.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_SAFE_MODE');
-		$setting->state = (bool) ini_get('safe_mode');
-		$setting->recommended = false;
-		$settings[] = $setting;
 
 		// Check for display errors.
 		$setting = new stdClass;
@@ -1126,12 +1140,23 @@ ENDDATA;
 		$setting->recommended = true;
 		$settings[] = $setting;
 
-		// Check for magic quotes runtimes.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
-		$setting->state = (bool) ini_get('magic_quotes_runtime');
-		$setting->recommended = false;
-		$settings[] = $setting;
+		// Only check if required PHP version is less than 7.
+		if (version_compare($joomlaMinimumPHP, "7", '<'))
+		{
+			// Check for magic quotes runtimes.
+			$setting = new stdClass;
+			$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
+			$setting->state = (bool) ini_get('magic_quotes_runtime');
+			$setting->recommended = false;
+			$settings[] = $setting;
+
+			// Check for safe mode.
+			$setting = new stdClass;
+			$setting->label = JText::_('INSTL_SAFE_MODE');
+			$setting->state = (bool) ini_get('safe_mode');
+			$setting->recommended = false;
+			$settings[] = $setting;
+		}
 
 		// Check for output buffering.
 		$setting = new stdClass;
@@ -1297,7 +1322,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Get an URL to update servers for a given extension ID
+	 * Get the URL to the update server for a given extension ID
 	 *
 	 * @param   int  $extensionID  The extension ID
 	 *
@@ -1326,7 +1351,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Method to check 3rd party extensions for compatibility.
+	 * Method to check non core extensions for compatibility.
 	 *
 	 * @param   string  $updateFileUrl        The items update XML url.
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against
