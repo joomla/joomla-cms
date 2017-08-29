@@ -950,7 +950,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @return  JTable|boolean Menu Item Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 
 	public function addAllCategoriesMenuItem($itemLanguage)
@@ -1306,7 +1306,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @return  JTable|boolean Menu Item Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function addBlogMenuItem($itemLanguage, $categoryId)
 	{
