@@ -100,7 +100,13 @@ class Html extends HtmlView
 
 		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
 		$this->sidebar = \JHtmlSidebar::render();
-
+		
+		// We do not need to filter by language when multilingual is disabled
+		if (!\JLanguageMultilang::isEnabled())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
 		return parent::display($tpl);
 	}
 
