@@ -38,8 +38,6 @@ if ($tmpl == 'component')
 $config = array(
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => JSession::getFormToken(),
-	'filePath'                => $params->get('file_path', 'images'),
-	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),

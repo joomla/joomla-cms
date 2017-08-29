@@ -40,13 +40,10 @@ if ($tmpl == 'component')
 $config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => JSession::getFormToken(),
-	'filePath'                => $params->get('file_path', 'images'),
-	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
 	'uploadPath'              => $this->file,
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
-	'contents'                => base64_encode(file_get_contents(JPATH_ROOT . '/images' . $this->file)),
 ];
 
 JFactory::getDocument()->addScriptOptions('com_media', $config);
