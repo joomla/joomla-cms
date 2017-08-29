@@ -45,7 +45,7 @@ if (!$saveHistory)
 
 if (!JLanguageMultilang::isEnabled())
 {
-	$form->setFieldAttribute('language', 'type', 'hidden');
+	$hiddenFields[] = 'language';
 	$form->setFieldAttribute('language', 'default', '*');
 }
 
