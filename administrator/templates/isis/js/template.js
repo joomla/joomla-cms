@@ -411,5 +411,32 @@
 				}
 			}
 		}
+
+        /**
+         * USED IN: edit views, when popup is open and there are 3 columns
+         * found in Main Menu > Add Menu Item > Menu Item Type: Single Contact > Select Contact -> Create Contact button
+         * to handle overlapping the first two colums
+         */
+            var popupSpan9 = $(".container-popup").find(".span9"),
+                popupSpan6 = popupSpan9.find(".span6"),
+                popup = popupSpan9.closest(".container-popup");
+
+            if ((popupSpan6.length === 2) && (popupSpan9.next(".span3").length)) {
+                preventOverlappingSpan6();
+                $(window).on('resize', preventOverlappingSpan6);
+            }
+
+            function preventOverlappingSpan6() {
+
+                if ((popup.width() >= 923) && (popup.width() <= 1157)) {
+                    popupSpan6.find(".control-label").addClass("float3cols");
+                    popupSpan6.find(".controls").addClass("float3cols");
+                }
+                else {
+                    popupSpan6.find(".control-label").removeClass("float3cols");
+                    popupSpan6.find(".controls").removeClass("float3cols");
+                }
+            }
+
 	});
 })(jQuery);

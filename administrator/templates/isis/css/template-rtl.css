@@ -1660,6 +1660,12 @@ legend + .control-group {
 .subform-repeatable-wrapper tr.ui-sortable-helper {
 	display: table;
 }
+.float3cols.control-label {
+	float: none;
+}
+.float3cols.controls {
+	margin-left: 0;
+}
 table {
 	max-width: 100%;
 	background-color: transparent;
