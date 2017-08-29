@@ -243,6 +243,6 @@ defined('_JEXEC') or die;
 	</table>
 </fieldset>
 
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESC1'); ?></p>
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESC2'); ?></p>
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESC3'); ?></p>
+<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></p>
+<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></p>
+<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIERED'); ?></p>
