@@ -77,10 +77,11 @@ if ($showPreview)
 		$src = JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY');
 	}
 
-	if ($showAsTooltip) {
+	$showPreview = 'static';
+
+	if ($showAsTooltip)
+	{
 		$showPreview = 'tooltip';
-	} else {
-		$showPreview = 'static';
 	}
 }
 
