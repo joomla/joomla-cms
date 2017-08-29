@@ -1659,6 +1659,7 @@ class JoomlaInstallerScript
 			'/libraries/cms/helper/route.php',
 			'/libraries/cms/helper/tags.php',
 			'/libraries/cms/helper/usergroups.php',
+			'/libraries/cms/html/html.php',
 			'/libraries/cms/installer/adapter.php',
 			'/libraries/cms/installer/extension.php',
 			'/libraries/cms/installer/helper.php',
