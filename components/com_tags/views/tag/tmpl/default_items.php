@@ -72,7 +72,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($item->core_state == 0) : ?>
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else : ?>
-					<li class="cat-list-row<?php echo $i % 2; ?> clearfix" >
+					<li class="cat-list-row<?php echo $i % 2; ?> clearfix">
 					<?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
 						<h3>
 							<?php echo $this->escape($item->core_title); ?>
