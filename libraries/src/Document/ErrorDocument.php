@@ -40,7 +40,7 @@ class ErrorDocument extends Document
 	/**
 	 * Error Object
 	 *
-	 * @var    \Exception|\Throwable
+	 * @var    \Throwable
 	 * @since  11.1
 	 */
 	public $error;
@@ -64,7 +64,7 @@ class ErrorDocument extends Document
 	/**
 	 * Error Object
 	 *
-	 * @var    \Exception|\Throwable
+	 * @var    \Throwable
 	 * @since  11.1
 	 */
 	protected $_error;
@@ -90,7 +90,7 @@ class ErrorDocument extends Document
 	/**
 	 * Set error object
 	 *
-	 * @param   \Exception|\Throwable  $error  Error object to set
+	 * @param   \Throwable  $error  Error object to set
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -98,9 +98,7 @@ class ErrorDocument extends Document
 	 */
 	public function setError($error)
 	{
-		$expectedClass = PHP_MAJOR_VERSION >= 7 ? '\\Throwable' : '\\Exception';
-
-		if ($error instanceof $expectedClass)
+		if ($error instanceof \Throwable)
 		{
 			$this->_error = & $error;
 
