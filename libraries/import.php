@@ -50,7 +50,6 @@ if (!interface_exists('JsonSerializable'))
 }
 
 // Register classes that don't follow one file per class naming conventions.
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register the PasswordHash lib
