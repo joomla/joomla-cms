@@ -12,10 +12,6 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 ?>
 
-<script>
-	var joomlaTargetVersion = "<?php echo $this->updateInfo['latest']; ?>";
-</script>
-
 <fieldset>
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
