@@ -21,6 +21,8 @@ pipeline:
       - sleep 3
       - mv -f drone-package.json package.json
       - fluxbox  > /dev/null 2>&1 &
+      - npm install -g karma-cli
+      - npm install -g karma-jasmine --save-dev
       - npm install
       - node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
