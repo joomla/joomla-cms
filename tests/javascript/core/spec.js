@@ -232,6 +232,9 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 
 		afterAll(function() {
 			Joomla.submitform = submitformFn;
+
+			var alertsContainer =document.getElementById('system-message-container');
+			if (alertsContainer) alertsContainer.innerHTML = '';
 		});
 
 		it('should call Joomla.submitform with params task and form', function () {
