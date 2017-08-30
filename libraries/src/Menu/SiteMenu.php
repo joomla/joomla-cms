@@ -72,7 +72,7 @@ class SiteMenu extends AbstractMenu
 	public function load()
 	{
 		// For PHP 5.3 compat we can't use $this in the lambda function below
-		$db          = $this->db;
+		$db     = $this->db;
 
 		$loader = function () use ($db)
 		{
