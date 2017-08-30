@@ -23,7 +23,8 @@ JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
 
-JFactory::getDocument()->addScriptDeclaration(<<<JS
+JFactory::getDocument()->addScriptDeclaration(
+<<<JS
 jQuery(document).ready(function($) {
 	$('#extraction_method').change(function(e){
 		extractionMethodHandler('#extraction_method', 'row_ftp');
