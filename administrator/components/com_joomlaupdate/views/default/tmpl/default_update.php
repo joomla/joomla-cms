@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
 </fieldset>
 
 <h2>
-	<?php printf(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK'), $this->updateInfo['latest']); ?>
+	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', $this->updateInfo['latest']); ?>
 </h2>
 
 <fieldset class="col">

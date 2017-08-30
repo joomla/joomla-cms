@@ -22,6 +22,12 @@ jimport('joomla.filesystem.file');
 class JoomlaupdateModelDefault extends JModelLegacy
 {
 	/**
+	 * @var   array  $updateInformation  null
+	 * Holds the update information evaluated in getUpdateInformation.
+	 */
+	private $updateInformation = null;
+
+	/**
 	 * Detects if the Joomla! update site currently in use matches the one
 	 * configured in this component. If they don't match, it changes it.
 	 *
@@ -147,8 +153,13 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 */
 	public function getUpdateInformation()
 	{
+		if ($this->updateInformation)
+		{
+			return $this->updateInformation;
+		}
+
 		// Initialise the return array.
-		$ret = array(
+		$this->updateInformation = array(
 			'installed' => JVERSION,
 			'latest'    => null,
 			'object'    => null,
@@ -166,22 +177,22 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		if (is_null($updateObject))
 		{
-			$ret['latest'] = JVERSION;
+			$this->updateInformation['latest'] = JVERSION;
 
-			return $ret;
+			return $this->updateInformation;
 		}
 
-		$ret['latest']    = $updateObject->version;
-		$ret['hasUpdate'] = $updateObject->version != JVERSION;
+		$this->updateInformation['latest']    = $updateObject->version;
+		$this->updateInformation['hasUpdate'] = $updateObject->version != JVERSION;
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
 
-		$ret['object'] = $update;
+		$this->updateInformation['object'] = $update;
 
-		return $ret;
+		return $this->updateInformation;
 	}
 
 	/**
@@ -1004,14 +1015,11 @@ ENDDATA;
 	 * Gets PHP options.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
-	 * @param   string  $joomlaMinimumPHP     The target PHP version for the Joomla! version
-	 * @param   string  $targetJoomlaVersion  The target Joomla! version
-	 *
 	 * @return array Array of PHP config options
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPhpOptions($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP, $targetJoomlaVersion = '0.0.0')
+	public function getPhpOptions()
 	{
 		$options = array();
 
@@ -1021,13 +1029,13 @@ ENDDATA;
 		 * version is not shown. So this check is actually unnecessary.
 		 */
 		$option         = new stdClass;
-		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', $joomlaMinimumPHP);
-		$option->state  = version_compare(PHP_VERSION, $joomlaMinimumPHP, '>=');
+		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', $this->getTargetMinimumPHPVersion());
+		$option->state  = version_compare(PHP_VERSION, $this->getTargetMinimumPHPVersion(), '>=');
 		$option->notice = null;
 		$options[]      = $option;
 
 		// Only check if required PHP version is less than 7.
-		if (version_compare($joomlaMinimumPHP, '7', '<'))
+		if (version_compare($this->getTargetMinimumPHPVersion(), '7', '<'))
 		{
 			// Check for magic quotes gpc.
 			$option         = new stdClass;
@@ -1059,13 +1067,11 @@ ENDDATA;
 		$options[]      = $option;
 
 		// Check of configured database is compatible with Joomla 4
-		if (version_compare($targetJoomlaVersion, '4', '>='))
+		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
-			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
-			$currentDatabaseType = JFactory::getApplication()->get('dbtype');
 			$option = new stdClass;
-			$option->label  = sprintf(JText::_('INSTL_DATABASE_SUPPORTED'), $currentDatabaseType);
-			$option->state  = !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
+			$option->label  = sprintf(JText::_('INSTL_DATABASE_SUPPORTED'), $this->getConfiguredDatabaseType());
+			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
 		}
@@ -1116,13 +1122,11 @@ ENDDATA;
 	 * Gets PHP Settings.
 	 * TODO: Outsource, build common code base for pre install and pre update check
 	 *
-	 * @param   string  $joomlaMinimumPHP  The target PHP version for the Joomla! version
-	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPhpSettings($joomlaMinimumPHP = JOOMLA_MINIMUM_PHP)
+	public function getPhpSettings()
 	{
 		$settings = array();
 
@@ -1141,7 +1145,7 @@ ENDDATA;
 		$settings[] = $setting;
 
 		// Only check if required PHP version is less than 7.
-		if (version_compare($joomlaMinimumPHP, '7', '<'))
+		if (version_compare($this->getTargetMinimumPHPVersion(), '7', '<'))
 		{
 			// Check for magic quotes runtimes.
 			$setting = new stdClass;
@@ -1180,6 +1184,54 @@ ENDDATA;
 		$settings[] = $setting;
 
 		return $settings;
+	}
+
+	/**
+	 * Returns the configured database type id (mysqli or sqlsrv or ...)
+	 *
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getConfiguredDatabaseType()
+	{
+		return JFactory::getApplication()->get('dbtype');
+	}
+
+	/**
+	 * Returns true, if J! version is < 4 or current configured
+	 * database type is compatible with the update.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function isDatabaseTypeSupported()
+	{
+		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		{
+			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
+			$currentDatabaseType = $this->getConfiguredDatabaseType();
+
+			return !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns the PHP minimum version for the update.
+	 * Returns JOOMLA_MINIMUM_PHP, if there is no information given.
+	 *
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getTargetMinimumPHPVersion()
+	{
+		return isset($this->getUpdateInformation()['object']->php_minimum) ?
+			$this->getUpdateInformation()['object']->php_minimum->_data :
+			JOOMLA_MINIMUM_PHP;
 	}
 
 	/**
