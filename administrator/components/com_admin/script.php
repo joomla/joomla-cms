@@ -1566,6 +1566,7 @@ class JoomlaInstallerScript
 			'/components/com_wrapper/metadata.xml',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_content/models/fields/votelist.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default/bar.php',
@@ -2150,7 +2151,6 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
 			'/administrator/modules/mod_menu/preset',
-			'/administrator/components/com_content/models/fields/votelist.php',
 		);
 
 		jimport('joomla.filesystem.file');
