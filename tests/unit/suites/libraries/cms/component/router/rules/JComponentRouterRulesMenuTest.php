@@ -177,7 +177,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 
 		// Check if a query with existing Itemid that is the current active menu-item is correctly searched
 		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '49'),
-			array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '48'));
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '49'));
 
 		return $cases;
 	}
