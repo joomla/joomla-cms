@@ -21,7 +21,9 @@ JText::script('JNO');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 
-JFactory::getDocument()->addScriptDeclaration("
+$latestJoomlaVersion = $this->updateInfo['latest'];
+
+JFactory::getDocument()->addScriptDeclaration(<<<JS
 jQuery(document).ready(function($) {
 	$('#extraction_method').change(function(e){
 		extractionMethodHandler('#extraction_method', 'row_ftp');
@@ -33,7 +35,11 @@ jQuery(document).ready(function($) {
 	$('button.submit').on('click', function() {
 		$('div.download_message').show();
 	});
-});");
+});
+
+var joomlaTargetVersion = '$latestJoomlaVersion';
+JS
+);
 ?>
 
 <div id="joomlaupdate-wrapper">
