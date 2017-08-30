@@ -1066,7 +1066,7 @@ ENDDATA;
 		$option->notice = null;
 		$options[]      = $option;
 
-		// Check of configured database is compatible with Joomla 4
+		// Check if configured database is compatible with Joomla 4
 		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
 			$option = new stdClass;
