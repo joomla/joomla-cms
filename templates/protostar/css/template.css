@@ -1705,11 +1705,13 @@ legend + .control-group {
 .subform-repeatable-wrapper tr.ui-sortable-helper {
 	display: table;
 }
-.float3cols.control-label {
-	float: none;
-}
-.float3cols.controls {
-	margin-left: 0;
+@media (min-width: 980px) and (max-width: 1215px) {
+	.float-cols .control-label {
+		float: none;
+	}
+	.float-cols .controls {
+		margin-left: 0;
+	}
 }
 table {
 	max-width: 100%;
