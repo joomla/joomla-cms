@@ -29,7 +29,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 	<thead>
 		<tr>
 			<th>
-				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE');?>
+				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
 			</th>
 			<th class="text-center">
 				<?php echo JText::_('COM_MENUS_HEADING_LEVELS'); ?>
