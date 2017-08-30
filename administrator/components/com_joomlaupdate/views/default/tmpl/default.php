@@ -15,7 +15,6 @@ JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'com_joomlaupdate/style.css', array('version' => 'auto', 'relative' => true));
 
 JText::script('JYES');
 JText::script('JNO');
