@@ -6,18 +6,16 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Component\Exception;
-
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
+namespace Joomla\CMS\Router\Exception;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Exception class defining an error for a missing component
+ * Exception class defining an error for a missing route
  *
- * @since  3.7.0
+ * @since  __DEPLOY_VERSION__
  */
-class MissingComponentException extends RouteNotFoundException
+class RouteNotFoundException extends \InvalidArgumentException
 {
 	/**
 	 * Constructor
@@ -26,10 +24,15 @@ class MissingComponentException extends RouteNotFoundException
 	 * @param   integer     $code      The Exception code.
 	 * @param   \Exception  $previous  The previous exception used for the exception chaining.
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($message = '', $code = 404, \Exception $previous = null)
 	{
+		if (empty($message))
+		{
+			$message = 'URL was not found';
+		}
+
 		parent::__construct($message, $code, $previous);
 	}
 }
