@@ -6,12 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+
 JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
+
 // Get the user object.
 $user = JFactory::getUser();
+
 // Check if user is allowed to add/edit based on tags permissions.
 // Do we really have to make it so people can see unpublished tags???
 $canEdit = $user->authorise('core.edit', 'com_tags');
