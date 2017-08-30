@@ -58,7 +58,7 @@ JHtml::_('behavior.caption');
 
 		<div class="items-row cols-<?php echo (int) $this->columns; ?> <?php echo 'row-' . $row; ?> row-fluid">
 		<?php endif; ?>
-			<div class="item column-<?php echo $rowcount; echo $item->state == 0 ? ' system-unpublished' : null; ?> span<?php echo round((12 / $this->columns)); echo $item->featured ? ' item-featured' : ''; ?>"
+			<div class="item column-<?php echo $rowcount; echo $item->state == 0 ? ' system-unpublished' : null; ?> span<?php echo round(12 / $this->columns); echo $item->featured ? ' item-featured' : ''; ?>"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 			<?php
 					$this->item = &$item;
