@@ -11,10 +11,6 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 
 	describe('Calendar set for the input element', function () {
 		beforeAll(function () {
-			var alertsContainer =document.getElementById('system-message-container');
-
-			if (alertsContainer) alertsContainer.innerHTML = '';
-
 			var element = document.querySelector(".field-calendar"),
 			    input = document.getElementById('jform_created'),
 			    currentDate = new Date();
