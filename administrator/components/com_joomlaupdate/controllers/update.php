@@ -487,9 +487,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$model = $this->getModel('default');
 		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
+		$this->app = JFactory::getApplication();
 		$this->app->mimeType = 'application/json';
 		$this->app->charSet = 'utf-8';
-		$this->app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
 		$this->app->sendHeaders();
 
 		try
@@ -501,6 +502,6 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			echo $e;
 		}
 
-		$app->close();
+		$this->app->close();
 	}
 }
