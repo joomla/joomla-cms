@@ -56,12 +56,10 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($clientId === 0) : ?>
-							<?php if (JLanguageMultilang::isEnabled()) : ?>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
-								</th>
-							<?php endif; ?>
+						<?php if ($clientId === 0 && JLanguageMultilang::isEnabled()) : ?>
+							<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
+							</th>
 						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
 							<th width="10%" class="nowrap hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
@@ -167,12 +165,10 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php if ($clientId === 0) : ?>
-							<?php if (JLanguageMultilang::isEnabled()) : ?>
-								<td class="small hidden-sm-down text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
-							<?php endif; ?>
+						<?php if ($clientId === 0 && JLanguageMultilang::isEnabled()) : ?>
+							<td class="small hidden-sm-down text-center">
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							</td>
 						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
 							<td class="small hidden-phone">
 								<?php if ($item->language == ''):?>
