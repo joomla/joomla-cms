@@ -24,6 +24,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	/**
 	 * @var   array  $updateInformation  null
 	 * Holds the update information evaluated in getUpdateInformation.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $updateInformation = null;
 
