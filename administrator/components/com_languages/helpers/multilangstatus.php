@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-use Joomla\Registry\Registry;
 
 /**
  * Multilang status helper.
