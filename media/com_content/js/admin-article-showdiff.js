@@ -1,12 +1,7 @@
 /**
- * Created by Clarissa on 28.08.2017.
+ * Created by icampus on 28.08.2017.
  */
-/*
- @preserve jQuery.PrettyTextDiff 1.0.2
- See https://github.com/arnab/jQuery.PrettyTextDiff/
 
- Modified to show with and without HTML: Mark Dexter, Joomla Project.
- */
 
 jQuery(document).ready(function () {
         var text1 = document.getElementById("diff_area").innerHTML,
@@ -72,15 +67,15 @@ function popup_position() {
         popupFootChildBtn = popupFootChild.getElementsByClassName("mce-btn")[0],
         editor = parent.document.getElementById("jform_articletext_ifr").parentNode,
         editTop = editor.getBoundingClientRect().top,
-        editWidth = (editor.offsetWidth) - 30;
+        editWidth = (editor.offsetWidth) - 10;
 
     popupContainer.style.top = editTop + 'px';
-    popupContainer.style.left = '15px';
+    popupContainer.style.left = '35px';
     popupContainer.style.width = editWidth + 'px';
     popupBody.style.width = editWidth + 'px';
     popupFoot.style.width = editWidth + 'px';
     popupFootChild.style.width = editWidth + 'px';
     popupFootChildBtn.style.left = "unset";
-    popupFootChildBtn.style.right = 0;
+    popupFootChildBtn.style.right = '15px';
 
 }
