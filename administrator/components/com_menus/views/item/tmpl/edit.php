@@ -150,6 +150,8 @@ $clientId = $this->state->get('item.client_id', 0);
 				if ($this->item->type != 'component')
 				{
 					$this->fields = array_diff($this->fields, array('home'));
+					$this->form->setFieldAttribute('publish_up', 'showon', '');
+					$this->form->setFieldAttribute('publish_down', 'showon', '');
 				}
 
 				echo JLayoutHelper::render('joomla.edit.global', $this); ?>
