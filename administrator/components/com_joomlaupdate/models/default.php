@@ -1444,22 +1444,25 @@ ENDDATA;
 			case 'component':
 				$extension = $item->element;
 				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-				$lang->load('$extension.sys', JPATH_ADMINISTRATOR, null, false, true)
-				||	$lang->load('$extension.sys', $source, null, false, true);
 				break;
 			case 'module':
 				$extension = $item->element;
 				$source = JPATH_ADMINISTRATOR . '/modules/' . $extension;
-				$lang->load('$extension.sys', JPATH_ADMINISTRATOR, null, false, true)
-				||	$lang->load('$extension.sys', $source, null, false, true);
 				break;
 			case 'plugin':
 				$extension = 'plg_' . $item->folder . '_' . $item->element;
 				$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-				$lang->load('$extension.sys', JPATH_ADMINISTRATOR, null, false, true)
-				||	$lang->load('$extension.sys', $source, null, false, true);
+				break;
+			case 'package':
+				$extension = $item->element;
+				$source = JPATH_SITE;
 				break;
 		}
+
+		$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
+		|| $lang->load("$extension.sys", $source, null, false, true);
+		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+		|| $lang->load($extension, $source, null, false, true);
 
 		// Translate the extension name if possible
 		$item->name = JText::_($item->name);
