@@ -86,7 +86,7 @@ class PlgSystemCache extends JPlugin
 			$parts = JEventDispatcher::getInstance()->trigger('onPageCacheGetKey');
 			$parts[] = JUri::getInstance()->toString();
 
-			$key = serialize($parts);
+			$key = md5(serialize($parts));
 		}
 
 		return $key;
