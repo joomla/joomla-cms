@@ -72,7 +72,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<?php $this->item = & $item; ?>
+					<?php $this->item = &$item; ?>
 					<?php echo $this->loadTemplate('item'); ?>
 				</div>
 				<?php $leadingcount++; ?>
@@ -91,7 +91,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<div class="span<?php echo round(12 / $this->columns); ?>">
 				<div class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<?php $this->item = & $item; ?>
+					<?php $this->item = &$item; ?>
 					<?php echo $this->loadTemplate('item'); ?>
 				</div>
 				<!-- end item -->
