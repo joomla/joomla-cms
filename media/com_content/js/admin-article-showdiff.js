@@ -4,7 +4,8 @@
 
 
 jQuery(document).ready(function () {
-        var text1 = document.getElementById("diff_area").innerHTML,
+        var diffArea = document.getElementById("diff_area"),
+            text1 = diffArea.innerHTML,
             text2 = parent.document.getElementById("jform_articletext_ifr").contentDocument.getElementById("tinymce").innerHTML,
             diff_text, diff_html, span, color, fragment, spanParent;
 
@@ -40,7 +41,10 @@ jQuery(document).ready(function () {
         spanParent.id = "diff_area";
         spanParent.appendChild(fragment);
 
-        document.getElementById("diff_area").replaceWith(spanParent);
+        while (diffArea.lastChild) {
+            diffArea.removeChild(diffArea.lastChild);
+        }
+        diffArea.appendChild(spanParent);
 
     }
 );
