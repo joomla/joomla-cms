@@ -52,8 +52,11 @@ class JSessionStorageRedis extends JSessionStorage
 	{
 		if (!empty($this->_server) && isset($this->_server['host']) && isset($this->_server['port']))
 		{
-			ini_set('session.save_path', "{$this->_server['host']}:{$this->_server['port']}");
-			ini_set('session.save_handler', 'redis');
+			if (!headers_sent())
+			{
+				ini_set('session.save_path', "{$this->_server['host']}:{$this->_server['port']}");
+				ini_set('session.save_handler', 'redis');
+			}
 
 			// This is required if the configuration.php gzip is turned on
 			ini_set('zlib.output_compression', 'Off');
