@@ -70,6 +70,14 @@ abstract class AdminModel extends FormModel
 	protected $event_change_state = null;
 
 	/**
+	 * The event to trigger after saving the associations.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_after_save_associations = null;
+
+	/**
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
@@ -153,6 +161,15 @@ abstract class AdminModel extends FormModel
 		elseif (empty($this->event_change_state))
 		{
 			$this->event_change_state = 'onContentChangeState';
+		}
+
+		if (isset($config['event_after_save_associations']))
+		{
+			$this->event_after_save_associations = $config['event_after_save_associations'];
+		}
+		elseif (empty($this->event_after_save_associations))
+		{
+			$this->event_after_save_associations = 'onContentAfterSaveAssociations';
 		}
 
 		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
@@ -1289,6 +1306,9 @@ abstract class AdminModel extends FormModel
 
 				$db->setQuery($query);
 				$db->execute();
+
+				// Trigger the after save event for associations
+				$dispatcher->trigger($this->event_after_save_associations, array($context, $table, $isNew));
 			}
 		}
 
