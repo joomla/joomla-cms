@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $msgList = $displayData['msgList'];
 
-$alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-info', 'message' => 'alert-danger');
+$alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-info', 'message' => 'alert-success');
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && $msgList) : ?>
