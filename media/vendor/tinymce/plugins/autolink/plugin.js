@@ -147,6 +147,10 @@ define(
     'tinymce.core.PluginManager'
   ],
   function (Env, PluginManager) {
+    var rangeEqualsDelimiterOrSpace = function (rangeString, delimiter) {
+      return rangeString === delimiter || rangeString === ' ' || rangeString.charCodeAt(0) === 160;
+    };
+
     PluginManager.add('autolink', function (editor) {
       var AutoUrlDetectState;
       var AutoLinkPattern = /^(https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|www\.|(?:mailto:)?[A-Z0-9._%+\-]+@)(.+)$/i;
@@ -201,10 +205,6 @@ define(
       function handleEnter(editor) {
         parseCurrentLine(editor, -1, '', false);
       }
-
-      var rangeEqualsDelimiterOrSpace = function (rangeString, delimiter) {
-        return rangeString == delimiter || rangeString === ' ' || rangeString.charCodeAt(0) == 160;
-      };
 
       function parseCurrentLine(editor, endOffset, delimiter) {
         var rng, end, start, endContainer, bookmark, text, matches, prev, len, rngText;
