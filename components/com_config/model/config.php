@@ -7,14 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\Model;
+
+
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Model\Form;
 
 /**
  * Model for the global configuration
  *
  * @since  3.2
  */
-class ConfigModelConfig extends ConfigModelForm
+class Config extends Form
 {
 	/**
 	 * Method to get a form object.

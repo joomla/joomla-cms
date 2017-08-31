@@ -315,7 +315,7 @@ class JText
 	 *
 	 * Note that this method can take a mixed number of arguments as for the sprintf function.
 	 *
-	 * @param   string  $string  The format string.
+	 * @param   format  $string  The format string.
 	 *
 	 * @return  mixed
 	 *

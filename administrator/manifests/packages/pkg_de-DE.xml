@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="package" version="3.7" method="upgrade">
+	<name>German (Germany) Language Pack</name>
+	<packagename>de-DE</packagename>
+	<version>3.7.5.1</version>
+	<creationDate>26.08.2017</creationDate>
+	<author>J!German</author>
+	<authorEmail>team@jgerman.de</authorEmail>
+	<authorUrl>http://www.jgerman.de</authorUrl>
+	<copyright>Copyright (C) 2008 - 2017 J!German. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<url />
+	<packager />
+	<packagerurl />
+	<description><![CDATA[
+	<div style="text-align: center;">
+        <h2>Deutsches „Full“-Sprachpaket für Joomla! 3.7.5 von <a title="J!German" href="http://www.jgerman.de" target="_blank">J!German</a></h2>
+        <h3><span style="color: #008000;">Übersetzungsversion: 3.7.5.1</span></h3>
+        <hr />
+        <table rules="all" frame="border" style="width: 90%; border-color: #000000; border-width: 1px; border-style: solid;" align="center" border="1">
+        <colgroup> <col width="30%" /> <col width="60" /> </colgroup>
+        <tbody>
+          <tr>
+            <td>
+              <ul>
+                <li>Frontend (Website)-Übersetzung</li>
+              </ul>
+            </td>
+            <td rowspan="2">
+              <ul>
+                <li>
+                  <span style="text-decoration: underline;">Neuinstallation:</span>
+                  <br />
+                  Legen Sie die deutsche Sprache unter <a title="Language(s)" href="index.php?option=com_languages" target="_blank">„Extensions“ → „Language(s)“</a> als Standardsprache („Default“), sowohl für die Website („Installed - Site“) als auch für die Administration („Installed - Administrator“), fest.
+                </li>
+                <br />
+                <li>
+                  <span style="text-decoration: underline;">Aktualisierung:</span>
+                  <br />
+                  Es sind keine weiteren Schritte erforderlich.
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <ul>
+                <li>Backend (Administrator)-Übersetzung</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+        <br />
+        <span style="text-decoration: underline;">Hinweis:</span> Dieses Paket unterstützt die Joomla! eigene <a title="Joomla!-Aktualisierungsfunktion" href="index.php?option=com_installer&amp;view=update" target="_blank">Aktualisierungsfunktion</a>!
+      </div>]]>
+	</description>
+	<blockChildUninstall>true</blockChildUninstall>
+	<files>
+		<file type="language" client="site" id="de-DE">site_de-DE.zip</file>
+		<file type="language" client="administrator" id="de-DE">admin_de-DE.zip</file>
+	</files>
+	<updateservers>
+		<server type="collection" priority="1" name="Accredited Joomla! Translations">https://update.joomla.org/language/translationlist_3.xml</server>
+	</updateservers>
+</extension>

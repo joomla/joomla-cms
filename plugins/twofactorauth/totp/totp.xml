@@ -23,11 +23,10 @@
 			<fieldset name="basic">
 				<field
 					name="section"
-					type="radio"
+					type="list"
 					label="PLG_TWOFACTORAUTH_TOTP_SECTION_LABEL"
 					description="PLG_TWOFACTORAUTH_TOTP_SECTION_DESC"
 					default="3"
-					class="btn-group"
 					>
 					<option value="1">PLG_TWOFACTORAUTH_TOTP_SECTION_SITE</option>
 					<option value="2">PLG_TWOFACTORAUTH_TOTP_SECTION_ADMIN</option>

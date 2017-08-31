@@ -7,14 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Administrator\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Access\Access as JAccess;
+use Joomla\CMS\Access\Rules as JAccessRules;
+use Joomla\CMS\Component\ComponentHelper;
+use \Joomla\CMS\Model\Form;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 
 /**
  * Model for component configuration
  *
  * @since  3.2
  */
-class ConfigModelComponent extends ConfigModelForm
+class Component extends Form
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -27,22 +36,20 @@ class ConfigModelComponent extends ConfigModelForm
 	 */
 	protected function populateState()
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		// Set the component (option) we are dealing with.
 		$component = $input->get('component');
-		$state = $this->loadState();
-		$state->set('component.option', $component);
+
+		$this->state->set('component.option', $component);
 
 		// Set an alternative path for the configuration file.
 		if ($path = $input->getString('path'))
 		{
-			$path = JPath::clean(JPATH_SITE . '/' . $path);
-			JPath::check($path);
-			$state->set('component.path', $path);
+			$path = \JPath::clean(JPATH_SITE . '/' . $path);
+			\JPath::check($path);
+			$this->state->set('component.path', $path);
 		}
-
-		$this->setState($state);
 	}
 
 	/**
@@ -63,12 +70,12 @@ class ConfigModelComponent extends ConfigModelForm
 		if ($path = $state->get('component.path'))
 		{
 			// Add the search path for the admin component config.xml file.
-			JForm::addFormPath($path);
+			\JForm::addFormPath($path);
 		}
 		else
 		{
 			// Add the search path for the admin component config.xml file.
-			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// Get the form.
@@ -85,7 +92,7 @@ class ConfigModelComponent extends ConfigModelForm
 			return false;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($option, JPATH_BASE, null, false, true)
 		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
@@ -105,11 +112,11 @@ class ConfigModelComponent extends ConfigModelForm
 		$option = $state->get('component.option');
 
 		// Load common and local language files.
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($option, JPATH_BASE, null, false, true)
 		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
-		$result = JComponentHelper::getComponent($option);
+		$result = ComponentHelper::getComponent($option);
 
 		return $result;
 	}
@@ -122,17 +129,16 @@ class ConfigModelComponent extends ConfigModelForm
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since	3.2
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function save($data)
 	{
-		$table      = JTable::getInstance('extension');
-		$dispatcher = JEventDispatcher::getInstance();
+		$table      = Table::getInstance('extension');
 		$context    = $this->option . '.' . $this->name;
-		JPluginHelper::importPlugin('extension');
+		PluginHelper::importPlugin('extension');
 
 		// Check super user group.
-		if (isset($data['params']) && !JFactory::getUser()->authorise('core.admin'))
+		if (isset($data['params']) && !\JFactory::getUser()->authorise('core.admin'))
 		{
 			$form = $this->getForm(array(), false);
 
@@ -144,7 +150,7 @@ class ConfigModelComponent extends ConfigModelForm
 						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
 						&& JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
 					{
-						throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+						throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -154,11 +160,11 @@ class ConfigModelComponent extends ConfigModelForm
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
 			$rules = new JAccessRules($data['params']['rules']);
-			$asset = JTable::getInstance('asset');
+			$asset = Table::getInstance('asset');
 
 			if (!$asset->loadByName($data['option']))
 			{
-				$root = JTable::getInstance('asset');
+				$root = Table::getInstance('asset');
 				$root->loadByName('root.1');
 				$asset->name = $data['option'];
 				$asset->title = $data['option'];
@@ -169,7 +175,7 @@ class ConfigModelComponent extends ConfigModelForm
 
 			if (!$asset->check() || !$asset->store())
 			{
-				throw new RuntimeException($asset->getError());
+				throw new \RuntimeException($asset->getError());
 			}
 
 			// We don't need this anymore
@@ -180,7 +186,7 @@ class ConfigModelComponent extends ConfigModelForm
 		// Load the previous Data
 		if (!$table->load($data['id']))
 		{
-			throw new RuntimeException($table->getError());
+			throw new \RuntimeException($table->getError());
 		}
 
 		unset($data['id']);
@@ -188,25 +194,24 @@ class ConfigModelComponent extends ConfigModelForm
 		// Bind the data.
 		if (!$table->bind($data))
 		{
-			throw new RuntimeException($table->getError());
+			throw new \RuntimeException($table->getError());
 		}
 
 		// Check the data.
 		if (!$table->check())
 		{
-			throw new RuntimeException($table->getError());
+			throw new \RuntimeException($table->getError());
 		}
 
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, $table, false));
+		$result = \JFactory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
 
-			// Store the data.
+		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
 		{
-			throw new RuntimeException($table->getError());
+			throw new \RuntimeException($table->getError());
 		}
 
-		// Trigger the after save event.
-		$dispatcher->trigger('onExtensionAfterSave', array($context, $table, false));
+		\JFactory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

@@ -17,7 +17,6 @@ JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       3.4
- * @deprecated  4.0 Will be removed without replacement
  */
 class JStringWrapperPunycode
 {

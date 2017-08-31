@@ -10,13 +10,20 @@
 defined('JPATH_BASE') or die;
 
 $list = $displayData['list'];
+
+$startDisabled = $list['start']['active'] ? '' : ' disabled'; 
+$prevDisabled  = $list['previous']['active'] ? '' : ' disabled'; 
+$nextDisabled  = $list['next']['active'] ? '' : ' disabled'; 
+$endDisabled   = $list['end']['active'] ? '' : ' disabled'; 
+
 ?>
-<ul>
-	<li class="pagination-start"><?php echo $list['start']['data']; ?></li>
-	<li class="pagination-prev"><?php echo $list['previous']['data']; ?></li>
+<ul class="pagination ml-0 mb-4">
+	<li class="pagination-start<?php echo $startDisabled; ?> page-item"><?php echo $list['start']['data']; ?></li>
+	<li class="pagination-prev<?php echo $prevDisabled; ?> page-item"><?php echo $list['previous']['data']; ?></li>
 	<?php foreach ($list['pages'] as $page) : ?>
-		<?php echo '<li>' . $page['data'] . '</li>'; ?>
+		<?php $disabled = $page['active'] ? '' : ' disabled'; ?>
+		<?php echo '<li class="page-item' . $disabled . '">' . $page['data'] . '</li>'; ?>
 	<?php endforeach; ?>
-	<li class="pagination-next"><?php echo $list['next']['data']; ?></li>
-	<li class="pagination-end"><?php echo $list['end']['data']; ?></li>
+	<li class="pagination-next<?php echo $nextDisabled; ?> page-item"><?php echo $list['next']['data']; ?></li>
+	<li class="pagination-end<?php echo $endDisabled; ?> page-item"><?php echo $list['end']['data']; ?></li>
 </ul>

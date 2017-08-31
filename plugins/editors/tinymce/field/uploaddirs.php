@@ -83,7 +83,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 		}
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, '', 'value', 'text', $this->value, $this->id);
+		$html[] = JHtml::_('select.genericlist', $options, $this->name, 'class="custom-select"', 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

@@ -6,49 +6,47 @@
 		<field
 			name="enabled"
 			type="radio"
-			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
-			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
-			>
-			<option value="1">JYES</option>
+			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC">
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="search_phrases"
 			type="radio"
+			class="switcher"
 			label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
 			description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
-			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="search_areas"
 			type="radio"
+			class="switcher"
 			label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
 			description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
-			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_date"
 			type="radio"
-			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
-			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
-			>
-			<option value="1">JSHOW</option>
+			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
+			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC">
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field

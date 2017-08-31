@@ -8,6 +8,7 @@
 
 namespace Joomla\Image;
 
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -19,6 +20,8 @@ use Psr\Log\LoggerAwareInterface;
  */
 class Image implements LoggerAwareInterface
 {
+	use LoggerAwareTrait;
+
 	/**
 	 * @const  integer
 	 * @since  1.0
@@ -89,19 +92,7 @@ class Image implements LoggerAwareInterface
 	 * @var    array  Whether or not different image formats are supported.
 	 * @since  1.0
 	 */
-	protected static $formats = array();
-
-	/**
-	 * @var    LoggerInterface  Logger object
-	 * @since  1.0
-	 */
-	protected $logger = null;
-
-	/**
-	 * @var    boolean  Flag if an image should use the best quality available.  Disable for improved performance.
-	 * @since  1.4.0
-	 */
-	protected $generateBestQuality = true;
+	protected static $formats = [];
 
 	/**
 	 * Class constructor.
@@ -181,22 +172,6 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets a logger instance on the object
-	 *
-	 * @param   LoggerInterface  $logger  A PSR-3 compliant logger.
-	 *
-	 * @return  Image  This object for message chaining.
-	 *
-	 * @since   1.0
-	 */
-	public function setLogger(LoggerInterface $logger)
-	{
-		$this->logger = $logger;
-
-		return $this;
-	}
-
-	/**
 	 * Method to return a properties object for an image given a filesystem path.
 	 *
 	 * The result object has values for image width, height, type, attributes, mime type, bits, and channels.
@@ -222,14 +197,11 @@ class Image implements LoggerAwareInterface
 
 		if (!$info)
 		{
-			// @codeCoverageIgnoreStart
 			throw new \RuntimeException('Unable to get properties for the image.');
-
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Build the response object.
-		$properties = (object) array(
+		return (object) [
 			'width'       => $info[0],
 			'height'      => $info[1],
 			'type'        => $info[2],
@@ -239,9 +211,7 @@ class Image implements LoggerAwareInterface
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
 			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
-		);
-
-		return $properties;
+		];
 	}
 
 	/**
@@ -289,8 +259,7 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
-	 * Method to generate thumbnails from the current image. It allows
-	 * creation by resizing or cropping the original image.
+	 * Method to generate thumbnails from the current image. It allows creation by resizing or cropping the original image.
 	 *
 	 * @param   mixed    $thumbSizes      String or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping | 5 resize then crop
@@ -312,11 +281,11 @@ class Image implements LoggerAwareInterface
 		// Accept a single thumbsize string as parameter
 		if (!is_array($thumbSizes))
 		{
-			$thumbSizes = array($thumbSizes);
+			$thumbSizes = [$thumbSizes];
 		}
 
 		// Process thumbs
-		$generated = array();
+		$generated = [];
 
 		if (!empty($thumbSizes))
 		{
@@ -335,13 +304,11 @@ class Image implements LoggerAwareInterface
 
 				switch ($creationMethod)
 				{
-					// Case for self::CROP
-					case 4:
+					case self::CROP:
 						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
 						break;
 
-					// Case for self::CROP_RESIZE
-					case 5:
+					case self::CROP_RESIZE:
 						$thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
 						break;
 
@@ -359,8 +326,7 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
-	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing
-	 * or cropping the original image.
+	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or croppping the original image.
 	 *
 	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
@@ -393,7 +359,7 @@ class Image implements LoggerAwareInterface
 		}
 
 		// Process thumbs
-		$thumbsCreated = array();
+		$thumbsCreated = [];
 
 		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
 		{
@@ -476,16 +442,13 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
+			$rgba = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
 			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
-		}
 
-		if (!$this->generateBestQuality)
-		{
 			imagecopyresized($handle, $this->getHandle(), 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
@@ -496,10 +459,7 @@ class Image implements LoggerAwareInterface
 		// If we are cropping to a new image, create a new Image object.
 		if ($createNew)
 		{
-			// @codeCoverageIgnoreStart
 			return new static($handle);
-
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Swap out the current handle for the new image handle.
@@ -522,7 +482,7 @@ class Image implements LoggerAwareInterface
 	 * @see     Joomla\Image\Filter
 	 * @throws  \LogicException
 	 */
-	public function filter($type, array $options = array())
+	public function filter($type, array $options = [])
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -640,12 +600,9 @@ class Image implements LoggerAwareInterface
 				// Make sure the image type is supported.
 				if (empty(static::$formats[IMAGETYPE_GIF]))
 				{
-					// @codeCoverageIgnoreStart
 					$this->getLogger()->error('Attempting to load an image of unsupported type GIF.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type GIF.');
-
-					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
@@ -653,10 +610,7 @@ class Image implements LoggerAwareInterface
 
 				if (!is_resource($handle))
 				{
-					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process GIF image.');
-
-					// @codeCoverageIgnoreEnd
 				}
 
 				$this->handle = $handle;
@@ -666,12 +620,9 @@ class Image implements LoggerAwareInterface
 				// Make sure the image type is supported.
 				if (empty(static::$formats[IMAGETYPE_JPEG]))
 				{
-					// @codeCoverageIgnoreStart
 					$this->getLogger()->error('Attempting to load an image of unsupported type JPG.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type JPG.');
-
-					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
@@ -679,10 +630,7 @@ class Image implements LoggerAwareInterface
 
 				if (!is_resource($handle))
 				{
-					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process JPG image.');
-
-					// @codeCoverageIgnoreEnd
 				}
 
 				$this->handle = $handle;
@@ -692,12 +640,9 @@ class Image implements LoggerAwareInterface
 				// Make sure the image type is supported.
 				if (empty(static::$formats[IMAGETYPE_PNG]))
 				{
-					// @codeCoverageIgnoreStart
 					$this->getLogger()->error('Attempting to load an image of unsupported type PNG.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type PNG.');
-
-					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
@@ -705,10 +650,7 @@ class Image implements LoggerAwareInterface
 
 				if (!is_resource($handle))
 				{
-					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process PNG image.');
-
-					// @codeCoverageIgnoreEnd
 				}
 
 				$this->handle = $handle;
@@ -758,8 +700,8 @@ class Image implements LoggerAwareInterface
 		if ($scaleMethod == self::SCALE_FIT)
 		{
 			// Get the offsets
-			$offset->x	= round(($width - $dimensions->width) / 2);
-			$offset->y	= round(($height - $dimensions->height) / 2);
+			$offset->x = round(($width - $dimensions->width) / 2);
+			$offset->y = round(($height - $dimensions->height) / 2);
 
 			$handle = imagecreatetruecolor($width, $height);
 
@@ -790,45 +732,16 @@ class Image implements LoggerAwareInterface
 			imagefill($handle, 0, 0, $color);
 		}
 
-		if (!$this->generateBestQuality)
-		{
-			imagecopyresized(
-				$handle,
-				$this->getHandle(),
-				$offset->x,
-				$offset->y,
-				0,
-				0,
-				$dimensions->width,
-				$dimensions->height,
-				$this->getWidth(),
-				$this->getHeight()
-			);
-		}
-		else
-		{
-			// Use resampling for better quality
-			imagecopyresampled(
-				$handle,
-				$this->getHandle(),
-				$offset->x,
-				$offset->y,
-				0,
-				0,
-				$dimensions->width,
-				$dimensions->height,
-				$this->getWidth(),
-				$this->getHeight()
-			);
-		}
+		// Use resampling for better quality
+		imagecopyresampled(
+			$handle, $this->getHandle(),
+			$offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight()
+		);
 
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew)
 		{
-			// @codeCoverageIgnoreStart
 			return new static($handle);
-
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Swap out the current handle for the new image handle.
@@ -911,10 +824,7 @@ class Image implements LoggerAwareInterface
 		// If we are resizing to a new image, create a new Image object.
 		if ($createNew)
 		{
-			// @codeCoverageIgnoreStart
 			return new static($handle);
-
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Swap out the current handle for the new image handle.
@@ -1014,7 +924,7 @@ class Image implements LoggerAwareInterface
 	 * @since   1.0
 	 * @throws  \LogicException
 	 */
-	public function toFile($path, $type = IMAGETYPE_JPEG, array $options = array())
+	public function toFile($path, $type = IMAGETYPE_JPEG, array $options = [])
 	{
 		switch ($type)
 		{
@@ -1062,12 +972,9 @@ class Image implements LoggerAwareInterface
 		// Verify that the filter type is valid.
 		if (!($instance instanceof ImageFilter))
 		{
-			// @codeCoverageIgnoreStart
 			$this->getLogger()->error('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
-
-			// @codeCoverageIgnoreEnd
 		}
 
 		return $instance;
@@ -1224,19 +1131,5 @@ class Image implements LoggerAwareInterface
 	public function __destruct()
 	{
 		$this->destroy();
-	}
-
-	/**
-	 * Method for set option of generate thumbnail method
-	 *
-	 * @param   boolean  $quality  True for best quality. False for best speed.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.4.0
-	 */
-	public function setThumbnailGenerate($quality = true)
-	{
-		$this->generateBestQuality = (boolean) $quality;
 	}
 }

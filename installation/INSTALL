@@ -72,7 +72,7 @@ INSTALLATION
 
 2. CREATE THE Joomla! DATABASE
 
-	Joomla! will currently work with MySQL, MSSQL and PostgreSQL but
+	Joomla! will currently work with MySQL and PostgreSQL but
 	the following instructions are for MySQL. Refer to the relevant
 	documentation if you are using another database.
 

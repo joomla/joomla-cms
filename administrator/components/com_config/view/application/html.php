@@ -7,14 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Administrator\View\Application;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the global configuration
  *
  * @since  3.2
  */
-class ConfigViewApplicationHtml extends ConfigViewCmsHtml
+class Html extends HtmlView
 {
 	public $state;
 
@@ -23,13 +30,16 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	public $data;
 
 	/**
-	 * Method to display the view.
+	 * Execute and display a template script.
 	 *
-	 * @return  string  The rendered view.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @since   3.2
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     \JViewLegacy::loadTemplate()
+	 * @since   3.0
 	 */
-	public function render()
+	public function display($tpl = null)
 	{
 		$form = null;
 		$data = null;
@@ -37,13 +47,13 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		try
 		{
 			// Load Form and Data
-			$form = $this->model->getForm();
-			$data = $this->model->getData();
-			$user = JFactory::getUser();
+			$form = $this->get('form');
+			$data = $this->get('data');
+			$user = \JFactory::getUser();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -55,28 +65,27 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		}
 
 		// Get the params for com_users.
-		$usersParams = JComponentHelper::getParams('com_users');
+		$usersParams = ComponentHelper::getParams('com_users');
 
 		// Get the params for com_media.
-		$mediaParams = JComponentHelper::getParams('com_media');
+		$mediaParams = ComponentHelper::getParams('com_media');
 
 		// Load settings for the FTP layer.
-		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->form = &$form;
-		$this->data = &$data;
-		$this->ftp = &$ftp;
+		$this->form        = &$form;
+		$this->data        = &$data;
+		$this->ftp         = &$ftp;
 		$this->usersParams = &$usersParams;
 		$this->mediaParams = &$mediaParams;
-
-		$this->components = ConfigHelperConfig::getComponentsWithConfig();
-		ConfigHelperConfig::loadLanguageForComponents($this->components);
+		$this->components  = ConfigHelper::getComponentsWithConfig();
+		ConfigHelper::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
 
-		return parent::render();
+		return parent::display($tpl);
 	}
 
 	/**
@@ -88,12 +97,17 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
-		JToolbarHelper::apply('config.save.application.apply');
-		JToolbarHelper::save('config.save.application.save');
-		JToolbarHelper::divider();
-		JToolbarHelper::cancel('config.cancel.application');
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		ToolbarHelper::title(\JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
+		ToolbarHelper::saveGroup(
+			[
+				['apply', 'application.apply'],
+				['save', 'application.save']
+			],
+			'btn-success'
+		);
+		ToolbarHelper::divider();
+		ToolbarHelper::cancel('application.cancel');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}
 }

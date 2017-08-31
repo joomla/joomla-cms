@@ -36,11 +36,11 @@
         type="radio"
         label="PLG_TINY_FIELD_MOBILE_LABEL"
         description="PLG_TINY_FIELD_MOBILE_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="0"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -48,11 +48,11 @@
         type="radio"
         label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
         description="PLG_TINY_FIELD_DRAG_DROP_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -81,11 +81,11 @@
         type="radio"
         label="PLG_TINY_FIELD_LANGSELECT_LABEL"
         description="PLG_TINY_FIELD_LANGSELECT_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -100,7 +100,6 @@
         default="en"
         hide_default="1"
         filter="\.js$"
-        size="10"
         showon="lang_mode:0"
     />
 
@@ -120,11 +119,11 @@
         type="radio"
         label="PLG_TINY_FIELD_CSS_LABEL"
         description="PLG_TINY_FIELD_CSS_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -162,11 +161,11 @@
         type="radio"
         label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
         description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="0"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -203,11 +202,11 @@
         type="radio"
         label="PLG_TINY_FIELD_RESIZING_LABEL"
         description="PLG_TINY_FIELD_RESIZING_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -215,7 +214,7 @@
         type="radio"
         label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
         description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         showon="resizing:1"
         >
@@ -228,7 +227,7 @@
         type="radio"
         label="PLG_TINY_FIELD_PATH_LABEL"
         description="PLG_TINY_FIELD_PATH_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="0"
         >
         <option value="1">JON</option>
@@ -240,7 +239,7 @@
         type="radio"
         label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
         description="PLG_TINY_FIELD_WORDCOUNT_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
         <option value="1">JON</option>
@@ -252,7 +251,7 @@
         type="radio"
         label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
         description="PLG_TINY_FIELD_ADVIMAGE_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
         <option value="1">JON</option>
@@ -264,7 +263,7 @@
         type="radio"
         label="PLG_TINY_FIELD_ADVLIST_LABEL"
         description="PLG_TINY_FIELD_ADVLIST_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
         <option value="1">JON</option>
@@ -276,7 +275,7 @@
         type="radio"
         label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
         description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
-        class="btn-group btn-group-yesno"
+        class="switcher"
         default="1"
         >
         <option value="1">JON</option>

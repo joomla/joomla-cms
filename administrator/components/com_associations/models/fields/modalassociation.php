@@ -33,22 +33,12 @@ class JFormFieldModalAssociation extends JFormField
 	 */
 	protected function getInput()
 	{
+		// @TODO USE JLayouts here!!!
 		// The active item id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
-		// Build the script.
-		$script = array();
-
-		// Select button script
-		$script[] = 'function jSelectAssociation_' . $this->id . '(id) {';
-		$script[] = '   target = document.getElementById("target-association");';
-		$script[] = '   document.getElementById("target-association").src = target.getAttribute("data-editurl") + '
-						. '"&task=" + target.getAttribute("data-item") + ".edit" + "&id=" + id';
-		$script[] = '	jQuery("#associationSelect' . $this->id . 'Modal").modal("hide");';
-		$script[] = '}';
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JFactory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
+		JHtml::_('script', 'com_associations/modal-associations.min.js', false, true);
 
 		// Setup variables for display.
 		$html = array();
@@ -63,25 +53,25 @@ class JFormFieldModalAssociation extends JFormField
 		// Select custom association button
 		$html[] = '<a'
 			. ' id="select-change"'
-			. ' class="btn' . ($value ? '' : ' hidden') . '"'
+			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
 			. ' data-select="' . JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="icon-file" aria-hidden="true"></span>'
+			. '<span class="icon-file" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
 			. '</a>';
 
 		// Clear association button
 		$html[] = '<button'
- 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+ 				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
  				. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
  				. ' id="remove-assoc">'
- 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
+ 				. '<span class="icon-remove" aria-hidden="true"></span> ' . JText::_('JCLEAR')
  				. '</button>';
 
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';
 
 		// Select custom association modal
 		$html[] = JHtml::_(
@@ -93,10 +83,10 @@ class JFormFieldModalAssociation extends JFormField
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
-				'bodyHeight'  => '70',
-				'modalWidth'  => '80',
-				'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+				'bodyHeight'  => 70,
+				'modalWidth'  => 80,
+				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)
 		);
 

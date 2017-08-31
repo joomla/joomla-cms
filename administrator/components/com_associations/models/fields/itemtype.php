@@ -8,7 +8,7 @@
  */
 defined('JPATH_BASE') or die;
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
@@ -32,7 +32,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 *
 	 * @throws  UnexpectedValueException
 	 */

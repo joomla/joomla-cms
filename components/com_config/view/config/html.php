@@ -7,31 +7,74 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\View\Config;
+
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\View\HtmlView;
+use Joomla\Component\Config\Administrator\Controller\Request;
 
 /**
  * View for the global configuration
  *
  * @since  3.2
  */
-class ConfigViewConfigHtml extends ConfigViewCmsHtml
+class Html extends HtmlView
 {
+	/**
+	 * The form object
+	 *
+	 * @var   JForm
+	 * @since 3.2
+	 */
 	public $form;
 
+	/**
+	 * The data to be displayed in the form
+	 *
+	 * @var   array
+	 * @since 3.2
+	 */
 	public $data;
 
 	/**
-	 * Method to render the view.
+	 * Is the current user a super administrator?
 	 *
-	 * @return  string  The rendered view.
+	 * @var   boolean
+	 * @since 3.2
+	 */
+	protected $userIsSuperAdmin;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.2
 	 */
-	public function render()
+	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		return parent::render();
+		// Access backend com_config
+		$requestController = new Request;
+
+		// Execute backend controller
+		$serviceData = json_decode($requestController->getJson(), true);
+
+		$form = $this->getForm();
+
+		if ($form)
+		{
+			$form->bind($serviceData);
+		}
+
+		$this->form = $form;
+		$this->data = $serviceData;
+
+		return parent::display($tpl);
 	}
 }

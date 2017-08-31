@@ -21,15 +21,4 @@ document.addEventListener('DOMContentLoaded', function () {
 			tinyMCE.activeEditor.windowManager.close();
 		};
 	}
-
-	if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
-	{
-		if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
-		window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
-
-		SqueezeBox.close = function () {
-			if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
-			tinyMCE.activeEditor.windowManager.close();
-		};
-	}
 });

@@ -14,7 +14,9 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_tags_similar
  *
- * @since  3.1
+ * @package     Joomla.Site
+ * @subpackage  mod_tags_similar
+ * @since       3.1
  */
 abstract class ModTagssimilarHelper
 {

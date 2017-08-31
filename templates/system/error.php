@@ -22,16 +22,15 @@ $app = JFactory::getApplication();
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error.css" rel="stylesheet" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error.css" rel="stylesheet">
 	<?php if ($this->direction === 'rtl') : ?>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error_rtl.css" rel="stylesheet" />
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error_rtl.css" rel="stylesheet">
 	<?php endif; ?>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-		<link href="<?php echo JUri::root(true); ?>/media/cms/css/debug.css" rel="stylesheet" />
+		<link href="<?php echo JUri::root(true); ?>/media/system/css/debug.css" rel="stylesheet">
 	<?php endif; ?>
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>
 	<div class="error">
@@ -54,12 +53,7 @@ $app = JFactory::getApplication();
 			</ul>
 			<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 			<div id="techinfo">
-			<p>
-				<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
-				<?php if ($this->debug) : ?>
-					<br/><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
-				<?php endif; ?>
-			</p>
+			<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 			<?php if ($this->debug) : ?>
 				<div>
 					<?php echo $this->renderBacktrace(); ?>
@@ -71,10 +65,7 @@ $app = JFactory::getApplication();
 						<?php $this->setError($this->_error->getPrevious()); ?>
 						<?php while ($loop === true) : ?>
 							<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-							<p>
-								<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
-								<br/><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
-							</p>
+							<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 							<?php echo $this->renderBacktrace(); ?>
 							<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 						<?php endwhile; ?>

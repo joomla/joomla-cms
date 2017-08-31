@@ -55,7 +55,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   3.7.0
+	 * @since    3.7.0
 	 */
 	public function getAssociations($typeName, $id)
 	{
@@ -92,7 +92,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since   3.7.0
+	 * @since    3.7.0
 	 */
 	public function getItem($typeName, $id)
 	{
@@ -131,7 +131,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since   3.7.0
+	 * @since    3.7.0
 	 */
 	public function getType($typeName = '')
 	{

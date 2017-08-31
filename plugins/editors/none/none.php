@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Event\Event;
+
 /**
  * Plain Textarea Editor Plugin
  *
@@ -145,9 +147,20 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function _displayButtons($name, $buttons, $asset, $author)
 	{
+		$return = '';
+
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$buttonsEvent = new Event(
+				'getButtons',
+				[
+					'editor'    => $name,
+					'buttons' => $buttons,
+				]
+			);
+
+			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
+			$buttons       = $buttonsResult['result'];
 
 			return JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}

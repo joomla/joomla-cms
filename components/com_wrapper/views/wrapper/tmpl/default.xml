@@ -63,16 +63,16 @@
 		<!-- Advanced options. -->
 		<fieldset name="advanced">
 
-			<field 
+			<field
 				name="height_auto" 
 				type="radio"
 				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
 				description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC"
 				default="0"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				>
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
@@ -80,11 +80,11 @@
 				type="radio"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
 				description="COM_WRAPPER_FIELD_ADD_DESC"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="1"
 				>
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
@@ -92,11 +92,11 @@
 				type="radio"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"
 				description="COM_WRAPPER_FIELD_FRAME_DESC"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="1"
 				>
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 		</fieldset>

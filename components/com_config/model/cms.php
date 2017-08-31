@@ -7,16 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\Model;
+
+
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use \Joomla\CMS\Model\Model;
+
 
 /**
  * Prototype admin model.
  *
  * @since  3.2
  */
-abstract class ConfigModelCms extends JModelDatabase
+abstract class Cms extends Model
 {
 	/**
 	 * The model (base) name
@@ -56,7 +61,7 @@ abstract class ConfigModelCms extends JModelDatabase
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @since   3.2
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -67,7 +72,7 @@ abstract class ConfigModelCms extends JModelDatabase
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -135,7 +140,7 @@ abstract class ConfigModelCms extends JModelDatabase
 	 * @return  string  The name of the model
 	 *
 	 * @since   3.2
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getName()
 	{
@@ -145,7 +150,7 @@ abstract class ConfigModelCms extends JModelDatabase
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -194,7 +199,7 @@ abstract class ConfigModelCms extends JModelDatabase
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			// Register the paths for the form
-			$paths = new SplPriorityQueue;
+			$paths = new \SplPriorityQueue;
 			$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/table', 'normal');
 
 			// For legacy purposes. Remove for 4.0
@@ -214,35 +219,17 @@ abstract class ConfigModelCms extends JModelDatabase
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$conf = JFactory::getConfig();
-		$dispatcher = JEventDispatcher::getInstance();
+		$conf = \JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
 			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
-		$cache = JCache::getInstance('callback', $options);
+		$cache = \JCache::getInstance('callback', $options);
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		$dispatcher->trigger($this->event_clean_cache, $options);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 * @since   3.2
-	 */
-	protected function populateState()
-	{
-		$this->loadState();
+		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**
@@ -263,7 +250,7 @@ abstract class ConfigModelCms extends JModelDatabase
 				return false;
 			}
 
-			$user = JFactory::getUser();
+			$user = \JFactory::getUser();
 
 			return $user->authorise('core.delete', $this->option);
 		}
@@ -280,7 +267,7 @@ abstract class ConfigModelCms extends JModelDatabase
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		return $user->authorise('core.edit.state', $this->option);
 	}

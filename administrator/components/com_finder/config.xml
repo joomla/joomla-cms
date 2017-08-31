@@ -11,11 +11,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			description="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -23,11 +23,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DESCRIPTION_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -48,11 +48,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
 			description="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -60,11 +60,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_URL_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -72,11 +72,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -84,12 +84,12 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			validate="options"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -97,12 +97,12 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			validate="options"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -110,11 +110,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -122,12 +122,12 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			showon="show_advanced:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -135,7 +135,7 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			showon="show_advanced:1"
 			>
@@ -148,12 +148,12 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			showon="show_advanced:1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -186,11 +186,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
 			description="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -299,11 +299,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_ENABLE_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -324,11 +324,11 @@
 			type="radio"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
 			description="COM_FINDER_CONFIG_ENABLE_LOGGING_DESCRIPTION"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>

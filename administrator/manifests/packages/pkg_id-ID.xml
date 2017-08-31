@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3.6" method="upgrade">
+	<name>Paket Bahasa Indonesia (id-ID)</name>
+	<packagename>id-ID</packagename>
+	<version>3.6.3.1</version>
+	<creationDate>Agustus 2016</creationDate>
+	<author>Tim Hanacaraka Joomla Indonesia</author>
+	<authorEmail>admin@id-joomla.com</authorEmail>
+	<authorUrl>www.id-joomla.com</authorUrl>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<url>https://github.com/joomla/joomla-cms</url>
+	<packager>Joomla! Project</packager>
+	<packagerurl>www.joomla.org</packagerurl>
+	<description><![CDATA[Paket Bahasa Indonesia]]></description>
+	<files>
+		<folder type="language" client="site" id="id-ID">site_id-ID</folder>
+		<folder type="language" client="administrator" id="id-ID">admin_id-ID</folder>
+	</files>
+	<updateservers>
+		<server type="collection" priority="1" name="Accredited Joomla! Translations">
+			https://update.joomla.org/language/translationlist_3.xml
+		</server>
+	</updateservers>
+</extension>

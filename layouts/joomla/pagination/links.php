@@ -52,7 +52,7 @@ if ($currentPage >= $step)
 <div class="pagination pagination-toolbar clearfix" style="text-align: center;">
 
 	<?php if ($showLimitBox) : ?>
-		<div class="limit pull-right">
+		<div class="limit float-right">
 			<?php echo JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
 		</div>
 	<?php endif; ?>
@@ -80,7 +80,7 @@ if ($currentPage >= $step)
 	<?php endif; ?>
 
 	<?php if ($showLimitStart) : ?>
-		<input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>" />
+		<input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>">
 	<?php endif; ?>
 
 </div>

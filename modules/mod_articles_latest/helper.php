@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 
 JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
-JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
-
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Access\Access;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Component\Content\Site\Model\Articles;
 
 /**
  * Helper for mod_articles_latest
@@ -37,7 +38,7 @@ abstract class ModArticlesLatestHelper
 		$db = JFactory::getDbo();
 
 		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = JFactory::getApplication();
@@ -49,12 +50,9 @@ abstract class ModArticlesLatestHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
 
-		// This module does not use tags data
-		$model->setState('load_tags', false);
-
 		// Access filter
-		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
+		$authorised = Access::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
 		$model->setState('filter.access', $access);
 
 		// Category filter
@@ -118,9 +116,6 @@ abstract class ModArticlesLatestHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
-
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
-			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{

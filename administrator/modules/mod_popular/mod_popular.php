@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Content\Administrator\Model\Articles;
+
 // Include the mod_popular functions only once.
 JLoader::register('ModPopularHelper', __DIR__ . '/helper.php');
 
-// Get module data.
-$list = ModPopularHelper::getList($params);
+$list = ModPopularHelper::getList($params, new Articles(array('ignore_request' => true)));
 
+// Get module data.
 if ($params->get('automatic_title', 0))
 {
 	$module->title = ModPopularHelper::getTitle($params);

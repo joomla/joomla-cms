@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="3.7" client="administrator">
+	<tag>fr-FR</tag>
+	<name>French (FR)</name>
+	<version>3.7.5.2</version>
+	<creationDate>August 2017</creationDate>
+	<author>French translation team : joomla.fr</author>
+	<authorEmail>traduction@joomla.fr</authorEmail>
+	<authorUrl>http://www.joomla.fr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>joomla.fr</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>French administrator language for Joomla 3</description>
+	<metadata>
+		<name>French (FR)</name>
+		<nativeName>Français (France)</nativeName>
+		<tag>fr-FR</tag>
+		<rtl>0</rtl>
+		<locale>fr_FR.utf8, fr_FR.UTF-8, fr_FR.UTF-8@euro, fr_FR, fre_FR, fr, france</locale>
+		<firstDay>1</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params />
+</metafile>

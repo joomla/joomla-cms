@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_search
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_search
+ * @since       1.5
  */
 class ModSearchHelper
 {

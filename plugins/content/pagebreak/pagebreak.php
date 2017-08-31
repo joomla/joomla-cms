@@ -16,7 +16,7 @@ jimport('joomla.utilities.utility');
 /**
  * Page break plugin
  *
- * <b>Usage:</b>
+ * <strong>Usage:</strong>
  * <code><hr class="system-pagebreak" /></code>
  * <code><hr class="system-pagebreak" title="The page title" /></code>
  * or
@@ -68,7 +68,7 @@ class PlgContentPagebreak extends JPlugin
 
 		if ($print)
 		{
-			$row->text = preg_replace($regex, '<br />', $row->text);
+			$row->text = preg_replace($regex, '<br>', $row->text);
 
 			return true;
 		}
@@ -121,7 +121,7 @@ class PlgContentPagebreak extends JPlugin
 				$row->toc = '';
 			}
 
-			$row->text = preg_replace($regex, '<br />', $row->text);
+			$row->text = preg_replace($regex, '<br>', $row->text);
 
 			return true;
 		}
@@ -181,7 +181,7 @@ class PlgContentPagebreak extends JPlugin
 				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
 				$row->text .= $text[$page];
 
-				// $row->text .= '<br />';
+				// $row->text .= '<br>';
 				$row->text .= '<div class="pager">';
 
 				// Adds navigation between pages to bottom of text.
@@ -258,7 +258,7 @@ class PlgContentPagebreak extends JPlugin
 		$showall = $input->getInt('showall', 0);
 
 		// TOC header.
-		$row->toc = '<div class="pull-right article-index">';
+		$row->toc = '<div class="float-right article-index">';
 
 		if ($this->params->get('article_index') == 1)
 		{

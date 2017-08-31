@@ -7,8 +7,8 @@
 				type="databaseconnection"
 				label="INSTL_DATABASE_TYPE_LABEL"
 				id="db_type"
-				class="inputbox"
-				supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
+				class="custom-select form-control"
+				supported="mysql,mysqli,pgsql,postgresql"
 				required="true"
 				default="mysqli"
 				filter="string"
@@ -19,7 +19,7 @@
 				type="text"
 				label="INSTL_DATABASE_HOST_LABEL"
 				id="db_host"
-				class="inputbox"
+				class="form-control"
 				default="localhost"
 				required="true"
 			/>
@@ -29,7 +29,7 @@
 				type="text"
 				label="INSTL_DATABASE_USER_LABEL"
 				id="db_user"
-				class="inputbox"
+				class="form-control"
 				required="true"
 			/>
 
@@ -38,7 +38,7 @@
 				type="password"
 				label="INSTL_DATABASE_PASSWORD_LABEL"
 				id="db_pass"
-				class="inputbox"
+				class="form-control"
 				autocomplete="off"
 				filter="raw"
 			/>
@@ -48,7 +48,7 @@
 				type="text"
 				label="INSTL_DATABASE_NAME_LABEL"
 				id="db_name"
-				class="inputbox"
+				class="form-control"
 				required="true"
 			/>
 		</fieldset>
@@ -73,7 +73,7 @@
 				type="installation.prefix"
 				label="INSTL_DATABASE_PREFIX_LABEL"
 				id="db_prefix"
-				class="inputbox"
+				class="form-control"
 				required="true"
 				validate="installation.prefix"
 				message="INSTL_DATABASE_PREFIX_MSG"

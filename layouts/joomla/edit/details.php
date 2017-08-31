@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
- * @deprecated  3.2 removed without replacement in 4.0 see global.php for an alternative
+ * @deprecated  3.2
  */
 
 defined('JPATH_BASE') or die;
@@ -18,9 +18,9 @@ $title = $displayData->getForm()->getValue('title');
 $published = $displayData->getForm()->getField('published');
 $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0);
 ?>
-<div class="span2">
+<div class="col-md-2">
 	<h4><?php echo JText::_('JDETAILS'); ?></h4>
-	<hr />
+	<hr>
 	<fieldset class="form-vertical">
 		<?php if (empty($title)) : ?>
 			<div class="control-group">
@@ -47,7 +47,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 		<?php if (JLanguageMultilang::isEnabled()) : ?>
 			<?php echo $displayData->getForm()->renderField('language'); ?>
 		<?php else : ?>
-			<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
+			<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>">
 		<?php endif; ?>
 		
 		<?php echo $displayData->getForm()->renderField('tags'); ?>

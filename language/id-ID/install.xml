@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.6" client="site" type="language" method="upgrade">
+	<name>Bahasa Indonesia</name>
+	<tag>id-ID</tag>
+	<version>3.6.3</version>
+	<creationDate></creationDate>
+	<author>Joomla! Indonesia</author>
+	<authorEmail>admin@id-joomla.com</authorEmail>
+	<authorUrl>www.id-joomla.com</authorUrl>
+	<copyright>Hak Cipta (C) 2005 - 2016 Joomla Open Source Matters. Semua Hak dilindungi.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Bahasa situs id-ID</description>
+	<files>
+		<filename>id-ID.com_ajax.ini</filename>
+		<filename>id-ID.com_config.ini</filename>
+		<filename>id-ID.com_contact.ini</filename>
+		<filename>id-ID.com_content.ini</filename>
+		<filename>id-ID.com_finder.ini</filename>
+		<filename>id-ID.com_mailto.ini</filename>
+		<filename>id-ID.com_media.ini</filename>
+		<filename>id-ID.com_messages.ini</filename>
+		<filename>id-ID.com_newsfeeds.ini</filename>
+		<filename>id-ID.com_search.ini</filename>
+		<filename>id-ID.com_tags.ini</filename>
+		<filename>id-ID.com_users.ini</filename>
+		<filename>id-ID.com_weblinks.ini</filename>
+		<filename>id-ID.com_wrapper.ini</filename>
+		<filename>id-ID.files_joomla.sys.ini</filename>
+		<filename>id-ID.finder_cli.ini</filename>
+		<filename>id-ID.ini</filename>
+		<filename>id-ID.lib_fof.ini</filename>
+		<filename>id-ID.lib_fof.sys.ini</filename>
+		<filename>id-ID.lib_idna_convert.sys.ini</filename>
+		<filename>id-ID.lib_joomla.ini</filename>
+		<filename>id-ID.lib_joomla.sys.ini</filename>
+		<filename>id-ID.lib_phpass.sys.ini</filename>
+		<filename>id-ID.lib_phputf8.sys.ini</filename>
+		<filename>id-ID.lib_simplepie.sys.ini</filename>
+		<filename>id-ID.localise.php</filename>
+		<filename>id-ID.mod_articles_archive.ini</filename>
+		<filename>id-ID.mod_articles_archive.sys.ini</filename>
+		<filename>id-ID.mod_articles_categories.ini</filename>
+		<filename>id-ID.mod_articles_categories.sys.ini</filename>
+		<filename>id-ID.mod_articles_category.ini</filename>
+		<filename>id-ID.mod_articles_category.sys.ini</filename>
+		<filename>id-ID.mod_articles_latest.ini</filename>
+		<filename>id-ID.mod_articles_latest.sys.ini</filename>
+		<filename>id-ID.mod_articles_news.ini</filename>
+		<filename>id-ID.mod_articles_news.sys.ini</filename>
+		<filename>id-ID.mod_articles_popular.ini</filename>
+		<filename>id-ID.mod_articles_popular.sys.ini</filename>
+		<filename>id-ID.mod_banners.ini</filename>
+		<filename>id-ID.mod_banners.sys.ini</filename>
+		<filename>id-ID.mod_breadcrumbs.ini</filename>
+		<filename>id-ID.mod_breadcrumbs.sys.ini</filename>
+		<filename>id-ID.mod_custom.ini</filename>
+		<filename>id-ID.mod_custom.sys.ini</filename>
+		<filename>id-ID.mod_feed.ini</filename>
+		<filename>id-ID.mod_feed.sys.ini</filename>
+		<filename>id-ID.mod_finder.ini</filename>
+		<filename>id-ID.mod_finder.sys.ini</filename>
+		<filename>id-ID.mod_footer.ini</filename>
+		<filename>id-ID.mod_footer.sys.ini</filename>
+		<filename>id-ID.mod_languages.ini</filename>
+		<filename>id-ID.mod_languages.sys.ini</filename>
+		<filename>id-ID.mod_login.ini</filename>
+		<filename>id-ID.mod_login.sys.ini</filename>
+		<filename>id-ID.mod_menu.ini</filename>
+		<filename>id-ID.mod_menu.sys.ini</filename>
+		<filename>id-ID.mod_random_image.ini</filename>
+		<filename>id-ID.mod_random_image.sys.ini</filename>
+		<filename>id-ID.mod_related_items.ini</filename>
+		<filename>id-ID.mod_related_items.sys.ini</filename>
+		<filename>id-ID.mod_search.ini</filename>
+		<filename>id-ID.mod_search.sys.ini</filename>
+		<filename>id-ID.mod_stats.ini</filename>
+		<filename>id-ID.mod_stats.sys.ini</filename>
+		<filename>id-ID.mod_syndicate.ini</filename>
+		<filename>id-ID.mod_syndicate.sys.ini</filename>
+		<filename>id-ID.mod_tags_popular.ini</filename>
+		<filename>id-ID.mod_tags_popular.sys.ini</filename>
+		<filename>id-ID.mod_tags_similar.ini</filename>
+		<filename>id-ID.mod_tags_similar.sys.ini</filename>
+		<filename>id-ID.mod_users_latest.ini</filename>
+		<filename>id-ID.mod_users_latest.sys.ini</filename>
+		<filename>id-ID.mod_weblinks.ini</filename>
+		<filename>id-ID.mod_weblinks.sys.ini</filename>
+		<filename>id-ID.mod_whosonline.ini</filename>
+		<filename>id-ID.mod_whosonline.sys.ini</filename>
+		<filename>id-ID.mod_wrapper.ini</filename>
+		<filename>id-ID.mod_wrapper.sys.ini</filename>
+		<filename>id-ID.tpl_beez3.ini</filename>
+		<filename>id-ID.tpl_beez3.sys.ini</filename>
+		<filename>id-ID.tpl_protostar.ini</filename>
+		<filename>id-ID.tpl_protostar.sys.ini</filename>
+		<filename file="meta">install.xml</filename>
+		<filename file="meta">id-ID.xml</filename>
+	</files>
+	<params />
+</extension>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is created by $Id: MkLanguagepackSnapshotBuild.sh 1957 2015-07-04 16:59:51Z gerrit_hoekstra $ -->
+<metafile version="3.7" client="site" method="upgrade">
+  <tag>af-ZA</tag>
+  <name>Afrikaans</name>
+  <nativeName>Afrikaans</nativeName>
+  <description>Afrikaanse Taalpaket in die vertroulike aanspreeksvorm - Joomla! </description>
+  <version>3.7.5.1</version>
+  <creationDate>21 Aug 2017</creationDate>
+  <author>Gerrit Hoekstra</author>
+  <authorEmail>gerrit@hoekstra.co.uk</authorEmail>
+  <authorurl>http://forge.joomla.org/gf/project/afrikaans_taal</authorurl>
+  <copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved</copyright>
+  <copyright>Copyright (C) Afrikaans Translation 2006 - 2017 Gerrit Hoekstra. Alle regte voorbehou.</copyright>
+  <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+  <metadata>
+      <name>Afrikaans</name>
+      <tag>af-ZA</tag>
+      <rtl>0</rtl>
+      <locale>af_ZA.uft8, af_ZA.UTF-8, af, af_ZA, afr_ZA, af-ZA, afrikaans, afrikaans-za, afr, south africa, suid-afrika</locale>
+      <firstDay>1</firstDay>
+  </metadata>
+  <params />
+</metafile>

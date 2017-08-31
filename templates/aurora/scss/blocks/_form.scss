@@ -1,0 +1,123 @@
+// Form
+
+.form-control {
+  max-width: 240px;
+  background-color: $white-offset;
+
+  &.input-xlarge {
+    max-width: 350px;
+  }
+
+  &.input-xxlarge {
+    max-width: 550px;
+  }
+
+  &.input-full {
+    max-width: 100%;
+  }
+
+}
+
+.control-group::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+form:not(.form-no-margin) {
+
+  .control-group {
+    margin-bottom: 18px;
+
+    .control-label {
+      float: left;
+      width: auto;
+      padding-top: 5px;
+      padding-right: 5px;
+      text-align: left;
+    }
+
+    .controls {
+      margin-left: 220px;
+    }
+
+  }
+
+}
+
+form .form-no-margin {
+
+  .control-group {
+
+    .controls {
+      margin-left: 0;
+    }
+
+    .control-label {
+      float: none;
+    }
+
+  }
+
+}
+
+.spacer hr {
+  width: 380px;
+}
+
+.card .custom-select {
+  width: 100%;
+}
+
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+legend {
+  margin-bottom: 1.1rem;
+}
+
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+
+}
+
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
+.modal label {
+  width: 100%;
+}
+
+// Validation
+.invalid {
+  color: $switcher-color-danger;
+  border-color: $switcher-color-danger;
+}
+.valid {
+  border-color: $switcher-color-success;
+}
+
+// Possibly temporary until Bootstrap suport it themselves
+.custom-select[multiple] {
+  height: auto;
+  background: none;
+}
+
+// Validation
+.invalid {
+  color: $switcher-color-danger;
+  border-color: $switcher-color-danger;
+}
+
+.valid {
+  border-color: $switcher-color-success;
+}

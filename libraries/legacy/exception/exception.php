@@ -275,7 +275,7 @@ class JException extends Exception
 		{
 			foreach ($vars as $key => $value)
 			{
-				if (strpos($key, '_') === 0)
+				if ('_' == substr($key, 0, 1))
 				{
 					unset($vars[$key]);
 				}

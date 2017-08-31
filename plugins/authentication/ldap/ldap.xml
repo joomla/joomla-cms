@@ -44,13 +44,13 @@
 				<field
 					name="use_ldapV3"
 					type="radio"
+					class="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -59,10 +59,10 @@
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -71,10 +71,10 @@
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

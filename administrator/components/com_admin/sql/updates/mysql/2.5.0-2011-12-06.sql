@@ -5,5 +5,5 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 ALTER TABLE  `#__update_sites` ADD COLUMN `last_check_timestamp` bigint(20) DEFAULT '0' AFTER `enabled`;
 
 REPLACE INTO `#__update_sites` VALUES
-(1, 'Joomla Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Joomla Extension Directory', 'collection', 'https://update.joomla.org/jed/list.xml', 1, 0);
+(1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
+(2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0);

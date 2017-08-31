@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -161,6 +163,30 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$this->app->set('sitename', $this->lang_codes[$this->current_lang]->sitename);
 		}
+	}
+
+	/**
+	 * Listener for the onBeforeExecute event
+	 *
+	 * @param   BeforeExecuteEvent  $event  The Event object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function onBeforeExecute(BeforeExecuteEvent $event)
+	{
+		/** @var JApplicationCms $app */
+		$app = $event->getApplication();
+
+		if (!$app->isSite())
+		{
+			return;
+		}
+
+		// If a language was specified it has priority, otherwise use user or default language settings
+		$app->setLanguageFilter(true);
+		$app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 	}
 
 	/**
@@ -814,7 +840,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					if (isset($languages[$xdefault_language]))
 					{
 						// Use a custom tag because addHeadLink is limited to one URI per tag
-						$doc->addCustomTag('<link href="' . $server . $languages[$xdefault_language]->link . '" rel="alternate" hreflang="x-default" />');
+						$doc->addCustomTag('<link href="' . $server . $languages[$xdefault_language]->link . '" rel="alternate" hreflang="x-default">');
 					}
 				}
 			}
@@ -837,7 +863,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			// Create a cookie with one year lifetime.
 			$this->app->input->cookie->set(
-				JApplicationHelper::getHash('language'),
+				ApplicationHelper::getHash('language'),
 				$languageCode,
 				time() + 365 * 86400,
 				$this->app->get('cookie_path', '/'),
@@ -865,7 +891,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Is is set to use a year language cookie in plugin params, get the user language from the cookie.
 		if ((int) $this->params->get('lang_cookie', 0) === 1)
 		{
-			$languageCode = $this->app->input->cookie->get(JApplicationHelper::getHash('language'));
+			$languageCode = $this->app->input->cookie->get(ApplicationHelper::getHash('language'));
 		}
 		// Else get the user language from the session.
 		else

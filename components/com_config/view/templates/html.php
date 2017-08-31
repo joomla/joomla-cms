@@ -7,18 +7,44 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\View\Templates;
+
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\View\HtmlView;
+use \Joomla\Component\Templates\Administrator\Model\Style;
+use Joomla\Component\Config\Administrator\Controller\Request;
 
 /**
  * View to edit a template style.
  *
  * @since  3.2
  */
-class ConfigViewTemplatesHtml extends ConfigViewCmsHtml
+class Html extends HtmlView
 {
+	/**
+	 * The data to be displayed in the form
+	 *
+	 * @var   array
+	 * @since 3.2
+	 */
 	public $item;
 
+	/**
+	 * The form object
+	 *
+	 * @var   \JForm
+	 * @since 3.2
+	 */
 	public $form;
+
+	/**
+	 * Is the current user a super administrator?
+	 *
+	 * @var   boolean
+	 * @since 3.2
+	 */
+	protected $userIsSuperAdmin;
 
 	/**
 	 * Method to render the view.
@@ -27,11 +53,48 @@ class ConfigViewTemplatesHtml extends ConfigViewCmsHtml
 	 *
 	 * @since   3.2
 	 */
-	public function render()
+	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		return parent::render();
+		$app   = \JFactory::getApplication();
+
+		$app->input->set('id', $app->getTemplate(true)->id);
+
+		$view = new \Joomla\Component\Templates\Administrator\View\Style\Json;
+
+		// Get/Create the model
+		$model = new Style;
+		$view->setModel($model, true);
+
+		$view->document = \JFactory::getDocument();
+
+		$json = $view->display();
+
+		// Execute backend controller
+		$serviceData = json_decode($json, true);
+
+		// Access backend com_config
+		$requestController = new Request;
+
+		// Execute backend controller
+		$configData = json_decode($requestController->getJson(), true);
+
+		$data = array_merge($configData, $serviceData);
+
+		/** @var \JForm $form */
+		$form = $this->getForm();
+
+		if ($form)
+		{
+			$form->bind($data);
+		}
+
+		$this->form = $form;
+
+		$this->data = $serviceData;
+
+		return parent::display($tpl);
 	}
 }

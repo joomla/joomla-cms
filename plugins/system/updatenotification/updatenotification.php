@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Installer\Administrator\Model\Update;
+
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
 
@@ -128,11 +130,8 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		// Unfortunately Joomla! MVC doesn't allow us to autoload classes
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
-
 		// Get the update model and retrieve the Joomla! core updates
-		$model = JModelLegacy::getInstance('Update', 'InstallerModel');
+		$model = new Update(array('ignore_request' => true));
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
@@ -145,8 +144,8 @@ class PlgSystemUpdatenotification extends JPlugin
 		// Get the available update
 		$update = array_pop($updates);
 
-		// Check the available version. If it's the same or less than the installed version we have no updates to notify about.
-		if (version_compare($update->version, JVERSION, 'le'))
+		// Check the available version. If it's the same as the installed version we have no updates to notify about.
+		if (version_compare($update->version, JVERSION, 'eq'))
 		{
 			return;
 		}
@@ -171,7 +170,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		 * The plugins should modify the $uri object directly and return null.
 		 */
 
-		JEventDispatcher::getInstance()->trigger('onBuildAdministratorLoginURL', array(&$uri));
+		JFactory::getApplication()->triggerEvent('onBuildAdministratorLoginURL', array(&$uri));
 
 		// Let's find out the email addresses to notify
 		$superUsers    = array();

@@ -13,39 +13,14 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.getElementById('user-form')))
-		{
-			Joomla.submitform(task, document.getElementById('user-form'));
-		}
-	};
-
-	Joomla.twoFactorMethodChange = function(e)
-	{
-		var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
-
-		jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el) {
-			if (el.id != selectedPane)
-			{
-				jQuery('#' + el.id).hide(0);
-			}
-			else
-			{
-				jQuery('#' + el.id).show(0);
-			}
-		});
-	};
-");
+JHtml::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
+$settings  = array();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
@@ -56,12 +31,9 @@ $fieldsets = $this->form->getFieldsets();
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
-							<?php echo $field->label; ?>
+								<?php echo $field->label; ?>
 						</div>
 						<div class="controls">
-							<?php if ($field->fieldname == 'password') : ?>
-								<?php // Disables autocomplete ?> <input type="password" style="display:none">
-							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
 					</div>
@@ -84,12 +56,12 @@ $fieldsets = $this->form->getFieldsets();
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-						title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong><br />' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
+					title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong><br>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
 					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
 			<div class="controls">
-				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">
@@ -114,11 +86,10 @@ $fieldsets = $this->form->getFieldsets();
 			</div>
 			<?php else : ?>
 			<?php foreach ($this->otpConfig->otep as $otep) : ?>
-			<span class="span3">
+			<span class="col-md-3">
 				<?php echo substr($otep, 0, 4); ?>-<?php echo substr($otep, 4, 4); ?>-<?php echo substr($otep, 8, 4); ?>-<?php echo substr($otep, 12, 4); ?>
 			</span>
 			<?php endforeach; ?>
-			<div class="clearfix"></div>
 			<?php endif; ?>
 		</fieldset>
 
@@ -128,6 +99,6 @@ $fieldsets = $this->form->getFieldsets();
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * JHtml helper class.
  *
@@ -28,7 +30,7 @@ class JHtmlTemplates
 	 */
 	public static function thumb($template, $clientId = 0)
 	{
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
 		$thumb = $basePath . '/template_thumbnail.png';
 		$preview = $basePath . '/template_preview.png';
@@ -44,7 +46,7 @@ class JHtmlTemplates
 
 			if (file_exists($preview))
 			{
-				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail pull-left hasTooltip" data-toggle="modal" title="' .
+				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail float-left hasTooltip" data-toggle="modal" title="' .
 					JHtml::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
 			}
 		}
@@ -64,7 +66,7 @@ class JHtmlTemplates
 	 */
 	public static function thumbModal($template, $clientId = 0)
 	{
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
 		$baseUrl = ($clientId == 0) ? JUri::root(true) : JUri::root(true) . '/administrator';
 		$thumb = $basePath . '/template_thumbnail.png';
@@ -76,7 +78,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-				$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+				$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 					. JText::_('JTOOLBAR_CLOSE') . '</button>';
 
 				$html .= JHtml::_(

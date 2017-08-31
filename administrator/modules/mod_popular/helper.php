@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models', 'ContentModel');
+use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_popular
@@ -19,18 +20,16 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/mode
 abstract class ModPopularHelper
 {
 	/**
-	 * Get a list of the most popular articles
+	 * Get a list of the most popular articles.
 	 *
-	 * @param   JObject  &$params  The module parameters.
+	 * @param   Registry  &$params  The module parameters.
+	 * @param   Articles  $model    The model.
 	 *
-	 * @return  array
+	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry &$params, Articles $model)
 	{
-		$user = JFactory::getuser();
-
-		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$user = JFactory::getUser();
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .

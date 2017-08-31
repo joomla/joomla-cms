@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="3.6" client="site">
+	<name>Bahasa Indonesia (id-ID)</name>
+	<version>3.6.3</version>
+	<creationDate></creationDate>
+	<author>Joomla! Indonesia</author>
+	<authorEmail>admin@id-joomla.com</authorEmail>
+	<authorUrl>www.id-joomla.com</authorUrl>
+	<copyright>Hak Cipta (C) 2005 - 2016 Open Source Matters. Semua hak dilindungi.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description><![CDATA[Bahasa Indonesia untuk Situs Joomla! 3]]></description>
+	<metadata>
+		<name>Bahasa Indonesia</name>
+		<tag>id-ID</tag>
+		<rtl>0</rtl>
+		<locale>id_ID.utf8, id_ID.UTF-8, id_ID, id, indonesia</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+	</metadata>
+	<params />
+</metafile>

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.3
  */
-class SearchRouter extends JComponentRouterBase
+class SearchRouter extends \JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_search component
@@ -32,6 +32,15 @@ class SearchRouter extends JComponentRouterBase
 		if (isset($query['view']))
 		{
 			unset($query['view']);
+		}
+
+		// Fix up search for URL
+		$total = count($segments);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			// Urlencode twice because it is decoded once after redirect
+			$segments[$i] = urlencode(urlencode(stripcslashes($segments[$i])));
 		}
 
 		return $segments;
@@ -65,43 +74,4 @@ class SearchRouter extends JComponentRouterBase
 
 		return $vars;
 	}
-}
-
-
-/**
- * searchBuildRoute
- *
- * These functions are proxies for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function searchBuildRoute(&$query)
-{
-	$router = new SearchRouter;
-
-	return $router->build($query);
-}
-
-/**
- * searchParseRoute
- *
- * These functions are proxies for the new router interface
- * for old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function searchParseRoute($segments)
-{
-	$router = new SearchRouter;
-
-	return $router->parse($segments);
 }

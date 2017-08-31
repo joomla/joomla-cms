@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" version="3.7" method="upgrade">
+	<name>French Language pack</name>
+	<packagename>fr-FR</packagename>
+	<version>3.7.5.2</version>
+	<creationDate>18/08/2017</creationDate>
+	<author>French translation team : joomla.fr</author>
+	<authorEmail>traduction@joomla.fr</authorEmail>
+	<authorUrl>http://joomla.fr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2017 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<url></url>
+	<packager></packager>
+	<packagerurl></packagerurl>
+	<description><![CDATA[<div style="text-align:left;">
+
+<h3>Joomla! 3.7.5 Full French (fr-FR) Language Package - Version 3.7.5.2</h3>
+
+<h3>Paquet de langue Joomla! 3.7.5 français (fr-FR) complet - Version 3.7.5.2</h3>
+
+</div>]]></description>
+	<blockChildUninstall>true</blockChildUninstall>
+	<files>
+		<file type="language" client="site" id="fr-FR">site_fr-FR.zip</file>
+		<file type="language" client="administrator" id="fr-FR">admin_fr-FR.zip</file>
+	</files>
+	<updateservers>
+		<server type="collection" priority="1" name="Accredited Joomla! Translations">https://update.joomla.org/language/translationlist_3.xml</server>
+	</updateservers>
+</extension>

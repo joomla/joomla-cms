@@ -32,7 +32,7 @@ INSERT INTO "#__menu" ("menutype", "title", "alias", "note", "path", "link", "ty
 
 ALTER TABLE "#__modules" ADD COLUMN "asset_id" bigint DEFAULT 0 NOT NULL;
 
-CREATE TABLE "#__postinstall_messages" (
+CREATE TABLE IF NOT EXISTS "#__postinstall_messages" (
   "postinstall_message_id" serial NOT NULL,
   "extension_id" bigint NOT NULL DEFAULT 700,
   "title_key" varchar(255) NOT NULL DEFAULT '',
@@ -65,7 +65,7 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 (700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1),
 (700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1);
 
-CREATE TABLE "#__ucm_history" (
+CREATE TABLE IF NOT EXISTS "#__ucm_history" (
   "version_id" serial NOT NULL,
   "ucm_item_id" integer NOT NULL,
   "ucm_type_id" integer NOT NULL,
@@ -90,7 +90,7 @@ COMMENT ON COLUMN "#__ucm_history"."keep_forever" IS '0=auto delete; 1=keep';
 ALTER TABLE "#__users" ADD COLUMN "otpKey" varchar(1000) DEFAULT '' NOT NULL;
 ALTER TABLE "#__users" ADD COLUMN "otep" varchar(1000) DEFAULT '' NOT NULL;
 
-CREATE TABLE "#__user_keys" (
+CREATE TABLE IF NOT EXISTS "#__user_keys" (
   "id" serial NOT NULL,
   "user_id" varchar(255) NOT NULL,
   "token" varchar(255) NOT NULL,

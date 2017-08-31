@@ -45,7 +45,6 @@
 		element._joomlaCalendar = this;
 
 		this.writable   = true;
-		this.hidden     = true;
 		this.params     = {};
 		this.element    = element;
 		this.inputField = element.getElementsByTagName('input')[0];
@@ -1007,21 +1006,13 @@
 
 			if (calObj) {
 				if (calObj.inputField.value) {
-					if (typeof calObj.params.dateClicked === 'undefined') {
+					if (calObj.params.dateType !== 'gregorian') {
 						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
-
-						if (calObj.params.dateType !== 'gregorian') {
-							// We need to transform the date for the data-alt-value
-							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType);
-							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
-							date.setFullYear(ndate[0]);
-							date.setMonth(ndate[1]);
-							date.setDate(ndate[2]);
-							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false));
-						} else {
-							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
-								.print(calObj.params.dateFormat, 'gregorian', false));
-						}
+					}
+					if (typeof calObj.dateClicked === 'undefined') {
+						// value needs to be validated
+						calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
+							.print(calObj.params.dateFormat, 'gregorian', false));
 					} else {
 						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false));
 					}
@@ -1043,28 +1034,6 @@
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent !== "undefined") { parent.appendChild(el); } return el; };
 	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
 	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
-	/**
-	 * IE8 polyfill for indexOf()
-	 */
-	if (!Array.prototype.indexOf) {
-		Array.prototype.indexOf = function(elt) {
-			var len = this.length >>> 0,
-				from = Number(arguments[1]) || 0;
-
-			from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-
-			if (from < 0) {
-				from += len;
-			}
-
-			for (; from < len; from++) {
-				if (from in this && this[from] === elt) {
-					return from;
-				}
-			}
-			return -1;
-		};
-	}
 
 	/** Method to get the active calendar element through any descendant element. */
 	JoomlaCalendar.getCalObject = function(element) {
@@ -1089,18 +1058,14 @@
 
 	/** Method to change the inputs before submit. **/
 	JoomlaCalendar.onSubmit = function() {
-		Joomla = window.Joomla || {};
-		if (!Joomla.calendarProcessed) {
-			Joomla.calendarProcessed = true;
-			var elements = document.querySelectorAll(".field-calendar");
+		var elements = document.querySelectorAll(".field-calendar");
 
-			for (var i = 0; i < elements.length; i++) {
-				var element  = elements[i],
-				    instance = element._joomlaCalendar;
+		for (var i = 0; i < elements.length; i++) {
+			var element  = elements[i],
+			    instance = element._joomlaCalendar;
 
-				if (instance) {
-					instance.setAltValue();
-				}
+			if (instance) {
+				instance.setAltValue();
 			}
 		}
 	};
@@ -1148,23 +1113,20 @@
 
 	window.JoomlaCalendar = JoomlaCalendar;
 
-	/** Instantiate all the calendar fields when the document is ready */
-	document.addEventListener("DOMContentLoaded", function() {
-		var elements, i;
+	/**
+	 * Instantiate all the calendar fields when the document is ready/updated
+	 * @param {Event} event
+	 * @private
+	 */
+	function _initCalendars(event) {
+		var elements = event.target.querySelectorAll(".field-calendar");
 
-		elements = document.querySelectorAll(".field-calendar");
-
-		for (i = 0; i < elements.length; i++) {
+		for (var i = 0, l = elements.length; i < l; i++) {
 			JoomlaCalendar.init(elements[i]);
 		}
-
-		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
-			elements = row.querySelectorAll(".field-calendar");
-
-			for (i = 0; i < elements.length; i++) {
-				JoomlaCalendar.init(elements[i]);
-			}
-		});
+	}
+	document.addEventListener("DOMContentLoaded", _initCalendars);
+	document.addEventListener("joomla:updated", _initCalendars);
 
 		/** B/C related code
 		 *  @deprecated 4.0
@@ -1239,5 +1201,5 @@
 			}
 			return null;
 		};
-	});
+
 })(window, document);

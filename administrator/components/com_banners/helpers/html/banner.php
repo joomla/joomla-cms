@@ -36,7 +36,7 @@ abstract class JHtmlBanner
 					. '">',
 				JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 				'</label>',
-				'<select name="batch[client_id]" id="batch-client-id">',
+				'<select class="custom-select" name="batch[client_id]" id="batch-client-id">',
 				'<option value="">' . JText::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
 				'<option value="0">' . JText::_('COM_BANNERS_NO_CLIENT') . '</option>',
 				JHtml::_('select.options', static::clientlist(), 'value', 'text'),

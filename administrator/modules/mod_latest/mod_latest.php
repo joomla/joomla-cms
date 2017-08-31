@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-// Include dependencies.
-JLoader::register('ModLatestHelper', __DIR__ . '/helper.php');
+use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\Module\Latest\Administrator\Helper\ModLatestHelper;
 
-$list = ModLatestHelper::getList($params);
+$list = ModLatestHelper::getList($params, new Articles(array('ignore_request' => true)));
 
 if ($params->get('automatic_title', 0))
 {

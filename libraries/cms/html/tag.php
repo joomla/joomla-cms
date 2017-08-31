@@ -167,14 +167,40 @@ abstract class JHtmlTag
 		$params = JComponentHelper::getParams('com_tags');
 		$minTermLength = (int) $params->get('min_term_length', 3);
 
-		$displayData = array(
-			'minTermLength' => $minTermLength,
-			'selector'      => $selector,
-			'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+		JText::script('JGLOBAL_KEEP_TYPING');
+		JText::script('JGLOBAL_LOOKING_FOR');
+
+		// Include scripts
+		JHtml::_('behavior.core');
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/legacy/ajax-chosen.min.js', false, true, false, false, JDEBUG);
+
+		JFactory::getDocument()->addScriptOptions(
+			'ajax-chosen',
+			array(
+				'url'            => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'debug'          => JDEBUG,
+				'selector'       => $selector,
+				'type'           => 'GET',
+				'dataType'       => 'json',
+				'jsonTermKey'    => 'like',
+				'afterTypeDelay' => 500,
+				'minTermLength'  => $minTermLength
+			)
 		);
 
-		JLayoutHelper::render('joomla.html.tag', $displayData);
-
-		return;
+		// Allow custom values ?
+		if ($allowCustom)
+		{
+			JHtml::_('script', 'system/fields/tag.min.js', false, true, false, false, JDEBUG);
+			JFactory::getDocument()->addScriptOptions(
+				'field-tag-custom',
+				array(
+					'minTermLength' => $minTermLength,
+					'selector'      => $selector,
+					'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+				)
+			);
+		}
 	}
 }

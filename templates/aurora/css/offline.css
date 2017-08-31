@@ -1,0 +1,116 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license	GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+html {
+	background-color: #3a92c8;
+	background: radial-gradient(circle, #fdfdfd, #f1f1f1);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	* background-image: none;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font: 14px / 18px sans-serif;
+	color: #555;
+	background-color: transparent
+}
+
+.outer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	padding: 20px;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.offline-card {
+	margin: 0 auto 60px;
+	width: 100%;
+	max-width: 30em;
+	background-color: #ffffff;
+	border: 1px solid rgba(0,0,0,0.1);
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.header {
+	position: relative;
+	text-align: center;
+	margin: 0;
+	padding-top: 25px;
+	padding-bottom: 35px;
+	color: #fff;
+	border-radius: 5px 5px 0 0;
+}
+
+.header::after {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    content: "";
+    background-color: #007eb7;
+    background-image: linear-gradient(to right, #59afff 0%, #59daff 100%);
+}
+
+.login {
+	padding: 40px 20px 20px;
+}
+
+.form-control {
+	max-width: none;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	margin: 15px 0;
+	border: 0;
+}
+
+form, fieldset {
+	margin: 0;
+	padding: 0;
+}
+
+label {
+	display: block;
+	margin: 0;
+}
+
+input[type="text"], input[type="password"] {
+	box-sizing: border-box;
+	width: 100%;
+	height: auto;
+}
+
+input {
+	margin: .5em 0 1em 0;
+}
+
+.logo-icon {
+	position: absolute;
+	left: 50%;
+	top: 100%;
+	z-index: 1;
+	margin-top: 2px;
+	padding: 12px;
+	background-color: #fff;
+	border-radius: 50%;
+	border: 1px solid rgba(0,0,0,0.05);
+	box-shadow: 0 0 5px rgba(0,0,0,.075);
+	transform: translate(-50%, -50%);
+}
+svg {
+	display: block;
+	width: 38px;
+}

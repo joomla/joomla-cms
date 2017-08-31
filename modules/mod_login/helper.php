@@ -12,7 +12,10 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_login
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_login
+ *
+ * @since       1.5
  */
 class ModLoginHelper
 {
@@ -57,19 +60,5 @@ class ModLoginHelper
 		$user = JFactory::getUser();
 
 		return (!$user->get('guest')) ? 'logout' : 'login';
-	}
-
-	/**
-	 * Get list of available two factor methods
-	 *
-	 * @return array
-	 *
-	 * @deprecated  4.0  Use JAuthenticationHelper::getTwoFactorMethods() instead.
-	 */
-	public static function getTwoFactorMethods()
-	{
-		JLog::add(__METHOD__ . ' is deprecated, use JAuthenticationHelper::getTwoFactorMethods() instead.', JLog::WARNING, 'deprecated');
-
-		return JAuthenticationHelper::getTwoFactorMethods();
 	}
 }

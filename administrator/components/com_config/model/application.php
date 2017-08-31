@@ -7,8 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Administrator\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access as JAccess;
+use Joomla\CMS\Access\Rules as JAccessRules;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Form;
+use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -17,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.2
  */
-class ConfigModelApplication extends ConfigModelForm
+class Application extends Form
 {
 	/**
 	 * Method to get a form object.
@@ -56,25 +64,25 @@ class ConfigModelApplication extends ConfigModelForm
 	public function getData()
 	{
 		// Get the config data.
-		$config = new JConfig;
+		$config = new \JConfig;
 		$data   = ArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
-		$params          = JComponentHelper::getParams('com_config');
+		$params          = ComponentHelper::getParams('com_config');
 		$data['filters'] = ArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
 		if (empty($data['filters']))
 		{
-			$contentParams = JComponentHelper::getParams('com_content');
+			$contentParams = ComponentHelper::getParams('com_content');
 			$data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
 		}
 
 		// Check for data in the session.
-		$temp = JFactory::getApplication()->getUserState('com_config.config.global.data');
+		$temp = \JFactory::getApplication()->getUserState('com_config.config.global.data');
 
 		// Merge in the session data.
 		if (!empty($temp))
@@ -96,37 +104,37 @@ class ConfigModelApplication extends ConfigModelForm
 	 */
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => JFactory::getConfig()->get('password'),
+			'password' => \JFactory::getConfig()->get('password'),
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
 
 		try
 		{
-			JDatabaseDriver::getInstance($options)->getVersion();
+			\JDatabaseDriver::getInstance($options)->getVersion();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+			$app->enqueueMessage(\JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
 
 			return false;
 		}
 
 		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) \JFactory::getConfig()->get('force_ssl', '0'))
 		{
 			try
 			{
 				// Make an HTTPS request to check if the site is available in HTTPS.
-				$host    = JUri::getInstance()->getHost();
-				$options = new \Joomla\Registry\Registry;
+				$host    = \JUri::getInstance()->getHost();
+				$options = new Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
 				// Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
@@ -138,15 +146,15 @@ class ConfigModelApplication extends ConfigModelForm
 						CURLOPT_PROXYUSERPWD => null,
 					)
 				);
-				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
+				$response = \JHttpFactory::getHttp($options)->get('https://' . $host . \JUri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
 				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
-					throw new RuntimeException(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
+					throw new \RuntimeException(\JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
 				}
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$data['force_ssl'] = 0;
 
@@ -154,7 +162,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$app->setUserState('com_config.config.global.data.force_ssl', 0);
 
 				// Inform the user
-				$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE', $e->getMessage()), 'warning');
+				$app->enqueueMessage(\JText::sprintf('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE', $e->getMessage()), 'warning');
 			}
 		}
 
@@ -165,18 +173,18 @@ class ConfigModelApplication extends ConfigModelForm
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
-			$myGroups      = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
+			$myGroups      = JAccess::getGroupsByUser(\JFactory::getUser()->get('id'));
 			$myRules       = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
 			if (!$hasSuperAdmin)
 			{
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'), 'error');
+				$app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'), 'error');
 
 				return false;
 			}
 
-			$asset = JTable::getInstance('asset');
+			$asset = Table::getInstance('asset');
 
 			if ($asset->loadByName('root.1'))
 			{
@@ -184,14 +192,14 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$asset->check() || !$asset->store())
 				{
-					$app->enqueueMessage($asset->getError(), 'error');
+					$app->enqueueMessage(\JText::_('SOME_ERROR_CODE'), 'error');
 
 					return;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_ROOT_ASSET_NOT_FOUND'), 'error');
+				$app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_ROOT_ASSET_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -204,7 +212,7 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			$registry = new Registry(array('filters' => $data['filters']));
 
-			$extension = JTable::getInstance('extension');
+			$extension = Table::getInstance('extension');
 
 			// Get extension_id
 			$extensionId = $extension->find(array('name' => 'com_config'));
@@ -215,14 +223,14 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$extension->check() || !$extension->store())
 				{
-					$app->enqueueMessage($extension->getError(), 'error');
+					$app->enqueueMessage(\JText::_('SOME_ERROR_CODE'), 'error');
 
 					return;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIG_EXTENSION_NOT_FOUND'), 'error');
+				$app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_CONFIG_EXTENSION_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -231,7 +239,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Get the previous configuration.
-		$prev = new JConfig;
+		$prev = new \JConfig;
 		$prev = ArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
@@ -244,14 +252,17 @@ class ConfigModelApplication extends ConfigModelForm
 		// Escape the offline message if present.
 		if (isset($data['offline_message']))
 		{
-			$data['offline_message'] = JFilterOutput::ampReplace($data['offline_message']);
+			$data['offline_message'] = \JFilterOutput::ampReplace($data['offline_message']);
 		}
 
 		// Purge the database session table if we are changing to the database handler.
 		if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database')
 		{
-			$table = JTable::getInstance('session');
-			$table->purge(-1);
+			$query = $this->_db->getQuery(true)
+				->delete($this->_db->quoteName('#__session'))
+				->where($this->_db->quoteName('time') . ' < ' . (time() - 1));
+			$this->_db->setQuery($query);
+			$this->_db->execute();
 		}
 
 		// Set the shared session configuration
@@ -263,7 +274,27 @@ class ConfigModelApplication extends ConfigModelForm
 			if ($data['shared_session'] == 1 && $currentShared == 0)
 			{
 				// Generate a random shared session name
-				$data['session_name'] = JUserHelper::genRandomPassword(16);
+				$data['session_name'] = \JUserHelper::genRandomPassword(16);
+			}
+
+			// Has the user disabled shared sessions?
+			if ($data['shared_session'] == 0 && $currentShared == 1)
+			{
+				// Remove the session name value
+				unset($data['session_name']);
+			}
+		}
+
+		// Set the shared session configuration
+		if (isset($data['shared_session']))
+		{
+			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+
+			// Has the user enabled shared sessions?
+			if ($data['shared_session'] == 1 && $currentShared == 0)
+			{
+				// Generate a random shared session name
+				$data['session_name'] = \JUserHelper::genRandomPassword(16);
 			}
 
 			// Has the user disabled shared sessions?
@@ -306,16 +337,16 @@ class ConfigModelApplication extends ConfigModelForm
 			{
 				try
 				{
-					JLog::add(
-						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
-						JLog::WARNING,
+					\JLog::add(
+						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						\JLog::WARNING,
 						'jerror'
 					);
 				}
-				catch (RuntimeException $logException)
+				catch (\RuntimeException $logException)
 				{
 					$app->enqueueMessage(
-						JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
 						'warning'
 					);
 				}
@@ -330,11 +361,11 @@ class ConfigModelApplication extends ConfigModelForm
 			{
 				try
 				{
-					JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), \JLog::WARNING, 'jerror');
 				}
-				catch (RuntimeException $exception)
+				catch (\RuntimeException $exception)
 				{
-					$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), 'warning');
+					$app->enqueueMessage(\JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), 'warning');
 				}
 
 				$data['caching'] = 0;
@@ -352,28 +383,28 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			try
 			{
-				JFactory::getCache()->clean();
+				\JFactory::getCache()->clean();
 			}
-			catch (JCacheExceptionConnecting $exception)
+			catch (\JCacheExceptionConnecting $exception)
 			{
 				try
 				{
-					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), JLog::WARNING, 'jerror');
+					\JLog::add(\JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), \JLog::WARNING, 'jerror');
 				}
-				catch (RuntimeException $logException)
+				catch (\RuntimeException $logException)
 				{
-					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
+					$app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
 				}
 			}
-			catch (JCacheExceptionUnsupported $exception)
+			catch (\JCacheExceptionUnsupported $exception)
 			{
 				try
 				{
-					JLog::add(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), JLog::WARNING, 'jerror');
+					\JLog::add(\JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), \JLog::WARNING, 'jerror');
 				}
-				catch (RuntimeException $logException)
+				catch (\RuntimeException $logException)
 				{
-					$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
+					$app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), 'warning');
 				}
 			}
 		}
@@ -382,7 +413,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
-		$temp = JFactory::getConfig();
+		$temp = \JFactory::getConfig();
 		$temp->set('ftp_enable', $data['ftp_enable']);
 		$temp->set('ftp_host', $data['ftp_host']);
 		$temp->set('ftp_port', $data['ftp_port']);
@@ -411,7 +442,7 @@ class ConfigModelApplication extends ConfigModelForm
 	public function removeroot()
 	{
 		// Get the previous configuration.
-		$prev = new JConfig;
+		$prev = new \JConfig;
 		$prev = ArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
@@ -430,7 +461,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	2.5.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	private function writeConfigFile(Registry $config)
 	{
@@ -441,28 +472,28 @@ class ConfigModelApplication extends ConfigModelForm
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 
 		// Get the new FTP credentials.
-		$ftp = JClientHelper::getCredentials('ftp', true);
+		$ftp = \JClientHelper::getCredentials('ftp', true);
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+		if (!$ftp['enabled'] && \JPath::isOwner($file) && !\JPath::setPermissions($file, '0644'))
 		{
-			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+			$app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
 		$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
-		if (!JFile::write($file, $configuration))
+		if (!\JFile::write($file, $configuration))
 		{
-			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+			throw new \RuntimeException(\JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+		if (!$ftp['enabled'] && \JPath::isOwner($file) && !\JPath::setPermissions($file, '0444'))
 		{
-			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+			$app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
 
 		return true;
@@ -476,14 +507,14 @@ class ConfigModelApplication extends ConfigModelForm
 	 *
 	 * @param   string  $permission  Need an array with Permissions (component, rule, value and title)
 	 *
-	 * @return  array  A list of result data.
+	 * @return  array|bool  A list of result data or false on failure.
 	 *
 	 * @since   3.5
 	 */
 	public function storePermissions($permission = null)
 	{
-		$app  = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$app  = \JFactory::getApplication();
+		$user = \JFactory::getUser();
 
 		if (is_null($permission))
 		{
@@ -500,7 +531,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// We are creating a new item so we don't have an item id so don't allow.
 		if (substr($permission['component'], -6) === '.false')
 		{
-			$app->enqueueMessage(JText::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
+			$app->enqueueMessage(\JText::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
 			return false;
 		}
@@ -508,7 +539,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Check if the user is authorized to do this.
 		if (!$user->authorise('core.admin', $permission['component']))
 		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return false;
 		}
@@ -533,7 +564,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a group it belongs to.
 		if (!$currentUserSuperUser && $currentUserBelongsToGroup)
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_GROUPS'), 'error');
+			$app->enqueueMessage(\JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_GROUPS'), 'error');
 
 			return false;
 		}
@@ -541,7 +572,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a group it belongs to.
 		if (!$currentUserSuperUser && in_array((int) $permission['rule'], $currentUserGroupsTree))
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_PARENT_GROUPS'), 'error');
+			$app->enqueueMessage(\JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_PARENT_GROUPS'), 'error');
 
 			return false;
 		}
@@ -549,7 +580,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a Super User Group.
 		if (!$currentUserSuperUser && $isSuperUserGroupBefore && !$currentUserBelongsToGroup)
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_SUPER_USER'), 'error');
+			$app->enqueueMessage(\JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_SUPER_USER'), 'error');
 
 			return false;
 		}
@@ -557,14 +588,15 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the Super User permissions in any group it belongs to.
 		if ($isSuperUserGroupBefore && $currentUserBelongsToGroup && $permission['action'] === 'core.admin')
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'error');
+			$app->enqueueMessage(\JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'error');
 
 			return false;
 		}
 
 		try
 		{
-			$asset  = JTable::getInstance('asset');
+			/** @var Asset $asset */
+			$asset  = Table::getInstance('asset');
 			$result = $asset->loadByName($permission['component']);
 
 			if ($result === false)
@@ -577,7 +609,8 @@ class ConfigModelApplication extends ConfigModelForm
 				$asset->title = (string) $permission['title'];
 
 				// Get the parent asset id so we have a correct tree.
-				$parentAsset = JTable::getInstance('Asset');
+				/** @var Asset $parentAsset */
+				$parentAsset = Table::getInstance('Asset');
 
 				if (strpos($asset->name, '.') !== false)
 				{
@@ -647,12 +680,12 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if (!$asset->check() || !$asset->store())
 			{
-				$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'error');
+				$app->enqueueMessage(\JText::_('JLIB_UNKNOWN'), 'error');
 
 				return false;
 			}
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 
@@ -672,14 +705,14 @@ class ConfigModelApplication extends ConfigModelForm
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName('id'))
-				->from($this->db->quoteName('#__assets'))
-				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+			$query = $this->getDbo()->getQuery(true)
+				->select($this->getDbo()->quoteName('id'))
+				->from($this->getDbo()->quoteName('#__assets'))
+				->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($permission['component']));
 
-			$this->db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			$assetId = (int) $this->db->loadResult();
+			$assetId = (int) $this->_db->loadResult();
 
 			// Fetch the parent asset id.
 			$parentAssetId = null;
@@ -696,36 +729,36 @@ class ConfigModelApplication extends ConfigModelForm
 			{
 				// In this case we need to get the component rules too.
 				$query->clear()
-					->select($this->db->quoteName('parent_id'))
-					->from($this->db->quoteName('#__assets'))
-					->where($this->db->quoteName('id') . ' = ' . $assetId);
+					->select($this->_db->quoteName('parent_id'))
+					->from($this->_db->quoteName('#__assets'))
+					->where($this->_db->quoteName('id') . ' = ' . $assetId);
 
-				$this->db->setQuery($query);
+				$this->_db->setQuery($query);
 
-				$parentAssetId = (int) $this->db->loadResult();
+				$parentAssetId = (int) $this->_db->loadResult();
 			}
 
 			// Get the group parent id of the current group.
 			$query->clear()
-				->select($this->db->quoteName('parent_id'))
-				->from($this->db->quoteName('#__usergroups'))
-				->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
+				->select($this->_db->quoteName('parent_id'))
+				->from($this->_db->quoteName('#__usergroups'))
+				->where($this->_db->quoteName('id') . ' = ' . (int) $permission['rule']);
 
-			$this->db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			$parentGroupId = (int) $this->db->loadResult();
+			$parentGroupId = (int) $this->_db->loadResult();
 
 			// Count the number of child groups of the current group.
 			$query->clear()
-				->select('COUNT(' . $this->db->quoteName('id') . ')')
-				->from($this->db->quoteName('#__usergroups'))
-				->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+				->select('COUNT(' . $this->_db->quoteName('id') . ')')
+				->from($this->_db->quoteName('#__usergroups'))
+				->where($this->_db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
 
-			$this->db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			$totalChildGroups = (int) $this->db->loadResult();
+			$totalChildGroups = (int) $this->_db->loadResult();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 
@@ -758,8 +791,8 @@ class ConfigModelApplication extends ConfigModelForm
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
-			$result['class'] = 'label label-success';
-			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['class'] = 'badge badge-success';
+			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . \JText::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -769,14 +802,14 @@ class ConfigModelApplication extends ConfigModelForm
 			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
-				$result['class'] = 'label label-important';
-				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
+				$result['class'] = 'badge badge-danger';
+				$result['text']  = \JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			}
 			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			else
 			{
-				$result['class'] = 'label label-success';
-				$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
+				$result['class'] = 'badge badge-success';
+				$result['text']  = \JText::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
 			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
@@ -790,14 +823,14 @@ class ConfigModelApplication extends ConfigModelForm
 			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
-				$result['class'] = 'label label-important';
-				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
+				$result['class'] = 'badge badge-danger';
+				$result['text']  = \JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
 			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
-				$result['class'] = 'label label-success';
-				$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+				$result['class'] = 'badge badge-success';
+				$result['text']  = \JText::_('JLIB_RULES_ALLOWED');
 			}
 
 			// Third part: Overwrite the calculated permissions labels for special cases.
@@ -805,8 +838,8 @@ class ConfigModelApplication extends ConfigModelForm
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
-				$result['class'] = 'label label-important';
-				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
+				$result['class'] = 'badge badge-danger';
+				$result['text']  = \JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
 
 			/**
@@ -816,21 +849,21 @@ class ConfigModelApplication extends ConfigModelForm
 			 */
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
-				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['class'] = 'badge badge-danger';
+				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . \JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 
 		// If removed or added super user from group, we need to refresh the page to recalculate all settings.
 		if ($isSuperUserGroupBefore != $isSuperUserGroupAfter)
 		{
-			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_PERMISSIONS'), 'notice');
+			$app->enqueueMessage(\JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_PERMISSIONS'), 'notice');
 		}
 
 		// If this group has child groups, we need to refresh the page to recalculate the child settings.
 		if ($totalChildGroups > 0)
 		{
-			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_CHILDS_PERMISSIONS'), 'notice');
+			$app->enqueueMessage(\JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_CHILDS_PERMISSIONS'), 'notice');
 		}
 
 		return $result;
@@ -842,12 +875,12 @@ class ConfigModelApplication extends ConfigModelForm
 	 * @return boolean
 	 *
 	 * @since   3.5
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$input = $app->input;
 
 		$app->set('smtpauth', $input->get('smtpauth'));
@@ -861,30 +894,30 @@ class ConfigModelApplication extends ConfigModelForm
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
 
-		$mail = JFactory::getMailer();
+		$mail = \JFactory::getMailer();
 
 		// Prepare email and send try to send it
-		$mailSubject = JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
-		$mailBody    = JText::sprintf('COM_CONFIG_SENDMAIL_BODY', JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)));
+		$mailSubject = \JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
+		$mailBody    = \JText::sprintf('COM_CONFIG_SENDMAIL_BODY', \JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)));
 
 		if ($mail->sendMail($app->get('mailfrom'), $app->get('fromname'), $app->get('mailfrom'), $mailSubject, $mailBody) === true)
 		{
-			$methodName = JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
+			$methodName = \JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
 
 			// If JMail send the mail using PHP Mail as fallback.
 			if ($mail->Mailer != $app->get('mailer'))
 			{
-				$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
+				$app->enqueueMessage(\JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
 			}
 			else
 			{
-				$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
+				$app->enqueueMessage(\JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
 			}
 
 			return true;
 		}
 
-		$app->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+		$app->enqueueMessage(\JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
 
 		return false;
 	}

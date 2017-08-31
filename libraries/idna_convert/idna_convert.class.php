@@ -120,7 +120,7 @@ class idna_convert
      *
      * @param    mixed     Parameter to set (string: single parameter; array of Parameter => Value pairs)
      * @param    string    Value to use (if parameter 1 is a string)
-     * @return   boolean  true on success, false otherwise
+     * @return   boolean   true on success, false otherwise
      */
     public function set_parameter($option, $value = false)
     {

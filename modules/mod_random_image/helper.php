@@ -14,7 +14,9 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_random_image
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_random_image
+ * @since       1.5
  */
 class ModRandomImageHelper
 {

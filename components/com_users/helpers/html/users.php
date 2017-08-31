@@ -72,29 +72,35 @@ abstract class JHtmlUsers
 		{
 			return static::value($value);
 		}
-
-		$text = $value;
-
-		if ($xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/help/helpsites.xml'))
+		else
 		{
-			foreach ($xml->sites->site as $site)
+			$pathToXml = JPATH_ADMINISTRATOR . '/help/helpsites.xml';
+
+			$text = $value;
+
+			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
 			{
-				if ((string) $site->attributes()->url == $value)
+				foreach ($xml->sites->site as $site)
 				{
-					$text = (string) $site;
-					break;
+					if ((string) $site->attributes()->url == $value)
+					{
+						$text = (string) $site;
+						break;
+					}
 				}
 			}
+
+			$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+
+			if (strpos($value, 'http') !== 0)
+			{
+				return '<a href="' . $value . '">' . $text . '</a>';
+			}
+			else
+			{
+				return '<a href="http://' . $value . '">' . $text . '</a>';
+			}
 		}
-
-		$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-
-		if (strpos($value, 'http') === 0)
-		{
-			return '<a href="' . $value . '">' . $text . '</a>';
-		}
-
-		return '<a href="http://' . $value . '">' . $text . '</a>';
 	}
 
 	/**

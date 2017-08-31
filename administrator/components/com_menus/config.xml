@@ -16,14 +16,14 @@
 		<field
 			name="show_page_heading"
 			type="radio"
+			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

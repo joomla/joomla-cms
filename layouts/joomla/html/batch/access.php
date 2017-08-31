@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die;
 	<?php echo JHtml::_(
 		'access.assetgrouplist',
 		'batch[assetgroup_id]', '',
-		'class="inputbox"',
+		'class="custom-select"',
 		array(
 			'title' => JText::_('JLIB_HTML_BATCH_NOCHANGE'),
 			'id' => 'batch-access'

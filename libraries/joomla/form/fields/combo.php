@@ -28,14 +28,6 @@ class JFormFieldCombo extends JFormFieldList
 	protected $type = 'Combo';
 
 	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.8.0
-	 */
-	protected $layout = 'joomla.form.field.combo';
-
-	/**
 	 * Method to get the field input markup for a combo box field.
 	 *
 	 * @return  string  The field input markup.
@@ -44,32 +36,35 @@ class JFormFieldCombo extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		if (empty($this->layout))
-		{
-			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
-		}
+		$html = array();
+		$val  = array();
+		$attr = '';
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
-	}
+		// Initialize some field attributes.
+		$attr .= !empty($this->class) ? ' class="awesomplete form-control ' . $this->class . '"' : ' class="awesomplete form-control"';
+		$attr .= $this->readonly ? ' readonly' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.8.0
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+		// Initialize JavaScript field attributes.
+		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = $this->getOptions();
 
-		$extraData = array(
-			'options' => $options,
-		);
+		// Load the combobox behavior.
+		JHtml::_('behavior.combobox');
 
-		return array_merge($data, $extraData);
+		foreach ($options as $option)
+		{
+			$val[] = $option->text;
+		}
+
+		// Build the input for the combo box.
+		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . ' data-list="' . implode(', ', $val) . '">';
+
+		return implode($html);
 	}
 }

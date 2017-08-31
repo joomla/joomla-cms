@@ -7,14 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Administrator\View\Component;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the component configuration
  *
  * @since  3.2
  */
-class ConfigViewComponentHtml extends ConfigViewCmsHtml
+class Html extends HtmlView
 {
 	public $state;
 
@@ -23,33 +29,35 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 	public $component;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
 	 *
-	 * @return  string  The rendered view.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.2
-	 *
 	 */
-	public function render()
+	public function display($tpl = null)
 	{
 		$form = null;
 		$component = null;
 
 		try
 		{
-			$component = $this->model->getComponent();
+			$component = $this->get('component');
 
 			if (!$component->enabled)
 			{
 				return false;
 			}
 
-			$form = $this->model->getForm();
-			$user = JFactory::getUser();
+			$form = $this->get('form');
+			$user = \JFactory::getUser();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -72,15 +80,15 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		$this->form = &$form;
 		$this->component = &$component;
 
-		$this->components = ConfigHelperConfig::getComponentsWithConfig();
+		$this->components = ConfigHelper::getComponentsWithConfig();
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
-		$this->currentComponent = JFactory::getApplication()->input->get('component');
-		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
+		$this->currentComponent = \JFactory::getApplication()->input->get('component');
+		$this->return = \JFactory::getApplication()->input->get('return', '', 'base64');
 
 		$this->addToolbar();
 
-		return parent::render();
+		return parent::display($tpl);
 	}
 
 	/**
@@ -92,12 +100,17 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'equalizer config');
-		JToolbarHelper::apply('config.save.component.apply');
-		JToolbarHelper::save('config.save.component.save');
-		JToolbarHelper::divider();
-		JToolbarHelper::cancel('config.cancel.component');
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
+		ToolbarHelper::title(\JText::_($this->component->option . '_configuration'), 'equalizer config');
+		ToolbarHelper::saveGroup(
+			[
+				['apply', 'component.apply'],
+				['save', 'component.save']
+			],
+			'btn-success'
+		);
+		ToolbarHelper::divider();
+		ToolbarHelper::cancel('component.cancel');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
 	}
 }

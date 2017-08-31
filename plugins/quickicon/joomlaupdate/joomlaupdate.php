@@ -9,12 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
+
 /**
  * Joomla! update notification plugin
  *
  * @since  2.5
  */
-class PlgQuickiconJoomlaupdate extends JPlugin
+class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Load the language file on instantiation.
@@ -25,59 +29,71 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getSubscribedEvents()
+	{
+		return [
+			'onGetIcons' => 'getCoreUpdateNotification',
+		];
+	}
+
+	/**
 	 * This method is called when the Quick Icons module is constructing its set
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param   string  $context  The calling context
+	 * @param   QuickIconsEvent  $event  The event object
 	 *
-	 * @return  array  A list of icon definition associative arrays, consisting of the
-	 *                 keys link, image, text and access.
+	 * @return  void
 	 *
-	 * @since   2.5
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onGetIcons($context)
+	public function getCoreUpdateNotification(QuickIconsEvent $event)
 	{
+		$context = $event->getContext();
+
 		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
 		{
 			return;
 		}
 
-		JHtml::_('jquery.framework');
+		JText::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true);
+		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true);
+		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
+		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
+		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
 
-		$cur_template = JFactory::getApplication()->getTemplate();
+		JFactory::getDocument()->addScriptOptions(
+			'js-joomla-update',
+			[
+				'url'     => JUri::base() . 'index.php?option=com_joomlaupdate',
+				'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . JSession::getFormToken() . '=1',
+				'version' => JVERSION,
+			]
+		);
 
-		$token    = JSession::getFormToken() . '=' . 1;
-		$url = JUri::base() . 'index.php?option=com_joomlaupdate';
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
-		$script = array();
-		$script[] = 'var plg_quickicon_joomlaupdate_url = \'' . $url . '\';';
-		$script[] = 'var plg_quickicon_joomlaupdate_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_jupdatecheck_jversion = \'' . JVERSION . '\'';
-		$script[] = 'var plg_quickicon_joomlaupdate_text = {'
-			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true) . '",'
-			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true) . '",'
-			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true) . '",'
-			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true) . '",'
-			. '"ERROR": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true) . '",'
-			. '};';
-		$script[] = 'var plg_quickicon_joomlaupdate_img = {'
-			. '"UPTODATE" : "' . JUri::base(true) . '/templates/' . $cur_template . '/images/header/icon-48-jupdate-uptodate.png",'
-			. '"UPDATEFOUND": "' . JUri::base(true) . '/templates/' . $cur_template . '/images/header/icon-48-jupdate-updatefound.png",'
-			. '"ERROR": "' . JUri::base(true) . '/templates/' . $cur_template . '/images/header/icon-48-deny.png",'
-			. '};';
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JHtml::_('behavior.core');
 		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', array('version' => 'auto', 'relative' => true));
 
-		return array(
-			array(
-				'link' => 'index.php?option=com_joomlaupdate',
+		// Add the icon to the result array
+		$result = $event->getArgument('result', []);
+
+		$result[] = [
+			[
+				'link'  => 'index.php?option=com_joomlaupdate',
 				'image' => 'joomla',
-				'icon' => 'header/icon-48-download.png',
-				'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
-				'id' => 'plg_quickicon_joomlaupdate',
-				'group' => 'MOD_QUICKICON_MAINTENANCE'
-			)
-		);
+				'icon'  => 'header/icon-48-download.png',
+				'text'  => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
+				'id'    => 'plg_quickicon_joomlaupdate',
+				'group' => 'MOD_QUICKICON_MAINTENANCE',
+			],
+		];
+
+		$event->setArgument('result', $result);
 	}
 }

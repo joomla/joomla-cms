@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -34,13 +34,13 @@ class JFormFieldItemLanguage extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	protected function getOptions()
 	{
 		$input = JFactory::getApplication()->input;
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'));
+		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'), 2);
 
 		// Get the extension specific helper method
 		$helper = AssociationsHelper::getExtensionHelper($extensionName);

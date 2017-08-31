@@ -29,13 +29,7 @@
 
 		tag = '<a' + hreflang + ' href="' + link + '">' + title + '</a>';
 
-		/** Use the API, if editor supports it **/
-		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-			window.parent.Joomla.editors.instances[editor].replaceSelection(tag)
-		} else {
-			window.parent.jInsertEditorText(tag, editor);
-		}
-
+		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
 		window.parent.jModalClose();
 	};
 

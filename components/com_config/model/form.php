@@ -7,9 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\Model;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use \Joomla\CMS\Model\Form as BaseForm;
+
 
 /**
  * Prototype form model.
@@ -19,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  * @see    JFormRule
  * @since  3.2
  */
-abstract class ConfigModelForm extends ConfigModelCms
+abstract class Form extends BaseForm
 {
 	/**
 	 * Array of form objects.
@@ -44,26 +48,26 @@ abstract class ConfigModelForm extends ConfigModelCms
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = JFactory::getUser();
+			$user = \JFactory::getUser();
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
 
 			if (!$table->load($pk))
 			{
-				throw new RuntimeException($table->getError());
+				throw new \RuntimeException($table->getError());
 			}
 
 			// Check if this is the user has previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
-				throw new RuntimeException($table->getError());
+				throw new \RuntimeException($table->getError());
 			}
 
 			// Attempt to check the row in.
 			if (!$table->checkin($pk))
 			{
-				throw new RuntimeException($table->getError());
+				throw new \RuntimeException($table->getError());
 			}
 		}
 
@@ -84,43 +88,31 @@ abstract class ConfigModelForm extends ConfigModelCms
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = JFactory::getUser();
+			$user = \JFactory::getUser();
 
 			// Get an instance of the row to checkout.
 			$table = $this->getTable();
 
 			if (!$table->load($pk))
 			{
-				throw new RuntimeException($table->getError());
+				throw new \RuntimeException($table->getError());
 			}
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 			{
-				throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+				throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 			}
 
 			// Attempt to check the row out.
 			if (!$table->checkout($user->get('id'), $pk))
 			{
-				throw new RuntimeException($table->getError());
+				throw new \RuntimeException($table->getError());
 			}
 		}
 
 		return true;
 	}
-
-	/**
-	 * Abstract method for getting the form from the model.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  mixed  A JForm object on success, false on failure
-	 *
-	 * @since   3.2
-	 */
-	abstract public function getForm($data = array(), $loadData = true);
 
 	/**
 	 * Method to get a form object.
@@ -152,7 +144,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 
 		// Get the form.
 		// Register the paths for the form -- failing here
-		$paths = new SplPriorityQueue;
+		$paths = new \SplPriorityQueue;
 		$paths->insert(JPATH_COMPONENT . '/model/form', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
@@ -163,14 +155,14 @@ abstract class ConfigModelForm extends ConfigModelCms
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
 
 		// Solution until JForm supports splqueue
-		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		JForm::addFormPath(JPATH_COMPONENT . '/model/form');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
+		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');
+		\JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 		try
 		{
-			$form = JForm::getInstance($name, $source, $options, false, $xpath);
+			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
 
 			if (isset($options['load_data']) && $options['load_data'])
 			{
@@ -189,9 +181,9 @@ abstract class ConfigModelForm extends ConfigModelCms
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
@@ -219,31 +211,25 @@ abstract class ConfigModelForm extends ConfigModelCms
 	 *
 	 * @param   string  $context  The context identifier.
 	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 * @param   string  $group    The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	protected function preprocessData($context, &$data)
+	protected function preprocessData($context, &$data, $group = 'content')
 	{
 		// Get the dispatcher and load the users plugins.
-		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin('content');
+		\JPluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
-
-		// Check for errors encountered while preparing the data.
-		if (count($results) > 0 && in_array(false, $results, true))
-		{
-			JFactory::getApplication()->enqueueMessage($dispatcher->getError(), 'error');
-		}
+		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
 	}
 
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -251,36 +237,21 @@ abstract class ConfigModelForm extends ConfigModelCms
 	 *
 	 * @see     JFormField
 	 * @since   3.2
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
-		JPluginHelper::importPlugin($group);
-
-		// Get the dispatcher.
-		$dispatcher = JEventDispatcher::getInstance();
+		\JPluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true))
-		{
-			// Get the last error.
-			$error = $dispatcher->getError();
-
-			if (!($error instanceof Exception))
-			{
-				throw new Exception($error);
-			}
-		}
+		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   \JForm  $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -297,9 +268,9 @@ abstract class ConfigModelForm extends ConfigModelCms
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
-			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
 
 			return false;
 		}
@@ -310,12 +281,12 @@ abstract class ConfigModelForm extends ConfigModelCms
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				if ($message instanceof Exception)
+				if ($message instanceof \Exception)
 				{
 					$message = $message->getMessage();
 				}
 
-				JFactory::getApplication()->enqueueMessage($message, 'error');
+				\JFactory::getApplication()->enqueueMessage($message, 'error');
 			}
 
 			return false;

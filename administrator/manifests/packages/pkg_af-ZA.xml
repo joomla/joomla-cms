@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- This file is created by $Id: MkLanguagepackSnapshotBuild.sh 1957 2015-07-04 16:59:51Z gerrit_hoekstra $ -->
+<extension version="3.7" type="package" method="upgrade">
+  <name>Afrikaans (South Africa)</name>
+  <packagename>af-ZA</packagename>
+  <packager>MkLanguagepackSnapshotBuild.sh</packager>
+  <packagerurl>joomla4africa.org</packagerurl>
+  <tag>af-ZA</tag>
+  <version>3.7.5.1</version>
+  <creationDate>21 Aug 2017</creationDate>
+  <author>Gerrit Hoekstra</author>
+  <authorEmail>gerrit@hoekstra.co.uk</authorEmail>
+  <url>http://forge.joomla.org/gf/project/afrikaans_taal</url>
+  <copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved</copyright>
+  <copyright>Copyright (C) Afrikaans Translation 2006 - 2017 Gerrit Hoekstra. Alle regte voorbehou.</copyright>
+  <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+  <description><![CDATA[
+    <div align="center">
+    <table border="0" width="600">
+      <tr>
+        <td width="100%" colspan="2">
+          <div align="center">
+            <h3>Afrikaanse Vertaling vir Joomla! 3.7.5</h3>
+          </div>
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" colspan="2">
+          <div align="left">
+            <img border="0" src="http://joomla4africa.org/images/smallflags/South Africa.gif" alt="Afrikaans (ZA)" />
+          </div>
+          <hr />
+        </td>
+      </tr>
+      <tr>
+          <td width="18%"><b>Taal:</b></td>
+          <td width="80%">Afrikaanse Taalpaket in die vertroulike aanspreeksvorm</td>
+      </tr>
+      <tr>
+          <td width="18%"><b>Outeur:</b></td>
+          <td width="80%"><a mailto="gerrit@hoekstra.co.uk">Gerrit Hoekstra</a></td>
+      </tr>
+      <tr>
+          <td width="18%"><b>Webwerf:</b></td>
+          <td width="80%"><a target="_blank" href="http://forge.joomla.org/gf/project/afrikaans_taal">http://forge.joomla.org/gf/project/afrikaans_taal</a></td>
+      </tr>
+      <tr>
+          <td width="18%"><b>Hersiening:</b></td>
+          <td width="80%">3.7.5v1</td>
+      </tr>
+      <tr>
+          <td width="18%"><b>Datum:</b></td>
+          <td width="80%">21 Aug 2017</td>
+      </tr>
+    </table>
+    </div>
+  ]]>
+  </description>
+  <files>
+    <file type="language" client="site" id="af-ZA">site_af-ZA.zip</file>
+    <file type="language" client="administrator" id="af-ZA">admin_af-ZA.zip</file>
+  </files>
+  <updateservers>
+    <server type="collection" priority="1" name="Accredited Joomla! Translations">http://update.joomla.org/language/translationlist_3.xml</server>
+  </updateservers>
+</extension>

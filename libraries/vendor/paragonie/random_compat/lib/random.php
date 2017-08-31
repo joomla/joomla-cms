@@ -3,12 +3,12 @@
  * Random_* Compatibility Library
  * for using the new PHP 7 random_* API in PHP 5 projects
  *
- * @version 2.0.4
- * @released 2016-11-07
+ * @version 2.0.10
+ * @released 2017-03-13
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 - 2016 Paragon Initiative Enterprises
+ * Copyright (c) 2015 - 2017 Paragon Initiative Enterprises
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -97,9 +97,9 @@ if (!is_callable('random_bytes')) {
                 strtolower($RandomCompat_basedir)
             );
             $RandomCompatUrandom = (array() !== array_intersect(
-                    array('/dev', '/dev/', '/dev/urandom'),
-                    $RandomCompat_open_basedir
-                ));
+                array('/dev', '/dev/', '/dev/urandom'),
+                $RandomCompat_open_basedir
+            ));
             $RandomCompat_open_basedir = null;
         }
 
@@ -192,30 +192,6 @@ if (!is_callable('random_bytes')) {
         }
         $RandomCompat_disabled_classes = null;
         $RandomCompatCOMtest = null;
-    }
-
-    /**
-     * openssl_random_pseudo_bytes()
-     */
-    if (
-        (
-            // Unix-like with PHP >= 5.3.0 or
-            (
-                DIRECTORY_SEPARATOR === '/'
-                &&
-                PHP_VERSION_ID >= 50300
-            )
-            ||
-            // Windows with PHP >= 5.4.1
-            PHP_VERSION_ID >= 50401
-        )
-        &&
-        !function_exists('random_bytes')
-        &&
-        extension_loaded('openssl')
-    ) {
-        // See random_bytes_openssl.php
-        require_once $RandomCompatDIR . '/random_bytes_openssl.php';
     }
 
     /**
