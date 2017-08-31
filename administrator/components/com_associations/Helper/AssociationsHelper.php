@@ -244,11 +244,11 @@ class AssociationsHelper extends ContentHelper
 					$additional = '<strong>' . \JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
-				$labelClass  = 'badge-secondary';
+				$labelClass  = 'badge-association';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
-								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
-								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
+					&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
+					&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
 				$additional .= $addLink && $allow ? \JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
@@ -279,11 +279,173 @@ class AssociationsHelper extends ContentHelper
 			$text    = strtoupper($language->sef);
 
 			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
-			$classes = 'hasPopover badge ' . $labelClass;
+			$classes = 'hasPopover badge ' . $labelClass . ' badge-' . $language->sef;
 
 			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+				. '" data-content="' . $tooltip . '" data-placement="top">'
+				. $text . '</a>';
+		}
+
+		\JHtml::_('bootstrap.popover');
+		return LayoutHelper::render('joomla.content.associations', $items);
+	}
+
+	public static function getAssociationHtmlList1($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $associationMode)
+	{
+
+		// enthält alle Verbindungen von Item
+		// Get the associations list for this item.
+		$items = self::getAssociationList($extensionName, $typeName, $itemId);
+		//var_dump($items);
+		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
+
+		// Alle Sprachen die aktiviert sind
+		// Get all content languages.
+		$languages = self::getContentLanguages();
+
+		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
+		$canCreate        = self::allowAdd($extensionName, $typeName);
+
+		// Create associated items list.
+		foreach ($languages as $langCode => $language)
+		{
+			if ($langCode == $itemLanguage)
+			{
+				continue;
+			}
+			$approved = null;
+			if(isset($items[$langCode])){
+				$db = \JFactory::getDbo();
+				$id = $items[$langCode]['id'];
+				$query = $db->getQuery(true)
+					->select($db->quoteName('approved'))
+					->from($db->quoteName('#__item_associations'))
+					->where($db->quoteName('id') . ' = ' . $db->quote($id));
+
+				$db->setQuery($query);
+				$approved = $db->loadResult();
+			}
+
+
+			// FALL: Verbunden und approved
+			if (($associationMode == 1) )
+			{
+				if(!isset($items[$langCode])){
+					continue;
+				}
+				if($approved == 0){
+					unset($items[$langCode]);
+					continue;
+				}
+
+			}
+
+			// FALL: Verbunden und nicht approved
+			if ($associationMode == 2)
+			{
+				if(!isset($items[$langCode])){
+					continue;
+				}
+				if($approved == 1){
+					unset($items[$langCode]);
+					continue;
+				}
+			}
+
+			// FALL: Nicht verbunden
+			if (($associationMode == 0) && isset($items[$langCode]))
+			{
+				unset($items[$langCode]);
+				continue;
+			}
+
+
+			// Get html parameters.
+			if (isset($items[$langCode]))
+			{
+				$title       = $items[$langCode][$titleFieldName];
+				$additional  = '';
+
+				if (isset($items[$langCode]['catid']))
+				{
+					$db = \JFactory::getDbo();
+
+					// Get the category name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__categories'))
+						->where($db->quoteName('id') . ' = ' . $db->quote($items[$langCode]['catid']));
+
+					$db->setQuery($query);
+					$category_title = $db->loadResult();
+
+					$additional = '<strong>' . \JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br />';
+				}
+				elseif (isset($items[$langCode]['menutype']))
+				{
+					$db = \JFactory::getDbo();
+
+					// Get the menutype name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__menu_types'))
+						->where($db->quoteName('menutype') . ' = ' . $db->quote($items[$langCode]['menutype']));
+
+					$db->setQuery($query);
+					$menutype_title = $db->loadResult();
+
+					$additional = '<strong>' . \JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br />';
+				}
+				if($approved == 0){
+					$labelClass  = 'badge-warning';
+				}else{
+					$labelClass  = 'badge-success';
+				}
+
+				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
+				$allow       = $canEditReference
+					&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
+					&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
+
+				$additional .= $addLink && $allow ? \JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+			}
+			else
+			{
+				$items[$langCode] = array();
+
+				$title      = \JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? \JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$labelClass = 'badge-association';
+				$target     = $langCode . ':0:add';
+				$allow      = $canCreate;
+			}
+
+			// Generate item Html.
+			$options   = array(
+				'option'   => 'com_associations',
+				'view'     => 'association',
+				'layout'   => 'edit',
+				'itemtype' => $extensionName . '.' . $typeName,
+				'task'     => 'association.edit',
+				'id'       => $itemId,
+				'target'   => $target,
+			);
+
+			$url     = \JRoute::_('index.php?' . http_build_query($options));
+			$url     = $allow && $addLink ? $url : '';
+			$text    = strtoupper($language->sef);
+			if($approved === 1 || $approved === 0){
+				$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional . '<br /><br />' .'Approved:' . $approved . '<br /><br />';
+			}else{
+				$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional . '<br /><br />';
+
+			}
+			$classes = 'hasPopover badge ' . $labelClass . ' ´badge-' . $language->sef;
+
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
+				. '" data-content="' . $tooltip . '" data-placement="top">'
+				. $text . '</a>';
+
 		}
 
 		\JHtml::_('bootstrap.popover');
