@@ -21,7 +21,9 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 <div class="profile-edit<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
-			<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
+			<h1>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			</h1>
 		</div>
 	<?php endif; ?>
 	<script type="text/javascript">
@@ -55,7 +57,9 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 						</legend>
 					<?php endif; ?>
 					<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
-						<?php echo '<p>' . $this->escape(JText::_($fieldset->description)) . '</p>'; ?>
+						<p>
+							<?php echo $this->escape(JText::_($fieldset->description)); ?>
+						</p>
 					<?php endif; ?>
 					<?php // Iterate through the fields in the set and display them. ?>
 					<?php foreach ($fields as $field) : ?>
@@ -67,7 +71,9 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 								<div class="control-label">
 									<?php echo $field->label; ?>
 									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
-										<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
+										<span class="optional">
+											<?php echo JText::_('COM_USERS_OPTIONAL'); ?>
+										</span>
 									<?php endif; ?>
 								</div>
 								<div class="controls">
