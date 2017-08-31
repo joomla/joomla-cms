@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.0" type="plugin" group="editors-xtd" method="upgrade">
-    <name>plg_editors_xtd_showdiff</name>
+    <name>plg_editors-xtd_showdiff</name>
     <author>icampus</author>
     <creationDate>August 2017</creationDate>
     <copyright>Copyright (C) 2017 Open Source Matters. All rights reserved.??</copyright>
