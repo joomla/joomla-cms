@@ -1289,6 +1289,7 @@ ENDDATA;
 			$db->qn('ex.type') . ', ' .
 			$db->qn('ex.folder') . ', ' .
 			$db->qn('ex.element') . ', ' .
+			$db->qn('ex.client_id') . ', ' .
 			$db->qn('si.location')
 		)->from(
 			$db->qn('#__extensions', 'ex')
@@ -1438,25 +1439,34 @@ ENDDATA;
 	{
 		// ToDo: Cleanup duplicated code. from com_installer/models/extension.php
 		$lang = JFactory::getLanguage();
+		$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
+
+		$extension = $item->element;
+		$source = JPATH_SITE;
 
 		switch ($item->type)
 		{
 			case 'component':
 				$extension = $item->element;
-				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+				$source = $path . '/components/' . $extension;
 				break;
 			case 'module':
 				$extension = $item->element;
-				$source = JPATH_ADMINISTRATOR . '/modules/' . $extension;
+				$source = $path . '/modules/' . $extension;
+				break;
+			case 'file':
+				$extension = 'files_' . $item->element;
+				break;
+			case 'library':
+				$extension = 'lib_' . $item->element;
 				break;
 			case 'plugin':
 				$extension = 'plg_' . $item->folder . '_' . $item->element;
 				$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 				break;
-			case 'package':
-				$extension = $item->element;
-				$source = JPATH_SITE;
-				break;
+			case 'template':
+				$extension = 'tpl_' . $item->element;
+				$source = $path . '/templates/' . $item->element;
 		}
 
 		$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
