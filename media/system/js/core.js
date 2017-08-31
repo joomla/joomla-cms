@@ -941,20 +941,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 						} else {
 							el.src = wc[p];
 						}
-					} else if (wc[p].match(/\.html/)) {
-						el = document.createElement('link');
-						if (checkES6()) {
-							// Browser is not ES6!
-							if (wc[p].match(/\.min\.html/)) {
-								el.setAttribute('href', wc[p].replace(/\.min\.html/, '-es5.min.html'));
-							} else {
-								el.setAttribute('href', wc[p].replace(/\.html/, '-es5.html'));
-							}
-						} else {
-							el.src = wc[p];
-						}
-
-						el.setAttribute('rel', 'import');
 					}
 					if (el) {
 						document.head.appendChild(el);
@@ -983,7 +969,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 
 		if (polyfills.length) {
-			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]')
+			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]');
+
 			if (!script) {
 				name = "core.js";
 				script = document.querySelector('script[src*="' + name + '"]')
@@ -1003,12 +990,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 
 			newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion : '');
-
-			if (document.readyState === 'loading' && ('import' in document.createElement('link'))) {
-				document.write(newScript.outerHTML);
-			} else {
-				document.head.insertAdjacentElement('beforeend', newScript);
-			}
+			document.head.insertAdjacentElement('beforeend', newScript);
 
 			document.addEventListener('WebComponentsReady', function () {
 				loadWC(wc);

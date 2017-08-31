@@ -149,7 +149,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="badge badge-default">
+								<span class="badge badge-secondary">
 									<?php echo JText::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>

@@ -48,7 +48,7 @@ class Styles extends Admin
 		}
 		catch (\Exception $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');

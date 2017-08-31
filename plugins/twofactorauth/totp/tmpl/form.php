@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>">
 
 <div class="card mb-2">
-	<div class="card-block">
+	<div class="card-body">
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_INTRO') ?>
 	</div>
 </div>

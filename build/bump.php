@@ -36,7 +36,7 @@ function usage($command)
 const PHP_TAB = "\t";
 
 // File paths.
-$versionFile      = '/libraries/src/Joomla/CMS/Version.php';
+$versionFile      = '/libraries/src/Version.php';
 
 $coreXmlFiles     = array(
 			'/administrator/manifests/files/joomla.xml',
@@ -59,14 +59,14 @@ $readMeFiles = array(
 			'/README.txt',
 			);
 
-// Change copyright date exclusions.
+// Change copyright date exclusions. Some systems may try to scan the .git directory, exclude it.
 $directoryLoopExcludeDirectories = array(
+			'/.git',
 			'/libraries/vendor/',
 			'/libraries/phputf8/',
 			'/libraries/php-encryption/',
 			'/libraries/phpass/',
 			'/libraries/idna_convert/',
-			'/libraries/fof/',
 			);
 
 $directoryLoopExcludeFiles = array(

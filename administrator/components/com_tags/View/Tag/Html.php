@@ -109,10 +109,8 @@ class Html extends HtmlView
 
 		/**
 		 * Prepare the toolbar.
-		 * If it is new we get: `badge badge-add add`
-		 * else we get `badge badge-edit edit`
 		 */
-		ToolbarHelper::title($title, 'badge badge-' . ($isNew ? 'add add' : 'edit edit'));
+		ToolbarHelper::title($title, ' fa fa-tag');
 
 		// For new records, check the create permission.
 		if ($isNew)

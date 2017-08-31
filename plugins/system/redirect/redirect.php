@@ -71,36 +71,28 @@ class PlgSystemRedirect extends JPlugin
 	/**
 	 * Method to handle an uncaught exception.
 	 *
-	 * @param   Exception|Throwable  $exception  The Exception or Throwable object to be handled.
+	 * @param   Throwable  $exception  The Throwable object to be handled.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 * @throws  InvalidArgumentException
 	 */
-	public static function handleException($exception)
+	public static function handleException(Throwable $exception)
 	{
-		// If this isn't a Throwable then bail out
-		if (!($exception instanceof Throwable) && !($exception instanceof Exception))
-		{
-			throw new InvalidArgumentException(
-				sprintf('The error handler requires an Exception or Throwable object, a "%s" object was given instead.', get_class($exception))
-			);
-		}
-
 		self::doErrorHandling($exception);
 	}
 
 	/**
 	 * Internal processor for all error handlers
 	 *
-	 * @param   Exception|Throwable  $error  The Exception or Throwable object to be handled.
+	 * @param   Throwable  $error  The Throwable object to be handled.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private static function doErrorHandling($error)
+	private static function doErrorHandling(Throwable $error)
 	{
 		$app = JFactory::getApplication();
 

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Model\Admin;
@@ -404,7 +405,7 @@ class User extends Admin
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JError::raiseWarning(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 			else
@@ -452,7 +453,7 @@ class User extends Admin
 			{
 				// Cannot block yourself.
 				unset($pks[$i]);
-				\JError::raiseWarning(403, \JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
 			}
 			elseif ($table->load($pk))
 			{
@@ -526,7 +527,7 @@ class User extends Admin
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 				}
 			}
 		}
@@ -616,7 +617,7 @@ class User extends Admin
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 				}
 			}
 		}
@@ -1018,8 +1019,8 @@ class User extends Admin
 
 		if (strpos($config, '{') === false)
 		{
-			$openssl         = new \FOFEncryptAes($key, 256);
-			$mcrypt          = new \FOFEncryptAes($key, 256, 'cbc', null, 'mcrypt');
+			$openssl         = new Aes($key, 256);
+			$mcrypt          = new Aes($key, 256, 'cbc', null, 'mcrypt');
 
 			$decryptedConfig = $mcrypt->decryptString($config);
 
@@ -1051,7 +1052,7 @@ class User extends Admin
 		}
 
 		// Create an encryptor class
-		$aes = new \FOFEncryptAes($key, 256);
+		$aes = new Aes($key, 256);
 
 		// Decrypt the data
 		$decryptedOtep = $aes->decryptString($encryptedOtep);
@@ -1118,7 +1119,7 @@ class User extends Admin
 
 		// Create an encryptor class
 		$key = $this->getOtpConfigEncryptionKey();
-		$aes = new \FOFEncryptAes($key, 256);
+		$aes = new Aes($key, 256);
 
 		// Create the encrypted option strings
 		if (!empty($otpConfig->method) && ($otpConfig->method != 'none'))

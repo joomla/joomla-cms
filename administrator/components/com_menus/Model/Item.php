@@ -1234,6 +1234,7 @@ class Item extends Admin
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
 				$fieldset->addAttribute('name', 'item_associations');
+				$fieldset->addAttribute('addfieldprefix', 'Joomla\Component\Menus\Administrator\Field');
 
 				foreach ($languages as $language)
 				{
@@ -1303,7 +1304,7 @@ class Item extends Admin
 		}
 		catch (\RuntimeException $e)
 		{
-			return \JError::raiseWarning(500, $e->getMessage());
+			return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		foreach ($items as &$item)
@@ -1322,7 +1323,7 @@ class Item extends Admin
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JError::raiseWarning(500, $e->getMessage());
+				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
 			unset($registry);
@@ -1476,7 +1477,7 @@ class Item extends Admin
 
 			if ($all_language && !empty($associations))
 			{
-				\JError::raiseNotice(403, \JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
 			// Get associationskey for edited item
@@ -1627,13 +1628,13 @@ class Item extends Admin
 					if ($table->home == $value)
 					{
 						unset($pks[$i]);
-						\JError::raiseNotice(403, \JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
+						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALREADY_HOME'), 'notice');
 					}
 					elseif ($table->menutype == 'main')
 					{
 						// Prune items that you can't change.
 						unset($pks[$i]);
-						\JError::raiseWarning(403, \JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'));
+						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'), 'error');
 					}
 					else
 					{
@@ -1648,19 +1649,19 @@ class Item extends Admin
 						{
 							// Prune items that you can't change.
 							unset($pks[$i]);
-							\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 						}
 						elseif (!$table->check())
 						{
 							// Prune the items that failed pre-save checks.
 							unset($pks[$i]);
-							\JError::raiseWarning(403, $table->getError());
+							\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 						}
 						elseif (!$table->store())
 						{
 							// Prune the items that could not be stored.
 							unset($pks[$i]);
-							\JError::raiseWarning(403, $table->getError());
+							\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 						}
 					}
 				}
@@ -1671,7 +1672,7 @@ class Item extends Admin
 					if (!$onehome)
 					{
 						$onehome = true;
-						\JError::raiseNotice(403, \JText::sprintf('COM_MENUS_ERROR_ONE_HOME'));
+						\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_MENUS_ERROR_ONE_HOME'), 'notice');
 					}
 				}
 			}
@@ -1706,7 +1707,7 @@ class Item extends Admin
 				if ($table->load($pk) && $table->home && $table->language == '*')
 				{
 					// Prune items that you can't change.
-					\JError::raiseWarning(403, \JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'), 'error');
 					unset($pks[$i]);
 					break;
 				}

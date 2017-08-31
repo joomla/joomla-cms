@@ -73,7 +73,7 @@ abstract class PopularHelper
 
 		if ($error = $model->getError())
 		{
-			\JError::raiseError(500, $error);
+			throw new \Exception($error, 500);
 
 			return false;
 		}
