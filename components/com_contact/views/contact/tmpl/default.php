@@ -41,13 +41,17 @@ $tabSetStarted         = false;
 	<?php endif; ?>
 	<?php if ($show_contact_category === 'show_no_link') : ?>
 		<h3>
-			<span class="contact-category"><?php echo $this->contact->category_title; ?></span>
+			<span class="contact-category">
+				<?php echo $this->contact->category_title; ?>
+			</span>
 		</h3>
 	<?php elseif ($show_contact_category === 'show_with_link') : ?>
 		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->contact->catid); ?>
 		<h3>
-			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
-				<?php echo $this->escape($this->contact->category_title); ?></a>
+			<span class="contact-category">
+				<a href="<?php echo $contactLink; ?>">
+					<?php echo $this->escape($this->contact->category_title); ?>
+				</a>
 			</span>
 		</h3>
 	<?php endif; ?>
