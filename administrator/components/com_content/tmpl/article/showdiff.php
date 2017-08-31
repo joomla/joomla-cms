@@ -14,7 +14,6 @@ use Joomla\Component\Contenthistory\Administrator\Model\History;
 JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com_contenthistory/helpers/contenthistory.php');
 
 JHtml::_('behavior.core');
-JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 JHtml::_('script', 'com_content/admin-article-showdiff.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'vendor/diff/diff.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'com_contenthistory/jquery.pretty-text-diff.css', array('version' => 'auto', 'relative' => true));
