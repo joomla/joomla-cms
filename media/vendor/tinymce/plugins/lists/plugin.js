@@ -505,10 +505,11 @@ define(
       });
     };
 
-    var findParentListItemsNodes = function (elms) {
+    var findParentListItemsNodes = function (editor, elms) {
       var listItemsElms = Tools.map(elms, function (elm) {
-        var parentNode = elm.parentNode;
-        return !NodeType.isListItemNode(elm) && NodeType.isListItemNode(parentNode) ? parentNode : elm;
+        var parentLi = editor.dom.getParent(elm, 'li,dd,dt', editor.getBody());
+
+        return parentLi ? parentLi : elm;
       });
 
       return DomQuery.unique(listItemsElms);
@@ -516,7 +517,7 @@ define(
 
     var getSelectedListItems = function (editor) {
       var selectedBlocks = editor.selection.getSelectedBlocks();
-      return Tools.grep(findParentListItemsNodes(selectedBlocks), function (block) {
+      return Tools.grep(findParentListItemsNodes(editor, selectedBlocks), function (block) {
         return NodeType.isListItemNode(block);
       });
     };
