@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-//use Joomla\CMS\Model\Model;
 use Joomla\Component\Contenthistory\Administrator\Model\History;
 
 JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com_contenthistory/helpers/contenthistory.php');
