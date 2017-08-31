@@ -19,7 +19,7 @@ JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 JHtml::_('script', 'com_content/admin-article-showdiff.min.js', array('version' => 'auto', 'relative' => true));
 
 
-//JHtml::_('script', 'com_contenthistory/diff_match_patch.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'vendor/diff/diff.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'com_contenthistory/jquery.pretty-text-diff.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_content/admin-article-showdiff.js', array('version' => 'auto', 'relative' => true));
 
@@ -33,12 +33,9 @@ $this->eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $this->eName);
 $document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 
 $input = JFactory::getApplication()->input;
-//JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contenthistory/Model/');
 
 /** @var Joomla\Component\Contenthistory\Administrator\Model\History $contentHistory */
-//$contentHistory  = JModelLegacy::getInstance('History', 'Joomla/Component/Contenthistory/Administrator/Model/');
 $contentHistory = new History;
-//$contentHistory  = JModelLegacy::getInstance('History', '');
 
 $itemId          = $contentHistory->getState('item_id', $input->get('id'));
 $typeId          = $contentHistory->getState('type_id', 5);
@@ -59,9 +56,26 @@ $contentHistory->setState('type_id', $typeId);
 $dbObject = $contentHistory->getItems();
 
 ?>
+<!-- These Buttons toogle the shown text between one including HTML-Tags and one that doesn´t -->
+<div>
+    <button class="diff-header btn hasTooltip"
+            title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML_DESC'); ?>"
+            onclick="jQuery('.diff_html, .diffhtml-header').show(); jQuery('.diff_text, .diff-header').hide()">
 
-<div id="diff_area" class="container-popup" style="height: auto"><?php
-    if (count($dbObject) > 1)
+        <span class="icon-wrench" aria-hidden="true"></span>
+		<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML'); ?>
+    </button>
+    <button class="diffhtml-header btn hasTooltip"
+            title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT_DESC'); ?>"
+            onclick="jQuery('.diff_html, .diffhtml-header').hide(); jQuery('.diff_text, .diff-header').show()"
+            style="display:none">
+        <span class="icon-pencil"
+              aria-hidden="true"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT'); ?></button>
+</div>
+
+<div id="diff_area" class="container-popup" style="height: auto">
+	<?php
+	if (count($dbObject) > 1)
 	{
 		$object = ContenthistoryHelper::decodeFields($dbObject[$previousVersion]->version_data);
 		if ($object->fulltext != null)

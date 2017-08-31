@@ -11,46 +11,60 @@
 jQuery(document).ready(function () {
         var text1 = document.getElementById("diff_area").innerHTML,
             text2 = parent.document.getElementById("jform_articletext_ifr").contentDocument.getElementById("tinymce").innerHTML,
-            innerHTML = '',
-            innerHTML2 = '',
-            diff_text;
+            diff_text, diff_html, span, color, fragment, spanParent;
 
-        parent.window.onresize = styling_things;
-        styling_things();
+        parent.window.onresize = popup_position;
+        popup_position();
 
-        diff_text = JsDiff.diffWords(text1, text2);
-        diff_text.forEach(function (elem) {
-            innerHTML2 += elem;
-            innerHTML += make_pretty_diff(elem);
+        diff_html = JsDiff.diffWords(text1, text2);
+        fragment = document.createDocumentFragment();
+
+        diff_html.forEach(function (part) {
+            color = part.added ? '#a6f3a6' : part.removed ? '#f8cbcb' : '';
+            span = document.createElement('span');
+            span.style.backgroundColor = color;
+            span.style.borderRadius = '.2rem';
+            span.appendChild(document.createTextNode(part.value));
+            span.className = "diff_html";
+            span.style.display = "none";
+            fragment.appendChild(span);
         });
-        document.getElementById("diff_area").innerHTML = innerHTML;
+
+        diff_text = JsDiff.diffWords(clean_tags(text1), clean_tags(text2));
+        diff_text.forEach(function (part) {
+            color = part.added ? '#a6f3a6' : part.removed ? '#f8cbcb' : '';
+            span = document.createElement('span');
+            span.style.backgroundColor = color;
+            span.style.borderRadius = '.2rem';
+            span.appendChild(document.createTextNode(part.value));
+            span.className = "diff_text";
+            fragment.appendChild(span);
+        });
+
+        spanParent = document.createElement('div');
+        spanParent.id = "diff_area";
+        spanParent.appendChild(fragment);
+
+        document.getElementById("diff_area").replaceWith(spanParent);
 
     }
 );
 
-function make_pretty_diff(diff) {
-    var data, html, operation, pattern_amp, pattern_gt, pattern_lt, pattern_para, text;
-    html = [];
-    pattern_amp = /&/g;
-    pattern_lt = /</g;
-    pattern_gt = />/g;
-    pattern_para = /\n/g;
-    operation = diff[0], data = diff[1];
-    text = data.replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;').replace(pattern_gt, '&gt;').replace(pattern_para, '<br>');
-    switch (operation) {
-        case DIFF_INSERT:
-            return '<ins>' + text + '</ins>';
-        case DIFF_DELETE:
-            return '<del>' + text + '</del>';
-        case DIFF_EQUAL:
-            return '<span>' + text + '</span>';
+//Deletes all HTML-Text it finds in the given text
+function clean_tags(text) {
+    var text_clean = new String(text),
+        regexp = new RegExp('<.*?>');
+
+    while (regexp.test(text_clean)) {
+        text_clean = text_clean.replace(regexp.exec(text_clean).toString(), '');
     }
+    return text_clean;
 }
 
 /*
 / positioning of the show-diff-popup.
- */
-function styling_things() {
+*/
+function popup_position() {
     var popupContainer = parent.document.getElementsByClassName("mce-floatpanel")[0],
         popupBody = popupContainer.getElementsByClassName("mce-container-body")[0],
         popupFoot = popupContainer.getElementsByClassName("mce-foot")[0],
