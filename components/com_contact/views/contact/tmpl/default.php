@@ -106,7 +106,8 @@ $tabSetStarted         = false;
 		<?php if ($tparams->get('allow_vcard')) : ?>
 			<?php echo JText::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
 			<a href="<?php echo JRoute::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
-			<?php echo JText::_('COM_CONTACT_VCARD'); ?></a>
+				<?php echo JText::_('COM_CONTACT_VCARD'); ?>
+			</a>
 		<?php endif; ?>
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
