@@ -249,4 +249,19 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			return true;
 		}
 	}
+
+	/**
+	 * Returns true, if the pre update check should be displayed.
+	 * This logic is not hardcoded in tmpl files, because it is
+	 * used by the Hathor tmpl too.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function shouldDisplayPreUpdateCheck()
+	{
+		return isset($this->updateInfo['object']->downloadurl->_data)
+			&& $this->getModel()->isDatabaseTypeSupported();
+	}
 }

@@ -41,12 +41,17 @@ jQuery(document).ready(function($) {
 var joomlaTargetVersion = '$latestJoomlaVersion';
 JS
 );
+
 ?>
 
 <div id="joomlaupdate-wrapper">
-
 	<?php if ($this->showUploadAndUpdate) : ?>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update')); ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
+		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'pre-update-check', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_PRE_UPDATE_CHECK')); ?>
+			<?php echo $this->loadTemplate('preupdatecheck'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
 	<?php endif; ?>
 
