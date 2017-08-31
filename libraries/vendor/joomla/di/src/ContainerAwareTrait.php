@@ -8,6 +8,8 @@
 
 namespace Joomla\DI;
 
+use Joomla\DI\Container;
+
 /**
  * Defines the trait for a Container Aware Class.
  *
