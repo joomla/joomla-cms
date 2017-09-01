@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="content">
+    <name>articleassociations</name>
+    <creationDate>24.08.2017</creationDate>
+    <author>Christian Djombissi Wameni</author>
+    <authorEmail>christiandjombisse@yahoo.fr</authorEmail>
+    <authorUrl>http://localhost/joomla-cms-staging/joomla-cms-staging/</authorUrl>
+    <copyright>Copyright</copyright>
+    <license>GNU/GPL</license>
+    <version>1.0</version>
+    <description>Administrate die Relation between articles</description>
+    <files>
+        <filename plugin="articleassociations">articleassociations.php</filename>
+    </files>
+    <config />
+</extension>
