@@ -158,7 +158,6 @@ class FinderCli extends JApplicationCli
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		JFactory::getApplication('site');
 
-		// Pause between batches to let the server catch a breath. The default, if not set by the user, is 5 seconds.
 		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1, 'raw');
 
 		// Pause between batches to let the server catch a breath. The default, if not set by the user, is 5 seconds.
@@ -289,7 +288,6 @@ class FinderCli extends JApplicationCli
 				{
 					$pause = $this->pause;
 				}
-
 
 				if ($pause > 0 && !$skip)
 				{
