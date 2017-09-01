@@ -318,7 +318,7 @@ class InstallerModelManage extends InstallerModel
 			else
 			{
 				$query->where('protected = 0')
-					->where('enabled = ' . (int) $status);
+				      ->where('enabled = ' . (int) $status);
 			}
 		}
 
@@ -339,8 +339,8 @@ class InstallerModelManage extends InstallerModel
 
 		if ($packageId != '')
 		{
-      $query->select((int) $packageId . ' AS search_package_id')
-            ->where((int) $packageId . ' IN (extension_id, package_id)');
+      			$query->select((int) $packageId . ' AS search_package_id')
+            		      ->where((int) $packageId . ' IN (extension_id, package_id)');
 		}
 
 		// Process search filter (extension id).
