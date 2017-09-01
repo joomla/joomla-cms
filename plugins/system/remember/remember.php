@@ -94,4 +94,61 @@ class PlgSystemRemember extends JPlugin
 
 		return true;
 	}
+
+	/**
+	 * Method is called before user data is stored in the database
+	 * If activated in the configuration of the rememeber-me plugin, this method resets all #__user_keys for the current user when the user changes his/her password
+	 * leaving any existing remember-me cookies on any devices useless!
+	 * This functionality was sadly inspired by the horrific events around Alice Ruggles death (see https://www.alicerugglestrust.org )
+	 *
+	 * @param   array    $user   Holds the old user data.
+	 * @param   boolean  $isnew  True if a new user is stored.
+	 * @param   array    $data   Holds the new user data.
+	 *
+	 * @return    boolean
+	 *
+	 * @since   3.1
+	 * @throws    InvalidArgumentException on invalid date.
+	 */
+	public function onUserBeforeSave($user, $isnew, $data)
+	{
+		// irelevant on new users
+		if ($isnew) {return true;}
+		// irelevant, because password was not changed by user
+		if ($data['password_clear'] == '') {return true;}
+		// irelevant, because "resetting on pw change" is not activated
+		if (!$this->params->get('resetRememberMe')) {return true;}
+
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+		/*
+		 * But now, we need to do something 
+		 * Delete all tokens for this user!
+		*/
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->delete('#__user_keys')
+			->where($db->quoteName('user_id') . ' = ' . $db->quote($user['username']));
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			// Log an alert for the site admin
+			JLog::add(
+				sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
+				JLog::WARNING,
+				'security'
+			);
+		}
+		// Destroy the cookie in the browser.
+		//$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+		$this->app->enqueueMessage(JText::_('COM_USERS_PROFILE_SAVE_REMEMBERME_USERINFO'), 'notice'); 
+		return true;
+	}
+	
 }
