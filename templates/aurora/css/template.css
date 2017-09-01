@@ -8500,7 +8500,6 @@ joomla-alert {
     .site-grid .container-top-b > div,
     .site-grid .container-bottom-a > div,
     .site-grid .container-bottom-b > div {
-      display: inline-grid;
       margin: 0; }
     .site-grid .container-main {
       margin: -7.5px -7.5px 7.5px; }
