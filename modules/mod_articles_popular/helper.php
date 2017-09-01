@@ -16,10 +16,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
 /**
  * Helper for mod_articles_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_popular
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class ModArticlesPopularHelper
 {
@@ -45,6 +42,9 @@ abstract class ModArticlesPopularHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
 		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
+
+		// This module does not use tags data
+		$model->setState('load_tags', false);
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');

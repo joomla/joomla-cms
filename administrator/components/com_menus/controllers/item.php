@@ -336,8 +336,8 @@ class MenusControllerItem extends JControllerForm
 			{
 				$segments = explode(':', $data['link']);
 				$protocol = strtolower($segments[0]);
-				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
-					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
+				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais','mid', 'cid', 'nntp',
+					 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
 
 				if (!in_array($protocol, $scheme))
 				{
@@ -503,6 +503,8 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request.
@@ -533,6 +535,9 @@ class MenusControllerItem extends JControllerForm
 		{
 			if (isset($type->request))
 			{
+				// Clean component name
+				$type->request->option = JFilterInput::getInstance()->clean($type->request->option, 'CMD');
+
 				$component = JComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 

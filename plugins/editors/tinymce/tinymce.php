@@ -584,7 +584,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragdrop'] = JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragdrop'] = JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -686,6 +686,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$scriptOptions['rel_list'] = array(
+			array('title' => 'None', 'value' => ''),
 			array('title' => 'Alternate', 'value' => 'alternate'),
 			array('title' => 'Author', 'value' => 'author'),
 			array('title' => 'Bookmark', 'value' => 'bookmark'),
@@ -1905,7 +1906,7 @@ class PlgEditorTinymce extends JPlugin
 			$scriptOptions['uploadUri']       = $uploadUrl;
 
 			$externalPlugins = array(
-				array('jdragdrop' => JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
+				array('jdragdrop' => JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
 			);
 		}
 
@@ -2015,6 +2016,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
+					array('title' => 'None', 'value' => ''),
 					array('title' => 'Alternate', 'value' => 'alternate'),
 					array('title' => 'Author', 'value' => 'author'),
 					array('title' => 'Bookmark', 'value' => 'bookmark'),

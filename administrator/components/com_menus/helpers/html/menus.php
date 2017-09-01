@@ -50,6 +50,7 @@ abstract class MenusHtmlMenus
 				->from('#__menu as m')
 				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
 				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
+				->where('m.id != ' . $itemid)
 				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');

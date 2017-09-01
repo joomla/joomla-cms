@@ -108,7 +108,7 @@ abstract class JDatabaseExporter
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  DatabaseExporter  Method supports chaining.
+	 * @return  JDatabaseExporter  Method supports chaining.
 	 *
 	 * @since   13.1
 	 */
@@ -142,7 +142,7 @@ abstract class JDatabaseExporter
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  DatabaseDriver  Method supports chaining.
+	 * @return  JDatabaseDriver  Method supports chaining.
 	 *
 	 * @since   13.1
 	 * @throws  Exception if an error is encountered.

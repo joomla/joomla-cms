@@ -90,6 +90,7 @@
           variables: null,
           scopes: null,
           indent: 0,
+          quoteKind: null,
           localStates: [{
             mode: modes.html,
             state: CodeMirror.startState(modes.html)
@@ -107,6 +108,7 @@
           variables: state.variables,
           scopes: state.scopes,
           indent: state.indent, // Indentation of the following line.
+          quoteKind: state.quoteKind,
           localStates: state.localStates.map(function(localState) {
             return {
               mode: localState.mode,
@@ -211,8 +213,9 @@
                 });
               }
               return "attribute";
-            } else if (stream.match(/^"/)) {
+            } else if (match = stream.match(/^["']/)) {
               state.soyState.push("string");
+              state.quoteKind = match;
               return "string";
             }
             if (match = stream.match(/^\$([\w]+)/)) {
@@ -233,10 +236,11 @@
             return tokenUntil(stream, state, /\{\/literal}/);
 
           case "string":
-            var match = stream.match(/^.*?("|\\[\s\S])/);
+            var match = stream.match(/^.*?(["']|\\[\s\S])/);
             if (!match) {
               stream.skipToEnd();
-            } else if (match[1] == "\"") {
+            } else if (match[1] == state.quoteKind) {
+              state.quoteKind = null;
               state.soyState.pop();
             }
             return "string";
@@ -251,7 +255,9 @@
           state.indent += config.indentUnit;
           state.soyState.push("literal");
           return "keyword";
-        } else if (match = stream.match(/^\{([\/@\\]?[\w?]*)/)) {
+
+        // A tag-keyword must be followed by whitespace or a closing tag.
+        } else if (match = stream.match(/^\{([\/@\\]?\w+\??)(?=[\s\}])/)) {
           if (match[1] != "/switch")
             state.indent += (/^(\/|(else|elseif|ifempty|case|fallbackmsg|default)$)/.test(match[1]) && state.tag != "switch" ? 1 : 2) * config.indentUnit;
           state.tag = match[1];
@@ -282,6 +288,13 @@
           if (state.tag.match(/^@(?:param\??|inject)/)) {
             state.soyState.push("param-def");
           }
+          return "keyword";
+
+        // Not a tag-keyword; it's an implicit print tag.
+        } else if (stream.eat('{')) {
+          state.tag = "print";
+          state.indent += 2 * config.indentUnit;
+          state.soyState.push("tag");
           return "keyword";
         }
 

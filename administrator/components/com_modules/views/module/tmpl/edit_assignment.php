@@ -108,7 +108,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<li>
 								<div class="treeselect-item pull-left">
 									<?php
-									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
+									$uselessMenuItem = in_array($link->type, array('separator', 'heading', 'alias', 'url'));
 									?>
 									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">

@@ -55,7 +55,7 @@ abstract class JHtmlBehavior
 			$debug = JDEBUG;
 		}
 
-		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
+		if ($type !== 'core' && empty(static::$loaded[__METHOD__]['core']))
 		{
 			static::framework(false, $debug);
 		}
@@ -87,7 +87,12 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
+
+		// Add core and base uri paths so javascript scripts can use them.
+		JFactory::getDocument()->addScriptOptions('system.paths', array('root' => JUri::root(true), 'base' => JUri::base(true)));
+
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -707,7 +712,7 @@ abstract class JHtmlBehavior
 		static::core();
 		static::polyfill('event', 'lt IE 9');
 
-		// Add keepalive script options. 
+		// Add keepalive script options.
 		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
 
 		// Add script.

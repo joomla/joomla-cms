@@ -19,7 +19,7 @@ var Installation = function(_container, _base) {
 
         // Create and append the loading layer.
         Joomla.loadingLayer("load");
-    }
+    };
 
     /**
      * Method to submit a form from the installer via AJAX
@@ -67,7 +67,7 @@ var Installation = function(_container, _base) {
         });
 
         return false;
-    }
+    };
 
     /**
      * Method to set the language for the installation UI via AJAX
@@ -115,7 +115,7 @@ var Installation = function(_container, _base) {
         });
 
         return false;
-    }
+    };
 
     /**
      * Method to request a different page via AJAX
@@ -149,7 +149,7 @@ var Installation = function(_container, _base) {
         });
 
         return false;
-    }
+    };
 
     /**
      * Executes the required tasks to complete site installation
@@ -209,7 +209,7 @@ var Installation = function(_container, _base) {
             } catch (e) {
             }
         });
-    }
+    };
 
     /**
      * Method to detect the FTP root via AJAX request.
@@ -227,7 +227,7 @@ var Installation = function(_container, _base) {
             dataType : 'json'
         }).done(function(r) {
             if (r) {
-                Joomla.replaceTokens(r.token)
+                Joomla.replaceTokens(r.token);
                 if (r.error == false) {
                     $('#jform_ftp_root').val(r.data.root);
                 } else {
@@ -244,7 +244,7 @@ var Installation = function(_container, _base) {
                 alert(xhr.status + ': ' + xhr.statusText);
             }
         });
-    }
+    };
 
     /**
      * Method to verify the supplied FTP settings are valid via AJAX request.
@@ -264,7 +264,7 @@ var Installation = function(_container, _base) {
             dataType : 'json'
         }).done(function(r) {
             if (r) {
-                Joomla.replaceTokens(r.token)
+                Joomla.replaceTokens(r.token);
                 if (r.error == false) {
                     alert(Joomla.JText._('INSTL_FTP_SETTINGS_CORRECT', 'Settings correct'));
                 } else {
@@ -281,7 +281,7 @@ var Installation = function(_container, _base) {
                 alert(xhr.status + ': ' + xhr.statusText);
             }
         });
-    }
+    };
 
     /**
      * Method to remove the installation Folder after a successful installation.
@@ -333,7 +333,7 @@ var Installation = function(_container, _base) {
             }
             $el.removeAttr('disabled');
         });
-    }
+    };
 
     var toggle = function(id, el, value) {
         var val = $('input[name="jform[' + el + ']"]:checked').val(), $id = $('#' + id);
@@ -342,7 +342,7 @@ var Installation = function(_container, _base) {
         } else {
             $id.hide();
         }
-    }
+    };
 
     /**
      * Initializes the Installation class
@@ -358,7 +358,7 @@ var Installation = function(_container, _base) {
         view = '';
 
         pageInit();
-    }
+    };
     initialize(_container, _base);
 
     return {
@@ -371,7 +371,7 @@ var Installation = function(_container, _base) {
         removeFolder : removeFolder,
         toggle : toggle
     }
-}
+};
 
 /**
  * Initializes the elements
