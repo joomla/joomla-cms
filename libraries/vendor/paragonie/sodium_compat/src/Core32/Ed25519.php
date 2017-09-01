@@ -1,13 +1,13 @@
 <?php
 
-if (class_exists('ParagonIE_Sodium_Core_Ed25519', false)) {
+if (class_exists('ParagonIE_Sodium_Core32_Ed25519', false)) {
     return;
 }
 
 /**
- * Class ParagonIE_Sodium_Core_Ed25519
+ * Class ParagonIE_Sodium_Core32_Ed25519
  */
-abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve25519
+abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_Curve25519
 {
     const KEYPAIR_BYTES = 96;
     const SEED_BYTES = 32;
@@ -243,22 +243,22 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         // Set ParagonIE_Sodium_Compat::$fastMult to true to speed up verification.
         ParagonIE_Sodium_Compat::$fastMult = true;
 
-        /** @var ParagonIE_Sodium_Core_Curve25519_Ge_P3 $A */
+        /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A */
         $A = self::ge_frombytes_negate_vartime($pk);
 
         /** @var string $hDigest */
         $hDigest = hash(
             'sha512',
             self::substr($sig, 0, 32) .
-                self::substr($pk, 0, 32) .
-                $message,
+            self::substr($pk, 0, 32) .
+            $message,
             true
         );
 
         /** @var string $h */
         $h = self::sc_reduce($hDigest) . self::substr($hDigest, 32);
 
-        /** @var ParagonIE_Sodium_Core_Curve25519_Ge_P2 $R */
+        /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P2 $R */
         $R = self::ge_double_scalarmult_vartime(
             $h,
             $A,
