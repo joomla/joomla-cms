@@ -118,11 +118,13 @@ class PlgSystemRemember extends JPlugin
 		{
 			return true;
 		}
+		
 		// Irrelevant, because password was not changed by user
 		if ($data['password_clear'] == '')
 		{
 			return true;
 		}
+		
 		// Irrelevant, because "resetting on pw change" is not activated
 		if (!$this->params->get('resetRememberMe')) 
 		{
@@ -134,6 +136,7 @@ class PlgSystemRemember extends JPlugin
 		{
 			$this->app = JFactory::getApplication();
 		}
+		
 		/*
 		 * But now, we need to do something 
 		 * Delete all tokens for this user!
@@ -146,6 +149,7 @@ class PlgSystemRemember extends JPlugin
 		{
 			$db->setQuery($query)->execute();
 		}
+		
 		catch (RuntimeException $e)
 		{
 			// Log an alert for the site admin
@@ -155,6 +159,7 @@ class PlgSystemRemember extends JPlugin
 				'security'
 			);
 		}
+		
 		$this->app->enqueueMessage(JText::_('COM_USERS_PROFILE_SAVE_REMEMBERME_USERINFO'), 'notice'); 
 		return true;
 	}
