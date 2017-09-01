@@ -1,13 +1,13 @@
 <?php
 
-if (class_exists('ParagonIE_Sodium_Core_XSalsa20', false)) {
+if (class_exists('ParagonIE_Sodium_Core32_XSalsa20', false)) {
     return;
 }
 
 /**
- * Class ParagonIE_Sodium_Core_XSalsa20
+ * Class ParagonIE_Sodium_Core32_XSalsa20
  */
-abstract class ParagonIE_Sodium_Core_XSalsa20 extends ParagonIE_Sodium_Core_HSalsa20
+abstract class ParagonIE_Sodium_Core32_XSalsa20 extends ParagonIE_Sodium_Core32_HSalsa20
 {
     /**
      * Expand a key and nonce into an xsalsa20 keystream.
