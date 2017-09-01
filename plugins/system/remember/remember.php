@@ -147,8 +147,7 @@ class PlgSystemRemember extends JPlugin
 		try
 		{
 			$db->setQuery($query)->execute();
-		}
-		
+		}		
 		catch (RuntimeException $e)
 		{
 			// Log an alert for the site admin
