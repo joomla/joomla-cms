@@ -99,7 +99,7 @@ class PlgSystemRemember extends JPlugin
 	 * Method is called before user data is stored in the database
 	 * If activated in the configuration of the rememeber-me plugin, this method resets all #__user_keys for the current user
 	 * when the user changes his/her password, leaving any existing remember-me cookies on any devices useless!
-	 * This functionality was sadly inspired by the horrific events around Alice Ruggles death (see https://www.alicerugglestrust.org )
+	 * This functionality was sadly inspired by the horrific events around Alice Ruggles death 
 	 *
 	 * @param   array    $user   Holds the old user data.
 	 * @param   boolean  $isnew  True if a new user is stored.
@@ -130,12 +130,6 @@ class PlgSystemRemember extends JPlugin
 			return true;
 		}
 
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->app)
-		{
-			$this->app = JFactory::getApplication();
-		}
-		
 		/*
 		 * But now, we need to do something 
 		 * Delete all tokens for this user!
