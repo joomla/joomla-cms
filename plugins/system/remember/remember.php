@@ -97,7 +97,8 @@ class PlgSystemRemember extends JPlugin
 
 	/**
 	 * Method is called before user data is stored in the database
-	 * If activated in the configuration of the rememeber-me plugin, this method resets all #__user_keys for the current user when the user changes his/her password
+	 * If activated in the configuration of the rememeber-me plugin, this method resets all #__user_keys for the current user
+	 * when the user changes his/her password
 	 * leaving any existing remember-me cookies on any devices useless!
 	 * This functionality was sadly inspired by the horrific events around Alice Ruggles death (see https://www.alicerugglestrust.org )
 	 *
@@ -107,17 +108,26 @@ class PlgSystemRemember extends JPlugin
 	 *
 	 * @return    boolean
 	 *
-	 * @since   3.1
+	 * @since   3.7
 	 * @throws    InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
-		// irelevant on new users
-		if ($isnew) {return true;}
-		// irelevant, because password was not changed by user
-		if ($data['password_clear'] == '') {return true;}
-		// irelevant, because "resetting on pw change" is not activated
-		if (!$this->params->get('resetRememberMe')) {return true;}
+		// Irrelevant on new users
+		if ($isnew)
+		{
+			return true;
+		}
+		// Irrelevant, because password was not changed by user
+		if ($data['password_clear'] == '')
+		{
+			return true;
+		}
+		// Irrelevant, because "resetting on pw change" is not activated
+		if (!$this->params->get('resetRememberMe')) 
+		{
+			return true;
+		}
 
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->app)
@@ -145,8 +155,6 @@ class PlgSystemRemember extends JPlugin
 				'security'
 			);
 		}
-		// Destroy the cookie in the browser.
-		//$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 		$this->app->enqueueMessage(JText::_('COM_USERS_PROFILE_SAVE_REMEMBERME_USERINFO'), 'notice'); 
 		return true;
 	}
