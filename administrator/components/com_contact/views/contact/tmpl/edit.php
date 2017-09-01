@@ -58,7 +58,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::_('COM_CONTACT_EDIT_CONTACT')); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<div class="row-fluid form-horizontal-desktop">
+				<div class="row-fluid form-horizontal-desktop float-cols" >
 					<div class="span6">
 						<?php echo $this->form->renderField('user_id'); ?>
 						<?php echo $this->form->renderField('image'); ?>
