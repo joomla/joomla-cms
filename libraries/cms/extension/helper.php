@@ -88,9 +88,9 @@ class JExtensionHelper
 		array('module', 'mod_multilangstatus', '', 1),
 		array('module', 'mod_popular', '', 1),
 		array('module', 'mod_quickicon', '', 1),
+		array('module', 'mod_sampledata', '', 1),
 		array('module', 'mod_stats_admin', '', 1),
 		array('module', 'mod_status', '', 1),
-		array('module', 'mod_submenu', '', 1),
 		array('module', 'mod_title', '', 1),
 		array('module', 'mod_toolbar', '', 1),
 		array('module', 'mod_version', '', 1),
@@ -131,6 +131,11 @@ class JExtensionHelper
 		array('plugin', 'joomla', 'authentication', 0),
 		array('plugin', 'ldap', 'authentication', 0),
 
+		// Core plugin extensions - behaviour
+		array('plugin', 'taggable', 'behaviour', 0),
+		array('plugin', 'versionable', 'behaviour', 0),
+		
+		
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
 
@@ -162,6 +167,7 @@ class JExtensionHelper
 
 		// Core plugin extensions - extension
 		array('plugin', 'joomla', 'extension', 0),
+		array('plugin', 'namespacemap', 'extension', 0),
 
 		// Core plugin extensions - fields
 		array('plugin', 'calendar', 'fields', 0),
@@ -180,6 +186,9 @@ class JExtensionHelper
 		array('plugin', 'user', 'fields', 0),
 		array('plugin', 'usergrouplist', 'fields', 0),
 
+		// Core plugin extensions - filesystem
+		array('plugin', 'local', 'filesystem', 0),
+
 		// Core plugin extensions - finder
 		array('plugin', 'categories', 'finder', 0),
 		array('plugin', 'contacts', 'finder', 0),
@@ -192,10 +201,19 @@ class JExtensionHelper
 		array('plugin', 'packageinstaller', 'installer', 0),
 		array('plugin', 'urlinstaller', 'installer', 0),
 
-		// Core plugin extensions - quick icon
+		// Core plugin extensions - media-action
+		array('plugin', 'crop', 'media-action', 0),
+		array('plugin', 'resize', 'media-action', 0),
+		array('plugin', 'rotate', 'media-action', 0),
+		
+		// Core plugin extensions - quickicon
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'phpversioncheck', 'quickicon', 0),
+
+		// Core plugin extensions - sampledata
+		array('plugin', 'blog', 'sampledata', 0),
+		array('plugin', 'testing', 'sampledata', 0),
 
 		// Core plugin extensions - search
 		array('plugin', 'categories', 'search', 0),
@@ -213,7 +231,6 @@ class JExtensionHelper
 		array('plugin', 'languagefilter', 'system', 0),
 		array('plugin', 'log', 'system', 0),
 		array('plugin', 'logout', 'system', 0),
-		array('plugin', 'p3p', 'system', 0),
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
@@ -230,12 +247,10 @@ class JExtensionHelper
 		array('plugin', 'profile', 'user', 0),
 
 		// Core template extensions - administrator
-		array('template', 'hathor', '', 1),
-		array('template', 'isis', '', 1),
+		array('template', 'atum', '', 1),
 
 		// Core template extensions - site
-		array('template', 'beez3', '', 0),
-		array('template', 'protostar', '', 0),
+		array('template', 'aurora', '', 0),
 	);
 
 	/**
