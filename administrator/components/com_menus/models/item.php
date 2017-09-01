@@ -1179,6 +1179,48 @@ class MenusModelItem extends JModelAdmin
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
+			// Check for other forms to include
+			$include = $xml->xpath('/metadata/layout/include');
+
+			if ($include)
+			{
+				// Check to include the view manifest file
+				$includeView = (string) $include[0]['view'];
+
+				if ($includeView && $includeView != 'false')
+				{
+					$metadataFolders = array(
+						$base . '/view/' . $view,
+						$base . '/views/' . $view
+					);
+					$metaPath = JPath::find($metadataFolders, 'metadata.xml');
+
+					if (is_file($viewFormFile = JPath::clean($metaPath)))
+					{
+						if ($form->loadFile($viewFormFile, false, '/metadata') == false)
+						{
+							throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+						}
+					}
+				}
+
+				// Check to include the component manifest file
+				$includeComponent = (string) $include[0]['component'];
+
+				if ($includeComponent &&  $includeComponent != 'false')
+				{
+					$componentFormFile = JPath::clean($base . '/metadata.xml');
+
+					if (is_file($componentFormFile))
+					{
+						if ($form->loadFile($componentFormFile, false, '/metadata') == false)
+						{
+							throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+						}
+					}
+				}
+			}
+
 			// Get the help data from the XML file if present.
 			$help = $xml->xpath('/metadata/layout/help');
 		}
