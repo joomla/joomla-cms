@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Asset;
@@ -382,7 +381,8 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// Filter the name for illegal characters
-		$element = strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
+		$uri     = \JUri::getInstance($element);
+		$element = strtolower($uri->toString());
 
 		if (strpos($element, 'com_') !== 0)
 		{
@@ -418,11 +418,9 @@ class ComponentAdapter extends InstallerAdapter
 				{
 					// Gets the option from the link attribute
 					$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+					$uri    = \JUri::getInstance($option);
 
-					// Filter the option for illegal characters
-					$option = InputFilter::getInstance()->clean($option, 'string');
-
-					return $option;
+					return $uri->toString();
 				}
 			}
 		}
