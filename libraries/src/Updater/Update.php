@@ -337,7 +337,7 @@ class Update extends \JObject
 					&& $patchMaximumSupported)
 				{
 					// Check minimum stability
-					if (!isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
+					if (!(isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability)))
 					{
 						if (isset($this->latest))
 						{
