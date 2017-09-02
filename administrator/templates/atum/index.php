@@ -47,6 +47,7 @@ JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true
 
 // Alerts
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+JHtml::_('webcomponent', ['joomla-menu' => 'administrator/templates/atum/webcomponents/menu.js'], ['relative' => false, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -78,14 +79,16 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
-			<div id="main-brand" class="main-brand align-items-center">
-				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
-				</a>
+		<joomla-admin-menu>
+			<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
+				<div id="main-brand" class="main-brand align-items-center">
+					<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+						<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
+					</a>
+				</div>
+				<jdoc:include type="modules" name="menu" style="none" />
 			</div>
-			<jdoc:include type="modules" name="menu" style="none" />
-		</div>
+		</joomla-admin-menu>
 		<?php endif; ?>
 
 		<?php // Header ?>
@@ -150,5 +153,17 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 	<jdoc:include type="modules" name="debug" style="none" />
 
+	<script>
+		// Do the transfer of the old side menu
+		var sidebar = document.getElementById('sidebar-wrapper');
+		var oldMenu = document.getElementById('j-sidebar-container');
+
+		if (oldMenu) {
+			oldMenu.nextElementSibling.classList.remove('col-md-10');
+			oldMenu.nextElementSibling.classList.add('col-md-12');
+
+			sidebar.appendChild(oldMenu);
+		}
+	</script>
 </body>
 </html>
