@@ -268,7 +268,7 @@ abstract class JLoader
 			if (!class_exists($class, false))
 			{
 				// Search the alias class, first none namespaced and then namespaced
-				$original = array_search($class, self::$classAliases) ? : array_search('\\' . $class, self::$classAliases);
+				$original = array_search(strtolower($class), self::$classAliases) ? : array_search('\\' . strtolower($class), self::$classAliases);
 
 				// When we have an original and the class exists an alias should be created
 				if ($original && class_exists($original, false))
@@ -297,9 +297,9 @@ abstract class JLoader
 	public static function register($class, $path, $force = true)
 	{
 		// When an alias exists, register it as well
-		if (key_exists($class, self::$classAliases))
+		if (key_exists(strtolower($class), self::$classAliases))
 		{
-			self::register(self::stripFirstBackslash(self::$classAliases[$class]), $path, $force);
+			self::register(self::stripFirstBackslash(self::$classAliases[strtolower($class)]), $path, $force);
 		}
 
 		// Sanitize class name.
@@ -377,6 +377,9 @@ abstract class JLoader
 	 */
 	public static function registerAlias($alias, $original, $version = false)
 	{
+		// PHP is case insensitive so support all kind of alias combination
+		$alias = strtolower($alias);
+
 		if (!isset(self::$classAliases[$alias]))
 		{
 			self::$classAliases[$alias] = $original;
@@ -631,7 +634,7 @@ abstract class JLoader
 	 */
 	public static function loadByAlias($class)
 	{
-		$class = self::stripFirstBackslash($class);
+		$class = strtolower(self::stripFirstBackslash($class));
 
 		if (isset(self::$classAliases[$class]))
 		{
