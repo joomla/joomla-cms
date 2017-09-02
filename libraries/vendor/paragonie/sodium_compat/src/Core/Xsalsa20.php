@@ -1,13 +1,13 @@
 <?php
 
-if (class_exists('ParagonIE_Sodium_Core_Xsalsa20', false)) {
+if (class_exists('ParagonIE_Sodium_Core_XSalsa20', false)) {
     return;
 }
 
 /**
- * Class ParagonIE_Sodium_Core_Xsalsa20
+ * Class ParagonIE_Sodium_Core_XSalsa20
  */
-abstract class ParagonIE_Sodium_Core_Xsalsa20 extends ParagonIE_Sodium_Core_HSalsa20
+abstract class ParagonIE_Sodium_Core_XSalsa20 extends ParagonIE_Sodium_Core_HSalsa20
 {
     /**
      * Expand a key and nonce into an xsalsa20 keystream.
@@ -30,7 +30,7 @@ abstract class ParagonIE_Sodium_Core_Xsalsa20 extends ParagonIE_Sodium_Core_HSal
     }
 
     /**
-     * Encrypt a string with Xsalsa20. Doesn't provide integrity.
+     * Encrypt a string with XSalsa20. Doesn't provide integrity.
      *
      * @internal You should not use this directly from another application
      *
