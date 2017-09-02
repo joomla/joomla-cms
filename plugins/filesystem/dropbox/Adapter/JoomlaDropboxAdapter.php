@@ -185,9 +185,21 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 */
 	public function getFiles($path = '/', $filter = '')
 	{
+		// Check whether it is root or not
+		// Dropbox client has some issues
 		if ($path != '/' && !$this->dropbox->has($path))
 		{
 			throw new FileNotFoundException("File not found");
+		}
+		else if($this->dropbox->has($path))
+		{
+			// If this is a file just return the information
+			$pathInfo = $this->getFileInfo($this->client->getMetadata($path));
+
+			if ($pathInfo->type == 'file')
+			{
+				return [$pathInfo];
+			}
 		}
 
 		$response = $this->client->listFolder($path);
