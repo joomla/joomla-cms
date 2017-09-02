@@ -1032,7 +1032,7 @@ ENDDATA;
 		 */
 		$option         = new stdClass;
 		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', $this->getTargetMinimumPHPVersion());
-		$option->state  = version_compare(PHP_VERSION, $this->getTargetMinimumPHPVersion(), '>=');
+		$option->state  = $this->isPhpVersionSupported();
 		$option->notice = null;
 		$options[]      = $option;
 
@@ -1212,13 +1212,26 @@ ENDDATA;
 	{
 		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
-			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
+			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure', 'mysqli');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
 
 			return !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * Returns true, if current installed php version is compatible with the update.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function isPhpVersionSupported()
+	{
+		return version_compare(PHP_VERSION, $this->getTargetMinimumPHPVersion(), '>=');
 	}
 
 	/**

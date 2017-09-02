@@ -262,6 +262,6 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	public function shouldDisplayPreUpdateCheck()
 	{
 		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& $this->getModel()->isDatabaseTypeSupported();
+			&& $this->getModel()->isDatabaseTypeSupported() && $this->getModel()->isPhpVersionSupported();
 	}
 }
