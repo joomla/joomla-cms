@@ -152,7 +152,7 @@ class PlgSystemRemember extends JPlugin
 			);
 		}
 		
-		// this->app->enqueueMessage(JText::_('COM_USERS_PROFILE_SAVE_REMEMBERME_USERINFO'), 'notice');
+		// Sthis->app->enqueueMessage(JText::_('COM_USERS_PROFILE_SAVE_REMEMBERME_USERINFO'), 'notice');
 		
 		return true;
 	}
