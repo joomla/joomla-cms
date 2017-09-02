@@ -1212,7 +1212,7 @@ ENDDATA;
 	{
 		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
-			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure', 'mysqli');
+			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
 
 			return !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
