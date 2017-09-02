@@ -268,7 +268,7 @@ abstract class JLoader
 			if (!class_exists($class, false))
 			{
 				// Search the alias class, first none namespaced and then namespaced
-				$original = array_search(strtolower($class), self::$classAliases) ? : array_search('\\' . strtolower($class), self::$classAliases);
+				$original = array_search($class, self::$classAliases) ? : array_search('\\' . $class, self::$classAliases);
 
 				// When we have an original and the class exists an alias should be created
 				if ($original && class_exists($original, false))
