@@ -489,6 +489,16 @@ if (!is_callable('\\Sodium\\crypto_sign_verify_detached')) {
         return ParagonIE_Sodium_Compat::crypto_sign_verify_detached($signature, $message, $pk);
     }
 }
+if (!is_callable('\\Sodium\\crypto_sign_ed25519_sk_to_curve25519')) {
+    /**
+     * @param string $sk
+     * @return string
+     */
+    function crypto_sign_ed25519_sk_to_curve25519($sk)
+    {
+        return ParagonIE_Sodium_Compat::crypto_sign_ed25519_sk_to_curve25519($sk);
+    }
+}
 if (!is_callable('\\Sodium\\crypto_stream')) {
     /**
      * @param int $len
