@@ -46,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if ($this->items[$i]->published == 0) : ?>
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else : ?>
-					<li class="cat-list-row<?php echo $i % 2; ?>" >
+					<li class="cat-list-row<?php echo $i % 2; ?>">
 				<?php endif; ?>
 				<?php if ($this->params->get('show_articles')) : ?>
 					<span class="list-hits badge badge-info pull-right">
@@ -56,17 +56,22 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<span class="list pull-left">
 					<div class="list-title">
 						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
-							<?php echo $item->name; ?></a>
+							<?php echo $item->name; ?>
+						</a>
 					</div>
 				</span>
 				<?php if ($this->items[$i]->published == 0) : ?>
-					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+					<span class="label label-warning">
+						<?php echo JText::_('JUNPUBLISHED'); ?>
+					</span>
 				<?php endif; ?>
 				<br />
 				<?php if ($this->params->get('show_link')) : ?>
 					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
 					<span class="list pull-left">
-							<a href="<?php echo $item->link; ?>"><?php echo $link; ?></a>
+						<a href="<?php echo $item->link; ?>">
+							<?php echo $link; ?>
+						</a>
 					</span>
 					<br />
 				<?php endif; ?>
