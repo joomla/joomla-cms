@@ -43,6 +43,6 @@ if (PHP_VERSION_ID >= 50300) {
     require_once dirname(__FILE__) . '/lib/namespaced.php';
     require_once dirname(__FILE__) . '/lib/sodium_compat.php';
 }
-if (PHP_VERSION_ID < 70200) {
+if (PHP_VERSION_ID < 70200 || !extension_loaded('sodium')) {
     require_once dirname(__FILE__) . '/lib/php72compat.php';
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2634690ec78860b02fad9d9bce6b5468",
+    "content-hash": "c4363e7c59ded73c712bfdee79b2e093",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -912,16 +912,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "91537490fe720e058cf864f773501e0d9969b75e"
+                "reference": "110b1707f45e3b59311bb488b3af7251673de9b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/91537490fe720e058cf864f773501e0d9969b75e",
-                "reference": "91537490fe720e058cf864f773501e0d9969b75e",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/110b1707f45e3b59311bb488b3af7251673de9b7",
+                "reference": "110b1707f45e3b59311bb488b3af7251673de9b7",
                 "shasum": ""
             },
             "require": {
@@ -989,7 +989,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2017-07-05T18:15:41+00:00"
+            "time": "2017-09-01T01:19:04+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
