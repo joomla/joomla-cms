@@ -104,10 +104,10 @@ class FieldsControllerGroup extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 
-		// Check general edit permission first.
-		if ($user->authorise('core.edit', $this->component))
+		// Zero record (parent_id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
 		{
-			return true;
+			return parent::allowEdit($data, $key);
 		}
 
 		// Check edit on the record asset (explicit or inherited)
