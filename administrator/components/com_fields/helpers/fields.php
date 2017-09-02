@@ -279,6 +279,9 @@ class FieldsHelper
 			return true;
 		}
 
+		// Mark in the form that it is processed by com_fields
+		$form->load('<form><field type="hidden" name="processed-by-fields" default="1" fieldset="basic"/></form>');
+
 		$context = $parts[0] . '.' . $parts[1];
 
 		// When no fields available return here

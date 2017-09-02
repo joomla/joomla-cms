@@ -48,6 +48,14 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
+		$formInput = JFactory::getApplication()->input->get('jform', array(), 'array');
+
+		// Check if it is a form we have processed
+		if (!$formInput || empty($formInput['processed-by-fields']))
+		{
+			return;
+		}
+
 		// Create correct context for category
 		if ($context == 'com_categories.category')
 		{
