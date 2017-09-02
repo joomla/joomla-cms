@@ -51,12 +51,6 @@ class JFormRuleLoginUniqueField extends JFormRule
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
 
-		// Test the input values for login.
-		if ($loginRedirectUrl != '' && $loginRedirectMenuitem != '')
-		{
-			return false;
-		}
-
 		return true;
 	}
 }
