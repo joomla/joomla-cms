@@ -8195,14 +8195,15 @@ legend {
   .header .site-description {
     font-size: 1rem;
     color: #fefefe; }
-  .header .navbar-brand a {
+  .header .navbar-brand {
     position: relative;
     display: inline-block;
     padding: 0;
-    margin-right: 3rem;
-    font-size: 2rem;
-    text-decoration: none;
-    color: #fefefe; }
+    margin-right: 3rem; }
+    .hgeader .navbar-brand a {
+      font-size: 2rem;
+      text-decoration: none;
+      color: #fefefe; }
     .header .navbar-brand img {
       width: 200px;
       min-width: 200px; }
