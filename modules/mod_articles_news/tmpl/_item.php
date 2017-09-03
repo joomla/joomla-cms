@@ -32,7 +32,7 @@ $item_heading = $params->get('item_heading', 'h4');
 <?php endif; ?>
 <?php echo $item->afterDisplayContent; ?>
 <?php if (isset($item->link) && $item->readmore != 0 && $params->get('readmore')) : ?>
-	<a class="readmore" href="'<?php echo $item->link; ?>'">
+	<a class="readmore" href="<?php echo $item->link; ?>">
 		<?php echo $item->linkText; ?>
 	</a>
 <?php endif; ?>

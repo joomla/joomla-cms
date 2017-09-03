@@ -56,9 +56,9 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 								title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 								<img
 									src="<?php echo $baseurl . $imageurl; ?>"
-									alt="<?php echo $alt;?>"
-									<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-									<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+									alt="<?php echo $alt; ?>"
+									<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+									<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 								/>
 							</a>
 						<?php else : ?>
@@ -68,9 +68,9 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 								title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 								<img
 									src="<?php echo $baseurl . $imageurl; ?>"
-									alt="<?php echo $alt;?>"
-									<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-									<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+									alt="<?php echo $alt; ?>"
+									<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+									<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 								/>
 							</a>
 						<?php endif; ?>
@@ -78,17 +78,17 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 						<?php // Just display the image if no link specified ?>
 						<img
 							src="<?php echo $baseurl . $imageurl; ?>"
-							alt="<?php echo $alt;?>"
-							<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-							<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+							alt="<?php echo $alt; ?>"
+							<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+							<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 						/>
 					<?php endif; ?>
 				<?php elseif (BannerHelper::isFlash($imageurl)) : ?>
 					<object
 						classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 						codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
-						<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-						<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+						<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+						<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 					>
 						<param name="movie" value="<?php echo $imageurl; ?>" />
 						<embed
@@ -96,8 +96,8 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 							loop="false"
 							pluginspage="http://www.macromedia.com/go/get/flashplayer"
 							type="application/x-shockwave-flash"
-							<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-							<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+							<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+							<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 						/>
 					</object>
 				<?php endif; ?>
