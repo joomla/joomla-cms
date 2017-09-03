@@ -133,7 +133,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Attach build rules for language SEF.
 			$router->attachBuildRule(array($this, 'preprocessBuildRule'), JRouter::PROCESS_BEFORE);
-			$router->attachBuildRule(array($this, 'buildRule'), JRouter::PROCESS_BEFORE);
+			$router->attachBuildRule(array($this, 'buildRule'), JRouter::PROCESS_DURING);
 
 			if ($this->mode_sef)
 			{
