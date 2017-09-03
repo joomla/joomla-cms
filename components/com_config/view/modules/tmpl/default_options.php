@@ -17,7 +17,9 @@ defined('_JEXEC') or die;
 		<?php $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . $name . '_FIELDSET_LABEL'; ?>
 		<?php $class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : ''; ?>
 		<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-			<?php echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
+			<p class="tip">
+				<?php echo $this->escape(JText::_($fieldSet->description)); ?>
+			</p>
 		<?php endif; ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($label), 'collapse' . ($i++)); ?>
 			<ul class="nav nav-tabs nav-stacked">

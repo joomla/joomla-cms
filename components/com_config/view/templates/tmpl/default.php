@@ -30,12 +30,14 @@ JFactory::getDocument()->addScriptDeclaration("
 		<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.save.templates.apply')">
-					<span class="icon-ok"></span> <?php echo JText::_('JSAVE') ?>
+					<span class="icon-ok"></span>
+					<?php echo JText::_('JSAVE'); ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('config.cancel')">
-					<span class="icon-cancel"></span> <?php echo JText::_('JCANCEL') ?>
+					<span class="icon-cancel"></span>
+					<?php echo JText::_('JCANCEL'); ?>
 				</button>
 			</div>
 		</div>
