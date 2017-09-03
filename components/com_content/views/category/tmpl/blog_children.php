@@ -24,36 +24,36 @@ $lang  = JFactory::getLanguage();
 			<div<?php echo $class; ?>>
 				<?php $class = ''; ?>
 				<?php if ($lang->isRtl()) : ?>
-				<h3 class="page-header item-title">
-					<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
-							<?php echo $child->getNumItems(true); ?>
-						</span>
-					<?php endif; ?>
-					<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
-						<?php echo $this->escape($child->title); ?>
-					</a>
-					<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
-							<span class="icon-plus"></span>
+					<h3 class="page-header item-title">
+						<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
+							<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+								<?php echo $child->getNumItems(true); ?>
+							</span>
+						<?php endif; ?>
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
+							<?php echo $this->escape($child->title); ?>
 						</a>
-					<?php endif; ?>
-				</h3>
+						<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
+							<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
+								<span class="icon-plus"></span>
+							</a>
+						<?php endif; ?>
+					</h3>
 				<?php else : ?>
-				<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
-					<?php echo $this->escape($child->title); ?></a>
-					<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
-							<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
-							<?php echo $child->getNumItems(true); ?>
-						</span>
-					<?php endif; ?>
-					<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
-							<span class="icon-plus"></span>
-						</a>
-					<?php endif; ?>
-				</h3>
+					<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
+						<?php echo $this->escape($child->title); ?></a>
+						<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
+							<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+								<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
+								<?php echo $child->getNumItems(true); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
+							<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
+								<span class="icon-plus"></span>
+							</a>
+						<?php endif; ?>
+					</h3>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 					<?php if ($child->description) : ?>
