@@ -145,15 +145,12 @@ if ($params->get('show_autosuggest', 1))
 $script .= '});';
 
 JFactory::getDocument()->addScriptDeclaration($script);
-?>
 
+?>
 <form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search">
 	<div class="finder<?php echo $suffix; ?>">
-		<?php
-		// Show the form fields.
-		echo $output;
-		?>
-
+		<?php // Show the form fields. ?>
+		<?php echo $output; ?>
 		<?php $show_advanced = $params->get('show_advanced'); ?>
 		<?php if ($show_advanced == 2) : ?>
 			<br />
