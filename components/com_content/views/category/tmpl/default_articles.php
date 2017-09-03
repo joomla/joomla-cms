@@ -54,7 +54,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						</label>
 						<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
 					<?php else : ?>
-						<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
+						<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();">
 							<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
 						</select>
@@ -133,7 +133,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				<?php if ($this->items[$i]->state == 0) : ?>
 					<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else : ?>
-					<tr class="cat-list-row<?php echo $i % 2; ?>" >
+					<tr class="cat-list-row<?php echo $i % 2; ?>">
 				<?php endif; ?>
 				<td headers="categorylist_header_title" class="list-title">
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
@@ -170,7 +170,11 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 									&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 								<?php else : ?>
 									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-									&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+									&nbsp;
+									<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>">
+										<?php echo strtoupper($association['language']->sef); ?>
+									</a>
+									&nbsp;
 								<?php endif; ?>
 							<?php endforeach; ?>
 						<?php endif; ?>

@@ -55,7 +55,7 @@ JHtml::_('behavior.caption');
 				<?php echo $this->loadTemplate('item'); ?>
 			</div>
 			<?php $counter++; ?>
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
+			<?php if (($rowcount == $this->columns) || ($counter == $introcount)) : ?>
 				</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
