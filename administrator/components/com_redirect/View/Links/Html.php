@@ -138,26 +138,9 @@ class Html extends HtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($state->get('filter.state') != 2)
-			{
-				\JToolbarHelper::divider();
-				\JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
-				\JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
-			}
-
-			if ($state->get('filter.state') != -1 )
-			{
-				\JToolbarHelper::divider();
-
-				if ($state->get('filter.state') != 2)
-				{
-					\JToolbarHelper::archiveList('links.archive');
-				}
-				elseif ($state->get('filter.state') == 2)
-				{
-					\JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
-				}
-			}
+			\JToolbarHelper::divider();
+			\JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
+			\JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 		}
 
 		if ($canDo->get('core.create'))
