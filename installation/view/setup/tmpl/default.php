@@ -53,10 +53,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_password'); ?>
-					<div class="input-group">
-						<?php echo $this->form->getInput('admin_password'); ?>
-						<span class="input-group-addon fa fa-eye"></span>
-					</div>
+					<?php echo $this->form->getInput('admin_password'); ?>
 				</div>
 				<div class="form-group">
 					<button class="btn btn-primary btn-block" id="step2"><?php echo JText::_('INSTL_CONNECT_DB'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>

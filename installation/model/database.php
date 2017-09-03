@@ -165,7 +165,7 @@ class InstallationModelDatabase extends JModelBase
 		// Workaround for UPPERCASE table prefix for postgresql
 		if ($options->db_type == 'postgresql')
 		{
-			if (isset($options->db_prefix) && strtolower($options->db_prefix) != $options->db_prefix)
+			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
@@ -829,12 +829,6 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function installCmsData($options)
 	{
-//		// Attempt to create the database tables.
-//		if (!$this->createTables($options))
-//		{
-//			return false;
-//		}
-//
 		if (!$db = $this->initialise($options))
 		{
 			return false;
@@ -895,7 +889,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			foreach ($fields as $field)
 			{
-//				$xtable = str_replace('#__', $db->getPrefix(), $table);
 				$query = $db->getQuery(true)
 					->update($db->quoteName($table))
 					->set($db->quoteName($field) . ' = ' . $db->quote($userId))

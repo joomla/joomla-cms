@@ -30,7 +30,7 @@ class InstallationControllerDatabase extends JControllerBase
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-//		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		(new InstallationModelSetup)->checkForm('setup');
 		// Get the options from the session

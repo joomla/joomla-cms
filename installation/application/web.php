@@ -175,9 +175,6 @@ final class InstallationApplicationWeb extends CMSApplication
 		// Register the document object with JFactory.
 		JFactory::$document = $document;
 
-		// Register our JHtml service
-		JHtml::getServiceRegistry()->register('installation', new InstallationHtmlHelper($this));
-
 		// Define component path.
 		define('JPATH_COMPONENT', JPATH_BASE);
 		define('JPATH_COMPONENT_SITE', JPATH_SITE);
