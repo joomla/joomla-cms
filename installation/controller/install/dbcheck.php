@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller class to initialise the database for the Joomla Installer.
+ * Controller class to set the site data for the Joomla Installer.
  *
  * @since  3.1
  */
-class InstallationControllerInstallDatabase extends JControllerBase
+class InstallationControllerInstallDbcheck extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -32,19 +32,15 @@ class InstallationControllerInstallDatabase extends JControllerBase
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		(new InstallationModelSetup)->checkForm('setup');
-		// Get the options from the session
-		$options = (new InstallationModelSetup)->getOptions();
-
+		// Redirect to the page.
 		$r = new stdClass;
+		$r->crap = 'setup';
 
-		// Attempt to create the database tables.
-		if (!(new InstallationModelDatabase)->initialise($options) || !(new InstallationModelDatabase)->installCmsData($options))
-//			->initialise($options))
-
-//			->installCmsData($options))
+		// Check the form
+		if ((new InstallationModelSetup)->checkForm('setup') === false || (new InstallationModelSetup)->initialise('setup') === false)
 		{
-			$r->view = 'database';
+			$r->messages = 'Check your DB credentials, db type, db name or hostname';
+			$r->crap = 'setup';
 		}
 
 		$app->sendJsonResponse($r);

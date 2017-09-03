@@ -1,0 +1,254 @@
+
+/**
+ * Method to set the language for the installation UI via AJAX
+ *
+ * @return {Boolean}
+ */
+Joomla.setlanguage = function(form) {
+	var data = Joomla.serialiseForm(form);
+
+	Joomla.loadingLayer("show");
+	Joomla.removeMessages();
+
+	Joomla.request({
+		url: Joomla.baseUrl,
+		method: 'POST',
+		data: data,
+		perform: true,
+		onSuccess: function(response, xhr){
+			response = JSON.parse(response);
+			console.log(response)
+			Joomla.replaceTokens(response.token);
+
+			if (response.messages) {
+				Joomla.renderMessages(response.messages);
+			}
+
+			if (response.error) {
+				Joomla.renderMessages({'error': [response.message]});
+				Joomla.loadingLayer("hide");
+			} else {
+				Joomla.loadingLayer("hide");
+				Joomla.goToPage(response.data.view, true);
+			}
+		},
+		onError:   function(xhr){
+			Joomla.loadingLayer("hide");
+			try {
+				var r = JSON.parse(xhr.responseText);
+				Joomla.replaceTokens(r.token);
+				alert(r.message);
+			} catch (e) {}
+		}
+	});
+
+	return false;
+};
+
+Joomla.checkInputs = function() {
+	document.getElementById('jform_admin_password2').value = document.getElementById('jform_admin_password').value;
+	Joomla.makeRandomDbPrefix();
+
+	var inputs = [].slice.call(document.querySelectorAll('input[type="password"], input[type="text"], input[type="email"], select')),
+	    state = true;
+	inputs.forEach(function(item) {
+		if (!item.valid) state = false;
+	});
+
+	// Reveal everything
+	document.getElementById('installStep1').classList.add('active');
+	document.getElementById('installStep2').classList.add('active');
+	document.getElementById('installStep3').classList.add('active');
+
+
+	if (Joomla.checkFormField(['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
+		console.log('hdfgh')
+		Joomla.checkDbCredentials();
+	}
+};
+
+
+Joomla.checkDbCredentials = function() {
+	Joomla.loadingLayer("show");
+
+	var form = document.getElementById('adminForm'),
+	    data = Joomla.serialiseForm(form);
+
+	Joomla.request({
+		type: "POST",
+		url : Joomla.installationBaseUrl + '?task=InstallDbcheck&format=json',
+		data: data,
+		perform: true,
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		onSuccess: function(response, xhr){
+			response = JSON.parse(response);
+			Joomla.loadingLayer('hide');
+			Joomla.replaceTokens(response.token);
+			if (response.messages) {
+				Joomla.loadingLayer('hide');
+				Joomla.renderMessages(response.messages);
+				// You shall not pass, DB credentials error!!!!
+			} else {
+				Joomla.loadingLayer('hide');
+				// You shall pass
+				Joomla.install(['Config']);
+
+				// If all good (we need some code here)
+				Joomla.goToPage('remove');
+			}
+		},
+		onError:   function(xhr){
+			Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+			//Install.goToPage('summary');
+			Joomla.loadingLayer('hide');
+			try {
+				var r = JSON.parse(xhr.responseText);
+				Joomla.replaceTokens(r.token);
+				alert(r.message);
+			} catch (e) {
+			}
+		}
+	});
+};
+
+/**
+ * Executes the required tasks to complete site installation
+ *
+ * @param tasks       An array of install tasks to execute
+ */
+Joomla.install = function(tasks) {
+	if (!tasks.length) {
+		Joomla.goToPage('remove');
+		return;
+	}
+
+	var task = tasks.shift();
+	var form = document.getElementById('adminForm');
+	var data = Joomla.serialiseForm(form);
+	Joomla.loadingLayer("show");
+
+	Joomla.request({
+		type: "POST",
+		url : Joomla.baseUrl + '?task=Install' + task  + '&layout=default',
+		data: data,
+		perform: true,
+		onSuccess: function(response, xhr){
+			response = JSON.parse(response);
+			Joomla.replaceTokens(response.token);
+
+			if (response.messages) {
+				Joomla.renderMessages(response.messages);
+				Joomla.goToPage(response.data.view, true);
+			} else {
+				Joomla.loadingLayer('hide');
+				Joomla.install(tasks);
+			}
+		},
+		onError:   function(xhr){
+			Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+			Joomla.goToPage('remove');
+
+			try {
+				var r = JSON.parse(xhr.responseText);
+				Joomla.replaceTokens(r.token);
+				alert(r.message);
+			} catch (e) {
+			}
+		}
+	});
+};
+
+
+(function() {
+	// Set the base URL
+	Joomla.baseUrl = Joomla.getOptions('system.installation').url ? Joomla.getOptions('system.installation').url.replace(/&amp;/g, '&') : 'index.php';
+
+	// Merge options from the session storage
+	if (sessionStorage && sessionStorage.getItem('installation-data')) {
+		Joomla.extend(this.options, sessionStorage.getItem('installation-data'));
+	}
+
+	Joomla.pageInit();
+	var el = document.querySelector('.nav-steps.hidden');
+	if (el) {
+		el.classList.remove('hidden');
+	}
+
+	// Focus to the next field
+	if (document.getElementById('jform_site_name')) {
+		document.getElementById('jform_site_name').focus();
+	}
+
+	// Selecte language
+	var languageEl = document.getElementById('jform_language');
+
+	if (languageEl) {
+		languageEl.addEventListener('change', function(e) {
+			var form = document.getElementById('languageForm');
+			Joomla.setlanguage(form)
+		})
+	}
+	// Are we in the main form?
+	// if (document.getElementById('jform_admin_password')) {
+	// 	var elemmm = document.getElementById('jform_admin_password').parentNode;
+	// 	elemmm.querySelector('span.input-group-addon').addEventListener('click', function(e) {
+	// 		var input = document.getElementById('jform_admin_password');
+	// 		if (e.target.classList.contains('fa-eye')) {
+	// 			e.target.classList.remove('fa-eye');
+	// 			e.target.classList.add('fa-eye-slash');
+	// 			input.type = 'text';
+	// 		} else {
+	// 			e.target.classList.add('fa-eye');
+	// 			e.target.classList.remove('fa-eye-slash');
+	// 			input.type = 'password';
+	// 		}
+	// 	})
+	// }
+
+	if (document.getElementById('step1')) {
+		document.getElementById('step1').addEventListener('click', function(e) {
+			e.preventDefault();
+			if (Joomla.checkFormField(['#jform_site_name'])) {
+				if (document.getElementById('installStep2')) {
+					document.getElementById('installStep2').removeAttribute('hidden');
+					document.getElementById('installStep2').classList.add('active');
+					document.getElementById('step1').parentNode.removeChild(document.getElementById('step1'));
+					document.getElementById('installStep1').classList.remove('active');
+					Joomla.scrollTo(document.getElementById('installStep2'), document.getElementById('installStep2').offsetTop);
+
+					// Focus to the next field
+					if (document.getElementById('jform_admin_user')) {
+						document.getElementById('jform_admin_user').focus();
+					}
+				}
+			}
+		})
+	}
+
+	if (document.getElementById('step2')) {
+		document.getElementById('step2').addEventListener('click', function(e) {
+			e.preventDefault();
+			if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
+				if (document.getElementById('installStep3')) {
+					document.getElementById('installStep3').removeAttribute('hidden');
+					document.getElementById('installStep3').classList.add('active');
+					document.getElementById('step2').parentNode.removeChild(document.getElementById('step2'));
+					document.getElementById('installStep2').classList.remove('active');
+					Joomla.scrollTo(document.getElementById('installStep3'), document.getElementById('installStep3').offsetTop);
+					document.getElementById('setupButton').style.display = 'block';
+
+					// Focus to the next field
+					if (document.getElementById('jform_db_type')) {
+						document.getElementById('jform_db_type').focus();
+					}
+				}
+			}
+		});
+
+		document.getElementById('setupButton').addEventListener('click', function(e) {
+			e.preventDefault();
+			Joomla.checkInputs();
+		})
+	}
+
+})();

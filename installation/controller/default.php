@@ -29,7 +29,7 @@ class InstallationControllerDefault extends JControllerBase
 		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
-		$defaultView = 'site';
+		$defaultView = 'setup';
 
 		// If the app has already been installed, default to the remove view
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php') && (filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
@@ -37,6 +37,9 @@ class InstallationControllerDefault extends JControllerBase
 		{
 			$defaultView = 'remove';
 		}
+
+		// Are we allowed to proceed?
+		$model = new InstallationModelChecks;
 
 		$vName   = $this->getInput()->getWord('view', $defaultView);
 		$vFormat = $app->getDocument()->getType();
@@ -47,44 +50,30 @@ class InstallationControllerDefault extends JControllerBase
 			$this->getInput()->set('view', $defaultView);
 		}
 
-		switch ($vName)
+		if (!$model->getPhpOptionsSufficient() && $defaultView !== 'remove')
 		{
-			case 'preinstall':
-				$model        = new InstallationModelSetup;
-				$checkOptions = false;
-				$options      = $model->getOptions();
+			if ($vName !== 'preinstall')
+			{
+				$app->redirect('index.php?view=preinstall');
+			}
 
-				if ($model->getPhpOptionsSufficient())
-				{
-					$app->redirect('index.php');
-				}
-
-				break;
-
-			case 'languages':
-			case 'defaultlanguage':
-				$model        = new InstallationModelLanguages;
-				$checkOptions = false;
-				$options      = [];
-
-				break;
-
-			default:
-				$model        = new InstallationModelSetup;
-				$checkOptions = true;
-				$options      = $model->getOptions();
-
-				if (!$model->getPhpOptionsSufficient())
-				{
-					$app->redirect('index.php?view=preinstall');
-				}
-
-				break;
+			$vName = 'preinstall';
 		}
-
-		if ($vName !== $defaultView && $checkOptions && empty($options))
+		else
 		{
-			$app->redirect('index.php');
+			if ($vName === 'preinstall')
+			{
+				$app->redirect('index.php?view=setup');
+			}
+
+			$options      = (new InstallationModelChecks)->getOptions();
+			$model        = new InstallationModelSetup;
+			$checkOptions = true;
+
+			if ($vName !== $defaultView && ($checkOptions && empty($options)) && $defaultView !== 'remove')
+			{
+				$app->redirect('index.php');
+			}
 		}
 
 		// Register the layout paths for the view
@@ -95,7 +84,7 @@ class InstallationControllerDefault extends JControllerBase
 
 		if (!class_exists($vClass))
 		{
-			$vClass = 'InstallationViewDefault';
+			$vClass = 'InstallationViewError';
 		}
 
 		/** @var JViewHtml $view */

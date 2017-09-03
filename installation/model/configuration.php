@@ -39,9 +39,43 @@ class InstallationModelConfiguration extends JModelBase
 			return false;
 		}
 
+		// Do the database init/fill
+		$databaseModel = new InstallationModelDatabase;
+
+		// Create Db
+		if (!$databaseModel->createDatabase($options))
+		{
+//			$this->deleteConfiguartion();
+			return false;
+		}
+
+		$options->db_select = true;
+		$options->db_created = 1;
+
+		// Create tables
+		if (!$databaseModel->createTables($options))
+		{
+//			$this->deleteConfiguartion();
+			return false;
+		}
+
 		// Attempt to create the root user.
 		if (!$this->createRootUser($options))
 		{
+//			$this->deleteConfiguartion();
+			return false;
+		}
+
+//		// Handle old db if exists
+//		if (!$databaseModel->handleOldDatabase($options))
+//		{
+//			return false;
+//		}
+
+		// Install CSM data
+		if (!$databaseModel->installCmsData($options))
+		{
+//			$this->deleteConfiguartion();
 			return false;
 		}
 
@@ -63,7 +97,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry = new Registry;
 
 		// Site settings.
-		$registry->set('offline', $options->site_offline);
+		$registry->set('offline', '0');
 		$registry->set('offline_message', JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
@@ -74,8 +108,8 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('access', 1);
 
 		// Debug settings.
-		$registry->set('debug', false);
-		$registry->set('debug_lang', false);
+		$registry->set('debug', 0);
+		$registry->set('debug_lang', 0);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);
@@ -88,7 +122,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Server settings.
 		$registry->set('live_site', '');
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
-		$registry->set('gzip', false);
+		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
@@ -96,43 +130,43 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
 		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : false);
+		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');
 
 		// Mail settings.
-		$registry->set('mailonline', true);
+		$registry->set('mailonline', 1);
 		$registry->set('mailer', 'mail');
 		$registry->set('mailfrom', $options->admin_email);
 		$registry->set('fromname', $options->site_name);
 		$registry->set('sendmail', '/usr/sbin/sendmail');
-		$registry->set('smtpauth', false);
+		$registry->set('smtpauth', 0);
 		$registry->set('smtpuser', '');
 		$registry->set('smtppass', '');
 		$registry->set('smtphost', 'localhost');
 		$registry->set('smtpsecure', 'none');
-		$registry->set('smtpport', 25);
+		$registry->set('smtpport', '25');
 
 		// Cache settings.
 		$registry->set('caching', 0);
 		$registry->set('cache_handler', 'file');
 		$registry->set('cachetime', 15);
-		$registry->set('cache_platformprefix', false);
+		$registry->set('cache_platformprefix', 0);
 
 		// Meta settings.
-		$registry->set('MetaDesc', $options->site_metadesc);
+		$registry->set('MetaDesc', '');
 		$registry->set('MetaKeys', '');
-		$registry->set('MetaTitle', true);
-		$registry->set('MetaAuthor', true);
-		$registry->set('MetaVersion', false);
+		$registry->set('MetaTitle', 1);
+		$registry->set('MetaAuthor', 1);
+		$registry->set('MetaVersion', 0);
 		$registry->set('robots', '');
 
 		// SEO settings.
-		$registry->set('sef', true);
-		$registry->set('sef_rewrite', false);
-		$registry->set('sef_suffix', false);
-		$registry->set('unicodeslugs', false);
+		$registry->set('sef', 1);
+		$registry->set('sef_rewrite', 0);
+		$registry->set('sef_suffix', 0);
+		$registry->set('unicodeslugs', 0);
 
 		// Feed settings.
 		$registry->set('feed_limit', 10);
@@ -144,7 +178,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Session setting.
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
-		$registry->set('shared_session', false);
+		$registry->set('shared_session', 0);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
@@ -170,7 +204,8 @@ class InstallationModelConfiguration extends JModelBase
 
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
 		{
-			$useFTP = true;
+			return false;
+			// $useFTP = true;
 		}
 
 		// Check for safe mode.
@@ -215,8 +250,8 @@ class InstallationModelConfiguration extends JModelBase
 			}
 			else
 			{
-				// Set the config string to the session.
-				$session->set('setup.config', $buffer);
+				// If we cannot write the configuration.php, setup fails!
+				return false;
 			}
 		}
 
@@ -301,8 +336,7 @@ class InstallationModelConfiguration extends JModelBase
 				$db->quoteName('registerDate'),
 				$db->quoteName('lastvisitDate'),
 				$db->quoteName('activation'),
-				$db->quoteName('params'),
-				$db->quoteName('lastResetTime')				
+				$db->quoteName('params')
 			);
 			$query->clear()
 				->insert('#__users', true)
@@ -311,7 +345,7 @@ class InstallationModelConfiguration extends JModelBase
 					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
-					$db->quote('0') . ', ' . $db->quote('') . ', ' . $db->quote($nullDate)
+					$db->quote('0') . ', ' . $db->quote('')
 				);
 		}
 
@@ -365,5 +399,24 @@ class InstallationModelConfiguration extends JModelBase
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to create the root user for the site.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function deleteConfiguartion()
+	{
+		// Build the configuration file path.
+		$path = JPATH_CONFIGURATION . '/configuration.php';
+
+		// Determine if the configuration file path is writable.
+		if (file_exists($path))
+		{
+			unlink($path);
+		}
 	}
 }
