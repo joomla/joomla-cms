@@ -171,7 +171,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 								<?php else : ?>
 									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
 									&nbsp;
-									<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>">
+									<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>">
 										<?php echo strtoupper($association['language']->sef); ?>
 									</a>
 									&nbsp;
