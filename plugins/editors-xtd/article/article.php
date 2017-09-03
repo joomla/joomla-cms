@@ -35,25 +35,17 @@ class PlgButtonArticle extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
-		$user  = JFactory::getUser();
-
-		if ($user->authorise('core.create', 'com_content')
-			|| $user->authorise('core.edit', 'com_content')
-			|| $user->authorise('core.edit.own', 'com_content'))
-		{
-			$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
-				. JSession::getFormToken() . '=1&amp;editor=' . $name;
-
-			$button = new JObject;
-			$button->modal   = true;
-			$button->class   = 'btn';
-			$button->link    = $link;
-			$button->text    = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
-			$button->name    = 'file-add';
-			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button = new JObject;
+		$button->modal   = true;
+		$button->class   = 'btn';
+		$button->link    = $link;
+		$button->text    = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$button->name    = 'file-add';
+		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 		return $button;
-		}
 	}
 }
