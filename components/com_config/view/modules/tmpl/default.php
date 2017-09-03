@@ -42,30 +42,30 @@ JFactory::getDocument()->addScriptDeclaration("
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.save.modules.apply')">
 						<span class="icon-apply"></span>
-						<?php echo JText::_('JAPPLY') ?>
+						<?php echo JText::_('JAPPLY'); ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn" onclick="Joomla.submitbutton('config.save.modules.save')">
 						<span class="icon-save"></span>
-						<?php echo JText::_('JSAVE') ?>
+						<?php echo JText::_('JSAVE'); ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn" onclick="Joomla.submitbutton('config.cancel.modules')">
 						<span class="icon-cancel"></span>
-						<?php echo JText::_('JCANCEL') ?>
+						<?php echo JText::_('JCANCEL'); ?>
 					</button>
 				</div>
 			</div>
 			<hr class="hr-condensed" />
 			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 			<div>
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME') ?>
-				<span class="label label-default"><?php echo $this->item['title'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+				<span class="label label-default"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
-				<span class="label label-default"><?php echo $this->item['module'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+				<span class="label label-default"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr />
 			<div class="row-fluid">
