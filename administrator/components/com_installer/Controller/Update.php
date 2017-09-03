@@ -39,7 +39,7 @@ class Update extends Controller
 
 		// Get the minimum stability.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
+		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 
 		$model->update($uid, $minimum_stability);
 
@@ -84,7 +84,7 @@ class Update extends Controller
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
+		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 
 		// Find updates.
 		/* @var \Joomla\Component\Installer\Administrator\Model\Update $model */
@@ -161,7 +161,7 @@ class Update extends Controller
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
+			$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 		}
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\Update $model */
