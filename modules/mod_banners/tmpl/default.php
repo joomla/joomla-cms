@@ -42,9 +42,9 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 								title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 								<img
 									src="<?php echo $baseurl . $imageurl; ?>"
-									alt="<?php echo $alt;?>"
-									<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-									<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+									alt="<?php echo $alt; ?>"
+									<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+									<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 								/>
 							</a>
 						<?php elseif ($target == 2) : ?>
