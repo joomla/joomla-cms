@@ -107,7 +107,6 @@ class PlgSystemRemember extends JPlugin
 	 * @return    boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws    InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
