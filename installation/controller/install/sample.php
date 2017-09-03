@@ -30,18 +30,25 @@ class InstallationControllerInstallSample extends JControllerBase
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		//JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+
+		$file = JFactory::getApplication()->input->post->get('sample_file', '', 'string');
 
 		// Get the options from the session
 		$options = (new InstallationModelSetup)->getOptions();
 
+		if ('' !== $file)
+		{
+			$options = array_merge(['‌‌sampleData' => $file], $options);
+		}
+
 		$r = new stdClass;
-		$r->view = 'install';
+		$r->view = 'remove';
 
 		// Check if the database was initialised
 		if (!(new InstallationModelDatabase)->installSampleData($options))
 		{
-			$r->view = 'database';
+			$r->view = '';
 		}
 
 		$app->sendJsonResponse($r);

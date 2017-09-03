@@ -94,8 +94,8 @@ defined('_JEXEC') or die;
 				<?php echo JHtml::_('form.token'); ?>
 
 				<div class="form-group">
-					<button class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="fa fa-eye"></span> <?php echo JText::_('INSTL_COMPLETE_SITE_BTN'); ?></button>
-					<button class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock"></span> <?php echo JText::_('INSTL_COMPLETE_ADMIN_BTN'); ?></button>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="fa fa-eye"></span> <?php echo JText::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock"></span> <?php echo JText::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</div>
@@ -173,7 +173,7 @@ defined('_JEXEC') or die;
 					<input type="hidden" name="task" value="InstallLanguages">
 					<?php echo JHtml::_('form.token'); ?>
 					<?php endif; ?>
-					<button id="installLanguages" class="btn btn-block btn-primary">
+					<button id="installLanguagesButton" class="btn btn-block btn-primary">
 						<?php echo JText::_('JNEXT'); ?>
 					</button>
 					<button id="skipLanguages" class="btn btn-block btn-secondary">
@@ -191,12 +191,19 @@ defined('_JEXEC') or die;
 			<div class="j-install-step-form">
 				<h3><?php echo JText::_('Do you want to install sample data?'); ?></h3>
 				<p><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
-				<div class="form-group">
-					<button id="installSampleData" class="btn btn-primary btn-block"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
-					<button id="skipSampleData" class="btn btn-block btn-secondary">
-						<?php echo JText::_('JSKIP'); ?>
-					</button>
-				</div>
+
+
+				<form action="index.php" method="post" id="sampleDataForm" class="form-validate">
+					<div class="form-group">
+						<input type="hidden" name="sample_file" value="sample_testing.sql">
+						<input type="hidden" name="task" value="InstallSample">
+						<?php echo JHtml::_('form.token'); ?>
+						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
+						<button id="skipSampleData" class="btn btn-block btn-secondary">
+							<?php echo JText::_('JSKIP'); ?>
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 

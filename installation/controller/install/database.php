@@ -40,9 +40,6 @@ class InstallationControllerInstallDatabase extends JControllerBase
 
 		// Attempt to create the database tables.
 		if (!(new InstallationModelDatabase)->initialise($options) || !(new InstallationModelDatabase)->installCmsData($options))
-//			->initialise($options))
-
-//			->installCmsData($options))
 		{
 			$r->view = 'database';
 		}

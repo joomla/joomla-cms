@@ -165,7 +165,7 @@ class InstallationModelDatabase extends JModelBase
 		// Workaround for UPPERCASE table prefix for postgresql
 		if ($options->db_type == 'postgresql')
 		{
-			if (isset($options->db_prefix) && strtolower($options->db_prefix) != $options->db_prefix)
+			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
@@ -756,6 +756,9 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function installSampleData($options)
 	{
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
+
 		if (!isset($options->db_created) || !$options->db_created)
 		{
 			return $this->createDatabase($options);
@@ -769,15 +772,18 @@ class InstallationModelDatabase extends JModelBase
 		// Build the path to the sample data file.
 		$type = $options->db_type;
 
+		// @todo remove the hardcoded value here
+		$file = 'sample_testing.sql'; //(string) $options->sampleData;
+
 		if ($db->getServerType() === 'mysql')
 		{
 			$type = 'mysql';
 		}
 
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
+		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $file;
 
 		// Attempt to import the database schema if one is chosen.
-		if ($options->sample_file != '')
+		if ($file !== '')
 		{
 			if (!file_exists($data))
 			{
@@ -829,12 +835,6 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function installCmsData($options)
 	{
-//		// Attempt to create the database tables.
-//		if (!$this->createTables($options))
-//		{
-//			return false;
-//		}
-//
 		if (!$db = $this->initialise($options))
 		{
 			return false;
@@ -895,7 +895,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			foreach ($fields as $field)
 			{
-//				$xtable = str_replace('#__', $db->getPrefix(), $table);
 				$query = $db->getQuery(true)
 					->update($db->quoteName($table))
 					->set($db->quoteName($field) . ' = ' . $db->quote($userId))

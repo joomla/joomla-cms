@@ -35,7 +35,7 @@
 			Joomla.loadingLayer("show");
 		}
 
-		if (page === 'remove') {
+		if (page) {
 			window.location = Joomla.baseUrl + '?view=' + page + '&layout=default';
 		}
 
@@ -160,9 +160,62 @@
 		return 'Loaded...'
 	};
 
+
+	/**
+	 * Executes the required tasks to complete site installation
+	 *
+	 * @param tasks       An array of install tasks to execute
+	 */
+	Joomla.install = function(tasks, form) {
+		if (!form) {
+			throw new Error('No form provided')
+		}
+		if (!tasks.length) {
+			Joomla.goToPage('remove');
+			return;
+		}
+
+		var task = tasks.shift();
+		var data = Joomla.serialiseForm(form);
+		Joomla.loadingLayer("show");
+
+		Joomla.request({
+			type: "POST",
+			url : Joomla.baseUrl + '?task=Install' + task  + '&layout=default',
+			data: data,
+			perform: true,
+			onSuccess: function(response, xhr){
+				response = JSON.parse(response);
+				Joomla.replaceTokens(response.token);
+
+				if (response.messages) {
+					Joomla.renderMessages(response.messages);
+					Joomla.goToPage(response.data.view, true);
+				} else {
+					Joomla.loadingLayer('hide');
+					Joomla.install(tasks, form);
+				}
+			},
+			onError:   function(xhr){
+				Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+				Joomla.goToPage('remove');
+
+				try {
+					var r = JSON.parse(xhr.responseText);
+					Joomla.replaceTokens(r.token);
+					alert(r.message);
+				} catch (e) {
+				}
+			}
+		});
+	};
+
 	/* Load scripts async */
 	document.addEventListener('DOMContentLoaded', function() {
 		var page = document.getElementById('installer-view');
+
+		// Set the base URL
+		Joomla.baseUrl = Joomla.getOptions('system.installation').url ? Joomla.getOptions('system.installation').url.replace(/&amp;/g, '&') : 'index.php';
 
 		// Show the container
 		var container = document.getElementById('container-installation');

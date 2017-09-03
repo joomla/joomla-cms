@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller class to set the FTP data for the Joomla Installer.
+ * Controller class to set the site data for the Joomla Installer.
  *
- * @since  3.1
+ * @since  __DEPLOY_VERSION__
  */
-class InstallationControllerFtp extends JControllerBase
+class InstallationControllerRemove extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -32,12 +32,10 @@ class InstallationControllerFtp extends JControllerBase
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		// Check the form
-		(new InstallationModelSetup)->checkForm('ftp');
-
 		// Redirect to the page.
 		$r = new stdClass;
-		$r->view = 'preinstall';
+		$r->view = 'remove';
+
 		$app->sendJsonResponse($r);
 	}
 }

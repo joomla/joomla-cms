@@ -10,9 +10,6 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 
-// @TODO Remove when webcomponents get merged into the core
-JLoader::register('JDocumentRendererHtmlMessage', __DIR__ . '/message.php', true);
-
 // Add Stylesheets
 JHtml::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
 JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css', ['version' => 'auto']);

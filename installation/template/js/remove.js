@@ -34,3 +34,33 @@ if (document.getElementById('skipSampleData')) {
 		document.getElementById('installFinal').classList.add('active');
 	})
 }
+
+
+if (document.getElementById('installLanguagesButton')) {
+	document.getElementById('installLanguagesButton').addEventListener('click', function(e) {
+		e.preventDefault();
+		var form = document.getElementById('languagesForm');
+		if (form) {
+			// Install the extra languages
+			Joomla.install(['languages'], form);
+
+			document.getElementById('installLanguages').classList.remove('active');
+			document.getElementById('installSampleData').classList.add('active');
+		}
+	})
+}
+
+if (document.getElementById('installSampleDataButton')) {
+	document.getElementById('installSampleDataButton').addEventListener('click', function(e) {
+		e.preventDefault();
+		var form = document.getElementById('sampleDataForm');
+		if (form) {
+			// Install the extra languages
+			Joomla.install(['sample'], form);
+
+			document.getElementById('installSampleData').classList.toggle('active');
+			document.getElementById('installSampleData').style.display = 'none';
+			document.getElementById('installFinal').classList.add('active');
+		}
+	})
+}

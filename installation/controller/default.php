@@ -66,6 +66,11 @@ class InstallationControllerDefault extends JControllerBase
 				$app->redirect('index.php?view=setup');
 			}
 
+			if ($vName === 'remove' && !file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+			{
+				$app->redirect('index.php?view=setup');
+			}
+
 			$options      = (new InstallationModelChecks)->getOptions();
 			$model        = new InstallationModelSetup;
 			$checkOptions = true;
@@ -84,7 +89,7 @@ class InstallationControllerDefault extends JControllerBase
 
 		if (!class_exists($vClass))
 		{
-			$vClass = 'InstallationViewError';
+			$vClass = 'InstallationViewErrorHtml';
 		}
 
 		/** @var JViewHtml $view */

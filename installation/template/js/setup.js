@@ -29,6 +29,7 @@ Joomla.setlanguage = function(form) {
 				Joomla.loadingLayer("hide");
 			} else {
 				Joomla.loadingLayer("hide");
+				console.log(response.data.view)
 				Joomla.goToPage(response.data.view, true);
 			}
 		},
@@ -91,7 +92,7 @@ Joomla.checkDbCredentials = function() {
 			} else {
 				Joomla.loadingLayer('hide');
 				// You shall pass
-				Joomla.install(['Config']);
+				Joomla.install(['Config'], form);
 
 				// If all good (we need some code here)
 				Joomla.goToPage('remove');
@@ -111,58 +112,8 @@ Joomla.checkDbCredentials = function() {
 	});
 };
 
-/**
- * Executes the required tasks to complete site installation
- *
- * @param tasks       An array of install tasks to execute
- */
-Joomla.install = function(tasks) {
-	if (!tasks.length) {
-		Joomla.goToPage('remove');
-		return;
-	}
-
-	var task = tasks.shift();
-	var form = document.getElementById('adminForm');
-	var data = Joomla.serialiseForm(form);
-	Joomla.loadingLayer("show");
-
-	Joomla.request({
-		type: "POST",
-		url : Joomla.baseUrl + '?task=Install' + task  + '&layout=default',
-		data: data,
-		perform: true,
-		onSuccess: function(response, xhr){
-			response = JSON.parse(response);
-			Joomla.replaceTokens(response.token);
-
-			if (response.messages) {
-				Joomla.renderMessages(response.messages);
-				Joomla.goToPage(response.data.view, true);
-			} else {
-				Joomla.loadingLayer('hide');
-				Joomla.install(tasks);
-			}
-		},
-		onError:   function(xhr){
-			Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
-			Joomla.goToPage('remove');
-
-			try {
-				var r = JSON.parse(xhr.responseText);
-				Joomla.replaceTokens(r.token);
-				alert(r.message);
-			} catch (e) {
-			}
-		}
-	});
-};
-
 
 (function() {
-	// Set the base URL
-	Joomla.baseUrl = Joomla.getOptions('system.installation').url ? Joomla.getOptions('system.installation').url.replace(/&amp;/g, '&') : 'index.php';
-
 	// Merge options from the session storage
 	if (sessionStorage && sessionStorage.getItem('installation-data')) {
 		Joomla.extend(this.options, sessionStorage.getItem('installation-data'));
@@ -210,11 +161,9 @@ Joomla.install = function(tasks) {
 			e.preventDefault();
 			if (Joomla.checkFormField(['#jform_site_name'])) {
 				if (document.getElementById('installStep2')) {
-					document.getElementById('installStep2').removeAttribute('hidden');
 					document.getElementById('installStep2').classList.add('active');
-					document.getElementById('step1').parentNode.removeChild(document.getElementById('step1'));
 					document.getElementById('installStep1').classList.remove('active');
-					Joomla.scrollTo(document.getElementById('installStep2'), document.getElementById('installStep2').offsetTop);
+					//Joomla.scrollTo(document.getElementById('installStep2'), document.getElementById('installStep2').offsetTop);
 
 					// Focus to the next field
 					if (document.getElementById('jform_admin_user')) {
@@ -230,11 +179,9 @@ Joomla.install = function(tasks) {
 			e.preventDefault();
 			if (Joomla.checkFormField(['#jform_admin_user', '#jform_admin_email', '#jform_admin_password'])) {
 				if (document.getElementById('installStep3')) {
-					document.getElementById('installStep3').removeAttribute('hidden');
 					document.getElementById('installStep3').classList.add('active');
-					document.getElementById('step2').parentNode.removeChild(document.getElementById('step2'));
 					document.getElementById('installStep2').classList.remove('active');
-					Joomla.scrollTo(document.getElementById('installStep3'), document.getElementById('installStep3').offsetTop);
+					// Joomla.scrollTo(document.getElementById('installStep3'), document.getElementById('installStep3').offsetTop);
 					document.getElementById('setupButton').style.display = 'block';
 
 					// Focus to the next field

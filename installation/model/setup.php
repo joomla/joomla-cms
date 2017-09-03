@@ -132,8 +132,6 @@ class InstallationModelSetup extends JModelBase
 		$form = $this->getForm();
 		$data = $form->filter($data);
 
-		unset($data['admin_password2']);
-
 		$this->storeOptions($data);
 
 		// Check for validation errors.
@@ -141,8 +139,6 @@ class InstallationModelSetup extends JModelBase
 		{
 			return false;
 		}
-
-		unset($return['admin_password2']);
 
 		// Store the options in the session.
 		return $this->storeOptions($return);
