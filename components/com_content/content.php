@@ -18,7 +18,7 @@ $user  = JFactory::getUser();
 
 if ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
 {
-	if (!$user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) == 0 )
+	if (!$user->authorise('core.create', 'com_content') && count($user->getAuthorisedCategories('com_content', 'core.create')) == 0 )
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
