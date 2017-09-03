@@ -19,83 +19,49 @@ if ($tagId = $params->get('tag_id', ''))
 // The menu class is deprecated. Use nav instead
 ?>
 <ul class="nav menu<?php echo $class_sfx; ?>"<?php echo $id; ?>>
-<?php foreach ($list as $i => &$item)
-{
-	$class = 'item-' . $item->id;
-
-	if ($item->id == $default_id)
-	{
-		$class .= ' default';
-	}
-
-	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
-	{
-		$class .= ' current';
-	}
-
-	if (in_array($item->id, $path))
-	{
-		$class .= ' active';
-	}
-	elseif ($item->type === 'alias')
-	{
-		$aliasToId = $item->params->get('aliasoptions');
-
-		if (count($path) > 0 && $aliasToId == $path[count($path) - 1])
-		{
-			$class .= ' active';
-		}
-		elseif (in_array($aliasToId, $path))
-		{
-			$class .= ' alias-parent-active';
-		}
-	}
-
-	if ($item->type === 'separator')
-	{
-		$class .= ' divider';
-	}
-
-	if ($item->deeper)
-	{
-		$class .= ' deeper';
-	}
-
-	if ($item->parent)
-	{
-		$class .= ' parent';
-	}
-
-	echo '<li class="' . $class . '">';
-
-	switch ($item->type) :
-		case 'separator':
-		case 'component':
-		case 'heading':
-		case 'url':
-			require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
-			break;
-
-		default:
-			require JModuleHelper::getLayoutPath('mod_menu', 'default_url');
-			break;
-	endswitch;
-
-	// The next item is deeper.
-	if ($item->deeper)
-	{
-		echo '<ul class="nav-child unstyled small">';
-	}
-	// The next item is shallower.
-	elseif ($item->shallower)
-	{
-		echo '</li>';
-		echo str_repeat('</ul></li>', $item->level_diff);
-	}
-	// The next item is on the same level.
-	else
-	{
-		echo '</li>';
-	}
-}
-?></ul>
+	<?php foreach ($list as $i => &$item) : ?>
+		<?php $class = 'item-' . $item->id; ?>
+		<?php if ($item->id == $default_id) : ?>
+			<?php $class .= ' default'; ?>
+		<?php endif; ?>
+		<?php if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id)) : ?>
+			<?php $class .= ' current'; ?>
+		<?php endif; ?>
+		<?php if (in_array($item->id, $path)) : ?>
+			<?php $class .= ' active'; ?>
+		<?php elseif ($item->type === 'alias') : ?>
+			<?php $aliasToId = $item->params->get('aliasoptions'); ?>
+			<?php if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) : ?>
+				<?php $class .= ' active'; ?>
+			<?php elseif (in_array($aliasToId, $path)) : ?>
+				<?php $class .= ' alias-parent-active'; ?>
+			<?php endif; ?>
+		<?php endif; ?>
+		<?php if ($item->type === 'separator') : ?>
+			<?php $class .= ' divider'; ?>
+		<?php endif; ?>
+		<?php if ($item->deeper) : ?>
+			<?php $class .= ' deeper'; ?>
+		<?php endif; ?>
+		<?php if ($item->parent) : ?>
+			<?php $class .= ' parent'; ?>
+		<?php endif; ?>
+		<li class=" <?php echo $class; ?>">
+			<?php if (in_array($item->type, array('separator', 'component', 'heading', 'url'))) : ?>
+				<?php require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type); ?>
+			<?php else : ?>
+				<?php require JModuleHelper::getLayoutPath('mod_menu', 'default_url'); ?>
+			<?php endif; ?>
+			<?php // The next item is deeper. ?>
+			<?php if ($item->deeper) : ?>
+				<?php echo '<ul class="nav-child unstyled small">'; ?>
+			<?php elseif ($item->shallower) : ?>
+				<?php // The next item is shallower. ?>
+				<?php echo '</li>'; ?>
+				<?php echo str_repeat('</ul></li>', $item->level_diff); ?>
+			<?php else : ?>
+			<?php // The next item is on the same level. ?>
+				<?php echo '</li>'; ?>
+			<?php endif; ?>
+	<?php endforeach; ?>
+</ul>

@@ -8,13 +8,16 @@
  */
 
 defined('_JEXEC') or die;
+
+$image = JHtml::_('image', $image->folder . '/' . $image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); 
+
 ?>
 <div class="random-image<?php echo $moduleclass_sfx; ?>">
-<?php if ($link) : ?>
-<a href="<?php echo $link; ?>">
-<?php endif; ?>
-	<?php echo JHtml::_('image', $image->folder . '/' . $image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
-<?php if ($link) : ?>
-</a>
-<?php endif; ?>
+	<?php if ($link) : ?>
+		<a href="<?php echo $link; ?>">
+			<?php echo $image; ?>
+		</a>
+	<?php else : ?>
+		<?php echo $image; ?>
+	<?php endif; ?>
 </div>
