@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Component\Exception;
 
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -15,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.7.0
  */
-class MissingComponentException extends \InvalidArgumentException
+class MissingComponentException extends RouteNotFoundException
 {
 	/**
 	 * Constructor
