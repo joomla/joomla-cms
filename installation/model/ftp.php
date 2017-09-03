@@ -34,19 +34,19 @@ class InstallationModelFtp extends JModelBase
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
-		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'), array('type' => FTP_BINARY));
+		@$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port, array('type' => FTP_BINARY));
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected())
 		{
 			JFactory::getApplication()->enqueueMessage(
-				$options->get('ftp_host') . ':' . $options->get('ftp_port') . ' ' . JText::_('INSTL_FTP_NOCONNECT'), 'error'
+				$options->ftp_host . ':' . $options->ftp_port . ' ' . JText::_('INSTL_FTP_NOCONNECT'), 'error'
 			);
 
 			return false;
 		}
 
-		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
+		if (!$ftp->login($options->ftp_user, $options->ftp_pass))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
 
@@ -152,7 +152,7 @@ class InstallationModelFtp extends JModelBase
 		$options = ArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
-		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
+		@$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected())
@@ -162,7 +162,7 @@ class InstallationModelFtp extends JModelBase
 			return false;
 		}
 
-		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
+		if (!$ftp->login($options->ftp_user, $options->ftp_pass))
 		{
 			$ftp->quit();
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
@@ -172,7 +172,7 @@ class InstallationModelFtp extends JModelBase
 
 		// Since the root path will be trimmed when it gets saved to configuration.php,
 		// we want to test with the same value as well.
-		$root = rtrim($options->get('ftp_root'), '/');
+		$root = rtrim($options->ftp_root, '/');
 
 		// Verify PWD function.
 		if ($ftp->pwd() === false)

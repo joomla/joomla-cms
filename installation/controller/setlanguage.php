@@ -30,7 +30,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Very crude workaround to give an error message when JSON is disabled
 		if (!function_exists('json_encode') || !function_exists('json_decode'))
@@ -56,7 +56,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 
 		// Get the posted values from the request and validate them.
 		$data   = $this->getInput()->post->get('jform', [], 'array');
-		$return = $model->validate($data, 'preinstall');
+		$return = $data;//$model->validate($data, 'preinstall');
 
 		$r = new stdClass;
 
@@ -67,7 +67,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 			 * The validate method enqueued all messages for us, so we just need to
 			 * redirect back to the site setup screen.
 			 */
-			$r->view = $this->getInput()->getWord('view', 'site');
+			$r->view = $this->getInput()->getWord('view', 'setup');
 			$app->sendJsonResponse($r);
 		}
 
@@ -78,7 +78,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 		JFactory::$language = JLanguage::getInstance($return['language']);
 
 		// Redirect to the page.
-		$r->view = $this->getInput()->getWord('view', 'site');
+		$r->view = $this->getInput()->getWord('view', 'setup');
 		$app->sendJsonResponse($r);
 	}
 }

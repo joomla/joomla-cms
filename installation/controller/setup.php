@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller class to detect the site's FTP root for the Joomla Installer.
+ * Controller class to set the site data for the Joomla Installer.
  *
  * @since  3.1
  */
-class InstallationControllerDetectftproot extends JControllerBase
+class InstallationControllerSetup extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -32,23 +32,14 @@ class InstallationControllerDetectftproot extends JControllerBase
 		// Check for request forgeries.
 //		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		// Get the data
-		$data = $app->input->post->get('jform', array(), 'array');
-
-		// Store the options in the session.
-		$vars = (new InstallationModelSetup)->storeOptions($data);
-
-		// Attempt to detect the Joomla root from the ftp account.
-		$return = (new InstallationModelFtp)->detectFtpRoot($vars);
-
-		// Build the response object
+		// Redirect to the page.
 		$r = new stdClass;
-		$r->view = 'preinstall';
+		$r->view = 'remove';
 
-		// If we got a FTP root, add it to the response object
-		if ($return)
+		// Check the form
+		if ((new InstallationModelSetup)->checkForm('setup') === false || (new InstallationModelSetup)->initialise('setup') === false)
 		{
-			$r->root = $return;
+			$r->view = 'setup';
 		}
 
 		$app->sendJsonResponse($r);

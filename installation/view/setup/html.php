@@ -10,19 +10,27 @@
 defined('_JEXEC') or die;
 
 /**
- * The HTML Joomla Core Pre-Install View
+ * The Installation Complete View
  *
  * @since  3.1
  */
-class InstallationViewPreinstallHtml extends InstallationViewDefault
+class InstallationViewRemoveHtml extends JViewHtml
 {
 	/**
-	 * Array of PHP config options.
+	 * The JForm object
 	 *
-	 * @var    array
+	 * @var    JForm
 	 * @since  3.1
 	 */
-	protected $options;
+	protected $form;
+
+	/**
+	 * Redefine the model so the correct type hinting is available.
+	 *
+	 * @var     InstallationModelSetup
+	 * @since   3.1
+	 */
+	protected $model;
 
 	/**
 	 * Method to render the view.
@@ -33,7 +41,7 @@ class InstallationViewPreinstallHtml extends InstallationViewDefault
 	 */
 	public function render()
 	{
-		$this->options  = $this->model->getPhpOptions();
+		$this->form = $this->model->getForm();
 
 		return parent::render();
 	}

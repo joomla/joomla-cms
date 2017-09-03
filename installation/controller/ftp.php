@@ -37,7 +37,7 @@ class InstallationControllerFtp extends JControllerBase
 
 		// Redirect to the page.
 		$r = new stdClass;
-		$r->view = 'summary';
+		$r->view = 'preinstall';
 		$app->sendJsonResponse($r);
 	}
 }
