@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 <?php if (!empty($feed) && is_string($feed)) : ?>
 	<?php echo $feed; ?>
 <?php else : ?>
-	<?php $lang      = JFactory::getLanguage(); ?>
-	<?php $myrtl     = $params->get('rssrtl'); ?>
+	<?php $lang = JFactory::getLanguage(); ?>
+	<?php $myrtl = $params->get('rssrtl'); ?>
 	<?php $direction = ' '; ?>
 	<?php $isRtl = $lang->isRtl(); ?>
 	<?php if ($isRtl && $myrtl == 0) : ?>
