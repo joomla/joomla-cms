@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 ?>
 <div class="newsflash<?php echo $moduleclass_sfx; ?>">
 	<?php foreach ($list as $item) : ?>
