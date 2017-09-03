@@ -82,12 +82,8 @@ defined('_JEXEC') or die;
 				<?php	if ($this->development) : ?>
 					<div class="alert flex-column">
 						<b>We detected development mode</b>
-						<div class="form-check">
-							<label class="form-check-label">
-								<input type="checkbox" class="form-check-input">
-								Check if you wish to delete the installation folder on complete
-							</label>
-						</div>
+						<br>
+						<b>The installation folder will not be removed on complete</b>
 					</div>
 					<!-- <input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>"> -->
 				<?php endif; ?>
