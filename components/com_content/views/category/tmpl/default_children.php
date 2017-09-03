@@ -25,7 +25,7 @@ $lang  = JFactory::getLanguage();
 				<?php $class = ''; ?>
 				<?php if ($lang->isRtl()) : ?>
 					<h3 class="page-header item-title">
-						<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
+						<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
 							<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 								<?php echo $child->getNumItems(true); ?>
 							</span>
