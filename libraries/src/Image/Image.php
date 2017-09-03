@@ -268,7 +268,7 @@ class Image extends FrameworkImage
 	 *
 	 * @param   string  $type  The image filter type to get.
 	 *
-	 * @return  Filter
+	 * @return  ImageFilter
 	 *
 	 * @since   11.3
 	 * @throws  \RuntimeException
@@ -296,7 +296,7 @@ class Image extends FrameworkImage
 		$instance = new $className($this->handle);
 
 		// Verify that the filter type is valid.
-		if (!($instance instanceof Filter))
+		if (!($instance instanceof ImageFilter))
 		{
 			// @codeCoverageIgnoreStart
 			\JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', \JLog::ERROR);

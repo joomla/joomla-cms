@@ -89,6 +89,7 @@ class Indexer extends Controller
 			// Send the response.
 			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
@@ -219,6 +220,7 @@ class Indexer extends Controller
 			// Send the response.
 			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
@@ -264,6 +266,7 @@ class Indexer extends Controller
 			// Send the response.
 			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{

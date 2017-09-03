@@ -11,6 +11,8 @@ namespace Joomla\CMS\Image\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Image\ImageFilter;
+
 \JLog::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', \JLog::WARNING, 'deprecated');
 
 /**
@@ -21,7 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       3.4
  * @deprecated  5.0  Use Joomla\Image\Filter\Backgroundfill instead
  */
-class Backgroundfill extends \Joomla\CMS\Image\Filter
+class Backgroundfill extends ImageFilter
 {
 	/**
 	 * Method to apply a background color to an image resource.

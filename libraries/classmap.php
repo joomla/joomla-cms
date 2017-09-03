@@ -352,6 +352,7 @@ JLoader::registerAlias('JFormFieldPlugin_Status',           '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldPredefinedList',          '\\Joomla\\CMS\\Form\\Field\\PredefinedListField', '5.0');
 JLoader::registerAlias('JFormFieldRadio',                   '\\Joomla\\CMS\\Form\\Field\\RadioField', '5.0');
 JLoader::registerAlias('JFormFieldRange',                   '\\Joomla\\CMS\\Form\\Field\\RangeField', '5.0');
+JLoader::registerAlias('JFormFieldRedirect_Status',         '\\Joomla\\CMS\\Form\\Field\\RedirectStatusField', '5.0');
 JLoader::registerAlias('JFormFieldRegistrationDateRange',   '\\Joomla\\CMS\\Form\\Field\\RegistrationDateRangeField', '5.0');
 JLoader::registerAlias('JFormFieldRules',                   '\\Joomla\\CMS\\Form\\Field\\RulesField', '5.0');
 JLoader::registerAlias('JFormFieldSessionHandler',          '\\Joomla\\CMS\\Form\\Field\\SessionhandlerField', '5.0');

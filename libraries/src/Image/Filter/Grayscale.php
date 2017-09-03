@@ -11,6 +11,8 @@ namespace Joomla\CMS\Image\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Image\ImageFilter;
+
 \JLog::add('JImageFilterGrayscale is deprecated, use Joomla\Image\Filter\Grayscale instead.', \JLog::WARNING, 'deprecated');
 
 /**
@@ -19,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Grayscale instead
  */
-class Grayscale extends \Joomla\CMS\Image\Filter
+class Grayscale extends ImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.

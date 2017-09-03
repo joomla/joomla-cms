@@ -26,10 +26,7 @@ use Joomla\Component\Content\Site\Model\Categories;
 /**
  * Helper for mod_articles_category
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_category
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ArticlesCategoryHelper
 {

@@ -17,9 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 /**
  * Helper for mod_breadcrumbs
  *
- * @package     Joomla.Site
- * @subpackage  mod_breadcrumbs
- * @since       1.5
+ * @since  1.5
  */
 class BreadcrumbsHelper
 {

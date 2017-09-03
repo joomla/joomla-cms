@@ -20,9 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 /**
  * Helper for mod_related_items
  *
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- * @since       1.5
+ * @since  1.5
  */
 abstract class RelatedItemsHelper
 {

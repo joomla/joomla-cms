@@ -1,19 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Image\ImageFilter;
-
-\JLog::add(__NAMESPACE__ . '\\Filter is deprecated, use Joomla\Image\ImageFilter instead.', \JLog::WARNING, 'deprecated');
+use Joomla\CMS\Log\Log;
 
 /**
  * Class to manipulate an image.
@@ -21,7 +18,7 @@ use Joomla\Image\ImageFilter;
  * @since       11.3
  * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
  */
-abstract class Filter extends ImageFilter
+abstract class ImageFilter extends \Joomla\Image\ImageFilter
 {
 	/**
 	 * Class constructor.
@@ -33,8 +30,10 @@ abstract class Filter extends ImageFilter
 	 */
 	public function __construct($handle)
 	{
+		Log::add('Joomla\CMS\Image\ImageFilter is deprecated, use Joomla\Image\ImageFilter instead.', Log::WARNING, 'deprecated');
+
 		// Inject the PSR-3 compatible logger in for forward compatibility
-		$this->setLogger(\JLog::createDelegatedLogger());
+		$this->setLogger(Log::createDelegatedLogger());
 
 		parent::__construct($handle);
 	}
