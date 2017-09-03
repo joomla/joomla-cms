@@ -29,7 +29,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 		<form name="lang" method="post" action="<?php echo htmlspecialchars(JUri::current(), ENT_COMPAT, 'UTF-8'); ?>">
 			<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);">
 				<?php foreach ($list as $language) : ?>
-					<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
+					<option dir=<?php echo $language->rtl ? 'rtl' : 'ltr'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 						<?php echo $language->title_native; ?>
 					</option>
 				<?php endforeach; ?>
