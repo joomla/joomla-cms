@@ -336,8 +336,46 @@ class Update extends \JObject
 					&& $patchMinimumSupported
 					&& $patchMaximumSupported)
 				{
+					$phpMatch = false;
+
+					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
+					{
+						$phpMatch = true;
+					}
+
+					$dbMatch = false;
+
+					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+					if (isset($this->currentUpdate->supported_databases))
+					{
+						$db           = Factory::getDbo();
+						$dbType       = strtolower($db->getServerType());
+						$dbVersion    = $db->getVersion();
+						$supportedDbs = $this->currentUpdate->supported_databases;
+
+						// Do we have a entry for the database?
+						if (isset($supportedDbs->$dbType))
+						{
+							$minumumVersion = $supportedDbs->$dbType;
+							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+						}
+					}
+					else
+					{
+						// Set to true if the <supported_databases> tag is not set
+						$dbMatch = true;
+					}
+
 					// Check minimum stability
-					if (!(isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability)))
+					$stabilityMatch = true;
+
+					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
+					{
+						$stabilityMatch = false;
+					}
+
+					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
 						if (isset($this->latest))
 						{
@@ -350,6 +388,11 @@ class Update extends \JObject
 						{
 							$this->latest = $this->currentUpdate;
 						}
+					}
+					else
+					{
+						$this->latest = new \stdClass;
+						$this->latest->php_minimum = $this->currentUpdate->php_minimum;
 					}
 				}
 				break;
