@@ -480,3 +480,14 @@ JLoader::registerAlias('JFeedParserNamespace',              '\\Joomla\\CMS\\Feed
 JLoader::registerAlias('JFeedParserRss',                    '\\Joomla\\CMS\\Feed\\Parser\\RssParser', '5.0');
 JLoader::registerAlias('JFeedParserRssItunes',              '\\Joomla\\CMS\\Feed\\Parser\\Rss\\ItunesRssParser', '5.0');
 JLoader::registerAlias('JFeedParserRssMedia',               '\\Joomla\\CMS\\Feed\\Parser\\Rss\\MediaRssParser', '5.0');
+
+JLoader::registerAlias('JImage',                            '\\Joomla\\CMS\\Image\\Image', '5.0');
+JLoader::registerAlias('JImageFilter',                      '\\Joomla\\CMS\\Image\\ImageFilter', '5.0');
+JLoader::registerAlias('JImageFilterBackgroundfill',        '\\Joomla\\CMS\\Image\\Filter\\Backgroundfill', '5.0');
+JLoader::registerAlias('JImageFilterBrightness',            '\\Joomla\\CMS\\Image\\Filter\\Brightness', '5.0');
+JLoader::registerAlias('JImageFilterContrast',              '\\Joomla\\CMS\\Image\\Filter\\Contrast', '5.0');
+JLoader::registerAlias('JImageFilterEdgedetect',            '\\Joomla\\CMS\\Image\\Filter\\Edgedetect', '5.0');
+JLoader::registerAlias('JImageFilterEmboss',                '\\Joomla\\CMS\\Image\\Filter\\Emboss', '5.0');
+JLoader::registerAlias('JImageFilterNegate',                '\\Joomla\\CMS\\Image\\Filter\\Negate', '5.0');
+JLoader::registerAlias('JImageFilterSketchy',               '\\Joomla\\CMS\\Image\\Filter\\Sketchy', '5.0');
+JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\CMS\\Image\\Filter\\Smooth', '5.0');

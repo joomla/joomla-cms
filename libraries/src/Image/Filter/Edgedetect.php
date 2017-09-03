@@ -7,17 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\Image\Filter;
+
+use Joomla\CMS\Image\Filter;
+
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterEmboss is deprecated, use Joomla\Image\Filter\Emboss instead.', JLog::WARNING, 'deprecated');
+\JLog::add('JImageFilterEdgedetect is deprecated, use Joomla\Image\Filter\Edgedetect instead.', \JLog::WARNING, 'deprecated');
 
 /**
- * Image Filter class to emboss an image.
+ * Image Filter class to add an edge detect effect to an image.
  *
  * @since       11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Emboss instead
+ * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect instead
  */
-class JImageFilterEmboss extends JImageFilter
+class Edgedetect extends Filter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -27,11 +31,11 @@ class JImageFilterEmboss extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Emboss::execute() instead
+	 * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect::execute() instead
 	 */
 	public function execute(array $options = array())
 	{
-		// Perform the emboss filter.
-		imagefilter($this->handle, IMG_FILTER_EMBOSS);
+		// Perform the edge detection filter.
+		imagefilter($this->handle, IMG_FILTER_EDGEDETECT);
 	}
 }

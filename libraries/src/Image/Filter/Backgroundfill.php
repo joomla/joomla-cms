@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\Image\Filter;
+
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', JLog::WARNING, 'deprecated');
+\JLog::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', \JLog::WARNING, 'deprecated');
 
 /**
  * Image Filter class fill background with color;
@@ -19,7 +21,7 @@ JLog::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Bac
  * @since       3.4
  * @deprecated  5.0  Use Joomla\Image\Filter\Backgroundfill instead
  */
-class JImageFilterBackgroundfill extends JImageFilter
+class Backgroundfill extends \Joomla\CMS\Image\Filter
 {
 	/**
 	 * Method to apply a background color to an image resource.
@@ -30,7 +32,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Backgroundfill::execute() instead
 	 */
 	public function execute(array $options = array())
@@ -38,7 +40,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 		// Validate that the color value exists and is an integer.
 		if (!isset($options['color']))
 		{
-			throw new InvalidArgumentException('No color value was given. Expected string or array.');
+			throw new \InvalidArgumentException('No color value was given. Expected string or array.');
 		}
 
 		$colorCode = (!empty($options['color'])) ? $options['color'] : null;

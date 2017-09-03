@@ -7,17 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\Image\Filter;
+
+use Joomla\CMS\Image\Filter;
+
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterGrayscale is deprecated, use Joomla\Image\Filter\Grayscale instead.', JLog::WARNING, 'deprecated');
+\JLog::add('JImageFilterNegate is deprecated, use Joomla\Image\Filter\Negate instead.', \JLog::WARNING, 'deprecated');
 
 /**
- * Image Filter class to transform an image to grayscale.
+ * Image Filter class to negate the colors of an image.
  *
  * @since       11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Grayscale instead
+ * @deprecated  5.0  Use Joomla\Image\Filter\Negate instead
  */
-class JImageFilterGrayscale extends JImageFilter
+class Negate extends Filter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -27,11 +31,11 @@ class JImageFilterGrayscale extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Grayscale::execute() instead
+	 * @deprecated  5.0  Use Joomla\Image\Filter\Negate::execute() instead
 	 */
 	public function execute(array $options = array())
 	{
-		// Perform the grayscale filter.
-		imagefilter($this->handle, IMG_FILTER_GRAYSCALE);
+		// Perform the negative filter.
+		imagefilter($this->handle, IMG_FILTER_NEGATE);
 	}
 }

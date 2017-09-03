@@ -7,17 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\Filter\Image;
+
+use Joomla\CMS\Image\Filter;
+
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterNegate is deprecated, use Joomla\Image\Filter\Negate instead.', JLog::WARNING, 'deprecated');
+\JLog::add('JImageFilterSketchy is deprecated, use Joomla\Image\Filter\Sketchy instead.', \JLog::WARNING, 'deprecated');
 
 /**
- * Image Filter class to negate the colors of an image.
+ * Image Filter class to make an image appear "sketchy".
  *
  * @since       11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Negate instead
+ * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy instead
  */
-class JImageFilterNegate extends JImageFilter
+class Sketchy extends Filter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -27,11 +31,11 @@ class JImageFilterNegate extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Negate::execute() instead
+	 * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy::execute() instead
 	 */
 	public function execute(array $options = array())
 	{
-		// Perform the negative filter.
-		imagefilter($this->handle, IMG_FILTER_NEGATE);
+		// Perform the sketchy filter.
+		imagefilter($this->handle, IMG_FILTER_MEAN_REMOVAL);
 	}
 }

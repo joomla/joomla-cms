@@ -7,9 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\Image\Filter;
+
+use Joomla\CMS\Image\Filter;
+
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterSmooth is deprecated, use Joomla\Image\Filter\Smooth instead.', JLog::WARNING, 'deprecated');
+\JLog::add('JImageFilterSmooth is deprecated, use Joomla\Image\Filter\Smooth instead.', \JLog::WARNING, 'deprecated');
 
 /**
  * Image Filter class adjust the smoothness of an image.
@@ -17,7 +21,7 @@ JLog::add('JImageFilterSmooth is deprecated, use Joomla\Image\Filter\Smooth inst
  * @since       11.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Smooth instead
  */
-class JImageFilterSmooth extends JImageFilter
+class Smooth extends Filter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -27,7 +31,7 @@ class JImageFilterSmooth extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Smooth::execute() instead
 	 */
 	public function execute(array $options = array())
@@ -35,7 +39,7 @@ class JImageFilterSmooth extends JImageFilter
 		// Validate that the smoothing value exists and is an integer.
 		if (!isset($options[IMG_FILTER_SMOOTH]) || !is_int($options[IMG_FILTER_SMOOTH]))
 		{
-			throw new InvalidArgumentException('No valid smoothing value was given.  Expected integer.');
+			throw new \InvalidArgumentException('No valid smoothing value was given.  Expected integer.');
 		}
 
 		// Perform the smoothing filter.

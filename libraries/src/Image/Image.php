@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\Image;
+
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Image\Image;
+use Joomla\Image\Image as FrameworkImage;
 
 /**
  * Class to manipulate an image.
  *
  * @since  11.3
  */
-class JImage extends Image
+class Image extends FrameworkImage
 {
 	/**
 	 * True for best quality. False for speed
@@ -32,12 +34,12 @@ class JImage extends Image
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
 	{
 		// Inject the PSR-3 compatible logger in for forward compatibility
-		$this->setLogger(JLog::createDelegatedLogger());
+		$this->setLogger(\JLog::createDelegatedLogger());
 
 		parent::__construct($source);
 	}
@@ -52,17 +54,17 @@ class JImage extends Image
 	 * @param   boolean  $createNew  If true the current image will be cloned, cropped and returned; else
 	 *                               the current image will be cropped and returned.
 	 *
-	 * @return  JImage
+	 * @return  Image
 	 *
 	 * @since   11.3
-	 * @throws  LogicException
+	 * @throws  \LogicException
 	 */
 	public function crop($width, $height, $left = null, $top = null, $createNew = true)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new \LogicException('No valid image was loaded.');
 		}
 
 		// Sanitize width.
@@ -119,7 +121,7 @@ class JImage extends Image
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new JImage($handle);
+			$new = new Image($handle);
 
 			return $new;
 
@@ -146,17 +148,17 @@ class JImage extends Image
 	 *                                 the current image will be resized and returned.
 	 * @param   integer  $scaleMethod  Which method to use for scaling
 	 *
-	 * @return  JImage
+	 * @return  Image
 	 *
 	 * @since   11.3
-	 * @throws  LogicException
+	 * @throws  \LogicException
 	 */
 	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new \LogicException('No valid image was loaded.');
 		}
 
 		// Sanitize width.
@@ -169,7 +171,7 @@ class JImage extends Image
 		$dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
 
 		// Instantiate offset.
-		$offset    = new stdClass;
+		$offset    = new \stdClass;
 		$offset->x = $offset->y = 0;
 
 		// Center image if needed and create the new truecolor image handle.
@@ -243,7 +245,7 @@ class JImage extends Image
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new JImage($handle);
+			$new = new Image($handle);
 
 			return $new;
 
@@ -266,10 +268,10 @@ class JImage extends Image
 	 *
 	 * @param   string  $type  The image filter type to get.
 	 *
-	 * @return  JImageFilter
+	 * @return  Filter
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function getFilterInstance($type)
 	{
@@ -281,19 +283,24 @@ class JImage extends Image
 
 		if (!class_exists($className))
 		{
-			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
-			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
+			$className = __NAMESPACE__ . '\\Filter\\' . ucfirst($type);
+
+			if (!class_exists($className))
+			{
+				\JLog::add('The ' . ucfirst($type) . ' image filter is not available.', \JLog::ERROR);
+				throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
+			}
 		}
 
 		// Instantiate the filter object.
 		$instance = new $className($this->handle);
 
 		// Verify that the filter type is valid.
-		if (!($instance instanceof JImageFilter))
+		if (!($instance instanceof Filter))
 		{
 			// @codeCoverageIgnoreStart
-			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
-			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
+			\JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', \JLog::ERROR);
+			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			// @codeCoverageIgnoreEnd
 		}
