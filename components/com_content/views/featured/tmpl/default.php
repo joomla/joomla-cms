@@ -41,7 +41,7 @@ JHtml::_('behavior.caption');
 		</div>
 	<?php endif; ?>
 	<?php $introcount = count($this->intro_items); ?>
-	<?php $counter = 0;	?>
+	<?php $counter = 0; ?>
 	<?php if (!empty($this->intro_items)) : ?>
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<?php $key = ($key - $leadingcount) + 1; ?>
