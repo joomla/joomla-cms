@@ -15,9 +15,9 @@ defined('_JEXEC') or die;
 		<h<?php echo $params->get('item_heading') + $levelup; ?>>
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
 				<?php echo $item->title; ?>
-					<?php if ($params->get('numitems')) : ?>
-						(<?php echo $item->numitems; ?>)
-					<?php endif; ?>
+				<?php if ($params->get('numitems')) : ?>
+					(<?php echo $item->numitems; ?>)
+				<?php endif; ?>
 			</a>
 		</h<?php echo $params->get('item_heading') + $levelup; ?>>
 		<?php if ($params->get('show_description', 0)) : ?>
