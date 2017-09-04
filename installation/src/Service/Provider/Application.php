@@ -62,7 +62,7 @@ class Application implements ServiceProviderInterface
 			JsonRenderer::class,
 			function (Container $container)
 			{
-				return new \InstallationErrorJson;
+				return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer;
 			}
 		);
 	}

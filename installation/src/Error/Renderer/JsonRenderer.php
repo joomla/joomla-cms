@@ -7,16 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Error\Renderer;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Installation\Response\JsonResponse;
 
 /**
  * JSON error page renderer for the installation application
  *
  * @since  4.0
  */
-class InstallationErrorJson extends AbstractRenderer
+class JsonRenderer extends AbstractRenderer
 {
 	/**
 	 * The format (type) of the error page
@@ -29,14 +32,14 @@ class InstallationErrorJson extends AbstractRenderer
 	/**
 	 * Render the error page for the given object
 	 *
-	 * @param   Throwable  $error  The error object to be rendered
+	 * @param   \Throwable  $error  The error object to be rendered
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	public function render(Throwable $error): string
+	public function render(\Throwable $error): string
 	{
-		return json_encode(new InstallationResponseJson($error));
+		return json_encode(new JsonResponse($error));
 	}
 }
