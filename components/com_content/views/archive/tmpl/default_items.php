@@ -42,7 +42,7 @@ $params = $this->params;
 				<?php endif; ?>
 			</div>
 			<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
-			|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
+				|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
 			<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 			<div class="article-info muted">
 				<dl class="article-info">
@@ -129,7 +129,9 @@ $params = $this->params;
 		<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 			<div class="article-info muted">
 				<dl class="article-info">
-					<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
+					<dt class="article-info-term">
+						<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
+					</dt>
 					<?php if ($info == 1) : ?>
 						<?php if ($params->get('show_parent_category') && !empty($item->parent_slug)) : ?>
 							<dd>

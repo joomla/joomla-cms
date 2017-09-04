@@ -124,7 +124,9 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						</th>
 					<?php endif; ?>
 					<?php if ($isEditable) : ?>
-						<th scope="col" id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
+						<th scope="col" id="categorylist_header_edit">
+							<?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?>
+						</th>
 					<?php endif; ?>
 				</tr>
 			</thead>
