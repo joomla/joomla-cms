@@ -15,6 +15,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\Document;
