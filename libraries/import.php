@@ -49,10 +49,8 @@ if (!interface_exists('JsonSerializable'))
 	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
-
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
 
 /**
  * Mask for the raw routing mode
