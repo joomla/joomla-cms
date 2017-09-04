@@ -27,7 +27,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
+			<a class="nav-link" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
 				<span class="fa fa-envelope" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
 				<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
@@ -39,14 +39,14 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
+			<a class="nav-link" href="#" id="dropdownJoomlaMessages" title="<?php echo JText::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
 				<span class="fa fa-bell" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 				<?php if (count($messages) > 0) : ?>
 					<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
 				<?php endif; ?>
 			</a>
-			<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+			<joomla-dropdown class="dropdown-menu dropdown-menu-right dropdown-notifications" for="#dropdownJoomlaMessages">
 				<div class="list-group">
 					<?php if (empty($messages)) : ?>
 					<p class="list-group-item text-center">
@@ -62,16 +62,16 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					</a>
 					<?php endforeach; ?>
 				</div>
-			</div>
+			</joomla-dropdown>
 		</li>
 		<?php endif; ?>
 
 		<li class="nav-item dropdown header-profile">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('MOD_STATUS_USER_MENU'); ?>">
+			<a class="nav-link dropdown-toggle" href="#" id="dropdownJoomlaUser" title="<?php echo JText::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo JText::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>
-			<div class="dropdown-menu dropdown-menu-right">
+			<joomla-dropdown class="dropdown-menu dropdown-menu-right" for="#dropdownJoomlaUser">
 				<div class="dropdown-item header-profile-user">
 					<span class="fa fa-user" aria-hidden="true"></span>
 					<?php echo $user->name; ?>
@@ -81,7 +81,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					<?php echo JText::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
 				<a class="dropdown-item" href="<?php echo JRoute::_('index.php?option=com_login&task=logout&'
 					. JSession::getFormToken() . '=1') ?>"><?php echo JText::_('JLOGOUT'); ?></a>
-			</div>
+			</joomla-dropdown>
 		</li>
 
 	</ul>
