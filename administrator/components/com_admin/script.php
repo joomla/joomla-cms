@@ -1732,6 +1732,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/application/base.php',
 			'/libraries/joomla/application/cli.php',
 			'/libraries/joomla/application/daemon.php',
+			'/libraries/joomla/application/route.php',
 			'/libraries/joomla/application/web.php',
 			'/libraries/joomla/association/extension/helper.php',
 			'/libraries/joomla/association/extension/interface.php',
@@ -1859,6 +1860,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/language/language.php',
 			'/libraries/joomla/language/stemmer.php',
 			'/libraries/joomla/language/stemmer/porteren.php',
+			'/libraries/joomla/language/text.php',
 			'/libraries/joomla/language/transliterate.php',
 			'/libraries/joomla/language/wrapper/helper.php',
 			'/libraries/joomla/language/wrapper/text.php',
@@ -2065,6 +2067,7 @@ class JoomlaInstallerScript
 			// Joomla! 3.7.4
 			'/components/com_fields/controllers',
 			// Joomla! 3.8.0
+			'/administrator/modules/mod_menu/preset',
 			'/libraries/cms/application',
 			'/libraries/cms/authentication',
 			'/libraries/cms/captcha',
@@ -2141,6 +2144,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/input',
 			'/libraries/joomla/language/stemmer',
 			'/libraries/joomla/language/wrapper',
+			'/libraries/joomla/language',
 			'/libraries/joomla/log/logger',
 			'/libraries/joomla/log',
 			'/libraries/joomla/mail/language',
@@ -2164,7 +2168,6 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
 			'/media/editors/tinymce/plugins/jdragdrop',
-			'/administrator/modules/mod_menu/preset',
 		);
 
 		jimport('joomla.filesystem.file');
