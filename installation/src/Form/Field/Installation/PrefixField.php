@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Installation\Form\Field;
+namespace Joomla\CMS\Installation\Form\Field\Installation;
 
 defined('JPATH_BASE') or die;
 
