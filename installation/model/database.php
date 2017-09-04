@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -258,7 +259,7 @@ class InstallationModelDatabase extends JModelBase
 		// Get a database object.
 		try
 		{
-			return InstallationHelperDatabase::getDbo(
+			return DatabaseHelper::getDbo(
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,

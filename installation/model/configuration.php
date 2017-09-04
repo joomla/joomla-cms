@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -272,7 +273,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Get a database object.
 		try
 		{
-			$db = InstallationHelperDatabase::getDbo(
+			$db = DatabaseHelper::getDbo(
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,

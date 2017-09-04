@@ -6,6 +6,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\Database\DatabaseDriver;
@@ -16,7 +18,7 @@ use Joomla\Database\DatabaseInterface;
  *
  * @since  1.6
  */
-abstract class InstallationHelperDatabase
+abstract class DatabaseHelper
 {
 	/**
 	 * Method to get a database driver.
