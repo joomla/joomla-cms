@@ -54,14 +54,14 @@ if ($tagId = $params->get('tag_id', ''))
 			<?php endif; ?>
 			<?php // The next item is deeper. ?>
 			<?php if ($item->deeper) : ?>
-				<?php echo '<ul class="nav-child unstyled small">'; ?>
+				<ul class="nav-child unstyled small">
 			<?php elseif ($item->shallower) : ?>
 				<?php // The next item is shallower. ?>
-				<?php echo '</li>'; ?>
+				</li>
 				<?php echo str_repeat('</ul></li>', $item->level_diff); ?>
 			<?php else : ?>
-			<?php // The next item is on the same level. ?>
-				<?php echo '</li>'; ?>
+				<?php // The next item is on the same level. ?>
+				</li>
 			<?php endif; ?>
 	<?php endforeach; ?>
 </ul>
