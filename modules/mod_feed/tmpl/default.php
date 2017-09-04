@@ -15,21 +15,21 @@ defined('_JEXEC') or die;
 <?php else : ?>
 	<?php $lang = JFactory::getLanguage(); ?>
 	<?php $myrtl = $params->get('rssrtl'); ?>
-	<?php $direction = ' '; ?>
+	<?php $direction = ''; ?>
 	<?php $isRtl = $lang->isRtl(); ?>
 	<?php if ($isRtl && $myrtl == 0) : ?>
-		<?php $direction = ' redirect-rtl'; ?>
+		<?php $direction = 'redirect-rtl'; ?>
 	<?php elseif ($isRtl && $myrtl == 1) : ?>
 		<?php // Feed description ?>
-		<?php $direction = ' redirect-ltr'; ?>
+		<?php $direction = 'redirect-ltr'; ?>
 	<?php elseif ($isRtl && $myrtl == 2) : ?>
-		<?php $direction = ' redirect-rtl'; ?>
+		<?php $direction = 'redirect-rtl'; ?>
 	<?php elseif ($myrtl == 0) : ?>
-		<?php $direction = ' redirect-ltr'; ?>
+		<?php $direction = 'redirect-ltr'; ?>
 	<?php elseif ($myrtl == 1): ?>
-		<?php $direction = ' redirect-ltr'; ?>
+		<?php $direction = 'redirect-ltr'; ?>
 	<?php elseif ($myrtl == 2) : ?>
-		<?php $direction = ' redirect-rtl'; ?>
+		<?php $direction = 'redirect-rtl'; ?>
 	<?php endif; ?>
 	<?php if ($feed !== false) : ?>
 		<?php // Image handling ?>
