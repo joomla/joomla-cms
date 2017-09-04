@@ -101,7 +101,9 @@ JHtml::_('bootstrap.tooltip');
 		<?php endif; ?>
 		<div id="form-login-submit" class="control-group">
 			<div class="controls">
-				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary login-button"><?php echo JText::_('JLOGIN'); ?></button>
+				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary login-button">
+					<?php echo JText::_('JLOGIN'); ?>
+				</button>
 			</div>
 		</div>
 		<?php $usersConfig = JComponentHelper::getParams('com_users'); ?>

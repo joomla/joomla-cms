@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 			<?php // Feed image ?>
 			<?php if ($iUrl && $params->get('rssimage', 1)) : ?>
-				<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+				<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>" />
 			<?php endif; ?>
 			<!-- Show items -->
 			<?php if (!empty($feed)) : ?>
