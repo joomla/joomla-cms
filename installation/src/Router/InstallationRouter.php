@@ -6,19 +6,24 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Router;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class to create and parse routes.
  *
  * @since  1.5
  */
-class JRouterInstallation extends JRouter
+class InstallationRouter extends Router
 {
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JUri  &$uri     The uri.
+	 * @param   Uri   &$uri     The uri.
 	 * @param   bool  $setVars  Set the parsed data in the internal
 	 *                             storage for current-request-URLs
 	 *
@@ -44,6 +49,6 @@ class JRouterInstallation extends JRouter
 	{
 		$url = str_replace('&amp;', '&', $url);
 
-		return new JUri($url);
+		return new Uri($url);
 	}
 }

@@ -34,8 +34,7 @@ if (is_writable(JPATH_ADMINISTRATOR . '/logs'))
 JLoader::registerPrefix('Installation', JPATH_INSTALLATION);
 JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
 
-// Register the application's router due to non-standard include
-JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
+JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\InstallationRouter::class);
 
 // Instantiate the dependency injection container
 \Joomla\CMS\Factory::$container = (new \Joomla\DI\Container)
