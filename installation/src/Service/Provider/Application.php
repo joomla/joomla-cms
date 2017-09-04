@@ -7,9 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Service\Provider;
+
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\Renderer\JsonRenderer;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Application\InstallationApplication;
+use Joomla\CMS\Log\Log;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -18,7 +23,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.0
  */
-class InstallationServiceProviderApplication implements ServiceProviderInterface
+class Application implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
@@ -35,16 +40,16 @@ class InstallationServiceProviderApplication implements ServiceProviderInterface
 			'InstallationApplicationWeb',
 			function (Container $container)
 			{
-				$app = new \Joomla\CMS\Installation\Application\InstallationApplication(null, null, null, $container);
+				$app = new InstallationApplication(null, null, null, $container);
 
 				// The session service provider needs JFactory::$application, set it if still null
-				if (JFactory::$application === null)
+				if (Factory::$application === null)
 				{
-					JFactory::$application = $app;
+					Factory::$application = $app;
 				}
 
 				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger(JLog::createDelegatedLogger());
+				$app->setLogger(Log::createDelegatedLogger());
 				$app->setSession($container->get('Joomla\Session\SessionInterface'));
 
 				return $app;
@@ -57,7 +62,7 @@ class InstallationServiceProviderApplication implements ServiceProviderInterface
 			JsonRenderer::class,
 			function (Container $container)
 			{
-				return new InstallationErrorJson;
+				return new \InstallationErrorJson;
 			}
 		);
 	}

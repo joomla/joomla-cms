@@ -6,8 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Service\Provider;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
 use Joomla\CMS\Session\Validator\ForwardedValidator;
@@ -20,7 +24,7 @@ use Joomla\Session\Handler\FilesystemHandler;
  *
  * @since  4.0
  */
-class InstallationServiceProviderSession implements ServiceProviderInterface
+class Session implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
@@ -40,10 +44,10 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 				'Joomla\Session\SessionInterface',
 				function (Container $container)
 				{
-					$app = JFactory::getApplication();
+					$app = Factory::getApplication();
 
 					// Generate a session name.
-					$name = JApplicationHelper::getHash($app->get('session_name', get_class($app)));
+					$name = ApplicationHelper::getHash($app->get('session_name', get_class($app)));
 
 					// Calculate the session lifetime.
 					$lifetime = (($app->get('lifetime')) ? $app->get('lifetime') * 60 : 900);
@@ -55,7 +59,7 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 					);
 
 					// Set up the storage handler
-					$handler = new FilesystemHandler(JPATH_INSTALLATION . '/sessions');
+					$handler = new FilesystemHandler('/tmp');
 
 					$input = $app->input;
 
@@ -64,7 +68,7 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
 
-					$session = new JSession($storage, $dispatcher, $options);
+					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
 					$session->addValidator(new AddressValidator($input, $session));
 					$session->addValidator(new ForwardedValidator($input, $session));
 

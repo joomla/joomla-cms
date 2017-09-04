@@ -38,8 +38,8 @@ JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\In
 
 // Instantiate the dependency injection container
 \Joomla\CMS\Factory::$container = (new \Joomla\DI\Container)
-	->registerServiceProvider(new InstallationServiceProviderApplication)
-	->registerServiceProvider(new InstallationServiceProviderSession)
+	->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application)
+	->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Session)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
