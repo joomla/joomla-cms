@@ -64,8 +64,9 @@ JS
 		<?php else : ?>
 			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
 				&& $this->updateInfo['installed'] < $this->updateInfo['latest'])
-				|| !$this->getModel()->isDatabaseTypeSupported()) : ?>
-				<?php // If we have no download URL we can't reinstall or update ?>
+				|| !$this->getModel()->isDatabaseTypeSupported()
+				|| !$this->getModel()->isPhpVersionSupported()) : ?>
+				<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
 				<?php echo $this->loadTemplate('nodownload'); ?>
 			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
 				<?php // If we have no update we can reinstall the core ?>
