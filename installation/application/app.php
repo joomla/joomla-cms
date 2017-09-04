@@ -20,24 +20,25 @@ require_once __DIR__ . '/framework.php';
 // Check if the default log directory can be written to, add a logger for errors to use it
 if (is_writable(JPATH_ADMINISTRATOR . '/logs'))
 {
-	JLog::addLogger(
+	\Joomla\CMS\Log\Log::addLogger(
 		[
 			'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
 			'text_file' => 'error.php'
 		],
-		JLog::ALL,
+		\Joomla\CMS\Log\Log::ALL,
 		['error']
 	);
 }
 
 // Register the Installation application
 JLoader::registerPrefix('Installation', JPATH_INSTALLATION);
+JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
 
 // Register the application's router due to non-standard include
 JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
 
 // Instantiate the dependency injection container
-JFactory::$container = (new \Joomla\DI\Container)
+\Joomla\CMS\Factory::$container = (new \Joomla\DI\Container)
 	->registerServiceProvider(new InstallationServiceProviderApplication)
 	->registerServiceProvider(new InstallationServiceProviderSession)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
@@ -48,4 +49,4 @@ JFactory::$container = (new \Joomla\DI\Container)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
 
 // Instantiate and execute the application
-JFactory::getApplication('web', [], 'InstallationApplication')->execute();
+\Joomla\CMS\Factory::getContainer()->get('InstallationApplicationWeb')->execute();

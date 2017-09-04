@@ -7,12 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Application;
+
 defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
@@ -23,12 +29,12 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.1
  */
-final class InstallationApplicationWeb extends CMSApplication
+final class InstallationApplication extends CMSApplication
 {
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput     $input      An optional argument to provide dependency injection for the application's input
+	 * @param   Input     $input       An optional argument to provide dependency injection for the application's input
 	 *                                 object.  If the argument is a JInput object that object will become the
 	 *                                 application's input object, otherwise a default input object is created.
 	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's
@@ -41,7 +47,7 @@ final class InstallationApplicationWeb extends CMSApplication
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name.
 		$this->name = 'installation';
@@ -55,13 +61,13 @@ final class InstallationApplicationWeb extends CMSApplication
 		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
 
-		// Register the config to JFactory.
-		JFactory::$config = $this->config;
+		// Register the config to Factory.
+		Factory::$config = $this->config;
 
 		// Set the root in the URI one level up.
-		$parts = explode('/', JUri::base(true));
+		$parts = explode('/', Uri::base(true));
 		array_pop($parts);
-		JUri::root(null, implode('/', $parts));
+		Uri::root(null, implode('/', $parts));
 	}
 
 	/**
@@ -92,8 +98,8 @@ final class InstallationApplicationWeb extends CMSApplication
 	 */
 	public function debugLanguage()
 	{
-		$lang   = JFactory::getLanguage();
-		$output = '<h4>' . JText::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
+		$lang   = Factory::getLanguage();
+		$output = '<h4>' . \JText::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
 
 		$errorfiles = $lang->getErrorFiles();
 
@@ -110,10 +116,10 @@ final class InstallationApplicationWeb extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
 		}
 
-		$output .= '<h4>' . JText::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
+		$output .= '<h4>' . \JText::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
 		$output .= '<pre>';
 		$orphans = $lang->getOrphans();
 
@@ -149,7 +155,7 @@ final class InstallationApplicationWeb extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
 		}
 
 		$output .= '</pre>';
@@ -172,8 +178,8 @@ final class InstallationApplicationWeb extends CMSApplication
 		// Set up the params
 		$document = $this->getDocument();
 
-		// Register the document object with JFactory.
-		JFactory::$document = $document;
+		// Register the document object with Factory.
+		Factory::$document = $document;
 
 		// Define component path.
 		define('JPATH_COMPONENT', JPATH_BASE);
@@ -192,7 +198,7 @@ final class InstallationApplicationWeb extends CMSApplication
 			$document->setBuffer($contents, 'component');
 		}
 
-		$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
+		$document->setTitle(\JText::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
@@ -224,7 +230,7 @@ final class InstallationApplicationWeb extends CMSApplication
 		$this->doExecute();
 
 		// If we have an application document object, render it.
-		if ($this->document instanceof JDocument)
+		if ($this->document instanceof Document)
 		{
 			// Render the application output.
 			$this->render();
@@ -252,7 +258,7 @@ final class InstallationApplicationWeb extends CMSApplication
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
@@ -264,10 +270,10 @@ final class InstallationApplicationWeb extends CMSApplication
 	 *
 	 * @param   string  $task  The task being executed
 	 *
-	 * @return  JController
+	 * @return  Controller
 	 *
 	 * @since   3.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function fetchController($task)
 	{
@@ -286,7 +292,7 @@ final class InstallationApplicationWeb extends CMSApplication
 		}
 
 		// Nothing found. Panic.
-		throw new RuntimeException('Class ' . $class . ' not found');
+		throw new \RuntimeException('Class ' . $class . ' not found');
 	}
 
 	/**
@@ -351,8 +357,8 @@ final class InstallationApplicationWeb extends CMSApplication
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
@@ -371,7 +377,7 @@ final class InstallationApplicationWeb extends CMSApplication
 	{
 		if ($params)
 		{
-			$template = new stdClass;
+			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
 
@@ -470,7 +476,7 @@ final class InstallationApplicationWeb extends CMSApplication
 	 *
 	 * @param   Document  $document  An optional document object. If omitted, the factory document is created.
 	 *
-	 * @return  InstallationApplicationWeb This method is chainable.
+	 * @return  InstallationApplication This method is chainable.
 	 *
 	 * @since   3.2
 	 */
@@ -478,9 +484,9 @@ final class InstallationApplicationWeb extends CMSApplication
 	{
 		if ($document === null)
 		{
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 			$type = $this->input->get('format', 'html', 'word');
-			$date = new JDate('now');
+			$date = new Date('now');
 
 			$attributes = array(
 				'charset'      => 'utf-8',
@@ -493,8 +499,8 @@ final class InstallationApplicationWeb extends CMSApplication
 
 			$document = Document::getInstance($type, $attributes);
 
-			// Register the instance to JFactory.
-			JFactory::$document = $document;
+			// Register the instance to Factory.
+			Factory::$document = $document;
 		}
 
 		$this->document = $document;
@@ -535,9 +541,9 @@ final class InstallationApplicationWeb extends CMSApplication
 	/**
 	 * Method to send a JSON response. The data parameter
 	 * can be an Exception object for when an error has occurred or
-	 * a stdClass for a good response.
+	 * a JsonResponse for a good response.
 	 *
-	 * @param   mixed  $response  stdClass on success, Exception on failure.
+	 * @param   mixed  $response  JsonResponse on success, Exception on failure.
 	 *
 	 * @return  void
 	 *
@@ -546,7 +552,7 @@ final class InstallationApplicationWeb extends CMSApplication
 	public function sendJsonResponse($response)
 	{
 		// Check if we need to send an error code.
-		if ($response instanceof Exception)
+		if ($response instanceof \Exception)
 		{
 			// Send the appropriate error code response.
 			$this->setHeader('status', $response->getCode());
@@ -555,7 +561,7 @@ final class InstallationApplicationWeb extends CMSApplication
 		}
 
 		// Send the JSON response.
-		echo json_encode(new InstallationResponseJson($response));
+		echo json_encode(new JsonResponse($response));
 
 		// Close the application.
 		$this->close();
