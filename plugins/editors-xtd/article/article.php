@@ -50,8 +50,6 @@ class PlgButtonArticle extends JPlugin
 		$hasAccess = $canCreateRecords || $isEditingRecords;
 		if (!$hasAccess)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
-
 			return;
 		}
 
