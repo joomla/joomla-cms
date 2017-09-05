@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
+?>
 <?php if (!empty($feed) && is_string($feed)) : ?>
 	<?php echo $feed; ?>
 <?php else : ?>
