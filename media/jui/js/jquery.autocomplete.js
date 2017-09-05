@@ -1,5 +1,5 @@
 /**
-*  Ajax Autocomplete for jQuery, version 1.3.0
+*  Ajax Autocomplete for jQuery, version 1.4.2
 *  (c) 2017 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
@@ -49,51 +49,12 @@
             UP: 38,
             RIGHT: 39,
             DOWN: 40
-        };
+        },
+
+        noop = $.noop;
 
     function Autocomplete(el, options) {
-        var noop = $.noop,
-            that = this,
-            defaults = {
-                ajaxSettings: {},
-                autoSelectFirst: false,
-                appendTo: document.body,
-                serviceUrl: null,
-                lookup: null,
-                onSelect: null,
-                width: 'auto',
-                minChars: 1,
-                maxHeight: 300,
-                deferRequestBy: 0,
-                params: {},
-                formatResult: Autocomplete.formatResult,
-                formatGroup: Autocomplete.formatGroup,
-                delimiter: null,
-                zIndex: 9999,
-                type: 'GET',
-                noCache: false,
-                onSearchStart: noop,
-                onSearchComplete: noop,
-                onSearchError: noop,
-                preserveInput: false,
-                containerClass: 'autocomplete-suggestions',
-                tabDisabled: false,
-                dataType: 'text',
-                currentRequest: null,
-                triggerSelectOnValidInput: true,
-                preventBadQueries: true,
-                lookupFilter: function (suggestion, originalQuery, queryLowerCase) {
-                    return suggestion.value.toLowerCase().indexOf(queryLowerCase) !== -1;
-                },
-                paramName: 'query',
-                transformResult: function (response) {
-                    return typeof response === 'string' ? $.parseJSON(response) : response;
-                },
-                showNoSuggestionNotice: false,
-                noSuggestionNotice: 'No results',
-                orientation: 'bottom',
-                forceFixPosition: false
-            };
+        var that = this;
 
         // Shared variables:
         that.element = el;
@@ -102,14 +63,14 @@
         that.badQueries = [];
         that.selectedIndex = -1;
         that.currentValue = that.element.value;
-        that.intervalId = 0;
+        that.timeoutId = null;
         that.cachedResponse = {};
-        that.onChangeInterval = null;
+        that.onChangeTimeout = null;
         that.onChange = null;
         that.isLocal = false;
         that.suggestionsContainer = null;
         that.noSuggestionsContainer = null;
-        that.options = $.extend({}, defaults, options);
+        that.options = $.extend({}, Autocomplete.defaults, options);
         that.classes = {
             selected: 'autocomplete-selected',
             suggestion: 'autocomplete-suggestion'
@@ -127,12 +88,57 @@
 
     $.Autocomplete = Autocomplete;
 
-    Autocomplete.formatResult = function (suggestion, currentValue) {
-        // Do not replace anything if there current value is empty
+    Autocomplete.defaults = {
+            ajaxSettings: {},
+            autoSelectFirst: false,
+            appendTo: 'body',
+            serviceUrl: null,
+            lookup: null,
+            onSelect: null,
+            width: 'auto',
+            minChars: 1,
+            maxHeight: 300,
+            deferRequestBy: 0,
+            params: {},
+            formatResult: _formatResult,
+            formatGroup: _formatGroup,
+            delimiter: null,
+            zIndex: 9999,
+            type: 'GET',
+            noCache: false,
+            onSearchStart: noop,
+            onSearchComplete: noop,
+            onSearchError: noop,
+            preserveInput: false,
+            containerClass: 'autocomplete-suggestions',
+            tabDisabled: false,
+            dataType: 'text',
+            currentRequest: null,
+            triggerSelectOnValidInput: true,
+            preventBadQueries: true,
+            lookupFilter: _lookupFilter,
+            paramName: 'query',
+            transformResult: _transformResult,
+            showNoSuggestionNotice: false,
+            noSuggestionNotice: 'No results',
+            orientation: 'bottom',
+            forceFixPosition: false
+    };
+
+    function _lookupFilter(suggestion, originalQuery, queryLowerCase) {
+        return suggestion.value.toLowerCase().indexOf(queryLowerCase) !== -1;
+    };
+
+    function _transformResult(response) {
+        return typeof response === 'string' ? $.parseJSON(response) : response;
+    };
+
+    function _formatResult(suggestion, currentValue) {
+        // Do not replace anything if the current value is empty
         if (!currentValue) {
             return suggestion.value;
         }
-        
+
         var pattern = '(' + utils.escapeRegExChars(currentValue) + ')';
 
         return suggestion.value
@@ -144,13 +150,11 @@
             .replace(/&lt;(\/?strong)&gt;/g, '<$1>');
     };
 
-    Autocomplete.formatGroup = function (suggestion, category) {
-        return '<div class="autocomplete-group"><strong>' + category + '</strong></div>';
+    function _formatGroup(suggestion, category) {
+        return '<div class="autocomplete-group">' + category + '</div>';
     };
 
     Autocomplete.prototype = {
-
-        killerFn: null,
 
         initialize: function () {
             var that = this,
@@ -162,13 +166,6 @@
             // Remove autocomplete attribute to prevent native suggestions:
             that.element.setAttribute('autocomplete', 'off');
 
-            that.killerFn = function (e) {
-                if (!$(e.target).closest('.' + that.options.containerClass).length) {
-                    that.killSuggestions();
-                    that.disableKillerFn();
-                }
-            };
-
             // html() deals with many types: htmlString or Element or Array or jQuery
             that.noSuggestionsContainer = $('<div class="autocomplete-no-suggestion"></div>')
                                           .html(this.options.noSuggestionNotice).get(0);
@@ -177,7 +174,7 @@
 
             container = $(that.suggestionsContainer);
 
-            container.appendTo(options.appendTo);
+            container.appendTo(options.appendTo || 'body');
 
             // Only set width if it was provided:
             if (options.width !== 'auto') {
@@ -195,11 +192,15 @@
                 container.children('.' + selected).removeClass(selected);
             });
 
+
             // Listen for click event on suggestions list:
             container.on('click.autocomplete', suggestionSelector, function () {
                 that.select($(this).data('index'));
-                return false;
             });
+
+            container.on('click.autocomplete', function () {
+                clearTimeout(that.blurTimeoutId);
+            })
 
             that.fixPositionCapture = function () {
                 if (that.visible) {
@@ -228,9 +229,15 @@
         },
 
         onBlur: function () {
-            this.enableKillerFn();
+            var that = this;
+
+            // If user clicked on a suggestion, hide() will
+            // be canceled, otherwise close suggestions
+            that.blurTimeoutId = setTimeout(function () {
+                that.hide();
+            }, 200);
         },
-        
+
         abortAjax: function () {
             var that = this;
             if (that.currentRequest) {
@@ -243,9 +250,9 @@
             var that = this,
                 options = that.options;
 
-            $.extend(options, suppliedOptions);
+            this.options = $.extend({}, options, suppliedOptions);
 
-            that.isLocal = $.isArray(options.lookup);
+            that.isLocal = Array.isArray(options.lookup);
 
             if (that.isLocal) {
                 options.lookup = that.verifySuggestionsFormat(options.lookup);
@@ -276,7 +283,7 @@
         disable: function () {
             var that = this;
             that.disabled = true;
-            clearInterval(that.onChangeInterval);
+            clearTimeout(that.onChangeTimeout);
             that.abortAjax();
         },
 
@@ -342,39 +349,6 @@
             }
 
             $container.css(styles);
-        },
-
-        enableKillerFn: function () {
-            var that = this;
-            $(document).on('click.autocomplete', that.killerFn);
-        },
-
-        disableKillerFn: function () {
-            var that = this;
-            $(document).off('click.autocomplete', that.killerFn);
-        },
-
-        killSuggestions: function () {
-            var that = this;
-            that.stopKillSuggestions();
-            that.intervalId = window.setInterval(function () {
-                if (that.visible) {
-                    // No need to restore value when 
-                    // preserveInput === true, 
-                    // because we did not change it
-                    if (!that.options.preserveInput) {
-                        that.el.val(that.currentValue);
-                    }
-
-                    that.hide();
-                }
-                
-                that.stopKillSuggestions();
-            }, 50);
-        },
-
-        stopKillSuggestions: function () {
-            window.clearInterval(this.intervalId);
         },
 
         isCursorAtEnd: function () {
@@ -467,13 +441,13 @@
                     return;
             }
 
-            clearInterval(that.onChangeInterval);
+            clearTimeout(that.onChangeTimeout);
 
             if (that.currentValue !== that.el.val()) {
                 that.findBestHint();
                 if (that.options.deferRequestBy > 0) {
                     // Defer lookup in case when value changes very quickly:
-                    that.onChangeInterval = setInterval(function () {
+                    that.onChangeTimeout = setTimeout(function () {
                         that.onValueChange();
                     }, that.options.deferRequestBy);
                 } else {
@@ -493,7 +467,7 @@
                 (options.onInvalidateSelection || $.noop).call(that.element);
             }
 
-            clearInterval(that.onChangeInterval);
+            clearTimeout(that.onChangeTimeout);
             that.currentValue = value;
             that.selectedIndex = -1;
 
@@ -558,11 +532,12 @@
                 ajaxSettings;
 
             options.params[options.paramName] = q;
-            params = options.ignoreParams ? null : options.params;
 
             if (options.onSearchStart.call(that.element, options.params) === false) {
                 return;
             }
+
+            params = options.ignoreParams ? null : options.params;
 
             if ($.isFunction(options.lookup)){
                 options.lookup(q, function (data) {
@@ -583,7 +558,7 @@
                 response = that.cachedResponse[cacheKey];
             }
 
-            if (response && $.isArray(response.suggestions)) {
+            if (response && Array.isArray(response.suggestions)) {
                 that.suggestions = response.suggestions;
                 that.suggest();
                 options.onSearchComplete.call(that.element, q, response.suggestions);
@@ -640,7 +615,7 @@
 
             that.visible = false;
             that.selectedIndex = -1;
-            clearInterval(that.onChangeInterval);
+            clearTimeout(that.onChangeTimeout);
             $(that.suggestionsContainer).hide();
             that.signalHint(null);
         },
@@ -718,6 +693,7 @@
 
         noSuggestions: function() {
              var that = this,
+                 beforeRender = that.options.beforeRender,
                  container = $(that.suggestionsContainer),
                  noSuggestionsContainer = $(that.noSuggestionsContainer);
 
@@ -726,8 +702,14 @@
             // Some explicit steps. Be careful here as it easy to get
             // noSuggestionsContainer removed from DOM if not detached properly.
             noSuggestionsContainer.detach();
-            container.empty(); // clean suggestions if any
+
+            // clean suggestions if any
+            container.empty();
             container.append(noSuggestionsContainer);
+
+            if ($.isFunction(beforeRender)) {
+                beforeRender.call(that.element, container, that.suggestions);
+            }
 
             that.fixPosition();
 
@@ -862,7 +844,6 @@
             var that = this;
             that.hide();
             that.onSelect(i);
-            that.disableKillerFn();
         },
 
         moveUp: function () {
@@ -965,14 +946,13 @@
         dispose: function () {
             var that = this;
             that.el.off('.autocomplete').removeData('autocomplete');
-            that.disableKillerFn();
             $(window).off('resize.autocomplete', that.fixPositionCapture);
             $(that.suggestionsContainer).remove();
         }
     };
 
     // Create chainable jQuery plugin:
-    $.fn.autocomplete = $.fn.devbridgeAutocomplete = function (options, args) {
+    $.fn.devbridgeAutocomplete = function (options, args) {
         var dataKey = 'autocomplete';
         // If function invoked without argument return
         // instance of the first matched element:
@@ -998,4 +978,9 @@
             }
         });
     };
+
+    // Don't overwrite if it already exists
+    if (!$.fn.autocomplete) {
+        $.fn.autocomplete = $.fn.devbridgeAutocomplete;
+    }
 }));

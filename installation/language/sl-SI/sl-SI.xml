@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.7"
+	version="3.8"
 	client="installation">
 	<name>Slovenian (Slovenia)</name>
-	<version>3.7.3</version>
-	<creationDate>June 2017</creationDate>
-	<author>Joomla.si</author>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. Vse pravice pridržane.</copyright>
+	<version>3.8.0</version>
+	<creationDate>September 2017</creationDate>
+	<author>Slovenian Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>sl-SI.ini</filename>
 	</files>
 	<metadata>
-		<name>Slovenian (Slovenia)</name>
+		<name>Slovenščina (sl-SI)</name>
 		<nativeName>Slovenščina (Slovenia)</nativeName>
 		<tag>sl-SI</tag>
 		<rtl>0</rtl>

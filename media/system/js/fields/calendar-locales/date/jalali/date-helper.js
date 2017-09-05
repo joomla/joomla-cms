@@ -390,6 +390,9 @@ Date.parseFieldDate = function(str, fmt, dateType) {
 			case "%M":
 				min = parseInt(a[i], 10);
 				break;
+			case "%S":
+				sec = parseInt(a[i], 10);
+				break;
 		}
 	}
 	if (isNaN(y)) y = today.getFullYear();
@@ -615,6 +618,6 @@ Date.prototype.getJalaliDate = function() {
 
 Date.prototype.getJalaliDay = function() {
 	var day = this.getDay();
-	day = (day + 1) % 7;
+	day = (day) % 7;
 	return day;
 };

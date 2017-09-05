@@ -710,3 +710,18 @@ legend + .control-group {
 		display: table;
 	}
 }
+
+/*Fix for floating 3 columns without overlapping */
+@media (min-width: 980px) and (max-width: 1215px) {
+
+  .float-cols {
+
+    .control-label {
+      float: none;
+    }
+
+    .controls {
+      margin-left: 0;
+    }
+  }
+}

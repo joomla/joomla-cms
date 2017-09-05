@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.7"
+	version="3.8"
 	client="installation">
 	<name>Português do Brasil (pt-BR)</name>
-	<version>3.7.3</version>
-	<creationDate>Fevereiro de 2017</creationDate>
+	<version>3.8.0</version>
+	<creationDate>August 2017</creationDate>
 	<author>Equipe de Tradução pt-BR (Português do Brasil)</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

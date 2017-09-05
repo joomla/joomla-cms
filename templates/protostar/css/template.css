@@ -1705,6 +1705,14 @@ legend + .control-group {
 .subform-repeatable-wrapper tr.ui-sortable-helper {
 	display: table;
 }
+@media (min-width: 980px) and (max-width: 1215px) {
+	.float-cols .control-label {
+		float: none;
+	}
+	.float-cols .controls {
+		margin-left: 0;
+	}
+}
 table {
 	max-width: 100%;
 	background-color: transparent;
