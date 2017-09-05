@@ -41,7 +41,9 @@ defined('_JEXEC') or die;
 								</span>
 							<?php endif; ?>
 							<?php if ($item->displayDate) : ?>
-								<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
+								<span class="mod-articles-category-date">
+									<?php echo $item->displayDate; ?>
+								</span>
 							<?php endif; ?>
 							<?php if ($params->get('show_introtext')) : ?>
 								<p class="mod-articles-category-introtext">
