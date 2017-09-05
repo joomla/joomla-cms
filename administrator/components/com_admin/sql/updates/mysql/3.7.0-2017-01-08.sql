@@ -1,7 +1,7 @@
 -- Normalize ucm_content_table default values.
 ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  NOT NULL DEFAULT '';
-ALTER TABLE `#__ucm_content` MODIFY `core_body` mediumtext NOT NULL DEFAULT '';
+ALTER TABLE `#__ucm_content` MODIFY `core_body` mediumtext;
 ALTER TABLE `#__ucm_content` MODIFY `core_checked_out_time` varchar(255) NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__ucm_content` MODIFY `core_params` text;
 ALTER TABLE `#__ucm_content` MODIFY `core_metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.';
