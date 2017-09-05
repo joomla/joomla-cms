@@ -98,7 +98,6 @@ class PlgSystemRemember extends JPlugin
 	/**
 	 * Method is called before user data is stored in the database
 	 * Invalidate all existing remember-me cookies after a password change
-	 * This functionality was sadly inspired by the horrific events around Alice Ruggles death 
 	 *
 	 * @param   array    $user   Holds the old user data.
 	 * @param   boolean  $isnew  True if a new user is stored.
