@@ -18,40 +18,40 @@
 		<field
 			name="loginredirectchoice"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
-		>
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
 			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
 			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
 		</field>
 
 		<field
-		name="login_redirect_url"
-		type="text"
-		label="JFIELD_LOGIN_REDIRECT_URL_LABEL"
-		description="JFIELD_LOGIN_REDIRECT_URL_DESC"
-		class="inputbox"
-		validate="loginuniquefield"
-		field="login_redirect_menuitem"
-		hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
-		message="COM_USERS_FIELD_LOGIN_REDIRECT_ERROR"
-		showon="loginredirectchoice:0"
+			name="login_redirect_url"
+			type="text"
+			label="JFIELD_LOGIN_REDIRECT_URL_LABEL"
+			description="JFIELD_LOGIN_REDIRECT_URL_DESC"
+			class="inputbox"
+			validate="loginuniquefield"
+			field="login_redirect_menuitem"
+			hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
+			message="COM_USERS_FIELD_LOGIN_REDIRECT_ERROR"
+			showon="loginredirectchoice:0"
 		/>
 
 		<field
 			name="login_redirect_menuitem"
 			type="modal_menu"
-			disable="separator,alias,heading,url"
 			label="COM_USERS_FIELD_LOGIN_REDIRECTMENU_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECTMENU_DESC"
+			disable="separator,alias,heading,url"
 			showon="loginredirectchoice:1"
 			select="true"
 			new="true"
 			edit="true"
 			clear="true"
-		>
+			>
 			<option value="">JDEFAULT</option>
 		</field>
 
@@ -61,70 +61,72 @@
 			label="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_LABEL"
 			description="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_DESC"
 			default="1"
-		>
+			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field
-		name="login_description"
-		type="textarea"
-		label="JFIELD_BASIS_LOGIN_DESCRIPTION_LABEL"
-		description="JFIELD_BASIS_LOGIN_DESCRIPTION_DESC"
-		rows="3"
-		cols="40"
-		filter="safehtml"
-		showon="logindescription_show:1"
+			name="login_description"
+			type="textarea"
+			label="JFIELD_BASIS_LOGIN_DESCRIPTION_LABEL"
+			description="JFIELD_BASIS_LOGIN_DESCRIPTION_DESC"
+			rows="3"
+			cols="40"
+			filter="safehtml"
+			showon="logindescription_show:1"
 		/>
 
 		<field
-		name="login_image"
-		type="media"
-		label="JFIELD_LOGIN_IMAGE_LABEL"
-		description="JFIELD_LOGIN_IMAGE_DESC"
+			name="login_image"
+			type="media"
+			label="JFIELD_LOGIN_IMAGE_LABEL"
+			description="JFIELD_LOGIN_IMAGE_DESC"
 		/>
 
-		<field name="spacer1" type="spacer"
-				hr="true"
+		<field 
+			name="spacer1" 
+			type="spacer"
+			hr="true"
 		/>
 
 		<field
 			name="logoutredirectchoice"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
-		>
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
 			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
 			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
 		</field>
 
 		<field
-		name="logout_redirect_url"
-		type="text"
-		label="JFIELD_LOGOUT_REDIRECT_URL_LABEL"
-		description="JFIELD_LOGOUT_REDIRECT_URL_DESC"
-		class="inputbox"
-		field="logout_redirect_menuitem"
-		validate="logoutuniquefield"
-		hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
-		message="COM_USERS_FIELD_LOGOUT_REDIRECT_ERROR"
-		showon="logoutredirectchoice:0"
+			name="logout_redirect_url"
+			type="text"
+			label="JFIELD_LOGOUT_REDIRECT_URL_LABEL"
+			description="JFIELD_LOGOUT_REDIRECT_URL_DESC"
+			class="inputbox"
+			field="logout_redirect_menuitem"
+			validate="logoutuniquefield"
+			hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
+			message="COM_USERS_FIELD_LOGOUT_REDIRECT_ERROR"
+			showon="logoutredirectchoice:0"
 		/>
 		
 		<field
 			name="logout_redirect_menuitem"
 			type="modal_menu"
-			disable="separator,alias,heading,url"
 			label="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_LABEL"
 			description="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_DESC"
+			disable="separator,alias,heading,url"
 			showon="logoutredirectchoice:1"
 			select="true"
 			new="true"
 			edit="true"
 			clear="true"
-		>
+			>
 			<option value="">JDEFAULT</option>
 		</field>
 
@@ -134,27 +136,27 @@
 			label="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_LABEL"
 			description="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_DESC"
 			default="1"
-		>
+			>
 			<option	value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field
-		name="logout_description"
-		type="textarea"
-		label="JFIELD_BASIS_LOGOUT_DESCRIPTION_LABEL"
-		description="JFIELD_BASIS_LOGOUT_DESCRIPTION_DESC"
-		rows="3"
-		cols="40"
-		filter="safehtml"
-		showon="logoutdescription_show:1"
+			name="logout_description"
+			type="textarea"
+			label="JFIELD_BASIS_LOGOUT_DESCRIPTION_LABEL"
+			description="JFIELD_BASIS_LOGOUT_DESCRIPTION_DESC"
+			rows="3"
+			cols="40"
+			filter="safehtml"
+			showon="logoutdescription_show:1"
 		/>
 
 		<field
-		name="logout_image"
-		type="media"
-		label="JFIELD_LOGOUT_IMAGE_LABEL"
-		description="JFIELD_LOGOUT_IMAGE_DESC"
+			name="logout_image"
+			type="media"
+			label="JFIELD_LOGOUT_IMAGE_LABEL"
+			description="JFIELD_LOGOUT_IMAGE_DESC"
 		/>
 
 		</fieldset>

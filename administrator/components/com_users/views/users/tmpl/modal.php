@@ -30,7 +30,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
 /**
  * Mootools compatibility
  *
- * There is an extra option passed in the url for the iframe &ismoo=0 for the bootstraped field.
+ * There is an extra option passed in the URL for the iframe &ismoo=0 for the bootstraped field.
  * By default the value will be 1 or defaults to mootools behaviour using function jSelectUser()
  *
  * This should be removed when mootools won't be shipped by Joomla.
@@ -104,7 +104,7 @@ if ($isMoo)
 							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
 						</td>
 						<td class="center">
-							<span class="<?php echo $activatedStates[(int) $this->escape($item->activation)]; ?>"></span>
+							<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
 						</td>
 						<td>
 							<?php echo nl2br($item->group_names); ?>

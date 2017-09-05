@@ -12,15 +12,12 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_login
  *
- * @package     Joomla.Site
- * @subpackage  mod_login
- *
- * @since       1.5
+ * @since  1.5
  */
 class ModLoginHelper
 {
 	/**
-	 * Retrieve the url where the user should be returned after logging in
+	 * Retrieve the URL where the user should be returned after logging in
 	 *
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
 	 * @param   string                     $type    return type

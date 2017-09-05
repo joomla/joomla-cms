@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Custom session storage handler for PHP
  *
- * @see         https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
  * @since       11.1
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
@@ -95,11 +95,17 @@ abstract class JSessionStorage
 	 */
 	public function register()
 	{
-		// Use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
-			array($this, 'destroy'), array($this, 'gc')
-		);
+		if (!headers_sent())
+		{
+			session_set_save_handler(
+				array($this, 'open'),
+				array($this, 'close'),
+				array($this, 'read'),
+				array($this, 'write'),
+				array($this, 'destroy'),
+				array($this, 'gc')
+			);
+		}
 	}
 
 	/**

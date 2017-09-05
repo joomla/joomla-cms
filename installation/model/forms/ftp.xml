@@ -5,37 +5,40 @@
 			<field
 				name="ftp_enable"
 				type="radio"
+				label="INSTL_FTP_ENABLE_LABEL"
 				id="ftp_enable"
 				class="btn-group"
-				label="INSTL_FTP_ENABLE_LABEL"
 				default="0"
 				filter="int"
 				required="true"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+
 			<field
 				name="ftp_user"
 				type="text"
+				label="INSTL_FTP_USER_LABEL"
 				id="ftp_user"
 				class="inputbox"
-				label="INSTL_FTP_USER_LABEL"
 			/>
+
 			<field
 				name="ftp_pass"
 				type="password"
+				label="INSTL_FTP_PASSWORD_LABEL"
 				id="ftp_pass"
 				class="inputbox"
-				label="INSTL_FTP_PASSWORD_LABEL"
 				filter="raw"
 			/>
+
 			<field
 				name="ftp_root"
 				type="text"
+				label="INSTL_FTP_ROOT_LABEL"
 				id="ftp_root"
 				class="inputbox"
-				label="INSTL_FTP_ROOT_LABEL"
 			/>
 		</fieldset>
 
@@ -44,30 +47,32 @@
 			<field
 				name="ftp_host"
 				type="text"
+				label="INSTL_FTP_HOST_LABEL"
 				id="ftp_host"
 				class="inputbox"
-				label="INSTL_FTP_HOST_LABEL"
 				default="127.0.0.1"
 			/>
+
 			<field
 				name="ftp_port"
 				type="text"
+				label="INSTL_FTP_PORT_LABEL"
 				id="ftp_port"
 				class="inputbox"
-				label="INSTL_FTP_PORT_LABEL"
 				default="21"
 				filter="int"
 			/>
+
 			<field
 				name="ftp_save"
 				type="radio"
+				label="INSTL_FTP_SAVE_LABEL"
 				id="ftp_save"
 				class="btn-group"
-				label="INSTL_FTP_SAVE_LABEL"
 				default="0"
 				required="true"
 				filter="int"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

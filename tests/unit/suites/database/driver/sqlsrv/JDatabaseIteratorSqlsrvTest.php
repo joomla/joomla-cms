@@ -4,7 +4,7 @@
  * @subpackage  Database
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -52,8 +52,8 @@ class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 				2,
 				0,
 				array(
-					(object) array('title' => 'Testing', 'RowNumber' => '1'),
-					(object) array('title' => 'Testing2', 'RowNumber' => '2')
+					(object) array('title' => 'Testing'),
+					(object) array('title' => 'Testing2')
 				),
 				null
 			),

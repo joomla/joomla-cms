@@ -20,7 +20,7 @@ class NewsfeedsController extends JControllerLegacy
 	 * Method to show a newsfeeds view
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
 	 *
@@ -36,7 +36,7 @@ class NewsfeedsController extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName == 'category' ))
+		if ($user->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category'))
 		{
 			$cachable = false;
 		}

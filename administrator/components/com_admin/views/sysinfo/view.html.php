@@ -70,7 +70,7 @@ class AdminViewSysinfo extends JViewLegacy
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$this->php_settings = $this->get('PhpSettings');
@@ -92,6 +92,7 @@ class AdminViewSysinfo extends JViewLegacy
 	 *
 	 * @since   1.6
 	 * @note    Necessary for Hathor compatibility
+ 	 * @deprecated  4.0 To be removed with Hathor
 	 */
 	protected function _setSubMenu()
 	{

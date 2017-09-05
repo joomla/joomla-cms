@@ -60,7 +60,7 @@
 			id="published"
 			class="chzn-color-state"
 			size="1"
-		>
+			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -501,6 +501,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -513,6 +514,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -525,9 +527,23 @@
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="add_mailto_link"
+				type="list"
+				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
+				description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
+				class="chzn-color"
+				useglobal="true"
+				showon="show_info:1"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -537,6 +553,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -549,6 +566,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -561,6 +579,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -573,6 +592,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -585,6 +605,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -597,6 +618,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -609,6 +631,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -621,6 +644,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -633,6 +657,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -645,6 +670,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -725,10 +751,10 @@
 			<field
 				name="show_user_custom_fields"
 				type="fieldgroups"
-				multiple="true"
-				context="com_users.user"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+				multiple="true"
+				context="com_users.user"
 				>
 				<option value="-1">JALL</option>
 			</field>

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver
  *
- * @see         http://dev.mysql.com/doc/
+ * @link        https://dev.mysql.com/doc/
  * @since       12.1
  * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
@@ -52,16 +52,6 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		// Finalize initialisation.
 		parent::__construct($options);
-	}
-
-	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
 	}
 
 	/**

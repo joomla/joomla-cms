@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.1
  *
- * @method      string  q()   q($text, $escape = true)  Alias for quote method
- * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
+ * @method   string|array  q()   q($text, $escape = true)  Alias for quote method
+ * @method   string|array  qn()  qn($name, $as = null)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
@@ -662,6 +662,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   3.8.0
+	 */
+	public function __destruct()
+	{
+		$this->disconnect();
+	}
+
+	/**
 	 * Disconnects the database.
 	 *
 	 * @return  void
@@ -1273,16 +1283,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function getTableCreate($tables);
 
 	/**
-	 * Retrieves field information about the given tables.
+	 * Retrieves keys information about the given table.
 	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
+	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An array of keys for the table(s).
+	 * @return  array   An array of keys for the table.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function getTableKeys($tables);
+	abstract public function getTableKeys($table);
 
 	/**
 	 * Method to get an array of all tables in the database.
@@ -1774,14 +1784,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * NOTE: Choosing to key the result array by a non-unique field can result in unwanted
 	 * behavior and should be avoided.
 	 *
-	 * @param   string  $key  The name of a field on which to key the result array.
+	 * @param   integer  $index  The index of a field on which to key the result array.
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function loadRowList($key = null)
+	public function loadRowList($index = null)
 	{
 		$this->connect();
 
@@ -1796,9 +1806,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Get all of the rows from the result set as arrays.
 		while ($row = $this->fetchArray($cursor))
 		{
-			if ($key !== null)
+			if ($index !== null)
 			{
-				$array[$row[$key]] = $row;
+				$array[$row[$index]] = $row;
 			}
 			else
 			{
@@ -1830,7 +1840,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @param   mixed    $text    A string or an array of strings to quote.
 	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
 	 *
-	 * @return  string  The quoted input string.
+	 * @return  string|array  The quoted input.
 	 *
 	 * @note    Accepting an array of strings was added in 12.3.
 	 * @since   11.1
@@ -2220,7 +2230,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			// Only process scalars that are not internal fields.
-			if (is_array($v) or is_object($v) or $k[0] == '_')
+			if (is_array($v) || is_object($v) || $k[0] === '_')
 			{
 				continue;
 			}
@@ -2228,7 +2238,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if (in_array($k, $key))
 			{
-				$where[] = $this->quoteName($k) . '=' . $this->quote($v);
+				$where[] = $this->quoteName($k) . ($v === null ? ' IS NULL' : ' = ' . $this->quote($v));
 				continue;
 			}
 

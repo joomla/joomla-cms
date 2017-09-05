@@ -203,10 +203,10 @@ class JFormFieldSubform extends JFormField
 			$this->value = json_decode($this->value, true);
 		}
 
-		if (!$this->formsource)
+		if (!$this->formsource && $element->form)
 		{
 			// Set the formsource parameter from the content of the node
-			$this->formsource = $element->children()->saveXML();
+			$this->formsource = $element->form->saveXML();
 		}
 
 		return true;
@@ -365,7 +365,7 @@ class JFormFieldSubform extends JFormField
 	 */
 	private function loadSubFormData(&$subForm)
 	{
-		$value = $this->value ? $this->value : array();
+		$value = $this->value ? (array) $this->value : array();
 
 		// Simple form, just bind the data and return one row.
 		if (!$this->multiple)

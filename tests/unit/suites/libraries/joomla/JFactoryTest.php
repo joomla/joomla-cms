@@ -70,7 +70,7 @@ class JFactoryTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JFactory::getLangauge method.
+	 * Tests the JFactory::getLanguage method.
 	 *
 	 * @return  void
 	 *

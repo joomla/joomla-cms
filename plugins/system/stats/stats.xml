@@ -47,10 +47,10 @@
 				<field
 					name="mode"
 					type="list"
-					description="PLG_SYSTEM_STATS_MODE_DESC"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
+					description="PLG_SYSTEM_STATS_MODE_DESC"
 					default="1"
-					>
+				>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>
 					<option value="3">PLG_SYSTEM_STATS_MODE_OPTION_NEVER_SEND</option>
@@ -62,19 +62,6 @@
 					default="0"
 					size="15"
 				/>
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="debug"
-					type="radio"
-					label="PLG_SYSTEM_STATS_DEBUG_LABEL"
-					description="PLG_SYSTEM_STATS_DEBUG_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

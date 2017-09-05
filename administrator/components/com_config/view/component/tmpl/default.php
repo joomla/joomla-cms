@@ -55,6 +55,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		<div class="span10" id="config">
 
+			<?php if ($this->fieldsets): ?>
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
@@ -73,11 +74,14 @@ JFactory::getDocument()->addScriptDeclaration(
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
 							<div class="tab-description alert alert-info">
-								<span class="icon-info"></span> <?php echo JText::_($fieldSet->description); ?>
+								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
 							</div>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<?php $dataShowOn = ''; ?>
+							<?php
+								$dataShowOn = '';
+								$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
+							?>
 							<?php if ($field->showon) : ?>
 								<?php JHtml::_('jquery.framework'); ?>
 								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
@@ -86,7 +90,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<?php if ($field->hidden) : ?>
 								<?php echo $field->input; ?>
 							<?php else : ?>
-								<div class="control-group"<?php echo $dataShowOn; ?>>
+								<div class="control-group<?php echo $groupClass; ?>"<?php echo $dataShowOn; ?>>
 									<?php if ($name != 'permissions') : ?>
 										<div class="control-label">
 											<?php echo $field->label; ?>
@@ -101,6 +105,9 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				<?php endforeach; ?>
 			</div><!-- /configContent -->
+			<?php else: ?>
+				<div class="alert alert-info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
+			<?php endif; ?>
 
 		</div><!-- /config -->
 

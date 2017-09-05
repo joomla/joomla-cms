@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_contact
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Association\AssociationExtensionHelper;
 
 JTable::addIncludePath(__DIR__ . '/../tables');
 
@@ -18,7 +18,7 @@ JTable::addIncludePath(__DIR__ . '/../tables');
  *
  * @since  3.7.0
  */
-class ContactAssociationsHelper extends JAssociationExtensionHelper
+class ContactAssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -152,6 +152,8 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['category'] = true;
+					$support['save2copy'] = true;
 
 					$tables = array(
 						'a' => '#__contact_details'
@@ -170,6 +172,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['level'] = true;
 
 					$tables = array(
 						'a' => '#__categories'
