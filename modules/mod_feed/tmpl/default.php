@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 		<?php $direction = 'redirect-rtl'; ?>
 	<?php elseif ($myrtl == 0) : ?>
 		<?php $direction = 'redirect-ltr'; ?>
-	<?php elseif ($myrtl == 1): ?>
+	<?php elseif ($myrtl == 1) : ?>
 		<?php $direction = 'redirect-ltr'; ?>
 	<?php elseif ($myrtl == 2) : ?>
 		<?php $direction = 'redirect-rtl'; ?>
@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 		<?php // Image handling ?>
 		<?php $iUrl   = isset($feed->image) ? $feed->image : null; ?>
 		<?php $iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null; ?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important"  class="feed<?php echo $moduleclass_sfx; ?>">
 			<?php // Feed description ?>
 			<?php if ($feed->title !== null && $params->get('rsstitle', 1)) : ?>
 				<h2 class="<?php echo $direction; ?>">
