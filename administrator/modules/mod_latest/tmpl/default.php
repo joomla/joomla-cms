@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 						<?php echo $item->author_name; ?>
 					</small>
 				</div>
-				<span class="badge badge-default badge-pill">
+				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
 			<div class="col-md-12">
-				<div class="alert alert-info"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></div>
+				<div class="alert alert-info"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></div>
 			</div>
 		</li>
 	<?php endif; ?>

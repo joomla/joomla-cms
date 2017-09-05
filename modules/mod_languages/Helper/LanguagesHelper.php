@@ -22,10 +22,7 @@ use Joomla\CMS\Language\Multilanguage;
 /**
  * Helper for mod_languages
  *
- * @package     Joomla.Site
- * @subpackage  mod_languages
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class LanguagesHelper
 {

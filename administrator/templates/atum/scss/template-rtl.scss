@@ -197,11 +197,11 @@ th {
   .card {
     .list-group {
       > .published {
-        border-right: 5px solid $brand-success;
+        border-right: 5px solid theme-color("success");
         border-left: 0;
       }
       > .unpublished {
-        border-right: 5px solid $brand-danger;
+        border-right: 5px solid theme-color("danger");
         border-left: 0;
       }
     }
