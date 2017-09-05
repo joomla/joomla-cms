@@ -72,7 +72,7 @@ CREATE TABLE "#__tags" (
   "title" character varying(255) NOT NULL,
   "alias" character varying(255) DEFAULT '' NOT NULL,
   "note" character varying(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,

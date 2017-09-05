@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
   `label` varchar(255) NOT NULL DEFAULT '',
-  `default_value` text NOT NULL DEFAULT '',
+  `default_value` text,
   `type` varchar(255) NOT NULL DEFAULT 'text',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
 CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `field_id` int(10) unsigned NOT NULL,
   `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
-  `value` text NOT NULL DEFAULT '',
+  `value` text,
   KEY `idx_field_id` (`field_id`),
   KEY `idx_item_id` (`item_id`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
