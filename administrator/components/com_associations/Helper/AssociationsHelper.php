@@ -327,7 +327,7 @@ class AssociationsHelper extends ContentHelper
 			}
 
 
-			// FALL: Verbunden und approved
+			// CASE: Associated and approved
 			if (($associationMode == 1) )
 			{
 				if(!isset($items[$langCode])){
@@ -340,7 +340,7 @@ class AssociationsHelper extends ContentHelper
 
 			}
 
-			// FALL: Verbunden und nicht approved
+			// CASE: Associated and not approved
 			if ($associationMode == 2)
 			{
 				if(!isset($items[$langCode])){
@@ -352,7 +352,7 @@ class AssociationsHelper extends ContentHelper
 				}
 			}
 
-			// FALL: Nicht verbunden
+			// CASE: Not associated
 			if (($associationMode == 0) && isset($items[$langCode]))
 			{
 				unset($items[$langCode]);
