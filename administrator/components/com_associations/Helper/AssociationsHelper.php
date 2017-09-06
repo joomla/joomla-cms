@@ -317,7 +317,8 @@ class AssociationsHelper extends ContentHelper
 			
 			$approved = null;
 			
-			if(isset($items[$langCode])){
+			if (isset($items[$langCode]))
+			{
 				$db = \JFactory::getDbo();
 				$id = $items[$langCode]['id'];
 				$query = $db->getQuery(true)
@@ -333,11 +334,11 @@ class AssociationsHelper extends ContentHelper
 			if (($associationMode == 1))
 			{
 				
-				if(!isset($items[$langCode]))
+				if (!isset($items[$langCode]))
 				{
 					continue;
 				}
-				if($approved == 0)
+				if ($approved == 0)
 				{
 					unset($items[$langCode]);
 					continue;
@@ -349,10 +350,12 @@ class AssociationsHelper extends ContentHelper
 			if ($associationMode == 2)
 			{
 				
-				if(!isset($items[$langCode])){
+				if (!isset($items[$langCode]))
+				{
 					continue;
 				}
-				if($approved == 1){
+				if ($approved == 1)
+				{
 					unset($items[$langCode]);
 					continue;
 				}
@@ -401,7 +404,8 @@ class AssociationsHelper extends ContentHelper
 
 					$additional = '<strong>' . \JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br />';
 				}
-				if($approved == 0){
+				if ($approved == 0)
+				{
 					$labelClass  = 'badge-warning';
 				}
 				else
@@ -441,10 +445,13 @@ class AssociationsHelper extends ContentHelper
 			$url     = \JRoute::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
-			if($approved === 1 || $approved === 0){
+			if ($approved === 1 || $approved === 0)
+			{
 				$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional . '<br /><br />' . '
 				Approved:' . $approved . '<br /><br />';
-			}else{
+			}
+			else
+			{
 				$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional . '<br /><br />';
 
 			}
