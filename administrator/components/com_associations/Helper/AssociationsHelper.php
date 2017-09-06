@@ -313,7 +313,9 @@ class AssociationsHelper extends ContentHelper
 			{
 				continue;
 			}
+			
 			$approved = null;
+			
 			if(isset($items[$langCode])){
 				$db = \JFactory::getDbo();
 				$id = $items[$langCode]['id'];
@@ -321,8 +323,7 @@ class AssociationsHelper extends ContentHelper
 					->select($db->quoteName('approved'))
 					->from($db->quoteName('#__item_associations'))
 					->where($db->quoteName('id') . ' = ' . $db->quote($id));
-
-				$db->setQuery($query);
+                                $db->setQuery($query);
 				$approved = $db->loadResult();
 			}
 
@@ -330,11 +331,13 @@ class AssociationsHelper extends ContentHelper
 			// CASE: Associated and approved
 			if (($associationMode == 1))
 			{
+				
 				if(!isset($items[$langCode]))
 				{
 					continue;
 				}
-				if($approved == 0){
+				if($approved == 0)
+				{
 					unset($items[$langCode]);
 					continue;
 				}
@@ -344,6 +347,7 @@ class AssociationsHelper extends ContentHelper
 			// CASE: Associated and not approved
 			if ($associationMode == 2)
 			{
+				
 				if(!isset($items[$langCode])){
 					continue;
 				}
@@ -352,7 +356,6 @@ class AssociationsHelper extends ContentHelper
 					continue;
 				}
 			}
-
 			// CASE: Not associated
 			if (($associationMode == 0) && isset($items[$langCode]))
 			{
