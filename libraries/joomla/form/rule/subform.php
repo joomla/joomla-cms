@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class JFormRuleSubform extends JFormRule
+class JFormRuleSubform extends \JFormRule
 {
 	/**
 	 * Method to test given values for a subform..
@@ -27,13 +27,13 @@ class JFormRuleSubform extends JFormRule
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
-	 * @param   JForm             $form     The form object for which the field is being tested.
+	 * @param   \JForm            $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, \JForm $form = null)
 	{
 		// Get the form field object.
 		$field = $form->getField($element['name'], $group);

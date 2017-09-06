@@ -331,7 +331,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Loads the form instance for the subform.
 	 *
-	 * @return  JForm  The form instance.
+	 * @return  \JForm  The form instance.
 	 *
 	 * @throws  InvalidArgumentException if no form provided.
 	 * @throws  RuntimeException if the form could not be loaded.
@@ -349,7 +349,7 @@ class JFormFieldSubform extends JFormField
 
 		// Prepare the form template
 		$formname = 'subform.' . ($this->group ? $this->group . '.' : '') . $this->fieldname;
-		$tmpl     = JForm::getInstance($formname, $this->formsource, array('control' => $control));
+		$tmpl     = \JForm::getInstance($formname, $this->formsource, array('control' => $control));
 
 		return $tmpl;
 	}
@@ -357,13 +357,13 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Binds given data to the subform and its elements.
 	 *
-	 * @param   JForm  &$subForm  Form instance of the subform.
+	 * @param   \JForm  &$subForm  Form instance of the subform.
 	 *
-	 * @return  array  Array of JForm instances for the rows.
+	 * @return  \JForm[]  Array of JForm instances for the rows.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function loadSubFormData(&$subForm)
+	private function loadSubFormData(\JForm &$subForm)
 	{
 		$value = $this->value ? (array) $this->value : array();
 
@@ -385,7 +385,7 @@ class JFormFieldSubform extends JFormField
 		for ($i = 0; $i < $c; $i++)
 		{
 			$control  = $this->name . '[' . $this->fieldname . $i . ']';
-			$itemForm = JForm::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
+			$itemForm = \JForm::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
 
 			if (!empty($value[$i]))
 			{
