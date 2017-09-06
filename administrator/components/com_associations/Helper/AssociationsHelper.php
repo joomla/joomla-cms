@@ -293,13 +293,13 @@ class AssociationsHelper extends ContentHelper
 	public static function getAssociationHtmlList1($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $associationMode)
 	{
 
-		// contains all associations from items
+		// Contains all associations from items
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
 		//var_dump($items);
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
-		// all languages that are activated
+		// All languages that are activated
 		// Get all content languages.
 		$languages = self::getContentLanguages();
 
