@@ -232,6 +232,12 @@ class Html extends HtmlView
 			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
 			. \JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
+		
+		 $bar->appendButton(
+            'Custom', '<button onclick="abpruf1()" '
+            . 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+            . \JText::_('COM_ASSOCIATIONS_SAVE_APPROVED') . '</button>', 'approved'
+        );
 
 		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
 		{
