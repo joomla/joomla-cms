@@ -47,9 +47,10 @@ class plgContentarticleassociations extends JPlugin
 	{
 		$id = $article->id;
 		
-		// Check if a parent for associations exist
-		// Do your query
-		// If not parent exists, add it
+		/** Check if a parent for associations exist
+		 * Do your query
+		 * If not parent exists, add it
+		*/ 
 		if ($this->getParentCount($id) !== 1)
 		{	
 			$query   = $this->db->getQuery(true);
@@ -74,9 +75,9 @@ class plgContentarticleassociations extends JPlugin
 	/**
 	* this method will be called to saved associated items in the table 'item_associations'
 	*
-	* @param   String $context  the context
-	* @param   String $article  the article
-	* @param   String $isNew    is the article new?
+	* @param   String  $context  the context
+	* @param   String  $article  the article
+	* @param   String  $isNew    is the article new?
 	*
 	* @return  true if everything is ok
 	*/
@@ -114,8 +115,8 @@ class plgContentarticleassociations extends JPlugin
 		// If master article is edit
 		$query->clear()->select(array('#__item_associations.id'))
 			       ->from($this->db->quoteName('#__item_associations'))
-			       ->join('INNER', $this->db->quoteName('#__associations') . 
-				 ' ON (' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')
+			       ->join('INNER', $this->db->quoteName('#__associations') .' ON (
+			       ' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')
 			       ->where($this->db->quoteName('#__associations.key') . ' =' . $this->db->quote($result), 'AND')
 			       ->where($this->db->quoteName('#__item_associations.parentid') . ' = 0');
 		$this->db->setQuery($query);
@@ -176,6 +177,7 @@ class plgContentarticleassociations extends JPlugin
 	* Get the parentid of a slave-article
 	*
 	* @param   String  $id  the slave id
+	*
 	* @return  the parentid of a slave-article
 	*/
 	public function getParentId($id)
