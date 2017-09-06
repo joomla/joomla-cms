@@ -27,9 +27,9 @@ $iconStates = array(
 );
 
 $associationMode = array(
-	"grau" => 0, // not associated
-	"gruen" => 1, // associated and current
-	"gelb" => 2, // associated and not current
+	"grey" => 0, // not associated
+	"green" => 1, // associated and current
+	"yellow" => 2, // associated and not current
 );
 
 
