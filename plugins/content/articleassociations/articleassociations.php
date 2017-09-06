@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  *
  * @since  DEPLOY_VERSION
  */
-class PlgContentarticleassociations extends JPlugin
+class plgContentarticleassociations extends JPlugin
 {
 	/**
 	 * A Database instance
