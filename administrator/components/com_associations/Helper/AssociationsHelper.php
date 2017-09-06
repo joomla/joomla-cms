@@ -293,13 +293,15 @@ class AssociationsHelper extends ContentHelper
 	public static function getAssociationHtmlList1($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $associationMode)
 	{
 
-		// Contains all associations from items
-		// Get the associations list for this item.
+		/** Contains all associations from items
+		 * Get the associations list for this item.
+		*/
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
-		// All languages that are activated
-		// Get all content languages.
+		/* All languages that are activated
+		 * Get all content languages.
+		*/
 		$languages = self::getContentLanguages();
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
@@ -401,7 +403,9 @@ class AssociationsHelper extends ContentHelper
 				}
 				if($approved == 0){
 					$labelClass  = 'badge-warning';
-				}else{
+				}
+				else
+				{
 					$labelClass  = 'badge-success';
 				}
 
