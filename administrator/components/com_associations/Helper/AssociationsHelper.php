@@ -290,6 +290,16 @@ class AssociationsHelper extends ContentHelper
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}
 
+	/**
+	* @param  String  $extensionName  The extensionName
+	* @param  String  $typeName  The typeName
+	* @param  String  $itemId The itemId
+	* @param  String  $itemLanguage  The itemLanguage
+	* @param  Boolean  $addLink  The addLink
+	* @param  String $associationMode  The associationMode
+	*
+	* @return the AssociationsHtmllist
+	*/
 	public static function getAssociationHtmlList1($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $associationMode)
 	{
 
