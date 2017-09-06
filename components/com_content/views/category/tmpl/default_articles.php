@@ -138,6 +138,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 					<tr class="cat-list-row<?php echo $i % 2; ?>">
 				<?php endif; ?>
 				<td headers="categorylist_header_title" class="list-title">
+					<?php $associationClass = 'label label-association label-' . $association['language']->sef; ?>
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?>
@@ -159,8 +160,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 											); ?>
 									</a>
 								<?php else : ?>
-									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-									<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>">
+									<a class="<?php echo $associationClass; ?>" href="<?php echo JRoute::_($association['item']); ?>">
 										<?php echo strtoupper($association['language']->sef); ?>
 									</a>
 								<?php endif; ?>
@@ -194,8 +194,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 											); ?>
 									</a>
 								<?php else : ?>
-									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-									<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>">
+									<a class="<?php echo $associationClass; ?>" href="<?php echo JRoute::_($association['item']); ?>">
 										<?php echo strtoupper($association['language']->sef); ?>
 									</a>
 								<?php endif; ?>
