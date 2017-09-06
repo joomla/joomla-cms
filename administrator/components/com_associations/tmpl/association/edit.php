@@ -68,3 +68,12 @@ $options = array(
 	<input type="hidden" name="target-id" id="target-id" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+
+<script type="text/javascript">
+    function abpruf1()
+    {
+        var reference     = document.getElementById('reference-association');
+        var target        = document.getElementById('target-association');
+        var message = Joomla.submitform("association.approved");
+    }
+</script>
