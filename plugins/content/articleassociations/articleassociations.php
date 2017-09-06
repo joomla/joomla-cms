@@ -71,8 +71,8 @@ class plgContentarticleassociations extends JPlugin
 
 		return true;
 	}
-																																																																																																																																																																																																																																																																																																																																																																																							
-	/**
+	
+	/**																																																																																																																																																																																																																																																																																																																																																						
 	* this method will be called to saved associated items in the table 'item_associations'
 	*
 	* @param   String  $context  the context
