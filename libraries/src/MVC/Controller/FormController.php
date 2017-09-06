@@ -876,8 +876,8 @@ class FormController extends BaseController
 		// Populate the row id from the session.
 		$data[$key] = $recordId;
 
-		// Check if it is allowed to edit the data
-		if (!$this->allowEdit($data, $key))
+		// Check if it is allowed to edit or create the data
+		if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data)))
 		{
 			$this->setRedirect(
 				\JRoute::_(
