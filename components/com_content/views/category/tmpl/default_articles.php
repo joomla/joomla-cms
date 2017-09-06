@@ -145,7 +145,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
 							<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
-							&nbsp;
+								&nbsp;
 								<?php if ($this->params->get('flags', 1)) : ?>
 									<a href="<?php echo JRoute::_($association['item']); ?>">
 										<?php echo JHtml::_(
