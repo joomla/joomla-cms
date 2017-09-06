@@ -293,13 +293,13 @@ class AssociationsHelper extends ContentHelper
 	public static function getAssociationHtmlList1($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $associationMode)
 	{
 
-		// enthält alle Verbindungen von Item
+		// contains all associations from items
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
 		//var_dump($items);
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
-		// Alle Sprachen die aktiviert sind
+		// all languages that are activated
 		// Get all content languages.
 		$languages = self::getContentLanguages();
 
@@ -328,9 +328,10 @@ class AssociationsHelper extends ContentHelper
 
 
 			// CASE: Associated and approved
-			if (($associationMode == 1) )
+			if (($associationMode == 1))
 			{
-				if(!isset($items[$langCode])){
+				if(!isset($items[$langCode]))
+				{
 					continue;
 				}
 				if($approved == 0){
