@@ -27,14 +27,14 @@ $iconStates = array(
 );
 
 /**
- * "grey" => 0, not associated
- * "green" => 1,  associated and current
- * "yellow" => 2, associated and not current
+ * 'grey' => 0, not associated
+ * 'green' => 1,  associated and current
+ * 'yellow' => 2, associated and not current
  */
 $associationMode = array(
-	"grey"   => 0,
-	"green"  => 1,
-	"yellow" => 2
+	'grey'   => 0,
+	'green'  => 1,
+	'yellow' => 2
 );
 
 
