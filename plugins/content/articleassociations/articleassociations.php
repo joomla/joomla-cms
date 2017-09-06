@@ -16,6 +16,7 @@
 defined('_JEXEC') or die;
 
 /**
+ * @since DEPLOY_VERSION
  * Plugin class name
  */
 class plgContentarticleassociations extends JPlugin
@@ -30,11 +31,17 @@ class plgContentarticleassociations extends JPlugin
 	/**
 	 * @var $liste1 and $parent
 	 */
+	
 	public $liste1;
+	
 	public $parent;
 	
 	/**
+	*@var $context
+	*@var $article  
+	*@var $isNew
 	* this method will be called to saved master items in the table 'item_associations'
+	* return true
 	*/
 	public function onContentAfterSave($context, $article, $isNew)
 	{
@@ -69,9 +76,11 @@ class plgContentarticleassociations extends JPlugin
 	public function onContentAfterSaveAssociations($context, $article, $isNew)
 	{
 		$id    = $article->id;
+		
 		// Get a db connection.
 		// Create a new query object.
 		$query = $this->db->getQuery(true);
+		
 		// Select all records from the user profile table where key begins with "custom.".
 		// Order it by the ordering field.
 		$query->select($this->db->quoteName(array('key')));
@@ -79,6 +88,7 @@ class plgContentarticleassociations extends JPlugin
 		$query->where($this->db->quoteName('id') . " = " . $this->db->quote($id));
 		$this->db->setQuery($query);
 		$result = $this->db->loadResult();
+		
 		// If slave article is edit
 		if ((int) $this->getParentId($id) !== 0)
 		{	
@@ -137,7 +147,8 @@ class plgContentarticleassociations extends JPlugin
 	}
 
         /**
-	* Get the number of Parents from a slave-article
+	* @var $id
+	* @return the number of Parents from a slave-article
 	*/
 	public function getParentCount($id)
 	{
@@ -151,7 +162,8 @@ class plgContentarticleassociations extends JPlugin
 	}
 
         /**
-	* Get the parentid of a slave-article
+	* @var $id
+	* @return the parentid of a slave-article
 	*/
 	public function getParentId($id)
 	{
