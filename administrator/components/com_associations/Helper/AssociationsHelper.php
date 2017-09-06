@@ -297,7 +297,7 @@ class AssociationsHelper extends ContentHelper
 	* @param   String  $typeName         The typeName
 	* @param   String  $itemId           The itemId
 	* @param   String  $itemLanguage     The itemLanguage
-	* @param   Boolean $addLink          The addLink
+	* @param   Boolean  $addLink         The addLink
 	* @param   String  $associationMode  The associationMode
 	*
 	* @return the AssociationsHtmllist
