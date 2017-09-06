@@ -1,6 +1,6 @@
 <?php
 /**
- * @version        $Id:  articleassociations.php  revision  date  lasteditedby  $
+ * @version        $Id:  articleassociations.php revision date lasteditedby $
  * @package        Joomla
  * @subpackage     Content
  * @copyright      Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
@@ -34,12 +34,9 @@ class plgContentarticleassociations extends JPlugin
 	}
 	public function onContentAfterSave($context, $article, $isNew)
 	{
-
 		$id = $article->id;
-
 		// Check if a parent for associations exist
 		// Do your query
-
 		// If not parent exists, add it
 		if ($this->getParentCount($id) !== 1)
 		{	
@@ -75,8 +72,6 @@ class plgContentarticleassociations extends JPlugin
 		$query->where($this->db->quoteName('id') . " = " . $this->db->quote($id));
 		$this->db->setQuery($query);
 		$result = $this->db->loadResult();
-
-
 		// if slave article is edit
 		if ((int) $this->getParentId($id) !== 0)
 		{	
@@ -93,9 +88,11 @@ class plgContentarticleassociations extends JPlugin
 		}
 
 		// if master article is edit
-
 		$query->clear()->select(array('#__item_associations.id'))
-			           ->from($this->db->quoteName('#__item_associations'))->join('INNER', $this->db->quoteName('#__associations') . ' ON (' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')->where($this->db->quoteName('#__associations.key') . ' =' . $this->db->quote($result), 'AND')->where($this->db->quoteName('#__item_associations.parentid') . ' = 0');
+			       ->from($this->db->quoteName('#__item_associations'))
+			       ->join('INNER', $this->db->quoteName('#__associations') . ' ON (' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')
+			       ->where($this->db->quoteName('#__associations.key') . ' =' . $this->db->quote($result), 'AND')
+			       ->where($this->db->quoteName('#__item_associations.parentid') . ' = 0');
 		$this->db->setQuery($query);
 		$liste1 = $this->db->loadRowList();
 		if ($result && strcmp($this->getParentId($id), "0") == 0)
@@ -107,7 +104,6 @@ class plgContentarticleassociations extends JPlugin
 			$query->where($this->db->quoteName('key') . " = " . $this->db->quote($result));
 			$this->db->setQuery($query);
 			$list = $this->db->loadRowList();
-			
 			foreach ($list as $res)
 			{	
 				foreach ($res as $association_id)
@@ -136,8 +132,10 @@ class plgContentarticleassociations extends JPlugin
 
 	public function getParentCount($id)
 	{
-		$query = $this->db->getQuery(true)->select(COUNT($this->db->quoteName(array('parentid'))))
-			      ->from($this->db->quoteName('#__item_associations'))->where($this->db->quoteName('id') . ' = ' . (int) $id);
+		$query = $this->db->getQuery(true)
+			 ->select(COUNT($this->db->quoteName(array('parentid'))))
+			 ->from($this->db->quoteName('#__item_associations'))
+			 ->where($this->db->quoteName('id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
 		$parentid = $this->db->loadResult();
 		return (int) $parentid;
@@ -146,8 +144,10 @@ class plgContentarticleassociations extends JPlugin
 
 	public function getParentId($id)
 	{
-		$query = $this->db->getQuery(true)->select($this->db->quoteName(array('parentid')))
-			     ->from($this->db->quoteName('#__item_associations'))->where($this->db->quoteName('id') . ' = ' . (int) $id);
+		$query = $this->db->getQuery(true)
+			 ->select($this->db->quoteName(array('parentid')))
+			 ->from($this->db->quoteName('#__item_associations'))
+			 ->where($this->db->quoteName('id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
 		$parentid = $this->db->loadResult();
 		return (int) $parentid;
