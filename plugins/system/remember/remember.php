@@ -121,12 +121,6 @@ class PlgSystemRemember extends JPlugin
 			return true;
 		}
 		
-		// Irrelevant, because "resetting on pw change" is not activated
-		if (!$this->params->get('resetRememberMe')) 
-		{
-			return true;
-		}
-
 		/*
 		 * But now, we need to do something 
 		 * Delete all tokens for this user!
