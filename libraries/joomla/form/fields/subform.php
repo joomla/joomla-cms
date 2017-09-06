@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Form\Form;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Form\Form;
 
 jimport('joomla.filesystem.path');
 
