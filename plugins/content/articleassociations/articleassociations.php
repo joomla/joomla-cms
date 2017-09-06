@@ -28,11 +28,6 @@ class plgContentarticleassociations extends JPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
-	/**
-	* class variables
-	*
-	* @var   String $liste1, $parent
-	 */
 	
 	public $liste1;
 	
@@ -41,7 +36,9 @@ class plgContentarticleassociations extends JPlugin
 	/**
 	* this method will be called to saved master items in the table 'item_associations'
 	*
-	* @params    String $context, $article, $isNew
+	* @param    String $context
+	* @param    String $article
+	* @param    String $isNew
 	* @return    true if everything is ok
 	*/
 	public function onContentAfterSave($context, $article, $isNew)
@@ -73,6 +70,11 @@ class plgContentarticleassociations extends JPlugin
         
 	/**
 	* this method will be called to saved associated items in the table 'item_associations'
+	*
+	* @param    String $context
+	* @param    String $article
+	* @param    String $isNew
+	* @return    true if everything is ok
 	*/
 	public function onContentAfterSaveAssociations($context, $article, $isNew)
 	{
@@ -108,7 +110,8 @@ class plgContentarticleassociations extends JPlugin
 		// If master article is edit
 		$query->clear()->select(array('#__item_associations.id'))
 			       ->from($this->db->quoteName('#__item_associations'))
-			       ->join('INNER', $this->db->quoteName('#__associations') . ' ON (' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')
+			       ->join('INNER', $this->db->quoteName('#__associations') . 
+				 ' ON (' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')
 			       ->where($this->db->quoteName('#__associations.key') . ' =' . $this->db->quote($result), 'AND')
 			       ->where($this->db->quoteName('#__item_associations.parentid') . ' = 0');
 		$this->db->setQuery($query);
@@ -150,7 +153,7 @@ class plgContentarticleassociations extends JPlugin
         /**
 	* Get the number of Parents from a slave-article
 	*
-	* @params String $id
+	* @param String $id
 	* @return the number of Parents from a slave-article
 	*/
 	public function getParentCount($id)
@@ -167,7 +170,7 @@ class plgContentarticleassociations extends JPlugin
         /**
 	* Get the parentid of a slave-article
 	*
-	* @params String $id
+	* @param String $id
 	* @return the parentid of a slave-article
 	*/
 	public function getParentId($id)
