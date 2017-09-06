@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Form\Form;
+
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
@@ -175,7 +177,7 @@ class JFormFieldSubform extends JFormField
 	}
 
 	/**
-	 * Method to attach a JForm object to the field.
+	 * Method to attach a Form object to the field.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
@@ -331,7 +333,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Loads the form instance for the subform.
 	 *
-	 * @return  \JForm  The form instance.
+	 * @return  Form  The form instance.
 	 *
 	 * @throws  InvalidArgumentException if no form provided.
 	 * @throws  RuntimeException if the form could not be loaded.
@@ -349,7 +351,7 @@ class JFormFieldSubform extends JFormField
 
 		// Prepare the form template
 		$formname = 'subform.' . ($this->group ? $this->group . '.' : '') . $this->fieldname;
-		$tmpl     = \JForm::getInstance($formname, $this->formsource, array('control' => $control));
+		$tmpl     = Form::getInstance($formname, $this->formsource, array('control' => $control));
 
 		return $tmpl;
 	}
@@ -357,13 +359,13 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Binds given data to the subform and its elements.
 	 *
-	 * @param   \JForm  &$subForm  Form instance of the subform.
+	 * @param   Form  &$subForm  Form instance of the subform.
 	 *
-	 * @return  \JForm[]  Array of JForm instances for the rows.
+	 * @return  Form[]  Array of Form instances for the rows.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function loadSubFormData(\JForm &$subForm)
+	private function loadSubFormData(Form &$subForm)
 	{
 		$value = $this->value ? (array) $this->value : array();
 
@@ -385,7 +387,7 @@ class JFormFieldSubform extends JFormField
 		for ($i = 0; $i < $c; $i++)
 		{
 			$control  = $this->name . '[' . $this->fieldname . $i . ']';
-			$itemForm = \JForm::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
+			$itemForm = Form::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
 
 			if (!empty($value[$i]))
 			{
