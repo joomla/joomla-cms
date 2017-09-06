@@ -58,6 +58,16 @@ class Association extends Form
 	 *
 	 * @since  3.7.0
 	 */
+	 public function approved()
+    {
+
+        $itemtype=$this->input->get('itemtype', '', 'string');
+        $id = $this->input->getInt('id');
+        $targetId = $this->input->getInt('target-id');
+        $message= $this->getModel()->approved($id,$targetId);
+        $this->setRedirect(\JRoute::_('index.php?option=com_associations&view=association&layout=edit&itemtype='.$itemtype.'&task=association.edit&id='.$id, false),$message);
+    }
+	
 	public function cancel($key = null)
 	{
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
