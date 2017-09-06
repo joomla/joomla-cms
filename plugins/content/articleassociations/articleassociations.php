@@ -1,10 +1,10 @@
 <?php
 /**
- * @version        $Id:  articleassociations.php revision date lasteditedby $
- * @package        Joomla
- * @subpackage     Content
- * @copyright      Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
- * @license        GNU/GPL, see LICENSE.php
+ * @version     $Id:  articleassociations.php revision date lasteditedby $
+ * @package     Joomla
+ * @subpackage  Content
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @license     GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -12,9 +12,12 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
+/**
+ * Plugin class name
+ */
 class plgContentarticleassociations extends JPlugin
 {
 	/**
@@ -27,11 +30,12 @@ class plgContentarticleassociations extends JPlugin
 	/**
 	 * @var $liste1 and $parent
 	 */
-	public $liste1, $parent;
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
+	public $liste1;
+	public $parent;
+	
+	/**
+	* this method will be called to saved master items in the table 'item_associations'
+	*/
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 		$id = $article->id;
@@ -58,7 +62,10 @@ class plgContentarticleassociations extends JPlugin
 
 		return true;
 	}
-
+        
+	/**
+	* this method will be called to saved associated items in the table 'item_associations'
+	*/
 	public function onContentAfterSaveAssociations($context, $article, $isNew)
 	{
 		$id    = $article->id;
@@ -72,7 +79,7 @@ class plgContentarticleassociations extends JPlugin
 		$query->where($this->db->quoteName('id') . " = " . $this->db->quote($id));
 		$this->db->setQuery($query);
 		$result = $this->db->loadResult();
-		// if slave article is edit
+		// If slave article is edit
 		if ((int) $this->getParentId($id) !== 0)
 		{	
 			$query  = $this->db->getQuery(true);
@@ -87,7 +94,7 @@ class plgContentarticleassociations extends JPlugin
 			$this->db->setQuery($query)->execute();
 		}
 
-		// if master article is edit
+		// If master article is edit
 		$query->clear()->select(array('#__item_associations.id'))
 			       ->from($this->db->quoteName('#__item_associations'))
 			       ->join('INNER', $this->db->quoteName('#__associations') . ' ON (' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')
@@ -129,7 +136,9 @@ class plgContentarticleassociations extends JPlugin
 		return true;
 	}
 
-
+        /**
+	* Get the number of Parents from a slave-article
+	*/
 	public function getParentCount($id)
 	{
 		$query = $this->db->getQuery(true)
@@ -141,7 +150,9 @@ class plgContentarticleassociations extends JPlugin
 		return (int) $parentid;
 	}
 
-
+        /**
+	* Get the parentid of a slave-article
+	*/
 	public function getParentId($id)
 	{
 		$query = $this->db->getQuery(true)
