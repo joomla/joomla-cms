@@ -16,8 +16,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @since DEPLOY_VERSION
- * Plugin class name
+ * @since  DEPLOY_VERSION
+ * Plugin  class name
  */
 class plgContentarticleassociations extends JPlugin
 {
@@ -29,7 +29,9 @@ class plgContentarticleassociations extends JPlugin
 	 */
 	protected $db;
 	/**
-	 * @var $liste1 and $parent
+	* class variables
+	*
+	 * @var   String $liste1, $parent
 	 */
 	
 	public $liste1;
@@ -37,11 +39,10 @@ class plgContentarticleassociations extends JPlugin
 	public $parent;
 	
 	/**
-	*@var $context
-	*@var $article  
-	*@var $isNew
 	* this method will be called to saved master items in the table 'item_associations'
-	* return true
+	*
+	* @params    String $context, $article, $isNew
+	* @return    true
 	*/
 	public function onContentAfterSave($context, $article, $isNew)
 	{
@@ -147,7 +148,9 @@ class plgContentarticleassociations extends JPlugin
 	}
 
         /**
-	* @var $id
+	* Get the number of Parents from a slave-article
+	*
+	* @params $id
 	* @return the number of Parents from a slave-article
 	*/
 	public function getParentCount($id)
@@ -162,7 +165,9 @@ class plgContentarticleassociations extends JPlugin
 	}
 
         /**
-	* @var $id
+	* Get the parentid of a slave-article
+	*
+	* @params $id
 	* @return the parentid of a slave-article
 	*/
 	public function getParentId($id)
