@@ -104,7 +104,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
                             <tr class="row<?php echo $i % 2; ?>">
 								<?php if (!empty($this->typeSupports['state'])) : ?>
                                     <td class="text-center">
-                                        <span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
+                                        <span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"> </span>
                                     </td>
 								<?php endif; ?>
                                 <td class="nowrap has-context">
