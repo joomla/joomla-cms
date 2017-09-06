@@ -8,7 +8,7 @@
     <copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <version>1.0</version>
-    <description>manage the parent relations beetween articles</description>
+    <description>Manage the parent relations between articles</description>
     <files>
         <filename plugin="articleassociations">articleassociations.php</filename>
     </files>
