@@ -293,12 +293,12 @@ class AssociationsHelper extends ContentHelper
 	/**
 	* function AssociationsHtmllist
 	*
-	* @param   String  $extensionName   The extensionName
-	* @param   String  $typeName        The typeName
-	* @param   String  $itemId          The itemId
-	* @param   String  $itemLanguage    The itemLanguage
-	* @param   Boolean  $addLink        The addLink
-	* @param   String  $associationMode The associationMode
+	* @param   String  $extensionName    The extensionName
+	* @param   String  $typeName         The typeName
+	* @param   String  $itemId           The itemId
+	* @param   String  $itemLanguage     The itemLanguage
+	* @param   Boolean $addLink          The addLink
+	* @param   String  $associationMode  The associationMode
 	*
 	* @return the AssociationsHtmllist
 	*/
