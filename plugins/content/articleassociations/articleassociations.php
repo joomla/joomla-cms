@@ -31,7 +31,7 @@ class plgContentarticleassociations extends JPlugin
 	/**
 	* class variables
 	*
-	 * @var   String $liste1, $parent
+	* @var   String $liste1, $parent
 	 */
 	
 	public $liste1;
@@ -42,7 +42,7 @@ class plgContentarticleassociations extends JPlugin
 	* this method will be called to saved master items in the table 'item_associations'
 	*
 	* @params    String $context, $article, $isNew
-	* @return    true
+	* @return    true if everything is ok
 	*/
 	public function onContentAfterSave($context, $article, $isNew)
 	{
@@ -150,7 +150,7 @@ class plgContentarticleassociations extends JPlugin
         /**
 	* Get the number of Parents from a slave-article
 	*
-	* @params $id
+	* @params String $id
 	* @return the number of Parents from a slave-article
 	*/
 	public function getParentCount($id)
@@ -167,7 +167,7 @@ class plgContentarticleassociations extends JPlugin
         /**
 	* Get the parentid of a slave-article
 	*
-	* @params $id
+	* @params String $id
 	* @return the parentid of a slave-article
 	*/
 	public function getParentId($id)
