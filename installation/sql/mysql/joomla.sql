@@ -2101,11 +2101,11 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__item_associations` (
-  `id` INTEGER(11) NOT NULL,
-  `parentid` INTEGER(11) NOT NULL,
-  `approved` tinyint(1) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT 'Primary Key',
+  `parentid` int(10) NOT NULL DEFAULT 0,
+  `approved` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-  );
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=7;
 
 --
 -- Dumping data for table `#__viewlevels`
