@@ -183,9 +183,9 @@ class plgContentarticleassociations extends JPlugin
 	public function getParentId($id)
 	{
 		$query = $this->db->getQuery(true)
-		 ->select($this->db->quoteName(array('parentid')))
-		 ->from($this->db->quoteName('#__item_associations'))
-		 ->where($this->db->quoteName('id') . ' = ' . (int) $id);
+			 ->select($this->db->quoteName(array('parentid')))
+		 	->from($this->db->quoteName('#__item_associations'))
+		 	->where($this->db->quoteName('id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
 		$parentid = $this->db->loadResult();
 		return (int) $parentid;
