@@ -1,9 +1,9 @@
 <?php
 /**
- * @version        $Id: articleassociations.php revision date lasteditedby $
+ * @version        $Id:  articleassociations.php  revision  date  lasteditedby  $
  * @package        Joomla
- * @subpackage    Content
- * @copyright    Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @subpackage     Content
+ * @copyright      Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license        GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -24,13 +24,14 @@ class plgContentarticleassociations extends JPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
+	/**
+	 * @var $liste1 and $parent
+	 */
 	public $liste1, $parent;
-
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 	}
-
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 
@@ -67,7 +68,6 @@ class plgContentarticleassociations extends JPlugin
 		// Get a db connection.
 		// Create a new query object.
 		$query = $this->db->getQuery(true);
-
 		// Select all records from the user profile table where key begins with "custom.".
 		// Order it by the ordering field.
 		$query->select($this->db->quoteName(array('key')));
@@ -98,7 +98,6 @@ class plgContentarticleassociations extends JPlugin
 			           ->from($this->db->quoteName('#__item_associations'))->join('INNER', $this->db->quoteName('#__associations') . ' ON (' . $this->db->quoteName('#__associations.id') . ' = ' . $this->db->quoteName('#__item_associations.id') . ')')->where($this->db->quoteName('#__associations.key') . ' =' . $this->db->quote($result), 'AND')->where($this->db->quoteName('#__item_associations.parentid') . ' = 0');
 		$this->db->setQuery($query);
 		$liste1 = $this->db->loadRowList();
-
 		if ($result && strcmp($this->getParentId($id), "0") == 0)
 		{	
 			$db    = JFactory::getDbo();
@@ -108,6 +107,7 @@ class plgContentarticleassociations extends JPlugin
 			$query->where($this->db->quoteName('key') . " = " . $this->db->quote($result));
 			$this->db->setQuery($query);
 			$list = $this->db->loadRowList();
+			
 			foreach ($list as $res)
 			{	
 				foreach ($res as $association_id)
@@ -126,16 +126,10 @@ class plgContentarticleassociations extends JPlugin
 						$query->update($this->db->quoteName('#__item_associations'))->set($fields)->where($conditions);
 						$this->db->setQuery($query);
 						$res = $this->db->execute();
-
-
 					}
-
-
 				}
-
 			}
 		}
-
 		return true;
 	}
 
@@ -157,8 +151,6 @@ class plgContentarticleassociations extends JPlugin
 		$this->db->setQuery($query);
 		$parentid = $this->db->loadResult();
 		return (int) $parentid;
-
-
 	}
 
 }
