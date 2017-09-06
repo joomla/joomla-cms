@@ -16,8 +16,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @since  DEPLOY_VERSION
  * Plugin  class name
+ *
+ * @since  DEPLOY_VERSION
  */
 class plgContentarticleassociations extends JPlugin
 {
@@ -36,15 +37,16 @@ class plgContentarticleassociations extends JPlugin
 	/**
 	* this method will be called to saved master items in the table 'item_associations'
 	*
-	* @param   String $context  The context
-	* @param   String $article  The new saved articles
-	* @param   String $isNew   Is the article new?
+	* @param   String  $context  The context
+	* @param   String  $article  The new saved articles
+	* @param   String  $isNew    Is the article new?
 	*
 	* @return    true if everything is ok
 	*/
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 		$id = $article->id;
+		
 		// Check if a parent for associations exist
 		// Do your query
 		// If not parent exists, add it
@@ -72,10 +74,11 @@ class plgContentarticleassociations extends JPlugin
 	/**
 	* this method will be called to saved associated items in the table 'item_associations'
 	*
-	* @param    String $context
-	* @param    String $article
-	* @param    String $isNew
-	* @return    true if everything is ok
+	* @param   String $context  the context
+	* @param   String $article  the article
+	* @param   String $isNew    is the article new?
+	*
+	* @return  true if everything is ok
 	*/
 	public function onContentAfterSaveAssociations($context, $article, $isNew)
 	{
@@ -154,8 +157,9 @@ class plgContentarticleassociations extends JPlugin
         /**
 	* Get the number of Parents from a slave-article
 	*
-	* @param    String $id  The slave-id
-	* @return the number of Parents from a slave-article
+	* @param   String  $id  The slave-id
+	*
+	* @return  the number of Parents from a slave-article
 	*/
 	public function getParentCount($id)
 	{
@@ -171,8 +175,8 @@ class plgContentarticleassociations extends JPlugin
         /**
 	* Get the parentid of a slave-article
 	*
-	* @param   String $id  the slave id
-	* @return the parentid of a slave-article
+	* @param   String  $id  the slave id
+	* @return  the parentid of a slave-article
 	*/
 	public function getParentId($id)
 	{
