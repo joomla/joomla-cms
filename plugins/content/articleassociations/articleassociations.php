@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  *
  * @since  DEPLOY_VERSION
  */
-class plgContentarticleassociations extends JPlugin
+class PlgContentarticleassociations extends JPlugin
 {
 	/**
 	 * A Database instance
@@ -72,7 +72,7 @@ class plgContentarticleassociations extends JPlugin
 		return true;
 	}
 	
-	/**																																																																																																																																																																																																																																																																																																																																																						
+	/**
 	* this method will be called to saved associated items in the table 'item_associations'
 	*
 	* @param   String  $context  the context
