@@ -8,7 +8,7 @@
     <copyright>Copyright</copyright>
     <license>GNU/GPL</license>
     <version>1.0</version>
-    <description>Administrate die Relation between articles</description>
+    <description>manage the parent relations beetween articles</description>
     <files>
         <filename plugin="articleassociations">articleassociations.php</filename>
     </files>
