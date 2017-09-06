@@ -296,7 +296,6 @@ class AssociationsHelper extends ContentHelper
 		// Contains all associations from items
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
-		//var_dump($items);
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// All languages that are activated
@@ -439,7 +438,8 @@ class AssociationsHelper extends ContentHelper
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 			if($approved === 1 || $approved === 0){
-				$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional . '<br /><br />' .'Approved:' . $approved . '<br /><br />';
+				$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional . '<br /><br />' . '
+				Approved:' . $approved . '<br /><br />';
 			}else{
 				$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional . '<br /><br />';
 
