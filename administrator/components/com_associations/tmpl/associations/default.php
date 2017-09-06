@@ -32,8 +32,8 @@ $iconStates = array(
  * "yellow" => 2, associated and not current
  */
 $associationMode = array(
-	"grey" => 0
-	"green" => 1
+	"grey"   => 0,
+	"green"  => 1,
 	"yellow" => 2
 );
 
@@ -41,7 +41,8 @@ $associationMode = array(
 JText::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, true);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post"
+      name="adminForm" id="adminForm">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
@@ -56,7 +57,8 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
                         <tr>
 							<?php if (!empty($this->typeSupports['state'])) : ?>
                                 <th style="width:1%" class="text-center nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
+									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder);
+									$colSpan++; ?>
                                 </th>
 							<?php endif; ?>
                             <th class="nowrap">
@@ -70,12 +72,14 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
                             </th>
 							<?php if (!empty($this->typeFields['menutype'])) : ?>
                                 <th style="width:10%" class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
+									<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder);
+									$colSpan++; ?>
                                 </th>
 							<?php endif; ?>
 							<?php if (!empty($this->typeFields['access'])) : ?>
                                 <th style="width:5%" class="nowrap hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder);
+									$colSpan++; ?>
                                 </th>
 							<?php endif; ?>
                             <th style="width:1%" class="nowrap hidden-sm-down text-center">
@@ -93,7 +97,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
                         <tbody>
 						<?php foreach ($this->items as $i => $item) :
 							$canCheckin = true;
-							$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
+							$canEdit = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
 							$canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
 							$isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
 							?>
@@ -112,7 +116,9 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
 										<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-                                        <a class="hasTooltip" href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+                                        <a class="hasTooltip"
+                                           href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>"
+                                           title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
                                         <span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -130,7 +136,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
                                 </td>
                                 <td class="small">
 									<?php
-									$db = \JFactory::getDbo();
+									$db    = \JFactory::getDbo();
 									$query = $db->getQuery(true)
 										->select($db->quoteName('approved'))
 										->from($db->quoteName('#__item_associations'))
@@ -138,12 +144,16 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 
 									$db->setQuery($query);
 									$approved = $db->loadResult();
-									if($approved == 0){
-										$labelClass  = 'badge-warning';
-										echo JLayoutHelper::render('joomla.content.language', $item );
-										?> <span style="color:red; font-size:15px;"> <?php echo JText::sprintf('!'); ?> </span> <?php
-									}else{
-										echo JLayoutHelper::render('joomla.content.language', $item );
+									if ($approved == 0)
+									{
+										$labelClass = 'badge-warning';
+										echo JLayoutHelper::render('joomla.content.language', $item);
+										?> <span
+                                            style="color:red; font-size:15px;"> <?php echo JText::sprintf('!'); ?> </span> <?php
+									}
+									else
+									{
+										echo JLayoutHelper::render('joomla.content.language', $item);
 									}
 									?>
                                 </td>
