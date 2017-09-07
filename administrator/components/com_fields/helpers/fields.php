@@ -79,7 +79,7 @@ class FieldsHelper
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
-	 * @param   int/bool  $prepareValue      Boolean or Event type to indicate when to preparing fields display
+	 * @param   int|bool  $prepareValue      Boolean or Event type to indicate when to preparing fields display
 	 * @param   array     $valuesToOverride  The values to override
 	 *
 	 * @return  array
