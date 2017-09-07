@@ -2111,3 +2111,15 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (3, 'Special', 3, '[6,3,8]'),
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
+
+
+--
+-- Table structure for table `#__item_associations`
+--
+
+CREATE TABLE IF NOT EXISTS `#__item_associations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT 'Primary Key',
+  `parentid` int(10) NOT NULL DEFAULT 0,
+  `approved` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

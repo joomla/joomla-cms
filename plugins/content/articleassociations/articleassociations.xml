@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="content">
+    <name>articleassociations</name>
+    <creationDate>24.08.2017</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl> www.joomla.org</authorUrl>
+    <copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0</version>
+    <description>Manage the parent relations between articles</description>
+    <files>
+        <filename plugin="articleassociations">articleassociations.php</filename>
+    </files>
+    <config />
+</extension>
