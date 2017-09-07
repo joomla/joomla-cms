@@ -450,6 +450,12 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
+		// Check property exists (avoid costly & useless recreation), if need to recreate them, just unset the property!
+		if (isset($item->jcfields))
+		{
+			return;
+		}
+
 		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
@@ -471,7 +477,7 @@ class PlgSystemFields extends JPlugin
 		// Prepare HTML display of only fields that are used manually (they have their parameter 'display' set to zero)
 		$prepareValue = 0 === (int) $field->params->get('display', '2');
 		
-		// Get item's fields, fields without zero 'display' will only have their raw values popuplated
+		// Get item's fields, fields without zero 'display' will only have their rawvalues popuplated
 		$fields = FieldsHelper::getFields($context, $item, $prepareValue);
 
 		// Adding the fields to the object
