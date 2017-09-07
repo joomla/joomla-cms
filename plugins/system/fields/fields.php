@@ -385,7 +385,7 @@ class PlgSystemFields extends JPlugin
 			$params = new Registry($params);
 		}
 
-		$fields = FieldsHelper::getFields($context, $item, true);
+		$fields = FieldsHelper::getFields($context, $item, $displayType);
 
 		if ($fields)
 		{
