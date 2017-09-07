@@ -46,7 +46,7 @@ class Association extends ListModel
             $selectQuery = $db->getQuery(true);
             $selectQuery
                 ->select('id,parentid')
-                ->from($db->quoteName('item_associations'))
+                ->from($db->quoteName('#__item_associations'))
                 ->where($db->quoteName('id') . " = " . $targetId, 'OR')
                 ->where($db->quoteName('id') . " = " . $id);
             $db->setQuery($selectQuery);
@@ -90,7 +90,7 @@ class Association extends ListModel
                     $values = array($id, 0, 1);
 
                     $insertQueryParent
-                        ->insert($db->quoteName('item_associations'))
+                        ->insert($db->quoteName('#__item_associations'))
                         ->columns($db->quoteName($columns))
                         ->values(implode(',', $values));
 
@@ -105,7 +105,7 @@ class Association extends ListModel
                     $values = array($targetId, $id, 1);
 
                     $insertQueryChild
-                        ->insert($db->quoteName('item_associations'))
+                        ->insert($db->quoteName('#__item_associations'))
                         ->columns($db->quoteName($columns))
                         ->values(implode(',', $values));
 
@@ -121,7 +121,7 @@ class Association extends ListModel
                     $values = array($targetId, $id, 1);
 
                     $insertQuery
-                        ->insert($db->quoteName('item_associations'))
+                        ->insert($db->quoteName('#__item_associations'))
                         ->columns($db->quoteName($columns))
                         ->values(implode(',', $values));
 
@@ -137,7 +137,7 @@ class Association extends ListModel
                     $values = array($id, 0, 1);
 
                     $insertQuery
-                        ->insert($db->quoteName('item_associations'))
+                        ->insert($db->quoteName('#__item_associations'))
                         ->columns($db->quoteName($columns))
                         ->values(implode(',', $values));
 
@@ -147,7 +147,7 @@ class Association extends ListModel
                     $updateQuery = $db->getQuery(true);
 
                     $updateQuery
-                        ->update($db->quoteName('item_associations'))
+                        ->update($db->quoteName('#__item_associations'))
                         ->set($db->quoteName('approved') . ' = ' . 1)
                         ->where($db->quoteName('id') . " = " . $targetId);
 
@@ -163,7 +163,7 @@ class Association extends ListModel
                         $updateQuery = $db->getQuery(true);
 
                         $updateQuery
-                            ->update($db->quoteName('item_associations'))
+                            ->update($db->quoteName('#__item_associations'))
                             ->set($db->quoteName('approved') . ' = ' . 1)
                             ->where($db->quoteName('id') . " = " . $targetId);
 
@@ -181,7 +181,7 @@ class Association extends ListModel
         }
         else
         {
-            $message=\JText::_('=COM_ASSOCIATIONS_NOTCHILD');
+            $message=\JText::_('COM_ASSOCIATIONS_NOTCHILD');
         }
 
         return $message;
