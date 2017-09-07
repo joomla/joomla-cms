@@ -29,9 +29,9 @@ abstract class FieldsPlugin extends JPlugin
 		// Cache filesystem access / checks
 		static $types_cache = array();
 
-		if (isset($types_cache[$this->_type][$this->_name]))
+		if (isset($types_cache[$this->_type . $this->_name]))
 		{
-			return $types_cache[$this->_type][$this->_name];
+			return $types_cache[$this->_type . $this->_name];
 		}
 
 		$types = array();
@@ -93,7 +93,7 @@ abstract class FieldsPlugin extends JPlugin
 		}
 
 		// Add to cache
-		$types_cache[$this->_type][$this->_name] = $types;
+		$types_cache[$this->_type . $this->_name] = $types;
 
 		// Return the data
 		return $types;
