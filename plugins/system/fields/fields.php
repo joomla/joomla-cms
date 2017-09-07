@@ -468,7 +468,11 @@ class PlgSystemFields extends JPlugin
 			$item = $this->prepareTagItem($item);
 		}
 
-		$fields = FieldsHelper::getFields($context, $item, true);
+		// Prepare HTML display of only fields that are used manually (they have their parameter 'display' set to zero)
+		$prepareValue = 0;
+		
+		// Get item's fields, fields without zero 'display' will only have their raw values popuplated
+		$fields = FieldsHelper::getFields($context, $item, $prepareValue);
 
 		// Adding the fields to the object
 		$item->jcfields = array();
