@@ -469,7 +469,7 @@ class PlgSystemFields extends JPlugin
 		}
 
 		// Prepare HTML display of only fields that are used manually (they have their parameter 'display' set to zero)
-		$prepareValue = 0;
+		$prepareValue = 0 === (int) $field->params->get('display', '2');
 		
 		// Get item's fields, fields without zero 'display' will only have their raw values popuplated
 		$fields = FieldsHelper::getFields($context, $item, $prepareValue);
