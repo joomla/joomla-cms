@@ -11,16 +11,17 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Articles list controller class.
  *
  * @since  1.6
  */
-class Articles extends Admin
+class Articles extends AdminController
 {
 	/**
 	 * Constructor.
@@ -29,7 +30,7 @@ class Articles extends Admin
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
@@ -84,7 +85,7 @@ class Articles extends Admin
 		else
 		{
 			// Get the model.
-			/** @var ContentModelArticle $model */
+			/** @var \Joomla\Component\Content\Administrator\Model\Article $model */
 			$model = $this->getModel();
 
 			// Publish the items.
@@ -122,7 +123,7 @@ class Articles extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel
 	 *
 	 * @since   1.6
 	 */

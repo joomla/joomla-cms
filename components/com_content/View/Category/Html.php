@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Site\View\Category;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\View\Category;
+use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Registry\Registry;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Html extends Category
+class Html extends CategoryView
 {
 	/**
 	 * @var    array  Array of leading items for blog display

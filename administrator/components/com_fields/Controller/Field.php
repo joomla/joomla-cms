@@ -11,8 +11,8 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Controller\Form;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Registry\Registry;
 
@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class Field extends Form
+class Field extends FormController
 {
 	private $internalContext;
 
@@ -168,14 +168,14 @@ class Field extends Form
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$item = $model->getItem();
 

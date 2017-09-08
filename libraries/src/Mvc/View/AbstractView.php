@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\View;
+namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Base class for a Joomla View
@@ -175,10 +175,10 @@ abstract class AbstractView extends \JObject
 	 * referenced by the name without \JModel, eg. \JModelCategory is just
 	 * Category.
 	 *
-	 * @param   Model    $model    The model to add to the view.
-	 * @param   boolean  $default  Is this the default model?
+	 * @param   BaseModel  $model    The model to add to the view.
+	 * @param   boolean    $default  Is this the default model?
 	 *
-	 * @return  Model  The added model.
+	 * @return  BaseModel  The added model.
 	 *
 	 * @since   3.0
 	 */

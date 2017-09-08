@@ -6,16 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Fields Controller
  *
  * @since  3.7.0
  */
-class Controller extends \Joomla\CMS\Controller\Controller
+class Controller extends BaseController
 {
 	/**
 	 * The default view.
@@ -35,7 +38,7 @@ class Controller extends \Joomla\CMS\Controller\Controller
 	 * @param   boolean     $cachable   If true, the view output will be cached
 	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
-	 * @return Controller|boolean  A Controller object to support chaining.
+	 * @return BaseController|boolean  A Controller object to support chaining.
 	 *
 	 * @since   3.7.0
 	 */
@@ -49,8 +52,7 @@ class Controller extends \Joomla\CMS\Controller\Controller
 		if ($vName == 'field' && !$this->checkEditId('com_fields.edit.field', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(\JRoute::_('index.php?option=com_fields&view=fields&context=' . $this->input->get('context'), false));
 
 			return false;

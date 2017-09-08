@@ -11,16 +11,17 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * The article controller
  *
  * @since  1.6
  */
-class Article extends Form
+class Article extends FormController
 {
 	/**
 	 * Constructor.
@@ -29,7 +30,7 @@ class Article extends Form
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
@@ -135,7 +136,7 @@ class Article extends Form
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		/** @var ContentModelArticle $model */
+		/** @var \Joomla\Component\Content\Administrator\Model\Article $model */
 		$model = $this->getModel('Article', 'Administrator', array());
 
 		// Preset the redirect

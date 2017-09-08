@@ -11,7 +11,7 @@ namespace Joomla\Component\Config\Site\View\Modules;
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Config\Site\Model\Modules;
 
 /**

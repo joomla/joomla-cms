@@ -25,7 +25,7 @@ class Feature extends Article
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  Joomla\CMS\Table\Table	A database object
+	 * @return  \Joomla\CMS\Table\Table	A database object
 	 *
 	 * @since   1.6
 	 */

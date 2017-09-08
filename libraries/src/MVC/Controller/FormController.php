@@ -9,6 +9,7 @@
 namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -233,7 +234,7 @@ class FormController extends BaseController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   \JModelLegacy  $model  The model of the component being processed.
+	 * @param   BaseModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -415,7 +416,7 @@ class FormController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  BaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -503,14 +504,14 @@ class FormController extends BaseController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   \JModelLegacy  $model      The data model object.
-	 * @param   array          $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(\JModelLegacy $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 	}
 

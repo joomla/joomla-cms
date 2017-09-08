@@ -10,14 +10,14 @@ namespace Joomla\Component\Content\Site\View\Category;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\CategoryFeed;
+use Joomla\CMS\MVC\View\CategoryFeedView;
 
 /**
  * HTML View class for the Content component
  *
  * @since  1.5
  */
-class Feed extends CategoryFeed
+class Feed extends CategoryFeedView
 {
 	/**
 	 * @var    string  The name of the view to link individual items to

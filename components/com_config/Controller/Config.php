@@ -12,15 +12,15 @@ namespace Joomla\Component\Config\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MvcFactoryInterface;
 
 /**
  * Component Controller
  *
  * @since  1.5
  */
-class Config extends Controller
+class Config extends BaseController
 {
 	/**
 	 * Constructor.

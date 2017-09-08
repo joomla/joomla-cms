@@ -10,7 +10,8 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
@@ -58,7 +59,7 @@ class Controller extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		if (JFactory::getApplication()->getUserState('com_contact.contact.data') === null)
+		if (\JFactory::getApplication()->getUserState('com_contact.contact.data') === null)
 		{
 			$cachable = true;
 		}

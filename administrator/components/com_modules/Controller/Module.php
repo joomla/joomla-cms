@@ -10,8 +10,8 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\CMS\Response\JsonResponse;
  *
  * @since  1.6
  */
-class Module extends Form
+class Module extends FormController
 {
 	/**
 	 * Override parent add method.
@@ -157,14 +157,14 @@ class Module extends Form
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$app = \JFactory::getApplication();
 		$task = $this->getTask();

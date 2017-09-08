@@ -10,9 +10,8 @@ namespace Joomla\Component\Banners\Administrator\View\Clients;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-
 
 /**
  * View class for a list of clients.

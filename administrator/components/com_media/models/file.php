@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * File Model
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaModelFile extends Form
+class MediaModelFile extends FormModel
 {
 	/**
 	 * Method to get the record form.

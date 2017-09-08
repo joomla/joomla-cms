@@ -8,6 +8,7 @@
  */
 namespace Joomla\Component\Content\Site\Controller;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 defined('_JEXEC') or die;
@@ -17,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class Controller extends \Joomla\CMS\Controller\Controller
+class Controller extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
 	 * Constructor.

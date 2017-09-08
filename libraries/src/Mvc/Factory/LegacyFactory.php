@@ -10,8 +10,8 @@ namespace Joomla\CMS\Mvc\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -31,7 +31,7 @@ class LegacyFactory implements MvcFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model object
+	 * @return  BaseModel  The model object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -42,7 +42,7 @@ class LegacyFactory implements MvcFactoryInterface
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		return Model::getInstance($modelName, $classPrefix, $config);
+		return BaseModel::getInstance($modelName, $classPrefix, $config);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class LegacyFactory implements MvcFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\View\AbstractView  The view object
+	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -71,7 +71,7 @@ class LegacyFactory implements MvcFactoryInterface
 		if (!class_exists($viewClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = \JPath::find($config['paths'], Controller::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+			$path = \JPath::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
 
 			if (!$path)
 			{

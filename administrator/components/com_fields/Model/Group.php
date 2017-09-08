@@ -10,14 +10,15 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Table;
 
 /**
  * Group Model
  *
  * @since  3.7.0
  */
-class Group extends Admin
+class Group extends AdminModel
 {
 	/**
 	 * @var null|string
@@ -222,17 +223,17 @@ class Group extends Admin
 		if ($section !== null)
 		{
 			// Looking first in the component models/forms folder
-			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+			$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
 			if (file_exists($path))
 			{
-				$lang = JFactory::getLanguage();
+				$lang = \JFactory::getLanguage();
 				$lang->load($component, JPATH_BASE, null, false, true);
 				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 
 				if (!$form->loadFile($path, false))
 				{
-					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+					throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 				}
 			}
 		}

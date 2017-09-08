@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\ListModel;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Methods supporting a list of tracks.

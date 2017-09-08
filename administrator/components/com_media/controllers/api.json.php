@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 JLoader::import('joomla.filesystem.file');
 
@@ -20,7 +20,7 @@ JLoader::import('joomla.filesystem.file');
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaControllerApi extends Controller
+class MediaControllerApi extends BaseController
 {
 	/**
 	 * Api endpoint for the media manager front end. The HTTP methods GET, PUT, POST and DELETE
