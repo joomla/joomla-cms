@@ -149,7 +149,7 @@ abstract class Dispatcher implements DispatcherInterface
 		else
 		{
 			// Do we have a controller?
-			$controller = $this->input->get('controller', 'controller');
+			$controller = $this->input->get('controller', 'display');
 			$task       = $command;
 		}
 
@@ -199,7 +199,19 @@ abstract class Dispatcher implements DispatcherInterface
 		// Set up the client
 		$client = $client ? $client : ucfirst($this->app->getName());
 
-		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
+		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name) . 'Controller';
+
+		// @todo Remove me when core extensions are converted
+		if (!class_exists($controllerClass))
+		{
+			$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
+		}
+
+		// @todo Remove me when core extensions are converted
+		if (!class_exists($controllerClass) && $name == 'display')
+		{
+			$controllerClass = $namespace . $client . '\\Controller\\Controller';
+		}
 
 		if (!class_exists($controllerClass))
 		{

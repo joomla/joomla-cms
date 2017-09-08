@@ -118,7 +118,7 @@ class JTableTest extends TestCaseDatabase
 				),
 				'checked_out_time' => (object) array(
 					'Field' => 'checked_out_time',
-					'Type' => 'TEXT',
+					'Type' => 'DATETIME',
 					'Null' => 'NO',
 					'Default' => '\'0000-00-00 00:00:00\'',
 					'Key' => ''
@@ -132,14 +132,14 @@ class JTableTest extends TestCaseDatabase
 				),
 				'publish_up' => (object) array(
 					'Field' => 'publish_up',
-					'Type' => 'TEXT',
+					'Type' => 'DATETIME',
 					'Null' => 'NO',
 					'Default' => '\'0000-00-00 00:00:00\'',
 					'Key' => ''
 				),
 				'publish_down' => (object) array(
 					'Field' => 'publish_down',
-					'Type' => 'TEXT',
+					'Type' => 'DATETIME',
 					'Null' => 'NO',
 					'Default' => '\'0000-00-00 00:00:00\'',
 					'Key' => ''

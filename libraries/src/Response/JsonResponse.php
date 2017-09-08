@@ -93,7 +93,7 @@ class JsonResponse
 		}
 
 		// Check if we are dealing with an error
-		if ($response instanceof \Exception || $response instanceof \Throwable)
+		if ($response instanceof \Throwable)
 		{
 			// Prepare the error response
 			$this->success = false;

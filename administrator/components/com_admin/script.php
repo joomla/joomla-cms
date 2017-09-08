@@ -86,7 +86,6 @@ class JoomlaInstallerScript
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
-		$this->clearRadCache();
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
@@ -303,25 +302,6 @@ class JoomlaInstallerScript
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
 			}
-		}
-	}
-
-	/**
-	 * Clears the RAD layer's table cache.
-	 *
-	 * The cache vastly improves performance but needs to be cleared every time you update the database schema.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	protected function clearRadCache()
-	{
-		jimport('joomla.filesystem.file');
-
-		if (JFile::exists(JPATH_ROOT . '/cache/fof/cache.php'))
-		{
-			JFile::delete(JPATH_ROOT . '/cache/fof/cache.php');
 		}
 	}
 

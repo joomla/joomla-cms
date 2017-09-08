@@ -95,7 +95,7 @@ final class ColorStyle
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($fg = '', $bg = '', array $options = [])
+	public function __construct(string $fg = '', string $bg = '', array $options = [])
 	{
 		if ($fg)
 		{
@@ -170,7 +170,7 @@ final class ColorStyle
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	public static function fromString($string)
+	public static function fromString(string $string): self
 	{
 		$fg      = '';
 		$bg      = '';
@@ -217,7 +217,7 @@ final class ColorStyle
 	 *
 	 * @since   1.0
 	 */
-	public function getStyle()
+	public function getStyle(): string
 	{
 		$values = [];
 
@@ -242,11 +242,11 @@ final class ColorStyle
 	/**
 	 * Get the known colors.
 	 *
-	 * @return  string
+	 * @return  string[]
 	 *
 	 * @since   1.0
 	 */
-	public function getKnownColors()
+	public function getKnownColors(): array
 	{
 		return array_keys(static::$knownColors);
 	}
@@ -254,11 +254,11 @@ final class ColorStyle
 	/**
 	 * Get the known options.
 	 *
-	 * @return  array
+	 * @return  string[]
 	 *
 	 * @since   1.0
 	 */
-	public function getKnownOptions()
+	public function getKnownOptions(): array
 	{
 		return array_keys(static::$knownOptions);
 	}

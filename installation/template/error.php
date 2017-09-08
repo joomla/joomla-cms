@@ -48,7 +48,7 @@ defined('_JEXEC') or die;
 				<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h1>
 				<div class="well">
 					<blockquote>
-						<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+						<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 					</blockquote>
 					<?php if ($this->debug) : ?>
 						<div>

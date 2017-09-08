@@ -36,7 +36,7 @@ vendors:
                   'dependencies': 'jquery'
     'mediaelement':
                   'version': '4.2.5'
-                  'dependencies': 'jquery'
+                  'dependencies': ''
     'masonry-layout':
                   'version': '4.2.0'
                   'dependencies': ''
@@ -44,7 +44,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.6.5'
+                  'version': '4.6.6'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.2'
@@ -53,7 +53,7 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.28.0'
+                  'version': '5.29.0'
                   'dependencies': ''
     'cropperjs':
                   'version': '1.0.0-rc.3'
