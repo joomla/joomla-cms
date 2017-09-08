@@ -27,6 +27,25 @@ use Joomla\CMS\Model\Admin;
  */
 class Workflow extends Admin
 {
+	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function populateState()
+	{
+		parent::populateState();
+
+		$app       = \JFactory::getApplication();
+		$context   = $this->option . '.' . $this->name;
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.extension', $extension);
+	}
 
 	/**
 	 * Method to save the form data.
