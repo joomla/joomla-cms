@@ -11,7 +11,7 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Config Module model.

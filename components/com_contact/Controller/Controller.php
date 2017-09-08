@@ -58,7 +58,7 @@ class Controller extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		if (JFactory::getApplication()->getUserState('com_contact.contact.data') === null)
+		if (\JFactory::getApplication()->getUserState('com_contact.contact.data') === null)
 		{
 			$cachable = true;
 		}
