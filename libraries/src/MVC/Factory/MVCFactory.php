@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Factory to create MVC objects based on a namespace.
@@ -66,7 +67,7 @@ class MVCFactory implements MVCFactoryInterface
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$className = $this->getClassName('Model\\' . ucfirst($name), $prefix);
+		$className = $this->getClassName('Model\\' . ucfirst($name) . 'Model', $prefix);
 
 		if (!$className)
 		{
@@ -96,7 +97,7 @@ class MVCFactory implements MVCFactoryInterface
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 		$type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
-		$className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix);
+		$className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type) . 'View', $prefix);
 
 		if (!$className)
 		{
@@ -124,8 +125,8 @@ class MVCFactory implements MVCFactoryInterface
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$className = $this->getClassName('Table\\' . ucfirst($name), $prefix)
-				?: $this->getClassName('Table\\' . ucfirst($name), 'Administrator');
+		$className = $this->getClassName('Table\\' . ucfirst($name) . 'Table', $prefix)
+			?: $this->getClassName('Table\\' . ucfirst($name) . 'Table', 'Administrator');
 
 		if (!$className)
 		{
@@ -138,7 +139,7 @@ class MVCFactory implements MVCFactoryInterface
 		}
 		else
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 		}
 
 		return new $className($db);
