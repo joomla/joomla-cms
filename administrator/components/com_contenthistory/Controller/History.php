@@ -10,7 +10,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.2
  */
-class History extends Admin
+class History extends AdminController
 {
 	/**
 	 * Deletes and returns correctly.
@@ -73,7 +73,7 @@ class History extends Admin
 	 * @param   string  $prefix  The prefix for the model
 	 * @param   array   $config  An additional array of parameters
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model
 	 *
 	 * @since   3.2
 	 */

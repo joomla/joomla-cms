@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  1.6
  */
-class Level extends Admin
+class Level extends AdminModel
 {
 	/**
 	 * @var	array	A list of the access levels in use.

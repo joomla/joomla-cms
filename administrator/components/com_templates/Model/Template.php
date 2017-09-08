@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 
@@ -21,7 +21,7 @@ use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
  *
  * @since  1.6
  */
-class Template extends Form
+class Template extends FormModel
 {
 	/**
 	 * The information in a template

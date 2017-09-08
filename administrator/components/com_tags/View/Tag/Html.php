@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Tags component
@@ -140,7 +140,7 @@ class Html extends HtmlView
 			{
 				$toolbarButtons[] = ['apply', 'tag.apply'];
 				$toolbarButtons[] = ['save', 'tag.save'];
-	
+
 				if ($canDo->get('core.create'))
 				{
 					$toolbarButtons[] = ['save2new', 'tag.save2new'];

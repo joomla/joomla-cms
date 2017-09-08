@@ -175,10 +175,10 @@ abstract class AbstractView extends \JObject
 	 * referenced by the name without \JModel, eg. \JModelCategory is just
 	 * Category.
 	 *
-	 * @param   BaseModel  $model    The model to add to the view.
-	 * @param   boolean    $default  Is this the default model?
+	 * @param   Model    $model    The model to add to the view.
+	 * @param   boolean  $default  Is this the default model?
 	 *
-	 * @return  BaseModel  The added model.
+	 * @return  Model  The added model.
 	 *
 	 * @since   3.0
 	 */

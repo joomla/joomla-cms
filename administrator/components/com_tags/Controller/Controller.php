@@ -10,7 +10,7 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Tags view class for the Tags package.
@@ -26,7 +26,7 @@ class Controller extends BaseController
 	 * @since  1.6
 	 */
 	protected $default_view = 'tags';
-	
+
 	/**
 	 * Method to display a view.
 	 *

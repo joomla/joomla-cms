@@ -10,12 +10,14 @@ namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * Reset controller class for Users.
  *
  * @since  1.6
  */
-class Reset extends Controller
+class Reset extends BaseController
 {
 	/**
 	 * Method to request a password reset.

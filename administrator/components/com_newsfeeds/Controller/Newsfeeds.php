@@ -10,15 +10,15 @@ namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Newsfeeds list controller class.
  *
  * @since  1.6
  */
-class Newsfeeds extends Admin
+class Newsfeeds extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.

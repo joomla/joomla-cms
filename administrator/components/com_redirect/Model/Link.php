@@ -11,7 +11,7 @@ namespace Joomla\Component\Redirect\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Link extends Admin
+class Link extends AdminModel
 {
 	/**
 	 * @var        string    The prefix to use with controller messages.

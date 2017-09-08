@@ -51,7 +51,7 @@ class Featured extends Articles
 		else
 		{
 			// Get the model.
-			/** @var ContentModelFeature $model */
+			/** @var \Joomla\Component\Content\Administrator\Model\Feature $model */
 			$model = $this->getModel();
 
 			// Remove the items.

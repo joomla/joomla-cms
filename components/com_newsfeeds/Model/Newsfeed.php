@@ -10,7 +10,7 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Item;
+use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Newsfeed extends Item
+class Newsfeed extends ItemModel
 {
 	/**
 	 * Model context string.

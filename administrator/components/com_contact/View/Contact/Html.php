@@ -124,7 +124,7 @@ class Html extends HtmlView
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
-			
+
 			$toolbarButtons = [];
 
 			// Can't save the record if it's checked out and editable

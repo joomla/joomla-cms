@@ -9,7 +9,7 @@
 namespace Joomla\Component\Joomlaupdate\Administrator\View\Upload;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 defined('_JEXEC') or die;
 

@@ -6,19 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Fields Controller
  *
  * @since  3.7.0
  */
-class Controller extends BaseController
+class Controller extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
 	 * The default view.
@@ -38,7 +35,7 @@ class Controller extends BaseController
 	 * @param   boolean     $cachable   If true, the view output will be cached
 	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
-	 * @return BaseController|boolean  A Controller object to support chaining.
+	 * @return Controller|boolean  A Controller object to support chaining.
 	 *
 	 * @since   3.7.0
 	 */

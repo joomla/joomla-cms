@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseModel;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -67,13 +67,13 @@ class FormController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -234,7 +234,7 @@ class FormController extends BaseController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   BaseModel  $model  The model of the component being processed.
+	 * @param   \JModelLegacy  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -416,7 +416,7 @@ class FormController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  BaseModel  The model.
+	 * @return  \JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */

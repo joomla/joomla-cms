@@ -10,7 +10,7 @@ namespace Joomla\Component\Newsfeeds\Site\View\Category;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\Category;
+use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
  *
  * @since  1.0
  */
-class Html extends Category
+class Html extends CategoryView
 {
 	/**
 	 * @var    string  Default title to use for page title

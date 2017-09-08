@@ -10,7 +10,7 @@ namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Checkin component

@@ -10,14 +10,14 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Maps controller class for Finder.
  *
  * @since  2.5
  */
-class Maps extends Admin
+class Maps extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.

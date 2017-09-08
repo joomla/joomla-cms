@@ -11,7 +11,7 @@ namespace Joomla\Component\Finder\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 

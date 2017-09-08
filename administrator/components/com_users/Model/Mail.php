@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * Users mail model.
  *
  * @since  1.6
  */
-class Mail extends Admin
+class Mail extends AdminModel
 {
 	/**
 	 * Method to get the row form.

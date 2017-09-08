@@ -10,7 +10,7 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 
 /**

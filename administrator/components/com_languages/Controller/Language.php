@@ -10,14 +10,14 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Languages list actions controller.
  *
  * @since  1.6
  */
-class Language extends Form
+class Language extends FormController
 {
 	/**
 	 * Gets the URL arguments to append to an item redirect.

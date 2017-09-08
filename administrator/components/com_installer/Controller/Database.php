@@ -10,7 +10,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Joomlaupdate\Administrator\Model\Update;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Model\Update;
  *
  * @since  2.5
  */
-class Database extends Controller
+class Database extends BaseController
 {
 	/**
 	 * Tries to fix missing database updates

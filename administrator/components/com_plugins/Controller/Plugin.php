@@ -10,13 +10,13 @@ namespace Joomla\Component\Plugins\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Plugin controller class.
  *
  * @since  1.6
  */
-class Plugin extends Form
+class Plugin extends FormController
 {
 }

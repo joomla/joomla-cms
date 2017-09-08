@@ -10,14 +10,14 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Messages list controller class.
  *
  * @since  1.6
  */
-class Messages extends Admin
+class Messages extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.
