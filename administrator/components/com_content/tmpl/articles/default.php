@@ -81,9 +81,6 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JText::_("COM_CONTENT_STATE"); ?>
-								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
@@ -136,12 +133,8 @@ $assoc = JLanguageAssociations::isEnabled();
 
 							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state);
 
-							array_unshift($transitions, JText::_("COM_CONTENT_SELECT_TRANSITION"));
 
-							if (empty($transitions))
-							{
-								$transitions[] = null;
-							}
+							$transitions = array_merge(array($item->state_title, "--------"), $transitions);
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
@@ -189,9 +182,6 @@ $assoc = JLanguageAssociations::isEnabled();
 											<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>
 									</div>
-								</td>
-								<td class="small hidden-sm-down text-center">
-									<?php echo $item->state_title; ?>
 								</td>
 								<td class="small hidden-sm-down text-center">
 									<?php echo $this->escape($item->access_level); ?>
