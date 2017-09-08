@@ -254,7 +254,7 @@ if ($user->authorise('core.manage', 'com_content'))
 		$this->getParent();
 	}
 
-	if ($comWorkflowEnabled && ComponentHelper::getParams('com_content')->get('workflows_enable'))
+	if ($comWorkflowEnabled && ComponentHelper::getParams('com_content')->get('workflows_enable', 1))
 	{
 		$this->addChild(
 			new MenuNode(
