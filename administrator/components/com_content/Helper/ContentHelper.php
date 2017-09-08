@@ -43,28 +43,32 @@ class ContentHelper extends \JHelperContent
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories'
 		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_CONTENT_SUBMENU_WORKFLOW'),
-			'index.php?option=com_workflow&extension=com_content',
-			$vName == 'workflows'
-		);
 
-		if ($vName == 'states' || $vName == 'transitions')
+		if (\JComponentHelper::isEnabled('com_workflow') && \JComponentHelper::getParams('com_content')->get('workflows_enable', 1))
 		{
-			$app        = Factory::getApplication();
-			$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
-
 			\JHtmlSidebar::addEntry(
-				\JText::_('COM_WORKFLOW_STATE'),
-				'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
-				$vName == 'states`'
+				\JText::_('COM_CONTENT_SUBMENU_WORKFLOW'),
+				'index.php?option=com_workflow&extension=com_content',
+				$vName == 'workflows'
 			);
 
-			\JHtmlSidebar::addEntry(
-				\JText::_('COM_WORKFLOW_TRANSITION'),
-				'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
-				$vName == 'transitions'
-			);
+			if ($vName == 'states' || $vName == 'transitions')
+			{
+				$app        = Factory::getApplication();
+				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
+
+				\JHtmlSidebar::addEntry(
+					\JText::_('COM_WORKFLOW_STATE'),
+					'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
+					$vName == 'states`'
+				);
+
+				\JHtmlSidebar::addEntry(
+					\JText::_('COM_WORKFLOW_TRANSITION'),
+					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
+					$vName == 'transitions'
+				);
+			}
 		}
 
 		\JHtmlSidebar::addEntry(
