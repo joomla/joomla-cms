@@ -17,7 +17,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Modules\Administrator\Controller\Module;
 
-
 /**
  * Component Controller
  *

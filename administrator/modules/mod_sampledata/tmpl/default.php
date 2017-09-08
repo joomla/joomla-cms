@@ -30,7 +30,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<div class="span4">
 						<a href="#" onclick="sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
 							<strong class="row-title">
-								<span class="icon-<?php echo $item->icon; ?>"> </span>
+								<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"> </span>
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 							</strong>
 						</a>
@@ -52,6 +52,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endforeach; ?>
 		</div>
 	<?php else : ?>
-		<div class="alert"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS');?></div>
+		<div class="alert"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></div>
 	<?php endif; ?>
 </div>

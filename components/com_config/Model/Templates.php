@@ -11,7 +11,6 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-
 /**
  * Template style model.
  *

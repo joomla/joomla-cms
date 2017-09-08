@@ -340,7 +340,7 @@ class Articles extends ListModel
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   1.6
 	 */

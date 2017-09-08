@@ -157,8 +157,8 @@ class Module extends FormController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *

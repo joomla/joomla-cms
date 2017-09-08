@@ -10,14 +10,14 @@ namespace Joomla\Component\Contact\Site\View\Categories;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\Categories;
+use Joomla\CMS\MVC\View\CategoriesView;
 
 /**
  * Content categories view.
  *
  * @since  1.6
  */
-class Html extends Categories
+class Html extends CategoriesView
 {
 	/**
 	 * Language key for default page heading

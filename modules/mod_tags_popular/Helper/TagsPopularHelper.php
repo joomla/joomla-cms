@@ -19,9 +19,7 @@ use Joomla\CMS\Helper\TagsHelper;
 /**
  * Helper for mod_tags_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_tags_popular
- * @since       3.1
+ * @since  3.1
  */
 abstract class TagsPopularHelper
 {
@@ -61,6 +59,14 @@ abstract class TagsPopularHelper
 
 		// Only return published tags
 		$query->where($db->quoteName('t.published') . ' = 1 ');
+
+		// Filter by Parent Tag
+		$parentTags = $params->get('parentTag', 0);
+
+		if ($parentTags)
+		{
+			$query->where($db->quoteName('t.parent_id') . ' IN (' . implode(',', $parentTags) . ')');
+		}
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');

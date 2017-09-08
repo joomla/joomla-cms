@@ -493,6 +493,7 @@ class Update extends ListModel
 
 			return false;
 		}
+
 		// Check the session for previously entered form data.
 		$data = $this->loadFormData();
 

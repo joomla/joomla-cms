@@ -164,7 +164,7 @@ class Article extends FormController
 		parent::cancel($key);
 
 		// Redirect to the return page.
-		$this->setRedirect(\JRoute::_($this->getReturnPage()));
+		$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
 	}
 
 	/**
@@ -184,7 +184,7 @@ class Article extends FormController
 
 		if (!$result)
 		{
-			$this->setRedirect(\JRoute::_($this->getReturnPage()));
+			$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
 		}
 
 		return $result;
@@ -246,7 +246,7 @@ class Article extends FormController
 
 		$itemId = $this->input->getInt('Itemid');
 		$return = $this->getReturnPage();
-		$catId  = $this->input->getInt('catid', null, 'get');
+		$catId  = $this->input->getInt('catid');
 
 		if ($itemId)
 		{
@@ -323,7 +323,7 @@ class Article extends FormController
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_('index.php?Itemid=' . $menuitem . $lang));
+				$this->setRedirect(\JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
 		else
@@ -331,7 +331,7 @@ class Article extends FormController
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(\JRoute::_($this->getReturnPage()));
+				$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
 			}
 		}
 

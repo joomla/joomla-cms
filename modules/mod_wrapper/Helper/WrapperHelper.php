@@ -16,9 +16,7 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_wrapper
  *
- * @package     Joomla.Site
- * @subpackage  mod_wrapper
- * @since       1.5
+ * @since  1.5
  */
 class WrapperHelper
 {

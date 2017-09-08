@@ -85,7 +85,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>">
 
 	<header class="header full-width">
-		<nav class="navbar navbar-toggleable-md navbar-full">
+		<nav class="navbar navbar-expand-lg navbar-full">
 			<div class="navbar-brand">
 				<a href="<?php echo $this->baseurl; ?>/">
 					<?php echo $logo; ?>

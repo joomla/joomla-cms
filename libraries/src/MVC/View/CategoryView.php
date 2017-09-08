@@ -125,7 +125,7 @@ class CategoryView extends HtmlView
 
 		if ($category == false)
 		{
-			throw new InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)
