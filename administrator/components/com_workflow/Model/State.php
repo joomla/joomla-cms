@@ -38,8 +38,9 @@ class State extends Admin
 	 */
 	public function save($data)
 	{
+		$context    = $this->option . '.' . $this->name;
 		$app = \JFactory::getApplication();
-		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 		$data['access'] = 0;
 		$data['workflow_id'] = $workflowID;
 
