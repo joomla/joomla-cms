@@ -112,7 +112,7 @@ abstract class JHtmlIcon
 		}
 
 		// Ignore if the state is negative (trashed).
-		if ($article->state < 0)
+		if ($article->condition == 1)
 		{
 			return;
 		}
@@ -141,7 +141,7 @@ abstract class JHtmlIcon
 		$contentUrl = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
-		if ($article->state == 0)
+		if ($article->condition == 2)
 		{
 			$overlib = JText::_('JUNPUBLISHED');
 		}
@@ -178,12 +178,8 @@ abstract class JHtmlIcon
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
-		$request = $input->request;
-
 		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
-		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
+		$url .= '&tmpl=component&print=1&layout=default';
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 

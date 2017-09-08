@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 		<?php foreach ($list as $i => $item) : ?>
 			<?php // Calculate popular items ?>
 			<?php $hits = (int) $item->hits; ?>
-			<?php $hits_class = ($hits >= 10000 ? 'danger' : ($hits >= 1000 ? 'warning' : ($hits >= 100 ? 'info' : 'default'))); ?>
+			<?php $hits_class = ($hits >= 10000 ? 'danger' : ($hits >= 1000 ? 'warning' : ($hits >= 100 ? 'info' : 'secondary'))); ?>
 			<li class="d-flex justify-content-start list-group-item">
 				<div class="fg-1">
 					<span class="mr-2 badge badge-<?php echo $hits_class; ?> hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGLOBAL_HITS'); ?>"><?php echo $item->hits; ?></span>
@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 						<?php endif; ?>
 					</strong>
 				</div>
-				<span class="badge badge-default badge-pill">
+				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
@@ -42,7 +42,7 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
 			<div class="col-md-12">
-				<div class="alert alert-info"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS');?></div>
+				<div class="alert alert-info"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?></div>
 			</div>
 		</li>
 	<?php endif; ?>

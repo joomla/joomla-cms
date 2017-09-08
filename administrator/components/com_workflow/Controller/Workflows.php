@@ -132,4 +132,22 @@ class Workflows extends Admin
 			)
 		);
 	}
+
+	/**
+	 * Deletes and returns correctly.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.2
+	 */
+	public function delete()
+	{
+		parent::delete();
+		$this->setRedirect(
+			\JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&extenstion=' . $this->input->getCmd("extension"), false
+			)
+		);
+	}
 }

@@ -183,7 +183,7 @@ class Articles extends ListModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the states.
-		$query->select('ws.title AS state_title, ws.id AS state')
+		$query->select('ws.title AS state_title, ws.id AS state, ws.condition AS status')
 			->join('LEFT', '#__workflow_states AS ws ON a.state = ws.id');
 
 		// Join on voting table
@@ -249,9 +249,20 @@ class Articles extends ListModel
 		// Filter by published state
 		$published = (string) $this->getState('filter.state');
 
-		if (is_numeric($published) && (int) $published > 0)
+		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
+		}
+
+		$condition = (string) $this->getState('filter.condition');
+
+		if (is_numeric($condition))
+		{
+			$query->where($db->qn('ws.condition') . '=' . $db->quote($condition));
+		}
+		else
+		{
+			$query->where($db->qn('ws.condition') . ' IN ("0","1")');
 		}
 
 		// Filter by a single or group of categories.
@@ -392,8 +403,7 @@ class Articles extends ListModel
 
 				$query->select($select)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->from($db->quoteName('#__workflow_states', 's'))
-					->where($db->quoteName('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
+					->join('LEFT', $db->quoteName('#__workflow_states', 's') . " ON " . $db->qn('t.from_state_id') .  ' IN(' . implode(',', $ids) . ')' )
 					->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
 					->where($db->quoteName('t.published') . ' = 1')
 					->where($db->quoteName('s.published') . ' = 1');

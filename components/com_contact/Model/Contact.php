@@ -215,13 +215,13 @@ class Contact extends Form
 
 				if (empty($data))
 				{
-					\JError::raiseError(404, \JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
+					throw new \Exception(\JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
-					\JError::raiseError(404, \JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
+					throw new \Exception(\JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				/**
@@ -237,8 +237,12 @@ class Contact extends Form
 				$registry = new Registry($data->metadata);
 				$data->metadata = $registry;
 
-				$data->tags = new TagsHelper;
-				$data->tags->getItemTags('com_contact.contact', $data->id);
+				// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+				if ($this->getState('load_tags', true))
+				{
+					$data->tags = new TagsHelper;
+					$data->tags->getItemTags('com_contact.contact', $data->id);
+				}
 
 				// Compute access permissions.
 				if (($access = $this->getState('filter.access')))

@@ -26,10 +26,7 @@ use Joomla\Component\Content\Site\Model\Categories;
 /**
  * Helper for mod_articles_category
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_category
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ArticlesCategoryHelper
 {
@@ -57,6 +54,9 @@ abstract class ArticlesCategoryHelper
 		$articles->setState('list.start', 0);
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
+
+		// This module does not use tags data
+		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
@@ -200,6 +200,10 @@ abstract class ArticlesCategoryHelper
 		}
 
 		// New Parameters
+		if ($params->get('filter_tag', ''))
+		{
+			$articles->setState('filter.tag', $params->get('filter_tag', ''));
+		}
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
 		$articles->setState('filter.author_id', $params->get('created_by', ''));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));

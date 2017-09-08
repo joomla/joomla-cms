@@ -13,6 +13,5 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesLatest\Site\Helper\ArticlesLatestHelper;
 
 $list            = ArticlesLatestHelper::getList($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_articles_latest', $params->get('layout', 'default'));

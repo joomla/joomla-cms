@@ -147,6 +147,10 @@ define(
     'tinymce.core.PluginManager'
   ],
   function (Env, PluginManager) {
+    var rangeEqualsDelimiterOrSpace = function (rangeString, delimiter) {
+      return rangeString === delimiter || rangeString === ' ' || rangeString.charCodeAt(0) === 160;
+    };
+
     PluginManager.add('autolink', function (editor) {
       var AutoUrlDetectState;
       var AutoLinkPattern = /^(https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|www\.|(?:mailto:)?[A-Z0-9._%+\-]+@)(.+)$/i;
@@ -302,7 +306,7 @@ define(
           // Loop until one of the following is found: a blank space, &nbsp;, delimiter, (end-2) >= 0
         } while (rngText != ' ' && rngText !== '' && rngText.charCodeAt(0) != 160 && (end - 2) >= 0 && rngText != delimiter);
 
-        if (rng.toString() == delimiter || rng.toString().charCodeAt(0) == 160) {
+        if (rangeEqualsDelimiterOrSpace(rng.toString(), delimiter)) {
           setStart(endContainer, end);
           setEnd(endContainer, start);
           end += 1;

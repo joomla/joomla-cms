@@ -7,7 +7,6 @@
 				name="search"
 				type="text"
 				label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
-				description="COM_WORKFLOW_FILTER_SEARCH_DESC"
 				hint="JSEARCH_FILTER"
 		/>
 
@@ -28,10 +27,6 @@
 				label="COM_WORKFLOW_FROM_STATE"
 				description="COM_WORKFLOW_FROM_STATE_DESC"
 				onchange="this.form.submit();"
-				sql_select="id, title"
-				sql_from="#__workflow_states"
-				key_field="id"
-				value_field="title"
 		>
 			<option value="">COM_WORKFLOW_SELECT_FROM_STATE</option>
 		</field>
@@ -42,10 +37,6 @@
 				label="COM_WORKFLOW_FROM_STATE"
 				description="COM_WORKFLOW_FROM_STATE_DESC"
 				onchange="this.form.submit();"
-				sql_select="id, title"
-				sql_from="#__workflow_states"
-				key_field="id"
-				value_field="title"
 		>
 			<option value="">COM_WORKFLOW_SELECT_TO_STATE</option>
 		</field>

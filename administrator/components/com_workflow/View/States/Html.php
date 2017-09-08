@@ -153,7 +153,6 @@ class Html extends HtmlView
 		{
 			ToolbarHelper::publishList('states.publish');
 			ToolbarHelper::unpublishList('states.unpublish');
-			ToolbarHelper::archiveList('states.archive');
 			ToolbarHelper::makeDefault('states.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
 		}
 

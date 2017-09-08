@@ -23,7 +23,7 @@ $version = new JVersion;
 	}
 </script>
 
-<?php echo JHtml::_('InstallationHtml.helper.stepbarlanguages'); ?>
+<?php echo JHtml::_('installation.stepbarlanguages'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div class="btn-toolbar justify-content-end">
 		<div class="btn-group">
@@ -84,7 +84,6 @@ $version = new JVersion;
 					</tr>
 			</thead>
 			<tbody>
-				<?php $version = new JVersion; ?>
 				<?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
 				<?php foreach ($this->items as $i => $language) : ?>
 					<?php // Get language code and language image. ?>
@@ -101,8 +100,9 @@ $version = new JVersion;
 							<?php echo $language->code; ?>
   						</td>
 						<td class="text-center">
+						<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 						<?php // Display a Note if language pack version is not equal to Joomla version ?>
-						<?php if (strpos($language->version, $version::RELEASE) !== 0  || strpos($language->version, $currentShortVersion) !== 0) : ?>
+						<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
 							<span class="badge badge-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 						<?php else : ?>
 							<span class="badge badge-success"><?php echo $language->version; ?></span>

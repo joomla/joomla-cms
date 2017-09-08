@@ -81,11 +81,14 @@ class Workflow extends Admin
 				->from($db->qn("#__workflows"))
 				->where($db->qn("default") . '= 1');
 			$db->setQuery($query);
-			$workflows = $db->loadObjectList();
+			$workflows = $db->loadObject();
 
-			if (empty($workflows))
+			if (empty($workflows) || $workflows->id === $data['id'])
 			{
 				$data['default'] = '1';
+				$this->setError(\JText::_("COM_WORKFLOW_DISABLE_DEFAULT"));
+
+				return false;
 			}
 		}
 

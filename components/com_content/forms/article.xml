@@ -58,18 +58,16 @@
 		/>
 
 		<field
-			name="state"
-			type="list"
-			label="JSTATUS"
-			id="state"
-			class="inputbox"
-			size="1"
-			default="1"
-			>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASHED</option>
+				name="state"
+				type="list"
+				label="COM_WORKFLOW_CONDITION"
+				description="COM_WORKFLOW_CONDITION_DESC"
+				onchange="this.form.submit();"
+		        default="3"
+		>
+			<option value="1">COM_WORKFLOW_TRASHED</option>
+			<option value="2">COM_WORKFLOW_UNPUBLISHED</option>
+			<option value="3">COM_WORKFLOW_PUBLISHED</option>
 		</field>
 
 		<field
@@ -377,7 +375,6 @@
 					type="hidden"
 					label="JFIELD_META_RIGHTS_LABEL"
 					filter="unset"
-					required="false"
 					labelclass="control-label"
 				/>
 

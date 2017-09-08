@@ -67,11 +67,14 @@ if ($saveOrder)
 								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th style="width:1%; min-width:85px" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+								<th style="width:1%" class="nowrap text-center">
+									<?php echo JText::_("COM_CONTENT_TRANSITION") ?>
 								</th>
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+								</th>
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<?php echo JText::_("COM_CONTENT_STATE"); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -120,6 +123,16 @@ if ($saveOrder)
 							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+
+							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state);
+
+							array_unshift($transitions, JText::_("COM_CONTENT_SELECT_TRANSITION"));
+
+							if (empty($transitions))
+							{
+								$transitions[] = null;
+							}
+
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="order nowrap text-center hidden-sm-down">
@@ -146,10 +159,7 @@ if ($saveOrder)
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
-									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-									</div>
+									<?php echo JHTML::_('select.genericlist', $transitions, 'transition_id[]', 'class="inputbox" size="1" onclick="event.stopPropagation()" onchange="Joomla.uncheckAll(this); Joomla.toggleOne(this, true); Joomla.submitform(\'articles . runTransition\');"', 'value', 'text',  0); ?>
 								</td>
 								<td class="has-context">
 									<div class="break-word">
@@ -164,11 +174,17 @@ if ($saveOrder)
 											<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
 										<span class="small break-word">
-										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-									</span>
+											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+										</span>
 										<div class="small">
 											<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>
+									</div>
+								</td>
+								<td class="small hidden-sm-down text-center">
+									<div class="btn-group">
+										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php echo $item->state_title; ?>
 									</div>
 								</td>
 								<td class="small hidden-sm-down text-center">

@@ -73,7 +73,7 @@ class Filter extends Form
 		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
+		if ($task === 'save2copy')
 		{
 			// Check-in the original row.
 			if ($checkin && $model->checkin($data[$key]) === false)
@@ -184,8 +184,8 @@ class Filter extends Form
 
 		$this->setMessage(
 			\JText::_(
-				(\JFactory::getLanguage()->hasKey($this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
-				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+				(\JFactory::getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
+				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);
 

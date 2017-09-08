@@ -16,9 +16,7 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_articles_archive
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_archive
- * @since       1.5
+ * @since  1.5
  */
 class ArticlesArchiveHelper
 {
@@ -35,12 +33,14 @@ class ArticlesArchiveHelper
 	{
 		// Get database
 		$db    = Factory::getDbo();
+		$states = $params->get('state');
+
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
-			->where('state = 2')
+			->where($db->qn('state') . ' IN (' . implode(', ', $states) . ')')
 			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
 			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
 
@@ -58,8 +58,7 @@ class ArticlesArchiveHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
+			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			return;
 		}
 
@@ -70,6 +69,16 @@ class ArticlesArchiveHelper
 
 		$i     = 0;
 		$lists = array();
+
+		$states = array_map(
+			function ($el)
+			{
+				return '&state[]=' . (int) $el;
+			},
+			$states
+		);
+
+		$states = implode($states);
 
 		foreach ($rows as $row)
 		{
@@ -83,7 +92,9 @@ class ArticlesArchiveHelper
 
 			$lists[$i] = new \stdClass;
 
-			$lists[$i]->link = \JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
+			$route = 'index.php?option=com_content&view=archive' . $states . '&year=' . $created_year . '&month=' . $created_month . $itemid;
+
+			$lists[$i]->link = \JRoute::_($route);
 			$lists[$i]->text = \JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
 
 			$i++;

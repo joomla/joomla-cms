@@ -71,36 +71,28 @@ class PlgSystemRedirect extends JPlugin
 	/**
 	 * Method to handle an uncaught exception.
 	 *
-	 * @param   Exception|Throwable  $exception  The Exception or Throwable object to be handled.
+	 * @param   Throwable  $exception  The Throwable object to be handled.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 * @throws  InvalidArgumentException
 	 */
-	public static function handleException($exception)
+	public static function handleException(Throwable $exception)
 	{
-		// If this isn't a Throwable then bail out
-		if (!($exception instanceof Throwable) && !($exception instanceof Exception))
-		{
-			throw new InvalidArgumentException(
-				sprintf('The error handler requires an Exception or Throwable object, a "%s" object was given instead.', get_class($exception))
-			);
-		}
-
 		self::doErrorHandling($exception);
 	}
 
 	/**
 	 * Internal processor for all error handlers
 	 *
-	 * @param   Exception|Throwable  $error  The Exception or Throwable object to be handled.
+	 * @param   Throwable  $error  The Throwable object to be handled.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private static function doErrorHandling($error)
+	private static function doErrorHandling(Throwable $error)
 	{
 		$app = JFactory::getApplication();
 
@@ -109,7 +101,7 @@ class PlgSystemRedirect extends JPlugin
 			// Proxy to the previous exception handler if available, otherwise just render the error page
 			if (self::$previousExceptionHandler)
 			{
-				self::$previousExceptionHandler($error);
+				call_user_func_array(self::$previousExceptionHandler, array($error));
 			}
 			else
 			{
@@ -119,10 +111,16 @@ class PlgSystemRedirect extends JPlugin
 
 		$uri = JUri::getInstance();
 
-		$url = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
-		$urlRel = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
+		// These are the original URLs
+		$orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
+		$orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+		$orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
+		$orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
 
-		$urlWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
+		// These are the URLs we save and use
+		$url                = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
+		$urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
+		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
 		// Why is this (still) here?
@@ -146,6 +144,14 @@ class PlgSystemRedirect extends JPlugin
 				. $db->quoteName('old_url') . ' = ' . $db->quote($urlWithoutQuery)
 				. ' OR '
 				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRelWithoutQuery)
+				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurl)
+				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRel)
+				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlWithoutQuery)
+				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRelWithoutQuery)
 				. ')'
 			);
 
@@ -163,7 +169,16 @@ class PlgSystemRedirect extends JPlugin
 		}
 
 		$possibleMatches = array_unique(
-			array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
+			array(
+				$url,
+				$urlRel,
+				$urlWithoutQuery,
+				$urlRelWithoutQuery,
+				$orgurl,
+				$orgurlRel,
+				$orgurlWithoutQuery,
+				$orgurlRelWithoutQuery,
+			)
 		);
 
 		foreach ($possibleMatches as $match)

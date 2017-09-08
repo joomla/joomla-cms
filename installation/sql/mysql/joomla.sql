@@ -48,25 +48,25 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (15, 1, 67, 68, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 69, 72, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
 (17, 1, 73, 74, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 75, 106, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
-(19, 1, 107, 110, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(20, 1, 111, 112, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
-(21, 1, 113, 114, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
-(22, 1, 115, 116, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(23, 1, 117, 118, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
-(24, 1, 119, 122, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
-(26, 1, 123, 124, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(18, 1, 75, 108, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(19, 1, 109, 112, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(20, 1, 113, 114, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
+(21, 1, 115, 116, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
+(22, 1, 117, 118, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 119, 120, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(24, 1, 121, 124, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
+(26, 1, 125, 126, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
-(30, 19, 108, 109, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
-(32, 24, 120, 121, 2, 'com_users.category.7', 'Uncategorised', '{}'),
-(33, 1, 125, 126, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(34, 1, 127, 128, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
-(35, 1, 129, 130, 1, 'com_tags', 'com_tags', '{}'),
-(36, 1, 131, 132, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
-(37, 1, 133, 134, 1, 'com_ajax', 'com_ajax', '{}'),
-(38, 1, 135, 136, 1, 'com_postinstall', 'com_postinstall', '{}'),
+(30, 19, 110, 111, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
+(32, 24, 122, 123, 2, 'com_users.category.7', 'Uncategorised', '{}'),
+(33, 1, 127, 128, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 1, 129, 130, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
+(35, 1, 131, 132, 1, 'com_tags', 'com_tags', '{}'),
+(36, 1, 133, 134, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(37, 1, 135, 136, 1, 'com_ajax', 'com_ajax', '{}'),
+(38, 1, 137, 138, 1, 'com_postinstall', 'com_postinstall', '{}'),
 (39, 18, 76, 77, 2, 'com_modules.module.1', 'Main Menu', '{}'),
 (40, 18, 78, 79, 2, 'com_modules.module.2', 'Login', '{}'),
 (41, 18, 80, 81, 2, 'com_modules.module.3', 'Popular Articles', '{}'),
@@ -83,23 +83,24 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (52, 18, 102, 103, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 104, 105, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 70, 71, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
-(55, 8, 20, 53, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
-(56, 55, 21, 22, 3, 'com_content.state.1', 'Trashed', '{}'),
-(57, 55, 23, 24, 3, 'com_content.state.2', 'Unpublished', '{}'),
-(58, 55, 25, 26, 3, 'com_content.state.3', 'Published', '{}'),
-(59, 55, 27, 28, 3, 'com_content.state.4', 'Archived', '{}'),
-(60, 55, 29, 30, 3, 'com_content.transition.1', 'Unpublish', '{}'),
-(61, 55, 31, 32, 3, 'com_content.transition.2', 'Publish', '{}'),
-(62, 55, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
-(63, 55, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}'),
-(64, 55, 37, 38, 3, 'com_content.transition.5', 'Trash', '{}'),
-(65, 55, 39, 40, 3, 'com_content.transition.6', 'Trash', '{}'),
-(66, 55, 41, 42, 3, 'com_content.transition.7', 'Unpublish', '{}'),
-(67, 55, 43, 44, 3, 'com_content.transition.8', 'Unpublish', '{}'),
-(68, 55, 45, 46, 3, 'com_content.transition.9', 'Publish', '{}'),
-(69, 55, 47, 48, 3, 'com_content.transition.10', 'Archive', '{}'),
-(70, 55, 49, 50, 3, 'com_content.transition.11', 'Archive', '{}'),
-(71, 55, 51, 52, 3, 'com_content.transition.12', 'Publish', '{}');
+(55, 18, 106, 107, 2, 'com_modules.module.87', 'Sample Data', '{}'),
+(56, 8, 20, 53, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
+(57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
+(58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
+(59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
+(60, 56, 27, 28, 3, 'com_content.state.4', 'Archived', '{}'),
+(61, 56, 29, 30, 3, 'com_content.transition.1', 'Unpublish', '{}'),
+(62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
+(63, 56, 33, 34, 3, 'com_content.transition.3', 'Unpublish', '{}'),
+(64, 56, 35, 36, 3, 'com_content.transition.4', 'Publish', '{}'),
+(65, 56, 37, 38, 3, 'com_content.transition.5', 'Publish', '{}'),
+(66, 56, 39, 40, 3, 'com_content.transition.6', 'Publish', '{}'),
+(67, 56, 41, 42, 3, 'com_content.transition.7', 'Trash', '{}'),
+(68, 56, 43, 44, 3, 'com_content.transition.8', 'Trash', '{}'),
+(69, 56, 45, 46, 3, 'com_content.transition.9', 'Trash', '{}'),
+(70, 56, 47, 48, 3, 'com_content.transition.10', 'Archive', '{}'),
+(71, 56, 49, 50, 3, 'com_content.transition.11', 'Archive', '{}'),
+(72, 56, 51, 52, 3, 'com_content.transition.12', 'Archive', '{}');
 
 -- --------------------------------------------------------
 
@@ -536,7 +537,6 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Workflow'),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (104, 0, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(105, 0, 'FOF', 'library', 'fof', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (106, 0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (200, 0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (201, 0, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -576,6 +576,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (315, 0, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (316, 0, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, '', '{"maximum":"5","timeframe":"alltime","owncache":"1"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (317, 0, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, '', '{"maximum":"5","matchtype":"any","owncache":"1"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(318, 0, 'mod_sampledata', 'module', 'mod_sampledata', '', 1, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (400, 0, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', 0, '0000-00-00 00:00:00', 1, 0, ''),
 (401, 0, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (402, 0, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', 0, '0000-00-00 00:00:00', 3, 0, ''),
@@ -584,7 +585,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (406, 0, 'plg_content_loadmodule', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"xhtml"}', 0, '2011-09-18 15:22:50', 0, 0, ''),
 (407, 0, 'plg_content_pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"title":"1","multipage_toc":"1","showall":"1"}', 0, '0000-00-00 00:00:00', 4, 0, ''),
 (408, 0, 'plg_content_pagenavigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', 0, '0000-00-00 00:00:00', 5, 0, ''),
-(409, 0, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 6, 0, ''),
+(409, 0, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 0, 1, 0, '', '', 0, '0000-00-00 00:00:00', 6, 0, ''),
 (410, 0, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', 0, '0000-00-00 00:00:00', 1, 0, ''),
 (411, 0, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 2, 0, ''),
 (412, 0, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"configuration":{"toolbars":{"2":{"toolbar1":["bold","underline","strikethrough","|","undo","redo","|","bullist","numlist","|","pastetext"]},"1":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","formatselect","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","code","|","hr","table","|","subscript","superscript","|","charmap","pastetext","preview"]},"0":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","styleselect","|","formatselect","fontselect","fontsizeselect","|","searchreplace","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","image","|","code","|","forecolor","backcolor","|","fullscreen","|","table","|","subscript","superscript","|","charmap","emoticons","media","hr","ltr","rtl","|","cut","copy","paste","pastetext","|","visualchars","visualblocks","nonbreaking","blockquote","template","|","print","preview","codesample","insertdatetime","removeformat"]}},"setoptions":{"2":{"access":["1"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"1":{"access":["6","2"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"0":{"access":["7","4","8"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"1","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""}}},"sets_amount":3,"html_height":"550","html_width":"750"}', 0, '0000-00-00 00:00:00', 3, 0, ''),
@@ -651,12 +652,13 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (476, 0, 'plg_fields_usergrouplist', 'plugin', 'usergrouplist', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (477, 0, 'plg_content_fields', 'plugin', 'fields', 'content', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(479, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(480, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(481, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(482, 0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(483, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(484, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(479, 0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(480, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(481, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(482, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(483, 0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(484, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(485, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (510, 0, 'aurora', 'template', 'aurora', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -732,6 +734,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `checked_out` int(11) NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1519,7 +1522,8 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (16, 50, 'Login Form', '', '', 7, 'sidebar-right', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
 (17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
 (79, 52, 'Multilanguage status', '', '', 1, '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(86, 53, 'Joomla Version', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
+(86, 53, 'Joomla Version', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_sampledata', 6, 1, '{}', 1, '*');
 
 -- --------------------------------------------------------
 
@@ -1554,7 +1558,8 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (16, 0),
 (17, 0),
 (79, 0),
-(86, 0);
+(86, 0),
+(87, 0);
 
 -- --------------------------------------------------------
 
@@ -2156,7 +2161,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 55, 1, 'Joomla! Default', '', 'com_content', 1, '0000-00-00 00:00:00', 3, '0000-00-00 00:00:00', 3);
+(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 'NOW()', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Dumping data for table `#__workflow_states`
@@ -2169,7 +2174,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `condition` enum('1','2','3') NOT NULL,
+  `condition` enum('0','1','-2') NOT NULL,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`),
@@ -2183,10 +2188,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
 --
 
 INSERT INTO `#__workflow_states` (`id`, `asset_id`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 56, 1, 1, 'Trashed', '', '1', 0),
-(2, 57, 1, 1, 'Unpublished', '', '2', 1),
-(3, 58, 1, 1, 'Published', '', '3', 0),
-(4, 59, 1, 1, 'Archived', '', '2', 0);
+(1, 57, 1, 1, 'Unpublished', '', '0', 0),
+(2, 58, 1, 1, 'Published', '', '1', 1),
+(3, 59, 1, 1, 'Trashed', '', '-2', 0),
+(4, 60, 1, 1, 'Archived', '', '1', 0);
 
 --
 -- Dumping data for table `#__workflow_transitions`
@@ -2214,15 +2219,15 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 --
 
 INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `title`, `description`, `from_state_id`, `to_state_id`, `workflow_id`) VALUES
-(1, 60, 1, 'Unpublish', '', 1, 2, 1),
-(2, 61, 1, 'Publish', '', 2, 3, 1),
-(3, 62, 1, 'Archive', '', 3, 4, 1),
-(4, 63, 1, 'Trash', '', 3, 1, 1),
-(5, 64, 1, 'Trash', '', 2, 1, 1),
-(6, 65, 1, 'Trash', '', 4, 1, 1),
-(7, 66, 1, 'Unpublish', '', 4, 2, 1),
-(8, 67, 1, 'Unpublish', '', 3, 2, 1),
-(9, 68, 1, 'Publish', '', 4, 3, 1),
-(10, 69, 1, 'Archive', '', 2, 4, 1),
-(11, 70, 1, 'Archive', '', 1, 4, 1),
-(12, 71, 1, 'Publish', '', 1, 3, 1);
+(1, 61, 1, 'Unpublish', '', 2, 1, 1),
+(2, 62, 1, 'Unpublish', '', 3, 1, 1),
+(3, 63, 1, 'Unpublish', '', 4, 1, 1),
+(4, 64, 1, 'Publish', '', 1, 2, 1),
+(5, 65, 1, 'Publish', '', 3, 2, 1),
+(6, 66, 1, 'Publish', '', 4, 2, 1),
+(7, 67, 1, 'Trash', '', 1, 3, 1),
+(8, 68, 1, 'Trash', '', 2, 3, 1),
+(9, 69, 1, 'Trash', '', 4, 3, 1),
+(10, 70, 1, 'Archive', '', 1, 4, 1),
+(11, 71, 1, 'Archive', '', 2, 4, 1),
+(12, 72, 1, 'Archive', '', 3, 4, 1);

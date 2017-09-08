@@ -59,7 +59,6 @@ class Article extends Item
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			$this->setState('filter.published', 1);
-			$this->setState('filter.archived', 2);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -103,6 +102,9 @@ class Article extends Item
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
+				$query->select($db->qn('ws.condition'))
+					->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state');
+
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->innerJoin('#__categories AS c on c.id = a.catid')
@@ -140,12 +142,12 @@ class Article extends Item
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->where($db->qn('ws.condition') . ' = ' . $db->quote((int) $published));
 				}
+
 
 				$db->setQuery($query);
 
@@ -153,13 +155,13 @@ class Article extends Item
 
 				if (empty($data))
 				{
-					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if (is_numeric($published) && $data->condition != $published)
 				{
-					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -222,7 +224,7 @@ class Article extends Item
 				if ($e->getCode() == 404)
 				{
 					// Need to go through the error handler to allow Redirect to work.
-					\JError::raiseError(404, $e->getMessage());
+					throw new \Exception($e->getMessage(), 404);
 				}
 				else
 				{
@@ -292,7 +294,7 @@ class Article extends Item
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseWarning(500, $e->getMessage());
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -316,7 +318,7 @@ class Article extends Item
 				}
 				catch (\RuntimeException $e)
 				{
-					\JError::raiseWarning(500, $e->getMessage());
+					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 					return false;
 				}
@@ -343,7 +345,7 @@ class Article extends Item
 					}
 					catch (\RuntimeException $e)
 					{
-						\JError::raiseWarning(500, $e->getMessage());
+						\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 						return false;
 					}
@@ -357,7 +359,7 @@ class Article extends Item
 			return true;
 		}
 
-		\JError::raiseWarning('SOME_ERROR_CODE', \JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
 
 		return false;
 	}

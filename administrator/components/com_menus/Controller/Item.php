@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Controller\Form;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * The Menu Item Controller
@@ -326,7 +327,7 @@ class Item extends Form
 
 		if (!$form)
 		{
-			\JError::raiseError(500, $model->getError());
+			throw new \Exception($model->getError(), 500);
 
 			return false;
 		}
@@ -506,6 +507,8 @@ class Item extends Form
 	 */
 	public function setType()
 	{
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+
 		$app = $this->app;
 
 		// Get the posted values from the request.
@@ -536,6 +539,9 @@ class Item extends Form
 		{
 			if (isset($type->request))
 			{
+				// Clean component name
+				$type->request->option = InputFilter::getInstance()->clean($type->request->option, 'CMD');
+
 				$component = ComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 

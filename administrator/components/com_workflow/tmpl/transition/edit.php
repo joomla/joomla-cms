@@ -27,39 +27,41 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', !empty($this->item->id) ? JText::_('COM_WORKFLOW_EDIT') : JText::_('COM_WORKFLOW_NEW')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_WORKFLOW_DESCRIPTION')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="col-md-3">
 				<div class="card card-block card-light">
-					<fieldset class="form-vertical form-no-margin">
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('published'); ?>
+					<div class="card-body">
+						<fieldset class="form-vertical form-no-margin">
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('published'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('published'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('published'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('from_state_id'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('from_state_id'); ?>
+								</div>
 							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('from_state_id'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('to_state_id'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('to_state_id'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('from_state_id'); ?>
-							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('to_state_id'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('to_state_id'); ?>
-							</div>
-						</div>
-					</fieldset>
+						</fieldset>
+					</div>
 				</div>
 			</div>
 		</div>

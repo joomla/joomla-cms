@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Model\Form;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Model\Admin;
@@ -209,7 +211,7 @@ class Article extends Admin
 		}
 
 		// Default to component settings if neither article nor category known.
-		return parent::canEditState();
+		return parent::canEditState($record);
 	}
 
 	/**
@@ -307,7 +309,7 @@ class Article extends Admin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -322,6 +324,8 @@ class Article extends Admin
 		}
 
 		$jinput = \JFactory::getApplication()->input;
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -330,15 +334,22 @@ class Article extends Admin
 		$id = $jinput->get('a_id', $jinput->get('id', 0));
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
+		if ($id = $this->getState('article.id'))
 		{
-			$id = $this->getState('article.id');
-
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+
+			$table = $this->getTable();
+
+			if ($table->load(array('id' => $id)))
+			{
+				// Transition field
+				$form->setFieldAttribute('transition', 'state', (int) $table->state);
+			}
+
 		}
 		else
 		{
@@ -346,7 +357,7 @@ class Article extends Admin
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = \JFactory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -528,38 +539,6 @@ class Article extends Admin
 			$data['catid'] = \CategoriesHelper::createCategory($table);
 		}
 
-		$cat = Categories::getInstance("content");
-		$workflowId = json_decode($cat->get($data['catid'])->params)->workflow_id;
-
-		// Only if it is not edit mode
-		if (empty($data['id']))
-		{
-			$query
-				->select($db->qn("id"))
-				->from($db->qn("#__workflow_states"))
-				->where($db->qn("default") . '=' . 1);
-
-			if (is_numeric($workflowId) && $workflowId !== '0')
-			{
-				$query->where($db->qn("workflow_id") . '=' . $workflowId);
-			}
-			else
-			{
-				$queryWorkflow = $db->getQuery(true)
-					->select($db->qn("id"))
-					->from($db->qn("#__workflows"))
-					->where($db->qn("default") . '=1');
-				$db->setQuery($queryWorkflow);
-				$workflow = $db->loadResult();
-				$query->where($db->qn("workflow_id") . '=' . $workflow);
-			}
-
-			$db->setQuery($query);
-			$state = $db->loadResult();
-
-			$data['state'] = $state;
-		}
-
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
 			$check = $input->post->get('jform', array(), 'array');
@@ -605,9 +584,46 @@ class Article extends Admin
 					$data['alias'] = '';
 				}
 			}
-
-			$data['state'] = 0;
 		}
+
+		$cat = Categories::getInstance("content");
+		$workflowId = json_decode($cat->get($data['catid'])->params)->workflow_id;
+
+		// Only if it is not edit mode
+		if (empty($data['id']))
+		{
+			$query
+				->select($db->qn("id"))
+				->from($db->qn("#__workflow_states"))
+				->where($db->qn("default") . '=' . 1);
+
+			if (is_numeric($workflowId) && $workflowId !== '0')
+			{
+				$query->where($db->qn("workflow_id") . '=' . $workflowId);
+			}
+			else
+			{
+				$queryWorkflow = $db->getQuery(true)
+					->select($db->qn("id"))
+					->from($db->qn("#__workflows"))
+					->where($db->qn("default") . '=1');
+				$db->setQuery($queryWorkflow);
+				$workflow = $db->loadResult();
+				$query->where($db->qn("workflow_id") . '=' . $workflow);
+			}
+
+			$db->setQuery($query);
+			$state = $db->loadResult();
+
+			$data['state'] = $state;
+		}
+
+		if ($data['transition'] !== "")
+		{
+			WorkflowHelper::runTransitions(array($data['id']), array((int) $data['transition']), 'com_content', '#__content');
+		}
+
+		unset($data['transition']);
 
 		// Automatic handling of alias for empty fields
 		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
@@ -894,64 +910,20 @@ class Article extends Admin
 	 */
 	public function runTransition($pks, $transitions)
 	{
-		$transitions = array_filter($transitions,
+		$transitions = array_filter(
+			$transitions,
 			function ($var)
 			{
 				return $var !== 0;
 			}
 		);
+		$runTransaction = WorkflowHelper::runTransitions($pks, $transitions, "com_content", "#__content");
 
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$select = $db->quoteName(
-			array(
-				'tran.id',
-				'tran.to_state_id'
-			)
-		);
-
-		$query
-			->select($select)
-			->from($db->quoteName("#__workflow_transitions", "tran"))
-			->where($db->qn("tran.id") . ' IN (' . implode(",", $transitions) . ')')
-			->andWhere($db->qn("tran.published") . '=1');
-
-		var_dump((string) $query);
-
-		$db->setQuery($query);
-		$result = $db->loadObjectList();
-
-
-		foreach ($result as $k => $v)
+		if (is_string($runTransaction))
 		{
-			$query->clear();
-			$pk = (int) $pks[0];
-
-			if ($pk > 0)
-			{
-				try
-				{
-					$query
-						->update('#__content')
-						->set(
-							array(
-								$db->qn('state') . '=' . $db->quote($v->to_state_id)
-							)
-						)
-						->where($db->qn("id") . '=' . $pk);
-					$db->setQuery($query);
-					$db->execute();
-				}
-				catch (\Exception $e)
-				{
-					$this->setError("COM_CONTENT_ERROR_UPDATE_STATE");
-
-					return false;
-				}
-			}
+			$this->setError($runTransaction);
 		}
 
-		return true;
+		return $runTransaction;
 	}
 }

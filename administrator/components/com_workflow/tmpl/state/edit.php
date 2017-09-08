@@ -28,49 +28,52 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', !empty($this->item->id) ? JText::_('COM_WORKFLOW_EDIT') : JText::_('COM_WORKFLOW_NEW')); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_WORKFLOW_DESCRIPTION')); ?>
 	<div class="row">
 		<div class="col-md-9">
 			<?php echo $this->form->getInput('description'); ?>
 		</div>
 		<div class="col-md-3">
 			<div class="card card-block card-light">
-				<fieldset class="form-vertical form-no-margin">
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('published'); ?>
+				<div class="card-body">
+					<fieldset class="form-vertical form-no-margin">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('published'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('published'); ?>
+							</div>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('published'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('condition'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('condition'); ?>
+							</div>
 						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('condition'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('default'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('default'); ?>
+							</div>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('condition'); ?>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('default'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('default'); ?>
-						</div>
-					</div>
-				</fieldset>
+					</fieldset>
+				</div>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_WORKFLOW_RULES_TAB')); ?>
-		<?php echo $this->form->getInput('rules'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_WORKFLOW_RULES_TAB')); ?>
+	<?php echo $this->form->getInput('rules'); ?>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+
 	<?php echo $this->form->getInput('workflow_id'); ?>
 	<input type="hidden" name="task" value="state.edit" />
 	<?php echo JHtml::_('form.token'); ?>

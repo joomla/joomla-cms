@@ -42,7 +42,7 @@ class WorkflowHelper extends ContentHelper
 			return false;
 		}
 
-		$parts = explode('.', $extension);
+		$parts     = explode('.', $extension);
 		$component = $parts[0];
 
 		if (count($parts) > 1)
@@ -52,32 +52,29 @@ class WorkflowHelper extends ContentHelper
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file  = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
 			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
+			$cName  = $prefix . 'Helper';
 
 			\JLoader::register($cName, $file);
 
-			if (class_exists($cName))
+			if (class_exists($cName) && is_callable(array($cName, $method)))
 			{
-				if (is_callable(array($cName, $method)))
-				{
-					$lang = \JFactory::getLanguage();
+				$lang = \JFactory::getLanguage();
 
-					// Loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+				// Loading language file from the administrator/language directory then
+				// loading language file from the administrator/components/*extension*/language directory
+				$lang->load($component, JPATH_BASE, null, false, true)
+				|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
-					return call_user_func(array($cName, $method), $parameter);
-				}
+				return call_user_func(array($cName, $method), $parameter);
 			}
 		}
 
-		return true;
+		return null;
 	}
 
 	/**
@@ -92,14 +89,14 @@ class WorkflowHelper extends ContentHelper
 	 */
 	public static function getStatesSQL($fieldName, $workflowID)
 	{
-		$db = Factory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query
-			->select($db->quoteName(['id', 'title'], ['value', $fieldName]))
+			->select($db->quoteName(array('id', 'title'), array('value', $fieldName)))
 			->from($db->quoteName('#__workflow_states'))
 			->where($db->quoteName('workflow_id') . ' = ' . (int) $workflowID)
-			->andWhere($db->quoteName('published') . ' IN (0, 1)');
+			->andWhere($db->quoteName('published') . ' =1');
 
 		return (string) $query;
 	}
@@ -117,12 +114,81 @@ class WorkflowHelper extends ContentHelper
 	{
 		switch ($number)
 		{
-			case 1:
-				return "COM_WORKFLOW_TRASHED";
-			case 2:
+			case 0:
 				return "COM_WORKFLOW_UNPUBLISHED";
-			case 3:
+			case 1:
 				return "COM_WORKFLOW_PUBLISHED";
+			case -2:
+				return "COM_WORKFLOW_TRASHED";
+		}
+	}
+
+	/**
+	 * Runs transitions for each item passing in attributes.
+	 *
+	 * @param   array   $pks             ids of articles
+	 * @param   array   $transitions     ids of transitions
+	 * @param   string  $extension       name of extension
+	 * @param   string  $componentTable  name of table from where are ids
+	 *
+	 * @return  resource|boolean
+	 *
+	 * @since   4.0
+	 */
+	public static function runTransitions($pks, $transitions, $extension, $componentTable)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$select = $db->quoteName(
+			array(
+				'tran.id',
+				'tran.to_state_id'
+			)
+		);
+
+		$query
+			->select($select)
+			->from($db->quoteName('#__workflow_transitions', 'tran'))
+			->where($db->qn('tran.id') . ' IN (' . implode(',', $transitions) . ')')
+			->andWhere($db->qn('tran.published') . '=1');
+
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+
+		foreach ($result as $k => $v)
+		{
+			$query->clear();
+			$pk = (int) $pks[0];
+
+			if ($pk > 0)
+			{
+				try
+				{
+					$updated = self::callMethodFromHelper($extension, 'updateAfterTransaction', $v->to_state_id);
+
+					if (!$updated)
+					{
+						$query
+							->update($componentTable)
+							->set(
+								array(
+									$db->qn('state') . '=' . $db->quote($v->to_state_id)
+								)
+							)
+							->where($db->qn('id') . '=' . $pk);
+						$db->setQuery($query);
+
+						return $db->execute();
+					}
+
+					return $updated;
+				}
+				catch (\Exception $e)
+				{
+					return \JText::_('COM_WORKFLOW_ERROR_UPDATE_STATE');
+				}
+			}
 		}
 	}
 }

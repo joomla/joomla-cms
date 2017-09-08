@@ -45,6 +45,7 @@ class Articles extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
+				'condition', 's.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -118,7 +119,7 @@ class Articles extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', 3);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -152,7 +153,7 @@ class Articles extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . serialize($this->getState('filter.published'));
+		$id .= ':' . serialize($this->getState('filter.condition'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
 		$id .= ':' . serialize($this->getState('filter.article_id'));
@@ -193,11 +194,11 @@ class Articles extends ListModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
-					'a.checked_out, a.checked_out_time, ' .
+					'a.checked_out, a.checked_out_time,' .
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Published/archived article in archive category is treats as archive article
 					// If category is not published then force 0
-					'CASE WHEN c.published = 2 AND a.state > 0 THEN 2 WHEN c.published != 1 THEN 0 ELSE a.state END as state,' .
+					'CASE WHEN c.published = 2 AND s.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE s.condition END as state,' .
 					// Use created if modified is 0
 					'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, uam.name as modified_by_name,' .
@@ -230,6 +231,10 @@ class Articles extends ListModel
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
+		$query
+			->select($db->qn("s.condition"))
+			->join('LEFT', '#__workflow_states AS s ON s.id = a.state');
+
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
 			->select('c.published, c.published AS parents_published')
@@ -249,7 +254,7 @@ class Articles extends ListModel
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -263,26 +268,26 @@ class Articles extends ListModel
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.published');
+		$condition = $this->getState('filter.condition');
 
-		if (is_numeric($published) && $published == 2)
-		{
-			// If category is archived then article has to be published or archived.
-			// If categogy is published then article has to be archived.
-			$query->where('(c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2)');
-		}
-		elseif (is_numeric($published))
+		if (is_numeric($condition))
 		{
 			// Category has to be published
-			$query->where('c.published = 1 AND a.state = ' . (int) $published);
+			$query->where("c.published = 1 AND s.condition = " . $db->quote($condition));
 		}
-		elseif (is_array($published))
+		elseif (is_array($condition))
 		{
-			$published = ArrayHelper::toInteger($published);
-			$published = implode(',', $published);
+			$condition = array_map(
+				function ($data) use ($db)
+				{
+					return $db->quote($data);
+				},
+				$condition
+			);
+			$condition = implode(',', $condition);
 
 			// Category has to be published
-			$query->where('c.published = 1 AND a.state IN (' . $published . ')');
+			$query->where('c.published = 1 AND s.condition IN (' . $condition . ')');
 		}
 
 		// Filter by featured state
@@ -660,8 +665,8 @@ class Articles extends ListModel
 				}
 			}
 
-			// Get the tags
-			if ($item->params->get('show_tags'))
+			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
 				$item->tags = new \JHelperTags;
 				$item->tags->getItemTags('com_content.article', $item->id);

@@ -79,6 +79,7 @@ class State extends Form
 		$append = parent::getRedirectToItemAppend($recordId);
 		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
 
+
 		return $append;
 	}
 

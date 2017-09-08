@@ -37,4 +37,23 @@ class Transitions extends Admin
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
+
+	/**
+	 * Deletes and returns correctly.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.2
+	 */
+	public function delete()
+	{
+		parent::delete();
+		$this->setRedirect(
+			\JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&extenstion=' . $this->input->getCmd("extension")
+				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+			)
+		);
+	}
 }

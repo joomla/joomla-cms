@@ -59,6 +59,16 @@
 			default=""
 		/>
 
+		<field
+			name="transition"
+			type="transition"
+			component="com_content"
+			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+			label="COM_CONTENT_TRANSITION"
+		>
+			<option	value="">COM_CONTENT_SELECT_TRANSITION</option>
+		</field>
+
 		<field 
 			name="tags"
 			type="tag"
@@ -905,7 +915,6 @@
 				name="rights" 
 				type="textarea" 
 				label="JFIELD_META_RIGHTS_LABEL"
-				required="false" 
 				filter="string"
 				cols="30" 
 				rows="2" 

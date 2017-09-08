@@ -84,7 +84,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.jQuery('.modal
                             <span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
                         </td>
                         <td class="text-center">
-                            <span class="<?php echo $activatedStates[(int) $this->escape($item->activation)]; ?>"></span>
+                            <span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
                         </td>
                         <td>
                             <?php echo nl2br($item->group_names); ?>

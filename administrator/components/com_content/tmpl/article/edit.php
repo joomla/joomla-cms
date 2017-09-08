@@ -30,18 +30,6 @@ $params->merge(new Registry($this->item->attribs));
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$this->fields = array(
-	array('parent', 'parent_id'),
-	array('category', 'catid'),
-	'featured',
-	'sticky',
-	'access',
-	'language',
-	'tags',
-	'note',
-	'version_note',
-);
-
 $assoc = JLanguageAssociations::isEnabled();
 
 // In case of modal
@@ -65,8 +53,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</fieldset>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="card card-light">
+					<div class="card-body">
+						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
 				</div>
 			</div>
 		</div>
