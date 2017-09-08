@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * View class to add or edit Workflow
@@ -20,6 +21,14 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class Html extends HtmlView
 {
+	/**
+	 * The model state
+	 *
+	 * @var     object
+	 * @since   4.0
+	 */
+	protected $state;
+
 	/**
 	 * The \JForm object
 	 *
@@ -35,6 +44,29 @@ class Html extends HtmlView
 	protected $item;
 
 	/**
+	 * The ID of current workflow
+	 *
+	 * @var     integer
+	 * @since   4.0
+	 */
+	protected $workflowID;
+
+	/**
+	 * The name of current extension
+	 *
+	 * @var     string
+	 * @since   4.0
+	 */
+	protected $extension;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  \JObject
+	 */
+	protected $canDo;
+
+	/**
 	 * Display item view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -45,16 +77,20 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// Get the Data
+		$this->state      = $this->get('State');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->workflowID = $this->state->get('filter.workflow_id');
+		$this->extension  = $this->state->get('filter.extension');
+
+		$this->canDo = WorkflowHelper::getActions($this->extension, 'workflow', $this->workflowID);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-
-		// Get the Data
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
-
 
 		// Set the toolbar
 		$this->addToolBar();
@@ -72,16 +108,31 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
+		$isNew      = ($this->item->id == 0);
+
+		$canDo = $this->canDo;
+
 		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_WORKFLOWS_ADD') : \JText::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$toolbarButtons = [['apply', 'workflow.apply'], ['save', 'workflow.save'], ['save2new', 'workflow.save2new']];
+
+		if (!$isNew)
+		{
+			$toolbarButtons = [];
+
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				$toolbarButtons[] = ['save2copy', 'workflow.save2copy'];
+			}
+		}
+
 		ToolbarHelper::saveGroup(
-			[
-				['apply', 'workflow.apply'],
-				['save', 'workflow.save'],
-				['save2new', 'workflow.save2new']
-			],
+			$toolbarButtons,
 			'btn-success'
 		);
+
 		ToolbarHelper::cancel('workflow.cancel');
 		ToolbarHelper::help('JHELP_WORKFLOW_EDIT');
 	}
