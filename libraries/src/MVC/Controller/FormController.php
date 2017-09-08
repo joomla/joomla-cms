@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -503,14 +504,14 @@ class FormController extends BaseController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   \JModelLegacy  $model      The data model object.
-	 * @param   array          $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(\JModelLegacy $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 	}
 
