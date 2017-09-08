@@ -31,7 +31,7 @@ $this->form->setFieldAttribute('modified', 'default', date("Y-m-d H:i:s"));
 	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details',  !empty($this->item->id) ? JText::_('COM_WORKFLOW_EDIT') : JText::_('COM_WORKFLOW_NEW'));?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_WORKFLOW_DESCRIPTION'));?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->getInput('description'); ?>

@@ -71,11 +71,14 @@ class State extends Admin
 				->where($db->qn("workflow_id") . '=' . $workflowID)
 				->andWhere($db->qn("default") . '= 1');
 			$db->setQuery($query);
-			$states = $db->loadObjectList();
+			$states = $db->loadObject();
 
-			if (empty($states))
+			if (empty($states) || $states->id === $data['id'])
 			{
 				$data['default'] = '1';
+				$this->setError(\JText::_("COM_WORKFLOW_DISABLE_DEFAULT"));
+
+				return false;
 			}
 		}
 
