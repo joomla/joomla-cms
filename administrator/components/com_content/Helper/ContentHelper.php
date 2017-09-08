@@ -44,7 +44,7 @@ class ContentHelper extends \JHelperContent
 			$vName == 'categories'
 		);
 
-		if (\JComponentHelper::isEnabled('com_fields') && \JComponentHelper::getParams('com_content')->get('workflows_enable'))
+		if (\JComponentHelper::isEnabled('com_workflows') && \JComponentHelper::getParams('com_content')->get('workflows_enable', 1))
 		{
 			\JHtmlSidebar::addEntry(
 				\JText::_('COM_CONTENT_SUBMENU_WORKFLOW'),
