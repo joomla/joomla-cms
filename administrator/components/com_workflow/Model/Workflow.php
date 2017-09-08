@@ -39,12 +39,13 @@ class Workflow extends Admin
 	 */
 	public function save($data)
 	{
-		$user                = \JFactory::getUser();
-		$app                 = \JFactory::getApplication();
-		$extension           = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
-		$data['extension']   = $extension;
-		$data['asset_id']    = 0;
-		$data['modified_by'] = $user->get('id');
+		$user					= \JFactory::getUser();
+		$app					 = \JFactory::getApplication();
+		$context				= $this->option . '.' . $this->name;
+		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$data['extension']		= $extension;
+		$data['asset_id']		= 0;
+		$data['modified_by']	= $user->get('id');
 
 		if (!empty($data['id']))
 		{
