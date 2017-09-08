@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 
 /**
  * Factory to create MVC objects based on a namespace.
@@ -62,7 +63,18 @@ class MVCFactory implements MVCFactoryInterface
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Model\\' . ucfirst($name), $prefix, $config);
+		// Clean the parameters
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		$className = $this->getClassName('Model\\' . ucfirst($name) . 'Model', $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		return new $className($config, $this);
 	}
 
 	/**
@@ -80,7 +92,19 @@ class MVCFactory implements MVCFactoryInterface
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array())
 	{
-		return $this->createInstance('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix, $config);
+		// Clean the parameters
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
+
+		$className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type) . 'View', $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		return new $className($config);
 	}
 
 	/**
@@ -97,32 +121,54 @@ class MVCFactory implements MVCFactoryInterface
 	 */
 	public function createTable($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Table\\' . ucfirst($name), $prefix, $config);
+		// Clean the parameters
+		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		$className = $this->getClassName('Table\\' . ucfirst($name) . 'Table', $prefix)
+			?: $this->getClassName('Table\\' . ucfirst($name) . 'Table', 'Administrator');
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		if (array_key_exists('dbo', $config))
+		{
+			$db = $config['dbo'];
+		}
+		else
+		{
+			$db = Factory::getDbo();
+		}
+
+		return new $className($db);
 	}
 
 	/**
-	 * Creates a standard classname and returns an instance of this class.
+	 * Returns a standard classname, if the class doesn't exist null is returned.
 	 *
 	 * @param   string  $suffix  The suffix
 	 * @param   string  $prefix  The prefix
-	 * @param   array   $config  The config
 	 *
-	 * @return object  The instance
+	 * @return  string|null  The class name
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function createInstance($suffix, $prefix, array $config)
+	private function getClassName($suffix, $prefix)
 	{
 		if (!$prefix)
 		{
 			$prefix = $this->application->getName();
 		}
 
-		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
+		$className = trim($this->namespace, '\\') . '\\' . ucfirst($prefix) . '\\' . $suffix;
+
 		if (!class_exists($className))
 		{
 			return null;
 		}
-		return new $className($config);
+
+		return $className;
 	}
 }
