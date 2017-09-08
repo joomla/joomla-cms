@@ -1,11 +1,7 @@
-#### Browser Version is used for automatically prefixing the stylesheets. IMPORTANT: Joomla 4 supports only the latest 2 versions of each browser!!!
+#### Browser Version is used for automatically prefixing the stylesheets.
+#### IMPORTANT: Joomla 4 only supports the latest version of each browser!
 Browsers:
-    'Chrome':   '58'
-    'Firefox':  '53'
-    'Edge':     '12'
-    'Explorer': '11'
-    'Safari':   '10.1'
-    'Opera':    '44'
+    'last 1 version'
 
 vendors:
 #### PLEASE ONLY ALTER THE VERSION NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
