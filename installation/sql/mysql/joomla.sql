@@ -2160,8 +2160,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `created_by`,`modified_by`) VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 3, 3);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 'NOW()', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Dumping data for table `#__workflow_states`
