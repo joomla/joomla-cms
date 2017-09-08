@@ -39,7 +39,8 @@ class  Workflows extends ListModel
 				'title',
 				'state',
 				'created_by',
-				'created'
+				'created',
+				'modified'
 			);
 		}
 
