@@ -11,7 +11,7 @@ namespace Joomla\Component\Contact\Administrator\View\Contact;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Helper\ContentHelper;
 
 /**

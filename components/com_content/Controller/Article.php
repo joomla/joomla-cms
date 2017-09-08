@@ -246,7 +246,7 @@ class Article extends Form
 
 		$itemId = $this->input->getInt('Itemid');
 		$return = $this->getReturnPage();
-		$catId  = $this->input->getInt('catid', null, 'get');
+		$catId  = $this->input->getInt('catid');
 
 		if ($itemId)
 		{

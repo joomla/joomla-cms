@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Controller;
+namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel as Model;
 use Joomla\CMS\Mvc\Factory\LegacyFactory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\View\AbstractView;
@@ -24,7 +24,7 @@ use Joomla\CMS\View\AbstractView;
  *
  * @since  2.5.5
  */
-class Controller implements ControllerInterface
+class BaseController implements ControllerInterface
 {
 	/**
 	 * The base path of the controller

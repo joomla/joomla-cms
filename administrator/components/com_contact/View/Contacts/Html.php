@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 
 /**
@@ -110,7 +110,7 @@ class Html extends HtmlView
 			// We also need to change the category filter to show show categories with All or the forced language.
 			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 			<div class="fg-1">
 				<?php if ($user->client_id == 0) : ?>
 					<a title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs hasTooltip">
-						<span class="icon-remove icon-white" aria-hidden="true"><span class="sr-only"><?php echo JText::_('JLOGOUT'); ?>"></span></span>
+						<span class="icon-remove icon-white" aria-hidden="true"><span class="sr-only"><?php echo JText::_('JLOGOUT'); ?></span></span>
 					</a>
 				<?php endif; ?>
 				<strong class="mr-2 row-title">

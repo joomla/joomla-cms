@@ -17,6 +17,24 @@ use ParagonIE\Sodium\Compat;
 class JCryptCipherSodiumTest extends TestCase
 {
 	/**
+	 * Prepares the environment before running a test.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		// Skip if neither the `libsodium` (PECL 1.x) or `sodium` (PHP 7.2+ or PECL 2.x) extensions are available and this PHP build does not support 64-bit integers
+		if (!extension_loaded('libsodium') && !extension_loaded('sodium') && PHP_INT_SIZE === 4)
+		{
+			$this->markTestSkipped(
+				'Cannot run tests on this environment due to not having the sodium PHP extension and not running a x64 PHP build'
+			);
+		}
+	}
+
+	/**
 	 * Test data for processing
 	 *
 	 * @return  array

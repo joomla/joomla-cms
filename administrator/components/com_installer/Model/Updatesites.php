@@ -391,8 +391,9 @@ class Updatesites extends Installer
 				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
-				. ')');
-		
+				. ')'
+			);
+
 		$db->setQuery($query);
 
 		return $db->loadColumn($column);

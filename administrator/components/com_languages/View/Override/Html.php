@@ -14,7 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\View\HtmlView;
 
 /**
- * View to edit an language override
+ * View to edit a language override
  *
  * @since  2.5
  */
