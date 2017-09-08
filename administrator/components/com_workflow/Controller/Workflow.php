@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Controller\Form;
 
@@ -83,5 +84,83 @@ class Workflow extends Form
 		$append .= '&extension=' . $this->extension;
 
 		return $append;
+	}
+
+	/**
+	 * Function that allows child controller access to model data
+	 * after the data has been saved.
+	 *
+	 * @param   \JModelLegacy  $model      The data model object.
+	 * @param   array          $validData  The validated data.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	public function postSaveHook(\JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		// The save2copy task needs to be handled slightly differently.
+		if ($task === 'save2copy')
+		{
+			$table = $model->getTable();
+
+			$key = $table->getKeyName();
+
+			$recordId = $this->input->getInt($key);
+
+			$db = $model->getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select('*')
+				->from($db->qn('#__workflow_states'))
+				->where($db->qn('workflow_id') . ' = ' . (int) $recordId);
+
+			$statuses = $db->setQuery($query)->loadAssocList();
+
+			$smodel = $this->getModel('State');
+
+			$context    = $this->option . '.' . $smodel->getName();
+
+			Factory::getApplication()->setUserState($context . '.filter.workflow_id', (int) $model->getState($model->getName() . '.id'));
+
+			$mapping = [];
+
+			foreach ($statuses as $status)
+			{
+				$smodel = $this->getModel('State');
+
+				$oldID = $status['id'];
+
+				$status['tags'] = null;
+				$status['id'] = 0;
+				unset($status['asset_id']);
+
+				$smodel->save($status);
+
+				$mapping[$oldID] = (int) $smodel->getState($model->getName() . '.id');
+			}
+		}
+
+		parent::postSaveHook($model, $validData);
+	}
+
+	public function save($key = null, $urlVar = null)
+	{
+		$task = $this->getTask();
+
+		// The save2copy task needs to be handled slightly differently.
+		if ($task === 'save2copy')
+		{
+			$data  = $this->input->post->get('jform', array(), 'array');
+
+			// Prevent default
+			$data['default'] = 0;
+
+			$this->input->post->set('jform', $data);
+		}
+
+		parent::save($key, $urlVar);
 	}
 }
