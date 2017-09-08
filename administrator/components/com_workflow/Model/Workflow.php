@@ -39,12 +39,13 @@ class Workflow extends Admin
 	 */
 	public function save($data)
 	{
-		$user                = \JFactory::getUser();
-		$app                 = \JFactory::getApplication();
-		$extension           = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
-		$data['extension']   = $extension;
-		$data['asset_id']    = 0;
-		$data['modified_by'] = $user->get('id');
+		$user					= \JFactory::getUser();
+		$app					 = \JFactory::getApplication();
+		$context				= $this->option . '.' . $this->name;
+		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$data['extension']		= $extension;
+		$data['asset_id']		= 0;
+		$data['modified_by']	= $user->get('id');
 
 		if (!empty($data['id']))
 		{
@@ -92,7 +93,26 @@ class Workflow extends Admin
 			}
 		}
 
-		return parent::save($data);
+		$result = parent::save($data);
+
+		// Create a default state
+		if ($result && $this->getState($this->getName() . '.new'))
+		{
+			$state = $this->getTable('State');
+
+			$newstate = new \stdClass;
+
+			$newstate->workflow_id = (int) $this->getState($this->getName() . '.id');
+			$newstate->title = \JText::_('COM_WORKFLOW_PUBLISHED');
+			$newstate->description = '';
+			$newstate->published = 1;
+			$newstate->condition = 1;
+			$newstate->default = 1;
+
+			$state->save($newstate);
+		}
+
+		return $result;
 	}
 
 	/**

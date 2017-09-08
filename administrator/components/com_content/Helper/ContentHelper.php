@@ -47,7 +47,7 @@ class ContentHelper extends \JHelperContent
 		if (\JComponentHelper::isEnabled('com_workflow') && \JComponentHelper::getParams('com_content')->get('workflows_enable', 1))
 		{
 			\JHtmlSidebar::addEntry(
-				\JText::_('COM_CONTENT_SUBMENU_WORKFLOW'),
+				\JText::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
 				'index.php?option=com_workflow&extension=com_content',
 				$vName == 'workflows'
 			);
