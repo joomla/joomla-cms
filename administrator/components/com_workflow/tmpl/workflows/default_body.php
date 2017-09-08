@@ -12,6 +12,16 @@
 defined('_JEXEC') or die;
 
 $extension = $this->escape($this->state->get('filter.extension'));
+
+$listOrder = $this->escape($this->state->get('list.ordering'));
+
+$orderingColumn = 'created';
+
+if (strpos($listOrder, 'modified') !== false)
+{
+    $orderingColumn = 'modified';
+}
+
 ?>
 <?php foreach ($this->workflows as $i => $item):
 	$states = JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
@@ -37,10 +47,10 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'workflows.', true); ?>
 		</td>
 		<td class="text-center">
-			<?php echo $item->created; ?>
-		</td>
-		<td class="text-center">
-			<?php echo $item->modified; ?>
+			<?php
+			$date = $item->{$orderingColumn};
+			echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
+			?>
 		</td>
 		<td class="text-center">
 			<?php echo empty($item->name) ? JText::_('COM_WORKFLOW_NA') : $item->name; ?>
