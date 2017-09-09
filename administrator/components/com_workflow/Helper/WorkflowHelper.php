@@ -143,7 +143,8 @@ class WorkflowHelper extends ContentHelper
 		$select = $db->quoteName(
 			array(
 				'tran.id',
-				'tran.to_state_id'
+				'tran.to_state_id',
+				'tran.from_state_id'
 			)
 		);
 
@@ -153,8 +154,14 @@ class WorkflowHelper extends ContentHelper
 			->where($db->qn('tran.id') . ' IN (' . implode(',', $transitions) . ')')
 			->andWhere($db->qn('tran.published') . '=1');
 
-		$db->setQuery($query);
-		$result = $db->loadObjectList();
+		$result = $db->setQuery($query)->loadObjectList();
+
+		$query
+			->select($db->quoteName(array("a.state", "a.id")))
+			->from($db->qn($componentTable, 'a'))
+			->where($db->qn("a.id") . ' IN (' . implode(",", $pks) . ')');
+
+		$items = $db->setQuery($query)->loadAssocList('id', 'state');
 
 		foreach ($result as $k => $v)
 		{
@@ -169,24 +176,30 @@ class WorkflowHelper extends ContentHelper
 
 					if (!$updated)
 					{
-						$query
-							->update($componentTable)
-							->set(
-								array(
-									$db->qn('state') . '=' . $db->quote($v->to_state_id)
+						if ($items[$pk] === $v->from_state_id)
+						{
+							$query->clear();
+							$query
+								->update($componentTable)
+								->set(
+									array(
+										$db->qn('state') . '=' . $db->quote($v->to_state_id)
+									)
 								)
-							)
-							->where($db->qn('id') . '=' . $pk);
-						$db->setQuery($query);
+								->where($db->qn('id') . '=' . $pk);
+							$db->setQuery($query);
 
-						return $db->execute();
+							return $db->execute();
+						}
+
+						return false;
 					}
 
 					return $updated;
 				}
 				catch (\Exception $e)
 				{
-					return \JText::_('COM_WORKFLOW_ERROR_UPDATE_STATE');
+					return false;
 				}
 			}
 		}

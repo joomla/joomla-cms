@@ -919,9 +919,9 @@ class Article extends Admin
 		);
 		$runTransaction = WorkflowHelper::runTransitions($pks, $transitions, "com_content", "#__content");
 
-		if (is_string($runTransaction))
+		if (!$runTransaction)
 		{
-			$this->setError($runTransaction);
+			$this->setError(\JText::_('COM_CONTENT_ERROR_UPDATE_STATE'));
 		}
 
 		return $runTransaction;
