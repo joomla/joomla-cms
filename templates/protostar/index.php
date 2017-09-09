@@ -55,7 +55,7 @@ if ($this->params->get('googleFont'))
 	JHtml::_('stylesheet', '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
 	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
-		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
+		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . ", Apple Color Emoji, Segoe UI, Segoe UI Emoji, Segoe UI Symbol, sans-serif;'
 	}");
 }
 
