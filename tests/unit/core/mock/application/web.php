@@ -160,23 +160,10 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 			$_SERVER['HTTP_HOST'] = 'localhost';
 		}
 
-		// Create the mock.
-		$mockObject = $test->getMockForAbstractClass(
-			// Original class name.
-			'JApplicationWeb',
-			// Constructor arguments.
-			$constructor,
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true,
-			// Call original clone.
-			true,
-			// Call autoload.
-			true,
-			// Mocked methods.
-			self::getMethods()
-		);
+		$mockObject = $test->getMockBuilder('JApplicationWeb')
+			->setConstructorArgs($constructor)
+			->setMethods(self::getMethods())
+			->getMockForAbstractClass();
 
 		return self::addBehaviours($test, $mockObject, $options);
 	}

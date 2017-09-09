@@ -6,21 +6,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
-{
-	require_once 'PHPUnit/Extensions/Database/TestCase.php';
-	require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
-	require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
-	require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
-}
-
 /**
  * Abstract test case class for database testing.
  *
  * @package  Joomla.Test
  * @since    12.1
  */
-abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
+abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 {
 	use TestCaseTrait;
 
@@ -98,7 +90,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Returns the default database connection for running the tests.
 	 *
-	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
+	 * @return  PHPUnit\DbUnit\Database\DefaultConnection
 	 *
 	 * @since   12.1
 	 */
@@ -117,7 +109,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 * @return  PHPUnit\DbUnit\DataSet\XmlDataSet
 	 *
 	 * @since   11.1
 	 */
@@ -129,17 +121,17 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Returns the database operation executed in test setup.
 	 *
-	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 * @return  PHPUnit\DbUnit\Operation\Operation
 	 *
 	 * @since   12.1
 	 */
 	protected function getSetUpOperation()
 	{
 		// Required given the use of InnoDB contraints.
-		return new PHPUnit_Extensions_Database_Operation_Composite(
+		return new PHPUnit\DbUnit\Operation\Composite(
 			array(
-				PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(),
-				PHPUnit_Extensions_Database_Operation_Factory::INSERT()
+				PHPUnit\DBUnit\Operation\Factory::DELETE_ALL(),
+				PHPUnit\DBUnit\Operation\Factory::INSERT()
 			)
 		);
 	}
@@ -147,14 +139,14 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Returns the database operation executed in test cleanup.
 	 *
-	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 * @return  PHPUnit\DbUnit\Operation\Operation
 	 *
 	 * @since   12.1
 	 */
 	protected function getTearDownOperation()
 	{
 		// Required given the use of InnoDB contraints.
-		return PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
+		return PHPUnit\DBUnit\Operation\Factory::DELETE_ALL();
 	}
 
 	/**

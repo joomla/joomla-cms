@@ -422,7 +422,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFolder::create($this->root . 'src');
 		JFile::write($this->root . 'src/test-src.txt', 'test 2');
 
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$adapter->copy('test-src.txt', 'src/test-src.txt');
 	}
 
@@ -461,7 +461,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 
 		$this->cleanRootFolder();
 
-		$this->setExpectedException('MediaFileAdapterFilenotfoundexception');
+		$this->expectException('MediaFileAdapterFilenotfoundexception');
 		$adapter->copy('invalid', 'invalid');
 	}
 
@@ -507,7 +507,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFolder::copy($this->root . 'src', $this->root . 'dest/some/src', '', true);
 
 		// Test folder copy without force
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$adapter->copy('src', 'dest/some/src');
 	}
 
@@ -614,7 +614,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 
 		// Test file move without force
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$adapter->move('src/some-text', 'dest/some-text');
 	}
 
@@ -679,7 +679,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		JFolder::create($this->root . 'src/some/folder');
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$adapter->move('src', 'dest');
 	}
 
@@ -717,7 +717,7 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		$adapter = new MediaFileAdapterLocal($this->root);
 		$this->cleanRootFolder();
 
-		$this->setExpectedException('MediaFileAdapterFilenotfoundexception');
+		$this->expectException('MediaFileAdapterFilenotfoundexception');
 		$adapter->move('invalid', 'invalid-new');
 	}
 
