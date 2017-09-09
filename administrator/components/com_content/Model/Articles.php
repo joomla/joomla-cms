@@ -260,7 +260,7 @@ class Articles extends ListModel
 		{
 			$query->where($db->qn('ws.condition') . '=' . $db->quote($condition));
 		}
-		else
+		elseif (!is_numeric($published))
 		{
 			$query->where($db->qn('ws.condition') . ' IN ("0","1")');
 		}
