@@ -50,7 +50,7 @@ class MenuType extends Table
 			return false;
 		}
 
-		// Sanitise data.
+		// Sanitize data.
 		if (trim($this->title) === '')
 		{
 			$this->title = $this->menutype;

@@ -192,10 +192,10 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 			$currentVersion = JVERSION;
 		}
 
-		// Sanitise version numbers
+		// Sanitize version numbers
 		$sameVersion    = $jVersion == $currentVersion;
-		$jVersion       = $this->sanitiseVersion($jVersion);
-		$currentVersion = $this->sanitiseVersion($currentVersion);
+		$jVersion       = $this->sanitizeVersion($jVersion);
+		$currentVersion = $this->sanitizeVersion($currentVersion);
 		$sameVersion    = $sameVersion || ($jVersion == $currentVersion);
 
 		// Get the base version
@@ -369,7 +369,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 	 *
 	 * @return  string  A standard formatted version number
 	 */
-	public function sanitiseVersion($version)
+	public function sanitizeVersion($version)
 	{
 		$test                   = strtolower($version);
 		$alphaQualifierPosition = strpos($test, 'alpha-');

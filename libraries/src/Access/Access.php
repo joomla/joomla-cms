@@ -169,7 +169,7 @@ class Access
 	 */
 	public static function check($userId, $action, $assetKey = null, $preload = true)
 	{
-		// Sanitise inputs.
+		// Sanitize inputs.
 		$userId = (int) $userId;
 		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
 

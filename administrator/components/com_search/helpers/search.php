@@ -60,12 +60,12 @@ class SearchHelper
 	}
 
 	/**
-	 * Sanitise search word.
+	 * Sanitize search word.
 	 *
-	 * @param   string  &$searchword   Search word to be sanitised.
+	 * @param   string  &$searchword   Search word to be sanitized.
 	 * @param   string  $searchphrase  Either 'all', 'any' or 'exact'.
 	 *
-	 * @return  boolean  True if search word needs to be sanitised.
+	 * @return  boolean  True if search word needs to be sanitized.
 	 */
 	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{

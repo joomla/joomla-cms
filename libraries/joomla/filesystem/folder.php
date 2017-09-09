@@ -707,9 +707,9 @@ abstract class JFolder
 	/**
 	 * Makes path name safe to use.
 	 *
-	 * @param   string  $path  The full path to sanitise.
+	 * @param   string  $path  The full path to sanitize.
 	 *
-	 * @return  string  The sanitised string.
+	 * @return  string  The sanitized string.
 	 *
 	 * @since   11.1
 	 */

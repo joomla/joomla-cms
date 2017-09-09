@@ -191,7 +191,7 @@ class TagsModelTag extends JModelList
 			// Implode is needed because the array can contain a string with a coma separated list of ids
 			$typesr = implode(',', $typesr);
 
-			// Sanitise
+			// Sanitize
 			$typesr = explode(',', $typesr);
 			$typesr = ArrayHelper::toInteger($typesr);
 

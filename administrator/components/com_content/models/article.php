@@ -212,7 +212,7 @@ class ContentModelArticle extends JModelAdmin
 	}
 
 	/**
-	 * Prepare and sanitise the table data prior to saving.
+	 * Prepare and sanitize the table data prior to saving.
 	 *
 	 * @param   JTable  $table  A JTable object.
 	 *

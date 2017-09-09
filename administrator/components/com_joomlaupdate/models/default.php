@@ -409,7 +409,7 @@ ENDDATA;
 			/*
 			 * Fetch the FTP parameters from the request. Note: The password should be
 			 * allowed as raw mode, otherwise something like !@<sdf34>43H% would be
-			 * sanitised to !@43H% which is just plain wrong.
+			 * sanitized to !@43H% which is just plain wrong.
 			 */
 			$ftp_host = $app->input->get('ftp_host', '');
 			$ftp_port = $app->input->get('ftp_port', '21');
