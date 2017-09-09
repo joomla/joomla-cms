@@ -74,8 +74,10 @@ class Transition extends Admin
 			return false;
 		}
 
+		$context    = $this->option . '.' . $this->name;
+
 		$app = Factory::getApplication();
-		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		$data['workflow_id'] = (int) $workflowID;
 
