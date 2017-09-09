@@ -51,8 +51,8 @@ class PlgButtonPagebreak extends JPlugin
 			$button->text    = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
 			$button->name    = 'copy';
 			$button->options = array(
-				'height'     => '300px',
-				'width'      => '300px',
+				'height'     => '200px',
+				'width'      => '400px',
 				'bodyHeight' => '70',
 				'modalWidth' => '80',
 			);
