@@ -135,35 +135,34 @@ class ContentHelper extends \JHelperContent
 		foreach ($items as $item)
 		{
 			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
 			$item->count_published   = 0;
-			$query                   = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
-				->from($db->qn('#__content'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-			$articles = $db->loadObjectList();
+
+			$query  = $db->getQuery(true);
+
+			$query	->select($db->qn('condition'))
+					->select('COUNT(*) AS ' . $db->qn('count'))
+					->from($db->qn('#__content', 'c'))
+					->from($db->qn('#__workflow_states', 's'))
+					->where($db->qn('s.id') . ' = ' . $db->qn('c.state'))
+					->where('catid = ' . (int) $item->id)
+					->group($db->qn('condition'));
+
+			$articles = $db->setQuery($query)->loadObjectList();
 
 			foreach ($articles as $article)
 			{
-				if ($article->state == 1)
+				if ($article->condition == 1)
 				{
 					$item->count_published = $article->count;
 				}
 
-				if ($article->state == 0)
+				if ($article->condition == 0)
 				{
 					$item->count_unpublished = $article->count;
 				}
 
-				if ($article->state == 2)
-				{
-					$item->count_archived = $article->count;
-				}
-
-				if ($article->state == -2)
+				if ($article->condition == -2)
 				{
 					$item->count_trashed = $article->count;
 				}
