@@ -46,6 +46,14 @@ if (strpos($listOrder, 'modified') !== false)
 		<td class="text-center hidden-sm-down">
 			<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'workflows.', true); ?>
 		</td>
+		<td class="text-center btns hidden-sm-down">
+			<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+				<?php echo $item->count_states; ?></a>
+		</td>
+		<td class="text-center btns hidden-sm-down">
+			<a class="badge <?php echo ($item->count_transitions > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+				<?php echo $item->count_transitions; ?></a>
+		</td>
 		<td class="text-center">
 			<?php
 			$date = $item->{$orderingColumn};

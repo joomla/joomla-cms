@@ -38,6 +38,16 @@ if (strpos($listOrder, 'modified') !== false)
 	<th style="width:10%" class="text-center nowrap hidden-sm-down">
 		<?php echo JText::_('COM_WORKFLOW_DEFAULT'); ?>
 	</th>
+	<th style="width:3%" class="nowrap text-center hidden-sm-down">
+		<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?>">
+			<span class="sr-only"><?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?></span>
+		</span>
+	</th>
+	<th style="width:3%" class="nowrap text-center hidden-sm-down">
+		<span class="fa fa-arrows-h text-info hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>">
+			<span class="sr-only"><?php echo JText::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?></span>
+		</span>
+	</th>
 	<th style="width:10%" class="nowrap hidden-sm-down text-center">
 		<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_DATE_' . strtoupper($orderingColumn), $orderingColumn, $listDirn, $listOrder); ?>
 	</th>

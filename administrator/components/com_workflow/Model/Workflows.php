@@ -99,6 +99,59 @@ class  Workflows extends ListModel
 		return parent::getTable($type, $prefix, $config);
 	}
 
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		$this->countItems($items);
+
+		return $items;
+	}
+
+	protected function countItems($items)
+	{
+		$ids = [0];
+
+		foreach ($items as $item)
+		{
+			$ids[] = (int) $item->id;
+
+			$item->count_states = 0;
+			$item->count_transitions = 0;
+		}
+
+		$query = $this->getDbo()->getQuery(true);
+
+		$query->select('workflow_id, count(*) AS count')
+			->from($this->getDbo()->qn('#__workflow_states'))
+			->where('workflow_id IN(' . implode(',', $ids) . ')')
+			->group('workflow_id');
+
+		$status = $this->getDbo()->setQuery($query)->loadObjectList('workflow_id');
+
+		$query = $this->getDbo()->getQuery(true);
+
+		$query->select('workflow_id, count(*) AS count')
+			->from($this->getDbo()->qn('#__workflow_transitions'))
+			->where('workflow_id IN(' . implode(',', $ids) . ')')
+			->group('workflow_id');
+
+		$transitions = $this->getDbo()->setQuery($query)->loadObjectList('workflow_id');
+
+		foreach ($items as $item)
+		{
+			if (isset($status[$item->id]))
+			{
+				$item->count_states = (int) $status[$item->id]->count;
+			}
+
+			if (isset($transitions[$item->id]))
+			{
+				$item->count_transitions = (int) $transitions[$item->id]->count;
+			}
+		}
+	}
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
