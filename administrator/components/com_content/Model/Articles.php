@@ -499,46 +499,74 @@ class Articles extends ListModel
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query
-			->select($db->qn("state"))
-			->from($db->qn("#__content"));
-		$db->setQuery($query);
-		$items = $db->loadAssocList();
-		$query->clear();
-
 		$form = parent::getFilterForm($data, $loadData);
 
-		if (!empty($items))
+		if ($form)
 		{
-			$ids = ArrayHelper::getColumn($items, 'state');
-			$ids = ArrayHelper::toInteger($ids);
-			$ids = array_unique(array_filter($ids));
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true);
 
+			$query
+				->select($db->qn(['s.id', 's.title', 's.workflow_id']))
+				->from($db->qn('#__workflow_states', 's'))
+				->from($db->qn('#__content', 'c'))
+				->where($query->qn('c.state') . ' = ' . $db->qn('s.id'))
+				->group($db->qn(['s.id', 's.title', 's.workflow_id']));
 
-			if ($form && !empty($ids))
+			$states = $db->setQuery($query)->loadObjectList();
+
+			$ids = [0];
+			$wf_ids = [0];
+
+			$collection = array();
+
+			foreach ($states as $state)
 			{
-				$select = $db->quoteName(
-					array(
-						'id',
-						'title'
-					),
-					array(
-						'value',
-						'state'
-					)
-				);
+				$ids[] = (int) $state->id;
+				$wf_ids[] = (int) $state->workflow_id;
 
-				$query
-					->select($select)
-					->from($db->qn('#__workflow_states'))
-					->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
-				$form->setFieldAttribute('state', 'query', (string) $query, 'filter');
+				if (!isset($collection[$state->workflow_id]))
+				{
+					$collection[$state->workflow_id] = [];
+				}
 
-				return $form;
+				$collection[$state->workflow_id][$state->id] = $state;
 			}
+
+			// First get all workflows which has states which are assigned to articles
+			$query	->clear()
+					->select($db->qn(['w.id', 'w.title']))
+					->from($db->qn('#__workflows', 'w'))
+					->where($db->qn('w.id') . ' IN(' . implode(',', $wf_ids) . ')');
+
+			$workflows = $db->setQuery($query)->loadObjectList();
+
+			$field = new \SimpleXMLElement('<field></field>');
+
+			$field->addAttribute('name', 'state');
+			$field->addAttribute('type', 'groupedlist');
+			$field->addAttribute('label', 'COM_CONTENT_STATES');
+			$field->addAttribute('onchange', 'this.form.submit();');
+
+			$option = $field->addChild('option', 'COM_CONTENT_SELECT_STATE');
+			$option->addAttribute('value', '');
+
+			foreach ($workflows as $wf)
+			{
+				if (isset($collection[$wf->id]))
+				{
+					$group = $field->addChild('group');
+					$group->addAttribute('label', $wf->title);
+
+					foreach ($collection[$wf->id] as $state)
+					{
+						$option = $field->addChild('option', $state->title);
+						$option->addAttribute('value', (int) $state->id);
+					}
+				}
+			}
+
+			$form->setField($field, 'filter');
 		}
 
 		return $form;

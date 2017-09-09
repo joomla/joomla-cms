@@ -11,9 +11,8 @@
 
 		<field
 				name="state"
-				type="sql"
+				type="groupedlist"
 				label="COM_CONTENT_STATES"
-				query="SELECT id as value, title as state FROM #__workflow_states"
 				onchange="this.form.submit();"
 		>
 			<option value="">COM_CONTENT_SELECT_STATE</option>
