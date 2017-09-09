@@ -261,10 +261,8 @@ abstract class PluginHelper
 
 					if ($plugin->type == 'editors-xtd')
 					{
-						if (!class_exists($className))
-						{
-							$className = 'PlgEditorsXtd' . $plugin->name;
-						}
+						// This type doesn't follow the convention
+						$className = 'PlgEditorsXtd' . $plugin->name;
 
 						if (!class_exists($className))
 						{
