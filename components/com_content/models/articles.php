@@ -201,7 +201,7 @@ class ContentModelArticles extends JModelList
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -213,6 +213,8 @@ class ContentModelArticles extends JModelList
 		// Join over the frontpage articles if required.
 		if ($this->getState('filter.frontpage'))
 		{
+			$query->select('fp.ordering');
+
 			if ($orderby_sec === 'front')
 			{
 				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
@@ -224,6 +226,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
+			$query->select('fp.ordering');
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
