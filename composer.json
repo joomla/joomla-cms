@@ -77,6 +77,8 @@
         "phpunit/phpunit": "~6.3",
         "phpunit/dbunit": "~3.0",
         "joomla/mediawiki": "dev-master",
-        "squizlabs/php_codesniffer": "~1.5"
+        "squizlabs/php_codesniffer": "~1.5",
+        "symfony/dom-crawler": "^3.3",
+        "symfony/css-selector": "^3.3"
     }
 }

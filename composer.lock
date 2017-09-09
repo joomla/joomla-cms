@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8725f06e31a19cee0fa39aa995a5b9e",
+    "content-hash": "381c6f9111010ab5fc0bb13893497e91",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3611,6 +3611,59 @@
             "time": "2017-06-02T19:24:58+00:00"
         },
         {
+            "name": "symfony/css-selector",
+            "version": "v3.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/css-selector.git",
+                "reference": "4d882dced7b995d5274293039370148e291808f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/4d882dced7b995d5274293039370148e291808f2",
+                "reference": "4d882dced7b995d5274293039370148e291808f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\CssSelector\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jean-François Simon",
+                    "email": "jeanfrancois.simon@sensiolabs.com"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony CssSelector Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-05-01T15:01:29+00:00"
+        },
+        {
             "name": "symfony/debug",
             "version": "v3.3.2",
             "source": {
@@ -3665,6 +3718,62 @@
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
             "time": "2017-06-01T21:01:25+00:00"
+        },
+        {
+            "name": "symfony/dom-crawler",
+            "version": "v3.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dom-crawler.git",
+                "reference": "fc2c588ce376e9fe04a7b8c79e3ec62fe32d95b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/fc2c588ce376e9fe04a7b8c79e3ec62fe32d95b1",
+                "reference": "fc2c588ce376e9fe04a7b8c79e3ec62fe32d95b1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "require-dev": {
+                "symfony/css-selector": "~2.8|~3.0"
+            },
+            "suggest": {
+                "symfony/css-selector": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DomCrawler\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony DomCrawler Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-05-25T23:10:31+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
