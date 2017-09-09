@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -33,7 +33,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -117,24 +117,24 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ? $item->list_price : 0) . ', '
-				. (double) ($item->sale_price ? $item->sale_price : 0)
-			);
+					$db->quote($item->url) . ', '
+					. $db->quote($item->route) . ', '
+					. $db->quote($item->title) . ', '
+					. $db->quote($item->description) . ', '
+					. $query->currentTimestamp() . ', '
+					. '1, '
+					. (int) $item->state . ', '
+					. (int) $item->access . ', '
+					. $db->quote($item->language) . ', '
+					. (int) $item->type_id . ', '
+					. $db->quote(serialize($item)) . ', '
+					. $db->quote($item->publish_start_date) . ', '
+					. $db->quote($item->publish_end_date) . ', '
+					. $db->quote($item->start_date) . ', '
+					. $db->quote($item->end_date) . ', '
+					. (double) ($item->list_price ?: 0) . ', '
+					. (double) ($item->sale_price ?: 0)
+				);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -159,8 +159,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
 				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
 				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
-				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0))
-				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0))
+				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ?: 0))
+				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ?: 0))
 				->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
@@ -298,7 +298,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				' ) AS t1' .
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d' .
+				' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
 				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 				' ORDER BY t1.term DESC';
 
@@ -320,7 +320,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-		/* Emulation of IGNORE INTO behaviour */
+
+		// Emulation of IGNORE INTO behaviour
 		$db->setQuery(
 			' SELECT ta.term' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
@@ -354,7 +355,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
 			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
-			->set('ta.term_id = t.term_id')
+			->set('term_id = t.term_id')
 			->where('ta.term_id = 0');
 		$db->setQuery($query);
 		$db->execute();
@@ -370,7 +371,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$query->clear()
 			->update($db->quoteName('#__finder_terms') . ' AS t')
 			->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
-			->set('t.' . $db->quoteName('links') . ' = t.links + 1');
+			->set($db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -416,7 +417,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
 				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') .
+				' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();
@@ -452,63 +453,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	}
 
 	/**
-	 * Method to remove a link from the index.
-	 *
-	 * @param   integer  $linkId  The id of the link.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	public function remove($linkId)
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Update the link counts and remove the mapping records.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t')
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
-				->where('m.link_id = ' . $db->quote((int) $linkId));
-			$db->setQuery($query);
-			$db->execute();
-
-			// Remove all records from the mapping tables.
-			$query->clear()
-				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		// Delete all orphaned terms.
-		$query->clear()
-			->delete($db->quoteName('#__finder_terms'))
-			->where($db->quoteName('links') . ' <= 0');
-		$db->setQuery($query);
-		$db->execute();
-
-		// Delete the link from the index.
-		$query->clear()
-			->delete($db->quoteName('#__finder_links'))
-			->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
-		$db->setQuery($query);
-		$db->execute();
-
-		// Remove the taxonomy maps.
-		FinderIndexerTaxonomy::removeMaps($linkId);
-
-		// Remove the orphaned taxonomy nodes.
-		FinderIndexerTaxonomy::removeOrphanNodes();
-
-		return true;
-	}
-
-	/**
 	 * Method to optimize the index. We use this method to remove unused terms
 	 * and any other optimizations that might be necessary.
 	 *
@@ -520,7 +464,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -544,8 +488,16 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			$db->execute();
 		}
 
-		// Optimize the terms mapping table.
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms'));
+		// Optimize the filters table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_filters'));
+		$db->execute();
+
+		// Optimize the terms common table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_terms_common'));
+		$db->execute();
+
+		// Optimize the types table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_types'));
 		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
@@ -555,80 +507,10 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
 		$db->execute();
 
-		return true;
-	}
-
-	/**
-	 * Method to add a set of tokens to the database.
-	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
-	 *
-	 * @return  integer  The number of tokens inserted into the database.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	protected function addTokensToDb($tokens, $context = '')
-	{
-		// Get the database object.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Force tokens to an array.
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
-		// Count the number of token values.
-		$values = 0;
-
-		// Insert the tokens into the database.
-		$query->insert($db->quoteName('#__finder_tokens'))
-			->columns(
-				array(
-					$db->quoteName('term'),
-					$db->quoteName('stem'),
-					$db->quoteName('common'),
-					$db->quoteName('phrase'),
-					$db->quoteName('weight'),
-					$db->quoteName('context'),
-					$db->quoteName('language')
-				)
-			);
-
-		// Iterate through the tokens to create SQL value sets.
-		foreach ($tokens as $token)
-		{
-			$query->values(
-				$db->quote($token->term) . ', '
-					. $db->quote($token->stem) . ', '
-					. (int) $token->common . ', '
-					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
-					. (int) $context . ', '
-					. $db->quote($token->language)
-			);
-			$values++;
-		}
-
-		$db->setQuery($query);
+		// Optimize the taxonomy table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
 
-		return $values;
-	}
-
-	/**
-	 * Method to switch the token tables from Memory tables to MyISAM tables
-	 * when they are close to running out of memory.
-	 *
-	 * @param   boolean  $memory  Flag to control how they should be toggled.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	protected function toggleTables($memory)
-	{
 		return true;
 	}
 }

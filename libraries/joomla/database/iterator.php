@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,7 +51,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	/**
 	 * A numeric or string key for the current database record.
 	 *
-	 * @var    scalar
+	 * @var    int|string
 	 * @since  12.1
 	 */
 	private $_key;
@@ -116,7 +116,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	/**
 	 * The key of the current element in the iterator.
 	 *
-	 * @return  scalar
+	 * @return  int|string
 	 *
 	 * @see     Iterator::key()
 	 * @since   12.1

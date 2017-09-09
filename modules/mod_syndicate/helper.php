@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Helper for mod_syndicate
  *
- * @package     Joomla.Site
- * @subpackage  mod_syndicate
- * @since       1.5
+ * @since  1.5
  */
 class ModSyndicateHelper
 {

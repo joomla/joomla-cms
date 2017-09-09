@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -309,7 +309,15 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
+
+		try
+		{
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get the handler to download the package
 		try
@@ -391,7 +399,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',
 	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0'
+	'kickstart.setup.dryrun' => '0',
+	'kickstart.setup.renamefiles' => array(),
+	'kickstart.setup.postrenamefiles' => false
 ENDDATA;
 
 		if ($method != 'direct')
@@ -841,7 +851,7 @@ ENDDATA;
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			throw new RuntimeException(('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+			throw new RuntimeException('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB', 500);
 		}
 
 		// If there is no uploaded file, we have a problem...
@@ -916,7 +926,7 @@ ENDDATA;
 		$username = isset($credentials['username']) ? $credentials['username'] : null;
 		$user     = JFactory::getUser();
 
-		if ($user->username != $username)
+		if (strtolower($user->username) != strtolower($username))
 		{
 			return false;
 		}

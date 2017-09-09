@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -44,36 +44,6 @@ class FieldsControllerField extends JControllerForm
 		$this->internalContext = JFactory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
 		$parts = FieldsHelper::extract($this->internalContext);
 		$this->component = $parts ? $parts[0] : null;
-	}
-
-	/**
-	 * Stores the form data into the user state.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function storeform()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		$app = JFactory::getApplication();
-		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
-
-		$parts = FieldsHelper::extract($this->input->getCmd('context'));
-
-		if ($parts)
-		{
-			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
-		}
-
-		if ($this->input->get('userstatevariable'))
-		{
-			$app->setUserState($this->input->get('userstatevariable'), $data);
-		}
-
-		$app->redirect(base64_decode($this->input->get->getBase64('return')));
-		$app->close();
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,6 +93,10 @@ class ContentHelperQuery
 				$orderby = 'a.ordering';
 				break;
 
+			case 'rorder' :
+				$orderby = 'a.ordering DESC';
+				break;
+
 			case 'author' :
 				$orderby = 'author';
 				break;
@@ -173,6 +177,9 @@ class ContentHelperQuery
 				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
 				break;
 
+			case 'unpublished' :
+				$queryDate = ' CASE WHEN a.publish_down = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_down END ';
+				break;
 			case 'created' :
 			default :
 				$queryDate = ' a.created ';

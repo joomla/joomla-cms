@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @since  3.5
+ * @since       3.5
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionHandlerJoomla extends JSessionHandlerNative
 {
@@ -41,11 +42,17 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	public function __construct($options = array())
 	{
-		// Disable transparent sid support
-		ini_set('session.use_trans_sid', '0');
+		if (!headers_sent())
+		{
+			// Disable transparent sid support
+			ini_set('session.use_trans_sid', '0');
 
-		// Only allow the session ID to come from cookies and nothing else.
-		ini_set('session.use_only_cookies', '1');
+			// Only allow the session ID to come from cookies and nothing else.
+			if ((int) ini_get('session.use_cookies') !== 1)
+			{
+				ini_set('session.use_only_cookies', 1);
+			}
+		}
 
 		// Set options
 		$this->setOptions($options);
@@ -74,7 +81,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 			if ($session_clean)
 			{
 				$this->setId($session_clean);
-				$cookie->set($session_name, '', time() - 3600);
+				$cookie->set($session_name, '', 1);
 			}
 		}
 
@@ -96,13 +103,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 		 * In order to kill the session altogether, such as to log the user out, the session id
 		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
 		 * then the session cookie must be deleted.
+		 * We need to use setcookie here or we will get a warning in some session handlers (ex: files).
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$config        = JFactory::getConfig();
-			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path   = $config->get('cookie_path', '/');
-			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
+			setcookie($session_name, '', 1);
 		}
 
 		parent::clear();
@@ -117,6 +122,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	protected function setCookieParams()
 	{
+		if (headers_sent())
+		{
+			return;
+		}
+
 		$cookie = session_get_cookie_params();
 
 		if ($this->force_ssl)

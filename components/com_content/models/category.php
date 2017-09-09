@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,7 @@ class ContentModelCategory extends JModelList
 	 * @param   string  $ordering   The field to order on.
 	 * @param   string  $direction  The direction to order on.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -114,7 +114,7 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('category.id', $pk);
 
-		$value = $app->input->get('filter_tag', 0, 'uint');
+		$value = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', 0, 'int');
 		$this->setState('filter.tag', $value);
 
 		// Load the parameters. Merge Global and Menu Item params into new object

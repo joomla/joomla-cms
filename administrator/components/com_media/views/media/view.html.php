@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ class MediaViewMedia extends JViewLegacy
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.newfolder');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render(array()), 'create');
 			JToolbarHelper::divider();
 		}
 
@@ -100,7 +100,7 @@ class MediaViewMedia extends JViewLegacy
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.deletemedia');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render(array()), 'delete');
 			JToolbarHelper::divider();
 		}
 

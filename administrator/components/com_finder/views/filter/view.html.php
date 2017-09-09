@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -20,6 +20,8 @@ class FinderViewFilter extends JViewLegacy
 	 * The filter object
 	 *
 	 * @var  FinderTableFilter
+	 *
+	 * @since  3.6.2
 	 */
 	protected $filter;
 
@@ -27,22 +29,37 @@ class FinderViewFilter extends JViewLegacy
 	 * The JForm object
 	 *
 	 * @var  JForm
+	 *
+	 * @since  3.6.2
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var  JObject|boolean
+	 *
+	 * @since  3.6.2
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  mixed
+	 *
+	 * @since  3.6.2
 	 */
 	protected $state;
+
+	/**
+	 * The total indexed items
+	 *
+	 * @var  integer
+	 *
+	 * @since  3.8.0
+	 */
+	protected $total;
 
 	/**
 	 * Method to display the view.
@@ -65,9 +82,7 @@ class FinderViewFilter extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -116,19 +131,16 @@ class FinderViewFilter extends JViewLegacy
 		else
 		{
 			// Can't save the record if it's checked out.
-			if (!$checkedOut)
+			// Since it's an existing record, check the edit permission.
+			if (!$checkedOut && $canDo->get('core.edit'))
 			{
-				// Since it's an existing record, check the edit permission.
-				if ($canDo->get('core.edit'))
-				{
-					JToolbarHelper::apply('filter.apply');
-					JToolbarHelper::save('filter.save');
+				JToolbarHelper::apply('filter.apply');
+				JToolbarHelper::save('filter.save');
 
-					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create'))
-					{
-						JToolbarHelper::save2new('filter.save2new');
-					}
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('filter.save2new');
 				}
 			}
 

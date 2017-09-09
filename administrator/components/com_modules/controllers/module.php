@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,14 +118,19 @@ class ModulesControllerModule extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 
-		// Check general edit permission first.
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
+		{
+			return parent::allowEdit($data, $key);
+		}
+
+		// Check edit on the record asset (explicit or inherited)
 		if ($user->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
 
-		// Since there is no asset tracking, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		return false;
 	}
 
 	/**
@@ -203,6 +208,11 @@ class ModulesControllerModule extends JControllerForm
 			$item = $model->getItem($this->input->get('id'));
 			$properties = $item->getProperties();
 
+			if (isset($data['params']))
+			{
+				unset($properties['params']);
+			}
+
 			// Replace changed properties
 			$data = array_replace_recursive($properties, $data);
 
@@ -232,7 +242,7 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function orderPosition()
 	{
-		$app    = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';

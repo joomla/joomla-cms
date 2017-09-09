@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -94,19 +94,13 @@ class JGoogleDataAdsenseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->http);
-		unset($this->input);
-		unset($this->auth);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->http, $this->input, $this->auth, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 
@@ -261,7 +255,7 @@ class JGoogleDataAdsenseTest extends TestCase
 		$timezone = new DateTimeZone('Europe/London');
 		$start = new DateTime('now');
 		$end = new DateTime;
-		$end->setTimestamp(time() + 3600)->setTimeZone($timezone);
+		$end->setTimestamp(time() + 3600)->setTimezone($timezone);
 
 		$result = $this->object->generateReport('accountID', time(), time() + 100000, array('option' => 'value'));
 		$this->assertEquals($result, array('rows' => array(1, 2), 'totalMatchedRows' => 1));

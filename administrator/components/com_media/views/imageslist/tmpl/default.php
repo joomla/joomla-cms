@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ else
 }
 ?>
 <?php if (count($this->images) > 0 || count($this->folders) > 0) : ?>
-	<ul class="manager thumbnails">
+	<ul class="manager thumbnails thumbnails-media">
 		<?php for ($i = 0, $n = count($this->folders); $i < $n; $i++) :
 			$this->setFolder($i);
 			echo $this->loadTemplate('folder');

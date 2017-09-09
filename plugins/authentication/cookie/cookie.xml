@@ -3,7 +3,7 @@
 	<name>plg_authentication_cookie</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -22,21 +22,22 @@
 				<field
 					name="cookie_lifetime"
 					type="text"
-					description="PLG_AUTH_COOKIE_FIELD_COOKIE_LIFETIME_DESC"
 					label="PLG_AUTH_COOKIE_FIELD_COOKIE_LIFETIME_LABEL"
+					description="PLG_AUTH_COOKIE_FIELD_COOKIE_LIFETIME_DESC"
 					default="60"
 					filter="integer"
-					required="required"
+					required="true"
 				/>
 
 				<field
 					name="key_length"
 					type="list"
-					description="PLG_AUTH_COOKIE_FIELD_KEY_LENGTH_DESC"
 					label="PLG_AUTH_COOKIE_FIELD_KEY_LENGTH_LABEL"
+					description="PLG_AUTH_COOKIE_FIELD_KEY_LENGTH_DESC"
 					default="16"
 					filter="integer"
-					required="required">
+					required="true"
+					>
 					<option value="8">8</option>
 					<option value="16">16</option>
 					<option value="32">32</option>

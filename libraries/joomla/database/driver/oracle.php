@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle database driver
  *
- * @see    https://secure.php.net/pdo
+ * @link   https://secure.php.net/pdo
  * @since  12.1
  */
 class JDatabaseDriverOracle extends JDatabaseDriverPdo
@@ -81,17 +81,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->freeResult();
-		unset($this->connection);
-	}
-
-	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -127,7 +116,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		// Close the connection.
 		$this->freeResult();
-		unset($this->connection);
+
+		$this->connection = null;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,8 +145,8 @@ class PlgSystemUpdatenotification extends JPlugin
 		// Get the available update
 		$update = array_pop($updates);
 
-		// Check the available version. If it's the same as the installed version we have no updates to notify about.
-		if (version_compare($update->version, JVERSION, 'eq'))
+		// Check the available version. If it's the same or less than the installed version we have no updates to notify about.
+		if (version_compare($update->version, JVERSION, 'le'))
 		{
 			return;
 		}
@@ -226,12 +226,13 @@ class PlgSystemUpdatenotification extends JPlugin
 		$fromName = $jConfig->get('fromname');
 
 		$substitutions = array(
-			'[NEWVERSION]' => $newVersion,
-			'[CURVERSION]' => $currentVersion,
-			'[SITENAME]'   => $sitename,
-			'[URL]'        => JUri::base(),
-			'[LINK]'       => $uri->toString(),
-			'\\n'          => "\n",
+			'[NEWVERSION]'  => $newVersion,
+			'[CURVERSION]'  => $currentVersion,
+			'[SITENAME]'    => $sitename,
+			'[URL]'         => JUri::base(),
+			'[LINK]'        => $uri->toString(),
+			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
+			'\\n'           => "\n",
 		);
 
 		foreach ($substitutions as $k => $v)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
- * Installer Manage Model
+ * Installer Database Model
  *
  * @since  1.6
  */
@@ -99,6 +99,7 @@ class InstallerModelDatabase extends InstallerModel
 
 			return false;
 		}
+
 		return $changeSet;
 	}
 
@@ -184,7 +185,6 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @return  mixed   version if successful, false if fail.
 	 */
-
 	public function getUpdateVersion()
 	{
 		$table = JTable::getInstance('Extension');
@@ -310,16 +310,18 @@ class InstallerModelDatabase extends InstallerModel
 		if ($count > 1)
 		{
 			// Table messed up somehow, clear it
-			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
-				. ';')->execute();
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion') . ';')
+				->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)->execute();
 		}
 		elseif ($count == 0)
 		{
 			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)->execute();
 		}
 	}
 }

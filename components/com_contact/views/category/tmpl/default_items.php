@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,17 +77,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php if ($this->params->get('show_email_headings')) : ?>
 								<?php echo $item->email_to; ?><br />
 						<?php endif; ?>
+						<?php $location = array(); ?>
 						<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
-							<?php echo $item->suburb . ', '; ?>
+							<?php $location[] = $item->suburb; ?>
 						<?php endif; ?>
-
 						<?php if ($this->params->get('show_state_headings') && !empty($item->state)) : ?>
-							<?php echo $item->state . ', '; ?>
+							<?php $location[] = $item->state; ?>
 						<?php endif; ?>
-
 						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
-							<?php echo $item->country; ?><br />
+							<?php $location[] = $item->country; ?>
 						<?php endif; ?>
+						<?php echo implode($location, ', '); ?>
 					</div>
 
 					<div class="span3 col-md-3">

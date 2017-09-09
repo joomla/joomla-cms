@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
  */
 ?>
 <dl class="contact-address dl-horizontal">
-<?php if (($this->params->get('address_check') > 0) &&  ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
-	<?php if ($this->params->get('address_check') > 0) : ?>
+<?php if (($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode) && ($addressCheck = $this->params->get('address_check') > 0)) : ?>
+	<?php if ($addressCheck === true) : ?>
 	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>" >
 			<?php echo $this->params->get('marker_address'); ?>
@@ -111,7 +111,7 @@ defined('_JEXEC') or die;
 	</dt>
 	<dd>
 		<span class="contact-webpage">
-			<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
+			<a href="<?php echo $this->contact->webpage; ?>" target="_blank" rel="noopener noreferrer">
 			<?php echo $this->contact->webpage; ?></a>
 		</span>
 	</dd>
