@@ -121,25 +121,47 @@ class Workflow extends Form
 
 			$smodel = $this->getModel('State');
 
-			$context    = $this->option . '.' . $smodel->getName();
-
-			Factory::getApplication()->setUserState($context . '.filter.workflow_id', (int) $model->getState($model->getName() . '.id'));
+			$workflowID = (int) $model->getState($model->getName() . '.id');
 
 			$mapping = [];
 
 			foreach ($statuses as $status)
 			{
-				$smodel = $this->getModel('State');
+				$table = $smodel->getTable();
 
 				$oldID = $status['id'];
 
-				$status['tags'] = null;
+				$status['workflow_id'] = $workflowID;
 				$status['id'] = 0;
 				unset($status['asset_id']);
 
-				$smodel->save($status);
+				$table->save($status);
 
-				$mapping[$oldID] = (int) $smodel->getState($model->getName() . '.id');
+				$mapping[$oldID] = (int) $table->id;
+			}
+
+			$query->clear();
+
+			$query->select('*')
+				->from($db->qn('#__workflow_transitions'))
+				->where($db->qn('workflow_id') . ' = ' . (int) $recordId);
+
+			$transitions = $db->setQuery($query)->loadAssocList();
+
+			$tmodel = $this->getModel('Transition');
+
+			foreach ($transitions as $transition)
+			{
+				$table = $tmodel->getTable();
+
+				$transition['from_state_id'] = $mapping[$transition['from_state_id']];
+				$transition['to_state_id'] = $mapping[$transition['to_state_id']];
+
+				$transition['workflow_id'] = $workflowID;
+				$transition['id'] = 0;
+				unset($transition['asset_id']);
+
+				$table->save($transition);
 			}
 		}
 
