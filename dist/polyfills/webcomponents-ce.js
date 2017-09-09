@@ -36,4 +36,12 @@ qa(b,Element.prototype,{o:ia,append:ja});ta(b)};/*
 var Z=window.customElements;if(!Z||Z.forcePolyfill||"function"!=typeof Z.define||"function"!=typeof Z.get){var Y=new r;pa();ra();sa();ua();document.__CE_hasRegistry=!0;var customElements=new E(Y);Object.defineProperty(window,"customElements",{configurable:!0,enumerable:!0,value:customElements})};
 }).call(self);
 
-//# sourceMappingURL=custom-elements.min.js.map
+
+(function(){
+	window.WebComponents = window.WebComponents || {};
+	requestAnimationFrame(function() {
+		window.WebComponents.ready= true;
+		document.dispatchEvent(new CustomEvent("WebComponentsReady", { bubbles:true }) );
+	})
+})();
+//# sourceMappingURL=custom-elements.js.map

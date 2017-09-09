@@ -1,4 +1,4 @@
-<?php
+w<?php
 /**
  * @package     Joomla.Site
  * @subpackage  Template.system
