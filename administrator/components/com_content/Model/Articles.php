@@ -403,7 +403,7 @@ class Articles extends ListModel
 
 				$query->select($select)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->join('LEFT', $db->quoteName('#__workflow_states', 's') . ' ON ' . $db->qn('t.from_state_id') . ' IN(' . implode(',', $ids) . ')' )
+					->leftJoin($db->quoteName('#__workflow_states', 's') . ' ON ' . $db->qn('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
 					->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
 					->where($db->quoteName('t.published') . ' = 1')
 					->where($db->quoteName('s.published') . ' = 1');

@@ -121,7 +121,7 @@ class  Workflows extends ListModel
 	/**
 	 * Add the number of transitions and states to all workflow items
 	 *
-	 * @param   array  $items    The workflow items
+	 * @param   array  $items  The workflow items
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
