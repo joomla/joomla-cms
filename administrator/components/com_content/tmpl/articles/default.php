@@ -213,7 +213,7 @@ $assoc = JLanguageAssociations::isEnabled();
 										<div class="d-none">
 											<?php
 												$attribs = [
-													'id'	=> 'transition-select_'. (int) $item->id,
+													'id'	=> 'transition-select_' . (int) $item->id,
 													'list.attr' => [
 														'class'		=> 'custom-select custom-select-sm',
 														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]

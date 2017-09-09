@@ -99,15 +99,34 @@ class  Workflows extends ListModel
 		return parent::getTable($type, $prefix, $config);
 	}
 
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   4.0
+	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
 
-		$this->countItems($items);
+		if ($items)
+		{
+			$this->countItems($items);
+		}
 
 		return $items;
 	}
 
+	/**
+	 * Add the number of transitions and states to all workflow items
+	 *
+	 * @param   array  $items    The workflow items
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   4.0
+	 */
 	protected function countItems($items)
 	{
 		$ids = [0];
