@@ -962,7 +962,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Prepare and sanitise the table data prior to saving.
+	 * Prepare and sanitize the table data prior to saving.
 	 *
 	 * @param   \JTable  $table  A reference to a \JTable object.
 	 *

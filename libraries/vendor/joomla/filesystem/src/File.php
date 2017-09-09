@@ -37,7 +37,7 @@ class File
 	 * @param   string  $file        The name of the file [not full path]
 	 * @param   array   $stripChars  Array of regex (by default will remove any leading periods)
 	 *
-	 * @return  string  The sanitised string
+	 * @return  string  The sanitized string
 	 *
 	 * @since   1.0
 	 */

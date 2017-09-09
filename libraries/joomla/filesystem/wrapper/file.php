@@ -55,7 +55,7 @@ class JFilesystemWrapperFile
 	 *
 	 * @param   string  $file  The name of the file [not full path].
 	 *
-	 * @return  string  The sanitised string.
+	 * @return  string  The sanitized string.
 	 *
 	 * @see     JFile::makeSafe()
 	 * @since   3.4

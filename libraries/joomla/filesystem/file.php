@@ -56,7 +56,7 @@ class JFile
 	 *
 	 * @param   string  $file  The name of the file [not full path]
 	 *
-	 * @return  string  The sanitised string
+	 * @return  string  The sanitized string
 	 *
 	 * @since   11.1
 	 */

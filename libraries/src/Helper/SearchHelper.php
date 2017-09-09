@@ -36,7 +36,7 @@ class SearchHelper
 		$query = $db->getQuery(true);
 		$enable_log_searches = ComponentHelper::getParams($component)->get('enabled');
 
-		// Sanitise the term for the database
+		// Sanitize the term for the database
 		$search_term = $db->escape(trim(strtolower($term)));
 
 		if ($enable_log_searches)

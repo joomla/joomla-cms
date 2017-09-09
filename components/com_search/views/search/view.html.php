@@ -117,7 +117,7 @@ class SearchViewSearch extends JViewLegacy
 			$error = JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
 		}
 
-		// Sanitise search-word
+		// Sanitize search-word
 		if (SearchHelper::santiseSearchWord($searchWord, $state->get('match')))
 		{
 			$error = JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');

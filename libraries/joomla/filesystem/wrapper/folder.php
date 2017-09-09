@@ -170,9 +170,9 @@ class JFilesystemWrapperFolder
 	/**
 	 * Helper wrapper method for makeSafe
 	 *
-	 * @param   string  $path  The full path to sanitise.
+	 * @param   string  $path  The full path to sanitize.
 	 *
-	 * @return  string  The sanitised string
+	 * @return  string  The sanitized string
 	 *
 	 * @see     JFolder::makeSafe()
 	 * @since   3.4

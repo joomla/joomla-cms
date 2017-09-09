@@ -994,7 +994,7 @@ class JRouterSiteTest extends TestCaseDatabase
 	 * @testdox JRouterSite::buildRawRoute() sanitizes broken options to get the right router
 	 * @since   3.4
 	 */
-	public function testABrokenOptionIsProperlySanitisedToGetTheRightRouter()
+	public function testABrokenOptionIsProperlySanitizedToGetTheRightRouter()
 	{
 		$uri = new JUri('index.php');
 
