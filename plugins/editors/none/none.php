@@ -28,64 +28,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::_('script', 'editors/none/none.min.js', array('version' => 'auto', 'relative' => true));
-	}
-
-	/**
-	 * Copy editor content to form field.
-	 *
-	 * Not applicable in this editor.
-	 *
-	 * @param   string  $editor  the editor id
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onSave($editor)
-	{
-	}
-
-	/**
-	 * Get the editor content.
-	 *
-	 * @param   string  $id  The id of the editor field.
-	 *
-	 * @return  string
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onGetContent($id)
-	{
-		return 'Joomla.editors.instances[' . json_encode($id) . '].getValue();';
-	}
-
-	/**
-	 * Set the editor content.
-	 *
-	 * @param   string  $id    The id of the editor field.
-	 * @param   string  $html  The content to set.
-	 *
-	 * @return  string
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onSetContent($id, $html)
-	{
-		return 'Joomla.editors.instances[' . json_encode($id) . '].setValue(' . json_encode($html) . ');';
-	}
-
-	/**
-	 * Inserts html code into the editor
-	 *
-	 * @param   string  $id  The id of the editor field
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 4.0
-	 */
-	public function onGetInsertMethod($id)
-	{
+		JHtml::_('script', 'editors/none/editor-none.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -126,13 +69,11 @@ class PlgEditorNone extends JPlugin
 
 		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
-		$editor = '<div class="js-editor-none">'
+		return '<div class="js-editor-none">'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
 			. '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
 			. $this->_displayButtons($id, $buttons, $asset, $author)
 			. '</div>';
-
-		return $editor;
 	}
 
 	/**
