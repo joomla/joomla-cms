@@ -81,7 +81,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The name of the application.
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0
 	 */
 	protected $name = null;
@@ -1077,6 +1077,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$this->docOptions['template'] = $this->get('theme');
 		$this->docOptions['file']     = $this->get('themeFile', 'index.php');
 		$this->docOptions['params']   = $this->get('themeParams');
+		$this->docOptions['script_nonce']   = $this->get('script_nonce');
 
 		if ($this->get('themes.base'))
 		{
