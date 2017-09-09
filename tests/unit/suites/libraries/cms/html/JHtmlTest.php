@@ -14,7 +14,7 @@
  * @subpackage  HTML
  * @since       3.1
  */
-class JHtmlTest extends TestCase
+class JHtmlTest extends TestCaseDatabase
 {
 	/**
 	 * Value for test host.
