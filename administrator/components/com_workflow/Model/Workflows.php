@@ -129,6 +129,8 @@ class  Workflows extends ListModel
 	 */
 	protected function countItems($items)
 	{
+		$db = $this->getDbo();
+
 		$ids = [0];
 
 		foreach ($items as $item)
@@ -139,25 +141,25 @@ class  Workflows extends ListModel
 			$item->count_transitions = 0;
 		}
 
-		$query = $this->getDbo()->getQuery(true);
+		$query = $db->getQuery(true);
 
 		$query	->select('workflow_id, count(*) AS count')
-				->from($this->getDbo()->qn('#__workflow_states'))
-				->where('workflow_id IN(' . implode(',', $ids) . ')')
-				->where($this->getDbo()->qn('published') . '>= 0')
+				->from($db->qn('#__workflow_states'))
+				->where($db->qn('workflow_id') . ' IN(' . implode(',', $ids) . ')')
+				->where($db->qn('published') . '>= 0')
 				->group('workflow_id');
 
-		$status = $this->getDbo()->setQuery($query)->loadObjectList('workflow_id');
+		$status = $db->setQuery($query)->loadObjectList('workflow_id');
 
-		$query = $this->getDbo()->getQuery(true);
+		$query = $db->getQuery(true);
 
 		$query	->select('workflow_id, count(*) AS count')
-				->from($this->getDbo()->qn('#__workflow_transitions'))
-				->where('workflow_id IN(' . implode(',', $ids) . ')')
-				->where($this->getDbo()->qn('published') . '>= 0')
+				->from($db->qn('#__workflow_transitions'))
+				->where($db->qn('workflow_id') . ' IN(' . implode(',', $ids) . ')')
+				->where($db->qn('published') . '>= 0')
 				->group('workflow_id');
 
-		$transitions = $this->getDbo()->setQuery($query)->loadObjectList('workflow_id');
+		$transitions = $db->setQuery($query)->loadObjectList('workflow_id');
 
 		foreach ($items as $item)
 		{
