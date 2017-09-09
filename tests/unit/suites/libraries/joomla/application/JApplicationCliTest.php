@@ -119,18 +119,6 @@ class JApplicationCliTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationCli::Execute method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testExecute()
-	{
-		$this->class->execute();
-	}
-
-	/**
 	 * Data for fetchConfigurationData method.
 	 *
 	 * @return  array

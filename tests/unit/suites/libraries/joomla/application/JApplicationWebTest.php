@@ -209,18 +209,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::Execute method without a document.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testExecuteWithoutDocument()
-	{
-		$this->class->execute();
-	}
-
-	/**
 	 * Tests the JApplicationWeb::Execute method with a document.
 	 *
 	 * @return  void

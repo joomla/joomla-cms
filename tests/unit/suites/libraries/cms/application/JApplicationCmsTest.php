@@ -203,19 +203,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JApplicationCms::Execute method without a document.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @covers  JApplicationCms::execute
-	 */
-	public function testExecuteWithoutDocument()
-	{
-		$this->class->execute();
-	}
-
-	/**
 	 * Tests the JApplicationCms::Execute method with a document.
 	 *
 	 * @return  void
