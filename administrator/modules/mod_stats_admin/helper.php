@@ -45,42 +45,36 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_('MOD_STATS_OS');
 			$rows[$i]->icon  = 'screen';
 			$rows[$i]->data  = substr(php_uname(), 0, 7);
-			$rows[$i]->link  = JRoute::_('index.php?option=com_admin&view=sysinfo#site');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_PHP');
 			$rows[$i]->icon  = 'cogs';
 			$rows[$i]->data  = phpversion();
-			$rows[$i]->link  = JRoute::_('index.php?option=com_admin&view=sysinfo#phpinfo');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_($db->name);
 			$rows[$i]->icon  = 'database';
 			$rows[$i]->data  = $db->getVersion();
-			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-server');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_TIME');
 			$rows[$i]->icon  = 'clock';
 			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
-			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-server');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
 			$rows[$i]->icon  = 'dashboard';
 			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
-			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-system');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
 			$rows[$i]->icon  = 'lightning';
 			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
-			$rows[$i]->link  = JRoute::_('index.php?option=com_config#page-server');
 			$i++;
 		}
 
