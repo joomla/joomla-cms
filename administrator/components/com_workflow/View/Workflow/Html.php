@@ -119,8 +119,6 @@ class Html extends HtmlView
 
 		if (!$isNew)
 		{
-			$toolbarButtons = [];
-
 			// If an existing item, can save to a copy.
 			if ($canDo->get('core.create'))
 			{
