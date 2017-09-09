@@ -316,7 +316,6 @@ class JHtmlBootstrapTest extends TestCase
 			'div',
 			$dialogElement->nodeName()
 		);
-
 	}
 
 	/**
