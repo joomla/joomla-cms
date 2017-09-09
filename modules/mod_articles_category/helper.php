@@ -358,7 +358,7 @@ abstract class ModArticlesCategoryHelper
 		for ($maxLength; $maxLength < $baseLength;)
 		{
 			// Now get the string if we allow html.
-			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
+			$htmlString = JHtml::_('string.truncateComplex', $html, $maxLength, $noSplit = true);
 
 			// Now get the plain text from the html string.
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
