@@ -181,9 +181,9 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="text-center article-status">
+								<td class="article-status">
 									<div class="d-flex">
-										<div class="btn-group tbody-icon ml-auto mr-1">
+										<div class="btn-group tbody-icon mr-1">
 										<?php
 
 										$icon = 'publish';
