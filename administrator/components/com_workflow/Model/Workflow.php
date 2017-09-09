@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
 use JError;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Model\Admin;
+use Joomla\String\StringHelper;
 
 /**
  * The first example class, this is in the same
@@ -27,6 +28,49 @@ use Joomla\CMS\Model\Admin;
  */
 class Workflow extends Admin
 {
+	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function populateState()
+	{
+		parent::populateState();
+
+		$app       = \JFactory::getApplication();
+		$context   = $this->option . '.' . $this->name;
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.extension', $extension);
+	}
+
+	/**
+	 * Method to change the title
+	 *
+	 * @param   integer  $category_id  The id of the category.
+	 * @param   string   $alias        The alias.
+	 * @param   string   $title        The title.
+	 *
+	 * @return	array  Contains the modified title and alias.
+	 *
+	 * @since	4.0
+	 */
+	protected function generateNewTitle($category_id, $alias, $title)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+
+		while ($table->load(array('title' => $title)))
+		{
+			$title = StringHelper::increment($title);
+		}
+
+		return array($title, $alias);
+	}
 
 	/**
 	 * Method to save the form data.
@@ -40,7 +84,8 @@ class Workflow extends Admin
 	public function save($data)
 	{
 		$user					= \JFactory::getUser();
-		$app					 = \JFactory::getApplication();
+		$app					= \JFactory::getApplication();
+		$input                  = $app->input;
 		$context				= $this->option . '.' . $this->name;
 		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
 		$data['extension']		= $extension;
@@ -93,10 +138,23 @@ class Workflow extends Admin
 			}
 		}
 
+		// Alter the title for save as copy
+		if ($input->get('task') == 'save2copy')
+		{
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['title'] == $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle(0, '', $data['title']);
+				$data['title'] = $title;
+			}
+		}
+
 		$result = parent::save($data);
 
 		// Create a default state
-		if ($result && $this->getState($this->getName() . '.new'))
+		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
 			$state = $this->getTable('State');
 
