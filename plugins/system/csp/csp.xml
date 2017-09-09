@@ -16,18 +16,5 @@
 		<language tag="en-GB">en-GB.plg_system_csp.ini</language>
 		<language tag="en-GB">en-GB.plg_system_csp.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="header"
-					type="text"
-					label="PLG_P3P_HEADER_LABEL"
-					description="PLG_P3P_HEADER_DESCRIPTION"
-					default="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
-					size="37"
-				/>
-			</fieldset>
-		</fields>
-	</config>
+	<config />
 </extension>
