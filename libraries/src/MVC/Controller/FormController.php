@@ -873,7 +873,11 @@ class FormController extends BaseController
 
 		$recordId = $this->input->getInt($urlVar);
 
-		if (!$this->allowEdit($data, $key))
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// Check if it is allowed to edit or create the data
+		if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data)))
 		{
 			$this->setRedirect(
 				\JRoute::_(
@@ -883,9 +887,6 @@ class FormController extends BaseController
 			);
 			$this->redirect();
 		}
-
-		// Populate the row id from the session.
-		$data[$key] = $recordId;
 
 		// The redirect url
 		$redirectUrl = \JRoute::_(
