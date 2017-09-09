@@ -225,22 +225,22 @@
 				name="list_show_votes"
 				type="list"
 				label="JGLOBAL_LIST_VOTES_LABEL"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				useglobal="true"
 				>
-				<option value="1" requires="vote">JSHOW</option>
 				<option value="0" requires="vote">JHIDE</option>
+				<option value="1" requires="vote">JSHOW</option>
 			</field>
 
 			<field 
 				name="list_show_ratings"
 				type="list"
 				label="JGLOBAL_LIST_RATINGS_LABEL"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				useglobal="true"
 				>
-				<option value="1" requires="vote">JSHOW</option>
 				<option value="0" requires="vote">JHIDE</option>
+				<option value="1" requires="vote">JSHOW</option>
 			</field>
 
 			<field
