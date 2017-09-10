@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Table\Observer\ContentHistory;
+use Joomla\CMS\Table\Observer\ContentHistory as ContentHistoryObserver;
 use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Registry\Registry;
 
@@ -35,7 +35,7 @@ class Category extends Nested
 		parent::__construct('#__categories', 'id', $db);
 
 		Tags::createObserver($this, array('typeAlias' => '{extension}.category'));
-		ContentHistory::createObserver($this, array('typeAlias' => '{extension}.category'));
+		ContentHistoryObserver::createObserver($this, array('typeAlias' => '{extension}.category'));
 
 		$this->access = (int) \JFactory::getConfig()->get('access');
 	}
