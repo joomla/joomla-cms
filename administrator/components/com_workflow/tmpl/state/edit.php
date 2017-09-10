@@ -31,6 +31,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_WORKFLOW_DESCRIPTION')); ?>
 	<div class="row">
 		<div class="col-md-9">
+			<?php echo $this->form->renderField('condition'); ?>
 			<?php echo $this->form->getInput('description'); ?>
 		</div>
 		<div class="col-md-3">
@@ -43,14 +44,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							</div>
 							<div class="controls">
 								<?php echo $this->form->getInput('published'); ?>
-							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('condition'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('condition'); ?>
 							</div>
 						</div>
 						<div class="control-group">
