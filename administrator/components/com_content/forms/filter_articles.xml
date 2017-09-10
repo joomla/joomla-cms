@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
@@ -11,7 +11,7 @@
 
 		<field
 				name="state"
-				type="groupedlist"
+				type="workflowstate"
 				label="COM_CONTENT_STATES"
 				onchange="this.form.submit();"
 		>
