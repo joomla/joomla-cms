@@ -47,7 +47,7 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      * @param int $low
      * @return SplFixedArray
      */
-    protected static function new64($high, $low)
+    public static function new64($high, $low)
     {
         $i64 = new SplFixedArray(2);
         $i64[0] = $high & 0xffffffff;
@@ -136,13 +136,32 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      * @param int $c
      * @return SplFixedArray
      */
-    protected static function rotr64($x, $c)
+    public static function rotr64($x, $c)
     {
+        if ($c >= 64) {
+            $c %= 64;
+        }
+        if ($c >= 32) {
+            $tmp = $x[0];
+            $x[0] = $x[1];
+            $x[1] = $tmp;
+            $c -= 32;
+        }
+        if ($c === 0) {
+            return $x;
+        }
+
         $l0 = 0;
         $c = 64 - $c;
 
         if ($c < 32) {
-            $h0 = ($x[0] << $c) | (($x[1] & ((1 << $c) - 1) << (32 - $c)) >> (32 - $c));
+            $h0 = ($x[0] << $c) | (
+                (
+                    $x[1] & ((1 << $c) - 1)
+                        <<
+                    (32 - $c)
+                ) >> (32 - $c)
+            );
             $l0 = $x[1] << $c;
         } else {
             $h0 = $x[1] << ($c - 32);

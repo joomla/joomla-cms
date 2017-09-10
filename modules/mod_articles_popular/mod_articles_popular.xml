@@ -43,7 +43,7 @@
 					default="5"
 				/>
 
-					<field
+				<field
 					name="show_front"
 					type="radio"
 					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
@@ -108,7 +108,7 @@
 					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
-					/>
+				/>
 
 				<field
 					name="relative_date"
@@ -125,7 +125,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
