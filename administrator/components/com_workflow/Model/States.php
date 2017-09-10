@@ -70,14 +70,11 @@ class States extends ListModel
 		
 		if ($workflowID)
 		{
-			$db= $this->_db;
-			$query = $db->getQuery(true);
-			
-			$query	->select($db->qn('title'))
-					->from($db->qn('#__workflows'))
-					->where($db->qn('id') . '=' . (int) $workflowID );
+			$table = $this->getTable('Workflow', 'Administrator'); 
 
-			$workflowName = $db->setQuery($query)->loadResult();
+			$table->load($workflowID);
+
+			$workflowName = $table->title;
 
 			if (!empty($workflowName))
 			{

@@ -135,7 +135,7 @@ class Html extends HtmlView
 
 		$workflow = !empty($this->state->get('active_workflow', '')) ? $this->state->get('active_workflow', '') . ': ' : '';
 
-		ToolbarHelper::title($workflow . \JText::_('COM_WORKFLOW_TRANSITIONS_LIST'), 'address contact');
+		ToolbarHelper::title(\JText::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', $workflow), 'address contact');
 
 		if ($canDo->get("core.create"))
 		{
