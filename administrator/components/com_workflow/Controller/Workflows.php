@@ -83,7 +83,7 @@ class Workflows extends Admin
 			$this->setRedirect(
 				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&extenstion=' . $this->input->getCmd("extension"), false
+					. '&extension=' . $this->input->getCmd("extension"), false
 				)
 			);
 
@@ -128,7 +128,7 @@ class Workflows extends Admin
 		$this->setRedirect(
 			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extenstion=' . $this->input->getCmd("extension"), false
+				. '&extension=' . $this->input->getCmd("extension"), false
 			)
 		);
 	}
@@ -146,7 +146,7 @@ class Workflows extends Admin
 		$this->setRedirect(
 			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extenstion=' . $this->input->getCmd("extension"), false
+				. '&extension=' . $this->input->getCmd("extension"), false
 			)
 		);
 	}

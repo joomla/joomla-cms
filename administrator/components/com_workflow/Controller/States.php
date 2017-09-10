@@ -83,7 +83,7 @@ class States extends Admin
 			$this->setRedirect(
 				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&extenstion=' . $this->input->getCmd("extension"), false
+					. '&extension=' . $this->input->getCmd("extension"), false
 				)
 			);
 
@@ -128,7 +128,7 @@ class States extends Admin
 		$this->setRedirect(
 			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extenstion=' . $this->input->getCmd("extension")
+				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
 			)
 		);
@@ -147,7 +147,7 @@ class States extends Admin
 		$this->setRedirect(
 			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extenstion=' . $this->input->getCmd("extension")
+				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
 			)
 		);

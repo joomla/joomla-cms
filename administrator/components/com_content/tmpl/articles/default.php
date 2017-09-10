@@ -44,6 +44,21 @@ if ($saveOrder)
 	JHtml::_('draggablelist.draggable');
 }
 
+$js = "
+	;(function($)
+	{
+		$(function()
+		{
+			$('.article-status').on('click', function(e)
+			{
+				e.stopPropagation();
+			});
+		});
+	})(jQuery);
+";
+
+\Joomla\CMS\Factory::getDocument()->addScriptDeclaration($js);
+
 $assoc = JLanguageAssociations::isEnabled();
 ?>
 
@@ -75,7 +90,7 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JText::_("COM_CONTENT_TRANSITION") ?>
+									<?php echo JText::_("COM_CONTENT_STATE") ?>
 								</th>
 								<th style="min-width:100px" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -133,8 +148,14 @@ $assoc = JLanguageAssociations::isEnabled();
 
 							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state);
 
+							$hasTransitions = count($transitions) > 0;
 
-							$transitions = array_merge(array($item->state_title, "--------"), $transitions);
+							$default = [
+								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '-1', '--------', ['disable' => true])
+							];
+
+							$transitions = array_merge($default, $transitions);
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
@@ -160,15 +181,48 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="text-center">
-									<?php			
-									$attribs = [
-										'id'	=> 'transition-select_'. (int) $item->id,
-										'list.attr' => [	
-											'class'		=> 'custom-select', 
-											'onchange'		=> "Joomla.submitform('articles.runTransition')"]
-										];
-									echo JHTML::_('select.genericlist', $transitions, 'transition_id[]', $attribs); ?>
+								<td class="article-status">
+									<div class="d-flex">
+										<div class="btn-group tbody-icon mr-1">
+										<?php
+
+										$icon = 'publish';
+
+										switch ($item->status) :
+
+											case -2:
+												$icon = 'trash';
+												break;
+
+											case 0:
+												$icon = 'unpublish';
+												break;
+
+										endswitch;
+										?>
+										<?php if ($hasTransitions) : ?>
+											<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
+												<span class="icon-<?php echo $icon; ?>"></span>
+											</a>
+										<?php else : ?>
+											<span class="icon-<?php echo $icon; ?>"></span>
+										<?php endif; ?>
+										</div>
+										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<?php if ($hasTransitions) : ?>
+										<div class="d-none">
+											<?php
+												$attribs = [
+													'id'	=> 'transition-select_' . (int) $item->id,
+													'list.attr' => [
+														'class'		=> 'custom-select custom-select-sm',
+														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
+													];
+												echo JHTML::_('select.genericlist', $transitions, 'transition_id[]', $attribs);
+											?>
+										</div>
+										<?php endif; ?>
+									</div>
 								</td>
 								<td class="has-context">
 									<div class="break-word">
