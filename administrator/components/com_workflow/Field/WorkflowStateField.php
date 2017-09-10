@@ -8,12 +8,9 @@
  */
 namespace Joomla\Component\Workflow\Administrator\Field;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Workflow States field.
@@ -46,13 +43,11 @@ class WorkflowStateField extends \JFormFieldGroupedList
 		// Select distinct states for existing articles
 		$query
 			->select('DISTINCT ' . $db->qn('ws.id', 'workflow_state_id'))
-			->select($db->qn('ws.title', 'workflow_state_title'))
-			->select($db->qn('w.title', 'workflow_title'))
-			->select($db->qn('w.id', 'workflow_id'))
+			->select($db->qn(['ws.title', 'w.title', 'w.id'], ['workflow_state_title', 'workflow_title', 'workflow_id']))
 			->from($db->qn('#__content', 'c'))
-			->join('INNER', $db->qn('#__workflow_states', 'ws') . ' ON(' . $db->qn('c.state') . ' = ' . $db->qn('ws.id') . ')')
-			->join('INNER', $db->qn('#__workflows', 'w') . ' ON(' . $db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id') . ')')
-			->order('workflow_id');
+			->innerJoin($db->qn('#__workflow_states', 'ws') . ' ON (' . $db->qn('c.state') . ' = ' . $db->qn('ws.id') . ')')
+			->innerJoin($db->qn('#__workflows', 'w') . ' ON (' . $db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id') . ')')
+			->order($db->qn('workflow_id'));
 
 		$states = $db->setQuery($query)->loadObjectList();
 
@@ -61,17 +56,15 @@ class WorkflowStateField extends \JFormFieldGroupedList
 		// Grouping the states by workflow
 		foreach ($states as $state)
 		{
-			if (!array_key_exists($state->workflow_title, $workflowStates))
+			// Using workflow ID to differentiate workflows having same title
+			$workflowStateKey = $state->workflow_title . ' (' . $state->workflow_id . ')';
+
+			if (!array_key_exists($workflowStateKey, $workflowStates))
 			{
-				$workflowStates[$state->workflow_title] = array();
+				$workflowStates[$workflowStateKey] = array();
 			}
 
-			$obj =(object) array(
-				'value'     => $state->workflow_state_id,
-				'text'      => $state->workflow_state_title
-			);
-
-			array_push($workflowStates[$state->workflow_title], $obj);
+			$workflowStates[$workflowStateKey][] = \JHtml::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
 		}
 
 		// Merge any additional options in the XML definition.
