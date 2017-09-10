@@ -138,17 +138,20 @@ class Workflow extends Admin
 			}
 		}
 
-		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
 			$origTable->load($input->getInt('id'));
 
+			// Alter the title for save as copy
 			if ($data['title'] == $origTable->title)
 			{
 				list($title, $alias) = $this->generateNewTitle(0, '', $data['title']);
 				$data['title'] = $title;
 			}
+
+			// Unpublish new copy
+			$data['published'] = 0;
 		}
 
 		$result = parent::save($data);
