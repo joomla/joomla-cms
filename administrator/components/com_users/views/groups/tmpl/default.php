@@ -69,11 +69,9 @@ JFactory::getDocument()->addScriptDeclaration('
 						</th>
 						<th width="1%" class="nowrap center">
 							<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 						</th>
 						<th width="1%" class="nowrap center">
 							<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
