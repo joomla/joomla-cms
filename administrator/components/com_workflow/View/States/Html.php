@@ -141,8 +141,10 @@ class Html extends HtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions($this->extension, "workflow", $this->workflowID);
+		
+		$workflow = !empty($this->state->get('active_workflow', '')) ? $this->state->get('active_workflow', '') . ': ' : '';
 
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_STATES_LIST'), 'address contact');
+		ToolbarHelper::title($workflow . \JText::_('COM_WORKFLOW_STATES_LIST'), 'address contact');
 
 		if ($canDo->get("core.create"))
 		{
