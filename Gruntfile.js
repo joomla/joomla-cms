@@ -610,7 +610,6 @@ module.exports = function(grunt) {
 		// Create the custom element
 		const createElement = (element) => {
 			let tmpJs = '';
-			let tmpJsPlain = '';
 
 			if (grunt.file.exists('build/webcomponents/js/' + element + '/' + element + '.js')) {
 				// Repeat

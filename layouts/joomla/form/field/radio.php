@@ -47,20 +47,20 @@ extract($displayData);
  *     %3 - value
  *     %4 = any other attributes
  */
-$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
+$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" $s>';
 $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);	
 $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
 
 ?>
 <?php // START SWITCHER ?>
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
-<?php JHtml::_('script', 'system/fields/switcher.js', array('version' => 'auto', 'relative' => true)); ?>
+<?php JHtml::_('webcomponent', ['joomla-switcher' => 'system/fields/joomla-switcher.js'], array('version' => 'auto', 'relative' => true)); ?>
 <fieldset id="<?php echo $id; ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>>
 
 	<?php if (!empty($options)) : ?>
-		<span <?php echo $class ? 'class="js-switcher ' . $class . '"' : 'class="js-switcher"'; ?>>
+		<joomla-switcher off-text="<?php echo $options[0]->text; ?>" on-text="<?php echo $options[1]->text; ?>">
 			<?php foreach ($options as $i => $option) : ?>
 				<?php
 					// Initialize some option attributes.
@@ -68,7 +68,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 
 					// Only add the switcher class to the first element
 					$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-					if ($i == 0)
+					if ($i === 0)
 					{
 						$optionClass = !empty($option->class) ? 'class="active ' . $option->class . '"' : 'class="active"';
 					}
@@ -78,22 +78,15 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 					// Initialize some JavaScript option attributes.
 					$onclick     = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
 					$onchange    = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-					$oid         = $id . $i;
 					$ovalue      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
 					$attributes  = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
 				?>
 				<?php if ($required) : ?>
 					<?php $attributes[] = 'required aria-required="true"'; ?>
 				<?php endif; ?>
-				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+				<?php echo sprintf($format, $id, $name, $ovalue, implode(' ', $attributes)); ?>
 			<?php endforeach; ?>
-			<span class="switch"></span>
-		</span>
-		<span class="switcher-labels">
-			<?php foreach ($options as $i => $option) : ?>
-			<span class="switcher-label-<?php echo $option->value; ?>"><?php echo $option->text; ?></span>
-			<?php endforeach; ?>
-		</span>
+		</joomla-switcher>
 	<?php endif; ?>
 </fieldset>
 <?php // END SWITCHER ?>

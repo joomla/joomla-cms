@@ -69,8 +69,14 @@ vendors:
 
 webcomponents:
           'media':
-                css: 'media/system/js/fields'
-                js: 'media/system/js/fields'
+                'css': 'media/system/js/fields'
+                'js': 'media/system/js/fields'
+          'sendtestmail':
+                'css': 'media/system/js/fields'
+                'js': 'media/system/js/fields'
+          'switcher':
+                'css': 'media/system/js/fields'
+                'js': 'media/system/js/fields'
 
 ## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
