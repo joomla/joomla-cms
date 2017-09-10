@@ -55,7 +55,7 @@ class State extends Admin
 
 			$table = $this->getTable();
 
-			if ($table->load(array('default' => '1')))
+			if ($table->load(array('default' => '1', 'workflow_id' => $workflowID)))
 			{
 				$table->default = 0;
 				$table->store();
