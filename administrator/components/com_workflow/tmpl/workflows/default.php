@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
 
-$columns = 9;
+$columns = 10;
 
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>

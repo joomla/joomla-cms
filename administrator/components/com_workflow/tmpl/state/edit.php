@@ -28,7 +28,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_WORKFLOW_DESCRIPTION')); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', \JText::_('COM_WORKFLOW_DESCRIPTION')); ?>
 	<div class="row">
 		<div class="col-md-9">
 			<?php echo $this->form->renderField('condition'); ?>
@@ -39,7 +39,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				<div class="card-body">
 					<fieldset class="form-vertical form-no-margin">
 						<?php echo $this->form->renderField('published'); ?>
-						
+
 						<?php if ($this->form->getValue('default')): ?>
 							<?php $this->form->setFieldAttribute('default', 'disabled', 'true', ''); ?>
 						<?php endif; ?>
@@ -51,7 +51,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_WORKFLOW_RULES_TAB')); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', \JText::_('COM_WORKFLOW_RULES_TAB')); ?>
 	<?php echo $this->form->getInput('rules'); ?>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 

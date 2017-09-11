@@ -14,7 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * The first example class, this is in the same
@@ -23,7 +23,7 @@ use Joomla\CMS\Model\Admin;
  *
  * @since  4.0
  */
-class Transition extends Admin
+class Transition extends AdminModel
 {
 
 	/**

@@ -14,7 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
@@ -24,7 +24,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  *
  * @since  4.0
  */
-class State extends Admin
+class State extends AdminModel
 {
 
 	/**

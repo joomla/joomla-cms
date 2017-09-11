@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Workflow base controller package.

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 
 use JError;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 
 /**
@@ -26,7 +26,7 @@ use Joomla\String\StringHelper;
  *
  * @since  4.0
  */
-class Workflow extends Admin
+class Workflow extends AdminModel
 {
 	/**
 	 * Auto-populate the model state.

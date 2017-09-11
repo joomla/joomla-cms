@@ -11,7 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * The first example class, this is in the same
@@ -20,7 +20,7 @@ use Joomla\CMS\Controller\Form;
  *
  * @since  4.0
  */
-class State extends Form
+class State extends FormController
 {
 	/**
 	 * The workflow for which is that state

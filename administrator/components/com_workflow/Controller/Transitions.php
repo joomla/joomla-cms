@@ -10,7 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * The first example class, this is in the same
@@ -19,7 +19,7 @@ use Joomla\CMS\Controller\Admin;
  *
  * @since  4.0
  */
-class Transitions extends Admin
+class Transitions extends AdminController
 {
 
 	/**
