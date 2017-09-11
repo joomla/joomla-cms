@@ -305,7 +305,7 @@ class PlgSampledataBlog extends JPlugin
 			);
 
 			// Calculate menutype. The number of characters allowed is 24.
-			$type = JHtmlString::truncate($menu['title'], 23, true, false);
+			$type = JHtml::_('string.truncate', $menu['title'], 23, true, false);
 
 			$menu['menutype'] = $i . $type;
 
