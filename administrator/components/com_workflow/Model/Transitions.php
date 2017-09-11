@@ -72,9 +72,9 @@ class Transitions extends ListModel
 		
 		if ($workflowID)
 		{
-			$table = $this->getTable('Workflow', 'Administrator');
-			
-			if (!empty($table->load($workflowID)))
+			$table = $this->getTable('Workflow', 'Administrator'); 
+
+			if ($table->load($workflowID))
 			{
 				$this->setState('active_workflow', $table->title);
 			}

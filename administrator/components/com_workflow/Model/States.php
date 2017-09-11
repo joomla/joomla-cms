@@ -71,8 +71,8 @@ class States extends ListModel
 		if ($workflowID)
 		{
 			$table = $this->getTable('Workflow', 'Administrator'); 
-			
-			if (!empty($table->load($workflowID)))
+
+			if ($table->load($workflowID))
 			{
 				$this->setState('active_workflow', $table->title);
 			}
