@@ -123,7 +123,7 @@ class PlgSampledataBlog extends JPlugin
 			'created_user_id' => $user->id,
 			'extension'       => 'com_content',
 			'level'           => 1,
-			'alias'           => JApplicationHelper::stringURLSafe($categoryTitle),
+			'alias'           => 'sample-blog' . $langSuffix,
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
@@ -160,7 +160,7 @@ class PlgSampledataBlog extends JPlugin
 			'created_user_id' => $user->id,
 			'extension'       => 'com_content',
 			'level'           => 1,
-			'alias'           => JApplicationHelper::stringURLSafe($categoryTitle),
+			'alias'           => 'sample-help' . $langSuffix,
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
@@ -226,7 +226,7 @@ class PlgSampledataBlog extends JPlugin
 			// Set values which are always the same.
 			$article['id']              = 0;
 			$article['created_user_id'] = $user->id;
-			$article['alias']           = JApplicationHelper::stringURLSafe($article['title']);
+			$article['alias']           = $i . 'sample' . JApplicationHelper::stringURLSafe($article['title']);
 			$article['language']        = $language;
 			$article['associations']    = array();
 			$article['state']           = 1;
@@ -304,8 +304,10 @@ class PlgSampledataBlog extends JPlugin
 				'description' => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
 			);
 
-			// Calculate menutype.
-			$menu['menutype'] = JApplicationHelper::stringURLSafe($menu['title']);
+			// Calculate menutype. The number of characters allowed is 24.
+			$type = JHtmlString::truncate($menu['title'], 23, true, false);
+
+			$menu['menutype'] = $i . $type;
 
 			$menuTable->load();
 			$menuTable->bind($menu);
@@ -349,6 +351,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
 				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
 				'component_id' => 22,
+				'alias'        => 'blog' . $langSuffix,
 				'params'       => array(
 					'layout_type'             => 'blog',
 					'show_category_title'     => 0,
@@ -376,6 +379,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[0],
 				'component_id' => 22,
+				'alias'        => 'about' . $langSuffix,
 				'params'       => array(
 					'info_block_position' => 0,
 					'show_category'       => 0,
@@ -394,6 +398,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
 				'component_id' => 25,
+				'alias'        => 'login' . $langSuffix,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -407,10 +412,11 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
 				'link'         => 'index.php?option=com_content&view=form&layout=edit',
 				'component_id' => 22,
+				'alias'        => 'post' . $langSuffix,
 				'access'       => 3,
 				'params'       => array(
 					'enable_category'   => 1,
-					'catid'             => 9,
+					'catid'             => $catids[0],
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
 					'secure'            => 0,
@@ -421,6 +427,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
 				'component_id' => 22,
+				'alias'        => 'working' . $langSuffix,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -433,6 +440,7 @@ class PlgSampledataBlog extends JPlugin
 				'link'         => 'administrator',
 				'type'         => 'url',
 				'component_id' => 0,
+				'alias'        => 'siteadmin' . $langSuffix,
 				'browserNav'   => 1,
 				'access'       => 3,
 				'params'       => array(
@@ -444,6 +452,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
 				'link'         => 'index.php?option=com_users&view=profile&layout=edit',
 				'component_id' => 25,
+				'alias'        => 'changepassword' . $langSuffix,
 				'access'       => 2,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -456,6 +465,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
 				'component_id' => 25,
+				'alias'        => 'logout' . $langSuffix,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -486,6 +496,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
 				'component_id' => 25,
+				'alias'        => 'authorlogin' . $langSuffix,
 				'params'       => array(
 					'login_redirect_url'     => 'index.php?Itemid=' . $menuIdsLevel1[0],
 					'logindescription_show'  => 1,
@@ -518,6 +529,7 @@ class PlgSampledataBlog extends JPlugin
 				'link'         => 'index.php?option=com_config&view=config&controller=config.display.config',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
+				'alias'        => 'sitesettings' . $langSuffix,
 				'access'       => 6,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -531,6 +543,7 @@ class PlgSampledataBlog extends JPlugin
 				'link'         => 'index.php?option=com_config&view=templates&controller=config.display.templates',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
+				'alias'        => 'templatesettings' . $langSuffix,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -594,6 +607,8 @@ class PlgSampledataBlog extends JPlugin
 
 		// Get previously entered Data from UserStates
 		$menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
+
+		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
 
 		$modules = array(
 			array(
@@ -674,7 +689,7 @@ class PlgSampledataBlog extends JPlugin
 				'position' => 'position-7',
 				'module'   => 'mod_articles_popular',
 				'params'   => array(
-					'catid'      => ['9'],
+					'catid'      => $catids[0],
 					'count'      => 5,
 					'show_front' => 1,
 					'layout'     => '_:default',
@@ -694,7 +709,7 @@ class PlgSampledataBlog extends JPlugin
 					'show_front'                   => 'show',
 					'count'                        => 6,
 					'category_filtering_type'      => 1,
-					'catid'                        => ['9'],
+					'catid'                        => $catids[0],
 					'show_child_category_articles' => 0,
 					'levels'                       => 1,
 					'author_filtering_type'        => 1,
@@ -954,7 +969,7 @@ class PlgSampledataBlog extends JPlugin
 			// Set values which are always the same.
 			$menuItem['id']              = 0;
 			$menuItem['created_user_id'] = $user->id;
-			$menuItem['alias']           = JApplicationHelper::stringURLSafe($menuItem['title']);
+			$menuItem['alias']           = JApplicationHelper::stringURLSafe($menuItem['alias']);
 			$menuItem['published']       = 1;
 			$menuItem['language']        = $language;
 			$menuItem['note']            = '';
