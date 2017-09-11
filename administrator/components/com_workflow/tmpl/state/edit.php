@@ -40,8 +40,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					<fieldset class="form-vertical form-no-margin">
 						<?php echo $this->form->renderField('published'); ?>
 						
-						<?php if ($this->form->getValue('default', null, null)): ?>
-							<?php $this->form->setFieldAttribute('default', 'disabled', 'true', null); ?>
+						<?php if ($this->form->getValue('default')): ?>
+							<?php $this->form->setFieldAttribute('default', 'disabled', 'true', ''); ?>
 						<?php endif; ?>
 						<?php echo $this->form->renderField('default'); ?>
 					</fieldset>
