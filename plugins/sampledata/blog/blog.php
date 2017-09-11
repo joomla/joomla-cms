@@ -226,7 +226,7 @@ class PlgSampledataBlog extends JPlugin
 			// Set values which are always the same.
 			$article['id']              = 0;
 			$article['created_user_id'] = $user->id;
-			$article['alias']           = $i . 'sample' . JApplicationHelper::stringURLSafe($article['title']);
+			$article['alias']           = JApplicationHelper::stringURLSafe($article['title'] . '-' . $i);
 			$article['language']        = $language;
 			$article['associations']    = array();
 			$article['state']           = 1;
