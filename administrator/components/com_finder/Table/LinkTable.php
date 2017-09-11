@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.5
  */
-class  Link extends Table
+class LinkTable extends Table
 {
 	/**
 	 * Constructor

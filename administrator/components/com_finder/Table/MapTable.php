@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class  Map extends Table
+class MapTable extends Table
 {
 	/**
 	 * Constructor

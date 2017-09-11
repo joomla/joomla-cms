@@ -490,7 +490,6 @@ JLoader::registerAlias('JImageFilterContrast',              '\\Joomla\\CMS\\Imag
 JLoader::registerAlias('JImageFilterEdgedetect',            '\\Joomla\\CMS\\Image\\Filter\\Edgedetect', '5.0');
 JLoader::registerAlias('JImageFilterEmboss',                '\\Joomla\\CMS\\Image\\Filter\\Emboss', '5.0');
 JLoader::registerAlias('JImageFilterNegate',                '\\Joomla\\CMS\\Image\\Filter\\Negate', '5.0');
-JLoader::registerAlias('JImageFilterSketchy',               '\\Joomla\\CMS\\Image\\Filter\\Sketchy', '5.0');
 JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\CMS\\Image\\Filter\\Smooth', '5.0');
 
 JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Object\\CMSObject', '5.0');

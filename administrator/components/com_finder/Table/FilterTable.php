@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class  Filter extends Table
+class FilterTable extends Table
 {
 	/**
 	 * Constructor

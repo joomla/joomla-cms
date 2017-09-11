@@ -18,7 +18,7 @@ use Joomla\CMS\View\AbstractView;
  *
  * @since  1.7
  */
-class SearchViewSearch extends AbstractView
+class OpensearchView extends AbstractView
 {
 	/**
 	 * Execute and display a template script.
