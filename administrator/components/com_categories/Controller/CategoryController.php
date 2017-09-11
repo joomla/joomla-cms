@@ -125,7 +125,7 @@ class CategoryController extends FormController
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		/** @var \Joomla\Component\Categories\Administrator\Model\Category $model */
+		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel('Category');
 
 		// Preset the redirect

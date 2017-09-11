@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class FeaturedModel extends Articles
+class FeaturedModel extends ArticlesModel
 {
 	/**
 	 * Model context string.

@@ -28,7 +28,7 @@ class DiscoverController extends BaseController
 	 */
 	public function refresh()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\Discover $model */
+		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover();
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false));
@@ -43,7 +43,7 @@ class DiscoverController extends BaseController
 	 */
 	public function install()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\Discover $model */
+		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover_install();
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false));
@@ -58,7 +58,7 @@ class DiscoverController extends BaseController
 	 */
 	public function purge()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\Discover $model */
+		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->purge();
 		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false), $model->_message);

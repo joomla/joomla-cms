@@ -63,7 +63,7 @@ class ManageController extends BaseController
 		}
 		else
 		{
-			/* @var \Joomla\Component\Installer\Administrator\Model\Manage $model */
+			/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
 			$model = $this->getModel('manage');
 
 			// Change the state of the records.
@@ -101,7 +101,7 @@ class ManageController extends BaseController
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\Manage $model */
+		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
 		$model = $this->getModel('manage');
 
 		$eid = $this->input->get('cid', array(), 'array');
@@ -124,7 +124,7 @@ class ManageController extends BaseController
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\Manage $model */
+		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
 		$model = $this->getModel('manage');
 
 		$uid = $this->input->get('cid', array(), 'array');

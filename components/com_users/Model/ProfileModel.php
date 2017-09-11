@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Users\Administrator\Model\User;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -327,7 +327,7 @@ class ProfileModel extends FormModel
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
 		{
-			$model = new User;
+			$model = new UserModel;
 
 			$twoFactorMethod = $data['twofactor']['method'];
 
@@ -424,7 +424,7 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = new User;
+		$model = new UserModel;
 
 		$otpConfig = $model->getOtpConfig($user_id);
 
@@ -447,7 +447,7 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = new User;
+		$model = new UserModel;
 
 		return $model->getOtpConfig($user_id);
 	}

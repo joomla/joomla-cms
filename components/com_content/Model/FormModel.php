@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class FormModel extends \Joomla\Component\Content\Administrator\Model\Article
+class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleModel
 {
 	/**
 	 * Model typeAlias string. Used for version history.

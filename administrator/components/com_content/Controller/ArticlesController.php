@@ -84,7 +84,7 @@ class ArticlesController extends AdminController
 		else
 		{
 			// Get the model.
-			/** @var \Joomla\Component\Content\Administrator\Model\Article $model */
+			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
 			$model = $this->getModel();
 
 			// Publish the items.

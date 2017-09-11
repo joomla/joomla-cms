@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Installer\Administrator\Model\Update;
+use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
@@ -131,7 +131,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 
 		// Get the update model and retrieve the Joomla! core updates
-		$model = new Update(array('ignore_request' => true));
+		$model = new UpdateModel(array('ignore_request' => true));
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 

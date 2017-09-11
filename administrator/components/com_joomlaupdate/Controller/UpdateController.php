@@ -46,7 +46,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 		$file = $model->download();
 
@@ -104,7 +104,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$file = \JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
@@ -148,7 +148,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->finaliseUpgrade();
@@ -192,7 +192,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->cleanUp();
@@ -223,7 +223,7 @@ class UpdateController extends BaseController
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Purge updates
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 		$model->purge();
 
@@ -248,7 +248,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		try
@@ -319,7 +319,7 @@ class UpdateController extends BaseController
 		}
 
 		// Get the model
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Get the captive file before the session resets
@@ -388,7 +388,7 @@ class UpdateController extends BaseController
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			// Get the model for the view.
-			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
 			// Push the model into the view (as default).
@@ -449,7 +449,7 @@ class UpdateController extends BaseController
 		}
 
 		// Get the model
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Try to log in

@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
-use Joomla\Component\Users\Administrator\Model\User;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 
 /**
  * Single item model for a contact
@@ -365,7 +365,7 @@ class ContactModel extends FormModel
 		}
 
 		// Get the profile information for the linked user
-		$userModel = new User(array('ignore_request' => true));
+		$userModel = new UserModel(array('ignore_request' => true));
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		PluginHelper::importPlugin('user');
@@ -533,7 +533,7 @@ class ContactModel extends FormModel
 				}
 
 				// Get the profile information for the linked user
-				$userModel = new User(array('ignore_request' => true));
+				$userModel = new UserModel(array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
 
 				PluginHelper::importPlugin('user');

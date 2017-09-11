@@ -71,7 +71,7 @@ class MenuController extends FormController
 		$data['id'] = $recordId;
 
 		// Get the model and attempt to validate the posted data.
-		/* @var \Joomla\Component\Menus\Administrator\Model\Menu $model */
+		/* @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
 		$model = $this->getModel('Menu');
 		$form  = $model->getForm();
 

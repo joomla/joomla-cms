@@ -91,7 +91,7 @@ class FieldsHelper
 		if (self::$fieldsCache === null)
 		{
 			// Load the model
-			self::$fieldsCache = new \Joomla\Component\Fields\Administrator\Model\Fields(array('ignore_request' => true));
+			self::$fieldsCache = new \Joomla\Component\Fields\Administrator\Model\FieldsModel(array('ignore_request' => true));
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -139,7 +139,7 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+				self::$fieldCache = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 			}
 
 			$fieldIds = array_map(
@@ -385,7 +385,7 @@ class FieldsHelper
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
-		$model = new Joomla\Component\Fields\Administrator\Model\Groups(array('ignore_request' => true));
+		$model = new Joomla\Component\Fields\Administrator\Model\GroupsModel(array('ignore_request' => true));
 		$model->setState('filter.context', $context);
 
 		/**
@@ -474,7 +474,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'modules'
 			&& JFactory::getApplication()->isClient('site'))

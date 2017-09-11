@@ -234,7 +234,7 @@ class CategoryModel extends ListModel
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
-			$model = new Articles(array('ignore_request' => true));
+			$model = new ArticlesModel(array('ignore_request' => true));
 			$model->setState('params', \JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));

@@ -11,7 +11,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Installer\Administrator\Model\Warnings;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 
 /**
  * Joomla! Update Controller
@@ -47,10 +47,10 @@ class DisplayController extends BaseController
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
-			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
-			$warningsModel = new Warnings;
+			$warningsModel = new WarningsModel;
 
 			if (is_object($warningsModel))
 			{

@@ -96,7 +96,7 @@ class StylesController extends AdminController
 			// Pop off the first element.
 			$id = array_shift($pks);
 
-			/* @var \Joomla\Component\Templates\Administrator\Model\Style $model */
+			/* @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
 			$model = $this->getModel();
 			$model->setHome($id);
 			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
@@ -134,7 +134,7 @@ class StylesController extends AdminController
 			// Pop off the first element.
 			$id = array_shift($pks);
 
-			/* @var \Joomla\Component\Templates\Administrator\Model\Style $model */
+			/* @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
 			$model = $this->getModel();
 			$model->unsetHome($id);
 			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));

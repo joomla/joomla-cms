@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Users\Administrator\Model\User;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 
 /**
  * User model.
  *
  * @since  1.6
  */
-class ProfileModel extends User
+class ProfileModel extends UserModel
 {
 	/**
 	 * Method to get the record form.

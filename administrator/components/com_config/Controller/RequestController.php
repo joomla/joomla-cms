@@ -12,7 +12,7 @@ namespace Joomla\Component\Config\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use  \Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Config\Site\Model\Config;
+use Joomla\Component\Config\Site\Model\ConfigModel;
 
 /**
  * Requests from the frontend
@@ -56,7 +56,7 @@ class RequestController extends BaseController
 			$paths->insert(JPATH_BASE . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
 		}
 
-		$model     = new \Joomla\Component\Config\Administrator\Model\Application;
+		$model     = new \Joomla\Component\Config\Administrator\Model\ApplicationModel;
 		$component = $model->getState()->get('component.option');
 
 		// Access check.

@@ -50,7 +50,7 @@ class CategoriesController extends AdminController
 		$extension = $this->input->get('extension');
 		$this->setRedirect(\JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
-		/** @var \Joomla\Component\Categories\Administrator\Model\Category $model */
+		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())
@@ -89,7 +89,7 @@ class CategoriesController extends AdminController
 		else
 		{
 			// Get the model.
-			/** @var \Joomla\Component\Categories\Administrator\Model\Category $model */
+			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers

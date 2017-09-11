@@ -38,7 +38,7 @@ class FilterController extends FormController
 		$app = \JFactory::getApplication();
 		$input = $app->input;
 
-		/* @var \Joomla\Component\Finder\Administrator\Model\Filter $model */
+		/* @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data = $input->post->get('jform', array(), 'array');

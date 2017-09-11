@@ -90,7 +90,7 @@ class TemplateController extends BaseController
 
 		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel('Template', 'Administrator');
 		$model->setState('new_name', $newName);
 		$model->setState('tmp_prefix', uniqid('template_copy_'));
@@ -218,7 +218,7 @@ class TemplateController extends BaseController
 		$data         = $this->input->post->get('jform', array(), 'array');
 		$task         = $this->getTask();
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model        = $this->getModel();
 		$fileName     = $this->input->get('file');
 		$explodeArray = explode(':', base64_decode($fileName));
@@ -332,7 +332,7 @@ class TemplateController extends BaseController
 	 */
 	public function overrides()
 	{
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$file     = $this->input->get('file');
 		$override = base64_decode($this->input->get('folder'));
@@ -360,7 +360,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
@@ -399,7 +399,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -446,7 +446,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -480,7 +480,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -519,7 +519,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -563,7 +563,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model   = $this->getModel();
 		$id      = $this->input->get('id');
 		$file    = $this->input->get('file');
@@ -611,7 +611,7 @@ class TemplateController extends BaseController
 		$w     = $this->input->get('w');
 		$h     = $this->input->get('h');
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 
 		if (empty($w) && empty($h) && empty($x) && empty($y))
@@ -648,7 +648,7 @@ class TemplateController extends BaseController
 		$width  = $this->input->get('width');
 		$height = $this->input->get('height');
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model  = $this->getModel();
 
 		if ($model->resizeImage($file, $width, $height))
@@ -682,7 +682,7 @@ class TemplateController extends BaseController
 		$newName  = $this->input->get('new_name');
 		$location = base64_decode($this->input->get('address'));
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 
 		if (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
@@ -719,7 +719,7 @@ class TemplateController extends BaseController
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
 
-		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 
 		if ($model->extractArchive($file))

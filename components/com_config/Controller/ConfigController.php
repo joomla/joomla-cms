@@ -80,7 +80,7 @@ class ConfigController extends BaseController
 		// Set FTP credentials, if given.
 		\JClientHelper::setCredentialsFromRequest('ftp');
 
-		$model = new \Joomla\Component\Config\Site\Model\Config;
+		$model = new \Joomla\Component\Config\Site\Model\ConfigModel;
 
 		$form  = $model->getForm();
 		$data  = $this->app->input->post->get('jform', array(), 'array');

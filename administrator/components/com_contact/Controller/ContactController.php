@@ -101,7 +101,7 @@ class ContactController extends FormController
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		/** @var \Joomla\Component\Contact\Administrator\Model\Contact $model */
+		/** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
 		$model = $this->getModel('Contact', 'Administrator', array());
 
 		// Preset the redirect

@@ -12,7 +12,7 @@ namespace Joomla\Component\Config\Site\View\Templates;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Templates\Administrator\Model\Style;
+use Joomla\Component\Templates\Administrator\Model\StyleModel;
 use Joomla\Component\Config\Administrator\Controller\Request;
 
 /**
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 		$view = new \Joomla\Component\Templates\Administrator\View\Style\Json;
 
 		// Get/Create the model
-		$model = new Style;
+		$model = new StyleModel;
 		$view->setModel($model, true);
 
 		$view->document = \JFactory::getDocument();

@@ -348,7 +348,7 @@ class ListModel extends BaseModel
 		{
 			$classNameParts = explode('Model', get_called_class());
 
-			if (count($classNameParts) == 2)
+			if (count($classNameParts) >= 2)
 			{
 				$this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
 			}

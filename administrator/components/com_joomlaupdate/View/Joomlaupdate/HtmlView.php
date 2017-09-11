@@ -65,14 +65,14 @@ class HtmlView extends BaseHtmlView
 	 * @return void
 	 *
 	 * @since  2.5.4
-	 */
+	 */r
 	public function display($tpl = null)
 	{
 		// Get data from the model.
 		$this->state = $this->get('State');
 
 		// Load useful classes.
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel();
 		$this->loadHelper('select');
 
@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->warnings = array();
-		/** @var \Joomla\Component\Installer\Administrator\Model\Warnings $warningsModel */
+		/** @var \Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
 		$warningsModel = $this->getModel('warnings');
 
 		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseModel)

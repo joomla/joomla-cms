@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 		if ($item)
 		{
 			// Get Category Model data
-			$categoryModel = new \Joomla\Component\Contact\Site\Model\Category(array('ignore_request' => true));
+			$categoryModel = new \Joomla\Component\Contact\Site\Model\CategoryModel(array('ignore_request' => true));
 
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');

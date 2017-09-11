@@ -11,7 +11,7 @@ namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Postinstall\Administrator\Model\Messages;
+use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
 /**
  * Model class to display postinstall messages
@@ -31,7 +31,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		/** @var Messages $model */
+		/** @var MessagesModel $model */
 		$model = $this->getModel();
 
 		$this->items = $model->getItems();

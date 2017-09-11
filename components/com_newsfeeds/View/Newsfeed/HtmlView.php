@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
-use Joomla\Component\Newsfeeds\Site\Model\Category;
+use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		if ($item)
 		{
 			// Get Category Model data
-			$categoryModel = new Category(array('ignore_request' => true));
+			$categoryModel = new CategoryModel(array('ignore_request' => true));
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');

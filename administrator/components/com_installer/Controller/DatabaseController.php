@@ -11,7 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Joomlaupdate\Administrator\Model\Update;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 /**
  * Installer Database Controller
@@ -30,11 +30,11 @@ class DatabaseController extends BaseController
 	 */
 	public function fix()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\Database $model */
+		/* @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $model */
 		$model = $this->getModel('database');
 		$model->fix();
 
-		$updateModel = new Update;
+		$updateModel = new UpdateModel;
 		$updateModel->purge();
 
 		// Refresh versionable assets cache

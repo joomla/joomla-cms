@@ -86,7 +86,7 @@ class MenusController extends BaseController
 			if (count($cids) > 0)
 			{
 				// Get the model.
-				/* @var \Joomla\Component\Menus\Administrator\Model\Menu $model */
+				/* @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
 				$model = $this->getModel();
 
 				// Make sure the item ids are integers
@@ -120,7 +120,7 @@ class MenusController extends BaseController
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
-		/* @var \Joomla\Component\Menus\Administrator\Model\Item $model */
+		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel('Item');
 
 		if ($model->rebuild())

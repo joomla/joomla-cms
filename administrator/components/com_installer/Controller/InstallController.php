@@ -30,7 +30,7 @@ class InstallController extends BaseController
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\Install $model */
+		/* @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
 		$model = $this->getModel('install');
 
 		// TODO: Reset the users acl here as well to kill off any missing bits.

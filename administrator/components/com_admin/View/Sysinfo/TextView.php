@@ -74,7 +74,7 @@ class TextView extends AbstractView
 	 */
 	protected function getLayoutData()
 	{
-		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfo $model */
+		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfoModel $model */
 		$model = $this->getModel();
 
 		return array(

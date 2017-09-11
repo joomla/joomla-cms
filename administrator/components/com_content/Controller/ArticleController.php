@@ -135,7 +135,7 @@ class ArticleController extends FormController
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		/** @var \Joomla\Component\Content\Administrator\Model\Article $model */
+		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
 		$model = $this->getModel('Article', 'Administrator', array());
 
 		// Preset the redirect
