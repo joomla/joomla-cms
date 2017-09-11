@@ -67,7 +67,17 @@ class States extends ListModel
 
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
 		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		
+		if ($workflowID)
+		{
+			$table = $this->getTable('Workflow', 'Administrator'); 
 
+			if ($table->load($workflowID))
+			{
+				$this->setState('active_workflow', $table->title);
+			}
+		}
+		
 		$this->setState('filter.workflow_id', $workflowID);
 		$this->setState('filter.extension', $extension);
 

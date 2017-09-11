@@ -133,7 +133,9 @@ class Html extends HtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension, "workflow", $this->workflowID);
 
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_TRANSITIONS_LIST'), 'address contact');
+		$workflow = !empty($this->state->get('active_workflow', '')) ? $this->state->get('active_workflow', '') . ': ' : '';
+
+		ToolbarHelper::title(\JText::sprintf('COM_WORKFLOW_STATES_LIST', $this->escape($workflow)), 'address contact');
 
 		if ($canDo->get("core.create"))
 		{
