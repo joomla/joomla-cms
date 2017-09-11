@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -48,7 +48,7 @@ abstract class JHtmlDebug
 			static::$xdebugLinkFormat = ini_get('xdebug.file_link_format');
 		}
 
-		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
+		$link = str_replace(JPATH_ROOT, 'JROOT', JPath::clean($file));
 		$link .= $line ? ':' . $line : '';
 
 		if (static::$xdebugLinkFormat)

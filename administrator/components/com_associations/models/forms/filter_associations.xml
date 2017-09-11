@@ -7,7 +7,7 @@
 		description="COM_ASSOCIATIONS_COMPONENT_SELECTOR_DESC"
 		filtermode="selector"
 		onchange="jQuery('select[id^=\'filter_\']').val('');jQuery('select[id^=\'list_\']').val('');this.form.submit();"
-	>
+		>
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 	</field>
 
@@ -15,10 +15,10 @@
 		name="language"
 		type="contentlanguage"
 		label="JOPTION_FILTER_LANGUAGE"
-		filtermode="selector"
 		description="JOPTION_FILTER_LANGUAGE_DESC"
+		filtermode="selector"
 		onchange="this.form.submit();"
-	>
+		>
 		<option value="">JOPTION_SELECT_LANGUAGE</option>
 	</field>
 
@@ -37,7 +37,7 @@
 			label="JOPTION_FILTER_PUBLISHED"
 			description="JOPTION_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
@@ -49,7 +49,7 @@
 			published="0,1,2"
 			extension="dynamic"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
 
@@ -60,7 +60,7 @@
 			description="COM_ASSOCIATIONS_FILTER_MENUTYPE_DESC"
 			clientid="0"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_ASSOCIATIONS_SELECT_MENU</option>
 		</field>
 
@@ -70,7 +70,7 @@
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 
@@ -83,7 +83,7 @@
 			last="10"
 			step="1"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
 	</fields>
@@ -94,7 +94,7 @@
 			type="list"
 			default="id ASC"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="state ASC">JSTATUS_ASC</option>
 			<option value="state DESC">JSTATUS_DESC</option>

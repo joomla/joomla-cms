@@ -50,17 +50,18 @@ class JFormFieldSection extends JFormFieldList
 	 *
 	 * @since   3.7.0
 	 */
-	protected function getInput ()
+	protected function getInput()
 	{
 		// Add the change context function to the document
 		JFactory::getDocument()->addScriptDeclaration(
-				"function fieldsChangeContext(context)
+			"function fieldsChangeContext(context)
 				{
 					var regex = new RegExp(\"([?;&])context[^&;]*[;&]?\");
 					var url = window.location.href;
 					var query = url.replace(regex, \"$1\").replace(/&$/, '');
     					window.location.href = (query.length > 2 ? query + \"&\" : \"?\") + (context ? \"context=\" + context : '');
-				}");
+				}"
+		);
 
 		return parent::getInput();
 	}
