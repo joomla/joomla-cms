@@ -36,18 +36,18 @@ JLoader::registerAlias('JCli',                              '\\Joomla\\CMS\\Appl
 JLoader::registerAlias('JWeb',                              '\\Joomla\\CMS\\Application\\WebApplication', '4.0');
 JLoader::registerAlias('JWebClient',                        '\\Joomla\\Application\\Web\\WebClient', '4.0');
 
-JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\Model\\Admin', '5.0');
-JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\Model\\Form', '5.0');
-JLoader::registerAlias('JModelItem',                        '\\Joomla\\CMS\\Model\\Item', '5.0');
-JLoader::registerAlias('JModelList',                        '\\Joomla\\CMS\\Model\\ListModel', '5.0');
-JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\Model\\Model', '5.0');
-JLoader::registerAlias('JViewCategories',                   '\\Joomla\\CMS\\View\\Categories', '5.0');
-JLoader::registerAlias('JViewCategory',                     '\\Joomla\\CMS\\View\\Category', '5.0');
-JLoader::registerAlias('JViewCategoryfeed',                 '\\Joomla\\CMS\\View\\CategoryFeed', '5.0');
-JLoader::registerAlias('JViewLegacy',                       '\\Joomla\\CMS\\View\\HtmlView', '5.0');
-JLoader::registerAlias('JControllerAdmin',                  '\\Joomla\\CMS\\Controller\\Admin', '5.0');
-JLoader::registerAlias('JControllerLegacy',                 '\\Joomla\\CMS\\Controller\\Controller', '5.0');
-JLoader::registerAlias('JControllerForm',                   '\\Joomla\\CMS\\Controller\\Form', '5.0');
+JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\MVC\\Model\\AdminModel', '5.0');
+JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\MVC\\Model\\FormModel', '5.0');
+JLoader::registerAlias('JModelItem',                        '\\Joomla\\CMS\\MVC\\Model\\ItemModel', '5.0');
+JLoader::registerAlias('JModelList',                        '\\Joomla\\CMS\\MVC\\Model\\ListModel', '5.0');
+JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\MVC\\Model\\BaseModel', '5.0');
+JLoader::registerAlias('JViewCategories',                   '\\Joomla\\CMS\\MVC\\View\\CategoriesView', '5.0');
+JLoader::registerAlias('JViewCategory',                     '\\Joomla\\CMS\\MVC\\View\\CategoryView', '5.0');
+JLoader::registerAlias('JViewCategoryfeed',                 '\\Joomla\\CMS\\MVC\\View\\CategoryFeedView', '5.0');
+JLoader::registerAlias('JViewLegacy',                       '\\Joomla\\CMS\\MVC\\View\\HtmlView', '5.0');
+JLoader::registerAlias('JControllerAdmin',                  '\\Joomla\\CMS\\MVC\\Controller\\AdminController', '5.0');
+JLoader::registerAlias('JControllerLegacy',                 '\\Joomla\\CMS\\MVC\\Controller\\BaseController', '5.0');
+JLoader::registerAlias('JControllerForm',                   '\\Joomla\\CMS\\MVC\\Controller\\FormController', '5.0');
 JLoader::registerAlias('JTableInterface',                   '\\Joomla\\CMS\\Table\\TableInterface', '5.0');
 JLoader::registerAlias('JTable',                            '\\Joomla\\CMS\\Table\\Table', '5.0');
 JLoader::registerAlias('JTableNested',                      '\\Joomla\\CMS\\Table\\Nested', '5.0');
@@ -492,3 +492,7 @@ JLoader::registerAlias('JImageFilterEmboss',                '\\Joomla\\CMS\\Imag
 JLoader::registerAlias('JImageFilterNegate',                '\\Joomla\\CMS\\Image\\Filter\\Negate', '5.0');
 JLoader::registerAlias('JImageFilterSketchy',               '\\Joomla\\CMS\\Image\\Filter\\Sketchy', '5.0');
 JLoader::registerAlias('JImageFilterSmooth',                '\\Joomla\\CMS\\Image\\Filter\\Smooth', '5.0');
+
+JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Object\\CMSObject', '5.0');
+
+JLoader::registerAlias('JExtensionHelper',                  '\\Joomla\\CMS\\Extension\\ExtensionHelper', '5.0');

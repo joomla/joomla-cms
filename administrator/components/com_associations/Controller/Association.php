@@ -10,7 +10,7 @@ namespace Joomla\Component\Associations\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
  *
  * @since  3.7.0
  */
-class Association extends Form
+class Association extends FormController
 {
 	/**
 	 * Method to edit an existing record.

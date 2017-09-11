@@ -10,7 +10,7 @@ namespace Joomla\Component\Admin\Administrator\View\Help;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Admin component

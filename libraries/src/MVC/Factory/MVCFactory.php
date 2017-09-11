@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Mvc\Factory;
+namespace Joomla\CMS\MVC\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class MvcFactory implements MvcFactoryInterface
+class MVCFactory implements MVCFactoryInterface
 {
 	/**
 	 * The namespace to create the objects from.
@@ -55,7 +55,7 @@ class MvcFactory implements MvcFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -84,7 +84,7 @@ class MvcFactory implements MvcFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\View\AbstractView  The view object
+	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception

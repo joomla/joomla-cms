@@ -10,7 +10,7 @@ namespace Joomla\Component\Messages\Administrator\View\Message;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Messages component

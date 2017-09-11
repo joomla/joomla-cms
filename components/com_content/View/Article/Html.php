@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML Article View class for the Content component
@@ -224,7 +224,26 @@ class Html extends HtmlView
 		// Process the content plugins.
 
 		PluginHelper::importPlugin('content');
-		\JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
+		\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
+
+		// Check if the intro text needs to be processed as well
+		if ($item->introtext && strpos($item->text, $item->introtext) !== 0)
+		{
+			// Save the old text of the article
+			$text = $item->text;
+
+			// Set the intro text as new text
+			$item->text = $item->introtext;
+
+			// Trigger the event with the introtext
+			\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
+
+			// Set the prepared intro text back
+			$item->introtext = $item->text;
+
+			// Restore the original text variable
+			$item->text = $text;
+		}
 
 		$item->event = new \stdClass;
 		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));

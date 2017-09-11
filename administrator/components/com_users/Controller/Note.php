@@ -10,14 +10,14 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * User note controller class.
  *
  * @since  2.5
  */
-class Note extends Form
+class Note extends FormController
 {
 	/**
 	 * The prefix to use with controller messages.

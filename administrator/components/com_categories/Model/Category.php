@@ -14,12 +14,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
@@ -27,7 +27,7 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
  *
  * @since  1.6
  */
-class Category extends Admin
+class Category extends AdminModel
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -57,12 +57,12 @@ class Category extends Admin
 	 * Override parent constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\Model\Model
+	 * @see     \Joomla\CMS\MVC\Model\BaseModel
 	 * @since   3.2
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		$extension = \JFactory::getApplication()->input->get('extension', 'com_content');
 		$this->typeAlias = $extension . '.category';

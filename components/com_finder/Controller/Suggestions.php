@@ -11,14 +11,14 @@ namespace Joomla\Component\Finder\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Suggestions \JSON controller for Finder.
  *
  * @since  2.5
  */
-class Suggestions extends Controller
+class Suggestions extends BaseController
 {
 	/**
 	 * Method to find search query suggestions. Uses jQuery and autocompleter.js

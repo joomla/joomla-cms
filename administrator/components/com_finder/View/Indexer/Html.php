@@ -10,7 +10,7 @@ namespace Joomla\Component\Finder\Administrator\View\Indexer;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Indexer view class for Finder.

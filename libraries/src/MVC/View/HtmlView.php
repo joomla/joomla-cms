@@ -6,12 +6,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\View;
+namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Model\Model;
 
 /**
  * Base class for a Joomla Html View

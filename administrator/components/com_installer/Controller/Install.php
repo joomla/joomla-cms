@@ -10,7 +10,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\CMS\Response\JsonResponse;
  *
  * @since  1.5
  */
-class Install extends Controller
+class Install extends BaseController
 {
 	/**
 	 * Install an extension.

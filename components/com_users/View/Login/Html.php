@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Site\View\Login;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\AuthenticationHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Login view class for Users.

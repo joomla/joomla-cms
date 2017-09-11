@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Site\View\Reset;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Reset view class for Users.

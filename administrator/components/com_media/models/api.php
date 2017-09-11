@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Api Model
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaModelApi extends Model
+class MediaModelApi extends BaseModel
 {
 	/**
 	 * The local file adapter to work with.

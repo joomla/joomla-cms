@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Response\JsonResponse;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Response\JsonResponse;
  *
  * @since  3.5
  */
-class Profile extends Controller
+class Profile extends BaseController
 {
 	/**
 	 * Returns the updated options for help site selector

@@ -10,14 +10,14 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Users mail controller.
  *
  * @since  1.6
  */
-class Mail extends Controller
+class Mail extends BaseController
 {
 	/**
 	 * Send the mail

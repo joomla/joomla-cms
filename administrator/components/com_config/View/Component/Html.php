@@ -12,7 +12,7 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**

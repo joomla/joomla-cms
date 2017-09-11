@@ -10,7 +10,7 @@ namespace Joomla\Component\Contact\Site\View\Category;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\Category;
+use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
  *
  * @since  1.5
  */
-class Html extends Category
+class Html extends CategoryView
 {
 	/**
 	 * @var    string  The name of the extension for the category

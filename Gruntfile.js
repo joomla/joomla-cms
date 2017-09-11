@@ -398,12 +398,7 @@ module.exports = function(grunt) {
 				processors: [
 					require('autoprefixer')({
 						browsers: [
-							'Chrome >= ' + settings.Browsers.Chrome,
-							'Firefox >= ' + settings.Browsers.Firefox,
-							'Edge >= ' + settings.Browsers.Edge,
-							'Explorer >= ' + settings.Browsers.Explorer,
-							'Safari >= ' + settings.Browsers.Safari,
-							'Opera >= ' + settings.Browsers.Opera
+							settings.Browsers
 						]
 					})
 				],
@@ -500,7 +495,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
-	grunt.loadNpmTasks('grunt-postcss');
+	grunt.loadNpmTasks('grunt-postcss-x');
 
 	grunt.registerTask('default',
 		[

@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Tags\Site\View\Tag;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 defined('_JEXEC') or die;

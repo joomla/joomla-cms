@@ -11,7 +11,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\View\Update;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Joomla! Update's Update View

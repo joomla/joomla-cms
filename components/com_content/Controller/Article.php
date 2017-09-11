@@ -10,7 +10,7 @@ namespace Joomla\Component\Content\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
 
@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6.0
  */
-class Article extends Form
+class Article extends FormController
 {
 	/**
 	 * The URL view item variable.
@@ -246,7 +246,7 @@ class Article extends Form
 
 		$itemId = $this->input->getInt('Itemid');
 		$return = $this->getReturnPage();
-		$catId  = $this->input->getInt('catid', null, 'get');
+		$catId  = $this->input->getInt('catid');
 
 		if ($itemId)
 		{

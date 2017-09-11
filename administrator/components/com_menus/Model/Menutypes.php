@@ -11,7 +11,7 @@ namespace Joomla\Component\Menus\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 jimport('joomla.filesystem.folder');
@@ -21,7 +21,7 @@ jimport('joomla.filesystem.path');
  *
  * @since  1.6
  */
-class Menutypes extends Model
+class Menutypes extends BaseModel
 {
 	/**
 	 * A reverse lookup of the base link URL to Title

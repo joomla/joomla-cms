@@ -10,7 +10,7 @@ namespace Joomla\Component\Associations\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Methods supporting a list of article records.

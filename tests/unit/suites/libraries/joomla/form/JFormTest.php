@@ -575,7 +575,7 @@ class JFormTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->findField('title', 'bogus'),
 			$this->isFalse(),
-			'Line:' . __LINE__ . ' An field in a group that does not exist should return false.'
+			'Line:' . __LINE__ . ' A field in a group that does not exist should return false.'
 		);
 
 		// Test various find combinations.

@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  2.5
  */
-class Note extends Admin
+class Note extends AdminModel
 {
 	/**
 	 * The type alias for this content type.

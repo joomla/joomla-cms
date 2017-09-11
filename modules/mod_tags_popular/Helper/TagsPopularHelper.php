@@ -60,6 +60,14 @@ abstract class TagsPopularHelper
 		// Only return published tags
 		$query->where($db->quoteName('t.published') . ' = 1 ');
 
+		// Filter by Parent Tag
+		$parentTags = $params->get('parentTag', 0);
+
+		if ($parentTags)
+		{
+			$query->where($db->quoteName('t.parent_id') . ' IN (' . implode(',', $parentTags) . ')');
+		}
+
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 

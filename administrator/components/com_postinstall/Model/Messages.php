@@ -11,7 +11,7 @@ namespace Joomla\Component\Postinstall\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
  *
  * @since  3.2
  */
-class Messages extends Model
+class Messages extends BaseModel
 {
 	/**
 	 * Gets an item with the given id from the database

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
  *
  * @since  2.5
  */
-class Override extends Admin
+class Override extends AdminModel
 {
 	/**
 	 * Method to get the record form.
@@ -109,7 +109,7 @@ class Override extends Admin
 			$result->override = $strings[$pk];
 		}
 
-		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
 		$opposite_strings = LanguagesHelper::parseFile($opposite_filename);
 		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);

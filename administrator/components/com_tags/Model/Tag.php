@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -22,7 +22,7 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class Tag extends Admin
+class Tag extends AdminModel
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.

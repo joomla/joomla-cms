@@ -10,7 +10,7 @@ namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\AbstractView;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * Frontpage View class

@@ -10,14 +10,14 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Index controller class for Finder.
  *
  * @since  2.5
  */
-class Index extends Admin
+class Index extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -26,7 +26,7 @@ class Index extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
 	 *
 	 * @since   2.5
 	 */
