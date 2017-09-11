@@ -137,7 +137,7 @@ class FormattedtextLogger extends Logger
 		// Format all lines and write to file.
 		$lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
 
-		if (!JFile::append($this->path, implode("\n", $lines) . "\n"))
+		if (!\JFile::append($this->path, implode("\n", $lines) . "\n"))
 		{
 			throw new RuntimeException('Cannot write to log file.');
 		}
@@ -170,7 +170,7 @@ class FormattedtextLogger extends Logger
 			$line = $this->formatLine($entry);
 			$line .= "\n";
 
-			if (!JFile::append($this->path, $line))
+			if (!\JFile::append($this->path, $line))
 			{
 				throw new RuntimeException('Cannot write to log file.');
 			}
@@ -186,7 +186,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function formatLine(JLogEntry $entry)
+	protected function formatLine(LogEntry $entry)
 	{
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
