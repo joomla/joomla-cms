@@ -58,6 +58,9 @@ require_once JPATH_LIBRARIES . '/classmap.php';
 // Register the global exception handler.
 set_exception_handler(['JErrorPage', 'render']);
 
+// Register the error handler which processes E_USER_DEPRECATED errors
+set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+
 // Define the Joomla version if not already defined.
 defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
 
