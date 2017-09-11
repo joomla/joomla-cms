@@ -38,22 +38,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="card card-block card-light">
 				<div class="card-body">
 					<fieldset class="form-vertical form-no-margin">
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('published'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('published'); ?>
-							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('default'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('default'); ?>
-							</div>
-						</div>
+						<?php echo $this->form->renderField('published'); ?>
+						
+						<?php if ($this->form->getValue('default')): ?>
+							<?php $this->form->setFieldAttribute('default', 'disabled', 'true', ''); ?>
+						<?php endif; ?>
+						<?php echo $this->form->renderField('default'); ?>
 					</fieldset>
 				</div>
 			</div>
