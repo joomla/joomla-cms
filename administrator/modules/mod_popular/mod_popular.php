@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Module\Popular\Administrator\Helper\PopularHelper;
 
-$list = PopularHelper::getList($params, new Articles(array('ignore_request' => true)));
+$list = PopularHelper::getList($params, new ArticlesModel(array('ignore_request' => true)));
 
 // Get module data.
 if ($params->get('automatic_title', 0))
