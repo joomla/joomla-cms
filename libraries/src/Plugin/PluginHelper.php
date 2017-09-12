@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -242,20 +243,8 @@ abstract class PluginHelper
 
 				if ($autocreate)
 				{
-					$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
-
-					if (class_exists($className))
-					{
-						// Load the plugin from the database.
-						if (!isset($plugin->params))
-						{
-							// Seems like this could just go bye bye completely
-							$plugin = static::getPlugin($plugin->type, $plugin->name);
-						}
-
-						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) $plugin);
-					}
+					$factory = Factory::getContainer()->get(PluginFactoryInterface::class);
+					$factory->getPlugin($plugin->name, $plugin->type);
 				}
 			}
 			else
