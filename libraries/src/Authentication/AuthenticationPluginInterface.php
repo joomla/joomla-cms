@@ -23,7 +23,7 @@ interface AuthenticationPluginInterface
 	 *
 	 * @param   array                   $credentials  Array holding the user credentials
 	 * @param   array                   $options      Array of extra options
-	 * @param   AuthenticationResponse  $response    Authentication response object
+	 * @param   AuthenticationResponse  $response     Authentication response object
 	 *
 	 * @return  void
 	 *
