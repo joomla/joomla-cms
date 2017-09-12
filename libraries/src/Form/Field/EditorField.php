@@ -321,6 +321,12 @@ class EditorField extends \JFormFieldTextarea
 	 */
 	public function save()
 	{
-		return $this->getEditor()->save($this->id);
+		$editor = $this->getEditor();
+		if (!method_exists($editor, 'save'))
+		{
+			return '';
+		}
+
+		return $editor->save($this->id);
 	}
 }
