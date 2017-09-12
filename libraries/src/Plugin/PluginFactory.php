@@ -19,9 +19,29 @@ use Joomla\Event\DispatcherInterface;
  */
 class PluginFactory implements PluginFactoryInterface
 {
+	/**
+	 * Event Dispatcher
+	 *
+	 * @var    DispatcherInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private $dispatcher = null;
+
+	/**
+	 * The loaded plugins.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private $loadedPlugins = array();
 
+	/**
+	 * Constructor
+	 *
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function __construct(DispatcherInterface $dispatcher)
 	{
 		$this->dispatcher = $dispatcher;
@@ -42,16 +62,20 @@ class PluginFactory implements PluginFactoryInterface
 	 */
 	public function getPlugin($name, $type)
 	{
+		// Cleanup the parameters
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 
+		// The path of the plugins
 		$path = JPATH_PLUGINS . '/' . $type . '/' . $name . '/' . $name . '.php';
 
+		// Check if the plugin is already loaded
 		if (isset($this->loadedPlugins[$path]))
 		{
 			return $this->loadedPlugins[$path];
 		}
 
+		// Check if the path exists
 		if (!file_exists($path))
 		{
 			$this->loadedPlugins[$path] = false;
@@ -59,10 +83,13 @@ class PluginFactory implements PluginFactoryInterface
 			return false;
 		}
 
+		// Include the plugin
 		require_once $path;
 
+		// Compile the class name
 		$className = 'Plg' . str_replace('-', '', $type) . $name;
 
+		// Check if the class exists
 		if (!class_exists($className))
 		{
 			$this->loadedPlugins[$path] = false;
@@ -70,7 +97,7 @@ class PluginFactory implements PluginFactoryInterface
 			return false;
 		}
 
-
+		// Get the plugin object
 		$plugin = PluginHelper::getPlugin($type, $name);
 
 		// Instantiate and register the plugin.
