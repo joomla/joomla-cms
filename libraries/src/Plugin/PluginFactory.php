@@ -58,13 +58,38 @@ class PluginFactory implements PluginFactoryInterface
 	}
 
 	/**
+	 * Method to get an array of instances of a plugin type.
+	 *
+	 * The plugins are cached, means a second call with the same
+	 * parameters, returns the same plugin object as on the first call.
+	 *
+	 * @param   string  $type  The name of the type
+	 *
+	 * @return  CMSPlugin[]  Plugin instances
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getPlugins($type)
+	{
+		$plugins = [];
+
+		// Loop over the available plugins
+		foreach (PluginHelper::getPlugin($type) as $plugin)
+		{
+			$plugins[] = $this->getPlugin($plugin->name, $plugin->type);
+		}
+
+		return $plugins;
+	}
+
+	/**
 	 * Method to get an instance of a plugin.
 	 *
 	 * The plugins are cached, means a second call with the same
 	 * parameters, returns the same plugin object as on the first call.
 	 *
 	 * @param   string  $name  The name of the plugin
-	 * @param   string  $type  The name of the type
+	 * @param   string  $type  The type of th plugin
 	 *
 	 * @return  CMSPlugin  Plugin instance.
 	 *
