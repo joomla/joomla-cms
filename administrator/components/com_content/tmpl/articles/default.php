@@ -184,6 +184,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="article-status">
 									<div class="d-flex">
 										<div class="btn-group tbody-icon mr-1">
+										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 										<?php
 
 										$icon = 'publish';
