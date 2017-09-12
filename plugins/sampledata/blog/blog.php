@@ -113,9 +113,18 @@ class PlgSampledataBlog extends JPlugin
 		// Create "blog" category.
 		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
 		$catIds        = array();
-		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE') . $langSuffix;
+		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
+		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			JFactory::getConfig()->set('unicodeslugs', 1);
+			$alias = JApplicationHelper::stringURLSafe($categoryTitle);
+		}
+
 		$category      = array(
-			'title'           => $categoryTitle,
+			'title'           => $categoryTitle . $langSuffix,
 			'parent_id'       => 1,
 			'id'              => 0,
 			'published'       => 1,
@@ -123,7 +132,7 @@ class PlgSampledataBlog extends JPlugin
 			'created_user_id' => $user->id,
 			'extension'       => 'com_content',
 			'level'           => 1,
-			'alias'           => 'sample-blog' . $langSuffix,
+			'alias'           => $alias . $langSuffix,
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
@@ -150,9 +159,18 @@ class PlgSampledataBlog extends JPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create "help" category.
-		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE') . $langSuffix;
+		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE');
+		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			JFactory::getConfig()->set('unicodeslugs', 1);
+			$alias = JApplicationHelper::stringURLSafe($categoryTitle);
+		}
+
 		$category      = array(
-			'title'           => $categoryTitle,
+			'title'           => $categoryTitle . $langSuffix,
 			'parent_id'       => 1,
 			'id'              => 0,
 			'published'       => 1,
@@ -160,7 +178,7 @@ class PlgSampledataBlog extends JPlugin
 			'created_user_id' => $user->id,
 			'extension'       => 'com_content',
 			'level'           => 1,
-			'alias'           => 'sample-help' . $langSuffix,
+			'alias'           => $alias . $langSuffix,
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
@@ -219,14 +237,24 @@ class PlgSampledataBlog extends JPlugin
 		foreach ($articles as $i => $article)
 		{
 			// Set values from language strings.
-			$article['title']     = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE') . $langSuffix;
+			$title                = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
+			$alias                = JApplicationHelper::stringURLSafe($title);
+			$article['title']     = $title . $langSuffix;
 			$article['introtext'] = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
 			$article['fulltext']  = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
 
 			// Set values which are always the same.
 			$article['id']              = 0;
 			$article['created_user_id'] = $user->id;
-			$article['alias']           = JApplicationHelper::stringURLSafe($article['title'] . '-' . $i);
+			$article['alias']           = JApplicationHelper::stringURLSafe($article['title']);
+
+			// Set unicodeslugs if alias is empty
+			if (trim(str_replace('-', '', $alias) == ''))
+			{
+				JFactory::getConfig()->set('unicodeslugs', 1);
+				$article['alias'] = JApplicationHelper::stringURLSafe($article['title']);
+			}
+
 			$article['language']        = $language;
 			$article['associations']    = array();
 			$article['state']           = 1;
@@ -305,7 +333,7 @@ class PlgSampledataBlog extends JPlugin
 			);
 
 			// Calculate menutype. The number of characters allowed is 24.
-			$type = JHtml::_('string.truncate', $menu['title'], 23, true, false);
+			$type = JHtmlString::truncate($menu['title'], 23, true, false);
 
 			$menu['menutype'] = $i . $type;
 
@@ -351,7 +379,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
 				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
 				'component_id' => 22,
-				'alias'        => 'blog' . $langSuffix,
 				'params'       => array(
 					'layout_type'             => 'blog',
 					'show_category_title'     => 0,
@@ -379,7 +406,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[0],
 				'component_id' => 22,
-				'alias'        => 'about' . $langSuffix,
 				'params'       => array(
 					'info_block_position' => 0,
 					'show_category'       => 0,
@@ -398,7 +424,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
 				'component_id' => 25,
-				'alias'        => 'login' . $langSuffix,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -412,7 +437,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
 				'link'         => 'index.php?option=com_content&view=form&layout=edit',
 				'component_id' => 22,
-				'alias'        => 'post' . $langSuffix,
 				'access'       => 3,
 				'params'       => array(
 					'enable_category'   => 1,
@@ -427,7 +451,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
 				'component_id' => 22,
-				'alias'        => 'working' . $langSuffix,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -440,7 +463,6 @@ class PlgSampledataBlog extends JPlugin
 				'link'         => 'administrator',
 				'type'         => 'url',
 				'component_id' => 0,
-				'alias'        => 'siteadmin' . $langSuffix,
 				'browserNav'   => 1,
 				'access'       => 3,
 				'params'       => array(
@@ -452,7 +474,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
 				'link'         => 'index.php?option=com_users&view=profile&layout=edit',
 				'component_id' => 25,
-				'alias'        => 'changepassword' . $langSuffix,
 				'access'       => 2,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -465,7 +486,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
 				'component_id' => 25,
-				'alias'        => 'logout' . $langSuffix,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -496,7 +516,6 @@ class PlgSampledataBlog extends JPlugin
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
 				'component_id' => 25,
-				'alias'        => 'authorlogin' . $langSuffix,
 				'params'       => array(
 					'login_redirect_url'     => 'index.php?Itemid=' . $menuIdsLevel1[0],
 					'logindescription_show'  => 1,
@@ -529,7 +548,6 @@ class PlgSampledataBlog extends JPlugin
 				'link'         => 'index.php?option=com_config&view=config&controller=config.display.config',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
-				'alias'        => 'sitesettings' . $langSuffix,
 				'access'       => 6,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -543,7 +561,6 @@ class PlgSampledataBlog extends JPlugin
 				'link'         => 'index.php?option=com_config&view=templates&controller=config.display.templates',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
-				'alias'        => 'templatesettings' . $langSuffix,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -963,13 +980,21 @@ class PlgSampledataBlog extends JPlugin
 			// Reset item.id in model state.
 			$this->menuItemModel->setState('item.id', 0);
 
-			// Append language suffix to title.
-			$menuItem['title'] .= $langSuffix;
-
 			// Set values which are always the same.
 			$menuItem['id']              = 0;
 			$menuItem['created_user_id'] = $user->id;
-			$menuItem['alias']           = JApplicationHelper::stringURLSafe($menuItem['alias']);
+			$menuItem['alias']           = JApplicationHelper::stringURLSafe($menuItem['title']);
+
+			// Set unicodeslugs if alias is empty
+			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
+			{
+				JFactory::getConfig()->set('unicodeslugs', 1);
+				$menuItem['alias'] = JApplicationHelper::stringURLSafe($menuItem['title']);
+			}
+
+			// Append language suffix to title.
+			$menuItem['title'] .= $langSuffix;
+
 			$menuItem['published']       = 1;
 			$menuItem['language']        = $language;
 			$menuItem['note']            = '';
