@@ -74,6 +74,7 @@ class PluginFactory implements PluginFactoryInterface
 		$plugins = [];
 
 		// Loop over the available plugins
+		// @Todo remove dependency to PluginHelper
 		foreach (PluginHelper::getPlugin($type) as $plugin)
 		{
 			$plugins[] = $this->getPlugin($plugin->name, $plugin->type);
@@ -133,6 +134,7 @@ class PluginFactory implements PluginFactoryInterface
 		}
 
 		// Get the plugin object
+		// @Todo remove dependency to PluginHelper
 		$plugin = PluginHelper::getPlugin($type, $name);
 
 		// Instantiate and register the plugin.

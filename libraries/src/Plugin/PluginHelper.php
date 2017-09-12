@@ -146,6 +146,7 @@ abstract class PluginHelper
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.5
+	 * @deprecated  5.0  Use the PluginFactoryInterface::getPlugin() or PluginFactoryInterface::getPlugins() instead
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
@@ -209,6 +210,7 @@ abstract class PluginHelper
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @deprecated  5.0  Use the PluginFactoryInterface::getPlugin() or PluginFactoryInterface::getPlugins() instead
 	 */
 	protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
