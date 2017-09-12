@@ -33,6 +33,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	{
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
+			" . $this->form->getField('articletext')->save() . "
 			Joomla.submitform(task);
 		}
 	}
