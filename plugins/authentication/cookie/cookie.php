@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\AuthenticationPluginInterface;
+use Joomla\CMS\Authentication\AuthenticationResponse;
+
 /**
  * Joomla Authentication plugin
  *
@@ -16,7 +19,7 @@ defined('_JEXEC') or die;
  * @note   Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
  *         and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
-class PlgAuthenticationCookie extends JPlugin
+class PlgAuthenticationCookie extends JPlugin implements AuthenticationPluginInterface
 {
 	/**
 	 * Application object
@@ -37,20 +40,20 @@ class PlgAuthenticationCookie extends JPlugin
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
-	 * @param   array   $credentials  Array holding the user credentials
-	 * @param   array   $options      Array of extra options
-	 * @param   object  &$response    Authentication response object
+	 * @param   array                   $credentials  Array holding the user credentials
+	 * @param   array                   $options      Array of extra options
+	 * @param   AuthenticationResponse  $response    Authentication response object
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate(array $credentials, array $options, AuthenticationResponse $response)
 	{
 		// No remember me for admin
 		if ($this->app->isClient('administrator'))
 		{
-			return false;
+			return;
 		}
 
 		// Get cookie
@@ -66,7 +69,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		if (!$cookieValue)
 		{
-			return false;
+			return;
 		}
 
 		$cookieArray = explode('.', $cookieValue);
@@ -78,7 +81,7 @@ class PlgAuthenticationCookie extends JPlugin
 			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 			JLog::add('Invalid cookie detected.', JLog::WARNING, 'error');
 
-			return false;
+			return;
 		}
 
 		$response->type = 'Cookie';
@@ -117,7 +120,7 @@ class PlgAuthenticationCookie extends JPlugin
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
 
-			return false;
+			return;
 		}
 
 		if (count($results) !== 1)
@@ -126,7 +129,7 @@ class PlgAuthenticationCookie extends JPlugin
 			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 			$response->status = JAuthentication::STATUS_FAILURE;
 
-			return false;
+			return;
 		}
 
 		// We have a user with one cookie with a valid series and a corresponding record in the database.
@@ -161,7 +164,7 @@ class PlgAuthenticationCookie extends JPlugin
 			JLog::add(JText::sprintf('PLG_AUTH_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), JLog::WARNING, 'security');
 			$response->status = JAuthentication::STATUS_FAILURE;
 
-			return false;
+			return;
 		}
 
 		// Make sure there really is a user with this name and get the data for the session.
@@ -179,7 +182,7 @@ class PlgAuthenticationCookie extends JPlugin
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
 
-			return false;
+			return;
 		}
 
 		if ($result)
