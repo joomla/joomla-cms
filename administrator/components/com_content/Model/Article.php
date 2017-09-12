@@ -174,7 +174,9 @@ class Article extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			if ($record->state != -2)
+			$state = new \Joomla\Component\Workflow\Administrator\Table\State($this->_db);
+
+			if (!$state->load($record->state) || $state->condition != -2)
 			{
 				return false;
 			}
