@@ -39,7 +39,7 @@ class Plugin implements ServiceProviderInterface
 				PluginFactoryInterface::class,
 				function (Container $container)
 				{
-					return new PluginFactory($container->get(DispatcherInterface::class));
+					return new PluginFactory(JPATH_PLUGINS, $container->get(DispatcherInterface::class));
 				},
 				true
 			);

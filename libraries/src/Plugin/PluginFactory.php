@@ -28,6 +28,14 @@ class PluginFactory implements PluginFactoryInterface
 	private $dispatcher = null;
 
 	/**
+	 * Root folder of the plugins
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $rootFolder = null;
+
+	/**
 	 * The loaded plugins.
 	 *
 	 * @var    array
@@ -38,12 +46,14 @@ class PluginFactory implements PluginFactoryInterface
 	/**
 	 * Constructor
 	 *
+	 * @param   string               $rootFolder  The root folder to look for plugins
 	 * @param   DispatcherInterface  $dispatcher  The dispatcher
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(DispatcherInterface $dispatcher)
+	public function __construct($rootFolder, DispatcherInterface $dispatcher)
 	{
+		$this->rootFolder = $rootFolder;
 		$this->dispatcher = $dispatcher;
 	}
 
@@ -67,7 +77,7 @@ class PluginFactory implements PluginFactoryInterface
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 
 		// The path of the plugins
-		$path = JPATH_PLUGINS . '/' . $type . '/' . $name . '/' . $name . '.php';
+		$path = $this->rootFolder . '/' . $type . '/' . $name . '/' . $name . '.php';
 
 		// Check if the plugin is already loaded
 		if (isset($this->loadedPlugins[$path]))
