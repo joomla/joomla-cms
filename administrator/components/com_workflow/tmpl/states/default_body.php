@@ -11,13 +11,40 @@
  */
 defined('_JEXEC') or die;
 
+$user      = JFactory::getUser();
 $workflowID = $this->escape($this->state->get('filter.workflow_id'));
+$extension = $this->escape($this->state->get('filter.extension'));
+
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$saveOrder = $listOrder == 'a.ordering';
+
+JHtml::_('draggablelist.draggable');
 
 ?>
 <?php foreach ($this->states as $i => $item):
 	$link = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . $workflowID . '&extension=' . $this->extension);
+
+	$canChange  = $user->authorise('core.edit.state', 'com_workflow.state.' . $item->id);
+	$ordering   = ($listOrder == 'ordering');
 	?>
-	<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->id; ?>">
+	<tr class="row<?php echo $i % 2; ?>">
+		<td class="order nowrap text-center hidden-sm-down">
+			<?php
+			$iconClass = '';
+			if (!$canChange)
+			{
+				$iconClass = ' inactive';
+			}
+			elseif (!$saveOrder)
+			{
+				$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+			}
+			?>
+			<span class="sortable-handler<?php echo $iconClass ?>">
+				<span class="icon-menu" aria-hidden="true"></span>
+			</span>
+			<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+		</td>
 		<td class="order nowrap text-center hidden-sm-down">
 			<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 		</td>

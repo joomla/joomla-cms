@@ -15,6 +15,9 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 ?>
 <tr>
 	<th style="width:1%" class="nowrap text-center hidden-sm-down">
+		<?php echo JHtml::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+	</th>
+	<th style="width:1%" class="nowrap text-center hidden-sm-down">
 		<?php echo JHtml::_('grid.checkall'); ?>
 	</th>
 	<th style="width:1%" class="nowrap text-center hidden-sm-down">

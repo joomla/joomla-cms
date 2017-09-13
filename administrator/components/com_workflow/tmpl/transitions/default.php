@@ -16,6 +16,10 @@ JHtml::_('behavior.tooltip');
 $columns = 6;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+$saveOrder = $listOrder == 'transition.ordering';
+
+$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . JSession::getFormToken() . '=1';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -33,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
-					<table class="table table-striped" id="emailList">
+					<table class="table table-striped">
 						<thead><?php echo $this->loadTemplate('head');?></thead>
 						<tfoot>
 							<tr>
@@ -42,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 							</tr>
 						</tfoot>
-						<tbody class="js-draggable"><?php echo $this->loadTemplate('body');?></tbody>
+						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"><?php echo $this->loadTemplate('body');?></tbody>
 					</table>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">

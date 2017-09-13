@@ -18,6 +18,11 @@ $workflowID = $this->escape($this->state->get('filter.workflow_id'));
 $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+$saveOrder = $listOrder == 'ordering';
+
+$saveOrderingUrl = 'index.php?option=com_workflow&task=states.saveOrderAjax&' . JSession::getFormToken() . '=1';
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . '&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -27,24 +32,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
 				<?php
-					// Search tools bar
-					echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				// Search tools bar
+				echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->states)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
-					<table class="table table-striped" id="emailList">
+					<table class="table table-striped">
 						<thead><?php echo $this->loadTemplate('head');?></thead>
 						<tfoot>
-							<tr>
-								<td colspan="<?php echo $columns; ?>">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
+						<tr>
+							<td colspan="<?php echo $columns; ?>">
+								<?php echo $this->pagination->getListFooter(); ?>
+							</td>
+						</tr>
 						</tfoot>
-						<tbody class="js-draggable"><?php echo $this->loadTemplate('body');?></tbody>
+						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"><?php echo $this->loadTemplate('body');?></tbody>
 					</table>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">

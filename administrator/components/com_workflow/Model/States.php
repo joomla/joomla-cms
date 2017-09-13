@@ -37,6 +37,7 @@ class States extends ListModel
 			$config['filter_fields'] = array(
 				'id',
 				'title',
+				'ordering',
 				'condition',
 				'published'
 			);
@@ -117,6 +118,7 @@ class States extends ListModel
 					array(
 						'id',
 						'title',
+						'ordering',
 						'condition',
 						'default',
 						'published'
@@ -161,7 +163,7 @@ class States extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol	= $this->state->get('list.ordering', 'id');
+		$orderCol	= $this->state->get('list.ordering', 'ordering');
 		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
 
 		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));

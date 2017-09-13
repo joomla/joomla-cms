@@ -51,7 +51,10 @@ class TransitionField extends \JFormFieldList
 			->select($db->qn('id', 'value'))
 			->select($db->qn('title', 'text'))
 			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_state_id') . '=' . $state);
+			->where($db->qn('from_state_id') . '=' . $state)
+			->where($db->qn('published') . '=1')
+			->order($db->qn('ordering'));
+
 
 		$items = $db->setQuery($query)->loadObjectList();
 
@@ -65,9 +68,6 @@ class TransitionField extends \JFormFieldList
 					return $user->authorise('core.run', "$extension.transition.$item->value");
 				}
 			);
-
-			// Sort by component name
-			$items = ArrayHelper::sortObjects($items, 'value', 1, true, true);
 		}
 
 		// Merge any additional options in the XML definition.

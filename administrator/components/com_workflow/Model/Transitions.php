@@ -39,6 +39,7 @@ class Transitions extends ListModel
 			$config['filter_fields'] = array(
 				'id',
 				'published',
+				'ordering',
 				'title',
 				'from_state',
 				'to_state'
@@ -123,6 +124,7 @@ class Transitions extends ListModel
 			'transition.id',
 			'transition.title',
 			'transition.published',
+			'transition.ordering',
 		)
 		);
 		$select[] = $db->qn('f_state.title', 'from_state');
@@ -178,7 +180,7 @@ class Transitions extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol	= $this->state->get('list.ordering', 'id');
+		$orderCol	= $this->state->get('list.ordering', 'transition.ordering');
 		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
 
 		$query->order($db->quoteName($orderCol) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));
