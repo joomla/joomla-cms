@@ -82,6 +82,8 @@ class PlgSampledataBlog extends JPlugin
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
+		$unicode = JFactory::getConfig()->get('unicodeslugs', 1);
+
 		if ($this->app->input->get('type') != $this->_name)
 		{
 			return;
@@ -289,6 +291,8 @@ class PlgSampledataBlog extends JPlugin
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = JText::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
+
+		JFactory::getConfig()->set('unicodeslugs', $unicode);
 
 		return $response;
 	}
@@ -967,6 +971,8 @@ class PlgSampledataBlog extends JPlugin
 	 */
 	private function addMenuItems(array $menuItems, $level)
 	{
+		$unicode = JFactory::getConfig()->get('unicodeslugs', 1);
+
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
 		$user    = JFactory::getUser();
@@ -1053,6 +1059,8 @@ class PlgSampledataBlog extends JPlugin
 			// Get ID from menuitem we just added
 			$itemIds[] = $this->menuItemModel->getstate('item.id');
 		}
+
+		JFactory::getConfig()->set('unicodeslugs', $unicode);
 
 		return $itemIds;
 	}
