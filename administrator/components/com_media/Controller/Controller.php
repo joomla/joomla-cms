@@ -11,12 +11,14 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * Media Manager Component Controller
  *
  * @since  __DEPLOY_VERSION__
  */
-class Controller extends \Joomla\CMS\Controller\Controller
+class Controller extends BaseController
 {
 	/**
 	 * The default view.

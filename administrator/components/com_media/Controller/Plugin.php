@@ -11,8 +11,8 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
 
@@ -23,7 +23,7 @@ use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Plugin extends Controller
+class Plugin extends BaseController
 {
 	/**
 	 * Handles an OAuth Callback request for a specified plugin.

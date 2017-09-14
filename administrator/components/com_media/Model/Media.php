@@ -11,7 +11,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Media extends Model
+class Media extends BaseModel
 {
 	/**
 	 * Obtain list of supported providers

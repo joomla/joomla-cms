@@ -11,8 +11,8 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
@@ -22,7 +22,7 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Api extends Model
+class Api extends BaseModel
 {
 	/**
 	 * Holds available media file adapters.
