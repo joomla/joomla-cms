@@ -137,8 +137,19 @@ class PluginFactory implements PluginFactoryInterface
 		// @Todo remove dependency to PluginHelper
 		$plugin = PluginHelper::getPlugin($type, $name);
 
-		// Instantiate and register the plugin.
-		$this->loadedPlugins[$path] = new $className($this->dispatcher, (array) $plugin);
+		$instance = null;
+
+		if(is_subclass_of($className, CMSEventPlugin::class))
+		{
+			$instance = new $className($this->dispatcher, (array) $plugin);
+		}
+		else
+		{
+			$instance = new $className((array) $plugin);
+		}
+
+		// Register the plugin.
+		$this->loadedPlugins[$path] = $instance;
 
 		return $this->loadedPlugins[$path];
 	}
