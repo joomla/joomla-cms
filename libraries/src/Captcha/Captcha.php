@@ -76,10 +76,11 @@ class Captcha extends \JObject
 	/**
 	 * Class constructor.
 	 *
-	 * @param   string  $captcha  The editor to use.
+	 * @param   string  $captcha  The plugin to use.
 	 * @param   array   $options  Associative array of options.
 	 *
 	 * @since   2.5
+	 * @throws  \RuntimeException
 	 */
 	public function __construct($captcha, $options)
 	{
@@ -97,6 +98,7 @@ class Captcha extends \JObject
 	 * @return  Captcha|null  Instance of this class.
 	 *
 	 * @since   2.5
+	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($captcha, array $options = array())
 	{
@@ -104,16 +106,7 @@ class Captcha extends \JObject
 
 		if (empty(self::$_instances[$signature]))
 		{
-			try
-			{
-				self::$_instances[$signature] = new Captcha($captcha, $options);
-			}
-			catch (\RuntimeException $e)
-			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-				return;
-			}
+			self::$_instances[$signature] = new Captcha($captcha, $options);
 		}
 
 		return self::$_instances[$signature];
@@ -127,22 +120,14 @@ class Captcha extends \JObject
 	 * @return  boolean  True on success
 	 *
 	 * @since	2.5
+	 * @throws  \RuntimeException
 	 */
 	public function initialise($id)
 	{
 		$args['id']    = $id;
 		$args['event'] = 'onInit';
 
-		try
-		{
-			$this->_captcha->update($args);
-		}
-		catch (\Exception $e)
-		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
+		$this->_captcha->update($args);
 
 		return true;
 	}
@@ -157,6 +142,7 @@ class Captcha extends \JObject
 	 * @return  mixed  The return value of the function "onDisplay" of the selected Plugin.
 	 *
 	 * @since   2.5
+	 * @throws  \RuntimeException
 	 */
 	public function display($name, $id, $class = '')
 	{
@@ -174,7 +160,7 @@ class Captcha extends \JObject
 
 		$args['name']  = $name;
 		$args['id']    = $id ?: $name;
-		$args['class'] = $class ? 'class="' . $class . '"' : '';
+		$args['class'] = $class;
 		$args['event'] = 'onDisplay';
 
 		return $this->_captcha->update($args);
@@ -185,9 +171,10 @@ class Captcha extends \JObject
 	 *
 	 * @param   string  $code  The answer.
 	 *
-	 * @return  mixed   The return value of the function "onCheckAnswer" of the selected Plugin.
+	 * @return  bool    Whether the provided answer was correct
 	 *
 	 * @since	2.5
+	 * @throws  \RuntimeException
 	 */
 	public function checkAnswer($code)
 	{
@@ -200,6 +187,32 @@ class Captcha extends \JObject
 		$args['code']  = $code;
 		$args['event'] = 'onCheckAnswer';
 
+		return $this->_captcha->update($args);
+	}
+
+	/**
+	 * Method to react on the setup of a captcha field. Gives the possibility
+	 * to change the field and/or the XML element for the field.
+	 *
+	 * @param   \Joomla\CMS\Form\Field\CaptchaField  $field    Captcha field instance
+	 * @param   \SimpleXMLElement                    $element  XML form definition
+	 *
+	 * @return void
+	 */
+	public function setupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
+	{
+		if ($this->_captcha === null)
+		{
+			return;
+		}
+
+		$args = array(
+			'event' => 'onSetupField',
+			'field' => $field,
+			'element' => $element,
+		);
+
+		// Forward to the captcha plugin
 		return $this->_captcha->update($args);
 	}
 

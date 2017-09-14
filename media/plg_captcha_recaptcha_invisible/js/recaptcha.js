@@ -1,14 +1,14 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-window.JoomlaInitReCaptcha2 = function() {
+window.JoomlaInitReCaptchaInvisible = function() {
 	'use strict';
 
 	var items = document.getElementsByClassName('g-recaptcha'),
 	    item,
-	    option_keys = ['sitekey', 'theme', 'type', 'size', 'tabindex', 'callback', 'expired-callback'],
+	    option_keys = ['sitekey', 'badge', 'type', 'size', 'tabindex', 'callback'],
 	    options = {},
 	    option_key_fq
 	;
@@ -31,5 +31,7 @@ window.JoomlaInitReCaptcha2 = function() {
 			'data-recaptcha-widget-id',
 			grecaptcha.render(item, options)
 		);
+		// Execute the invisible reCAPTCHA
+		grecaptcha.execute(item.getAttribute('data-recaptcha-widget-id'));
 	}
 };

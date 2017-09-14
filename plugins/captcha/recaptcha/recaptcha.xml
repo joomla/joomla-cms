@@ -11,7 +11,6 @@
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha">recaptcha.php</filename>
-		<filename>recaptchalib.php</filename>
 	</files>
 	<config>
 		<fields name="params">
@@ -86,6 +85,18 @@
 				</field>
 
 				<field
+					name="type"
+					type="list"
+					label="PLG_RECAPTCHA_TYPE_LABEL"
+					description="PLG_RECAPTCHA_TYPE_DESC"
+					default="image"
+					showon="version:2.0"
+					>
+					<option value="image">PLG_RECAPTCHA_TYPE_IMAGE</option>
+					<option value="audio">PLG_RECAPTCHA_TYPE_AUDIO</option>
+				</field>
+
+				<field
 					name="size"
 					type="list"
 					label="PLG_RECAPTCHA_SIZE_LABEL"
@@ -97,6 +108,36 @@
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
 				</field>
+
+				<field
+					name="tabindex"
+					type="number"
+					label="PLG_RECAPTCHA_TABINDEX_LABEL"
+					description="PLG_RECAPTCHA_TABINDEX_DESC"
+					default="0"
+					showon="version:2.0"
+					min="0"
+				/>
+
+				<field
+					name="callback"
+					type="text"
+					label="PLG_RECAPTCHA_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_CALLBACK_DESC"
+					default=""
+					showon="version:2.0"
+					filter="string"
+				/>
+
+				<field
+					name="expired_callback"
+					type="text"
+					label="PLG_RECAPTCHA_EXPIRED_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_EXPIRED_CALLBACK_DESC"
+					default=""
+					showon="version:2.0"
+					filter="string"
+				/>
 			</fieldset>
 		</fields>
 	</config>

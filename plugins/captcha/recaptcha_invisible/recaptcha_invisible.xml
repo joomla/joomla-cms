@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="captcha" method="upgrade">
+	<name>plg_captcha_recaptcha_invisible</name>
+	<version>3.8</version>
+	<creationDate>November 2017</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_CAPTCHA_RECAPTCHA_INVISIBLE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="recaptcha_invisible">recaptcha_invisible.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field
+					name="public_key"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_PUBLIC_KEY_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_PUBLIC_KEY_DESC"
+					default=""
+					required="true"
+					filter="string"
+					size="50"
+				/>
+
+				<field
+					name="private_key"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_PRIVATE_KEY_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_PRIVATE_KEY_DESC"
+					default=""
+					required="true"
+					filter="string"
+					size="50"
+				/>
+
+				<field
+					name="badge"
+					type="list"
+					label="PLG_RECAPTCHA_INVISIBLE_BADGE_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_BADGE_DESC"
+					default="bottomright"
+					>
+					<option value="bottomright">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMRIGHT</option>
+					<option value="bottomleft">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMLEFT</option>
+					<option value="inline">PLG_RECAPTCHA_INVISIBLE_BADGE_INLINE</option>
+				</field>
+
+				<field
+					name="type"
+					type="list"
+					label="PLG_RECAPTCHA_INVISIBLE_TYPE_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_TYPE_DESC"
+					default="image"
+					>
+					<option value="image">PLG_RECAPTCHA_INVISIBLE_TYPE_IMAGE</option>
+					<option value="audio">PLG_RECAPTCHA_INVISIBLE_TYPE_AUDIO</option>
+				</field>
+
+				<field
+					name="tabindex"
+					type="number"
+					label="PLG_RECAPTCHA_INVISIBLE_TABINDEX_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_TABINDEX_DESC"
+					default="0"
+					min="0"
+				/>
+
+				<field
+					name="callback"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_CALLBACK_DESC"
+					default=""
+					filter="string"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
