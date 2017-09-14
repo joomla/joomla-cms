@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Controller;
 
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 defined('JPATH_PLATFORM') or die;
@@ -63,16 +64,17 @@ class Form extends Controller
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   array                 $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   MvcFactoryInterface   $factory  The factory.
+	 * @param   CmsApplication        $app      The JApplication for the dispatcher
+	 * @param   \JInput               $input    Input
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null, FormFactoryInterface $formFactory = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -121,6 +123,8 @@ class Form extends Controller
 		{
 			$this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
 		}
+
+		$this->formFactory = $formFactory;
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
@@ -426,7 +430,14 @@ class Form extends Controller
 			$name = $this->context;
 		}
 
-		return parent::getModel($name, $prefix, $config);
+		$model = parent::getModel($name, $prefix, $config);
+
+		if ($model instanceof \Joomla\CMS\Model\Form)
+		{
+			$model->setFormFactory($this->formFactory);
+		}
+
+		return $model;
 	}
 
 	/**
@@ -894,5 +905,19 @@ class Form extends Controller
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
+	}
+
+	/**
+	 * Sets the internal form factory.
+	 *
+	 * @param   FormFactoryInterface  $formFactory   The form factory
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setFormFactory(FormFactoryInterface $formFactory)
+	{
+		$this->formFactory = $formFactory;
 	}
 }
