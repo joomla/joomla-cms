@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Controller extends BaseController
+class DisplayController extends BaseController
 {
 	/**
 	 * The default view.
