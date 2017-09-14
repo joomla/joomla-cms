@@ -10,6 +10,8 @@ namespace Joomla\CMS\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -40,15 +42,24 @@ abstract class Form extends Model
 	protected $events_map = null;
 
 	/**
+	 * The form factory.
+	 *
+	 * @var    FormFactoryInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $formFactory = null;
+
+	/**
 	 * Constructor
 	 *
-	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   3.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
 		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
 
@@ -60,6 +71,8 @@ abstract class Form extends Model
 		);
 
 		parent::__construct($config, $factory);
+
+		$this->formFactory = $formFactory;
 	}
 
 	/**
@@ -228,7 +241,30 @@ abstract class Form extends Model
 
 		try
 		{
-			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
+			$formFactory = $this->formFactory;
+
+			if (!$formFactory)
+			{
+				$formFactory = Factory::getContainer()->get(FormFactoryInterface::class);
+			}
+
+			$form = $formFactory->createForm($name, $options);
+
+			// Load the data.
+			if (substr($source, 0, 1) == '<')
+			{
+				if ($form->load($source, false, $xpath) == false)
+				{
+					throw new \RuntimeException('Form::loadForm could not load form');
+				}
+			}
+			else
+			{
+				if ($form->loadFile($source, false, $xpath) == false)
+				{
+					throw new \RuntimeException('Form::loadForm could not load file');
+				}
+			}
 
 			if (isset($options['load_data']) && $options['load_data'])
 			{
@@ -365,5 +401,19 @@ abstract class Form extends Model
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Sets the internal form factory.
+	 *
+	 * @param   FormFactoryInterface  $formFactory   The form factory
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setFormFactory(FormFactoryInterface $formFactory)
+	{
+		$this->formFactory = $formFactory;
 	}
 }
