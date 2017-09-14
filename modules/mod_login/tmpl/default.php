@@ -18,7 +18,9 @@ JHtml::_('bootstrap.tooltip');
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-inline">
 	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
-			<p><?php echo $params->get('pretext'); ?></p>
+			<p>
+				<?php echo $params->get('pretext'); ?>
+			</p>
 		</div>
 	<?php endif; ?>
 	<div class="userdata">
