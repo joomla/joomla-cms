@@ -213,7 +213,6 @@ class ContentModelArticles extends JModelList
 		// Join over the frontpage articles if required.
 		if ($this->getState('filter.frontpage'))
 		{
-
 			if ($orderby_sec === 'front')
 			{
 				$query->select('fp.ordering');
