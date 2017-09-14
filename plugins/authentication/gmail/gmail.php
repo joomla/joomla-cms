@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\AuthenticationPluginInterface;
+use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,20 +18,20 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class PlgAuthenticationGMail extends JPlugin
+class PlgAuthenticationGMail extends JPlugin implements AuthenticationPluginInterface
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
-	 * @param   array   $credentials  Array holding the user credentials
-	 * @param   array   $options      Array of extra options
-	 * @param   object  &$response    Authentication response object
+	 * @param   array                   $credentials  Array holding the user credentials
+	 * @param   array                   $options      Array of extra options
+	 * @param   AuthenticationResponse  $response     Authentication response object
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate(array $credentials, array $options, AuthenticationResponse $response)
 	{
 		// Load plugin language
 		$this->loadLanguage();

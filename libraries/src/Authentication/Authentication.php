@@ -10,9 +10,10 @@ namespace Joomla\CMS\Authentication;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
@@ -21,8 +22,6 @@ use Joomla\Event\DispatcherInterface;
  */
 class Authentication extends \JObject
 {
-	use DispatcherAwareTrait;
-
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
 	 * @const  STATUS_SUCCESS successful response
@@ -72,27 +71,33 @@ class Authentication extends \JObject
 	protected static $instance;
 
 	/**
+	 * @var    PluginFactoryInterface  The factory
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $factory;
+
+	/**
 	 * Constructor
 	 *
-	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+	 * @param   PluginFactoryInterface  $factory  The plugin factory
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(DispatcherInterface $dispatcher = null)
+	public function __construct(PluginFactoryInterface $factory = null)
 	{
-		// Set the dispatcher
-		if (!is_object($dispatcher))
+		// Set the factory
+		if (!is_object($factory))
 		{
-			$dispatcher = \JFactory::getContainer()->get('dispatcher');
+			$factory = Factory::getContainer()->get(PluginFactoryInterface::class);
 		}
 
-		$this->setDispatcher($dispatcher);
+		$this->factory = $factory;
 
 		$isLoaded = PluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded)
 		{
-			\JLog::add(\JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), \JLog::WARNING, 'jerror');
+			Log::add(\JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), Log::WARNING, 'jerror');
 		}
 	}
 
@@ -129,13 +134,10 @@ class Authentication extends \JObject
 	public function authenticate($credentials, $options = array())
 	{
 		// Get plugins
-		$plugins = PluginHelper::getPlugin('authentication');
+		$plugins = $this->factory->getPlugins('authentication');
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
-
-		// Get the dispatcher
-		$dispatcher = $this->getDispatcher();
 
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
@@ -146,16 +148,9 @@ class Authentication extends \JObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
-
-			if (class_exists($className))
+			// Check if we have the right plugin
+			if (!$plugin instanceof AuthenticationPluginInterface && !method_exists($plugin, 'onUserAuthenticate'))
 			{
-				$plugin = new $className($dispatcher, (array) $plugin);
-			}
-			else
-			{
-				// Bail here if the plugin can't be created
-				\JLog::add(\JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), \JLog::WARNING, 'jerror');
 				continue;
 			}
 
@@ -165,11 +160,6 @@ class Authentication extends \JObject
 			// If authentication is successful break out of the loop
 			if ($response->status === self::STATUS_SUCCESS)
 			{
-				if (empty($response->type))
-				{
-					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
-				}
-
 				break;
 			}
 		}
@@ -207,7 +197,7 @@ class Authentication extends \JObject
 		// Get plugins in case they haven't been imported already
 		PluginHelper::importPlugin('user');
 		PluginHelper::importPlugin('authentication');
-		$results = \JFactory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
+		$results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;
 	}
