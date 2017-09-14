@@ -81,6 +81,17 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
+
+				<field
+					name="forum_url"
+					type="url"
+					label="MOD_MENU_FIELD_FORUMURL_LABEL"
+					description="MOD_MENU_FIELD_FORUMURL_DESC"
+					filter="url"
+					size="30"
+					default=""
+					showon="menutype:*"
+				/>
 			</fieldset>
 
 			<fieldset name="advanced">
@@ -97,16 +108,6 @@
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
-				/>
-
-				<field
-					name="forum_url"
-					type="url"
-					label="MOD_MENU_FIELD_FORUMURL_LABEL"
-					description="MOD_MENU_FIELD_FORUMURL_DESC"
-					filter="url"
-					size="30"
-					default=""
 				/>
 			</fieldset>
 		</fields>
