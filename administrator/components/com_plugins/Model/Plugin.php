@@ -10,8 +10,8 @@ namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Admin;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Plugin extends Admin
+class Plugin extends AdminModel
 {
 	/**
 	 * @var     string  The help screen key for the module.
@@ -45,12 +45,12 @@ class Plugin extends Admin
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\Model\Model
+	 * @see     \Joomla\CMS\MVC\Model\BaseModel
 	 * @since   3.2
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		$config = array_merge(
 			array(

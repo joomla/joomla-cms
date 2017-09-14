@@ -10,14 +10,14 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Languages Overrides Controller.
  *
  * @since  2.5
  */
-class Overrides extends Admin
+class Overrides extends AdminController
 {
 	/**
 	 * The prefix to use with controller messages.

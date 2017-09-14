@@ -10,12 +10,14 @@ namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * Reset controller class for Users.
  *
  * @since  1.6
  */
-class Remind extends Controller
+class Remind extends BaseController
 {
 	/**
 	 * Method to request a username reminder.

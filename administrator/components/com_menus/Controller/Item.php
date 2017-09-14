@@ -11,7 +11,7 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Filter\InputFilter;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\CMS\Filter\InputFilter;
  *
  * @since  1.6
  */
-class Item extends Form
+class Item extends FormController
 {
 	/**
 	 * Method to check if you can add a new record.
@@ -555,7 +555,7 @@ class Item extends Form
 		}
 
 		unset($data['request']);
-		
+
 		$data['type'] = $title;
 
 		if ($this->input->get('fieldtype') == 'type')

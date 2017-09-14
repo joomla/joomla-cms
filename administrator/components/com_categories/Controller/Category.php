@@ -10,9 +10,9 @@ namespace Joomla\Component\Categories\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\Controller\Form;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class Category extends Form
+class Category extends FormController
 {
 	/**
 	 * The extension for which the categories apply.
@@ -34,14 +34,14 @@ class Category extends Form
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -170,14 +170,14 @@ class Category extends Form
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   \Joomla\CMS\Model\Model  $model      The data model object.
-	 * @param   array                    $validData  The validated data.
+	 * @param   \Joomla\CMS\MVC\Model\BaseModel  $model      The data model object.
+	 * @param   array                            $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$item = $model->getItem();
 

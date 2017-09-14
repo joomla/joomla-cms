@@ -6,14 +6,14 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Model;
+namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Mvc\Factory\LegacyFactory;
-use Joomla\CMS\Mvc\Factory\MvcFactory;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5.5
  */
-abstract class Model extends \JObject
+abstract class BaseModel extends \JObject
 {
 	/**
 	 * Indicates if the internal state has been set
@@ -78,7 +78,7 @@ abstract class Model extends \JObject
 	/**
 	 * The factory.
 	 *
-	 * @var    MvcFactoryInterface
+	 * @var    MVCFactoryInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $factory;
@@ -226,12 +226,12 @@ abstract class Model extends \JObject
 	 * Constructor
 	 *
 	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
@@ -318,7 +318,7 @@ abstract class Model extends \JObject
 				$ns = explode('\\', $reflect->getNamespaceName());
 				$ns = implode('\\', array_slice($ns, 0, 3));
 
-				$factory = new MvcFactory($ns, \JFactory::getApplication());
+				$factory = new MVCFactory($ns, \JFactory::getApplication());
 			}
 		}
 

@@ -9,7 +9,7 @@
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 defined('_JEXEC') or die;
 

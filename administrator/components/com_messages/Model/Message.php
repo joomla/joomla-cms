@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * Private Message model.
  *
  * @since  1.6
  */
-class Message extends Admin
+class Message extends AdminModel
 {
 	/**
 	 * Message

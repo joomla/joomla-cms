@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * Item Model for an Article.
  *
  * @since  1.6
  */
-class Article extends Admin
+class Article extends AdminModel
 {
 	/**
 	 * The prefix to use with controller messages.

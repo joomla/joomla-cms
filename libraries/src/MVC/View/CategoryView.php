@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\View;
+namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class Category extends HtmlView
+class CategoryView extends HtmlView
 {
 	/**
 	 * State data
@@ -125,7 +125,7 @@ class Category extends HtmlView
 
 		if ($category == false)
 		{
-			throw new InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)

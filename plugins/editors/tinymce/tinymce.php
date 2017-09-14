@@ -56,69 +56,6 @@ class PlgEditorTinymce extends JPlugin
 	}
 
 	/**
-	 * TinyMCE WYSIWYG Editor - get the editor content
-	 *
-	 * @param   string  $id  The name of the editor
-	 *
-	 * @since   1.5
-	 *
-	 * @return  string
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onGetContent($id)
-	{
-		return 'Joomla.editors.instances[' . json_encode($id) . '].getValue();';
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - set the editor content
-	 *
-	 * @param   string  $id    The name of the editor
-	 * @param   string  $html  The html to place in the editor
-	 *
-	 * @since   1.5
-	 *
-	 * @return  string
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onSetContent($id, $html)
-	{
-		return 'Joomla.editors.instances[' . json_encode($id) . '].setValue(' . json_encode($html) . ');';
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - copy editor content to form field
-	 *
-	 * @param   string  $id  The name of the editor
-	 *
-	 * @since   1.5
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onSave($id)
-	{
-	}
-
-	/**
-	 * Inserts html code into the editor
-	 *
-	 * @param   string  $name  The name of the editor
-	 *
-	 * @since   1.5
-	 *
-	 * @return  string
-	 *
-	 * @deprecated 3.5 tinyMCE (API v4) will get the content automatically from the text area
-	 */
-	public function onGetInsertMethod($name)
-	{
-	}
-
-	/**
 	 * Display the editor area.
 	 *
 	 * @param   string   $name     The name of the editor area.

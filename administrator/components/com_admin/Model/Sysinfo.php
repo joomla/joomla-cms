@@ -11,7 +11,7 @@ namespace Joomla\Component\Admin\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class SysInfo extends Model
+class SysInfo extends BaseModel
 {
 	/**
 	 * Some PHP settings
@@ -167,7 +167,7 @@ class SysInfo extends Model
 	 * Remove sections of data marked as private in the privateSettings
 	 *
 	 * @param   array   $dataArray  Array with data tha may contain private informati
-	 * @param   string  $dataType   Type of data to search for an specific section in the privateSettings array
+	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
 	 *

@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Level extends Form
+class Level extends FormController
 {
 	/**
 	 * @var     string  The prefix to use with controller messages.

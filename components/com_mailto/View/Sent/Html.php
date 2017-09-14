@@ -10,7 +10,7 @@ namespace Joomla\Component\Mailto\Site\View\Sent;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Class for email sent view.

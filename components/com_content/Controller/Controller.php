@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Content\Site\Controller;
 
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 defined('_JEXEC') or die;
 
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class Controller extends \Joomla\CMS\Controller\Controller
+class Controller extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
 	 * Constructor.
@@ -25,13 +25,13 @@ class Controller extends \Joomla\CMS\Controller\Controller
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   12.2
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		$this->input = \JFactory::getApplication()->input;
 
@@ -56,7 +56,7 @@ class Controller extends \Joomla\CMS\Controller\Controller
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  \Joomla\CMS\Controller\Controller  This object to support chaining.
+	 * @return  \Joomla\CMS\MVC\Controller\BaseController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */

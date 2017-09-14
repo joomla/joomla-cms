@@ -10,14 +10,14 @@ namespace Joomla\Component\Admin\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * User profile controller class.
  *
  * @since  1.6
  */
-class Profile extends Form
+class Profile extends FormController
 {
 	/**
 	 * Method to check if you can edit a record.

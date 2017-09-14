@@ -12,7 +12,7 @@ namespace Joomla\Component\Media\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
@@ -26,7 +26,7 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Api extends Controller
+class Api extends BaseController
 {
 	/**
 	 * Api endpoint for the media manager front end. The HTTP methods GET, PUT, POST and DELETE

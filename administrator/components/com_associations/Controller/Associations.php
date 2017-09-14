@@ -10,7 +10,7 @@ namespace Joomla\Component\Associations\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
  *
  * @since  3.7.0
  */
-class Associations extends Admin
+class Associations extends AdminController
 {
 	/**
 	 * The URL view list variable.
@@ -36,7 +36,7 @@ class Associations extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model|bool
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel|bool
 	 *
 	 * @since  3.7.0
 	 */

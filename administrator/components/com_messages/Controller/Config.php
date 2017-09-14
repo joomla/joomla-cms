@@ -10,14 +10,14 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Messages Component Message Model
  *
  * @since  1.6
  */
-class Config extends Controller
+class Config extends BaseController
 {
 	/**
 	 * Method to save a record.

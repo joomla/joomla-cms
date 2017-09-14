@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Registry\Registry;
 
 /**
@@ -217,7 +217,7 @@ class Html extends HtmlView
 		{
 			$currentLink = $active->link;
 
-			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
+			// If the current view is the active item and a tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id))
 			{
 				// $item[0]->params are the tag params, $temp are the menu item params

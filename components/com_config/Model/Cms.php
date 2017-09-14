@@ -9,19 +9,17 @@
 
 namespace Joomla\Component\Config\Site\Model;
 
-
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use \Joomla\CMS\Model\Model;
-
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * Prototype admin model.
  *
  * @since  3.2
  */
-abstract class Cms extends Model
+abstract class Cms extends BaseModel
 {
 	/**
 	 * The model (base) name
@@ -72,7 +70,7 @@ abstract class Cms extends Model
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new \Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);

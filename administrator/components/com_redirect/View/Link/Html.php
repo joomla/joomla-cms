@@ -11,7 +11,7 @@ namespace Joomla\Component\Redirect\Administrator\View\Link;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * View to edit a redirect link.

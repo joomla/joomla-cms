@@ -10,14 +10,14 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Rest model class for Users.
  *
  * @since  1.6
  */
-class Login extends Form
+class Login extends FormModel
 {
 	/**
 	 * Method to get the login form.

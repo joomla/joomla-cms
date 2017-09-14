@@ -11,15 +11,15 @@ namespace Joomla\Component\Users\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Controller\Form;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 /**
  * User controller class.
  *
  * @since  1.6
  */
-class User extends Form
+class User extends FormController
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.
@@ -86,7 +86,7 @@ class User extends Form
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		return;
 	}

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -22,7 +22,7 @@ jimport('joomla.filesystem.file');
  *
  * @since  2.5.4
  */
-class Update extends Model
+class Update extends BaseModel
 {
 	/**
 	 * Detects if the Joomla! update site currently in use matches the one

@@ -11,7 +11,7 @@ namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\Component\Newsfeeds\Site\Model\Category;
 
@@ -136,7 +136,7 @@ class Html extends HtmlView
 		{
 			$currentLink = $active->link;
 
-			// If the current view is the active item and an newsfeed view for this feed, then the menu item params take priority
+			// If the current view is the active item and a newsfeed view for this feed, then the menu item params take priority
 			if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . (string) $item->id))
 			{
 				// $item->params are the newsfeed params, $temp are the menu item params

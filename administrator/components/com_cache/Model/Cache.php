@@ -10,7 +10,7 @@ namespace Joomla\Component\Cache\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Pagination\Pagination;
 

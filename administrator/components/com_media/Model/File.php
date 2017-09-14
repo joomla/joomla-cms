@@ -11,7 +11,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class File extends Form
+class File extends FormModel
 {
 	/**
 	 * Method to get the record form.

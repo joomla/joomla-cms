@@ -986,7 +986,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 
 			newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion : '');
-			document.head.insertAdjacentElement('beforeend', newScript);
+			document.head.appendChild(newScript);
 
 			document.addEventListener('WebComponentsReady', function () {
 				loadWC(wc);

@@ -11,14 +11,14 @@ namespace Joomla\Component\Banners\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Download model.
  *
  * @since  1.5
  */
-class Download extends Form
+class Download extends FormModel
 {
 	/**
 	 * The model context

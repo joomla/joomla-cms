@@ -10,7 +10,7 @@ namespace Joomla\Component\Tags\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\TagsHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\CMS\Helper\TagsHelper;
  *
  * @since  3.1
  */
-class Tags extends Controller
+class Tags extends BaseController
 {
 	/**
 	 * Method to search tags with A\JAX

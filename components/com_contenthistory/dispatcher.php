@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
@@ -72,7 +72,7 @@ class ContenthistoryDispatcher extends Dispatcher
 	public function getController($name, $client = null, $config = array())
 	{
 		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-		
+
 		return parent::getController($name, $client, $config);
 	}
 }

@@ -10,9 +10,9 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
-use Joomla\CMS\Model\Model;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class Group extends Form
+class Group extends FormController
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -45,13 +45,13 @@ class Group extends Form
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.7.0
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -147,14 +147,14 @@ class Group extends Form
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$item = $model->getItem();
 

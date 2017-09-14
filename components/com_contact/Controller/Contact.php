@@ -11,7 +11,7 @@ namespace Joomla\Component\Contact\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  1.5.19
  */
-class Contact extends Form
+class Contact extends FormController
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -28,7 +28,7 @@ class Contact extends Form
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
 	 *
 	 * @since   1.6.4
 	 */

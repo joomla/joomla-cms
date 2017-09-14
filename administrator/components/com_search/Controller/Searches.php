@@ -10,14 +10,14 @@ namespace Joomla\Component\Search\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Methods supporting a list of search terms.
  *
  * @since  1.6
  */
-class Searches extends Controller
+class Searches extends BaseController
 {
 	/**
 	 * Method to reset the search log table.
