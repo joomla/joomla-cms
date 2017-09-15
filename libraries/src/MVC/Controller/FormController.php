@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseModel;
-use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -425,7 +424,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  BaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -438,7 +437,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		$model = parent::getModel($name, $prefix, $config);
 
-		if ($model instanceof FormModel)
+		if ($model instanceof FormFactoryAwareInterface)
 		{
 			$model->setFormFactory($this->formFactory);
 		}
