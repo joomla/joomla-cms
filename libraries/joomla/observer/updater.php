@@ -56,7 +56,29 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 */
 	public function attachObserver(JObserverInterface $observer)
 	{
-		$this->observers[get_class($observer)] = $observer;
+		$class = get_class($observer);
+		$this->observers[$class] = $observer;
+
+		// Also register the alias
+		foreach (JLoader::getDeprecatedAliases() as $alias)
+		{
+			$realClass  = trim($alias['new'], '\\');
+			$aliasClass = trim($alias['old'], '\\');
+
+			// Check if we have an alias for the observer class
+			if ($realClass == $class)
+			{
+				// Register the alias
+				$this->observers[$aliasClass] = $observer;
+			}
+
+			// Check if the observer class is an alias
+			if ($aliasClass == $class)
+			{
+				// Register the real class
+				$this->observers[$realClass] = $observer;
+			}
+		}
 	}
 
 	/**
@@ -71,6 +93,8 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 */
 	public function detachObserver($observer)
 	{
+		$observer = trim($observer, '\\');
+
 		if (isset($this->observers[$observer]))
 		{
 			unset($this->observers[$observer]);
@@ -88,12 +112,14 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 */
 	public function getObserverOfClass($observerClass)
 	{
+		$observerClass = trim($observerClass, '\\');
+
 		if (isset($this->observers[$observerClass]))
 		{
 			return $this->observers[$observerClass];
 		}
 
-		return;
+		return null;
 	}
 
 	/**

@@ -52,6 +52,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
+            'Joomla\\Image\\' => 13,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Filesystem\\' => 18,
             'Joomla\\Event\\Tests\\' => 19,
@@ -121,6 +122,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Input\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
+        ),
+        'Joomla\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/image/src',
         ),
         'Joomla\\Filter\\' => 
         array (
@@ -271,6 +276,17 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Filesystem\\Support\\StringController' => __DIR__ . '/..' . '/joomla/filesystem/src/Support/StringController.php',
         'Joomla\\Filter\\InputFilter' => __DIR__ . '/..' . '/joomla/filter/src/InputFilter.php',
         'Joomla\\Filter\\OutputFilter' => __DIR__ . '/..' . '/joomla/filter/src/OutputFilter.php',
+        'Joomla\\Image\\Filter\\Backgroundfill' => __DIR__ . '/..' . '/joomla/image/src/Filter/Backgroundfill.php',
+        'Joomla\\Image\\Filter\\Brightness' => __DIR__ . '/..' . '/joomla/image/src/Filter/Brightness.php',
+        'Joomla\\Image\\Filter\\Contrast' => __DIR__ . '/..' . '/joomla/image/src/Filter/Contrast.php',
+        'Joomla\\Image\\Filter\\Edgedetect' => __DIR__ . '/..' . '/joomla/image/src/Filter/Edgedetect.php',
+        'Joomla\\Image\\Filter\\Emboss' => __DIR__ . '/..' . '/joomla/image/src/Filter/Emboss.php',
+        'Joomla\\Image\\Filter\\Grayscale' => __DIR__ . '/..' . '/joomla/image/src/Filter/Grayscale.php',
+        'Joomla\\Image\\Filter\\Negate' => __DIR__ . '/..' . '/joomla/image/src/Filter/Negate.php',
+        'Joomla\\Image\\Filter\\Sketchy' => __DIR__ . '/..' . '/joomla/image/src/Filter/Sketchy.php',
+        'Joomla\\Image\\Filter\\Smooth' => __DIR__ . '/..' . '/joomla/image/src/Filter/Smooth.php',
+        'Joomla\\Image\\Image' => __DIR__ . '/..' . '/joomla/image/src/Image.php',
+        'Joomla\\Image\\ImageFilter' => __DIR__ . '/..' . '/joomla/image/src/ImageFilter.php',
         'Joomla\\Input\\Cli' => __DIR__ . '/..' . '/joomla/input/src/Cli.php',
         'Joomla\\Input\\Cookie' => __DIR__ . '/..' . '/joomla/input/src/Cookie.php',
         'Joomla\\Input\\Files' => __DIR__ . '/..' . '/joomla/input/src/Files.php',
@@ -296,11 +312,9 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Session\\Storage\\None' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/None.php',
         'Joomla\\Session\\Storage\\Wincache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Wincache.php',
         'Joomla\\Session\\Storage\\Xcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Xcache.php',
-        'Joomla\\Session\\Tests\\Handler\\ApcHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/ApcHandlerTest.php',
         'Joomla\\Session\\Tests\\Handler\\ApcuHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/ApcuHandlerTest.php',
         'Joomla\\Session\\Tests\\Handler\\DatabaseHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/DatabaseHandlerTest.php',
         'Joomla\\Session\\Tests\\Handler\\FilesystemHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/FilesystemHandlerTest.php',
-        'Joomla\\Session\\Tests\\Handler\\MemcacheHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/MemcacheHandlerTest.php',
         'Joomla\\Session\\Tests\\Handler\\MemcachedHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/MemcachedHandlerTest.php',
         'Joomla\\Session\\Tests\\Handler\\NativeStorageTest' => __DIR__ . '/..' . '/joomla/session/tests/Storage/NativeStorageTest.php',
         'Joomla\\Session\\Tests\\Handler\\RedisHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/RedisHandlerTest.php',

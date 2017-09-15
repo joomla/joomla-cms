@@ -6,6 +6,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/**
+ * A command line cron job to attempt to remove files that should have been deleted at update.
+ */
+
 // We are a valid entry point.
 const _JEXEC = 1;
 

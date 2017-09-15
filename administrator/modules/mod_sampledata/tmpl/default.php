@@ -30,14 +30,14 @@ JFactory::getDocument()->addScriptDeclaration('
 					<div class="span4">
 						<a href="#" onclick="sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
 							<strong class="row-title">
-								<span class="icon-<?php echo $item->icon; ?>"> </span>
+								<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"> </span>
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 							</strong>
 						</a>
 					</div>
 					<div class="span6">
 						<small>
-							<?php echo htmlspecialchars($item->description); ?>
+							<?php echo $item->description; ?>
 						</small>
 					</div>
 				</div>

@@ -1660,6 +1660,14 @@ legend + .control-group {
 .subform-repeatable-wrapper tr.ui-sortable-helper {
 	display: table;
 }
+@media (min-width: 980px) and (max-width: 1215px) {
+	.float-cols .control-label {
+		float: none;
+	}
+	.float-cols .controls {
+		margin-left: 0;
+	}
+}
 table {
 	max-width: 100%;
 	background-color: transparent;
@@ -8750,6 +8758,9 @@ ul.treeselect ul.dropdown-menu li {
 .tree-holder .active.folder-url {
 	background-color: #f5f5f5;
 	color: #3071a9;
+}
+.tree-holder .active.file:hover {
+	background-color: #3071a9;
 }
 .tree-holder ul ul {
 	box-shadow: -3px 0 0 rgba(0,0,0,0.08);

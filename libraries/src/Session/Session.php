@@ -937,7 +937,10 @@ class Session implements \IteratorAggregate
 		}
 
 		// Sync the session maxlifetime
-		ini_set('session.gc_maxlifetime', $this->_expire);
+		if (!headers_sent())
+		{
+			ini_set('session.gc_maxlifetime', $this->_expire);
+		}
 
 		return true;
 	}
