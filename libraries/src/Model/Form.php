@@ -11,6 +11,8 @@ namespace Joomla\CMS\Model;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -23,8 +25,10 @@ use Joomla\Utilities\ArrayHelper;
  * @see    \JFormRule
  * @since  1.6
  */
-abstract class Form extends Model
+abstract class Form extends Model implements FormFactoryAwareInterface
 {
+	use FormFactoryAwareTrait;
+
 	/**
 	 * Array of form objects.
 	 *
@@ -40,14 +44,6 @@ abstract class Form extends Model
 	 * @since  3.6
 	 */
 	protected $events_map = null;
-
-	/**
-	 * The form factory.
-	 *
-	 * @var    FormFactoryInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $formFactory = null;
 
 	/**
 	 * Constructor
@@ -72,7 +68,7 @@ abstract class Form extends Model
 
 		parent::__construct($config, $factory);
 
-		$this->formFactory = $formFactory;
+		$this->setFormFactory($formFactory);
 	}
 
 	/**
@@ -401,19 +397,5 @@ abstract class Form extends Model
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Sets the internal form factory.
-	 *
-	 * @param   FormFactoryInterface  $formFactory   The form factory
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setFormFactory(FormFactoryInterface $formFactory)
-	{
-		$this->formFactory = $formFactory;
 	}
 }

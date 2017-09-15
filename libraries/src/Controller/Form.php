@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Controller;
 
+use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
@@ -19,8 +21,10 @@ defined('JPATH_PLATFORM') or die;
  * @since  1.6
  * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
-class Form extends Controller
+class Form extends Controller implements FormFactoryAwareInterface
 {
+	use FormFactoryAwareTrait;
+
 	/**
 	 * The context for storing internal data, e.g. record.
 	 *
@@ -124,7 +128,7 @@ class Form extends Controller
 			$this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
 		}
 
-		$this->formFactory = $formFactory;
+		$this->setFormFactory($formFactory);
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
@@ -905,19 +909,5 @@ class Form extends Controller
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
-	}
-
-	/**
-	 * Sets the internal form factory.
-	 *
-	 * @param   FormFactoryInterface  $formFactory   The form factory
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setFormFactory(FormFactoryInterface $formFactory)
-	{
-		$this->formFactory = $formFactory;
 	}
 }
