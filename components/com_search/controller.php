@@ -45,7 +45,7 @@ class SearchController extends JControllerLegacy
 	{
 		// Slashes cause errors, <> get stripped anyway later on. # causes problems.
 		$badchars = array('#', '>', '<', '\\');
-		$searchword = trim(str_replace($badchars, '', $this->input->getString('searchword', null, 'post')));
+		$searchword = trim(str_replace($badchars, '', $this->input->post->getString('searchword')));
 
 		// If searchword enclosed in double quotes, strip quotes and do exact match
 		if (substr($searchword, 0, 1) === '"' && substr($searchword, -1) === '"')
@@ -58,9 +58,9 @@ class SearchController extends JControllerLegacy
 			$post['searchword'] = $searchword;
 		}
 
-		$post['ordering']     = $this->input->getWord('ordering', null, 'post');
-		$post['searchphrase'] = $this->input->getWord('searchphrase', 'all', 'post');
-		$post['limit']        = $this->input->getUInt('limit', null, 'post');
+		$post['ordering']     = $this->input->post->getWord('ordering');
+		$post['searchphrase'] = $this->input->post->getWord('searchphrase', 'all');
+		$post['limit']        = $this->input->post->getUInt('limit');
 
 		if ($post['limit'] === null)
 		{
