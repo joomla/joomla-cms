@@ -241,6 +241,7 @@ abstract class FormModel extends BaseModel implements FormFactoryAwareInterface
 		}
 		catch (\UnexpectedValueException $e)
 		{
+			// @Todo can be removed when the constructor argument becomes mandatory
 			$formFactory = Factory::getContainer()->get(FormFactoryInterface::class);
 		}
 

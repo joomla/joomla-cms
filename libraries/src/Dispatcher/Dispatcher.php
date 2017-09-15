@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -221,7 +222,7 @@ abstract class Dispatcher implements DispatcherInterface
 
 		$controller = new $controllerClass($config, new MvcFactory($namespace, $this->app), $this->app, $this->input);
 
-		if ($controller instanceof Form)
+		if ($controller instanceof FormFactoryAwareInterface)
 		{
 			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
 		}

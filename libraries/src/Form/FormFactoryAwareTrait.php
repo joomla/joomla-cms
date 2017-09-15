@@ -20,7 +20,7 @@ trait FormFactoryAwareTrait
 	/**
 	 * FormFactoryInterface
 	 *
-	 * @var    FormFactoryInterfaceInterface
+	 * @var    FormFactoryInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $formFactory;
@@ -28,7 +28,7 @@ trait FormFactoryAwareTrait
 	/**
 	 * Get the FormFactoryInterface.
 	 *
-	 * @return  FormFactoryInterfaceInterface
+	 * @return  FormFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \UnexpectedValueException May be thrown if the FormFactory has not been set.
