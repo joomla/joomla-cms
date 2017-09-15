@@ -14,7 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -24,7 +24,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class Newsfeed extends Admin
+class Newsfeed extends AdminModel
 {
 	/**
 	 * The type alias for this content type.

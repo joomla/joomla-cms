@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
@@ -286,7 +286,7 @@ class Html extends HtmlView
 			// In menu associations modal we need to remove language filter if forcing a language.
 			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 

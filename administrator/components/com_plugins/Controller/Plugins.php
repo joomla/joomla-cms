@@ -10,14 +10,14 @@ namespace Joomla\Component\Plugins\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * Plugins list controller class.
  *
  * @since  1.6
  */
-class Plugins extends Admin
+class Plugins extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
+class ComposerStaticInit0d487b6a03111be734c69cb1221e2dd4
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -24,8 +24,8 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
-        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -248,9 +248,9 @@ class ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita78f9fa8276d5ceaa18299c68ee0171e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0d487b6a03111be734c69cb1221e2dd4::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0d487b6a03111be734c69cb1221e2dd4::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0d487b6a03111be734c69cb1221e2dd4::$classMap;
 
         }, null, ClassLoader::class);
     }

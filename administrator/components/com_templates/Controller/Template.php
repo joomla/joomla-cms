@@ -12,28 +12,28 @@ defined('_JEXEC') or die;
 
 \JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
 
-use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Template style controller class.
  *
  * @since  1.6
  */
-class Template extends Controller
+class Template extends BaseController
 {
 	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -170,7 +170,7 @@ class Template extends Controller
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
 	 *
 	 * @since   3.2
 	 */
@@ -445,7 +445,7 @@ class Template extends Controller
 	{
 		// Check for request forgeries
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
-		
+
 		/* @var \Joomla\Component\Templates\Administrator\Model\Template $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');

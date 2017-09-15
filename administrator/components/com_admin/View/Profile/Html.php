@@ -11,7 +11,7 @@ namespace Joomla\Component\Admin\Administrator\View\Profile;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * View class to allow users edit their own profile.

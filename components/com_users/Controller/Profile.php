@@ -10,7 +10,8 @@ namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
 
 defined('_JEXEC') or die;
@@ -20,7 +21,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class Profile extends Controller
+class Profile extends BaseController
 {
 	/**
 	 * Method to check out a user for editing and redirect to the edit form.
@@ -37,7 +38,7 @@ class Profile extends Controller
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId     = $this->input->getInt('user_id', null, 'array');
+		$userId     = $this->input->getInt('user_id');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
@@ -235,14 +236,14 @@ class Profile extends Controller
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseModel  $model      The data model object.
+	 * @param   array      $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 		$item = $model->getData();
 		$tags = $validData['tags'];

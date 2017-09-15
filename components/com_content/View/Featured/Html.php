@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Site\View\Featured;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Frontpage View class

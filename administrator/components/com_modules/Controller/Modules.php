@@ -10,7 +10,7 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Modules extends Admin
+class Modules extends AdminController
 {
 	/**
 	 * Method to clone an existing module.

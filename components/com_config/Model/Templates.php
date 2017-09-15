@@ -11,19 +11,18 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-
 /**
  * Template style model.
  *
  * @since  3.2
  */
-class Templates extends Form
+class Templates extends FormModel
 {
 	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
-	 * 
+	 *
 	 * @return  null
 	 *
 	 * @since   3.2

@@ -14,8 +14,8 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Model\Form;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Component\Users\Administrator\Model\User;
@@ -27,7 +27,7 @@ use Joomla\Component\Users\Administrator\Model\User;
  * @subpackage  com_contact
  * @since       1.5
  */
-class Contact extends Form
+class Contact extends FormModel
 {
 	/**
 	 * The name of the view for a single item

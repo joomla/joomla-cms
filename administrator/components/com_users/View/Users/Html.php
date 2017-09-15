@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 /**
@@ -45,7 +45,7 @@ class Html extends HtmlView
 	 * @since 1.6
 	 */
 	protected $state;
-	
+
 	/**
 	 * A \JForm instance with filter fields.
 	 *
@@ -61,7 +61,7 @@ class Html extends HtmlView
 	 * @since  3.6.3
 	 */
 	public $activeFilters;
-	
+
 	/**
 	 * An ACL object to verify user rights.
 	 *
@@ -69,7 +69,7 @@ class Html extends HtmlView
 	 * @since  3.6.3
 	 */
 	 protected $canDo;
-	
+
 	/**
 	 * An instance of \JDatabaseDriver.
 	 *

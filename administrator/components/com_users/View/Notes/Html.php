@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Administrator\View\Notes;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Registry\Registry;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 

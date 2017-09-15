@@ -11,7 +11,7 @@ namespace Joomla\Component\Search\Administrator\View\Searches;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * View class for a list of search terms.

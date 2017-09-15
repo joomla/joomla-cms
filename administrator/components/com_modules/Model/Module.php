@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Module extends Admin
+class Module extends AdminModel
 {
 	/**
 	 * The type alias for this content type.

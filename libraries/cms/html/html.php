@@ -482,7 +482,7 @@ abstract class JHtml
 					}
 					else
 					{
-						// If the file contains any /: it can be in an media extension subfolder
+						// If the file contains any /: it can be in a media extension subfolder
 						if (strpos($file, '/'))
 						{
 							// Divide the file extracting the extension as the first part before /

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Model\Admin;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -24,7 +24,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.7.0
  */
-class Field extends Admin
+class Field extends AdminModel
 {
 	/**
 	 * @var null|string
@@ -70,12 +70,12 @@ class Field extends Admin
 	 * Constructor
 	 *
 	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @since   3.7.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		parent::__construct($config, $factory);
 
@@ -192,10 +192,12 @@ class Field extends Admin
 			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
 				$names = array();
+
 				foreach ($newParams as $param)
 				{
 					$names[] = $db->q($param['value']);
 				}
+
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
 					->where('value NOT IN (' . implode(',', $names) . ')');
@@ -203,6 +205,8 @@ class Field extends Admin
 				$db->execute();
 			}
 		}
+
+		\FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -645,6 +649,7 @@ class Field extends Admin
 		}
 
 		$this->valueCache = array();
+		\FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -943,12 +948,14 @@ class Field extends Admin
 
 			// Allow to override the default value label and description through the plugin
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
+
 			if (\JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'label', $key);
 			}
 
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
+
 			if (\JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);

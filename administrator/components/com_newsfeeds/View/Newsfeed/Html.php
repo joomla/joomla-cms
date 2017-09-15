@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * View to edit a newsfeed.
@@ -122,7 +122,7 @@ class Html extends HtmlView
 		{
 			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
-		
+
 		 \JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'

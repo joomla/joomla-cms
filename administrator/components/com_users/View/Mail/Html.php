@@ -10,7 +10,7 @@ namespace Joomla\Component\Users\Administrator\View\Mail;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Users mail view.

@@ -10,7 +10,7 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Cache component

@@ -10,7 +10,7 @@ namespace Joomla\Component\Contenthistory\Administrator\View\Preview;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * View class for a list of contenthistory.

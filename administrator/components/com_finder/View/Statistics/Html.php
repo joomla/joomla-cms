@@ -10,7 +10,7 @@ namespace Joomla\Component\Finder\Administrator\View\Statistics;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Statistics view class for Finder.

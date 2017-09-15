@@ -10,8 +10,8 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Styles extends Admin
+class Styles extends AdminController
 {
 	/**
 	 * Method to clone and existing template style.

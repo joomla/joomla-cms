@@ -11,7 +11,7 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use  \Joomla\CMS\Controller\Controller;
+use  \Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Config\Site\Model\Config;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Component\Config\Site\Model\Config;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Request extends Controller
+class Request extends BaseController
 {
 	/**
 	 * Execute the controller.

@@ -989,7 +989,7 @@ abstract class InstallerAdapter
 	 */
 	protected function setupScriptfile()
 	{
-		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		// If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)

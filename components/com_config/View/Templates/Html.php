@@ -11,8 +11,8 @@ namespace Joomla\Component\Config\Site\View\Templates;
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\View\HtmlView;
-use \Joomla\Component\Templates\Administrator\Model\Style;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\Component\Templates\Administrator\Model\Style;
 use Joomla\Component\Config\Administrator\Controller\Request;
 
 /**

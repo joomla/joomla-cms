@@ -12,14 +12,14 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Model for the global configuration
  *
  * @since  3.2
  */
-class Config extends Form
+class Config extends FormModel
 {
 	/**
 	 * Method to get a form object.

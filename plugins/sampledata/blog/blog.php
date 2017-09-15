@@ -110,7 +110,7 @@ class PlgSampledataBlog extends JPlugin
 		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
 		$category      = array(
 			'title'           => $categoryTitle,
-			'parent_id'       => 0,
+			'parent_id'       => 1,
 			'id'              => 0,
 			'published'       => 1,
 			'access'          => $access,
@@ -126,7 +126,10 @@ class PlgSampledataBlog extends JPlugin
 
 		try
 		{
-			$categoryModel->save($category);
+			if (!$categoryModel->save($category))
+			{
+				throw new Exception($categoryModel->getError());
+			}
 		}
 		catch (Exception $e)
 		{
@@ -144,7 +147,7 @@ class PlgSampledataBlog extends JPlugin
 		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE');
 		$category      = array(
 			'title'           => $categoryTitle,
-			'parent_id'       => 0,
+			'parent_id'       => 1,
 			'id'              => 0,
 			'published'       => 1,
 			'access'          => $access,
@@ -160,7 +163,10 @@ class PlgSampledataBlog extends JPlugin
 
 		try
 		{
-			$categoryModel->save($category);
+			if (!$categoryModel->save($category))
+			{
+				throw new Exception($categoryModel->getError());
+			}
 		}
 		catch (Exception $e)
 		{

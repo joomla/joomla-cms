@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -27,7 +27,7 @@ class Articles extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
-	 * @see     \Joomla\CMS\Controller\Controller
+	 * @see     \Joomla\CMS\MVC\Controller\BaseController
 	 */
 	public function __construct($config = array())
 	{
@@ -340,7 +340,7 @@ class Articles extends ListModel
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   1.6
 	 */

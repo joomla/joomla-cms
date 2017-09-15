@@ -10,7 +10,7 @@ namespace Joomla\Component\Tags\Site\View\Tags;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Tags component all tags view

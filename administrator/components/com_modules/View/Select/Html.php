@@ -11,7 +11,7 @@ namespace Joomla\Component\Modules\Administrator\View\Select;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * HTML View class for the Modules component

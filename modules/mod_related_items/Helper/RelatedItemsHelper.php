@@ -12,7 +12,7 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Language\Multilanguage;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
@@ -20,9 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 /**
  * Helper for mod_related_items
  *
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- * @since       1.5
+ * @since  1.5
  */
 abstract class RelatedItemsHelper
 {
@@ -42,8 +40,8 @@ abstract class RelatedItemsHelper
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
-		Model::addIncludePath(JPATH_SITE . '/components/com_content/models');
-		$articles = Model::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		BaseModel::addIncludePath(JPATH_SITE . '/components/com_content/models');
+		$articles = BaseModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		if ($articles === false)
 		{

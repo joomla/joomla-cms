@@ -10,14 +10,14 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
  * User notes controller class.
  *
  * @since  2.5
  */
-class Notes extends Admin
+class Notes extends AdminController
 {
 	/**
 	 * The prefix to use with controller messages.

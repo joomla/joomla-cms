@@ -10,7 +10,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Item;
+use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
@@ -19,7 +19,7 @@ use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
  *
  * @since  3.2
  */
-class Preview extends Item
+class Preview extends ItemModel
 {
 	/**
 	 * Method to get a version history row.

@@ -10,14 +10,14 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * The Joomla! update controller for the Update view
  *
  * @since  2.5.4
  */
-class Update extends Controller
+class Update extends BaseController
 {
 	/**
 	 * Performs the download of the update package

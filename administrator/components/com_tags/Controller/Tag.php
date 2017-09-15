@@ -10,14 +10,14 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * The Tag Controller
  *
  * @since  3.1
  */
-class Tag extends Form
+class Tag extends FormController
 {
 	/**
 	 * Method to check if you can add a new record.

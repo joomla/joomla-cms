@@ -10,8 +10,8 @@ namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
-use Joomla\CMS\Model\Model;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Newsfeed extends Form
+class Newsfeed extends FormController
 {
 	/**
 	 * Method override to check if you can add a new record.
@@ -122,7 +122,7 @@ class Newsfeed extends Form
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(Model $model, $validData = array())
+	protected function postSaveHook(BaseModel $model, $validData = array())
 	{
 
 	}

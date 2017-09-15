@@ -11,10 +11,10 @@ namespace Joomla\Component\Languages\Administrator\View\Override;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
- * View to edit an language override
+ * View to edit a language override
  *
  * @since  2.5
  */

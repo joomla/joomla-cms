@@ -1,11 +1,7 @@
-#### Browser Version is used for automatically prefixing the stylesheets. IMPORTANT: Joomla 4 supports only the latest 2 versions of each browser!!!
+#### Browser Version is used for automatically prefixing the stylesheets.
+#### IMPORTANT: Joomla 4 only supports the latest version of each browser!
 Browsers:
-    'Chrome':   '58'
-    'Firefox':  '53'
-    'Edge':     '12'
-    'Explorer': '11'
-    'Safari':   '10.1'
-    'Opera':    '44'
+    'last 1 version'
 
 vendors:
 #### PLEASE ONLY ALTER THE VERSION NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
@@ -36,7 +32,7 @@ vendors:
                   'dependencies': 'jquery'
     'mediaelement':
                   'version': '4.2.5'
-                  'dependencies': 'jquery'
+                  'dependencies': ''
     'masonry-layout':
                   'version': '4.2.0'
                   'dependencies': ''
@@ -44,7 +40,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.6.5'
+                  'version': '4.6.6'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.2'
@@ -53,7 +49,7 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.28.0'
+                  'version': '5.29.0'
                   'dependencies': ''
     'cropperjs':
                   'version': '1.0.0-rc.3'

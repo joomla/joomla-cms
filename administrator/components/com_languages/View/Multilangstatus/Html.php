@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\Component\Languages\Administrator\Helper\MultilangstatusHelper;
 
 /**

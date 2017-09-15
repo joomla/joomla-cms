@@ -10,14 +10,14 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Messages Component Message Model
  *
  * @since  1.6
  */
-class Message extends Form
+class Message extends FormController
 {
 	/**
 	 * Method (override) to check if you can save a new or existing record.

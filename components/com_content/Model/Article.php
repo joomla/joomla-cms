@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Model\Item;
+use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Article extends Item
+class Article extends ItemModel
 {
 	/**
 	 * Model context string.

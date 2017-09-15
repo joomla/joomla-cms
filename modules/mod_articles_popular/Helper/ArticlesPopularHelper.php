@@ -21,10 +21,7 @@ use Joomla\Component\Content\Site\Model\Articles;
 /**
  * Helper for mod_articles_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_popular
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class ArticlesPopularHelper
 {

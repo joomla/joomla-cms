@@ -10,7 +10,7 @@ namespace Joomla\Component\Banners\Administrator\View\Download;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * View class for download a list of tracks.

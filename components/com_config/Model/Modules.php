@@ -11,14 +11,14 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Model\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Config Module model.
  *
  * @since  3.2
  */
-class Modules extends Form
+class Modules extends FormModel
 {
 	/**
 	 * Method to auto-populate the model state.

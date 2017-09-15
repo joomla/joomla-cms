@@ -10,11 +10,11 @@ namespace Joomla\Component\Mailto\Site\View\Mailto;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Class for Mail.
- * 
+ *
  * @since  1.5
  */
 class Html extends HtmlView

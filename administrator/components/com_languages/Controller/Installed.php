@@ -10,14 +10,14 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Languages Controller.
  *
  * @since  1.5
  */
-class Installed extends Controller
+class Installed extends BaseController
 {
 	/**
 	 * Task to set the default language.

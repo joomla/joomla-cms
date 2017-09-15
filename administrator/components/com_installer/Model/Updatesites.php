@@ -10,7 +10,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -24,12 +24,12 @@ class Updatesites extends Installer
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\Model\ListModel
+	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 * @since   1.6
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -391,8 +391,9 @@ class Updatesites extends Installer
 				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
 				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
-				. ')');
-		
+				. ')'
+			);
+
 		$db->setQuery($query);
 
 		return $db->loadColumn($column);

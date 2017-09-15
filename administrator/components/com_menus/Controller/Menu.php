@@ -10,7 +10,7 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
  *
  * @since  1.6
  */
-class Menu extends Form
+class Menu extends FormController
 {
 	/**
 	 * Dummy method to redirect back to standard controller

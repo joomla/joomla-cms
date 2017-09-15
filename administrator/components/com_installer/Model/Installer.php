@@ -10,8 +10,8 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -25,12 +25,12 @@ class Installer extends ListModel
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\Model\ListModel
+	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 * @since   1.6
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -96,6 +96,7 @@ class Installer extends ListModel
 				{
 					// Check if search string exists in any of the fields to be searched.
 					$found = 0;
+
 					foreach ($searchFields as $key => $field)
 					{
 						if (!$found && preg_match('/' . $escapedSearchString . '/i', $item->{$field}))

@@ -10,7 +10,7 @@ namespace Joomla\Component\Search\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\String\StringHelper;
 use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 

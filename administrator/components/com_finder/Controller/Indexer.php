@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -27,7 +27,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  2.5
  */
-class Indexer extends Controller
+class Indexer extends BaseController
 {
 	/**
 	 * Method to start the indexer.
@@ -89,6 +89,7 @@ class Indexer extends Controller
 			// Send the response.
 			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
@@ -219,6 +220,7 @@ class Indexer extends Controller
 			// Send the response.
 			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
@@ -264,6 +266,7 @@ class Indexer extends Controller
 			// Send the response.
 			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{

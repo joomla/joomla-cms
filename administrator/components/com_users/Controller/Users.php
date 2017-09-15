@@ -10,8 +10,8 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Users extends Admin
+class Users extends AdminController
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.
@@ -31,14 +31,14 @@ class Users extends Admin
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 

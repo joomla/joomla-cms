@@ -11,7 +11,7 @@ namespace Joomla\Component\Config\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Component Controller

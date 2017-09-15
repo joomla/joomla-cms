@@ -846,7 +846,7 @@ class FinderIndexerQuery
 						}
 
 						break;
-						}
+					}
 				}
 
 				// Clean up the input string again.
