@@ -237,13 +237,15 @@ abstract class FormModel extends BaseModel implements FormFactoryAwareInterface
 
 		try
 		{
-			$formFactory = $this->formFactory;
+			$formFactory = $this->getFormFactory();
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			$formFactory = Factory::getContainer()->get(FormFactoryInterface::class);
+		}
 
-			if (!$formFactory)
-			{
-				$formFactory = Factory::getContainer()->get(FormFactoryInterface::class);
-			}
-
+		try
+		{
 			$form = $formFactory->createForm($name, $options);
 
 			// Load the data.
