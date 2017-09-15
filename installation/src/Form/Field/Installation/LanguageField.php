@@ -6,16 +6,20 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Form\Field\Installation;
+
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Installation Language field.
  *
  * @since  1.6
  */
-class InstallationFormFieldLanguage extends JFormFieldList
+class LanguageField extends ListField
 {
 	/**
 	 * The form field type.
@@ -34,10 +38,10 @@ class InstallationFormFieldLanguage extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Detect the native language.
-		$native = JLanguageHelper::detectLanguage();
+		$native = LanguageHelper::detectLanguage();
 
 		if (empty($native))
 		{
@@ -53,7 +57,7 @@ class InstallationFormFieldLanguage extends JFormFieldList
 		}
 
 		// If a language is already set in the session, use this instead
-		$model   = new InstallationModelSetup;
+		$model   = new \InstallationModelSetup;
 		$options = $model->getOptions();
 
 		if (isset($options['language']))
@@ -62,10 +66,10 @@ class InstallationFormFieldLanguage extends JFormFieldList
 		}
 
 		// Get the list of available languages.
-		$options = JLanguageHelper::createLanguageList($native);
+		$options = LanguageHelper::createLanguageList($native);
 
 		// Fix wrongly set parentheses in RTL languages
-		if (JFactory::getLanguage()->isRtl())
+		if (Factory::getLanguage()->isRtl())
 		{
 			foreach ($options as &$option)
 			{
@@ -73,7 +77,7 @@ class InstallationFormFieldLanguage extends JFormFieldList
 			}
 		}
 
-		if (!$options || $options  instanceof Exception)
+		if (!$options || $options  instanceof \Exception)
 		{
 			$options = array();
 		}

@@ -6,14 +6,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Form\Rule;
+
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Form\FormRule;
 
 /**
  * Form Rule class for the prefix DB.
  *
  * @since  1.7
  */
-class InstallationFormRulePrefix extends JFormRule
+class PrefixRule extends FormRule
 {
 	/**
 	 * The regular expression to use in testing a form field value.

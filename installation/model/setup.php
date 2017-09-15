@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\Utilities\ArrayHelper;
 /**
  * Setup model for the Joomla Core Installer.
@@ -383,7 +384,7 @@ class InstallationModelSetup extends JModelBase
 		{
 			if (!property_exists($options, 'db_select'))
 
-			return InstallationHelperDatabase::getDbo(
+			return DatabaseHelper::getDbo(
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,

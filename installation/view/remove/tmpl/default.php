@@ -82,20 +82,24 @@ defined('_JEXEC') or die;
 				<?php	if ($this->development) : ?>
 					<div class="alert flex-column">
 						<b>We detected development mode</b>
-						<br>
-						<b>The installation folder will not be removed on complete</b>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" class="form-check-input">
+								Check if you wish to delete the installation folder on complete
+							</label>
+						</div>
 					</div>
 					<!-- <input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>"> -->
 				<?php endif; ?>
 				<?php echo JHtml::_('form.token'); ?>
 
 				<div class="form-group">
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="fa fa-eye"></span> <?php echo JText::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock"></span> <?php echo JText::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<button class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="fa fa-eye"></span> <?php echo JText::_('INSTL_COMPLETE_SITE_BTN'); ?></button>
+					<button class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock"></span> <?php echo JText::_('INSTL_COMPLETE_ADMIN_BTN'); ?></button>
 				</div>
 			</div>
 		</div>
-
+	
 		<div id="installLanguages" class="j-install-step">
 			<div class="j-install-step-header">
 				<span class="fa fa-commenting-o" aria-hidden="true"></span> <?php echo JText::_('INSTL_LANGUAGES'); ?>

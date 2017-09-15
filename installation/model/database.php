@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -258,7 +259,7 @@ class InstallationModelDatabase extends JModelBase
 		// Get a database object.
 		try
 		{
-			return InstallationHelperDatabase::getDbo(
+			return DatabaseHelper::getDbo(
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
@@ -756,9 +757,6 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function installSampleData($options)
 	{
-		// Get the options as an object for easier handling.
-		$options = ArrayHelper::toObject($options);
-
 		if (!isset($options->db_created) || !$options->db_created)
 		{
 			return $this->createDatabase($options);
@@ -772,18 +770,15 @@ class InstallationModelDatabase extends JModelBase
 		// Build the path to the sample data file.
 		$type = $options->db_type;
 
-		// @todo remove the hardcoded value here
-		$file = 'sample_testing.sql'; //(string) $options->sampleData;
-
 		if ($db->getServerType() === 'mysql')
 		{
 			$type = 'mysql';
 		}
 
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $file;
+		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
 
 		// Attempt to import the database schema if one is chosen.
-		if ($file !== '')
+		if ($options->sample_file != '')
 		{
 			if (!file_exists($data))
 			{

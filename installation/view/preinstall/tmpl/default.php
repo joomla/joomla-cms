@@ -33,8 +33,8 @@ defined('_JEXEC') or die;
 						<?php endforeach; ?>
 					</div>
 				</div>
-
-
+				
+						
 				<?php if ($option->state === false && preg_match('$configuration.php$', $option->label)) : ?>
 					<div id="ftpOptions" class="ftp-options mb-4 hidden">
 						<form action="index.php" method="post" id="ftpForm" class="form-validate">

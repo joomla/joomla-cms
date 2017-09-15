@@ -6,14 +6,19 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Form\Field\Installation;
+
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Database Prefix field.
  *
  * @since  1.6
  */
-class InstallationFormFieldPrefix extends JFormField
+class PrefixField extends FormField
 {
 	/**
 	 * The form field type.
@@ -46,7 +51,7 @@ class InstallationFormFieldPrefix extends JFormField
 		}
 
 		// If a prefix is already set, use it instead.
-		$session = JFactory::getSession()->get('setup.options', array());
+		$session = Factory::getSession()->get('setup.options', array());
 
 		if (empty($session['db_prefix']))
 		{

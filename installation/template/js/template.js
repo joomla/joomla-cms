@@ -14,9 +14,6 @@
 		for(i = 0, l = elements.length; i < l; i++) {
 			var name = elements[i].name, value = elements[i].value;
 			if(name) {
-				if (elements[i].tagName.toLowerCase() === 'input' && elements[i].type === 'checkbox' && !elements[i].checked) {
-					continue;
-				}
 				obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + value);
 			}
 		}
@@ -242,3 +239,4 @@
 		}
 	});
 })();
+

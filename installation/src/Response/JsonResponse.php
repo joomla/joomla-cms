@@ -7,14 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Response;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
 
 /**
  * JSON Response class for the Joomla Installer.
  *
  * @since  3.1
  */
-class InstallationResponseJson
+class JsonResponse
 {
 	/**
 	 * Constructor for the JSON response
@@ -26,13 +31,13 @@ class InstallationResponseJson
 	public function __construct($data)
 	{
 		// The old token is invalid so send a new one.
-		$this->token = JSession::getFormToken(true);
+		$this->token = Session::getFormToken(true);
 
 		// Get the language and send it's tag along
-		$this->lang = JFactory::getLanguage()->getTag();
+		$this->lang = Factory::getLanguage()->getTag();
 
 		// Get the message queue
-		$messages = JFactory::getApplication()->getMessageQueue();
+		$messages = Factory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && count($messages))
@@ -53,11 +58,11 @@ class InstallationResponseJson
 		}
 
 		// Check if we are dealing with an error.
-		if ($data instanceof Throwable)
+		if ($data instanceof \Throwable)
 		{
 			// Prepare the error response.
 			$this->error   = true;
-			$this->header  = JText::_('INSTL_HEADER_ERROR');
+			$this->header  = \JText::_('INSTL_HEADER_ERROR');
 			$this->message = $data->getMessage();
 		}
 		else
