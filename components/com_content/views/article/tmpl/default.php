@@ -28,7 +28,9 @@ JHtml::_('behavior.caption');
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
-			<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
+			<h1>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			</h1>
 		</div>
 	<?php endif; ?>
 	<?php if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative) : ?>
