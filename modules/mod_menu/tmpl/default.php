@@ -46,7 +46,7 @@ if ($tagId = $params->get('tag_id', ''))
 		<?php if ($item->parent) : ?>
 			<?php $class .= ' parent'; ?>
 		<?php endif; ?>
-		<li class=" <?php echo $class; ?>">
+		<li class="<?php echo $class; ?>">
 			<?php if (in_array($item->type, array('separator', 'component', 'heading', 'url'))) : ?>
 				<?php require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type); ?>
 			<?php else : ?>
