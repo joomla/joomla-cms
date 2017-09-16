@@ -946,7 +946,7 @@
 			type="radio"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
-			default="0"
+			default="1"
 			class="btn-group btn-group-yesno"
 			showon="show_email_form:1"
 			>
