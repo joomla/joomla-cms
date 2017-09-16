@@ -85,7 +85,6 @@ class TransitionField extends \JFormFieldList
 		];
 
 		// Merge with defaults
-		$options = array_merge($default, $items);
-		return $options;
+		return array_merge($default, $items);
 	}
 }
