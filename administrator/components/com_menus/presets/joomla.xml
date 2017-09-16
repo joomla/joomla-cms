@@ -480,8 +480,16 @@
 		<menuitem
 			type="url"
 			target="_blank"
+			title="MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM"
+			link="special:custom-forum"
+			class="class:help-forum"
+			scope="help"
+		/>
+		<menuitem
+			type="url"
+			target="_blank"
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM"
-			link="index.php?option=com_admin&amp;view=help&amp;layout=langforum"
+			link="special:language-forum"
 			class="class:help-forum"
 			scope="help"
 		/>
