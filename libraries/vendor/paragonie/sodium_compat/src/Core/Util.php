@@ -652,14 +652,15 @@ abstract class ParagonIE_Sodium_Core_Util
         } else {
             $hiB = 0;
         }
-        return self::intToChr($hiB & 0xff) .
-            self::intToChr(($hiB >>  8) & 0xff) .
-            self::intToChr(($hiB >> 16) & 0xff) .
-            self::intToChr(($hiB >> 24) & 0xff) .
+        return
             self::intToChr(($int      ) & 0xff) .
             self::intToChr(($int >>  8) & 0xff) .
             self::intToChr(($int >> 16) & 0xff) .
-            self::intToChr(($int >> 24) & 0xff);
+            self::intToChr(($int >> 24) & 0xff) .
+            self::intToChr($hiB & 0xff) .
+            self::intToChr(($hiB >>  8) & 0xff) .
+            self::intToChr(($hiB >> 16) & 0xff) .
+            self::intToChr(($hiB >> 24) & 0xff);
     }
 
     /**

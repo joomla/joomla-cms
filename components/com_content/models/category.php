@@ -114,7 +114,7 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('category.id', $pk);
 
-		$value = $app->input->get('filter_tag', 0, 'uint');
+		$value = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', 0, 'int');
 		$this->setState('filter.tag', $value);
 
 		// Load the parameters. Merge Global and Menu Item params into new object
