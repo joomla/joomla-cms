@@ -349,6 +349,11 @@ class JAdminCssMenu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
+			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
+			}
+
 			$item->text = JText::_($item->title);
 
 			$result[$i] = $item;
