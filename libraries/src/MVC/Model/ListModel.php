@@ -17,7 +17,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ListModel extends BaseModel
+class ListModel extends BaseDatabaseModel
 {
 	/**
 	 * Internal memory based cache array of data.
