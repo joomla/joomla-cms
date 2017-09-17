@@ -92,9 +92,11 @@ $assoc = JLanguageAssociations::isEnabled();
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-								</th>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
@@ -200,9 +202,11 @@ $assoc = JLanguageAssociations::isEnabled();
 										<?php echo $this->escape($item->author_name); ?></a>
 									<?php endif; ?>
 								</td>
-								<td class="small hidden-sm-down text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<td class="small hidden-sm-down text-center">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
+								<?php endif; ?>
 								<td class="nowrap small hidden-sm-down text-center">
 									<?php
 									$date = $item->{$orderingColumn};

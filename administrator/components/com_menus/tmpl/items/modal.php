@@ -61,9 +61,11 @@ if (!empty($editor))
 						<th style="width:10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap hidden-sm-down">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-						</th>
+						<?php if (JLanguageMultilang::isEnabled()) : ?>
+							<th style="width:15%" class="nowrap hidden-sm-down">
+								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
 						<th style="width:1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -138,15 +140,17 @@ if (!empty($editor))
 							<td class="small hidden-sm-down">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
-							<td class="small hidden-sm-down">
-								<?php if ($item->language == '') : ?>
-									<?php echo JText::_('JDEFAULT'); ?>
-								<?php elseif ($item->language == '*') : ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
-								<?php else : ?>
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								<?php endif; ?>
-							</td>
+							<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<td class="small hidden-sm-down">
+									<?php if ($item->language == '') : ?>
+										<?php echo JText::_('JDEFAULT'); ?>
+									<?php elseif ($item->language == '*') : ?>
+										<?php echo JText::alt('JALL', 'language'); ?>
+									<?php else : ?>
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									<?php endif; ?>
+								</td>
+							<?php endif; ?>
 							<td class="hidden-sm-down">
 								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 									<?php echo (int) $item->id; ?>

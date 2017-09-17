@@ -70,6 +70,13 @@ class Html extends HtmlView
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
+		
+		// Change the assignment for default template from a select to switcher
+		if (!\JLanguageMultilang::isEnabled() && $this->item->client_id == 0)
+		{
+			$this->form->setFieldAttribute('home', 'type', 'radio');
+			$this->form->setFieldAttribute('home', 'class', 'switcher');
+		}
 
 		$this->addToolbar();
 
