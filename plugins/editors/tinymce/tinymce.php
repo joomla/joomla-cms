@@ -584,7 +584,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragdrop'] = JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragdrop'] = JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -686,6 +686,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$scriptOptions['rel_list'] = array(
+			array('title' => 'None', 'value' => ''),
 			array('title' => 'Alternate', 'value' => 'alternate'),
 			array('title' => 'Author', 'value' => 'author'),
 			array('title' => 'Bookmark', 'value' => 'bookmark'),
@@ -760,7 +761,7 @@ class PlgEditorTinymce extends JPlugin
 				// Set some vars
 				$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ?: null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
@@ -801,7 +802,7 @@ class PlgEditorTinymce extends JPlugin
 					icon: \"" . $icon . "\",
 					onclick: function () {";
 
-				if ($button->get('modal') || $href)
+				if ($href || $button->get('modal'))
 				{
 					$tempConstructor .= "
 							var modalOptions = {
@@ -823,21 +824,21 @@ class PlgEditorTinymce extends JPlugin
 					if ($onclick && ($button->get('modal') || $href))
 					{
 						$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						" . $onclick . '
+							';
 					}
 				}
 				else
 				{
 					$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						" . $onclick . '
+							';
 				}
 
-				$tempConstructor .= "
+				$tempConstructor .= '
 					}
 				});
-			})();";
+			})();';
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name . ' | ';
@@ -1905,7 +1906,7 @@ class PlgEditorTinymce extends JPlugin
 			$scriptOptions['uploadUri']       = $uploadUrl;
 
 			$externalPlugins = array(
-				array('jdragdrop' => JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
+				array('jdragdrop' => JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
 			);
 		}
 
@@ -2015,6 +2016,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
+					array('title' => 'None', 'value' => ''),
 					array('title' => 'Alternate', 'value' => 'alternate'),
 					array('title' => 'Author', 'value' => 'author'),
 					array('title' => 'Bookmark', 'value' => 'bookmark'),

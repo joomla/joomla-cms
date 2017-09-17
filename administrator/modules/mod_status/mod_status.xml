@@ -21,70 +21,81 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-			<field
+				<field
 					name="show_viewsite"
 					type="radio"
+					label="MOD_STATUS_FIELD_SHOW_VIEWSITE_LABEL"
+					description="MOD_STATUS_FIELD_SHOW_VIEWSITE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_STATUS_FIELD_SHOW_VIEWSITE_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_VIEWSITE_DESC">
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-			<field
+
+				<field
 					name="show_viewadmin"
 					type="radio"
+					label="MOD_STATUS_FIELD_SHOW_VIEWADMIN_LABEL"
+					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_STATUS_FIELD_SHOW_VIEWADMIN_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC">
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
+
 				<field
 					name="show_loggedin_users"
 					type="radio"
+					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_LABEL"
+					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC">
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
+
 				<field
 					name="show_loggedin_users_admin"
 					type="radio"
+					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_LABEL"
+					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC">
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
+
 				<field
 					name="show_messages"
 					type="radio"
+					label="MOD_STATUS_FIELD_SHOW_MESSAGES_LABEL"
+					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_STATUS_FIELD_SHOW_MESSAGES_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC">
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 			</fieldset>
+
 			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" 
+				/>
 			</fieldset>
 		</fields>
 	</config>

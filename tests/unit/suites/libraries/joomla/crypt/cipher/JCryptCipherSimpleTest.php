@@ -49,8 +49,7 @@ class JCryptCipherSimpleTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->_cipher);
-		unset($this->key);
+		unset($this->_cipher, $this->key);
 		parent::tearDown();
 	}
 

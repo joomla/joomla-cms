@@ -76,10 +76,7 @@ class JGithubPackageUsersTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->response);
-		unset($this->object);
+		unset($this->options, $this->client, $this->response, $this->object);
 		parent::tearDown();
 	}
 
@@ -367,7 +364,7 @@ class JGithubPackageUsersTest extends \PHPUnit\Framework\TestCase
 			->with('/user', $input, 0, 0)
 			->will($this->returnValue($this->response));
 
-		//$this->object->edit($name, $email, $blog, $company, $location, $hireable, $bio);
+		// $this->object->edit($name, $email, $blog, $company, $location, $hireable, $bio);
 
 
 		$this->assertThat(

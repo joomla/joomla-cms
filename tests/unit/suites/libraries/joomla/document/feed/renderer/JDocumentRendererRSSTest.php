@@ -81,8 +81,7 @@ class JDocumentRendererRSSTest extends TestCase
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		$this->restoreFactoryState();
-		unset($input);
-		unset($this->object);
+		unset($input, $this->object);
 		parent::tearDown();
 	}
 

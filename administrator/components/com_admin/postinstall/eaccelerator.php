@@ -60,7 +60,7 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file writeable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
+		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
 	}
 
 	// Attempt to write the configuration file as a PHP class named JConfig.
@@ -76,6 +76,6 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file unwriteable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
+		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
 	}
 }

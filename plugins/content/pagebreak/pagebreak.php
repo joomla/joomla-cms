@@ -92,7 +92,7 @@ class PlgContentPagebreak extends JPlugin
 			$page = 0;
 		}
 
-		if ($params->get('intro_only') || $params->get('popup') || $full || $view !== 'article')
+		if ($full || $view !== 'article' || $params->get('intro_only') || $params->get('popup'))
 		{
 			$row->text = preg_replace($regex, '', $row->text);
 
@@ -144,19 +144,13 @@ class PlgContentPagebreak extends JPlugin
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
-			if ($title)
+			if ($title && $page && isset($matches[$page - 1], $matches[$page - 1][2]))
 			{
-				if ($page)
-				{
-					if ($page && @$matches[$page - 1][2])
-					{
-						$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
+				$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
-						if (@$attrs['title'])
-						{
-							$row->page_title = $attrs['title'];
-						}
-					}
+				if (isset($attrs['title']))
+				{
+					$row->page_title = $attrs['title'];
 				}
 			}
 

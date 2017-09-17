@@ -65,7 +65,7 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 
 		// Check if we have a username and password
-		if (strlen($credentials['username']) == 0 || strlen($credentials['password']) == 0)
+		if ($credentials['username'] === '' || $credentials['password'] === '')
 		{
 			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;

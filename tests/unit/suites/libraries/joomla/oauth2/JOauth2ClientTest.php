@@ -96,12 +96,7 @@ class JOAuth2ClientTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->http);
-		unset($this->application);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->http, $this->application, $this->object);
 		parent::tearDown();
 	}
 

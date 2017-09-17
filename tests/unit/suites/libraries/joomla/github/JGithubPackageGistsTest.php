@@ -79,9 +79,7 @@ class JGithubPackageGistsTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->client, $this->object);
 		parent::tearDown();
 	}
 

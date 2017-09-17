@@ -271,6 +271,7 @@
 					<option value="1">JOPTION_OPTIONAL</option>
 					<option value="0">JDISABLED</option>
 				</field>
+
 				<field
 					name="profile-require_favoritebook"
 					type="list"
@@ -292,6 +293,7 @@
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
+
 				<field
 					name="profile-require_dob"
 					type="list"

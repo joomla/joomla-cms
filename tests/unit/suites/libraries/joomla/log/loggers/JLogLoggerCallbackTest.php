@@ -29,7 +29,9 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 	public function testConstructor01()
 	{
 		// Create a callback function
-		$callback = create_function('$entry', 'return;');
+		$callback = function ($entry)
+		{
+		};
 
 		// Setup the basic configuration.
 		$config = array(

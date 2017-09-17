@@ -169,7 +169,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Set application language back to default if we changed it
-		if ($userLocale != $defaultLocale)
+		if ($userLocale !== $defaultLocale)
 		{
 			$lang->setLanguage($defaultLocale);
 		}

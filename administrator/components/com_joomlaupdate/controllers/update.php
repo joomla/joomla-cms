@@ -421,7 +421,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 				// Add credentials to the session
 				if (!JClientHelper::setCredentials('ftp', $user, $pass))
 				{
-					JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+					JError::raiseWarning(500, JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
 				}
 			}
 		}

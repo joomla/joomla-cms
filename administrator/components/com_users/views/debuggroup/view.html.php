@@ -66,6 +66,7 @@ class UsersViewDebuggroup extends JViewLegacy
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Vars only used in hathor.
+		// @deprecated  4.0 To be removed with Hathor
 		$this->levels        = UsersHelperDebug::getLevelsOptions();
 		$this->components    = UsersHelperDebug::getComponents();
 

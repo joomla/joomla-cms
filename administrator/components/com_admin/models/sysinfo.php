@@ -118,11 +118,15 @@ class AdminModelSysInfo extends JModelLegacy
 			'proxy_host',
 			'proxy_user',
 			'proxy_pass',
+			'redis_server_host',
+			'redis_server_auth',
 			'secret',
 			'sendmail',
 			'session.save_path',
 			'session_memcache_server_host',
 			'session_memcached_server_host',
+			'session_redis_server_host',
+			'session_redis_server_auth',
 			'sitename',
 			'smtphost',
 			'tmp_path',
@@ -159,7 +163,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Remove sections of data marked as private in the privateSettings
 	 *
 	 * @param   array   $dataArray  Array with data tha may contain private informati
-	 * @param   string  $dataType   Type of data to search for an specific section in the privateSettings array
+	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
 	 *
@@ -193,7 +197,7 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * Offuscate section values
+	 * Obfuscate section values
 	 *
 	 * @param   mixed  $sectionValues  Section data
 	 *

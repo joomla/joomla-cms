@@ -93,7 +93,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 				{
 					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
 
-					if (trim($name, '**') == 'Language')
+					if (trim($name, '**') === 'Language')
 					{
 						$text = FinderHelperLanguage::branchLanguageTitle($branch->text);
 					}

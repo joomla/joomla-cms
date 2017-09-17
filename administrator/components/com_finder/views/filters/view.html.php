@@ -20,6 +20,8 @@ class FinderViewFilters extends JViewLegacy
 	 * An array of items
 	 *
 	 * @var  array
+	 *
+	 * @since  3.6.1
 	 */
 	protected $items;
 
@@ -27,6 +29,8 @@ class FinderViewFilters extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var  JPagination
+	 *
+	 * @since  3.6.1
 	 */
 	protected $pagination;
 
@@ -34,20 +38,26 @@ class FinderViewFilters extends JViewLegacy
 	 * The HTML markup for the sidebar
 	 *
 	 * @var  string
+	 *
+	 * @since  3.6.1
 	 */
 	protected $sidebar;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  mixed
+	 *
+	 * @since  3.6.1
 	 */
 	protected $state;
 
 	/**
 	 * The total number of items
 	 *
-	 * @var  object
+	 * @var  integer
+	 *
+	 * @since  3.6.1
 	 */
 	protected $total;
 

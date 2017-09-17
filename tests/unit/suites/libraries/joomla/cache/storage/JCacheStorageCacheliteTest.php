@@ -9,6 +9,7 @@
 
 /**
  * Test class for JCacheStorageCachelite.
+ * @deprecated  4.0 Deprecated without replacement
  */
 class JCacheStorageCacheliteTest extends TestCaseCache
 {

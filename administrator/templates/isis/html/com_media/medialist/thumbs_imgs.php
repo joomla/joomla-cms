@@ -36,9 +36,9 @@ $dispatcher = JEventDispatcher::getInstance();
 			</label>
 		</div>
 
- 		<div class="imgPreview">
-			<a href="<?php echo COM_MEDIA_BASEURL, '/', $img->path_relative; ?>" title="<?php echo $img->name; ?>" class="preview">
-				<span class="icon-search"> </span>
+ 		<div class="imgPreview nowrap small">
+			<a href="<?php echo COM_MEDIA_BASEURL, '/', $img->path_relative; ?>" title="<?php echo $img->name; ?>" class="preview truncate">
+				<span class="icon-search" aria-hidden="true"></span><?php echo $img->name; ?>
 			</a>
 		</div>
 	</li>

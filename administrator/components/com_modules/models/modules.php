@@ -111,6 +111,12 @@ class ModulesModelModules extends JModelList
 			$this->setState('client_id', $clientId);
 		}
 
+		// Use a different filter file when client is administrator
+		if ($clientId == 1)
+		{
+			$this->filterFormName = 'filter_modulesadmin';
+		}
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
@@ -181,7 +187,7 @@ class ModulesModelModules extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 
 		// If ordering by fields that doesn't need translate just order the query.

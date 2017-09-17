@@ -30,7 +30,7 @@
 
 			if (!input.prop('checked')) {
 				label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
+				if (input.val() === '') {
 					label.addClass('active btn-primary');
 				} else if (input.val() == 0) {
 					label.addClass('active btn-danger');

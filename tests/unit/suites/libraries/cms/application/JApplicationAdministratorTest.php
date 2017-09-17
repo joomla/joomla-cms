@@ -122,9 +122,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		TestReflection::setValue('JApplicationCms', 'instances', array());
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

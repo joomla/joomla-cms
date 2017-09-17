@@ -107,4 +107,43 @@ abstract class JHtmlJquery
 
 		return;
 	}
+
+	/**
+	 * Auto set CSRF token to ajaxSetup so all jQuery ajax call will contains CSRF token.
+	 *
+	 * @param   string  $name  The CSRF meta tag name.
+	 *
+	 * @return  void
+	 *
+	 * @throws  \InvalidArgumentException
+	 *
+	 * @since   3.8.0
+	 */
+	public static function token($name = 'csrf.token')
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$name]))
+		{
+			return;
+		}
+
+		static::framework();
+		JHtml::_('form.csrf', $name);
+
+		$doc = JFactory::getDocument();
+
+		$doc->addScriptDeclaration(
+<<<JS
+;(function ($) {
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-Token': Joomla.getOptions('$name')
+		}
+	});
+})(jQuery);
+JS
+		);
+
+		static::$loaded[__METHOD__][$name] = true;
+	}
 }

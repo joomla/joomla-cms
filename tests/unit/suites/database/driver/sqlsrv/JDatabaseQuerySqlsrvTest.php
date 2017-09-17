@@ -59,8 +59,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->dbo);
-		unset($this->_instance);
+		unset($this->dbo, $this->_instance);
 		parent::tearDown();
 	}
 
@@ -74,7 +73,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	public function seedDateAdd()
 	{
 		return array(
-			// date, interval, datepart, expected
+			// Elements: date, interval, datepart, expected
 			'Add date'			=> array('2008-12-31', '1', 'day', "DATEADD('day', '1', '2008-12-31')"),
 			'Subtract date'		=> array('2008-12-31', '-1', 'day', "DATEADD('day', '-1', '2008-12-31')"),
 			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'day', "DATEADD('day', '1', '2008-12-31 23:59:59')"),

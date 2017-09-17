@@ -47,44 +47,6 @@ class FieldsControllerField extends JControllerForm
 	}
 
 	/**
-	 * Stores the form data into the user state.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function storeform()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		$app = JFactory::getApplication();
-		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
-
-		$parts = FieldsHelper::extract($this->input->getCmd('context'));
-
-		if ($parts)
-		{
-			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
-		}
-
-		if ($this->input->get('userstatevariable'))
-		{
-			$app->setUserState($this->input->get('userstatevariable'), $data);
-		}
-
-		$redirectUrl = base64_decode($this->input->get->getBase64('return'));
-
-		// Don't redirect to an external URL.
-		If (!JUri::isInternal($redirectUrl))
-		{
-			$redirectUrl = 'index.php';
-		}
-
-		$app->redirect($redirectUrl);
-		$app->close();
-	}
-
-	/**
 	 * Method override to check if you can add a new record.
 	 *
 	 * @param   array  $data  An array of input data.

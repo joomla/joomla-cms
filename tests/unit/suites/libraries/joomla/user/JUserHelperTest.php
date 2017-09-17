@@ -95,7 +95,7 @@ class JUserHelperTest extends TestCaseDatabase
 				1000,
 				array(),
 				array(
-					'code' => 'SOME_ERROR_CODE',
+					'code' => 500,
 					'msg' => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
 					'info' => ''),
 			),
@@ -357,6 +357,7 @@ class JUserHelperTest extends TestCaseDatabase
 		);
 
 		$password = 'mySuperSecretPassword';
+
 		// Generate the old style password hash used before phpass was implemented.
 		$salt		= JUserHelper::genRandomPassword(32);
 		$crypted	= JUserHelper::getCryptedPassword($password, $salt);
@@ -520,7 +521,8 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testGetCryptedPasswordWithMhash()
 	{
-		if (!function_exists('mhash')) {
+		if (!function_exists('mhash'))
+		{
 			$this->markTestSkipped('The mhash function is not available');
 		}
 

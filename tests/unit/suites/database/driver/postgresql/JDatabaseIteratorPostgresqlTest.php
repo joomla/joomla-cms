@@ -133,7 +133,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
-		$this->assertEquals($expected,iterator_to_array($iterator));
+		$this->assertEquals($expected, iterator_to_array($iterator));
 	}
 
 	/**

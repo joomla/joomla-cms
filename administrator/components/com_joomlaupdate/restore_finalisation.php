@@ -164,7 +164,7 @@ if (!function_exists('finalizeRestore'))
 
 		if (file_exists($filePath))
 		{
-			require_once ($filePath);
+			require_once $filePath;
 		}
 
 		// Make sure Joomla!'s code can figure out which files exist and need be removed

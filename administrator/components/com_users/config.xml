@@ -75,10 +75,9 @@
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			folder="captcha"
-			default=""
-			filter="cmd" 
+			filter="cmd"
+			useglobal="true"
 			>
-			<option value="">JOPTION_USE_DEFAULT</option>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
@@ -278,6 +277,19 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno btn-group-reversed"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer"
+		>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+		</field>
 
 		<field
 			name="custom_fields_enable"

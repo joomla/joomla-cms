@@ -66,8 +66,7 @@ class JRouterAdministratorTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->server;
-		unset($this->server);
-		unset($this->object);
+		unset($this->server, $this->object);
 
 		parent::tearDown();
 	}

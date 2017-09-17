@@ -14,9 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Helper for mod_syndicate
  *
- * @package     Joomla.Site
- * @subpackage  mod_syndicate
- * @since       1.5
+ * @since  1.5
  */
 class ModSyndicateHelper
 {

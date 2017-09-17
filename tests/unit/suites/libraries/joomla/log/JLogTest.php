@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/stubs/log/inspector.php';
-
 /**
  * Test class for JLog.
  *
@@ -18,6 +16,19 @@ require_once __DIR__ . '/stubs/log/inspector.php';
  */
 class JLogTest extends \PHPUnit\Framework\TestCase
 {
+	/**
+	 * Overrides the parent setUp method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
+	 * @since   3.8.0
+	 */
+	protected function setUp()
+	{
+		require_once __DIR__ . '/stubs/log/inspector.php';
+	}
+
 	/**
 	 * Overrides the parent tearDown method.
 	 *

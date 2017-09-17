@@ -58,8 +58,7 @@ class JToolbarButtonCustomTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->toolbar);
-		unset($this->object);
+		unset($this->toolbar, $this->object);
 		parent::tearDown();
 	}
 

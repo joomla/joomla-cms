@@ -46,7 +46,30 @@ jQuery(document).ready(function ($){
 			$('#jform_parent_id').trigger('liszt:updated');
 		});
 	});
+	
+	// Menu type Login Form specific
+	$('#item-form').on('submit', function() {
+		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
+			// Login
+			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_url').val('');
+
+			}
+
+			// Logout
+			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_url').val('');
+			}
+		}
+	});
 });
+
 Joomla.submitbutton = function(task, type){
 	if (task == 'item.setType' || task == 'item.setMenuType')
 	{

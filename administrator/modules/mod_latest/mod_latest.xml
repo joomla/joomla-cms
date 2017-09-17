@@ -25,71 +25,72 @@
 				<field
 					name="count"
 					type="text"
-					default="5"
 					label="MOD_LATEST_FIELD_COUNT_LABEL"
-					description="MOD_LATEST_FIELD_COUNT_DESC" />
+					description="MOD_LATEST_FIELD_COUNT_DESC" 
+					default="5"
+				/>
+
 				<field
 					name="ordering"
 					type="list"
-					default="c_dsc"
 					label="MOD_LATEST_FIELD_ORDERING_LABEL"
-					description="MOD_LATEST_FIELD_ORDERING_DESC">
-					<option
-						value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
-					<option
-						value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
+					description="MOD_LATEST_FIELD_ORDERING_DESC"
+					default="c_dsc"
+					>
+					<option value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
+					<option value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
 				</field>
+
 				<field
-					id="catid"
 					name="catid"
 					type="category"
-					extension="com_content"
 					label="JCATEGORY"
 					description="MOD_LATEST_FIELD_CATEGORY_DESC"
+					id="catid"
+					extension="com_content"
 					default=""
 					>
-					<option
-						value="">JOPTION_ANY_CATEGORY</option>
+					<option value="">JOPTION_ANY_CATEGORY</option>
 				</field>
+
 				<field
 					name="user_id"
 					type="list"
-					default="0"
 					label="MOD_LATEST_FIELD_AUTHORS_LABEL"
-					description="MOD_LATEST_FIELD_AUTHORS_DESC">
-					<option
-						value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
-					<option
-						value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
-					<option
-						value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
+					description="MOD_LATEST_FIELD_AUTHORS_DESC"
+					default="0"
+					>
+					<option value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
+					<option value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
+					<option value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 
 				<field
 					name="automatic_title"
 					type="radio"
+					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
+					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

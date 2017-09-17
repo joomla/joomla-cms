@@ -77,37 +77,37 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 			for ($i = 0, $n = count($items); $i < $n; $i++)
 			{
 				// Check to see if we have found the resend menu item.
-				if (empty($resend) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'resend'))
+				if (empty($resend) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'resend')
 				{
 					$resend = $items[$i]->id;
 				}
 
 				// Check to see if we have found the reset menu item.
-				if (empty($reset) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'reset'))
+				if (empty($reset) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'reset')
 				{
 					$reset = $items[$i]->id;
 				}
 
 				// Check to see if we have found the remind menu item.
-				if (empty($remind) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'remind'))
+				if (empty($remind) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'remind')
 				{
 					$remind = $items[$i]->id;
 				}
 
 				// Check to see if we have found the login menu item.
-				if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login'))
+				if (empty($login) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'login')
 				{
 					$login = $items[$i]->id;
 				}
 
 				// Check to see if we have found the registration menu item.
-				if (empty($registration) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'registration'))
+				if (empty($registration) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'registration')
 				{
 					$registration = $items[$i]->id;
 				}
 
 				// Check to see if we have found the profile menu item.
-				if (empty($profile) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'profile'))
+				if (empty($profile) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'profile')
 				{
 					$profile = $items[$i]->id;
 				}
