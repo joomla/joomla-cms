@@ -34,13 +34,13 @@ class InstallationControllerInstallDbcheck extends JControllerBase
 
 		// Redirect to the page.
 		$r = new stdClass;
-		$r->crap = 'setup';
+		$r->view = 'setup';
 
 		// Check the form
 		if ((new InstallationModelSetup)->checkForm('setup') === false || (new InstallationModelSetup)->initialise('setup') === false)
 		{
 			$r->messages = 'Check your DB credentials, db type, db name or hostname';
-			$r->crap = 'setup';
+			$r->view = 'setup';
 		}
 
 		$app->sendJsonResponse($r);
