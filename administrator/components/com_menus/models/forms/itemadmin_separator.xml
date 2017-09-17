@@ -22,7 +22,7 @@
 				class="btn-group btn-group-yesno"
 				default="0"
 				filter="integer"
-			>
+				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
