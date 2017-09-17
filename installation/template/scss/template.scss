@@ -278,3 +278,8 @@ legend {
 .valid {
   border-color: $switcher-color-success;
 }
+
+// Block display for the validation message
+.form-control-feedback {
+  display: block;
+}

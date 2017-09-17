@@ -391,7 +391,7 @@ class InstallationModelSetup extends JModelBase
 				$options->db_pass,
 				$options->db_name,
 				$options->db_prefix,
-				$options->db_select
+				isset($options->db_select) ? $options->db_select : false
 			);
 		}
 		catch (RuntimeException $e)

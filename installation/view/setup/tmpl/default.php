@@ -14,14 +14,19 @@ defined('_JEXEC') or die;
 
 <div id="installer-view" data-page-name="setup">
 	<form action="index.php" method="post" id="languageForm" class="lang-select">
-
-			<div class="form-group">
-				<?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?>
+		<div class="j-install-step active">
+			<div class="j-install-step-header">
+				<span class="fa fa-language" aria-hidden="true"></span> <?php echo JText::_('Change language'); ?>
 			</div>
-			<input type="hidden" name="task" value="setlanguage">
-			<input type="hidden" name="format" value="json">
-			<?php echo JHtml::_('form.token'); ?>
+			<div class="j-install-step-form">
+				<div class="form-group">
+					<?php echo $this->form->getLabel('language'); ?>
+					<?php echo $this->form->getInput('language'); ?>
+				</div>
+				<input type="hidden" name="task" value="setlanguage">
+				<input type="hidden" name="format" value="json">
+				<?php echo JHtml::_('form.token'); ?>
+			</div>
 	</form>
 	<form action="index.php" method="post" id="adminForm" class="form-validate">
 		<div id="installStep1" class="j-install-step active">

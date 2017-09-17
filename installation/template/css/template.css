@@ -8901,3 +8901,7 @@ legend {
 
 .valid {
   border-color: #64bd63; }
+
+.form-control-feedback {
+  display: block;
+}
