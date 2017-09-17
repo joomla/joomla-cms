@@ -63,7 +63,6 @@ Joomla.checkInputs = function() {
 
 
 	if (Joomla.checkFormField(['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
-		console.log('hdfgh')
 		Joomla.checkDbCredentials();
 	}
 };
