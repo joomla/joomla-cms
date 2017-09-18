@@ -27,5 +27,5 @@ interface FormFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function createForm($name, $options = array());
+	public function createForm($name, $options = array());
 }
