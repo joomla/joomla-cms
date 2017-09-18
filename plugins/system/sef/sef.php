@@ -140,7 +140,10 @@ class PlgSystemSef extends JPlugin
 					$data = array();
 					foreach (explode(",", $match[1]) as $url)
 					{
-						$data[] = preg_replace('#(?!/|' . $protocols . '|\#|\')([^\s]+)\s+(.*)#', $base . '$1 $2', $url);
+						if (strpos($url, $base) === false) {
+							$url = preg_replace('#(?!/|' . $protocols . '|\#|\')([^\s]+)\s+(.*)#', $base . '$1 $2', $url);
+						}
+						$data[] = $url;
 					}
 					return ' srcset="' . implode(",", $data) . '"';
 				},
