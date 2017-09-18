@@ -46,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->items[$i]->published == 0) : ?>
 						<li class="row-fluid system-unpublished cat-list-row<?php echo $i % 2; echo $item->featured ? ' item-featured' : ''; ?>">
 					<?php else : ?>
-						<li class="row-fluid cat-list-row<?php echo $i % 2; echo $item->featured ? ' item-featured' : ''; ?>" >
+						<li class="row-fluid cat-list-row<?php echo $i % 2; echo $item->featured ? ' item-featured' : ''; ?>">
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_image_heading')) : ?>
