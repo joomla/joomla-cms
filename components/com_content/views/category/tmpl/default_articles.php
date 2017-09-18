@@ -135,7 +135,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<?php foreach ($this->items as $i => $article) : ?>
 			<?php if ($this->items[$i]->state == 0) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; echo $article->featured ? ' item-featured': ''; ?>">
-			<?php else: ?>
+			<?php else : ?>
 				<tr class="cat-list-row<?php echo $i % 2; echo $article->featured ? ' item-featured': ''; ?>" >
 			<?php endif; ?>
 			<td headers="categorylist_header_title" class="list-title">
