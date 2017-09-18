@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class DatabaseModel extends Installer
+class DatabaseModel extends InstallerModel
 {
 	protected $_context = 'com_installer.discover';
 

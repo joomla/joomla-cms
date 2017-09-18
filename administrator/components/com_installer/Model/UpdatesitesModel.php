@@ -18,7 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  3.4
  */
-class UpdatesitesModel extends Installer
+class UpdatesitesModel extends InstallerModel
 {
 	/**
 	 * Constructor.

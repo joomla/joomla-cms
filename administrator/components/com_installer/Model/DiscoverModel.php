@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class DiscoverModel extends Installer
+class DiscoverModel extends InstallerModel
 {
 	/**
 	 * Constructor.

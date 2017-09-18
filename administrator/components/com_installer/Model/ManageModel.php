@@ -19,7 +19,7 @@ use Joomla\Component\Templates\Administrator\Table\Style;
  *
  * @since  1.5
  */
-class ManageModel extends Installer
+class ManageModel extends InstallerModel
 {
 	/**
 	 * Constructor.
