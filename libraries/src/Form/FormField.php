@@ -348,9 +348,9 @@ abstract class FormField
 	/**
 	 * The data-attribute name of the form field. For example, data-action-type
 	 *
-	 * @var  string
+	 * @var  array
 	 */
-	protected $dataAttributeName = '';
+	protected $dataAttributeName = array();
 
 	/**
 	 * The data-attribute name and values of the form field.
@@ -470,6 +470,14 @@ abstract class FormField
 	 */
 	public function __set($name, $value)
 	{
+		// Lets detect miscellaneous data attribute. For eg, data-firstName, data-lastName, data-*
+		$miscellaneousDataAttribute = '';
+
+		if (in_array($name, $this->dataAttributeName))
+		{
+			$miscellaneousDataAttribute = $name;
+		}
+
 		switch ($name)
 		{
 			case 'class':
@@ -547,8 +555,8 @@ abstract class FormField
 				$this->$name = (int) $value;
 				break;
 
-			case $this->dataAttributeName = $this->dataAttributeName ? $this->dataAttributeName : '' === $name:
-				$this->dataAttributeValues[] = $name . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+			case $miscellaneousDataAttribute:
+				$this->dataAttributeValues[$name]  = $name . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 				break;
 
 			default:
@@ -629,7 +637,13 @@ abstract class FormField
 
 		foreach ($attributes as $attributeName)
 		{
-			$this->dataAttributeName = strpos($attributeName, 'data-') === false ? '' : $attributeName;
+			// Lets detect miscellaneous data attribute. For eg, data-*
+			if (strpos($attributeName, 'data-') !== false)
+			{
+				// Push data attribute name(s) in array
+				$this->dataAttributeName[] = $attributeName;
+			}
+
 			$this->__set($attributeName, $element[$attributeName]);
 		}
 
