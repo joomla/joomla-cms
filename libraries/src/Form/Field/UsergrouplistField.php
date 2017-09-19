@@ -22,7 +22,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  3.2
  */
-class UserGroupListField extends \JFormFieldList
+class UsergrouplistField extends \JFormFieldList
 {
 	/**
 	 * The form field type.

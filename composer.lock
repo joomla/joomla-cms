@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2634690ec78860b02fad9d9bce6b5468",
+    "content-hash": "c4363e7c59ded73c712bfdee79b2e093",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -534,26 +534,36 @@
         },
         {
             "name": "joomla/ldap",
-            "version": "1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/ldap.git",
-                "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc"
+                "reference": "2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/91c3827a7f6d7164a3bf49eede27419321e4dcbc",
-                "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc",
+                "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208",
+                "reference": "2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.10"
+                "ext-ldap": "*",
+                "php": "^5.3.10|~7.0",
+                "symfony/polyfill-php56": "~1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+                "squizlabs/php_codesniffer": "1.*"
             },
             "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
-                    "Joomla\\Ldap\\": "src/",
-                    "Joomla\\Ldap\\Tests\\": "Tests/"
+                    "Joomla\\Ldap\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -567,7 +577,7 @@
                 "joomla",
                 "ldap"
             ],
-            "time": "2014-04-10T03:07:59+00:00"
+            "time": "2017-07-27T13:13:55+00:00"
         },
         {
             "name": "joomla/registry",
@@ -912,16 +922,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "91537490fe720e058cf864f773501e0d9969b75e"
+                "reference": "110b1707f45e3b59311bb488b3af7251673de9b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/91537490fe720e058cf864f773501e0d9969b75e",
-                "reference": "91537490fe720e058cf864f773501e0d9969b75e",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/110b1707f45e3b59311bb488b3af7251673de9b7",
+                "reference": "110b1707f45e3b59311bb488b3af7251673de9b7",
                 "shasum": ""
             },
             "require": {
@@ -989,7 +999,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2017-07-05T18:15:41+00:00"
+            "time": "2017-09-01T01:19:04+00:00"
         },
         {
             "name": "phpmailer/phpmailer",

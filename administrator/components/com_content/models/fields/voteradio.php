@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('radio');
 /**
  * Voteradio Field class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class JFormFieldVoteradio extends JFormFieldRadio
 {

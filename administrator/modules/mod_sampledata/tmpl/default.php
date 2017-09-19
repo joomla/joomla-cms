@@ -37,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					</div>
 					<div class="span6">
 						<small>
-							<?php echo htmlspecialchars($item->description); ?>
+							<?php echo $item->description; ?>
 						</small>
 					</div>
 				</div>

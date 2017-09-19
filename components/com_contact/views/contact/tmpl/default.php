@@ -53,8 +53,8 @@ $tparams = $this->item->params;
 
 	<?php if ($tparams->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
-			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>
-			<?php echo JHtml::_('select.genericlist', $this->contacts, 'id', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link); ?>
+			<label for="select_contact"><?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
+			<?php echo JHtml::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link); ?>
 		</form>
 	<?php endif; ?>
 
@@ -84,12 +84,13 @@ $tparams = $this->item->params;
 
 		<?php if ($this->contact->image && $tparams->get('show_image')) : ?>
 			<div class="thumbnail pull-right">
-				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('align' => 'middle', 'itemprop' => 'image')); ?>
+				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>
 
 		<?php if ($this->contact->con_position && $tparams->get('show_position')) : ?>
 			<dl class="contact-position dl-horizontal">
+				<dt><?php echo JText::_('COM_CONTACT_POSITION'); ?>:</dt>
 				<dd itemprop="jobTitle">
 					<?php echo $this->contact->con_position; ?>
 				</dd>

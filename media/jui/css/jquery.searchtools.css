@@ -69,16 +69,6 @@ html[dir=rtl] .js-stools .chzn-container {
 	margin-right: 0;
 }
 
-/* Fix for IE8 */
-@media all\0 {
-	.js-stools .js-stools-field-list,
-	.js-stools .js-stools-field-filter {
-		display:  block;
-		width: 180px;
-		float:left;
-	}
-}
-
 /* Media queries */
 @media (max-width: 480px) {
 	.js-stools-container-filters {
