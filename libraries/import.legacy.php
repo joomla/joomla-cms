@@ -53,6 +53,10 @@ JLoader::setup();
 
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
+// Register classes that don't follow one file per class naming conventions.
+JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
+JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
+
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))
 {

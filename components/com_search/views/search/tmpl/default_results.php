@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-
 ?>
+
 <dl class="search-results<?php echo $this->pageclass_sfx; ?>">
 <?php foreach ($this->results as $result) : ?>
 	<dt class="result-title">
@@ -22,8 +22,8 @@ defined('_JEXEC') or die;
 				<?php echo $result->title; ?>
 			</a>
 		<?php else : ?>
-			<?php // see above comment: do not escape $result->title ?>
-			<?php echo $result->title; ?>
+		       <?php // see above comment: do not escape $result->title ?>
+		       <?php echo $result->title; ?>
 		<?php endif; ?>
 	</dt>
 	<?php if ($result->section) : ?>
@@ -43,6 +43,7 @@ defined('_JEXEC') or die;
 	<?php endif; ?>
 <?php endforeach; ?>
 </dl>
+
 <div class="pagination">
 	<?php echo $this->pagination->getPagesLinks(); ?>
 </div>

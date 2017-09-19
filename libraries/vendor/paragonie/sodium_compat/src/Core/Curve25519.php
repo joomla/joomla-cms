@@ -212,33 +212,33 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
 
         $carry0 = $h[0] >> 26;
         $h[1] += $carry0;
-        $h[0] -= $carry0 << 26;
+        $h[0] -= self::mul($carry0,  1 << 26);
         $carry1 = $h[1] >> 25;
         $h[2] += $carry1;
-        $h[1] -= $carry1 << 25;
+        $h[1] -= self::mul($carry1,  1 << 25);
         $carry2 = $h[2] >> 26;
         $h[3] += $carry2;
-        $h[2] -= $carry2 << 26;
+        $h[2] -= self::mul($carry2,  1 << 26);
         $carry3 = $h[3] >> 25;
         $h[4] += $carry3;
-        $h[3] -= $carry3 << 25;
+        $h[3] -= self::mul($carry3,  1 << 25);
         $carry4 = $h[4] >> 26;
         $h[5] += $carry4;
-        $h[4] -= $carry4 << 26;
+        $h[4] -= self::mul($carry4,  1 << 26);
         $carry5 = $h[5] >> 25;
         $h[6] += $carry5;
-        $h[5] -= $carry5 << 25;
+        $h[5] -= self::mul($carry5,  1 << 25);
         $carry6 = $h[6] >> 26;
         $h[7] += $carry6;
-        $h[6] -= $carry6 << 26;
+        $h[6] -= self::mul($carry6,  1 << 26);
         $carry7 = $h[7] >> 25;
         $h[8] += $carry7;
-        $h[7] -= $carry7 << 25;
+        $h[7] -= self::mul($carry7,  1 << 25);
         $carry8 = $h[8] >> 26;
         $h[9] += $carry8;
-        $h[8] -= $carry8 << 26;
+        $h[8] -= self::mul($carry8,  1 << 26);
         $carry9 = $h[9] >> 25;
-        $h[9] -= $carry9 << 25;
+        $h[9] -= self::mul($carry9,  1 << 25);
 
         /**
          * @var array<int, int>
@@ -1890,6 +1890,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $s22 = self::mul($a11, $b11);
         $s23 = 0;
 
+
         $carry0 = ($s0 + (1 << 20)) >> 21;
         $s1 += $carry0;
         $s0 -= self::mul($carry0, 1 << 21);
@@ -2448,40 +2449,40 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
 
         $carry0 = $s0 >> 21;
         $s1 += $carry0;
-        $s0 -= $carry0 << 21;
+        $s0 -= self::mul($carry0,  1 << 21);
         $carry1 = $s1 >> 21;
         $s2 += $carry1;
-        $s1 -= $carry1 << 21;
+        $s1 -= self::mul($carry1,  1 << 21);
         $carry2 = $s2 >> 21;
         $s3 += $carry2;
-        $s2 -= $carry2 << 21;
+        $s2 -= self::mul($carry2,  1 << 21);
         $carry3 = $s3 >> 21;
         $s4 += $carry3;
-        $s3 -= $carry3 << 21;
+        $s3 -= self::mul($carry3,  1 << 21);
         $carry4 = $s4 >> 21;
         $s5 += $carry4;
-        $s4 -= $carry4 << 21;
+        $s4 -= self::mul($carry4,  1 << 21);
         $carry5 = $s5 >> 21;
         $s6 += $carry5;
-        $s5 -= $carry5 << 21;
+        $s5 -= self::mul($carry5,  1 << 21);
         $carry6 = $s6 >> 21;
         $s7 += $carry6;
-        $s6 -= $carry6 << 21;
+        $s6 -= self::mul($carry6,  1 << 21);
         $carry7 = $s7 >> 21;
         $s8 += $carry7;
-        $s7 -= $carry7 << 21;
+        $s7 -= self::mul($carry7,  1 << 21);
         $carry8 = $s8 >> 21;
         $s9 += $carry8;
-        $s8 -= $carry8 << 21;
+        $s8 -= self::mul($carry8,  1 << 21);
         $carry9 = $s9 >> 21;
         $s10 += $carry9;
-        $s9 -= $carry9 << 21;
+        $s9 -= self::mul($carry9,  1 << 21);
         $carry10 = $s10 >> 21;
         $s11 += $carry10;
-        $s10 -= $carry10 << 21;
+        $s10 -= self::mul($carry10,  1 << 21);
         $carry11 = $s11 >> 21;
         $s12 += $carry11;
-        $s11 -= $carry11 << 21;
+        $s11 -= self::mul($carry11,  1 << 21);
 
         $s0 += self::mul($s12,  666643);
         $s1 += self::mul($s12,  470296);
@@ -2492,37 +2493,37 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
 
         $carry0 = $s0 >> 21;
         $s1 += $carry0;
-        $s0 -= $carry0 << 21;
+        $s0 -= self::mul($carry0,  1 << 21);
         $carry1 = $s1 >> 21;
         $s2 += $carry1;
-        $s1 -= $carry1 << 21;
+        $s1 -= self::mul($carry1,  1 << 21);
         $carry2 = $s2 >> 21;
         $s3 += $carry2;
-        $s2 -= $carry2 << 21;
+        $s2 -= self::mul($carry2,  1 << 21);
         $carry3 = $s3 >> 21;
         $s4 += $carry3;
-        $s3 -= $carry3 << 21;
+        $s3 -= self::mul($carry3,  1 << 21);
         $carry4 = $s4 >> 21;
         $s5 += $carry4;
-        $s4 -= $carry4 << 21;
+        $s4 -= self::mul($carry4,  1 << 21);
         $carry5 = $s5 >> 21;
         $s6 += $carry5;
-        $s5 -= $carry5 << 21;
+        $s5 -= self::mul($carry5,  1 << 21);
         $carry6 = $s6 >> 21;
         $s7 += $carry6;
-        $s6 -= $carry6 << 21;
+        $s6 -= self::mul($carry6,  1 << 21);
         $carry7 = $s7 >> 21;
         $s8 += $carry7;
-        $s7 -= $carry7 << 21;
+        $s7 -= self::mul($carry7,  1 << 21);
         $carry8 = $s8 >> 21;
         $s9 += $carry8;
-        $s8 -= $carry8 << 21;
+        $s8 -= self::mul($carry8,  1 << 21);
         $carry9 = $s9 >> 21;
         $s10 += $carry9;
-        $s9 -= $carry9 << 21;
+        $s9 -= self::mul($carry9,  1 << 21);
         $carry10 = $s10 >> 21;
         $s11 += $carry10;
-        $s10 -= $carry10 << 21;
+        $s10 -= self::mul($carry10,  1 << 21);
 
         /**
          * @var array<int, int>
