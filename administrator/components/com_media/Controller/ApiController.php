@@ -247,7 +247,7 @@ class ApiController extends BaseController
 		}
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = \JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid($name);
+		$tmpFile = \JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid() . $name;
 
 		if (!\JFile::write($tmpFile, $mediaContent))
 		{

@@ -79,7 +79,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 	// Customize the buttons
 	Joomla.submitbutton = function(task) {
-		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg',
+		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension,
 		    pathName = window.location.pathname.replace(/&view=file.*/g, ''),
 			name = options.uploadPath.split('/').pop(),
 			forUpload = {

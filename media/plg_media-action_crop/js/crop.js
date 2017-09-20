@@ -65,9 +65,6 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 				// Notify the app that a change has been made
 				window.dispatchEvent(new Event('mediaManager.history.point'));
-
-				// Make sure that the plugin didn't remove the preview
-				document.getElementById('image-preview').src = Joomla.MediaManager.Edit.current.contents;
 			}
 		});
 

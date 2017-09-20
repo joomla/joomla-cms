@@ -42,7 +42,7 @@ $localPath = str_replace(\Joomla\CMS\Uri\Uri::root(), DIRECTORY_SEPARATOR, $this
 $config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => JSession::getFormToken(),
-	'uploadPath'              => str_replace($this->file->adapter, '', $this->file->path),
+	'uploadPath'              => $this->file->path,
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
