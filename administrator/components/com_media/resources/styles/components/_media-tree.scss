@@ -4,7 +4,7 @@ ul.media-tree {
   list-style: none;
   padding: 0 0 5px;
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: visible;
   ul {
     margin-left: 2px;
   }
@@ -30,6 +30,7 @@ ul.media-tree {
 .media-drive {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.14);
+  overflow-x: auto;
   + .media-drive {
     border-top: 0;
   }

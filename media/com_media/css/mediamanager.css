@@ -388,7 +388,7 @@ ul.media-tree {
   list-style: none;
   padding: 0 0 5px;
   margin: 0;
-  overflow-x: hidden; }
+  overflow-x: visible; }
   ul.media-tree ul {
     margin-left: 2px; }
   ul.media-tree:empty {
@@ -406,7 +406,8 @@ ul.media-tree {
 
 .media-drive {
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.14); }
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  overflow-x: auto; }
   .media-drive + .media-drive {
     border-top: 0; }
   .media-drive > ul > li {
