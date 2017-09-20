@@ -1,0 +1,32 @@
+.media-modal-backdrop {
+  position: fixed;
+  z-index: 1040;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+
+  .modal {
+    animation: fadeInUp .5s;
+  }
+
+  .modal-body {
+    width: auto;
+    padding: 15px;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transition: transform 0.3s ease-out;
+    transform: translate(0, -25%);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

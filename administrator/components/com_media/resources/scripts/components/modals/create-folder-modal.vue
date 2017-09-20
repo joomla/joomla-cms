@@ -13,7 +13,8 @@
         </div>
         <div slot="footer">
             <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
-            <button class="btn btn-success" @click="save()" :disabled="!isValid()">{{ translate('JAPPLY') }}</button>
+            <button class="btn btn-success" @click="save()" :disabled="!isValid()">{{ translate('JAPPLY') }}
+            </button>
         </div>
     </media-modal>
 </template>
