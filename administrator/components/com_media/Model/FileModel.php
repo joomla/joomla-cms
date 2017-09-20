@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class File extends FormModel
+class FileModel extends FormModel
 {
 	/**
 	 * Method to get the record form.
@@ -55,12 +55,12 @@ class File extends FormModel
 	 * @return  \stdClass  A object with file information
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @see     Api::getFile()
+	 * @see     ApiModel::getFile()
 	 */
 	public function getFileInformation($path)
 	{
 		list($adapter, $path) = explode(':', $path, 2);
 
-		return (new Api())->getFile($adapter, $path, ['url' => true]);
+		return (new ApiModel())->getFile($adapter, $path, ['url' => true]);
 	}
 }

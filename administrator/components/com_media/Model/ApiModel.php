@@ -22,7 +22,7 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Api extends BaseModel
+class ApiModel extends BaseModel
 {
 	/**
 	 * Holds available media file adapters.

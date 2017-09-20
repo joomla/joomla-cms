@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Media extends BaseModel
+class MediaModel extends BaseModel
 {
 	/**
 	 * Obtain list of supported providers

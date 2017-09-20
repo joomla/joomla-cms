@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * Media List View
  *
  * @since  __DEPLOY_VERSION__
  */
-class Html extends HtmlView
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * @var array|string Holds a list of providers

@@ -26,7 +26,7 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Api extends BaseController
+class ApiController extends BaseController
 {
 	/**
 	 * Api endpoint for the media manager front end. The HTTP methods GET, PUT, POST and DELETE

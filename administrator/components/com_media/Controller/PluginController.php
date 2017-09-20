@@ -23,7 +23,7 @@ use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Plugin extends BaseController
+class PluginController extends BaseController
 {
 	/**
 	 * Handles an OAuth Callback request for a specified plugin.

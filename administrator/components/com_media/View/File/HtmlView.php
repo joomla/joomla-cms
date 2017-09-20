@@ -13,8 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 \JLoader::import('joomla.filesystem.file');
 
@@ -23,7 +22,7 @@ use Joomla\CMS\MVC\View\HtmlView;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Html extends HtmlView
+class HtmlView extends BaseHtmlView
 {
 
 	/**
