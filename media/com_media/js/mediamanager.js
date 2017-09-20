@@ -16864,13 +16864,13 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"./../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387}],404:[function(require,module,exports){
 ;(function(){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mutationTypes = require("../../store/mutation-types");
+var _mutationTypes = require('../../store/mutation-types');
 
 var types = _interopRequireWildcard(_mutationTypes);
 
@@ -16878,6 +16878,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 exports.default = {
     name: 'media-toolbar',
+    computed: {
+        toggleListViewBtnIcon: function toggleListViewBtnIcon() {
+            return this.$store.state.listView === 'grid' ? 'fa fa-th' : 'fa fa-list';
+        }
+    },
     methods: {
         toggleInfoBar: function toggleInfoBar() {
             if (this.$store.state.showInfoBar) {
@@ -16886,8 +16891,12 @@ exports.default = {
                 this.$store.commit(types.SHOW_INFOBAR);
             }
         },
-        changeListView: function changeListView(view) {
-            this.$store.commit(types.CHANGE_LIST_VIEW, view);
+        changeListView: function changeListView() {
+            if (this.$store.state.listView === 'grid') {
+                this.$store.commit(types.CHANGE_LIST_VIEW, 'table');
+            } else {
+                this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
+            }
         }
     }
 };
@@ -16895,7 +16904,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){_vm.changeListView('grid')}}},[_c('span',{staticClass:"fa fa-th",attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){_vm.changeListView('table')}}},[_c('span',{staticClass:"fa fa-list",attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":_vm.toggleInfoBar}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":function($event){_vm.changeListView()}}},[_c('span',{class:_vm.toggleListViewBtnIcon,attrs:{"aria-hidden":"true"}})]),_vm._v(" "),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":_vm.toggleInfoBar}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
