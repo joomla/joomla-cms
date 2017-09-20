@@ -16301,7 +16301,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
@@ -16317,84 +16317,89 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-	name: 'media-browser',
-	computed: {
-		items: function items() {
-			var directories = this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
-				return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
-			});
-			var files = this.$store.getters.getSelectedDirectoryFiles.sort(function (a, b) {
-				return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
-			});
+    name: 'media-browser',
+    computed: {
+        items: function items() {
+            var directories = this.$store.getters.getSelectedDirectoryDirectories.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
+            var files = this.$store.getters.getSelectedDirectoryFiles.sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+            });
 
-			return [].concat((0, _toConsumableArray3.default)(directories), (0, _toConsumableArray3.default)(files));
-		}
-	},
-	methods: {
-		unselectAllBrowserItems: function unselectAllBrowserItems(event) {
-			var eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
-			if (eventOutside) {
-				this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-			}
-		},
-		onDragEnter: function onDragEnter(e) {
-			e.stopPropagation();
-			return false;
-		},
-		onDragOver: function onDragOver(e) {
-			e.preventDefault();
-			document.querySelector('.media-dragoutline').classList.add('active');
-			return false;
-		},
-		upload: function upload(file) {
-			var _this = this;
+            return [].concat((0, _toConsumableArray3.default)(directories), (0, _toConsumableArray3.default)(files));
+        },
+        mediaBrowserStyles: function mediaBrowserStyles() {
+            return {
+                width: this.$store.state.showInfoBar ? '75%' : '100%'
+            };
+        }
+    },
+    methods: {
+        unselectAllBrowserItems: function unselectAllBrowserItems(event) {
+            var eventOutside = !this.$refs.browserItems.contains(event.target) || event.target === this.$refs.browserItems;
+            if (eventOutside) {
+                this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            }
+        },
+        onDragEnter: function onDragEnter(e) {
+            e.stopPropagation();
+            return false;
+        },
+        onDragOver: function onDragOver(e) {
+            e.preventDefault();
+            document.querySelector('.media-dragoutline').classList.add('active');
+            return false;
+        },
+        upload: function upload(file) {
+            var _this = this;
 
-			var reader = new FileReader();
+            var reader = new FileReader();
 
-			reader.onload = function (progressEvent) {
-				var result = progressEvent.target.result,
-				    splitIndex = result.indexOf('base64') + 7,
-				    content = result.slice(splitIndex, result.length);
+            reader.onload = function (progressEvent) {
+                var result = progressEvent.target.result,
+                    splitIndex = result.indexOf('base64') + 7,
+                    content = result.slice(splitIndex, result.length);
 
-				_this.$store.dispatch('uploadFile', {
-					name: file.name,
-					parent: _this.$store.state.selectedDirectory,
-					content: content
-				});
-			};
+                _this.$store.dispatch('uploadFile', {
+                    name: file.name,
+                    parent: _this.$store.state.selectedDirectory,
+                    content: content
+                });
+            };
 
-			reader.readAsDataURL(file);
-		},
-		onDrop: function onDrop(e) {
-			e.preventDefault();
+            reader.readAsDataURL(file);
+        },
+        onDrop: function onDrop(e) {
+            e.preventDefault();
 
-			if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-				for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
-					document.querySelector('.media-dragoutline').classList.remove('active');
-					this.upload(f);
-				}
-			}
-			document.querySelector('.media-dragoutline').classList.remove('active');
-		},
-		onDragLeave: function onDragLeave(e) {
-			e.stopPropagation();
-			e.preventDefault();
-			document.querySelector('.media-dragoutline').classList.remove('active');
-			return false;
-		}
-	},
-	created: function created() {
-		document.body.addEventListener('click', this.unselectAllBrowserItems, false);
-	},
-	beforeDestroy: function beforeDestroy() {
-		document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
-	}
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
+                    document.querySelector('.media-dragoutline').classList.remove('active');
+                    this.upload(f);
+                }
+            }
+            document.querySelector('.media-dragoutline').classList.remove('active');
+        },
+        onDragLeave: function onDragLeave(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            document.querySelector('.media-dragoutline').classList.remove('active');
+            return false;
+        }
+    },
+    created: function created() {
+        document.body.addEventListener('click', this.unselectAllBrowserItems, false);
+    },
+    beforeDestroy: function beforeDestroy() {
+        document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser",on:{"dragenter":_vm.onDragEnter,"drop":_vm.onDrop,"dragover":_vm.onDragOver,"dragleave":_vm.onDragLeave}},[_vm._m(0),_vm._v(" "),_c('div',{ref:"browserItems",staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser",style:(_vm.mediaBrowserStyles),on:{"dragenter":_vm.onDragEnter,"drop":_vm.onDrop,"dragover":_vm.onDragOver,"dragleave":_vm.onDragLeave}},[_vm._m(0),_vm._v(" "),_c('div',{ref:"browserItems",staticClass:"media-browser-items"},_vm._l((_vm.items),function(item){return _c('media-browser-item',{attrs:{"item":item}})}))])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-dragoutline"},[_c('span',{staticClass:"fa fa-cloud-upload upload-icon",attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('p',[_vm._v("Drop file(s) to Upload")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -16633,11 +16638,18 @@ exports.default = {
 
 },{"./../../../store/mutation-types":414,"./directory.vue":397,"./file.vue":398,"./image.vue":399}],401:[function(require,module,exports){
 ;(function(){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require("../../store/mutation-types");
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
     name: 'media-infobar',
     computed: {
@@ -16653,6 +16665,14 @@ exports.default = {
             }
 
             return this.$store.getters.getSelectedDirectory;
+        },
+        showInfoBar: function showInfoBar() {
+            return this.$store.state.showInfoBar;
+        }
+    },
+    methods: {
+        hideInfoBar: function hideInfoBar() {
+            this.$store.commit(types.HIDE_INFOBAR);
         }
     }
 };
@@ -16660,7 +16680,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-infobar"},[_c('span',{staticClass:"infobar-close",attrs:{"aria-label":"Close Menu"}},[_vm._v("×")]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-file placeholder-icon"}),_vm._v("\n        Select file or folder to view its details.\n    ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"infobar"}},[(_vm.showInfoBar)?_c('div',{staticClass:"media-infobar"},[_c('span',{staticClass:"infobar-close",on:{"click":function($event){_vm.hideInfoBar()}}},[_vm._v("×")]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.item.name))]),_vm._v(" "),(_vm.item.path === '/')?_c('div',{staticClass:"text-center"},[_c('span',{staticClass:"fa fa-file placeholder-icon"}),_vm._v("\n            Select file or folder to view its details.\n        ")]):_c('dl',{staticClass:"row"},[_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.directory))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.type || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_CREATED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.create_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MODIFIED_AT')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.modified_date_formatted))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_DIMENSION')))]),_vm._v(" "),(_vm.item.width || _vm.item.height)?_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.width)+" x "+_vm._s(_vm.item.height))]):_c('dd',{staticClass:"col-sm-8"},[_vm._v("-")]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_SIZE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.size || '-'))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_MIME_TYPE')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.mime_type))]),_vm._v(" "),_c('dt',{staticClass:"col-sm-4"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_MEDIA_EXTENSION')))]),_vm._v(" "),_c('dd',{staticClass:"col-sm-8"},[_vm._v(_vm._s(_vm.item.extension || '-'))])])]):_vm._e()])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -16672,7 +16692,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-06984c8f", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
+},{"../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387}],402:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -16807,20 +16827,36 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"./../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387,"vueify/lib/insert-css":389}],404:[function(require,module,exports){
 ;(function(){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _mutationTypes = require("../../store/mutation-types");
+
+var types = _interopRequireWildcard(_mutationTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 exports.default = {
-    name: 'media-toolbar'
+    name: 'media-toolbar',
+    methods: {
+        toggleInfoBar: function toggleInfoBar() {
+            if (this.$store.state.showInfoBar) {
+                this.$store.commit(types.HIDE_INFOBAR);
+            } else {
+                this.$store.commit(types.SHOW_INFOBAR);
+            }
+        }
+    }
 };
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_vm._m(0)],1)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-view-icons"},[_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-th",attrs:{"aria-hidden":"true"}})]),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-list",attrs:{"aria-hidden":"true"}})]),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-toolbar"},[_c('media-breadcrumb'),_vm._v(" "),_c('div',{staticClass:"media-view-icons"},[_vm._m(0),_vm._m(1),_c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"},on:{"click":_vm.toggleInfoBar}},[_c('span',{staticClass:"fa fa-info",attrs:{"aria-hidden":"true"}})])])],1)}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-th",attrs:{"aria-hidden":"true"}})])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"media-toolbar-icon",attrs:{"href":"#"}},[_c('span',{staticClass:"fa fa-list",attrs:{"aria-hidden":"true"}})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -16831,7 +16867,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
-},{"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
+},{"../../store/mutation-types":414,"vue":388,"vue-hot-reload-api":387}],405:[function(require,module,exports){
 ;(function(){
 'use strict';
 
@@ -17407,6 +17443,10 @@ var UPLOAD_SUCCESS = exports.UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 var SHOW_CREATE_FOLDER_MODAL = exports.SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
 
+// Infobar
+var SHOW_INFOBAR = exports.SHOW_INFOBAR = 'SHOW_INFOBAR';
+var HIDE_INFOBAR = exports.HIDE_INFOBAR = 'HIDE_INFOBAR';
+
 // Delete items
 var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
 
@@ -17569,6 +17609,10 @@ exports.default = (_types$SELECT_DIRECTO = {}, (0, _defineProperty3.default)(_ty
     state.showCreateFolderModal = true;
 }), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_CREATE_FOLDER_MODAL, function (state) {
     state.showCreateFolderModal = false;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.SHOW_INFOBAR, function (state) {
+    state.showInfoBar = true;
+}), (0, _defineProperty3.default)(_types$SELECT_DIRECTO, types.HIDE_INFOBAR, function (state) {
+    state.showInfoBar = false;
 }), _types$SELECT_DIRECTO);
 
 },{"./mutation-types":414,"babel-runtime/core-js/object/assign":5,"babel-runtime/helpers/defineProperty":10,"babel-runtime/helpers/toConsumableArray":11}],416:[function(require,module,exports){
@@ -17613,7 +17657,9 @@ exports.default = {
     // The currently selected items
     selectedItems: [],
     // The state of create folder model
-    showCreateFolderModal: false
+    showCreateFolderModal: false,
+    // The state of the infobar
+    showInfoBar: true
 };
 
 },{}],417:[function(require,module,exports){

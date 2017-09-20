@@ -173,4 +173,20 @@ export default {
     [types.HIDE_CREATE_FOLDER_MODAL]: (state) => {
         state.showCreateFolderModal = false;
     },
+
+    /**
+     * Show the info bar
+     * @param state
+     */
+    [types.SHOW_INFOBAR]: (state) => {
+        state.showInfoBar = true;
+    },
+
+    /**
+     * Show the info bar
+     * @param state
+     */
+    [types.HIDE_INFOBAR]: (state) => {
+        state.showInfoBar = false;
+    },
 }

@@ -12,5 +12,9 @@ export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 export const HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
 
+// Infobar
+export const SHOW_INFOBAR = 'SHOW_INFOBAR';
+export const HIDE_INFOBAR = 'HIDE_INFOBAR';
+
 // Delete items
 export const DELETE_SUCCESS = 'DELETE_SUCCESS';

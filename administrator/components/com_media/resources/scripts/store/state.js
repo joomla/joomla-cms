@@ -36,5 +36,7 @@ export default {
     // The currently selected items
     selectedItems: [],
     // The state of create folder model
-    showCreateFolderModal: false
+    showCreateFolderModal: false,
+    // The state of the infobar
+    showInfoBar: true,
 }
