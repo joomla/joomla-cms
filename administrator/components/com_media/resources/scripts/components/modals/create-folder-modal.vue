@@ -5,7 +5,7 @@
             <form class="form" @submit.prevent="save" novalidate>
                 <div class="form-group">
                     <label for="folder">{{ translate('COM_MEDIA_FOLDER') }}</label>
-                    <input type="text" id="folder" class="form-control" placeholder="Folder"
+                    <input id="folder" class="form-control" placeholder="Folder"
                            v-focus="true" v-model.trim="folder" @input="folder = $event.target.value"
                            required autocomplete="off">
                 </div>
@@ -46,7 +46,6 @@
                 if (!this.isValid()) {
                     // TODO show an error message to user for insert a folder name
                     // TODO mark the field as invalid
-                    Joomla.renderMessages({"error": [this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE')]});
                     return;
                 }
 
@@ -55,8 +54,6 @@
                     name: this.folder,
                     parent: this.$store.state.selectedDirectory,
                 });
-
-                // Reset the form
                 this.reset();
             },
             /* Reset the form */

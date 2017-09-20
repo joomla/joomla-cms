@@ -1,3 +1,5 @@
+import {notifications} from "./Notifications";
+
 const path = require('path');
 
 /**
@@ -55,8 +57,12 @@ class Api {
                 data: JSON.stringify(data),
                 contentType: "application/json",
             })
-                .done((json) => resolve(this._normalizeItem(json.data)))
+                .done((json) => {
+                    notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
+                    resolve(this._normalizeItem(json.data))
+                })
                 .fail((xhr, status, error) => {
+                    notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
                     reject(xhr)
                 })
         }).catch(this._handleError);
@@ -84,8 +90,12 @@ class Api {
                 data: JSON.stringify(data),
                 contentType: "application/json",
             })
-                .done((json) => resolve(this._normalizeItem(json.data)))
+                .done((json) => {
+                    notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+                    resolve(this._normalizeItem(json.data))
+                })
                 .fail((xhr, status, error) => {
+                    notifications.error('COM_MEDIA_UPDLOAD_ERROR');
                     reject(xhr)
                 })
         }).catch(this._handleError);
@@ -109,8 +119,12 @@ class Api {
                 data: JSON.stringify(data),
                 contentType: "application/json",
             })
-                .done((json) => resolve())
+                .done((json) => {
+                    notifications.success('COM_MEDIA_DELETE_SUCCESS');
+                    resolve()
+                })
                 .fail((xhr, status, error) => {
+                    notifications.error('COM_MEDIA_DELETE_ERROR');
                     reject(xhr)
                 })
         }).catch(this._handleError);
@@ -166,13 +180,19 @@ class Api {
     _handleError(error) {
         switch (error.status) {
             case 404:
+                notifications.error('COM_MEDIA_ERROR_PAGE_NOT_FOUND');
                 break;
             case 401:
+                notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
+                break;
             case 403:
+                notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
+                break;
             case 500:
-                window.location.href = window.location.pathname;
+                notifications.error('COM_MEDIA_SERVER_ERROR');
+                break;
             default:
-                window.location.href = window.location.pathname;
+                notifications.error('COM_MEDIA_ERROR');
         }
 
         throw error;
