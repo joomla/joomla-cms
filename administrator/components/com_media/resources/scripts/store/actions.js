@@ -29,7 +29,7 @@ export const getContents = (context, payload) => {
     // Update the url
     updateUrlPath(payload);
 
-    api.getContents(payload)
+    api.getContents(payload, false)
         .then(contents => {
             context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
             context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
@@ -39,6 +39,17 @@ export const getContents = (context, payload) => {
             // TODO error handling
             console.log("error", error);
         });
+}
+
+export const getFullContents = (context, payload) => {
+	api.getContents(payload.path, true)
+		.then(contents => {
+		context.commit(types.LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
+    })
+    .catch(error => {
+            // TODO error handling
+            console.log("error", error);
+    });
 }
 
 /**

@@ -12,6 +12,7 @@
         </div>
         <media-upload></media-upload>
         <media-create-folder-modal></media-create-folder-modal>
+        <media-preview-modal></media-preview-modal>
     </div>
 </template>
 

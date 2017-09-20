@@ -12,6 +12,7 @@ import Browser from "./components/browser/browser.vue";
 import BrowserItem from "./components/browser/items/item";
 import Modal from "./components/modals/modal.vue";
 import CreateFolderModal from "./components/modals/create-folder-modal.vue";
+import PreviewModal from "./components/modals/preview-modal.vue";
 import Infobar from "./components/infobar/infobar.vue";
 import Upload from "./components/upload/upload.vue";
 import Translate from "./plugins/translate";
@@ -31,6 +32,7 @@ Vue.component('media-browser', Browser);
 Vue.component('media-browser-item', BrowserItem);
 Vue.component('media-modal', Modal);
 Vue.component('media-create-folder-modal', CreateFolderModal);
+Vue.component('media-preview-modal', PreviewModal);
 Vue.component('media-infobar', Infobar);
 Vue.component('media-upload', Upload);
 

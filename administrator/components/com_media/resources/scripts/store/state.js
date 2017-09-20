@@ -46,5 +46,9 @@ export default {
     // The state of the infobar
     showInfoBar: false,
     // List view
-    listView: 'grid'
+    listView: 'grid',
+    // The state of preview model
+	showPreviewModal: false,
+    // The preview item
+	previewItem: null
 }

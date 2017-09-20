@@ -212,7 +212,7 @@ export default {
     },
 
     /**
-     * Show the create folder modal
+     * Hide the create folder modal
      * @param state
      */
     [types.HIDE_CREATE_FOLDER_MODAL]: (state) => {
@@ -241,5 +241,30 @@ export default {
      */
     [types.CHANGE_LIST_VIEW]: (state, view) => {
         state.listView = view;
+    },
+
+    /**
+     * FUll content is loaded
+     * @param state
+     * @param payload
+     */
+    [types.LOAD_FULL_CONTENTS_SUCCESS]: (state, payload) => {
+        state.previewItem = payload;
+    },
+
+    /**
+     * Show the preview modal
+     * @param state
+     */
+    [types.SHOW_PREVIEW_MODAL]: (state) => {
+        state.showPreviewModal = true;
+    },
+
+    /**
+     * Hide the preview modal
+     * @param state
+     */
+    [types.HIDE_PREVIEW_MODAL]: (state) => {
+        state.showPreviewModal = false;
     },
 }

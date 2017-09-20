@@ -1,9 +1,8 @@
 <template>
-    <div class="media-browser-image">
+    <div class="media-browser-image" @dblclick="openPreview()">
         <div class="media-browser-item-preview">
             <div class="image-brackground">
-                <div class="image-cropped" :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"
-                 @dblclick="openEditView()"></div>
+                <div class="image-cropped" :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"></div>
             </div>
         </div>
         <div class="media-browser-item-info">
@@ -22,7 +21,8 @@
 </template>
 
 <script>
-    // TODO DN get the base path and make the path dynamic
+    import * as types from './../../../store/mutation-types';
+
     export default {
         name: 'media-browser-item-image',
         props: ['item'],
@@ -33,7 +33,12 @@
             }
         },
         methods: {
-            /* Delete am item */
+            /* Preview an item */
+            openPreview() {
+                this.$store.commit(types.SHOW_PREVIEW_MODAL);
+                this.$store.dispatch('getFullContents', this.item);
+            },
+            /* Delete an item */
             deleteItem() {
                 this.$store.dispatch('deleteItem', this.item);
             },
