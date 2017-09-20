@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Users\Administrator\Model\User;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 
 /**
  * Joomla Authentication plugin
@@ -104,8 +104,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				return;
 			}
 
-			/** @var \Joomla\Component\Users\Administrator\Model\User $model */
-			$model = new User(array('ignore_request' => true));
+			$model = new UserModel(array('ignore_request' => true));
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
