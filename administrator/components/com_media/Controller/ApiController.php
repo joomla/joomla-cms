@@ -143,10 +143,29 @@ class ApiController extends BaseController
 					$content      = $this->input->json;
 					$name         = basename($path);
 					$mediaContent = base64_decode($content->get('content', '', 'raw'));
+					$newPath      = $content->get('newPath', null);
+					$move         = $content->get('move', true);
 
-					$this->checkContent($name, $mediaContent);
+					if ($mediaContent != null)
+					{
+						$this->checkContent($name, $mediaContent);
 
-					$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+						$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+					}
+
+					if ($newPath != null)
+					{
+						if ($move)
+						{
+							$this->getModel()->move($adapter, $path, $newPath, true);
+						}
+						else
+						{
+							$this->getModel()->copy($adapter, $path, $newPath, true);
+						}
+
+						$path = $newPath;
+					}
 
 					$data = $this->getModel()->getFile($adapter, $path);
 					break;
