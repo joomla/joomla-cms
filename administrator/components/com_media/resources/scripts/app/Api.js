@@ -20,7 +20,7 @@ class Api {
         }
 
         this._baseUrl = options.apiBaseUrl;
-        this._csrfToken = options.csrfToken;
+        this._csrfToken = Joomla.getOptions('csrf.token');
     }
 
     /**
@@ -29,15 +29,23 @@ class Api {
      * @returns {Promise}
      */
     getContents(dir) {
-        // Wrap the jquery call into a real promise
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + dir;
-            jQuery.getJSON(url)
-                .done((json) => resolve(this._normalizeArray(json.data)))
-                .fail((xhr, status, error) => {
-                    reject(xhr)
-                })
-        }).catch(this._handleError);
+
+	        Joomla.request({
+		        url:    url,
+		        method: 'GET',
+		        perform: true,
+		        headers: {'Content-Type': 'application/json'},
+		        onSuccess: (response) => {
+			        resolve(this._normalizeArray(JSON.parse(response).data))
+		        },
+		        onError: (xhr) => {
+			        reject(xhr)
+		        }
+	        });
+        })
     }
 
     /**
@@ -47,24 +55,26 @@ class Api {
      * @returns {Promise.<T>}
      */
     createDirectory(name, parent) {
-        // Wrap the jquery call into a real promise
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
             const data = {[this._csrfToken]: '1', name: name};
-            jQuery.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify(data),
-                contentType: "application/json",
-            })
-                .done((json) => {
-                    notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
-                    resolve(this._normalizeItem(json.data))
-                })
-                .fail((xhr, status, error) => {
-                    notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
-                    reject(xhr)
-                })
+
+	        Joomla.request({
+			        url:    url,
+			        method: 'POST',
+			        data:    JSON.stringify(data),
+			        perform: true,
+			        headers: {'Content-Type': 'application/json'},
+			        onSuccess: (response) => {
+				        notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
+				        resolve(this._normalizeItem(JSON.parse(response).data))
+			        },
+			        onError: (xhr) => {
+				        notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
+				        reject(xhr)
+			        }
+		        });
         }).catch(this._handleError);
     }
 
@@ -84,20 +94,23 @@ class Api {
                 name: name,
                 content: content,
             };
-            jQuery.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify(data),
-                contentType: "application/json",
-            })
-                .done((json) => {
-                    notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
-                    resolve(this._normalizeItem(json.data))
-                })
-                .fail((xhr, status, error) => {
-                    notifications.error('COM_MEDIA_UPDLOAD_ERROR');
-                    reject(xhr)
-                })
+
+	        Joomla.request({
+		        url:    url,
+		        method: 'POST',
+		        data:    JSON.stringify(data),
+		        perform: true,
+		        headers: {'Content-Type': 'application/json'},
+		        onSuccess: (response) => {
+			        notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+			        resolve(this._normalizeItem(JSON.parse(response).data))
+		        },
+		        onError: (xhr) => {
+			        notifications.error('COM_MEDIA_UPDLOAD_ERROR');
+			        reject(xhr)
+		        }
+	        });
+
         }).catch(this._handleError);
     }
 
@@ -110,23 +123,21 @@ class Api {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + path;
-            const data = {
-                [this._csrfToken]: '1',
-            };
-            jQuery.ajax({
-                url: url,
-                type: "DELETE",
-                data: JSON.stringify(data),
-                contentType: "application/json",
-            })
-                .done((json) => {
-                    notifications.success('COM_MEDIA_DELETE_SUCCESS');
-                    resolve()
-                })
-                .fail((xhr, status, error) => {
-                    notifications.error('COM_MEDIA_DELETE_ERROR');
-                    reject(xhr)
-                })
+
+	        Joomla.request({
+		        url:    url,
+		        method: 'DELETE',
+		        perform: true,
+		        headers: {'Content-Type': 'application/json'},
+		        onSuccess: () => {
+			        notifications.success('COM_MEDIA_DELETE_SUCCESS');
+			        resolve();
+		        },
+		        onError: (xhr) => {
+			        notifications.error('COM_MEDIA_DELETE_ERROR');
+			        reject(xhr);
+		        }
+	        });
         }).catch(this._handleError);
     }
 
