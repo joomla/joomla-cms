@@ -36,14 +36,17 @@ if ($tmpl == 'component')
 	$tmpl = '&tmpl=' . $tmpl;
 }
 
+$localPath = str_replace(\Joomla\CMS\Uri\Uri::root(), DIRECTORY_SEPARATOR, $this->file->url);
+
 // Populate the media config
 $config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => JSession::getFormToken(),
-	'uploadPath'              => $this->file,
+	'uploadPath'              => str_replace($this->file->adapter, '', $this->file->path),
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
+	'contents'                => base64_encode(file_get_contents(JPATH_ROOT . $localPath)),
 ];
 
 JFactory::getDocument()->addScriptOptions('com_media', $config);

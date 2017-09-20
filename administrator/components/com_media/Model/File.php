@@ -45,4 +45,22 @@ class File extends FormModel
 
 		return $form;
 	}
+
+	/**
+	 * Method to get the file information for the given path. Path must be
+	 * in the format: adapter:path/to/file.extension
+	 *
+	 * @param   string  $path  The path to get the information from.
+	 *
+	 * @return  \stdClass  A object with file information
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see     Api::getFile()
+	 */
+	public function getFileInformation($path)
+	{
+		list($adapter, $path) = explode(':', $path, 2);
+
+		return (new Api())->getFile($adapter, $path, ['url' => true]);
+	}
 }

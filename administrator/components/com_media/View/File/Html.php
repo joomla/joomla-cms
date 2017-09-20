@@ -44,13 +44,14 @@ class Html extends HtmlView
 		// The component params
 		$this->params = ComponentHelper::getParams('com_media');
 
-		$this->file         = $input->getString('path', null);
-		$this->fullFilePath = Uri::root() . $this->params->get('file_path', 'images') . $input->getString('path', null);
+		// The requested file
+		$this->file = $this->getModel()->getFileInformation($input->getString('path', null));
 
-		if (!$this->file && \JFile::exists($this->fullFilePath))
+		// At the moment we only support local files to edit
+		if (strpos($this->file->adapter, 'local-') !== 0)
 		{
 			// @todo error handling controller redirect files
-			throw new \Exception('Image file does not exist');
+			throw new \Exception('Image file is not locally');
 		}
 
 		$this->addToolbar();
