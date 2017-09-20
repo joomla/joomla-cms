@@ -426,3 +426,6 @@ ul.media-tree {
 
 .media-tree-item.active > a .item-name {
   font-weight: bold; }
+
+.media-drive > ul > li::before, .media-drive > ul > li::after {
+  display: none; }
