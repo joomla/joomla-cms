@@ -70,9 +70,21 @@ class TransitionField extends \JFormFieldList
 			);
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $items);
+		// Get state title
+		$query
+			->clear()
+			->select($db->qn('title', 'text'))
+			->from($db->qn('#__workflow_states'))
+			->where($db->qn('id') . '=' . $state);
 
-		return $options;
+		$state = $db->setQuery($query)->loadObject();
+
+		$default = [
+			\JHtml::_('select.option', '', $state->text),
+			\JHtml::_('select.option', '-1', '--------', ['disable' => true])
+		];
+
+		// Merge with defaults
+		return array_merge($default, $items);
 	}
 }
