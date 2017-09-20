@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 
 /**
  * FileSystem Local plugin.
@@ -19,7 +20,7 @@ use Joomla\CMS\Component\ComponentHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFileSystemLocal extends CMSPlugin
+class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -30,13 +31,51 @@ class PlgFileSystemLocal extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Returns a local media adapter array which can be used to manipulate files.
+	 * Setup Providers for Local Adapter
 	 *
-	 * @return   \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter[]
+	 * @param   MediaProviderEvent  $event  Event for ProviderManager
+	 *
+	 * @return   void
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
-	public function onFileSystemGetAdapters()
+	public function onSetupProviders(MediaProviderEvent $event)
+	{
+		$event->getProviderManager()->registerProvider($this);
+	}
+
+	/**
+	 * Returns the ID of the provider
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getID()
+	{
+		return $this->_name;
+	}
+
+	/**
+	 * Returns the display name of the provider
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getDisplayName()
+	{
+		return $this->params->get('display_name');
+	}
+
+	/**
+	 * Returns and array of adapters
+	 *
+	 * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAdapters()
 	{
 		$adapters = [];
 		$directories = $this->params->get('directories', '[{"directory":{"directory": "images"}}]');
