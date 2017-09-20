@@ -189,4 +189,12 @@ export default {
     [types.HIDE_INFOBAR]: (state) => {
         state.showInfoBar = false;
     },
+
+    /**
+     * Define the list grid view
+     * @param state
+     */
+    [types.CHANGE_LIST_VIEW]: (state, view) => {
+        state.listView = view;
+    },
 }

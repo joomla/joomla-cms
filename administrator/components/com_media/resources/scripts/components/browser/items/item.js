@@ -1,6 +1,7 @@
 import Directory from "./directory.vue";
 import File from "./file.vue";
 import Image from "./image.vue";
+import Row from "./row.vue";
 import * as types from "./../../../store/mutation-types";
 
 export default {
@@ -15,6 +16,10 @@ export default {
          * Return the correct item type component
          */
         function itemType() {
+            if (store.state.listView == 'table') {
+                return Row;
+            }
+
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
             // Render directory items
@@ -81,7 +86,7 @@ export default {
             return event;
         }
 
-        return createElement('div', {
+        return createElement(store.state.listView == 'table' ? 'tbody' : 'div', {
                 'class': {
                     'media-browser-item': true,
                     selected: isSelected(),
@@ -89,7 +94,8 @@ export default {
                 on: {
                     click: handleClick,
                 }
-            }, [
+            },
+            [
                 createElement(itemType(), {
                     props: context.props,
                 })

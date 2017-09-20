@@ -18,3 +18,6 @@ export const HIDE_INFOBAR = 'HIDE_INFOBAR';
 
 // Delete items
 export const DELETE_SUCCESS = 'DELETE_SUCCESS';
+
+// List view
+export const CHANGE_LIST_VIEW = 'CHANGE_LIST_VIEW';

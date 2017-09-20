@@ -39,4 +39,6 @@ export default {
     showCreateFolderModal: false,
     // The state of the infobar
     showInfoBar: true,
+    // List view
+    listView: 'grid'
 }
