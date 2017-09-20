@@ -190,13 +190,15 @@ class ApiController extends BaseController
 	protected function sendResponse($data = null, $responseCode = 200)
 	{
 		// Set the correct content type
-		\JFactory::getApplication()->setHeader('Content-Type', 'application/json');
+		$this->app->setHeader('Content-Type', 'application/json');
 
 		// Set the status code for the response
 		http_response_code($responseCode);
 
 		// Send the data
 		echo new JsonResponse($data);
+
+		$this->app->close();
 	}
 
 	/**
@@ -247,7 +249,7 @@ class ApiController extends BaseController
 		}
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = \JFactory::getApplication()->getConfig()->get('tmp_path') . '/' . uniqid() . $name;
+		$tmpFile = $this->app->getConfig()->get('tmp_path') . '/' . uniqid() . $name;
 
 		if (!\JFile::write($tmpFile, $mediaContent))
 		{

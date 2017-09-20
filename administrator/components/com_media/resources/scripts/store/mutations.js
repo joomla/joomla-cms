@@ -1,4 +1,5 @@
 import * as types from "./mutation-types";
+const nodePath = require('path');
 
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
@@ -21,14 +22,54 @@ export default {
      * @param payload
      */
     [types.LOAD_CONTENTS_SUCCESS]: (state, payload) => {
+
         const newDirectories = payload.directories
             .filter(directory => (!state.directories.some(existing => (existing.path === directory.path))));
         const newFiles = payload.files
             .filter(file => (!state.files.some(existing => (existing.path === file.path))));
 
+        /**
+         * Create the directory structure
+         * @param path
+         */
+        function createDirectoryStructureFromPath(path) {
+            const exists = state.directories.some(existing => (existing.path === path));
+            const directory = directoryFromPath(path);
+            if (!exists && directory.directory) {
+                createDirectoryStructureFromPath(directory.directory);
+                state.directories.push(directory);
+            }
+        }
+
+        /**
+         * Create a directory from a path
+         * @param path
+         */
+        function directoryFromPath(path) {
+            const parts = path.split('/');
+            let directory = nodePath.dirname(path);
+            if(directory.indexOf(':', directory.length - 1) !== -1) {
+                directory += '/';
+            }
+            return {
+                path: path,
+                name: parts[parts.length-1],
+                directories: [],
+                files: [],
+                directory: (directory !== '.') ? directory : null,
+            }
+        }
+
         // Merge the directories
         if (newDirectories.length > 0) {
+
+            // Get the new directories
             const newDirectoryIds = newDirectories.map(directory => directory.path);
+
+            // Create the parent directory structure if it does not exist
+            createDirectoryStructureFromPath(newDirectories[0].directory);
+
+            // Get the reference to the parent directory
             const parentDirectory = state.directories.find((directory) => (directory.path === newDirectories[0].directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
@@ -44,6 +85,10 @@ export default {
         // Merge the files
         if (newFiles.length > 0) {
             const newFileIds = newFiles.map(file => file.path);
+
+            // Create the parent directory structure if it does not exist
+            createDirectoryStructureFromPath(newFiles[0].directory);
+
             const parentDirectory = state.directories.find((directory) => (directory.path === newFiles[0].directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 

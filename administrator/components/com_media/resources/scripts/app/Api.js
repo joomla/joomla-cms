@@ -169,7 +169,6 @@ class Api {
      * @private
      */
     _normalizeArray(data) {
-
         const directories = data.filter(item => (item.type === 'dir'))
             .map(directory => this._normalizeItem(directory));
         const files = data.filter(item => (item.type === 'file'))
@@ -191,7 +190,7 @@ class Api {
     _handleError(error) {
         switch (error.status) {
             case 404:
-                notifications.error('COM_MEDIA_ERROR_PAGE_NOT_FOUND');
+                notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                 break;
             case 401:
                 notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');

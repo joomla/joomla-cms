@@ -11,10 +11,11 @@ namespace Joomla\Component\Media\Administrator\View\Media;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * Media List View
@@ -31,9 +32,16 @@ class HtmlView extends BaseHtmlView
 	protected $providers = null;
 
 	/**
+	 * @var string The current path of the media manager
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $currentPath;
+
+	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
@@ -46,6 +54,16 @@ class HtmlView extends BaseHtmlView
 
 		// Get enabled adapters
 		$this->providers = $this->get('Providers');
+
+		// Check that there are providers
+		if (!count($this->providers))
+		{
+			// TODO throw an exception
+		}
+
+		// Get the current path. Providers are ordered by plugin ordering, so we set the first provider
+		// in the list as the default provider and load first drive on it as default
+		$this->currentPath = Factory::getApplication()->input->getString('path', $this->providers[0]->name . '-0:/');
 
 		parent::display($tpl);
 	}

@@ -41,7 +41,8 @@ $config = array(
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
-	'providers'               => (array) $this->providers,
+	'providers'               => $this->providers,
+	'currentPath'             => $this->currentPath,
 );
 $doc->addScriptOptions('com_media', $config);
 ?>

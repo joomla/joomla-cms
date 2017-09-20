@@ -11,7 +11,7 @@ class Notifications {
     /* Send an error notification */
     error(message, options) {
         notifications.notify(message, Object.assign({
-            level: 'error',
+            level: 'danger',
             dismiss: true
         }, options));
     }

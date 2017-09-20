@@ -5,12 +5,30 @@ import * as types from "./mutation-types";
 // - Instead of mutating the state, actions commit mutations.
 // - Actions can contain arbitrary asynchronous operations.
 
+function updateUrlPath(path) {
+    if (path == null) {
+        path = '';
+    }
+    let url = window.location.href;
+    var pattern = new RegExp('\\b(path=).*?(&|$)');
+
+    if (url.search(pattern) >= 0) {
+        history.pushState(null, '', url.replace(pattern, '$1' + path + '$2'));
+    } else {
+        history.pushState(null, '', url + (url.indexOf('?') > 0 ? '&' : '?') + 'path=' + path);
+    }
+}
+
 /**
  * Get contents of a directory from the api
  * @param commit
  * @param payload
  */
 export const getContents = (context, payload) => {
+
+    // Update the url
+    updateUrlPath(payload);
+
     api.getContents(payload)
         .then(contents => {
             context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
