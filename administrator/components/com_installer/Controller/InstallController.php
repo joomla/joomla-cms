@@ -23,6 +23,8 @@ class InstallController extends BaseController
 	/**
 	 * Install an extension.
 	 *
+	 * @return  mixed
+	 *
 	 * @since   1.5
 	 */
 	public function install()

@@ -61,6 +61,8 @@ class InstallModel extends BaseModel
 	/**
 	 * Install an extension from either folder, URL or upload.
 	 *
+	 * @return  boolean
+	 *
 	 * @since   1.5
 	 */
 	public function install()

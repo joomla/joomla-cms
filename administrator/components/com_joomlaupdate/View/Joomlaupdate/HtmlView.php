@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	 * @return void
 	 *
 	 * @since  2.5.4
-	 */r
+	 */
 	public function display($tpl = null)
 	{
 		// Get data from the model.
