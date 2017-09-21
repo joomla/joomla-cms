@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
@@ -254,7 +255,7 @@ class ApiController extends BaseController
 	 */
 	private function checkContent($name, $mediaContent)
 	{
-		if (!\JFactory::getUser()->authorise('core.create', 'com_media'))
+		if (!Factory::getUser()->authorise('core.create', 'com_media'))
 		{
 			throw new \Exception(\JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
 		}

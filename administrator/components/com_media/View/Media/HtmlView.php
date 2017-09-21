@@ -77,11 +77,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareToolbar()
 	{
-		$tmpl = \JFactory::getApplication()->input->getCmd('tmpl');
+		$tmpl = Factory::getApplication()->input->getCmd('tmpl');
 
 		// Get the toolbar object instance
 		$bar  = Toolbar::getInstance('toolbar');
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($tmpl === 'component')
 		{
