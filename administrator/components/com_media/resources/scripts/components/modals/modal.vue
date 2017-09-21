@@ -1,6 +1,7 @@
 <template>
     <div class="media-modal-backdrop" @click="close()">
-        <div class="modal" @click.stop style="display: block">
+        <div class="modal" @click.stop style="display: flex">
+            <slot name="backdrop-close"></slot>
             <div class="modal-dialog" :class="modalClass" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

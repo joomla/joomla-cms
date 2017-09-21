@@ -1,12 +1,12 @@
 <template>
-    <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()">
+    <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal">
         <h3 slot="header" class="modal-title">{{ item.name }}</h3>
         <div slot="body">
             <img :src="item.url"/>
         </div>
-        <div slot="footer">
-            <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
-        </div>
+        <a slot="backdrop-close" @click="close()" class="media-preview-close">
+            <span class="fa fa-times"></span>
+        </a>
     </media-modal>
 </template>
 
