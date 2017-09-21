@@ -22,16 +22,6 @@
     visibility: hidden;
     transform: translate3d(100%, 0, 0); } }
 
-.com_media .container-main {
-  padding-top: 0;
-  padding-bottom: 0; }
-
-.com_media #subhead {
-  position: relative; }
-
-.com_media #content {
-  margin-top: 0; }
-
 /* General layout */
 .media-main {
   position: relative;
@@ -618,6 +608,7 @@ ul.media-tree {
     border: 0; }
   .media-preview-modal .modal-body {
     padding: 0;
+    background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
     .media-preview-modal .modal-body img {
       max-width: 100%; }
