@@ -19392,7 +19392,7 @@ Object.defineProperty(exports, "__esModule", {
  */
 var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDirectory(state) {
     return state.directories.find(function (directory) {
-        return directory.path.startsWith(state.selectedDirectory);
+        return directory.path === state.selectedDirectory;
     });
 };
 
@@ -19404,7 +19404,7 @@ var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDi
  */
 var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = function getSelectedDirectoryDirectories(state, getters) {
     return state.directories.filter(function (directory) {
-        return directory.directory && directory.directory.startsWith(state.selectedDirectory);
+        return directory.directory === state.selectedDirectory;
     });
 };
 
@@ -19416,7 +19416,7 @@ var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = 
  */
 var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function getSelectedDirectoryFiles(state, getters) {
     return state.files.filter(function (file) {
-        return file.directory && file.directory.startsWith(state.selectedDirectory);
+        return file.directory === state.selectedDirectory;
     });
 };
 

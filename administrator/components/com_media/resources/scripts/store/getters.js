@@ -7,7 +7,7 @@
  * @returns {*}
  */
 export const getSelectedDirectory = (state) => {
-    return state.directories.find(directory => (directory.path.startsWith(state.selectedDirectory)));
+    return state.directories.find(directory => (directory.path === state.selectedDirectory));
 }
 
 /**
@@ -18,7 +18,7 @@ export const getSelectedDirectory = (state) => {
  */
 export const getSelectedDirectoryDirectories = (state, getters) => {
     return state.directories.filter(
-        directory => (directory.directory && directory.directory.startsWith(state.selectedDirectory))
+        directory => (directory.directory === state.selectedDirectory)
     );
 }
 
@@ -30,6 +30,6 @@ export const getSelectedDirectoryDirectories = (state, getters) => {
  */
 export const getSelectedDirectoryFiles = (state, getters) => {
     return state.files.filter(
-        file => (file.directory && file.directory.startsWith(state.selectedDirectory))
+        file => (file.directory === state.selectedDirectory)
     );
 }

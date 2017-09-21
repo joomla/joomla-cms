@@ -96,6 +96,11 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		fileDirectory.pop();
 		fileDirectory = fileDirectory.join('/');
 
+		// If we are in root add a backslash
+		if (fileDirectory.endsWith(':')) {
+			fileDirectory = fileDirectory + '/';
+		}
+
 		switch (task) {
 			case 'apply':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
