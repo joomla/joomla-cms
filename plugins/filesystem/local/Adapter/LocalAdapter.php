@@ -31,6 +31,8 @@ class LocalAdapter implements AdapterInterface
 	 * The root path to gather file information from.
 	 *
 	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $rootPath = null;
 
@@ -38,6 +40,8 @@ class LocalAdapter implements AdapterInterface
 	 * The file_path of media directory related to site
 	 *
 	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $filePath = null;
 
@@ -113,15 +117,14 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
+	 * @param   string  $path  The folder
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($path = '/')
 	{
 		// Set up the path correctly
 		$basePath = \JPath::clean($this->rootPath . '/' . $path);
@@ -142,13 +145,13 @@ class LocalAdapter implements AdapterInterface
 		$data = array();
 
 		// Read the folders
-		foreach (\JFolder::folders($basePath, $filter) as $folder)
+		foreach (\JFolder::folders($basePath) as $folder)
 		{
 			$data[] = $this->getPathInformation(\JPath::clean($basePath . '/' . $folder));
 		}
 
 		// Read the files
-		foreach (\JFolder::files($basePath, $filter) as $file)
+		foreach (\JFolder::files($basePath) as $file)
 		{
 			$data[] = $this->getPathInformation(\JPath::clean($basePath . '/' . $file));
 		}
@@ -583,5 +586,60 @@ class LocalAdapter implements AdapterInterface
 	public function getAdapterName()
 	{
 		return $this->filePath;
+	}
+
+	/**
+	 * Search for a pattern in a given path
+	 *
+	 * @param   string  $path       The base path for the search
+	 * @param   string  $needle     The path to file
+	 * @param   bool    $recursive  Do a recursive search
+	 *
+	 * @return \stdClass[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function search($path = '/', $needle, $recursive)
+	{
+		$pattern = \JPath::clean($this->rootPath . '/' . $path . '/*' . $needle . '*');
+
+		if ($recursive)
+		{
+			$results = $this->rglob($pattern);
+		}
+		else
+		{
+			$results = glob($pattern);
+		}
+
+		$searchResults = [];
+
+		foreach ($results as $result)
+		{
+			$searchResults[] = $this->getPathInformation($result);
+		}
+
+		return $searchResults;
+	}
+
+	/**
+	 * Do a recursive search on a given path
+	 *
+	 * @param   string  $pattern  The pattern for search
+	 * @param   int     $flags    Flags for search
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function rglob($pattern, $flags = 0)
+	{
+		$files = glob($pattern, $flags);
+		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+		{
+			$files = array_merge($files, $this->rglob($dir . '/' . basename($pattern), $flags));
+		}
+
+		return $files;
 	}
 }

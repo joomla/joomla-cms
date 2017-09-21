@@ -59,15 +59,14 @@ interface AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
+	 * @param   string  $path  The folder
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '');
+	public function getFiles($path = '/');
 
 	/**
 	 * Creates a folder with the given name in the given path.
@@ -173,4 +172,17 @@ interface AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getAdapterName();
+
+	/**
+	 * Search for a pattern in a given path
+	 *
+	 * @param   string  $path       The base path for the search
+	 * @param   string  $needle     The path to file
+	 * @param   bool    $recursive  Do a recursive search
+	 *
+	 * @return \stdClass[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function search($path = '/', $needle, $recursive);
 }

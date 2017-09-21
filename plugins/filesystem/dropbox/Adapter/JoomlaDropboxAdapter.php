@@ -175,15 +175,14 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * If the path doesn't exist a FileNotFoundException is thrown.
 	 *
-	 * @param   string  $path    The folder
-	 * @param   string  $filter  The filter
+	 * @param   string  $path  The folder
 	 *
 	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/', $filter = '')
+	public function getFiles($path = '/')
 	{
 		// Check whether it is root or not
 		// Dropbox client has some issues
@@ -191,7 +190,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 		{
 			throw new FileNotFoundException("File not found");
 		}
-		else if($this->dropbox->has($path))
+		elseif ($this->dropbox->has($path))
 		{
 			// If this is a file just return the information
 			$pathInfo = $this->getFileInfo($this->client->getMetadata($path));
@@ -484,5 +483,21 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	public function setAccountName($name)
 	{
 		$this->accountName = $name;
+	}
+
+	/**
+	 * Search for a pattern in a given path
+	 *
+	 * @param   string  $path       The base path for the search
+	 * @param   string  $needle     The path to file
+	 * @param   bool    $recursive  Do a recursive search
+	 *
+	 * @return \stdClass[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function search($path = '/', $needle, $recursive)
+	{
+		return [];
 	}
 }

@@ -782,4 +782,21 @@ class LocalAdapterTest extends TestCaseDatabase
 		// Check if adapter name is equal to imagePath
 		$this->assertEquals($adapter->getAdapterName(), $this->imagePath);
 	}
+
+	/**
+	 * LocalAdapter::search for a file and folder
+	 *
+	 * @return void
+	 */
+	public function testSearch()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		JFolder::create($this->root . 'foo/bar/foo.file');
+
+		$results = $adapter->search('/', 'foo');
+		$this->assertEquals($results[0]->path, '/foo');
+		$this->assertEquals($results[1]->path, '/foo/bar/foo.file');
+	}
 }
