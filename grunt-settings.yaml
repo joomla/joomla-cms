@@ -54,8 +54,8 @@ vendors:
     'cropperjs':
                   'version': '1.0.0-rc.3'
                   'dependencies': ''
-    'flying-focus-a11y':
-                  'version': '1.5.5'
+    'flying-focus-x':
+                  'version': '1.0.0'
                   'dependencies': ''
     'diff':
                   'version': '3.3.0'

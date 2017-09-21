@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 					'media/vendor/mediaelement/*',
 					'media/vendor/chosenjs/*',
 					'media/vendor/awesomplete/*',
-					'media/vendor/flying-focus-a11y/*',
+					'media/vendor/flying-focus-x/*',
 					'media/vendor/diff/**',
 					'media/vendor/polyfills/**',
 					'media/vendor/masonry-layout/js/**',
@@ -197,10 +197,12 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>perfect-scrollbar/dist/js', src: ['*.js'], dest: 'media/vendor/perfect-scrollbar/js/', filter: 'isFile'},
 					// perfect-scrollbar css files
 					{ cwd: '<%= folder.node_module %>perfect-scrollbar/dist/css', src: ['*.css'], dest: 'media/vendor/perfect-scrollbar/css/', expand: true, filter: 'isFile'},
-					// flying-focus scss files
-					{ cwd: '<%= folder.node_module %>flying-focus-a11y/src/scss', src: ['*.scss'], dest: 'media/vendor/flying-focus-a11y/scss/', expand: true, filter: 'isFile'},
+
+					// flying-focus css files
+					{ cwd: '<%= folder.node_module %>flying-focus-x/dist/css', src: ['*.css'], dest: 'media/vendor/flying-focus-x/css/', expand: true, filter: 'isFile'},
 					// flying-focus js files
-					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-x/dist/js', src: ['*.js'], dest: 'media/vendor/flying-focus-x/js/', filter: 'isFile'},
+
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 					// XPath polyfill js files
@@ -217,7 +219,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>dragula/license'], dest: 'media/vendor/dragula/license'},
 					{ src: ['<%= folder.node_module %>awesomplete/LICENSE'], dest: 'media/vendor/awesomplete/LICENSE'},
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
-					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
+					{ src: ['<%= folder.node_module %>flying-focus-x/LICENSE'], dest: 'media/vendor/flying-focus-x/LICENSE'},
 					{ src: ['<%= folder.node_module %>diff/LICENSE'], dest: 'media/vendor/diff/LICENSE'},
 					{ src: ['<%= folder.node_module %>wicked-good-xpath/LICENSE'], dest: 'media/vendor/polyfills/wicked-good-xpath-LICENSE'},
 				]
@@ -313,7 +315,7 @@ module.exports = function(grunt) {
 							'!<%= folder.codemirror %>/mode/*/*.min.js',
 							'<%= folder.codemirror %>/theme/*/*.js',
 							'!<%= folder.codemirror %>/theme/*/*.min.js',
-							'<%= folder.vendor %>/flying-focus-a11y/js/*.js',
+							'!<%= folder.vendor %>/flying-focus-x/js/*.js',
 							'<%= folder.editors %>/none/js/*.js',
 							'!<%= folder.editors %>/none/js/*.min.js',
 							'<%= folder.editors %>/tinymce/js/*.js',

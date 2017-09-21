@@ -13,9 +13,12 @@ defined('_JEXEC') or die;
 
 $lang = \Joomla\CMS\Factory::getLanguage();
 
+// Load flying-focus
+JHtml::_('stylesheet', 'media/vendor/flying-focus-x/css/flying-focus.min.css', ['version' => 'auto']);
+JHtml::_('script', 'media/vendor/flying-focus-x/js/flying-focus.min.js', ['version' => 'auto']);
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 
 // Load template CSS file
 JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);

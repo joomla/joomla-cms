@@ -28,9 +28,12 @@ $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
+// Load flying-focus
+JHtml::_('stylesheet', 'media/vendor/flying-focus-x/css/flying-focus.min.css', ['version' => 'auto']);
+JHtml::_('script', 'media/vendor/flying-focus-x/js/flying-focus.min.js', ['version' => 'auto']);
+
 // Add JavaScript
 JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 if ($cpanel)
 {
 	JHtml::_('script', 'media/vendor/masonry/js/masonry.pkgd.min.js', ['version' => 'auto']);
