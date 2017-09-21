@@ -26,7 +26,7 @@
         name: 'media-toolbar',
         computed: {
             toggleListViewBtnIcon() {
-                return (this.$store.state.listView === 'grid') ? 'fa fa-th' : 'fa fa-list';
+                return (this.$store.state.listView === 'grid') ? 'fa fa-list' : 'fa fa-th';
             },
             isLoading() {
                 return this.$store.state.isLoading;
