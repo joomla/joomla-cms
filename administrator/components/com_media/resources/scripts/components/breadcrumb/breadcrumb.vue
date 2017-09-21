@@ -13,7 +13,20 @@
             /* Get the crumbs from the current directory path */
             crumbs () {
                 const items = [];
-                this.$store.state.selectedDirectory.split('/')
+
+                const parts = this.$store.state.selectedDirectory.split('/');
+
+                // Add the drive as first element
+                if (parts) {
+                	const drive = this.findDrive(parts[0]);
+
+                	if (drive) {
+		                items.push(drive);
+		                parts.shift();
+                    }
+                }
+
+                parts
                     .filter(crumb => crumb.length !== 0)
                     .forEach(crumb => {
                         items.push({
@@ -37,6 +50,19 @@
                 }
                 this.$store.dispatch('getContents', path);
             },
+            findDrive: function(adapter) {
+            	let driveObject = null;
+
+	            this.$store.state.disks.forEach(disk => {
+		            disk.drives.forEach(drive => {
+			            if (drive.root.startsWith(adapter)) {
+				            driveObject = {name: drive.displayName, path: drive.root};
+			            }
+		            });
+	            });
+
+	            return driveObject;
+            }
         },
     }
 </script>
