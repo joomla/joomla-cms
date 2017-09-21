@@ -2,7 +2,10 @@
     <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal">
         <h3 slot="header" class="modal-title">{{ item.name }}</h3>
         <div slot="body">
-            <img :src="item.url"/>
+            <img :src="item.url" v-if="isImage()"/>
+            <video controls v-if="isVideo()">
+                <source :src="item.url" :type="item.mime_type">
+            </video>
         </div>
         <a slot="backdrop-close" @click="close()" class="media-preview-close">
             <span class="fa fa-times"></span>
@@ -27,6 +30,12 @@
             /* Close the modal */
             close() {
                 this.$store.commit(types.HIDE_PREVIEW_MODAL);
+            },
+            isImage() {
+                return this.item.type == 'image';
+            },
+            isVideo() {
+                return this.item.mime_type.indexOf('video/') === 0;
             }
         }
     }
