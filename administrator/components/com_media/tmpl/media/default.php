@@ -43,6 +43,7 @@ $config = array(
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
+	'currentPath'             => $this->currentPath,
 	'isModal'                 => JFactory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
 );
 $doc->addScriptOptions('com_media', $config);
