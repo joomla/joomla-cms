@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 \JLoader::import('joomla.filesystem.file');
@@ -95,7 +96,7 @@ class ApiController extends BaseController
 			$method = strtolower($this->input->getMethod() ? : 'GET');
 
 			// Check token for requests which do modify files (all except get requests)
-			if ($method != 'get' && !\JSession::checkToken('json'))
+			if ($method != 'get' && !Session::checkToken('json'))
 			{
 				throw new \InvalidArgumentException(\JText::_('JINVALID_TOKEN'), 403);
 			}

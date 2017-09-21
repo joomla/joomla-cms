@@ -36,7 +36,6 @@ class Api {
 	        Joomla.request({
 		        url:    url,
 		        method: 'GET',
-		        perform: true,
 		        headers: {'Content-Type': 'application/json'},
 		        onSuccess: (response) => {
 			        resolve(this._normalizeArray(JSON.parse(response).data))
@@ -64,7 +63,6 @@ class Api {
 			        url:    url,
 			        method: 'POST',
 			        data:    JSON.stringify(data),
-			        perform: true,
 			        headers: {'Content-Type': 'application/json'},
 			        onSuccess: (response) => {
 				        notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
@@ -99,7 +97,6 @@ class Api {
 		        url:    url,
 		        method: 'POST',
 		        data:    JSON.stringify(data),
-		        perform: true,
 		        headers: {'Content-Type': 'application/json'},
 		        onSuccess: (response) => {
 			        notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
@@ -122,13 +119,15 @@ class Api {
     delete(path) {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
-            const url = this._baseUrl + '&task=api.files&path=' + path;
 
-	        Joomla.request({
+            const url = this._baseUrl + '&task=api.files&path=' + path;
+            const data = {[this._csrfToken]: '1',};
+
+            Joomla.request({
 		        url:    url,
 		        method: 'DELETE',
-		        perform: true,
-		        headers: {'Content-Type': 'application/json'},
+                data:    JSON.stringify(data),
+                headers: {'Content-Type': 'application/json'},
 		        onSuccess: () => {
 			        notifications.success('COM_MEDIA_DELETE_SUCCESS');
 			        resolve();
