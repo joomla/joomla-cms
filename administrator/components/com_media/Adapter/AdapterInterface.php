@@ -185,4 +185,17 @@ interface AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function search($path = '/', $needle, $recursive);
+
+	/**
+	 * Returns a temporary url for the given path.
+	 * This is used internally in media manager
+	 *
+	 * @param   string  $path  The path to file
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws \FileNotFoundException
+	 */
+	public function getTemporaryUrl($path);
 }

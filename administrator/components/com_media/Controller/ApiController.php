@@ -109,6 +109,7 @@ class ApiController extends BaseController
 					// Grab options
 					$options = array();
 					$options['url'] = $this->input->getBool('url', false);
+					$options['temp'] = $this->input->getBool('temp', true);
 					$options['search'] = $this->input->getString('search', '');
 					$options['recursive'] = $this->input->getBool('recursive', false);
 					$data = $this->getModel()->getFiles($adapter, $path, $options);

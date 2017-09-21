@@ -164,42 +164,6 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test LocalAdapter::getFiles with a filter
-	 *
-	 * @return  void
-	 */
-	public function testGetFilteredFiles()
-	{
-		// Make some test files
-		JFile::write($this->root . 'test.txt', 'test');
-		JFile::write($this->root . 'foo.txt', 'test');
-		JFile::write($this->root . 'bar.txt', 'test');
-		JFolder::create($this->root . 'unit');
-		JFolder::create($this->root . 'foo');
-
-		// Create the adapter
-		$adapter = new LocalAdapter($this->root, $this->imagePath);
-
-		// Fetch the files from the root folder
-		$files = $adapter->getFiles('/', 'foo');
-
-		// Check if the array is big enough
-		$this->assertNotEmpty($files);
-		$this->assertCount(2, $files);
-
-		// Check the folder
-		$this->assertEquals('dir', $files[0]->type);
-		$this->assertEquals('foo', $files[0]->name);
-		$this->assertEquals('/foo', $files[0]->path);
-
-		// Check the file
-		$this->assertInstanceOf('stdClass', $files[1]);
-		$this->assertEquals('file', $files[1]->type);
-		$this->assertEquals('foo.txt', $files[1]->name);
-		$this->assertEquals('/foo.txt', $files[1]->path);
-	}
-
-	/**
 	 * Test LocalAdapter::getFiles with a single file
 	 *
 	 * @return  void
@@ -770,6 +734,25 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * LocalAdapter::getTemporaryUrl to a file
+	 *
+	 * @return void
+	 */
+	public function testGetTemporaryUrl()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		// Sample name for a file in imagePath
+		// We will not create actual file as we only check for valid url returned
+		$filePath  = 'foo.bar';
+		$urlPath   = $adapter->getTemporaryUrl($filePath);
+		$actualUrl =  \Joomla\CMS\Uri\Uri::root() . JPath::clean($this->imagePath . 'foo.bar');
+
+		$this->assertSame($urlPath, $actualUrl);
+	}
+
+	/**
 	 * LocalAdapter::getAdapterName for image path
 	 *
 	 * @return void
@@ -795,7 +778,7 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		JFolder::create($this->root . 'foo/bar/foo.file');
 
-		$results = $adapter->search('/', 'foo');
+		$results = $adapter->search('/', 'foo', true);
 		$this->assertEquals($results[0]->path, '/foo');
 		$this->assertEquals($results[1]->path, '/foo/bar/foo.file');
 	}
