@@ -1,24 +1,23 @@
 <template>
-    <tr class="media-browser-item-row" :class="{selected: isSelected}">
-        <td>
+    <ul>
+        <li class="type" :data-type="item.extension">
+        </li>
+        <li class="name">
             {{ item.name }}
-        </td>
-        <td>
+        </li>
+        <li class="size">
             {{ item.size }}
-        </td>
-        <td>
+        </li>
+        <li class="dimension">
             {{ dimension }}
-        </td>
-        <td>
-            {{ item.mime_type }}
-        </td>
-        <td>
+        </li>
+        <li class="created">
             {{ item.create_date_formatted }}
-        </td>
-        <td>
+        </li>
+        <li class="modified">
             {{ item.modified_date_formatted }}
-        </td>
-    </tr>
+        </li>
+    </ul>
 </template>
 
 <script>

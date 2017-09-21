@@ -86,7 +86,7 @@ export default {
             return event;
         }
 
-        return createElement(store.state.listView == 'table' ? 'tbody' : 'div', {
+        return createElement('div', {
                 'class': {
                     'media-browser-item': true,
                     selected: isSelected(),

@@ -1,17 +1,17 @@
 <template>
-    <table v-if="listView === 'table'" class="table table-stripped">
-        <thead>
-            <tr>
-                <th>{{ translate('COM_MEDIA_MEDIA_NAME') }}</th>
-                <th>{{ translate('COM_MEDIA_MEDIA_SIZE') }}</th>
-                <th>{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</th>
-                <th>{{ translate('COM_MEDIA_MEDIA_MIME_TYPE') }}</th>
-                <th>{{ translate('COM_MEDIA_MEDIA_CREATED_AT') }}</th>
-                <th>{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</th>
-            </tr>
-        </thead>
+    <div v-if="listView === 'table'" class="media-browser-list" :style="mediaBrowserStyles">
+        <div class="media-browser-list-head">
+            <ul>
+                <li class="type"></li>
+                <li class="name">{{ translate('COM_MEDIA_MEDIA_NAME') }}</li>
+                <li class="size">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</li>
+                <li class="dimension">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</li>
+                <li class="created">{{ translate('COM_MEDIA_MEDIA_CREATED_AT') }}</li>
+                <li class="modified">{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</li>
+            </ul>
+        </div>
         <media-browser-item v-for="item in items" :item="item"></media-browser-item>
-    </table>
+    </div>
     <div v-else-if="listView === 'grid'"
          class="media-browser"
          @dragenter="onDragEnter"
@@ -56,7 +56,7 @@
             },
             /* The styles for the media-browser elemen */
             listView() {
-                return this.$store.state.listView
+                return this.$store.state.listView;
             }
         },
         methods: {
