@@ -604,7 +604,7 @@ ul.media-tree {
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: 0.3s ease 0s normal none 1 running fadeIn; }
+    animation: 0.5s ease 0s normal none 1 running fadeIn; }
   .media-preview-modal .modal-dialog {
     max-height: 70vh;
     max-width: 70vw; }

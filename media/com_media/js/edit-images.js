@@ -92,6 +92,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 		forUpload[options.csrfToken] = "1";
 
+		var fileDirectory = uploadPath.split('/');
+		fileDirectory.pop();
+		fileDirectory = fileDirectory.join('/');
+
 		switch (task) {
 			case 'apply':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
@@ -99,10 +103,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 				break;
 			case 'save':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-				window.location = pathName + '?option=com_media';
+				window.location = pathName + '?option=com_media&path=' + fileDirectory;
 				break;
 			case 'cancel':
-				window.location = pathName + '?option=com_media&path=' + uploadPath;
+				window.location = pathName + '?option=com_media&path=' + fileDirectory;
 				break;
 			case 'reset':
 				Joomla.MediaManager.Edit.Reset('initial');
