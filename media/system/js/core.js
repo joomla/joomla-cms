@@ -818,7 +818,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-			if (options.method === 'POST') {
+			if (options.method !== 'GET') {
 				var token = Joomla.getOptions('csrf.token', '');
 
 				if (token) {
