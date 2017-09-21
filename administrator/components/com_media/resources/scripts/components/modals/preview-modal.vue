@@ -2,7 +2,7 @@
     <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal">
         <h3 slot="header" class="modal-title">{{ item.name }}</h3>
         <div slot="body">
-            <img :src="item.url" v-if="isImage()"/>
+            <img :src="item.url" v-if="isImage()" :type="item.mime_type"/>
             <video controls v-if="isVideo()">
                 <source :src="item.url" :type="item.mime_type">
             </video>
@@ -32,7 +32,7 @@
                 this.$store.commit(types.HIDE_PREVIEW_MODAL);
             },
             isImage() {
-                return this.item.type == 'image';
+                return this.item.mime_type.indexOf('image/') === 0;
             },
             isVideo() {
                 return this.item.mime_type.indexOf('video/') === 0;
