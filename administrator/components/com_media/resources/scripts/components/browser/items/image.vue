@@ -13,7 +13,7 @@
             <a href="#" class="action-delete">
                 <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
             </a>
-            <a href="#" class="action-edit">
+            <a href="#" class="action-edit" v-if="canEdit">
                 <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
             </a>
         </div>
@@ -30,6 +30,10 @@
             /* Get the item url */
             thumbUrl() {
                 return this.item.thumb_path;
+            },
+            /* Check if the item is an image to edit */
+            canEdit() {
+                return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
             }
         },
         methods: {
