@@ -289,6 +289,8 @@
       display: none; }
 
 .media-browser-list {
+  height: calc(100% - 52px);
+  overflow-y: auto;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: .9rem;
   line-height: 30px; }

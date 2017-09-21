@@ -279,6 +279,8 @@
   }
 }
 .media-browser-list {
+  height: calc(100% - 52px);
+  overflow-y: auto;
   transition: width .3s cubic-bezier(0.4, 0.0, 0.2, 1);
   .media-browser-item {
     width: 100%;
