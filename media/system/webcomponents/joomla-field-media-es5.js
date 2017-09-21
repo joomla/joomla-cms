@@ -17,100 +17,99 @@ var _createClass = function () {
   if (!a) throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return b && ('object' == (typeof b === 'undefined' ? 'undefined' : _typeof(b)) || 'function' == typeof b) ? b : a;
 }function _inherits(a, b) {
   if ('function' != typeof b && null !== b) throw new TypeError('Super expression must either be null or a function, not ' + (typeof b === 'undefined' ? 'undefined' : _typeof(b)));a.prototype = Object.create(b && b.prototype, { constructor: { value: a, enumerable: !1, writable: !0, configurable: !0 } }), b && (Object.setPrototypeOf ? Object.setPrototypeOf(a, b) : a.__proto__ = b);
-}var JoomlaFieldMedia = function (a) {
+}var Joomla = window.Joomla || {},
+    JoomlaFieldMedia = function (a) {
   function b() {
     return _classCallCheck(this, b), _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).apply(this, arguments));
-  }return _inherits(b, a), _createClass(b, [{ key: 'attributeChangedCallback', value: function attributeChangedCallback(a, b, c) {
-      switch (a) {case 'basepath':case 'rootfolder':case 'url':case 'modalcont':case 'input':case 'buttonselect':case 'buttonclear':case 'buttonsaveselected':case 'previewContainer':
-          break;case 'modalwidth':case 'modalheight':case 'previewwidth':case 'previewheight':
-          break;case 'preview':
-          -1 < ['true', 'false', 'tooltip', 'static'].indexOf(c) && b !== c && (this.preview = c);break;default:}
-    } }, { key: 'connectedCallback', value: function connectedCallback() {
-      var a = this,
-          b = this.querySelector(this.buttonselect),
-          c = this.querySelector(this.buttonclear);b.addEventListener('click', function () {
-        a.show(a);
-      }), c && c.addEventListener('click', function () {
-        a.clearValue();
-      }), this.updatePreview();
+  }return _inherits(b, a), _createClass(b, [{ key: 'connectedCallback', value: function connectedCallback() {
+      console.log(this.buttonClear);var a = this.querySelector(this.buttonSelect),
+          b = this.querySelector(this.buttonClear);this.show = this.show.bind(this), this.modalClose = this.modalClose.bind(this), this.clearValue = this.clearValue.bind(this), this.setValue = this.setValue.bind(this), this.updatePreview = this.updatePreview.bind(this), a.addEventListener('click', this.show), b && b.addEventListener('click', this.clearValue), this.updatePreview();
     } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {
-      var a = this.querySelector(this.buttonselect);a.removeEventListener('click', self);
-    } }, { key: 'show', value: function show(a) {
-      window.jQuery(this.querySelector('[role="dialog"]')).modal('show'), window.jQuery(this.querySelector(this.buttonsaveselected)).on('click', function (b) {
-        return b.preventDefault(), b.stopPropagation(), a.selectedPath ? a.setValue(a.rootfolder + a.selectedPath) : a.setValue(''), a.modalClose(a), !1;
-      }), window.document.addEventListener('onMediaFileSelected', function (b) {
-        var c = b.item.path;a.selectedPath = c.match(/.jpg|.jpeg|.gif|.png/) ? b.item.path : '';
+      var a = this.querySelector(this.buttonClear);a.removeEventListener('click', self);
+    } }, { key: 'show', value: function show() {
+      var a = this,
+          b = this,
+          c = this.querySelector(this.input);window.jQuery(this.querySelector('[role="dialog"]')).modal('show'), window.jQuery(this.querySelector(this.buttonSaveSelected)).on('click', function (c) {
+        return c.preventDefault(), c.stopPropagation(), a.selectedPath && b.setValue(a.selectedPath), b.modalClose(), !1;
+      }), window.document.addEventListener('onMediaFileSelected', function (a) {
+        console.log(a.detail), b.selectedPath = a.detail.path;
       });
-    } }, { key: 'modalClose', value: function modalClose(a) {
-      window.jQuery(a.querySelector('[role="dialog"]')).modal('hide');
+    } }, { key: 'modalClose', value: function modalClose() {
+      window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
     } }, { key: 'setValue', value: function setValue(a) {
       var b = window.jQuery(this.querySelector(this.input));b.val(a).trigger('change'), this.updatePreview();
     } }, { key: 'clearValue', value: function clearValue() {
       this.setValue('');
     } }, { key: 'updatePreview', value: function updatePreview() {
       if (-1 !== ['true', 'tooltip', 'static'].indexOf(this.preview) && 'false' !== this.preview && this.preview) {
-        var a = window.jQuery(this.querySelector(this.previewcontainer)),
+        var a = window.jQuery(this.querySelector(this.previewContainer)),
             b = window.jQuery(this.querySelector(this.input)),
             c = b.val();if (a.popover('dispose'), b.tooltip('dispose'), !c) a.popover({ content: Joomla.JText._('JLIB_FORM_MEDIA_PREVIEW_EMPTY'), html: !0 });else {
-          var d = new Image(this.previewwidth, this.previewheight);d.src = this.basepath + c, a.popover({ content: d, html: !0 }), b.tooltip({ placement: 'top', title: c });
+          var d = document.createElement('div'),
+              e = new Image();switch (this.type) {case 'image':
+              e.src = this.basePath + c;break;default:}d.style.width = this.previewWidth, e.style.width = '100%', d.appendChild(e), a.popover({ html: !0, content: d }), b.tooltip({ placement: 'top', title: c });
         }
       }
-    } }, { key: 'basepath', get: function get() {
-      return this.getAttribute('basepath');
+    } }, { key: 'type', get: function get() {
+      return this.getAttribute('type');
     }, set: function set(a) {
-      this.setAttribute('basepath', a);
-    } }, { key: 'rootfolder', get: function get() {
-      return this.getAttribute('rootfolder');
+      this.setAttribute('type', a);
+    } }, { key: 'basePath', get: function get() {
+      return this.getAttribute('base-path');
     }, set: function set(a) {
-      this.setAttribute('rootfolder', a);
+      this.setAttribute('base-path', a);
+    } }, { key: 'rootFolder', get: function get() {
+      return this.getAttribute('root-folder');
+    }, set: function set(a) {
+      this.setAttribute('root-folder', a);
     } }, { key: 'url', get: function get() {
       return this.getAttribute('url');
     }, set: function set(a) {
       this.setAttribute('url', a);
-    } }, { key: 'modalcont', get: function get() {
-      return this.getAttribute('modalcont');
+    } }, { key: 'modalContainer', get: function get() {
+      return this.getAttribute('modal-container');
     }, set: function set(a) {
-      this.setAttribute('modalcont', a);
+      this.setAttribute('modal-container', a);
     } }, { key: 'input', get: function get() {
       return this.getAttribute('input');
     }, set: function set(a) {
       this.setAttribute('input', a);
-    } }, { key: 'buttonselect', get: function get() {
-      return this.getAttribute('buttonselect');
+    } }, { key: 'buttonSelect', get: function get() {
+      return this.getAttribute('button-select');
     }, set: function set(a) {
-      this.setAttribute('buttonselect', a);
-    } }, { key: 'buttonclear', get: function get() {
-      return this.getAttribute('buttonclear');
+      this.setAttribute('button-select', a);
+    } }, { key: 'buttonClear', get: function get() {
+      return this.getAttribute('button-clear');
     }, set: function set(a) {
-      this.setAttribute('buttonclear', a);
-    } }, { key: 'buttonsaveselected', get: function get() {
-      return this.getAttribute('buttonsaveselected');
+      this.setAttribute('button-clear', a);
+    } }, { key: 'buttonSaveSelected', get: function get() {
+      return this.getAttribute('button-save-selected');
     }, set: function set(a) {
-      this.setAttribute('buttonsaveselected', a);
-    } }, { key: 'modalwidth', get: function get() {
-      return this.getAttribute(parseInt('modalwidth', 10));
+      this.setAttribute('button-save-selected', a);
+    } }, { key: 'modalWidth', get: function get() {
+      return this.getAttribute(parseInt('modal-width', 10));
     }, set: function set(a) {
-      this.setAttribute('modalwidth', a);
-    } }, { key: 'modalheight', get: function get() {
-      return this.getAttribute(parseInt('modalheight', 10));
+      this.setAttribute('modal-width', a);
+    } }, { key: 'modalHeight', get: function get() {
+      return this.getAttribute(parseInt('modal-height', 10));
     }, set: function set(a) {
-      this.setAttribute('modalheight', a);
-    } }, { key: 'previewwidth', get: function get() {
-      return this.getAttribute('previewwidth');
+      this.setAttribute('modal-height', a);
+    } }, { key: 'previewWidth', get: function get() {
+      return this.getAttribute(parseInt('preview-width', 10));
     }, set: function set(a) {
-      this.setAttribute('previewwidth', a);
-    } }, { key: 'previewheight', get: function get() {
-      return this.getAttribute('previewheight');
+      this.setAttribute('preview-width', a);
+    } }, { key: 'previewHeight', get: function get() {
+      return this.getAttribute(parseInt('preview-height', 10));
     }, set: function set(a) {
-      this.setAttribute('previewheight', a);
+      this.setAttribute('preview-height', a);
     } }, { key: 'preview', get: function get() {
       return this.getAttribute('preview');
     }, set: function set(a) {
       this.setAttribute('preview', a);
-    } }, { key: 'previewcontainer', get: function get() {
-      return this.getAttribute('previewcontainer');
+    } }, { key: 'previewContainer', get: function get() {
+      return this.getAttribute('preview-container');
     } }], [{ key: 'observedAttributes', get: function get() {
-      return ['basepath', 'rootfolder', 'url', 'modalcont', 'modalwidth', 'modalheight', 'input', 'buttonselect', 'buttonclear', 'buttonsaveselected', 'preview', 'previewwidth', 'previewheight'];
+      return ['type', 'base-path', 'root-folder', 'url', 'modal-container', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'button-save-selected', 'preview', 'preview-width', 'preview-height'];
     } }]), b;
 }(HTMLElement);customElements.define('joomla-field-media', JoomlaFieldMedia);
 

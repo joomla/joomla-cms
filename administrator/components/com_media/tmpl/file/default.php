@@ -14,7 +14,8 @@ JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.framework');
 
-JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true)); // @TODO logic to load plugins per media type
+JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
+// @TODO logic to load plugins per media type
 
 $params = JComponentHelper::getParams('com_media');
 
@@ -26,15 +27,7 @@ JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
  */
 $form = $this->form;
 
-$tmpl = JFactory::getApplication()->input->getCmd('tmpl');
-
-// Load the toolbar when we are in an iframe
-if ($tmpl == 'component')
-{
-	echo JToolbar::getInstance('toolbar')->render();
-
-	$tmpl = '&tmpl=' . $tmpl;
-}
+$tmpl = JFactory::getApplication()->input->getCmd('tmpl', '');
 
 $localPath = str_replace(\Joomla\CMS\Uri\Uri::root(), DIRECTORY_SEPARATOR, $this->file->url);
 

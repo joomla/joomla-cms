@@ -77,9 +77,20 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareToolbar()
 	{
+		$tmpl = \JFactory::getApplication()->input->getCmd('tmpl');
+
 		// Get the toolbar object instance
 		$bar  = Toolbar::getInstance('toolbar');
 		$user = \JFactory::getUser();
+
+		if ($tmpl === 'component')
+		{
+			// Add the upload button
+			$layout = new FileLayout('toolbar.insert', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'insert');
+			ToolbarHelper::divider();
+		}
 
 		// Set the title
 		ToolbarHelper::title(\JText::_('COM_MEDIA'), 'images mediamanager');
@@ -111,12 +122,15 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add the preferences button
-		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
+		if (($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media')) && $tmpl !== 'component')
 		{
 			ToolbarHelper::preferences('com_media');
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+		if ($tmpl !== 'component')
+		{
+			ToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+		}
 	}
 }
