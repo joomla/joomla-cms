@@ -47,7 +47,7 @@ class ContentModelFeatured extends ContentModelArticles
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
 				'featured_up', 'a.featured_up',
-				'featured_down', 'featured_down',
+				'featured_down', 'a.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
