@@ -22,6 +22,8 @@ if (loadedDisks[0].drives[0] === undefined || loadedDisks[0].drives.length === 0
 
 // The initial state
 export default {
+    // The general loading state
+    isLoading: false,
     // Will hold the activated filesystem disks
     disks: loadedDisks,
     // The loaded directories

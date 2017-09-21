@@ -1,3 +1,7 @@
+// Loading state
+export const SET_IS_LOADING = 'SET_IS_LOADING';
+
+// Selecting media items
 export const SELECT_DIRECTORY = 'SELECT_DIRECTORY';
 export const SELECT_BROWSER_ITEM = 'SELECT_BROWSER_ITEM';
 export const UNSELECT_BROWSER_ITEM = 'UNSELECT_BROWSER_ITEM';

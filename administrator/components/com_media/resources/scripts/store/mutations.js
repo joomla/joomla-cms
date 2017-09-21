@@ -267,4 +267,12 @@ export default {
     [types.HIDE_PREVIEW_MODAL]: (state) => {
         state.showPreviewModal = false;
     },
+
+    /**
+     * Set the is loading state
+     * @param state
+     */
+    [types.SET_IS_LOADING]: (state, payload) => {
+        state.isLoading = payload;
+    },
 }

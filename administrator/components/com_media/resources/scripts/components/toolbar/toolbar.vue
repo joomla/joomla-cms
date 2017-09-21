@@ -8,6 +8,9 @@
             <a href="#" class="media-toolbar-icon" @click="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
+            <a href="#" class="media-toolbar-icon" v-if="isLoading">
+                <span class="fa fa-spinner fa-spin" aria-hidden="true"></span>
+            </a>
         </div>
     </div>
 </template>
@@ -20,6 +23,9 @@
         computed: {
             toggleListViewBtnIcon() {
                 return (this.$store.state.listView === 'grid') ? 'fa fa-th' : 'fa fa-list';
+            },
+            isLoading() {
+                return this.$store.state.isLoading;
             }
         },
         methods: {
