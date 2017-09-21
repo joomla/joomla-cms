@@ -43,14 +43,16 @@ export default {
     selectedDirectory: options.currentPath || loadedDisks[0].drives[0].root,
     // The currently selected items
     selectedItems: [],
-    // The state of create folder model
-    showCreateFolderModal: false,
     // The state of the infobar
     showInfoBar: false,
     // List view
     listView: 'grid',
+    // The state of create folder model
+    showCreateFolderModal: false,
     // The state of preview model
 	showPreviewModal: false,
+    // The state of  model
+    showRenameModal: false,
     // The preview item
 	previewItem: null
 }

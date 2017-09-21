@@ -1,4 +1,5 @@
 import * as types from "./mutation-types";
+
 const nodePath = require('path');
 
 // The only way to actually change state in a store is by committing a mutation.
@@ -48,12 +49,12 @@ export default {
         function directoryFromPath(path) {
             const parts = path.split('/');
             let directory = nodePath.dirname(path);
-            if(directory.indexOf(':', directory.length - 1) !== -1) {
+            if (directory.indexOf(':', directory.length - 1) !== -1) {
                 directory += '/';
             }
             return {
                 path: path,
-                name: parts[parts.length-1],
+                name: parts[parts.length - 1],
                 directories: [],
                 files: [],
                 directory: (directory !== '.') ? directory : null,
@@ -147,6 +148,24 @@ export default {
             state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
                 directories: [...parentDirectory.directories, directory.path]
             }));
+        }
+    },
+
+    /**
+     * The rename success handler
+     * @param state
+     * @param payload
+     */
+    [types.RENAME_SUCCESS]: (state, payload) => {
+
+        const item = payload.item;
+        const oldPath = payload.oldPath;
+        if (item.type === 'file') {
+            const index = state.files.findIndex((file) => (file.path === oldPath));
+            state.files.splice(index, 1, item)
+        } else {
+            const index = state.directories.findIndex((directory) => (directory.path === oldPath));
+            state.directories.splice(index, 1, item)
         }
     },
 
@@ -274,5 +293,21 @@ export default {
      */
     [types.SET_IS_LOADING]: (state, payload) => {
         state.isLoading = payload;
+    },
+
+    /**
+     * Show the rename modal
+     * @param state
+     */
+    [types.SHOW_RENAME_MODAL]: (state) => {
+        state.showRenameModal = true;
+    },
+
+    /**
+     * Hide the rename modal
+     * @param state
+     */
+    [types.HIDE_RENAME_MODAL]: (state) => {
+        state.showRenameModal = false;
     },
 }

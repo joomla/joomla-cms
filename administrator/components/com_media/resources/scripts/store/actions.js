@@ -133,6 +133,30 @@ export const deleteItem = (context, payload) => {
         })
 }
 
+
+/**
+ * Rename an item
+ * @param context
+ * @param payload object: the old and the new path
+ */
+export const renameItem = (context, payload) => {
+    context.commit(types.SET_IS_LOADING, true);
+    api.rename(payload.path, payload.newPath)
+        .then((item) => {
+            context.commit(types.RENAME_SUCCESS, {
+                item: item,
+                oldPath: payload.path,
+            });
+            context.commit(types.HIDE_RENAME_MODAL);
+            context.commit(types.SET_IS_LOADING, false);
+        })
+        .catch(error => {
+            // TODO error handling
+            context.commit(types.SET_IS_LOADING, false);
+            console.log("error", error);
+        })
+}
+
 /**
  * Delete the selected items
  * @param context

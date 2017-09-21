@@ -366,8 +366,8 @@ class LocalAdapter implements AdapterInterface
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = $this->rootPath . $sourcePath;
-		$destinationPath = $this->rootPath . $destinationPath;
+		$sourcePath = \JPath::clean($this->rootPath . $sourcePath,'/');
+		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
 
 		if (!file_exists($sourcePath))
 		{
@@ -465,8 +465,8 @@ class LocalAdapter implements AdapterInterface
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath = $this->rootPath . $sourcePath;
-		$destinationPath = $this->rootPath . $destinationPath;
+		$sourcePath = \JPath::clean($this->rootPath . $sourcePath,'/');
+		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
 
 		if (!file_exists($sourcePath))
 		{

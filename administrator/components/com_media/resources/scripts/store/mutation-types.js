@@ -30,3 +30,8 @@ export const CHANGE_LIST_VIEW = 'CHANGE_LIST_VIEW';
 // Preview modal
 export const SHOW_PREVIEW_MODAL = 'SHOW_PREVIEW_MODAL';
 export const HIDE_PREVIEW_MODAL = 'HIDE_PREVIEW_MODAL';
+
+// Rename modal
+export const SHOW_RENAME_MODAL = 'SHOW_RENAME_MODAL';
+export const HIDE_RENAME_MODAL = 'HIDE_RENAME_MODAL';
+export const RENAME_SUCCESS = 'RENAME_SUCCESS';

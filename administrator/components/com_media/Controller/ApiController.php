@@ -147,7 +147,7 @@ class ApiController extends BaseController
 					$content      = $this->input->json;
 					$name         = basename($path);
 					$mediaContent = base64_decode($content->get('content', '', 'raw'));
-					$newPath      = $content->get('newPath', null);
+					$newPath      = $content->getString('newPath', null);
 					$move         = $content->get('move', true);
 
 					if ($mediaContent != null)
@@ -170,7 +170,7 @@ class ApiController extends BaseController
 							$this->getModel()->copy($adapter, $path, $destinationPath, true);
 						}
 
-						$path = $newPath;
+						$path = $destinationPath;
 					}
 
 					$data = $this->getModel()->getFile($adapter, $path);
