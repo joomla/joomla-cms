@@ -1,5 +1,6 @@
 <template>
     <div class="media-toolbar">
+    <div class="media-loader" v-if="isLoading"></div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
             <transition name="fade-in">
@@ -13,11 +14,7 @@
             <a href="#" class="media-toolbar-icon" @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
-            <transition name="fade-in">
-                <a href="#" class="media-toolbar-icon" v-if="isLoading">
-                    <span class="fa fa-spinner fa-spin" aria-hidden="true"></span>
-                </a>
-            </transition>
+
         </div>
     </div>
 </template>
