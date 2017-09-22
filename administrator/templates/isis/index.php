@@ -36,6 +36,9 @@ JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true)
 // Add html5 shiv
 JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
+// Load custom JS if exists
+JHtml::_('script', 'custom.js', array('version' => 'auto', 'relative' => true));
+
 // Add Stylesheets
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', array('version' => 'auto', 'relative' => true));
 
