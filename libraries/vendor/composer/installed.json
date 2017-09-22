@@ -693,45 +693,6 @@
         ]
     },
     {
-        "name": "joomla/ldap",
-        "version": "1.1.2",
-        "version_normalized": "1.1.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/ldap.git",
-            "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/91c3827a7f6d7164a3bf49eede27419321e4dcbc",
-            "reference": "91c3827a7f6d7164a3bf49eede27419321e4dcbc",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.10"
-        },
-        "time": "2014-04-10T03:07:59+00:00",
-        "type": "joomla-package",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Ldap\\": "src/",
-                "Joomla\\Ldap\\Tests\\": "Tests/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla LDAP Package",
-        "homepage": "https://github.com/joomla-framework/ldap",
-        "keywords": [
-            "framework",
-            "joomla",
-            "ldap"
-        ]
-    },
-    {
         "name": "paragonie/random_compat",
         "version": "v1.4.2",
         "version_normalized": "1.4.2.0",
@@ -1427,6 +1388,55 @@
             "public-key cryptography",
             "secret-key cryptography",
             "side-channel resistant"
+        ]
+    },
+    {
+        "name": "joomla/ldap",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/ldap.git",
+            "reference": "2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208",
+            "reference": "2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ldap": "*",
+            "php": "^5.3.10|~7.0",
+            "symfony/polyfill-php56": "~1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "time": "2017-07-27T13:13:55+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Ldap\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla LDAP Package",
+        "homepage": "https://github.com/joomla-framework/ldap",
+        "keywords": [
+            "framework",
+            "joomla",
+            "ldap"
         ]
     }
 ]
