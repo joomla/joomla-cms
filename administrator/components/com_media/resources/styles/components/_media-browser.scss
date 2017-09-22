@@ -3,12 +3,14 @@
   position: relative;
   height: calc(100% - 52px);
   overflow-y: auto;
-  padding: 15px 0 15px 15px;
   width: 75%;
   transition: width .3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 // Grid View
+.media-browser-grid {
+  padding: 15px 0 15px 15px;
+}
 
 .media-browser-items {
   display: flex;
@@ -267,8 +269,8 @@
   }
 }
 
-// List View
-.media-browser-list-head {
+// Table View
+.media-browser-table-head {
   font-size: .8rem;
   font-weight: bold;
   .type {
@@ -278,7 +280,7 @@
     }
   }
 }
-.media-browser-list {
+.media-browser-table {
   height: calc(100% - 52px);
   overflow-y: auto;
   transition: width .3s cubic-bezier(0.4, 0.0, 0.2, 1);

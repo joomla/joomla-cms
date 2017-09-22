@@ -64,9 +64,11 @@
   position: relative;
   height: calc(100% - 52px);
   overflow-y: auto;
-  padding: 15px 0 15px 15px;
   width: 75%;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.media-browser-grid {
+  padding: 15px 0 15px 15px; }
 
 .media-browser-items {
   display: flex;
@@ -282,47 +284,47 @@
   .media-browser-item {
     width: calc(100% - 20px); } }
 
-.media-browser-list-head {
+.media-browser-table-head {
   font-size: .8rem;
   font-weight: bold; }
-  .media-browser-list-head .type {
+  .media-browser-table-head .type {
     margin-left: 1px; }
-    .media-browser-list-head .type:before {
+    .media-browser-table-head .type:before {
       display: none; }
 
-.media-browser-list {
+.media-browser-table {
   height: calc(100% - 52px);
   overflow-y: auto;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: .9rem;
   line-height: 30px; }
-  .media-browser-list .media-browser-item {
+  .media-browser-table .media-browser-item {
     width: 100%;
     margin: 0;
     border: 1px solid rgba(0, 0, 0, 0.03); }
-    .media-browser-list .media-browser-item:hover {
+    .media-browser-table .media-browser-item:hover {
       background-color: rgba(0, 0, 0, 0.03); }
-  .media-browser-list ul {
+  .media-browser-table ul {
     display: flex;
     list-style: none;
     padding: 0;
     margin: 0; }
-  .media-browser-list li {
+  .media-browser-table li {
     padding: 0 10px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden; }
-  .media-browser-list .name {
+  .media-browser-table .name {
     width: calc(30% - 40px); }
-  .media-browser-list .size {
+  .media-browser-table .size {
     width: 15%; }
-  .media-browser-list .dimension {
+  .media-browser-table .dimension {
     width: 15%; }
-  .media-browser-list .created {
+  .media-browser-table .created {
     width: 20%; }
-  .media-browser-list .modified {
+  .media-browser-table .modified {
     width: 20%; }
-  .media-browser-list .type {
+  .media-browser-table .type {
     position: relative;
     z-index: 0;
     width: 40px;
@@ -332,15 +334,15 @@
     line-height: 30px;
     background-color: rgba(0, 0, 0, 0.015);
     border-right: 1px solid rgba(0, 0, 0, 0.03); }
-    .media-browser-list .type:before, .media-browser-list .type:after {
+    .media-browser-table .type:before, .media-browser-table .type:after {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .media-browser-list .type:before {
+    .media-browser-table .type:before {
       font-family: FontAwesome;
       content: "\f016";
       color: #656565; }
-      .selected .media-browser-list .type:before {
+      .selected .media-browser-table .type:before {
         color: white; }
-    .media-browser-list .type:after {
+    .media-browser-table .type:after {
       position: absolute;
       top: -1px;
       left: 0;
@@ -349,19 +351,19 @@
       z-index: -1;
       content: "";
       background-color: #006898; }
-    .media-browser-list .type[data-type=""]:before {
+    .media-browser-table .type[data-type=""]:before {
       content: "\f114"; }
-    .media-browser-list .type[data-type="jpg"]:before, .media-browser-list .type[data-type="png"]:before, .media-browser-list .type[data-type="gif"]:before, .media-browser-list .type[data-type="jpeg"]:before, .media-browser-list .type[data-type="tiff"]:before, .media-browser-list .type[data-type="bmp"]:before, .media-browser-list .type[data-type="svg"]:before {
+    .media-browser-table .type[data-type="jpg"]:before, .media-browser-table .type[data-type="png"]:before, .media-browser-table .type[data-type="gif"]:before, .media-browser-table .type[data-type="jpeg"]:before, .media-browser-table .type[data-type="tiff"]:before, .media-browser-table .type[data-type="bmp"]:before, .media-browser-table .type[data-type="svg"]:before {
       content: "\f1c5"; }
-    .media-browser-list .type[data-type="mov"]:before, .media-browser-list .type[data-type="mkv"]:before, .media-browser-list .type[data-type="mp4"]:before, .media-browser-list .type[data-type="mpg"]:before, .media-browser-list .type[data-type="mpeg"]:before {
+    .media-browser-table .type[data-type="mov"]:before, .media-browser-table .type[data-type="mkv"]:before, .media-browser-table .type[data-type="mp4"]:before, .media-browser-table .type[data-type="mpg"]:before, .media-browser-table .type[data-type="mpeg"]:before {
       content: "\f1c8"; }
-    .media-browser-list .type[data-type="mp3"]:before, .media-browser-list .type[data-type="wav"]:before, .media-browser-list .type[data-type="raw"]:before, .media-browser-list .type[data-type="wma"]:before {
+    .media-browser-table .type[data-type="mp3"]:before, .media-browser-table .type[data-type="wav"]:before, .media-browser-table .type[data-type="raw"]:before, .media-browser-table .type[data-type="wma"]:before {
       content: "\f1c7"; }
-    .media-browser-list .type[data-type="doc"]:before, .media-browser-list .type[data-type="xls"]:before, .media-browser-list .type[data-type="pdf"]:before, .media-browser-list .type[data-type="txt"]:before {
+    .media-browser-table .type[data-type="doc"]:before, .media-browser-table .type[data-type="xls"]:before, .media-browser-table .type[data-type="pdf"]:before, .media-browser-table .type[data-type="txt"]:before {
       content: "\f0f6"; }
-    .media-browser-list .type[data-type="html"]:before, .media-browser-list .type[data-type="htm"]:before {
+    .media-browser-table .type[data-type="html"]:before, .media-browser-table .type[data-type="htm"]:before {
       content: "\f1c9"; }
-    .media-browser-list .type span {
+    .media-browser-table .type span {
       visibility: hidden; }
 
 .selected {
