@@ -96,7 +96,7 @@ class AdminController extends BaseController
 		{
 			$reflect = new \ReflectionClass($this);
 
-			$r = array(0 => '', 1 => '', 2 => $reflect->getShortName());
+			$r = array(0 => '', 1 => '', 2 => str_replace('Controller', '', $reflect->getShortName()));
 
 			if (!$reflect->getNamespaceName() && !preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
 			{
