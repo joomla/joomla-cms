@@ -154,10 +154,7 @@ class FtpClient
 		if (FTP_NATIVE)
 		{
 			// Import the generic buffer stream handler
-			\JLoader::import('joomla.utilities.buffer');
-
-			// Autoloading fails for JBuffer as the class is used as a stream handler
-			\JLoader::load('JBuffer');
+			class_exists('\\Joomla\\CMS\\Utility\\BufferStreamHandler');
 		}
 	}
 
