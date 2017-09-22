@@ -189,8 +189,8 @@ class ContentModelArticles extends JModelList
 			$this->getState(
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.featured_up, a.featured_down, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.featured_up, a.featured_down' .
+				', a.language, a.hits, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');

@@ -114,7 +114,7 @@ abstract class JHtmlContentAdministrator
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 
 		// Special state for dates
-		if (((int)$value == 1) && ($featured_up || $featured_down))
+		if (((int) $value == 1) && ($featured_up || $featured_down))
 		{
 			$nullDate = JFactory::getDbo()->getNullDate();
 			$nowDate = JFactory::getDate()->toUnix();
