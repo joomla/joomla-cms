@@ -615,24 +615,25 @@ ul.media-tree {
   background-color: rgba(0, 0, 0, 0.7);
   display: table; }
   .media-modal-backdrop .modal {
-    animation: fadeInUp .5s; }
-  .media-modal-backdrop .modal-body {
-    width: auto;
-    padding: 15px; }
-
-.media-preview-modal {
-  color: white; }
-  .media-preview-modal .modal {
     display: flex;
     align-items: center;
     justify-content: center;
     animation: 0.5s ease 0s normal none 1 running fadeIn; }
+  .media-modal-backdrop .modal-body {
+    width: auto;
+    padding: 15px; }
+  .media-modal-backdrop .modal-content {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
+
+.media-preview-modal {
+  color: white; }
   .media-preview-modal .modal-dialog {
     max-height: 70vh;
     max-width: 70vw; }
   .media-preview-modal .modal-content {
     background-color: transparent;
-    border: 0; }
+    border: 0;
+    box-shadow: none; }
   .media-preview-modal .modal-header {
     padding: 0;
     border: 0; }
