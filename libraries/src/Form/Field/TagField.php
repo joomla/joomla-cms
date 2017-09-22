@@ -243,7 +243,7 @@ class TagField extends \JFormFieldList
 		if ($this->isNested === null)
 		{
 			// If mode="nested" || ( mode not set & config = nested )
-			if (isset($this->element['mode']) && (string) $this->element['mode'] === 'nested'
+			if (isset($this->element['mode']) && (string) (string) $this->element['mode'] === 'nested'
 				|| !isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0)
 			{
 				$this->isNested = true;
@@ -260,7 +260,7 @@ class TagField extends \JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && $this->element['custom'] === 'deny')
+		if (isset($this->element['custom']) && (string) $this->element['custom'] === 'deny')
 		{
 			return false;
 		}
