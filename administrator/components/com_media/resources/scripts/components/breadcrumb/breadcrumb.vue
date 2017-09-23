@@ -1,5 +1,5 @@
 <template>
-    <ol class="media-breadcrumb breadcrumb mr-auto">
+    <ol class="media-breadcrumb mr-auto">
         <li class="breadcrumb-item" v-for="crumb in crumbs">
             <a @click.stop.prevent="goTo(crumb.path)">{{ crumb.name }}</a>
         </li>
