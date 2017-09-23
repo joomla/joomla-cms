@@ -107,7 +107,7 @@ if ($link = $current->get('link'))
 	$target = $current->get('target') ? 'target="' . $current->get('target') . '"' : '';
 
 	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" ' . $target . '>' .
-				JText::_($current->get('title')) . ' &nbsp; ' . $icon . $dropdownCaret . '</a>';
+				JText::_($current->get('title')) . $icon . $dropdownCaret . '</a>';
 }
 // Separator
 else

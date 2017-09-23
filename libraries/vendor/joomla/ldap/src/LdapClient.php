@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Client Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -192,7 +192,7 @@ class LdapClient
 	 *
 	 * @since   1.0
 	 */
-	public function setDN($username, $nosub = 0)
+	public function setDn($username, $nosub = 0)
 	{
 		if ($this->users_dn == '' || $nosub)
 		{
@@ -215,7 +215,7 @@ class LdapClient
 	 *
 	 * @since   1.0
 	 */
-	public function getDN()
+	public function getDn()
 	{
 		return $this->dn;
 	}
@@ -257,8 +257,8 @@ class LdapClient
 			$password = $this->password;
 		}
 
-		$this->setDN($username, $nosub);
-		$bindResult = @ldap_bind($this->resource, $this->getDN(), $password);
+		$this->setDn($username, $nosub);
+		$bindResult = @ldap_bind($this->resource, $this->getDn(), $password);
 
 		return $bindResult;
 	}
@@ -506,6 +506,22 @@ class LdapClient
 	}
 
 	/**
+	 * Escape a string
+	 *
+	 * @param   string   $value   The subject string
+	 * @param   string   $ignore  Characters to ignore when escaping.
+	 * @param   integer  $flags   The context the escaped string will be used in LDAP_ESCAPE_FILTER or LDAP_ESCAPE_DN
+	 *
+	 * @return  string
+	 *
+	 * @since   1.2.0
+	 */
+	public function escape($value, $ignore = '', $flags = 0)
+	{
+		return @ldap_escape($value, $ignore, $flags);
+	}
+
+	/**
 	 * Returns the error message
 	 *
 	 * @return  string   error message
@@ -570,7 +586,7 @@ class LdapClient
 	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
 	 * @since   1.0
 	 */
-	public static function LDAPNetAddr($networkaddress)
+	public static function LdapNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = (int) substr($networkaddress, 0, 1);
