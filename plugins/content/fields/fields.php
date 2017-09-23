@@ -65,6 +65,17 @@ class PlgContentFields extends JPlugin
 		}
 	}
 
+	/**
+	 * Prepares the given string by parsing {field} and {fieldgroup} groups and replacing them.
+	 *
+	 * @param   string  $string   The text to prepare
+	 * @param   string  $context  The context of the content
+	 * @param   object  $item     The item object
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private function prepare($string, $context, $item)
 	{
 		// Search for {field ID} or {fieldgroup ID} tags and put the results into $matches.
