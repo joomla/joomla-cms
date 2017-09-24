@@ -208,6 +208,15 @@ export default {
     },
 
     /**
+     * Select browser items
+     * @param state
+     * @param payload the items
+     */
+    [types.SELECT_BROWSER_ITEMS]: (state, payload) => {
+        state.selectedItems = payload;
+    },
+
+    /**
      * Unselect a browser item
      * @param state
      * @param payload the item

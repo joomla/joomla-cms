@@ -13,12 +13,16 @@
                @click.stop.prevent="increaseGridSize()">
                 <span class="fa fa-plus" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
+            <a href="#" class="media-toolbar-icon media-toolbar-select-all" @click.stop.prevent="selectAll()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon media-toolbar-icon-info" @click.stop.prevent="toggleInfoBar">
+            <a href="#" class="media-toolbar-icon media-toolbar-list-view" @click.stop.prevent="changeListView()">
+                <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="media-toolbar-icon media-toolbar-info" @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
+
         </div>
     </div>
 </template>
@@ -62,6 +66,13 @@
                 } else {
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
                 }
+            },
+            selectAll() {
+            	const allItems = [
+            	    ...this.$store.getters.getSelectedDirectoryDirectories,
+            	    ...this.$store.getters.getSelectedDirectoryFiles
+                ];
+                this.$store.commit(types.SELECT_BROWSER_ITEMS, allItems);
             }
         }
     }
