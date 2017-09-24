@@ -573,7 +573,7 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getUrl($path)
 	{
-		return Uri::root() . \JPath::clean($this->filePath . $path, '/');
+		return Uri::root() . $this->getEncodedPath($this->filePath . $path);
 	}
 
 	/**
@@ -657,5 +657,20 @@ class LocalAdapter implements AdapterInterface
 	public function getTemporaryUrl($path)
 	{
 		return $this->getUrl($path);
+	}
+
+	/**
+	 * Replace spaces on a path with %20
+	 *
+	 * @param   string  $path  The Path to be encoded
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws \FileNotFoundException
+	 */
+	private function getEncodedPath($path)
+	{
+		return str_replace(" ", "%20", $path);
 	}
 }
