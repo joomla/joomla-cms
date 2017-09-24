@@ -31,13 +31,71 @@ use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 class ApiController extends BaseController
 {
 	/**
-	 * Api endpoint for the media manager front end. The HTTP methods GET, PUT, POST and DELETE
-	 * are supported.
+	 * Execute a task by triggering a method in the derived class.
 	 *
-	 * The following query parameters are processed:
-	 * - path: The path of the resource, if not set then the default / is taken.
+	 * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
 	 *
-	 * Some examples with a more understandable rest url equivalent:
+	 * @return  mixed   The value returned by the called method.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function execute($task)
+	{
+		$method = $this->input->getMethod();
+
+		$this->task = $task;
+		$this->method = $method;
+
+		try
+		{
+			// Check token for requests which do modify files (all except get requests)
+			if ($method !== 'GET' && !Session::checkToken('json'))
+			{
+				throw new \InvalidArgumentException(\JText::_('JINVALID_TOKEN'), 403);
+			}
+
+			$doTask = strtolower($method . '_' . $task);
+
+			// Record the actual task being fired
+			$this->doTask = $doTask;
+
+			if (in_array($this->doTask, $this->taskMap))
+			{
+				return $this->$doTask();
+			}
+
+			if (isset($this->taskMap['__default']))
+			{
+				$doTask = $this->taskMap['__default'];
+
+				return $this->$doTask();
+			}
+
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+		}
+		catch (FileNotFoundException $e)
+		{
+			$this->sendResponse($e, 404);
+		}
+		catch (\Exception $e)
+		{
+			$errorCode = 500;
+
+			if ($e->getCode() > 0)
+			{
+				$errorCode = $e->getCode();
+			}
+
+			$this->sendResponse($e, $errorCode);
+		}
+	}
+
+	/**
+	 * Files Get Method
+	 *
+	 * Examples:
+	 *
 	 * - GET a list of folders below the root:
 	 * 		index.php?option=com_media&task=api.files
 	 * 		/api/files
@@ -61,6 +119,59 @@ class ApiController extends BaseController
 	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1
 	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1
 	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function get_files()
+	{
+		// Grab options
+		$options = array();
+		$options['url'] = $this->input->getBool('url', false);
+		$options['temp'] = $this->input->getBool('temp', false);
+		$options['search'] = $this->input->getString('search', '');
+		$options['recursive'] = $this->input->getBool('recursive', true);
+
+		$data = $this->getModel()->getFiles($this->getAdapter(), $this->getPath(), $options);
+
+		// Return the data
+		$this->sendResponse($data);
+	}
+
+	/**
+	 * Files delete Method
+	 *
+	 * Examples:
+	 *
+	 * - DELETE an existing folder in a specific folder:
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
+	 * 		/api/files/sampledata/fruitshop/test
+	 * - DELETE an existing file in a specific folder:
+	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
+	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function delete_files()
+	{
+		$this->getModel()->delete($this->getAdapter(), $this->getPath());
+
+		// Define this for capability with other cases
+		$data = null;
+
+		// Return the data
+		$this->sendResponse($data);
+	}
+
+	/**
+	 * Files Post Method
+	 *
+	 * Examples:
+	 *
 	 * - POST a new file or folder into a specific folder, the file or folder information is returned:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
@@ -74,6 +185,45 @@ class ApiController extends BaseController
 	 * 		{
 	 * 			"name": "test",
 	 * 		}
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function post_files()
+	{
+		$adapter      = $this->getAdapter();
+		$path         = $this->getPath();
+		$content      = $this->input->json;
+		$name         = $content->getString('name');
+		$mediaContent = base64_decode($content->get('content', '', 'raw'));
+
+		$name = $this->getSafeName($name);
+
+		if ($mediaContent)
+		{
+			$this->checkContent($name, $mediaContent);
+
+			// A file needs to be created
+			$this->getModel()->createFile($adapter, $name, $path, $mediaContent);
+		}
+		else
+		{
+			// A file needs to be created
+			$this->getModel()->createFolder($adapter, $name, $path);
+		}
+
+		$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
+
+		// Return the data
+		$this->sendResponse($data);
+	}
+
+	/**
+	 * Files Put method
+	 *
+	 * Examples:
 	 *
 	 * - PUT a media file, the file or folder information is returned:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
@@ -106,130 +256,46 @@ class ApiController extends BaseController
 	 *          "move"    : "0"
 	 *     }
 	 *
-	 * - DELETE an existing folder in a specific folder:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
-	 * 		/api/files/sampledata/fruitshop/test
-	 * - DELETE an existing file in a specific folder:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
-	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
-	public function files()
+	public function put_files()
 	{
-		try
+		$adapter = $this->getAdapter();
+		$path    = $this->getPath();
+
+		$content      = $this->input->json;
+		$name         = basename($path);
+		$mediaContent = base64_decode($content->get('content', '', 'raw'));
+		$newPath      = $content->getString('newPath', null);
+		$move         = $content->get('move', true);
+
+		if ($mediaContent != null)
 		{
-			// Get the required variables
-			list($adapter, $path) = explode(':', $this->input->getString('path', ''), 2);
+			$this->checkContent($name, $mediaContent);
 
-			// Determine the method
-			$method = strtolower($this->input->getMethod() ? : 'GET');
+			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+		}
 
-			// Check token for requests which do modify files (all except get requests)
-			if ($method != 'get' && !Session::checkToken('json'))
+		if ($newPath != null)
+		{
+			list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
+
+			if ($move)
 			{
-				throw new \InvalidArgumentException(\JText::_('JINVALID_TOKEN'), 403);
+				$this->getModel()->move($adapter, $path, $destinationPath, true);
+			}
+			else
+			{
+				$this->getModel()->copy($adapter, $path, $destinationPath, true);
 			}
 
-			// Gather the data according to the method
-			switch ($method)
-			{
-				case 'get':
-					// Grab options
-					$options = array();
-					$options['url'] = $this->input->getBool('url', false);
-					$options['temp'] = $this->input->getBool('temp', false);
-					$options['search'] = $this->input->getString('search', '');
-					$options['recursive'] = $this->input->getBool('recursive', true);
-					$data = $this->getModel()->getFiles($adapter, $path, $options);
-					break;
-
-				case 'delete':
-					$this->getModel()->delete($adapter, $path);
-
-					// Define this for capability with other cases
-					$data = null;
-					break;
-
-				case 'post':
-					$content      = $this->input->json;
-					$name         = $content->getString('name');
-					$mediaContent = base64_decode($content->get('content', '', 'raw'));
-
-					$name = $this->getSafeName($name);
-					if ($mediaContent)
-					{
-						$this->checkContent($name, $mediaContent);
-
-						// A file needs to be created
-						$this->getModel()->createFile($adapter, $name, $path, $mediaContent);
-					}
-					else
-					{
-						// A file needs to be created
-						$this->getModel()->createFolder($adapter, $name, $path);
-					}
-
-					$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
-					break;
-
-				case 'put':
-					$content      = $this->input->json;
-					$name         = basename($path);
-					$mediaContent = base64_decode($content->get('content', '', 'raw'));
-					$newPath      = $content->getString('newPath', null);
-					$move         = $content->get('move', true);
-
-					if ($mediaContent != null)
-					{
-						$this->checkContent($name, $mediaContent);
-
-						$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
-					}
-
-					if ($newPath != null)
-					{
-						list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
-
-						if ($move)
-						{
-							$this->getModel()->move($adapter, $path, $destinationPath, true);
-						}
-						else
-						{
-							$this->getModel()->copy($adapter, $path, $destinationPath, true);
-						}
-
-						$path = $destinationPath;
-					}
-
-					$data = $this->getModel()->getFile($adapter, $path);
-					break;
-
-				default:
-					throw new \BadMethodCallException('Method not supported yet!');
-			}
-
-			// Return the data
-			$this->sendResponse($data);
+			$path = $destinationPath;
 		}
-		catch (FileNotFoundException $e)
-		{
-			$this->sendResponse($e, 404);
-		}
-		catch (\Exception $e)
-		{
-			$errorCode = 500;
 
-			if ($e->getCode() > 0)
-			{
-				$errorCode = $e->getCode();
-			}
-
-			$this->sendResponse($e, $errorCode);
-		}
+		$data = $this->getModel()->getFile($adapter, $path);
 	}
 
 	/**
@@ -356,4 +422,29 @@ class ApiController extends BaseController
 
 		return $name;
 	}
+
+	/**
+	 * Get the Adapter
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapter()
+	{
+		return explode(':', $this->input->getString('path', ''), 2)[0];
+	}
+
+	/**
+	 * Get the Path
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getPath()
+	{
+		return explode(':', $this->input->getString('path', ''), 2)[1];
+	}
+
 }
