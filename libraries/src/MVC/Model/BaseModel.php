@@ -443,7 +443,7 @@ abstract class BaseModel extends \JObject
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->name = str_replace('\\', '', strtolower($r[1]));
+			$this->name = str_replace(['\\', 'model'], '', strtolower($r[1]));
 		}
 
 		return $this->name;

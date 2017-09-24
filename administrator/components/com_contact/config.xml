@@ -133,12 +133,12 @@
 			name="add_mailto_link"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			showon="show_info:1[AND]show_email:1"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -977,7 +977,7 @@
 		<field
 			name="sef_advanced"
 			type="radio"
-			class="btn-group btn-group-yesno btn-group-reversed"
+			class="switcher switcher-primary"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			filter="integer"
@@ -990,13 +990,13 @@
 			name="sef_ids"
 			type="radio"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			showon="sef_advanced:1"
 			filter="integer"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

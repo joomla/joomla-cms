@@ -65,12 +65,12 @@
 					name="lineWrapping"
 					type="hidden"
 					label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					filter="options"
 					>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field
