@@ -9,19 +9,24 @@
             {{ item.name }} {{ item.filetype }}
         </div>
         <div class="media-browser-select" @click.stop="toggleSelect()"></div>
-        <div class="media-browser-actions d-flex">
-            <a href="#" class="action-delete mr-auto">
-                <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
+        <div class="media-browser-actions">
+            <a href="#" class="action-toggle mr-auto">
+                <span class="image-browser-action fa fa-ellipsis-h" aria-hidden="true" @click.stop="toggleActions()"></span>
             </a>
-            <a href="#" class="action-preview">
-                <span class="image-browser-action fa fa-search-plus" aria-hidden="true" @click.stop="openPreview()"></span>
-            </a>
-            <a href="#" class="action-rename">
-                <span class="image-browser-action fa fa-text-width" aria-hidden="true" @click.stop="openRenameModal()"></span>
-            </a>
-            <a href="#" class="action-edit" v-if="canEdit">
-                <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
-            </a>
+            <div class="media-browser-actions-list">
+                <a href="#" class="action-preview">
+                    <span class="image-browser-action fa fa-search-plus" aria-hidden="true" @click.stop="openPreview()"></span>
+                </a>
+                <a href="#" class="action-rename">
+                    <span class="image-browser-action fa fa-text-width" aria-hidden="true" @click.stop="openRenameModal()"></span>
+                </a>
+                <a href="#" class="action-edit" v-if="canEdit">
+                    <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
+                </a>
+                <a href="#" class="action-delete">
+                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
+                </a>
+            </div>
         </div>
     </div>
 </template>

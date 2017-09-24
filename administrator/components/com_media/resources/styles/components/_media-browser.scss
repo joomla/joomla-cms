@@ -104,18 +104,34 @@
 
 .media-browser-actions {
   position: absolute;
-  left: 0;
   right: 0;
-  bottom: 32px;
+  top: 4px;
   padding: 2px;
   overflow: hidden;
+  > a {
+    opacity: 0;
+    .media-browser-item:hover &, .selected & {
+      opacity: 1;
+    }
+  }
+  &.active {
+    > a {
+      display: none;
+    }
+  }
+}
+
+.media-browser-actions-list {
+  display: flex;
+  flex-direction: column;
   a {
     position: relative;
-    top: 20px;
+    top: 0;
+    margin-bottom: 3px;
     opacity: 0;
     transition: all .2s ease;
     transition-delay: 0s;
-    .media-browser-item:hover & {
+    .media-browser-actions.active & {
       top: 0;
       opacity: 1;
       &:first-of-type {
@@ -126,6 +142,9 @@
       }
       &:nth-of-type(3) {
         transition-delay: .2s;
+      }
+      &:nth-of-type(4) {
+        transition-delay: .25s;
       }
     }
   }
