@@ -76,6 +76,13 @@ if ($showPreview)
 	{
 		$src = JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY');
 	}
+
+	$showPreview = 'static';
+
+	if ($showAsTooltip)
+	{
+		$showPreview = 'tooltip';
+	}
 }
 
 // The url for the modal
@@ -85,22 +92,22 @@ $url    = ($readonly ? ''
 		. $asset . '&amp;author=' . $authorId)
 	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
 ?>
-<div class="field-media-wrapper"
-	data-basepath="<?php echo JUri::root(); ?>"
-	data-root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
-	data-url="<?php echo $url; ?>"
-	data-modal=".modal"
-	data-modal-width="100%"
-	data-modal-height="400px"
-	data-input=".field-media-input"
-	data-button-select=".button-select"
-	data-button-clear=".button-clear"
-	data-button-save-selected=".button-save-selected"
-	data-preview="<?php echo $showPreview ? 'true' : 'false'; ?>"
-	data-preview-as-tooltip="<?php echo $showAsTooltip ? 'true' : 'false'; ?>"
-	data-preview-container=".field-media-preview"
-	data-preview-width="<?php echo $previewWidth; ?>"
-	data-preview-height="<?php echo $previewHeight; ?>"
+<joomla-field-media class="field-media-wrapper"
+	type="image" <?php /* @TODO add this attribute to the field in order to use it for all media types */ ?>
+	base-path="<?php echo JUri::root(); ?>"
+	root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
+	url="<?php echo $url; ?>"
+	modal-container=".modal"
+	modal-width="100%"
+	modal-height="400px"
+	input=".field-media-input"
+	button-select=".button-select"
+	button-clear=".button-clear"
+	button-save-selected=".button-save-selected"
+	preview="<?php echo $showPreview; ?>"
+	preview-container=".field-media-preview"
+	preview-width="<?php echo $previewWidth; ?>"
+	preview-height="<?php echo $previewHeight; ?>"
 >
 	<?php
 	// Render the modal
@@ -118,12 +125,13 @@ $url    = ($readonly ? ''
 		)
 	);
 
-	JHtml::_('script', 'system/fields/mediafield.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('webcomponent', ['joomla-field-media' => 'system/joomla-field-media.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+	JText::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
 	<div class="input-group">
 		<?php if ($showPreview && $showAsTooltip) : ?>
 			<div rel="popover" class="input-group-addon pop-helper field-media-preview"
-				title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
+				title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>"
 				data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
 				<span class="icon-eye" aria-hidden="true"></span>
 			</div>
@@ -136,4 +144,4 @@ $url    = ($readonly ? ''
 			</div>
 		<?php endif; ?>
 	</div>
-</div>
+</joomla-field-media>
