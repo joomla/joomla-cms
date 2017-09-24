@@ -1,10 +1,12 @@
 import * as types from "./mutation-types";
-
 const nodePath = require('path');
 
 // The only way to actually change state in a store is by committing a mutation.
 // Mutations are very similar to events: each mutation has a string type and a handler.
 // The handler function is where we perform actual state modifications, and it will receive the state as the first argument.
+
+// The grid item sizes
+const gridItemSizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 export default {
 
@@ -313,5 +315,28 @@ export default {
      */
     [types.HIDE_RENAME_MODAL]: (state) => {
         state.showRenameModal = false;
+    },
+
+    /**
+     * Increase the size of the grid items
+     * @param state
+     */
+    [types.INCREASE_GRID_SIZE]: (state) => {
+        let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+        if (currentSizeIndex >= 0 && currentSizeIndex < gridItemSizes.length - 1) {
+            state.gridSize = gridItemSizes[++currentSizeIndex];
+        }
+    },
+
+    /**
+     * Increase the size of the grid items
+     * @param state
+     */
+    [types.DECREASE_GRID_SIZE]: (state) => {
+        let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+        console.log(currentSizeIndex);
+        if (currentSizeIndex > 0 && currentSizeIndex < gridItemSizes.length) {
+            state.gridSize = gridItemSizes[--currentSizeIndex];
+        }
     },
 }

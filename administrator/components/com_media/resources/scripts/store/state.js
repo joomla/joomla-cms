@@ -47,6 +47,8 @@ export default {
     showInfoBar: false,
     // List view
     listView: 'grid',
+    // The size of the grid items
+    gridSize: 'md',
     // The state of create folder model
     showCreateFolderModal: false,
     // The state of preview model
@@ -54,5 +56,5 @@ export default {
     // The state of  model
     showRenameModal: false,
     // The preview item
-	previewItem: null
+	previewItem: null,
 }

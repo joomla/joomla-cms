@@ -27,6 +27,21 @@
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
+  .media-browser-items-xs & {
+    width: calc(8% - 20px);
+  }
+  .media-browser-items-sm & {
+    width: calc(12.5% - 20px);
+  }
+  .media-browser-items-md & {
+    width: calc(16.66% - 20px);
+  }
+  .media-browser-items-lg & {
+    width: calc(25% - 20px);
+  }
+  .media-browser-items-xl & {
+    width: calc(50% - 20px);
+  }
 }
 
 .media-browser-item-preview {

@@ -24,7 +24,7 @@
             <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
         </div>
         <div class="media-browser-grid" v-else-if="listView === 'grid'">
-            <div class="media-browser-items">
+            <div class="media-browser-items" :class="mediaBrowserGridItemsClass">
                 <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
             </div>
         </div>
@@ -59,6 +59,11 @@
             /* The styles for the media-browser elemen */
             listView() {
                 return this.$store.state.listView;
+            },
+            mediaBrowserGridItemsClass() {
+                return {
+                    ['media-browser-items-' + this.$store.state.gridSize]: true,
+                }
             }
         },
         methods: {
