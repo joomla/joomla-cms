@@ -1,5 +1,5 @@
 <template>
-    <div class="media-container row" :style="{minHeight: fullHeight}">
+    <div class="media-container row">
         <div class="media-sidebar col-md-2 hidden-sm-down">
             <media-disk v-for="disk in disks" :disk="disk"></media-disk>
         </div>
