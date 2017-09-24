@@ -3,10 +3,10 @@
     <div class="media-loader" v-if="isLoading"></div>
         <media-breadcrumb></media-breadcrumb>
         <div class="media-view-icons">
-            <a href="#" class="media-toolbar-icon" @click.stop.prevent="changeListView()">
+            <a href="#" class="media-toolbar-icon media-toolbar-icon-list-view" @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon" @click.stop.prevent="toggleInfoBar">
+            <a href="#" class="media-toolbar-icon media-toolbar-icon-info" @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
 
