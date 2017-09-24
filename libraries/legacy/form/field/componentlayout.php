@@ -115,7 +115,7 @@ class JFormFieldComponentlayout extends JFormField
 			$groups = array();
 
 			// Add a Use Global option if useglobal="true" in XML file
-			if ($this->element['useglobal'] === 'true')
+			if ((string) $this->element['useglobal'] === 'true')
 			{
 				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][] = JHtml::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
 			}
