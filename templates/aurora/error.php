@@ -26,7 +26,7 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
 // Alerts progressive enhancement
-JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+JHtml::_('webcomponent', ['joomla-alert' => 'system/webcomponents/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 // Logo file or site title param
 if ($params->get('logoFile'))
 {

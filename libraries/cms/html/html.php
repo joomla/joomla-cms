@@ -851,8 +851,12 @@ abstract class JHtml
 			}
 			$version      = '';
 			$mediaVersion = \JFactory::getDocument()->getMediaVersion();
+
+			// Add the css if exists
+			JHtml::_('stylesheet', str_replace('.js', '.css', $value), ['relative' => true, 'version' => 'auto']);
+
 			$includes     = static::includeRelativeFiles(
-				'webcomponents',
+				'js',
 				$value,
 				isset($options['relative']) ? $options['relative'] : true,
 				isset($options['detectBrowser']) ? $options['detectBrowser'] : false,
