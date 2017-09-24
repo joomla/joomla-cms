@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class FeaturedController extends Articles
+class FeaturedController extends ArticlesController
 {
 	/**
 	 * Removes an item.
