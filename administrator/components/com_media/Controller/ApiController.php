@@ -44,13 +44,22 @@ class ApiController extends BaseController
 	 * - GET a list of files and subfolders of a given folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
 	 * 		/api/files/sampledata/fruitshop
-	 * - GET a list of files and subfolders of a given folder for a given filter:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&filter=apple
-	 * 		/api/files/sampledata/fruitshop?filter=apple
+	 * - GET a list of files and subfolders of a given folder for a given search term:
+	 *   use recursive=1 to search recursively in the working directory
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&search=apple
+	 * 		/api/files/sampledata/fruitshop?search=apple
+	 *   To look up in same working directory set flag recursive=0
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&search=apple&recursive=0
+	 * 		/api/files/sampledata/fruitshop?search=apple&recursive=0
 	 * - GET file information for a specific file:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
-	 *
+	 * - GET a temporary URL to a given file
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1&temp=1
+	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1&temp=1
+	 * - GET a temporary URL to a given file
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1
+	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1
 	 *
 	 * - POST a new file or folder into a specific folder, the file or folder information is returned:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
@@ -74,6 +83,28 @@ class ApiController extends BaseController
 	 * 		{
 	 * 			"content":"base64 encoded image"
 	 * 		}
+	 *
+	 * - PUT move a file, folder to another one
+	 *     path : will be taken as the source
+	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
+	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *
+	 *     JSON body:
+	 *     {
+	 *          "newPath" : "/path/to/destination",
+	 *          "move"    : "1"
+	 *     }
+	 *
+	 * - PUT copy a file, folder to another one
+	 *     path : will be taken as the source
+	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
+	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *
+	 *     JSON body:
+	 *     {
+	 *          "newPath" : "/path/to/destination",
+	 *          "move"    : "0"
+	 *     }
 	 *
 	 * - DELETE an existing folder in a specific folder:
 	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
@@ -111,7 +142,7 @@ class ApiController extends BaseController
 					$options['url'] = $this->input->getBool('url', false);
 					$options['temp'] = $this->input->getBool('temp', false);
 					$options['search'] = $this->input->getString('search', '');
-					$options['recursive'] = $this->input->getBool('recursive', false);
+					$options['recursive'] = $this->input->getBool('recursive', true);
 					$data = $this->getModel()->getFiles($adapter, $path, $options);
 					break;
 
