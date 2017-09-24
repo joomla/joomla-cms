@@ -104,6 +104,7 @@
 
 .media-browser-actions {
   position: absolute;
+  left: 0;
   right: 0;
   bottom: 32px;
   padding: 2px;
@@ -133,12 +134,16 @@
 .image-browser-action {
   height: $image-edit-icon-size;
   width: $image-edit-icon-size;
-  margin-right: 5px;
+  margin-right: 4px;
+  margin-left: 4px;
   color: white;
   text-align: center;
   background-color: rgba(0,0,0,.5);
   border-radius: .25rem;
   cursor: pointer;
+  .action-delete & {
+    background-color: #d9534f;
+  }
   &::before {
     font-size: 1.3rem;
     line-height: $image-edit-icon-size;
