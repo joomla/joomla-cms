@@ -78,9 +78,11 @@ export default {
             state.directories.push(...newDirectories);
 
             // Update the relation to the parent directory
-            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
-                directories: [...parentDirectory.directories, ...newDirectoryIds]
-            }));
+            if (parentDirectoryIndex !== -1) {
+                state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                    directories: [...parentDirectory.directories, ...newDirectoryIds]
+                }));
+            }
         }
 
         // Merge the files
@@ -97,9 +99,11 @@ export default {
             state.files.push(...newFiles);
 
             // Update the relation to the parent directory
-            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
-                files: [...parentDirectory.files, ...newFileIds]
-            }));
+            if (parentDirectoryIndex !== -1) {
+                state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                    files: [...parentDirectory.files, ...newFileIds]
+                }));
+            }
         }
     },
 

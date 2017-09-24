@@ -21,11 +21,11 @@
                     <li class="modified">{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</li>
                 </ul>
             </div>
-            <media-browser-item v-for="item in items" :item="item"></media-browser-item>
+            <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
         </div>
         <div class="media-browser-grid" v-else-if="listView === 'grid'">
             <div class="media-browser-items">
-                <media-browser-item v-for="item in items" :item="item"></media-browser-item>
+                <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
             </div>
         </div>
     </div>
