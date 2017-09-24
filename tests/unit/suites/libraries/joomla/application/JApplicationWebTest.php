@@ -209,18 +209,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::Execute method without a document.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testExecuteWithoutDocument()
-	{
-		$this->class->execute();
-	}
-
-	/**
 	 * Tests the JApplicationWeb::Execute method with a document.
 	 *
 	 * @return  void
@@ -282,7 +270,7 @@ class JApplicationWebTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException('RuntimeException');
 		}
 
 		if (is_null($file) && is_null($class))

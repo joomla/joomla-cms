@@ -52,7 +52,7 @@ class TestHelper
 			// Check if the type is E_DEPRECATED or E_USER_DEPRECATED
 			if (!in_array($type, array(E_DEPRECATED, E_USER_DEPRECATED)))
 			{
-				return PHPUnit_Util_ErrorHandler::handleError($type, $msg, $file, $line, $context);
+				return PHPUnit\Util\ErrorHandler::handleError($type, $msg, $file, $line);
 			}
 
 			$trace = debug_backtrace(PHP_VERSION_ID >= 50400 ? DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT : true);
@@ -91,7 +91,7 @@ class TestHelper
 		{
 			restore_error_handler();
 
-			if (array('PHPUnit_Util_ErrorHandler', 'handleError') === $oldErrorHandler)
+			if (array('\PHPUnit\Util\ErrorHandler', 'handleError') === $oldErrorHandler)
 			{
 				restore_error_handler();
 				self::register();

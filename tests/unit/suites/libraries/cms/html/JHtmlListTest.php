@@ -19,13 +19,13 @@ class JHtmlListTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
 
@@ -43,39 +43,90 @@ class JHtmlListTest extends TestCaseDatabase
 	{
 		$result = JHtmlList::users('user-list', '43', '1');
 
-		// Build the container to check the <select> element
-		$matcher = array(
-			'id'    => 'user-list',
-			'tag'   => 'select',
-			'child' => array(
-				'tag'        => 'option',
-				'content'    => 'Publisher',
-				'attributes' => array('selected' => 'selected', 'value' => '43')
-			)
+		// Check the modal's html structure
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($result);
+		$element = $crawler->filter('#user-list');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with id of "user-list"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$result,
-			'Expected a <select> element with id "user-list" containing a child <option value="43" selected="selected">Publisher</option>'
+		$this->assertEquals(
+			'select',
+			$element->nodeName()
+		);
+
+		$childElements = $element->children();
+
+		$this->assertEquals(
+			count($childElements),
+			5
+		);
+
+		$optionElement = $childElements->eq(2);
+
+		$this->assertEquals(
+			'option',
+			$optionElement->nodeName()
+		);
+
+		$this->assertEquals(
+			'Publisher',
+			$optionElement->getNode(0)->textContent
+		);
+
+		$this->assertEquals(
+			'43',
+			$optionElement->attr('value'),
+			'Expected a <select> element with id "user-list" containing a child <option value="43">Publisher</option>'
+		);
+
+		$this->assertEquals(
+			'selected',
+			$optionElement->attr('selected')
 		);
 
 		$result = JHtmlList::users('user-list', '42');
 
-		// Build the container to check the <select> element
-		$matcher = array(
-			'id'    => 'user-list',
-			'tag'   => 'select',
-			'child' => array(
-				'tag'        => 'option',
-				'content'    => 'Publisher',
-				'attributes' => array('value' => '43')
-			)
+		// Check the modal's html structure
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($result);
+		$element = $crawler->filter('#user-list');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with id of "user-list"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$result,
+		$this->assertEquals(
+			'select',
+			$element->nodeName()
+		);
+
+		$childElements = $element->children();
+
+		$this->assertEquals(
+			count($childElements),
+			4
+		);
+
+		$optionElement = $childElements->eq(1);
+
+		$this->assertEquals(
+			'option',
+			$optionElement->nodeName()
+		);
+
+		$this->assertEquals(
+			'Publisher',
+			$optionElement->getNode(0)->textContent
+		);
+
+		$this->assertEquals(
+			'43',
+			$optionElement->attr('value'),
 			'Expected a <select> element with id "user-list" containing a child <option value="43">Publisher</option>'
 		);
 	}
@@ -91,20 +142,43 @@ class JHtmlListTest extends TestCaseDatabase
 	{
 		$result = JHtmlList::positions('position-list', 'center', null, '1', '1', '1', '1', 'positions');
 
-		// Build the container to check the <select> element
-		$matcher = array(
-			'id'    => 'positions',
-			'tag'   => 'select',
-			'child' => array(
-				'tag'        => 'option',
-				'content'    => 'Left',
-				'attributes' => array('value' => 'left')
-			)
+		// Check the modal's html structure
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($result);
+		$element = $crawler->filter('#positions');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with id of "positions"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$result,
+		$this->assertEquals(
+			'select',
+			$element->nodeName()
+		);
+
+		$childElements = $element->children();
+
+		$this->assertEquals(
+			count($childElements),
+			4
+		);
+
+		$optionElement = $childElements->eq(2);
+
+		$this->assertEquals(
+			'option',
+			$optionElement->nodeName()
+		);
+
+		$this->assertEquals(
+			'Left',
+			$optionElement->getNode(0)->textContent
+		);
+
+		$this->assertEquals(
+			'left',
+			$optionElement->attr('value'),
 			'Expected a <select> element with id "user-list" containing a child <option value="left">Left</option>'
 		);
 	}

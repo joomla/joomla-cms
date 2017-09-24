@@ -119,18 +119,6 @@ class JApplicationCliTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationCli::Execute method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testExecute()
-	{
-		$this->class->execute();
-	}
-
-	/**
 	 * Data for fetchConfigurationData method.
 	 *
 	 * @return  array
@@ -164,7 +152,7 @@ class JApplicationCliTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException('RuntimeException');
 		}
 
 		if (is_null($file) && is_null($class))

@@ -279,21 +279,42 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		// Check the modal's html structure
-		$matcher = array(
-			'id'         => 'modal',
-			'tag'        => 'div',
-			'attributes' => array('class' => 'joomla-modal modal fade'),
-			'child'      => array(
-				'attributes' => array('class' => 'modal-dialog'),
-				'tag' => 'div'
-			),
-			'children'   => array('count' => 1)
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($modal);
+		$element = $crawler->filter('#modal');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with id of "modal"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$modal,
-			'Verify that the html structure of the modal is correct'
+		$this->assertEquals(
+			'joomla-modal modal fade',
+			$element->attr('class')
+		);
+
+		$this->assertEquals(
+			'div',
+			$element->nodeName()
+		);
+
+		$childElements = $element->children();
+
+		$this->assertEquals(
+			count($childElements),
+			1
+		);
+
+		$dialogElement = $childElements->first();
+
+		$this->assertContains(
+			'modal-dialog',
+			$dialogElement->attr('class')
+		);
+
+		$this->assertEquals(
+			'div',
+			$dialogElement->nodeName()
 		);
 	}
 
@@ -428,15 +449,18 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		// Check the modal's html structure
-		$matcher = array(
-			'id'         => 'myAccordian',
-			'tag'        => 'div',
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($html);
+		$element = $crawler->filter('#myAccordian');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with id of "myAccordian"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$html,
-			'Verify that the html structure of the accordion is correct'
+		$this->assertEquals(
+			'div',
+			$element->nodeName()
 		);
 	}
 
@@ -492,19 +516,35 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		// Check the modal's html structure
-		$matcher = array(
-			'tag'        => 'div',
-			'attributes' => array('class' => 'card'),
-			'child'      => array(
-				'tag'        => 'a',
-				'attributes' => array('class' => 'card-header')
-			)
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($html);
+		$element = $crawler->filter('.card');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with class of "card"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$html,
-			'Verify that the html structure of the slide is correct'
+		$this->assertEquals(
+			'div',
+			$element->nodeName()
+		);
+
+		$linkElement = $element->children()->first();
+
+		$this->assertNotNull(
+			$element,
+			'Failed to find the card header'
+		);
+
+		$this->assertContains(
+			'card-header',
+			$linkElement->attr('class')
+		);
+
+		$this->assertEquals(
+			'a',
+			$linkElement->nodeName()
 		);
 	}
 
@@ -554,15 +594,18 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		// Check the tab set's html structure
-		$matcher = array(
-			'id'  => 'myTabTabs',
-			'tag' => 'ul'
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($html);
+		$element = $crawler->filter('#myTabTabs');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with id of "myTabTabs"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$html,
-			'Verify that the html structure of the TabSet is correct'
+		$this->assertEquals(
+			'ul',
+			$element->nodeName()
 		);
 	}
 
@@ -609,16 +652,23 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		// Check the tab set's html structure
-		$matcher = array(
-			'id'         => 'myTabItem',
-			'tag'        => 'div',
-			'attributes' => array('class' => 'tab-pane')
+		$crawler = new \Symfony\Component\DomCrawler\Crawler($html);
+		$element = $crawler->filter('#myTabItem');
+
+		$this->assertEquals(
+			count($element),
+			1,
+			'Failed to find element with id of "myTabItem"'
 		);
 
-		$this->assertTag(
-			$matcher,
-			$html,
-			'Verify that the html structure of the Tab is correct'
+		$this->assertEquals(
+			'tab-pane',
+			$element->attr('class')
+		);
+
+		$this->assertEquals(
+			'div',
+			$element->nodeName()
 		);
 	}
 

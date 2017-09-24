@@ -74,10 +74,11 @@
         "symfony/yaml": "3.3.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8.35",
-        "phpunit/dbunit": "~1.3",
+        "phpunit/phpunit": "~6.3",
+        "phpunit/dbunit": "~3.0",
         "joomla/mediawiki": "dev-master",
-        "friendsofphp/php-cs-fixer": "~1.11",
-        "squizlabs/php_codesniffer": "~1.5"
+        "squizlabs/php_codesniffer": "~1.5",
+        "symfony/dom-crawler": "^3.3",
+        "symfony/css-selector": "^3.3"
     }
 }
