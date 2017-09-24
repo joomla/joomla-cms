@@ -1,4 +1,3 @@
-import "babel-polyfill";
 import Vue from "vue";
 import Event from './app/Event';
 import App from "./components/app.vue";
