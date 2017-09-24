@@ -12,7 +12,8 @@
   "dependencies": {
     "vue": "^2.3.3",
     "vue-focus": "^2.1.0",
-    "vuex": "^2.3.0"
+    "vuex": "^2.3.0",
+    "vuex-persistedstate": "^2.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
