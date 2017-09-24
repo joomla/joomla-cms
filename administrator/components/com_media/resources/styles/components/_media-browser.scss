@@ -28,13 +28,13 @@
   user-select: none;
   cursor: pointer;
   .media-browser-items-xs & {
-    width: calc(8% - #{$grid-gutter-width});
+    width: calc(8.333% - #{$grid-gutter-width});
   }
   .media-browser-items-sm & {
     width: calc(12.5% - #{$grid-gutter-width});
   }
   .media-browser-items-md & {
-    width: calc(16.66% - #{$grid-gutter-width});
+    width: calc(16.666% - #{$grid-gutter-width});
   }
   .media-browser-items-lg & {
     width: calc(25% - #{$grid-gutter-width});
@@ -126,7 +126,7 @@
   overflow: hidden;
   > a {
     opacity: 0;
-    .media-browser-item:hover &, .selected & {
+    .media-browser-item:hover & {
       opacity: 1;
     }
   }
@@ -145,11 +145,14 @@
     top: 0;
     margin-bottom: 3px;
     opacity: 0;
-    transition: all .2s ease;
+    transition: all 0s ease;
     transition-delay: 0s;
+    visibility: hidden;
     .media-browser-actions.active & {
       top: 0;
       opacity: 1;
+      visibility: visible; 
+      transition-duration: .2s;
       &:first-of-type {
         transition-delay: .1s;
       }
@@ -167,8 +170,8 @@
 }
 
 .image-browser-action {
-  height: calc(#{$grid-item-icon-size} * 1.69);
-  width: calc(#{$grid-item-icon-size} * 1.69);
+  height: calc(#{$grid-item-icon-size} * 1.55);
+  width: calc(#{$grid-item-icon-size} * 1.55);
   margin-right: 4px;
   margin-left: 4px;
   color: $grid-item-icon-color;
@@ -181,7 +184,7 @@
   }
   &::before {
     font-size: $grid-item-icon-size;
-    line-height: calc(#{$grid-item-icon-size} * 1.69);
+    line-height: calc(#{$grid-item-icon-size} * 1.55);
   }
   &:hover {
     background-color: $grid-item-icon-bg-color-hover;
