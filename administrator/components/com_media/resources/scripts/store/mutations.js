@@ -343,7 +343,6 @@ export default {
      */
     [types.DECREASE_GRID_SIZE]: (state) => {
         let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
-        console.log(currentSizeIndex);
         if (currentSizeIndex > 0 && currentSizeIndex < gridItemSizes.length) {
             state.gridSize = gridItemSizes[--currentSizeIndex];
         }

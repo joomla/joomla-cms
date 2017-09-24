@@ -5,24 +5,28 @@
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
                v-if="isGridView"
+               :class="{disabled: isGridSize('xs')}"
                @click.stop.prevent="decreaseGridSize()">
                 <span class="fa fa-minus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size"
                v-if="isGridView"
+               :class="{disabled: isGridSize('xl')}"
                @click.stop.prevent="increaseGridSize()">
                 <span class="fa fa-plus" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon media-toolbar-select-all" @click.stop.prevent="selectAll()">
+            <a href="#" class="media-toolbar-icon media-toolbar-select-all"
+               @click.stop.prevent="selectAll()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon media-toolbar-list-view" @click.stop.prevent="changeListView()">
+            <a href="#" class="media-toolbar-icon media-toolbar-list-view"
+               @click.stop.prevent="changeListView()">
                 <span :class="toggleListViewBtnIcon" aria-hidden="true"></span>
             </a>
-            <a href="#" class="media-toolbar-icon media-toolbar-info" @click.stop.prevent="toggleInfoBar">
+            <a href="#" class="media-toolbar-icon media-toolbar-info"
+               @click.stop.prevent="toggleInfoBar">
                 <span class="fa fa-info" aria-hidden="true"></span>
             </a>
-
         </div>
     </div>
 </template>
@@ -55,10 +59,14 @@
                 }
             },
             decreaseGridSize() {
-                this.$store.commit(types.DECREASE_GRID_SIZE);
+                if (!this.isGridSize('xs')) {
+                    this.$store.commit(types.DECREASE_GRID_SIZE);
+                }
             },
             increaseGridSize() {
-                this.$store.commit(types.INCREASE_GRID_SIZE);
+                if (!this.isGridSize('xl')) {
+                    this.$store.commit(types.INCREASE_GRID_SIZE);
+                }
             },
             changeListView() {
                 if (this.$store.state.listView === 'grid') {
@@ -68,11 +76,15 @@
                 }
             },
             selectAll() {
-            	const allItems = [
-            	    ...this.$store.getters.getSelectedDirectoryDirectories,
-            	    ...this.$store.getters.getSelectedDirectoryFiles
-                ];
+                const allItems = [
+                    ...this.$store.getters.getSelectedDirectoryDirectories,
+                    ...this.$store.getters.getSelectedDirectoryFiles
+                ]
+
                 this.$store.commit(types.SELECT_BROWSER_ITEMS, allItems);
+            },
+            isGridSize(size) {
+                return (this.$store.state.gridSize === size);
             }
         }
     }
