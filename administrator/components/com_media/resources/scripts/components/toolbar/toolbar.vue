@@ -16,12 +16,8 @@
                 <span class="fa fa-plus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-select-all"
-               @click.stop.prevent="selectAll()" v-if="!allSelected">
-                <span class="fa fa-check-square-o" aria-hidden="true"></span>
-            </a>
-            <a href="#" class="media-toolbar-icon media-toolbar-select-none"
-               @click.stop.prevent="selectNone()" v-if="allSelected">
-                <span class="fa fa-square-o" aria-hidden="true"></span>
+               @click.stop.prevent="toggleSelectAll()">
+                <span :class="toggleSelectAllBtnIcon" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-list-view"
                @click.stop.prevent="changeListView()">
@@ -40,14 +36,12 @@
 
     export default {
         name: 'media-toolbar',
-        data() {
-            return {
-                allSelected: false,
-            }
-        },
         computed: {
             toggleListViewBtnIcon() {
                 return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
+            },
+            toggleSelectAllBtnIcon() {
+                return (this.allItemsSelected) ? 'fa fa fa-square-o' : 'fa fa-check-square-o'
             },
             isLoading() {
                 return this.$store.state.isLoading;
@@ -57,6 +51,9 @@
             },
             isGridView() {
                 return (this.$store.state.listView === 'grid');
+            },
+            allItemsSelected() {
+                return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
             }
         },
         methods: {
@@ -84,20 +81,12 @@
                     this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
                 }
             },
-            selectAll() {
-                this.allSelected = true;
-                
-                const allItems = [
-                    ...this.$store.getters.getSelectedDirectoryDirectories,
-                    ...this.$store.getters.getSelectedDirectoryFiles
-                ];
-
-                this.$store.commit(types.SELECT_BROWSER_ITEMS, allItems);
-            },
-            selectNone() {
-                this.allSelected = false;
-                
-                this.$store.commit(types.SELECT_BROWSER_ITEMS, []);
+            toggleSelectAll() {
+                if (this.allItemsSelected) {
+                    this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                } else {
+                    this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
+                }
             },
             isGridSize(size) {
                 return (this.$store.state.gridSize === size);
