@@ -9,7 +9,7 @@
 
 // Grid View
 .media-browser-grid {
-  padding: 15px 0 15px 15px;
+  padding: $grid-outside-padding 0 $grid-outside-padding $grid-outside-padding;
 }
 
 .media-browser-items {
@@ -19,28 +19,28 @@
 
 .media-browser-item {
   position: relative;
-  margin-bottom: 20px;
-  margin-right: 20px;
-  width: calc(16.66% - 20px);
+  margin-bottom: $grid-gutter-width;
+  margin-right: $grid-gutter-width;
+  width: calc(16.66% - $grid-gutter-width);
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
   .media-browser-items-xs & {
-    width: calc(8% - 20px);
+    width: calc(8% - #{$grid-gutter-width});
   }
   .media-browser-items-sm & {
-    width: calc(12.5% - 20px);
+    width: calc(12.5% - #{$grid-gutter-width});
   }
   .media-browser-items-md & {
-    width: calc(16.66% - 20px);
+    width: calc(16.66% - #{$grid-gutter-width});
   }
   .media-browser-items-lg & {
-    width: calc(25% - 20px);
+    width: calc(25% - #{$grid-gutter-width});
   }
   .media-browser-items-xl & {
-    width: calc(50% - 20px);
+    width: calc(50% - #{$grid-gutter-width});
   }
 }
 
@@ -48,7 +48,7 @@
   position: relative;
   font-size: 60px;
   color: #007eb7;
-  border-radius: .25rem;
+  border-radius: $grid-item-border-radius;
   &::after {
     position: absolute;
     top: 0;
@@ -56,8 +56,8 @@
     right: 0;
     bottom: 0;
     content: "";
-    background-color: rgba(0,0,0,.5);
-    border-radius: .25rem;
+    background-color: $grid-item-hover-color;
+    border-radius: $grid-item-border-radius;
     opacity: 0;
     transition: opacity .2s cubic-bezier(0.4, 0.0, 0.2, 1);
     .media-browser-item:hover &, .selected & {
@@ -79,12 +79,12 @@
   position: absolute;
   top: 6px;
   left: 6px;
-  height: 2rem;
-  width: 2rem;
-  border-radius: .25rem;
-  background-color: rgba(0,0,0,.5);
-  border: 2px solid white;
-  box-shadow: inset 0 0 0 0 white;
+  height: calc(#{$grid-item-icon-size} * 1.54);
+  width: calc(#{$grid-item-icon-size} * 1.54);
+  border-radius: $grid-item-border-radius;
+  background-color: $grid-item-icon-bg-color;
+  border: 2px solid $grid-item-icon-bg-color-hover;
+  box-shadow: inset 0 0 0 0 $grid-item-icon-color;
   content: "";
   transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
   opacity: 0;
@@ -97,11 +97,11 @@
     left: 0;
     content: "\f00c";
     font-family: FontAwesome;
-    font-size: 1.3rem;
-    height: 1.7rem;
-    line-height: 1.7rem;
+    font-size: $grid-item-icon-size;
+    height: calc(#{$grid-item-icon-size} * 1.3);
+    line-height: calc(#{$grid-item-icon-size} * 1.3);
     text-align: center;
-    width: 1.7rem;
+    width: calc(#{$grid-item-icon-size} * 1.3);
     transform: scale(.5);
     opacity: 0;
     transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -111,8 +111,9 @@
     }
   }
   .selected & {
-    box-shadow: inset 0 0 0 15px white;
-    background-color: rgba(255,255,255,1);
+    color: $grid-item-icon-color-hover;
+    box-shadow: inset 0 0 0 15px $grid-item-icon-bg-color-hover;
+    background-color: $grid-item-icon-bg-color-hover;
     opacity: 1;
   }
 }
@@ -166,25 +167,25 @@
 }
 
 .image-browser-action {
-  height: $image-edit-icon-size;
-  width: $image-edit-icon-size;
+  height: calc(#{$grid-item-icon-size} * 1.69);
+  width: calc(#{$grid-item-icon-size} * 1.69);
   margin-right: 4px;
   margin-left: 4px;
-  color: white;
+  color: $grid-item-icon-color;
   text-align: center;
-  background-color: rgba(0,0,0,.5);
-  border-radius: .25rem;
+  background-color: $grid-item-icon-bg-color;
+  border-radius: $grid-item-border-radius;
   cursor: pointer;
   .action-delete & {
-    background-color: #d9534f;
+    background-color: $grid-item-icon-warning-icon-bg;
   }
   &::before {
-    font-size: 1.3rem;
-    line-height: $image-edit-icon-size;
+    font-size: $grid-item-icon-size;
+    line-height: calc(#{$grid-item-icon-size} * 1.69);
   }
   &:hover {
-    background-color: white;
-    color: #464a4c;
+    background-color: $grid-item-icon-bg-color-hover;
+    color: $grid-item-icon-color-hover;
   }
 }
 
@@ -200,13 +201,13 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  border-radius: .25rem;
+  border-radius: $grid-item-border-radius;
 }
 
 .file-background, .folder-background {
   padding-bottom: 100%;
-  background-color: #F5F5F5;
-  border-radius: .25rem;
+  background-color: $grid-item-no-preview-bg;
+  border-radius: $grid-item-border-radius;
 }
 
 .file-icon, .folder-icon {
@@ -454,7 +455,6 @@
 }
 
 .selected {
-  background-color: rgba(0, 0, 0, 0.03);
   .type {
     &:before {
       color: white;
