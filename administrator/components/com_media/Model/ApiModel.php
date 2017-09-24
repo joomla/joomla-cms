@@ -87,7 +87,7 @@ class ApiModel extends BaseModel
 			}
 			else
 			{
-				$file->url = $this->getUrl( $adapter, $file->path );
+				$file->url = $this->getUrl($adapter, $file->path);
 			}
 		}
 
@@ -138,7 +138,7 @@ class ApiModel extends BaseModel
 				}
 				else
 				{
-					$file->url = $this->getUrl( $adapter, $file->path );
+					$file->url = $this->getUrl($adapter, $file->path);
 				}
 			}
 

@@ -184,7 +184,7 @@ interface AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function search($path = '/', $needle, $recursive);
+	public function search($path, $needle, $recursive);
 
 	/**
 	 * Returns a temporary url for the given path.

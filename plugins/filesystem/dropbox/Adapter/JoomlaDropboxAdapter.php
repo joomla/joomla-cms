@@ -496,7 +496,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function search($path = '/', $needle, $recursive)
+	public function search($path, $needle, $recursive)
 	{
 		return [];
 	}
@@ -505,7 +505,7 @@ class JoomlaDropboxAdapter implements AdapterInterface
 	 * Returns a temporary url for the given path.
 	 * This is used internally in media manager
 	 *
-	 * @param   string $path The path to file
+	 * @param   string  $path  The path to file
 	 *
 	 * @return string
 	 *
