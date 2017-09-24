@@ -291,6 +291,12 @@ class FieldsHelper
 
 		$component = $parts[0];
 		$section   = $parts[1];
+		
+		// Sanitize catids one item can be associated to only one category id
+		if (is_array($data->catid))
+		{
+			$data->catid = $data->catid[0];
+		}
 
 		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
 
