@@ -302,7 +302,7 @@ class ApiController extends BaseController
 			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
 			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
 		{
-			throw new \Exception(\JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+			throw new \Exception(\JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}
 
 		// @todo find a better way to check the input, by not writing the file to the disk
@@ -310,7 +310,7 @@ class ApiController extends BaseController
 
 		if (!\JFile::write($tmpFile, $mediaContent))
 		{
-			throw new \Exception(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+			throw new \Exception(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
 		}
 
 		$name = $this->getSafeName($name);
