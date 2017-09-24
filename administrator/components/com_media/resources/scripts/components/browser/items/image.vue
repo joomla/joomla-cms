@@ -16,6 +16,9 @@
             <a href="#" class="action-preview">
                 <span class="image-browser-action fa fa-search-plus" aria-hidden="true" @click.stop="openPreview()"></span>
             </a>
+            <a href="#" class="action-rename">
+                <span class="image-browser-action fa fa-text-width" aria-hidden="true" @click.stop="openRenameModal()"></span>
+            </a>
             <a href="#" class="action-edit" v-if="canEdit">
                 <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
             </a>
@@ -49,6 +52,11 @@
             deleteItem() {
                 this.$store.dispatch('deleteItem', this.item);
             },
+            /* Rename an item */
+	        openRenameModal() {
+	        	this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+		        this.$store.commit(types.SHOW_RENAME_MODAL);
+	        },
             /* Edit an item */
             editItem() {
               // TODO should we use relative urls here?

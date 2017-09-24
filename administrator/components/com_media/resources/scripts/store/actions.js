@@ -133,7 +133,6 @@ export const deleteItem = (context, payload) => {
         })
 }
 
-
 /**
  * Rename an item
  * @param context
