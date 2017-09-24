@@ -27,6 +27,20 @@ class InstallCest
 	{
 		$I->am('Administrator');
 		$I->installJoomlaRemovingInstallationFolder();
+	}
+
+	/**
+	 * Disables the statistics and sets error reporting to development
+	 *
+	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function configureJoomla(\AcceptanceTester $I)
+	{
+		$I->am('Administrator');
 		$I->doAdministratorLogin();
 		$I->disableStatistics();
 		$I->setErrorReportingToDevelopment();
