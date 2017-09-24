@@ -10,6 +10,8 @@ namespace Joomla\Component\Content\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
@@ -84,7 +86,7 @@ class Article extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow      = null;
 
@@ -118,7 +120,7 @@ class Article extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -161,10 +163,66 @@ class Article extends FormController
 	 */
 	public function cancel($key = 'a_id')
 	{
-		parent::cancel($key);
+		$result = parent::cancel($key);
 
-		// Redirect to the return page.
-		$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
+		/** @var SiteApplication $app */
+		$app = Factory::getApplication();
+
+		// Load the parameters.
+		$params = $app->getParams();
+
+		$customCancelRedir = (bool) $params->get('custom_cancel_redirect');
+
+		if ($customCancelRedir)
+		{
+			$cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
+
+			if ($cancelMenuitemId > 0)
+			{				
+				$item = $app->getMenu()->getItem($cancelMenuitemId);
+				$lang = '';
+
+				if (Multilanguage::isEnabled())
+				{
+					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				}
+
+				// Redirect to the user specified return page.
+				$redirlink = $item->link . $lang . '&Itemid=' . $cancelMenuitemId;
+			}
+			else
+			{
+				// Redirect to the same article submission form (clean form).
+				$redirlink = $app->getMenu()->getActive()->link . '&Itemid=' . $app->getMenu()->getActive()->id;
+			}
+		}
+		else
+		{
+			$menuitemId = (int) $params->get('redirect_menuitem');
+
+			if ($menuitemId > 0)
+			{
+				$lang = '';
+				$item = $app->getMenu()->getItem($menuitemId);
+
+				if (Multilanguage::isEnabled())
+				{
+					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				}
+
+				// Redirect to the general (redirect_menuitem) user specified return page.
+				$redirlink = $item->link . $lang . '&Itemid=' . $menuitemId;
+			}
+			else
+			{
+				// Redirect to the return page.
+				$redirlink = $this->getReturnPage();
+			}
+		}
+
+		$this->setRedirect(\JRoute::_($redirlink, false));
+
+		return $result;
 	}
 
 	/**
@@ -302,7 +360,7 @@ class Article extends FormController
 	public function save($key = null, $urlVar = 'a_id')
 	{
 		$result    = parent::save($key, $urlVar);
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$articleId = $app->input->getInt('a_id');
 
 		// Load the parameters.

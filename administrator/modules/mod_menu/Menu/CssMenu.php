@@ -42,7 +42,7 @@ class CssMenu
 	 *
 	 * @var   Registry
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $params;
 
@@ -51,7 +51,7 @@ class CssMenu
 	 *
 	 * @var   bool
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $enabled;
 
@@ -264,7 +264,20 @@ class CssMenu
 			}
 
 			// Exclude item if the component is not authorised
-			if ($item->element && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $item->element))
+			$assetName = $item->element;
+
+			if ($item->element == 'com_categories')
+			{
+				parse_str($item->link, $query);
+				$assetName = isset($query['extension']) ? $query['extension'] : 'com_content';
+			}
+			elseif ($item->element == 'com_fields')
+			{
+				parse_str($item->link, $query);
+				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+			}
+
+			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
 				continue;
 			}

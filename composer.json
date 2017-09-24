@@ -66,7 +66,7 @@
         "fig/link-util": "~1.0",
         "ircmaxell/password-compat": "1.*",
         "paragonie/random_compat": "~2.0",
-        "paragonie/sodium_compat": "^1.0.1",
+        "paragonie/sodium_compat": "~1.2",
         "phpmailer/phpmailer": "~6.0@rc",
         "psr/link": "~1.0",
         "symfony/polyfill-php56": "~1.0",

@@ -99,7 +99,7 @@ class Category extends ListModel
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$item = & $items[$i];
+			$item = &$items[$i];
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);

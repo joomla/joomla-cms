@@ -510,7 +510,7 @@ class Article extends AdminModel
 			$catid = \CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Categoryg
+		// Save New Category
 		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
