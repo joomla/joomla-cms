@@ -2,6 +2,20 @@
 <form>
 	<fieldset name="crop" label="PLG_MEDIA-ACTION_CROP_LABEL">
 		<field
+			name="crop_quality"
+			type="integer"
+			addonBefore="PLG_MEDIA-ACTION_CROP_QUALITY"
+			first="1"
+			last="100"
+			step="1"
+			default="80"
+			label="PLG_MEDIA-ACTION_CROP_QUALITY"
+		/>
+		<field
+			type="spacer"
+			hr="true"
+		/>
+		<field
 			name="crop_x"
 			type="text"
 		    hiddenLabel="true"
