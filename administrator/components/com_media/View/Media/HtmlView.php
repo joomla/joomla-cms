@@ -83,15 +83,6 @@ class HtmlView extends BaseHtmlView
 		$bar  = Toolbar::getInstance('toolbar');
 		$user = Factory::getUser();
 
-		if ($tmpl === 'component')
-		{
-			// Add the upload button
-			$layout = new FileLayout('toolbar.insert', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
-
-			$bar->appendButton('Custom', $layout->render(array()), 'insert');
-			ToolbarHelper::divider();
-		}
-
 		// Set the title
 		ToolbarHelper::title(\JText::_('COM_MEDIA'), 'images mediamanager');
 

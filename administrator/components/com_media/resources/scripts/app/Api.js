@@ -25,7 +25,8 @@ class Api {
 
     /**
      * Get the contents of a directory from the server
-     * @param dir
+     * @param {string}  dir  The directory path
+     * @param {boolean}  full  The full directory path
      * @returns {Promise}
      */
     getContents(dir, full) {
