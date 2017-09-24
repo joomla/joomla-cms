@@ -31,7 +31,12 @@ class Api {
     getContents(dir, full) {
         // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
-            const url = this._baseUrl + '&task=api.files&path=' + dir + '&url=' + full;
+            // Do a check on full
+            if(["0", "1"].indexOf(full) !== -1) {
+                throw "Invalid parameter";
+            }
+
+            const url = this._baseUrl + '&task=api.files&path=' + dir + (full ? '&url=' + full: '');
 
 	        Joomla.request({
 		        url:    url,
