@@ -102,7 +102,7 @@ class AdminController extends BaseController
 			{
 				$r[2] = str_replace('Controller', '', $r[2]);
 			}
-			else if (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
+			elseif (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
