@@ -113,7 +113,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div class="container-fluid container-main">
 			<?php if (!$cpanel) : ?>
 				<?php // Subheader ?>
-				<a class="btn btn-subhead hidden-md-up" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
+				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
 				<div class="subhead-collapse" data-scroll="<?php echo $hidden; ?>">
 					<div id="subhead" class="subhead">

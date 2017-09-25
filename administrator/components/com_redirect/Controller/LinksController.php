@@ -134,7 +134,8 @@ class LinksController extends AdminController
 		{
 			if (!empty($batch_urls_line))
 			{
-				$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
+				$params = JComponentHelper::getParams('com_redirect');
+				$batch_urls[] = array_map('trim', explode($params->get('separator', '|'), $batch_urls_line));
 			}
 		}
 

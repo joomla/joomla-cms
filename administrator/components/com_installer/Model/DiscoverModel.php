@@ -133,6 +133,8 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * Finds uninstalled extensions
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function discover()

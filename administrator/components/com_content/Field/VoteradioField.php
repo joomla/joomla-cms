@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 
-\JFormHelper::loadFieldClass('list');
+\JFormHelper::loadFieldClass('radio');
 
 /**
- * Votelist Field class.
+ * Voteradio Field class.
  *
- * @since  3.7.1
+ * @since  3.8.0
  */
-class VotelistField extends \JFormFieldRadio
+class VoteradioField extends \JFormFieldRadio
 {
 	/**
 	 * The form field type.
@@ -28,7 +28,7 @@ class VotelistField extends \JFormFieldRadio
 	 * @var    string
 	 * @since  3.7.1
 	 */
-	protected $type = 'Votelist';
+	protected $type = 'Voteradio';
 
 	/**
 	 * Method to get the field options.
