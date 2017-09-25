@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.contextmenu.Plugin","tinymce.core.dom.DOMUtils","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.ui.Menu","tinymce.core.util.Tools","tinymce.plugins.contextmenu.RangePoint","global!tinymce.util.Tools.resolve","ephox.katamari.api.Arr","ephox.katamari.api.Option","global!Array","global!Error","global!String","ephox.katamari.api.Fun","global!Object"]
+["tinymce.plugins.contextmenu.Plugin","tinymce.core.dom.DOMUtils","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.plugins.contextmenu.RangePoint","global!tinymce.util.Tools.resolve","ephox.katamari.api.Arr","ephox.katamari.api.Option","global!Array","global!Error","global!String","ephox.katamari.api.Fun","global!Object"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -155,12 +155,12 @@ define(
  */
 
 define(
-  'tinymce.core.ui.Menu',
+  'tinymce.core.ui.Factory',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.ui.Menu');
+    return resolve('tinymce.ui.Factory');
   }
 );
 
@@ -819,11 +819,11 @@ define(
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.Env',
     'tinymce.core.PluginManager',
-    'tinymce.core.ui.Menu',
+    'tinymce.core.ui.Factory',
     'tinymce.core.util.Tools',
     'tinymce.plugins.contextmenu.RangePoint'
   ],
-  function (DOMUtils, Env, PluginManager, Menu, Tools, RangePoint) {
+  function (DOMUtils, Env, PluginManager, Factory, Tools, RangePoint) {
     var DOM = DOMUtils.DOM;
 
     PluginManager.add('contextmenu', function (editor) {
@@ -904,7 +904,7 @@ define(
             }
           }
 
-          menu = new Menu({
+          menu = Factory.create('menu', {
             items: items,
             context: 'contextmenu',
             classes: 'contextmenu'

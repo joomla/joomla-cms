@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.image.Plugin","tinymce.core.PluginManager","tinymce.core.util.Tools","tinymce.plugins.image.ui.Dialog","global!tinymce.util.Tools.resolve","tinymce.core.Env","tinymce.core.util.JSON","tinymce.core.util.XHR","tinymce.core.ui.Throbber","tinymce.plugins.image.core.Uploader","tinymce.plugins.image.core.Utils","global!Math","global!RegExp","global!document","tinymce.core.util.Promise"]
+["tinymce.plugins.image.Plugin","tinymce.core.PluginManager","tinymce.core.util.Tools","tinymce.plugins.image.ui.Dialog","global!tinymce.util.Tools.resolve","global!document","global!Math","global!RegExp","tinymce.core.Env","tinymce.core.ui.Factory","tinymce.core.util.JSON","tinymce.core.util.XHR","tinymce.plugins.image.core.Uploader","tinymce.plugins.image.core.Utils","tinymce.core.util.Promise"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -124,6 +124,9 @@ define(
   }
 );
 
+defineGlobal("global!document", document);
+defineGlobal("global!Math", Math);
+defineGlobal("global!RegExp", RegExp);
 /**
  * ResolveGlobal.js
  *
@@ -141,6 +144,26 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.Env');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.ui.Factory',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.ui.Factory');
   }
 );
 
@@ -195,26 +218,6 @@ define(
  */
 
 define(
-  'tinymce.core.ui.Throbber',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.ui.Throbber');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
   'tinymce.core.util.Promise',
   [
     'global!tinymce.util.Tools.resolve'
@@ -224,7 +227,6 @@ define(
   }
 );
 
-defineGlobal("global!document", document);
 /**
  * Uploader.js
  *
@@ -329,7 +331,6 @@ define(
     };
   }
 );
-defineGlobal("global!Math", Math);
 /**
  * Utils.js
  *
@@ -465,7 +466,6 @@ define(
   }
 );
 
-defineGlobal("global!RegExp", RegExp);
 /**
  * Dialog.js
  *
@@ -483,18 +483,18 @@ defineGlobal("global!RegExp", RegExp);
 define(
   'tinymce.plugins.image.ui.Dialog',
   [
+    'global!document',
+    'global!Math',
+    'global!RegExp',
     'tinymce.core.Env',
+    'tinymce.core.ui.Factory',
     'tinymce.core.util.JSON',
     'tinymce.core.util.Tools',
     'tinymce.core.util.XHR',
-    'tinymce.core.ui.Throbber',
     'tinymce.plugins.image.core.Uploader',
-    'tinymce.plugins.image.core.Utils',
-    'global!Math',
-    'global!RegExp',
-    'global!document'
+    'tinymce.plugins.image.core.Utils'
   ],
-  function (Env, JSON, Tools, XHR, Throbber, Uploader, Utils, Math, RegExp, document) {
+  function (document, Math, RegExp, Env, Factory, JSON, Tools, XHR, Uploader, Utils) {
 
     return function (editor) {
       function createImageList(callback) {
@@ -520,6 +520,7 @@ define(
 
 
         function onFileInput() {
+          var Throbber = Factory.get('Throbber');
           var throbber = new Throbber(win.getEl());
           var file = this.value();
 
@@ -720,9 +721,15 @@ define(
           editor.undoManager.transact(function () {
             if (!data.src) {
               if (imgElm) {
-                dom.remove(imgElm);
+                var elm = dom.is(imgElm.parentNode, 'figure.image') ? imgElm.parentNode : imgElm;
+                dom.remove(elm);
                 editor.focus();
                 editor.nodeChanged();
+
+                if (dom.isEmpty(editor.getBody())) {
+                  editor.setContent('');
+                  editor.selection.setCursorLocation();
+                }
               }
 
               return;
@@ -747,8 +754,11 @@ define(
             if (data.caption === false) {
               if (dom.is(imgElm.parentNode, 'figure.image')) {
                 figureElm = imgElm.parentNode;
+                dom.setAttrib(imgElm, 'contenteditable', null);
                 dom.insertAfter(imgElm, figureElm);
                 dom.remove(figureElm);
+                editor.selection.select(imgElm);
+                editor.nodeChanged();
               }
             }
 
@@ -756,6 +766,7 @@ define(
               if (!dom.is(imgElm.parentNode, 'figure.image')) {
                 oldImg = imgElm;
                 imgElm = imgElm.cloneNode(true);
+                imgElm.contentEditable = true;
                 figureElm = dom.create('figure', { 'class': 'image' });
                 figureElm.appendChild(imgElm);
                 figureElm.appendChild(dom.create('figcaption', { contentEditable: true }, 'Caption'));
@@ -1113,6 +1124,7 @@ define(
               if (hasImageClass(node)) {
                 node.attr('contenteditable', state ? 'false' : null);
                 Tools.each(node.getAll('figcaption'), toggleContentEditable);
+                Tools.each(node.getAll('img'), toggleContentEditable);
               }
             }
           };
