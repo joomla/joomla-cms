@@ -28,7 +28,7 @@ endif;
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
+		if (task === 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
@@ -55,7 +55,7 @@ endif;
 				</div>
 			</div>
 
-		<?php if (is_null($this->item->id)):?>
+		<?php if ($this->item->id === null):?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('alias'); ?>
@@ -283,7 +283,7 @@ endif;
 					<?php echo $this->form->getInput('access'); ?>
 				</div>
 			</div>
-			<?php if (is_null($this->item->id)):?>
+			<?php if ($this->item->id === null):?>
 				<div class="control-group">
 					<div class="control-label">
 					</div>

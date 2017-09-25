@@ -2,14 +2,15 @@
 <form>
 	<fieldset>
 		<field
-			id="id"
 			name="id"
 			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			id="id"
 			default="0"
 			readonly="true"
 			class="readonly"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC" />
+		 />
 
 		<field
 			name="old_url"
@@ -18,7 +19,8 @@
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
 			class="input-xxlarge"
 			size="50"
-			required="true" />
+			required="true" 
+		/>
 
 		<field
 			name="new_url"
@@ -27,14 +29,16 @@
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
 			class="input-xxlarge"
 			size="50"
-			required="true" />
+			required="true" 
+		/>
 
 		<field
 			name="comment"
 			type="text"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
 			description="COM_REDIRECT_FIELD_COMMENT_DESC"
-			size="40" />
+			size="40" 
+		/>
 
 		<field
 			name="published"
@@ -44,65 +48,62 @@
 			class="chzn-color-state"
 			size="1"
 			required="true"
-			default="1">
-			<option
-				value="1">
-				JENABLED</option>
-			<option
-				value="0">
-				JDISABLED</option>
-			<option
-				value="2">
-				JARCHIVED</option>
-			<option
-				value="-2">
-				JTRASHED</option>
+			default="1"
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
 		</field>
 
 		<field
 			name="referer"
 			type="text"
-			id="referer"
 			label="COM_REDIRECT_FIELD_REFERRER_LABEL"
+			id="referer"
 			size="50"
-			readonly="true" />
+			readonly="true" 
+		/>
 
 		<field
 			name="created_date"
 			type="text"
+			label="COM_REDIRECT_FIELD_CREATED_DATE_LABEL"
 			id="created_date"
 			class="readonly"
-			label="COM_REDIRECT_FIELD_CREATED_DATE_LABEL"
 			size="20"
-			readonly="true" />
+			readonly="true" 
+		/>
 
 		<field
 			name="modified_date"
 			type="text"
+			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
 			id="modified_date"
 			class="readonly"
-			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
 			size="20"
-			readonly="true" />
+			readonly="true" 
+		/>
 
 		<field
 			name="hits"
 			type="text"
+			label="JGLOBAL_HITS"
 			id="hits"
 			class="readonly"
-			label="JGLOBAL_HITS"
 			size="20"
 			readonly="true"
-			filter="unset" />
+			filter="unset" 
+		/>
 	</fieldset>
 	<fieldset name="advanced">
 		<field
 			name="header"
 			type="redirect"
-			default="301"
-			class="input-xlarge"
 			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
+			default="301"
+			class="input-xlarge"
 		/>
 	</fieldset>
 </form>

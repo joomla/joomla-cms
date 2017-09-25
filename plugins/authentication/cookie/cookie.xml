@@ -26,7 +26,7 @@
 					description="PLG_AUTH_COOKIE_FIELD_COOKIE_LIFETIME_DESC"
 					default="60"
 					filter="integer"
-					required="required"
+					required="true"
 				/>
 
 				<field
@@ -36,7 +36,7 @@
 					description="PLG_AUTH_COOKIE_FIELD_KEY_LENGTH_DESC"
 					default="16"
 					filter="integer"
-					required="required"
+					required="true"
 					>
 					<option value="8">8</option>
 					<option value="16">16</option>

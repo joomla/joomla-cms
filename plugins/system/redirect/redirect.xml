@@ -10,6 +10,7 @@
 	<version>3.0.0</version>
 	<description>PLG_SYSTEM_REDIRECT_XML_DESCRIPTION</description>
 	<files>
+		<folder>form</folder>
 		<filename plugin="redirect">redirect.php</filename>
 	</files>
 	<languages>
@@ -30,6 +31,14 @@
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
 				</field>
+				<field
+					name="exclude_urls"
+					type="subform"
+					label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_LABEL"
+					description="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_DESC"
+					multiple="true"
+					formsource="plugins/system/redirect/form/excludes.xml"
+				/>
 			</fieldset>
 		</fields>
 	</config>

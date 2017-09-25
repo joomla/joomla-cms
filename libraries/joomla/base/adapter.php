@@ -130,6 +130,24 @@ class JAdapter extends JObject
 			return true;
 		}
 
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name);
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
 		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
 
 		if (!file_exists($fullpath))

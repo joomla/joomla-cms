@@ -189,6 +189,25 @@ class ContentViewArticle extends JViewLegacy
 		JPluginHelper::importPlugin('content');
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
+		// Check if the intro text needs to be processed as well
+		if ($item->introtext && strpos($item->text, $item->introtext) !== 0)
+		{
+			// Save the old text of the article
+			$text = $item->text;
+
+			// Set the intro text as new text
+			$item->text = $item->introtext;
+
+			// Trigger the event with the introtext
+			$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
+
+			// Set the prepared intro text back
+			$item->introtext = $item->text;
+
+			// Restore the original text variable
+			$item->text = $text;
+		}
+
 		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));

@@ -107,7 +107,7 @@ class SearchModelSearch extends JModelLegacy
 
 			if ($match !== 'exact')
 			{
-				$keyword = preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
+				$keyword = preg_replace('#\xE3\x80\x80#', ' ', $keyword);
 			}
 
 			$this->setState('keyword', $keyword);

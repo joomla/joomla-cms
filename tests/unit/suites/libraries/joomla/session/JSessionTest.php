@@ -4,7 +4,7 @@
  * @subpackage  Session
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 include_once __DIR__ . '/handler/array.php';
@@ -68,8 +68,7 @@ class JSessionTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-		unset($this->input);
-		unset($this->object);
+		unset($this->input, $this->object);
 		parent::tearDown();
 	}
 

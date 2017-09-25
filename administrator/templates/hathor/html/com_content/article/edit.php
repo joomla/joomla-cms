@@ -165,7 +165,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					// If the parameter says to show the article options or if the parameters have never been set, we will
 					// show the article options.
 
-					if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))):
+					if ($params['show_article_options'] || ($params['show_article_options'] == '' && !empty($editoroptions))):
 
 					// Go through all the fieldsets except the configuration and basic-limited, which are
 					// handled separately below.

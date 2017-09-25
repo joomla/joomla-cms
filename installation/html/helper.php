@@ -96,7 +96,7 @@ class InstallationHtmlHelper
 		$view  = static::getTabNumber($input->getWord('view'), $tabs);
 		$tab   = '<span class="badge">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
 
-		if ($view + 1 == $num)
+		if ($view + 1 === $num)
 		{
 			$tab = '<a href="#" onclick="Install.submitform();">' . $tab . '</a>';
 		}
@@ -109,7 +109,7 @@ class InstallationHtmlHelper
 			$tab = '<a href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
 		}
 
-		return '<li class="step' . ($num == $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
+		return '<li class="step' . ($num === $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
 	}
 
 	/**
@@ -124,7 +124,7 @@ class InstallationHtmlHelper
 	 */
 	private static function getTabNumber($id, $tabs)
 	{
-		$num = (int) array_search($id, $tabs);
+		$num = (int) array_search($id, $tabs, true);
 		$num++;
 
 		return $num;

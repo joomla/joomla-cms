@@ -8,16 +8,18 @@
 		<field
 			name="template_positions_display"
 			type="radio"
+			label="COM_TEMPLATES_CONFIG_POSITIONS_LABEL"
+			description="COM_TEMPLATES_CONFIG_POSITIONS_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_TEMPLATES_CONFIG_POSITIONS_LABEL"
-			description="COM_TEMPLATES_CONFIG_POSITIONS_DESC">
+			>
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
 		</field>
 
 		<field
-			name="upload_limit" type="text"
+			name="upload_limit" 
+			type="text"
 			label="COM_TEMPLATES_CONFIG_UPLOAD_LABEL"
 			description="COM_TEMPLATES_CONFIG_UPLOAD_DESC"
 			default="10"
@@ -25,7 +27,8 @@
 		/>
 
 		<field
-			name="warning" type="note"
+			name="warning" 
+			type="note"
 			label="COM_TEMPLATES_CONFIG_SUPPORTED_LABEL"
 			description="COM_TEMPLATES_CONFIG_SUPPORTED_DESC"
 			default="zip"
@@ -33,7 +36,8 @@
 		/>
 
 		<field
-			name="image_formats" type="text"
+			name="image_formats" 
+			type="text"
 			label="COM_TEMPLATES_CONFIG_IMAGE_LABEL"
 			description="COM_TEMPLATES_CONFIG_IMAGE_DESC"
 			default="gif,bmp,jpg,jpeg"
@@ -41,7 +45,8 @@
 		/>
 
 		<field
-			name="source_formats" type="text"
+			name="source_formats" 
+			type="text"
 			label="COM_TEMPLATES_CONFIG_SOURCE_LABEL"
 			description="COM_TEMPLATES_CONFIG_SOURCE_DESC"
 			default="txt,less,ini,xml,js,php,css,sass,scss"
@@ -49,7 +54,8 @@
 		/>
 
 		<field
-			name="font_formats" type="text"
+			name="font_formats" 
+			type="text"
 			label="COM_TEMPLATES_CONFIG_FONT_LABEL"
 			description="COM_TEMPLATES_CONFIG_FONT_DESC"
 			default="woff,ttf,otf"
@@ -57,7 +63,8 @@
 		/>
 
 		<field
-			name="compressed_formats" type="hidden"
+			name="compressed_formats" 
+			type="hidden"
 			default="zip"
 			extension="com_templates"
 		/>
@@ -75,6 +82,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_templates"
-			section="component" />
+			section="component"
+		/>
 	</fieldset>
 </config>

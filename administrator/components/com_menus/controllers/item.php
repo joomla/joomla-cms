@@ -260,6 +260,12 @@ class MenusControllerItem extends JControllerForm
 		$task     = $this->getTask();
 		$context  = 'com_menus.edit.item';
 
+		// Set the menutype should we need it.
+		if ($data['menutype'] !== '')
+		{
+			$app->input->set('menutype', $data['menutype']);
+		}
+
 		// Determine the name of the primary key for the data.
 		if (empty($key))
 		{
@@ -330,8 +336,8 @@ class MenusControllerItem extends JControllerForm
 			{
 				$segments = explode(':', $data['link']);
 				$protocol = strtolower($segments[0]);
-				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
-					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
+				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais','mid', 'cid', 'nntp',
+					 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
 
 				if (!in_array($protocol, $scheme))
 				{
@@ -497,6 +503,8 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request.
@@ -527,6 +535,9 @@ class MenusControllerItem extends JControllerForm
 		{
 			if (isset($type->request))
 			{
+				// Clean component name
+				$type->request->option = JFilterInput::getInstance()->clean($type->request->option, 'CMD');
+
 				$component = JComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 
@@ -540,6 +551,7 @@ class MenusControllerItem extends JControllerForm
 		}
 
 		unset($data['request']);
+		
 		$data['type'] = $title;
 
 		if ($this->input->get('fieldtype') == 'type')
