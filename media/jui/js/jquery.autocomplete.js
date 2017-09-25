@@ -1,5 +1,5 @@
 /**
-*  Ajax Autocomplete for jQuery, version 1.4.2
+*  Ajax Autocomplete for jQuery, version 1.4.3
 *  (c) 2017 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
@@ -248,9 +248,7 @@
 
         setOptions: function (suppliedOptions) {
             var that = this,
-                options = that.options;
-
-            this.options = $.extend({}, options, suppliedOptions);
+                options = $.extend({}, that.options, suppliedOptions);
 
             that.isLocal = Array.isArray(options.lookup);
 
@@ -266,6 +264,8 @@
                 'width': options.width + 'px',
                 'z-index': options.zIndex
             });
+
+            this.options = options;            
         },
 
 
