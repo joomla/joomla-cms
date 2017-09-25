@@ -61,9 +61,7 @@ class HtmlView extends BaseHtmlView
 			// TODO throw an exception
 		}
 
-		// Get the current path. Providers are ordered by plugin ordering, so we set the first provider
-		// in the list as the default provider and load first drive on it as default
-		$this->currentPath = Factory::getApplication()->input->getString('path', $this->providers[0]->name . '-0:/');
+		$this->currentPath = Factory::getApplication()->input->getString('path');
 
 		parent::display($tpl);
 	}

@@ -5,22 +5,11 @@ import * as getters from './getters';
 import * as actions from './actions';
 import mutations from './mutations';
 import createPersistedState from 'vuex-persistedstate'
+import {persistedStateOptions} from "./plugins/persisted-state";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-const persistedStateOptions = {
-    key: 'joomla.mediamanager',
-    paths: [
-        'selectedDirectory',
-        'showInfoBar',
-        'listView',
-        'gridSize',
-    ],
-    storage: window.sessionStorage,
-};
-
-// A Vuex instance is created by combining the state, mutations, actions,
-// and getters.
+// A Vuex instance is created by combining the state, mutations, actions, and getters.
 export default new Vuex.Store({
     state,
     getters,
