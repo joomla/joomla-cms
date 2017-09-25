@@ -163,7 +163,9 @@ abstract class JHtmlContentAdministrator
 				$state[3] = JText::_($state[3]) . '<br />' . $tip;
 			}
 		}
+
 		$icon = $state[0];
+
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
