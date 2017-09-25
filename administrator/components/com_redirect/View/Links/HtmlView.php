@@ -10,6 +10,7 @@ namespace Joomla\Component\Redirect\Administrator\View\Links;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -67,6 +68,13 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * The model state
+	 *
+	 * @var  \Joomla\Registry\Registry
+	 */
+	protected $params;
+
+	/**
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
@@ -100,6 +108,7 @@ class HtmlView extends BaseHtmlView
 		$this->state                = $this->get('State');
 		$this->filterForm           = $this->get('FilterForm');
 		$this->activeFilters        = $this->get('ActiveFilters');
+		$this->params               = ComponentHelper::getParams('com_redirect');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

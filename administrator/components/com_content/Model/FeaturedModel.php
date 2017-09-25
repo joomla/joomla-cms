@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class FeaturedModel extends Articles
+class FeaturedModel extends ArticlesModel
 {
 	/**
 	 * Constructor.

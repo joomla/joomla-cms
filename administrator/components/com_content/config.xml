@@ -863,7 +863,7 @@
 
 		<field 
 			name="list_show_votes"
-			type="votelist"
+			type="voteradio"
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			class="switcher"
 			default="0"
@@ -874,7 +874,7 @@
 
 		<field 
 			name="list_show_ratings"
-			type="votelist"
+			type="voteradio"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			class="switcher"
 			default="0"

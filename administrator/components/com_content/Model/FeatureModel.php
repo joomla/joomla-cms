@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class FeatureModel extends Article
+class FeatureModel extends ArticleModel
 {
 	/**
 	 * Returns a Table object, always creating it.

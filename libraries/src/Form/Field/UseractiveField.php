@@ -21,7 +21,7 @@ FormHelper::loadFieldClass('predefinedlist');
  *
  * @since  3.2
  */
-class UserActiveField extends \JFormFieldPredefinedList
+class UseractiveField extends \JFormFieldPredefinedList
 {
 	/**
 	 * The form field type.

@@ -241,7 +241,7 @@ class MenusModel extends ListModel
 	 */
 	public function &getModules()
 	{
-		$model = new Menu(array('ignore_request' => true));
+		$model = new MenuModel(array('ignore_request' => true));
 		$result = $model->getModules();
 
 		return $result;

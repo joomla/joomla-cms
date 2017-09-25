@@ -50,6 +50,33 @@ class HtmlView extends BaseHtmlView
 	protected $methodSelectUpload = null;
 
 	/**
+	 * PHP options.
+	 *
+	 * @var   array  Array of PHP config options
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $phpOptions = null;
+
+	/**
+	 * PHP settings.
+	 *
+	 * @var   array  Array of PHP settings
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $phpSettings = null;
+
+	/**
+	 * Non Core Extensions.
+	 *
+	 * @var   array  Array of Non-Core-Extensions
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $nonCoreExtensions = null;
+
+	/**
 	 * The model state
 	 *
 	 * @var    \JObject
@@ -83,6 +110,11 @@ class HtmlView extends BaseHtmlView
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
+
+		// Get results of pre update check evaluations
+		$this->phpOptions        = $model->getPhpOptions();
+		$this->phpSettings       = $model->getPhpSettings();
+		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		// Set the toolbar information.
 		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
@@ -230,5 +262,21 @@ class HtmlView extends BaseHtmlView
 
 			return true;
 		}
+	}
+
+	/**
+	 * Returns true, if the pre update check should be displayed.
+	 * This logic is not hardcoded in tmpl files, because it is
+	 * used by the Hathor tmpl too.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function shouldDisplayPreUpdateCheck()
+	{
+		return isset($this->updateInfo['object']->downloadurl->_data)
+			&& $this->getModel()->isDatabaseTypeSupported()
+			&& $this->getModel()->isPhpVersionSupported();
 	}
 }
