@@ -1,5 +1,6 @@
 .media-breadcrumb {
-  margin: 0 0 0 15px;
+  display: flex;
+  margin: 0 auto 0 15px;
   background: transparent;
   line-height: 46px;
   font-size: .9rem;
@@ -9,7 +10,7 @@
     cursor: pointer;
   }
 }
-.breadcrumb-item {
+.media-breadcrumb-item {
   padding: 0 8px 0 22px;
   background-color: #fafafa;
   &:last-of-type {
@@ -22,7 +23,7 @@
     color: #2E5A84;
   }
 }
-.breadcrumb-item, .media-breadcrumb {
+.media-breadcrumb-item, .media-breadcrumb {
   position: relative;
   &:before, &:after {
     content: '' !important; 

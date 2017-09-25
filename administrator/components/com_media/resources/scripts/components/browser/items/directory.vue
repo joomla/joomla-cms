@@ -3,7 +3,7 @@
         <div class="media-browser-item-preview"
              @dblclick="goTo(item.path)">
              <div class="file-background">
-                <div class="folder-icon d-flex justify-content-center align-items-center">
+                <div class="folder-icon">
                     <span class="fa fa-folder-o"></span>
                 </div>
             </div>

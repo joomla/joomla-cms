@@ -3,7 +3,7 @@
   overflow: hidden;
   position: absolute;
   right: 0;
-  top: 49px;
+  top: 47px;
   bottom: 0;
   z-index: 4;
   float: none;
@@ -19,9 +19,28 @@
     font-weight: normal;
     line-height: 3.6rem;
   }
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -7.5px;
+    margin-left: -7.5px;
+  }
+  dt, dd {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 7.5px;
+    padding-left: 7.5px;
+  }
   dt {
     color: rgba(0, 0, 0, 0.54);
     font-weight: normal;
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+  }
+  dd {
+    flex: 0 0 66.66667%;
+    max-width: 66.66667%;
   }
 }
 

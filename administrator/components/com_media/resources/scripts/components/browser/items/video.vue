@@ -2,7 +2,7 @@
     <div class="media-browser-image" @dblclick="openPreview()">
         <div class="media-browser-item-preview">
             <div class="file-background">
-                <div class="file-icon d-flex justify-content-center align-items-center">
+                <div class="file-icon">
                     <span class="fa fa-file-text-o"></span>
                 </div>
             </div>

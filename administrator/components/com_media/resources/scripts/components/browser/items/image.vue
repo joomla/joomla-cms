@@ -10,7 +10,7 @@
         </div>
         <div class="media-browser-select" @click.stop="toggleSelect()"></div>
         <div class="media-browser-actions" :class="{'active': showActions}">
-            <a href="#" class="action-toggle mr-auto">
+            <a href="#" class="action-toggle">
                 <span class="image-browser-action fa fa-ellipsis-h" aria-hidden="true"
                       @click.stop="showActions = true"></span>
             </a>
