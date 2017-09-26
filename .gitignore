@@ -221,16 +221,13 @@ Desktop.ini
 /libraries/vendor/zendframework/zend-diactoros/README.md
 
 # System Test related files
-tests/codeception/acceptance.suite.yml
-tests/codeception/_support/_generated/*TesterActions.php
-tests/codeception/joomla-cms*
-tests/codeception/_output*
-selenium-server-standalone.jar
+/libraries/vendor/codeception
+/libraries/vendor/behat
+/libraries/vendor/consolidation
+/libraries/vendor/joomla/test-system
 selenium.log
-tests/codeception/cache
-tests/codeception/_output
-tests/codeception/vendor
 composer.phar
+/test-install
 
 # Build related
 RoboFile.ini
