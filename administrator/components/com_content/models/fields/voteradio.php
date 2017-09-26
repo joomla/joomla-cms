@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('radio');
 
 /**
- * Votelist Field class.
+ * Voteradio Field class.
  *
- * @since  3.7.1
+ * @since  3.8.0
  */
-class JFormFieldVotelist extends JFormFieldList
+class JFormFieldVoteradio extends JFormFieldRadio
 {
 	/**
 	 * The form field type.
@@ -24,7 +24,7 @@ class JFormFieldVotelist extends JFormFieldList
 	 * @var    string
 	 * @since  3.7.1
 	 */
-	protected $type = 'Votelist';
+	protected $type = 'Voteradio';
 
 	/**
 	 * Method to get the field options.

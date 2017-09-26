@@ -18,7 +18,7 @@
 		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
 		<language tag="en-GB">en-GB.mod_articles_news.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH" />
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH"/>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -29,11 +29,20 @@
 					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
+					class="multipleCategories"
 					default=""
 					size="10"
-					>
-					<option value="">JOPTION_ALL_CATEGORIES</option>
-				</field>
+				/>
+
+				<field
+					name="tag"
+					type="tag"
+					label="JTAG"
+					description="JTAG_DESC"
+					mode="nested"
+					multiple="true"
+					class="multipleTags"
+				/>
 
 				<field
 					name="image"

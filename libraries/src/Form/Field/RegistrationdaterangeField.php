@@ -21,7 +21,7 @@ FormHelper::loadFieldClass('predefinedlist');
  *
  * @since  3.2
  */
-class RegistrationDateRangeField extends \JFormFieldPredefinedList
+class RegistrationdaterangeField extends \JFormFieldPredefinedList
 {
 	/**
 	 * The form field type.

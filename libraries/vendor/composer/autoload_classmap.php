@@ -118,8 +118,6 @@ return array(
     'Psr\\Log\\LoggerInterface' => $vendorDir . '/psr/log/Psr/Log/LoggerInterface.php',
     'Psr\\Log\\LoggerTrait' => $vendorDir . '/psr/log/Psr/Log/LoggerTrait.php',
     'Psr\\Log\\NullLogger' => $vendorDir . '/psr/log/Psr/Log/NullLogger.php',
-    'Psr\\Log\\Test\\DummyTest' => $vendorDir . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
-    'Psr\\Log\\Test\\LoggerInterfaceTest' => $vendorDir . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
     'SMTP' => $vendorDir . '/phpmailer/phpmailer/class.smtp.php',
     'SimplePie' => $vendorDir . '/simplepie/simplepie/library/SimplePie.php',
     'SimplePie_Author' => $vendorDir . '/simplepie/simplepie/library/SimplePie/Author.php',

@@ -312,7 +312,7 @@ abstract class UserHelper
 		// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 		\JCrypt::hasStrongPasswordSupport();
 
-		return password_hash($password, PASSWORD_DEFAULT);
+		return password_hash($password, PASSWORD_BCRYPT);
 	}
 
 	/**
@@ -340,14 +340,22 @@ abstract class UserHelper
 
 			$rehash = true;
 		}
-		elseif ($hash[0] == '$')
+		// Check for Argon2i hashes
+		elseif (strpos($hash, '$argon2i') === 0)
+		{
+			// This implementation is not supported through any existing polyfills
+			$match = password_verify($password, $hash);
+
+			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2I);
+		}
+		// Check for bcrypt hashes
+		elseif (strpos($hash, '$2') === 0)
 		{
 			// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 			\JCrypt::hasStrongPasswordSupport();
 			$match = password_verify($password, $hash);
 
-			// Uncomment this line if we actually move to bcrypt.
-			$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
+			$rehash = password_needs_rehash($hash, PASSWORD_BCRYPT);
 		}
 		elseif (substr($hash, 0, 8) == '{SHA256}')
 		{

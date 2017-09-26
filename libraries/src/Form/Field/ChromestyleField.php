@@ -20,7 +20,7 @@ FormHelper::loadFieldClass('groupedlist');
  *
  * @since  3.0
  */
-class ChromeStyleField extends \JFormFieldGroupedList
+class ChromestyleField extends \JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
