@@ -180,7 +180,7 @@ class MenuRules implements RulesInterface
 						$layout = ':' . $item->query['layout'];
 					}
 
-					if ($views[$view]->key)
+					if (isset($views[$view]) && $views[$view]->key)
 					{
 						if (!isset($this->lookup[$language][$view . $layout]))
 						{
