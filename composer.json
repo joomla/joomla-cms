@@ -78,6 +78,7 @@
         "phpunit/dbunit": "~1.3",
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~1.11",
-        "squizlabs/php_codesniffer": "~1.5"
+        "squizlabs/php_codesniffer": "~1.5",
+        "joomla/test-system": "dev-master"
     }
 }
