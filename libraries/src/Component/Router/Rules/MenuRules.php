@@ -179,49 +179,49 @@ class MenuRules implements RulesInterface
 					{
 						$layout = ':' . $item->query['layout'];
 					}
+					if(!empty($view))
+						if ($views[$view]->key)
+						{
+							if (!isset($this->lookup[$language][$view . $layout]))
+							{
+								$this->lookup[$language][$view . $layout] = array();
+							}
 
-					if ($views[$view]->key)
-					{
-						if (!isset($this->lookup[$language][$view . $layout]))
-						{
-							$this->lookup[$language][$view . $layout] = array();
-						}
+							if (!isset($this->lookup[$language][$view]))
+							{
+								$this->lookup[$language][$view] = array();
+							}
 
-						if (!isset($this->lookup[$language][$view]))
-						{
-							$this->lookup[$language][$view] = array();
-						}
+							// If menuitem has no key set, we assume 0.
+							if (!isset($item->query[$views[$view]->key]))
+							{
+								$item->query[$views[$view]->key] = 0;
+							}
 
-						// If menuitem has no key set, we assume 0.
-						if (!isset($item->query[$views[$view]->key]))
-						{
-							$item->query[$views[$view]->key] = 0;
+							/**
+							 * Here it will become a bit tricky
+							 * language != * can override existing entries
+							 * language == * cannot override existing entries
+							 */
+							if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*')
+							{
+								$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
+								$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
+							}
 						}
-
-						/**
-						 * Here it will become a bit tricky
-						 * language != * can override existing entries
-						 * language == * cannot override existing entries
-						 */
-						if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*')
+						else
 						{
-							$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
-							$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
+							/**
+							 * Here it will become a bit tricky
+							 * language != * can override existing entries
+							 * language == * cannot override existing entries
+							 */
+							if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
+							{
+								$this->lookup[$language][$view . $layout] = $item->id;
+								$this->lookup[$language][$view] = $item->id;
+							}
 						}
-					}
-					else
-					{
-						/**
-						 * Here it will become a bit tricky
-						 * language != * can override existing entries
-						 * language == * cannot override existing entries
-						 */
-						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
-						{
-							$this->lookup[$language][$view . $layout] = $item->id;
-							$this->lookup[$language][$view] = $item->id;
-						}
-					}
 				}
 			}
 		}
