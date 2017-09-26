@@ -132,12 +132,12 @@ abstract class JHtmlContentAdministrator
 			{
 				if ($nowDate < $featured_up->toUnix())
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_START', $featured_up->format(JDate::$format, true));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_START', JHtml::_('date', $featured_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 					$state[0] = 'pending';
 				}
 				else
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_STARTED', $featured_up->format(JDate::$format, true));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_STARTED', JHtml::_('date', $featured_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 			}
 				
@@ -145,12 +145,12 @@ abstract class JHtmlContentAdministrator
 			{
 				if ($nowDate > $featured_down->toUnix())
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISHED', $featured_down->format(JDate::$format, true));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISHED', JHtml::_('date', $featured_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 					$state[0] = 'expired';
 				}
 				else
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISH', $featured_down->format(JDate::$format, true));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISH', JHtml::_('date', $featured_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 			}
 				
