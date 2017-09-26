@@ -1431,7 +1431,7 @@ ENDDATA;
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
-		$update = new \Joomla\CMS\Updater\Update();
+		$update = new \Joomla\CMS\Updater\Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
 		$update->loadFromXML($updateFileUrl);
 
