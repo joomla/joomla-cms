@@ -5,7 +5,6 @@
     "keywords": ["joomla", "cms"],
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0+",
-    "minimum-stability": "dev",
     "config": {
         "optimize-autoloader": true,
         "platform": {
@@ -72,8 +71,7 @@
         "psr/link": "~1.0",
         "symfony/polyfill-php56": "~1.0",
         "symfony/web-link": "3.3.*",
-        "symfony/yaml": "3.3.*",
-        "joomla/test-system": "dev-master"
+        "symfony/yaml": "3.3.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8.35",
