@@ -225,6 +225,13 @@ Desktop.ini
 /libraries/vendor/behat
 /libraries/vendor/consolidation
 /libraries/vendor/joomla/test-system
+/libraries/vendor/league/
+/libraries/vendor/phpdocumentor/
+/libraries/vendor/phpspec/
+/libraries/vendor/phpunit/
+/libraries/vendor/sebastian/
+/libraries/vendor/squizlabs/
+
 selenium.log
 composer.phar
 /test-install

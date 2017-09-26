@@ -12,8 +12,8 @@ modules:
         - Helper\Acceptance
     config:
         JoomlaBrowser:
-            url: 'http://j4/test-install/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
-            browser: firefox
+            url: 'http://localhost/test-install/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            browser: chrome
             window_size: 1280x1024
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
@@ -28,7 +28,7 @@ modules:
             admin email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
         Helper\Acceptance:
-            url: 'http://j4/test-install/joomla-cms' # the url that points to the joomla installation at /tests/system/joomla-cms - we need it twice here
+            url: 'http://localhost/test-install/joomla-cms' # the url that points to the joomla installation at /tests/system/joomla-cms - we need it twice here
             MicrosoftEdgeInsiders: false             # set this to true, if you are on Windows Insiders
 
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
