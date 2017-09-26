@@ -400,8 +400,16 @@ class InstallerModelUpdate extends JModelList
 
 		if (!isset($update->get('downloadurl')->_data))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
-
+			JError::raiseWarning('', JText::sprintf('COM_INSTALLER_INVALID_EXTENSION_UPDATE',$update->packageName));
+			if ($update->noPhpMatch) {
+				JError::raiseWarning('', $JText::sprintf('COM_INSTALLER_EXTENSION_UPDATE_NO_PHP_MATCH',$update->packageName));
+			}
+			if ($update->noStabilityMatch) {
+				JError::raiseWarning('', JText::sprintf('COM_INSTALLER_EXTENSION_UPDATE_NO_STABILITY_MATCH',$update->packageName));
+			}
+			if ($update->noDbMatch) {
+				JError::raiseWarning('', JText::sprintf('COM_INSTALLER_EXTENSION_UPDATE_NO_DB_MATCH',$update->packageName));
+			}
 			return false;
 		}
 
