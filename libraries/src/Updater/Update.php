@@ -264,6 +264,10 @@ class Update extends \JObject
 
 			// Don't do anything
 			case 'UPDATES':
+				// set flags for future possible invalid extension message
+				$this->noPhpMatch = true;
+				$this->noStabilityMatch = true;
+				$this->noDbMatch = true;
 				break;
 
 			// For everything else there's...the default!
@@ -305,6 +309,11 @@ class Update extends \JObject
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
+				// Retrieve and save type and name of package from xml update file for invalid extension error message
+				if (! isset($this->packageName)) {
+					$this->packageName = $this->currentUpdate->type->_data . ' ' . $this->currentUpdate->name->_data;
+				}
+				
 				$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
 				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
@@ -342,6 +351,7 @@ class Update extends \JObject
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
 					{
 						$phpMatch = true;
+						$this->noPhpMatch = false;
 					}
 
 					$dbMatch = false;
@@ -366,6 +376,9 @@ class Update extends \JObject
 						// Set to true if the <supported_databases> tag is not set
 						$dbMatch = true;
 					}
+					if ($dbMatch) {
+						$this->noDbMatch = false;
+					}
 
 					// Check minimum stability
 					$stabilityMatch = true;
@@ -373,6 +386,9 @@ class Update extends \JObject
 					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
 					{
 						$stabilityMatch = false;
+					}
+					else {
+						$this->noStabilityMatch = false;
 					}
 
 					if ($phpMatch && $stabilityMatch && $dbMatch)
