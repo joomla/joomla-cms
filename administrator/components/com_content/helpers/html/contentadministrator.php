@@ -124,7 +124,7 @@ abstract class JHtmlContentAdministrator
 			$featured_up = ($featured_up != $nullDate) ? JFactory::getDate($featured_up, 'UTC')->setTimeZone($tz) : false;
 			$featured_down = ($featured_down != $nullDate) ? JFactory::getDate($featured_down, 'UTC')->setTimeZone($tz) : false;
 
-			// Create tip text, only we have publish up or down settings
+			// Create tip text, only we have featured up or down settings
 			$tips = array();
 
 			// Add tips and set icon
