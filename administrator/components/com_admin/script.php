@@ -430,6 +430,17 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
+			/*
+			 * Joomla 1.5
+			 *
+			 * Because of the way some sites were upgraded forward from 1.5, they may still have some files from the
+			 * core libraries that need to be explicitly checked for and removed because of the migration of the
+			 * core libraries to using PHP namespaces.  For example, the JVersion file is in an autoloaded path in 2.5+
+			 * and due to the autoloader priorities the JVersion class will be used before the namespaced
+			 * Joomla\CMS\Version.  This is a failsafe to ensure those files which MAY conflict with the current API
+			 * are removed.
+			 */
+			'/libraries/joomla/version.php',
 			// Joomla 1.6 - 1.7 - 2.5
 			'/libraries/cms/cmsloader.php',
 			'/libraries/joomla/database/databaseexception.php',
