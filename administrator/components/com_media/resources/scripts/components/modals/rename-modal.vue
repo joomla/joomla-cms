@@ -1,5 +1,5 @@
 <template>
-    <media-modal v-if="$store.state.showRenameModal" :size="'sm'" @close="close()" show-close="false">
+    <media-modal v-if="$store.state.showRenameModal" :size="'sm'" @close="close()" :show-close="false">
         <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_RENAME') }}</h3>
         <div slot="body">
             <form class="form" @submit.prevent="save" novalidate>

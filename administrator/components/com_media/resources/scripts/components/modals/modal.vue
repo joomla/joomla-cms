@@ -6,7 +6,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <slot name="header"></slot>
-                        <button type="button" v-if="showCloseButton" class="close" @click="close()"
+                        <button type="button" v-if="showClose" class="close" @click="close()"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
