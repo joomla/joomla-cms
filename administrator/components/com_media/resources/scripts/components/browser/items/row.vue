@@ -1,5 +1,5 @@
 <template>
-    <ul>
+    <ul @dblclick.stop.prevent="onDblClick()">
         <li class="type" :data-type="item.extension">
         </li>
         <li class="name">
@@ -21,15 +21,31 @@
 </template>
 
 <script>
+    import navigable from "../../../mixins/navigable";
+
     export default {
-        name: 'media-browser-item-file',
+        name: 'media-browser-item-row',
         props: ['item'],
+        mixins: [navigable],
         computed: {
+            /* The dimension of a file */
             dimension() {
                 if (!this.item.width) {
                     return '';
                 }
                 return `${this.item.width} x ${this.item.height}`;
+            },
+            isDir() {
+                return (this.item.type === 'dir');
+            }
+        },
+
+        methods: {
+            /* Handle the on row double click event */
+            onDblClick() {
+                if (this.isDir) {
+                    this.navigateTo(this.item.path);
+                }
             }
         }
     }
