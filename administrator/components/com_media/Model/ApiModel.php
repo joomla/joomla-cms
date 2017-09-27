@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Adapter\FileExistsException;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
@@ -153,43 +154,67 @@ class ApiModel extends BaseModel
 	 * Creates a folder with the given name in the given path. More information
 	 * can be found in AdapterInterface::createFolder().
 	 *
-	 * @param   string  $adapter  The adapter
-	 * @param   string  $name     The name
-	 * @param   string  $path     The folder
+	 * @param   string   $adapter  The adapter
+	 * @param   string   $name     The name
+	 * @param   string   $path     The folder
+	 * @param   boolean  override  Should the folder being overriden when it exists
 	 *
-	 * @return  string  The new file name
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFolder()
 	 */
-	public function createFolder($adapter, $name, $path)
+	public function createFolder($adapter, $name, $path, $override)
 	{
-		$this->getAdapter($adapter)->createFolder($name, $path);
+		try
+		{
+			$file = $this->getFile($adapter, $path . '/' . $name);
+		}
+		catch (FileNotFoundException $e)
+		{}
 
-		return $name;
+		// Check if the file exists
+		if ($file && !$override)
+		{
+			throw new FileExistsException;
+		}
+
+		$this->getAdapter($adapter)->createFolder($name, $path);
 	}
 
 	/**
 	 * Creates a file with the given name in the given path with the data. More information
 	 * can be found in AdapterInterface::createFile().
 	 *
-	 * @param   string  $adapter  The adapter
-	 * @param   string  $name     The name
-	 * @param   string  $path     The folder
-	 * @param   binary  $data     The data
+	 * @param   string   $adapter  The adapter
+	 * @param   string   $name     The name
+	 * @param   string   $path     The folder
+	 * @param   binary   $data     The data
+	 * @param   boolean  override  Should the file being overriden when it exists
 	 *
-	 * @return  string  The new file name
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFile()
 	 */
-	public function createFile($adapter, $name, $path, $data)
+	public function createFile($adapter, $name, $path, $data, $override)
 	{
-		$this->getAdapter($adapter)->createFile($name, $path, $data);
+		try
+		{
+			$file = $this->getFile($adapter, $path . '/' . $name);
+		}
+		catch (FileNotFoundException $e)
+		{}
 
-		return $name;
+		// Check if the file exists
+		if ($file && !$override)
+		{
+			throw new FileExistsException;
+		}
+
+		$this->getAdapter($adapter)->createFile($name, $path, $data);
 	}
 
 	/**

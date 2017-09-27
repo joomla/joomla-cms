@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Media\Administrator\Adapter\FileExistsException;
 use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
 
 \JLoader::import('joomla.filesystem.file');
@@ -77,6 +78,10 @@ class ApiController extends BaseController
 		catch (FileNotFoundException $e)
 		{
 			$this->sendResponse($e, 404);
+		}
+		catch (FileExistsException $e)
+		{
+			$this->sendResponse($e, 409);
 		}
 		catch (\Exception $e)
 		{
@@ -198,6 +203,7 @@ class ApiController extends BaseController
 		$content      = $this->input->json;
 		$name         = $content->getString('name');
 		$mediaContent = base64_decode($content->get('content', '', 'raw'));
+		$override     = $content->get('override', false);
 
 		$name = $this->getSafeName($name);
 
@@ -206,12 +212,12 @@ class ApiController extends BaseController
 			$this->checkContent($name, $mediaContent);
 
 			// A file needs to be created
-			$this->getModel()->createFile($adapter, $name, $path, $mediaContent);
+			$this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
 		}
 		else
 		{
 			// A file needs to be created
-			$this->getModel()->createFolder($adapter, $name, $path);
+			$this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
 		$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
@@ -296,6 +302,9 @@ class ApiController extends BaseController
 		}
 
 		$data = $this->getModel()->getFile($adapter, $path);
+
+		// Return the data
+		$this->sendResponse($data);
 	}
 
 	/**

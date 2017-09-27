@@ -31,7 +31,6 @@ JText::script('COM_MEDIA_RENAME', true);
 JText::script('COM_MEDIA_RENAME_SUCCESS', true);
 JText::script('COM_MEDIA_RENAME_ERROR', true);
 JText::script('COM_MEDIA_UPDLOAD_SUCCESS', true);
-JText::script('COM_MEDIA_UPDLOAD_ERROR', true);
 JText::script('JCANCEL', true);
 JText::script('JAPPLY', true);
 JText::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);

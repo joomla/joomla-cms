@@ -87,9 +87,10 @@ class Api {
      * @param name
      * @param parent
      * @param content base64 encoded string
+     * @param override boolean whether or not we should override existing files
      * @return {Promise.<T>}
      */
-    upload(name, parent, content) {
+    upload(name, parent, content, override) {
         // Wrap the jquery call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
@@ -98,6 +99,11 @@ class Api {
                 name: name,
                 content: content,
             };
+
+            // Append override
+            if (override === true) {
+                data.override = true;
+            }
 
             Joomla.request({
                 url: url,
@@ -109,7 +115,6 @@ class Api {
                     resolve(this._normalizeItem(JSON.parse(response).data))
                 },
                 onError: (xhr) => {
-                    notifications.error('COM_MEDIA_UPDLOAD_ERROR');
                     reject(xhr)
                 }
             });
@@ -227,6 +232,9 @@ class Api {
      */
     _handleError(error) {
         switch (error.status) {
+            case 409:
+                // Handled in consumer
+                break;
             case 404:
                 notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                 break;
