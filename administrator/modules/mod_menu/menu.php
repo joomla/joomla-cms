@@ -289,7 +289,10 @@ class JAdminCssMenu
 				parse_str($item->link, $query);
 
 				// Only display Fields menus when enabled in the component
-				$createFields = JComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				if (isset($query['context']))
+				{
+					$createFields = JComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
 
 				if (!$createFields)
 				{
