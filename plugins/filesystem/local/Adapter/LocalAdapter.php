@@ -573,7 +573,7 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getUrl($path)
 	{
-		return Uri::root() . \JPath::clean($this->getEncodedPath($this->filePath . $path));
+		return Uri::root() . $this->getEncodedPath($this->filePath . $path);
 	}
 
 	/**
