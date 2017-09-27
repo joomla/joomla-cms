@@ -118,15 +118,15 @@ abstract class JHtmlContentAdministrator
 		{
 			$nullDate = JFactory::getDbo()->getNullDate();
 			$nowDate = JFactory::getDate()->toUnix();
-	
+
 			$tz = JFactory::getUser()->getTimezone();
-	
+
 			$featured_up = ($featured_up != $nullDate) ? JFactory::getDate($featured_up, 'UTC')->setTimeZone($tz) : false;
 			$featured_down = ($featured_down != $nullDate) ? JFactory::getDate($featured_down, 'UTC')->setTimeZone($tz) : false;
-	
+
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
-	
+
 			// Add tips and set icon
 			if ($featured_up > $nullDate)
 			{
@@ -140,7 +140,7 @@ abstract class JHtmlContentAdministrator
 					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_STARTED', JHtml::_('date', $featured_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 			}
-				
+
 			if ($featured_down > $nullDate)
 			{
 				if ($nowDate > $featured_down->toUnix())
@@ -153,7 +153,7 @@ abstract class JHtmlContentAdministrator
 					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISH', JHtml::_('date', $featured_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 			}
-				
+
 			// Add tips to titles
 			if (!empty($tips))
 			{
