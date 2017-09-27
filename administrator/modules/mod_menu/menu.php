@@ -298,10 +298,8 @@ class JAdminCssMenu
 				{
 					continue;
 				}
-				else
-				{
-					list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
-				}
+
+				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
 
 			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
