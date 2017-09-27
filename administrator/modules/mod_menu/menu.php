@@ -287,7 +287,18 @@ class JAdminCssMenu
 			elseif ($item->element == 'com_fields')
 			{
 				parse_str($item->link, $query);
-				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+
+				// Only display Fields menus when enabled in the component
+				$createFields = JComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+
+				if (!$createFields)
+				{
+					continue;
+				}
+				else
+				{
+					list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+				}
 			}
 
 			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
