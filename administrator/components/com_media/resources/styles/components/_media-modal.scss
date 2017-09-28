@@ -1,18 +1,18 @@
 .media-modal-backdrop {
   position: fixed;
-  z-index: 1040;
   top: 0;
   left: 0;
+  z-index: 1040;
+  display: table;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, .7);
-  display: table;
 
   .modal {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     justify-content: center;
-    animation: 0.5s ease 0s normal none 1 running fadeIn
+    animation: .5s ease 0s normal none 1 running fadeIn;
   }
 
   .modal-body {
@@ -21,17 +21,17 @@
   }
 
   .modal-content {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
   }
 
 }
 
 .media-preview-modal {
-  color: white;
+  color: #ffffff;
 
   .modal-dialog {
-    max-height: 70vh;
     max-width: 70vw;
+    max-height: 70vh;
   }
   .modal-content {
     background-color: transparent;
@@ -44,8 +44,8 @@
   }
   .modal-body {
     padding: 0;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
     img {
       max-width: 100%;
     }
@@ -57,10 +57,10 @@
 
 .media-preview-close {
   position: absolute;
-  right: 0;
   top: 0;
-  font-size: 3rem;
+  right: 0;
   margin: 5px 20px;
+  font-size: 3rem;
   opacity: .7;
   &:hover {
     cursor: pointer;
@@ -71,7 +71,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transition: transform 0.3s ease-out;
+    transition: transform .3s ease-out;
     transform: translate(0, -25%);
   }
 

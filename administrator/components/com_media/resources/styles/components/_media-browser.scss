@@ -377,9 +377,6 @@
     line-height: 30px;
     background-color: rgba(0, 0, 0, 0.015);
     border-right: 1px solid rgba(0, 0, 0, 0.03);
-    .selected & {
-      // background-color: #006898;
-    }
     &:before, &:after {
       transition: all .2s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
