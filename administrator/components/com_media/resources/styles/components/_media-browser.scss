@@ -221,7 +221,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #BBB;
+  color: #bbb;
 }
 
 .media-dragoutline {
@@ -403,6 +403,17 @@
   }
 }
 
+.selected {
+  .type {
+    &::before {
+      color: #fff;
+    }
+    &::after {
+      right: 0;
+    }
+  }
+}
+
 .type {
   &[data-type] {
     &::before {
@@ -460,17 +471,6 @@
   &[data-type="htm"] {
     &::before {
       content: "\f1c9";
-    }
-  }
-}
-
-.selected {
-  .type {
-    &::before {
-      color: #fff;
-    }
-    &::after {
-      right: 0;
     }
   }
 }
