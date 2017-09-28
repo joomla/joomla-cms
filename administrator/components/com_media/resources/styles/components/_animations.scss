@@ -18,6 +18,7 @@
 .infobar-enter-active {
   animation: slideOutRight .2s reverse;
 }
+
 .infobar-leave-active {
   animation: slideOutRight .2s;
 }
@@ -38,6 +39,7 @@
 .fade-in-enter-active {
   animation: fadeIn .2s;
 }
+
 .fade-in-leave-active {
   animation: fadeIn .2s reverse;
 }

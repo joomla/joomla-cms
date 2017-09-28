@@ -151,7 +151,7 @@
     .media-browser-actions.active & {
       top: 0;
       opacity: 1;
-      visibility: visible; 
+      visibility: visible;
       transition-duration: .2s;
       &:first-of-type {
         transition-delay: .1s;
@@ -238,7 +238,7 @@
   bottom: 1px;
   z-index: 1040;
   content: "";
-  background-color: rgba(245,245,245,.8);
+  background-color: rgba(245, 245, 245, .8);
   border: 3px dashed #999;
   border-radius: 4px;
   transition: all .2s ease;
@@ -326,6 +326,7 @@
     }
   }
 }
+
 .media-browser-table {
   height: calc(100% - 52px);
   overflow-y: auto;
@@ -405,7 +406,7 @@
       }
     }
     // Images
-    &[data-type="jpg"], 
+    &[data-type="jpg"],
     &[data-type="png"],
     &[data-type="gif"],
     &[data-type="jpeg"],

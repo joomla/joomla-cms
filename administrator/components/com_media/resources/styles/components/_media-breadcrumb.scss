@@ -10,12 +10,13 @@
     cursor: pointer;
   }
 }
+
 .media-breadcrumb-item {
   padding: 0 8px 0 22px;
   background-color: #fafafa;
   &:last-of-type {
     background-color: #fff;
-    &:after {
+    &::after {
       border-left-color: #fff;
     }
   }
@@ -23,38 +24,39 @@
     color: #2E5A84;
   }
 }
+
 .media-breadcrumb-item, .media-breadcrumb {
   position: relative;
   &:before, &:after {
-    content: '' !important; 
-    display: block; 
-    width: 0; 
-    height: 0;
-    border-top: 23px solid transparent;
-    border-bottom: 23px solid transparent;
-    border-left: 10px solid transparent;
     position: absolute;
-    margin: auto;
     top: 0;
     bottom: 0;
     left: 100%;
     z-index: 2;
+    display: block;
+    width: 0;
+    height: 0;
+    margin: auto;
+    content: "" !important;
+    border-top: 23px solid transparent;
+    border-bottom: 23px solid transparent;
+    border-left: 10px solid transparent;
   }
-  &:before {
-    border-left-color: rgba(0,0,0,.6);
+  &::before {
+    border-left-color: rgba(0, 0, 0, .6);
   }
-  &:after {
+  &::after {
     border-left-color: #fafafa;
   }
 }
 
 .media-breadcrumb {
-  &:before, &:after{
+  &::before, &::after {
     left: 0;
   }
-  &:after {
+  &::after {
     border-left-color: #F5F5F5;
-  }  
+  }
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
