@@ -342,7 +342,7 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setFactory(FactoryInterface $factory)
+	public function setFactory(FactoryInterface $factory): self
 	{
 		$this->factory = $factory;
 
@@ -953,7 +953,7 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setPreloadManager(PreloadManagerInterface $preloadManager)
+	public function setPreloadManager(PreloadManagerInterface $preloadManager): self
 	{
 		$this->preloadManager = $preloadManager;
 
@@ -967,7 +967,7 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPreloadManager()
+	public function getPreloadManager(): PreloadManagerInterface
 	{
 		return $this->preloadManager;
 	}

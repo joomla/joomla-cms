@@ -27,7 +27,7 @@ class Factory implements FactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createDocument($type = 'html', array $attributes = array())
+	public function createDocument(string $type = 'html', array $attributes = []): Document
 	{
 		$type  = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$ntype = null;
@@ -73,7 +73,7 @@ class Factory implements FactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createRenderer(Document $document, $type)
+	public function createRenderer(Document $document, string $type): RendererInterface
 	{
 		// Determine the path and class
 		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst($document->getType()) . '\\' . ucfirst($type) . 'Renderer';

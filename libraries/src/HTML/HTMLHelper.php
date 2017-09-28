@@ -285,7 +285,7 @@ abstract class HTMLHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getServiceRegistry()
+	public static function getServiceRegistry(): Registry
 	{
 		if (!static::$serviceRegistry)
 		{
@@ -837,7 +837,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  void
 	 */
-	public static function webcomponent($component = [], $options = [])
+	public static function webcomponent(array $component = [], array $options = [])
 	{
 		if (empty($component))
 		{
@@ -855,13 +855,13 @@ abstract class HTMLHelper
 				continue;
 			}
 			$version      = '';
-			$mediaVersion = \JFactory::getDocument()->getMediaVersion();
+			$mediaVersion = Factory::getDocument()->getMediaVersion();
 			$includes     = static::includeRelativeFiles(
 				'webcomponents',
 				$value,
-				isset($options['relative']) ? $options['relative'] : true,
-				isset($options['detectBrowser']) ? $options['detectBrowser'] : false,
-				isset($options['detectDebug']) ? $options['detectDebug'] : false
+				$options['relative'] ?? true,
+				$options['detectBrowser'] ?? false,
+				$options['detectDebug'] ?? false
 			);
 
 			if (count($includes) === 0)

@@ -26,7 +26,7 @@ interface PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getLinkProvider();
+	public function getLinkProvider(): EvolvableLinkProviderInterface;
 
 	/**
 	 * Set the link provider
@@ -49,7 +49,7 @@ interface PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preload($uri, array $attributes = []);
+	public function preload(string $uri, array $attributes = []);
 
 	/**
 	 * Resolves a resource origin as early as possible.
@@ -61,7 +61,7 @@ interface PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dnsPrefetch($uri, array $attributes = []);
+	public function dnsPrefetch(string $uri, array $attributes = []);
 
 	/**
 	 * Initiates a early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
@@ -73,7 +73,7 @@ interface PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preconnect($uri, array $attributes = []);
+	public function preconnect(string $uri, array $attributes = []);
 
 	/**
 	 * Indicates to the client that it should prefetch this resource.
@@ -85,7 +85,7 @@ interface PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function prefetch($uri, array $attributes = []);
+	public function prefetch(string $uri, array $attributes = []);
 
 	/**
 	 * Indicates to the client that it should prerender this resource.
@@ -97,5 +97,5 @@ interface PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function prerender($uri, array $attributes = []);
+	public function prerender(string $uri, array $attributes = []);
 }
