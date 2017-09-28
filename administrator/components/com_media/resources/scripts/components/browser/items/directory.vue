@@ -11,21 +11,55 @@
         <div class="media-browser-item-info">
             {{ item.name }}
         </div>
-        <div class="media-browser-select"></div>
+        <div class="media-browser-select" @click.stop="toggleSelect()"></div>
+        <div class="media-browser-actions" :class="{'active': showActions}">
+            <a href="#" class="action-toggle">
+                <span class="image-browser-action fa fa-ellipsis-h" aria-hidden="true"
+                      @click.stop="showActions = true"></span>
+            </a>
+            <div class="media-browser-actions-list">
+                <a href="#" class="action-rename">
+                    <span class="image-browser-action fa fa-text-width" aria-hidden="true"
+                          @click.stop="openRenameModal()"></span>
+                </a>
+                <a href="#" class="action-delete">
+                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
+                </a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     import navigable from "../../../mixins/navigable";
+    import * as types from './../../../store/mutation-types';
 
     export default {
         name: 'media-browser-item-directory',
+        data() {
+            return {
+                showActions: false,
+            }
+        },
         props: ['item'],
         mixins: [navigable],
         methods: {
             /* Handle the on preview double click event */
             onPreviewDblClick() {
                 this.navigateTo(this.item.path);
-            }
+            },
+           /* Delete an item */
+           deleteItem() {
+	           this.$store.dispatch('deleteItem', this.item);
+           },
+           /* Rename an item */
+           openRenameModal() {
+	           this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+	           this.$store.commit(types.SHOW_RENAME_MODAL);
+           },
+           /* Toggle the item selection */
+           toggleSelect() {
+	           this.$store.dispatch('toggleBrowserItemSelect', this.item);
+           },
         }
     }
 </script>
