@@ -41,7 +41,7 @@
             },
             name: {
                 get() {
-                    if(this.originalName.length === 0) {
+                    if (this.originalName.length === 0) {
                         this.originalName = this.item.name;
                     }
                     return this.item.name.replace('.' + this.item.extension, '');
@@ -80,10 +80,16 @@
                     return;
                 }
 
+                let newPath = this.item.directory;
+                if (newPath.substr(-1) !== '/') {
+                    newPath += '/';
+                }
+                newPath += this.item.name;
+
                 // Rename the item
                 this.$store.dispatch('renameItem', {
                     path: this.item.path,
-                    newPath: this.item.directory + this.item.name,
+                    newPath: newPath,
                 });
 
                 this.originalName = '';
