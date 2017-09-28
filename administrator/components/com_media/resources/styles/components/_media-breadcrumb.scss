@@ -1,11 +1,11 @@
 .media-breadcrumb {
   display: flex;
-  margin: 0 auto 0 15px;
-  background: transparent;
-  line-height: 46px;
-  font-size: .9rem;
-  list-style: outside none none;
   padding: 0;
+  margin: 0 auto 0 15px;
+  font-size: .9rem;
+  line-height: 46px;
+  list-style: outside none none;
+  background: transparent;
   & > li > a {
     cursor: pointer;
   }
@@ -21,13 +21,13 @@
     }
   }
   &:hover {
-    color: #2E5A84;
+    color: #2e5a84;
   }
 }
 
 .media-breadcrumb-item, .media-breadcrumb {
   position: relative;
-  &:before, &:after {
+  &::before, &::after {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -55,7 +55,7 @@
     left: 0;
   }
   &::after {
-    border-left-color: #F5F5F5;
+    border-left-color: #f5f5f5;
   }
 }
 

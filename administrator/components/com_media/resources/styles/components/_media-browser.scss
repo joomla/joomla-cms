@@ -19,14 +19,13 @@
 
 .media-browser-item {
   position: relative;
+  width: calc(16.66% - $grid-gutter-width);
   margin-bottom: $grid-gutter-width;
   margin-right: $grid-gutter-width;
-  width: calc(16.66% - $grid-gutter-width);
+  cursor: pointer;
   -moz-user-select: none;
-  -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: pointer;
   .media-browser-items-xs & {
     width: calc(8.333% - #{$grid-gutter-width});
   }
@@ -79,15 +78,15 @@
   position: absolute;
   top: 6px;
   left: 6px;
-  height: calc(#{$grid-item-icon-size} * 1.54);
   width: calc(#{$grid-item-icon-size} * 1.54);
-  border-radius: $grid-item-border-radius;
+  height: calc(#{$grid-item-icon-size} * 1.54);
+  content: "";
   background-color: $grid-item-icon-bg-color;
   border: 2px solid $grid-item-icon-bg-color-hover;
+  border-radius: $grid-item-border-radius;
   box-shadow: inset 0 0 0 0 $grid-item-icon-color;
-  content: "";
-  transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
   opacity: 0;
+  transition: all .3s cubic-bezier(.4, .0, .2, 1);
   .media-browser-item:hover & {
     opacity: 1;
   }
@@ -104,7 +103,7 @@
     text-align: center;
     transform: scale(.5);
     opacity: 0;
-    transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: all .3s cubic-bezier(.4, .0, .2, 1);
     .selected & {
       transform: scale(1);
       opacity: 1;
@@ -112,8 +111,8 @@
   }
   .selected & {
     color: $grid-item-icon-color-hover;
-    box-shadow: inset 0 0 0 15px $grid-item-icon-bg-color-hover;
     background-color: $grid-item-icon-bg-color-hover;
+    box-shadow: inset 0 0 0 15px $grid-item-icon-bg-color-hover;
     opacity: 1;
   }
 }
@@ -170,15 +169,15 @@
 }
 
 .image-browser-action {
-  height: calc(#{$grid-item-icon-size} * 1.55);
   width: calc(#{$grid-item-icon-size} * 1.55);
+  height: calc(#{$grid-item-icon-size} * 1.55);
   margin-right: 4px;
   margin-left: 4px;
   color: $grid-item-icon-color;
   text-align: center;
+  cursor: pointer;
   background-color: $grid-item-icon-bg-color;
   border-radius: $grid-item-border-radius;
-  cursor: pointer;
   .action-delete & {
     background-color: $grid-item-icon-warning-icon-bg;
   }
@@ -187,8 +186,8 @@
     line-height: calc(#{$grid-item-icon-size} * 1.55);
   }
   &:hover {
-    background-color: $grid-item-icon-bg-color-hover;
     color: $grid-item-icon-color-hover;
+    background-color: $grid-item-icon-bg-color-hover;
   }
 }
 
@@ -214,14 +213,14 @@
 }
 
 .file-icon, .folder-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #BBB;
 }
 
@@ -321,7 +320,7 @@
   font-weight: bold;
   .type {
     margin-left: 1px;
-    &:before {
+    &::before {
       display: none;
     }
   }
@@ -384,7 +383,6 @@
     &::before {
       font-family: FontAwesome;
       color: #656565;
-      content: "\f016";
       .selected & {
         color: #fff;
       }
@@ -399,61 +397,69 @@
       content: "";
       background-color: #006898;
     }
-    // Folder
-    &[data-type=""] {
-      &::before {
-        content: "\f114";
-      }
-    }
-    // Images
-    &[data-type="jpg"],
-    &[data-type="png"],
-    &[data-type="gif"],
-    &[data-type="jpeg"],
-    &[data-type="tiff"],
-    &[data-type="bmp"],
-    &[data-type="svg"] {
-      &::before {
-        content: "\f1c5";
-      }
-    }
-    // Video
-    &[data-type="mov"],
-    &[data-type="mkv"],
-    &[data-type="mp4"],
-    &[data-type="mpg"],
-    &[data-type="mpeg"] {
-      &::before {
-        content: "\f1c8";
-      }
-    }
-    // Audio
-    &[data-type="mp3"],
-    &[data-type="wav"],
-    &[data-type="raw"],
-    &[data-type="wma"] {
-      &::before {
-        content: "\f1c7";
-      }
-    }
-    // Docs
-    &[data-type="doc"],
-    &[data-type="xls"],
-    &[data-type="pdf"],
-    &[data-type="txt"] {
-      &::before {
-        content: "\f0f6";
-      }
-    }
-    // Code
-    &[data-type="html"],
-    &[data-type="htm"] {
-      &::before {
-        content: "\f1c9";
-      }
-    }
     span {
       visibility: hidden;
+    }
+  }
+}
+
+.type {
+  &[data-type] {
+    &::before {
+      content: "\f016";
+    }
+  }
+  // Folder
+  &[data-type=""] {
+    &::before {
+      content: "\f114";
+    }
+  }
+  // Images
+  &[data-type="jpg"],
+  &[data-type="png"],
+  &[data-type="gif"],
+  &[data-type="jpeg"],
+  &[data-type="tiff"],
+  &[data-type="bmp"],
+  &[data-type="svg"] {
+    &::before {
+      content: "\f1c5";
+    }
+  }
+  // Video
+  &[data-type="mov"],
+  &[data-type="mkv"],
+  &[data-type="mp4"],
+  &[data-type="mpg"],
+  &[data-type="mpeg"] {
+    &::before {
+      content: "\f1c8";
+    }
+  }
+  // Audio
+  &[data-type="mp3"],
+  &[data-type="wav"],
+  &[data-type="raw"],
+  &[data-type="wma"] {
+    &::before {
+      content: "\f1c7";
+    }
+  }
+  // Docs
+  &[data-type="doc"],
+  &[data-type="xls"],
+  &[data-type="pdf"],
+  &[data-type="txt"] {
+    &::before {
+      content: "\f0f6";
+    }
+  }
+  // Code
+  &[data-type="html"],
+  &[data-type="htm"] {
+    &::before {
+      content: "\f1c9";
     }
   }
 }

@@ -17,11 +17,11 @@
 }
 
 [class^='media-col'], [class*=' media-col'] {
-  min-height: 1px;
-  padding-left: 7.5px;
-  padding-right: 7.5px;
   position: relative;
   width: 100%;
+  min-height: 1px;
+  padding-right: 7.5px;
+  padding-left: 7.5px;
 }
 
 @media (min-width: 768px) {
