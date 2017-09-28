@@ -313,22 +313,12 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-		// Needs fixes in J4
-//		$this->taskCodecept()
-//			->arg('--steps')
-//			->arg('--debug')
-//			->arg('--fail-fast')
-//			->env($opts['env'])
-//			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
-//			->run()
-//			->stopOnFail();
-
 		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/administrator/components/com_media')
+			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
 			->run()
 			->stopOnFail();
 	}
@@ -343,7 +333,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  void
 	 */
-	public function runTest($pathToTestFile = null, $suite = 'acceptance', $opts = ['use-htaccess' => false, 'env' => 'desktop'])
+	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
 		$this->runSelenium();
 
@@ -441,8 +431,6 @@ class RoboFile extends \Robo\Tasks
 			->test($pathToTestFile)
 			->arg('--steps')
 			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
 			->run()
 			->stopOnFail();
 	}
