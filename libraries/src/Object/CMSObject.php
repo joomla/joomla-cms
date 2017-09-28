@@ -193,7 +193,7 @@ class CMSObject
 	 */
 	public function set($property, $value = null)
 	{
-		$previous = isset($this->$property) ? $this->$property : null;
+		$previous = $this->$property ?? null;
 		$this->$property = $value;
 
 		return $previous;

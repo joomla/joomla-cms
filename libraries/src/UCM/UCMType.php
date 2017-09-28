@@ -247,6 +247,6 @@ class UCMType implements UCM
 			$this->fieldmapExpand(false);
 		}
 
-		return isset($this->fieldmap->common->$ucmField) ? $this->fieldmap->common->$ucmField : null;
+		return $this->fieldmap->common->$ucmField ?? null;
 	}
 }

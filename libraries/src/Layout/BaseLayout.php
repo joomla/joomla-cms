@@ -223,7 +223,7 @@ class BaseLayout implements LayoutInterface
 	 */
 	public function get($key, $defaultValue = null)
 	{
-		return isset($this->data[$key]) ? $this->data[$key] : $defaultValue;
+		return $this->data[$key] ?? $defaultValue;
 	}
 
 	/**

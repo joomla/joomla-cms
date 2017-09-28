@@ -560,7 +560,7 @@ class Document
 			$attribs = array();
 
 			// Old version parameter.
-			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+			$options['version'] = $argList[1] ?? 'auto';
 
 			// Old mime type parameter.
 			if (!empty($argList[2]))
@@ -751,7 +751,7 @@ class Document
 			$attribs = array();
 
 			// Old version parameter.
-			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+			$options['version'] = $argList[1] ?? 'auto';
 
 			// Old mime type parameter.
 			if (!empty($argList[2]))
