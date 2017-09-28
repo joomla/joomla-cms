@@ -151,7 +151,7 @@ interface AdapterInterface
 
 	/**
 	 * Returns a public url for the given path. This function can be used by the cloud
-	 * adapter to publish the media file and create a permanent public accessible
+	 * adapter to publish the media file and create a permanent publicly accessible
 	 * url.
 	 *
 	 * @param   string  $path  The path to file
