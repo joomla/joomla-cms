@@ -20,8 +20,8 @@
 .media-browser-item {
   position: relative;
   width: calc(16.66% - $grid-gutter-width);
-  margin-bottom: $grid-gutter-width;
   margin-right: $grid-gutter-width;
+  margin-bottom: $grid-gutter-width;
   cursor: pointer;
   -moz-user-select: none;
   -ms-user-select: none;
