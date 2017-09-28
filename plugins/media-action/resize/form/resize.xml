@@ -4,12 +4,12 @@
 		<field
 			name="resize_quality"
 			type="integer"
+			label="PLG_MEDIA-ACTION_RESIZE_QUALITY"
 			addonBefore="PLG_MEDIA-ACTION_RESIZE_QUALITY"
 			first="1"
 			last="100"
 			step="1"
 			default="80"
-			label="PLG_MEDIA-ACTION_RESIZE_QUALITY"
 		/>
 		<field
 			type="spacer"
@@ -19,7 +19,7 @@
 			name="resize_w"
 			type="range"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
-		    value="0"
+			value="0"
 		/>
 		<field
 			name="resize_h"
