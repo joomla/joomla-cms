@@ -56,7 +56,7 @@
                     width: this.$store.state.showInfoBar ? '75%' : '100%'
                 }
             },
-            /* The styles for the media-browser elemen */
+            /* The styles for the media-browser element */
             listView() {
                 return this.$store.state.listView;
             },
