@@ -35,11 +35,11 @@
   position: relative;
   height: calc(100vh - 160px);
   min-height: 400px;
-  border: 1px solid rgba(0, 0, 0, 0.17);
-  border-radius: 0.25rem;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.075);
   overflow: hidden;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .17);
+  border-radius: .25rem;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .075);
 }
 
 .media-sidebar {
