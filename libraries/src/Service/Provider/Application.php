@@ -11,12 +11,16 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Session\Session;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Session\Storage\RuntimeStorage;
 
 /**
  * Application service provider
@@ -74,6 +78,28 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
 					$app->setLogger(Log::createDelegatedLogger());
 					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+
+					return $app;
+				},
+				true
+			);
+
+		$container->alias(ConsoleApplication::class, BaseConsoleApplication::class)
+			->share(
+				BaseConsoleApplication::class,
+				function (Container $container)
+				{
+					$app = new ConsoleApplication;
+
+					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
+
+					$session = new Session(new RuntimeStorage);
+					$session->setDispatcher($dispatcher);
+
+					$app->setContainer($container);
+					$app->setDispatcher($dispatcher);
+					$app->setLogger(Log::createDelegatedLogger());
+					$app->setSession($session);
 
 					return $app;
 				},
