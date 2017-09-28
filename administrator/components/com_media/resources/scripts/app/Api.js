@@ -91,7 +91,7 @@ class Api {
      * @return {Promise.<T>}
      */
     upload(name, parent, content, override) {
-        // Wrap the jquery call into a real promise
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
             const data = {
@@ -129,7 +129,7 @@ class Api {
      * @return {Promise.<T>}
      */
     rename(path, newPath) {
-        // Wrap the jquery call into a real promise
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + path;
             const data = {
@@ -161,7 +161,7 @@ class Api {
      * @return {Promise.<T>}
      */
     delete(path) {
-        // Wrap the jquery call into a real promise
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
 
             const url = this._baseUrl + '&task=api.files&path=' + path;
