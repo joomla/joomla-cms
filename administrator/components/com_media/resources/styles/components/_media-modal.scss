@@ -41,6 +41,9 @@
   .modal-header {
     padding: 0;
     border: 0;
+    > .close {
+      display: none;
+    }
   }
   .modal-body {
     padding: 0;
