@@ -420,7 +420,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTransitions()
 	{
