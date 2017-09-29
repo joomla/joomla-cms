@@ -39,6 +39,8 @@ class Transition extends AdminModel
 	{
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
+		$context    = $this->option . '.' . $this->name;
+		$app		= Factory::getApplication();
 
 		if ($pk > 0)
 		{
@@ -74,12 +76,12 @@ class Transition extends AdminModel
 			return false;
 		}
 
-		$context    = $this->option . '.' . $this->name;
-
-		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
-		$data['workflow_id'] = (int) $workflowID;
+		if (empty($data['workflow_id']))
+		{
+			$data['workflow_id'] = $workflowID;
+		}
 
 		return parent::save($data);
 	}

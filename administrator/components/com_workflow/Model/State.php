@@ -41,46 +41,10 @@ class State extends AdminModel
 		$context    = $this->option . '.' . $this->name;
 		$app = \JFactory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
-		$data['access'] = 0;
-		$data['workflow_id'] = $workflowID;
 
-		if ($data['default'] == '1')
+		if (empty($data['workflow_id']))
 		{
-			if ($data['published'] !== '1')
-			{
-				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
-
-				return false;
-			}
-
-			$table = $this->getTable();
-
-			if ($table->load(array('default' => '1', 'workflow_id' => $workflowID)))
-			{
-				$table->default = 0;
-				$table->store();
-			}
-		}
-		elseif (empty($data['default']))
-		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
-
-			$query
-				->select($db->qn("id"))
-				->from($db->qn("#__workflow_states"))
-				->where($db->qn("workflow_id") . '=' . $workflowID)
-				->andWhere($db->qn("default") . '= 1');
-			$db->setQuery($query);
-			$states = $db->loadObject();
-
-			if (empty($states) || $states->id === $data['id'])
-			{
-				$data['default'] = '1';
-				$this->setError(\JText::_("COM_WORKFLOW_DISABLE_DEFAULT"));
-
-				return false;
-			}
+			$data['workflow_id'] = $workflowID;
 		}
 
 		return parent::save($data);
@@ -145,6 +109,16 @@ class State extends AdminModel
 				'load_data' => $loadData
 			)
 		);
+
+		$item = $this->getItem($form->getValue('id'));
+
+		// Deactivate switcher if default
+		// Use $item, otherwise we'll be locked when we get the data from the request
+		if (!empty($item->default))
+		{
+			$form->setValue('default', null, 1);
+			$form->setFieldAttribute('default', 'readonly', 'true');
+		}
 
 		return $form;
 	}

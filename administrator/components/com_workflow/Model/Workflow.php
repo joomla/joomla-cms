@@ -90,53 +90,6 @@ class Workflow extends AdminModel
 		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
 		$data['extension']		= $extension;
 		$data['asset_id']		= 0;
-		$data['modified_by']	= $user->get('id');
-
-		if (!empty($data['id']))
-		{
-			$data['modified'] = date("Y-m-d H:i:s");
-		}
-		else
-		{
-			$data['created_by'] = $user->get('id');
-		}
-
-		if ($data['default'] == '1')
-		{
-			if ($data['published'] !== '1')
-			{
-				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
-
-				return false;
-			}
-
-			$table = $this->getTable();
-
-			if ($table->load(array('default' => '1')))
-			{
-				$table->default = 0;
-				$table->store();
-			}
-		}
-		else
-		{
-			$db    = $this->getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select("id")
-				->from($db->qn("#__workflows"))
-				->where($db->qn("default") . '= 1');
-			$db->setQuery($query);
-			$workflows = $db->loadObject();
-
-			if (empty($workflows) || $workflows->id === $data['id'])
-			{
-				$data['default'] = '1';
-				$this->setError(\JText::_("COM_WORKFLOW_DISABLE_DEFAULT"));
-
-				return false;
-			}
-		}
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -197,6 +150,15 @@ class Workflow extends AdminModel
 				'load_data' => $loadData
 			)
 		);
+
+		$item = $this->getItem($form->getValue('id'));
+
+		// Deactivate switcher if default
+		// Use $item, otherwise we'll be locked when we get the data from the request
+		if (!empty($item->default))
+		{
+			$form->setFieldAttribute('default', 'readonly', 'true');
+		}
 
 		return $form;
 	}
