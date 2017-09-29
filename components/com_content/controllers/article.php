@@ -397,7 +397,7 @@ class ContentControllerArticle extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function reload($key = null, $urlVar = 'a_id')
 	{
