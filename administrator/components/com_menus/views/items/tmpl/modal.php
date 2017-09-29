@@ -86,8 +86,7 @@ if (!empty($editor))
 				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->type != 'separator' && $item->type != 'alias' &&
-								$item->type != 'heading' && $item->type != 'container' && $item->type != 'url') : ?>
+				<?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
 						<?php if ($item->language && JLanguageMultilang::isEnabled())
 						{
 							if ($item->language !== '*')
@@ -111,9 +110,13 @@ if (!empty($editor))
 							<td>
 								<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php echo $prefix; ?>
-								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+								<?php if (!$uselessMenuItem) : ?>
+									<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+										<?php echo $this->escape($item->title); ?>
+									</a>
+								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
-								</a>
+								<?php endif; ?>	
 								<span class="small">
 									<?php if (empty($item->note)) : ?>
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
@@ -161,7 +164,6 @@ if (!empty($editor))
 								</span>
 							</td>
 						</tr>
-					<?php endif; ?>
 				<?php endforeach; ?>
 				</tbody>
 			</table>
