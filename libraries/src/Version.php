@@ -217,7 +217,7 @@ final class Version
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . self::MAJOR_VERSION . '.' . self::MINOR_VERSION . ($component ? ' ' . $component : '');
+		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($component ? ' ' . $component : '');
 	}
 
 	/**
