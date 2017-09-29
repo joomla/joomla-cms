@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Workflow\Administrator\Helper\StateHelper;
 
 /**
  * View class to add or edit Workflow
@@ -20,6 +21,14 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class Html extends HtmlView
 {
+	/**
+	 * The model state
+	 *
+	 * @var     object
+	 * @since   4.0
+	 */
+	protected $state;
+
 	/**
 	 * From object to generate fields
 	 *
@@ -37,6 +46,21 @@ class Html extends HtmlView
 	protected $item;
 
 	/**
+	 * The name of current extension
+	 *
+	 * @var     string
+	 * @since   4.0
+	 */
+	protected $extension;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  \JObject
+	 */
+	protected $canDo;
+
+	/**
 	 * Display item view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -47,16 +71,19 @@ class Html extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// Get the Data
+		$this->state      = $this->get('State');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->extension  = $this->state->get('filter.extension');
+
+		$this->canDo      = StateHelper::getActions($this->extension, 'state', $this->item->id);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-
-		// Get the Data
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
-
 
 		// Set the toolbar
 		$this->addToolBar();
@@ -74,16 +101,29 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
+		$isNew      = ($this->item->id == 0);
+
+		$canDo = $this->canDo;
+
 		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_STATE_ADD') : \JText::_('COM_WORKFLOW_STATE_EDIT'), 'address');
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$toolbarButtons = [['apply', 'state.apply'], ['save', 'state.save'], ['save2new', 'state.save2new']];
+
+		if (!$isNew)
+		{
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				$toolbarButtons[] = ['save2copy', 'state.save2copy'];
+			}
+		}
+
 		ToolbarHelper::saveGroup(
-			[
-				['apply', 'state.apply'],
-				['save', 'state.save'],
-				['save2new', 'state.save2new']
-			],
+			$toolbarButtons,
 			'btn-success'
 		);
+
 		ToolbarHelper::cancel('state.cancel');
 	}
 }

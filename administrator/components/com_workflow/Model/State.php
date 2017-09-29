@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\String\StringHelper;
 
 /**
  * The first example class, this is in the same
@@ -26,6 +27,49 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  */
 class State extends AdminModel
 {
+	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function populateState()
+	{
+		parent::populateState();
+
+		$app       = \JFactory::getApplication();
+		$context   = $this->option . '.' . $this->name;
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.extension', $extension);
+	}
+
+	/**
+	 * Method to change the title
+	 *
+	 * @param   integer  $category_id  The id of the category.
+	 * @param   string   $alias        The alias.
+	 * @param   string   $title        The title.
+	 *
+	 * @return	array  Contains the modified title and alias.
+	 *
+	 * @since	4.0
+	 */
+	protected function generateNewTitle($category_id, $alias, $title)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+
+		while ($table->load(array('title' => $title)))
+		{
+			$title = StringHelper::increment($title);
+		}
+
+		return array($title, $alias);
+	}
 
 	/**
 	 * Method to save the form data.
@@ -38,11 +82,27 @@ class State extends AdminModel
 	 */
 	public function save($data)
 	{
-		$context    = $this->option . '.' . $this->name;
-		$app = \JFactory::getApplication();
-		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
-		$data['access'] = 0;
+		$context             = $this->option . '.' . $this->name;
+		$app                 = \JFactory::getApplication();
+		$input               = $app->input;
+		$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+		$data['access']      = 0;
 		$data['workflow_id'] = $workflowID;
+
+		if ($input->get('task') == 'save2copy')
+		{
+			$origTable = clone $this->getTable();
+
+			// Alter the title for save as copy
+			if ($origTable->load(['title' => $data['title']]))
+			{
+				list($title) = $this->generateNewTitle(0, '', $data['title']);
+				$data['title'] = $title;
+			}
+
+			$data['published'] = 0;
+			$data['default']   = 0;
+		}
 
 		if ($data['default'] == '1')
 		{
