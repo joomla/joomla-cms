@@ -7,7 +7,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since  __DEPLOY_VERSION__
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 /**
  * Model class for items
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class States extends ListModel
 {
@@ -28,7 +28,7 @@ class States extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{
@@ -59,7 +59,7 @@ class States extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -93,7 +93,7 @@ class States extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getTable($type = 'State', $prefix = 'Administrator', $config = array())
 	{
@@ -105,7 +105,7 @@ class States extends ListModel
 	 *
 	 * @return  string  The query to database.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getListQuery()
 	{

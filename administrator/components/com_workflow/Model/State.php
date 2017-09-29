@@ -7,7 +7,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since  __DEPLOY_VERSION__
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -22,7 +22,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class State extends AdminModel
 {
@@ -34,7 +34,7 @@ class State extends AdminModel
 	 *
 	 * @return   boolean  True on success.
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function save($data)
 	{
@@ -93,7 +93,7 @@ class State extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function canDelete($record)
@@ -132,7 +132,7 @@ class State extends AdminModel
 	 *
 	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -155,7 +155,7 @@ class State extends AdminModel
 	 *
 	 * @return mixed  The data for the form.
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
@@ -181,7 +181,7 @@ class State extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setHome($pk, $value = 1)
 	{
@@ -227,7 +227,7 @@ class State extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function publish(&$pks, $value = 1)
 	{

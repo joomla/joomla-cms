@@ -7,7 +7,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since  __DEPLOY_VERSION__
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Transition extends AdminModel
 {
@@ -33,7 +33,7 @@ class Transition extends AdminModel
 	 *
 	 * @return   boolean  True on success.
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function save($data)
 	{
@@ -92,7 +92,7 @@ class Transition extends AdminModel
 	 *
 	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -115,7 +115,7 @@ class Transition extends AdminModel
 	 *
 	 * @return mixed  The data for the form.
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{

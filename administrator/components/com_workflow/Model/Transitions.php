@@ -7,7 +7,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since  __DEPLOY_VERSION__
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -20,7 +20,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 /**
  * Model class for items
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Transitions extends ListModel
 {
@@ -30,7 +30,7 @@ class Transitions extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{
@@ -62,7 +62,7 @@ class Transitions extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -98,7 +98,7 @@ class Transitions extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getTable($type = 'Transition', $prefix = 'Administrator', $config = array())
 	{
@@ -110,7 +110,7 @@ class Transitions extends ListModel
 	 *
 	 * @return  string  The query to database.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getListQuery()
 	{
@@ -194,7 +194,7 @@ class Transitions extends ListModel
 	 *
 	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *
-	 * @since   3.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{

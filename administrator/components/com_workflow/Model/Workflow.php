@@ -7,7 +7,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since  __DEPLOY_VERSION__
  */
 
 namespace Joomla\Component\Workflow\Administrator\Model;
@@ -24,7 +24,7 @@ use Joomla\String\StringHelper;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Workflow extends AdminModel
 {
@@ -35,7 +35,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function populateState()
 	{
@@ -57,7 +57,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -79,7 +79,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return  boolean True on success.
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function save($data)
 	{
@@ -184,7 +184,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -206,7 +206,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return mixed  The data for the form.
 	 *
-	 * @since 4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
@@ -232,7 +232,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setHome($pk, $value = 1)
 	{
@@ -279,7 +279,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function canDelete($record)
 	{
@@ -295,7 +295,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function publish(&$pks, $value = 1)
 	{

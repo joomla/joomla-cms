@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Transitions extends AdminController
 {
@@ -31,7 +31,7 @@ class Transitions extends AdminController
 	 *
 	 * @return  \Joomla\CMS\Model\Model  The model.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Transition', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
@@ -43,7 +43,7 @@ class Transitions extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function delete()
 	{

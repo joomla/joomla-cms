@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * Workflow base controller package.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class Controller extends BaseController
 {
@@ -26,7 +26,7 @@ class Controller extends BaseController
 	 * The default view.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'workflows';
 
@@ -34,7 +34,7 @@ class Controller extends BaseController
 	 * The extension for which the categories apply.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extension = "";
 
@@ -46,7 +46,7 @@ class Controller extends BaseController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   3.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{

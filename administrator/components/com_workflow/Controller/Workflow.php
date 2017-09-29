@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\FormController;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Workflow extends FormController
 {
@@ -27,7 +27,7 @@ class Workflow extends FormController
 	 * The extension for which the categories apply.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extension;
 
@@ -39,7 +39,7 @@ class Workflow extends FormController
 	 * @param   \CMSApplication      $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since  1.6
+	 * @since  __DEPLOY_VERSION__
 	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
@@ -60,7 +60,7 @@ class Workflow extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -76,7 +76,7 @@ class Workflow extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getRedirectToListAppend()
 	{
@@ -95,7 +95,7 @@ class Workflow extends FormController
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function postSaveHook(\JModelLegacy $model, $validData = array())
 	{
@@ -176,7 +176,7 @@ class Workflow extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function save($key = null, $urlVar = null)
 	{

@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Workflow States field.
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class WorkflowStateField extends \JFormFieldGroupedList
 {
@@ -23,7 +23,7 @@ class WorkflowStateField extends \JFormFieldGroupedList
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'WorkflowState';
 
@@ -32,7 +32,7 @@ class WorkflowStateField extends \JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
