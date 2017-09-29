@@ -11,18 +11,24 @@
         <div class="media-browser-item-info">
             {{ item.name }}
         </div>
-        <div class="media-browser-select" @click.stop="toggleSelect()"></div>
+        <a href="#" class="media-browser-select" 
+          @click.stop="toggleSelect()"
+          :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')">
+        </a>
         <div class="media-browser-actions" :class="{'active': showActions}">
-            <a href="#" class="action-toggle">
+            <a href="#" class="action-toggle"
+              :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')">
                 <span class="image-browser-action fa fa-ellipsis-h" aria-hidden="true"
                       @click.stop="showActions = true"></span>
             </a>
             <div class="media-browser-actions-list">
-                <a href="#" class="action-rename">
+                <a href="#" class="action-rename"
+                  :aria-label="translate('COM_MEDIA_ACTIN_RENAME')">
                     <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                           @click.stop="openRenameModal()"></span>
                 </a>
-                <a href="#" class="action-delete">
+                <a href="#" class="action-delete"
+                  :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
                     <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
                 </a>
             </div>
