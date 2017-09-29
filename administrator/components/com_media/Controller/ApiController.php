@@ -17,8 +17,8 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Media\Administrator\Adapter\FileExistsException;
-use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\FileExistsException;
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 
 \JLoader::import('joomla.filesystem.file');
 

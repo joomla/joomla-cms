@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Image\Image;
 use Joomla\CMS\Uri\Uri;
 

@@ -7,15 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Media\Administrator\Adapter;
+namespace Joomla\Component\Media\Administrator\Exception;
 
 defined('_JEXEC') or die;
 
 /**
- * Media file adapter file not found exception.
+ * Media invalid path exception.
  *
  * @since  __DEPLOY_VERSION__
  */
-class FileNotFoundException extends \Exception
+class InvalidPathException extends \Exception
 {
 }

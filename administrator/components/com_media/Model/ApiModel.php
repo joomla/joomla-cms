@@ -11,12 +11,14 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-use Joomla\Component\Media\Administrator\Adapter\FileExistsException;
-use Joomla\Component\Media\Administrator\Adapter\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\FileExistsException;
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
@@ -34,6 +36,14 @@ class ApiModel extends BaseModel
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $providerManager = null;
+
+	/**
+	 * The available extensions.
+	 *
+	 * @var   string[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $allowedExtensions = null;
 
 	/**
 	 * Return the requested adapter
@@ -80,6 +90,12 @@ class ApiModel extends BaseModel
 		// Add adapter prefix to the file returned
 		$file = $this->getAdapter($adapter)->getFile($path);
 
+		// Check if it is a media file
+		if ($file->type == 'file' && !$this->isMediaFile($file->path))
+		{
+			throw new InvalidPathException;
+		}
+
 		if (isset($options['url']) && $options['url'] && $file->type == 'file')
 		{
 			if (isset($options['temp']) && $options['temp'])
@@ -118,7 +134,7 @@ class ApiModel extends BaseModel
 		if ($options['search'] != null)
 		{
 			// Do search
-			$files = $this->search($adapter, $path, $options['search'], $options['recursive']);
+			$files = $this->search($adapter, $options['search'], $path, $options['recursive']);
 		}
 		else
 		{
@@ -127,10 +143,17 @@ class ApiModel extends BaseModel
 		}
 
 		// Add adapter prefix to all the files to be returned
-		foreach ($files as $file)
+		foreach ($files as $key => $file)
 		{
-			// If requested add options
-			// Url can be provided for a file
+			// Check if the file is valid
+			if ($file->type == 'file' && !$this->isMediaFile($file->path))
+			{
+				// Remove the file from the data
+				unset($files[$key]);
+				continue;
+			}
+
+			// Check if we need more information
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
 				if (isset($options['temp']) && $options['temp'])
@@ -147,7 +170,8 @@ class ApiModel extends BaseModel
 			$file->adapter = $adapter;
 		}
 
-		return $files;
+		// Return array with proper indexes
+		return array_values($files);
 	}
 
 	/**
@@ -214,6 +238,12 @@ class ApiModel extends BaseModel
 			throw new FileExistsException;
 		}
 
+		// Check if it is a media file
+		if (!$this->isMediaFile($path . '/' . $name))
+		{
+			throw new InvalidPathException;
+		}
+
 		$this->getAdapter($adapter)->createFile($name, $path, $data);
 	}
 
@@ -234,6 +264,12 @@ class ApiModel extends BaseModel
 	 */
 	public function updateFile($adapter, $name, $path, $data)
 	{
+		// Check if it is a media file
+		if (!$this->isMediaFile($path . '/' . $name))
+		{
+			throw new InvalidPathException;
+		}
+
 		$this->getAdapter($adapter)->updateFile($name, $path, $data);
 	}
 
@@ -252,6 +288,14 @@ class ApiModel extends BaseModel
 	 */
 	public function delete($adapter, $path)
 	{
+		$file = $this->getFile($adapter, $path);
+
+		// Check if it is a media file
+		if ($file->type == 'file' && !$this->isMediaFile($file->path))
+		{
+			throw new InvalidPathException;
+		}
+
 		$this->getAdapter($adapter)->delete($path);
 	}
 
@@ -307,6 +351,12 @@ class ApiModel extends BaseModel
 	 */
 	public function getUrl($adapter, $path)
 	{
+		// Check if it is a media file
+		if (!$this->isMediaFile($path))
+		{
+			throw new InvalidPathException;
+		}
+
 		return $this->getAdapter($adapter)->getUrl($path);
 	}
 
@@ -314,15 +364,16 @@ class ApiModel extends BaseModel
 	 * Search for a pattern in a given path
 	 *
 	 * @param   string  $adapter    The adapter to work on
+	 * @param   string  $needle     The search therm
 	 * @param   string  $path       The base path for the search
-	 * @param   string  $needle     The path to file
 	 * @param   bool    $recursive  Do a recursive search
 	 *
 	 * @return \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
-	public function search($adapter, $path = '/', $needle, $recursive = true)
+	public function search($adapter, $needle, $path = '/', $recursive = true)
 	{
 		return $this->getAdapter($adapter)->search($path, $needle, $recursive);
 	}
@@ -337,10 +388,53 @@ class ApiModel extends BaseModel
 	 * @return string
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws \FileNotFoundException
+	 * @throws \Exception
 	 */
 	public function getTemporaryUrl($adapter, $path)
 	{
+		// Check if it is a media file
+		if (!$this->isMediaFile($path))
+		{
+			throw new InvalidPathException;
+		}
+
 		return $this->getAdapter($adapter)->getTemporaryUrl($path);
+	}
+
+	/**
+	 * Checks if the given path is an allowed media file.
+	 *
+	 * @param   string  $path  The path to file
+	 *
+	 * @return boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function isMediaFile($path)
+	{
+		// Check if there is an extension available
+		if (!strrpos($path, '.'))
+		{
+			return false;
+		}
+
+		// Initialize the allowed extensions
+		if ($this->allowedExtensions === null) {
+
+			// Get the setting from the params
+			$this->allowedExtensions = ComponentHelper::getParams('com_media')->get(
+				'upload_extensions',
+				'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+			);
+
+			// Make them an array
+			$this->allowedExtensions = explode(',', $this->allowedExtensions);
+		}
+
+		// Extract the extension
+		$extension = substr($path, strrpos($path, '.') + 1);
+
+		// Check if the extension exists in the allowed extensions
+		return in_array($extension, $this->allowedExtensions);
 	}
 }
