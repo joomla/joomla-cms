@@ -101,7 +101,11 @@ class AdminController extends BaseController
 
 			$r = array(0 => '', 1 => '', 2 => $reflect->getShortName());
 
-			if (!$reflect->getNamespaceName() && !preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
+			if ($reflect->getNamespaceName())
+			{
+				$r[2] = str_replace('Controller', '', $r[2]);
+			}
+			elseif (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}

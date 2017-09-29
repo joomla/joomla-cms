@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.table.Plugin","tinymce.core.dom.TreeWalker","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Tools","tinymce.core.util.VK","tinymce.plugins.table.model.TableGrid","tinymce.plugins.table.selection.CellSelection","tinymce.plugins.table.ui.Dialogs","tinymce.plugins.table.ui.ResizeBars","tinymce.plugins.table.util.Quirks","global!tinymce.util.Tools.resolve","tinymce.plugins.table.util.Utils","tinymce.plugins.table.model.SplitCols","tinymce.core.util.Delay"]
+["tinymce.plugins.table.Plugin","tinymce.core.dom.TreeWalker","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Tools","tinymce.core.util.VK","tinymce.plugins.table.model.TableGrid","tinymce.plugins.table.selection.CellSelection","tinymce.plugins.table.ui.Dialogs","tinymce.plugins.table.ui.ResizeBars","tinymce.plugins.table.util.Utils","tinymce.plugins.table.util.Quirks","global!tinymce.util.Tools.resolve","tinymce.plugins.table.model.SplitCols","tinymce.core.util.Delay"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -3728,7 +3728,8 @@ define(
           }
 
           function moveCursorToStartOfElement(n) {
-            editor.selection.setCursorLocation(n, 0);
+            editor.selection.select(n, true);
+            editor.selection.collapse(true);
           }
 
           function isVerticalMovement() {
@@ -4175,9 +4176,10 @@ define(
     'tinymce.plugins.table.selection.CellSelection',
     'tinymce.plugins.table.ui.Dialogs',
     'tinymce.plugins.table.ui.ResizeBars',
+    'tinymce.plugins.table.util.Utils',
     'tinymce.plugins.table.util.Quirks'
   ],
-  function (TreeWalker, Env, PluginManager, Tools, VK, TableGrid, CellSelection, Dialogs, ResizeBars, Quirks) {
+  function (TreeWalker, Env, PluginManager, Tools, VK, TableGrid, CellSelection, Dialogs, ResizeBars, Utils, Quirks) {
     var each = Tools.each;
 
     function Plugin(editor) {
@@ -4279,6 +4281,25 @@ define(
         /*jshint validthis:true*/
         handleDisabledState(this, 'table');
       }
+
+      var hasMergedCellsSelected = function (node) {
+        var cell = editor.dom.getParent(node, 'th,td');
+        var selectedCells = editor.dom.select('td[data-mce-selected],th[data-mce-selected]').concat(cell ? [cell] : []);
+        var mergedCellsSelected = Tools.grep(selectedCells, function (elm) {
+          return Utils.getColSpan(elm) > 1 || Utils.getRowSpan(elm) > 1;
+        });
+
+        return mergedCellsSelected.length > 0;
+      };
+
+      var postRenderSplitCell = function (e) {
+        var ctrl = e.control;
+
+        ctrl.disabled(!hasMergedCellsSelected(editor.selection.getStart()));
+        editor.on('nodechange', function (e) {
+          ctrl.disabled(!hasMergedCellsSelected(e.element));
+        });
+      };
 
       function postRenderCell() {
         /*jshint validthis:true*/
@@ -4438,7 +4459,7 @@ define(
         menu: [
           { text: 'Cell properties', onclick: cmd('mceTableCellProps'), onPostRender: postRenderCell },
           { text: 'Merge cells', onclick: cmd('mceTableMergeCells'), onPostRender: postRenderMergeCell },
-          { text: 'Split cell', onclick: cmd('mceTableSplitCells'), onPostRender: postRenderCell }
+          { text: 'Split cell', disabled: true, onclick: cmd('mceTableSplitCells'), onPostRender: postRenderSplitCell }
         ]
       });
 

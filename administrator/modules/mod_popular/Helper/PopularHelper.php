@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
-use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -25,12 +25,12 @@ abstract class PopularHelper
 	/**
 	 * Get a list of the most popular articles.
 	 *
-	 * @param   Registry  &$params  The module parameters.
-	 * @param   Articles  $model    The model.
+	 * @param   Registry       &$params  The module parameters.
+	 * @param   ArticlesModel  $model    The model.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(Registry &$params, Articles $model)
+	public static function getList(Registry &$params, ArticlesModel $model)
 	{
 		$user = Factory::getUser();
 
