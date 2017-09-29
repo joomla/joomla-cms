@@ -47,7 +47,7 @@ for ($i = $rating; $i < 5; $i++)
 	<p class="unseen element-invisible">
 		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
 		<meta itemprop="ratingCount" content="<?php echo (int) $row->rating_count; ?>" />
-		<meta itemprop="worstRating" content="0" />
+		<meta itemprop="worstRating" content="1" />
 	</p>
 	<?php echo $img; ?>
 </div>
