@@ -141,7 +141,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
-		// Account for case that of a submitted form with multiple-value category id field (e.g. a filtering form), just use the first one
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
 		$oldCat = is_array($oldCat)
 			? reset($oldCat)
 			: $oldCat;
