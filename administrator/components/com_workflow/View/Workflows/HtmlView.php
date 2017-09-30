@@ -106,7 +106,6 @@ class HtmlView extends BaseHtmlView
 		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
 
-
 		$this->addToolbar();
 
 		return parent::display($tpl);

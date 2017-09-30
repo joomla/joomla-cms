@@ -21,7 +21,6 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class TransitionsController extends AdminController
 {
-
 	/**
 	 * Proxy for getModel
 	 *

@@ -20,7 +20,6 @@ use Joomla\CMS\Table\Table;
  */
 class WorkflowTable extends Table
 {
-
 	/**
 	 * Constructor
 	 *
@@ -31,7 +30,9 @@ class WorkflowTable extends Table
 	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = '{extension}.workflow';
+
 		parent::__construct('#__workflows', 'id', $db);
+
 		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
@@ -87,7 +88,6 @@ class WorkflowTable extends Table
 			$db->execute();
 
 			return parent::delete($pk);
-
 		}
 		catch (\RuntimeException $e)
 		{

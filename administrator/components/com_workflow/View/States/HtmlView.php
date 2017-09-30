@@ -87,7 +87,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $extension;
 
-
 	/**
 	 * Display the view
 	 *

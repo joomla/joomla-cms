@@ -77,12 +77,11 @@ class StateController extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
 
+		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
 
 		return $append;
 	}
-
 
 	/**
 	 * Gets the URL arguments to append to a list redirect.

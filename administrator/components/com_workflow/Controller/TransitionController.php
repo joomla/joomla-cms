@@ -82,7 +82,6 @@ class TransitionController extends FormController
 		return $append;
 	}
 
-
 	/**
 	 * Gets the URL arguments to append to a list redirect.
 	 *

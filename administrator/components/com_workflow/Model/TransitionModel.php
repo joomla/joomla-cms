@@ -7,7 +7,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since  __DEPLOY_VERSION__
+ * @since       __DEPLOY_VERSION__
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -25,7 +25,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
  */
 class TransitionModel extends AdminModel
 {
-
 	/**
 	 * Method to save the form data.
 	 *
@@ -110,7 +109,6 @@ class TransitionModel extends AdminModel
 
 		return $form;
 	}
-
 
 	/**
 	 * Method to get the data that should be injected in the form.

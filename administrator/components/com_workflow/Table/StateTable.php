@@ -21,7 +21,6 @@ use Joomla\CMS\Table\Table;
  */
 class StateTable extends Table
 {
-
 	/**
 	 * Constructor
 	 *
@@ -32,6 +31,7 @@ class StateTable extends Table
 	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_states', 'id', $db);
+
 		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
@@ -83,7 +83,6 @@ class StateTable extends Table
 			$db->setQuery($query)->execute();
 
 			return parent::delete($pk);
-
 		}
 		catch (\RuntimeException $e)
 		{

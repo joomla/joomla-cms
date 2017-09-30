@@ -62,7 +62,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $workflowID;
 
-
 	/**
 	 * Display item view
 	 *

@@ -116,7 +116,6 @@ class HtmlView extends BaseHtmlView
 		WorkflowHelper::callMethodFromHelper($this->extension, "addSubmenu", "transitions");
 		$this->sidebar       = \JHtmlSidebar::render();
 
-
 		$this->addToolbar();
 
 		return parent::display($tpl);

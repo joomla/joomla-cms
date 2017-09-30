@@ -21,7 +21,6 @@ use Joomla\CMS\Table\Table;
  */
 class TransitionTable extends Table
 {
-
 	/**
 	 * Constructor
 	 *
@@ -32,9 +31,9 @@ class TransitionTable extends Table
 	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_transitions', 'id', $db);
+
 		$this->access = (int) Factory::getConfig()->get('access');
 	}
-
 
 	/**
 	 * Method to compute the default name of the asset.

@@ -38,6 +38,7 @@ class StatesController extends AdminController
 	public function __construct(array $config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
+
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
 
