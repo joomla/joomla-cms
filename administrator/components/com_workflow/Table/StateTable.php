@@ -168,7 +168,7 @@ class StateTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$table = Table::getInstance('State', '\\Joomla\\Component\\Workflow\\Administrator\\Table\\', array('dbo' => $this->getDbo()));
+		$table = new StateTable($this->getDbo());
 
 		if ($this->default == '1')
 		{
