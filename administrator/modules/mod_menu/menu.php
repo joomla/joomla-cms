@@ -275,6 +275,12 @@ class JAdminCssMenu
 				}
 			}
 
+			// Exclude item if the component is not installed or disabled
+			if ($item->element && (!JComponentHelper::isInstalled($item->element) || !JComponentHelper::isEnabled($item->element)))
+			{
+				continue;
+			}
+
 			// Exclude item if the component is not authorised
 			$assetName = $item->element;
 
