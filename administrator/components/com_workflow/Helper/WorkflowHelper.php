@@ -204,4 +204,93 @@ class WorkflowHelper extends ContentHelper
 			}
 		}
 	}
+
+	public static function saveAssociation($itemId, $stateId, $extension = 'com_content')
+	{
+		if(!empty(WorkflowHelper::getAssociatedEntry($itemId, $extension)))
+		{
+			WorkflowHelper::updateAssociationByItemId($itemId, $stateId, $extension);
+		}
+		else
+		{
+			WorkflowHelper::addAssociation($itemId, $stateId, $extension);
+		}
+
+	}
+
+	public static function addAssociation($itemId, $stateId, $extension = 'com_content')
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->insert($db->qn('#__workflow_associations'))
+			->columns($db->quoteName(array('item_id', 'state_id', 'extension')))
+			->values((int) $itemId . ', ' . (int) $stateId . ', ' . $db->quote($extension));
+
+		$db->setQuery($query);
+
+		$db->execute();
+	}
+
+	public static function getAssociatedEntry($itemId, $extension = 'com_content')
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('*')
+			->from($db->qn('#__workflow_associations'))
+			->where($db->qn('item_id') . '=' . (int) $itemId)
+			->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
+
+	public static function getAssociatedItemIds($stateId, $extension = 'com_content')
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('*')
+			->from($db->qn('#__workflow_associations'))
+			->where($db->qn('state_id') . '=' . (int) $stateId)
+			->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	public static function removeAssociationByItemId($itemId, $extension = 'com_content')
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->delete($db->qn('#__workflow_associations'))
+			->where($db->qn('item_id') . '=' . (int) $itemId)
+			->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+
+		$db->setQuery($query);
+		$db->execute();
+	}
+
+	public static function updateAssociationByItemId($itemId, $stateId, $extension = 'com_content')
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->update($db->qn('#__workflow_associations'))
+			->set($db->qn('state_id') . '=' . (int) $stateId)
+			->where($db->qn('item_id') . '=' . (int) $itemId)
+			->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+
+		$db->setQuery($query);
+		$db->execute();
+	}
 }
