@@ -349,7 +349,8 @@ class ArticleModel extends AdminModel
 			if ($table->load(array('id' => $id)))
 			{
 				// Transition field
-				$form->setFieldAttribute('transition', 'state', (int) $table->state);
+				$workflowState = WorkflowHelper::getAssociatedEntry($table->state);
+				$form->setFieldAttribute('transition', 'state', (int) $workflowState->state_id);
 			}
 
 		}
@@ -596,6 +597,7 @@ class ArticleModel extends AdminModel
 		{
 			$query
 				->select($db->qn("id"))
+				->select($db->qn("condition"))
 				->from($db->qn("#__workflow_states"))
 				->where($db->qn("default") . '=' . 1);
 
@@ -615,12 +617,13 @@ class ArticleModel extends AdminModel
 			}
 
 			$db->setQuery($query);
-			$state = $db->loadResult();
+			$workflowState = $db->loadObject();
 
-			$data['state'] = $state;
+			$data['state'] = $workflowState->condition;
+			$data['workflow_state'] = $workflowState->id;
 		}
 
-		if ($data['transition'] !== "")
+		if (!empty($data['transition']))
 		{
 			WorkflowHelper::runTransitions(array($data['id']), array((int) $data['transition']), 'com_content', '#__content');
 		}
@@ -664,6 +667,8 @@ class ArticleModel extends AdminModel
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
 			}
+
+			WorkflowHelper::saveAssociation($this->getState($this->getName() . '.id'), $data['workflow_state']);
 
 			return true;
 		}
