@@ -49,7 +49,7 @@ for ($i = $rating; $i < 5; $i++)
 		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
 		<meta itemprop="ratingCount" content="<?php echo (int) $row->rating_count; ?>" />
 		<meta itemprop="worstRating" content="0" />
-	<?php else: ?>
+	<?php else : ?>
 		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', $rating, 5); ?>
 	<?php endif; ?>
 	</p>
