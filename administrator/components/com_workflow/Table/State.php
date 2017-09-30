@@ -18,7 +18,7 @@ use Joomla\Component\Workflow\Administrator\Table as WTable;
 /**
  * Category table
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class State extends Table
 {
@@ -28,7 +28,7 @@ class State extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
-	 * @since
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
@@ -43,7 +43,7 @@ class State extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
@@ -101,7 +101,7 @@ class State extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _getAssetName()
 	{
@@ -117,7 +117,7 @@ class State extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _getAssetTitle()
 	{
@@ -132,7 +132,7 @@ class State extends Table
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{

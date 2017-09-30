@@ -536,7 +536,7 @@ class JoomlaInstallerScript
 	 */
 	private function cleanJoomlaCache()
 	{
-		$model = new \Joomla\Component\Cache\Administrator\Model\Cache;
+		$model = new \Joomla\Component\Cache\Administrator\Model\CacheModel;
 
 		// Clean frontend cache
 		$model->clean();

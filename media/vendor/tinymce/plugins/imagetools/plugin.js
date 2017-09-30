@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.imagetools.Plugin","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.Tools","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","global!tinymce.util.Tools.resolve","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","tinymce.core.dom.DOMUtils","tinymce.core.ui.Container","tinymce.core.ui.Form","tinymce.plugins.imagetools.ui.ImagePanel","tinymce.plugins.imagetools.core.UndoStack","global!Math","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Arr","ephox.katamari.api.Fun","tinymce.core.geom.Rect","tinymce.core.ui.Control","tinymce.core.ui.DragHelper","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK","global!Object"]
+["tinymce.plugins.imagetools.Plugin","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.Tools","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","global!tinymce.util.Tools.resolve","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","global!Math","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.plugins.imagetools.core.UndoStack","tinymce.plugins.imagetools.ui.ImagePanel","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Arr","ephox.katamari.api.Fun","tinymce.core.geom.Rect","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK","global!Object"]
 jsc*/
 /* eslint-disable */
 /* jshint ignore:start */
@@ -2368,6 +2368,7 @@ define(
   }
 );
 
+defineGlobal("global!Math", Math);
 /**
  * ResolveGlobal.js
  *
@@ -2399,17 +2400,17 @@ define(
  */
 
 define(
-  'tinymce.core.ui.Container',
+  'tinymce.core.ui.Factory',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.ui.Container');
+    return resolve('tinymce.ui.Factory');
   }
 );
 
 /**
- * ResolveGlobal.js
+ * UndoStack.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -2419,12 +2420,54 @@ define(
  */
 
 define(
-  'tinymce.core.ui.Form',
+  'tinymce.plugins.imagetools.core.UndoStack',
   [
-    'global!tinymce.util.Tools.resolve'
   ],
-  function (resolve) {
-    return resolve('tinymce.ui.Form');
+  function () {
+    return function () {
+      var data = [], index = -1;
+
+      function add(state) {
+        var removed;
+
+        removed = data.splice(++index);
+        data.push(state);
+
+        return {
+          state: state,
+          removed: removed
+        };
+      }
+
+      function undo() {
+        if (canUndo()) {
+          return data[--index];
+        }
+      }
+
+      function redo() {
+        if (canRedo()) {
+          return data[++index];
+        }
+      }
+
+      function canUndo() {
+        return index > 0;
+      }
+
+      function canRedo() {
+        return index != -1 && index < data.length - 1;
+      }
+
+      return {
+        data: data,
+        add: add,
+        undo: undo,
+        redo: redo,
+        canUndo: canUndo,
+        canRedo: canRedo
+      };
+    };
   }
 );
 
@@ -2445,46 +2488,6 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.geom.Rect');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.ui.Control',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.ui.Control');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.ui.DragHelper',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.ui.DragHelper');
   }
 );
 
@@ -2562,13 +2565,13 @@ define(
   'tinymce.plugins.imagetools.ui.CropRect',
   [
     'tinymce.core.dom.DomQuery',
-    'tinymce.core.ui.DragHelper',
     'tinymce.core.geom.Rect',
-    'tinymce.core.util.Tools',
+    'tinymce.core.ui.Factory',
     'tinymce.core.util.Observable',
+    'tinymce.core.util.Tools',
     'tinymce.core.util.VK'
   ],
-  function ($, DragHelper, Rect, Tools, Observable, VK) {
+  function (DomQuery, Rect, Factory, Observable, Tools, VK) {
     var count = 0;
 
     return function (currentRect, viewPortRect, clampRect, containerElm, action) {
@@ -2637,6 +2640,7 @@ define(
       function render() {
         function createDragHelper(handle) {
           var startRect;
+          var DragHelper = Factory.get('DragHelper');
 
           return new DragHelper(id, {
             document: containerElm.ownerDocument,
@@ -2652,19 +2656,19 @@ define(
           });
         }
 
-        $(
+        DomQuery(
           '<div id="' + id + '" class="' + prefix + 'croprect-container"' +
           ' role="grid" aria-dropeffect="execute">'
         ).appendTo(containerElm);
 
         Tools.each(blockers, function (blocker) {
-          $('#' + id, containerElm).append(
+          DomQuery('#' + id, containerElm).append(
             '<div id="' + id + '-' + blocker + '"class="' + prefix + 'croprect-block" style="display: none" data-mce-bogus="all">'
           );
         });
 
         Tools.each(handles, function (handle) {
-          $('#' + id, containerElm).append(
+          DomQuery('#' + id, containerElm).append(
             '<div id="' + id + '-' + handle.name + '" class="' + prefix +
             'croprect-handle ' + prefix + 'croprect-handle-' + handle.name + '"' +
             'style="display: none" data-mce-bogus="all" role="gridcell" tabindex="-1"' +
@@ -2676,11 +2680,11 @@ define(
 
         repaint(currentRect);
 
-        $(containerElm).on('focusin focusout', function (e) {
-          $(e.target).attr('aria-grabbed', e.type === 'focus');
+        DomQuery(containerElm).on('focusin focusout', function (e) {
+          DomQuery(e.target).attr('aria-grabbed', e.type === 'focus');
         });
 
-        $(containerElm).on('keydown', function (e) {
+        DomQuery(containerElm).on('keydown', function (e) {
           var activeHandle;
 
           Tools.each(handles, function (handle) {
@@ -2733,9 +2737,9 @@ define(
         })).join(',');
 
         if (state) {
-          $(selectors, containerElm).show();
+          DomQuery(selectors, containerElm).show();
         } else {
-          $(selectors, containerElm).hide();
+          DomQuery(selectors, containerElm).hide();
         }
       }
 
@@ -2749,7 +2753,7 @@ define(
             rect.w = 0;
           }
 
-          $('#' + id + '-' + name, containerElm).css({
+          DomQuery('#' + id + '-' + name, containerElm).css({
             left: rect.x,
             top: rect.y,
             width: rect.w,
@@ -2758,7 +2762,7 @@ define(
         }
 
         Tools.each(handles, function (handle) {
-          $('#' + id + '-' + handle.name, containerElm).css({
+          DomQuery('#' + id + '-' + handle.name, containerElm).css({
             left: rect.w * handle.xMul + rect.x,
             top: rect.h * handle.yMul + rect.y
           });
@@ -2834,13 +2838,12 @@ define(
   'tinymce.plugins.imagetools.ui.ImagePanel',
   [
     'tinymce.core.geom.Rect',
-    'tinymce.core.ui.Control',
-    'tinymce.core.ui.DragHelper',
+    'tinymce.core.ui.Factory',
     'tinymce.core.util.Promise',
     'tinymce.core.util.Tools',
     'tinymce.plugins.imagetools.ui.CropRect'
   ],
-  function (Rect, Control, DragHelper, Promise, Tools, CropRect) {
+  function (Rect, Factory, Promise, Tools, CropRect) {
     function loadImage(image) {
       return new Promise(function (resolve) {
         function loaded() {
@@ -2856,265 +2859,211 @@ define(
       });
     }
 
-    return Control.extend({
-      Defaults: {
-        classes: "imagepanel"
-      },
+    var create = function (settings) {
+      var Control = Factory.get('Control');
+      var ImagePanel = Control.extend({
+        Defaults: {
+          classes: "imagepanel"
+        },
 
-      selection: function (rect) {
-        if (arguments.length) {
-          this.state.set('rect', rect);
-          return this;
-        }
-
-        return this.state.get('rect');
-      },
-
-      imageSize: function () {
-        var viewRect = this.state.get('viewRect');
-
-        return {
-          w: viewRect.w,
-          h: viewRect.h
-        };
-      },
-
-      toggleCropRect: function (state) {
-        this.state.set('cropEnabled', state);
-      },
-
-      imageSrc: function (url) {
-        var self = this, img = new Image();
-
-        img.src = url;
-
-        loadImage(img).then(function () {
-          var rect, $img, lastRect = self.state.get('viewRect');
-
-          $img = self.$el.find('img');
-          if ($img[0]) {
-            $img.replaceWith(img);
-          } else {
-            var bg = document.createElement('div');
-            bg.className = 'mce-imagepanel-bg';
-            self.getEl().appendChild(bg);
-            self.getEl().appendChild(img);
+        selection: function (rect) {
+          if (arguments.length) {
+            this.state.set('rect', rect);
+            return this;
           }
 
-          rect = { x: 0, y: 0, w: img.naturalWidth, h: img.naturalHeight };
-          self.state.set('viewRect', rect);
-          self.state.set('rect', Rect.inflate(rect, -20, -20));
+          return this.state.get('rect');
+        },
 
-          if (!lastRect || lastRect.w != rect.w || lastRect.h != rect.h) {
-            self.zoomFit();
-          }
+        imageSize: function () {
+          var viewRect = this.state.get('viewRect');
 
-          self.repaintImage();
-          self.fire('load');
-        });
-      },
+          return {
+            w: viewRect.w,
+            h: viewRect.h
+          };
+        },
 
-      zoom: function (value) {
-        if (arguments.length) {
-          this.state.set('zoom', value);
-          return this;
-        }
+        toggleCropRect: function (state) {
+          this.state.set('cropEnabled', state);
+        },
 
-        return this.state.get('zoom');
-      },
+        imageSrc: function (url) {
+          var self = this, img = new Image();
 
-      postRender: function () {
-        this.imageSrc(this.settings.imageSrc);
-        return this._super();
-      },
+          img.src = url;
 
-      zoomFit: function () {
-        var self = this, $img, pw, ph, w, h, zoom, padding;
+          loadImage(img).then(function () {
+            var rect, $img, lastRect = self.state.get('viewRect');
 
-        padding = 10;
-        $img = self.$el.find('img');
-        pw = self.getEl().clientWidth;
-        ph = self.getEl().clientHeight;
-        w = $img[0].naturalWidth;
-        h = $img[0].naturalHeight;
-        zoom = Math.min((pw - padding) / w, (ph - padding) / h);
-
-        if (zoom >= 1) {
-          zoom = 1;
-        }
-
-        self.zoom(zoom);
-      },
-
-      repaintImage: function () {
-        var x, y, w, h, pw, ph, $img, $bg, zoom, rect, elm;
-
-        elm = this.getEl();
-        zoom = this.zoom();
-        rect = this.state.get('rect');
-        $img = this.$el.find('img');
-        $bg = this.$el.find('.mce-imagepanel-bg');
-        pw = elm.offsetWidth;
-        ph = elm.offsetHeight;
-        w = $img[0].naturalWidth * zoom;
-        h = $img[0].naturalHeight * zoom;
-        x = Math.max(0, pw / 2 - w / 2);
-        y = Math.max(0, ph / 2 - h / 2);
-
-        $img.css({
-          left: x,
-          top: y,
-          width: w,
-          height: h
-        });
-
-        $bg.css({
-          left: x,
-          top: y,
-          width: w,
-          height: h
-        });
-
-        if (this.cropRect) {
-          this.cropRect.setRect({
-            x: rect.x * zoom + x,
-            y: rect.y * zoom + y,
-            w: rect.w * zoom,
-            h: rect.h * zoom
-          });
-
-          this.cropRect.setClampRect({
-            x: x,
-            y: y,
-            w: w,
-            h: h
-          });
-
-          this.cropRect.setViewPortRect({
-            x: 0,
-            y: 0,
-            w: pw,
-            h: ph
-          });
-        }
-      },
-
-      bindStates: function () {
-        var self = this;
-
-        function setupCropRect(rect) {
-          self.cropRect = new CropRect(
-            rect,
-            self.state.get('viewRect'),
-            self.state.get('viewRect'),
-            self.getEl(),
-            function () {
-              self.fire('crop');
+            $img = self.$el.find('img');
+            if ($img[0]) {
+              $img.replaceWith(img);
+            } else {
+              var bg = document.createElement('div');
+              bg.className = 'mce-imagepanel-bg';
+              self.getEl().appendChild(bg);
+              self.getEl().appendChild(img);
             }
-          );
 
-          self.cropRect.on('updateRect', function (e) {
-            var rect = e.rect, zoom = self.zoom();
+            rect = { x: 0, y: 0, w: img.naturalWidth, h: img.naturalHeight };
+            self.state.set('viewRect', rect);
+            self.state.set('rect', Rect.inflate(rect, -20, -20));
 
-            rect = {
-              x: Math.round(rect.x / zoom),
-              y: Math.round(rect.y / zoom),
-              w: Math.round(rect.w / zoom),
-              h: Math.round(rect.h / zoom)
-            };
+            if (!lastRect || lastRect.w != rect.w || lastRect.h != rect.h) {
+              self.zoomFit();
+            }
 
-            self.state.set('rect', rect);
+            self.repaintImage();
+            self.fire('load');
           });
+        },
 
-          self.on('remove', self.cropRect.destroy);
-        }
-
-        self.state.on('change:cropEnabled', function (e) {
-          self.cropRect.toggleVisibility(e.value);
-          self.repaintImage();
-        });
-
-        self.state.on('change:zoom', function () {
-          self.repaintImage();
-        });
-
-        self.state.on('change:rect', function (e) {
-          var rect = e.value;
-
-          if (!self.cropRect) {
-            setupCropRect(rect);
+        zoom: function (value) {
+          if (arguments.length) {
+            this.state.set('zoom', value);
+            return this;
           }
 
-          self.cropRect.setRect(rect);
-        });
-      }
-    });
-  }
-);
+          return this.state.get('zoom');
+        },
 
-/**
- * UndoStack.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+        postRender: function () {
+          this.imageSrc(this.settings.imageSrc);
+          return this._super();
+        },
 
-define(
-  'tinymce.plugins.imagetools.core.UndoStack',
-  [
-  ],
-  function () {
-    return function () {
-      var data = [], index = -1;
+        zoomFit: function () {
+          var self = this, $img, pw, ph, w, h, zoom, padding;
 
-      function add(state) {
-        var removed;
+          padding = 10;
+          $img = self.$el.find('img');
+          pw = self.getEl().clientWidth;
+          ph = self.getEl().clientHeight;
+          w = $img[0].naturalWidth;
+          h = $img[0].naturalHeight;
+          zoom = Math.min((pw - padding) / w, (ph - padding) / h);
 
-        removed = data.splice(++index);
-        data.push(state);
+          if (zoom >= 1) {
+            zoom = 1;
+          }
 
-        return {
-          state: state,
-          removed: removed
-        };
-      }
+          self.zoom(zoom);
+        },
 
-      function undo() {
-        if (canUndo()) {
-          return data[--index];
+        repaintImage: function () {
+          var x, y, w, h, pw, ph, $img, $bg, zoom, rect, elm;
+
+          elm = this.getEl();
+          zoom = this.zoom();
+          rect = this.state.get('rect');
+          $img = this.$el.find('img');
+          $bg = this.$el.find('.mce-imagepanel-bg');
+          pw = elm.offsetWidth;
+          ph = elm.offsetHeight;
+          w = $img[0].naturalWidth * zoom;
+          h = $img[0].naturalHeight * zoom;
+          x = Math.max(0, pw / 2 - w / 2);
+          y = Math.max(0, ph / 2 - h / 2);
+
+          $img.css({
+            left: x,
+            top: y,
+            width: w,
+            height: h
+          });
+
+          $bg.css({
+            left: x,
+            top: y,
+            width: w,
+            height: h
+          });
+
+          if (this.cropRect) {
+            this.cropRect.setRect({
+              x: rect.x * zoom + x,
+              y: rect.y * zoom + y,
+              w: rect.w * zoom,
+              h: rect.h * zoom
+            });
+
+            this.cropRect.setClampRect({
+              x: x,
+              y: y,
+              w: w,
+              h: h
+            });
+
+            this.cropRect.setViewPortRect({
+              x: 0,
+              y: 0,
+              w: pw,
+              h: ph
+            });
+          }
+        },
+
+        bindStates: function () {
+          var self = this;
+
+          function setupCropRect(rect) {
+            self.cropRect = new CropRect(
+              rect,
+              self.state.get('viewRect'),
+              self.state.get('viewRect'),
+              self.getEl(),
+              function () {
+                self.fire('crop');
+              }
+            );
+
+            self.cropRect.on('updateRect', function (e) {
+              var rect = e.rect, zoom = self.zoom();
+
+              rect = {
+                x: Math.round(rect.x / zoom),
+                y: Math.round(rect.y / zoom),
+                w: Math.round(rect.w / zoom),
+                h: Math.round(rect.h / zoom)
+              };
+
+              self.state.set('rect', rect);
+            });
+
+            self.on('remove', self.cropRect.destroy);
+          }
+
+          self.state.on('change:cropEnabled', function (e) {
+            self.cropRect.toggleVisibility(e.value);
+            self.repaintImage();
+          });
+
+          self.state.on('change:zoom', function () {
+            self.repaintImage();
+          });
+
+          self.state.on('change:rect', function (e) {
+            var rect = e.value;
+
+            if (!self.cropRect) {
+              setupCropRect(rect);
+            }
+
+            self.cropRect.setRect(rect);
+          });
         }
-      }
+      });
 
-      function redo() {
-        if (canRedo()) {
-          return data[++index];
-        }
-      }
+      return new ImagePanel(settings);
+    };
 
-      function canUndo() {
-        return index > 0;
-      }
-
-      function canRedo() {
-        return index != -1 && index < data.length - 1;
-      }
-
-      return {
-        data: data,
-        add: add,
-        undo: undo,
-        redo: redo,
-        canUndo: canUndo,
-        canRedo: canRedo
-      };
+    return {
+      create: create
     };
   }
 );
 
-defineGlobal("global!Math", Math);
 /**
  * Dialog.js
  *
@@ -3130,19 +3079,15 @@ define(
   [
     'ephox.imagetools.api.BlobConversions',
     'ephox.imagetools.api.ImageTransformations',
+    'global!Math',
     'tinymce.core.dom.DOMUtils',
-    'tinymce.core.ui.Container',
-    'tinymce.core.ui.Form',
+    'tinymce.core.ui.Factory',
     'tinymce.core.util.Promise',
     'tinymce.core.util.Tools',
-    'tinymce.plugins.imagetools.ui.ImagePanel',
     'tinymce.plugins.imagetools.core.UndoStack',
-    'global!Math'
+    'tinymce.plugins.imagetools.ui.ImagePanel'
   ],
-  function (
-    BlobConversions, ImageTransformations, DOMUtils, Container, Form, Promise,
-    Tools, ImagePanel, UndoStack, Math
-  ) {
+  function (BlobConversions, ImageTransformations, Math, DOMUtils, Factory, Promise, Tools, UndoStack, ImagePanel) {
     function createState(blob) {
       return {
         blob: blob,
@@ -3344,7 +3289,7 @@ define(
       }
 
       function createPanel(items) {
-        return new Form({
+        return Factory.create('Form', {
           layout: 'flex',
           direction: 'row',
           labelGap: 5,
@@ -3553,12 +3498,12 @@ define(
         //{text: 'More', onclick: switchPanel(filtersPanel)}
       ]);
 
-      imagePanel = new ImagePanel({
+      imagePanel = ImagePanel.create({
         flex: 1,
         imageSrc: currentState.url
       });
 
-      sidePanel = new Container({
+      sidePanel = Factory.create('Container', {
         layout: 'flex',
         direction: 'column',
         border: '0 1 0 0',
@@ -3572,7 +3517,7 @@ define(
         ]
       });
 
-      mainViewContainer = new Container({
+      mainViewContainer = Factory.create('Container', {
         type: 'container',
         layout: 'flex',
         direction: 'row',

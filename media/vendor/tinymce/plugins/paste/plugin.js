@@ -596,7 +596,7 @@ define(
           copyAndRemove(cleanWrapper, dirtyWrappers[i]);
         }
 
-        return pasteBinElm.innerHTML;
+        return pasteBinElm ? pasteBinElm.innerHTML : '';
       };
 
 

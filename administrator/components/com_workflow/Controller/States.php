@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class States extends AdminController
 {
@@ -33,7 +33,7 @@ class States extends AdminController
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   3.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(array $config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -50,7 +50,7 @@ class States extends AdminController
 	 *
 	 * @return  \Joomla\CMS\Model\Model  The model.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'State', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
@@ -62,7 +62,7 @@ class States extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setDefault()
 	{
@@ -139,7 +139,7 @@ class States extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function delete()
 	{

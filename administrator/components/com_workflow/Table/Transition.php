@@ -18,7 +18,7 @@ use Joomla\Component\Workflow\Administrator\Table as WTable;
 /**
  * Category table
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Transition extends Table
 {
@@ -28,7 +28,7 @@ class Transition extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
@@ -44,7 +44,7 @@ class Transition extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _getAssetName()
 	{
@@ -60,7 +60,7 @@ class Transition extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _getAssetTitle()
 	{
@@ -75,7 +75,7 @@ class Transition extends Table
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{

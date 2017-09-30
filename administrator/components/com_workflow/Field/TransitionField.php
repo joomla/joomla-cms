@@ -19,7 +19,7 @@ FormHelper::loadFieldClass('list');
 /**
  * Components Category field.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class TransitionField extends \JFormFieldList
 {
@@ -27,7 +27,7 @@ class TransitionField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Transition';
 
@@ -36,7 +36,7 @@ class TransitionField extends \JFormFieldList
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{

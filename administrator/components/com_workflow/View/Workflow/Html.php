@@ -17,7 +17,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 /**
  * View class to add or edit Workflow
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Html extends HtmlView
 {
@@ -25,7 +25,7 @@ class Html extends HtmlView
 	 * The model state
 	 *
 	 * @var     object
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -47,7 +47,7 @@ class Html extends HtmlView
 	 * The ID of current workflow
 	 *
 	 * @var     integer
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $workflowID;
 
@@ -55,7 +55,7 @@ class Html extends HtmlView
 	 * The name of current extension
 	 *
 	 * @var     string
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extension;
 
@@ -73,7 +73,7 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -104,7 +104,7 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

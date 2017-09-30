@@ -389,6 +389,11 @@ class Update extends \JObject
 							$this->latest = $this->currentUpdate;
 						}
 					}
+					else
+					{
+						$this->latest = new \stdClass;
+						$this->latest->php_minimum = $this->currentUpdate->php_minimum;
+					}
 				}
 				break;
 			case 'UPDATES':

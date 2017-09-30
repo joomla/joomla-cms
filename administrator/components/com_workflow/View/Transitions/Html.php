@@ -19,7 +19,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * Workflows view class for the Workflow package.
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Html extends HtmlView
 {
@@ -27,7 +27,7 @@ class Html extends HtmlView
 	 * An array of transitions
 	 *
 	 * @var     array
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $transitions;
 
@@ -35,7 +35,7 @@ class Html extends HtmlView
 	 * The model state
 	 *
 	 * @var     object
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -43,7 +43,7 @@ class Html extends HtmlView
 	 * The HTML for displaying sidebar
 	 *
 	 * @var     string
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $sidebar;
 
@@ -51,7 +51,7 @@ class Html extends HtmlView
 	 * The pagination object
 	 *
 	 * @var     \JPagination
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
@@ -59,7 +59,7 @@ class Html extends HtmlView
 	 * Form object for search filters
 	 *
 	 * @var     \JForm
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
 
@@ -67,7 +67,7 @@ class Html extends HtmlView
 	 * The active search filters
 	 *
 	 * @var     array
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $activeFilters;
 
@@ -75,7 +75,7 @@ class Html extends HtmlView
 	 * The ID of current workflow
 	 *
 	 * @var     integer
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $workflowID;
 
@@ -83,7 +83,7 @@ class Html extends HtmlView
 	 * The name of current extension
 	 *
 	 * @var     string
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extension;
 
@@ -94,7 +94,7 @@ class Html extends HtmlView
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -127,7 +127,7 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

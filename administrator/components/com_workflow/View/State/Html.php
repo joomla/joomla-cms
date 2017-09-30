@@ -17,7 +17,7 @@ use Joomla\Component\Workflow\Administrator\Helper\StateHelper;
 /**
  * View class to add or edit Workflow
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Html extends HtmlView
 {
@@ -33,7 +33,7 @@ class Html extends HtmlView
 	 * From object to generate fields
 	 *
 	 * @var     \JForm
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $form;
 
@@ -41,7 +41,7 @@ class Html extends HtmlView
 	 * Items array
 	 *
 	 * @var     object
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $item;
 
@@ -67,7 +67,7 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -97,7 +97,7 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

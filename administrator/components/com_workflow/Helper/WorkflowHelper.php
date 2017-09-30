@@ -19,7 +19,7 @@ use Joomla\CMS\Helper\ContentHelper;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class WorkflowHelper extends ContentHelper
 {
@@ -32,7 +32,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function callMethodFromHelper($extension, $method, $parameter)
 	{
@@ -85,7 +85,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getStatesSQL($fieldName, $workflowID)
 	{
@@ -108,7 +108,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getConditionName($number)
 	{
@@ -133,7 +133,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @return  resource|boolean
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function runTransitions($pks, $transitions, $extension, $componentTable)
 	{

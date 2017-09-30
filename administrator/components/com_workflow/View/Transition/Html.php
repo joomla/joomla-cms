@@ -18,7 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View class to add or edit Workflow
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Html extends HtmlView
 {
@@ -26,7 +26,7 @@ class Html extends HtmlView
 	 * From object to generate fields
 	 *
 	 * @var     \JForm
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $form;
 
@@ -34,7 +34,7 @@ class Html extends HtmlView
 	 * Items array
 	 *
 	 * @var     object
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $item;
 
@@ -42,7 +42,7 @@ class Html extends HtmlView
 	 * That is object of Application
 	 *
 	 * @var     CMSApplication
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -50,7 +50,7 @@ class Html extends HtmlView
 	 * The application input object.
 	 *
 	 * @var    Input
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $input;
 
@@ -58,7 +58,7 @@ class Html extends HtmlView
 	 * The ID of current workflow
 	 *
 	 * @var     integer
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $workflowID;
 
@@ -70,7 +70,7 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -108,7 +108,7 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{
