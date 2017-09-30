@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Workflow\Administrator\Table as WTable;
+use Joomla\Component\Workflow\Administrator\Table;
 
 /**
  * Category table
@@ -49,7 +49,7 @@ class TransitionTable extends Table
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
-		$workflow = new WTable\Workflow($this->getDbo());
+		$workflow = new WorkflowTable($this->getDbo());
 		$workflow->load($this->workflow_id);
 
 		return $workflow->extension . '.transition.' . (int) $this->$k;
@@ -80,7 +80,7 @@ class TransitionTable extends Table
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
-		$workflow = new WTable\Workflow($this->getDbo());
+		$workflow = new WorkflowTable($this->getDbo());
 		$workflow->load($this->workflow_id);
 		$name = $workflow->extension . '.workflow.' . (int) $workflow->id;
 		$asset->loadByName($name);
