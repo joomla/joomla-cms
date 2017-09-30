@@ -144,7 +144,7 @@ class WorkflowTable extends Table
 			$query
 				->select($db->qn('id'))
 				->from($db->qn('#__workflows'))
-				->andWhere($db->qn('default') . '= 1');
+				->where($db->qn('default') . '= 1');
 
 			$state = $db->setQuery($query)->loadObject();
 
