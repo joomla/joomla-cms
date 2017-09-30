@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Controller\FormController;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Workflow extends FormController
+class WorkflowController extends FormController
 {
 	/**
 	 * The extension for which the categories apply.

@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Transitions extends AdminController
+class TransitionsController extends AdminController
 {
 
 	/**

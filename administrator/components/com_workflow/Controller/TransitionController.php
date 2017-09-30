@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Controller\FormController;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Transition extends FormController
+class TransitionController extends FormController
 {
 	/**
 	 * The workflow for which is that state

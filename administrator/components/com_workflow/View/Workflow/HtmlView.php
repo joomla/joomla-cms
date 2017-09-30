@@ -10,7 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
@@ -19,7 +19,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Html extends HtmlView
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * The model state

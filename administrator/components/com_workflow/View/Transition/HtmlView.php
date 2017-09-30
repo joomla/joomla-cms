@@ -11,7 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Html extends HtmlView
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * From object to generate fields

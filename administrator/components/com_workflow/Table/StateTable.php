@@ -6,19 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Workflow\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Workflow\Administrator\Table as WTable;
 
 /**
  * Category table
  *
  * @since  __DEPLOY_VERSION__
  */
-class Workflow extends Table
+class StateTable extends Table
 {
 
 	/**
@@ -30,8 +32,7 @@ class Workflow extends Table
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
-		$this->typeAlias = '{extension}.workflow';
-		parent::__construct('#__workflows', 'id', $db);
+		parent::__construct('#__workflow_states', 'id', $db);
 		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
@@ -40,15 +41,16 @@ class Workflow extends Table
 	 *
 	 * @param   int  $pk  Extension ids to delete.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 *
-	 * @throws  \Exception on ACL error
+	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
+		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
 		{
 			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
@@ -59,14 +61,14 @@ class Workflow extends Table
 		// Gets the update site names.
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'title')))
-			->from($db->qn('#__workflows'))
+			->from($db->qn('#__workflow_states'))
 			->where($db->qn('id') . ' = ' . (int) $pk);
 		$db->setQuery($query);
-		$workflow = $db->loadResult();
+		$state = $db->loadResult();
 
-		if ($workflow->default)
+		if ($state->default)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
+			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $state->title), 'error');
 
 			return false;
 		}
@@ -75,25 +77,18 @@ class Workflow extends Table
 		try
 		{
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflow_states'))
-				->where($db->qn('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
-
-			$query = $db->getQuery(true)
 				->delete($db->qn('#__workflow_transitions'))
-				->where($db->qn('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+				->where($db->qn('to_state_id') . ' = ' . (int) $pk, 'OR')
+				->where($db->qn('from_state_id') . ' = ' . (int) $pk);
+
+			$db->setQuery($query)->execute();
 
 			return parent::delete($pk);
 
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
-
-			return;
+			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $state->title, $e->getMessage()), 'error');
 		}
 
 		return false;
@@ -122,7 +117,7 @@ class Workflow extends Table
 
 		if (trim($this->title) === '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_WORKFLOW'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
 
 			return false;
 		}
@@ -143,7 +138,8 @@ class Workflow extends Table
 
 			$query
 				->select($db->qn('id'))
-				->from($db->qn('#__workflows'))
+				->from($db->qn('#__workflow_states'))
+				->where($db->qn('workflow_id') . '=' . $this->workflow_id)
 				->andWhere($db->qn('default') . '= 1');
 
 			$state = $db->setQuery($query)->loadObject();
@@ -173,32 +169,12 @@ class Workflow extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = Factory::getDate();
-		$user = Factory::getUser();
-
-		$table = Table::getInstance('Workflow', '\\Joomla\\Component\\Workflow\\Administrator\\Table\\', array('dbo' => $this->getDbo()));
-
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_by = $user->id;
-			$this->modified = $date->toSql();
-		}
-
-		if (!(int) $this->created)
-		{
-			$this->created = $date->toSql();
-		}
-
-		if (empty($this->created_by))
-		{
-			$this->created_by = $user->id;
-		}
+		$table = Table::getInstance('State', '\\Joomla\\Component\\Workflow\\Administrator\\Table\\', array('dbo' => $this->getDbo()));
 
 		if ($this->default == '1')
 		{
 			// Verify that the default is unique for this workflow
-			if ($table->load(array('default' => '1')))
+			if ($table->load(array('default' => '1', 'workflow_id' => (int) $this->workflow_id)))
 			{
 				$table->default = 0;
 				$table->store();
@@ -220,8 +196,10 @@ class Workflow extends Table
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
+		$workflow = new WTable\Workflow($this->getDbo());
+		$workflow->load($this->workflow_id);
 
-		return $this->extension . '.workflow.' . (int) $this->$k;
+		return $workflow->extension . '.state.' . (int) $this->$k;
 	}
 
 	/**
@@ -248,30 +226,13 @@ class Workflow extends Table
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
-		$assetId = null;
+		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+		$workflow = new WTable\Workflow($this->getDbo());
+		$workflow->load($this->workflow_id);
+		$name = $workflow->extension . '.workflow.' . (int) $workflow->id;
+		$asset->loadByName($name);
+		$assetId = $asset->id;
 
-		// Build the query to get the asset id for the parent category.
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('id'))
-			->from($this->_db->quoteName('#__assets'))
-			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
-
-		// Get the asset id from the database.
-		$this->_db->setQuery($query);
-
-		if ($result = $this->_db->loadResult())
-		{
-			$assetId = (int) $result;
-		}
-
-		// Return the asset id.
-		if ($assetId)
-		{
-			return $assetId;
-		}
-		else
-		{
-			return parent::_getAssetParentId($table, $id);
-		}
+		return !empty($assetId) ? $assetId : parent::_getAssetParentId($table, $id);
 	}
 }

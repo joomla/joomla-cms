@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
  *
  * @since  __DEPLOY_VERSION__
  */
-class States extends AdminController
+class StatesController extends AdminController
 {
 	/**
 	 * Constructor.

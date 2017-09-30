@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Model\ListModel;
  *
  * @since  __DEPLOY_VERSION__
  */
-class States extends ListModel
+class StatesModel extends ListModel
 {
 	/**
 	 * Constructor.

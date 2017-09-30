@@ -20,7 +20,7 @@ use Joomla\Component\Workflow\Administrator\Table as WTable;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Transition extends Table
+class TransitionTable extends Table
 {
 
 	/**

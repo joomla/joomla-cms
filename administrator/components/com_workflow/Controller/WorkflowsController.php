@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Workflows extends AdminController
+class WorkflowsController extends AdminController
 {
 	/**
 	 * Constructor.

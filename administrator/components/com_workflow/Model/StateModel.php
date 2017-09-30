@@ -9,14 +9,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since  __DEPLOY_VERSION__
  */
-
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use JError;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\String\StringHelper;
 
 /**
@@ -26,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Workflow extends AdminModel
+class StateModel extends AdminModel
 {
 	/**
 	 * Auto-populate the model state.
@@ -35,7 +34,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   4.0
 	 */
 	public function populateState()
 	{
@@ -57,7 +56,7 @@ class Workflow extends AdminModel
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since	4.0
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -77,19 +76,21 @@ class Workflow extends AdminModel
 	 *
 	 * @param   array  $data  The form data.
 	 *
-	 * @return  boolean True on success.
+	 * @return   boolean  True on success.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function save($data)
 	{
-		$user					= \JFactory::getUser();
-		$app					= \JFactory::getApplication();
-		$input                  = $app->input;
-		$context				= $this->option . '.' . $this->name;
-		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
-		$data['extension']		= $extension;
-		$data['asset_id']		= 0;
+		$context             = $this->option . '.' . $this->name;
+		$app                 = \JFactory::getApplication();
+		$input               = $app->input;
+		$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+
+		if (empty($data['workflow_id']))
+		{
+			$data['workflow_id'] = $workflowID;
+		}
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -102,30 +103,49 @@ class Workflow extends AdminModel
 				$data['title'] = $title;
 			}
 
-			// Unpublish new copy
 			$data['published'] = 0;
+			$data['default']   = 0;
 		}
 
-		$result = parent::save($data);
+		return parent::save($data);
+	}
 
-		// Create a default state
-		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 * @throws  \UnexpectedValueException
+	 */
+	protected function canDelete($record)
+	{
+		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
 		{
-			$state = $this->getTable('State');
-
-			$newstate = new \stdClass;
-
-			$newstate->workflow_id = (int) $this->getState($this->getName() . '.id');
-			$newstate->title = \JText::_('COM_WORKFLOW_PUBLISHED');
-			$newstate->description = '';
-			$newstate->published = 1;
-			$newstate->condition = 1;
-			$newstate->default = 1;
-
-			$state->save($newstate);
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
-		return $result;
+		$app = \JFactory::getApplication();
+		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$isAssigned = WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $record->id);
+
+		if ($isAssigned && !$record->default)
+		{
+			return true;
+		}
+		elseif ($isAssigned === null && !$record->default)
+		{
+			return true;
+		}
+		else
+		{
+			$this->setError(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'));
+
+			return false;
+		}
 	}
 
 	/**
@@ -142,10 +162,10 @@ class Workflow extends AdminModel
 	{
 		// Get the form.
 		$form = $this->loadForm(
-			'com_workflow.workflow',
-			'workflow',
+			'com_workflow.state',
+			'state',
 			array(
-				'control'   => 'jform',
+				'control' => 'jform',
 				'load_data' => $loadData
 			)
 		);
@@ -156,11 +176,13 @@ class Workflow extends AdminModel
 		// Use $item, otherwise we'll be locked when we get the data from the request
 		if (!empty($item->default))
 		{
+			$form->setValue('default', null, 1);
 			$form->setFieldAttribute('default', 'readonly', 'true');
 		}
 
 		return $form;
 	}
+
 
 	/**
 	 * Method to get the data that should be injected in the form.
@@ -173,7 +195,7 @@ class Workflow extends AdminModel
 	{
 		// Check the session for previously entered form data.
 		$data = \JFactory::getApplication()->getUserState(
-			'com_workflow.edit.workflow.data',
+			'com_workflow.edit.state.data',
 			array()
 		);
 
@@ -186,7 +208,7 @@ class Workflow extends AdminModel
 	}
 
 	/**
-	 * Method to change the home state of one item.
+	 * Method to change the home state of one or more items.
 	 *
 	 * @param   array    $pk     A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
@@ -211,19 +233,17 @@ class Workflow extends AdminModel
 
 		if ($value)
 		{
-			// Unset other default item
-			if ($table->load(array('default' => '1')))
+			// Verify that the home page for this language is unique per client id
+			if ($table->load(array('default' => '1', 'workflow_id' => $table->workflow_id)))
 			{
 				$table->default = 0;
-				$table->modified = date("Y-m-d H:i:s");
 				$table->store();
 			}
 		}
 
 		if ($table->load(array('id' => $pk)))
 		{
-			$table->modified = date("Y-m-d H:i:s");
-			$table->default  = $value;
+			$table->default = $value;
 			$table->store();
 		}
 
@@ -231,21 +251,6 @@ class Workflow extends AdminModel
 		$this->cleanCache();
 
 		return true;
-	}
-
-	/**
-	 * Method to test whether a record can be deleted.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected function canDelete($record)
-	{
-		// @TODO check here if the record can be deleted (no item is assigned to a status etc...)
-		return parent::canDelete($record);
 	}
 
 	/**
@@ -262,20 +267,27 @@ class Workflow extends AdminModel
 	{
 		$table = $this->getTable();
 		$pks   = (array) $pks;
+		$app = Factory::getApplication();
+		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
 
-		// Default menu item existence checks.
-		foreach ($pks as $i => $pk)
+		// Default item existence checks.
+		if ($value != 1)
 		{
-			if ($value != 1 && $table->default)
+			foreach ($pks as $i => $pk)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
-				unset($pks[$i]);
-				break;
-			}
+				if ($table->load(array('id' => $pk)) && $table->default)
+				{
+					// Prune items that you can't change.
+					$app->enqueueMessage(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'), 'error');
+					unset($pks[$i]);
+				}
 
-			$table->load($pk);
-			$table->modified = date("Y-m-d H:i:s");
-			$table->store();
+				if (!WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $pks[$i]))
+				{
+					$app->enqueueMessage(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'), 'error');
+					unset($pks[$i]);
+				}
+			}
 		}
 
 		return parent::publish($pks, $value);

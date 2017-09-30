@@ -22,7 +22,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Transitions extends ListModel
+class TransitionsModel extends ListModel
 {
 	/**
 	 * Constructor.

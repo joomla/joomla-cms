@@ -23,7 +23,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Transition extends AdminModel
+class TransitionModel extends AdminModel
 {
 
 	/**

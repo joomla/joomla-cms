@@ -6,13 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Transitions;
+namespace Joomla\Component\Workflow\Administrator\View\States;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -21,15 +21,15 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Html extends HtmlView
+class HtmlView extends BaseHtmlView
 {
 	/**
-	 * An array of transitions
+	 * An array of states
 	 *
 	 * @var     array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $transitions;
+	protected $states;
 
 	/**
 	 * The model state
@@ -87,6 +87,7 @@ class Html extends HtmlView
 	 */
 	protected $extension;
 
+
 	/**
 	 * Display the view
 	 *
@@ -104,18 +105,25 @@ class Html extends HtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		$this->state            = $this->get('State');
-		$this->transitions      = $this->get('Items');
-		$this->pagination       = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->states        = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
+
+		WorkflowHelper::callMethodFromHelper($this->state->get("filter.extension"), "addSubmenu", "states");
+		$this->sidebar       = \JHtmlSidebar::render();
 
 		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
 
-		WorkflowHelper::callMethodFromHelper($this->extension, "addSubmenu", "transitions");
-		$this->sidebar       = \JHtmlSidebar::render();
-
+		if (!empty($this->states))
+		{
+			foreach ($this->states as $i => $item)
+			{
+				$item->condition = WorkflowHelper::getConditionName($item->condition);
+			}
+		}
 
 		$this->addToolbar();
 
@@ -139,24 +147,46 @@ class Html extends HtmlView
 
 		if ($canDo->get("core.create"))
 		{
-			ToolbarHelper::addNew('transition.add');
+			ToolbarHelper::addNew('state.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('transitions.publish');
-			ToolbarHelper::unpublishList('transitions.unpublish');
+			ToolbarHelper::publishList('states.publish');
+			ToolbarHelper::unpublishList('states.unpublish');
+			ToolbarHelper::makeDefault('states.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+		}
+
+		if ($canDo->get('core.admin'))
+		{
+			ToolbarHelper::checkin('states.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
 		if ($this->state->get("filter.published") === "-2" && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
+			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('transitions.trash');
+			ToolbarHelper::trash('states.trash');
 		}
 
-		ToolbarHelper::help('JHELP_WORKFLOW_TRANSITIONS_LIST');
+		ToolbarHelper::help('JHELP_WORKFLOW_STATES_LIST');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.published' => \JText::_('JSTATUS'),
+			'a.title'     => \JText::_('JGLOBAL_TITLE'),
+			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+		);
 	}
 }
