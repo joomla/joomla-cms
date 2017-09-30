@@ -235,7 +235,6 @@ class JAdminCssMenu
 	{
 		$result     = array();
 		$user       = JFactory::getUser();
-		$authLevels = $user->getAuthorisedViewLevels();
 		$language   = JFactory::getLanguage();
 
 		$noSeparator = true;
@@ -291,12 +290,6 @@ class JAdminCssMenu
 			}
 
 			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
-			{
-				continue;
-			}
-
-			// Exclude if menu item set access level is not met
-			if ($item->access && !in_array($item->access, $authLevels))
 			{
 				continue;
 			}
