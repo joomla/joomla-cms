@@ -625,7 +625,6 @@ class ArticleModel extends AdminModel
 
 		if (!empty($data['transition']))
 		{
-//			WorkflowHelper::runTransitions(array($data['id']), array((int) $data['transition']), 'com_content', '#__content');
 			WorkflowHelper::runTransition($data['id'], (int) $data['transition'], 'com_content');
 		}
 
@@ -913,16 +912,14 @@ class ArticleModel extends AdminModel
 	 * Runs transition for item.
 	 *
 	 * @param   array  $pk          id of article
-	 * @param   array  $transition  ids of transition
+	 * @param   array  $transition  id of transition
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0
 	 */
-	public function runTransition($pks, $transitions)
+	public function runTransition($pk, $transitionId)
 	{
-		$pk = $pks[0];
-		$transitionId = $transitions[0];
 		$runTransaction = WorkflowHelper::runTransition($pk, $transitionId, "com_content");
 
 		if (!$runTransaction)

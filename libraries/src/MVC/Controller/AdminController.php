@@ -423,15 +423,16 @@ class AdminController extends BaseController
 	{
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
-		$transitions = $this->input->post->get('transition_id', -1, 'int');
 
-		// Sanitize the input
-		$pks = ArrayHelper::toInteger($pks);
-		$transitions = ArrayHelper::toInteger($transitions);
+		if (count($pks) == 0) return false;
+
+		$pk = (int) $pks[0];
+
+		$transitionId = $this->input->post->get('transition_' . $pk, -1, 'int');
 
 		// Get the model
 		$model = $this->getModel();
-		$return = $model->runTransition($pks, $transitions);
+		$return = $model->runTransition($pk, $transitionId);
 
 		if ($return === false)
 		{
