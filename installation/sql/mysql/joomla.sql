@@ -2243,5 +2243,5 @@ CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   PRIMARY KEY (`item_id`, `state_id`, `extension`),
   KEY `idx_item_id` (`item_id`),
   KEY `idx_state_id` (`state_id`),
-  KEY `idx_extension` (`extension`(100)),
+  KEY `idx_extension` (`extension`(100))
 ) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
