@@ -292,6 +292,20 @@ class JAdminCssMenu
 			elseif ($item->element == 'com_fields')
 			{
 				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$createFields = null;
+
+				if (isset($query['context']))
+				{
+					$createFields = JComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
+
+				if (!$createFields)
+				{
+					continue;
+				}
+
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
 
