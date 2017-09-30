@@ -62,7 +62,7 @@ class TransitionModel extends AdminModel
 
 		if (!$isNew)
 		{
-			$query->andWhere($db->qn('id') . ' <> ' . (int) $data['id']);
+			$query->where($db->qn('id') . ' <> ' . (int) $data['id']);
 		}
 
 		$db->setQuery($query);

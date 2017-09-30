@@ -138,7 +138,7 @@ class StateTable extends Table
 				->select($db->qn('id'))
 				->from($db->qn('#__workflow_states'))
 				->where($db->qn('workflow_id') . '=' . $this->workflow_id)
-				->andWhere($db->qn('default') . '= 1');
+				->where($db->qn('default') . '= 1');
 
 			$state = $db->setQuery($query)->loadObject();
 

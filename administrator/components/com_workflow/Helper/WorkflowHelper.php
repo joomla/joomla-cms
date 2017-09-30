@@ -96,7 +96,7 @@ class WorkflowHelper extends ContentHelper
 			->select($db->quoteName(array('id', 'title'), array('value', $fieldName)))
 			->from($db->quoteName('#__workflow_states'))
 			->where($db->quoteName('workflow_id') . ' = ' . (int) $workflowID)
-			->andWhere($db->quoteName('published') . ' =1');
+			->where($db->quoteName('published') . ' =1');
 
 		return (string) $query;
 	}
