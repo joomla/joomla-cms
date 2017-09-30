@@ -218,8 +218,12 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the states.
+		$query->select('wa.state_id AS state_id')
+			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
+
+		// Join over the states.
 		$query->select('ws.title AS state_title, ws.id AS state, ws.condition AS status')
-			->join('LEFT', '#__workflow_states AS ws ON a.state = ws.id');
+			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -307,6 +311,7 @@ class ArticlesModel extends ListModel
 			$query->where($db->qn('ws.condition') . ' IN ("0","1")');
 		}
 
+		$query->where($db->qn('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by a single or group of categories.
 		$baselevel  = 1;
