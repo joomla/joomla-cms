@@ -184,6 +184,11 @@ class WorkflowTable extends Table
 			$this->modified_by = $user->id;
 			$this->modified = $date->toSql();
 		}
+		else
+		{
+			$this->modified_by = 0;
+			$this->modified = $this->getDbo()->getNullDate();
+		}
 
 		if (!(int) $this->created)
 		{
