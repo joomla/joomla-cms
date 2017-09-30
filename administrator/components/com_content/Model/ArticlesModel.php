@@ -293,11 +293,11 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$published = (string) $this->getState('filter.state');
+		$workflowState = (string) $this->getState('filter.state');
 
-		if (is_numeric($published))
+		if (is_numeric($workflowState))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('wa.state_id = ' . (int) $workflowState);
 		}
 
 		$condition = (string) $this->getState('filter.condition');
@@ -306,7 +306,7 @@ class ArticlesModel extends ListModel
 		{
 			$query->where($db->qn('ws.condition') . '=' . $db->quote($condition));
 		}
-		elseif (!is_numeric($published))
+		elseif (!is_numeric($workflowState))
 		{
 			$query->where($db->qn('ws.condition') . ' IN ("0","1")');
 		}
