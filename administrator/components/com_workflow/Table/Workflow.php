@@ -100,6 +100,115 @@ class Workflow extends Table
 	}
 
 	/**
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @see     Table::check()
+	 * @since   4.0
+	 */
+	public function check()
+	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		if (trim($this->title) === '')
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_WORKFLOW'));
+
+			return false;
+		}
+
+		if (!empty($this->default))
+		{
+			if ((int) $this->published !== 1)
+			{
+				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+
+				return false;
+			}
+		}
+		else
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
+
+			$query
+				->select($db->qn('id'))
+				->from($db->qn('#__workflows'))
+				->andWhere($db->qn('default') . '= 1');
+
+			$state = $db->setQuery($query)->loadObject();
+
+			if (empty($state) || $state->id === $this->id)
+			{
+				$this->default = '1';
+
+				$this->setError(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'));
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   4.0
+	 */
+	public function store($updateNulls = false)
+	{
+		$date = Factory::getDate();
+		$user = Factory::getUser();
+
+		$table = Table::getInstance('Workflow', '\\Joomla\\Component\\Workflow\\Administrator\\Table\\', array('dbo' => $this->getDbo()));
+
+		if ($this->id)
+		{
+			// Existing item
+			$this->modified_by = $user->id;
+			$this->modified = $date->toSql();
+		}
+
+		if (!(int) $this->created)
+		{
+			$this->created = $date->toSql();
+		}
+
+		if (empty($this->created_by))
+		{
+			$this->created_by = $user->id;
+		}
+
+		if ($this->default == '1')
+		{
+			// Verify that the default is unique for this workflow
+			if ($table->load(array('default' => '1')))
+			{
+				$table->default = 0;
+				$table->store();
+			}
+		}
+
+		return parent::store($updateNulls);
+	}
+
+	/**
 	 * Method to compute the default name of the asset.
 	 * The default name is in the form table_name.id
 	 * where id is the value of the primary key of the table.
