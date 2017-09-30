@@ -86,8 +86,6 @@ class State extends AdminModel
 		$app                 = \JFactory::getApplication();
 		$input               = $app->input;
 		$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
-		$data['access']      = 0;
-		$data['workflow_id'] = $workflowID;
 
 		if (empty($data['workflow_id']))
 		{
