@@ -176,7 +176,7 @@ class WorkflowTable extends Table
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
-		$table = Table::getInstance('Workflow', '\\Joomla\\Component\\Workflow\\Administrator\\Table\\', array('dbo' => $this->getDbo()));
+		$table = new WorkflowTable($this->getDbo());
 
 		if ($this->id)
 		{
