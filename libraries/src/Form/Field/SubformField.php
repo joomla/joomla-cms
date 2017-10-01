@@ -10,9 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * The Field to load the form inside current form
@@ -114,7 +112,7 @@ class SubformField extends FormField
 				// Add root path if we have a path to XML file
 				if (strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
 				{
-					$this->formsource = Path::clean(JPATH_ROOT . '/' . $this->formsource);
+					$this->formsource = \JPath::clean(JPATH_ROOT . '/' . $this->formsource);
 				}
 
 				break;
