@@ -235,7 +235,6 @@ class JAdminCssMenu
 	{
 		$result     = array();
 		$user       = JFactory::getUser();
-		$authLevels = $user->getAuthorisedViewLevels();
 		$language   = JFactory::getLanguage();
 
 		$noSeparator = true;
@@ -276,6 +275,12 @@ class JAdminCssMenu
 				}
 			}
 
+			// Exclude item if the component is not installed or disabled
+			if ($item->element && (!JComponentHelper::isInstalled($item->element) || !JComponentHelper::isEnabled($item->element)))
+			{
+				continue;
+			}
+
 			// Exclude item if the component is not authorised
 			$assetName = $item->element;
 
@@ -287,16 +292,24 @@ class JAdminCssMenu
 			elseif ($item->element == 'com_fields')
 			{
 				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$createFields = null;
+
+				if (isset($query['context']))
+				{
+					$createFields = JComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
+
+				if (!$createFields)
+				{
+					continue;
+				}
+
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
 
 			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
-			{
-				continue;
-			}
-
-			// Exclude if menu item set access level is not met
-			if ($item->access && !in_array($item->access, $authLevels))
 			{
 				continue;
 			}

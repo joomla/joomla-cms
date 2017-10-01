@@ -86,82 +86,84 @@ if (!empty($editor))
 				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->type != 'separator' && $item->type != 'alias' &&
-								$item->type != 'heading' && $item->type != 'container' && $item->type != 'url') : ?>
-						<?php if ($item->language && JLanguageMultilang::isEnabled())
+				<?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
+					<?php if ($item->language && JLanguageMultilang::isEnabled())
+					{
+						if ($item->language !== '*')
 						{
-							if ($item->language !== '*')
-							{
-								$language = $item->language;
-							}
-							else
-							{
-								$language = '';
-							}
+							$language = $item->language;
 						}
-						elseif (!JLanguageMultilang::isEnabled())
+						else
 						{
 							$language = '';
 						}
-						?>
-						<tr class="row<?php echo $i % 2; ?>">
-							<td class="center">
-								<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, 0); ?>
-							</td>
-							<td>
-								<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
-								<?php echo $prefix; ?>
-								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+					}
+					elseif (!JLanguageMultilang::isEnabled())
+					{
+						$language = '';
+					}
+					?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<td class="center">
+							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, 0); ?>
+						</td>
+						<td>
+							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+							<?php echo $prefix; ?>
+							<?php if (!$uselessMenuItem) : ?>
+								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
 									<?php echo $this->escape($item->title); ?>
 								</a>
-								<span class="small">
-									<?php if (empty($item->note)) : ?>
-										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-									<?php else : ?>
-										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-									<?php endif; ?>
-								</span>
-								<div title="<?php echo $this->escape($item->path); ?>">
-									<?php echo $prefix; ?>
-									<span class="small" title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
-										<?php echo $this->escape($item->item_type); ?></span>
-								</div>
-							</td>
-							<td class="small hidden-phone">
-								<?php echo $this->escape($item->menutype_title); ?>
-							</td>
-							<td class="center hidden-phone">
-								<?php if ($item->type == 'component') : ?>
-									<?php if ($item->language == '*' || $item->home == '0') : ?>
-										<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
-									<?php else : ?>
-										<?php if ($item->language_image) : ?>
-											<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
-										<?php else : ?>
-											<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
-										<?php endif; ?>
-									<?php endif; ?>
-								<?php endif; ?>
-							</td>
-							<td class="small hidden-phone">
-								<?php echo $this->escape($item->access_level); ?>
-							</td>
-							<td class="small hidden-phone">
-								<?php if ($item->language == '') : ?>
-									<?php echo JText::_('JDEFAULT'); ?>
-								<?php elseif ($item->language == '*') : ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
+							<?php else : ?>
+								<?php echo $this->escape($item->title); ?>
+							<?php endif; ?>	
+							<span class="small">
+								<?php if (empty($item->note)) : ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								<?php else : ?>
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
-							</td>
-							<td class="hidden-phone">
-								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
-									<?php echo (int) $item->id; ?>
-								</span>
-							</td>
-						</tr>
-					<?php endif; ?>
+							</span>
+							<div title="<?php echo $this->escape($item->path); ?>">
+								<?php echo $prefix; ?>
+								<span class="small" title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
+									<?php echo $this->escape($item->item_type); ?></span>
+							</div>
+						</td>
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->menutype_title); ?>
+						</td>
+						<td class="center hidden-phone">
+							<?php if ($item->type == 'component') : ?>
+								<?php if ($item->language == '*' || $item->home == '0') : ?>
+									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
+								<?php else : ?>
+									<?php if ($item->language_image) : ?>
+										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+									<?php else : ?>
+										<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+									<?php endif; ?>
+								<?php endif; ?>
+							<?php endif; ?>
+						</td>
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->access_level); ?>
+						</td>
+						<td class="small hidden-phone">
+							<?php if ($item->language == '') : ?>
+								<?php echo JText::_('JDEFAULT'); ?>
+							<?php elseif ($item->language == '*') : ?>
+								<?php echo JText::alt('JALL', 'language'); ?>
+							<?php else : ?>
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							<?php endif; ?>
+						</td>
+						<td class="hidden-phone">
+							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
+								<?php echo (int) $item->id; ?>
+							</span>
+						</td>
+					</tr>
 				<?php endforeach; ?>
 				</tbody>
 			</table>

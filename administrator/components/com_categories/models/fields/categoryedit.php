@@ -232,18 +232,13 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				}
 			}
 
-			if ($options[$i]->level != 0)
-			{
-				$options[$i]->level = $options[$i]->level -1;
-			}
-
 			if ($options[$i]->published == 1)
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . $options[$i]->text;
 			}
 			else
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
+				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . '[' . $options[$i]->text . ']';
 			}
 
 			// Displays language code if not set to All
