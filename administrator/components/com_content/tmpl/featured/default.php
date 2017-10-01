@@ -202,12 +202,12 @@ $js = "
 													<span class="icon-<?php echo $icon; ?>"></span>
 												</a>
 											<?php else : ?>
-                                                <span class="icon-<?php echo $icon; ?>"></span>
+												<span class="icon-<?php echo $icon; ?>"></span>
 											<?php endif; ?>
 										</div>
 										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
 										<?php if ($hasTransitions) : ?>
-                                            <div class="d-none">
+											<div class="d-none">
 												<?php
 												$attribs = [
 													'id'	=> 'transition-select_' . (int) $item->id,
@@ -218,7 +218,7 @@ $js = "
 												];
 												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
 												?>
-                                            </div>
+											</div>
 										<?php endif; ?>
 									</div>
 								</td>
