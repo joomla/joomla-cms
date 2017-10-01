@@ -271,6 +271,12 @@ class ContentModelArticles extends JModelList
 		$baselevel  = 1;
 		$categoryId = $this->getState('filter.category_id');
 
+		// Allow listing articles in sub-categories when categories filter has single category
+		if (is_array($categoryId) && count($categoryId) === 1)
+		{
+			$categoryId = (int) reset($categoryId);
+		}
+
 		if (is_numeric($categoryId))
 		{
 			$categoryTable = JTable::getInstance('Category', 'JTable');
