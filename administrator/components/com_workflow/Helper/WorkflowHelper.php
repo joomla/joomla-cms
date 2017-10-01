@@ -171,7 +171,15 @@ class WorkflowHelper extends ContentHelper
 		return false;
 	}
 
-
+	/**
+	 * Adds an association for the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   int     $stateId      id of state
+	 * @param   string  $extension    extension type
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function addAssociation($itemId, $stateId, $extension = 'com_content')
 	{
 		$db    = Factory::getDbo();
@@ -187,6 +195,16 @@ class WorkflowHelper extends ContentHelper
 		$db->execute();
 	}
 
+	/**
+	 * Gets an association form the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   string  $extension    extension type
+	 *
+	 * @return object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function getAssociatedEntry($itemId, $extension = 'com_content')
 	{
 		$db    = Factory::getDbo();
@@ -203,22 +221,16 @@ class WorkflowHelper extends ContentHelper
 		return $db->loadObject();
 	}
 
-	public static function getAssociatedItemIds($stateId, $extension = 'com_content')
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query
-			->select('*')
-			->from($db->qn('#__workflow_associations'))
-			->where($db->qn('state_id') . '=' . (int) $stateId)
-			->andWhere($db->qn('extension') . '=' . $db->quote($extension));
-
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
-	}
-
+	/**
+	 * Removes an association form the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   string  $extension    extension type
+	 *
+	 * @return boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function removeAssociationByItemId($itemId, $extension = 'com_content')
 	{
 		try
@@ -242,6 +254,17 @@ class WorkflowHelper extends ContentHelper
 		return true;
 	}
 
+	/**
+	 * Updates an association in the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   int     $stateId       id of state
+	 * @param   string  $extension    extension type
+	 *
+	 * @return boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function updateAssociationByItemId($itemId, $stateId, $extension = 'com_content')
 	{
 		try
@@ -266,6 +289,15 @@ class WorkflowHelper extends ContentHelper
 		return true;
 	}
 
+	/**
+	 * Gets the to_state of a transition
+	 *
+	 * @param   int  $transitionId    id of transition
+	 *
+	 * @return object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public static function getUpdatedState($transitionId)
 	{
 		$db    = Factory::getDbo();
