@@ -87,9 +87,9 @@ $js = "
 								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-                                <th style="width:1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JText::_("COM_CONTENT_STATE") ?>
-                                </th>
+								</th>
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
@@ -177,7 +177,7 @@ $js = "
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
-                                <td class="article-status">
+								<td class="article-status">
 									<div class="d-flex">
                                         <div class="btn-group tbody-icon mr-1">
 											<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
@@ -198,14 +198,14 @@ $js = "
 											endswitch;
 											?>
 											<?php if ($hasTransitions) : ?>
-                                                <a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
-                                                    <span class="icon-<?php echo $icon; ?>"></span>
-                                                </a>
+												<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
+													<span class="icon-<?php echo $icon; ?>"></span>
+												</a>
 											<?php else : ?>
                                                 <span class="icon-<?php echo $icon; ?>"></span>
 											<?php endif; ?>
-                                        </div>
-                                        <div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										</div>
+										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
 										<?php if ($hasTransitions) : ?>
                                             <div class="d-none">
 												<?php
@@ -221,7 +221,7 @@ $js = "
                                             </div>
 										<?php endif; ?>
 									</div>
-                                </td>
+								</td>
 								<td class="has-context">
 									<div class="break-word">
 										<?php if ($item->checked_out) : ?>
