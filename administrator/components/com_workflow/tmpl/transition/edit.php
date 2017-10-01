@@ -30,6 +30,22 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_WORKFLOW_DESCRIPTION')); ?>
 		<div class="row">
 			<div class="col-md-9">
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('from_state_id'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('from_state_id'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('to_state_id'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('to_state_id'); ?>
+					</div>
+				</div>
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="col-md-3">
@@ -42,22 +58,6 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 								</div>
 								<div class="controls">
 									<?php echo $this->form->getInput('published'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('from_state_id'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('from_state_id'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('to_state_id'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('to_state_id'); ?>
 								</div>
 							</div>
 						</fieldset>
