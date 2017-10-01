@@ -349,7 +349,8 @@ class ArticleModel extends AdminModel
 			if ($table->load(array('id' => $id)))
 			{
 				// Transition field
-				$form->setFieldAttribute('transition', 'state', (int) $table->state);
+				$workflowState = WorkflowHelper::getAssociatedEntry($table->id);
+				$form->setFieldAttribute('transition', 'workflow_state', (int) $workflowState->state_id);
 			}
 
 		}
@@ -596,6 +597,7 @@ class ArticleModel extends AdminModel
 		{
 			$query
 				->select($db->qn("id"))
+				->select($db->qn("condition"))
 				->from($db->qn("#__workflow_states"))
 				->where($db->qn("default") . '=' . 1);
 
@@ -615,14 +617,15 @@ class ArticleModel extends AdminModel
 			}
 
 			$db->setQuery($query);
-			$state = $db->loadResult();
+			$workflowState = $db->loadObject();
 
-			$data['state'] = $state;
+			$data['state'] = $workflowState->condition;
+			$data['workflow_state'] = $workflowState->id;
 		}
 
-		if ($data['transition'] !== "")
+		if (!empty($data['transition']))
 		{
-			WorkflowHelper::runTransitions(array($data['id']), array((int) $data['transition']), 'com_content', '#__content');
+			WorkflowHelper::runTransition($data['id'], (int) $data['transition'], 'com_content');
 		}
 
 		unset($data['transition']);
@@ -663,6 +666,11 @@ class ArticleModel extends AdminModel
 			if (isset($data['featured']))
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
+			}
+
+			if (!empty($data['workflow_state']))
+			{
+				WorkflowHelper::addAssociation($this->getState($this->getName() . '.id'), $data['workflow_state']);
 			}
 
 			return true;
@@ -901,31 +909,36 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
-	 * Runs transition for each item.
+	 * Runs transition for item.
 	 *
-	 * @param   array  $pks          ids of articles
-	 * @param   array  $transitions  ids of transitions
+	 * @param   array  $pk          id of article
+	 * @param   array  $transition  id of transition
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0
 	 */
-	public function runTransition($pks, $transitions)
+	public function runTransition($pk, $transitionId)
 	{
-		$transitions = array_filter(
-			$transitions,
-			function ($var)
-			{
-				return $var !== 0;
-			}
-		);
-		$runTransaction = WorkflowHelper::runTransitions($pks, $transitions, "com_content", "#__content");
+		$runTransaction = WorkflowHelper::runTransition($pk, $transitionId, "com_content");
 
 		if (!$runTransaction)
 		{
 			$this->setError(\JText::_('COM_CONTENT_ERROR_UPDATE_STATE'));
+
+			return false;
 		}
 
-		return $runTransaction;
+		$transitionInfo = WorkflowHelper::getUpdatedState($transitionId);
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__content'))
+			->set('state = ' . (int) $transitionInfo->condition)
+			->where('id = ' . $pk);
+		$db->setQuery($query);
+		$db->execute();
+
+		return true;
 	}
 }

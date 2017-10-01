@@ -44,8 +44,8 @@ class WorkflowStateField extends \JFormFieldGroupedList
 		$query
 			->select('DISTINCT ' . $db->qn('ws.id', 'workflow_state_id'))
 			->select($db->qn(['ws.title', 'w.title', 'w.id'], ['workflow_state_title', 'workflow_title', 'workflow_id']))
-			->from($db->qn('#__content', 'c'))
-			->innerJoin($db->qn('#__workflow_states', 'ws') . ' ON (' . $db->qn('c.state') . ' = ' . $db->qn('ws.id') . ')')
+			->from($db->qn('#__workflow_associations', 'wa'))
+			->innerJoin($db->qn('#__workflow_states', 'ws') . ' ON (' . $db->qn('wa.state_id') . ' = ' . $db->qn('ws.id') . ')')
 			->innerJoin($db->qn('#__workflows', 'w') . ' ON (' . $db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id') . ')')
 			->order($db->qn('workflow_id'));
 

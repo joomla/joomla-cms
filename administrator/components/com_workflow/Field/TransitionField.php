@@ -46,12 +46,12 @@ class TransitionField extends \JFormFieldList
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-		$state = $this->element['state'] ? (int) $this->element['state'] : (int) $jinput->get('extension', 0);
+		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->get('extension', 0);
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
 			->select($db->qn('title', 'text'))
 			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_state_id') . '=' . $state);
+			->where($db->qn('from_state_id') . '=' . $workflowState);
 
 		$items = $db->setQuery($query)->loadObjectList();
 
@@ -75,12 +75,12 @@ class TransitionField extends \JFormFieldList
 			->clear()
 			->select($db->qn('title', 'text'))
 			->from($db->qn('#__workflow_states'))
-			->where($db->qn('id') . '=' . $state);
+			->where($db->qn('id') . '=' . $workflowState);
 
-		$state = $db->setQuery($query)->loadObject();
+		$workflowState = $db->setQuery($query)->loadObject();
 
 		$default = [
-			\JHtml::_('select.option', '', $state->text),
+			\JHtml::_('select.option', '', $workflowState->text),
 			\JHtml::_('select.option', '-1', '--------', ['disable' => true])
 		];
 

@@ -221,9 +221,10 @@ $assoc = JLanguageAssociations::isEnabled();
 													'id'	=> 'transition-select_' . (int) $item->id,
 													'list.attr' => [
 														'class'		=> 'custom-select custom-select-sm',
+														'style'     => 'min-width: 50%;',
 														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
 													];
-												echo JHTML::_('select.genericlist', $transitions, 'transition_id[]', $attribs);
+												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
 											?>
 										</div>
 										<?php endif; ?>

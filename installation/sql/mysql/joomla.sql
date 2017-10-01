@@ -2130,7 +2130,7 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (6, 'Super Users', 4, '[8]');
 
 --
--- Dumping data for table `#__workflows`
+-- Table structure for table `#__workflows`
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflows` (
@@ -2164,7 +2164,7 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 (1, 56, 1, 'Joomla! Default', '', 'com_content', 1, NOW(), 0, '0000-00-00 00:00:00', 0);
 
 --
--- Dumping data for table `#__workflow_states`
+-- Table structure for table `#__workflow_states`
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_states` (
@@ -2194,7 +2194,7 @@ INSERT INTO `#__workflow_states` (`id`, `asset_id`, `workflow_id`, `published`, 
 (4, 60, 1, 1, 'Archived', '', '1', 0);
 
 --
--- Dumping data for table `#__workflow_transitions`
+-- Table structure for table `#__workflow_transitions`
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
@@ -2231,3 +2231,17 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `title`, `
 (10, 70, 1, 'Archive', '', 1, 4, 1),
 (11, 71, 1, 'Archive', '', 2, 4, 1),
 (12, 72, 1, 'Archive', '', 3, 4, 1);
+
+--
+-- Table structure for table `#__viewlevels`
+--
+
+CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
+  `item_id` int(10) NOT NULL COMMENT 'Extension table id value',
+  `state_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
+  `extension` varchar(100) NOT NULL,
+  PRIMARY KEY (`item_id`, `state_id`, `extension`),
+  KEY `idx_item_id` (`item_id`),
+  KEY `idx_state_id` (`state_id`),
+  KEY `idx_extension` (`extension`(100))
+) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
