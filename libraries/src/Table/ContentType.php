@@ -143,7 +143,7 @@ class ContentType extends Table
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
-				$class = isset($tableInfo->special->class) ? $tableInfo->special->class : 'Joomla\\CMS\\Table\\Table';
+				$class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
 
 				if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface'))
 				{

@@ -76,7 +76,7 @@ final class Registry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getService($key)
+	public function getService(string $key)
 	{
 		if (!$this->hasService($key))
 		{
@@ -95,7 +95,7 @@ final class Registry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function hasService($key)
+	public function hasService(string $key): bool
 	{
 		return isset($this->serviceMap[$key]);
 	}
@@ -111,7 +111,7 @@ final class Registry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function register($key, $handler, $replace = false)
+	public function register(string $key, $handler, bool $replace = false)
 	{
 		// If the key exists already and we aren't instructed to replace existing services, bail early
 		if (isset($this->serviceMap[$key]) && !$replace)

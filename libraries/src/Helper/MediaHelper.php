@@ -73,7 +73,7 @@ class MediaHelper
 			elseif ($isImage && function_exists('getimagesize'))
 			{
 				$imagesize = getimagesize($file);
-				$mime      = isset($imagesize['mime']) ? $imagesize['mime'] : false;
+				$mime      = $imagesize['mime'] ?? false;
 			}
 			elseif (function_exists('mime_content_type'))
 			{
