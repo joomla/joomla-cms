@@ -222,7 +222,7 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
 
 		// Join over the states.
-		$query->select('ws.title AS state_title, ws.id AS state, ws.condition AS status')
+		$query->select('ws.title AS state_title, ws.condition AS state_condition')
 			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
 
 		// Join on voting table
@@ -443,7 +443,7 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
-		$ids = ArrayHelper::getColumn($items, 'state');
+		$ids = ArrayHelper::getColumn($items, 'state_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
