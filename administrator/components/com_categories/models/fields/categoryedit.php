@@ -143,8 +143,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
 		$oldCat = is_array($oldCat)
-			? reset($oldCat)
-			: $oldCat;
+			? (int) reset($oldCat)
+			: (int) $oldCat;
 
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
