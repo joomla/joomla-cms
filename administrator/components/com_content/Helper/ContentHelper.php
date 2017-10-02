@@ -307,7 +307,7 @@ class ContentHelper extends \JHelperContent
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function canDeleteState($stateID)
 	{
@@ -331,7 +331,7 @@ class ContentHelper extends \JHelperContent
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function filterTransitions($transitions, $pk)
 	{

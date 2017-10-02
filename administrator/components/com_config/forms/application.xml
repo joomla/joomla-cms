@@ -927,6 +927,7 @@
 			type="number"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			min="1"
+			max="16383"
 			default="15"
 			required="true"
 			filter="integer"

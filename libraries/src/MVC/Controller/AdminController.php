@@ -101,7 +101,11 @@ class AdminController extends BaseController
 
 			$r = array(0 => '', 1 => '', 2 => $reflect->getShortName());
 
-			if (!$reflect->getNamespaceName() && !preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
+			if ($reflect->getNamespaceName())
+			{
+				$r[2] = str_replace('Controller', '', $r[2]);
+			}
+			elseif (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
@@ -419,15 +423,16 @@ class AdminController extends BaseController
 	{
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
-		$transitions = $this->input->post->get('transition_id', -1, 'int');
 
-		// Sanitize the input
-		$pks = ArrayHelper::toInteger($pks);
-		$transitions = ArrayHelper::toInteger($transitions);
+		if (count($pks) == 0) return false;
+
+		$pk = (int) $pks[0];
+
+		$transitionId = $this->input->post->get('transition_' . $pk, -1, 'int');
 
 		// Get the model
 		$model = $this->getModel();
-		$return = $model->runTransition($pks, $transitions);
+		$return = $model->runTransition($pk, $transitionId);
 
 		if ($return === false)
 		{

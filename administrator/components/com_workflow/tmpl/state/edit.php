@@ -39,10 +39,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				<div class="card-body">
 					<fieldset class="form-vertical form-no-margin">
 						<?php echo $this->form->renderField('published'); ?>
-
-						<?php if ($this->form->getValue('default')): ?>
-							<?php $this->form->setFieldAttribute('default', 'disabled', 'true', ''); ?>
-						<?php endif; ?>
 						<?php echo $this->form->renderField('default'); ?>
 					</fieldset>
 				</div>
