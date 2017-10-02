@@ -272,11 +272,6 @@ class ContentModelArticles extends JModelList
 		$categoryId = $this->getState('filter.category_id');
 
 		// Allow listing articles in sub-categories when categories filter has single category
-		if (is_array($categoryId) && count($categoryId) === 1)
-		{
-			$categoryId = (int) reset($categoryId);
-		}
-
 		if (is_numeric($categoryId))
 		{
 			$categoryTable = JTable::getInstance('Category', 'JTable');
@@ -290,7 +285,19 @@ class ContentModelArticles extends JModelList
 		elseif (is_array($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
+			$categoryTable = JTable::getInstance('Category', 'JTable');
+
+			$baselevel = 1;
+			$subcat_items_where = array();
+			foreach($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$baselevel = (int) $categoryTable->level > $baselevel
+					? (int) $categoryTable->level
+					: $baselevel;
+				$subcat_items_where[] = '(c.lft >= ' . (int) $categoryTable->lft . ' AND c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+			$query->where(implode($subcat_items_where, ' OR '));
 		}
 
 		// Filter on the level.
