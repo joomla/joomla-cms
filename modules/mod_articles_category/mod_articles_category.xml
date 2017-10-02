@@ -59,7 +59,7 @@
 
 				<field
 					name="count"
-					type="numbertext"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC"
 					default="0"
