@@ -699,12 +699,12 @@ class Mail extends \PHPMailer
 			return false;
 		}
 
-		if ($this->addCc($cc) === false)
+		if ($this->addCc($cc) === false && !$this->exceptions)
 		{
 			return false;
 		}
 
-		if ($this->addBcc($bcc) === false)
+		if ($this->addBcc($bcc) === false && !$this->exceptions)
 		{
 			return false;
 		}
