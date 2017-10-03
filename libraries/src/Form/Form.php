@@ -186,9 +186,9 @@ class Form
 	/**
 	 * Method to filter the form data.
 	 *
-	 * @param   array   $data            An array of field values to filter.
-	 * @param   string  $group           The dot-separated form group path on which to filter the fields.
-	 * @param   bool    $ensure_values   Auto-inject empty values for fields which are supposed to always have values.
+	 * @param   array   $data           An array of field values to filter.
+	 * @param   string  $group          The dot-separated form group path on which to filter the fields.
+	 * @param   bool    $ensure_values  Auto-inject empty values for fields which are supposed to always have values.
 	 *
 	 * @return  mixed  Array or false.
 	 *
