@@ -44,7 +44,7 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	public $ensure_value = true;
 
-    /**
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
