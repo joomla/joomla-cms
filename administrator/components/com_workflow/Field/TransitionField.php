@@ -19,7 +19,7 @@ FormHelper::loadFieldClass('list');
 /**
  * Components Category field.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class TransitionField extends \JFormFieldList
 {
@@ -27,7 +27,7 @@ class TransitionField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Transition';
 
@@ -36,7 +36,7 @@ class TransitionField extends \JFormFieldList
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{
@@ -46,15 +46,14 @@ class TransitionField extends \JFormFieldList
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-		$state = $this->element['state'] ? (int) $this->element['state'] : (int) $jinput->get('extension', 0);
+		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->get('extension', 0);
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
 			->select($db->qn('title', 'text'))
 			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_state_id') . '=' . $state)
+			->where($db->qn('from_state_id') . '=' . $workflowState)
 			->where($db->qn('published') . '=1')
 			->order($db->qn('ordering'));
-
 
 		$items = $db->setQuery($query)->loadObjectList();
 
@@ -65,14 +64,30 @@ class TransitionField extends \JFormFieldList
 				$items,
 				function ($item) use ($user, $extension)
 				{
-					return $user->authorise('core.run', "$extension.transition.$item->value");
+					return $user->authorise('core.run', $extension . '.transition.' . $item->value);
 				}
 			);
 		}
 
-		// Merge any additional options in the XML definition.
+		// Get state title
+		$query
+			->clear()
+			->select($db->qn('title'))
+			->from($db->qn('#__workflow_states'))
+			->where($db->qn('id') . '=' . $workflowState);
+
+		$workflowName = $db->setQuery($query)->loadResult();
+
+		$default = [\JHtml::_('select.option', '', $workflowName)];
+		
 		$options = array_merge(parent::getOptions(), $items);
 
-		return $options;
+		if (count($options))
+		{
+			$default[] = \JHtml::_('select.option', '-1', '--------', ['disable' => true]);
+		}
+
+		// Merge with defaults
+		return array_merge($default, $options);
 	}
 }

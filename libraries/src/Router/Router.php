@@ -10,6 +10,8 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
+
 /**
  * Class to create and parse routes
  *
@@ -145,7 +147,7 @@ class Router
 		// Otherwise we have an invalid URL
 		if (strlen($uri->getPath()) > 0)
 		{
-			throw new \Exception('URL invalid', 404);
+			throw new RouteNotFoundException('URL invalid');
 		}
 
 		if ($setVars)

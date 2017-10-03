@@ -201,18 +201,6 @@ abstract class Dispatcher implements DispatcherInterface
 
 		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name) . 'Controller';
 
-		// @todo Remove me when core extensions are converted
-		if (!class_exists($controllerClass))
-		{
-			$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
-		}
-
-		// @todo Remove me when core extensions are converted
-		if (!class_exists($controllerClass) && $name == 'display')
-		{
-			$controllerClass = $namespace . $client . '\\Controller\\Controller';
-		}
-
 		if (!class_exists($controllerClass))
 		{
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));

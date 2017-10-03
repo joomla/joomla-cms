@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_workflow
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class WorkflowDispatcher extends Dispatcher
 {
@@ -23,7 +23,7 @@ class WorkflowDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Workflow';
 }

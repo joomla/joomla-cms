@@ -19,7 +19,7 @@ use Joomla\CMS\Helper\ContentHelper;
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class WorkflowHelper extends ContentHelper
 {
@@ -32,7 +32,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function callMethodFromHelper($extension, $method, $parameter)
 	{
@@ -74,7 +74,7 @@ class WorkflowHelper extends ContentHelper
 			}
 		}
 
-		return null;
+		return false;
 	}
 
 	/**
@@ -85,7 +85,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getStatesSQL($fieldName, $workflowID)
 	{
@@ -96,7 +96,7 @@ class WorkflowHelper extends ContentHelper
 			->select($db->quoteName(array('id', 'title'), array('value', $fieldName)))
 			->from($db->quoteName('#__workflow_states'))
 			->where($db->quoteName('workflow_id') . ' = ' . (int) $workflowID)
-			->andWhere($db->quoteName('published') . ' =1');
+			->where($db->quoteName('published') . ' =1');
 
 		return (string) $query;
 	}
@@ -108,7 +108,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function getConditionName($number)
 	{
@@ -124,18 +124,17 @@ class WorkflowHelper extends ContentHelper
 	}
 
 	/**
-	 * Runs transitions for each item passing in attributes.
+	 * Runs a single transition for single item
 	 *
-	 * @param   array   $pks             ids of articles
-	 * @param   array   $transitions     ids of transitions
+	 * @param   array   $pk              id of article
+	 * @param   array   $transitionId    id of transition
 	 * @param   string  $extension       name of extension
-	 * @param   string  $componentTable  name of table from where are ids
 	 *
-	 * @return  resource|boolean
+	 * @return bool|resource
 	 *
-	 * @since   4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function runTransitions($pks, $transitions, $extension, $componentTable)
+	public static function runTransition($pk, $transitionId, $extension)
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -151,57 +150,165 @@ class WorkflowHelper extends ContentHelper
 		$query
 			->select($select)
 			->from($db->quoteName('#__workflow_transitions', 'tran'))
-			->where($db->qn('tran.id') . ' IN (' . implode(',', $transitions) . ')')
+			->where($db->qn('tran.id') . '=' . $db->quote($transitionId))
 			->andWhere($db->qn('tran.published') . '=1');
 
-		$result = $db->setQuery($query)->loadObjectList();
+		$transitionResult = $db->setQuery($query)->loadObject();
+
+		$associateEntry = self::getAssociatedEntry($pk);
+
+		if ($associateEntry->state_id != $transitionResult->from_state_id) return false;
+
+		$updated = self::callMethodFromHelper($extension, 'updateAfterTransaction', $transitionResult->to_state_id);
+
+		if ($updated) return true;
+
+		if (self::updateAssociationByItemId($pk, $transitionResult->to_state_id, $extension))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Adds an association for the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   int     $stateId      id of state
+	 * @param   string  $extension    extension type
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function addAssociation($itemId, $stateId, $extension = 'com_content')
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
 
 		$query
-			->select($db->quoteName(array("a.state", "a.id")))
-			->from($db->qn($componentTable, 'a'))
-			->where($db->qn("a.id") . ' IN (' . implode(",", $pks) . ')');
+			->insert($db->qn('#__workflow_associations'))
+			->columns($db->quoteName(array('item_id', 'state_id', 'extension')))
+			->values((int) $itemId . ', ' . (int) $stateId . ', ' . $db->quote($extension));
 
-		$items = $db->setQuery($query)->loadAssocList('id', 'state');
+		$db->setQuery($query);
 
-		foreach ($result as $k => $v)
+		$db->execute();
+	}
+
+	/**
+	 * Gets an association form the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   string  $extension    extension type
+	 *
+	 * @return object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getAssociatedEntry($itemId, $extension = 'com_content')
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('*')
+			->from($db->qn('#__workflow_associations'))
+			->where($db->qn('item_id') . '=' . (int) $itemId)
+			->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
+
+	/**
+	 * Removes an association form the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   string  $extension    extension type
+	 *
+	 * @return boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function removeAssociationByItemId($itemId, $extension = 'com_content')
+	{
+		try
 		{
-			$query->clear();
-			$pk = (int) $pks[0];
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
 
-			if ($pk > 0)
-			{
-				try
-				{
-					$updated = self::callMethodFromHelper($extension, 'updateAfterTransaction', $v->to_state_id);
+			$query
+				->delete($db->qn('#__workflow_associations'))
+				->where($db->qn('item_id') . '=' . (int) $itemId)
+				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
 
-					if (!$updated)
-					{
-						if ($items[$pk] === $v->from_state_id)
-						{
-							$query->clear();
-							$query
-								->update($componentTable)
-								->set(
-									array(
-										$db->qn('state') . '=' . $db->quote($v->to_state_id)
-									)
-								)
-								->where($db->qn('id') . '=' . $pk);
-							$db->setQuery($query);
-
-							return $db->execute();
-						}
-
-						return false;
-					}
-
-					return $updated;
-				}
-				catch (\Exception $e)
-				{
-					return false;
-				}
-			}
+			$db->setQuery($query);
+			$db->execute();
 		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Updates an association in the workflow_associations table
+	 *
+	 * @param   int     $itemId       id of content
+	 * @param   int     $stateId       id of state
+	 * @param   string  $extension    extension type
+	 *
+	 * @return boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function updateAssociationByItemId($itemId, $stateId, $extension = 'com_content')
+	{
+		try
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query
+				->update($db->qn('#__workflow_associations'))
+				->set($db->qn('state_id') . '=' . (int) $stateId)
+				->where($db->qn('item_id') . '=' . (int) $itemId)
+				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets the to_state of a transition
+	 *
+	 * @param   int  $transitionId    id of transition
+	 *
+	 * @return object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getUpdatedState($transitionId)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('*')
+			->from($db->quoteName('#__workflow_transitions', 'wt'))
+			->innerJoin($db->quoteName('#__workflow_states', 'ws') . ' ON ws.id = wt.to_state_id')
+			->where($db->qn('wt.id') . '=' . $db->quote($transitionId));
+
+		return $db->setQuery($query)->loadObject();
 	}
 }

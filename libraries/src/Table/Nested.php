@@ -1582,21 +1582,29 @@ class Nested extends Table
 		 *           -2 <=  2 THEN -2 (If archived in trashed then trashed)
 		 */
 
+		// Find node and all children keys
+		$query->select("c.$key")
+			->from("$table AS node")
+			->leftJoin("$table AS c ON node.lft <= c.lft AND c.rgt <= node.rgt")
+			->where("node.$key = " . (int) $pk);
+
+		$pks = $this->_db->setQuery($query)->loadColumn();
+
 		// Prepare a list of correct published states.
 		$subquery = (string) $query->clear()
 			->select("c2.$key AS newId")
 			->select("CASE WHEN MIN($newState) > 0 THEN MAX($newState) ELSE MIN($newState) END AS newPublished")
-			->from("$table AS node")
-			->innerJoin("$table AS c2 ON node.lft <= c2.lft AND c2.rgt <= node.rgt")
+			->from("$table AS c2")
 			->innerJoin("$table AS p2 ON p2.lft <= c2.lft AND c2.rgt <= p2.rgt")
-			->where("node.$key = " . (int) $pk)
+			->where("c2.$key IN (" . implode(',', $pks) . ")")
 			->group("c2.$key");
 
 		// Update and cascade the publishing state.
 		$query->clear()
 			->update("$table AS c")
 			->innerJoin("($subquery) AS c2 ON c2.newId = c.$key")
-			->set("$published = c2.newPublished");
+			->set("$published = c2.newPublished")
+			->where("c.$key IN (" . implode(',', $pks) . ")");
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 

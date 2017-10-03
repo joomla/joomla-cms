@@ -31,7 +31,7 @@ vendors:
                   'version': '1.12.1'
                   'dependencies': 'jquery'
     'mediaelement':
-                  'version': '4.2.5'
+                  'version': '4.2.6'
                   'dependencies': ''
     'masonry-layout':
                   'version': '4.2.0'
@@ -40,7 +40,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.6.6'
+                  'version': '4.6.7'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.2'
@@ -49,10 +49,10 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.29.0'
+                  'version': '5.30.0'
                   'dependencies': ''
     'cropperjs':
-                  'version': '1.0.0-rc.3'
+                  'version': '1.0.0'
                   'dependencies': ''
     'flying-focus-a11y':
                   'version': '1.5.5'
