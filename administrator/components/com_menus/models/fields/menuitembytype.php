@@ -17,7 +17,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class JFormFieldMenuitemByType extends JFormFieldGroupedList
 {
@@ -25,7 +25,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public $type = 'MenuItemByType';
 
@@ -33,7 +33,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 * The menu type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $menuType;
 
@@ -41,7 +41,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 * The client id.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $clientId;
 
@@ -49,7 +49,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 * The language.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $language;
 
@@ -57,7 +57,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 * The published status.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $published;
 
@@ -65,7 +65,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 * The disabled status.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $disable;
 
@@ -76,7 +76,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __get($name)
 	{
@@ -101,7 +101,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __set($name, $value)
 	{
@@ -139,7 +139,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 * @return  boolean  True on success.
 	 *
 	 * @see     JFormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -171,7 +171,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function getGroups()
 	{

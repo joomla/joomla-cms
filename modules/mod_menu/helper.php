@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_menu
  *
- * @package     Joomla.Site
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 class ModMenuHelper
 {

@@ -128,7 +128,6 @@ if ($saveOrder)
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php
-						$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 						$canEdit    = $user->authorise('core.edit',       $extension . '.category.' . $item->id);
 						$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 						$canEditOwn = $user->authorise('core.edit.own',   $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
@@ -177,7 +176,7 @@ if ($saveOrder)
 									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
-									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
+									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->lft; ?>" />
 								<?php endif; ?>
 							</td>
 							<td class="center">

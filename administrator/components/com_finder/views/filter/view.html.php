@@ -57,7 +57,7 @@ class FinderViewFilter extends JViewLegacy
 	 *
 	 * @var  integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $total;
 

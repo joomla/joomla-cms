@@ -224,7 +224,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testLoadOverrideAliasClass()
 	{
@@ -254,7 +254,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testLoadOverrideOriginalClass()
 	{
@@ -284,7 +284,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testAliasInstanceOf()
 	{
@@ -299,6 +299,24 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(
 			$object instanceof JLoaderAliasStubAlias
 		);
+	}
+
+	/**
+	 * Tests the JLoader::registerAlias method if the alias works ignoring cases
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function testAliasIgnoreCase()
+	{
+		// Normally register the class
+		JLoader::register('JLoaderAliasStub', JPATH_TEST_STUBS . '/loaderoveralias/jloaderaliasstub.php');
+
+		// Register the alias
+		JLoader::registerAlias('CASEinsensitiveALIAS', 'JLoaderAliasStub');
+
+		$this->assertTrue(class_exists('caseINSENSITIVEalias'));
 	}
 
 	/**

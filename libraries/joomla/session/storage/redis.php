@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Redis session storage handler for PHP
  *
  * @link   https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class JSessionStorageRedis extends JSessionStorage
 {
@@ -22,7 +22,7 @@ class JSessionStorageRedis extends JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct($options = array())
 	{
@@ -46,14 +46,17 @@ class JSessionStorageRedis extends JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function register()
 	{
 		if (!empty($this->_server) && isset($this->_server['host']) && isset($this->_server['port']))
 		{
-			ini_set('session.save_path', "{$this->_server['host']}:{$this->_server['port']}");
-			ini_set('session.save_handler', 'redis');
+			if (!headers_sent())
+			{
+				ini_set('session.save_path', "{$this->_server['host']}:{$this->_server['port']}");
+				ini_set('session.save_handler', 'redis');
+			}
 
 			// This is required if the configuration.php gzip is turned on
 			ini_set('zlib.output_compression', 'Off');
@@ -65,7 +68,7 @@ class JSessionStorageRedis extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function isSupported()
 	{

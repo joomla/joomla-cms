@@ -94,7 +94,7 @@ abstract class FinderIndexer
 	 * Database driver cache.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $db;
 
@@ -102,14 +102,14 @@ abstract class FinderIndexer
 	 * Reusable Query Template. To be used with clone.
 	 *
 	 * @var    JDatabaseQuery
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $addTokensToDbQueryTemplate;
 
 	/**
 	 * FinderIndexer constructor.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	public function __construct()
 	{
@@ -424,7 +424,7 @@ abstract class FinderIndexer
 						$string = substr($buffer, 0, $ls);
 
 						// Adjust the buffer based on the last space for the next iteration and trim.
-						$buffer = JString::trim(substr($buffer, $ls));
+						$buffer = StringHelper::trim(substr($buffer, $ls));
 					}
 					// No space character was found.
 					else
@@ -511,8 +511,8 @@ abstract class FinderIndexer
 
 		$query = clone $this->addTokensToDbQueryTemplate;
 
-		// Force tokens to an array.
-		$tokens = (array) $tokens;
+		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
+		$tokens = is_array($tokens) ? $tokens : array($tokens);
 
 		// Count the number of token values.
 		$values = 0;

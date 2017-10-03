@@ -86,7 +86,7 @@ class PlgSystemDebug extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.0
 	 */
 	protected $db;
 

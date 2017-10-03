@@ -37,7 +37,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// Check whether the folder still exists.
 		if (!file_exists($path))
 		{
-			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED', 'installation'), 500));
 		}
 
 		// Check whether we need to use FTP.
@@ -117,12 +117,12 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// If an error was encountered return an error.
 		if (!$return)
 		{
-			$app->sendJsonResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 500));
 		}
 
 		// Create a response body.
 		$r = new stdClass;
-		$r->text = JText::_('INSTL_COMPLETE_FOLDER_REMOVED');
+		$r->text = JText::sprintf('INSTL_COMPLETE_FOLDER_REMOVED', 'installation');
 
 		/*
 		 * Send the response.
