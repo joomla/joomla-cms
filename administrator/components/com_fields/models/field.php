@@ -960,7 +960,7 @@ class FieldsModelField extends JModelAdmin
 			//Remove placeholder field on list fields
 			if ($dataObject->type == "list")
 			{
-				$form->removeField('hint','params');
+				$form->removeField('hint', 'params');
 			}
 		}
 
