@@ -13,13 +13,20 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
 
+$user      = JFactory::getUser();
+
 $columns = 6;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$saveOrderingUrl = '';
 
-$saveOrder = $listOrder == 'transition.ordering';
+$saveOrder = ($listOrder == 't.ordering');
 
-$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . JSession::getFormToken() . '=1';
+if ($saveOrder)
+{
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . JSession::getFormToken() . '=1';
+	JHtml::_('draggablelist.draggable');
+}
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -38,7 +45,78 @@ $saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax
 					</div>
 				<?php else: ?>
 					<table class="table table-striped">
-						<thead><?php echo $this->loadTemplate('head');?></thead>
+						<thead>
+							<tr>
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								</th>
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+									<?php echo JHtml::_('grid.checkall'); ?>
+								</th>
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
+								</th>
+								<th style="width:10%" class="nowrap hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TITLE', 't.title', $listDirn, $listOrder); ?>
+								</th>
+								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>
+								</th>
+								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TO_STATE', 't.to_state', $listDirn, $listOrder); ?>
+								</th>
+								<th style="width:10%" class="nowrap text-right hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
+							<?php foreach ($this->transitions as $i => $item):
+								$link = JRoute::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension);
+
+								$canChange  = $user->authorise('core.edit.state', 'com_workflow.transition.' . $item->id);
+								?>
+								<tr class="row<?php echo $i % 2; ?>">
+									<td class="order nowrap text-center hidden-sm-down">
+										<?php
+										$iconClass = '';
+										if (!$canChange)
+										{
+											$iconClass = ' inactive';
+										}
+										elseif (!$saveOrder)
+										{
+											$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+										}
+										?>
+										<span class="sortable-handler<?php echo $iconClass ?>">
+					<span class="icon-menu" aria-hidden="true"></span>
+				</span>
+										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+									</td>
+									<td class="order nowrap text-center hidden-sm-down">
+										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+									</td>
+									<td class="text-center">
+										<div class="btn-group">
+											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'transitions.', true); ?>
+										</div>
+									</td>
+									<td>
+										<a href="<?php echo $link ?>"><?php echo $item->title; ?></a>
+									</td>
+									<td class="text-center">
+										<?php echo $item->from_state; ?>
+									</td>
+									<td class="text-center">
+										<?php echo $item->to_state; ?>
+									</td>
+									<td class="text-right">
+										<?php echo $item->id; ?>
+									</td>
+								</tr>
+							<?php endforeach ?>
+						</tbody>
 						<tfoot>
 							<tr>
 								<td colspan="<?php echo $columns; ?>">
@@ -46,7 +124,6 @@ $saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax
 								</td>
 							</tr>
 						</tfoot>
-						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"><?php echo $this->loadTemplate('body');?></tbody>
 					</table>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">

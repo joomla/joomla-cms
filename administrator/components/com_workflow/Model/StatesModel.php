@@ -35,11 +35,11 @@ class StatesModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'title',
-				'ordering',
-				'condition',
-				'published'
+				'id', 's.id',
+				'title', 's.title',
+				'ordering','s.ordering',
+				'condition','s.condition',
+				'published', 's.published'
 			);
 		}
 
@@ -62,7 +62,7 @@ class StatesModel extends ListModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 's.ordering', $direction = 's.ordering')
 	{
 		$app = \JFactory::getApplication();
 
@@ -83,6 +83,20 @@ class StatesModel extends ListModel
 		$this->setState('filter.extension', $extension);
 
 		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * A protected method to get a set of ordering conditions.
+	 *
+	 * @param   object  $table  A record object.
+	 *
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getReorderConditions($table)
+	{
+		return 'extension = ' . $this->getDbo()->q($table->extension);
 	}
 
 	/**
@@ -116,29 +130,29 @@ class StatesModel extends ListModel
 
 		$select = $db->quoteName(
 					array(
-						'id',
-						'title',
-						'ordering',
-						'condition',
-						'default',
-						'published'
+						's.id',
+						's.title',
+						's.ordering',
+						's.condition',
+						's.default',
+						's.published'
 					)
 				);
 
 		$query
 			->select($select)
-			->from($db->quoteName('#__workflow_states'));
+			->from($db->quoteName('#__workflow_states', 's'));
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where($db->qn('workflow_id') . ' = ' . $workflowID);
+			$query->where($db->qn('s.workflow_id') . ' = ' . $workflowID);
 		}
 
 		// Filter by condition
 		if ($condition = $this->getState('filter.condition'))
 		{
-			$query->where($db->qn('condition') . ' = ' . $db->quote($db->escape($condition)));
+			$query->where($db->qn('s.condition') . ' = ' . $db->quote($db->escape($condition)));
 		}
 
 		$status = (string) $this->getState('filter.published');
@@ -146,11 +160,11 @@ class StatesModel extends ListModel
 		// Filter by condition
 		if (is_numeric($status))
 		{
-			$query->where($db->qn('published') . ' = ' . (int) $status);
+			$query->where($db->qn('s.published') . ' = ' . (int) $status);
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('published') . " IN ('0', '1')");
+			$query->where($db->qn('s.published') . " IN ('0', '1')");
 		}
 
 		// Filter by search in title
@@ -159,14 +173,11 @@ class StatesModel extends ListModel
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . $db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search . ')');
+			$query->where('(' . $db->qn('s.title') . ' LIKE ' . $search . ' OR ' . $db->qn('s.description') . ' LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
-		$orderCol	= $this->state->get('list.ordering', 'ordering');
-		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
-
-		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));
+		$query->order($db->escape($this->getState('list.ordering', 's.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
