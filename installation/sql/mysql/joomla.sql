@@ -2168,7 +2168,7 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
-  `item_id` int(10) NOT NULL COMMENT DEFAULT 0 'Extension table id value',
+  `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
   `state_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
   `extension` varchar(100) NOT NULL,
   PRIMARY KEY (`item_id`, `state_id`, `extension`),
