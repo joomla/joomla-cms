@@ -35,7 +35,6 @@ class Crypt extends JCrypt
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
-		// This function is native in PHP as of 5.6 and backported via the symfony/polyfill-56 library
 		return hash_equals((string) $known, (string) $unknown);
 	}
 

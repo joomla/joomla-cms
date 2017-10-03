@@ -168,12 +168,9 @@ final class Version
 	{
 		$version = self::MAJOR_VERSION . '.' . self::MINOR_VERSION . '.' . self::PATCH_VERSION;
 
-		// Has to be assigned to a variable to support PHP 5.3 and 5.4
-		$extraVersion = self::EXTRA_VERSION;
-
-		if (!empty($extraVersion))
+		if (!empty(self::EXTRA_VERSION))
 		{
-			$version .= '-' . $extraVersion;
+			$version .= '-' . self::EXTRA_VERSION;
 		}
 
 		return $version;
@@ -213,11 +210,11 @@ final class Version
 
 		if ($addVersion)
 		{
-			$component .= '/' . self::RELEASE;
+			$component .= '/' . self::MAJOR_VERSION . '.' . self::MINOR_VERSION;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($component ? ' ' . $component : '');
 	}
 
 	/**

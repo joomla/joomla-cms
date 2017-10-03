@@ -218,8 +218,8 @@ class MenuHelper
 			if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 			{
 				$item->submenu    = array();
-				$item->class      = isset($item->img) ? $item->img : '';
-				$item->scope      = isset($item->scope) ? $item->scope : null;
+				$item->class      = $item->img ?? '';
+				$item->scope      = $item->scope ?? null;
 				$item->browserNav = $item->browserNav ? '_blank' : '';
 
 				$result[$item->parent_id][$item->id] = $item;

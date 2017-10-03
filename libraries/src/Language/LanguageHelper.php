@@ -43,7 +43,7 @@ class LanguageHelper
 			$metadata = $installed ? $language->metadata : $language;
 
 			$list[] = array(
-				'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
+				'text'     => $metadata['nativeName'] ?? $metadata['name'],
 				'value'    => $languageCode,
 				'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
 			);

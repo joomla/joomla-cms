@@ -50,7 +50,7 @@ abstract class AbstractEvent extends BaseEvent
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  BadMethodCallException  If you do not provide a subject argument
 	 */
-	public static function create($eventName, $arguments = [])
+	public static function create(string $eventName, array $arguments = [])
 	{
 		// Get the class name from the arguments, if specified
 		$eventClassName = '';
@@ -98,7 +98,7 @@ abstract class AbstractEvent extends BaseEvent
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct(string $name, array $arguments = [])
 	{
 		parent::__construct($name, $arguments);
 

@@ -135,7 +135,7 @@ class RouteHelper
 	{
 		$app      = \JFactory::getApplication();
 		$menus    = $app->getMenu('site');
-		$language = isset($needles['language']) ? $needles['language'] : '*';
+		$language = $needles['language'] ?? '*';
 
 		// $this->extension may not be set if coming from a static method, check it
 		if ($this->extension === null)

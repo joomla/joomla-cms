@@ -69,7 +69,7 @@ class PageController extends CacheController
 
 			if ($etag == $id)
 			{
-				$browserCache = isset($this->options['browsercache']) ? $this->options['browsercache'] : false;
+				$browserCache = $this->options['browsercache'] ?? false;
 
 				if ($browserCache)
 				{

@@ -535,7 +535,7 @@ abstract class InstallerAdapter
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
-	abstract protected function finaliseUninstall();
+	abstract protected function finaliseUninstall(): bool;
 
 	/**
 	 * Checks if the adapter supports discover_install
