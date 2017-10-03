@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Methods supporting a list of article records.
@@ -461,14 +462,16 @@ class ArticlesModel extends ListModel
 						't.title',
 						't.from_state_id',
 						's.id',
-						's.title'
+						's.title',
+						's.condition'
 					),
 					array(
 						'value',
 						'text',
 						'from_state_id',
 						'state_id',
-						'state_title'
+						'state_title',
+						'state_condition'
 					)
 				);
 
@@ -490,7 +493,8 @@ class ArticlesModel extends ListModel
 					else
 					{
 						// Update the transition text with final state value
-						$transitions[$key]['text'] .=  "\t\t[" . $transitions[$key]['state_title'] . "]";
+						$conditionName = WorkflowHelper::getConditionText($transitions[$key]['state_condition']);
+						$transitions[$key]['text'] .=  "\t[" . \JText::_($conditionName) . "]";
 					}
 				}
 
