@@ -37,7 +37,7 @@
 
 				<field
 					name="interval"
-					type="text"
+					type="number"
 					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
 					description="PLG_SYSTEM_STATS_INTERVAL_DESC"
 					filter="integer"
