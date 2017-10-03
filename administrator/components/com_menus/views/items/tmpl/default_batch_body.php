@@ -33,7 +33,8 @@ if ($clientId == 1) :
 			});
 		'
 	);
-	endif;	
+endif;
+
 ?>
 <div class="container-fluid">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>
