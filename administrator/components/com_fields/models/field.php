@@ -964,7 +964,6 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
-
 		// Setting the context for the category field
 		$cat = JCategories::getInstance(str_replace('com_', '', $component));
 
