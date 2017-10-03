@@ -220,6 +220,7 @@ class ArticlesModel extends ListModel
 		{
 			if ($orderby_sec === 'front')
 			{
+				$query->select('fp.ordering');
 				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 			}
 			else
@@ -234,7 +235,7 @@ class ArticlesModel extends ListModel
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
-			->select('c.published, c.published AS parents_published')
+			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author and modified_by names.
