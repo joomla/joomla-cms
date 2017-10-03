@@ -35,12 +35,13 @@ class WorkflowsModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'title',
-				'state',
-				'created_by',
-				'created',
-				'modified'
+				'id', 'w.id',
+				'title', 'w.title',
+				'state', 'w.state',
+				'created_by', 'w.created_by',
+				'created', 'w.created',
+				'ordering', 'w.ordering',
+				'modified', 'w.modified'
 			);
 		}
 
@@ -63,7 +64,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'w.ordering', $direction = 'asc')
 	{
 		$app = \JFactory::getApplication();
 		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
@@ -194,7 +195,9 @@ class WorkflowsModel extends ListModel
 			'w.created',
 			'w.modified',
 			'w.published',
+			'w.ordering',
 			'w.default',
+			'w.created_by',
 			'u.name'
 		)
 		);
@@ -241,7 +244,7 @@ class WorkflowsModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol	= $this->state->get('list.ordering', 'id');
+		$orderCol	= $this->state->get('list.ordering', 'w.ordering');
 		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
 
 		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));

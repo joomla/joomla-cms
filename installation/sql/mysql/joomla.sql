@@ -2138,13 +2138,14 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `asset_id` int(10) DEFAULT 0,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` text NOT NULL DEFAULT '',
   `extension` varchar(255) NOT NULL,
-  `default` tinyint(1) NOT NULL,
+  `default` tinyint(1) NOT NULL  DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT NOW(),
-  `created_by` int(10) NOT NULL,
+  `created_by` int(10) NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL DEFAULT NOW(),
-  `modified_by` int(10) NOT NULL,
+  `modified_by` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   KEY `title` (`title`(191)),
@@ -2164,19 +2165,33 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 (1, 56, 1, 'Joomla! Default', '', 'com_content', 1, NOW(), 0, '0000-00-00 00:00:00', 0);
 
 --
+-- Table structure for table `#__workflow_associations`
+--
+
+CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
+  `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
+  `state_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
+  `extension` varchar(100) NOT NULL,
+  PRIMARY KEY (`item_id`, `state_id`, `extension`),
+  KEY `idx_item_id` (`item_id`),
+  KEY `idx_state_id` (`state_id`),
+  KEY `idx_extension` (`extension`(100))
+) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `#__workflow_states`
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
-	`ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` text NOT NULL DEFAULT '',
   `condition` enum('0','1','-2') NOT NULL,
-  `default` tinyint(1) NOT NULL,
+  `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`),
   KEY `title` (`title`(191)),
@@ -2205,7 +2220,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` text NOT NULL DEFAULT '',
   `from_state_id` int(10) NOT NULL,
   `to_state_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
@@ -2233,17 +2248,3 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `title`, `
 (10, 70, 1, 'Archive', '', 1, 4, 1),
 (11, 71, 1, 'Archive', '', 2, 4, 1),
 (12, 72, 1, 'Archive', '', 3, 4, 1);
-
---
--- Table structure for table `#__viewlevels`
---
-
-CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
-  `item_id` int(10) NOT NULL COMMENT 'Extension table id value',
-  `state_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
-  `extension` varchar(100) NOT NULL,
-  PRIMARY KEY (`item_id`, `state_id`, `extension`),
-  KEY `idx_item_id` (`item_id`),
-  KEY `idx_state_id` (`state_id`),
-  KEY `idx_extension` (`extension`(100))
-) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;

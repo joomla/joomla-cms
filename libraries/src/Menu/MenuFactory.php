@@ -28,7 +28,7 @@ class MenuFactory implements MenuFactoryInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createMenu($client, array $options = [])
+	public function createMenu(string $client, array $options = []): AbstractMenu
 	{
 		// Create a Menu object
 		$classname = __NAMESPACE__ . '\\' . ucfirst(strtolower($client)) . 'Menu';

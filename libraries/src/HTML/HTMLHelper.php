@@ -285,7 +285,7 @@ abstract class HTMLHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getServiceRegistry()
+	public static function getServiceRegistry(): Registry
 	{
 		if (!static::$serviceRegistry)
 		{
@@ -696,18 +696,18 @@ abstract class HTMLHelper
 			$options = array();
 
 			// Old parameters.
-			$attribs                  = isset($argList[1]) ? $argList[1] : array();
-			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
-			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
-			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
-			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+			$attribs                  = $argList[1] ?? array();
+			$options['relative']      = $argList[2] ?? false;
+			$options['pathOnly']      = $argList[3] ?? false;
+			$options['detectBrowser'] = $argList[4] ?? true;
+			$options['detectDebug']   = $argList[5] ?? true;
 		}
 		else
 		{
-			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+			$options['relative']      = $options['relative'] ?? false;
+			$options['pathOnly']      = $options['pathOnly'] ?? false;
+			$options['detectBrowser'] = $options['detectBrowser'] ?? true;
+			$options['detectDebug']   = $options['detectDebug'] ?? true;
 		}
 
 		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
@@ -769,19 +769,19 @@ abstract class HTMLHelper
 			$attribs = array();
 
 			// Old parameters.
-			$options['framework']     = isset($argList[1]) ? $argList[1] : false;
-			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
-			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
-			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
-			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+			$options['framework']     = $argList[1] ?? false;
+			$options['relative']      = $argList[2] ?? false;
+			$options['pathOnly']      = $argList[3] ?? false;
+			$options['detectBrowser'] = $argList[4] ?? true;
+			$options['detectDebug']   = $argList[5] ?? true;
 		}
 		else
 		{
-			$options['framework']     = isset($options['framework']) ? $options['framework'] : false;
-			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+			$options['framework']     = $options['framework'] ?? false;
+			$options['relative']      = $options['relative'] ?? false;
+			$options['pathOnly']      = $options['pathOnly'] ?? false;
+			$options['detectBrowser'] = $options['detectBrowser'] ?? true;
+			$options['detectDebug']   = $options['detectDebug'] ?? true;
 		}
 
 		// Include MooTools framework
@@ -837,7 +837,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  void
 	 */
-	public static function webcomponent($component = [], $options = [])
+	public static function webcomponent(array $component = [], array $options = [])
 	{
 		if (empty($component))
 		{
@@ -855,13 +855,13 @@ abstract class HTMLHelper
 				continue;
 			}
 			$version      = '';
-			$mediaVersion = \JFactory::getDocument()->getMediaVersion();
+			$mediaVersion = Factory::getDocument()->getMediaVersion();
 			$includes     = static::includeRelativeFiles(
 				'webcomponents',
 				$value,
-				isset($options['relative']) ? $options['relative'] : true,
-				isset($options['detectBrowser']) ? $options['detectBrowser'] : false,
-				isset($options['detectDebug']) ? $options['detectDebug'] : false
+				$options['relative'] ?? true,
+				$options['detectBrowser'] ?? false,
+				$options['detectDebug'] ?? false
 			);
 
 			if (count($includes) === 0)
@@ -1173,15 +1173,15 @@ abstract class HTMLHelper
 		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] === '';
 		$required     = isset($attribs['required']) && $attribs['required'] === '';
 		$filter       = isset($attribs['filter']) && $attribs['filter'] === '';
-		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
-		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : true;
-		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : false;
-		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
-		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
-		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
-		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
-		$class        = isset($attribs['class']) ? $attribs['class'] : '';
-		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
+		$todayBtn     = $attribs['todayBtn'] ?? true;
+		$weekNumbers  = $attribs['weekNumbers'] ?? true;
+		$showTime     = $attribs['showTime'] ?? false;
+		$fillTable    = $attribs['fillTable'] ?? true;
+		$timeFormat   = $attribs['timeFormat'] ?? 24;
+		$singleHeader = $attribs['singleHeader'] ?? false;
+		$hint         = $attribs['placeholder'] ?? '';
+		$class        = $attribs['class'] ?? '';
+		$onchange     = $attribs['onChange'] ?? '';
 
 		$showTime     = ($showTime) ? "1" : "0";
 		$todayBtn     = ($todayBtn) ? "1" : "0";

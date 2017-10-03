@@ -64,7 +64,7 @@ class TransitionField extends \JFormFieldList
 				$items,
 				function ($item) use ($user, $extension)
 				{
-					return $user->authorise('core.run', "$extension.transition.$item->value");
+					return $user->authorise('core.run', $extension . '.transition.' . $item->value);
 				}
 			);
 		}
@@ -72,18 +72,22 @@ class TransitionField extends \JFormFieldList
 		// Get state title
 		$query
 			->clear()
-			->select($db->qn('title', 'text'))
+			->select($db->qn('title'))
 			->from($db->qn('#__workflow_states'))
 			->where($db->qn('id') . '=' . $workflowState);
 
-		$workflowState = $db->setQuery($query)->loadObject();
+		$workflowName = $db->setQuery($query)->loadResult();
 
-		$default = [
-			\JHtml::_('select.option', '', $workflowState->text),
-			\JHtml::_('select.option', '-1', '--------', ['disable' => true])
-		];
+		$default = [\JHtml::_('select.option', '', $workflowName)];
+		
+		$options = array_merge(parent::getOptions(), $items);
+
+		if (count($options))
+		{
+			$default[] = \JHtml::_('select.option', '-1', '--------', ['disable' => true]);
+		}
 
 		// Merge with defaults
-		return array_merge($default, $items);
+		return array_merge($default, $options);
 	}
 }
