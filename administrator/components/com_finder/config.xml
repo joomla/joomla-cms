@@ -34,7 +34,6 @@
 			name="description_length"
 			type="number"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
-
 			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION"
 			size="5"
 			default="255"
