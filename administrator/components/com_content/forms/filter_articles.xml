@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+<form>
 	<fields name="filter">
 		<field
 			name="search"
@@ -13,6 +13,7 @@
 				name="state"
 				type="workflowstate"
 				label="COM_CONTENT_STATES"
+				addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 				onchange="this.form.submit();"
 		>
 			<option value="">COM_CONTENT_SELECT_STATE</option>
