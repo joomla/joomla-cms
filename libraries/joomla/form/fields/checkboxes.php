@@ -53,13 +53,13 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 */
 	public $checkedOptions;
 
-    /**
-     * Checkboxes field should always have any value.
-     *
-     * @var    boolean
-     * @since  3.8.1
-     */
-    public $ensure_value = true;
+	/**
+	 * Checkboxes field should always have any value.
+	 *
+	 * @var    boolean
+	 * @since  3.8.1
+	 */
+	public $ensure_value = true;
 
     /**
 	 * Method to get certain otherwise inaccessible properties from the form field object.

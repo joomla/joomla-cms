@@ -83,12 +83,12 @@ class PlgSystemFields extends JPlugin
 		foreach ($fields as $field)
 		{
 			// Update field value if we have it.
-            if (array_key_exists($field->name, $data['com_fields']))
-            {
-                $value = $data['com_fields'][$field->name];
+			if (array_key_exists($field->name, $data['com_fields']))
+			{
+				$value = $data['com_fields'][$field->name];
 
-                $model->setFieldValue($field->id, $item->id, $value);
-            }
+				$model->setFieldValue($field->id, $item->id, $value);
+			}
 		}
 
 		return true;
