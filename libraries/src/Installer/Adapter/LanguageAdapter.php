@@ -87,7 +87,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
-	protected function finaliseUninstall()
+	protected function finaliseUninstall(): bool
 	{
 		if ($this->ignoreUninstallQueries)
 		{

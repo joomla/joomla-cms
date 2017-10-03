@@ -27,5 +27,5 @@ interface MenuFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createMenu($client, array $options = []);
+	public function createMenu(string $client, array $options = []): AbstractMenu;
 }

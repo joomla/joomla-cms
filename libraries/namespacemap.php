@@ -21,17 +21,7 @@ class JNamespacePsr4Map
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $file = '';
-
-	/**
-	 * Constructor. For PHP 5.5 compatibility we must set the file property like this
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function __construct()
-	{
-		$this->file = JPATH_LIBRARIES . '/autoload_psr4.php';
-	}
+	protected $file = JPATH_LIBRARIES . '/autoload_psr4.php';
 
 	/**
 	 * Check if the file exists
