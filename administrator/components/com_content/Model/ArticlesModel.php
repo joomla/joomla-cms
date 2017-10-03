@@ -487,6 +487,11 @@ class ArticlesModel extends ListModel
 					{
 						unset($transitions[$key]);
 					}
+					else
+					{
+						// Update the transition text with final state value
+						$transitions[$key]['text'] .=  "\t\t[" . $transitions[$key]['state_title'] . "]";
+					}
 				}
 
 				$this->cache[$store] = $transitions;
