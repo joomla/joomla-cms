@@ -48,7 +48,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getLinkProvider()
+	public function getLinkProvider(): EvolvableLinkProviderInterface
 	{
 		return $this->linkProvider;
 	}
@@ -79,7 +79,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preload($uri, array $attributes = [])
+	public function preload(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'preload', $attributes);
 	}
@@ -94,7 +94,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dnsPrefetch($uri, array $attributes = [])
+	public function dnsPrefetch(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'dns-prefetch', $attributes);
 	}
@@ -109,7 +109,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preconnect($uri, array $attributes = [])
+	public function preconnect(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'preconnect', $attributes);
 	}
@@ -124,7 +124,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function prefetch($uri, array $attributes = [])
+	public function prefetch(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'prefetch', $attributes);
 	}
@@ -139,7 +139,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function prerender($uri, array $attributes = [])
+	public function prerender(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'prerender', $attributes);
 	}
@@ -155,7 +155,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function link($uri, $rel, array $attributes = [])
+	private function link(string $uri, string $rel, array $attributes = [])
 	{
 		$link = new Link($rel, $uri);
 

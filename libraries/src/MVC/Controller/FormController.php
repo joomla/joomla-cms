@@ -220,7 +220,7 @@ class FormController extends BaseController
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
-		$recordId = isset($data[$key]) ? $data[$key] : '0';
+		$recordId = $data[$key] ?? '0';
 
 		if ($recordId)
 		{

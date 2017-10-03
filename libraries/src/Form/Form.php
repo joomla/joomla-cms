@@ -101,7 +101,7 @@ class Form
 		$this->data = new Registry;
 
 		// Set the options if specified.
-		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
+		$this->options['control'] = $options['control'] ?? false;
 	}
 
 	/**
