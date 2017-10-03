@@ -45,7 +45,8 @@ class ArchiveModel extends ArticlesModel
 		$app = \JFactory::getApplication();
 
 		// Add archive properties
-		$params = $this->state->params;
+		$params = $app->getParams();
+		$this->setState('params', $params);
 
 		// Filter on archived articles
 		$this->setState('filter.published', 2);
@@ -83,7 +84,7 @@ class ArchiveModel extends ArticlesModel
 	protected function getListQuery()
 	{
 		$params           = $this->state->params;
-		$app              = JFactory::getApplication('site');
+		$app              = \JFactory::getApplication('site');
 		$catids           = $app->input->getVar('catid', array());
 		$catids           = array_values(array_diff($catids, array('')));
 		$articleOrderDate = $params->get('order_date');
