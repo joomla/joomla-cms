@@ -285,8 +285,8 @@ class ContentModelArticles extends JModelList
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryTable = JTable::getInstance('Category', 'JTable');
-
 			$subcat_items_where = array();
+
 			foreach ($categoryId as $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
@@ -295,6 +295,7 @@ class ContentModelArticles extends JModelList
 					: $baselevel;
 				$subcat_items_where[] = '(c.lft >= ' . (int) $categoryTable->lft . ' AND c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
+
 			$query->where('(' . implode(' OR ', $subcat_items_where) . ')');
 		}
 
