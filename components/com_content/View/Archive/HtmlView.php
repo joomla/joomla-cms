@@ -175,7 +175,7 @@ class HtmlView extends BaseHtmlView
 		// Year Field
 		$this->years = $this->getModel()->getYears();
 		$years = array();
-		$years[] = \JHtml::_('select.option', null, JText::_('JYEAR'));
+		$years[] = \JHtml::_('select.option', null, \JText::_('JYEAR'));
 
 		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
