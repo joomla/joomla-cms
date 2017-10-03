@@ -186,6 +186,20 @@ class WorkflowModel extends AdminModel
 	}
 
 	/**
+	 * A protected method to get a set of ordering conditions.
+	 *
+	 * @param   object  $table  A record object.
+	 *
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getReorderConditions($table)
+	{
+		return 'extension = ' . $this->getDbo()->q($table->extension);
+	}
+
+	/**
 	 * Method to change the home state of one item.
 	 *
 	 * @param   array    $pk     A list of the primary keys to change.

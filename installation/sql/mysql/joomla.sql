@@ -2141,6 +2141,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `description` text NOT NULL DEFAULT '',
   `extension` varchar(255) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT NOW(),
   `created_by` int(10) NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL DEFAULT NOW(),
@@ -2184,7 +2185,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
 CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
-	`ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
