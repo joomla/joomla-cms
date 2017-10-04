@@ -545,7 +545,7 @@
 				class="chzn-color"
 				>
 				<option value="0">JNO</option>
-				<option value="1">JYes</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
@@ -569,7 +569,7 @@
 				class="chzn-color"
 				>
 				<option value="0">JNO</option>
-				<option value="1">JYes</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
@@ -591,7 +591,7 @@
 				class="chzn-color"
 				>
 				<option value="0">JNO</option>
-				<option value="1">JYes</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
