@@ -300,18 +300,20 @@ abstract class UserHelper
 	/**
 	 * Hashes a password using the current encryption.
 	 *
-	 * @param   string  $password  The plaintext password to encrypt.
+	 * @param   string   $password   The plaintext password to encrypt.
+	 * @param   integer  $algorithm  The hashing algorithm to use, represented by `PASSWORD_*` constants.
+	 * @param   array    $options    The options for the algorithm to use.
 	 *
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   3.2.1
 	 */
-	public static function hashPassword($password)
+	public static function hashPassword($password, $algorithm = PASSWORD_BCRYPT, array $options = array())
 	{
 		// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 		\JCrypt::hasStrongPasswordSupport();
 
-		return password_hash($password, PASSWORD_BCRYPT);
+		return password_hash($password, $algorithm, $options);
 	}
 
 	/**
