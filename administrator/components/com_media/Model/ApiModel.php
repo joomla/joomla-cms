@@ -233,7 +233,7 @@ class ApiModel extends BaseModel
 		{}
 
 		// Check if the file exists
-		if ($file && !$override)
+		if (isset($file) && !$override)
 		{
 			throw new FileExistsException;
 		}
