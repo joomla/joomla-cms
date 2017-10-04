@@ -769,6 +769,7 @@
 				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 				description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -780,6 +781,7 @@
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
