@@ -56,24 +56,20 @@ class ApiController extends BaseController
 				throw new \InvalidArgumentException(\JText::_('JINVALID_TOKEN'), 403);
 			}
 
-			$doTask = strtolower($method . '_' . $task);
+			$doTask = strtolower($method) . ucfirst($task);
 
 			// Record the actual task being fired
 			$this->doTask = $doTask;
 
-			if (in_array($this->doTask, $this->taskMap))
+			if (!in_array($this->doTask, $this->taskMap))
 			{
-				return $this->$doTask();
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
 			}
 
-			if (isset($this->taskMap['__default']))
-			{
-				$doTask = $this->taskMap['__default'];
+			$data = $this->$doTask();
 
-				return $this->$doTask();
-			}
-
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+			// Return the data
+			$this->sendResponse($data);
 		}
 		catch (FileNotFoundException $e)
 		{
@@ -124,12 +120,12 @@ class ApiController extends BaseController
 	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1
 	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1
 	 *
-	 * @return  void
+	 * @return  array  The data to send with the response
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function get_files()
+	public function getFiles()
 	{
 		// Grab options
 		$options = array();
@@ -138,10 +134,7 @@ class ApiController extends BaseController
 		$options['search'] = $this->input->getString('search', '');
 		$options['recursive'] = $this->input->getBool('recursive', true);
 
-		$data = $this->getModel()->getFiles($this->getAdapter(), $this->getPath(), $options);
-
-		// Return the data
-		$this->sendResponse($data);
+		return $this->getModel()->getFiles($this->getAdapter(), $this->getPath(), $options);
 	}
 
 	/**
@@ -156,20 +149,16 @@ class ApiController extends BaseController
 	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
 	 * 		/api/files/sampledata/fruitshop/test.jpg
 	 *
-	 * @return  void
+	 * @return  null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function delete_files()
+	public function deleteFiles()
 	{
 		$this->getModel()->delete($this->getAdapter(), $this->getPath());
 
-		// Define this for capability with other cases
-		$data = null;
-
-		// Return the data
-		$this->sendResponse($data);
+		return null;
 	}
 
 	/**
@@ -191,12 +180,12 @@ class ApiController extends BaseController
 	 * 			"name": "test",
 	 * 		}
 	 *
-	 * @return  void
+	 * @return  array  The data to send with the response
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function post_files()
+	public function postFiles()
 	{
 		$adapter      = $this->getAdapter();
 		$path         = $this->getPath();
@@ -220,10 +209,7 @@ class ApiController extends BaseController
 			$this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
-		$data = $this->getModel()->getFile($adapter, $path . '/' . $name);
-
-		// Return the data
-		$this->sendResponse($data);
+		return $this->getModel()->getFile($adapter, $path . '/' . $name);
 	}
 
 	/**
@@ -262,12 +248,12 @@ class ApiController extends BaseController
 	 *          "move"    : "0"
 	 *     }
 	 *
-	 * @return  void
+	 * @return  array  The data to send with the response
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function put_files()
+	public function putFiles()
 	{
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
@@ -301,10 +287,7 @@ class ApiController extends BaseController
 			$path = $destinationPath;
 		}
 
-		$data = $this->getModel()->getFile($adapter, $path);
-
-		// Return the data
-		$this->sendResponse($data);
+		return $this->getModel()->getFile($adapter, $path);
 	}
 
 	/**
@@ -319,7 +302,7 @@ class ApiController extends BaseController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sendResponse($data = null, $responseCode = 200)
+	private function sendResponse($data = null, $responseCode = 200)
 	{
 		// Set the correct content type
 		$this->app->setHeader('Content-Type', 'application/json');
@@ -439,7 +422,7 @@ class ApiController extends BaseController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getAdapter()
+	private function getAdapter()
 	{
 		return explode(':', $this->input->getString('path', ''), 2)[0];
 	}
@@ -451,7 +434,7 @@ class ApiController extends BaseController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPath()
+	private function getPath()
 	{
 		return explode(':', $this->input->getString('path', ''), 2)[1];
 	}
