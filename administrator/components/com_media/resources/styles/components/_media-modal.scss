@@ -1,0 +1,85 @@
+.media-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  display: table;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .7);
+
+  .modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: .5s ease 0s normal none 1 running fadeIn;
+  }
+
+  .modal-body {
+    width: auto;
+    padding: 15px;
+  }
+
+  .modal-content {
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  }
+
+}
+
+.media-preview-modal {
+  color: #fff;
+
+  .modal-dialog {
+    max-width: 70vw;
+    max-height: 70vh;
+  }
+  .modal-content {
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+  .modal-header {
+    padding: 0;
+    border: 0;
+    > .close {
+      display: none;
+    }
+  }
+  .modal-body {
+    padding: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    img {
+      max-width: 100%;
+    }
+  }
+  .modal-footer {
+    display: none;
+  }
+}
+
+.media-preview-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px 20px;
+  font-size: 3rem;
+  opacity: .7;
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transition: transform .3s ease-out;
+    transform: translate(0, -25%);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

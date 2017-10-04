@@ -46,7 +46,9 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
-		Joomla.MediaManager.Edit.current.contents = Joomla.cropperResize.getCroppedCanvas(data).toDataURL("image/" + format, 1.0);
+		var quality = document.getElementById('jform_resize_quality').value;
+
+		Joomla.MediaManager.Edit.current.contents = Joomla.cropperResize.getCroppedCanvas(data).toDataURL("image/" + format, quality);
 
 		// Notify the app that a change has been made
 		window.dispatchEvent(new Event('mediaManager.history.point'));
