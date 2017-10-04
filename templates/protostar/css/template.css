@@ -1578,6 +1578,10 @@ input.search-query {
 	-moz-border-radius: 14px 0 0 14px;
 	border-radius: 14px 0 0 14px;
 }
+.js-stools-field-filter .input-prepend,
+.js-stools-field-filter .input-append {
+	margin-bottom: 0;
+}
 .form-search input,
 .form-search textarea,
 .form-search select,
