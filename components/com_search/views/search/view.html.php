@@ -266,7 +266,7 @@ class SearchViewSearch extends JViewLegacy
 				}
 
 				// Make sure there are no slashes in the needle
-			//	$needle = str_replace('/','\/',$needle);
+				$needle = str_replace('/','\/',$needle);
 				
 				$result->title   = preg_replace("/\b($needle)\b/ui", $hl1 . "$1" . $hl2, htmlspecialchars($result->title, ENT_COMPAT, 'UTF-8'));
 				$result->text    = JHtml::_('content.prepare', $result->text, '', 'com_search.search');
