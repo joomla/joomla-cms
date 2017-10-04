@@ -264,7 +264,7 @@ class Update extends \JObject
 
 			// Don't do anything
 			case 'UPDATES':
-				// set flags for future possible invalid extension message
+				// Set flags for future possible invalid extension message
 				$this->noPhpMatch = true;
 				$this->noStabilityMatch = true;
 				$this->noDbMatch = true;
@@ -310,7 +310,8 @@ class Update extends \JObject
 			// Closing update, find the latest version and check
 			case 'UPDATE':
 				// Retrieve and save type and name of package from xml update file for invalid extension error message
-				if (! isset($this->packageName)) {
+				if (! isset($this->packageName))
+				{
 					$this->packageName = $this->currentUpdate->type->_data . ' ' . $this->currentUpdate->name->_data;
 				}
 				
@@ -376,7 +377,8 @@ class Update extends \JObject
 						// Set to true if the <supported_databases> tag is not set
 						$dbMatch = true;
 					}
-					if ($dbMatch) {
+					if ($dbMatch)
+					{
 						$this->noDbMatch = false;
 					}
 
@@ -387,7 +389,8 @@ class Update extends \JObject
 					{
 						$stabilityMatch = false;
 					}
-					else {
+					else 
+					{
 						$this->noStabilityMatch = false;
 					}
 
