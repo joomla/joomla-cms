@@ -56,10 +56,12 @@ class FieldsHelper
 			{
 				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1], $item));
 
-				if ($section)
+				if (!$section)
 				{
-					$parts[1] = $section;
+					return null;
 				}
+
+				$parts[1] = $section;
 			}
 		}
 
