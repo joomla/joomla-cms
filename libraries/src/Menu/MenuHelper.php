@@ -311,7 +311,15 @@ class MenuHelper
 					$query->innerJoin($iJoin);
 				}
 
-				$results = $db->setQuery($query)->loadObjectList();
+				try
+				{
+					$results = $db->setQuery($query)->loadObjectList();
+				}
+				catch (\JDatabaseExceptionExecuting $e)
+				{
+					// The database has not yet been updated
+					$results = array();
+				}
 
 				// Skip the entire group if no items to iterate over.
 				if ($results)
