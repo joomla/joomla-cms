@@ -45,7 +45,8 @@
 				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
 				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
 				useglobal="true"
-				class="chzn-color"				>
+				class="chzn-color"
+				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
