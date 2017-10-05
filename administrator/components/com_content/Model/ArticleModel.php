@@ -174,9 +174,11 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$state = new \Joomla\Component\Workflow\Administrator\Table\State($this->_db);
+			$state = new \Joomla\Component\Workflow\Administrator\Table\StateTable($this->_db);
 
-			if (!$state->load($record->state) || $state->condition != -2)
+			$workflowAssociation = WorkflowHelper::getAssociatedEntry((int) $record->id);
+
+			if (!$state->load($workflowAssociation->state_id) || $state->condition != -2)
 			{
 				return false;
 			}
@@ -903,6 +905,9 @@ class ArticleModel extends AdminModel
 				->where('content_id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
 			$db->execute();
+
+			// Remove entry in workflow_association table
+			WorkflowHelper::removeAssociationsByItemIds($pks);
 		}
 
 		return $return;
