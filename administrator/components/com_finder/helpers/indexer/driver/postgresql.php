@@ -320,8 +320,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-		// Emulation of IGNORE INTO behaviour
 
+		// Emulation of IGNORE INTO behaviour
 		$db->setQuery(
 			' SELECT ta.term' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
@@ -452,7 +452,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		return $linkId;
 	}
 
-
 	/**
 	 * Method to optimize the index. We use this method to remove unused terms
 	 * and any other optimizations that might be necessary.
@@ -514,6 +513,4 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 		return true;
 	}
-
-
 }

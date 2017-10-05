@@ -1,25 +1,61 @@
 .media-toolbar {
-	display: flex;
-	padding: 0;
-	background-color: #f5f5f5;
-	border-bottom: 1px solid #ccc;
-	border-radius: 0.25rem 0.25rem 0 0;
+  position: relative;
+  display: flex;
+  padding: 0;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #dadada;
+  border-radius: .25rem .25rem 0 0;
 }
-.media-view-icons {
 
+.media-toolbar-icon {
+  display: inline-block;
+  width: 50px;
+  font-size: 1.3rem;
+  line-height: 46px;
+  color: #464a4c;
+  text-align: center;
+  border-left: 1px solid #ccc;
+  box-shadow: 1px 0 #fefefe inset;
+  &:hover {
+    background-color: #f0f0f0;
+    box-shadow: none;
+  }
 }
-.media-toolbar-icon { 
-	// @TODO - Global class should be created for these
-	display: inline-block;
-	border-left: 1px solid #ccc;
-	font-size: 1.3rem;
-	line-height: 3.4rem; 
-	text-align: center;
-	width: 3.8rem;
-	color: #464a4c;
-	box-shadow: 1px 0 #fefefe inset;
-	&:hover {
-		background-color: #f0f0f0;
-  		box-shadow: none;
-	}
+
+.media-view-icons {
+  display: flex;
+}
+
+.media-view-icons {
+  .disabled {
+    span {
+      opacity: .3;
+    }
+    &:hover, span:hover {
+      cursor: default;
+    }
+  }
+}
+
+.media-loader {
+  position: absolute;
+  right: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  height: 2px;
+  background-color: #006898;
+  background-image: linear-gradient(to right, #59afff 0, #59daff 100%);
+  animation: 10s ease 0s normal none 1 running mediaLoader;
+  animation-fill-mode: forwards;
+}
+
+@keyframes mediaLoader {
+  from {
+    right: 100%;
+  }
+
+  to {
+    right: 0;
+  }
 }

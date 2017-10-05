@@ -1,11 +1,15 @@
 /* Media Tree */
+
 ul.media-tree {
-  list-style: none;
-  padding: 0;
+  padding: 0 0 5px;
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: visible;
+  list-style: none;
   ul {
     margin-left: 2px;
+  }
+  &:empty {
+    display: none;
   }
 }
 
@@ -19,31 +23,71 @@ ul.media-tree {
   }
 }
 
+.media-disk {
+  margin-bottom: 10px;
+}
+
+.media-drive {
+  overflow-x: auto;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .14);
+  + .media-drive {
+    border-top: 0;
+  }
+  > ul > li {
+    padding-left: 25px;
+  }
+}
+
+.media-drive-name {
+  padding: 4px 10px;
+  &::before {
+    margin-right: 6px;
+    font-family: FontAwesome;
+    content: "\f114";
+    opacity: .75;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.media-disk-name {
+  padding: 4px 1px;
+  font-size: .8em;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  &:empty {
+    display: none;
+  }
+}
+
 .media-tree-item {
   position: relative;
   display: block;
-  &:before {
+  &::before {
     content: '';
     height: 1px;
     width: 10px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, .2);
     position: absolute;
     top: 16px;
     left: 15px;
     margin: auto;
   }
-  &:after {
-    content:'';
-    width: 1px;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
+  &::after {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 15px;
+    width: 1px;
+    height: 100%;
+    content: "";
+    background-color: rgba(0, 0, 0, .2);
   }
   &:last-child {
-    &:after {
+    &::after {
       height: 16px;
     }
   }
@@ -54,30 +98,30 @@ ul.media-tree {
 
 .media-tree-item a {
   display: block;
-  padding: 3px 7px;
+  padding: 0 7px;
   cursor: pointer;
-  text-decoration: none;
   line-height: 26px;
-  white-space: nowrap;
-}
-
-.media-tree-item a:hover {
-  background-color: #e1e1e1;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .media-tree-item.active > a {
   background-color: transparent;
   border-color: #007eb7;
+  &:hover {
+    text-decoration: none;
+    background-color: #e1e1e1;
+  }
 }
 
 .media-tree-item .item-icon {
   display: inline-block;
+  padding-right: 2px;
+  font-size: 15px;
   line-height: normal;
-  padding-right: 6px;
-  vertical-align: middle;
   color: #646464;
-  font-size: 20px;
+  vertical-align: middle;
+  opacity: .75;
 }
 
 .media-tree-item.active > a .item-icon {
@@ -85,9 +129,10 @@ ul.media-tree {
 }
 
 .item-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: inline-block;
+  overflow: hidden;
+  font-size: .9em;
+  text-overflow: ellipsis;
   vertical-align: middle;
   white-space: nowrap;
 }

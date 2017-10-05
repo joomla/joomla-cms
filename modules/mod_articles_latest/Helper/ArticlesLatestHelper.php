@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Access\Access;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Content\Site\Model\Articles;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 
 \JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -42,7 +42,7 @@ abstract class ArticlesLatestHelper
 		$user = Factory::getUser();
 
 		// Get an instance of the generic articles model
-		$model = new Articles(array('ignore_request' => true));
+		$model = new ArticlesModel(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();

@@ -1332,7 +1332,7 @@ class Language
 	 */
 	public function getFirstDay()
 	{
-		return (int) (isset($this->metadata['firstDay']) ? $this->metadata['firstDay'] : 0);
+		return (int) ($this->metadata['firstDay'] ?? 0);
 	}
 
 	/**
@@ -1344,7 +1344,7 @@ class Language
 	 */
 	public function getWeekEnd()
 	{
-		return (isset($this->metadata['weekEnd']) && $this->metadata['weekEnd']) ? $this->metadata['weekEnd'] : '0,6';
+		return $this->metadata['weekEnd'] ?? '0,6';
 	}
 
 	/**

@@ -10,9 +10,10 @@ namespace Joomla\CMS\Dispatcher;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\Input\Input;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 
 /**
@@ -29,7 +30,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $option;
 
@@ -37,25 +38,22 @@ abstract class Dispatcher implements DispatcherInterface
 	 * The extension namespace
 	 *
 	 * @var    string
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace;
 
 	/**
-	 * The CmsApplication instance
+	 * The application instance
 	 *
 	 * @var    CMSApplication
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
 	/**
-	 * The JApplication instance
+	 * The input instance
 	 *
-	 * @var    \JInput
-	 *
+	 * @var    Input
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $input;
@@ -63,12 +61,12 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication  $app    The JApplication for the dispatcher
-	 * @param   \JInput         $input  JInput
+	 * @param   CMSApplication  $app    The application instance
+	 * @param   Input           $input  The input instance
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(CMSApplication $app, \JInput $input = null)
+	public function __construct(CMSApplication $app, Input $input = null)
 	{
 		if (empty($this->namespace))
 		{
@@ -119,7 +117,7 @@ abstract class Dispatcher implements DispatcherInterface
 		// Check the user has permission to access this component if in the backend
 		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->option))
 		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 
@@ -175,7 +173,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getApplication()
+	protected function getApplication(): CMSApplication
 	{
 		return $this->app;
 	}
@@ -187,39 +185,25 @@ abstract class Dispatcher implements DispatcherInterface
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  Controller
+	 * @return  BaseController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getController($name, $client = null, $config = array())
+	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
 		// Set up the namespace
 		$namespace = rtrim($this->namespace, '\\') . '\\';
 
 		// Set up the client
-		$client = $client ? $client : ucfirst($this->app->getName());
+		$client = $client ?: ucfirst($this->app->getName());
 
 		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name) . 'Controller';
-
-		// @todo Remove me when core extensions are converted
-		if (!class_exists($controllerClass))
-		{
-			$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
-		}
-
-		// @todo Remove me when core extensions are converted
-		if (!class_exists($controllerClass) && $name == 'display')
-		{
-			$controllerClass = $namespace . $client . '\\Controller\\Controller';
-		}
 
 		if (!class_exists($controllerClass))
 		{
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
-
-		return $controller;
+		return new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
 	}
 }
