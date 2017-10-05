@@ -279,18 +279,18 @@ class ContentModelArticles extends JModelList
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryTable = JTable::getInstance('Category', 'JTable');
-			$subcat_items_where = array();
+			$subCatItemsWhere = array();
 
 			foreach ($categoryId as $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
-				$subcat_items_where[] = '(' .
+				$subCatItemsWhere[] = '(' .
 					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
 					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
 
-			$query->where(implode(' OR ', $subcat_items_where));
+			$query->where(implode(' OR ', $subCatItemsWhere));
 		}
 
 		// Case: Using only the by level filter
