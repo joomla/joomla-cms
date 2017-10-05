@@ -310,7 +310,7 @@ class Update extends \JObject
 			// Closing update, find the latest version and check
 			case 'UPDATE':
 				// Retrieve and save type and name of package from xml update file for invalid extension error message
-				if (! isset($this->packageName))
+				if (!isset($this->packageName))
 				{
 					$this->packageName = $this->currentUpdate->type->_data . ' ' . $this->currentUpdate->name->_data;
 				}
