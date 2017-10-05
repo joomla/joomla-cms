@@ -7,16 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Utilities\ArrayHelper;
+
 /**
  * Setup model for the Joomla Core Installer.
  *
  * @since  3.1
  */
-class InstallationModelSetup extends JModelBase
+class SetupModel extends BaseInstallationModel
 {
 	/**
 	 * The generated user ID.
@@ -35,9 +43,9 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getOptions()
 	{
-		if (!empty(JFactory::getSession()->get('setup.options', array())))
+		if (!empty(Factory::getSession()->get('setup.options', array())))
 		{
-			return JFactory::getSession()->get('setup.options', array());
+			return Factory::getSession()->get('setup.options', array());
 		}
 	}
 
@@ -58,11 +66,11 @@ class InstallationModelSetup extends JModelBase
 		// Ensure that we have language
 		if (!isset($options['language']) || empty($options['language']))
 		{
-			$options['language'] = JFactory::getLanguage()->getTag();
+			$options['language'] = Factory::getLanguage()->getTag();
 		}
 
 		// Get the session
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 		$options['helpurl'] = $session->get('setup.helpurl', null);
 
 		// Merge the new setup options into the current ones and store in the session.
@@ -77,7 +85,7 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @param   string  $view  The view being processed.
 	 *
-	 * @return  JForm|boolean  JForm object on success, false on failure.
+	 * @return  Form|boolean  JForm object on success, false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -85,19 +93,19 @@ class InstallationModelSetup extends JModelBase
 	{
 		if (!$view)
 		{
-			$view = JFactory::getApplication()->input->getWord('view', 'setup');
+			$view = Factory::getApplication()->input->getWord('view', 'setup');
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
+		Form::addFormPath(JPATH_COMPONENT . '/forms');
 
 		try
 		{
-			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+			$form = Form::getInstance('jform', $view, array('control' => 'jform'));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -126,7 +134,7 @@ class InstallationModelSetup extends JModelBase
 	public function checkForm($page = 'setup')
 	{
 		// Get the posted values from the request and validate them.
-		$data   = JFactory::getApplication()->input->post->get('jform', array(), 'array');
+		$data   = Factory::getApplication()->input->post->get('jform', array(), 'array');
 		$return = $this->validate($data, $page);
 
 		// Attempt to save the data before validation.
@@ -155,7 +163,7 @@ class InstallationModelSetup extends JModelBase
 	public function getLanguages()
 	{
 		// Detect the native language.
-		$native = JLanguageHelper::detectLanguage();
+		$native = LanguageHelper::detectLanguage();
 
 		if (empty($native))
 		{
@@ -163,7 +171,7 @@ class InstallationModelSetup extends JModelBase
 		}
 
 		// Get a forced language if it exists.
-		$forced = JFactory::getApplication()->getLocalise();
+		$forced = Factory::getApplication()->getLocalise();
 
 		if (!empty($forced['language']))
 		{
@@ -171,9 +179,9 @@ class InstallationModelSetup extends JModelBase
 		}
 
 		// Get the list of available languages.
-		$list = JLanguageHelper::createLanguageList($native);
+		$list = LanguageHelper::createLanguageList($native);
 
-		if (!$list || $list instanceof Exception)
+		if (!$list || $list instanceof \Exception)
 		{
 			$list = array();
 		}
@@ -207,9 +215,9 @@ class InstallationModelSetup extends JModelBase
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
-			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'warning');
+			Factory::getApplication()->enqueueMessage($return->getMessage(), 'warning');
 
 			return false;
 		}
@@ -220,13 +228,13 @@ class InstallationModelSetup extends JModelBase
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				if ($message instanceof Exception)
+				if ($message instanceof \Exception)
 				{
-					JFactory::getApplication()->enqueueMessage($message->getMessage(), 'warning');
+					Factory::getApplication()->enqueueMessage($message->getMessage(), 'warning');
 				}
 				else
 				{
-					JFactory::getApplication()->enqueueMessage($message, 'warning');
+					Factory::getApplication()->enqueueMessage($message, 'warning');
 				}
 			}
 
@@ -245,7 +253,7 @@ class InstallationModelSetup extends JModelBase
 	 */
 	protected static function generateRandUserId()
 	{
-		$session    = JFactory::getSession();
+		$session    = Factory::getSession();
 		$randUserId = $session->get('randUserId');
 
 		if (empty($randUserId))
@@ -269,7 +277,7 @@ class InstallationModelSetup extends JModelBase
 	{
 		self::$userId = 0;
 
-		JFactory::getSession()->set('randUserId', self::$userId);
+		Factory::getSession()->set('randUserId', self::$userId);
 	}
 
 	/**
@@ -294,7 +302,7 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @param   array  $options  The options to use for configuration.
 	 *
-	 * @return  JDatabaseDriver|boolean  Database object on success, boolean false on failure
+	 * @return  \JDatabaseDriver|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -306,11 +314,11 @@ class InstallationModelSetup extends JModelBase
 		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
-		if (\JLanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
+		if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
 			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
 		}
@@ -323,7 +331,7 @@ class InstallationModelSetup extends JModelBase
 		// Ensure a database type was selected.
 		if (empty($options->db_type))
 		{
-			\JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
 
 			return false;
 		}
@@ -331,7 +339,7 @@ class InstallationModelSetup extends JModelBase
 		// Ensure that a hostname and user name were input.
 		if (empty($options->db_host) || empty($options->db_user))
 		{
-			\JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
 
 			return false;
 		}
@@ -339,7 +347,7 @@ class InstallationModelSetup extends JModelBase
 		// Ensure that a database name was input.
 		if (empty($options->db_name))
 		{
-			\JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
 			return false;
 		}
@@ -347,7 +355,7 @@ class InstallationModelSetup extends JModelBase
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			\JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
 
 			return false;
 		}
@@ -355,7 +363,7 @@ class InstallationModelSetup extends JModelBase
 		// Validate length of database table prefix.
 		if (strlen($options->db_prefix) > 15)
 		{
-			\JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
 			return false;
 		}
@@ -363,7 +371,7 @@ class InstallationModelSetup extends JModelBase
 		// Validate length of database name.
 		if (strlen($options->db_name) > 64)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
 
 			return false;
 		}
@@ -373,7 +381,7 @@ class InstallationModelSetup extends JModelBase
 		{
 			if (strtolower($options->db_prefix) != $options->db_prefix)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+				Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
 				return false;
 			}
@@ -394,9 +402,9 @@ class InstallationModelSetup extends JModelBase
 				isset($options->db_select) ? $options->db_select : false
 			);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -410,7 +418,7 @@ class InstallationModelSetup extends JModelBase
 	 * @return  boolean
 	 *
 	 * @since   3.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function createDatabase($options)
 	{
@@ -442,7 +450,7 @@ class InstallationModelSetup extends JModelBase
 		{
 			$db_version = $db->getVersion();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			/*
 			 * We may get here if the database doesn't exist, if so then explain that to users instead of showing the database connector's error
@@ -467,17 +475,17 @@ class InstallationModelSetup extends JModelBase
 					'select'   => $options->db_select,
 				);
 
-				$altDB = JDatabaseDriver::getInstance($altDBoptions);
+				$altDB = \JDatabaseDriver::getInstance($altDBoptions);
 
 				// Try to create the database now using the alternate driver
 				try
 				{
 					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					// We did everything we could
-					throw new RuntimeException(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
+					throw new \RuntimeException(\JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
 				}
 
 				// If we got here, the database should have been successfully created, now try one more time to get the version
@@ -485,26 +493,26 @@ class InstallationModelSetup extends JModelBase
 				{
 					$db_version = $db->getVersion();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					// We did everything we could
-					throw new RuntimeException(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
+					throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
 				}
 			}
 			elseif ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
 			{
-				throw new RuntimeException(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
+				throw new \RuntimeException(\JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
 			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
 			else
 			{
-				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
+				throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
 			}
 		}
 
 		if (!$db->isMinimumVersion())
 		{
-			throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
+			throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
 		}
 
 		if ($db->getServerType() === 'mysql')
@@ -512,20 +520,20 @@ class InstallationModelSetup extends JModelBase
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
 			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
-				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
+				throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
 			}
 		}
 
 		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
-			throw new RuntimeException(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
+			throw new \RuntimeException(\JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
 		}
 
 		// @internal Check for asc(00) Null in name.
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
-			throw new RuntimeException(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
+			throw new \RuntimeException(\JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
@@ -537,9 +545,9 @@ class InstallationModelSetup extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
+				throw new \RuntimeException(\JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
 			}
 
 			$column = $db->loadResult();
@@ -552,9 +560,9 @@ class InstallationModelSetup extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
-					throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
+					throw new \RuntimeException(\JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
 				}
 			}
 		}
@@ -567,12 +575,12 @@ class InstallationModelSetup extends JModelBase
 		{
 			$db->select($options->db_name);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
 			if (!$this->createDb($db, $options, $utfSupport))
 			{
-				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 500, $e);
+				throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 500, $e);
 			}
 
 			$db->select($options->db_name);
@@ -596,7 +604,7 @@ class InstallationModelSetup extends JModelBase
 		// Restore autoselect value after database creation.
 		$options['db_select'] = $tmpSelect;
 
-		JFactory::getSession()->set('setup.options', $options);
+		Factory::getSession()->set('setup.options', $options);
 
 		return true;
 	}
@@ -693,7 +701,7 @@ class InstallationModelSetup extends JModelBase
 		// Check if the schema is a valid file
 		if (!is_file($schema))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_DB', \JText::_('INSTL_DATABASE_NO_SCHEMA')), 'error');
 
 			return false;
 		}
@@ -721,9 +729,9 @@ class InstallationModelSetup extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -741,11 +749,11 @@ class InstallationModelSetup extends JModelBase
 			$pathPart .= $type . '/';
 		}
 
-		$files = JFolder::files($pathPart, '\.sql$');
+		$files = \JFolder::files($pathPart, '\.sql$');
 
 		if (empty($files))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'error');
 
 			return false;
 		}
@@ -754,9 +762,9 @@ class InstallationModelSetup extends JModelBase
 
 		foreach ($files as $file)
 		{
-			if (version_compare($version, JFile::stripExt($file)) < 0)
+			if (version_compare($version, \JFile::stripExt($file)) < 0)
 			{
-				$version = JFile::stripExt($file);
+				$version = \JFile::stripExt($file);
 			}
 		}
 
@@ -775,9 +783,9 @@ class InstallationModelSetup extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -794,20 +802,20 @@ class InstallationModelSetup extends JModelBase
 		{
 			$extensions = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			$return = false;
 		}
 
-		JFactory::$database = $db;
-		$installer = JInstaller::getInstance();
+		Factory::$database = $db;
+		$installer = Installer::getInstance();
 
 		foreach ($extensions as $extension)
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'error');
+				Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'error');
 
 				return false;
 			}
@@ -832,7 +840,7 @@ class InstallationModelSetup extends JModelBase
 		}
 
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
-		$languages = JFactory::getApplication()->getLocaliseAdmin($db);
+		$languages = Factory::getApplication()->getLocaliseAdmin($db);
 
 		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['setup']))
 		{
@@ -866,9 +874,9 @@ class InstallationModelSetup extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				$return = false;
 			}
@@ -916,7 +924,7 @@ class InstallationModelSetup extends JModelBase
 		{
 			if (!file_exists($data))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
+				Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
 
 				return false;
 			}
@@ -934,8 +942,8 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Sample data tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db              Database connector object $db*.
-	 * @param   string           $sampleFileName  The sample dats filename.
+	 * @param   \JDatabaseDriver  $db              Database connector object $db*.
+	 * @param   string            $sampleFileName  The sample dats filename.
 	 *
 	 * @return  void
 	 *
@@ -982,7 +990,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Cms tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -1000,7 +1008,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to update the user id of sql data content to the new rand user id.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1042,9 +1050,9 @@ class InstallationModelSetup extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 		}
@@ -1053,7 +1061,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to update the dates of sql data content to the current date.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1062,7 +1070,7 @@ class InstallationModelSetup extends JModelBase
 	protected function updateDates($db)
 	{
 		// Get the current date.
-		$currentDate = JFactory::getDate()->toSql();
+		$currentDate = Factory::getDate()->toSql();
 		$nullDate    = $db->getNullDate();
 
 		// Update all core tables date fields of the tables with the current date.
@@ -1102,9 +1110,9 @@ class InstallationModelSetup extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 		}
@@ -1113,8 +1121,8 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string           $prefix  Database table prefix.
+	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string            $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1143,9 +1151,9 @@ class InstallationModelSetup extends JModelBase
 					{
 						$db->dropTable($backupTable, true);
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
+						Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
 
 						$return = false;
 					}
@@ -1155,9 +1163,9 @@ class InstallationModelSetup extends JModelBase
 					{
 						$db->renameTable($table, $backupTable, $backup, $prefix);
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
+						Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'error');
 
 						$return = false;
 					}
@@ -1171,8 +1179,8 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   JDatabaseDriver  $db       JDatabase object.
-	 * @param   JObject          $options  JObject coming from "initialise" function to pass user
+	 * @param   \JDatabaseDriver  $db       \JDatabase object.
+	 * @param   CMSObject         $options  CMSObject coming from "initialise" function to pass user
 	 *                                     and database name to database driver.
 	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
 	 *
@@ -1188,7 +1196,7 @@ class InstallationModelSetup extends JModelBase
 			// Run the create database query.
 			$db->createDatabase($options, $utf);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// If an error occurred return false.
 			return false;
@@ -1200,8 +1208,8 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string           $prefix  Database table prefix.
+	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string            $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1226,9 +1234,9 @@ class InstallationModelSetup extends JModelBase
 					{
 						$db->dropTable($table);
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'error');
+						Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'error');
 
 						$return = false;
 					}
@@ -1242,8 +1250,8 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to import a database schema from a file.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabase object.
-	 * @param   string           $schema  Path to the schema file.
+	 * @param   \JDatabaseDriver  $db      JDatabase object.
+	 * @param   string            $schema  Path to the schema file.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1256,7 +1264,7 @@ class InstallationModelSetup extends JModelBase
 		// Get the contents of the schema file.
 		if (!($buffer = file_get_contents($schema)))
 		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+			Factory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
 
 			return false;
 		}
@@ -1296,9 +1304,9 @@ class InstallationModelSetup extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 					$return = false;
 				}
@@ -1311,8 +1319,8 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to set the database character set to UTF-8.
 	 *
-	 * @param   JDatabaseDriver  $db    JDatabaseDriver object.
-	 * @param   string           $name  Name of the database to process.
+	 * @param   \JDatabaseDriver  $db    JDatabaseDriver object.
+	 * @param   string            $name  Name of the database to process.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1327,7 +1335,7 @@ class InstallationModelSetup extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return false;
 		}

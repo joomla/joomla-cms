@@ -15,10 +15,12 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Installation\Controller\DisplayController;
 use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
@@ -187,16 +189,17 @@ final class InstallationApplication extends CMSApplication
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
 		// Execute the task.
-		$this->fetchController($this->input->getCmd('task'))->execute();
+		ob_start();
+		$this->fetchController()->execute($this->input->getCmd('task'));
+		$contents = ob_get_clean();
 
 		// If debug language is set, append its output to the contents.
 		if ($this->config->get('debug_lang'))
 		{
-			$contents = $document->getBuffer('component');
 			$contents .= $this->debugLanguage();
-
-			$document->setBuffer($contents, 'component');
 		}
+
+		$this->getDocument()->setBuffer($contents, 'component');
 
 		$document->setTitle(\JText::_('INSTL_PAGE_TITLE'));
 	}
@@ -275,24 +278,9 @@ final class InstallationApplication extends CMSApplication
 	 * @since   3.1
 	 * @throws  \RuntimeException
 	 */
-	protected function fetchController($task)
+	protected function fetchController()
 	{
-		if ($task === null)
-		{
-			$task = 'default';
-		}
-
-		// Set the controller class name based on the task.
-		$class = 'InstallationController' . ucfirst($task);
-
-		// If the requested controller exists let's use it.
-		if (class_exists($class))
-		{
-			return new $class;
-		}
-
-		// Nothing found. Panic.
-		throw new \RuntimeException('Class ' . $class . ' not found');
+		return new DisplayController([], new MVCFactory('Joomla\\CMS', $this), $this, $this->input);
 	}
 
 	/**
@@ -580,5 +568,20 @@ final class InstallationApplication extends CMSApplication
 	public function setCfg(array $vars = array(), $namespace = 'config')
 	{
 		$this->config->loadArray($vars, $namespace);
+	}
+
+	/**
+	 * Returns the application \JMenu object.
+	 *
+	 * @param   string  $name     The name of the application/client.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  AbstractMenu
+	 *
+	 * @since   3.2
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		return null;
 	}
 }

@@ -7,6 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Model;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,7 +19,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class InstallationModelChecks extends JModelBase
+class ChecksModel extends BaseInstallationModel
 {
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
@@ -61,24 +66,24 @@ class InstallationModelChecks extends JModelBase
 		$options = [];
 
 		// Check for zlib support.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
+		$option = new \stdClass;
+		$option->label  = \JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
 		$option->state  = extension_loaded('zlib');
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for XML support.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_XML_SUPPORT');
+		$option = new \stdClass;
+		$option->label  = \JText::_('INSTL_XML_SUPPORT');
 		$option->state  = extension_loaded('xml');
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for database support.
 		// We are satisfied if there is at least one database driver available.
-		$available = JDatabaseDriver::getConnectors();
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
+		$available = \JDatabaseDriver::getConnectors();
+		$option = new \stdClass;
+		$option->label  = \JText::_('INSTL_DATABASE_SUPPORT');
 		$option->label .= '<br>(' . implode(', ', $available) . ')';
 		$option->state  = count($available);
 		$option->notice = null;
@@ -88,49 +93,49 @@ class InstallationModelChecks extends JModelBase
 		if (extension_loaded('mbstring'))
 		{
 			// Check for default MB language.
-			$option = new stdClass;
-			$option->label  = JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
+			$option = new \stdClass;
+			$option->label  = \JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
 			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
-			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
+			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
-			$option = new stdClass;
-			$option->label  = JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
+			$option = new \stdClass;
+			$option->label  = \JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
 			$option->state  = (ini_get('mbstring.func_overload') == 0);
-			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
+			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
 			$options[] = $option;
 		}
 
 		// Check for a missing native parse_ini_file implementation.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
+		$option = new \stdClass;
+		$option->label  = \JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
 		$option->state  = $this->getIniParserAvailability();
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for missing native json_encode / json_decode support.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
+		$option = new \stdClass;
+		$option->label  = \JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for mcrypt support
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
+		$option = new \stdClass;
+		$option->label  = \JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
 		$option->state  = is_callable('mcrypt_encrypt');
-		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
 		$options[] = $option;
 
 		// Check for configuration file writable.
 		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
 			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
 
-		$option = new stdClass;
-		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
+		$option = new \stdClass;
+		$option->label  = \JText::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = $writable;
-		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
 		return $options;
@@ -169,44 +174,44 @@ class InstallationModelChecks extends JModelBase
 	{
 		$settings = array();
 		// Check for safe mode.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_SAFE_MODE');
+		$setting = new \stdClass;
+		$setting->label = \JText::_('INSTL_SAFE_MODE');
 		$setting->state = (bool) ini_get('safe_mode');
 		$setting->recommended = false;
 		$settings[] = $setting;
 		// Check for display errors.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_DISPLAY_ERRORS');
+		$setting = new \stdClass;
+		$setting->label = \JText::_('INSTL_DISPLAY_ERRORS');
 		$setting->state = (bool) ini_get('display_errors');
 		$setting->recommended = false;
 		$settings[] = $setting;
 		// Check for file uploads.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_FILE_UPLOADS');
+		$setting = new \stdClass;
+		$setting->label = \JText::_('INSTL_FILE_UPLOADS');
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
 		// Check for magic quotes runtimes.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
+		$setting = new \stdClass;
+		$setting->label = \JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
 		$setting->state = (bool) ini_get('magic_quotes_runtime');
 		$setting->recommended = false;
 		$settings[] = $setting;
 		// Check for output buffering.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
+		$setting = new \stdClass;
+		$setting->label = \JText::_('INSTL_OUTPUT_BUFFERING');
 		$setting->state = (bool) ini_get('output_buffering');
 		$setting->recommended = false;
 		$settings[] = $setting;
 		// Check for session auto-start.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_SESSION_AUTO_START');
+		$setting = new \stdClass;
+		$setting->label = \JText::_('INSTL_SESSION_AUTO_START');
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
 		// Check for native ZIP support.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
+		$setting = new \stdClass;
+		$setting->label = \JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
 		$setting->recommended = true;
 		$settings[] = $setting;
@@ -222,9 +227,9 @@ class InstallationModelChecks extends JModelBase
 	 */
 	public function getOptions()
 	{
-		if (!empty(JFactory::getSession()->get('setup.options', array())))
+		if (!empty(Factory::getSession()->get('setup.options', array())))
 		{
-			return JFactory::getSession()->get('setup.options', array());
+			return Factory::getSession()->get('setup.options', array());
 		}
 	}
 
@@ -241,19 +246,19 @@ class InstallationModelChecks extends JModelBase
 	{
 		if (!$view)
 		{
-			$view = JFactory::getApplication()->input->getWord('view', 'setup');
+			$view = Factory::getApplication()->input->getWord('view', 'setup');
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
+		Form::addFormPath(JPATH_COMPONENT . '/model/forms');
 
 		try
 		{
-			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+			$form = Form::getInstance('jform', $view, array('control' => 'jform'));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

@@ -7,13 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\View\Setup;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installation\View\DefaultView;
+
 /**
- * The HTML Joomla Core Pre-Install View
+ * The HTML Joomla Core Install Setup View
  *
  * @since  3.1
  */
-class InstallationViewErrorHtml extends InstallationViewDefault
+class HtmlView extends DefaultView
 {
 }
