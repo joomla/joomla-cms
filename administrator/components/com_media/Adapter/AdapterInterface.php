@@ -159,7 +159,7 @@ interface AdapterInterface
 	 * @return string
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws \FileNotFoundException
+	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
 	public function getUrl($path);
 
@@ -195,7 +195,7 @@ interface AdapterInterface
 	 * @return string
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws \FileNotFoundException
+	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
 	public function getTemporaryUrl($path);
 }
