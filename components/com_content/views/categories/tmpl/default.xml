@@ -558,9 +558,11 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="link_author" type="list"
-				description="JGLOBAL_LINK_AUTHOR_DESC"
+			<field 
+				name="link_author" 
+				type="list"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
+				description="JGLOBAL_LINK_AUTHOR_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNo</option>
