@@ -188,7 +188,7 @@ final class InstallationApplication extends CMSApplication
 
 		// Execute the task.
 		ob_start();
-		$this->executeTask();
+		$this->executeController();
 		$contents = ob_get_clean();
 
 		// If debug language is set, append its output to the contents.
@@ -273,7 +273,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function executeTask()
+	private function executeController()
 	{
 		$task = $this->input->get('task');
 
