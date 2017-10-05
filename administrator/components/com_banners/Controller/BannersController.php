@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class BannersControllerController extends AdminController
+class BannersController extends AdminController
 {
 	/**
 	 * The prefix to use with controller messages.

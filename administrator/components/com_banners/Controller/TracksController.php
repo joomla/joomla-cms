@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
  *
  * @since  1.6
  */
-class TracksControllerController extends BaseController
+class TracksController extends BaseController
 {
 	/**
 	 * The prefix to use with controller messages.

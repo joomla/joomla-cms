@@ -18,7 +18,7 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
  *
  * @since  1.6
  */
-class DisplayControllerController extends BaseController
+class DisplayController extends BaseController
 {
 	/**
 	 * The default view.
