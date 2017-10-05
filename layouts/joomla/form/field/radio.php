@@ -38,6 +38,7 @@ extract($displayData);
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Including fallback code for HTML5 non supported browsers.
@@ -72,7 +73,8 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 				$oid        = $id . $i;
 				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+				$dataAttribute = !empty($option->dataAttributes) ? ' ' . $option->dataAttributes : '';
+				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick, $dataAttribute));
 			?>
 
 			<?php if ($required) : ?>

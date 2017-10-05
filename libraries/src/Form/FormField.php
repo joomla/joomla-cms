@@ -1075,7 +1075,7 @@ abstract class FormField
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
-			'dataAttributes' => $this->dataAttributes
+			'dataAttributes' => $this->dataAttributes,
 		);
 	}
 
