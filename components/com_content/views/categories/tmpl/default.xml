@@ -706,8 +706,8 @@
 			<field 
 				name="show_feed_link" 
 				type="list"
-				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
