@@ -190,7 +190,7 @@ final class InstallationApplication extends CMSApplication
 
 		// Execute the task.
 		ob_start();
-		$this->fetchController()->execute($this->input->getCmd('task'));
+		$this->executeTask();
 		$contents = ob_get_clean();
 
 		// If debug language is set, append its output to the contents.
@@ -269,18 +269,33 @@ final class InstallationApplication extends CMSApplication
 	}
 
 	/**
-	 * Method to get a controller object.
+	 * Executed a controller from the input task.
 	 *
-	 * @param   string  $task  The task being executed
+	 * @return  void
 	 *
-	 * @return  Controller
-	 *
-	 * @since   3.1
-	 * @throws  \RuntimeException
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function fetchController()
+	protected function executeTask()
 	{
-		return new DisplayController([], new MVCFactory('Joomla\\CMS', $this), $this, $this->input);
+		$task = $this->input->get('task');
+
+		// The name of the controller
+		$controllerName = 'display';
+
+		// Parse task in format controller.task
+		if ($task)
+		{
+			list($controllerName, $task) = explode('.', $task, 2);
+		}
+
+		// Compile the class name
+		$class = 'Joomla\\CMS\\Installation\\Controller\\' . ucfirst($controllerName) . 'Controller';
+
+		// Create the instance
+		$controller = new $class([], new MVCFactory('Joomla\\CMS', $this), $this, $this->input);
+
+		// Execute the task
+		$controller->execute($task);
 	}
 
 	/**

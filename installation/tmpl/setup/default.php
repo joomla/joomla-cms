@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 					<?php echo $this->form->getLabel('language'); ?>
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
-				<input type="hidden" name="task" value="setlanguage">
+				<input type="hidden" name="task" value="language.set">
 				<input type="hidden" name="format" value="json">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
