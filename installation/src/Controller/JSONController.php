@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Session\Session;
 
 /**
  * Default JSON controller class for the Joomla Installer controllers.
@@ -59,5 +60,19 @@ abstract class JSONController extends BaseController
 
 		// Close the application.
 		$this->app->close();
+	}
+
+	/**
+	 * Checks for a form token, if it is invalid a JSOn response with the error code 403 is sent.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @see     Session::checkToken()
+	 */
+	public function checkValidToken()
+	{
+		// Check for request forgeries.
+		Session::checkToken() or $this->sendJsonResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 	}
 }

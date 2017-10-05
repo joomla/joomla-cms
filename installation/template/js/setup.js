@@ -76,7 +76,7 @@ Joomla.checkDbCredentials = function() {
 
 	Joomla.request({
 		type: "POST",
-		url : Joomla.installationBaseUrl + '?task=InstallDbcheck&format=json',
+		url : Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json',
 		data: data,
 		perform: true,
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},

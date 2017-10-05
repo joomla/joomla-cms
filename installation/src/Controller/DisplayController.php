@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
- * Default controller class for the Joomla Installer.
+ * Display controller class for the Joomla Installer.
  *
  * @since  3.1
  */

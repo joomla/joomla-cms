@@ -17,7 +17,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 
 /**
- * Default controller class for the Joomla Installer.
+ * Language controller class for the Joomla Installer.
  *
  * @since  3.1
  */
