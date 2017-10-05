@@ -142,7 +142,7 @@ class JFormFieldCheckbox extends JFormField
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Initialize JavaScript field data attributes. For eg, data-action-type="click"
-		$dataAttribute = !empty($this->dataAttributeValues) ? ' ' . implode(' ', $this->dataAttributeValues) : '';
+		$dataAttribute = !empty($this->dataAttributes) ? ' ' . implode(' ', $this->dataAttributes) : '';
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');

@@ -56,7 +56,6 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
-	<?php echo $dataAttribute ? $dataAttribute : ''; ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
 

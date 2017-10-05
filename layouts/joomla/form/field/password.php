@@ -42,6 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 if ($meter)
@@ -70,7 +71,7 @@ $attributes = array(
 	!$autocomplete ? 'autocomplete="off"' : '',
 	!empty($class) ? 'class="' . $class . '"' : '',
 	$readonly ? 'readonly' : '',
-	$dataAttribute ? $dataAttribute : '',
+	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',

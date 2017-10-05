@@ -346,19 +346,13 @@ abstract class FormField
 	protected $renderLabelLayout = 'joomla.form.renderlabel';
 
 	/**
-	 * The data-attribute name of the form field. For example, data-action-type
-	 *
-	 * @var  array
-	 */
-	protected $dataAttributeName = array();
-
-	/**
 	 * The data-attribute name and values of the form field.
 	 * For example, data-action-type="click" data-action-type="change"
 	 *
 	 * @var  array
+	 * @since 3.8.1
 	 */
-	protected $dataAttributeValues = array();
+	protected $dataAttributes = array();
 
 	/**
 	 * Method to instantiate the form field object.
@@ -453,6 +447,13 @@ abstract class FormField
 
 			case 'title':
 				return $this->getTitle();
+
+			default:
+				// Check for data attribute
+				if (strpos($name, "data-") === 0 && array_key_exists($name, $this->dataAttributes))
+				{
+					return $this->dataAttributes[$name];
+				}
 		}
 
 		return;
@@ -470,14 +471,6 @@ abstract class FormField
 	 */
 	public function __set($name, $value)
 	{
-		// Lets detect miscellaneous data attribute. For eg, data-firstName, data-lastName, data-*
-		$miscellaneousDataAttribute = '';
-
-		if (in_array($name, $this->dataAttributeName))
-		{
-			$miscellaneousDataAttribute = $name;
-		}
-
 		switch ($name)
 		{
 			case 'class':
@@ -555,18 +548,22 @@ abstract class FormField
 				$this->$name = (int) $value;
 				break;
 
-			case $miscellaneousDataAttribute:
-				$this->dataAttributeValues[$name]  = $name . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
-				break;
-
 			default:
-				if (property_exists(__CLASS__, $name))
+				// Detect data attribute(s)
+				if (strpos($name, "data-") === 0)
 				{
-					\JLog::add("Cannot access protected / private property $name of " . __CLASS__);
+					$this->dataAttributes[$name] = $name . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 				}
 				else
 				{
-					$this->$name = $value;
+					if (property_exists(__CLASS__, $name))
+					{
+						\JLog::add("Cannot access protected / private property $name of " . __CLASS__);
+					}
+					else
+					{
+						$this->$name = $value;
+					}
 				}
 		}
 	}
@@ -624,26 +621,29 @@ abstract class FormField
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
 			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
 
-		// Get data-attributes
-		$dataAttributes = $this->getDataAttributes();
-
-		// Merge list of data-attribute(s) with $attributes array
-		$attributes = array_merge($attributes, $dataAttributes);
-
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
 		$this->value = $value;
 
+		// Lets detect miscellaneous data attribute. For eg, data-*
+		foreach ($this->element->attributes() as $key => $value)
+		{
+			if (strpos($key, "data-") === 0)
+			{
+				// Data attribute key value pair
+				$this->dataAttributes[$key] = $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+			}
+		}
+
+		// Get data-* names/keys
+		$dataAttributeKeys = array_keys($this->dataAttributes);
+
+		// Merge data-* names/keys with attributes array
+		$attributes = array_merge($attributes, $dataAttributeKeys);
+
 		foreach ($attributes as $attributeName)
 		{
-			// Lets detect miscellaneous data attribute. For eg, data-*
-			if (strpos($attributeName, 'data-') !== false)
-			{
-				// Push data attribute name(s) in array
-				$this->dataAttributeName[] = $attributeName;
-			}
-
 			$this->__set($attributeName, $element[$attributeName]);
 		}
 
@@ -668,39 +668,13 @@ abstract class FormField
 	/**
 	 * Method to get data attributes. For example, data-user-type
 	 *
-	 * @return  list of data attribute(s)
+	 * @return  array list of data attribute(s)
 	 *
-	 * @since   3.2
+	 * @since   3.8.1
 	 */
 	public function getDataAttributes()
 	{
-		// Array to return list of data attribute(s)
-		$dataAttributes    = array();
-		$elementAttributes = $this->element->attributes();
-
-		// Check is object
-		if (is_object($elementAttributes))
-		{
-			$elementAttributes = get_object_vars($elementAttributes);
-		}
-
-		// Check is array
-		if (is_array($elementAttributes))
-		{
-			foreach ($elementAttributes as $elementAttribute)
-			{
-				foreach ($elementAttribute as $attrName => $attrValue)
-				{
-					// Check attribute name contains "data-". If found then push into $dataAttributes array
-					if (strpos($attrName, "data-") === 0)
-					{
-						$dataAttributes[] = $attrName;
-					}
-				}
-			}
-		}
-
-		return $dataAttributes;
+		return $this->dataAttributes;
 	}
 
 	/**
@@ -1101,7 +1075,7 @@ abstract class FormField
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
-			'dataAttribute'  => !empty($this->dataAttributeValues) ? ' ' . implode(' ', $this->dataAttributeValues) : ''
+			'dataAttributes' => $this->dataAttributes
 		);
 	}
 

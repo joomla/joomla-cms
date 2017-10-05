@@ -42,6 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*
  */
 
 // Including fallback code for HTML5 non supported browsers.
@@ -55,7 +56,7 @@ $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
-	$dataAttribute ? $dataAttribute : '',
+	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
 	strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',

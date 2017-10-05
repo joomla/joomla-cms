@@ -43,6 +43,7 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*
  */
 
 if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
@@ -65,7 +66,7 @@ $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
-$dataAttribute = $dataAttribute ? $dataAttribute : '';
+$dataAttribute = !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction    = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 

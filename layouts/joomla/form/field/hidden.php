@@ -41,13 +41,14 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Initialize some field attributes.
 $class         = !empty($class) ? ' class="' . $class . '"' : '';
 $disabled      = $disabled ? ' disabled' : '';
 $onchange      = $onchange ? ' onchange="' . $onchange . '"' : '';
-$dataAttribute = $dataAttribute ? $dataAttribute : '';
+$dataAttribute = !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
 ?>
 <input type="hidden" name="<?php
 echo $name; ?>" id="<?php

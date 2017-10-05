@@ -43,6 +43,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*
  */
 
 // Including fallback code for HTML5 non supported browsers.
@@ -60,7 +61,7 @@ $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
 	<?php echo !empty($multiple) ? ' multiple' : ''; ?>
 	<?php echo $disabled ? ' disabled' : ''; ?>
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
-	<?php echo $dataAttribute ? $dataAttribute : ''; ?>
+	<?php echo !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : ''; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
 	<?php echo $required ? ' required aria-required="true"' : ''; ?> /><br>
 	<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>

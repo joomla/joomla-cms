@@ -42,6 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Including fallback code for HTML5 non supported browsers.
@@ -52,7 +53,7 @@ JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relati
 $attributes = array(
 	$class ? 'class="' . $class . '"' : '',
 	$disabled ? 'disabled' : '',
-	$dataAttribute ? $dataAttribute : '',
+	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
 	$readonly ? 'readonly' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
 	!empty($max) ? 'max="' . $max . '"' : '',

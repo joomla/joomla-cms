@@ -43,12 +43,13 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 $class         = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 $disabled      = $disabled ? ' disabled' : '';
 $readonly      = $readonly ? ' readonly' : '';
-$dataAttribute = $dataAttribute ? $dataAttribute : '';
+$dataAttribute = !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
 
 // Include jQuery
 JHtml::_('jquery.framework');

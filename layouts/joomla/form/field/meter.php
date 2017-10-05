@@ -47,6 +47,7 @@ extract($displayData);
  * @var   string   $min             The minimum value.
  * @var   string   $max             The maximum value.
  * @var   string   $step            The step value.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Initialize some field attributes.
@@ -67,7 +68,7 @@ $data .= ' data-value="' . $value . '"';
 
 $attributes = array(
 	$class,
-	$dataAttribute ? $dataAttribute : '',
+	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
 	!empty($width) ? ' style="width:' . $width . ';"' : '',
 	$data
 );

@@ -43,6 +43,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
@@ -53,7 +54,7 @@ $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
-	$dataAttribute ? $dataAttribute : '',
+	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
 	isset($max) ? 'max="' . $max . '"' : '',

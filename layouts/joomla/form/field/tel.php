@@ -43,6 +43,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   integer  $maxLength       The maximum length that the field shall accept.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Including fallback code for HTML5 non supported browsers.
@@ -55,7 +56,7 @@ $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
-	$dataAttribute ? $dataAttribute : '',
+	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,
