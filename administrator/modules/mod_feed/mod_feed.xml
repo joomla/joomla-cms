@@ -83,7 +83,7 @@
 
 				<field
 					name="rssitems"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
@@ -103,7 +103,7 @@
 
 				<field
 					name="word_count"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
 					description="MOD_FEED_FIELD_WORDCOUNT_DESC" 
 					size="6"
@@ -139,7 +139,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" 
 					default="900"
