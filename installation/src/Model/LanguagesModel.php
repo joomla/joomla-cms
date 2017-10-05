@@ -7,16 +7,30 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Model;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Updater\Updater;
+
 defined('_JEXEC') or die;
 
-jimport('joomla.updater.update');
+\JLoader::import('joomla.updater.update');
 
 /**
  * Language Installer model for the Joomla Core Installer.
  *
  * @since  3.1
  */
-class InstallationModelLanguages extends JModelBase
+class LanguagesModel extends BaseInstallationModel
 {
 	/**
 	 * @var    object  Client object.
@@ -56,15 +70,15 @@ class InstallationModelLanguages extends JModelBase
 	public function __construct()
 	{
 		// Overrides application config and set the configuration.php file so tokens and database works.
-		JFactory::$config = null;
-		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		Factory::$config = null;
+		Factory::getConfig(JPATH_SITE . '/configuration.php');
 
 		/*
-		 * JFactory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
+		 * Factory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
 		 * correctly at that point.  So, we have to reset the factory database object here so that we can get a valid database configuration.
 		 * The day we have proper dependency injection will be a glorious one.
 		 */
-		JFactory::$database = null;
+		Factory::$database = null;
 
 		parent::__construct();
 	}
@@ -79,7 +93,7 @@ class InstallationModelLanguages extends JModelBase
 	public function getItems()
 	{
 		// Get the extension_id of the en-GB package.
-		$db        = JFactory::getDbo();
+		$db        = Factory::getDbo();
 		$extQuery  = $db->getQuery(true);
 
 		$extQuery->select($db->qn('extension_id'))
@@ -94,7 +108,7 @@ class InstallationModelLanguages extends JModelBase
 
 		if ($extId)
 		{
-			$updater = JUpdater::getInstance();
+			$updater = Updater::getInstance();
 
 			/*
 			 * The following function call uses the extension_id of the en-GB package.
@@ -113,7 +127,7 @@ class InstallationModelLanguages extends JModelBase
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
 
-			if (!$list || $list instanceof Exception)
+			if (!$list || $list instanceof \Exception)
 			{
 				$list = array();
 			}
@@ -135,7 +149,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function install($lids)
 	{
-		$installerBase = new JInstaller;
+		$installerBase = new Installer;
 
 		// Loop through every selected language.
 		foreach ($lids as $id)
@@ -143,7 +157,7 @@ class InstallationModelLanguages extends JModelBase
 			$installer = clone $installerBase;
 
 			// Loads the update database object that represents the language.
-			$language = JTable::getInstance('update');
+			$language = Table::getInstance('update');
 			$language->load($id);
 
 			// Get the URL to the XML manifest file of the selected language.
@@ -152,10 +166,10 @@ class InstallationModelLanguages extends JModelBase
 			if (!$remote_manifest)
 			{
 				// Could not find the url, the information in the update server may be corrupt.
-				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message, 'warning');
+				Factory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -166,10 +180,10 @@ class InstallationModelLanguages extends JModelBase
 			if (!$package_url)
 			{
 				// Could not find the URL, maybe the URL is wrong in the update server, or there is no internet access.
-				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message, 'warning');
+				Factory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -181,10 +195,10 @@ class InstallationModelLanguages extends JModelBase
 			if (!$installer->install($package['dir']))
 			{
 				// There was an error installing the package.
-				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message, 'warning');
+				Factory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -192,11 +206,11 @@ class InstallationModelLanguages extends JModelBase
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
 			{
-				$config                 = JFactory::getConfig();
+				$config                 = Factory::getConfig();
 				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 			}
 
-			JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+			InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 			// Delete the installed language from the list.
 			$language->delete($id);
@@ -216,7 +230,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getLanguageManifest($uid)
 	{
-		$instance = JTable::getInstance('update');
+		$instance = Table::getInstance('update');
 		$instance->load($uid);
 
 		return trim($instance->detailsurl);
@@ -233,7 +247,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getPackageUrl($remote_manifest)
 	{
-		$update = new JUpdate;
+		$update = new Update();
 		$update->loadFromXml($remote_manifest);
 
 		return trim($update->get('downloadurl', false)->_data);
@@ -251,21 +265,21 @@ class InstallationModelLanguages extends JModelBase
 	protected function downloadPackage($url)
 	{
 		// Download the package from the given URL.
-		$p_file = JInstallerHelper::downloadPackage($url);
+		$p_file = InstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+			Factory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
 
 			return false;
 		}
 
-		$config   = JFactory::getConfig();
+		$config   = Factory::getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.
-		return JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		return InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 	}
 
 	/**
@@ -314,8 +328,8 @@ class InstallationModelLanguages extends JModelBase
 		foreach ($langlist as $lang)
 		{
 			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
-			$info          = JInstaller::parseXMLInstallFile($file);
-			$row           = new stdClass;
+			$info          = Installer::parseXMLInstallFile($file);
+			$row           = new \stdClass;
 			$row->language = $lang;
 
 			if (!is_array($info))
@@ -329,7 +343,7 @@ class InstallationModelLanguages extends JModelBase
 			}
 
 			// If current then set published.
-			$params = JComponentHelper::getParams('com_languages');
+			$params = ComponentHelper::getParams('com_languages');
 
 			if ($params->get($client->name, 'en-GB') == $row->language)
 			{
@@ -361,7 +375,7 @@ class InstallationModelLanguages extends JModelBase
 	protected function getLanguageList($client_id = 1)
 	{
 		// Create a new db object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
@@ -406,7 +420,7 @@ class InstallationModelLanguages extends JModelBase
 		if ($this->path === null)
 		{
 			$client     = $this->getClient();
-			$this->path = JLanguageHelper::getLanguagePath($client->path);
+			$this->path = LanguageHelper::getLanguagePath($client->path);
 		}
 
 		return $this->path;
@@ -423,7 +437,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getClient($client = 'administrator')
 	{
-		$this->client = JApplicationHelper::getClientInfo($client, true);
+		$this->client = ApplicationHelper::getClientInfo($client, true);
 
 		return $this->client;
 	}
@@ -442,16 +456,16 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$client = $this->getClient($cms_client);
 
-		$params = JComponentHelper::getParams('com_languages');
+		$params = ComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language);
 
-		$table = JTable::getInstance('extension');
+		$table = Table::getInstance('extension');
 		$id    = $table->find(array('element' => 'com_languages'));
 
 		// Load
 		if (!$table->load($id))
 		{
-			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
+			Factory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -461,7 +475,7 @@ class InstallationModelLanguages extends JModelBase
 		// Pre-save checks.
 		if (!$table->check())
 		{
-			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
+			Factory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -469,7 +483,7 @@ class InstallationModelLanguages extends JModelBase
 		// Save the changes.
 		if (!$table->store())
 		{
-			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
+			Factory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -486,7 +500,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getOptions()
 	{
-		return JFactory::getSession()->get('setup.options', array());
+		return Factory::getSession()->get('setup.options', array());
 	}
 
 	/**
@@ -502,21 +516,21 @@ class InstallationModelLanguages extends JModelBase
 	{
 		if (!$view)
 		{
-			$view = JFactory::getApplication()->input->getWord('view', 'defaultlanguage');
+			$view = Factory::getApplication()->input->getWord('view', 'defaultlanguage');
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
+		Form::addFormPath(JPATH_COMPONENT . '/model/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/model/fields');
+		Form::addRulePath(JPATH_COMPONENT . '/model/rules');
 
 		try
 		{
-			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+			$form = Form::getInstance('jform', $view, array('control' => 'jform'));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -545,7 +559,7 @@ class InstallationModelLanguages extends JModelBase
 	public function enablePlugin($pluginName)
 	{
 		// Create a new db object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query
@@ -561,7 +575,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -590,7 +604,7 @@ class InstallationModelLanguages extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (JDatabaseExceptionExecuting $e)
+			catch (\JDatabaseExceptionExecuting $e)
 			{
 				return false;
 			}
@@ -608,8 +622,8 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function addModuleLanguageSwitcher()
 	{
-		JTable::addIncludePath(JPATH_LIBRARIES . '/legacy/table/');
-		$tableModule = JTable::getInstance('Module', 'JTable');
+		Table::addIncludePath(JPATH_LIBRARIES . '/legacy/table/');
+		$tableModule = Table::getInstance('Module', 'JTable');
 
 		$moduleData  = array(
 			'id'        => 0,
@@ -663,7 +677,7 @@ class InstallationModelLanguages extends JModelBase
 	public function addModuleInModuleMenu($moduleId)
 	{
 		// Create a new db object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Add Module in Module menus.
@@ -677,7 +691,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return false;
 		}
@@ -694,10 +708,10 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function publishContentLanguages()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Publish the Content Languages.
-		$tableLanguage = JTable::getInstance('Language');
+		$tableLanguage = Table::getInstance('Language');
 
 		$siteLanguages = $this->getInstalledlangs('site');
 
@@ -706,7 +720,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
 				continue;
 			}
@@ -723,8 +737,8 @@ class InstallationModelLanguages extends JModelBase
 	 * To avoid this conflict, this function creates a specific SEF in case of existing conflict:
 	 * For example: www.mywebsite.com/en-au/
 	 *
-	 * @param   stdClass    $itemLanguage   Language Object.
-	 * @param   stdClass[]  $siteLanguages  All Language Objects.
+	 * @param   \stdClass    $itemLanguage   Language Object.
+	 * @param   \stdClass[]  $siteLanguages  All Language Objects.
 	 *
 	 * @return  string
 	 *
@@ -760,8 +774,8 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add a Content Language.
 	 *
-	 * @param   stdClass  $itemLanguage   Language Object.
-	 * @param   string    $sefLangString  String to use for SEF so it doesn't conflict.
+	 * @param   \stdClass  $itemLanguage   Language Object.
+	 * @param   string     $sefLangString  String to use for SEF so it doesn't conflict.
 	 *
 	 * @return  boolean
 	 *
@@ -770,12 +784,12 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function addLanguage($itemLanguage, $sefLangString)
 	{
-		$tableLanguage = JTable::getInstance('Language');
+		$tableLanguage = Table::getInstance('Language');
 
 		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
 		// Load the native language name.
-		$installationLocalisedIni = new JLanguage($itemLanguage->language, false);
+		$installationLocalisedIni = new Language($itemLanguage->language, false);
 		$nativeLanguageName       = $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 
 		// If the local name do not exist in the translation file we use the international standard name.
@@ -828,7 +842,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Group.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
 	 * @return  boolean
 	 *
@@ -837,11 +851,11 @@ class InstallationModelLanguages extends JModelBase
 	public function addMenuGroup($itemLanguage)
 	{
 		// Add menus.
-		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+		\JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
 		// Add Menu Group.
-		$tableMenu = JTable::getInstance('Type', 'JTableMenu');
+		$tableMenu = Table::getInstance('Type', 'JTableMenu');
 
 		$menuData = array(
 			'id'          => 0,
@@ -874,18 +888,18 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Featured Menu Item.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
 	public function addFeaturedMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
-		$tableItem = JTable::getInstance('Menu', 'MenusTable');
+		$tableItem = Table::getInstance('Menu', 'MenusTable');
 
-		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
 		$alias = 'home_' . $itemLanguage->language;
@@ -946,9 +960,9 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add AllCategories Menu Item for new router.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -956,9 +970,9 @@ class InstallationModelLanguages extends JModelBase
 	public function addAllCategoriesMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
-		$tableItem = JTable::getInstance('Menu', 'MenusTable');
+		$tableItem = Table::getInstance('Menu', 'MenusTable');
 
-		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORIES');
 		$alias = 'allcategories_' . $itemLanguage->language;
@@ -1026,7 +1040,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Module Menu.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
 	 * @return  boolean
 	 *
@@ -1034,7 +1048,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function addModuleMenu($itemLanguage)
 	{
-		$tableModule = JTable::getInstance('Module', 'JTable');
+		$tableModule = Table::getInstance('Module', 'JTable');
 		$title = 'Main menu ' . $itemLanguage->language;
 
 		$moduleData = array(
@@ -1086,7 +1100,7 @@ class InstallationModelLanguages extends JModelBase
 	public function disableModuleMainMenu()
 	{
 		// Create a new db object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Add Module in Module menus.
@@ -1104,7 +1118,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1124,7 +1138,7 @@ class InstallationModelLanguages extends JModelBase
 	public function enableModule($moduleName)
 	{
 		// Create a new db object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query
@@ -1138,7 +1152,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1149,20 +1163,20 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method create a category for a specific language.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Category Object. False otherwise.
+	 * @return  Table|boolean Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
 	public function addCategory($itemLanguage)
 	{
-		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORY');
 
 		// Initialize a new category.
-		$category = JTable::getInstance('Category');
+		$category = Table::getInstance('Category');
 
 		$data = array(
 			'extension'       => 'com_content',
@@ -1174,7 +1188,7 @@ class InstallationModelLanguages extends JModelBase
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
-			'created_time'    => JFactory::getDate()->toSql(),
+			'created_time'    => Factory::getDate()->toSql(),
 			'created_user_id' => (int) $this->getAdminId(),
 			'language'        => $itemLanguage->language,
 			'rules'           => array(),
@@ -1211,24 +1225,24 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Create an article in a specific language.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   \stdClass  $itemLanguage  Language Object.
 	 * @param   int       $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable|boolean Article Object. False otherwise.
+	 * @return  Table|boolean Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
 	public function addArticle($itemLanguage, $categoryId)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
-		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
-		$currentDate = JFactory::getDate()->toSql();
+		$currentDate = Factory::getDate()->toSql();
 
 		// Initialize a new article.
-		$article = JTable::getInstance('Content');
+		$article = Table::getInstance('Content');
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
@@ -1290,7 +1304,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1301,19 +1315,19 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Blog Menu Item.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   int       $categoryId    The id of the category displayed by the blog.
+	 * @param   \stdClass  $itemLanguage  Language Object.
+	 * @param   int        $categoryId    The id of the category displayed by the blog.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
 	public function addBlogMenuItem($itemLanguage, $categoryId)
 	{
 		// Add Menu Item.
-		$tableItem = JTable::getInstance('Menu', 'MenusTable');
+		$tableItem = Table::getInstance('Menu', 'MenusTable');
 
-		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
 		$alias = 'home_' . $itemLanguage->language;
@@ -1387,7 +1401,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function addAssociations($groupedAssociations)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
@@ -1406,7 +1420,7 @@ class InstallationModelLanguages extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				return false;
 			}
@@ -1430,7 +1444,7 @@ class InstallationModelLanguages extends JModelBase
 			return $this->adminId;
 		}
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the admin user ID
@@ -1458,7 +1472,7 @@ class InstallationModelLanguages extends JModelBase
 		$db->setQuery($query);
 		$id = $db->loadResult();
 
-		if (!$id || $id instanceof Exception)
+		if (!$id || $id instanceof \Exception)
 		{
 			return false;
 		}

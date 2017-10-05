@@ -62,7 +62,7 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		else
 		{
 			// Get the languages model.
-			$model = new InstallationModelLanguages;
+			$model = new \Joomla\CMS\Installation\Model\LanguagesModel;
 
 			// Install selected languages
 			$model->install($lids);

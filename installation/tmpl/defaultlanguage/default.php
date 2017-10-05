@@ -175,7 +175,7 @@ JS
 			<?php endif; ?>
 		</div>
 	</div>
-	<input type="hidden" name="task" value="setdefaultlanguage">
+	<input type="hidden" name="task" value="language.setdefault">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 

@@ -542,35 +542,6 @@ final class InstallationApplication extends CMSApplication
 	}
 
 	/**
-	 * Method to send a JSON response. The data parameter
-	 * can be an Exception object for when an error has occurred or
-	 * a JsonResponse for a good response.
-	 *
-	 * @param   mixed  $response  JsonResponse on success, Exception on failure.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function sendJsonResponse($response)
-	{
-		// Check if we need to send an error code.
-		if ($response instanceof \Exception)
-		{
-			// Send the appropriate error code response.
-			$this->setHeader('status', $response->getCode());
-			$this->setHeader('Content-Type', 'application/json; charset=utf-8');
-			$this->sendHeaders();
-		}
-
-		// Send the JSON response.
-		echo json_encode(new JsonResponse($response));
-
-		// Close the application.
-		$this->close();
-	}
-
-	/**
 	 * Set configuration values.
 	 *
 	 * @param   array   $vars       Array of configuration values

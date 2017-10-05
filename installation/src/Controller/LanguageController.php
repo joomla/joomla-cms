@@ -13,15 +13,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Table\Table;
 
 /**
  * Default controller class for the Joomla Installer.
  *
  * @since  3.1
  */
-class LanguageController extends BaseController
+class LanguageController extends JSONController
 {
 	/**
 	 * Sets the language.
@@ -36,25 +36,14 @@ class LanguageController extends BaseController
 		$app = $this->app;
 
 		// Check for request forgeries.
-		// JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
-
-		// Very crude workaround to give an error message when JSON is disabled
-		if (!function_exists('json_encode') || !function_exists('json_decode'))
-		{
-			$app->setHeader('status', 500);
-			$app->setHeader('Content-Type', 'application/json; charset=utf-8');
-			$app->sendHeaders();
-			echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
-				. '","error":true,"header":"' . \JText::_('INSTL_HEADER_ERROR') . '","message":"' . \JText::_('INSTL_WARNJSON') . '"}';
-			$app->close();
-		}
+		// JSession::checkToken() or $this->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Check for potentially unwritable session
 		$session = $app->getSession();
 
 		if ($session->isNew())
 		{
-			$app->sendJsonResponse(new \Exception(\JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
+			$this->sendJsonResponse(new \Exception(\JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
 		}
 
 		// Get the setup model.
@@ -74,7 +63,7 @@ class LanguageController extends BaseController
 			 * redirect back to the site setup screen.
 			 */
 			$r->view = $this->input->getWord('view', 'setup');
-			$app->sendJsonResponse($r);
+			$this->sendJsonResponse($r);
 		}
 
 		// Store the options in the session.
@@ -85,6 +74,187 @@ class LanguageController extends BaseController
 
 		// Redirect to the page.
 		$r->view = $this->input->getWord('view', 'setup');
+		$this->sendJsonResponse($r);
+	}
+
+	/**
+	 * Sets the default language.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setdefault()
+	{
+		// Get the application
+		$app = $this->app;
+
+		// Check for request forgeries.
+		Session::checkToken() or $this->sendJsonResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+
+		// Get the languages model.
+		$model = $this->getModel('Languages');
+
+		// Check for request forgeries in the administrator language
+		$admin_lang = $this->input->getString('administratorlang', false);
+
+		// Check that the string is an ISO Language Code avoiding any injection.
+		if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $admin_lang))
+		{
+			$admin_lang = 'en-GB';
+		}
+
+		// Attempt to set the default administrator language
+		if (!$model->setDefault($admin_lang, 'administrator'))
+		{
+			// Create an error response message.
+			$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
+		}
+		else
+		{
+			// Create a response body.
+			$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_ADMIN_SET_DEFAULT', $admin_lang), 'message');
+		}
+
+		// Check for request forgeries in the site language
+		$frontend_lang = $this->input->getString('frontendlang', false);
+
+		// Check that the string is an ISO Language Code avoiding any injection.
+		if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $frontend_lang))
+		{
+			$frontend_lang = 'en-GB';
+		}
+
+		// Attempt to set the default site language
+		if (!$model->setDefault($frontend_lang, 'site'))
+		{
+			// Create an error response message.
+			$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_FRONTEND_COULDNT_SET_DEFAULT'), 'error');
+		}
+		else
+		{
+			// Create a response body.
+			$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang), 'message');
+		}
+
+		// Check if user has activated the multilingual site
+		$data = $this->getInput()->post->get('jform', array(), 'array');
+
+		if ((int) $data['activateMultilanguage'])
+		{
+			if (!$model->enablePlugin('plg_system_languagefilter'))
+			{
+				$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');
+			}
+
+			// Activate optional ISO code Plugin
+			$activatePluginIsoCode = (int) $data['activatePluginLanguageCode'];
+
+			if ($activatePluginIsoCode && !$model->enablePlugin('plg_system_languagecode'))
+			{
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
+			}
+
+			if (!$model->addModuleLanguageSwitcher())
+			{
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE'), 'warning');
+			}
+
+			// Add menus
+			\JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
+			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+
+			$siteLanguages       = $model->getInstalledlangsFrontend();
+			$groupedAssociations = array();
+
+			foreach ($siteLanguages as $siteLang)
+			{
+				if (!$model->addMenuGroup($siteLang))
+				{
+					$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name), 'warning');
+
+					continue;
+				}
+
+				if (!$data['installLocalisedContent'])
+				{
+					if (!$tableMenuItem = $model->addFeaturedMenuItem($siteLang))
+					{
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+				}
+
+				if (!$tableMenuItem = $model->addAllCategoriesMenuItem($siteLang))
+				{
+					$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+					continue;
+				}
+
+				$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+
+				if (!$model->addModuleMenu($siteLang))
+				{
+					$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang), 'warning');
+
+					continue;
+				}
+
+				if ((int) $data['installLocalisedContent'])
+				{
+					if (!$tableCategory = $model->addCategory($siteLang))
+					{
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
+
+					if (!$tableMenuItem = $model->addBlogMenuItem($siteLang, $tableCategory->id))
+					{
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+
+					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
+					{
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_content.item'][$siteLang->language] = $tableArticle->id;
+				}
+			}
+
+			if (!$model->addAssociations($groupedAssociations))
+			{
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ADD_ASSOCIATIONS'), 'warning');
+			}
+
+			if (!$model->disableModuleMainMenu())
+			{
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_UNPUBLISH_MOD_DEFAULTMENU'), 'warning');
+			}
+
+			if (!$model->enableModule('mod_multilangstatus'))
+			{
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_PUBLISH_MOD_MULTILANGSTATUS'), 'warning');
+			}
+		}
+
+		$r = new \stdClass;
+
+		// Redirect to the final page.
+		$r->view = 'remove';
 		$app->sendJsonResponse($r);
 	}
 }
