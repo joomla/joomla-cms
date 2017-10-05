@@ -462,7 +462,8 @@
 	<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 
 			<field
-				name="article_layout" type="componentlayout"
+				name="article_layout" 
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				menuitems="true"
