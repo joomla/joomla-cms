@@ -32,7 +32,7 @@ class BaseInstallationModel extends BaseModel
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		//@Todo remove me when the base model is db less
+		//@Todo remove me when the base model is db free
 		$config['dbo'] = null;
 
 		parent::__construct($config, $factory);

@@ -238,7 +238,7 @@ class ChecksModel extends BaseInstallationModel
 	 *
 	 * @param   string  $view  The view being processed.
 	 *
-	 * @return  JForm|boolean  JForm object on success, false on failure.
+	 * @return  Form|boolean  Form object on success, false on failure.
 	 *
 	 * @since   3.1
 	 */
