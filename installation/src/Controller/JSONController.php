@@ -50,9 +50,9 @@ abstract class JSONController extends BaseController
 		if ($response instanceof \Exception)
 		{
 			// Send the appropriate error code response.
-			$this->setHeader('status', $response->getCode());
-			$this->setHeader('Content-Type', 'application/json; charset=utf-8');
-			$this->sendHeaders();
+			$this->app->setHeader('status', $response->getCode());
+			$this->app->setHeader('Content-Type', 'application/json; charset=utf-8');
+			$this->app->sendHeaders();
 		}
 
 		// Send the JSON response.
@@ -73,6 +73,6 @@ abstract class JSONController extends BaseController
 	public function checkValidToken()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or $this->sendJsonResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		//Session::checkToken() or $this->sendJsonResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
 	}
 }

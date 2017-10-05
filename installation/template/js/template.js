@@ -181,7 +181,7 @@
 
 		Joomla.request({
 			type: "POST",
-			url : Joomla.baseUrl + '?task=Install' + task  + '&layout=default',
+			url : Joomla.baseUrl + '?task=installation.' + task,
 			data: data,
 			perform: true,
 			onSuccess: function(response, xhr){

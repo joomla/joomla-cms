@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Installation\View\Setup;
+namespace Joomla\CMS\Installation\View\Remove;
 
 defined('_JEXEC') or die;
 
