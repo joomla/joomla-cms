@@ -91,7 +91,7 @@ Joomla.checkDbCredentials = function() {
 			} else {
 				Joomla.loadingLayer('hide');
 				// You shall pass
-				Joomla.install(['Config'], form);
+				Joomla.install(['config'], form);
 
 				// If all good (we need some code here)
 				Joomla.goToPage('remove');
