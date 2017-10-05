@@ -15,10 +15,10 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
-use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
@@ -187,16 +187,17 @@ final class InstallationApplication extends CMSApplication
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
 		// Execute the task.
-		$this->fetchController($this->input->getCmd('task'))->execute();
+		ob_start();
+		$this->executeController();
+		$contents = ob_get_clean();
 
 		// If debug language is set, append its output to the contents.
 		if ($this->config->get('debug_lang'))
 		{
-			$contents = $document->getBuffer('component');
 			$contents .= $this->debugLanguage();
-
-			$document->setBuffer($contents, 'component');
 		}
+
+		$this->getDocument()->setBuffer($contents, 'component');
 
 		$document->setTitle(\JText::_('INSTL_PAGE_TITLE'));
 	}
@@ -266,33 +267,33 @@ final class InstallationApplication extends CMSApplication
 	}
 
 	/**
-	 * Method to get a controller object.
+	 * Executed a controller from the input task.
 	 *
-	 * @param   string  $task  The task being executed
+	 * @return  void
 	 *
-	 * @return  Controller
-	 *
-	 * @since   3.1
-	 * @throws  \RuntimeException
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function fetchController($task)
+	private function executeController()
 	{
-		if ($task === null)
+		$task = $this->input->get('task');
+
+		// The name of the controller
+		$controllerName = 'display';
+
+		// Parse task in format controller.task
+		if ($task)
 		{
-			$task = 'default';
+			list($controllerName, $task) = explode('.', $task, 2);
 		}
 
-		// Set the controller class name based on the task.
-		$class = 'InstallationController' . ucfirst($task);
+		// Compile the class name
+		$class = 'Joomla\\CMS\\Installation\\Controller\\' . ucfirst($controllerName) . 'Controller';
 
-		// If the requested controller exists let's use it.
-		if (class_exists($class))
-		{
-			return new $class;
-		}
+		// Create the instance
+		$controller = new $class([], new MVCFactory('Joomla\\CMS', $this), $this, $this->input);
 
-		// Nothing found. Panic.
-		throw new \RuntimeException('Class ' . $class . ' not found');
+		// Execute the task
+		$controller->execute($task);
 	}
 
 	/**
@@ -539,35 +540,6 @@ final class InstallationApplication extends CMSApplication
 	}
 
 	/**
-	 * Method to send a JSON response. The data parameter
-	 * can be an Exception object for when an error has occurred or
-	 * a JsonResponse for a good response.
-	 *
-	 * @param   mixed  $response  JsonResponse on success, Exception on failure.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function sendJsonResponse($response)
-	{
-		// Check if we need to send an error code.
-		if ($response instanceof \Exception)
-		{
-			// Send the appropriate error code response.
-			$this->setHeader('status', $response->getCode());
-			$this->setHeader('Content-Type', 'application/json; charset=utf-8');
-			$this->sendHeaders();
-		}
-
-		// Send the JSON response.
-		echo json_encode(new JsonResponse($response));
-
-		// Close the application.
-		$this->close();
-	}
-
-	/**
 	 * Set configuration values.
 	 *
 	 * @param   array   $vars       Array of configuration values
@@ -580,5 +552,20 @@ final class InstallationApplication extends CMSApplication
 	public function setCfg(array $vars = array(), $namespace = 'config')
 	{
 		$this->config->loadArray($vars, $namespace);
+	}
+
+	/**
+	 * Returns the application \JMenu object.
+	 *
+	 * @param   string  $name     The name of the application/client.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  AbstractMenu
+	 *
+	 * @since   3.2
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		return null;
 	}
 }

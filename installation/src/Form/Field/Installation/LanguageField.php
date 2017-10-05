@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\LanguageHelper;
 
 /**
@@ -57,7 +58,7 @@ class LanguageField extends ListField
 		}
 
 		// If a language is already set in the session, use this instead
-		$model   = new \InstallationModelSetup;
+		$model   = new SetupModel;
 		$options = $model->getOptions();
 
 		if (isset($options['language']))

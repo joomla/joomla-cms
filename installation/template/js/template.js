@@ -180,8 +180,8 @@
 		Joomla.loadingLayer("show");
 
 		Joomla.request({
-			type: "POST",
-			url : Joomla.baseUrl + '?task=Install' + task  + '&layout=default',
+			method: "POST",
+			url : Joomla.baseUrl + '?task=installation.' + task,
 			data: data,
 			perform: true,
 			onSuccess: function(response, xhr){

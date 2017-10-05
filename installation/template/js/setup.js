@@ -75,8 +75,8 @@ Joomla.checkDbCredentials = function() {
 	    data = Joomla.serialiseForm(form);
 
 	Joomla.request({
-		type: "POST",
-		url : Joomla.installationBaseUrl + '?task=InstallDbcheck&format=json',
+		method: "POST",
+		url : Joomla.installationBaseUrl + '?task=installation.dbcheck',
 		data: data,
 		perform: true,
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -91,7 +91,7 @@ Joomla.checkDbCredentials = function() {
 			} else {
 				Joomla.loadingLayer('hide');
 				// You shall pass
-				Joomla.install(['Config'], form);
+				Joomla.install(['config'], form);
 
 				// If all good (we need some code here)
 				Joomla.goToPage('remove');
