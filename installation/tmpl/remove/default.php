@@ -99,7 +99,7 @@ defined('_JEXEC') or die;
 				</div>
 			</div>
 		</div>
-	
+
 		<div id="installLanguages" class="j-install-step">
 			<div class="j-install-step-header">
 				<span class="fa fa-commenting-o" aria-hidden="true"></span> <?php echo JText::_('INSTL_LANGUAGES'); ?>
@@ -141,7 +141,7 @@ defined('_JEXEC') or die;
 					</tr>
 					</thead>
 					<tbody>
-					<?php $version = new JVersion; ?>
+					<?php $version = new \Joomla\CMS\Version; ?>
 					<?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
 					<?php foreach ($this->items as $i => $language) : ?>
 						<?php // Get language code and language image. ?>
@@ -159,7 +159,7 @@ defined('_JEXEC') or die;
 							</td>
 							<td class="text-center">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
-								<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
+								<?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
 									<span class="badge badge-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 								<?php else : ?>
 									<span class="badge badge-success"><?php echo $language->version; ?></span>
