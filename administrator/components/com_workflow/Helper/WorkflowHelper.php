@@ -124,23 +124,6 @@ class WorkflowHelper extends ContentHelper
 	}
 
 	/**
-	 * Get readable name by passing number
-	 *
-	 * @param   int  $number  Enum of condition
-	 *
-	 * @return  string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function getConditionText($number)
-	{
-		// Load language
-		\JFactory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
-
-		return \JText::_(self::getConditionName($number));
-	}
-
-	/**
 	 * Runs a single transition for single item
 	 *
 	 * @param   array   $pk              id of article

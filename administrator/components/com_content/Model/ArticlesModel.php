@@ -454,6 +454,8 @@ class ArticlesModel extends ListModel
 		{
 			if (count($ids))
 			{
+				Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
 				$query = $db->getQuery(true);
 
 				$select = $db->quoteName(
@@ -493,8 +495,8 @@ class ArticlesModel extends ListModel
 					else
 					{
 						// Update the transition text with final state value
-						$conditionName = WorkflowHelper::getConditionText($transitions[$key]['state_condition']);
-						$transitions[$key]['text'] .=  "\t[" . \JText::_($conditionName) . "]";
+						$conditionName = WorkflowHelper::getConditionName($transitions[$key]['state_condition']);
+						$transitions[$key]['text'] .=  ' [' . \JText::_($conditionName) . ']';
 					}
 				}
 
