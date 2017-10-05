@@ -7,9 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installation\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -18,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.1
  */
-class InstallationModelConfiguration extends JModelBase
+class ConfigurationModel extends BaseInstallationModel
 {
 	/**
 	 * Method to setup the configuration file
@@ -41,7 +46,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 
 		// Do the database init/fill
-		$databaseModel = new InstallationModelDatabase;
+		$databaseModel = new DatabaseModel;
 
 		// Create Db
 		if (!$databaseModel->createDatabase($options))
@@ -99,7 +104,7 @@ class InstallationModelConfiguration extends JModelBase
 
 		// Site settings.
 		$registry->set('offline', '0');
-		$registry->set('offline_message', JText::_('INSTL_STD_OFFLINE_MSG'));
+		$registry->set('offline_message', \JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
 		$registry->set('sitename', $options->site_name);
@@ -122,7 +127,7 @@ class InstallationModelConfiguration extends JModelBase
 
 		// Server settings.
 		$registry->set('live_site', '');
-		$registry->set('secret', JUserHelper::genRandomPassword(16));
+		$registry->set('secret', UserHelper::genRandomPassword(16));
 		$registry->set('gzip', false);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
@@ -222,16 +227,16 @@ class InstallationModelConfiguration extends JModelBase
 		}
 
 		// Get the session
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 
 		if ($useFTP == true)
 		{
 			// Connect the FTP client.
-			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
+			$ftp = FtpClient::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account.
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			$file = \JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 
 			// Use FTP write buffer to file.
 			if (!$ftp->write($file, $buffer))
@@ -282,20 +287,20 @@ class InstallationModelConfiguration extends JModelBase
 				$options->db_prefix
 			);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
 
 			return false;
 		}
 
-		$cryptpass = JUserHelper::hashPassword($options->admin_password);
+		$cryptpass = UserHelper::hashPassword($options->admin_password);
 
 		// Take the admin user id.
-		$userId = InstallationModelDatabase::getUserId();
+		$userId = DatabaseModel::getUserId();
 
 		// We don't need the randUserId in the session any longer, let's remove it.
-		InstallationModelDatabase::resetRandUserId();
+		DatabaseModel::resetRandUserId();
 
 		// Create the admin user.
 		date_default_timezone_set('UTC');
@@ -356,9 +361,9 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -392,9 +397,9 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

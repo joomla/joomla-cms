@@ -9,10 +9,10 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-
-defined('_JEXEC') or die;
 
 /**
  * Checks model for the Joomla Core Installer.
