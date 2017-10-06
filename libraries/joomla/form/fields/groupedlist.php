@@ -158,8 +158,8 @@ class JFormFieldGroupedList extends JFormField
 		// Initialize JavaScript field attributes.
 		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		// Initialize JavaScript field data attributes. For eg, data-action-type="click"
-		$attr .= !empty($this->dataAttributeValues) ? ' ' . implode(' ', $this->dataAttributeValues) : '';
+		// Data attributes - data-*
+		$attr .= !empty($this->dataAttributes) ? ' ' . implode(' ', $this->dataAttributes) : '';
 
 		// Get the field groups.
 		$groups = (array) $this->getGroups();
