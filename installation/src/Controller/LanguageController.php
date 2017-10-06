@@ -32,14 +32,10 @@ class LanguageController extends JSONController
 	 */
 	public function set()
 	{
-		// Get the application
-		$app = $this->app;
-
-		// Check for request forgeries.
-		// JSession::checkToken() or $this->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		$this->checkValidToken();
 
 		// Check for potentially unwritable session
-		$session = $app->getSession();
+		$session = $this->app->getSession();
 
 		if ($session->isNew())
 		{
@@ -74,6 +70,7 @@ class LanguageController extends JSONController
 
 		// Redirect to the page.
 		$r->view = $this->input->getWord('view', 'setup');
+
 		$this->sendJsonResponse($r);
 	}
 
@@ -86,11 +83,9 @@ class LanguageController extends JSONController
 	 */
 	public function setdefault()
 	{
-		// Get the application
-		$app = $this->app;
+		$this->checkValidToken();
 
-		// Check for request forgeries.
-		Session::checkToken() or $this->sendJsonResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		$app = $this->app;
 
 		// Get the languages model.
 		$model = $this->getModel('Languages');
@@ -108,7 +103,7 @@ class LanguageController extends JSONController
 		if (!$model->setDefault($admin_lang, 'administrator'))
 		{
 			// Create an error response message.
-			$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
+			$this->app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
 		}
 		else
 		{
