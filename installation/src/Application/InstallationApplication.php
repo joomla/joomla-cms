@@ -197,8 +197,10 @@ final class InstallationApplication extends CMSApplication
 			$contents .= $this->debugLanguage();
 		}
 
+		// Set the content on the document
 		$this->getDocument()->setBuffer($contents, 'component');
 
+		// Set the document title
 		$document->setTitle(\JText::_('INSTL_PAGE_TITLE'));
 	}
 
