@@ -31,7 +31,6 @@ if (is_writable(JPATH_ADMINISTRATOR . '/logs'))
 }
 
 // Register the Installation application
-JLoader::registerPrefix('Installation', JPATH_INSTALLATION);
 JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
 
 JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\InstallationRouter::class);
