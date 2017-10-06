@@ -52,7 +52,7 @@ class PlgContentContact extends JPlugin
 		}
 
 		// Return if we don't want to link to aliases
-		if ($this->params->get('LinkToAlias') == 0 & $row->created_by_alias != '')
+		if ($this->params->get('LinkToAlias') == 0 && $row->created_by_alias != '')
 		{
 			return true;
 		}
