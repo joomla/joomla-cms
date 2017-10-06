@@ -281,6 +281,12 @@ class JAdminCssMenu
 				continue;
 			}
 
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope == 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
+			{
+				continue;
+			}
+
 			// Exclude item if the component is not authorised
 			$assetName = $item->element;
 
