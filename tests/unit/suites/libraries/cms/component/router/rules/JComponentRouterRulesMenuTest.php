@@ -115,7 +115,8 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'*' => array(
 				'featured' => '47',
 				'categories' => array(14 => '48'),
-				'category' => array (20 => '49'))
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			), $this->object->get('lookup')
 		);
 	}
@@ -232,6 +233,30 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the preprocess() method
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testPreprocessActive()
+	{
+		$this->saveFactoryState();
+
+		$router = $this->object->get('router');
+
+		// Set an active menu
+		$router->menu->active = 53;
+
+		// Test if the active Itemid is used although an article has other Itemid with id=52
+		$expect = $query = array('option' => 'com_content', 'view' => 'article', 'id' => '1', 'Itemid' => '53');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		$this->restoreFactoryState();
+	}
+
+	/**
 	 * Tests the buildLookup() method
 	 *
 	 * @return  void
@@ -244,7 +269,8 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'*' => array(
 				'featured' => '47',
 				'categories' => array(14 => '48'),
-				'category' => array (20 => '49'))
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			), $this->object->get('lookup')
 		);
 
@@ -253,11 +279,13 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'*' => array(
 				'featured' => '47',
 				'categories' => array(14 => '48'),
-				'category' => array (20 => '49')),
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			'en-GB' => array(
 				'featured' => '51',
 				'categories' => array(14 => '50'),
-				'category' => array (20 => '49'))
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			), $this->object->get('lookup')
 		);
 	}

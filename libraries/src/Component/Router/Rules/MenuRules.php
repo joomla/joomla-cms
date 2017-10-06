@@ -61,26 +61,41 @@ class MenuRules implements RulesInterface
 	 */
 	public function preprocess(&$query)
 	{
+		$active = $this->router->menu->getActive();
+
 		/**
 		 * If the active item id is not the same as the supplied item id or we have a supplied item id and no active
 		 * menu item then we just use the supplied menu item and continue
 		 */
-		if (isset($query['Itemid'])
-			&& (($this->router->menu->getActive() && $query['Itemid'] != $this->router->menu->getActive()->id)
-			|| ($this->router->menu->getActive() === null)))
+		if (isset($query['Itemid']) && ($active === null || $query['Itemid'] != $active->id))
 		{
 			return;
 		}
 
-		$language = '*';
+		if ($active !== null)
+		{
+			$activeQuery = $active->query;
+			$activeQuery['Itemid'] = $active->id;
+
+			if ($activeQuery === $query)
+			{
+				// If the same view has two different menu items and one of them is active then use the active one
+				return;
+			}
+		}
+
 		if (isset($query['lang']))
 		{
 			$language = $query['lang'];
 
-			if (!isset($this->lookup[$query['lang']]))
+			if (!isset($this->lookup[$language]))
 			{
-				$this->buildLookup($query['lang']);
+				$this->buildLookup($language);
 			}
+		}
+		else
+		{
+			$language = '*';
 		}
 
 		$needles = $this->router->getPath($query);
@@ -103,6 +118,7 @@ class MenuRules implements RulesInterface
 						$query['Itemid'] = $this->lookup[$language][$view . $layout];
 						return;
 					}
+
 					foreach ($ids as $id => $segment)
 					{
 						if (isset($this->lookup[$language][$view . $layout][(int) $id]))
@@ -122,8 +138,6 @@ class MenuRules implements RulesInterface
 		}
 
 		// Check if the active menuitem matches the requested language
-		$active = $this->router->menu->getActive();
-
 		if ($active && $active->component === 'com_' . $this->router->getName()
 			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
 		{
