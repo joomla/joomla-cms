@@ -18,12 +18,6 @@ use Joomla\CMS\Table\Table;
 \JLoader::import('joomla.filesystem.path');
 \JLoader::import('joomla.base.adapter');
 
-const STABILITY_DEV = 0;
-const STABILITY_ALPHA = 1;
-const STABILITY_BETA = 2;
-const STABILITY_RC = 3;
-const STABILITY_STABLE = 4;
-
 /**
  * Updater Class
  *
