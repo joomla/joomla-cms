@@ -331,6 +331,8 @@ abstract class UserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
+		$passwordAlgorithm = PASSWORD_BCRYPT;
+
 		// If we are using phpass
 		if (strpos($hash, '$P$') === 0)
 		{
@@ -348,6 +350,8 @@ abstract class UserHelper
 			$match = password_verify($password, $hash);
 
 			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2I);
+
+			$passwordAlgorithm = PASSWORD_ARGON2I;
 		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
@@ -388,7 +392,7 @@ abstract class UserHelper
 		if ((int) $user_id > 0 && $match && $rehash)
 		{
 			$user = new User($user_id);
-			$user->password = static::hashPassword($password);
+			$user->password = static::hashPassword($password, $passwordAlgorithm);
 			$user->save();
 		}
 
