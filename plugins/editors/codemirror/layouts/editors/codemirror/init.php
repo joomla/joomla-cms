@@ -38,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			cm.defineInitHook(function (editor)
 			{
 				// Try to set up the mode
-				var mode = cm.findModeByName(edtior.options.mode || '');
+				var mode = cm.findModeByName(editor.options.mode || '');
 
 				if (mode)
 				{
@@ -47,7 +47,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				}
 				else
 				{
-					cm.autoLoadMode(editor, edtior.options.mode);
+					cm.autoLoadMode(editor, editor.options.mode);
 				}
 
 				// Handle gutter clicks (place or remove a marker).
