@@ -40,6 +40,7 @@ extract($displayData);
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Including fallback code for HTML5 non supported browsers.

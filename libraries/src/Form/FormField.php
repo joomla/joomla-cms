@@ -350,7 +350,8 @@ abstract class FormField
 	 * For example, data-action-type="click" data-action-type="change"
 	 *
 	 * @var  array
-	 * @since 3.8.1
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $dataAttributes = array();
 
@@ -636,12 +637,6 @@ abstract class FormField
 			}
 		}
 
-		// Get data-* names/keys
-		$dataAttributeKeys = array_keys($this->dataAttributes);
-
-		// Merge data-* names/keys with attributes array
-		$attributes = array_merge($attributes, $dataAttributeKeys);
-
 		foreach ($attributes as $attributeName)
 		{
 			$this->__set($attributeName, $element[$attributeName]);
@@ -670,7 +665,7 @@ abstract class FormField
 	 *
 	 * @return  array list of data attribute(s)
 	 *
-	 * @since   3.8.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getDataAttributes()
 	{
