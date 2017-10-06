@@ -522,8 +522,8 @@
 				description="JGLOBAL_LINK_CATEGORY_DESC"
 				useglobal="true"
 				>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
@@ -544,8 +544,8 @@
 				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 				useglobal="true"
 				>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
@@ -566,8 +566,8 @@
 				description="JGLOBAL_LINK_AUTHOR_DESC"
 				useglobal="true"
 				>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field 
