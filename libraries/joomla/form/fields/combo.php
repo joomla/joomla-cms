@@ -63,9 +63,6 @@ class JFormFieldCombo extends JFormFieldList
 	{
 		$data = parent::getLayoutData();
 
-		// Initialize JavaScript field data attributes. For eg, data-action-type="click"
-		$attr .= !empty($this->dataAttributeValues) ? ' ' . implode(' ', $this->dataAttributeValues) : '';
-
 		// Get the field options.
 		$options = $this->getOptions();
 

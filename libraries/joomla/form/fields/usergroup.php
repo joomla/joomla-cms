@@ -53,8 +53,8 @@ class JFormFieldUsergroup extends JFormField
 		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 		$attr .= !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 
-		// Initialize JavaScript field data attributes. For eg, data-action-type="click"
-		$attr .= !empty($this->dataAttributeValues) ? ' ' . implode(' ', $this->dataAttributeValues) : '';
+		// Data attributes - data-*
+		$attr .= !empty($this->dataAttributes) ? ' ' . implode(' ', $this->dataAttributes) : '';
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->element->children() as $option)
