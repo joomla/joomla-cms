@@ -50,17 +50,14 @@ class TransitionField extends \JFormFieldList
 		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->getInt('extension', 0);
 
 		$query = $db->getQuery(true)
-			->select($db->qn('id', 'value'))
-			->select($db->qn('title', 'text'))
-			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_state_id') . '=' . $workflowState)
-			->where($db->qn('published') . '=1')
-			->order($db->qn('ordering'));
 			->select($db->qn(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
 			->from($db->qn('#__workflow_transitions', 't'))
 			->from($db->qn('#__workflow_states', 's'))
-			->where($db->qn('from_state_id') . ' = ' . $workflowState)
-			->where($db->qn('t.to_state_id') . ' = ' . $db->qn('s.id'));
+			->where($db->qn('t.from_state_id') . ' = ' . $workflowState)
+			->where($db->qn('t.to_state_id') . ' = ' . $db->qn('s.id'))
+			->where($db->qn('t.published') . '=1')
+			->where($db->qn('s.published') . '=1')
+			->order($db->qn('ordering'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 
