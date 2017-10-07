@@ -138,7 +138,8 @@ class PlgSystemSef extends JPlugin
 				function ($match) use ($base, $protocols)
 				{
 					$data = array();
-					foreach (explode(",", $match[1]) as $url)
+					// A whitespace space character must follow a comma when defining multiple 'srcset' images
+					foreach (preg_split("/,\s+/u", $match[1]) as $url)
 					{
 						$data[] = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', trim($url));
 					}
