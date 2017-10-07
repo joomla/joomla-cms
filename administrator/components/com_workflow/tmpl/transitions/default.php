@@ -28,7 +28,7 @@ if ($saveOrder)
 	JHtml::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -72,7 +72,7 @@ if ($saveOrder)
 						</thead>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
 							<?php foreach ($this->transitions as $i => $item):
-								$edit = JRoute::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension);
+								$edit = JRoute::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.transition.' . $item->id);
 								// @TODO set proper checkin fields
@@ -137,7 +137,7 @@ if ($saveOrder)
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<input type="hidden" name="workflow_id" value="<?php echo $this->workflowID ?>">
+				<input type="hidden" name="workflow_id" value="<?php echo (int) $this->workflowID ?>">
 				<input type="hidden" name="extension" value="<?php echo $this->extension ?>">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>

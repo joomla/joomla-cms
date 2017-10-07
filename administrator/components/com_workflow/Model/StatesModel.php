@@ -96,7 +96,7 @@ class StatesModel extends ListModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'workflow_id = ' . $this->getDbo()->q($table->workflow_id);
+		return 'workflow_id = ' . $this->getDbo()->q((int) $table->workflow_id);
 	}
 
 	/**
