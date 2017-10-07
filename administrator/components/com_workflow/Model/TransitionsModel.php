@@ -37,11 +37,12 @@ class TransitionsModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'published',
-				'title',
-				'from_state',
-				'to_state'
+				'id', 't.id',
+				'published', 't.published',
+				'ordering', 't.ordering',
+				'title', 't.title',
+				'from_state', 't.from_state_id',
+				'to_state', 't.to_state_id'
 			);
 		}
 
@@ -64,7 +65,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 't.ordering', $direction = 'ASC')
 	{
 		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
@@ -105,6 +106,20 @@ class TransitionsModel extends ListModel
 	}
 
 	/**
+	 * A protected method to get a set of ordering conditions.
+	 *
+	 * @param   object  $table  A record object.
+	 *
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getReorderConditions($table)
+	{
+		return 'workflow_id = ' . $this->getDbo()->q((int) $table->workflow_id);
+	}
+
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  string  The query to database.
@@ -119,28 +134,29 @@ class TransitionsModel extends ListModel
 
 		$select = $db->quoteName(
 			array(
-			'transition.id',
-			'transition.title',
-			'transition.published',
+			't.id',
+			't.title',
+			't.published',
+			't.ordering',
 		)
 		);
 		$select[] = $db->qn('f_state.title', 'from_state');
 		$select[] = $db->qn('t_state.title', 'to_state');
 		$joinTo = $db->qn('#__workflow_states', 't_state') .
-			' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('transition.to_state_id');
+			' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('t.to_state_id');
 
 		$query
 			->select($select)
-			->from($db->qn('#__workflow_transitions', 'transition'))
+			->from($db->qn('#__workflow_transitions', 't'))
 			->leftJoin(
-				$db->qn('#__workflow_states', 'f_state') . ' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('transition.from_state_id')
+				$db->qn('#__workflow_states', 'f_state') . ' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('t.from_state_id')
 			)
 			->leftJoin($joinTo);
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where($db->qn('transition.workflow_id') . ' = ' . $workflowID);
+			$query->where($db->qn('t.workflow_id') . ' = ' . $workflowID);
 		}
 
 		$status = $this->getState('filter.published');
@@ -148,11 +164,11 @@ class TransitionsModel extends ListModel
 		// Filter by condition
 		if (is_numeric($status))
 		{
-			$query->where($db->qn('transition.published') . ' = ' . (int) $status);
+			$query->where($db->qn('t.published') . ' = ' . (int) $status);
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('transition.published') . " IN ('0', '1')");
+			$query->where($db->qn('t.published') . ' IN (0, 1)');
 		}
 
 		// Filter by column from_state_id
@@ -177,7 +193,7 @@ class TransitionsModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$orderCol	= $this->state->get('list.ordering', 'id');
+		$orderCol	= $this->state->get('list.ordering', 't.id');
 		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
 
 		$query->order($db->quoteName($orderCol) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));

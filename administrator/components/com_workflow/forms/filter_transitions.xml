@@ -50,17 +50,19 @@
 				type="list"
 				label="JGLOBAL_SORT_BY"
 				description="JGLOBAL_SORT_BY"
-				default="title ASC"
+				default="t.ordering ASC"
 				statuses="*,0,1,2,-2"
 				onchange="this.form.submit();"
 		>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="published ASC">JSTATUS_ASC</option>
-			<option value="published DESC">JSTATUS_DESC</option>
-			<option value="title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
-			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
+			<option vaule="t.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option vaule="t.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="t.published ASC">JSTATUS_ASC</option>
+			<option value="t.published DESC">JSTATUS_DESC</option>
+			<option value="t.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="t.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="t.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="t.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
 
 		<field

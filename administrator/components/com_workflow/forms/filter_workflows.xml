@@ -47,23 +47,24 @@
 				type="list"
 				label="JGLOBAL_SORT_BY"
 				description="JGLOBAL_SORT_BY"
-				default="title ASC"
-				statuses="*,0,1,2,-2"
+				default="w.ordering ASC"
 				onchange="this.form.submit();"
 		>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="published ASC">JSTATUS_ASC</option>
-			<option value="published DESC">JSTATUS_DESC</option>
-			<option value="title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="created_by ASC">JAUTHOR_ASC</option>
-			<option value="created_by DESC">JAUTHOR_DESC</option>
-			<option value="created ASC">COM_WORKFLOW_CREATED_AT_ASC</option>
-			<option value="created DESC">COM_WORKFLOW_CREATED_AT_DESC</option>
-			<option value="modified ASC">COM_WORKFLOW_MODIFIED_AT_ASC</option>
-			<option value="modified DESC">COM_WORKFLOW_MODIFIED_AT_DESC</option>
-			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
-			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="w.published ASC">JSTATUS_ASC</option>
+			<option value="w.published DESC">JSTATUS_DESC</option>
+			<option value="w.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="w.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="w.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="w.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="w.created_by ASC">JAUTHOR_ASC</option>
+			<option value="w.created_by DESC">JAUTHOR_DESC</option>
+			<option value="w.created ASC">COM_WORKFLOW_CREATED_AT_ASC</option>
+			<option value="w.created DESC">COM_WORKFLOW_CREATED_AT_DESC</option>
+			<option value="w.modified ASC">COM_WORKFLOW_MODIFIED_AT_ASC</option>
+			<option value="w.modified DESC">COM_WORKFLOW_MODIFIED_AT_DESC</option>
+			<option value="w.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="w.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
 
 		<field

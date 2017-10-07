@@ -482,7 +482,8 @@ class ArticlesModel extends ListModel
 					->leftJoin($db->quoteName('#__workflow_states', 's') . ' ON ' . $db->qn('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
 					->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
 					->where($db->quoteName('t.published') . ' = 1')
-					->where($db->quoteName('s.published') . ' = 1');
+					->where($db->quoteName('s.published') . ' = 1')
+					->order($db->qn('t.ordering'));
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 

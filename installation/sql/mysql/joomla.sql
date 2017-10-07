@@ -2135,12 +2135,13 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) DEFAULT 0, # TODO replace with real value
+  `asset_id` int(10) DEFAULT 0,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL DEFAULT '',
   `extension` varchar(255) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT NOW(),
   `created_by` int(10) NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL DEFAULT NOW(),
@@ -2184,6 +2185,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
 CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
@@ -2214,12 +2216,13 @@ INSERT INTO `#__workflow_states` (`id`, `asset_id`, `workflow_id`, `published`, 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL DEFAULT '',
   `from_state_id` int(10) NOT NULL,
   `to_state_id` int(10) NOT NULL,
-  `workflow_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `title` (`title`(191)),
   KEY `asset_id` (`asset_id`),
