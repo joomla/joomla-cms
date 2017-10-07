@@ -275,6 +275,12 @@ class JAdminCssMenu
 				}
 			}
 
+			// Exclude item if com_fields component is not installed or disabled
+			if ($item->element == 'com_fields' && (!JComponentHelper::isInstalled($item->element) || !JComponentHelper::isEnabled($item->element)))
+			{
+				continue;
+			}
+
 			// Exclude Mass Mail if disabled in global configuration
 			if ($item->scope == 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
 			{
