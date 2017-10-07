@@ -275,12 +275,6 @@ class JAdminCssMenu
 				}
 			}
 
-			// Exclude item if the component is not installed or disabled
-			if ($item->element && (!JComponentHelper::isInstalled($item->element) || !JComponentHelper::isEnabled($item->element)))
-			{
-				continue;
-			}
-
 			// Exclude Mass Mail if disabled in global configuration
 			if ($item->scope == 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
 			{
