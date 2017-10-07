@@ -121,7 +121,7 @@ class MenuRules implements RulesInterface
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset($this->lookup[$language][$view . $layout]))
+				if (isset($query['layout'], $this->lookup[$language][$view . $layout]))
 				{
 					if (is_bool($ids))
 					{
@@ -136,7 +136,19 @@ class MenuRules implements RulesInterface
 							$query['Itemid'] = $this->lookup[$language][$view . $layout][(int) $id];
 							return;
 						}
+					}
+				}
 
+				if (isset($this->lookup[$language][$view]))
+				{
+					if (is_bool($ids))
+					{
+						$query['Itemid'] = $this->lookup[$language][$view];
+						return;
+					}
+
+					foreach ($ids as $id => $segment)
+					{
 						if (isset($this->lookup[$language][$view][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
