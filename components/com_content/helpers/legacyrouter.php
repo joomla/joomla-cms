@@ -74,7 +74,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Make sure that the menu item selected above actually points to com_content component
-		if (!empty($menuItem) && $menuItem->component != 'com_content')
+		if ($menuItem !== null && $menuItem->component != 'com_content')
 		{
 			$menuItemGiven = false;
 			unset($query['Itemid']);
