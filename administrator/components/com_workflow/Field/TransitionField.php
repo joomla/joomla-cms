@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -46,7 +47,8 @@ class TransitionField extends \JFormFieldList
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->get('extension', 0);
+		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->getInt('extension', 0);
+
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
 			->select($db->qn('title', 'text'))
@@ -54,6 +56,11 @@ class TransitionField extends \JFormFieldList
 			->where($db->qn('from_state_id') . '=' . $workflowState)
 			->where($db->qn('published') . '=1')
 			->order($db->qn('ordering'));
+			->select($db->qn(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
+			->from($db->qn('#__workflow_transitions', 't'))
+			->from($db->qn('#__workflow_states', 's'))
+			->where($db->qn('from_state_id') . ' = ' . $workflowState)
+			->where($db->qn('t.to_state_id') . ' = ' . $db->qn('s.id'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 
@@ -67,6 +74,16 @@ class TransitionField extends \JFormFieldList
 					return $user->authorise('core.run', $extension . '.transition.' . $item->value);
 				}
 			);
+
+			// Sort by transition name
+			$items = ArrayHelper::sortObjects($items, 'value', 1, true, true);
+
+			Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
+			foreach ($items as $item)
+			{
+				$item->text .= ' [' . \JText::_(WorkflowHelper::getConditionName($item->condition)) . ']';
+			}
 		}
 
 		// Get state title
@@ -79,7 +96,7 @@ class TransitionField extends \JFormFieldList
 		$workflowName = $db->setQuery($query)->loadResult();
 
 		$default = [\JHtml::_('select.option', '', $workflowName)];
-		
+
 		$options = array_merge(parent::getOptions(), $items);
 
 		if (count($options))

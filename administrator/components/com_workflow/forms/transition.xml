@@ -21,18 +21,6 @@
 			size="40"
 			required="true"
 		/>
-
-		<field
-			name="description"
-			type="editor"
-			label="COM_WORKFLOW_FIELD_DESC_LABEL"
-			class="input-xxlarge input-large-text"
-		/>
-
-	</fieldset>
-
-	<fieldset name="params"
-	          label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="from_state_id"
 			type="sql"
@@ -46,7 +34,17 @@
 			label="COM_WORKFLOW_TO_STATE"
 			required="true"
 		/>
+		<field
+			name="description"
+			type="editor"
+			label="COM_WORKFLOW_FIELD_DESC_LABEL"
+			class="input-xxlarge input-large-text"
+		/>
 
+	</fieldset>
+
+	<fieldset name="params"
+	          label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
 			type="status"

@@ -231,7 +231,7 @@ class WorkflowHelper extends ContentHelper
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function removeAssociationByItemId($itemId, $extension = 'com_content')
+	public static function removeAssociationsByItemIds($pks, $extension = 'com_content')
 	{
 		try
 		{
@@ -240,7 +240,7 @@ class WorkflowHelper extends ContentHelper
 
 			$query
 				->delete($db->qn('#__workflow_associations'))
-				->where($db->qn('item_id') . '=' . (int) $itemId)
+				->where($db->qn('item_id') . 'IN (' . implode(',', $pks) . ')')
 				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
 
 			$db->setQuery($query);

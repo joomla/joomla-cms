@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Methods supporting a list of article records.
@@ -222,7 +223,7 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
 
 		// Join over the states.
-		$query->select('ws.title AS state_title, ws.id AS state, ws.condition AS status')
+		$query->select('ws.title AS state_title, ws.condition AS state_condition')
 			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
 
 		// Join on voting table
@@ -443,7 +444,7 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
-		$ids = ArrayHelper::getColumn($items, 'state');
+		$ids = ArrayHelper::getColumn($items, 'state_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
@@ -453,6 +454,8 @@ class ArticlesModel extends ListModel
 		{
 			if (count($ids))
 			{
+				Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
 				$query = $db->getQuery(true);
 
 				$select = $db->quoteName(
@@ -461,14 +464,16 @@ class ArticlesModel extends ListModel
 						't.title',
 						't.from_state_id',
 						's.id',
-						's.title'
+						's.title',
+						's.condition'
 					),
 					array(
 						'value',
 						'text',
 						'from_state_id',
 						'state_id',
-						'state_title'
+						'state_title',
+						'state_condition'
 					)
 				);
 
@@ -487,6 +492,12 @@ class ArticlesModel extends ListModel
 					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition['value']))
 					{
 						unset($transitions[$key]);
+					}
+					else
+					{
+						// Update the transition text with final state value
+						$conditionName = WorkflowHelper::getConditionName($transitions[$key]['state_condition']);
+						$transitions[$key]['text'] .=  ' [' . \JText::_($conditionName) . ']';
 					}
 				}
 

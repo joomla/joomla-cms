@@ -150,7 +150,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state);
+							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state_id);
 
 							$hasTransitions = count($transitions) > 0;
 
@@ -193,7 +193,7 @@ $assoc = JLanguageAssociations::isEnabled();
 
 										$icon = 'publish';
 
-										switch ($item->status) :
+										switch ($item->state_condition) :
 
 											case -2:
 												$icon = 'trash';
