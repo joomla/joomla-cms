@@ -143,7 +143,8 @@ class PlgSystemSef extends JPlugin
 					{
 						$data[] = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', trim($url));
 					}
-					return ' srcset="' . implode(",", $data) . '"';
+					// Comma + whitespace character is needed for browser to distinguish multiple images in 'srcset'
+					return ' srcset="' . implode(",\n", $data) . '"';
 				},
 				$buffer
 			);	
