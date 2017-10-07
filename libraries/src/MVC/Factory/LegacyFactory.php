@@ -11,7 +11,7 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -31,7 +31,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -42,7 +42,7 @@ class LegacyFactory implements MVCFactoryInterface
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		return BaseModel::getInstance($modelName, $classPrefix, $config);
+		return BaseDatabaseModel::getInstance($modelName, $classPrefix, $config);
 	}
 
 	/**
