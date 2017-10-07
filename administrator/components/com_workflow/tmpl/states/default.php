@@ -14,10 +14,9 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 
 $user      = JFactory::getUser();
+$userId    = $user->id;
 
 $columns = 5;
-$workflowID = $this->escape($this->state->get('filter.workflow_id'));
-$extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrderingUrl = '';
@@ -30,7 +29,7 @@ if ($saveOrder)
 	JHtml::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . '&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -74,9 +73,12 @@ if ($saveOrder)
 						</thead>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
 							<?php foreach ($this->states as $i => $item):
-								$link = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . $workflowID . '&extension=' . $this->extension);
+								$edit = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension);
 
-								$canChange  = $user->authorise('core.edit.state', 'com_workflow.state.' . $item->id);
+								$canEdit    = $user->authorise('core.edit', $this->extension . '.state.' . $item->id);
+								// @TODO set proper checkin fields
+								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+								$canChange  = $user->authorise('core.edit.state', $this->extension . '.state.' . $item->id) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="order nowrap text-center hidden-sm-down">
@@ -92,10 +94,11 @@ if ($saveOrder)
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-					<span class="icon-menu" aria-hidden="true"></span>
-				</span>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
-									</td>
+											<span class="icon-menu" aria-hidden="true"></span>
+										</span>
+										<?php if ($canChange && $saveOrder) : ?>
+											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+										<?php endif; ?>									</td>
 									<td class="order nowrap text-center hidden-sm-down">
 										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 									</td>
@@ -108,7 +111,13 @@ if ($saveOrder)
 										<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'states.', true); ?>
 									</td>
 									<td>
-										<a href="<?php echo $link ?>"><?php echo $item->title; ?></a>
+										<?php if ($canEdit) : ?>
+											<a href="<?php echo $edit; ?>">
+												<?php echo $item->title; ?>
+											</a>
+										<?php else: ?>
+											<?php echo $item->title; ?>
+										<?php endif; ?>
 									</td>
 									<td class="text-center">
 										<?php echo JText::_($item->condition); ?>
@@ -130,8 +139,8 @@ if ($saveOrder)
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<input type="hidden" name="workflow_id" value="<?php echo $workflowID ?>">
-				<input type="hidden" name="extension" value="<?php echo $extension ?>">
+				<input type="hidden" name="workflow_id" value="<?php echo $this->workflowID ?>">
+				<input type="hidden" name="extension" value="<?php echo $this->extension ?>">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

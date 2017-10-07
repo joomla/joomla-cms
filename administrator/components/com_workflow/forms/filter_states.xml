@@ -43,7 +43,7 @@
 				type="list"
 				statuses="*,0,1,2,-2"
 				onchange="this.form.submit();"
-				default="ordering ASC"
+				default="s.ordering ASC"
 		>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option vaule="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

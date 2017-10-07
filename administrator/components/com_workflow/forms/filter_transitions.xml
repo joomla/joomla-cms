@@ -50,7 +50,7 @@
 				type="list"
 				label="JGLOBAL_SORT_BY"
 				description="JGLOBAL_SORT_BY"
-				default="ordering ASC"
+				default="t.ordering ASC"
 				statuses="*,0,1,2,-2"
 				onchange="this.form.submit();"
 		>

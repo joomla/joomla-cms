@@ -62,7 +62,7 @@ class StatesModel extends ListModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = 's.ordering', $direction = 's.ordering')
+	protected function populateState($ordering = 's.ordering', $direction = 'ASC')
 	{
 		$app = \JFactory::getApplication();
 
@@ -96,7 +96,7 @@ class StatesModel extends ListModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->getDbo()->q($table->extension);
+		return 'workflow_id = ' . $this->getDbo()->q($table->workflow_id);
 	}
 
 	/**
@@ -164,7 +164,7 @@ class StatesModel extends ListModel
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('s.published') . " IN ('0', '1')");
+			$query->where($db->qn('s.published') . ' IN (0, 1)');
 		}
 
 		// Filter by search in title

@@ -65,7 +65,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = "t.ordering", $direction = "asc")
+	protected function populateState($ordering = 't.ordering', $direction = 'ASC')
 	{
 		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
@@ -116,7 +116,7 @@ class TransitionsModel extends ListModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->getDbo()->q($table->extension);
+		return 'workflow_id = ' . $this->getDbo()->q($table->workflow_id);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class TransitionsModel extends ListModel
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('t.published') . " IN ('0', '1')");
+			$query->where($db->qn('t.published') . ' IN (0, 1)');
 		}
 
 		// Filter by column from_state_id

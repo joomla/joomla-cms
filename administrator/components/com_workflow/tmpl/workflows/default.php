@@ -139,7 +139,13 @@ $userId = $user->id;
 									</div>
 								</td>
 								<td>
-									<a href="<?php echo $edit; ?>"><?php echo $item->title; ?></a>
+									<?php if ($canEdit) : ?>
+										<a href="<?php echo $edit; ?>">
+											<?php echo $item->title; ?>
+										</a>
+									<?php else: ?>
+										<?php echo $item->title; ?>
+									<?php endif; ?>
 								</td>
 								<td class="text-center">
 									<a href="<?php echo $states; ?>"><?php echo \JText::_('COM_WORKFLOW_MANAGE'); ?></a>
