@@ -669,7 +669,7 @@ module.exports = function(grunt) {
 				grunt.task.run('uglify:' + element + '-es6');
 
 				// Remove the temporary file
-				grunt.registerTask('deleteTmpCE', 'Delete yemp files', () => {
+				grunt.registerTask('deleteTmpCE', 'Delete temp files', () => {
 					if (grunt.file.exists('build/webcomponents/js/' + element + '/' + element + '_es6.js')) {
 						grunt.file.delete('build/webcomponents/js/' + element + '/' + element + '_es6.js');
 					}
@@ -724,7 +724,7 @@ module.exports = function(grunt) {
 		]
 	);
 
-	grunt.registerTask('webcomponents', ['polyfills-wc']);
+	grunt.registerTask('webcomponents', ['polyfills-wc', 'compile-ce', 'createElements']);
 
 	grunt.registerTask('updateXML', 'Update XML for tinyMCE and Codemirror', function() {
 		// Update the XML files for tinyMCE and Codemirror

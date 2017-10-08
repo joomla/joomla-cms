@@ -68,15 +68,9 @@ vendors:
                   'dependencies': ''
 
 webcomponents:
-          'media':
-                'css': 'media/system/js/fields'
-                'js': 'media/system/js/fields'
-          'sendtestmail':
-                'css': 'media/system/js/fields'
-                'js': 'media/system/js/fields'
-          'switcher':
-                'css': 'media/system/js/fields'
-                'js': 'media/system/js/fields'
+          'field-media':
+                'css': 'media/system/webcomponents/css'
+                'js': 'media/system/webcomponents/js'
 
 ## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
