@@ -8290,7 +8290,7 @@ body .navbar-fixed-top {
 	font-size: 13px;
 }
 .quick-icons .nav-header:first-child {
-	margin: 0px 0 5px;
+	margin: 0 0 5px;
 }
 .quick-icons [class^="icon-"],
 .quick-icons [class*=" icon-"] {
@@ -8305,7 +8305,7 @@ body .navbar-fixed-top {
 html[dir=rtl] .quick-icons .nav-list [class^="icon-"],
 html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	margin-left: 9px;
-	margin-right: 0px;
+	margin-right: 0;
 }
 .sidebar-nav .nav-list {
 	padding-left: 25px;
