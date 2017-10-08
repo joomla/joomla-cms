@@ -19,23 +19,28 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="UrlType" type="radio"
-					default="0"
-					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
+				<field
+					name="url"
+					type="list"
 					label="PLG_CONTENT_CONTACT_PARAM_URL_LABEL"
-				>
+					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
+					default="0"
+					>
 					<option value="0">PLG_CONTENT_CONTACT_PARAM_URL_0</option>
 					<option value="1">PLG_CONTENT_CONTACT_PARAM_URL_1</option>
 					<option value="2">PLG_CONTENT_CONTACT_PARAM_URL_2</option>
 				</field>
-				
-				<field name="LinkToAlias" type="radio"
-					default="0"
-					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
+
+				<field
+					name="link_to_alias"
+					type="radio"
 					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
-				>
-					<option value="0">PLG_CONTENT_CONTACT_PARAM_NO</option>
-					<option value="1">PLG_CONTENT_CONTACT_PARAM_YES</option>
+					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>
