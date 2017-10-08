@@ -5447,7 +5447,7 @@ a.badge:focus {
 		margin-left: 0;
 	}
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 	body {
 		padding-top: 0;
 	}
@@ -5598,7 +5598,7 @@ a.badge:focus {
 		padding-right: 10px;
 	}
 }
-@media (min-width: 769px) {
+@media (min-width: 768px) {
 	.nav-collapse.collapse {
 		height: auto !important;
 		overflow: visible !important;
@@ -8208,7 +8208,7 @@ body .navbar-fixed-top {
 .nav-collapse .dropdown-menu > li img {
 	max-width: none;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
 		padding: 0;
@@ -8693,7 +8693,7 @@ html[dir=rtl] #toolbar #toolbar-help {
 		width: 10px;
 	}
 }
-@media (max-width: 320px) {
+@media (max-width: 319px) {
 	.view-login .navbar-fixed-bottom {
 		display: none;
 	}
