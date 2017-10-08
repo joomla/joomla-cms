@@ -31,15 +31,13 @@
 
 				<field
 					name="state"
-					type="sql"
+					type="workflowstate"
 					multiple="true"
 					size="5"
 					label="MOD_ARTICLES_CHOOSE_STATE"
-					sql_select="id, title"
-				    sql_from="#__workflow_states"
-				    key_field="id"
-				    value_field="title"
-				/>
+					addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+				>
+				</field>
 			</fieldset>
 
 			<fieldset name="advanced">

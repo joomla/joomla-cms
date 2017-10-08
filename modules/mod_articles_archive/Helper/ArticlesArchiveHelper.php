@@ -39,10 +39,11 @@ class ArticlesArchiveHelper
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
-			->from('#__content')
-			->where($db->qn('state') . ' IN (' . implode(', ', $states) . ')')
-			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
-			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
+			->from($db->qn('#__content', 'c'))
+			->innerJoin($db->qn('#__workflow_associations', 'wa') . ' ON wa.item_id = c.id')
+			->where($db->qn('wa.state_id') . ' IN (' . implode(', ', $states) . ')')
+			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
+			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
 
 		// Filter by language
 		if (Factory::getApplication()->getLanguageFilter())
