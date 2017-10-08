@@ -506,7 +506,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('polyfills-wc', 'Create a copy of the polyfills', () => {
-		// Copy polyfills in dist and demo folders
+		// Copy polyfills in the system/polyfills directory
 		if (grunt.file.exists('node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js')) {
 			let polyfills = ['webcomponents-hi-ce', 'webcomponents-hi-sd-ce', 'webcomponents-hi', 'webcomponents-lite', 'webcomponents-loader', 'webcomponents-sd-ce'];
 
