@@ -144,8 +144,11 @@ class ContentHelper extends \JHelperContent
 					->select('COUNT(*) AS ' . $db->qn('count'))
 					->from($db->qn('#__content', 'c'))
 					->from($db->qn('#__workflow_states', 's'))
-					->where($db->qn('s.id') . ' = ' . $db->qn('c.state'))
+					->from($db->qn('#__workflow_associations', 'a'))
+					->where($db->qn('a.item_id') . ' = ' . $db->qn('c.id'))
+					->where($db->qn('s.id') . ' = ' . $db->qn('a.state_id'))
 					->where('catid = ' . (int) $item->id)
+					->where('a.extension = ' . $db->quote('com_content'))
 					->group($db->qn('condition'));
 
 			$articles = $db->setQuery($query)->loadObjectList();

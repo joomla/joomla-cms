@@ -107,6 +107,9 @@ class ArticlesModel extends ListModel
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
+		$condition = $this->getUserStateFromRequest($this->context . '.filter.condition', 'filter_condition', '');
+		$this->setState('filter.condition', $condition);
+
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
