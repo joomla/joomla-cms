@@ -67,6 +67,11 @@ vendors:
                   'version': '0.0.9'
                   'dependencies': ''
 
+webcomponents:
+          'field-media':
+                'css': 'media/system/webcomponents/css'
+                'js': 'media/system/webcomponents/js'
+
 ## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
         js:
