@@ -74,25 +74,24 @@ class MenuRules implements RulesInterface
 				return;
 			}
 
-			$query2 = array();
-
-			foreach ($active->query as $k => $v)
+			if ((isset($query['option']) === false || $query['option'] === $active->query['option'])
+				&& (isset($query['view']) === false
+					|| isset($active->query['view']) && $query['view'] === $active->query['view'])
+				&& (isset($query['layout']) === false
+					|| isset($active->query['layout']) && $query['layout'] === $active->query['layout']))
 			{
-				if (isset($query[$k])) {
-					// Remove every alias from query2 because item query does not contain aliases
-					list($query2[$k]) = explode(':', $query[$k], 2);
-				}
-				else
+				$views = $this->router->getViews();
+
+				if (isset($views[$active->query['view']]))
 				{
-					// Add missing keys in query that exists in item->query
-					$query2[$k] = $v;
-				}
-			}
+					$key = $views[$active->query['view']]->key;
 
-			if ($active->query === $query2)
-			{
-				// If the same view has two different menu items and one of them is active then use the active one
-				return;
+					if ($key === false || isset($query[$key]) === false || current(explode(':', $query[$key], 2)) == $active->query[$key])
+					{
+						// If the same view has two different menu items and one of them is active then use the active one
+						return;
+					}
+				}
 			}
 		}
 
