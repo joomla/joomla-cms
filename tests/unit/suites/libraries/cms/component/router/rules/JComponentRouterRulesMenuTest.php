@@ -151,6 +151,10 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22'),
 			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49'));
 
+		// Check indirect link to a nested view with a key if the layout is different
+		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'blog'),
+			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'blog'));
+
 		// Check indirect link to a nested view with a key and a language
 		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB'),
 			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB', 'Itemid' => '49'));
