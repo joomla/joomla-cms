@@ -10,7 +10,7 @@ joomla-field-media .field-media-preview {
   padding: 10px;
   background-color: #f2f2f2;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 1px 0 1px;
+  border-width: 1px 1px 0;
   border-radius: .25rem .25rem 0 0;
   overflow: hidden; }
 
