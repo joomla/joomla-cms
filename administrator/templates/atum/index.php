@@ -25,11 +25,8 @@ $itemid      = $input->get('Itemid', '');
 $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel      = ($option === 'com_cpanel');
 $hidden      = $app->input->get('hidemainmenu');
-$logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
-$logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Add JavaScript
-JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
 if ($cpanel)
 {
@@ -47,6 +44,7 @@ JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true
 
 // Alerts
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+JHtml::_('webcomponent', ['joomla-dropdown' => 'system/joomla-dropdown.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -60,34 +58,23 @@ $this->setMetaData('theme-color', '#1c3d5c');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas" />
-	<jdoc:include type="styles" />
-	<jdoc:include type="scripts" />
+	<jdoc:include type="metas"/>
+	<jdoc:include type="styles"/>
+	<jdoc:include type="scripts"/>
 </head>
-
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
-
 	<noscript>
 		<div class="alert alert-danger" role="alert">
 			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</div>
 	</noscript>
-
 	<?php // Wrapper ?>
 	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
-
 		<?php // Sidebar ?>
-		<?php if (!$hidden) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
-			<div id="main-brand" class="main-brand align-items-center">
-				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
-				</a>
-			</div>
-			<jdoc:include type="modules" name="menu" style="none" />
-		</div>
-		<?php endif; ?>
 
+		<?php if (!$hidden) : ?>
+			<jdoc:include type="modules" name="menu" style="none"/>
+		<?php endif; ?>
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
@@ -105,20 +92,19 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				</div>
 			</div>
 		</header>
-
 		<?php // container-fluid ?>
 		<div class="container-fluid container-main">
 			<?php if (!$cpanel) : ?>
 				<?php // Subheader ?>
 				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
-				<div class="subhead-collapse" data-scroll="<?php echo $hidden; ?>">
+				<div class="subhead-collapse" for="#dropdown1Button" data-scroll="<?php echo $hidden; ?>">
 					<div id="subhead" class="subhead">
 						<div class="container-fluid">
 							<div id="container-collapse" class="container-collapse"></div>
 							<div class="row">
 								<div class="col-md-12">
-									<jdoc:include type="modules" name="toolbar" style="no" />
+									<jdoc:include type="modules" name="toolbar" style="no"/>
 								</div>
 							</div>
 						</div>
@@ -127,28 +113,34 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			<?php endif; ?>
 			<section id="content" class="content">
 				<?php // Begin Content ?>
-				<jdoc:include type="modules" name="top" style="xhtml" />
+				<jdoc:include type="modules" name="top" style="xhtml"/>
 				<div class="row">
 					<div class="col-md-12">
 						<jdoc:include type="component" />
 					</div>
-
 					<?php if ($this->countModules('bottom')) : ?>
-						<jdoc:include type="modules" name="bottom" style="xhtml" />
+						<jdoc:include type="modules" name="bottom" style="xhtml"/>
 					<?php endif; ?>
 				</div>
 				<?php // End Content ?>
 			</section>
-
 			<div class="notify-alerts">
-				<jdoc:include type="message" />
+				<jdoc:include type="message"/>
 			</div>
-
 		</div>
-
 	</div>
+	<jdoc:include type="modules" name="debug" style="none"/>
+	<script>
+		// Do the transfer of the old side menu
+		var sidebar = document.getElementById('sidebar-wrapper');
+		var oldMenu = document.getElementById('j-sidebar-container');
 
-	<jdoc:include type="modules" name="debug" style="none" />
+		if (oldMenu) {
+			oldMenu.nextElementSibling.classList.remove('col-md-10');
+			oldMenu.nextElementSibling.classList.add('col-md-12');
 
+			sidebar.appendChild(oldMenu);
+		}
+	</script>
 </body>
 </html>

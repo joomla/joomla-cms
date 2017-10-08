@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+$siteName  = \Joomla\CMS\Factory::getApplication()->get('sitename');
 $doc       = \Joomla\CMS\Factory::getDocument();
 $direction = $doc->direction == 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav navbar-nav nav-stacked main-nav clearfix ' . $direction : 'nav navbar-nav nav-stacked main-nav clearfix disabled ' . $direction;
@@ -17,18 +18,29 @@ $class     = $enabled ? 'nav navbar-nav nav-stacked main-nav clearfix ' . $direc
 $menuTree = $menu->getTree();
 $root     = $menuTree->reset();
 
-if ($root->hasChildren())
-{
-	echo '<div class="main-nav-container" role="navigation" aria-label="Main menu">';
-	echo '<ul id="menu" class="' . $class . '">' . "\n";
+JHtml::_('webcomponent', ['joomla-menu' => 'mod_menu_administrator/joomla-admin-menu.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+?>
+<joomla-admin-menu>
+	<div id="sidebar-wrapper" class="sidebar-wrapper">
+		<div id="main-brand" class="main-brand align-items-center">
+			<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+				<img src="<?php echo JUri::root(); ?>media/system/images/logo.svg" class="logo" alt="<?php echo $siteName; ?>">
+			</a>
+		</div>
+			<?php if ($root->hasChildren()) : ?>
+				<div class="main-nav-container" role="navigation" aria-label="Main menu">
+					<ul id="menu" class="<?php echo $class; ?>">
 
-	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
-	$menu->renderSubmenu(JModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+					<?php // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
+					$menu->renderSubmenu(JModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+					?>
 
-	echo "</ul></div>\n";
+					</ul>
+				</div>
 
-	if ($css = $menuTree->getCss())
-	{
-		$doc->addStyleDeclaration(implode("\n", $css));
-	}
-}
+				<?php if ($css = $menuTree->getCss()) : ?>
+					<?php $doc->addStyleDeclaration(implode("\n", $css)); ?>
+				<?php endif; ?>
+			<?php endif; ?>
+	</div>
+</joomla-admin-menu>

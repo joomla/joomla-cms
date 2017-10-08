@@ -26,8 +26,6 @@ $task        = $input->get('task', '');
 $itemid      = $input->get('Itemid', '');
 $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $hidden      = $app->input->get('hidemainmenu');
-$logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
-$logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Alerts
 JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
@@ -54,7 +52,8 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 	<?php if (is_file(JPATH_ROOT . $langCss)) : ?>
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
-
+	<?php // @todo add alert and menu!!! ?>
+	<script type="application/json" class="joomla-script-options new"><?php // Create and echo a JSON with the required web components ?></script>
 	<script src="/media/system/js/core.min.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
@@ -72,12 +71,6 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
-			<div id="main-brand" class="main-brand align-items-center">
-				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
-				</a>
-			</div>
 			<?php // Display menu modules ?>
 			<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
 			<?php foreach ($this->menumodules as $menumodule) : ?>
@@ -85,7 +78,6 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 				<?php $params = new Registry($menumodule->params); ?>
 				<?php echo $output; ?>
 			<?php endforeach; ?>
-		</div>
 		<?php endif; ?>
 
 		<?php // Header ?>
