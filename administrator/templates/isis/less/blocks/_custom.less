@@ -36,7 +36,7 @@
 	min-height: 500px;
 }
 
-@media (max-width: @lg) {
+@media (max-width: @lg-max) {
 	.container-fluid {
 		padding-left: 10px;
 		padding-right: 10px;
@@ -53,14 +53,14 @@
 	}
 }
 
-@media (max-width: @md) {
+@media (max-width: @md-max) {
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
 	}
 }
 
-@media (max-width: @sm) {
+@media (max-width: @sm-max) {
 
 	.pagination a {
 		padding: 5px;
@@ -180,7 +180,7 @@ th .tooltip-inner {
 .alert-no-items {
 	margin-top: 20px;
 }
-@media (max-width: 767px) {
+@media (max-width: @md-max) {
 	html[dir=rtl] #toolbar #toolbar-options,
 	html[dir=rtl] #toolbar #toolbar-help,
 	#toolbar #toolbar-options,
