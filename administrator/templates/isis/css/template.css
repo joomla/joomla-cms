@@ -5447,7 +5447,7 @@ a.badge:focus {
 		margin-left: 0;
 	}
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	body {
 		padding-top: 0;
 	}
@@ -5598,7 +5598,7 @@ a.badge:focus {
 		padding-right: 10px;
 	}
 }
-@media (min-width: 768px) {
+@media (min-width: 769px) {
 	.nav-collapse.collapse {
 		height: auto !important;
 		overflow: visible !important;
@@ -7605,7 +7605,7 @@ textarea.noResize {
 	border-top: 1px solid rgba(255,255,255,0.2);
 	padding: 8px 25px;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.header {
 		padding: 4px 18px;
 		margin-left: -20px;
@@ -7645,7 +7645,7 @@ textarea.noResize {
 .page-title [class*=" icon-"] {
 	margin-right: 16px;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.container-logo {
 		display: none;
 	}
@@ -8168,7 +8168,7 @@ body .navbar-fixed-top {
 	border: 1px solid #0D2242;
 	margin-bottom: 2px;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.navbar .admin-logo {
 		margin-left: 10px;
 		padding: 9px 9px 0 9px;
@@ -8186,7 +8186,7 @@ body .navbar-fixed-top {
 		padding: 6px;
 	}
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.navbar-search.pull-right {
 		float: none;
 		text-align: center;
@@ -8208,7 +8208,7 @@ body .navbar-fixed-top {
 .nav-collapse .dropdown-menu > li img {
 	max-width: none;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
 		padding: 0;
@@ -8410,7 +8410,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 		right: -20px;
 	}
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.j-sidebar-container {
 		position: relative;
 		width: 100%;
@@ -8577,7 +8577,7 @@ td.nowrap.has-context {
 	top: 30px;
 	z-index: 100;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	body {
 		-webkit-overflow-scrolling: touch;
 	}
@@ -8649,7 +8649,7 @@ html[dir=rtl] #toolbar #toolbar-options,
 html[dir=rtl] #toolbar #toolbar-help {
 	float: left;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.subhead-fixed {
 		position: static;
 		width: auto;
@@ -8658,7 +8658,7 @@ html[dir=rtl] #toolbar #toolbar-help {
 .btn-subhead {
 	display: none;
 }
-@media (min-width: 481px) {
+@media (min-width: 480px) {
 	#filter-bar {
 		height: 29px;
 	}
@@ -8823,7 +8823,7 @@ ul.treeselect ul.dropdown-menu li {
 		height: auto !important;
 	}
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
