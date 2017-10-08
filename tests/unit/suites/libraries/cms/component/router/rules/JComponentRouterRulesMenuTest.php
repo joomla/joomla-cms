@@ -253,6 +253,11 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$this->object->preprocess($query);
 		$this->assertEquals($expect, $query);
 
+		// Test if the active Itemid is used although an article has other Itemid with id=52
+		$expect = $query = array('option' => 'com_content', 'view' => 'article', 'id' => '1:some-alias', 'Itemid' => '53');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
 		$this->restoreFactoryState();
 	}
 

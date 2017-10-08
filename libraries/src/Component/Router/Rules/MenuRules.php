@@ -63,21 +63,33 @@ class MenuRules implements RulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		/**
-		 * If the active item id is not the same as the supplied item id or we have a supplied item id and no active
-		 * menu item then we just use the supplied menu item and continue
-		 */
-		if (isset($query['Itemid']) && ($active === null || $query['Itemid'] != $active->id))
+		if (isset($query['Itemid']))
 		{
-			return;
-		}
+			/**
+			* If the active item id is not the same as the supplied item id or we have a supplied item id and no active
+			* menu item then we just use the supplied menu item and continue
+			*/
+			if ($active === null || $query['Itemid'] != $active->id)
+			{
+				return;
+			}
 
-		if ($active !== null)
-		{
-			$activeQuery = $active->query;
-			$activeQuery['Itemid'] = $active->id;
+			$query2 = array();
 
-			if ($activeQuery === $query)
+			foreach ($active->query as $k => $v)
+			{
+				if (isset($query[$k])) {
+					// Remove every alias from query2 because item query does not contain aliases
+					list($query2[$k]) = explode(':', $query[$k], 2);
+				}
+				else
+				{
+					// Add missing keys in query that exists in item->query
+					$query2[$k] = $v;
+				}
+			}
+
+			if ($active->query === $query2)
 			{
 				// If the same view has two different menu items and one of them is active then use the active one
 				return;
