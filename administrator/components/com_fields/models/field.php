@@ -957,8 +957,9 @@ class FieldsModelField extends JModelAdmin
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);
 			}
-			//Remove placeholder field on list fields
-			if ($dataObject->type == "list")
+
+			// Remove placeholder field on list fields
+			if ($dataObject->type == 'list')
 			{
 				$form->removeField('hint', 'params');
 			}
