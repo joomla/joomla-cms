@@ -57,7 +57,7 @@ class TransitionField extends \JFormFieldList
 			->where($db->qn('t.to_state_id') . ' = ' . $db->qn('s.id'))
 			->where($db->qn('t.published') . '=1')
 			->where($db->qn('s.published') . '=1')
-			->order($db->qn('ordering'));
+			->order($db->qn('t.ordering'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 
