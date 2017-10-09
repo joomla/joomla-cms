@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Model\Form;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -159,6 +160,39 @@ class ArticleModel extends AdminModel
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Batch change workflow state or current.
+	 *
+	 * @param   integer  $value     The workflow state ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function batchWorkflowState($value, $pks, $contexts)
+	{
+		// Get state information
+		$state = new \Joomla\Component\Workflow\Administrator\Table\StateTable($this->_db);
+
+		if (!$state->load($value))
+		{
+			return false;
+		}
+
+		// Update content state value and workflow associations
+		if (ContentHelper::updateContentState($pks, $state->condition)
+				&& WorkflowHelper::updateAssociationOfItemIdList($pks, $value))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**

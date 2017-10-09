@@ -290,6 +290,41 @@ class WorkflowHelper extends ContentHelper
 	}
 
 	/**
+	 * Updates multiple associations in the workflow_associations table to a given state
+	 *
+	 * @param   array   $itemIds      ids of content
+	 * @param   int     $stateId      id of state
+	 * @param   string  $extension    extension type
+	 *
+	 * @return boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function updateAssociationOfItemIdList($itemIds, $stateId, $extension = 'com_content')
+	{
+		try
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query
+				->update($db->qn('#__workflow_associations'))
+				->set($db->qn('state_id') . '=' . (int) $stateId)
+				->where($db->qn('item_id') . ' IN (' . implode(', ', $itemIds) . ')')
+				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Gets the to_state of a transition
 	 *
 	 * @param   int  $transitionId    id of transition
