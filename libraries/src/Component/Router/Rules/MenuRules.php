@@ -75,6 +75,11 @@ class MenuRules implements RulesInterface
 		// Get query language
 		$language = isset($query['lang']) ? $query['lang'] : '*';
 
+		if ($language !== '*' && isset($this->lookup[$language]) === false)
+		{
+			$this->buildLookup($language);
+		}
+
 		if ($active !== null)
 		{
 			// Test if query lang match active language
@@ -107,11 +112,6 @@ class MenuRules implements RulesInterface
 					}
 				}
 			}
-		}
-
-		if ($language !== '*' && isset($this->lookup[$language]) === false)
-		{
-			$this->buildLookup($language);
 		}
 
 		$needles = $this->router->getPath($query);
