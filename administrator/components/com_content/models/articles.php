@@ -216,13 +216,12 @@ class ContentModelArticles extends JModelList
 		// Join on voting table
 		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name';
 
-		if (JPluginHelper::isEnabled('content', 'vote'))
-		{
-			$assogroup .= ', v.rating_sum, v.rating_count';
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
-					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
-		}
+		// Part of the core, always implement.
+		$assogroup .= ', v.rating_sum, v.rating_count';
+		$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+
 
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
