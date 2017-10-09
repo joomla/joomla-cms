@@ -57,7 +57,10 @@ class TagsViewTags extends JViewLegacy
 			// Load individual item creator class
 			$feeditem = new JFeedItem;
 			$feeditem->title       = $title;
-			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
+			// ID in com_tags can be either an integer, a string or an array of IDs
+			$id = is_array($query['id']) ? implode(',', $query['id']) : $query['id'];
+			$segments[] = $id;
+			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . $id;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
 			$feeditem->category    = 'All Tags';
