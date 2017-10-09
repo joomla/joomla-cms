@@ -31,5 +31,12 @@ $published = $this->state->get('filter.published');
 				</div>
 			</div>
 		<?php endif; ?>
+        <div class="form-group col-md-6">
+            <div class="controls">
+				<?php
+				$displayData = array('extension' => 'com_content');
+                echo JLayoutHelper::render('joomla.html.batch.workflowstate', $displayData); ?>
+            </div>
+        </div>
 	</div>
 </div>
