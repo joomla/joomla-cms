@@ -75,42 +75,36 @@ class MenuRules implements RulesInterface
 		// Get query language
 		$language = isset($query['lang']) ? $query['lang'] : '*';
 
-		if ($language !== '*' && isset($this->lookup[$language]) === false)
+		if (!isset($this->lookup[$language]))
 		{
 			$this->buildLookup($language);
 		}
 
-		if ($active !== null)
+		// Check if the active menu item matches the requested query
+		if ($active !== null && isset($query['Itemid']))
 		{
-			// Test if query lang match active language
-			$matchLanguage = $language === '*'
-				|| in_array($active->language, array('*', $language))
-				|| \JLanguageMultilang::isEnabled() === false;
+			// Check if active->query and supplied query are the same
+			$match = true;
 
-			// Check if the active menu item matches the requested language, option, view and layout
-			if (isset($query['Itemid'])
-				&& $matchLanguage
-				&& (isset($query['option']) === false || $query['option'] === $active->query['option'])
-				&& (isset($query['view']) === false
-					|| isset($active->query['view']) && $query['view'] === $active->query['view'])
-				&& (isset($query['layout']) === false
-					|| isset($active->query['layout']) && $query['layout'] === $active->query['layout']))
+			foreach ($active->query as $k => $v)
 			{
-				$views = $this->router->getViews();
-
-				if (isset($views[$active->query['view']]))
+				if (isset($query[$k]) && $v !== $query[$k])
 				{
-					$key = $views[$active->query['view']]->key;
-
-					// Check if the active menu item matches the requested key
-					if ($key === false
-						|| isset($query[$key]) === false
-						|| current(explode(':', $query[$key], 2)) == $active->query[$key])
+					// Compare again without alias
+					if (is_string($v) && $v == current(explode(':', $query[$k], 2)))
 					{
-						// If the same view has two different menu items and one of them is active then use the active one
-						return;
+						continue;
 					}
+
+					$match = false;
+					break;
 				}
+			}
+
+			if ($match)
+			{
+				// Just use the supplied menu item
+				return;
 			}
 		}
 
@@ -154,7 +148,8 @@ class MenuRules implements RulesInterface
 		}
 
 		// Check if the active menuitem matches the requested language
-		if ($active && $active->component === 'com_' . $this->router->getName() && $matchLanguage)
+		if ($active && $active->component === 'com_' . $this->router->getName()
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;

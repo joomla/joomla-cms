@@ -258,8 +258,6 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'option' => 'com_content',
 			'view' => 'article',
 			'id' => '1:some-alias',
-			// Additional parameter that is not a key but exists for example in category view
-			'filter_tag' => array(''),
 			'Itemid' => '53');
 		$this->object->preprocess($query);
 		$this->assertEquals($expect, $query);
