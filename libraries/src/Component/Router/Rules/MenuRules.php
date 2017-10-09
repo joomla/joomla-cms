@@ -63,18 +63,29 @@ class MenuRules implements RulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		if (isset($query['Itemid']))
+		/**
+		 * If the active item id is not the same as the supplied item id or we have a supplied item id and no active
+		 * menu item then we just use the supplied menu item and continue
+		 */
+		if (isset($query['Itemid']) && ($active === null || $query['Itemid'] != $active->id))
 		{
-			/**
-			* If the active item id is not the same as the supplied item id or we have a supplied item id and no active
-			* menu item then we just use the supplied menu item and continue
-			*/
-			if ($active === null || $query['Itemid'] != $active->id)
-			{
-				return;
-			}
+			return;
+		}
 
-			if ((isset($query['option']) === false || $query['option'] === $active->query['option'])
+		// Get query language
+		$language = isset($query['lang']) ? $query['lang'] : '*';
+
+		if ($active !== null)
+		{
+			// Test if query lang match active language
+			$matchLanguage = $language === '*'
+				|| in_array($active->language, array('*', $language))
+				|| \JLanguageMultilang::isEnabled() === false;
+
+			// Check if the active menu item matches the requested language, option, view and layout
+			if (isset($query['Itemid'])
+				&& $matchLanguage
+				&& (isset($query['option']) === false || $query['option'] === $active->query['option'])
 				&& (isset($query['view']) === false
 					|| isset($active->query['view']) && $query['view'] === $active->query['view'])
 				&& (isset($query['layout']) === false
@@ -86,7 +97,10 @@ class MenuRules implements RulesInterface
 				{
 					$key = $views[$active->query['view']]->key;
 
-					if ($key === false || isset($query[$key]) === false || current(explode(':', $query[$key], 2)) == $active->query[$key])
+					// Check if the active menu item matches the requested key
+					if ($key === false
+						|| isset($query[$key]) === false
+						|| current(explode(':', $query[$key], 2)) == $active->query[$key])
 					{
 						// If the same view has two different menu items and one of them is active then use the active one
 						return;
@@ -95,18 +109,9 @@ class MenuRules implements RulesInterface
 			}
 		}
 
-		if (isset($query['lang']))
+		if ($language !== '*' && isset($this->lookup[$language]) === false)
 		{
-			$language = $query['lang'];
-
-			if (!isset($this->lookup[$language]))
-			{
-				$this->buildLookup($language);
-			}
-		}
-		else
-		{
-			$language = '*';
+			$this->buildLookup($language);
 		}
 
 		$needles = $this->router->getPath($query);
@@ -149,8 +154,7 @@ class MenuRules implements RulesInterface
 		}
 
 		// Check if the active menuitem matches the requested language
-		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
+		if ($active && $active->component === 'com_' . $this->router->getName() && $matchLanguage)
 		{
 			$query['Itemid'] = $active->id;
 			return;
