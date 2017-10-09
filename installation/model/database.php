@@ -173,11 +173,14 @@ class InstallationModelDatabase extends JModelBase
 			'::1',
 		);
 
-		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
+		// HTTP Status Code
+		$statusCode = JHttpFactory::getHttp()->get((string) JUri::getInstance())->code;
+
+		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1 and HTTP status code is not 401 (HTTP authentication required)
+		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost) && $statusCode !== 401)
 		{
 			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
-			
+
 			// When all checks have been passed we don't need to do this here again.
 			if ($remoteDbFileTestsPassed === false)
 			{
