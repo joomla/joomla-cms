@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\Router\RouterBase;
+
 /**
  * Routing class from com_search
  *
  * @since  3.3
  */
-class SearchRouter extends \JComponentRouterBase
+class SearchRouter extends RouterBase
 {
 	/**
 	 * Build the route for the com_search component
