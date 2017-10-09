@@ -16,21 +16,19 @@ defined('JPATH_BASE') or die;
  */
 
 ?>
-<label id="batch-access-lbl" for="batch-workflowstate-id" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_ACCESS_LABEL', 'JLIB_HTML_BATCH_ACCESS_LABEL_DESC'); ?>">
+<label id="batch-workflowstate-lbl" for="batch-workflowstate-id" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_WORKFLOW_STATE_LABEL', 'JLIB_HTML_BATCH_WORKFLOW_STATE_LABEL_DESC'); ?>">
 	<?php echo JText::_('JLIB_HTML_BATCH_WORKFLOW_STATE_LABEL'); ?>
 </label>
-<!--<select name="batch[workflowstate_id]" class="custom-select" id="batch-workflowstate">
-    <option value=""><?php /*echo JText::_('JLIB_HTML_BATCH_WORKFLOWSTATE_NOCHANGE'); */?></option>
-	<?php /*echo JHtml::_('select.options', JHtml::_('workflowstate.existing'), 'value', 'text'); */?>
-</select>-->
-
 
 <?php
 
 $attr = array(
-	'id'        => 'batch-workflowstate-id'
+	'id'        => 'batch-workflowstate-id',
+	'group.label' => 'text',
+    'group.items' => null
 );
 
-$vaaa = JHtml::_('workflowstate.existing');
+$groups = JHtml::_('workflowstate.existing', array('title' => JText::_('JLIB_HTML_BATCH_WORKFLOW_STATE_NOCHANGE')));
 
-echo JHtml::_('select.groupedlist', $vaaa, 'batch[workflowstate_id]',''); ?>
+echo JHtml::_('select.groupedlist', $groups, 'batch[workflowstate_id]', $attr);
+?>

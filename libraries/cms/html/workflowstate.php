@@ -18,18 +18,15 @@ abstract class JHtmlWorkflowState
 {
 
 	/**
-	 * Get a list of the available content language items.
+	 * Get a list of the available workflow states.
 	 *
-	 * @param   string  $name      The name of the select element
-	 * @param   mixed   $selected  The selected asset group id
-	 * @param   string  $attribs   Optional attributes for the select field
-	 * @param   array   $config    An array of options for the control
+	 * @param   array  $options  An array of options for the control
 	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function existing()
+	public static function existing($options)
 	{
 		// Get the database object and a new query object.
 		$db    = JFactory::getDbo();
@@ -61,6 +58,10 @@ abstract class JHtmlWorkflowState
 			$workflowStates[$workflowStateKey][] = \JHtml::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
 		}
 
-		return $workflowStates;
+		$prefix[] = array(
+			\JHtml::_('select.option', null, $options['title'])
+		);
+
+		return array_merge($prefix, $workflowStates);
 	}
 }
