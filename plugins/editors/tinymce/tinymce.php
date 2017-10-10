@@ -550,9 +550,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Merge the custom plugins paths
 		$externalPlugins  = array_merge($externalPlugins, $btns['paths']);
-//var_dump($externalPlugins);
-//var_dump($toolbar2);
-//die;
+
 		// Build the final options set
 		$scriptOptions = array_merge(
 			$scriptOptions,
@@ -602,8 +600,6 @@ class PlgEditorTinymce extends JPlugin
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
-//			'dndPath'    => JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js',
-//			'Image'      => JUri::root(). 'media/editors/tinymce/js/plugins/media/media.js',
 
 				// Disable TinyMCE Branding
 				'branding'	=> false,
@@ -645,7 +641,7 @@ class PlgEditorTinymce extends JPlugin
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
-		 **/
+		 */
 		if (!$this->app->client->mobile)
 		{
 			$scriptOptions['toolbar_items_size'] = 'small';
@@ -710,7 +706,8 @@ class PlgEditorTinymce extends JPlugin
 			{
 				if ($button->get('name'))
 				{
-					switch ($button->get('name')) {
+					switch ($button->get('name'))
+					{
 						case 'pictures':
 							$externalPlugins[JText::_('PLG_IMAGE_BUTTON_IMAGE')] = JUri::root() . 'media/editors/tinymce/js/plugins/media/media.js';
 							$btnNative[] = str_replace(' ', '', $button->get('text'));

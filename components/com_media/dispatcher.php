@@ -28,6 +28,13 @@ class MediaDispatcher extends Dispatcher
 	 */
 	protected $namespace = 'Joomla\\Component\\Media';
 
+	/**
+	 * Constructor 
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
 	public function __construct(\Joomla\CMS\Application\CMSApplication $app, \JInput $input = null)
 	{
 		parent::__construct($app, $input);
