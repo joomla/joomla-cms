@@ -25,7 +25,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-	 protected $autoloadLanguage = true;
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Application object.
