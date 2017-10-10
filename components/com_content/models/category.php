@@ -214,6 +214,12 @@ class ContentModelCategory extends JModelList
 
 		// Set the featured articles state
 		$this->setState('filter.featured', $params->get('show_featured'));
+
+		$this->setState('filter.date_filtering', $app->input->getString('date_filtering'));
+		$this->setState('filter.date_field', $app->input->getString('date_field'));
+		$this->setState('filter.start_date_range', $app->input->getString('start_date_range'));
+		$this->setState('filter.end_date_range', $app->input->getString('end_date_range'));
+		$this->setState('filter.relative_date', $app->input->getInt('relative_date'));
 	}
 
 	/**
@@ -242,6 +248,11 @@ class ContentModelCategory extends JModelList
 			$model->setState('list.direction', $this->getState('list.direction'));
 			$model->setState('list.filter', $this->getState('list.filter'));
 			$model->setState('filter.tag', $this->getState('filter.tag'));
+			$model->setState('filter.date_filtering', $this->getState('filter.date_filtering'));
+			$model->setState('filter.date_field', $this->getState('filter.date_field'));
+			$model->setState('filter.start_date_range', $this->getState('filter.start_date_range'));
+			$model->setState('filter.end_date_range', $this->getState('filter.end_date_range'));
+			$model->setState('filter.relative_date', $this->getState('filter.relative_date'));
 
 			// Filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
