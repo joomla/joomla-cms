@@ -8199,9 +8199,10 @@ legend {
     position: relative;
     display: inline-block;
     padding: 0;
-    margin-right: 3rem;
-    font-size: 2rem;
-    color: #fefefe; }
+    margin-right: 3rem; }
+    .header .navbar-brand a {
+      font-size: 2rem;
+      color: #fefefe; }
     .header .navbar-brand img {
       width: 200px;
       min-width: 200px; }
