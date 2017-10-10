@@ -51,7 +51,7 @@
 				<field
 					name="moduleclass_sfx"
 					type="textarea" 
-					label="COM_MODULES_FIELD_MODULECLASS_LABEL"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
 
