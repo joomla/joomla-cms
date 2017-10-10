@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances.push(dem(ids[i]));
-  callback.apply(null, callback);
+    instances[i] = dem(ids[i]);
+  callback.apply(null, instances);
 };
 
 var ephox = {};
@@ -76,13 +76,46 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minificiation when using a lot of global references
+// this helps with minification when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.textpattern.Plugin","tinymce.core.PluginManager","tinymce.core.util.Delay","tinymce.core.util.VK","tinymce.plugins.textpattern.core.Formatter","tinymce.plugins.textpattern.core.KeyHandler","tinymce.plugins.textpattern.core.Settings","global!tinymce.util.Tools.resolve","tinymce.core.dom.TreeWalker","tinymce.core.util.Tools","tinymce.plugins.textpattern.core.Patterns"]
+["tinymce.plugins.textpattern.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.textpattern.api.Api","tinymce.plugins.textpattern.api.Settings","tinymce.plugins.textpattern.core.Keyboard","global!tinymce.util.Tools.resolve","tinymce.core.util.Delay","tinymce.core.util.VK","tinymce.plugins.textpattern.core.KeyHandler","tinymce.plugins.textpattern.core.Formatter","tinymce.core.dom.TreeWalker","tinymce.core.util.Tools","tinymce.plugins.textpattern.core.Patterns"]
 jsc*/
+define(
+  'ephox.katamari.api.Cell',
+
+  [
+  ],
+
+  function () {
+    var Cell = function (initial) {
+      var value = initial;
+
+      var get = function () {
+        return value;
+      };
+
+      var set = function (v) {
+        value = v;
+      };
+
+      var clone = function () {
+        return Cell(get());
+      };
+
+      return {
+        get: get,
+        set: set,
+        clone: clone
+      };
+    };
+
+    return Cell;
+  }
+);
+
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
  * ResolveGlobal.js
@@ -101,6 +134,82 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.PluginManager');
+  }
+);
+
+/**
+ * Api.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.textpattern.api.Api',
+  [
+  ],
+  function () {
+    var get = function (patternsState) {
+      var setPatterns = function (newPatterns) {
+        patternsState.set(newPatterns);
+      };
+
+      var getPatterns = function () {
+        return patternsState.get();
+      };
+
+      return {
+        setPatterns: setPatterns,
+        getPatterns: getPatterns
+      };
+    };
+
+    return {
+      get: get
+    };
+  }
+);
+/**
+ * Settings.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.textpattern.api.Settings',
+  [
+  ],
+  function () {
+    var defaultPatterns = [
+      { start: '*', end: '*', format: 'italic' },
+      { start: '**', end: '**', format: 'bold' },
+      { start: '#', format: 'h1' },
+      { start: '##', format: 'h2' },
+      { start: '###', format: 'h3' },
+      { start: '####', format: 'h4' },
+      { start: '#####', format: 'h5' },
+      { start: '######', format: 'h6' },
+      { start: '1. ', cmd: 'InsertOrderedList' },
+      { start: '* ', cmd: 'InsertUnorderedList' },
+      { start: '- ', cmd: 'InsertUnorderedList' }
+    ];
+
+    var getPatterns = function (editorSettings) {
+      return editorSettings.textpattern_patterns !== undefined ?
+        editorSettings.textpattern_patterns :
+        defaultPatterns;
+    };
+
+    return {
+      getPatterns: getPatterns
+    };
   }
 );
 
@@ -184,6 +293,16 @@ define(
   }
 );
 
+/**
+ * Patterns.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
 define(
   'tinymce.plugins.textpattern.core.Patterns',
   [
@@ -249,15 +368,23 @@ define(
   }
 );
 
+/**
+ * Formatter.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
 define(
   'tinymce.plugins.textpattern.core.Formatter',
-
   [
     'tinymce.core.dom.TreeWalker',
     'tinymce.core.util.Tools',
     'tinymce.plugins.textpattern.core.Patterns'
   ],
-
   function (TreeWalker, Tools, Patterns) {
     var splitContainer = function (container, pattern, offset, startOffset, delta) {
 
@@ -287,7 +414,7 @@ define(
       text = container.data;
       delta = space === true ? 1 : 0;
 
-      if (container.nodeType != 3) {
+      if (container.nodeType !== 3) {
         return;
       }
 
@@ -347,7 +474,7 @@ define(
       if (textBlockElm) {
         walker = new TreeWalker(textBlockElm, textBlockElm);
         while ((node = walker.next())) {
-          if (node.nodeType == 3) {
+          if (node.nodeType === 3) {
             firstTextNode = node;
             break;
           }
@@ -363,11 +490,11 @@ define(
           container = rng.startContainer;
           offset = rng.startOffset;
 
-          if (firstTextNode == container) {
+          if (firstTextNode === container) {
             offset = Math.max(0, offset - pattern.start.length);
           }
 
-          if (Tools.trim(firstTextNode.data).length == pattern.start.length) {
+          if (Tools.trim(firstTextNode.data).length === pattern.start.length) {
             return;
           }
 
@@ -400,14 +527,22 @@ define(
   }
 );
 
+/**
+ * KeyHandler.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
 define(
   'tinymce.plugins.textpattern.core.KeyHandler',
-
   [
     'tinymce.core.util.VK',
     'tinymce.plugins.textpattern.core.Formatter'
   ],
-
   function (VK, Formatter) {
     function handleEnter(editor, patterns) {
       var rng, wrappedTextNode;
@@ -479,37 +614,54 @@ define(
   }
 );
 
-define(
-  'tinymce.plugins.textpattern.core.Settings',
-  [
-  ],
-  function () {
-    var defaultPatterns = [
-      { start: '*', end: '*', format: 'italic' },
-      { start: '**', end: '**', format: 'bold' },
-      { start: '#', format: 'h1' },
-      { start: '##', format: 'h2' },
-      { start: '###', format: 'h3' },
-      { start: '####', format: 'h4' },
-      { start: '#####', format: 'h5' },
-      { start: '######', format: 'h6' },
-      { start: '1. ', cmd: 'InsertOrderedList' },
-      { start: '* ', cmd: 'InsertUnorderedList' },
-      { start: '- ', cmd: 'InsertUnorderedList' }
-    ];
+/**
+ * Keyboard.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
 
-    var getPatterns = function (editorSettings) {
-      return editorSettings.textpattern_patterns !== undefined ?
-        editorSettings.textpattern_patterns :
-        defaultPatterns;
+define(
+  'tinymce.plugins.textpattern.core.Keyboard',
+  [
+    'tinymce.core.util.Delay',
+    'tinymce.core.util.VK',
+    'tinymce.plugins.textpattern.core.KeyHandler'
+  ],
+  function (Delay, VK, KeyHandler) {
+    var setup = function (editor, patternsState) {
+      var charCodes = [',', '.', ';', ':', '!', '?'];
+      var keyCodes = [32];
+
+      editor.on('keydown', function (e) {
+        if (e.keyCode === 13 && !VK.modifierPressed(e)) {
+          KeyHandler.handleEnter(editor, patternsState.get());
+        }
+      }, true);
+
+      editor.on('keyup', function (e) {
+        if (KeyHandler.checkKeyCode(keyCodes, e)) {
+          KeyHandler.handleInlineKey(editor, patternsState.get());
+        }
+      });
+
+      editor.on('keypress', function (e) {
+        if (KeyHandler.checkCharCode(charCodes, e)) {
+          Delay.setEditorTimeout(editor, function () {
+            KeyHandler.handleInlineKey(editor, patternsState.get());
+          });
+        }
+      });
     };
 
     return {
-      getPatterns: getPatterns
+      setup: setup
     };
   }
 );
-
 /**
  * Plugin.js
  *
@@ -520,54 +672,22 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
-/**
- * This class contains all core logic for the code plugin.
- *
- * @class tinymce.textpattern.Plugin
- * @private
- */
 define(
   'tinymce.plugins.textpattern.Plugin',
   [
+    'ephox.katamari.api.Cell',
     'tinymce.core.PluginManager',
-    'tinymce.core.util.Delay',
-    'tinymce.core.util.VK',
-    'tinymce.plugins.textpattern.core.Formatter',
-    'tinymce.plugins.textpattern.core.KeyHandler',
-    'tinymce.plugins.textpattern.core.Settings'
+    'tinymce.plugins.textpattern.api.Api',
+    'tinymce.plugins.textpattern.api.Settings',
+    'tinymce.plugins.textpattern.core.Keyboard'
   ],
-  function (PluginManager, Delay, VK, Formatter, KeyHandler, Settings) {
+  function (Cell, PluginManager, Api, Settings, Keyboard) {
     PluginManager.add('textpattern', function (editor) {
-      var patterns = Settings.getPatterns(editor.settings);
-      var charCodes = [',', '.', ';', ':', '!', '?'];
-      var keyCodes = [32];
+      var patternsState = Cell(Settings.getPatterns(editor.settings));
 
-      editor.on('keydown', function (e) {
-        if (e.keyCode === 13 && !VK.modifierPressed(e)) {
-          KeyHandler.handleEnter(editor, patterns);
-        }
-      }, true);
+      Keyboard.setup(editor, patternsState);
 
-      editor.on('keyup', function (e) {
-        if (KeyHandler.checkKeyCode(keyCodes, e)) {
-          KeyHandler.handleInlineKey(editor, patterns);
-        }
-      });
-
-      editor.on('keypress', function (e) {
-        if (KeyHandler.checkCharCode(charCodes, e)) {
-          Delay.setEditorTimeout(editor, function () {
-            KeyHandler.handleInlineKey(editor, patterns);
-          });
-        }
-      });
-
-      this.setPatterns = function (newPatterns) {
-        patterns = newPatterns;
-      };
-      this.getPatterns = function () {
-        return patterns;
-      };
+      return Api.get(patternsState);
     });
 
     return function () { };
