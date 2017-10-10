@@ -15,7 +15,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Plugin class for Http Header
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 {
@@ -23,7 +23,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	 protected $autoloadLanguage = true;
 
@@ -31,7 +31,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -39,7 +39,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	 * The list of the suported HTTP headers
 	 *
 	 * @var    array
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $supportedHttpHeaders = [
 		'Strict-Transport-Security',
@@ -72,7 +72,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setHttpHeaders()
 	{
@@ -101,7 +101,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setDefaultHeader()
 	{
