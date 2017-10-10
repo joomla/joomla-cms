@@ -178,9 +178,9 @@ class ApiModel extends BaseModel
 	 * Creates a folder with the given name in the given path. More information
 	 * can be found in AdapterInterface::createFolder().
 	 *
-	 * @param   string   $adapter  The adapter
-	 * @param   string   $name     The name
-	 * @param   string   $path     The folder
+	 * @param   string   $adapter   The adapter
+	 * @param   string   $name      The name
+	 * @param   string   $path      The folder
 	 * @param   boolean  $override  Should the folder being overriden when it exists
 	 *
 	 * @return  void
@@ -213,10 +213,10 @@ class ApiModel extends BaseModel
 	 * Creates a file with the given name in the given path with the data. More information
 	 * can be found in AdapterInterface::createFile().
 	 *
-	 * @param   string   $adapter  The adapter
-	 * @param   string   $name     The name
-	 * @param   string   $path     The folder
-	 * @param   binary   $data     The data
+	 * @param   string   $adapter   The adapter
+	 * @param   string   $name      The name
+	 * @param   string   $path      The folder
+	 * @param   binary   $data      The data
 	 * @param   boolean  $override  Should the file being overriden when it exists
 	 *
 	 * @return  void
