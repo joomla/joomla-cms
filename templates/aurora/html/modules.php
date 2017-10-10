@@ -43,7 +43,7 @@ function modChrome_default($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . $modulePos . ' card' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
+		echo '<' . $moduleTag . ' class="' . $modulePos . ' card ' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
 		if ($module->showtitle && $headerClass !== 'card-title')
 		{
 			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
@@ -68,7 +68,7 @@ function modChrome_cardGrey($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . $modulePos . ' card card-grey' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
+		echo '<' . $moduleTag . ' class="' . $modulePos . ' card card-grey ' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
 		if ($module->showtitle && $headerClass !== 'card-title')
 		{
 			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
