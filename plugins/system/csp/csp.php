@@ -27,6 +27,6 @@ class PlgSystemCsp extends JPlugin
 	{
 		$nonce = bin2hex(random_bytes(64));
 		JFactory::getApplication()->set('script_nonce', $nonce);
-		JFactory::getApplication()->setHeader('Content-Security-Policy', 'default-src \'none\'; style-src \'self\'; script-src \'self\' \'nonce-' . $nonce . '\'; font-src \'self\'; img-src \'self\'', true);
+		JFactory::getApplication()->setHeader('Content-Security-Policy', 'default-src \'none\'; style-src \'self\'; script-src \'self\' \'nonce-' . $nonce . '\'; font-src \'self\'; img-src \'self\'; connect-src \'self\'', true);
 	}
 }
