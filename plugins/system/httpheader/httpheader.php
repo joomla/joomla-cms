@@ -91,7 +91,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 
 			if (in_array($httpHeader->key, $this->supportedHttpHeaders))
 			{
-				$this->app->setHeader($httpHeader->key, $httpHeader->value);
+				$this->app->setHeader($httpHeader->key, $httpHeader->value, true);
 			}
 		}
 	}
@@ -106,27 +106,27 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	private function setDefaultHeader()
 	{
 		// X-Frame-Options
-		$xFrameOptions = $this->params->get('xframeoptions', 1);
-
-		if ($xFrameOptions)
+		if ($this->params->get('xframeoptions', 1) === 1)
 		{
 			$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
 		}
 
 		// X-XSS-Protection
-		$xXssProtection = $this->params->get('xxssprotection', 1);
-
-		if ($xXssProtection)
+		if ($this->params->get('xxssprotection', 1) === 1)
 		{
 			$this->app->setHeader('X-XSS-Protection', '1; mode=block');
 		}
 
 		// X-Content-Type-Options
-		$xContentTypeOptions = $this->params->get('xcontenttypeoptions', 1);
-		
-		if ($xContentTypeOptions)
+		if ($this->params->get('xcontenttypeoptions', 1) === 1)
 		{
 			$this->app->setHeader('X-Content-Type-Options', 'nosniff');
+		}
+
+		// Strict-Transport-Security
+		if ($this->app->get('force_ssl', 0) === 2)
+		{
+			$this->app->setHeader('Strict-Transport-Security', 'max-age=31536000');
 		}
 
 		// Referrer-Policy
