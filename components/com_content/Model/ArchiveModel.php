@@ -10,7 +10,7 @@ namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 
 /**
  * Content Component Archive Model
