@@ -41,22 +41,16 @@ class ComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (!isset(static::$components[$option]))
+		if (isset(static::$components[$option]) || static::load($option))
 		{
-			if (static::load($option))
-			{
-				$result = static::$components[$option];
-			}
-			else
-			{
-				$result = new ComponentRecord;
-				$result->enabled = $strict ? false : true;
-				$result->setParams(new Registry);
-			}
+			$result = static::$components[$option];
 		}
 		else
 		{
-			$result = static::$components[$option];
+			$result            = new ComponentRecord;
+			$result->enabled   = $strict ? false : true;
+			$result->installed = false;
+			$result->setParams(new Registry);
 		}
 
 		return $result;
@@ -87,15 +81,7 @@ class ComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		$db = \JFactory::getDbo();
-
-		return (int) $db->setQuery(
-			$db->getQuery(true)
-				->select('COUNT(' . $db->quoteName('extension_id') . ')')
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = ' . $db->quote($option))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-		)->loadResult();
+		return (bool) static::getComponent($option, true)->installed;
 	}
 
 	/**
@@ -111,7 +97,7 @@ class ComponentHelper
 	 */
 	public static function getParams($option, $strict = false)
 	{
-		return static::getComponent($option, $strict)->params;
+		return static::getComponent($option, $strict)->getParams();
 	}
 
 	/**
