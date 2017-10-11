@@ -110,10 +110,10 @@ class InstallationModelDatabase extends JModelBase
 				JFactory::getSession()->set('securityFile', $securityFile);
 
 				// Get the path
-				$remoteDbPath = JPATH_INSTALLATION . '/' . $securityFile;
+				$securityFilePath = JPATH_INSTALLATION . '/' . $securityFile;
 
 				// When the path is not writable the user needs to create the file manually
-				if (!JFile::write($remoteDbPath, ''))
+				if (!JFile::write($securityFilePath, ''))
 				{
 					// Request to create the file manually
 					JFactory::getApplication()->enqueueMessage(
