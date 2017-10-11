@@ -37,7 +37,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					description="MOD_POPULAR_FIELD_COUNT_DESC"
 					default="5"
@@ -112,7 +112,7 @@
 
 				<field
 					name="relative_date"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_RELATIVEDATE_LABEL"
 					description="MOD_POPULAR_FIELD_RELATIVEDATE_DESC"
 					default="30"
@@ -149,7 +149,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"

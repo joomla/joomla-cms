@@ -24,7 +24,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					description="MOD_POPULAR_FIELD_COUNT_DESC"
 					default="5"

@@ -294,6 +294,11 @@ class FieldsHelper
 
 		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
 
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
+		$assignedCatids = is_array($assignedCatids)
+			? (int) reset($assignedCatids)
+			: (int) $assignedCatids;
+
 		if (!$assignedCatids && $formField = $form->getField('catid'))
 		{
 			$assignedCatids = $formField->getAttribute('default', null);
