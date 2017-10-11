@@ -8,8 +8,8 @@
 
 namespace Joomla\CMS\Filesystem;
 
-use Joomla\CMS\Filesystem\Wrapper\WrapperPath;
-use Joomla\CMS\Filesystem\Wrapper\WrapperFile;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
+use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
 use Joomla\CMS\Crypt\Crypt;
 
 defined('JPATH_PLATFORM') or die;
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
-	$pathHelper = new WrapperPath;
+	$pathHelper = new PathWrapper;
 	define('JPATH_ROOT', $pathHelper->clean(JPATH_SITE));
 }
 
@@ -253,7 +253,7 @@ class Path
 
 		if ($dir)
 		{
-			$fileObject = new WrapperFile;
+			$fileObject = new FileWrapper;
 			$test       = $dir . '/' . $tmp;
 
 			// Create the test file

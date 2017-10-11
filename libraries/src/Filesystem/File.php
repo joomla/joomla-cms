@@ -6,14 +6,14 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Filesystem
+namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Wrapper\WrapperFolder;
-use Joomla\CMS\Filesystem\Wrapper\WrapperPath;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Wrapper\FolderWrapper;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 
@@ -94,7 +94,7 @@ class File
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams = false)
 	{
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		// Prepend a base path if it exists
 		if ($path)
@@ -136,7 +136,7 @@ class File
 				// If the parent folder doesn't exist we must create it
 				if (!file_exists(dirname($dest)))
 				{
-					$folderObject = new WrapperFolder;
+					$folderObject = new FolderWrapper;
 					$folderObject->create(dirname($dest));
 				}
 
@@ -179,7 +179,7 @@ class File
 	public static function delete($file)
 	{
 		$FTPOptions = ClientHelper::getCredentials('ftp');
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		if (is_array($file))
 		{
@@ -253,7 +253,7 @@ class File
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		if ($path)
 		{
@@ -406,7 +406,7 @@ class File
 		// If the destination directory doesn't exist we need to create it
 		if (!file_exists(dirname($file)))
 		{
-			$folderObject = new WrapperFolder;
+			$folderObject = new FolderWrapper;
 
 			if ($folderObject->create(dirname($file)) == false)
 			{
@@ -433,7 +433,7 @@ class File
 		else
 		{
 			$FTPOptions = ClientHelper::getCredentials('ftp');
-			$pathObject = new WrapperPath;
+			$pathObject = new PathWrapper;
 
 			if ($FTPOptions['enabled'] == 1)
 			{
@@ -551,7 +551,7 @@ class File
 		}
 
 		// Ensure that the path is valid and clean
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 		$dest = $pathObject->clean($dest);
 
 		// Create the destination directory if it does not exist
@@ -559,7 +559,7 @@ class File
 
 		if (!file_exists($baseDir))
 		{
-			$folderObject = new WrapperFolder;
+			$folderObject = new FolderWrapper;
 			$folderObject->create($baseDir);
 		}
 
@@ -635,7 +635,7 @@ class File
 	 */
 	public static function exists($file)
 	{
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		return is_file($pathObject->clean($file));
 	}

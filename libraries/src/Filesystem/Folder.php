@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Filesystem
+namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Wrapper\WrapperPath;
-use Joomla\CMS\Filesystem\Wrapper\WrapperFile;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
+use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Language\Text;
@@ -44,7 +44,7 @@ abstract class Folder
 		@set_time_limit(ini_get('max_execution_time'));
 
 		$FTPOptions = ClientHelper::getCredentials('ftp');
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		if ($path)
 		{
@@ -181,7 +181,7 @@ abstract class Folder
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 		$path = $pathObject->clean($path);
 
 		// Check if parent dir exists
@@ -305,7 +305,7 @@ abstract class Folder
 	public static function delete($path)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		// Sanity check
 		if (!$path)
@@ -334,7 +334,7 @@ abstract class Folder
 
 		if (!empty($files))
 		{
-			$file = new WrapperFile;
+			$file = new FileWrapper;
 
 			if ($file->delete($files) !== true)
 			{
@@ -351,7 +351,7 @@ abstract class Folder
 			if (is_link($folder))
 			{
 				// Don't descend into linked directories, just delete the link.
-				$file = new WrapperFile;
+				$file = new FileWrapper;
 
 				if ($file->delete($folder) !== true)
 				{
@@ -410,7 +410,7 @@ abstract class Folder
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
 		$FTPOptions = ClientHelper::getCredentials('ftp');
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		if ($path)
 		{
@@ -483,7 +483,7 @@ abstract class Folder
 	 */
 	public static function exists($path)
 	{
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 
 		return is_dir($pathObject->clean($path));
 	}
@@ -507,7 +507,7 @@ abstract class Folder
 		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 		$path = $pathObject->clean($path);
 
 		// Is the path a folder?
@@ -562,7 +562,7 @@ abstract class Folder
 		$excludefilter = array('^\..*'))
 	{
 		// Check to make sure the path valid and clean
-		$pathObject = new WrapperPath;
+		$pathObject = new PathWrapper;
 		$path = $pathObject->clean($path);
 
 		// Is the path a folder?
@@ -691,7 +691,7 @@ abstract class Folder
 		if ($level < $maxLevel)
 		{
 			$folders    = self::folders($path, $filter);
-			$pathObject = new WrapperPath;
+			$pathObject = new PathWrapper;
 
 			// First path, index foldernames
 			foreach ($folders as $name)

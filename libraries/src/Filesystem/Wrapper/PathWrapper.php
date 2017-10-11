@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Filesystem
  * @since       3.4
  */
-class WrapperPath
+class PathWrapper
 {
 	/**
 	 * Helper wrapper method for canChmod

@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Filesystem
  * @since       3.4
  */
-class WrapperFile
+class FileWrapper
 {
 	/**
 	 * Helper wrapper method for getExt

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Filesystem
+namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Language\Text;
