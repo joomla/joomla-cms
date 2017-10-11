@@ -196,7 +196,34 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	private function checkHostSecurity(&$options)
 	{
-		// todo!
+		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
+
+		if (!$shouldCheckLocalhost)
+		{
+			return true;
+		}
+
+		// Per Default allowed DB Hosts
+		$localhost = array(
+			'localhost',
+			'127.0.0.1',
+			'::1',
+		);
+
+		$uri = JUri::getInstance();
+
+		// HTTP Status Code
+		$statusCode = JHttpFactory::getHttp()->get((string) $uri)->code;
+
+		// Check the security file if the db_host is not save and HTTP status code is not 401 (HTTP authentication required)
+		if (!in_array($options->db_host, $localhost) && $statusCode !== 401)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -284,20 +311,8 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
-
-		// Per Default allowed DB Hosts
-		$localhost = array(
-			'localhost',
-			'127.0.0.1',
-			'::1',
-		);
-
-		// HTTP Status Code
-		$statusCode = JHttpFactory::getHttp()->get((string) JUri::getInstance())->code;
-
-		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1 and HTTP status code is not 401 (HTTP authentication required)
-		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost) && $statusCode !== 401)
+		// Save host checks
+		if ($this->checkHostSecurity($options) == false)
 		{
 			$this->checkSecurityFile();
 		}
