@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.help.Plugin","tinymce.core.PluginManager","tinymce.plugins.help.ui.Dialog","global!tinymce.util.Tools.resolve","tinymce.core.EditorManager","tinymce.plugins.help.ui.KeyboardShortcutsTab","tinymce.plugins.help.ui.PluginsTab","tinymce.plugins.help.ui.ButtonsRow","ephox.katamari.api.Arr","tinymce.plugins.help.data.KeyboardShortcuts","ephox.katamari.api.Obj","ephox.katamari.api.Fun","ephox.katamari.api.Strings","tinymce.plugins.help.data.PluginUrls","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.Env","global!Object","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
+["tinymce.plugins.help.Plugin","tinymce.core.PluginManager","tinymce.plugins.help.ui.Dialog","global!tinymce.util.Tools.resolve","tinymce.core.EditorManager","tinymce.plugins.help.ui.KeyboardShortcutsTab","tinymce.plugins.help.ui.PluginsTab","tinymce.plugins.help.ui.ButtonsRow","ephox.katamari.api.Arr","tinymce.core.util.I18n","tinymce.plugins.help.data.KeyboardShortcuts","ephox.katamari.api.Fun","ephox.katamari.api.Obj","ephox.katamari.api.Strings","tinymce.plugins.help.data.PluginUrls","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.Env","global!Object","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -708,6 +708,26 @@ define(
  */
 
 define(
+  'tinymce.core.util.I18n',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.I18n');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
   'tinymce.core.Env',
   [
     'global!tinymce.util.Tools.resolve'
@@ -730,7 +750,7 @@ define(
       { shortcut: meta + ' + B', action: 'Bold' },
       { shortcut: meta + ' + I', action: 'Italic' },
       { shortcut: meta + ' + U', action: 'Underline' },
-      { shortcut: meta + ' + A', action: 'Select All' },
+      { shortcut: meta + ' + A', action: 'Select all' },
       { shortcut: meta + ' + Y or ' + meta + ' + Shift + Z', action: 'Redo' },
       { shortcut: meta + ' + Z', action: 'Undo' },
       { shortcut: access + ' + 1', action: 'Header 1' },
@@ -763,16 +783,17 @@ define(
   'tinymce.plugins.help.ui.KeyboardShortcutsTab',
   [
     'ephox.katamari.api.Arr',
+    'tinymce.core.util.I18n',
     'tinymce.plugins.help.data.KeyboardShortcuts'
   ],
-  function (Arr, KeyboardShortcuts) {
+  function (Arr, I18n, KeyboardShortcuts) {
     var makeTab = function () {
       var makeAriaLabel = function (shortcut) {
         return 'aria-label="Action: ' + shortcut.action + ', Shortcut: ' + shortcut.shortcut.replace(/Ctrl/g, 'Control') + '"';
       };
       var shortcutLisString = Arr.map(KeyboardShortcuts.shortcuts, function (shortcut) {
         return '<tr data-mce-tabstop="1" tabindex="-1" ' + makeAriaLabel(shortcut) + '>' +
-                  '<td>' + shortcut.action + '</td>' +
+                  '<td>' + I18n.translate(shortcut.action) + '</td>' +
                   '<td>' + shortcut.shortcut + '</td>' +
                 '</tr>';
       }).join('');
@@ -787,8 +808,8 @@ define(
             html: '<div>' +
                     '<table class="mce-table-striped">' +
                       '<thead>' +
-                        '<th>Action</th>' +
-                        '<th>Shortcut</th>' +
+                        '<th>' + I18n.translate('Action') + '</th>' +
+                        '<th>' + I18n.translate('Shortcut') + '</th>' +
                       '</thead>' +
                       shortcutLisString +
                     '</table>' +
@@ -1114,49 +1135,50 @@ define(
   ],
   function () {
     var urls = [
-      'advlist',
-      'anchor',
-      'autolink',
-      'autoresize',
-      'autosave',
-      'bbcode',
-      'charmap',
-      'code',
-      'codesample',
-      'colorpicker',
-      'compat3x',
-      'contextmenu',
-      'directionality',
-      'emoticons',
-      'fullpage',
-      'fullscreen',
-      'hr',
-      'image',
-      'imagetools',
-      'importcss',
-      'insertdatetime',
-      'legacyoutput',
-      'link',
-      'lists',
-      'media',
-      'nonbreaking',
-      'noneditable',
-      'pagebreak',
-      'paste',
-      'preview',
-      'print',
-      'save',
-      'searchreplace',
-      'spellchecker',
-      'tabfocus',
-      'table',
-      'template',
-      'textcolor',
-      'textpattern',
-      'toc',
-      'visualblocks',
-      'visualchars',
-      'wordcount'
+      { key: 'advlist', name: 'Advanced List' },
+      { key: 'anchor', name: 'Anchor' },
+      { key: 'autolink', name: 'Autolink' },
+      { key: 'autoresize', name: 'Autoresize' },
+      { key: 'autosave', name: 'Autosave' },
+      { key: 'bbcode', name: 'BBCode' },
+      { key: 'charmap', name: 'Character Map' },
+      { key: 'code', name: 'Code' },
+      { key: 'codesample', name: 'Code Sample' },
+      { key: 'colorpicker', name: 'Color Picker' },
+      { key: 'compat3x', name: '3.x Compatibility' },
+      { key: 'contextmenu', name: 'Context Menu' },
+      { key: 'directionality', name: 'Directionality' },
+      { key: 'emoticons', name: 'Emoticons' },
+      { key: 'fullpage', name: 'Full Page' },
+      { key: 'fullscreen', name: 'Full Screen' },
+      { key: 'help', name: 'Help' },
+      { key: 'hr', name: 'Horizontal Rule' },
+      { key: 'image', name: 'Image' },
+      { key: 'imagetools', name: 'Image Tools' },
+      { key: 'importcss', name: 'Import CSS' },
+      { key: 'insertdatetime', name: 'Insert Date/Time' },
+      { key: 'legacyoutput', name: 'Legacy Output' },
+      { key: 'link', name: 'Link' },
+      { key: 'lists', name: 'Lists' },
+      { key: 'media', name: 'Media' },
+      { key: 'nonbreaking', name: 'Nonbreaking' },
+      { key: 'noneditable', name: 'Noneditable' },
+      { key: 'pagebreak', name: 'Page Break' },
+      { key: 'paste', name: 'Paste' },
+      { key: 'preview', name: 'Preview' },
+      { key: 'print', name: 'Print' },
+      { key: 'save', name: 'Save' },
+      { key: 'searchreplace', name: 'Search and Replace' },
+      { key: 'spellchecker', name: 'Spell Checker' },
+      { key: 'tabfocus', name: 'Tab Focus' },
+      { key: 'table', name: 'Table' },
+      { key: 'template', name: 'Template' },
+      { key: 'textcolor', name: 'Text Color' },
+      { key: 'textpattern', name: 'Text Pattern' },
+      { key: 'toc', name: 'Table of Contents' },
+      { key: 'visualblocks', name: 'Visual Blocks' },
+      { key: 'visualchars', name: 'Visual Characters' },
+      { key: 'wordcount', name: 'Word Count' }
     ];
 
     return {
@@ -1167,33 +1189,44 @@ define(
 define(
 'tinymce.plugins.help.ui.PluginsTab',
   [
-    'tinymce.core.EditorManager',
-    'ephox.katamari.api.Obj',
     'ephox.katamari.api.Arr',
     'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Obj',
     'ephox.katamari.api.Strings',
+    'tinymce.core.EditorManager',
+    'tinymce.core.util.I18n',
     'tinymce.plugins.help.data.PluginUrls'
   ],
-function (tinymce, Obj, Arr, Fun, Strings, PluginUrls) {
-  var maybeUrlize = function (name) {
+function (Arr, Fun, Obj, Strings, tinymce, I18n, PluginUrls) {
+  var makeLink = Fun.curry(Strings.supplant, '<a href="${url}" target="_blank" rel="noopener">${name}</a>');
+
+  var maybeUrlize = function (editor, key) {
     return Arr.find(PluginUrls.urls, function (x) {
-      return x === name;
-    }).fold(Fun.constant(name), function (pluginName) {
-      return Strings.supplant('<a href="${url}" target="_blank">${name}</a>', {
-        name: pluginName,
-        url: 'https://www.tinymce.com/docs/plugins/' + pluginName
-      });
+      return x.key === key;
+    }).fold(function () {
+      var getMetadata = editor.plugins[key].getMetadata;
+      return typeof getMetadata === 'function' ? makeLink(getMetadata()) : key;
+    }, function (x) {
+      return makeLink({ name: x.name, url: 'https://www.tinymce.com/docs/plugins/' + x.key });
     });
   };
 
-  var pluginLister = function (editor) {
-    var plugins = Obj.mapToArray(editor.plugins, function (plugin, key) {
-      return '<li>' + maybeUrlize(key) + '</li>';
-    });
-    var count = plugins.length;
-    var pluginsString = plugins.join('');
+  var getPluginKeys = function (editor) {
+    var keys = Obj.keys(editor.plugins);
+    return editor.settings.forced_plugins === undefined ?
+      keys :
+      Arr.filter(keys, Fun.not(Fun.curry(Arr.contains, editor.settings.forced_plugins)));
+  };
 
-    return '<p><b>Plugins installed (' + count + '):</b></p>' +
+  var pluginLister = function (editor) {
+    var pluginKeys = getPluginKeys(editor);
+    var pluginLis = Arr.map(pluginKeys, function (key) {
+      return '<li>' + maybeUrlize(editor, key) + '</li>';
+    });
+    var count = pluginLis.length;
+    var pluginsString = pluginLis.join('');
+
+    return '<p><b>' + I18n.translate(['Plugins installed ({0}):', count ]) + '</b></p>' +
             '<ul>' + pluginsString + '</ul>';
   };
 
@@ -1211,7 +1244,7 @@ function (tinymce, Obj, Arr, Fun, Strings, PluginUrls) {
     return {
       type: 'container',
       html: '<div style="padding: 10px; background: #e3e7f4; height: 100%;" data-mce-tabstop="1" tabindex="-1">' +
-              '<p><b>Premium plugins:</b></p>' +
+              '<p><b>' + I18n.translate('Premium plugins:') + '</b></p>' +
               '<ul>' +
                 '<li>PowerPaste</li>' +
                 '<li>Spell Checker Pro</li>' +
@@ -1220,7 +1253,7 @@ function (tinymce, Obj, Arr, Fun, Strings, PluginUrls) {
                 '<li>Enhanced Media Embed</li>' +
                 '<li>Link Checker</li>' +
               '</ul><br />' +
-              '<p style="float: right;"><a href="https://www.tinymce.com/pricing/" target="_blank">Learn more...</a></p>' +
+              '<p style="float: right;"><a href="https://www.tinymce.com/pricing/" target="_blank">' + I18n.translate('Learn more...') + '</a></p>' +
             '</div>',
       flex: 1
     };
@@ -1249,9 +1282,10 @@ function (tinymce, Obj, Arr, Fun, Strings, PluginUrls) {
 define(
   'tinymce.plugins.help.ui.ButtonsRow',
   [
-    'tinymce.core.EditorManager'
+    'tinymce.core.EditorManager',
+    'tinymce.core.util.I18n'
   ],
-  function (EditorManager) {
+  function (EditorManager, I18n) {
     var getVersion = function (major, minor) {
       return major.indexOf('@') === 0 ? 'X.X.X' : major + '.' + minor;
     };
@@ -1263,7 +1297,7 @@ define(
       return [
         {
           type: 'label',
-          html: 'You are using ' + changeLogLink
+          html: I18n.translate(['You are using {0}', changeLogLink])
         },
         {
           type: 'spacer',

@@ -28,7 +28,6 @@ foreach ($this->items as $item)
 	{
 		$itemIds[] = $item->id;
 	}
-
 }
 
 JFactory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
@@ -95,8 +94,8 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td>
 									<?php if ($canManageItems) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
@@ -112,28 +111,28 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 											<?php echo $item->count_published; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-default'; ?>">
+										<span class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>">
 											<?php echo $item->count_published; ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-default'; ?>">
+										<span class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
 											<?php echo $item->count_unpublished; ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 											<?php echo $item->count_trashed; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-default'; ?>">
+										<span class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
 											<?php echo $item->count_trashed; ?></span>
 									<?php endif; ?>
 								</td>

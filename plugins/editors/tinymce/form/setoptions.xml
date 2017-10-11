@@ -4,7 +4,6 @@
         name="access"
         type="usergrouplist"
         label="PLG_TINY_FIELD_SETACCESS_LABEL"
-        description="PLG_TINY_FIELD_SETACCESS_DESC"
         multiple="true"
         class="access-select"
         labelclass="label label-success"
@@ -21,21 +20,18 @@
         name="skin"
         type="skins"
         label="PLG_TINY_FIELD_SKIN_LABEL"
-        description="PLG_TINY_FIELD_SKIN_DESC"
     />
 
     <field
         name="skin_admin"
         type="skins"
         label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
-        description="PLG_TINY_FIELD_SKIN_ADMIN_DESC"
     />
 
     <field
         name="mobile"
         type="radio"
         label="PLG_TINY_FIELD_MOBILE_LABEL"
-        description="PLG_TINY_FIELD_MOBILE_DESC"
         class="switcher"
         default="0"
         >
@@ -47,7 +43,6 @@
         name="drag_drop"
         type="radio"
         label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
-        description="PLG_TINY_FIELD_DRAG_DROP_DESC"
         class="switcher"
         default="1"
         >
@@ -59,7 +54,6 @@
         name="path"
         type="uploaddirs"
         label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
-        description="PLG_TINY_FIELD_CUSTOM_PATH_DESC"
         class="input-xxlarge"
         showon="drag_drop:1"
     />
@@ -68,7 +62,6 @@
         name="entity_encoding"
         type="list"
         label="PLG_TINY_FIELD_ENCODING_LABEL"
-        description="PLG_TINY_FIELD_ENCODING_DESC"
         default="raw"
         >
         <option value="named">PLG_TINY_FIELD_VALUE_NAMED</option>
@@ -80,7 +73,6 @@
         name="lang_mode"
         type="radio"
         label="PLG_TINY_FIELD_LANGSELECT_LABEL"
-        description="PLG_TINY_FIELD_LANGSELECT_DESC"
         class="switcher"
         default="1"
         >
@@ -92,7 +84,6 @@
         name="lang_code"
         type="filelist"
         label="PLG_TINY_FIELD_LANGCODE_LABEL"
-        description="PLG_TINY_FIELD_LANGCODE_DESC"
         class="inputbox"
         stripext="1"
         directory="media/editors/tinymce/langs/"
@@ -107,7 +98,6 @@
         name="text_direction"
         type="list"
         label="PLG_TINY_FIELD_DIRECTION_LABEL"
-        description="PLG_TINY_FIELD_DIRECTION_DESC"
         default="ltr"
         >
         <option value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
@@ -138,7 +128,6 @@
         name="relative_urls"
         type="list"
         label="PLG_TINY_FIELD_URLS_LABEL"
-        description="PLG_TINY_FIELD_URLS_DESC"
         default="1"
         >
         <option value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
@@ -149,7 +138,6 @@
         name="newlines"
         type="list"
         label="PLG_TINY_FIELD_NEWLINES_LABEL"
-        description="PLG_TINY_FIELD_NEWLINES_DESC"
         default="0"
         >
         <option value="1">PLG_TINY_FIELD_VALUE_BR</option>
@@ -160,7 +148,6 @@
         name="use_config_textfilters"
         type="radio"
         label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
-        description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
         class="switcher"
         default="0"
         >
@@ -172,7 +159,6 @@
         name="invalid_elements"
         type="text"
         label="PLG_TINY_FIELD_PROHIBITED_LABEL"
-        description="PLG_TINY_FIELD_PROHIBITED_DESC"
         showon="use_config_textfilters:0"
         default="script,applet,iframe"
         class="input-xxlarge"
@@ -191,7 +177,6 @@
         name="extended_elements"
         type="text"
         label="PLG_TINY_FIELD_ELEMENTS_LABEL"
-        description="PLG_TINY_FIELD_ELEMENTS_DESC"
         showon="use_config_textfilters:0"
         class="input-xxlarge"
     />
@@ -201,7 +186,6 @@
         name="resizing"
         type="radio"
         label="PLG_TINY_FIELD_RESIZING_LABEL"
-        description="PLG_TINY_FIELD_RESIZING_DESC"
         class="switcher"
         default="1"
         >
@@ -213,7 +197,6 @@
         name="resize_horizontal"
         type="radio"
         label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
-        description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
         class="switcher"
         default="1"
         showon="resizing:1"
@@ -226,7 +209,6 @@
         name="element_path"
         type="radio"
         label="PLG_TINY_FIELD_PATH_LABEL"
-        description="PLG_TINY_FIELD_PATH_DESC"
         class="switcher"
         default="0"
         >
@@ -238,7 +220,6 @@
         name="wordcount"
         type="radio"
         label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
-        description="PLG_TINY_FIELD_WORDCOUNT_DESC"
         class="switcher"
         default="1"
         >
@@ -250,7 +231,6 @@
         name="image_advtab"
         type="radio"
         label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
-        description="PLG_TINY_FIELD_ADVIMAGE_DESC"
         class="switcher"
         default="1"
         >
@@ -262,7 +242,6 @@
         name="advlist"
         type="radio"
         label="PLG_TINY_FIELD_ADVLIST_LABEL"
-        description="PLG_TINY_FIELD_ADVLIST_DESC"
         class="switcher"
         default="1"
         >
@@ -274,7 +253,6 @@
         name="contextmenu"
         type="radio"
         label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
-        description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
         class="switcher"
         default="1"
         >
@@ -286,7 +264,6 @@
         name="custom_plugin"
         type="text"
         label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
-        description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"
         class="input-xxlarge"
     />
 
@@ -294,7 +271,6 @@
         name="custom_button"
         type="text"
         label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
-        description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC"
         class="input-xxlarge"
     />
 </form>

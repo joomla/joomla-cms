@@ -156,11 +156,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		// Build the mock object.
 		$mockInput = $this->getMockBuilder('JInput')
 					->setMethods(array('test'))
@@ -524,9 +519,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -571,7 +566,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->class->redirect($url, false);
 
-		// It has two statuses, but the second status will be the final status
+		// It has a status of 303 (as redirect is the final status setter)
 		$this->assertEquals(
 			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
@@ -587,9 +582,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -610,7 +605,7 @@ class JApplicationWebTest extends TestCase
 	 * @since   11.3
 	 */
 	public function testRedirectWithExistingStatusCode2()
-	{	
+	{
 		// Case Sensitive: Status
 		$this->class->setHeader('Status', 201);
 
@@ -649,9 +644,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -761,9 +756,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),

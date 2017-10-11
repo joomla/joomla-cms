@@ -45,6 +45,7 @@
 		element._joomlaCalendar = this;
 
 		this.writable   = true;
+		this.hidden     = true;
 		this.params     = {};
 		this.element    = element;
 		this.inputField = element.getElementsByTagName('input')[0];
@@ -581,7 +582,7 @@
 		var cell = null,
 			row  = null,
 			cal  = this,
-			hh   = function (text, cs, navtype, node, styles, classes, dataAttr) {
+			hh   = function (text, cs, navtype, node, styles, classes, attributes) {
 				node = node ? node : "td";
 				styles = styles ? styles : {};
 				cell = createElement(node, row);
@@ -593,8 +594,8 @@
 				for (var key in styles) {
 					cell.style[key] = styles[key];
 				}
-				for (var key in dataAttr) {
-					cell.setAttribute(key, dataAttr[key]);
+				for (var key in attributes) {
+					cell.setAttribute(key, attributes[key]);
 				}
 				if (navtype !== 0 && Math.abs(navtype) <= 2) {
 					cell.className += " nav";
@@ -783,7 +784,7 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"data-action": "clear"});
+		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
 		if (!this.inputField.hasAttribute('required')) {
 			var savea = row.querySelector('[data-action="clear"]');
@@ -803,7 +804,7 @@
 		}
 
 		if (this.params.showsTodayBtn) {
-			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"data-action": "today"});
+			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
 
 			var todaya = this.wrapper.querySelector('[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
@@ -815,7 +816,7 @@
 			});
 		}
 
-		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"data-action": "exit"});
+		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"type": "button", "data-action": "exit"});
 		var exita = this.wrapper.querySelector('[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			e.preventDefault();
@@ -1006,13 +1007,21 @@
 
 			if (calObj) {
 				if (calObj.inputField.value) {
-					if (calObj.params.dateType !== 'gregorian') {
+					if (typeof calObj.params.dateClicked === 'undefined') {
 						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
-					}
-					if (typeof calObj.dateClicked === 'undefined') {
-						// value needs to be validated
-						calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
-							.print(calObj.params.dateFormat, 'gregorian', false));
+
+						if (calObj.params.dateType !== 'gregorian') {
+							// We need to transform the date for the data-alt-value
+							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType);
+							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
+							date.setFullYear(ndate[0]);
+							date.setMonth(ndate[1]);
+							date.setDate(ndate[2]);
+							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false));
+						} else {
+							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType)
+								.print(calObj.params.dateFormat, 'gregorian', false));
+						}
 					} else {
 						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false));
 					}
@@ -1058,14 +1067,18 @@
 
 	/** Method to change the inputs before submit. **/
 	JoomlaCalendar.onSubmit = function() {
-		var elements = document.querySelectorAll(".field-calendar");
+		Joomla = window.Joomla || {};
+		if (!Joomla.calendarProcessed) {
+			Joomla.calendarProcessed = true;
+			var elements = document.querySelectorAll(".field-calendar");
 
-		for (var i = 0; i < elements.length; i++) {
-			var element  = elements[i],
-			    instance = element._joomlaCalendar;
+			for (var i = 0; i < elements.length; i++) {
+				var element  = elements[i],
+				    instance = element._joomlaCalendar;
 
-			if (instance) {
-				instance.setAltValue();
+				if (instance) {
+					instance.setAltValue();
+				}
 			}
 		}
 	};

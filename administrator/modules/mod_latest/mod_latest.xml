@@ -26,7 +26,6 @@
 					name="count"
 					type="text"
 					label="MOD_LATEST_FIELD_COUNT_LABEL"
-					description="MOD_LATEST_FIELD_COUNT_DESC" 
 					default="5"
 				/>
 
@@ -34,7 +33,6 @@
 					name="ordering"
 					type="list"
 					label="MOD_LATEST_FIELD_ORDERING_LABEL"
-					description="MOD_LATEST_FIELD_ORDERING_DESC"
 					default="c_dsc"
 					>
 					<option value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
@@ -45,7 +43,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_LATEST_FIELD_CATEGORY_DESC"
 					id="catid"
 					extension="com_content"
 					default=""
@@ -57,7 +54,6 @@
 					name="user_id"
 					type="list"
 					label="MOD_LATEST_FIELD_AUTHORS_LABEL"
-					description="MOD_LATEST_FIELD_AUTHORS_DESC"
 					default="0"
 					>
 					<option value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
@@ -70,14 +66,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
-				/>
+ 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -85,7 +79,6 @@
 					name="automatic_title"
 					type="radio"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
 					class="switcher"
 					default="0"
 					>

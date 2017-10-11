@@ -25,7 +25,6 @@
 					name="multiple"
 					type="radio"
 					label="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_DESC"
 					class="switcher"
 					default="0"
 					>

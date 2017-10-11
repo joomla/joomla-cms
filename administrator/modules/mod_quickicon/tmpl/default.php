@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $html = JHtml::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-<div class="row quick-icons">
-	<?php echo $html;?>
+<div class="quick-icons">
+	<?php echo $html; ?>
 </div>
-<?php endif;?>
+<?php endif; ?>

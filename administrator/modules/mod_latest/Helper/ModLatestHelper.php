@@ -11,7 +11,7 @@ namespace Joomla\Module\Latest\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -24,12 +24,12 @@ abstract class ModLatestHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   Registry  &$params  The module parameters.
-	 * @param   Articles  $model    The model.
+	 * @param   Registry       &$params  The module parameters.
+	 * @param   ArticlesModel  $model    The model.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(Registry &$params, Articles $model)
+	public static function getList(Registry &$params, ArticlesModel $model)
 	{
 		$user = \JFactory::getUser();
 
@@ -83,7 +83,7 @@ abstract class ModLatestHelper
 
 		if ($error = $model->getError())
 		{
-			\JError::raiseError(500, $error);
+			throw new \Exception($error, 500);
 
 			return false;
 		}

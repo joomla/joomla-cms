@@ -4,7 +4,6 @@
 		name="id"
 		type="text"
 		label="JGLOBAL_FIELD_ID_LABEL"
-		description="JGLOBAL_FIELD_ID_DESC"
 		default="0"
 		class="readonly"
 		readonly="true"
@@ -14,7 +13,6 @@
 		name="hits"
 		type="text"
 		label="JGLOBAL_HITS"
-		description="COM_TAGS_FIELD_HITS_DESC"
 		class="readonly"
 		default="0"
 		readonly="true"
@@ -24,7 +22,6 @@
 		name="parent_id"
 		type="tag"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
-		description="COM_TAGS_FIELD_PARENT_DESC"
 		mode="nested"
 		validate="notequals"
 		field="id"
@@ -65,7 +62,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		description="JFIELD_TITLE_DESC"
 		class="input-xxlarge"
 		size="40"
 		required="true"
@@ -75,7 +71,6 @@
 		name="note"
 		type="text"
 		label="COM_TAGS_FIELD_NOTE_LABEL"
-		description="COM_TAGS_FIELD_NOTE_DESC"
 		maxlength="255"
 		class="span12"
 		size="40"
@@ -85,7 +80,6 @@
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		description="COM_TAGS_DESCRIPTION_DESC"
 		filter="JComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"
@@ -95,7 +89,6 @@
 		name="published"
 		type="list"
 		label="JSTATUS"
-		description="JFIELD_PUBLISHED_DESC"
 		class="custom-select-color-state"
 		default="1"
 		size="1"
@@ -122,14 +115,12 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
-		description="JFIELD_ACCESS_DESC"
 	/>
 
 	<field
 		name="metadesc"
 		type="textarea"
 		label="JFIELD_META_DESCRIPTION_LABEL"
-		description="JFIELD_META_DESCRIPTION_DESC"
 		rows="3"
 		cols="40"
 	/>
@@ -138,7 +129,6 @@
 		name="metakey"
 		type="textarea"
 		label="JFIELD_META_KEYWORDS_LABEL"
-		description="JFIELD_META_KEYWORDS_DESC"
 		rows="3"
 		cols="40"
 	/>
@@ -147,8 +137,6 @@
 		name="alias"
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
-		description="JFIELD_ALIAS_DESC"
-		hint="JFIELD_ALIAS_PLACEHOLDER"
 		size="40"
 	/>
 
@@ -156,14 +144,12 @@
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-		description="JGLOBAL_FIELD_CREATED_BY_DESC"
 	/>
 
 	<field
 		name="created_by_alias"
 		type="text"
 		label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
-		description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
 		labelclass="control-label"
 		size="20"
 	/>
@@ -172,7 +158,6 @@
 		name="created_time"
 		type="calendar"
 		label="JGLOBAL_CREATED_DATE"
-		description="COM_TAGS_FIELD_CREATED_DATE_DESC"
 		class="readonly"
 		translateformat="true"
 		showtime="true"
@@ -193,7 +178,6 @@
 		name="modified_time"
 		type="calendar"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
-		description="COM_TAGS_FIELD_MODIFIED_DESC"
 		class="readonly"
 		translateformat="true"
 		showtime="true"
@@ -205,7 +189,6 @@
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		description="COM_TAGS_FIELD_LANGUAGE_DESC"
 		>
 		<option value="*">JALL</option>
 	</field>
@@ -214,7 +197,6 @@
 		name="version_note"
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 		maxlength="255"
 		size="45"
 		labelclass="control-label"
@@ -230,7 +212,6 @@
 				name="tag_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				labelclass="control-label"
 				useglobal="true"
 				extension="com_tags"
@@ -241,7 +222,6 @@
 				name="tag_link_class"
 				type="text"
 				label="COM_TAGS_FIELD_TAG_LINK_CLASS"
-				description="COM_TAGS_FIELD_TAG_LINK_CLASS_DESC"
 				labelclass="control-label"
 				size="20"
 				default="label label-info"
@@ -256,7 +236,6 @@
 				name="image_intro"
 				type="media"
 				label="COM_TAGS_FIELD_INTRO_LABEL"
-				description="COM_TAGS_FIELD_INTRO_DESC"
 				labelclass="control-label"
 			/>
 
@@ -264,7 +243,6 @@
 				name="float_intro"
 				type="list"
 				label="COM_TAGS_FLOAT_LABEL"
-				description="COM_TAGS_FLOAT_DESC"
 				labelclass="control-label"
 				>
 				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
@@ -277,7 +255,6 @@
 				name="image_intro_alt"
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
 				labelclass="control-label"
 				size="20"
 			/>
@@ -286,7 +263,6 @@
 				name="image_intro_caption"
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
 				size="20"
 				labelclass="control-label"
 			/>
@@ -301,7 +277,6 @@
 				name="image_fulltext"
 				type="media"
 				label="COM_TAGS_FIELD_FULL_LABEL"
-				description="COM_TAGS_FIELD_FULL_DESC"
 				labelclass="control-label"
 			/>
 
@@ -309,7 +284,6 @@
 				name="float_fulltext"
 				type="list"
 				label="COM_TAGS_FLOAT_LABEL"
-				description="COM_TAGS_FLOAT_DESC"
 				labelclass="control-label"
 				>
 				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
@@ -322,7 +296,6 @@
 				name="image_fulltext_alt"
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
 				labelclass="control-label"
 				size="20"
 			/>
@@ -331,7 +304,6 @@
 				name="image_fulltext_caption"
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
 				labelclass="control-label"
 				size="20"
 			/>
@@ -345,7 +317,6 @@
 				name="author"
 				type="text"
 				label="JAUTHOR"
-				description="JFIELD_METADATA_AUTHOR_DESC"
 				size="30"
 			/>
 
@@ -353,7 +324,6 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
-				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

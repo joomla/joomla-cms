@@ -24,7 +24,6 @@
 					name="position"
 					type="list"
 					label="PLG_VOTE_POSITION_LABEL"
-					description="PLG_VOTE_POSITION_DESC"
 					default="top"
 					>
 					<option value="top">PLG_VOTE_TOP</option>

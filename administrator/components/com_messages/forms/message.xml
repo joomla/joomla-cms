@@ -5,7 +5,6 @@
 			name="user_id_to"
 			type="usermessages"
 			label="COM_MESSAGES_FIELD_USER_ID_TO_LABEL"
-			description="COM_MESSAGES_FIELD_USER_ID_TO_DESC"
 			default="0"
 			required="true" 
 		/>
@@ -14,7 +13,6 @@
 			name="subject"
 			type="text"
 			label="COM_MESSAGES_FIELD_SUBJECT_LABEL"
-			description="COM_MESSAGES_FIELD_SUBJECT_DESC"
 			required="true" 
 		/>
 
@@ -22,7 +20,6 @@
 			name="message"
 			type="editor"
 			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
-			description="COM_MESSAGES_FIELD_MESSAGE_DESC"
 			required="true"
 			filter="JComponentHelper::filterText"
 			buttons="false" 

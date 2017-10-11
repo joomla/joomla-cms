@@ -168,6 +168,115 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
+
+		// Per Default allowed DB Hosts
+		$localhost = array(
+			'localhost',
+			'127.0.0.1',
+			'::1',
+		);
+
+		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
+		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
+		{
+			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
+
+			// When all checks have been passed we don't need to do this here again.
+			if ($remoteDbFileTestsPassed === false)
+			{
+				$generalRemoteDatabaseMessage = JText::sprintf(
+					'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_GENERAL_MESSAGE',
+					'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
+				);
+
+				$remoteDbFile = JFactory::getSession()->get('remoteDbFile', false);
+
+				if ($remoteDbFile === false)
+				{
+					// Add the general message
+					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					// This is the file you need to remove if you want to use a remote database
+					$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
+					JFactory::getSession()->set('remoteDbFile', $remoteDbFile);
+
+					// Get the path
+					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+
+					// When the path is not writable the user needs to create the file manually
+					if (!JFile::write($remoteDbPath, ''))
+					{
+						// Request to create the file manually
+						JFactory::getApplication()->enqueueMessage(
+							JText::sprintf(
+								'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+								$remoteDbFile,
+								'installation'
+							),
+							'error'
+						);
+
+						JFactory::getSession()->set('remoteDbFileUnwritable', true);
+
+						return false;
+					}
+
+					// Save the file name to the session
+					JFactory::getSession()->set('remoteDbFileWrittenByJoomla', true);
+
+					// Request to delete that file
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (JFactory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				{
+					// Add the general message
+					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (JFactory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				{
+					// Add the general message
+					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				// All tests for this session passed set it to the session
+				JFactory::getSession()->set('remoteDbFileTestsPassed', true);
+			}
+		}
+
 		// Get a database object.
 		try
 		{
@@ -294,15 +403,6 @@ class InstallationModelDatabase extends JModelBase
 			throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
 		}
 
-		if ($db->getServerType() === 'mysql')
-		{
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
-			{
-				throw new RuntimeException(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-			}
-		}
-
 		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
@@ -313,37 +413,6 @@ class InstallationModelDatabase extends JModelBase
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
 			throw new RuntimeException(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
-		}
-
-		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if ($db->getServerType() === 'postgresql' && !version_compare($db_version, '9.0.0', '>='))
-		{
-			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
-
-			try
-			{
-				$db->execute();
-			}
-			catch (ExecutionFailureException $e)
-			{
-				throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
-			}
-
-			$column = $db->loadResult();
-
-			if ($column != 't')
-			{
-				$db->setQuery('CREATE LANGUAGE plpgsql');
-
-				try
-				{
-					$db->execute();
-				}
-				catch (ExecutionFailureException $e)
-				{
-					throw new RuntimeException(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
-				}
-			}
 		}
 
 		// Get database's UTF support.

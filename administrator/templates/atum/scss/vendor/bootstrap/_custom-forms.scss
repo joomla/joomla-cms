@@ -6,7 +6,7 @@
 
     &.custom-select-success {
       color: $white-offset;
-      background-color: $brand-success;
+      background-color: theme-color("success");
 
       option {
         color: $custom-select-color;
@@ -17,7 +17,7 @@
 
     &.custom-select-danger {
       color: $white-offset;
-      background-color: $brand-danger;
+      background-color: theme-color("danger");
 
       option {
         color: $custom-select-color;

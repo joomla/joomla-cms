@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="list-group<?php echo $moduleclass_sfx; ?>">
+<ul class="list-group">
 <?php foreach ($list as $item) : ?>
 	<li class="list-group-item justify-content-between">
 		<?php echo $item->title; ?>
-		<span class="badge badge-default badge-pill"><?php echo $item->data; ?></span>
+		<span class="badge badge-secondary badge-pill"><?php echo $item->data; ?></span>
 	</li>
 <?php endforeach; ?>
 </ul>

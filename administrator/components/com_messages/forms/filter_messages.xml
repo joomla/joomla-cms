@@ -11,8 +11,6 @@
 		<field
 			name="state"
 			type="messagestates"
-			label="COM_MESSAGES_FILTER_STATES_LABEL"
-			description="COM_MESSAGES_FILTER_STATES_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -23,8 +21,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.date_time DESC"
 			>
@@ -41,8 +37,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIMIT"
-			description="JGLOBAL_LIMIT"
 			default="5"
 			onchange="this.form.submit();"
 		/>

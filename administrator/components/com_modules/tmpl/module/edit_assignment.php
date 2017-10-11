@@ -32,21 +32,20 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 		<?php $id = 'jform_menuselect'; ?>
 
 		<div class="card card-secondary">
-		<div class="card-header">
-			<span class="small"><?php echo JText::_('JSELECT'); ?>:
-				<a id="treeCheckAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
-				<a id="treeUncheckAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
-			</span>
-			<span class="width-20">|</span>
-			<span class="small"><?php echo JText::_('COM_MODULES_EXPAND'); ?>:
-				<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
-				<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
-			</span>
-			<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
-				autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
-		</div>
-			<div class="card-block">
-
+			<div class="card-header">
+				<span class="small"><?php echo JText::_('JSELECT'); ?>:
+					<a id="treeCheckAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
+					<a id="treeUncheckAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
+				</span>
+				<span class="width-20">|</span>
+				<span class="small"><?php echo JText::_('COM_MODULES_EXPAND'); ?>:
+					<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
+					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
+				</span>
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
+					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
+			</div>
+			<div class="card-body">
 				<ul class="treeselect">
 					<?php foreach ($menuTypes as &$type) : ?>
 					<?php if (count($type->links)) : ?>

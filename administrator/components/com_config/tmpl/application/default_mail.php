@@ -25,7 +25,7 @@ JText::script('JLIB_JS_AJAX_ERROR_PARSE');
 JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Ajax request data.
-$ajaxUri = JRoute::_('index.php?option=com_config&task=application.sendtestmail&format=json&' . JSession::getFormToken() . '=1');
+$ajaxUri = JRoute::_('index.php?option=com_config&task=application.sendtestmail&format=json');
 
 $this->name = JText::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';

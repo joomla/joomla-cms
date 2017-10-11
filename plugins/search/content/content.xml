@@ -23,7 +23,6 @@
 					name="search_limit"
 					type="text"
 					label="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_LABEL"
-					description="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_DESC"
 					default="50"
 					size="5"
 				/>
@@ -33,7 +32,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
-					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
 					default="0"
 					>
 					<option value="1">JYES</option>
@@ -45,7 +43,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
-					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
 					default="0"
 					>
 					<option value="1">JYES</option>

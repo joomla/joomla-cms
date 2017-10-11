@@ -43,19 +43,17 @@ function modChrome_default($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . $modulePos . '">';
-		echo '<div class="card' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
+		echo '<' . $moduleTag . ' class="' . $modulePos . ' card ' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
 		if ($module->showtitle && $headerClass !== 'card-title')
 		{
 			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 		}
-		echo '<div class="card-block">';
+		echo '<div class="card-body">';
 		if ($module->showtitle && $headerClass === 'card-title')
 		{
 			echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 		}
 		echo $module->content;
-		echo '</div>';
 		echo '</div>';
 		echo '</' . $moduleTag . '>';
 	}
@@ -70,19 +68,17 @@ function modChrome_cardGrey($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . $modulePos . '">';
-		echo '<div class="card card-grey' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
+		echo '<' . $moduleTag . ' class="' . $modulePos . ' card card-grey ' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
 		if ($module->showtitle && $headerClass !== 'card-title')
 		{
 			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 		}
-		echo '<div class="card-block">';
+		echo '<div class="card-body">';
 		if ($module->showtitle && $headerClass === 'card-title')
 		{
 			echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 		}
 		echo $module->content;
-		echo '</div>';
 		echo '</div>';
 		echo '</' . $moduleTag . '>';
 	}

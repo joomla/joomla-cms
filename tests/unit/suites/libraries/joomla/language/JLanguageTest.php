@@ -39,15 +39,6 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 
-		$path = JPATH_TESTS . '/tmp/language';
-
-		if (is_dir($path))
-		{
-			JFolder::delete($path);
-		}
-
-		JFolder::copy(__DIR__ . '/data/language', $path);
-
 		$this->object = new JLanguage;
 		$this->inspector = new JLanguageInspector('', true);
 	}
@@ -60,7 +51,6 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		JFolder::delete(JPATH_TESTS . '/tmp/language');
 		unset($this->object, $this->inspector);
 		parent::tearDown();
 	}
@@ -215,7 +205,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is an setTransliterator, this test is wrong
+		// Only if there is a setTransliterator, this test is wrong
 		$this->assertNull(
 			$lang->getTransliterator()
 		);
@@ -229,7 +219,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetTransliterator()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
@@ -319,7 +311,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetPluralSuffixesCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -408,7 +402,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetIgnoredSearchWordsCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -498,7 +494,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetLowerLimitSearchWordCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -588,7 +586,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetUpperLimitSearchWordCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
@@ -678,7 +678,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetSearchDisplayedCharactersNumberCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
 		$this->assertTrue(

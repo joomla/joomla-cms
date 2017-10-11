@@ -28,8 +28,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -40,8 +38,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
 		>

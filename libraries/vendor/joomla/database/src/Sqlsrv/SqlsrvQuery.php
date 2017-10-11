@@ -589,8 +589,7 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 				|| $lastWord[0] == '@'
 				|| $lastWord == 'NULL'
 				|| $lastWord == 'END'
-				|| is_numeric($lastWord)
-			)
+				|| is_numeric($lastWord))
 			{
 				/* Ends with:
 				 * - SQL function
@@ -613,9 +612,7 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 			$lastChar2 = substr($column[$size - 2], -1);
 
 			// Check if column ends with  '- a.x' or '- a. x'
-			if (isset($operators[$lastChar2])
-				|| ($size > 2 && $lastChar2 === '.' && isset($operators[substr($column[$size - 3], -1)]))
-			)
+			if (isset($operators[$lastChar2]) || ($size > 2 && $lastChar2 === '.' && isset($operators[substr($column[$size - 3], -1)])))
 			{
 				// Ignore plus signs if column start with them
 				if ($size != 2 || ltrim($column[0], '+') !== '' || $column[1][0] === "'")
@@ -978,8 +975,7 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 			if ($current == '[' || $current == '"' || $current == "'" || $current2 == '--'
 				|| ($current2 == '/*')
 				|| ($current == '#' && $current3 != '#__')
-				|| ($lenEndString && $testEnd == $endString)
-			)
+				|| ($lenEndString && $testEnd == $endString))
 			{
 				if ($open)
 				{

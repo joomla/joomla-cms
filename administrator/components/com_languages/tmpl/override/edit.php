@@ -47,8 +47,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<fieldset>
 				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
 				<div class="control-group">
-<div class="control-label"
->
+					<div class="control-label">
 						<?php echo $this->form->getLabel('language'); ?>
 					</div>
 					<div class="controls">
@@ -113,11 +112,16 @@ JFactory::getDocument()->addScriptDeclaration('
 				<div class="alert alert-info"><p><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></p></div>
 
 				<div class="control-group">
-					<?php echo $this->form->getInput('searchstring'); ?>
-					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
-						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
-					</button>
-					<span id="refresh-status" class="overrider-spinner help-block">
+					<div class="input-group">
+						<?php echo $this->form->getInput('searchstring'); ?>
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
+								<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
+							</button>
+						</span>
+					</div>
+					<span id="refresh-status" class="help-block">
+						<span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 					</span>
 				</div>
@@ -134,8 +138,10 @@ JFactory::getDocument()->addScriptDeclaration('
 
 			<fieldset id="results-container" class="adminform">
 				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
-				<span id="more-results">
-					<a href="javascript:Joomla.overrider.searchStrings(Joomla.overrider.states.more);">
+				<div id="overrider-spinner" class="overrider-spinner text-center"><span class="fa fa-spinner fa-spin" aria-hidden="true"></span></div>
+				<span id="more-results" class="mt-2">
+					<a href="javascript:Joomla.overrider.searchStrings(Joomla.overrider.states.more);" class="btn btn-secondary">
+						<span id="overrider-spinner-btn" class="overrider-spinner-btn fa fa-spinner fa-spin" aria-hidden="true"></span>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
 				</span>
 			</fieldset>

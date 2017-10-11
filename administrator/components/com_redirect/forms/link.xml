@@ -5,7 +5,6 @@
 			name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			id="id"
 			default="0"
 			readonly="true"
@@ -36,7 +35,6 @@
 			name="comment"
 			type="text"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
-			description="COM_REDIRECT_FIELD_COMMENT_DESC"
 			size="40" 
 		/>
 
@@ -44,7 +42,6 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
 			class="custom-select-color-state"
 			size="1"
 			required="true"

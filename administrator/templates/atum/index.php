@@ -16,22 +16,6 @@ $lang  = JFactory::getLanguage();
 $user  = JFactory::getUser();
 $input = $app->input;
 
-// Add JavaScript
-JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
-JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
-
-// Load template CSS file
-JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
-
-// Load custom CSS file
-JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Load specific language related CSS
-JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
-
 // Detecting Active Variables
 $option      = $input->get('option', '');
 $view        = $input->get('view', '');
@@ -43,6 +27,29 @@ $cpanel      = ($option === 'com_cpanel');
 $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
+
+// Add JavaScript
+JHtml::_('bootstrap.framework');
+JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
+if ($cpanel)
+{
+	JHtml::_('script', 'media/vendor/masonry/js/masonry.pkgd.min.js', ['version' => 'auto']);
+}
+JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
+
+// Load template CSS file
+JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
+
+// Load custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+
+// Alerts
+JHtml::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+
+// Load specific language related CSS
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -103,7 +110,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div class="container-fluid container-main">
 			<?php if (!$cpanel) : ?>
 				<?php // Subheader ?>
-				<a class="btn btn-subhead hidden-md-up" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
+				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
 				<div class="subhead-collapse" data-scroll="<?php echo $hidden; ?>">
 					<div id="subhead" class="subhead">
@@ -118,7 +125,6 @@ $this->setMetaData('theme-color', '#1c3d5c');
 					</div>
 				</div>
 			<?php endif; ?>
-
 			<section id="content" class="content">
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />

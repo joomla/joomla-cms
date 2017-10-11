@@ -8,8 +8,16 @@
  */
 
 defined('_JEXEC') or die;
+
+if (!count($images))
+{
+	echo JText::_('MOD_RANDOM_IMAGE_NO_IMAGES');
+
+	return;
+}
 ?>
-<div class="random-image<?php echo $moduleclass_sfx; ?>">
+
+<div class="random-image">
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>">
 <?php endif; ?>

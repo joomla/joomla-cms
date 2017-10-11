@@ -41,11 +41,11 @@ var_dump('TEST');
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo ($option->state) ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo ($option->state) ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice) : ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
-								<?php endif;?>
+								<?php endif; ?>
 							</span>
 						</td>
 					</tr>

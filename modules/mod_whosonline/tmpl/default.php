@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 	<?php if ($params->get('filter_groups')) : ?>
 		<p><?php echo JText::_('MOD_WHOSONLINE_SAME_GROUP_MESSAGE'); ?></p>
 	<?php endif; ?>
-	<ul class="nav flex-column<?php echo $moduleclass_sfx; ?>">
+	<ul class="nav flex-column">
 	<?php foreach ($names as $name) : ?>
 		<li>
 			<?php echo $name->username; ?>

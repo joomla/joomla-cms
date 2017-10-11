@@ -23,7 +23,6 @@
 					name="search_limit"
 					type="text"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
-					description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
 					default="50"
 					size="5"
 				/>
@@ -33,7 +32,6 @@
 					type="radio"
 					class="switcher"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
-					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					default="0"
 					>
 					<option value="1">JYES</option>
@@ -45,7 +43,6 @@
 					type="radio"
 					class="switcher"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
-					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					default="0"
 					>
 					<option value="1">JYES</option>

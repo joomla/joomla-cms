@@ -14,8 +14,6 @@
 	<field
 		name="menutype"
 		type="menu"
-		label="COM_MENUS_FILTER_CATEGORY"
-		description="JOPTION_FILTER_CATEGORY_DESC"
 		accesstype="manage"
 		clientid=""
 		showAll="false"
@@ -36,8 +34,6 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_MENUS_FILTER_PUBLISHED"
-			description="COM_MENUS_FILTER_PUBLISHED_DESC"
 			filter="*,0,1,-2"
 			onchange="this.form.submit();"
 			>
@@ -46,8 +42,6 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -61,8 +55,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
@@ -82,8 +74,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_MENUS_LIST_LIMIT"
-			description="COM_MENUS_LIST_LIMIT_DESC"
 			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"

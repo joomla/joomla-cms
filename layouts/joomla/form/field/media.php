@@ -50,18 +50,13 @@ switch ($preview)
 	case 'false':
 	case 'none':
 		$showPreview = false;
-		$showAsTooltip = false;
 		break;
 	case 'yes': // Deprecated parameter value
 	case 'true':
 	case 'show':
-		$showPreview = true;
-		$showAsTooltip = false;
-		break;
 	case 'tooltip':
 	default:
 		$showPreview = true;
-		$showAsTooltip = true;
 		break;
 }
 
@@ -74,8 +69,27 @@ if ($showPreview)
 	}
 	else
 	{
-		$src = JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY');
+		$src = '';
 	}
+	$width = $previewWidth;
+	$height = $previewHeight;
+	$style = '';
+	$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
+	$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
+
+	$imgattr = array(
+		'id' => $id . '_preview',
+		'class' => 'media-preview',
+		'style' => $style,
+	);
+
+	$img = JHtml::_('image', $src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+
+	$previewImg = '<div id="' . $id . '_preview_img"' . '>' . $img . '</div>';
+	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
+		. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
+
+	$showPreview = 'static';
 }
 
 // The url for the modal
@@ -85,22 +99,22 @@ $url    = ($readonly ? ''
 		. $asset . '&amp;author=' . $authorId)
 	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
 ?>
-<div class="field-media-wrapper"
-	data-basepath="<?php echo JUri::root(); ?>"
-	data-root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
-	data-url="<?php echo $url; ?>"
-	data-modal=".modal"
-	data-modal-width="100%"
-	data-modal-height="400px"
-	data-input=".field-media-input"
-	data-button-select=".button-select"
-	data-button-clear=".button-clear"
-	data-button-save-selected=".button-save-selected"
-	data-preview="<?php echo $showPreview ? 'true' : 'false'; ?>"
-	data-preview-as-tooltip="<?php echo $showAsTooltip ? 'true' : 'false'; ?>"
-	data-preview-container=".field-media-preview"
-	data-preview-width="<?php echo $previewWidth; ?>"
-	data-preview-height="<?php echo $previewHeight; ?>"
+<joomla-field-media class="field-media-wrapper"
+		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
+		base-path="<?php echo JUri::root(); ?>"
+		root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
+		url="<?php echo $url; ?>"
+		modal-container=".modal"
+		modal-width="100%"
+		modal-height="400px"
+		input=".field-media-input"
+		button-select=".button-select"
+		button-clear=".button-clear"
+		button-save-selected=".button-save-selected"
+		preview="static"
+		preview-container=".field-media-preview"
+		preview-width="<?php echo $previewWidth; ?>"
+		preview-height="<?php echo $previewHeight; ?>"
 >
 	<?php
 	// Render the modal
@@ -118,16 +132,16 @@ $url    = ($readonly ? ''
 		)
 	);
 
-	JHtml::_('script', 'system/fields/mediafield.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('webcomponent', ['joomla-field-media' => 'system/webcomponents/joomla-field-media.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+	JText::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
+	<?php if ($showPreview) : ?>
+		<div class="field-media-preview" style="height:auto">
+			<?php echo ' ' . $previewImgEmpty; ?>
+			<?php echo ' ' . $previewImg; ?>
+		</div>
+	<?php endif; ?>
 	<div class="input-group">
-		<?php if ($showPreview && $showAsTooltip) : ?>
-			<div rel="popover" class="input-group-addon pop-helper field-media-preview"
-				title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
-				data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
-				<span class="icon-eye" aria-hidden="true"></span>
-			</div>
-		<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-btn">
@@ -136,4 +150,4 @@ $url    = ($readonly ? ''
 			</div>
 		<?php endif; ?>
 	</div>
-</div>
+</joomla-field-media>

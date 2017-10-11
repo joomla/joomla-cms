@@ -34,7 +34,7 @@ for ($i = 1; $i < 6; $i++)
 ?>
 <form method="post" action="<?php echo htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8'); ?>" class="form-inline">
 	<span class="content_vote">
-		<label class="unseen sr-only" for="content_vote_'<?php echo (int) $row->id; ?>"><?php echo JText::_('PLG_VOTE_LABEL'); ?></label>
+		<label class="unseen sr-only" for="content_vote_<?php echo (int) $row->id; ?>"><?php echo JText::_('PLG_VOTE_LABEL'); ?></label>
 		<?php echo JHtml::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . (int) $row->id); ?>
 		&#160;<input class="btn btn-xs" type="submit" name="submit_vote" value="<?php echo JText::_('PLG_VOTE_RATE'); ?>">
 		<input type="hidden" name="task" value="article.vote">

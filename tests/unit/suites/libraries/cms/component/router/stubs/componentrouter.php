@@ -17,6 +17,7 @@
 function ComtestBuildRoute(&$query)
 {
 	$return = array();
+
 	foreach ($query as $key => $var)
 	{
 		$return[] = $key . '-' . $var;
@@ -35,6 +36,7 @@ function ComtestBuildRoute(&$query)
 function ComtestParseRoute(&$segments)
 {
 	$return = array();
+
 	foreach ($segments as $segment)
 	{
 		list($key, $var) = explode(':', $segment, 2);

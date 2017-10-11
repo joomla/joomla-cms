@@ -30,20 +30,15 @@ The full list of other Grunt Tasks available are:
 
 - `grunt clean:assets`.................clears the media/vendor folder
 - `grunt shell:update`.................will update all the npm packages to the version defined in /dev/assets/package.json
-- `grunt curl:cmGet`...................fetches latest codemirror to assets/tmp folder
-- `grunt unzip:cmUnzip`................extracts the downladed codemirror zip to assets/tmp/codemirror folder
-- `grunt gitclone:cloneCombobox`.......fetches latest combobox to assets/tmp folder
-- `grunt gitclone:cloneCropjs`.........fetches latest combobox to assets/tmp folder
-- `grunt gitclone:cloneAutojs`.........fetches latest autocomplete to assets/tmp folder
 - `grunt concat:someFiles`.............concatenates some codemirror files
 - `grunt copy:fromSource`..............copy everything to media/vendor/*
 - `grunt uglify:allJs`.................minifies various javascripts, excluding template files
 - `grunt uglify:templates`.............minifies template javascripts
 - `grunt cssmin:allCss`................minifies various stylesheets, currently it only affects codemirror files
-- `grunt cssmin:adminTemplate`.........minifies the admin template (Atum) stylesheet
-- `grunt cssmin:siteTemplate`..........minifies the site template (Aurora) stylesheet
-- `grunt text-scss`....................validate/lint the template SCSS
-- `grunt compile`......................minifies all template JS, lints SCSS then compiles it
+- `grunt cssmin:site`..................minifies the site template (Aurora) stylesheet
+- `grunt cssmin:admin`.................minifies the admin template (Atum) stylesheet
+- `grunt compile:site`.................minifies site template JS, lints SCSS then compiles it
+- `grunt compile:admin`................minifies admin template JS, lints SCSS then compiles it
 
 For running sass linting we require that ruby is installed on the system.
 

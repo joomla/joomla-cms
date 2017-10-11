@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</label>
 									</td>
 									<td>
-										<span class="badge badge-default"><?php echo $count; ?></span>
+										<span class="badge badge-secondary"><?php echo $count; ?></span>
 									</td>
 								</tr>
 								<?php $i++; ?>

@@ -16,7 +16,7 @@ $path = JPATH_CONFIGURATION . '/configuration.php';
 $useftp = file_exists($path) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 $prev = $useftp ? 'ftp' : 'database';
 ?>
-<?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div class="btn-toolbar justify-content-end">
 		<div class="btn-group">
@@ -43,7 +43,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		<?php echo $this->form->getLabel('summary_email'); ?>
 		<?php echo $this->form->getInput('summary_email'); ?>
 		<p class="form-text text-muted small">
-			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="badge badge-default">' . $this->options['admin_email'] . '</span>'); ?>
+			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="badge badge-secondary">' . $this->options['admin_email'] . '</span>'); ?>
 		</p>
 	</div>
 
@@ -82,7 +82,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_SITE_OFFLINE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['site_offline'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['site_offline'] ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($this->options['site_offline'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -92,7 +92,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_EMAIL_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-default"><?php echo $this->options['admin_email']; ?></span>
+							<span class="badge badge-secondary"><?php echo $this->options['admin_email']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -100,7 +100,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_USER_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-default"><?php echo $this->options['admin_user']; ?></span>
+							<span class="badge badge-secondary"><?php echo $this->options['admin_user']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -177,7 +177,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['db_old'] === 'remove' ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo $this->options['db_old'] === 'remove' ? 'danger' : 'success'; ?>">
 								<?php echo JText::_($this->options['db_old'] === 'remove' ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
@@ -203,7 +203,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_ENABLE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['ftp_enable'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_enable'] ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($this->options['ftp_enable'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -246,7 +246,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_SAVE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $this->options['ftp_save'] ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_save'] ? 'danger' : 'success'; ?>">
 								<?php echo JText::_($this->options['ftp_save'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -277,11 +277,11 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="badge badge-<?php echo $option->state ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice): ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
-								<?php endif;?>
+								<?php endif; ?>
 							</span>
 						</td>
 					</tr>

@@ -33,7 +33,7 @@
 
     &:disabled {
       color: $custom-select-disabled-color;
-      cursor: $cursor-disabled;
+      cursor: not-allowed;
       background-color: $custom-select-disabled-bg;
     }
 

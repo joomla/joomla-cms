@@ -13,9 +13,6 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', ['version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9']);
-
 // Styles
 JHtml::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
 

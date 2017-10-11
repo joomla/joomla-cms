@@ -6,6 +6,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/**
+ * A command line cron job to trash expired cache data.
+ */
+
 // Initialize Joomla framework
 const _JEXEC = 1;
 

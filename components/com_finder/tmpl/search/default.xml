@@ -15,14 +15,12 @@
 				name="q"
 				type="text"
 				label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
-				description="COM_FINDER_SEARCH_SEARCH_QUERY_DESC"
 				size="30"
 			/>
 			<field
 				name="f"
 				type="searchfilter"
 				label="COM_FINDER_SEARCH_FILTER_SEARCH_LABEL"
-				description="COM_FINDER_SEARCH_FILTER_SEARCH_DESC"
 				default=""
 			/>
 		</fieldset>
@@ -33,7 +31,6 @@
 				name="show_date_filters"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -44,7 +41,6 @@
 				name="show_advanced"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -55,7 +51,6 @@
 				name="expand_advanced"
 				type="list"
 				label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
-				description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -67,7 +62,6 @@
 				name="show_description"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_DESCRIPTION_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -78,7 +72,6 @@
 				name="description_length"
 				type="text"
 				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
-				description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESC"
 				default=""
 				size="5"
 				useglobal="true"
@@ -87,7 +80,6 @@
 				name="show_url"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_URL_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -101,7 +93,6 @@
 				name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -112,7 +103,6 @@
 				name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
-				description="JGLOBAL_PAGINATION_DESC"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -124,7 +114,6 @@
 				name="show_pagination_results"
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -146,7 +135,6 @@
 				name="show_suggested_query"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -157,7 +145,6 @@
 				name="show_explained_query"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -168,7 +155,6 @@
 				name="sort_order"
 				type="list"
 				label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
-				description="COM_FINDER_CONFIG_SORT_ORDER_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -180,7 +166,6 @@
 				name="sort_direction"
 				type="list"
 				label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
-				description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -193,7 +178,6 @@
 				type="radio"
 				class="switcher"
 				label="COM_FINDER_CONFIG_SHOW_FEED_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_FEED_DESC"
 				default="0"
 				validate="options"
 				>
@@ -205,7 +189,6 @@
 				type="radio"
 				class="switcher"
 				label="COM_FINDER_CONFIG_SHOW_FEED_TEXT_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_FEED_TEXT_DESC"
 				default="0"
 				validate="options"
 				>
@@ -218,7 +201,6 @@
 				name="show_feed_link"
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>

@@ -8,7 +8,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
-			description="COM_BANNERS_FIELD_COMPRESSED_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>

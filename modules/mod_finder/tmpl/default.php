@@ -9,18 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Module\Finder\Site\Helper\FinderHelper;
+
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 // Load the smart search component language file.
 $lang = JFactory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
-$suffix = $params->get('moduleclass_sfx');
 $input = '<input type="text" name="q" class="js-finder-search-query form-control" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
-$labelClass = (!$showLabel ? 'sr-only ' : '') . 'finder' . $suffix;
+$labelClass = (!$showLabel ? 'sr-only ' : '') . 'finder';
 $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
 $output = '';
@@ -31,7 +32,7 @@ if ($params->get('show_button'))
 	$output .= '<div class="input-group">';
 	$output .= $input;
 	$output .= '<span class="input-group-btn">';
-	$output .= '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span> ' . JText::_('JSEARCH_FILTER_SUBMIT') . '</button>';
+	$output .= '<button class="btn btn-primary hasTooltip finder" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span> ' . JText::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 	$output .= '</span>';
 	$output .= '</div>';
 }
@@ -57,7 +58,7 @@ if ($params->get('show_autosuggest', 1))
 ?>
 
 <form class="js-finder-searchform form-search" action="<?php echo JRoute::_($route); ?>" method="get">
-	<div class="finder<?php echo $suffix; ?>">
+	<div class="finder">
 
 		<?php echo $output; ?>
 
@@ -70,6 +71,6 @@ if ($params->get('show_autosuggest', 1))
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+		<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>

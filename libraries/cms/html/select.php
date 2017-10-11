@@ -133,6 +133,12 @@ abstract class JHtmlSelect
 		$id = $options['id'] !== false ? $options['id'] : $name;
 		$id = str_replace(array('[', ']', ' '), '', $id);
 
+		// If if the selectbox contains "custom-select-color-state" then load the JS file
+		if (strpos($attribs, 'custom-select-color-state') !== false)
+		{
+			JHtml::_('script', 'system/fields/select-colour.min.js', array('version' => 'auto', 'relative' => true));
+		}
+
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
 			. static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];

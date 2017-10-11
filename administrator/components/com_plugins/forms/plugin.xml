@@ -5,7 +5,6 @@
 			name="extension_id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
 			class="readonly" 
@@ -15,14 +14,12 @@
 			name="name"
 			type="hidden"
 			label="COM_PLUGINS_FIELD_NAME_LABEL"
-			description="COM_PLUGINS_FIELD_NAME_DESC" 
 		/>
 
 		<field
 			name="enabled"
 			type="list"
 			label="JSTATUS"
-			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			class="custom-select-color-state"
 			size="1"
 			default="1"
@@ -35,7 +32,6 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
 			size="1" 
 		/>
 
@@ -43,14 +39,12 @@
 			name="ordering"
 			type="Pluginordering"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" 
 		/>
 
 		<field
 			name="folder"
 			type="text"
 			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
-			description="COM_PLUGINS_FIELD_FOLDER_DESC"
 			class="readonly"
 			size="20"
 			readonly="true" 
@@ -60,7 +54,6 @@
 			name="element"
 			type="text"
 			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
-			description="COM_PLUGINS_FIELD_ELEMENT_DESC"
 			class="readonly"
 			size="20"
 			readonly="true" 

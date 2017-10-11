@@ -11,7 +11,6 @@
 			name="newsfeed_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="newsfeed"
@@ -22,7 +21,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -33,7 +31,6 @@
 			name="history_limit"
 			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
 			filter="integer"
 			showon="save_history:1"
@@ -44,7 +41,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 			id="show_feed_image"
 			default="1"
 			>
@@ -57,7 +53,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 			id="show_feed_description"
 			default="1"
 			>
@@ -70,7 +65,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 			id="show_item_description"
 			default="1"
 			>
@@ -92,7 +86,6 @@
 			name="feed_display_order" 
 			type="list"
 			label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
-			description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 			id="feed_display_order"
 			>
 			<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
@@ -103,7 +96,6 @@
 			name="float_first"
 			type="list"
 			label="COM_NEWSFEEDS_FLOAT_FIRST_LABEL"
-			description="COM_NEWSFEEDS_FLOAT_DESC"
 			>
 			<option value="right">COM_NEWSFEEDS_RIGHT</option>
 			<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -114,7 +106,6 @@
 			name="float_second"
 			type="list"
 			label="COM_NEWSFEEDS_FLOAT_SECOND_LABEL"
-			description="COM_NEWSFEEDS_FLOAT_DESC"
 			>
 			<option value="right">COM_NEWSFEEDS_RIGHT</option>
 			<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -126,7 +117,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
 			id="show_tags"
 			default="1"
 			>
@@ -145,7 +135,6 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="category"
@@ -156,7 +145,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
-			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -168,7 +156,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 			id="show_description"
 			default="1"
 			>
@@ -181,7 +168,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -192,7 +178,6 @@
 			name="maxLevel"
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
 			>
 			<option value="0">JNONE</option>
@@ -209,7 +194,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
 			showon="maxLevel:-1,1,2,3,4,5"
 			>
@@ -222,7 +206,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
 			showon="maxLevel:-1,1,2,3,4,5"
 			>
@@ -235,7 +218,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 			id="show_cat_items"
 			default="1"
 			>
@@ -248,7 +230,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_DESC"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -267,7 +248,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -278,7 +258,6 @@
 			name="maxLevelcat"
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
 			>
 			<option value="-1">JALL</option>
@@ -295,7 +274,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
@@ -308,7 +286,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
@@ -321,7 +298,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -340,7 +316,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
-			description="JGLOBAL_FILTER_FIELD_DESC"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -352,7 +327,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			description="JGLOBAL_DISPLAY_SELECT_DESC"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -364,7 +338,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			id="show_headings"
 			default="1"
 			>
@@ -377,7 +350,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
 			id="show_articles"
 			default="1"
 			>
@@ -390,7 +362,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
 			id="show_link"
 			default="1"
 			>
@@ -402,7 +373,6 @@
 			name="show_pagination"
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
-			description="JGLOBAL_PAGINATION_DESC"
 			default="2"
 			>
 			<option value="1">JSHOW</option>
@@ -415,7 +385,6 @@
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			description="JGLOBAL_PAGINATION_RESULTS_DESC"
 			default="1"
 			showon="show_pagination:1,2"
 			>
@@ -435,7 +404,6 @@
 			class="switcher"
 			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
-			description="JGLOBAL_SEF_NOIDS_DESC"
 			filter="integer">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

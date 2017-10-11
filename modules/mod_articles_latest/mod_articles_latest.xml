@@ -26,7 +26,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
 					size="10"
@@ -39,7 +38,6 @@
 					name="count"
 					type="text"
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_COUNT_DESC"
 					default="5"
 				/>
 
@@ -47,7 +45,6 @@
 					name="show_featured"
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_FEATURED_DESC"
 					default=""
 					>
 					<option value="">JSHOW</option>
@@ -59,7 +56,6 @@
 					name="ordering"
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC"
 					default="published"
 					>
 					<option value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
@@ -73,7 +69,6 @@
 					name="user_id"
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_USER_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_USER_DESC"
 					default="0"
 					>
 					<option value="0">MOD_LATEST_NEWS_VALUE_ANYONE</option>
@@ -87,21 +82,18 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -112,7 +104,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 

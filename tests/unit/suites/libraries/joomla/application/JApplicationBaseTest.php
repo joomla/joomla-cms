@@ -55,7 +55,7 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testExecute()
 	{
-		// execute() has no return, just make sure the method runs
+		// As execute() has no return, just make sure the method runs
 		$this->assertNull($this->class->execute());
 	}
 

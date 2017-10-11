@@ -27,7 +27,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
-					description="MOD_RELATED_FIELD_SHOWDATE_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -38,7 +37,6 @@
 					name="maximum"
 					type="text"
 					label="MOD_RELATED_FIELD_MAX_LABEL"
-					description="MOD_RELATED_FIELD_MAX_DESC"
 					default="5"
 				/>
 			</fieldset>
@@ -47,14 +45,13 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -62,7 +59,6 @@
 					name="owncache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -73,7 +69,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 			</fieldset>

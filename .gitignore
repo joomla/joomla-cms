@@ -12,7 +12,8 @@
 /administrator/logs
 /cache
 /installation/cache
-libraries/autoload_psr4.php
+/installation/sessions
+/libraries/autoload_psr4.php
 /tmp
 /configuration.php
 /.htaccess
@@ -30,6 +31,9 @@ node_modules/
 /build/assets_tmp
 /scss-lint-report.xml
 /dev/assets/packages.json
+# We are ignoring this as a temporary measure until Node 8 and npm5 become the LTS release
+# and we can require it.
+package-lock.json
 
 # Removed in Joomla 4 #
 administrator/templates/isis
@@ -144,6 +148,12 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/psalm-autoload.php
 /libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
+/libraries/vendor/paragonie/sodium_compat/.gitignore
+/libraries/vendor/paragonie/sodium_compat/composer.json
+/libraries/vendor/paragonie/sodium_compat/composer.lock
+/libraries/vendor/paragonie/sodium_compat/phpunit.xml.dist
+/libraries/vendor/paragonie/sodium_compat/README.md
+/libraries/vendor/paragonie/sodium_compat/src/Core/Curve25519/README.md
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
 /libraries/vendor/phpmailer/phpmailer/language
@@ -211,16 +221,20 @@ Desktop.ini
 /libraries/vendor/zendframework/zend-diactoros/README.md
 
 # System Test related files
-tests/codeception/acceptance.suite.yml
-tests/codeception/_support/_generated/*TesterActions.php
-tests/codeception/joomla-cms*
-tests/codeception/_output*
-selenium-server-standalone.jar
+/libraries/vendor/codeception
+/libraries/vendor/behat
+/libraries/vendor/consolidation
+/libraries/vendor/joomla/test-system
+/libraries/vendor/league/
+/libraries/vendor/phpdocumentor/
+/libraries/vendor/phpspec/
+/libraries/vendor/phpunit/
+/libraries/vendor/sebastian/
+/libraries/vendor/squizlabs/
+
 selenium.log
-tests/codeception/cache
-tests/codeception/_output
-tests/codeception/vendor
 composer.phar
+/test-install
 
 # Build related
 RoboFile.ini

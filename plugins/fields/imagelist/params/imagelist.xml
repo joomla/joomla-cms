@@ -6,7 +6,6 @@
 				name="directory"
 				type="folderlist"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
-				description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 				directory="images"
 				hide_none="true"
 				hide_default="true"
@@ -20,7 +19,6 @@
 				name="multiple"
 				type="list"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
-				description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -31,7 +29,6 @@
 				name="image_class"
 				type="textarea"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
-				description="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_DESC"
 				size="40"
 			/>
 		</fieldset>

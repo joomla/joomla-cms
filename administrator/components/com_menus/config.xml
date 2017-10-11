@@ -9,7 +9,6 @@
 			name="page_title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
 			default=""
 		/>
 
@@ -18,7 +17,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
-			description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
 			default="0"
 			filter="integer"
 			>
@@ -30,7 +28,6 @@
 			name="page_heading"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
 			default=""
 			showon="show_page_heading:1"
 		/>
@@ -39,7 +36,6 @@
 			name="pageclass_sfx"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
 			default=""
 		/>
 

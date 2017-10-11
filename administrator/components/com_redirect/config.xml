@@ -8,13 +8,19 @@
 			name="mode"
 			type="radio"
 			label="COM_REDIRECT_MODE_LABEL"
-			description="COM_REDIRECT_MODE_DESC"
 			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+		<field
+			name="separator"
+			type="text"
+			label="COM_REDIRECT_BULK_SEPARATOR_LABEL"
+			description="COM_REDIRECT_BULK_SEPARATOR_DESC"
+			default="|"
+		/>
 	</fieldset>
 
 	<fieldset

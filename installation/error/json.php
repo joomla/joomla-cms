@@ -29,13 +29,13 @@ class InstallationErrorJson extends AbstractRenderer
 	/**
 	 * Render the error page for the given object
 	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
+	 * @param   Throwable  $error  The error object to be rendered
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	protected function doRender($error)
+	public function render(Throwable $error): string
 	{
 		return json_encode(new InstallationResponseJson($error));
 	}

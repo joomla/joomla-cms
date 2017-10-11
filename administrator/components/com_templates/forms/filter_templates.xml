@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_templates/models/fields" />
 	<field
 		name="client_id"
 		type="list"
@@ -24,8 +23,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.element ASC"
 			>
@@ -36,8 +33,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIMIT"
-			description="JGLOBAL_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

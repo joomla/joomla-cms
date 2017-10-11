@@ -31,7 +31,6 @@
 					name="unique_id"
 					type="plgsystemstats.uniqueid"
 					label="PLG_SYSTEM_STATS_UNIQUE_ID_LABEL"
-					description="PLG_SYSTEM_STATS_UNIQUE_ID_DESC"
 					size="10"
 				/>
 
@@ -39,7 +38,6 @@
 					name="interval"
 					type="text"
 					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
-					description="PLG_SYSTEM_STATS_INTERVAL_DESC"
 					filter="integer"
 					default="12"
 				/>
@@ -48,7 +46,6 @@
 					name="mode"
 					type="list"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
-					description="PLG_SYSTEM_STATS_MODE_DESC"
 					default="1"
 				>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>

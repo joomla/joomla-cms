@@ -9,23 +9,21 @@
 
 defined('_JEXEC') or die;
 
-// Include the tags_similar functions only once
-JLoader::register('ModTagssimilarHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper;
 
-$cacheparams = new stdClass;
+$cacheparams = new \stdClass;
 $cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'ModTagssimilarHelper';
+$cacheparams->class = 'Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
 
-$list = JModuleHelper::moduleCache($module, $params, $cacheparams);
+$list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
 if (!count($list))
 {
 	return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-
-require JModuleHelper::getLayoutPath('mod_tags_similar', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_tags_similar', $params->get('layout', 'default'));

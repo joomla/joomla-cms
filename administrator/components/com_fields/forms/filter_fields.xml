@@ -64,8 +64,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
@@ -92,8 +90,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_FIELDS_LIST_LIMIT"
-			description="COM_FIELDS_LIST_LIMIT_DESC"
 			default="25"
 			onchange="this.form.submit();"
 		/>

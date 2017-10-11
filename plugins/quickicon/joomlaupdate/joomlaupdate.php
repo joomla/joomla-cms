@@ -86,8 +86,8 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		$result[] = [
 			[
 				'link'  => 'index.php?option=com_joomlaupdate',
-				'image' => 'joomla',
-				'icon'  => 'header/icon-48-download.png',
+				'image' => 'fa fa-joomla',
+				'icon'  => '',
 				'text'  => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_joomlaupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE',

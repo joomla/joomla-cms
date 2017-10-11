@@ -27,7 +27,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
-					description="MOD_STATS_FIELD_SERVERINFO_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -39,7 +38,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
-					description="MOD_STATS_FIELD_SITEINFO_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -51,7 +49,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_STATS_FIELD_COUNTER_LABEL"
-					description="MOD_STATS_FIELD_COUNTER_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -62,7 +59,6 @@
 					name="increase"
 					type="text"
 					label="MOD_STATS_FIELD_INCREASECOUNTER_LABEL"
-					description="MOD_STATS_FIELD_INCREASECOUNTER_DESC"
 					default="0"
 				/>
 			</fieldset>
@@ -71,14 +67,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -86,7 +80,6 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -97,7 +90,6 @@
 					name="cache_time"
 					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 

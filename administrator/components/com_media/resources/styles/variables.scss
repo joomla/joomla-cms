@@ -1,2 +1,50 @@
-// Media Browser
-$image-edit-icon-size:           2.2rem;
+// Defaults
+$gutter-width:                      15px;
+$border-color:                      #d8d8d8;
+$border-radius:                     .25rem;
+
+// Layout
+$col-main-panel-width:              83.3333%;
+$col-side-panel-width:              16.6667%;
+$col-gutter-width:                  $gutter-width;
+
+// Media Browser Grid
+$grid-gutter-width:                 $col-gutter-width;
+$grid-outside-padding:              $col-gutter-width;
+$grid-item-hover-color:             rgba(#000, .5);
+$grid-item-border-radius:           $border-radius;
+$grid-item-icon-size:               1.3rem;
+$grid-item-icon-color:              #fff;
+$grid-item-icon-bg-color:           rgba(0,0,0,.8);
+$grid-item-icon-color-hover:        rgba(0,0,0,.8);
+$grid-item-icon-bg-color-hover:     #fff;
+$grid-item-icon-warning-icon-bg:    #d9534f;
+$grid-item-no-preview-bg:           #f5f5f5;
+$grid-item-width-xs:                8.333%;
+$grid-item-width-sm:                12.5%;
+$grid-item-width-md:                16.666%;
+$grid-item-width-lg:                25%;
+$grid-item-width-xl:                50%;
+
+// Media Browser Table
+$table-item-height:                 30px;
+$table-item-icon-size:              1.2rem;
+$table-item-icon-color:             #656565;
+$table-item-icon-bg:                rgba(0, 0, 0, .015);
+$table-item-icon-color-selected:    #fff;
+$table-item-icon-bg-selected:       #006898;
+$table-item-bg-hover:               rgba(0, 0, 0, .03);
+
+// Table Icon Mapping
+$icon-type-default:                 "\f016";
+$icon-type-folder:                  "\f114";
+$icon-type-images:                  "\f1c5";
+$icon-type-video:                   "\f1c8";
+$icon-type-audio:                   "\f1c7";
+$icon-type-docs:                    "\f0f6";
+$icon-type-code:                    "\f1c9";
+
+// Drag n Drop Upload
+$dnd-bg:                            rgba(245, 245, 245, .8);
+$dnd-icon-color:                    #1c3d5c;
+$dnd-border:                        3px dashed #999;

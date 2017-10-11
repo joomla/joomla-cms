@@ -29,6 +29,8 @@ $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
+// Alerts
+JHtml::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -53,9 +55,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
-	<script src="/media/vendor/jquery/js/jquery.min.js"></script>
-	<script src="/media/vendor/tether/js/tether.min.js"></script>
-	<script src="/media/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/media/system/js/core.min.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
@@ -76,7 +75,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
 			<div id="main-brand" class="main-brand align-items-center">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>">
+					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
 				</a>
 			</div>
 			<?php // Display menu modules ?>
@@ -127,7 +126,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 							<?php
 								try
 								{
-									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(['ignore_request' => true]);
+									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
 									$messages      = $messagesModel->getItems();
 								}
 								catch (RuntimeException $e)
@@ -197,9 +196,10 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 				<div class="row">
 
 					<div class="col-md-12">
+						<jdoc:include type="message" />
 						<h1><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<blockquote class="blockquote">
-							<span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+							<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 						</blockquote>
 						<?php if ($this->debug) : ?>
 							<div>

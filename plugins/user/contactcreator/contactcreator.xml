@@ -31,7 +31,6 @@
 					name="category"
 					type="category"
 					label="JCATEGORY"
-					description="PLG_CONTACTCREATOR_FIELD_CATEGORY_DESC"
 					extension="com_contact"
 				/>
 
@@ -40,7 +39,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
-					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>

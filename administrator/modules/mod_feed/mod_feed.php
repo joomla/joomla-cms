@@ -9,23 +9,9 @@
 
 defined('_JEXEC') or die;
 
-// Include the feed functions only once
-JLoader::register('ModFeedHelper', __DIR__ . '/helper.php');
-
-$rssurl = $params->get('rssurl', '');
-$rssrtl = $params->get('rssrtl', 0);
-
-// Check if feed URL has been set
-if (empty ($rssurl))
-{
-	echo '<div>';
-	echo JText::_('MOD_FEED_ERR_NO_URL');
-	echo '</div>';
-
-	return;
-}
-
-$feed            = ModFeedHelper::getFeed($params);
+$feed            = \Joomla\Module\Feed\Administrator\Helper\FeedHelper::getFeed($params);
+$rssurl          = $params->get('rssurl', '');
+$rssrtl          = $params->get('rssrtl', 0);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
-require JModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));
+require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

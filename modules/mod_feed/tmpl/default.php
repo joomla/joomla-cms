@@ -8,9 +8,15 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
-<?php
+// Check if feed URL has been set
+if (empty ($rssurl))
+{
+	echo '<div>' . \JText::_('MOD_FEED_ERR_NO_URL') . '</div>';
+
+	return;
+}
+
 if (!empty($feed) && is_string($feed))
 {
 	echo $feed;
@@ -58,7 +64,7 @@ else
 		$iUrl   = isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed">
 		<?php
 		// Feed description
 		if ($feed->title !== null && $params->get('rsstitle', 1))
@@ -87,7 +93,7 @@ else
 	<!-- Show items -->
 	<?php if (!empty($feed))
 	{ ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+		<ul class="newsfeed">
 		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
 			<?php
 				$uri   = (!empty($feed[$i]->uri) || $feed[$i]->uri !== null) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);

@@ -40,6 +40,9 @@ JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]
 // Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
+// Alerts progressive enhancement
+JHtml::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+
 // Load specific language related CSS
 JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
@@ -73,7 +76,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="site <?php echo $option
+<body class="site site-grid <?php echo $option
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
@@ -82,7 +85,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>">
 
 	<header class="header full-width">
-		<nav class="navbar navbar-toggleable-md navbar-full">
+		<nav class="navbar navbar-expand-lg navbar-full">
 			<div class="navbar-brand">
 				<a href="<?php echo $this->baseurl; ?>/">
 					<?php echo $logo; ?>

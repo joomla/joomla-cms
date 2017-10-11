@@ -18,7 +18,7 @@ JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto
 JText::script('JSHOW');
 JText::script('JHIDE');
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form">
+<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="login-form">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">

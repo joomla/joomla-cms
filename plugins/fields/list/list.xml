@@ -23,7 +23,6 @@
 					name="multiple"
 					type="radio"
 					label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_LIST_PARAMS_MULTIPLE_DESC"
 					class="switcher"
 					default="0"
 					>
@@ -35,7 +34,6 @@
 					name="options"
 					type="subform" 
 					label="PLG_FIELDS_LIST_PARAMS_OPTIONS_LABEL"
-					description="PLG_FIELDS_LIST_PARAMS_OPTIONS_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
 					icon="list" 
 					multiple="true"

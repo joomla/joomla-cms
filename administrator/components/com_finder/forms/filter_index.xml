@@ -12,8 +12,6 @@
 		<field
 			name="state"
 			type="status"
-			label="COM_FINDER_FILTER_PUBLISHED"
-			description="COM_FINDER_FILTER_PUBLISHED_DESC"
 			filter="0,1"
 			onchange="this.form.submit();"
 			>
@@ -23,8 +21,6 @@
 		<field
 			name="type"
 			type="contenttypes"
-			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_FINDER_MAPS_SELECT_TYPE</option>
@@ -33,8 +29,6 @@
 		<field
 			name="content_map"
 			type="contentmap"
-			label="COM_FINDER_FILTER_CONTENT_MAP_LABEL"
-			description="COM_FINDER_FILTER_CONTENT_MAP_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_FINDER_FILTER_SELECT_CONTENT_MAP</option>

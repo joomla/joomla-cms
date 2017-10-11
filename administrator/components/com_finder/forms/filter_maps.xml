@@ -12,8 +12,6 @@
 		<field
 			name="state"
 			type="status"
-			label="COM_FINDER_FILTER_PUBLISHED"
-			description="COM_FINDER_FILTER_PUBLISHED_DESC"
 			filter="0,1"
 			onchange="this.form.submit();"
 			>
@@ -30,8 +28,6 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="2"
 			step="1"

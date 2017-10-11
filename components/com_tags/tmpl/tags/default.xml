@@ -16,7 +16,6 @@
 				name="parent_id" 
 				type="tag" 
 				label="COM_TAGS_FIELD_PARENT_TAG_LABEL"
-				description="COM_TAGS_FIELD_PARENT_TAG_DESC"
 				mode="nested"
 				>
 				<option value="">JNONE</option>
@@ -27,7 +26,6 @@
 				name="tag_list_language_filter"
 				type="contentlanguage"
 				label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
-				description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -45,7 +43,6 @@
 				name="tag_columns"
 				type="text"
 				label="COM_TAGS_COMPACT_COLUMNS_LABEL"
-				description="COM_TAGS_NUMBER_COLUMNS_DESC"
 				default="4"
 				filter="integer"
 			/>
@@ -53,8 +50,7 @@
 			<field 
 				name="all_tags_description" 
 				type="textarea"
-				label="COM_TAGS_SHOW_ALL_TAGS_DESCRIPTION_LABEL"
-				description="COM_TAGS_ALL_TAGS_DESCRIPTION_DESC"
+				label="COM_TAGS_ALL_TAGS_DESCRIPTION_LABEL"
 				class="inputbox"
 				rows="3" 
 				cols="30" 
@@ -65,7 +61,6 @@
 				name="all_tags_show_description_image" 
 				type="list"
 				label="COM_TAGS_SHOW_ALL_TAGS_IMAGE_LABEL"
-				description="COM_TAGS_SHOW_ALL_TAGS_IMAGE_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -76,14 +71,12 @@
 				name="all_tags_description_image" 
 				type="media"
 				label="COM_TAGS_ALL_TAGS_MEDIA_LABEL"
-				description="COM_TAGS_ALL_TAGS_MEDIA_DESC"
 			/>
 
 			<field 
 				name="all_tags_orderby"
 				type="list"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
-				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 				useglobal="true"
 				>
 				<option value="title">JGLOBAL_TITLE</option>
@@ -97,7 +90,6 @@
 				name="all_tags_orderby_direction" 
 				type="list"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
-				description="JGLOBAL_ORDER_DIRECTION_DESC"
 				useglobal="true"
 				>
 				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
@@ -108,7 +100,6 @@
 				name="all_tags_show_tag_image" 
 				type="list"
 				label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
-				description="COM_TAGS_SHOW_ITEM_IMAGE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -119,7 +110,6 @@
 				name="all_tags_show_tag_description" 
 				type="list"
 				label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
-				description="COM_TAGS_SHOW_ITEM_DESCRIPTION_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -130,7 +120,6 @@
 				name="all_tags_tag_maximum_characters"
 				type="text"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
-				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 				filter="integer"
 			/>
 
@@ -138,7 +127,6 @@
 				name="all_tags_show_tag_hits" 
 				type="list"
 				label="JGLOBAL_HITS"
-				description="COM_TAGS_FIELD_CONFIG_HITS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -154,7 +142,6 @@
 				name="maximum"
 				type="text"
 				label="COM_TAGS_LIST_MAX_LABEL"
-				description="COM_TAGS_LIST_MAX_DESC"
 				default="200"
 				filter="integer"
 			/>
@@ -163,7 +150,6 @@
 				name="filter_field"
 				type="list"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
-				description="JGLOBAL_FILTER_FIELD_DESC"
 				default=""
 				useglobal="true"
 				>
@@ -175,7 +161,6 @@
 				name="show_pagination_limit" 
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -186,7 +171,6 @@
 				name="show_pagination" 
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
-				description="JGLOBAL_PAGINATION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -198,7 +182,6 @@
 				name="show_pagination_results" 
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -211,7 +194,6 @@
 				name="show_feed_link" 
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>

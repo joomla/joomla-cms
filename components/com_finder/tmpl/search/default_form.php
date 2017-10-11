@@ -56,7 +56,7 @@ if ($this->params->get('show_autosuggest', 1))
 		<div id="advancedSearch" class="js-finder-advanced collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' show'; ?>">
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
 				<div class="card card-outline-secondary mb-3">
-					<div class="card-block">
+					<div class="card-body">
 						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
 					</div>
 				</div>
