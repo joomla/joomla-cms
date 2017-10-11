@@ -275,8 +275,8 @@ class JAdminCssMenu
 				}
 			}
 
-			// Exclude item if com_fields component is not installed or disabled
-			if ($item->element == 'com_fields' && (!JComponentHelper::isInstalled($item->element) || !JComponentHelper::isEnabled($item->element)))
+			// Exclude item if is not enabled
+			if (!JComponentHelper::isEnabled($item->element))
 			{
 				continue;
 			}
