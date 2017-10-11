@@ -35,7 +35,7 @@ function httpheader_postinstall_action()
 
 	$query = $db->getQuery(true)
 		->update($db->qn('#__extensions'))
-		->set($db->qn('enabled') . ' = ' . $db->q(1))
+		->set($db->qn('enabled') . ' = 1')
 		->where($db->qn('type') . ' = ' . $db->q('plugin'))
 		->where($db->qn('folder') . ' = ' . $db->q('system'))
 		->where($db->qn('element') . ' = ' . $db->q('plg_system_httpheader'));
