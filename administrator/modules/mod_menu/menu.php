@@ -276,7 +276,7 @@ class JAdminCssMenu
 			}
 
 			// Exclude item if is not enabled
-			if (!JComponentHelper::isEnabled($item->element))
+			if ($item->element && !JComponentHelper::isEnabled($item->element))
 			{
 				continue;
 			}
