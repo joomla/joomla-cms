@@ -20,7 +20,6 @@
 					name="xframeoptions"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS"
-					description="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -31,7 +30,6 @@
 					name="xxssprotection"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_XXSSPROTECTION"
-					description="PLG_SYSTEM_HTTPHEADER_XXSSPROTECTION_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -42,7 +40,6 @@
 					name="xcontenttypeoptions"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_XCONTENTTYPEOPTIONS"
-					description="PLG_SYSTEM_HTTPHEADER_XCONTENTTYPEOPTIONS_DESC"
 					class="switcher"
 					default="1"
 					>
@@ -53,18 +50,17 @@
 					name="referrerpolicy"
 					type="list"
 					label="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY"
-					description="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_DESC"
 					default="no-referrer-when-downgrade"
 					>
-					<option value="">PLG_SYSTEM_HTTPHEADER_EMPTY_STRING</option>
-					<option value="no-referrer">PLG_SYSTEM_HTTPHEADER_NO_REFERRER</option>
-					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADER_NO_REFERRER_WHEN_DOWNGRADE</option>
-					<option value="same-origin">PLG_SYSTEM_HTTPHEADER_SAME_ORIGIN</option>
-					<option value="origin">PLG_SYSTEM_HTTPHEADER_ORIGIN</option>
-					<option value="strict-origin">PLG_SYSTEM_HTTPHEADER_STRICT_ORIGIN</option>
-					<option value="origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_ORIGIN_WHEN_CROSS_ORIGIN</option>
-					<option value="strict-origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_STRICT_ORIGIN_WEHN_CROSS_ORIGIN</option>
-					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADER_UNSAFE_URL</option>
+					<option value="">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_EMPTY_STRING</option>
+					<option value="no-referrer">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_NO_REFERRER</option>
+					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_NO_REFERRER_WHEN_DOWNGRADE</option>
+					<option value="same-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_SAME_ORIGIN</option>
+					<option value="origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_ORIGIN</option>
+					<option value="strict-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_STRICT_ORIGIN</option>
+					<option value="origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_ORIGIN_WHEN_CROSS_ORIGIN</option>
+					<option value="strict-origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_STRICT_ORIGIN_WEHN_CROSS_ORIGIN</option>
+					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_UNSAFE_URL</option>
 				</field>
 				<field
 					name="additional_httpheader"

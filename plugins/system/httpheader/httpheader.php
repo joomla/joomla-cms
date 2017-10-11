@@ -13,14 +13,14 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * Plugin class for Http Header
+ * Plugin class for HTTP Header
  *
  * @since  __DEPLOY_VERSION__
  */
 class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 {
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 * If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
@@ -83,7 +83,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 
 		foreach ($httpHeaders as $httpHeader)
 		{
-			// Handle the client settings foreach header
+			// Handle the client settings for each header
 			if (!$this->app->isClient($httpHeader->client) && $httpHeader->client != 'both')
 			{
 				continue;
@@ -121,12 +121,6 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 		if ($this->params->get('xcontenttypeoptions', 1) === 1)
 		{
 			$this->app->setHeader('X-Content-Type-Options', 'nosniff');
-		}
-
-		// Strict-Transport-Security
-		if ($this->app->get('force_ssl', 0) === 2)
-		{
-			$this->app->setHeader('Strict-Transport-Security', 'max-age=31536000');
 		}
 
 		// Referrer-Policy
