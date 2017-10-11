@@ -80,6 +80,32 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
+	 * Checks the SecurityFiel
+	 *
+	 * @return  boolean  true if all checks have been passed
+	 *
+	 * @since   3.8.1
+	 */
+	private function checkSecurityFile()
+	{
+		// todo!
+	}
+
+	/**
+	 * Checks the remote db_host and http_host for security reason
+	 *
+	 * @param   object  &$options  The options referenz to use for configuration.
+	 *
+	 * @return  boolean  true if all security checks have been passed
+	 *
+	 * @since   3.8.1
+	 */
+	private function checkHostSecurity(&$options)
+	{
+		// todo!
+	}
+
+	/**
 	 * Method to initialise the database.
 	 *
 	 * @param   array  $options  The options to use for configuration.
