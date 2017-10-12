@@ -8000,6 +8000,9 @@ small,
 .small {
   font-size: 0.8rem; }
 
+dd {
+  margin-bottom: 0; }
+
 .j-main-container .alert {
   margin: 10px; }
 
@@ -8287,17 +8290,18 @@ iframe {
 .modal iframe {
   width: 100%; }
 
-body > div,
-body header > nav,
-body footer {
-  display: flex;
-  width: 100%;
-  max-width: 1140px;
-  margin-right: auto;
-  margin-left: auto; }
-
-body > .full-width {
-  max-width: none; }
+body {
+  background-color: #fafafa; }
+  body > div,
+  body header > nav,
+  body footer {
+    display: flex;
+    width: 100%;
+    max-width: 1140px;
+    margin-right: auto;
+    margin-left: auto; }
+  body > .full-width {
+    max-width: none; }
 
 header {
   margin-bottom: 10px; }
@@ -8489,7 +8493,7 @@ joomla-alert {
 @supports (display: grid) {
   .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
+    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
     .site-grid > div {
@@ -8507,7 +8511,7 @@ joomla-alert {
       grid-column: full-start / full-end; }
     @media (max-width: 575px) {
       .site-grid {
-        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
+        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
     .site-grid header {
       margin-bottom: 0; }
       .site-grid header + div:not(.container-banner) {
@@ -8584,6 +8588,69 @@ header {
     .container-bottom-a,
     .container-bottom-b {
       grid-template-columns: 1fr; } }
+
+.blog-items {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: 1fr;
+  grid-auto-flow: row;
+  margin-bottom: 2rem; }
+  .blog-items.columns-2 {
+    grid-template-columns: 1fr 1fr; }
+  .blog-items.columns-3 {
+    grid-template-columns: 1fr 1fr 1fr; }
+  .blog-items.columns-4 {
+    grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .blog-items[class^='masonry-'], .blog-items[class*=' masonry-'] {
+    display: block;
+    column-gap: 2rem; }
+    .blog-items[class^='masonry-'] .blog-item, .blog-items[class*=' masonry-'] .blog-item {
+      margin-bottom: 2rem;
+      page-break-inside: avoid;
+      break-inside: avoid; }
+  .blog-items.masonry-2 {
+    column-count: 2; }
+  .blog-items.masonry-3 {
+    column-count: 3; }
+  .blog-items.masonry-4 {
+    column-count: 4; }
+
+.blog-item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; }
+  .boxed .blog-item {
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(52, 58, 67, 0.1), 0 2px 5px rgba(52, 58, 67, 0.08), 0 5px 15px rgba(52, 58, 67, 0.08), inset 0 3px 0 #006898; }
+    .boxed .blog-item .item-content {
+      padding: 25px; }
+  .image-left .blog-item, .image-right .blog-item {
+    flex-direction: row; }
+  .blog-item .item-image {
+    margin-top: 3px;
+    margin-bottom: 15px; }
+    .boxed .blog-item .item-image {
+      margin-bottom: 0; }
+    .image-right .blog-item .item-image {
+      order: 1; }
+    .image-bottom .blog-item .item-image {
+      order: 1;
+      margin-top: -15px; }
+  .image-left .blog-item .item-content {
+    padding-left: 25px; }
+  .image-right .blog-item .item-content {
+    padding-right: 25px; }
+
+.image-alternate .blog-item:nth-of-type(2n+1) .item-image {
+  order: 0; }
+
+.image-alternate.image-left .blog-item:nth-of-type(2n+1) .item-image {
+  order: 1;
+  margin-left: 25px;
+  margin-right: 0; }
+
+.image-alternate.image-top .blog-item:nth-of-type(2n+1) .item-image {
+  order: 1; }
 
 .awesomplete {
   display: block; }
