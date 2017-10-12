@@ -68,7 +68,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * The `setHttpHeaders` methode handle the setting of the configured HTTP Headers
+	 * The `setHttpHeaders` method handle the setting of the configured HTTP Headers
 	 *
 	 * @return  void
 	 *
