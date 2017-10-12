@@ -84,7 +84,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  true if all checks have been passed
 	 *
-	 * @since   3.8.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function checkSecurityFile()
 	{
@@ -192,7 +192,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  true if all security checks have been passed
 	 *
-	 * @since   3.8.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function checkHostSecurity(&$options)
 	{
