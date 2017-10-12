@@ -314,7 +314,10 @@ class InstallationModelDatabase extends JModelBase
 		// Save host checks
 		if ($this->checkHostSecurity($options) == false)
 		{
-			return $this->checkSecurityFile();
+			if ($this->checkSecurityFile() === false)
+			{
+				return false;
+			}
 		}
 
 		// Get a database object.
