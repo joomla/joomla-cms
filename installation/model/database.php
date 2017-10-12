@@ -312,7 +312,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Save host checks
-		if ($this->checkHostSecurity($options) == false)
+		if ($this->checkHostSecurity($options) === false)
 		{
 			if ($this->checkSecurityFile() === false)
 			{
