@@ -858,9 +858,9 @@ abstract class HTMLHelper
 			$mediaVersion = Factory::getDocument()->getMediaVersion();
 
 			// Add the css if exists
-			HTMLHelper::_('stylesheet', str_replace('.js', '.css', $value), $options);
+			self::_('stylesheet', str_replace('.js', '.css', $value), $options);
 
-			$includes     = static::includeRelativeFiles(
+			$includes = static::includeRelativeFiles(
 				'js',
 				$value,
 				$options['relative'] ?? true,
