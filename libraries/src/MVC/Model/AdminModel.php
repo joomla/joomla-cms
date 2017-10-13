@@ -590,7 +590,7 @@ abstract class AdminModel extends FormModel
 				/**
 				 * @var  \JTableObserverTags  $tagsObserver
 				 */
-				$tagsObserver = $table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');;
+				$tagsObserver = $table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 				$result = $tagsObserver->setNewTags($tags, false);
 
 				if (!$result)
