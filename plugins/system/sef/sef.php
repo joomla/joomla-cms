@@ -137,35 +137,15 @@ class PlgSystemSef extends JPlugin
 				$regex,
 				function ($match) use ($base, $protocols)
 				{
-					$data = array();
-										
-					preg_match_all('#((?:[^\s]+)\s*([\d\.]+[wx])?,*)#m', $match[1], $matches);
-					
-					foreach($matches[1] as $src) 
-					{
-						// trim spaces
-						$src = trim($src);
-					
-						// remove comma seperator
-						$src = trim($src, ",");
-						
-						$url = $src;
-						$descriptor = '';
-						
-						// assign url and descriptor from match
-						if (strpos(' ', $src) !== false) 
-						{
-							list($url, $descriptor) = explode(' ', $src);
-						}
+					preg_match_all('#(?:[^\s]+)\s*(?:[\d\.]+[wx])?(?:\,\s*)?#i', $match[1], $matches);
 
-						// process url
-						$url = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', trim($url));
-						
-						// join url and descriptor by space and trim
-						$data[] = trim(implode(' ', array($url, $descriptor)));
+					foreach ($matches[0] as &$src)
+					{
+    						$src = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', $src);
+    						$src = trim($src);
 					}
 
-					return ' srcset="' . implode(", ", $data) . '"';
+					return ' srcset="' . implode(' ', $matches[0]) . '"';
 				},
 				$buffer
 			);	
