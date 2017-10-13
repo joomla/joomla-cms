@@ -165,7 +165,7 @@ function pagination_item_active(&$item)
 	// Check for "Next" item
 	if ($item->text === JText::_('JNEXT'))
 	{
-		$display = '<span class="icon-next" aria-hidden="true" ></span>';
+		$display = '<span class="icon-next" aria-hidden="true"></span>';
 	}
 
 	// Check for "End" item
