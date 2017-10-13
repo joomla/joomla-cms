@@ -281,6 +281,12 @@ class JAdminCssMenu
 				continue;
 			}
 
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope == 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
+			{
+				continue;
+			}
+
 			// Exclude item if the component is not authorised
 			$assetName = $item->element;
 
@@ -360,6 +366,11 @@ class JAdminCssMenu
 			{
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+			}
+
+			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
 			}
 
 			$item->text = JText::_($item->title);

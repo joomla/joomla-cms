@@ -24,7 +24,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_LATEST_FIELD_COUNT_LABEL"
 					description="MOD_LATEST_FIELD_COUNT_DESC" 
 					default="5"
