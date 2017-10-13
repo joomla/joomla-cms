@@ -141,7 +141,8 @@ class PlgSystemSef extends JPlugin
 										
 					preg_match_all('#((?:[^\s]+)\s*([\d\.]+[wx])?,*)#m', $match[1], $matches);
 					
-					foreach($matches[1] as $src) {
+					foreach($matches[1] as $src) 
+					{
 						// trim spaces
 						$src = trim($src);
 					
@@ -152,7 +153,8 @@ class PlgSystemSef extends JPlugin
 						$descriptor = '';
 						
 						// assign url and descriptor from match
-						if (strpos(' ', $src) !== false) {
+						if (strpos(' ', $src) !== false) 
+						{
 							list($url, $descriptor) = explode(' ', $src);
 						}
 
