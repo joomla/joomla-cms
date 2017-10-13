@@ -1461,7 +1461,7 @@ abstract class AdminModel extends FormModel
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
 				?: $this->contentType->getTypeByAlias($this->typeAlias);
 
-			// Get get tabs observer
+			// Get tabs observer
 			$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 		}
 	}
