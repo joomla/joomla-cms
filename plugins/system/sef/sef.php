@@ -142,10 +142,9 @@ class PlgSystemSef extends JPlugin
 					foreach ($matches[0] as &$src)
 					{
     						$src = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', $src);
-    						$src = trim($src);
 					}
 
-					return ' srcset="' . implode(' ', $matches[0]) . '"';
+					return ' srcset="' . implode($matches[0]) . '"';
 				},
 				$buffer
 			);	
