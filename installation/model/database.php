@@ -188,7 +188,7 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Checks the remote db_host and http_host for security reason
 	 *
-	 * @param   object  &$options  The options referenz to use for configuration.
+	 * @param   object  &$options  The options reference to use for configuration.
 	 *
 	 * @return  boolean  true if all security checks have been passed
 	 *
