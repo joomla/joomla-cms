@@ -138,11 +138,32 @@ class PlgSystemSef extends JPlugin
 				function ($match) use ($base, $protocols)
 				{
 					$data = array();
-					foreach (explode(",", $match[1]) as $url)
-					{
-						$data[] = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', trim($url));
+										
+					preg_match_all('#((?:[^\s]+)\s*([\d\.]+[wx])?,*)#m', $match[1], $matches);
+					
+					foreach($matches[1] as $src) {
+						// trim spaces
+						$src = trim($src);
+					
+						// remove comma seperator
+						$src = trim($src, ",");
+						
+						$url = $src;
+						$descriptor = '';
+						
+						// assign url and descriptor from match
+						if (strpos(' ', $src) !== false) {
+							list($url, $descriptor) = explode(' ', $src);
+						}
+
+						// process url
+						$url = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', trim($url));
+						
+						// join url and descriptor by space and trim
+						$data[] = trim(implode(' ', array($url, $descriptor)));
 					}
-					return ' srcset="' . implode(",", $data) . '"';
+
+					return ' srcset="' . implode(", ", $data) . '"';
 				},
 				$buffer
 			);	
