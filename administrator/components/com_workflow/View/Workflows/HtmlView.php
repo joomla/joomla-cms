@@ -150,6 +150,11 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::trash('workflows.trash');
 		}
 
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			ToolbarHelper::preferences($this->extension);
+		}
+
 		ToolbarHelper::help('JHELP_WORKFLOWS_LIST');
 	}
 

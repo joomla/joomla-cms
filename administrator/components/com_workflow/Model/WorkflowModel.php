@@ -150,6 +150,16 @@ class WorkflowModel extends AdminModel
 			)
 		);
 
+		if (empty($form))
+		{
+			return false;
+		}
+
+		if ($loadData)
+		{
+			$data = $this->loadFormData();
+		}
+
 		$item = $this->getItem($form->getValue('id'));
 
 		// Deactivate switcher if default
@@ -157,6 +167,21 @@ class WorkflowModel extends AdminModel
 		if (!empty($item->default))
 		{
 			$form->setFieldAttribute('default', 'readonly', 'true');
+		}
+
+		// Modify the form based on access controls.
+		if (!$this->canEditState((object) $data))
+		{
+			// Disable fields for display.
+			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('published', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
 		return $form;
@@ -258,8 +283,35 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		// @TODO check here if the record can be deleted (no item is assigned to a status etc...)
-		return parent::canDelete($record);
+		if (empty($record->id) || $record->published != -2)
+		{
+			return false;
+		}
+
+		return Factory::getUser()->authorise('core.delete', $record->extension . '.workflow.' . (int) $record->id);
+	}
+
+	/**
+	 * Method to test whether a record can have its state changed.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function canEditState($record)
+	{
+		$user = Factory::getUser();
+
+		// Check for existing workflow.
+		if (!empty($record->id))
+		{
+			return $user->authorise('core.edit.state', $record->extension . '.workflow.' . (int) $record->id);
+		}
+
+		// Default to component settings if workflow isn't known.
+		return $user->authorise('core.edit.state', $record->extension);
 	}
 
 	/**

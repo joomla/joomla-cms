@@ -135,7 +135,7 @@ $userId = $user->id;
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', true); ?>
+										<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 									</div>
 								</td>
 								<td>

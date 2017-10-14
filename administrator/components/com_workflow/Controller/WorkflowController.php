@@ -53,6 +53,66 @@ class WorkflowController extends FormController
 	}
 
 	/**
+	 * Method to check if you can add a new record.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function allowAdd($data = array())
+	{
+		$user = Factory::getUser();
+
+		return ($user->authorise('core.create', $this->extension));
+	}
+
+	/**
+	 * Method to check if you can edit a record.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+		$user = Factory::getUser();
+
+		// Check "edit" permission on record asset (explicit or inherited)
+		if ($user->authorise('core.edit', $this->extension . '.workflow.' . $recordId))
+		{
+			return true;
+		}
+
+		// Check "edit own" permission on record asset (explicit or inherited)
+		if ($user->authorise('core.edit.own', $this->extension . '.workflow.' . $recordId))
+		{
+			// Need to do a lookup from the model to get the owner
+			$record = $this->getModel()->getItem($recordId);
+
+			if (empty($record))
+			{
+				return false;
+			}
+
+			$ownerId = $record->created_by;
+
+			// If the owner matches 'me' then do the test.
+			if ($ownerId == $user->id)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
 	 * @param   integer  $recordId  The primary key id for the item.
@@ -163,8 +223,6 @@ class WorkflowController extends FormController
 				$table->save($transition);
 			}
 		}
-
-		parent::postSaveHook($model, $validData);
 	}
 
 	/**
