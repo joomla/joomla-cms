@@ -154,8 +154,7 @@ class FtpClient
 
 		if (FTP_NATIVE)
 		{
-			$buffer = new BufferStreamHandler;
-			$buffer->stream_register();
+			BufferStreamHandler::stream_register();
 		}
 	}
 

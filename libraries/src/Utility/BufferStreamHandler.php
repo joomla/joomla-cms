@@ -11,8 +11,7 @@ namespace Joomla\CMS\Utility;
 defined('JPATH_PLATFORM') or die;
 
 // Workaround for B/C. Will be removed with 4.0
-$buffer = new BufferStreamHandler;
-$buffer->stream_register();
+BufferStreamHandler::stream_register();
 
 /**
  * Generic Buffer stream handler
@@ -63,7 +62,7 @@ class BufferStreamHandler
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function stream_register()
+	public static function stream_register()
 	{
 		if (!self::$registered)
 		{
