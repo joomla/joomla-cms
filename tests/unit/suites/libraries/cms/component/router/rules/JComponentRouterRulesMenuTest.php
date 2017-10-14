@@ -152,10 +152,6 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22'),
 			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49'));
 
-		// Check indirect link to a nested view with a key if the layout is different
-		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'blog'),
-			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'blog'));
-
 		// Check indirect link to a nested view with a key and a language
 		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB'),
 			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB', 'Itemid' => '49'));
@@ -263,6 +259,37 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'view' => 'article',
 			'id' => '1:some-alias',
 			'Itemid' => '53');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		$this->restoreFactoryState();
+	}
+
+	/**
+	 * Tests the preprocess() method
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testPreprocessLayout()
+	{
+		$this->saveFactoryState();
+
+		$router = $this->object->get('router');
+
+		// Unset an active menu
+		$router->menu->active = null;
+
+		// Check link if default layout is set explicitly
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'default');
+		$expect = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'default');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		// Check link if the layout is different than in menu item for parent category
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'blog');
+		$expect = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'blog');
 		$this->object->preprocess($query);
 		$this->assertEquals($expect, $query);
 

@@ -110,30 +110,27 @@ class MenuRules implements RulesInterface
 
 		$needles = $this->router->getPath($query);
 
-		$layout = '';
-
-		if (isset($query['layout']))
-		{
-			$layout = ':' . $query['layout'];
-		}
+		$layout = isset($query['layout']) && $query['layout'] !== 'default' ? ':' . $query['layout'] : '';
 
 		if ($needles)
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset($query['layout'], $this->lookup[$language][$view . $layout]))
+				$viewLayout = $view . $layout;
+
+				if ($layout && isset($this->lookup[$language][$viewLayout]))
 				{
 					if (is_bool($ids))
 					{
-						$query['Itemid'] = $this->lookup[$language][$view . $layout];
+						$query['Itemid'] = $this->lookup[$language][$viewLayout];
 						return;
 					}
 
 					foreach ($ids as $id => $segment)
 					{
-						if (isset($this->lookup[$language][$view . $layout][(int) $id]))
+						if (isset($this->lookup[$language][$viewLayout][(int) $id]))
 						{
-							$query['Itemid'] = $this->lookup[$language][$view . $layout][(int) $id];
+							$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
 							return;
 						}
 					}
