@@ -14,7 +14,6 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use JError;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
@@ -173,14 +172,10 @@ class WorkflowModel extends AdminModel
 		if (!$this->canEditState((object) $data))
 		{
 			// Disable fields for display.
-			$form->setFieldAttribute('featured', 'disabled', 'true');
-			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('published', 'disabled', 'true');
 
 			// Disable fields while saving.
 			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('featured', 'filter', 'unset');
-			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
