@@ -1433,6 +1433,7 @@ abstract class AdminModel extends FormModel
 
 		// Check that the user has create permission for the component
 		$extension = \JFactory::getApplication()->input->get('option', '');
+		$user = \JFactory::getUser();
 
 		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
