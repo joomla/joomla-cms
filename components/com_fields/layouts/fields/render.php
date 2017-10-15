@@ -57,8 +57,6 @@ if (!$fields)
 			<?php continue; ?>
 		<?php endif; ?>
 		<?php $class = $field->params->get('render_class'); ?>
-		<dd class="field-entry <?php echo $class; ?>">
-			<?php echo FieldsHelper::render($context, 'field.render', array('field' => $field)); ?>
-		</dd>
+		<?php echo FieldsHelper::render($context, 'field.list', array('field' => $field)); ?>
 	<?php endforeach; ?>
 </dl>
