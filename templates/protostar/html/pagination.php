@@ -154,38 +154,39 @@ function pagination_item_active(&$item)
 	if ($item->text === JText::_('JLIB_HTML_START'))
 	{
 		$display = '<span class="icon-first" aria-hidden="true"></span>';
-		return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav" aria-label="' . JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text)) . '">' . $display . '</a></li>';
+		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 	}
 
 	// Check for "Prev" item
 	if ($item->text === JText::_('JPREV'))
 	{
 		$display = '<span class="icon-previous" aria-hidden="true"></span>';
-		return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav" aria-label="' . JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text)) . '">' . $display . '</a></li>';		
+		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 	}
 
 	// Check for "Next" item
 	if ($item->text === JText::_('JNEXT'))
 	{
 		$display = '<span class="icon-next" aria-hidden="true"></span>';
-		return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav" aria-label="' . JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text)) . '">' . $display . '</a></li>';		
+		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 	}
 
 	// Check for "End" item
 	if ($item->text === JText::_('JLIB_HTML_END'))
 	{
 		$display = '<span class="icon-last" aria-hidden="true"></span>';
-		return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav" aria-label="' . JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text)) . '">' . $display . '</a></li>';		
+		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 	}
 
 	// If the display object isn't set already, just render the item with its text
 	if (!isset($display))
 	{
 		$display = $item->text;
+		$aria    = JText::sprintf('JLIB_HTML_GOTO_PAGE', $item->text);
 		$class   = ' class="hidden-phone"';
 	}
 
-	return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav" aria-label="' . JText::sprintf('JLIB_HTML_GOTO_PAGE', $item->text) . '">' . $display . '</a></li>';
+	return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav" aria-label="' . $aria . '">' . $display . '</a></li>';
 
 }
 
