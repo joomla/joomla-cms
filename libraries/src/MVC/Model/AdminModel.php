@@ -99,6 +99,32 @@ abstract class AdminModel extends FormModel
 	protected $associationsContext = null;
 
 	/**
+	 * A table instance to manage DB records (re-usable in batch action methods)
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $table;
+
+
+	/**
+	 * UCM Type data object corresponding to the current model class (re-usable in batch action methods)
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $type;
+
+	/**
+	 * A tags Observer instance to handle assigned tags (re-usable in batch action methods)
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $tagsObserver;
+
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -209,7 +235,7 @@ abstract class AdminModel extends FormModel
 
 		$done = false;
 
-		// Initialize needed member properties
+		// Initialize re-usable member properties
 		$this->initBatch();
 
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
@@ -280,12 +306,13 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		// Initialize needed member properties
+		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
+		$user = \JFactory::getUser();
 
 		foreach ($pks as $pk)
 		{
-			if ($this->user->authorise('core.edit', $contexts[$pk]))
+			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->table->reset();
 				$this->table->load($pk);
@@ -330,8 +357,9 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		// Initialize needed member properties
+		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
+		$user = \JFactory::getUser();
 
 		$categoryId = $value;
 
@@ -443,12 +471,13 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
-		// Initialize needed member properties
+		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
+		$user = \JFactory::getUser();
 
 		foreach ($pks as $pk)
 		{
-			if ($this->user->authorise('core.edit', $contexts[$pk]))
+			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->table->reset();
 				$this->table->load($pk);
@@ -493,8 +522,9 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
-		// Initialize needed member properties
+		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
+		$user = \JFactory::getUser();
 
 		$categoryId = (int) $value;
 
@@ -506,7 +536,7 @@ abstract class AdminModel extends FormModel
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
-			if (!$this->user->authorise('core.edit', $contexts[$pk]))
+			if (!$user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
@@ -575,27 +605,24 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		// Set the variables
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 		$user = \JFactory::getUser();
-		$table = $this->getTable();
+		$tags = array($value);
 
 		foreach ($pks as $pk)
 		{
 			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
-				$table->reset();
-				$table->load($pk);
-				$tags = array($value);
+				$this->table->reset();
+				$this->table->load($pk);
 
-				/**
-				 * @var  \JTableObserverTags  $tagsObserver
-				 */
-				$tagsObserver = $table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
-				$result = $tagsObserver->setNewTags($tags, false);
+				// Add new tags, keeping existing ones
+				$result = $this->tagsObserver->setNewTags($tags, false);
 
 				if (!$result)
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
@@ -1266,7 +1293,7 @@ abstract class AdminModel extends FormModel
 	 */
 	public function saveorder($pks = array(), $order = null)
 	{
-		// Initialize needed member properties
+		// Initialize re-usable member properties
 		$this->initBatch();
 
 		$conditions = array();
@@ -1407,7 +1434,7 @@ abstract class AdminModel extends FormModel
 		// Check that the user has create permission for the component
 		$extension = \JFactory::getApplication()->input->get('option', '');
 
-		if (!$this->user->authorise('core.create', $extension . '.category.' . $categoryId))
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
 			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
@@ -1445,21 +1472,23 @@ abstract class AdminModel extends FormModel
 	 */
 	public function initBatch()
 	{
-		if (empty($this->batchSet))
+		static $batchSet = null;
+		
+		if ($batchSet === null)
 		{
 			$this->batchSet = true;
-			$this->user = \JFactory::getUser();
 
-			// Get table and table class
+			// Get table
 			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$tc = explode('\\', $this->tableClassName);
-			$this->tableClassName = end($tc);
 
-			// Get content Type
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
-				?: $this->contentType->getTypeByAlias($this->typeAlias);
+			// Get table class name
+			$tc = explode('\\', get_class($this->table));
+			$tableClassName = end($tc);
+
+			// Get UCM Type data
+			$contentType = new \JUcmType;
+			$this->type = $contentType->getTypeByTable($tableClassName)
+				?: $contentType->getTypeByAlias($this->typeAlias);
 
 			// Get tabs observer
 			$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
