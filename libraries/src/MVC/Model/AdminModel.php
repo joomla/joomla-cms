@@ -99,7 +99,7 @@ abstract class AdminModel extends FormModel
 	protected $associationsContext = null;
 
 	/**
-	 * A table instance to manage DB records (re-usable in batch action methods)
+	 * A table instance to manage DB records (re-usable in batch action methods, initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
@@ -108,7 +108,7 @@ abstract class AdminModel extends FormModel
 
 
 	/**
-	 * UCM Type data object corresponding to the current model class (re-usable in batch action methods)
+	 * UCM Type data object corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
@@ -116,7 +116,7 @@ abstract class AdminModel extends FormModel
 	protected $type;
 
 	/**
-	 * A tags Observer instance to handle assigned tags (re-usable in batch action methods)
+	 * A tags Observer instance to handle assigned tags (re-usable in batch action methods, initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
