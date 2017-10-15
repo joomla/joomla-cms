@@ -1474,10 +1474,10 @@ abstract class AdminModel extends FormModel
 	public function initBatch()
 	{
 		static $batchSet = null;
-		
+
 		if ($batchSet === null)
 		{
-			$this->batchSet = true;
+			$batchSet = true;
 
 			// Get table
 			$this->table = $this->getTable();
