@@ -381,7 +381,7 @@ JLoader::registerAlias('JCryptCipherCrypto',                '\\Joomla\\CMS\\Cryp
 JLoader::registerAlias('JCryptCipherMcrypt',                '\\Joomla\\CMS\\Crypt\\Cipher\\McryptCipher', '4.0');
 JLoader::registerAlias('JCryptCipherRijndael256',           '\\Joomla\\CMS\\Crypt\\Cipher\\Rijndael256Cipher', '4.0');
 JLoader::registerAlias('JCryptCipherSimple',                '\\Joomla\\CMS\\Crypt\\Cipher\\SimpleCipher', '4.0');
-JLoader::registerAlias('JCryptCipherSodium',								'\\Joomla\\CMS\\Crypt\\Cipher\\SodiumCipher', '5.0');
+JLoader::registerAlias('JCryptCipherSodium',                '\\Joomla\\CMS\\Crypt\\Cipher\\SodiumCipher', '5.0');
 JLoader::registerAlias('JCryptCipher3Des',                  '\\Joomla\\CMS\\Crypt\\Cipher\\TripleDesCipher', '4.0');
 JLoader::registerAlias('JCryptPasswordSimple',              '\\Joomla\\CMS\\Crypt\\Password\\SimpleCryptPassword', '4.0');
 
