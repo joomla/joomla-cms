@@ -556,6 +556,11 @@ class BaseController extends \JObject
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
+		// Check that MVC factory is initialized
+		if(is_null($this->factory)) {
+			$this->factory = new LegacyFactory;
+		}
+		
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -586,6 +591,11 @@ class BaseController extends \JObject
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
+		// Check that MVC factory is initialized
+		if(is_null($this->factory)) {
+			$this->factory = new LegacyFactory;
+		}
+		
 		$config['paths'] = $this->paths['view'];
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
