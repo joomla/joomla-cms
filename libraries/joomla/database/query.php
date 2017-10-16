@@ -694,18 +694,26 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->delete('#__a')->where('id = 1');
 	 *
-	 * @param   string  $table  The name of the table to delete from.
+	 * @param   string  $table  	The name of the table to delete from.
+	 * @param	boolean	$addFrom	If true (default), also add $table to the FROM clause
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function delete($table = null)
+	public function delete($table = null, $addFrom = true)
 	{
 		$this->type = 'delete';
-		$this->delete = new JDatabaseQueryElement('DELETE', null);
-
-		if (!empty($table))
+		if (is_null($this->delete))
+		{
+			$this->delete = new JDatabaseQueryElement('DELETE', $table);
+		}
+		else
+		{
+			$this->delete->append($table);
+		}
+		
+		if (!empty($table) && $addFrom)
 		{
 			$this->from($table);
 		}
