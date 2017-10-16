@@ -37,14 +37,17 @@ $chosenAjaxSettings = new Registry(
 
 JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
 
-// Allow custom values ?
+// Allow custom values?
 if ($allowCustom)
 {
 	JFactory::getDocument()->addScriptDeclaration(
 		"
 		jQuery(document).ready(function ($) {
+      var customTagPrefix = '#new#';
+
 			function tagHandler(event,element){
 					// Search an highlighted result
+
 					var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
 
 					// Add the highlighted option
@@ -75,7 +78,7 @@ if ($allowCustom)
 							option.text(element.value).val(customTagPrefix + element.value);
 							option.attr('selected','selected');
 
-							// Append the option an repopulate the chosen field
+							// Append the option and repopulate the chosen field
 							$('" . $selector . "').append(option);
 						}
 					}
@@ -85,8 +88,6 @@ if ($allowCustom)
 					event.preventDefault();
 
 			}
-
-			var customTagPrefix = '#new#';
 
 			// Method to add tags pressing enter
 			$('" . $selector . "_chzn input').keypress(function(event) {

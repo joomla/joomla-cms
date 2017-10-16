@@ -75,8 +75,9 @@ jQuery(document).ready(function($) {
 						<td>
 							<?php echo $language->name; ?>
 
+							<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 							<?php // Display a Note if language pack version is not equal to Joomla version ?>
-							<?php if (substr($language->version, 0, 3) != $version::RELEASE
+							<?php if (substr($language->version, 0, 3) != $minorVersion
 									|| substr($language->version, 0, 5) != $version->getShortVersion()) : ?>
 								<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
 							<?php endif; ?>

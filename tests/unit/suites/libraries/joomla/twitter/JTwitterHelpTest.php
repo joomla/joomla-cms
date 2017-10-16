@@ -4,7 +4,7 @@
  * @subpackage  Twitter
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -71,6 +71,13 @@ class JTwitterHelpTest extends TestCase
 	protected $backupServer;
 
 	/**
+	 * @var  JTwitterOAuth  Test-Object
+	 *
+	 * @since  3.7.3
+	 */
+	protected $oauth;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -118,12 +125,7 @@ class JTwitterHelpTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->client);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 	}
 
 	/**

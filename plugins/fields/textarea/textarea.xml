@@ -64,7 +64,6 @@
 					<option value="float">JLIB_FILTER_PARAMS_FLOAT</option>
 					<option value="tel">JLIB_FILTER_PARAMS_TEL</option>
 				</field>
-
 			</fieldset>
 		</fields>
 	</config>

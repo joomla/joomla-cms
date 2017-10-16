@@ -214,7 +214,7 @@
 '52','com_content.article','Spotted Quoll','spotted-quoll','<p> </p>
 <p> </p>
 ','1',,'0','1',,'0',,'0',,'2011-01-01 00:00:01','0','0000-00-00 00:00:00','*','2011-01-01 00:00:01','0000-00-00 00:00:00','43','141',,,'0','1','4',,,'72',,'1'
-'53','com_content.article','Statistics Module','statistics','<p>This module shows information about your server installation together with statistics on the website users, number of Articles in your database and the number of Web links you provide.</p>
+'53','com_content.article','Statistics Module','statistics','<p>This module shows information about your server installation together with statistics on the website users and the number of Articles in your database.</p>
 <div class="sample-module">{loadmodule mod_stats,Statistics}</div>','1',,'0','1',,'0',,'0',,'2011-01-01 00:00:01','0','0000-00-00 00:00:00','*','2011-01-01 00:00:01','0000-00-00 00:00:00','44','142',,,'0','1','5',,,'67',,'1'
 '54','com_content.article','Syndicate Module','syndicate-module','<p>The syndicate module will display a link that allows users to take a feed from your site. It will only display on pages for which feeds are possible. That means it will not display on single article, contact or weblinks pages, such as this one. <a href="https://docs.joomla.org/Special:MyLanguage/Help15:Screen.modulessite.edit.15#Syndicate" title="Synicate Module">Help</a></p>
 <div class="sample-module">{loadposition syndicate,Syndicate}</div>','1',,'0','1',,'0',,'0',,'2011-01-01 00:00:01','0','0000-00-00 00:00:00','*','2011-01-01 00:00:01','0000-00-00 00:00:00','45','143',,,'0','1','6',,,'67',,'1'

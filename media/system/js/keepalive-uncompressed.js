@@ -17,12 +17,20 @@
 	document.addEventListener('DOMContentLoaded', function() {
 
 		var keepaliveOptions  = Joomla.getOptions('system.keepalive'),
-		    keepaliveUri      = keepaliveOptions.uri ? keepaliveOptions.uri.replace(/&amp;/g, '&') : window.location.pathname,
-		    keepaliveInterval = keepaliveOptions.interval ? keepaliveOptions.interval : 45 * 1000;
+		    keepaliveUri      = keepaliveOptions && keepaliveOptions.uri ? keepaliveOptions.uri.replace(/&amp;/g, '&') : '',
+		    keepaliveInterval = keepaliveOptions && keepaliveOptions.interval ? keepaliveOptions.interval : 45 * 1000;
+
+		// Fallback in case no keepalive uri was found.
+		if (keepaliveUri === '')
+		{
+			var systemPaths = Joomla.getOptions('system.paths');
+
+			keepaliveUri = (systemPaths ? systemPaths.root + '/index.php' : window.location.pathname) + '?option=com_ajax&format=json';
+		}
 
 		window.setInterval(function() {
 			Joomla.request({
-				url:    keepaliveUri,
+				url: keepaliveUri,
 				onSuccess: function(response, xhr)
 				{
 					// Do nothing

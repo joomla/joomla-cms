@@ -4,7 +4,7 @@
  * @subpackage  Facebook
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -120,12 +120,7 @@ class JFacebookEventTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->client);
-		unset($this->input);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->client, $this->input, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 

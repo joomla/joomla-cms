@@ -13,6 +13,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
+JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
@@ -166,11 +170,6 @@ if ($saveOrder)
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 									<?php endif; ?>
-									<?php if ($item->language == '*') : ?>
-										<?php $language = JText::alt('JALL', 'language'); ?>
-									<?php else : ?>
-										<?php $language = $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-									<?php endif; ?>
 									<?php if ($canEdit) : ?>
 										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 											<?php echo $this->escape($item->title); ?></a>
@@ -203,7 +202,8 @@ if ($saveOrder)
 								<?php
 								$date = $item->{$orderingColumn};
 								echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
-								?>							</td>
+								?>
+							</td>
 							<td class="center hidden-phone">
 								<span class="badge badge-info">
 								<?php echo (int) $item->hits; ?>

@@ -45,7 +45,7 @@ extract($displayData);
  * @var   array    $control         Is this field checked?
  */
 
-if (in_array($format, array('rgb', 'rgba')) && $validate != 'color')
+if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
 {
 	$alpha = ($format === 'rgba');
 	$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
@@ -55,8 +55,8 @@ else
 	$placeholder = '#rrggbb';
 }
 
-$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
-$class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
+$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'), true)) ? ' keywords' : ' ' . $format;
+$class        = ' class="' . trim('minicolors ' . $class) . ($validate === 'color' ? '' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
@@ -67,7 +67,7 @@ $hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_C
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
-$direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
+$direction    = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');

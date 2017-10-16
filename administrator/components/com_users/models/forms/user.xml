@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset name="user_details">
-		<field name="name" type="text"
-			description="COM_USERS_USER_FIELD_NAME_DESC"
+		<field 
+			name="name" 
+			type="text"
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
+			description="COM_USERS_USER_FIELD_NAME_DESC"
 			required="true"
 			size="30"
 		/>
 
-		<field name="username" type="text"
-			description="COM_USERS_USER_FIELD_USERNAME_DESC"
+		<field 
+			name="username"
+			type="text"
 			label="COM_USERS_USER_FIELD_USERNAME_LABEL"
+			description="COM_USERS_USER_FIELD_USERNAME_DESC"
 			required="true"
 			size="30"
 		/>
 
-		<field name="password" type="password"
+		<field 
+			name="password" 
+			type="password"
+			label="JGLOBAL_PASSWORD"
+			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			autocomplete="off"
 			class="validate-password"
-			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
 			validate="password"
-			label="JGLOBAL_PASSWORD"
 			size="30"
 		/>
 
-		<field name="password2" type="password"
+		<field 
+			name="password2" 
+			type="password"
+			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
+			description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 			autocomplete="off"
 			class="validate-password"
-			description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
-			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
 			message="COM_USERS_USER_FIELD_PASSWORD1_MESSAGE"
 			size="30"
 			validate="equals"
 			field="password"
 		/>
 
-		<field name="email" type="email"
-			description="COM_USERS_USER_FIELD_EMAIL_DESC"
+		<field 
+			name="email" 
+			type="email"
 			label="JGLOBAL_EMAIL"
+			description="COM_USERS_USER_FIELD_EMAIL_DESC"
 			required="true"
 			size="30"
 			validate="email"
@@ -48,9 +58,9 @@
 		<field
 			name="registerDate"
 			type="calendar"
-			class="readonly"
 			label="COM_USERS_USER_FIELD_REGISTERDATE_LABEL"
 			description="COM_USERS_USER_FIELD_REGISTERDATE_DESC"
+			class="readonly"
 			readonly="true"
 			translateformat="true"
 			showtime="true"
@@ -61,9 +71,9 @@
 		<field
 			name="lastvisitDate"
 			type="calendar"
-			class="readonly"
 			label="COM_USERS_USER_FIELD_LASTVISIT_LABEL"
 			description="COM_USERS_USER_FIELD_LASTVISIT_DESC"
+			class="readonly"
 			readonly="true"
 			translateformat="true"
 			showtime="true"
@@ -74,9 +84,9 @@
 		<field
 			name="lastResetTime"
 			type="calendar"
-			class="readonly"
 			label="COM_USERS_USER_FIELD_LASTRESET_LABEL"
 			description="COM_USERS_USER_FIELD_LASTRESET_DESC"
+			class="readonly"
 			readonly="true"
 			translateformat="true"
 			showtime="true"
@@ -87,42 +97,45 @@
 		<field
 			name="resetCount"
 			type="text"
-			class="readonly"
 			label="COM_USERS_USER_FIELD_RESETCOUNT_LABEL"
-			description ="COM_USERS_USER_FIELD_RESETCOUNT_DESC"
+			description="COM_USERS_USER_FIELD_RESETCOUNT_DESC"
+			class="readonly"
 			default="0"
 			readonly="true"
-			/>
+		/>
 
 		<field
-				name="sendEmail"
-				type="radio"
-				default="0"
-				class="btn-group btn-group-yesno"
-				label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
-				description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+			name="sendEmail"
+			type="radio"
+			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
+			description="COM_USERS_USER_FIELD_SENDEMAIL_DESC"
+			default="0"
+			class="btn-group btn-group-yesno"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
-				name="block"
-				type="radio"
-				class="btn-group btn-group-yesno btn-group-reversed"
-				default="0"
-				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-				description="COM_USERS_USER_FIELD_BLOCK_DESC">
-				<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
-				<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
+			name="block"
+			type="radio"
+			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
+			description="COM_USERS_USER_FIELD_BLOCK_DESC"
+			class="btn-group btn-group-yesno btn-group-reversed"
+			default="0"
+			>
+			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 		</field>
 
 		<field
 			name="requireReset"
 			type="radio"
+			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
+			description="COM_USERS_USER_FIELD_REQUIRERESET_DESC"
 			default="0"
 			class="btn-group btn-group-yesno"
-			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
-			description="COM_USERS_USER_FIELD_REQUIRERESET_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -130,12 +143,12 @@
 		<field
 			name="id"
 			type="text"
-			class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC"
+			description="JGLOBAL_FIELD_ID_DESC"
+			class="readonly"
 			default="0"
 			readonly="true"
-			/>
+		/>
 
 	</fieldset>
 	<field name="groups" type="hidden" />
@@ -146,48 +159,61 @@
 		<!--  Basic user account settings. -->
 		<fieldset name="settings" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
 
-			<field name="admin_style" type="templatestyle"
-				client="administrator"
-				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
+			<field 
+				name="admin_style" 
+				type="templatestyle"
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
-			>
-				<option value="">JOPTION_USE_DEFAULT</option>
-			</field>
-
-			<field name="admin_language" type="language"
+				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				client="administrator"
-				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field 
+				name="admin_language" 
+				type="language"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
-			>
+				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
+				client="administrator"
+				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field name="language" type="language"
-				client="site"
-				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
+			<field 
+				name="language" 
+				type="language"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
-			>
+				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
+				client="site"
+				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field name="editor" type="plugins" folder="editors"
-				description="COM_USERS_USER_FIELD_EDITOR_DESC"
+			<field 
+				name="editor" 
+				type="plugins" 
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
-			>
+				description="COM_USERS_USER_FIELD_EDITOR_DESC"
+				folder="editors"
+				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field name="helpsite" type="helpsite"
+			<field 
+				name="helpsite" 
+				type="helpsite"
 				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
 				description="COM_USERS_USER_FIELD_HELPSITE_DESC"
-			>
+				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field name="timezone" type="timezone"
+			<field 
+				name="timezone" 
+				type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
 				description="COM_USERS_USER_FIELD_TIMEZONE_DESC"
-			>
+				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 

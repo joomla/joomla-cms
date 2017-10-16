@@ -14,9 +14,7 @@ JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/he
 /**
  * Helper for mod_related_items
  *
- * @package     Joomla.Site
- * @subpackage  mod_related_items
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModRelatedItemsHelper
 {

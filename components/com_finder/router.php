@@ -34,7 +34,7 @@ class FinderRouter extends JComponentRouterBase
 		 * route, it only provides the option and the menu item id. We don't have
 		 * to do anything to these routes.
 		 */
-		if (count($query) === 2 && isset($query['Itemid']) && isset($query['option']))
+		if (count($query) === 2 && isset($query['Itemid'], $query['option']))
 		{
 			return $segments;
 		}

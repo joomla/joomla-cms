@@ -53,7 +53,7 @@ switch ((string) $item->text)
 		break;
 }
 
-$item->text .= $addText ? $addText : '';
+$item->text .= $addText ?: '';
 
 if ($icon !== null)
 {
@@ -95,7 +95,7 @@ else
 ?>
 <?php if ($displayData['active']) : ?>
 	<li<?php echo $liClass ? ' class="' . $liClass . '"' : ''; ?>>
-		<a class="<?php echo implode(' ', $cssClasses); ?>" <?php echo $title; ?> href="#" onclick="<?php echo $onClick; ?>">
+		<a <?php echo $cssClasses ? 'class="' . implode(' ', $cssClasses) . '"' : ''; ?> <?php echo $title; ?> href="#" onclick="<?php echo $onClick; ?>">
 			<?php echo $display; ?>
 		</a>
 	</li>

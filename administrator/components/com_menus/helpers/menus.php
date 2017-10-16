@@ -7,6 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Menu\MenuHelper;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,6 +22,8 @@ class MenusHelper
 {
 	/**
 	 * Defines the valid request variables for the reverse lookup.
+	 *
+	 * @since   1.6
 	 */
 	protected static $_filter = array('option', 'view', 'layout');
 
@@ -320,5 +326,246 @@ class MenusHelper
 		}
 
 		return $associations;
+	}
+
+	/**
+	 * Load the menu items from database for the given menutype
+	 *
+	 * @param   string   $menutype     The selected menu type
+	 * @param   boolean  $enabledOnly  Whether to load only enabled/published menu items.
+	 * @param   int[]    $exclude      The menu items to exclude from the list
+	 *
+	 * @return  array
+	 *
+	 * @since   3.8.0
+	 */
+	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Prepare the query.
+		$query->select('m.*')
+			->from('#__menu AS m')
+			->where('m.menutype = ' . $db->q($menutype))
+			->where('m.client_id = 1')
+			->where('m.id > 1');
+
+		if ($enabledOnly)
+		{
+			$query->where('m.published = 1');
+		}
+
+		// Filter on the enabled states.
+		$query->select('e.element')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('(e.enabled = 1 OR e.enabled IS NULL)');
+
+		if (count($exclude))
+		{
+			$exId = array_filter($exclude, 'is_numeric');
+			$exEl = array_filter($exclude, 'is_string');
+
+			if ($exId)
+			{
+				$query->where('m.id NOT IN (' . implode(', ', array_map('intval', $exId)) . ')');
+				$query->where('m.parent_id NOT IN (' . implode(', ', array_map('intval', $exId)) . ')');
+			}
+
+			if ($exEl)
+			{
+				$query->where('e.element NOT IN (' . implode(', ', $db->quote($exEl)) . ')');
+			}
+		}
+
+		// Order by lft.
+		$query->order('m.lft');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$menuItems = $db->loadObjectList();
+
+			foreach ($menuItems as &$menuitem)
+			{
+				$menuitem->params = new Registry($menuitem->params);
+			}
+		}
+		catch (RuntimeException $e)
+		{
+			$menuItems = array();
+
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
+
+		return $menuItems;
+	}
+
+	/**
+	 * Method to install a preset menu into database and link them to the given menutype
+	 *
+	 * @param   string  $preset    The preset name
+	 * @param   string  $menutype  The target menutype
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   3.8.0
+	 */
+	public static function installPreset($preset, $menutype)
+	{
+		$items = MenuHelper::loadPreset($preset, false);
+
+		if (count($items) == 0)
+		{
+			throw new Exception(JText::_('COM_MENUS_PRESET_LOAD_FAILED'));
+		}
+
+		static::installPresetItems($items, $menutype, 1);
+	}
+
+	/**
+	 * Method to install a preset menu item into database and link it to the given menutype
+	 *
+	 * @param   stdClass[]  &$items    The single menuitem instance with a list of its descendants
+	 * @param   string      $menutype  The target menutype
+	 * @param   int         $parent    The parent id or object
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   3.8.0
+	 */
+	protected static function installPresetItems(&$items, $menutype, $parent = 1)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		static $components = array();
+
+		if (!$components)
+		{
+			$query->select('extension_id, element')->from('#__extensions')->where('type = ' . $db->q('component'));
+			$components = $db->setQuery($query)->loadObjectList();
+			$components = ArrayHelper::getColumn((array) $components, 'element', 'extension_id');
+		}
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onPreprocessMenuItems', array('com_menus.administrator.import', &$items, null, true));
+
+		foreach ($items as &$item)
+		{
+			/** @var  JTableMenu  $table */
+			$table = JTable::getInstance('Menu');
+
+			$item->alias = $menutype . '-' . $item->title;
+
+			if ($item->type == 'separator')
+			{
+				// Do not reuse a separator
+				$item->title = $item->title ?: '-';
+				$item->alias = microtime(true);
+			}
+			elseif ($item->type == 'heading' || $item->type == 'container')
+			{
+				// Try to match an existing record to have minimum collision for a heading
+				$keys  = array(
+					'menutype'  => $menutype,
+					'type'      => $item->type,
+					'title'     => $item->title,
+					'parent_id' => $parent,
+					'client_id' => 1,
+				);
+				$table->load($keys);
+			}
+			elseif ($item->type == 'url' || $item->type == 'component')
+			{
+				if (substr($item->link, 0, 8) === 'special:')
+				{
+					$special = substr($item->link, 8);
+
+					if ($special === 'language-forum')
+					{
+						$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+					}
+					elseif ($special === 'custom-forum')
+					{
+						$item->link = '';
+					}
+				}
+
+				// Try to match an existing record to have minimum collision for a link
+				$keys  = array(
+					'menutype'  => $menutype,
+					'type'      => $item->type,
+					'link'      => $item->link,
+					'parent_id' => $parent,
+					'client_id' => 1,
+				);
+				$table->load($keys);
+			}
+
+			// Translate "hideitems" param value from "element" into "menu-item-id"
+			if ($item->type == 'container' && count($hideitems = (array) $item->params->get('hideitems')))
+			{
+				foreach ($hideitems as &$hel)
+				{
+					if (!is_numeric($hel))
+					{
+						$hel = array_search($hel, $components);
+					}
+				}
+
+				$query->clear()->select('id')->from('#__menu')->where('component_id IN (' . implode(', ', $hideitems) . ')');
+				$hideitems = $db->setQuery($query)->loadColumn();
+
+				$item->params->set('hideitems', $hideitems);
+			}
+
+			$record = array(
+				'menutype'     => $menutype,
+				'title'        => $item->title,
+				'alias'        => $item->alias,
+				'type'         => $item->type,
+				'link'         => $item->link,
+				'browserNav'   => $item->browserNav ? 1 : 0,
+				'img'          => $item->class,
+				'access'       => $item->access,
+				'component_id' => array_search($item->element, $components),
+				'parent_id'    => $parent,
+				'client_id'    => 1,
+				'published'    => 1,
+				'language'     => '*',
+				'home'         => 0,
+				'params'       => (string) $item->params,
+			);
+
+			if (!$table->bind($record))
+			{
+				throw new Exception('Bind failed: ' . $table->getError());
+			}
+
+			$table->setLocation($parent, 'last-child');
+
+			if (!$table->check())
+			{
+				throw new Exception('Check failed: ' . $table->getError());
+			}
+
+			if (!$table->store())
+			{
+				throw new Exception('Saved failed: ' . $table->getError());
+			}
+
+			$item->id = $table->get('id');
+
+			if (!empty($item->submenu))
+			{
+				static::installPresetItems($item->submenu, $menutype, $item->id);
+			}
+		}
 	}
 }
