@@ -99,12 +99,20 @@ abstract class AdminModel extends FormModel
 	protected $associationsContext = null;
 
 	/**
-	 * A table instance to manage DB records (re-usable in batch action methods, initialized via initBatch())
+	 * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected $table;
+	protected $batchInitialized = null;
+
+	/**
+	 * A table instance to manage DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $table = null;
 
 
 	/**
@@ -113,7 +121,7 @@ abstract class AdminModel extends FormModel
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected $type;
+	protected $type = null;
 
 	/**
 	 * A tags Observer instance to handle assigned tags (re-usable in batch action methods, initialized via initBatch())
@@ -121,7 +129,7 @@ abstract class AdminModel extends FormModel
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected $tagsObserver;
+	protected $tagsObserver = null;
 
 
 	/**
@@ -1473,11 +1481,9 @@ abstract class AdminModel extends FormModel
 	 */
 	public function initBatch()
 	{
-		static $batchSet = null;
-
-		if ($batchSet === null)
+		if ($this->batchInitialized === null)
 		{
-			$batchSet = true;
+			$this->batchInitialized = true;
 
 			// Get table
 			$this->table = $this->getTable();
