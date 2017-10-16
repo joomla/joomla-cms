@@ -104,16 +104,31 @@ abstract class AdminModel extends FormModel
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected $batchInitialized = null;
+	protected $batchSet = null;
 
 	/**
-	 * A table instance to manage DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * Current user object (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $user = null;
+
+	/**
+	 * A table instance to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $table = null;
 
+	/**
+	 * The class name of the table instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     string
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $tableClassName = null;
 
 	/**
 	 * UCM Type data object corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
@@ -316,11 +331,10 @@ abstract class AdminModel extends FormModel
 	{
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
-		$user = \JFactory::getUser();
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->table->reset();
 				$this->table->load($pk);
@@ -367,7 +381,6 @@ abstract class AdminModel extends FormModel
 	{
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
-		$user = \JFactory::getUser();
 
 		$categoryId = $value;
 
@@ -481,11 +494,10 @@ abstract class AdminModel extends FormModel
 	{
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
-		$user = \JFactory::getUser();
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->table->reset();
 				$this->table->load($pk);
@@ -532,7 +544,6 @@ abstract class AdminModel extends FormModel
 	{
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
-		$user = \JFactory::getUser();
 
 		$categoryId = (int) $value;
 
@@ -544,7 +555,7 @@ abstract class AdminModel extends FormModel
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
-			if (!$user->authorise('core.edit', $contexts[$pk]))
+			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
@@ -615,12 +626,11 @@ abstract class AdminModel extends FormModel
 	{
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
-		$user = \JFactory::getUser();
 		$tags = array($value);
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->table->reset();
 				$this->table->load($pk);
@@ -1481,20 +1491,23 @@ abstract class AdminModel extends FormModel
 	 */
 	public function initBatch()
 	{
-		if ($this->batchInitialized === null)
+		if ($this->batchSet === null)
 		{
-			$this->batchInitialized = true;
+			$this->batchSet = true;
+
+			// Get current user
+			$this->user = \JFactory::getUser();
 
 			// Get table
 			$this->table = $this->getTable();
 
 			// Get table class name
 			$tc = explode('\\', get_class($this->table));
-			$tableClassName = end($tc);
+			$this->tableClassName = end($tc);
 
 			// Get UCM Type data
 			$contentType = new \JUcmType;
-			$this->type = $contentType->getTypeByTable($tableClassName)
+			$this->type = $contentType->getTypeByTable($this->tableClassName)
 				?: $contentType->getTypeByAlias($this->typeAlias);
 
 			// Get tabs observer
