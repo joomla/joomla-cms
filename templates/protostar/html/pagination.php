@@ -228,7 +228,7 @@ function pagination_item_inactive(&$item)
 	// Check if the item is the active page
 	if (isset($item->active) && $item->active)
 	{
-		$aria    = JText::sprintf('JLIB_HTML_PAGE_CURRENT', $item->text);
+		$aria = JText::sprintf('JLIB_HTML_PAGE_CURRENT', $item->text);
 
 		return '<li class="active hidden-phone"><a aria-current="true" aria-label="' . $aria . '">' . $item->text . '</a></li>';
 	}
