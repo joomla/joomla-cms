@@ -150,6 +150,22 @@ class BaseController extends \JObject
 	 * @since  3.4
 	 */
 	protected static $views;
+	
+	/**
+	 * Return the MVCFactoryInterface class only instantiating it if not exist
+	 *
+	 * @return  MVCFactoryInterface 
+	 *
+	 * @since   3.9
+	 */
+	private function getFactory() {
+		// Check if MVC factory is initialized
+		if(is_null($this->factory)) {
+			$this->factory = new LegacyFactory;
+		}
+		
+		return $this->factory;
+	}
 
 	/**
 	 * Adds to the stack of model paths in LIFO order.
@@ -556,12 +572,7 @@ class BaseController extends \JObject
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		// Check that MVC factory is initialized
-		if(is_null($this->factory)) {
-			$this->factory = new LegacyFactory;
-		}
-		
-		$model = $this->factory->createModel($name, $prefix, $config);
+		$model = $this->getFactory()->createModel($name, $prefix, $config);
 
 		if ($model === null)
 		{
@@ -591,13 +602,8 @@ class BaseController extends \JObject
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Check that MVC factory is initialized
-		if(is_null($this->factory)) {
-			$this->factory = new LegacyFactory;
-		}
-		
 		$config['paths'] = $this->paths['view'];
-		return $this->factory->createView($name, $prefix, $type, $config);
+		return $this->getFactory()->createView($name, $prefix, $type, $config);
 	}
 
 	/**
@@ -1115,3 +1121,4 @@ class BaseController extends \JObject
 		return $this;
 	}
 }
+
