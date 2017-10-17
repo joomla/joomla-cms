@@ -100,7 +100,7 @@ else
 ?>
 <?php if ($displayData['active']) : ?>
 	<li<?php echo $liClass ? ' class="' . $liClass . '"' : ''; ?>>
-		<a aria-label="<?php echo $aria ;?>" <?php echo $cssClasses ? 'class="' . implode(' ', $cssClasses) . '"' : ''; ?> <?php echo $title; ?> href="#" onclick="<?php echo $onClick; ?>">
+		<a aria-label="<?php echo $aria; ?>" <?php echo $cssClasses ? 'class="' . implode(' ', $cssClasses) . '"' : ''; ?> <?php echo $title; ?> href="#" onclick="<?php echo $onClick; ?>">
 			<?php echo $display; ?>
 		</a>
 	</li>
