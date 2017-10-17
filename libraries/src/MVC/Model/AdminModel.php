@@ -107,7 +107,7 @@ abstract class AdminModel extends FormModel
 	protected $batchSet = null;
 
 	/**
-	 * Current user object (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * The user performing the actions (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
@@ -115,7 +115,7 @@ abstract class AdminModel extends FormModel
 	protected $user = null;
 
 	/**
-	 * A table instance to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * A JTable instance (of appropropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
@@ -123,7 +123,7 @@ abstract class AdminModel extends FormModel
 	protected $table = null;
 
 	/**
-	 * The class name of the table instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * The class name of the JTable instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     string
 	 * @since   __DEPLOY_VERSION__
@@ -131,7 +131,15 @@ abstract class AdminModel extends FormModel
 	protected $tableClassName = null;
 
 	/**
-	 * UCM Type data object corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
+	 * UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $contentType = null;
+
+	/**
+	 * DB data of UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   __DEPLOY_VERSION__
@@ -1506,9 +1514,9 @@ abstract class AdminModel extends FormModel
 			$this->tableClassName = end($tc);
 
 			// Get UCM Type data
-			$contentType = new \JUcmType;
-			$this->type = $contentType->getTypeByTable($this->tableClassName)
-				?: $contentType->getTypeByAlias($this->typeAlias);
+			$this->contentType = new \JUcmType;
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
+				?: $this->contentType->getTypeByAlias($this->typeAlias);
 
 			// Get tabs observer
 			$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
