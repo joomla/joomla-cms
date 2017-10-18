@@ -46,7 +46,8 @@ abstract class JHtmlContent
 	/**
 	 * Returns an array of months.
 	 *
-	 * @param   Registry  $state  The state object.
+	 * @param   array  $config  An array of configuration options. By default, only
+	 *                          published and unpublished categories are returned.
 	 *
 	 * @return  array
 	 *
