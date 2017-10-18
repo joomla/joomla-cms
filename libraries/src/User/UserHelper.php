@@ -10,7 +10,13 @@ namespace Joomla\CMS\User;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Authentication\Password\Argon2iHandler;
+use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Authentication\Password\MD5Handler;
+use Joomla\CMS\Authentication\Password\PHPassHandler;
+use Joomla\CMS\Authentication\Password\SHA256Handler;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -24,6 +30,52 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class UserHelper
 {
+	/**
+	 * Constant defining the Argon2i password algorithm for use with password hashes
+	 *
+	 * Note: The value of the hash is the same as PHP's native `PASSWORD_ARGON2I` but the constant is not used
+	 * as PHP may not be compiled with this constant
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_ARGON2I = 2;
+
+	/**
+	 * Constant defining the BCrypt password algorithm for use with password hashes
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_BCRYPT = PASSWORD_BCRYPT;
+
+	/**
+	 * Constant defining the MD5 password algorithm for use with password hashes
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 * @deprecated  5.0  Support for MD5 hashed passwords will be removed
+	 */
+	const HASH_MD5 = 100;
+
+	/**
+	 * Constant defining the PHPass password algorithm for use with password hashes
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 * @deprecated  5.0  Support for PHPass hashed passwords will be removed
+	 */
+	const HASH_PHPASS = 101;
+
+	/**
+	 * Constant defining the SHA256 password algorithm for use with password hashes
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 * @deprecated  5.0  Support for SHA256 hashed passwords will be removed
+	 */
+	const HASH_SHA256 = 102;
+
 	/**
 	 * Method to add a user to a group.
 	 *
@@ -300,17 +352,48 @@ abstract class UserHelper
 	/**
 	 * Hashes a password using the current encryption.
 	 *
-	 * @param   string   $password   The plaintext password to encrypt.
-	 * @param   integer  $algorithm  The hashing algorithm to use, represented by `PASSWORD_*` constants.
-	 * @param   array    $options    The options for the algorithm to use.
+	 * @param   string          $password   The plaintext password to encrypt.
+	 * @param   string|integer  $algorithm  The hashing algorithm to use, represented by `HASH_*` class constants, or a container service ID.
+	 * @param   array           $options    The options for the algorithm to use.
 	 *
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   3.2.1
+	 * @throws  \InvalidArgumentException when the algorithm is not supported
 	 */
-	public static function hashPassword($password, $algorithm = PASSWORD_BCRYPT, array $options = array())
+	public static function hashPassword($password, $algorithm = self::HASH_BCRYPT, array $options = array())
 	{
-		return password_hash($password, $algorithm, $options);
+		$container = Factory::getContainer();
+
+		// If the algorithm is a valid service ID, use that service to generate the hash
+		if ($container->has($algorithm))
+		{
+			return $container->get($algorithm)->hashPassword($password, $options);
+		}
+
+		// Try a known handler next
+		switch ($algorithm)
+		{
+			case self::HASH_ARGON2I :
+			case PASSWORD_ARGON2I :
+				return $container->get(Argon2iHandler::class)->hashPassword($password, $options);
+
+			case self::HASH_BCRYPT :
+			case PASSWORD_BCRYPT :
+				return $container->get(BCryptHandler::class)->hashPassword($password, $options);
+
+			case self::HASH_MD5 :
+				return $container->get(MD5Handler::class)->hashPassword($password, $options);
+
+			case self::HASH_PHPASS :
+				return $container->get(PHPassHandler::class)->hashPassword($password, $options);
+
+			case self::HASH_SHA256 :
+				return $container->get(SHA256Handler::class)->hashPassword($password, $options);
+		}
+
+		// Unsupported algorithm, sorry!
+		throw new \InvalidArgumentException(sprintf('The %s algorithm is not supported for hashing passwords.', $algorithm));
 	}
 
 	/**
