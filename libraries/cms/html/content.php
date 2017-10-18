@@ -63,14 +63,14 @@ abstract class JHtmlContent
 		$model->setState('list.limit', -1);
 		$model->setState('list.direction', 'asc');
 		$model->setState('list.filter', '');
-
+	
 		$months = array();
 		foreach ($model->getItems() as $item)
 		{
 			$d = date("Y-m", strtotime($item->created)).'-01';
 			$months[$d] = (isset($months[$d]) ? $months[$d] + 1 : 1);
 		}
-
+	
 		$items = array();
 		foreach ($months as $d => $c)
 		{
