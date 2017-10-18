@@ -170,7 +170,6 @@ defined('_JEXEC') or die;
 					</tbody>
 				</table>
 				<div class="form-group">
-					<input type="hidden" name="task" value="InstallLanguages">
 					<?php echo JHtml::_('form.token'); ?>
 					<?php endif; ?>
 					<button id="installLanguagesButton" class="btn btn-block btn-primary">

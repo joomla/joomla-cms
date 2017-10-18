@@ -762,6 +762,12 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	public function installSampleData($options)
 	{
+		if (is_array($options))
+		{
+			// Get the options as an object for easier handling.
+			$options = ArrayHelper::toObject($options);
+		}
+
 		if (!isset($options->db_created) || !$options->db_created)
 		{
 			return $this->createDatabase($options);
