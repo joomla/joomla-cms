@@ -55,8 +55,7 @@ abstract class JHtmlContent
 	public static function months($state)
 	{
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-		foreach ($state as $key => $value) 
-		{
+		foreach($state as $key => $value) {
 			$model->setState($key, $value);
 		}
 		$model->setState('filter.category_id', $state->get('category.id'));
@@ -65,10 +64,17 @@ abstract class JHtmlContent
 		$model->setState('list.direction', 'asc');
 		$model->setState('list.filter', '');
 
-		$items = array();
-		foreach ($model->countItemsByMonth() as $item)
+		$months = array();
+		foreach ($model->getItems() as $item)
 		{
-			$items[] = JHtml::_('select.option', $item->d, (new JDate($item->d))->format('F Y') . ' [' . $item->c . ']');
+			$d = date("Y-m", strtotime($item->created)).'-01';
+			$months[$d] = (isset($months[$d]) ? $months[$d] + 1 : 1);
+		}
+
+		$items = array();
+		foreach ($months as $d => $c)
+		{
+			$items[] = JHtml::_('select.option', $d, (new JDate($d))->format('F Y') . ' [' . $c . ']');
 		}
 		return $items;
 	}

@@ -719,25 +719,4 @@ class ContentModelArticles extends JModelList
 	{
 		return $this->getState('list.start');
 	}
-
-	/**
-	 * Count Items by Month
-	 *
-	 * @return  mixed  An array of objects on success, false on failure.
-	 *
-	 * @since   3.8.2
-	 */
-	function countItemsByMonth()
-	{
-		// Create a new query object.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-	
-		$query
-		->select("DATE_FORMAT(created, '%Y-%b-01') as d, COUNT(*) as c")
-		->from('('.$this->getListQuery().') as b')
-		->group("DATE_FORMAT(created, '%Y-%b-01')");
-	
-		return $db->setQuery($query)->loadObjectList();
-	}
 }
