@@ -106,7 +106,7 @@ else
 	</li>
 <?php else : ?>
 	<li class="<?php echo $class; ?>">
-	<span <?php echo $class == 'active' ? 'aria-current="true" aria-label="' . JText::sprintf('JLIB_HTML_PAGE_CURRENT', $item->text) . '"' : '' ?>>
+	<span <?php echo $class == 'active' ? 'aria-current="true" aria-label="' . JText::sprintf('JLIB_HTML_PAGE_CURRENT', $item->text) . '"' : ''; ?>>
 		<?php echo $display; ?>
 	</span>
 	</li>
