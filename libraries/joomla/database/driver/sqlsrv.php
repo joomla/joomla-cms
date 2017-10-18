@@ -963,7 +963,18 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($limit)
 		{
 			$total = $offset + $limit;
-			$query = substr_replace($query, 'SELECT TOP ' . (int) $total, stripos($query, 'SELECT'), 6);
+
+			$position = stripos($query, 'SELECT');
+			$distinct = stripos($query, 'SELECT DISTINCT');
+
+			if ($position === $distinct)
+			{
+				$query = substr_replace($query, 'SELECT DISTINCT TOP ' . (int) $total, $position, 15);
+			}
+			else
+			{
+				$query = substr_replace($query, 'SELECT TOP ' . (int) $total, $position, 6);
+			}
 		}
 
 		if (!$offset)
