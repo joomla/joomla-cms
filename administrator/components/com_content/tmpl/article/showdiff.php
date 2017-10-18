@@ -52,18 +52,16 @@ $dbObject = $contentHistory->getItems();
 <!-- These Buttons toogle the shown text between one including HTML-Tags and one that doesn´t -->
 <div>
     <button class="diff-header btn hasTooltip"
-            title="<?php JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_HTML_DESC'); ?>"
-            onclick="jQuery('.diff_html, .diffhtml-header').show(); jQuery('.diff_text, .diff-header').hide()">
-
+            title="<?php JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_HTML_DESC'); ?>">
         <span class="icon-wrench" aria-hidden="true"></span>
 		<?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_HTML'); ?>
     </button>
     <button class="diffhtml-header btn hasTooltip"
             title="<?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_TEXT_DESC'); ?>"
-            onclick="jQuery('.diff_html, .diffhtml-header').hide(); jQuery('.diff_text, .diff-header').show()"
             style="display:none">
-        <span class="icon-pencil"
-              aria-hidden="true"></span> <?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_TEXT'); ?></button>
+        <span class="icon-pencil" aria-hidden="true"></span>
+		<?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_TEXT'); ?>
+    </button>
 </div>
 
 <div id="diff_area" class="container-popup" style="height: auto">
@@ -75,7 +73,6 @@ $dbObject = $contentHistory->getItems();
 		if ($object->fulltext != null)
 		{
 			echo $object->introtext . '<hr id="system-readmore" />' . $object->fulltext;
-
 		}
 		else
 		{
