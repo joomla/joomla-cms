@@ -38,6 +38,7 @@ return array(
     'Joomla\\Crypt\\' => array($vendorDir . '/joomla/crypt/src'),
     'Joomla\\Controller\\' => array($vendorDir . '/joomla/controller/src'),
     'Joomla\\CMS\\' => array($baseDir . '/libraries/src'),
+    'Joomla\\Authentication\\' => array($vendorDir . '/joomla/authentication/src'),
     'Joomla\\Archive\\' => array($vendorDir . '/joomla/archive/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
     'Fig\\Link\\' => array($vendorDir . '/fig/link-util/src'),

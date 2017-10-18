@@ -2072,5 +2072,60 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "joomla/authentication",
+        "version": "dev-2.0-dev",
+        "version_normalized": "dev-2.0-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/authentication.git",
+            "reference": "54537e5c0379bd78006f81a7c8e3c8cde53508d8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/54537e5c0379bd78006f81a7c8e3c8cde53508d8",
+            "reference": "54537e5c0379bd78006f81a7c8e3c8cde53508d8",
+            "shasum": ""
+        },
+        "require": {
+            "php": "~7.0"
+        },
+        "require-dev": {
+            "joomla/database": "~2.0",
+            "joomla/input": "~1.0|~2.0",
+            "joomla/test": "~1.0",
+            "phpunit/dbunit": "~1.3|~2.0",
+            "phpunit/phpunit": "^5.4.3",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "suggest": {
+            "joomla/database": "Required if you want to use Joomla\\Authentication\\Strategies\\DatabaseStrategy",
+            "joomla/input": "Required if you want to use classes in the Joomla\\Authentication\\Strategies namespace"
+        },
+        "time": "2017-10-18T01:29:24+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-2.0-dev": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Authentication\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Authentication Package",
+        "homepage": "https://github.com/joomla-framework/authentication",
+        "keywords": [
+            "Authentication",
+            "framework",
+            "joomla"
+        ]
     }
 ]
