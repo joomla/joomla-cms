@@ -205,6 +205,15 @@ class WorkflowModel extends AdminModel
 		return $data;
 	}
 
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	{
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $data->extension);
+		$form->setFieldAttribute('rules', 'section', 'workflow');
+
+		parent::preprocessData($form, $data, $group);
+	}
+
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
