@@ -56,7 +56,7 @@ if ($options)
 }
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($class) ? 'class="' . $class . '"' : '',

@@ -67,7 +67,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * JDatabaseDriverPostgresqlQuery object returned by getQuery
 	 *
-	 * @var    JDatabaseDriverPostgresqlQuery
+	 * @var    JDatabaseQueryPostgresql
 	 * @since  12.1
 	 */
 	protected $queryObject = null;
@@ -88,16 +88,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Finalize initialization
 		parent::__construct($options);
-	}
-
-	/**
-	 * Database object destructor
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
 	}
 
 	/**
@@ -1310,7 +1300,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('currval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1323,7 +1313,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('nextval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1336,7 +1326,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('setval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1346,7 +1336,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			$explodedQuery = explode('\'', $query);
 
-			for ($nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2)
+			for ($nIndex = 0, $nIndexMax = count($explodedQuery); $nIndex < $nIndexMax; $nIndex += 2)
 			{
 				if (strpos($explodedQuery[$nIndex], $prefix))
 				{

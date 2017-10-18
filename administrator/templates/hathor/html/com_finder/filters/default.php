@@ -139,7 +139,7 @@ Joomla.submitbutton = function(pressbutton)
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
 				</td>
 				<td class="center nowrap">
-					<?php echo $item->created_by_alias ? $item->created_by_alias : $item->user_name; ?>
+					<?php echo $item->created_by_alias ?: $item->user_name; ?>
 				</td>
 				<td class="center nowrap">
 					<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>

@@ -16,6 +16,7 @@ $options  = array(
 );
 
 JHtml::_('behavior.core');
+JHtml::_('jquery.framework');
 JText::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
 JText::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
 JFactory::getDocument()->addScriptOptions('system.associations.edit', $options);

@@ -107,6 +107,7 @@ class JFormFieldModal_Menu extends JFormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -233,7 +234,20 @@ class JFormFieldModal_Menu extends JFormField
 			}
 		}
 
-		$title = empty($title) ? JText::_('COM_MENUS_SELECT_A_MENUITEM') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		// Placeholder if option is present or not
+		if (empty($title))
+ 		{
+			if ($this->element->option && (string) $this->element->option['value'] == '')
+			{
+				$title_holder = JText::_($this->element->option, true);
+			}
+			else
+			{
+				$title_holder = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
+			}
+		}
+
+		$title = empty($title) ? $title_holder : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current menu item display field.
 		$html  = '<span class="input-append">';
@@ -374,8 +388,18 @@ class JFormFieldModal_Menu extends JFormField
 		// Note: class='required' for client side validation.
 		$class = $this->required ? ' class="required modal-value"' : '';
 
+		// Placeholder if option is present or not when clearing field
+		if ($this->element->option && (string) $this->element->option['value'] == '')
+		{
+			$title_holder = JText::_($this->element->option, true);
+		}
+		else
+		{
+			$title_holder = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
+		}
+
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(JText::_('COM_MENUS_SELECT_A_MENUITEM', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
+			. '" data-text="' . htmlspecialchars($title_holder, ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
 		return $html;
 	}

@@ -68,5 +68,5 @@ $attributes = array(
 <input type="tel" name="<?php
 echo $name; ?>" <?php
 echo !empty($class) ? ' class="' . $class . '"' : ''; ?> id="<?php
-echo $id; ?> " value="<?php
+echo $id; ?>" value="<?php
 echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?> />
