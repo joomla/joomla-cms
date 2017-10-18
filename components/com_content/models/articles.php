@@ -484,7 +484,6 @@ class ContentModelArticles extends JModelList
 		{
 			// Clean filter variable
 			$filter     = StringHelper::strtolower($filter);
-			$monthFilter = $filter;
 			$hitsFilter = (int) $filter;
 			$filter     = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
@@ -499,14 +498,6 @@ class ContentModelArticles extends JModelList
 
 				case 'hits':
 					$query->where('a.hits >= ' . $hitsFilter . ' ');
-					break;
-
-				case 'month':
-					if ($monthFilter != '')
-					{
-						$query->where('a.created >= ' . $db->quote($monthFilter . ' 00:00:00'));
-						$query->where('a.created <= ' . $db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59'));
-					}
 					break;
 
 				case 'title':

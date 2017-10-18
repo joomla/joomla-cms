@@ -42,41 +42,4 @@ abstract class JHtmlContent
 
 		return $article->text;
 	}
-
-	/**
-	 * Returns an array of months.
-	 *
-	 * @param   array  $config  An array of configuration options. By default, only
-	 *                          published and unpublished categories are returned.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.8.2
-	 */
-	public static function months($state)
-	{
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-		foreach($state as $key => $value) {
-			$model->setState($key, $value);
-		}
-		$model->setState('filter.category_id', $state->get('category.id'));
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', -1);
-		$model->setState('list.direction', 'asc');
-		$model->setState('list.filter', '');
-	
-		$months = array();
-		foreach ($model->getItems() as $item)
-		{
-			$d = date("Y-m", strtotime($item->created)).'-01';
-			$months[$d] = (isset($months[$d]) ? $months[$d] + 1 : 1);
-		}
-	
-		$items = array();
-		foreach ($months as $d => $c)
-		{
-			$items[] = JHtml::_('select.option', $d, (new JDate($d))->format('F Y') . ' [' . $c . ']');
-		}
-		return $items;
-	}
 }
