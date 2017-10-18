@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\CMS\Authentication\Password\SHA256Handler;
@@ -412,22 +413,18 @@ abstract class UserHelper
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
 		$passwordAlgorithm = PASSWORD_BCRYPT;
+		$container         = Factory::getContainer();
 
-		// If we are using phpass
+		// Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
 		if (strpos($hash, '$P$') === 0)
 		{
-			// Use PHPass's portable hashes with a cost of 10.
-			$phpass = new \PasswordHash(10, true);
-
-			$match = $phpass->CheckPassword($password, $hash);
+			$match = $container->get(PHPassHandler::class)->validatePassword($password, $hash);
 
 			$rehash = true;
 		}
-		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
-			// This implementation is not supported through any existing polyfills
-			$match = password_verify($password, $hash);
+			$match = $container->get(Argon2iHandler::class)->validatePassword($password, $hash);
 
 			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2I);
 
@@ -436,35 +433,21 @@ abstract class UserHelper
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
 		{
-			$match = password_verify($password, $hash);
+			$match = $container->get(BCryptHandler::class)->validatePassword($password, $hash);
 
 			$rehash = password_needs_rehash($hash, PASSWORD_BCRYPT);
 		}
 		elseif (substr($hash, 0, 8) == '{SHA256}')
 		{
-			// Check the password
-			$parts     = explode(':', $hash);
-			$salt      = @$parts[1];
-
-			$testcrypt = '{SHA256}' . hash('sha256', $password . $salt) . ':' . $salt;
-
-			$match = \JCrypt::timingSafeCompare($hash, $testcrypt);
+			$match = $container->get(SHA256Handler::class)->validatePassword($password, $hash);
 
 			$rehash = true;
 		}
 		else
 		{
-			// Check the password
-			$parts = explode(':', $hash);
-			$salt  = @$parts[1];
+			$match = $container->get(ChainedHandler::class)->validatePassword($password, $hash);
 
 			$rehash = true;
-
-			// Compile the hash to compare
-			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
-			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
-
-			$match = \JCrypt::timingSafeCompare($hash, $testcrypt);
 		}
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
