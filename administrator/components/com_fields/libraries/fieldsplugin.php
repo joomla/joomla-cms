@@ -93,7 +93,8 @@ abstract class FieldsPlugin extends JPlugin
 		}
 
 		// Add to cache and return the data
-		return $types_cache[$this->_type . $this->_name] = $types;
+		$types_cache[$this->_type . $this->_name] = $types;
+		return $types;
 	}
 
 	/**
