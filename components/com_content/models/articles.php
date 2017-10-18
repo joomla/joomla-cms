@@ -726,9 +726,10 @@ class ContentModelArticles extends JModelList
 		$query = $db->getQuery(true);
 	
 		$query
-		->select("DATE_FORMAT(created, '%Y-%b-01') as d, COUNT(*) as c")
-		->from('('.$this->getListQuery().') as b')
-		->group("DATE_FORMAT(created, '%Y-%b-01')");
+			->select("DATE_FORMAT(created, '%Y-%m-01') as d, COUNT(*) as c")
+			->from('('.$this->getListQuery().') as b')
+			->group("DATE_FORMAT(created, '%Y-%m-01')")
+			->order("d desc");
 	
 		return $db->setQuery($query)->loadObjectList();
 	}
