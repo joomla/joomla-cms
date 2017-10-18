@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler;
+use Joomla\CMS\Authentication\Password\MD5Handler;
+use Joomla\CMS\Authentication\Password\PHPassHandler;
+use Joomla\CMS\Authentication\Password\SHA256Handler;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -51,6 +54,36 @@ class Authentication implements ServiceProviderInterface
 				function (Container $container)
 				{
 					return new BCryptHandler;
+				},
+				true
+			);
+
+		$container->alias('password.handler.md5', MD5Handler::class)
+			->share(
+				MD5Handler::class,
+				function (Container $container)
+				{
+					return new MD5Handler;
+				},
+				true
+			);
+
+		$container->alias('password.handler.phpass', PHPassHandler::class)
+			->share(
+				PHPassHandler::class,
+				function (Container $container)
+				{
+					return new PHPassHandler;
+				},
+				true
+			);
+
+		$container->alias('password.handler.sha256', SHA256Handler::class)
+			->share(
+				SHA256Handler::class,
+				function (Container $container)
+				{
+					return new SHA256Handler;
 				},
 				true
 			);
