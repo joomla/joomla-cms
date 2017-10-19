@@ -496,8 +496,8 @@ class ContentModelArticles extends JModelList
 				case 'month':
 					if ($monthFilter != '')
 					{
-						$query->where('a.created >= ' . $db->quote($monthFilter . ' 00:00:00'));
-						$query->where('a.created <= ' . $db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59'));
+						$query->having('publish_up >= ' . $db->quote($monthFilter . ' 00:00:00'));
+						$query->having('publish_up <= ' . $db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59'));
 					}
 					break;
 
