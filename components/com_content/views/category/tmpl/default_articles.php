@@ -48,7 +48,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
 				<?php if ($this->params->get('filter_field') === 'tag') : ?>
-					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
+					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
 					</select>
