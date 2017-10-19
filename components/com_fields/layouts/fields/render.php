@@ -56,9 +56,17 @@ if (!$fields)
 		<?php if (!isset($field->value) || $field->value == '') : ?>
 			<?php continue; ?>
 		<?php endif; ?>
+		
+		<?php $showLabel = $field->params->get('showlabel'); ?>
 		<?php $class = $field->params->get('render_class'); ?>
-		<dd class="field-entry <?php echo $class; ?>">
-			<?php echo FieldsHelper::render($context, 'field.render', array('field' => $field)); ?>
-		</dd>
+		<?php $label = JText::_($field->label); ?>
+		<?php $value = $field->value; ?>
+		
+		<dt class="field-label <?php echo $class; ?>">
+		<?php if ($showLabel == 1) : ?>
+			<?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>
+		<?php endif; ?>
+		</dt>
+		<dd class="field-value <?php echo $class; ?>"><?php echo $value; ?></dd>
 	<?php endforeach; ?>
 </dl>
