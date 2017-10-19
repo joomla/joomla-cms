@@ -475,10 +475,10 @@ class ContentModelArticles extends JModelList
 		if (is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter     = StringHelper::strtolower($filter);
+			$filter      = StringHelper::strtolower($filter);
 			$monthFilter = $filter;
-			$hitsFilter = (int) $filter;
-			$filter     = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$hitsFilter  = (int) $filter;
+			$filter      = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
 			switch ($params->get('filter_field'))
 			{
@@ -717,14 +717,14 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
-	 * @since   3.8.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	function countItemsByMonth()
 	{
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-	
+
 		$query
 			->select("concat(year(publish_up),'-',month(publish_up),'-01') as d")
 			->select("COUNT(*) as c")
