@@ -53,7 +53,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
 					</select>
 				<?php elseif ($this->params->get('filter_field') === 'month') : ?>
-					<select name="filter-search" id="filter-search" onchange="document.adminForm.submit();" >
+					<select name="filter-search" id="filter-search" onchange="document.adminForm.submit();">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_MONTH'); ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
 					</select>
