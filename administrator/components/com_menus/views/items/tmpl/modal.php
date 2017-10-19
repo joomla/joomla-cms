@@ -29,9 +29,11 @@ $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description'
 JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
-$editor    = $app->input->getCmd('editor', '');
+$editor       = $app->input->getCmd('editor', '');
 $listOrder    = $this->escape($this->state->get('list.ordering'));
 $listDirn     = $this->escape($this->state->get('list.direction'));
+$enable       = $app->input->get('enable', '', 'string');
+$enable       = explode(',', $enable);
 
 if (!empty($editor))
 {
@@ -86,7 +88,7 @@ if (!empty($editor))
 				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-				<?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
+					<?php if ( !in_array($item->type, $enable) ) continue; ?>
 					<?php if ($item->language && JLanguageMultilang::isEnabled())
 					{
 						if ($item->language !== '*')
@@ -110,13 +112,9 @@ if (!empty($editor))
 						<td>
 							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
-							<?php if (!$uselessMenuItem) : ?>
-								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
-									<?php echo $this->escape($item->title); ?>
-								</a>
-							<?php else : ?>
+							<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
 								<?php echo $this->escape($item->title); ?>
-							<?php endif; ?>	
+							</a>
 							<span class="small">
 								<?php if (empty($item->note)) : ?>
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
@@ -173,6 +171,7 @@ if (!empty($editor))
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="function" value="<?php echo $function; ?>" />
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>" />
+		<input type="hidden" name="enable" value="<?php echo $app->input->get('enable', '', 'string'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 
 	</form>
