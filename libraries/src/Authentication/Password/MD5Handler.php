@@ -20,8 +20,22 @@ use Joomla\CMS\User\UserHelper;
  * @since  __DEPLOY_VERSION__
  * @deprecated  5.0  Support for MD5 hashed passwords will be removed
  */
-class MD5Handler implements HandlerInterface
+class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
 {
+	/**
+	 * Check if the password requires rehashing
+	 *
+	 * @param   string  $hash  The password hash to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkIfRehashNeeded(string $hash): bool
+	{
+		return true;
+	}
+
 	/**
 	 * Generate a hash for a plaintext password
 	 *

@@ -18,8 +18,22 @@ use Joomla\Authentication\Password\HandlerInterface;
  * @since  __DEPLOY_VERSION__
  * @deprecated  5.0  Support for PHPass hashed passwords will be removed
  */
-class PHPassHandler implements HandlerInterface
+class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
 {
+	/**
+	 * Check if the password requires rehashing
+	 *
+	 * @param   string  $hash  The password hash to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkIfRehashNeeded(string $hash): bool
+	{
+		return true;
+	}
+
 	/**
 	 * Generate a hash for a plaintext password
 	 *

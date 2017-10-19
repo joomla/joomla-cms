@@ -14,6 +14,7 @@ use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
+use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\CMS\Authentication\Password\SHA256Handler;
@@ -418,37 +419,35 @@ abstract class UserHelper
 		// Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
 		if (strpos($hash, '$P$') === 0)
 		{
-			$match = $container->get(PHPassHandler::class)->validatePassword($password, $hash);
-
-			$rehash = true;
+			/** @var PHPassHandler $handler */
+			$handler = $container->get(PHPassHandler::class);
 		}
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
-			$match = $container->get(Argon2iHandler::class)->validatePassword($password, $hash);
-
-			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2I);
+			/** @var Argon2iHandler $handler */
+			$handler = $container->get(Argon2iHandler::class);
 
 			$passwordAlgorithm = PASSWORD_ARGON2I;
 		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
 		{
-			$match = $container->get(BCryptHandler::class)->validatePassword($password, $hash);
-
-			$rehash = password_needs_rehash($hash, PASSWORD_BCRYPT);
+			/** @var BCryptHandler $handler */
+			$handler = $container->get(BCryptHandler::class);
 		}
 		elseif (substr($hash, 0, 8) == '{SHA256}')
 		{
-			$match = $container->get(SHA256Handler::class)->validatePassword($password, $hash);
-
-			$rehash = true;
+			/** @var SHA256Handler $handler */
+			$handler = $container->get(SHA256Handler::class);
 		}
 		else
 		{
-			$match = $container->get(ChainedHandler::class)->validatePassword($password, $hash);
-
-			$rehash = true;
+			/** @var ChainedHandler $handler */
+			$handler = $container->get(ChainedHandler::class);
 		}
+
+		$match  = $handler->validatePassword($password, $hash);
+		$rehash = $handler instanceof CheckIfRehashNeededHandlerInterface ? $handler->checkIfRehashNeeded($hash) : false;
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
 		if ((int) $user_id > 0 && $match && $rehash)

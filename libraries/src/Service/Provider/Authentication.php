@@ -10,8 +10,10 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Authentication\Password\Argon2iHandler;
-use Joomla\Authentication\Password\BCryptHandler;
+use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;
+use Joomla\Authentication\Password\BCryptHandler as BaseBCryptHandler;
+use Joomla\CMS\Authentication\Password\Argon2iHandler;
+use Joomla\CMS\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
@@ -38,6 +40,7 @@ class Authentication implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('password.handler.argon2i', Argon2iHandler::class)
+			->alias(BaseArgon2iHandler::class, Argon2iHandler::class)
 			->share(
 				Argon2iHandler::class,
 				function (Container $container)
@@ -68,6 +71,7 @@ class Authentication implements ServiceProviderInterface
 
 		// The Joomla default is BCrypt so alias this service
 		$container->alias('password.handler.default', BCryptHandler::class)
+			->alias(BaseBCryptHandler::class, BCryptHandler::class)
 			->alias('password.handler.bcrypt', BCryptHandler::class)
 			->share(
 				BCryptHandler::class,

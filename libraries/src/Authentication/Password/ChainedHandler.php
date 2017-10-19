@@ -17,7 +17,7 @@ use Joomla\Authentication\Password\HandlerInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ChainedHandler implements HandlerInterface
+class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
 {
 	/**
 	 * The password handlers in use by this chain.
@@ -39,6 +39,28 @@ class ChainedHandler implements HandlerInterface
 	public function addHandler(HandlerInterface $handler)
 	{
 		$this->handlers[] = $handler;
+	}
+
+	/**
+	 * Check if the password requires rehashing
+	 *
+	 * @param   string  $hash  The password hash to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkIfRehashNeeded(string $hash): bool
+	{
+		foreach ($this->handlers as $handler)
+		{
+			if ($handler instanceof CheckIfRehashNeededHandlerInterface && $handler->isSupported() && $handler->checkIfRehashNeeded($hash))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
