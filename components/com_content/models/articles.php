@@ -726,11 +726,20 @@ class ContentModelArticles extends JModelList
 		$query = $db->getQuery(true);
 
 		$query
-			->select("concat(year(publish_up),'-',month(publish_up),'-01') as d")
-			->select("COUNT(*) as c")
-			->from('('.$this->getListQuery().') as b')
-			->group("d")
-			->order("d desc");
+			->select(
+				$query->concatenate(
+					array(
+						$query->year($query->quoteName('publish_up')),
+						$query->quote('-'),
+						$query->month($query->quoteName('publish_up')),
+						$query->quote('-01')
+					)
+				) . ' as d'
+			)
+			->select('COUNT(*) as c')
+			->from('(' . $this->getListQuery() . ') as b')
+			->group('d')
+			->order('d desc');
 		return $db->setQuery($query)->loadObjectList();
 	}
 }
