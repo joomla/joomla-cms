@@ -154,6 +154,11 @@ class LanguagesModel extends BaseInstallationModel
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
+			if ($id === 0)
+			{
+				continue;
+			}
+
 			$installer = clone $installerBase;
 
 			// Loads the update database object that represents the language.
