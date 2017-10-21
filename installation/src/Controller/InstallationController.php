@@ -11,11 +11,8 @@ namespace Joomla\CMS\Installation\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Default controller class for the Joomla Installer.
@@ -159,10 +156,10 @@ class InstallationController extends JSONController
 	 */
 	public function languages()
 	{
-		$this->checkValidToken();
+		//$this->checkValidToken();
 
 		// Get array of selected languages
-		$lids = $this->getInput()->get('cid', [], 'array');
+		$lids = $this->input->get('cid', [], 'array');
 		$lids = ArrayHelper::toInteger($lids, []);
 
 		if (!$lids)
@@ -181,7 +178,7 @@ class InstallationController extends JSONController
 			// Publish the Content Languages.
 			$model->publishContentLanguages();
 
-			$this->app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
+			$this->app->enqueueMessage(\JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
 		}
 
 		// Redirect to the page.
