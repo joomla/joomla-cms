@@ -762,6 +762,11 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	public function installSampleData($options)
 	{
+		if (empty($options) && !empty(Factory::getSession()->get('setup.options', array())))
+		{
+			$options = Factory::getSession()->get('setup.options', array());
+		}
+
 		if (is_array($options))
 		{
 			// Get the options as an object for easier handling.
@@ -784,6 +789,15 @@ class DatabaseModel extends BaseInstallationModel
 		if ($db->getServerType() === 'mysql')
 		{
 			$type = 'mysql';
+		}
+
+		if (Factory::getApplication()->input->get('sample_file', ''))
+		{
+			$options->sample_file = Factory::getApplication()->input->get('sample_file', '');
+		}
+		else
+		{
+			$options->sample_file = 'sample_testing.sql';
 		}
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
