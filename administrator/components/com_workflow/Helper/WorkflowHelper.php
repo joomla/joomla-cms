@@ -313,8 +313,7 @@ class WorkflowHelper extends ContentHelper
 				->where($db->qn('item_id') . ' IN (' . implode(', ', $itemIds) . ')')
 				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
 
-			$db->setQuery($query);
-			$db->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
 		{

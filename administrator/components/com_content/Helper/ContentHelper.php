@@ -363,7 +363,7 @@ class ContentHelper extends \JHelperContent
 	{
 		try
 		{
-			$db    = \JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			$query->update($db->qn('#__content'))
