@@ -13,7 +13,7 @@
     "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "dependencies": {
-    "autoprefixer": "^7.1.4",
+    "autoprefixer": "^7.1.5",
     "grunt": "latest",
     "grunt-babel": "latest",
     "grunt-browserify": "latest",
