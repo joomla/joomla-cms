@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 ?>
 <div id="installer-view" data-page-name="remove">
 
-	<div id="installCongrat" class="j-install-step active">
-		<div class="j-install-step-header">
+	<fieldset id="installCongrat" class="j-install-step active">
+		<legend class="j-install-step-header">
 			<span class="fa fa-trophy" aria-hidden="true"></span> <?php echo JText::_('INSTL_COMPLETE_CONGRAT'); ?>
-		</div>
+		</legend>
 		<div class="j-install-step-form">
 			<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
 			<p><?php echo JText::_('INSTL_COMPLETE_DESC'); ?></p>
@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo JText::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 			</div>
 		</div>
-	</div>
+	</fieldset>
 
 		<div id="installRecommended" class="j-install-step active">
 			<div class="j-install-step-form">
@@ -100,10 +100,10 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 
-		<div id="installLanguages" class="j-install-step">
-			<div class="j-install-step-header">
+		<fieldset id="installLanguages" class="j-install-step">
+			<legend class="j-install-step-header">
 				<span class="fa fa-commenting-o" aria-hidden="true"></span> <?php echo JText::_('INSTL_LANGUAGES'); ?>
-			</div>
+			</legend>
 			<div class="j-install-step-form">
 				<?php if (!$this->items) : ?>
 				<p><?php echo JText::_('INSTL_LANGUAGES_WARNING_NO_INTERNET') ?></p>
@@ -181,12 +181,12 @@ defined('_JEXEC') or die;
 				</div>
 			</form>
 			</div>
-		</div>
+		</fieldset>
 
-		<div id="installSampleData" class="j-install-step">
-			<div class="j-install-step-header">
+		<fieldset id="installSampleData" class="j-install-step">
+			<legend class="j-install-step-header">
 				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?>
-			</div>
+			</legend>
 			<div class="j-install-step-form">
 				<h3><?php echo JText::_('Do you want to install sample data?'); ?></h3>
 				<p><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
@@ -204,12 +204,12 @@ defined('_JEXEC') or die;
 					</div>
 				</form>
 			</div>
-		</div>
+		</fieldset>
 
-		<div id="installFinal" class="j-install-step">
-			<div class="j-install-step-header">
+		<fieldset id="installFinal" class="j-install-step">
+			<legend class="j-install-step-header">
 				<span class="fa fa-joomla" aria-hidden="true"></span> <?php echo JText::_('INSTL_COMPLETE_FINAL'); ?>
-			</div>
+			</legend>
 			<div class="j-install-step-form">
 				<p><?php echo JText::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
 				<div class="form-group">
@@ -217,7 +217,7 @@ defined('_JEXEC') or die;
 					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>" role="button"><span class="fa fa-lock"></span> <?php echo JText::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
-		</div>
+		</fieldset>
 
 
 </div>

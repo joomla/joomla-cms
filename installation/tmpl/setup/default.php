@@ -14,10 +14,10 @@ defined('_JEXEC') or die;
 
 <div id="installer-view" data-page-name="setup">
 	<form action="index.php" method="post" id="languageForm" class="lang-select">
-		<div class="j-install-step active">
-			<div class="j-install-step-header">
+		<fieldset class="j-install-step active">
+			<legend class="j-install-step-header">
 				<span class="fa fa-language" aria-hidden="true"></span> <?php echo JText::_('Change language'); ?>
-			</div>
+			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
 					<?php echo $this->form->getLabel('language'); ?>
@@ -27,13 +27,13 @@ defined('_JEXEC') or die;
 				<input type="hidden" name="format" value="json">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
-		</div>
+		</fieldset>
 	</form>
 	<form action="index.php" method="post" id="adminForm" class="form-validate">
-		<div id="installStep1" class="j-install-step active">
-			<div class="j-install-step-header">
+		<fieldset id="installStep1" class="j-install-step active">
+			<legend class="j-install-step-header">
 				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SETUP_LOGIN_DATA'); ?>
-			</div>
+			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
 					<?php echo $this->form->getLabel('site_name'); ?>
@@ -43,11 +43,11 @@ defined('_JEXEC') or die;
 					<button class="btn btn-primary btn-block" id="step1"><?php echo JText::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 				</div>
 			</div>
-		</div>
-		<div id="installStep2" class="j-install-step">
-			<div class="j-install-step-header">
+		</fieldset>
+		<fieldset id="installStep2" class="j-install-step">
+			<legend class="j-install-step-header">
 				<span class="fa fa-heart" aria-hidden="true"></span> <?php echo JText::_('INSTL_LOGIN_DATA'); ?>
-			</div>
+			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_user'); ?>
@@ -65,11 +65,11 @@ defined('_JEXEC') or die;
 					<button class="btn btn-primary btn-block" id="step2"><?php echo JText::_('INSTL_CONNECT_DB'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 				</div>
 			</div>
-		</div>
-		<div id="installStep3" class="j-install-step" >
-			<div class="j-install-step-header">
+		</fieldset>
+		<fieldset id="installStep3" class="j-install-step" >
+			<legend class="j-install-step-header">
 				<span class="fa fa-database" aria-hidden="true"></span> <?php echo JText::_('INSTL_DATABASE'); ?>
-			</div>
+			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_type'); ?>
@@ -104,7 +104,7 @@ defined('_JEXEC') or die;
 					<button class="btn btn-primary btn-block" id="setupButton"><?php echo JText::_('INSTL_INSTALL_JOOMLA'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 				</div>
 			</div>
-		</div>
+		</fieldset>
 
 		<input type="hidden" name="admin_password2" id="jform_admin_password2">
 		<?php echo JHtml::_('form.token'); ?>
