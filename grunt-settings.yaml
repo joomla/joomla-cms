@@ -14,10 +14,7 @@ vendors:
                   'dependencies': 'jquery'
     'bootstrap':
                   'version': '4.0.0-beta.2'
-                  'dependencies': 'jquery, popper.js'
-    'popper.js':
-                  'version': '1.12.3'
-                  'dependencies': ''
+                  'dependencies': 'jquery'
     'font-awesome':
                   'version': '4.7.0'
                   'dependencies': ''
