@@ -216,4 +216,29 @@ class InstallationController extends JSONController
 
 		$this->sendJsonResponse($r);
 	}
+
+	/**
+	 * Delete installation folder task.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function delete()
+	{
+		$this->checkValidToken();
+
+		$success = $this->getModel('Cleanup')->deleteInstallationFolder();
+
+		// If an error was encountered return an error.
+		if (!$success)
+		{
+			$this->app->enqueueMessage(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
+		}
+
+		$r = new \stdClass;
+		$r->view = 'remove';
+
+		$this->sendJsonResponse($r);
+	}
 }
