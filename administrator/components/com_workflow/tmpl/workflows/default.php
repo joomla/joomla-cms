@@ -139,9 +139,10 @@ $userId = $user->id;
 									</div>
 								</td>
 								<td>
-									<?php if ($canEdit) : ?>
-										<a href="<?php echo $edit; ?>">
-											<?php echo $item->title; ?>
+									<?php if ($canEdit || $canEditOwn) : ?>
+										<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+										<a href="<?php echo $edit; ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<?php echo $editIcon; ?><?php echo $item->title; ?>
 										</a>
 									<?php else: ?>
 										<?php echo $item->title; ?>

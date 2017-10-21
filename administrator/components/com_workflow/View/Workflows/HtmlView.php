@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
 
-		if ($canDo->get("core.create"))
+		if ($canDo->get('core.create'))
 		{
 			ToolbarHelper::addNew('workflow.add');
 		}
@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::checkin('workflows.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($this->state->get("filter.published") === "-2" && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		}

@@ -34,13 +34,13 @@ class StateModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function populateState()
 	{
 		parent::populateState();
 
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
 		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
 

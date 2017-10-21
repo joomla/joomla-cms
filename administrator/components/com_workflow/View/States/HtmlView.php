@@ -110,11 +110,11 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
 
-		WorkflowHelper::callMethodFromHelper($this->state->get("filter.extension"), "addSubmenu", "states");
-		$this->sidebar       = \JHtmlSidebar::render();
-
 		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
+
+		WorkflowHelper::callMethodFromHelper($this->extension, 'addSubmenu', 'states');
+		$this->sidebar       = \JHtmlSidebar::render();
 
 		if (!empty($this->states))
 		{
@@ -138,13 +138,13 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions($this->extension, "workflow", $this->workflowID);
+		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
 		$workflow = !empty($this->state->get('active_workflow', '')) ? $this->state->get('active_workflow', '') . ': ' : '';
 
 		ToolbarHelper::title(\JText::sprintf('COM_WORKFLOW_STATES_LIST', $this->escape($workflow)), 'address contact');
 
-		if ($canDo->get("core.create"))
+		if ($canDo->get('core.create'))
 		{
 			ToolbarHelper::addNew('state.add');
 		}
@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::checkin('states.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($this->state->get("filter.published") === "-2" && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
 		}

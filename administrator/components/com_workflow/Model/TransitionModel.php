@@ -26,6 +26,26 @@ use Joomla\CMS\MVC\Model\AdminModel;
 class TransitionModel extends AdminModel
 {
 	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function populateState()
+	{
+		parent::populateState();
+
+		$app       = Factory::getApplication();
+		$context   = $this->option . '.' . $this->name;
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.extension', $extension);
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
