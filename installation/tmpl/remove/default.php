@@ -195,7 +195,6 @@ defined('_JEXEC') or die;
 				<form action="index.php" method="post" id="sampleDataForm" class="form-validate">
 					<div class="form-group">
 						<input type="hidden" name="sample_file" value="sample_testing.sql">
-						<input type="hidden" name="task" value="InstallSample">
 						<?php echo JHtml::_('form.token'); ?>
 						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 						<button id="skipSampleData" class="btn btn-block btn-secondary">

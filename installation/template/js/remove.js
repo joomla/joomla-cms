@@ -58,7 +58,7 @@ if (document.getElementById('installLanguagesButton')) {
 if (document.getElementById('installSampleDataButton')) {
 	document.getElementById('installSampleDataButton').addEventListener('click', function(e) {
 		e.preventDefault();
-		var form = document.getElementById('languagesForm');
+		var form = document.getElementById('sampleDataForm');
 		if (form) {
 			// Install the extra languages
 			Joomla.install(['sample'], form);
