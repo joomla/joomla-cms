@@ -46,6 +46,15 @@ if (document.getElementById('installLanguagesButton')) {
 		e.preventDefault();
 		var form = document.getElementById('languagesForm');
 		if (form) {
+			var fields = document.getElementById('languagesForm')['cid[]'];
+
+			fields.forEach(function(field) {
+				if (!field.checked) {
+					field.setAttribute('value', '');
+				}
+			})
+
+			form = document.getElementById('languagesForm');
 			// Install the extra languages
 			Joomla.install(['languages'], form);
 
