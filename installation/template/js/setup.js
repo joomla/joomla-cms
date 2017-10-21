@@ -1,3 +1,8 @@
+/**
+ * @package     Joomla.Installation
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 /**
  * Method to set the language for the installation UI via AJAX
@@ -48,7 +53,6 @@ Joomla.setlanguage = function(form) {
 
 Joomla.checkInputs = function() {
 	document.getElementById('jform_admin_password2').value = document.getElementById('jform_admin_password').value;
-	Joomla.makeRandomDbPrefix();
 
 	var inputs = [].slice.call(document.querySelectorAll('input[type="password"], input[type="text"], input[type="email"], select')),
 	    state = true;
@@ -129,7 +133,7 @@ Joomla.checkDbCredentials = function() {
 		document.getElementById('jform_site_name').focus();
 	}
 
-	// Selecte language
+	// Select language
 	var languageEl = document.getElementById('jform_language');
 
 	if (languageEl) {
@@ -138,31 +142,17 @@ Joomla.checkDbCredentials = function() {
 			Joomla.setlanguage(form)
 		})
 	}
-	// Are we in the main form?
-	// if (document.getElementById('jform_admin_password')) {
-	// 	var elemmm = document.getElementById('jform_admin_password').parentNode;
-	// 	elemmm.querySelector('span.input-group-addon').addEventListener('click', function(e) {
-	// 		var input = document.getElementById('jform_admin_password');
-	// 		if (e.target.classList.contains('fa-eye')) {
-	// 			e.target.classList.remove('fa-eye');
-	// 			e.target.classList.add('fa-eye-slash');
-	// 			input.type = 'text';
-	// 		} else {
-	// 			e.target.classList.add('fa-eye');
-	// 			e.target.classList.remove('fa-eye-slash');
-	// 			input.type = 'password';
-	// 		}
-	// 	})
-	// }
 
 	if (document.getElementById('step1')) {
 		document.getElementById('step1').addEventListener('click', function(e) {
 			e.preventDefault();
 			if (Joomla.checkFormField(['#jform_site_name'])) {
+				if (document.getElementById('languageForm')) {
+					document.getElementById('languageForm').style.display = 'none';
+				}
 				if (document.getElementById('installStep2')) {
 					document.getElementById('installStep2').classList.add('active');
 					document.getElementById('installStep1').classList.remove('active');
-					//Joomla.scrollTo(document.getElementById('installStep2'), document.getElementById('installStep2').offsetTop);
 
 					// Focus to the next field
 					if (document.getElementById('jform_admin_user')) {
@@ -180,8 +170,9 @@ Joomla.checkDbCredentials = function() {
 				if (document.getElementById('installStep3')) {
 					document.getElementById('installStep3').classList.add('active');
 					document.getElementById('installStep2').classList.remove('active');
-					// Joomla.scrollTo(document.getElementById('installStep3'), document.getElementById('installStep3').offsetTop);
 					document.getElementById('setupButton').style.display = 'block';
+
+					Joomla.makeRandomDbPrefix();
 
 					// Focus to the next field
 					if (document.getElementById('jform_db_type')) {

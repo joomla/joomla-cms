@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\User\UserHelper;
@@ -51,7 +50,7 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create Db
 		if (!$databaseModel->createDatabase($options))
 		{
-//			$this->deleteConfiguartion();
+			$this->deleteConfiguartion();
 			return false;
 		}
 
@@ -61,27 +60,28 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create tables
 		if (!$databaseModel->createTables($options))
 		{
-//			$this->deleteConfiguartion();
+			$this->deleteConfiguartion();
 			return false;
 		}
 
 		// Attempt to create the root user.
 		if (!$this->createRootUser($options))
 		{
-//			$this->deleteConfiguartion();
+			$this->deleteConfiguartion();
 			return false;
 		}
 
-//		// Handle old db if exists
-//		if (!$databaseModel->handleOldDatabase($options))
-//		{
-//			return false;
-//		}
+		// Handle old db if exists
+		if (!$databaseModel->handleOldDatabase($options))
+		{
+			$this->deleteConfiguartion();
+			return false;
+		}
 
 		// Install CSM data
 		if (!$databaseModel->installCmsData($options))
 		{
-//			$this->deleteConfiguartion();
+			$this->deleteConfiguartion();
 			return false;
 		}
 
@@ -229,36 +229,15 @@ class ConfigurationModel extends BaseInstallationModel
 		// Get the session
 		$session = Factory::getSession();
 
-		if ($useFTP == true)
+		if ($canWrite)
 		{
-			// Connect the FTP client.
-			$ftp = FtpClient::getInstance($options->ftp_host, $options->ftp_port);
-			$ftp->login($options->ftp_user, $options->ftp_pass);
-
-			// Translate path for the FTP account.
-			$file = \JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
-
-			// Use FTP write buffer to file.
-			if (!$ftp->write($file, $buffer))
-			{
-				// Set the config string to the session.
-				$session->set('setup.config', $buffer);
-			}
-
-			$ftp->quit();
+			file_put_contents($path, $buffer);
+			$session->set('setup.config', null);
 		}
 		else
 		{
-			if ($canWrite)
-			{
-				file_put_contents($path, $buffer);
-				$session->set('setup.config', null);
-			}
-			else
-			{
-				// If we cannot write the configuration.php, setup fails!
-				return false;
-			}
+			// If we cannot write the configuration.php, setup fails!
+			return false;
 		}
 
 		return true;
@@ -408,18 +387,17 @@ class ConfigurationModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to create the root user for the site.
+	 * Method to erase the configuration file.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function deleteConfiguartion()
 	{
-		// Build the configuration file path.
+		// The configuration file path.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
 
-		// Determine if the configuration file path is writable.
 		if (file_exists($path))
 		{
 			unlink($path);

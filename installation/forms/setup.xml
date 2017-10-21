@@ -122,9 +122,14 @@
 	<fieldset name="advanced">
 		<field
 				name="db_prefix"
-				type="hidden"
+				type="installation.prefix"
 				id="db_prefix"
-				default=""
+				class="form-control"
+				label="INSTL_DATABASE_PREFIX_DESC"
+				required="true"
+				validate="prefix"
+				message="INSTL_DATABASE_PREFIX_MSG"
+				autocomplete="off"
 		/>
 		<field
 				name="db_old"

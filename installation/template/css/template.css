@@ -8820,8 +8820,7 @@ body {
 .lang-select {
   top: 0;
   right: 0;
-  width: auto;
-  padding: 10px; }
+  width: auto; }
   .lang-select .custom-select {
     height: 30px;
     padding: .3rem 1.75rem .3rem .75rem;

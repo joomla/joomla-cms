@@ -27,6 +27,7 @@ defined('_JEXEC') or die;
 				<input type="hidden" name="format" value="json">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
+		</div>
 	</form>
 	<form action="index.php" method="post" id="adminForm" class="form-validate">
 		<div id="installStep1" class="j-install-step active">
@@ -92,7 +93,7 @@ defined('_JEXEC') or die;
 					<?php echo $this->form->getInput('db_name'); ?>
 				</div>
 				<div class="form-group">
-					<?php //echo $this->form->getLabel('db_prefix'); ?>
+					<?php echo $this->form->getLabel('db_prefix'); ?>
 					<?php echo $this->form->getInput('db_prefix'); ?>
 				</div>
 				<div class="form-group">
