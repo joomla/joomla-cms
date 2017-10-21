@@ -156,7 +156,7 @@ class InstallationController extends JSONController
 	 */
 	public function languages()
 	{
-		//$this->checkValidToken();
+		$this->checkValidToken();
 
 		// Get array of selected languages
 		$lids = $this->input->get('cid', [], 'array');
