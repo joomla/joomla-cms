@@ -916,7 +916,7 @@ class UserModel extends AdminModel
 
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = new Groups(array('ignore_request' => true));
+			$model = new GroupsModel(array('ignore_request' => true));
 
 			return $model->getItems();
 		}
