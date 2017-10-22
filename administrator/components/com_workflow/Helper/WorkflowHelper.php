@@ -276,10 +276,9 @@ class WorkflowHelper extends ContentHelper
 				->update($db->qn('#__workflow_associations'))
 				->set($db->qn('state_id') . '=' . (int) $stateId)
 				->where($db->qn('item_id') . '=' . (int) $itemId)
-				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+				->where($db->qn('extension') . '=' . $db->quote($extension));
 
-			$db->setQuery($query);
-			$db->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
 		{
@@ -302,6 +301,11 @@ class WorkflowHelper extends ContentHelper
 	 */
 	public static function updateAssociationOfItemIdList($itemIds, $stateId, $extension = 'com_content')
 	{
+		if (empty($pks))
+		{
+			return false;
+		}
+
 		try
 		{
 			$db    = Factory::getDbo();

@@ -361,6 +361,11 @@ class ContentHelper extends \JHelperContent
 	 */
 	public static function updateContentState($pks, $condition)
 	{
+		if (empty($pks))
+		{
+			return false;
+		}
+
 		try
 		{
 			$db    = Factory::getDbo();

@@ -11,11 +11,13 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Model\Form;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\Component\Workflow\Administrator\Table\StateTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -176,23 +178,23 @@ class ArticleModel extends AdminModel
 	protected function batchWorkflowState($value, $pks, $contexts)
 	{
 		// Get state information
-		$state = new \Joomla\Component\Workflow\Administrator\Table\StateTable($this->_db);
+		$state = new StateTable($this->_db);
 
 		if (!$state->load($value))
 		{
 			return false;
 		}
 
-		// Update content state value and workflow associations
-		if (ContentHelper::updateContentState($pks, $state->condition)
-				&& WorkflowHelper::updateAssociationOfItemIdList($pks, $value))
+		if (empty($pks))
 		{
-			return true;
-		}
-		else
-		{
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+
 			return false;
 		}
+
+		// Update content state value and workflow associations
+		return ContentHelper::updateContentState($pks, $state->condition)
+				&& WorkflowHelper::updateAssociationOfItemIdList($pks, $value);
 	}
 
 	/**
@@ -208,7 +210,7 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$state = new \Joomla\Component\Workflow\Administrator\Table\StateTable($this->_db);
+			$state = new StateTable($this->_db);
 
 			$workflowAssociation = WorkflowHelper::getAssociatedEntry((int) $record->id);
 

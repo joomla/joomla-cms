@@ -33,14 +33,13 @@ abstract class JHtmlWorkflowState
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('ws.id AS workflow_state_id, ws.title AS workflow_state_title, w.title AS workflow_title, w.id AS workflow_id')
+		$query->select($db->quoteName(array('ws.id', 'ws.title', 'w.id', 'w.title'), array('workflow_state_id', 'workflow_state_title', 'workflow_id', 'workflow_title')))
 			->from('#__workflow_states AS ws')
 			->leftJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')
 			->order('ws.ordering');
 
 		// Set the query and load the options.
-		$db->setQuery($query);
-		$states = $db->loadObjectList();
+		$states = $db->setQuery($query)->loadObjectList();
 
 		$workflowStates = array();
 

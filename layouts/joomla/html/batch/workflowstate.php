@@ -31,4 +31,3 @@ $attr = array(
 $groups = JHtml::_('workflowstate.existing', array('title' => JText::_('JLIB_HTML_BATCH_WORKFLOW_STATE_NOCHANGE')));
 
 echo JHtml::_('select.groupedlist', $groups, 'batch[workflowstate_id]', $attr);
-?>
