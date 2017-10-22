@@ -43,6 +43,10 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 	});
 
 	describe('Core Joomla.getOptions', function () {
+		beforeAll(function () {
+			Joomla.loadOptions();
+		});
+
 		it('should return options array Joomla.getOptions("com_foobar")', function () {
 			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
 		});
@@ -181,13 +185,14 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('renderMessages should render messages inside a div having class alert-message', function () {
-			var $messages = $('joomla-alert[level="success"]').children('div');
+			var $messages = $('#system-message-container > .alert.success').children('div');
 			expect($messages[0]).toContainText('Message two');
 			expect($messages[1]).toContainText('Message one');
+
 		});
 
 		it('renderMessages should render errors inside a div having class alert-error', function () {
-			var $messages = $('joomla-alert[level="danger"]').children('div');
+			var $messages = $('#system-message-container > .alert.danger').children('div');
 			expect($messages[0]).toContainText('Error two');
 			expect($messages[1]).toContainText('Error one');
 		});
