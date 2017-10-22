@@ -207,8 +207,10 @@ class WorkflowModel extends AdminModel
 
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
+		$extension = Factory::getApplication()->input->get('extension', 'com_content');
+
 		// Set the access control rules field component value.
-		$form->setFieldAttribute('rules', 'component', $data->extension);
+		$form->setFieldAttribute('rules', 'component', $extension);
 		$form->setFieldAttribute('rules', 'section', 'workflow');
 
 		parent::preprocessData($form, $data, $group);

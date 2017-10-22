@@ -104,11 +104,11 @@ if ($saveOrder)
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'states.', true); ?>
+											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'states.', $canChange); ?>
 										</div>
 									</td>
 									<td class="text-center hidden-sm-down">
-										<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'states.', true); ?>
+										<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'states.', $canChange); ?>
 									</td>
 									<td>
 										<?php if ($canEdit) : ?>

@@ -102,7 +102,7 @@ if ($saveOrder)
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'transitions.', true); ?>
+											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
 										</div>
 									</td>
 									<td>
