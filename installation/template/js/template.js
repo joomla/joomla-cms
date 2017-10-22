@@ -11,9 +11,12 @@
 	Joomla.serialiseForm = function( form ) {
 		var i, l, obj = [], elements = form.querySelectorAll( "input, select, textarea" );
 		for(i = 0, l = elements.length; i < l; i++) {
-			var name = elements[i].name, value = elements[i].value;
+			var name = elements[i].name;
+			var value = elements[i].value;
 			if(name) {
-				obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + value);
+				if ((elements[i].type === 'checkbox' && elements[i].checked === true) || (elements[i].type !== 'checkbox')) {
+					obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + value);
+				}
 			}
 		}
 		return obj.join("&");
@@ -108,7 +111,6 @@
 			state.push(document.formvalidator.validate(document.querySelector(field)));
 		});
 
-		console.log(state)
 		if (state.indexOf(false) > -1) {
 			return false;
 		}

@@ -154,11 +154,6 @@ class LanguagesModel extends BaseInstallationModel
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
-			if ($id === 0)
-			{
-				continue;
-			}
-
 			$installer = clone $installerBase;
 
 			// Loads the update database object that represents the language.
@@ -252,7 +247,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	protected function getPackageUrl($remote_manifest)
 	{
-		$update = new Update();
+		$update = new Update;
 		$update->loadFromXml($remote_manifest);
 
 		return trim($update->get('downloadurl', false)->_data);
@@ -1231,7 +1226,7 @@ class LanguagesModel extends BaseInstallationModel
 	 * Create an article in a specific language.
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
-	 * @param   int       $categoryId    The id of the category where we want to add the article.
+	 * @param   int        $categoryId    The id of the category where we want to add the article.
 	 *
 	 * @return  Table|boolean Article Object. False otherwise.
 	 *

@@ -211,6 +211,7 @@ class ConfigurationModel extends BaseInstallationModel
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
 		{
 			return false;
+
 			// $useFTP = true;
 		}
 

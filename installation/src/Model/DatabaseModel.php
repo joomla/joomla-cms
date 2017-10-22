@@ -36,6 +36,13 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	protected static $userId = 0;
 
+	/**
+	 * Get the current setup options from the session.
+	 *
+	 * @return  array  An array of options from the session.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getOptions()
 	{
 		return Factory::getSession()->get('setup.options', array());
@@ -178,87 +185,89 @@ class DatabaseModel extends BaseInstallationModel
 				return false;
 			}
 
-		// @todo implement the security check
-		//$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
-		//
-		//// Per Default allowed DB Hosts
-		//$localhost = array(
-		//	'localhost',
-		//	'127.0.0.1',
-		//	'::1',
-		//);
-		//
-		//// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		//if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
-		//{
-		//	$remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
-		//
-		//// When all checks have been passed we don't need to do this here again.
-		//	if ($remoteDbFileTestsPassed === false)
-		//	{
-		//		$generalRemoteDatabaseMessage = \JText::sprintf(
-		//			'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_GENERAL_MESSAGE',
-		//			'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
-		//		);
-		//
-		//		$remoteDbFile = Factory::getSession()->get('remoteDbFile', false);
-		//
-		//		if ($remoteDbFile === false)
-		//		{
-		//			// Add the general message
-		//			Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-		//
-		//			// This is the file you need to remove if you want to use a remote database
-		//			$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
-		//			Factory::getSession()->set('remoteDbFile', $remoteDbFile);
-		//
-		//			// Get the path
-		//			$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
-		//
-		//			// When the path is not writable the user needs to create the file manually
-		//			if (!JFile::write($remoteDbPath, ''))
-		//			{
-		//				// Request to create the file manually
-		//				Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
-		//
-		//				Factory::getSession()->set('remoteDbFileUnwritable', true);
-		//
-		//				return false;
-		//			}
-		//
-		//			// Save the file name to the session
-		//			Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
-		//
-		//			// Request to delete that file
-		//			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
-		//
-		//			return false;
-		//		}
-		//
-		//		if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
-		//		{
-		//			// Add the general message
-		//			Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-		//
-		//			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
-		//
-		//			return false;
-		//		}
-		//
-		//		if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
-		//		{
-		//			// Add the general message
-		//			Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-		//
-		//			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
-		//
-		//			return false;
-		//		}
-		//
-		//		// All tests for this session passed set it to the session
-		//		Factory::getSession()->set('remoteDbFileTestsPassed', true);
-		//	}
-		//}
+		// @TODO implement the security check
+		/**
+		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
+
+		// Per Default allowed DB Hosts
+		$localhost = array(
+			'localhost',
+			'127.0.0.1',
+			'::1',
+		);
+
+		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
+		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
+		{
+			$remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
+
+		// When all checks have been passed we don't need to do this here again.
+			if ($remoteDbFileTestsPassed === false)
+			{
+				$generalRemoteDatabaseMessage = \JText::sprintf(
+					'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_GENERAL_MESSAGE',
+					'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
+				);
+
+				$remoteDbFile = Factory::getSession()->get('remoteDbFile', false);
+
+				if ($remoteDbFile === false)
+				{
+					// Add the general message
+					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					// This is the file you need to remove if you want to use a remote database
+					$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
+					Factory::getSession()->set('remoteDbFile', $remoteDbFile);
+
+					// Get the path
+					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+
+					// When the path is not writable the user needs to create the file manually
+					if (!JFile::write($remoteDbPath, ''))
+					{
+						// Request to create the file manually
+						Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+
+						Factory::getSession()->set('remoteDbFileUnwritable', true);
+
+						return false;
+					}
+
+					// Save the file name to the session
+					Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
+
+					// Request to delete that file
+					Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+
+					return false;
+				}
+
+				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				{
+					// Add the general message
+					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+
+					return false;
+				}
+
+				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				{
+					// Add the general message
+					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+
+					return false;
+				}
+
+				// All tests for this session passed set it to the session
+				Factory::getSession()->set('remoteDbFileTestsPassed', true);
+			}
+		}
+		*/
 		}
 
 		// Get a database object.
@@ -1057,9 +1066,9 @@ class DatabaseModel extends BaseInstallationModel
 	 * Method to create a new database.
 	 *
 	 * @param   \JDatabaseDriver  $db       JDatabase object.
-	 * @param   \JObject           $options  JObject coming from "initialise" function to pass user
-	 *                                     and database name to database driver.
-	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
+	 * @param   \JObject          $options  JObject coming from "initialise" function to pass user
+	 *                                      and database name to database driver.
+	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *

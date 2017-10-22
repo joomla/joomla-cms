@@ -300,7 +300,7 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
-	 * @param   array  $options  The options to use for configuration.
+	 * @param   array  $option  The options to use for configuration.
 	 *
 	 * @return  \JDatabaseDriver|boolean  Database object on success, boolean false on failure
 	 *
@@ -391,16 +391,17 @@ class SetupModel extends BaseInstallationModel
 		try
 		{
 			if (!property_exists($options, 'db_select'))
-
-			return DatabaseHelper::getDbo(
-				$options->db_type,
-				$options->db_host,
-				$options->db_user,
-				$options->db_pass,
-				$options->db_name,
-				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false
-			);
+			{
+				return DatabaseHelper::getDbo(
+					$options->db_type,
+					$options->db_host,
+					$options->db_user,
+					$options->db_pass,
+					$options->db_name,
+					$options->db_prefix,
+					isset($options->db_select) ? $options->db_select : false
+				);
+			}
 		}
 		catch (\RuntimeException $e)
 		{
@@ -1181,8 +1182,8 @@ class SetupModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db       \JDatabase object.
 	 * @param   CMSObject         $options  CMSObject coming from "initialise" function to pass user
-	 *                                     and database name to database driver.
-	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
+	 *                                      and database name to database driver.
+	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *

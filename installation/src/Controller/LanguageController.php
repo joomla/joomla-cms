@@ -47,7 +47,6 @@ class LanguageController extends JSONController
 
 		// Get the posted values from the request and validate them.
 		$data   = $this->input->post->get('jform', [], 'array');
-		$return = $data;//$model->validate($data, 'preinstall');
 
 		$r = new \stdClass;
 
