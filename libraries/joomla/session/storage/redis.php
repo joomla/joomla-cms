@@ -37,6 +37,7 @@ class JSessionStorageRedis extends JSessionStorage
 			'host'    => $config->get('session_redis_server_host', 'localhost'),
 			'port'    => $config->get('session_redis_server_port', 6379),
 			'persist' => $config->get('session_redis_persist', true),
+			'auth'    => $config->get('session_redis_server_auth', null),
 			'db'      => (int) $config->get('session_redis_server_db', 0),
 		);
 
@@ -75,6 +76,11 @@ class JSessionStorageRedis extends JSessionStorage
 				$db      = isset($this->_server['db']) ? $this->_server['db'] : 0;
 
 				$path .= '?persistent=' . (int) $persist . '&database=' . $db;
+
+				if (!empty($this->_server['auth']))
+				{
+					$path .= '&auth=' . $this->_server['auth'];
+				}
 
 				ini_set('session.save_path', $path);
 				ini_set('session.save_handler', 'redis');
