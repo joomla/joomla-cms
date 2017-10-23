@@ -496,9 +496,11 @@ class ContentModelArticles extends JModelList
 				case 'month':
 					if ($monthFilter != '')
 					{
-						$query->having('publish_up >= ' . $db->quote($monthFilter . ' 00:00:00'));
-						$query->having('publish_up <= ' . $db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59'));
-					}
+						$query->where($db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00') . ' <= CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) .
+							' THEN a.created ELSE a.publish_up END');
+						$query->where($db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59') . ' >= CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) .
+							' THEN a.created ELSE a.publish_up END');
+					}					 
 					break;
 
 				case 'title':
@@ -726,7 +728,7 @@ class ContentModelArticles extends JModelList
 		$query = $db->getQuery(true);
 
 		$query
-			->select(
+			->select('DATE(' .
 				$query->concatenate(
 					array(
 						$query->year($query->quoteName('publish_up')),
@@ -734,12 +736,13 @@ class ContentModelArticles extends JModelList
 						$query->month($query->quoteName('publish_up')),
 						$query->quote('-01')
 					)
-				) . ' as d'
+				) . ') as d'
 			)
 			->select('COUNT(*) as c')
 			->from('(' . $this->getListQuery() . ') as b')
-			->group('d')
-			->order('d desc');
+			->group($query->quoteName('d'))
+			->order($query->quoteName('d') . ' desc');
+
 		return $db->setQuery($query)->loadObjectList();
 	}
 }
