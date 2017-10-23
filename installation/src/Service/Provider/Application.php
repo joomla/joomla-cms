@@ -40,7 +40,15 @@ class Application implements ServiceProviderInterface
 			'InstallationApplicationWeb',
 			function (Container $container)
 			{
-				$app = new InstallationApplication(null, null, null, $container);
+				$config = null;
+
+				// Load the global configuration file if available
+				if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+				{
+					$config = Factory::getConfig();
+				}
+
+				$app = new InstallationApplication(null, $config, null, $container);
 
 				// The session service provider needs JFactory::$application, set it if still null
 				if (Factory::$application === null)
