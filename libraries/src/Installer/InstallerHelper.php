@@ -81,7 +81,7 @@ abstract class InstallerHelper
 			$target = trim($flds[0], '"');
 		}
 
-		$tmpPath = Factory::getConfig(JPATH_SITE . '/configuration.php')->getCfg('tmp_path');
+		$tmpPath = \JFactory::getApplication()->getCfg('tmp_path');
 
 		// Set the target path if not given
 		if (!$target)
