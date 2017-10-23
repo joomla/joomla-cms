@@ -122,10 +122,11 @@ class RedisStorage extends CacheStorage
 		}
 		catch (\RedisException $e)
 		{
+			$auth = false;
 			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
-		if ($auth == false)
+		if ($auth === false)
 		{
 			static::$_redis = null;
 
