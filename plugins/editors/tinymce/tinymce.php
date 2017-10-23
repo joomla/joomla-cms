@@ -550,9 +550,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Merge the custom plugins paths
 		$externalPlugins  = array_merge($externalPlugins, $btns['paths']);
-//var_dump($externalPlugins);
-//var_dump($toolbar2);
-//die;
+
 		// Build the final options set
 		$scriptOptions = array_merge(
 			$scriptOptions,
@@ -602,8 +600,6 @@ class PlgEditorTinymce extends JPlugin
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
-//			'dndPath'    => JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js',
-//			'Image'      => JUri::root(). 'media/editors/tinymce/js/plugins/media/media.js',
 
 				// Disable TinyMCE Branding
 				'branding'	=> false,
@@ -645,7 +641,7 @@ class PlgEditorTinymce extends JPlugin
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
-		 **/
+		 */
 		if (!$this->app->client->mobile)
 		{
 			$scriptOptions['toolbar_items_size'] = 'small';
@@ -699,17 +695,6 @@ class PlgEditorTinymce extends JPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			// Load the lang strings for the buttons
-			$lang = JFactory::getLanguage();
-			$lang->load('plg_editors-xtd_article', JPATH_ADMINISTRATOR, $lang->getTag(), true);
-			$lang->load('plg_editors-xtd_image', JPATH_ADMINISTRATOR, $lang->getTag(), true);
-			$lang->load('plg_editors-xtd_pagebreak', JPATH_ADMINISTRATOR, $lang->getTag(), true);
-			$lang->load('plg_editors-xtd_readmore', JPATH_ADMINISTRATOR, $lang->getTag(), true);
-			$trArticle = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
-			$trBreak = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
-			$trImage = JText::_('PLG_IMAGE_BUTTON_IMAGE');
-			$trMore  = JText::_('PLG_READMORE_BUTTON_READMORE');
-
 			// Init the arrays for the buttons
 			$tinyBtns  = array();
 			$btnsNames = array();
@@ -721,11 +706,12 @@ class PlgEditorTinymce extends JPlugin
 			{
 				if ($button->get('name'))
 				{
-					switch ($button->get('text')) {
-						case $trImage:
-							$externalPlugins[$trImage] = JUri::root() . 'media/editors/tinymce/js/plugins/media/media.js';
+					switch ($button->get('name'))
+					{
+						case 'pictures':
+							$externalPlugins[JText::_('PLG_IMAGE_BUTTON_IMAGE')] = JUri::root() . 'media/editors/tinymce/js/plugins/media/media.js';
 							$btnNative[] = str_replace(' ', '', $button->get('text'));
-							\JFactory::getDocument()->addScriptOptions('xtd-' . strtolower($trImage), $button->get('options'));
+							\JFactory::getDocument()->addScriptOptions('xtd-' . strtolower(JText::_('PLG_IMAGE_BUTTON_IMAGE')), $button->get('options'));
 							break;
 						default:
 							// Set some vars

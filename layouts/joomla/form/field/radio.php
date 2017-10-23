@@ -48,66 +48,66 @@ extract($displayData);
  *     %4 = any other attributes
  */
 $format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
-$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);	
+$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
 
 ?>
 <?php // START SWITCHER ?>
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
-<?php JHtml::_('script', 'system/fields/switcher.js', array('version' => 'auto', 'relative' => true)); ?>
-<fieldset id="<?php echo $id; ?>"
-	<?php echo $disabled ? 'disabled' : ''; ?>
-	<?php echo $required ? 'required aria-required="true"' : ''; ?>>
+	<?php JHtml::_('script', 'system/fields/switcher.js', array('version' => 'auto', 'relative' => true)); ?>
+	<fieldset id="<?php echo $id; ?>"
+		<?php echo $disabled ? 'disabled' : ''; ?>
+		<?php echo $required ? 'required aria-required="true"' : ''; ?>>
 
-	<?php if (!empty($options)) : ?>
-		<span <?php echo $class ? 'class="js-switcher ' . $class . '"' : 'class="js-switcher"'; ?>>
+		<?php if (!empty($options)) : ?>
+			<span <?php echo $class ? 'class="js-switcher ' . $class . '"' : 'class="js-switcher"'; ?>>
 			<?php foreach ($options as $i => $option) : ?>
 				<?php
-					// Initialize some option attributes.
-					$checked     = ((string) $option->value == $value) ? 'checked="checked"' : '';
+				// Initialize some option attributes.
+				$checked     = ((string) $option->value == $value) ? 'checked="checked"' : '';
 
-					// Only add the switcher class to the first element
-					$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-					if ($i == 0)
-					{
-						$optionClass = !empty($option->class) ? 'class="active ' . $option->class . '"' : 'class="active"';
-					}
+				// Only add the switcher class to the first element
+				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
+				if ($i == 0)
+				{
+					$optionClass = !empty($option->class) ? 'class="active ' . $option->class . '"' : 'class="active"';
+				}
 
-					$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
-					// Initialize some JavaScript option attributes.
-					$onclick     = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-					$onchange    = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-					$oid         = $id . $i;
-					$ovalue      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-					$attributes  = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+				// Initialize some JavaScript option attributes.
+				$onclick     = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+				$onchange    = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+				$oid         = $id . $i;
+				$ovalue      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+				$attributes  = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
 				?>
 				<?php if ($required) : ?>
 					<?php $attributes[] = 'required aria-required="true"'; ?>
 				<?php endif; ?>
 				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 			<?php endforeach; ?>
-			<span class="switch"></span>
+				<span class="switch"></span>
 		</span>
-		<span class="switcher-labels">
+			<span class="switcher-labels">
 			<?php foreach ($options as $i => $option) : ?>
-			<span class="switcher-label-<?php echo $option->value; ?>"><?php echo $option->text; ?></span>
+				<span class="switcher-label-<?php echo $option->value; ?>"><?php echo $option->text; ?></span>
 			<?php endforeach; ?>
 		</span>
-	<?php endif; ?>
-</fieldset>
-<?php // END SWITCHER ?>
+		<?php endif; ?>
+	</fieldset>
+	<?php // END SWITCHER ?>
 <?php else: ?>
-<?php // START RADIO TOGGLE ?>
-<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
-	<?php echo $disabled ? 'disabled' : ''; ?>
-	<?php echo $required ? 'required aria-required="true"' : ''; ?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>
-	<?php echo $dataToggle; ?>>
+	<?php // START RADIO TOGGLE ?>
+	<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
+		<?php echo $disabled ? 'disabled' : ''; ?>
+		<?php echo $required ? 'required aria-required="true"' : ''; ?>
+		<?php echo $autofocus ? 'autofocus' : ''; ?>
+		<?php echo $dataToggle; ?>>
 
-	<?php if (!empty($options)) : ?>
-		<?php foreach ($options as $i => $option) : ?>
-			<?php
+		<?php if (!empty($options)) : ?>
+			<?php foreach ($options as $i => $option) : ?>
+				<?php
 				// Initialize some option attributes.
 				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
@@ -119,16 +119,16 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 				$oid        = $id . $i;
 				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
 				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
-			?>
-			<?php if ($required) : ?>
-				<?php $attributes[] = 'required aria-required="true"'; ?>
-			<?php endif; ?>
-			<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-				<?php echo $option->text; ?>
-			</label>
-		<?php endforeach; ?>
-	<?php endif; ?>
-</fieldset>
-<?php // END RADIO TOGGLE ?>
+				?>
+				<?php if ($required) : ?>
+					<?php $attributes[] = 'required aria-required="true"'; ?>
+				<?php endif; ?>
+				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
+					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+					<?php echo $option->text; ?>
+				</label>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</fieldset>
+	<?php // END RADIO TOGGLE ?>
 <?php endif; ?>
