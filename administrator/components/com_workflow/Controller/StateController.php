@@ -78,7 +78,7 @@ class StateController extends FormController
 	{
 		$user = Factory::getUser();
 
-		return ($user->authorise('core.create', $this->extension));
+		return $user->authorise('core.create', $this->extension);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class StateController extends FormController
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 		$user = Factory::getUser();
 
 		// Check "edit" permission on record asset (explicit or inherited)
@@ -108,18 +108,7 @@ class StateController extends FormController
 			// Need to do a lookup from the model to get the owner
 			$record = $this->getModel()->getItem($recordId);
 
-			if (empty($record))
-			{
-				return false;
-			}
-
-			$ownerId = $record->created_by;
-
-			// If the owner matches 'me' then do the test.
-			if ($ownerId == $user->id)
-			{
-				return true;
-			}
+			return !empty($record) && $record->created_by == $user->id;
 		}
 
 		return false;

@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$userId     = $user->id;
-		$isNew      = ($this->item->id == 0);
+		$isNew      = empty($this->item->id);
 
 		$canDo = StateHelper::getActions($this->extension, 'state', $this->item->id);
 

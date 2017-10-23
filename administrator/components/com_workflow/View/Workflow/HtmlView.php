@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$userId     = $user->id;
-		$isNew      = ($this->item->id == 0);
+		$isNew      = empty($this->item->id);
 
 		$canDo = WorkflowHelper::getActions($this->extension, 'workflow', $this->item->id);
 
