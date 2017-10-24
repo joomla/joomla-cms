@@ -18,5 +18,5 @@ JText::script('JTOGGLE_SHOW_SIDEBAR');
 	class="j-toggle-sidebar-button hidden-phone hasTooltip"
 	onclick="toggleSidebar(false); return false;"
 	>
-		<span id="j-toggle-sidebar-icon" class="icon-arrow-left-2"></span>
+		<span id="j-toggle-sidebar-icon" class="icon-arrow-left-2" aria-hidden="true"></span>
 </div>
