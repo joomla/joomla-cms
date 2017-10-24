@@ -121,7 +121,7 @@ class MediaHelper
 		if ($params->get('check_mime', 1))
 		{
 			// Get the mime type configuration
-			$allowedMime = array_map('trim', explode(',', $params->get('upload_mime')));
+			$allowedMime = array_map('trim', explode(',', $params->get('upload_mime', 'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip')));
 
 			// Mime should be available and in the whitelist
 			return !empty($mime) && in_array($mime, $allowedMime);
@@ -155,7 +155,7 @@ class MediaHelper
 
 		jimport('joomla.filesystem.file');
 
-		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== \JFile::makeSafe($file['name']))
+		if ($file['name'] !== \JFile::makeSafe($file['name']))
 		{
 			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
@@ -190,7 +190,7 @@ class MediaHelper
 		}
 
 		$filetype  = array_pop($filetypes);
-		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
+		$allowable = array_map('trim', explode(',', $params->get('upload_extensions', 'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))

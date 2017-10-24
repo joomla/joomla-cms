@@ -29,8 +29,6 @@ $form = $this->form;
 
 $tmpl = JFactory::getApplication()->input->getCmd('tmpl', '');
 
-$localPath = str_replace(\Joomla\CMS\Uri\Uri::root(), DIRECTORY_SEPARATOR, $this->file->url);
-
 // Populate the media config
 $config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
@@ -39,7 +37,7 @@ $config = [
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
-	'contents'                => base64_encode(file_get_contents(JPATH_ROOT . $localPath)),
+	'contents'                => base64_encode(file_get_contents($this->file->localpath)),
 ];
 
 JFactory::getDocument()->addScriptOptions('com_media', $config);

@@ -71,10 +71,13 @@ interface AdapterInterface
 	/**
 	 * Creates a folder with the given name in the given path.
 	 *
+	 * It returns the new folder name. This allows the implementation
+	 * classes to normalise the file name.
+	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -84,11 +87,14 @@ interface AdapterInterface
 	/**
 	 * Creates a file with the given name in the given path with the data.
 	 *
+	 * It returns the new file name. This allows the implementation
+	 * classes to normalise the file name.
+	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
 	 * @param   binary  $data  The data
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -122,13 +128,16 @@ interface AdapterInterface
 	public function delete($path);
 
 	/**
-	 * Moves a file or folder from source to destination
+	 * Moves a file or folder from source to destination.
+	 *
+	 * It returns the new destination path. This allows the implementation
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return void
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -136,13 +145,16 @@ interface AdapterInterface
 	public function move($sourcePath, $destinationPath, $force = false);
 
 	/**
-	 * Copies a file or folder from source to destination
+	 * Copies a file or folder from source to destination.
+	 *
+	 * It returns the new destination path. This allows the implementation
+	 * classes to normalise the file name.
 	 *
 	 * @param   string  $sourcePath       The source path
 	 * @param   string  $destinationPath  The destination path
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return void
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
