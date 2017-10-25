@@ -15,7 +15,7 @@
 	<exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
-	<exclude-pattern type="relative">libraries/vendor/*</exclude-pattern>
+	<exclude-pattern type="relative">*/vendor/*</exclude-pattern>
 	<!-- Temporarily exclude the old FOF Library code. TODO: Should be made compliant!! -->
 	<exclude-pattern type="relative">libraries/src/Encrypt/*</exclude-pattern>
 	<!-- Exclude the restore_finalisation until we can deal with nested class definitions -->

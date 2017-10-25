@@ -21,10 +21,10 @@ use BadMethodCallException;
 class AbstractImmutableEvent extends AbstractEvent
 {
 	/**
-	 * A flag to see if the constructor has been
-	 * already called.
+	 * A flag to see if the constructor has been already called.
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $constructed = false;
 
@@ -34,11 +34,10 @@ class AbstractImmutableEvent extends AbstractEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @throws  BadMethodCallException
-	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  BadMethodCallException
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct(string $name, array $arguments = [])
 	{
 		if ($this->constructed)
 		{
@@ -81,9 +80,8 @@ class AbstractImmutableEvent extends AbstractEvent
 	 *
 	 * @return  void
 	 *
-	 * @throws  BadMethodCallException
-	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  BadMethodCallException
 	 */
 	public function offsetUnset($name)
 	{

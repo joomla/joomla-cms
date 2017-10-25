@@ -10,8 +10,6 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\Factory;
-use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Form\FormFactory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\DI\Container;

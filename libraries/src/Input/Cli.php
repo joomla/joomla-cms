@@ -154,7 +154,7 @@ class Cli extends Input
 					}
 					else
 					{
-						$value = isset($out[$key]) ? $out[$key] : true;
+						$value = $out[$key] ?? true;
 					}
 
 					$out[$key] = $value;

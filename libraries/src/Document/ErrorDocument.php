@@ -146,7 +146,7 @@ class ErrorDocument extends Document
 		$file = 'error.php';
 
 		// Check template
-		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
+		$directory = $params['directory'] ?? 'templates';
 		$template = isset($params['template']) ? \JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
 		if (!file_exists($directory . '/' . $template . '/' . $file))
@@ -157,7 +157,7 @@ class ErrorDocument extends Document
 		// Set variables
 		$this->baseurl = Uri::base(true);
 		$this->template = $template;
-		$this->debug = isset($params['debug']) ? $params['debug'] : false;
+		$this->debug = $params['debug'] ?? false;
 		$this->error = $this->_error;
 
 		// Load the language file for the template if able

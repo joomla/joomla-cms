@@ -17,7 +17,7 @@ $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 // Try to get the items from the post-installation model
 try
 {
-	$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(['ignore_request' => true]);
+	$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
 	$messages      = $messagesModel->getItems();
 }
 catch (RuntimeException $e)

@@ -22,6 +22,40 @@ use Joomla\CMS\Log\Log;
 class ExceptionHandler
 {
 	/**
+	 * Handles an error triggered with the E_USER_DEPRECATED level.
+	 *
+	 * @param   integer  $errorNumber   The level of the raised error, represented by the E_* constants.
+	 * @param   string   $errorMessage  The error message.
+	 * @param   string   $errorFile     The file the error was triggered from.
+	 * @param   integer  $errorLine     The line number the error was triggered from.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function handleUserDeprecatedErrors(int $errorNumber, string $errorMessage, string $errorFile, int $errorLine): bool
+	{
+		// We only want to handle user deprecation messages, these will be triggered in code
+		if ($errorNumber === E_USER_DEPRECATED)
+		{
+			Log::add(
+				$errorMessage,
+				Log::WARNING,
+				'deprecated'
+			);
+
+			// If debug mode is enabled, we want to let PHP continue to handle the error; otherwise, we can bail early
+			if (defined('JDEBUG') && JDEBUG)
+			{
+				return true;
+			}
+		}
+
+		// Always return false, this will tell PHP to handle the error internally
+		return false;
+	}
+
+	/**
 	 * Render the error page based on an exception.
 	 *
 	 * @param   \Throwable  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.

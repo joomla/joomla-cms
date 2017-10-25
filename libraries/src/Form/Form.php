@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\Factory\LegacyFormFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -102,7 +101,7 @@ class Form
 		$this->data = new Registry;
 
 		// Set the options if specified.
-		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
+		$this->options['control'] = $options['control'] ?? false;
 	}
 
 	/**

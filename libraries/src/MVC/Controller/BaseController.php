@@ -14,7 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\View\AbstractView;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * Base class for a Joomla Controller
@@ -149,7 +149,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    \Joomla\CMS\View\AbstractView[]
+	 * @var    AbstractView[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -717,7 +717,7 @@ class BaseController implements ControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  Model|boolean  Model object on success; otherwise false on failure.
+	 * @return  BaseModel|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */

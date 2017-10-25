@@ -50,7 +50,7 @@ abstract class FormModel extends BaseModel
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
+		$config['events_map'] = $config['events_map'] ?? array();
 
 		$this->events_map = array_merge(
 			array(
