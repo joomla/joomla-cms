@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
-$class = ' class="first"';
-$lang  = JFactory::getLanguage();
-$user  = JFactory::getUser();
+$class  = ' class="first"';
+$lang   = JFactory::getLanguage();
+$user   = JFactory::getUser();
+$groups = $user->getAuthorisedViewLevels();
 
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
 
 	<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
-		<?php $groups = $user->getAuthorisedViewLevels(); ?>
 		<?php // Check whether category access level allows access to subcategories. ?>
 		<?php if (in_array($child->access, $groups)) : ?>
 			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
