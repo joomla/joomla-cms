@@ -253,12 +253,11 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
-		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')')
-				->where('c.access IN (' . $groups . ')');
-		}
+
+		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$query->where('a.access IN (' . $groups . ')')
+			->where('c.access IN (' . $groups . ')');
+
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
