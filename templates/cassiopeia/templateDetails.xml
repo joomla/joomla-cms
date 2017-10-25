@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="4.0" type="template" client="site">
-	<name>aurora</name>
+	<name>cassiopeia</name>
 	<version>1.0</version>
 	<creationDate>30/02/2017</creationDate>
 	<author>Charlie Lodder</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.</copyright>
-	<description>TPL_AURORA_XML_DESCRIPTION</description>
+	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
@@ -39,8 +39,8 @@
 		<position>debug</position>
 	</positions>
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_aurora.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_aurora.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_cassiopeia.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_cassiopeia.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -49,7 +49,7 @@
 					name="logoFile" 
 					type="media" 
 					default=""
-					label="TPL_AURORA_LOGO_LABEL"
+					label="TPL_CASSIOPEIA_LOGO_LABEL"
 				/>
 
 				<field
@@ -73,10 +73,10 @@
 					type="radio"
 					class="switcher switcher-primary"
 					default="0"
-					label="TPL_AURORA_FLUID_LABEL"
+					label="TPL_CASSIOPEIA_FLUID_LABEL"
 				>
-					<option value="1">TPL_AURORA_FLUID</option>
-					<option value="0">TPL_AURORA_STATIC</option>
+					<option value="1">TPL_CASSIOPEIA_FLUID</option>
+					<option value="0">TPL_CASSIOPEIA_STATIC</option>
 				</field>
 
 			</fieldset>
