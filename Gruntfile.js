@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 			puny          : 'media/vendor/punycode/js',
 			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum',
-			siteTemplate  : 'templates/aurora',
+			siteTemplate  : 'templates/cassiopeia',
 			node_module   : 'build/assets_tmp/node_modules/',
 		},
 

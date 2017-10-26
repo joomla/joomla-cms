@@ -250,7 +250,7 @@ class ExtensionHelper
 		array('template', 'atum', '', 1),
 
 		// Core template extensions - site
-		array('template', 'aurora', '', 0),
+		array('template', 'cassiopeia', '', 0),
 	);
 
 	/**

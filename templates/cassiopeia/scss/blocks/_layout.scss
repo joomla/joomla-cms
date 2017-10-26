@@ -6,7 +6,7 @@ body {
   footer {
     display: flex;
     width: 100%;
-    max-width: 1080px + ($aurora-grid-gutter * 4);
+    max-width: 1080px + ($cassiopeia-grid-gutter * 4);
     margin-right: auto;
     margin-left: auto;
   }
@@ -31,7 +31,7 @@ header {
 .container-bottom-b {
   > div {
     flex: 1;
-    margin: ($aurora-grid-gutter / 2);
+    margin: ($cassiopeia-grid-gutter / 2);
   }
 
   @include media-breakpoint-down(sm) {
@@ -45,7 +45,7 @@ header {
 
 .container-main {
   > div {
-    margin: ($aurora-grid-gutter / 2);
+    margin: ($cassiopeia-grid-gutter / 2);
   }
 
   @include media-breakpoint-down(sm) {
@@ -61,7 +61,7 @@ header {
   flex: 1;
 
   > div {
-    margin-bottom: $aurora-grid-gutter;
+    margin-bottom: $cassiopeia-grid-gutter;
 
     &:last-of-type {
       margin-bottom: 0;
@@ -72,10 +72,10 @@ header {
 .container-sidebar-left,
 .container-sidebar-right, {
   flex: 0 0 auto;
-  width: calc(25% - #{$aurora-grid-gutter});
+  width: calc(25% - #{$cassiopeia-grid-gutter});
 
   > div {
-    margin-bottom: $aurora-grid-gutter;
+    margin-bottom: $cassiopeia-grid-gutter;
 
     &:last-of-type {
       margin-bottom: 0;
@@ -83,7 +83,7 @@ header {
   }
 
   @include media-breakpoint-down(sm) {
-    width: calc(100% - #{$aurora-grid-gutter});
+    width: calc(100% - #{$cassiopeia-grid-gutter});
     order: 1;
   }
 }

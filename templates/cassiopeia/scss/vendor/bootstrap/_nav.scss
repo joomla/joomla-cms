@@ -3,11 +3,11 @@
 .nav.nav-tabs {
   padding: 0;
   margin: 0;
-  background-color: $aurora-tabs-header-bg;
-  border: 1px solid $aurora-border-color;
+  background-color: $cassiopeia-tabs-header-bg;
+  border: 1px solid $cassiopeia-border-color;
   border-bottom: 0;
   border-radius: $border-radius $border-radius 0 0;
-  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0,0,0,.15), 0 -4px 0 rgba(0,0,0,.05) inset, $aurora-box-shadow;
+  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0,0,0,.15), 0 -4px 0 rgba(0,0,0,.05) inset, $cassiopeia-box-shadow;
 
   .nav-item {
     margin-bottom: 0;
@@ -36,14 +36,14 @@
   .nav-link {
     position: relative;
     padding: .75em 1em;
-    color: $aurora-template-color;
+    color: $cassiopeia-template-color;
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     box-shadow: -1px 0 0 rgba(0,0,0,.05);
 
     &.active {
-      background-color: $aurora-tabs-active-bg;
+      background-color: $cassiopeia-tabs-active-bg;
       background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.05) 100%);
       border-right: 0;
       border-left: 0;
@@ -58,7 +58,7 @@
         left: 0;
         height: 5px;
         content: "";
-        background-color: $aurora-tabs-active-highlight;
+        background-color: $cassiopeia-tabs-active-highlight;
         opacity: .8;
       }
 
@@ -72,7 +72,7 @@
   padding: 15px;
   background: $white-offset;
   border: 1px solid;
-  border-color: $aurora-border-color;
+  border-color: $cassiopeia-border-color;
   border-radius: 0 0 $border-radius $border-radius;
-  box-shadow: $aurora-box-shadow;
+  box-shadow: $cassiopeia-box-shadow;
 }
