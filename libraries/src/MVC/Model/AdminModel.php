@@ -100,6 +100,63 @@ abstract class AdminModel extends FormModel
 	protected $associationsContext = null;
 
 	/**
+	 * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $batchSet = null;
+
+	/**
+	 * The user performing the actions (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $user = null;
+
+	/**
+	 * A JTable instance (of appropropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $table = null;
+
+	/**
+	 * The class name of the JTable instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     string
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $tableClassName = null;
+
+	/**
+	 * UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $contentType = null;
+
+	/**
+	 * DB data of UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $type = null;
+
+	/**
+	 * A tags Observer instance to handle assigned tags (re-usable in batch action methods, initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $tagsObserver = null;
+
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -211,21 +268,8 @@ abstract class AdminModel extends FormModel
 
 		$done = false;
 
-		// Set some needed variables.
-		$this->user = \JFactory::getUser();
-		$this->table = $this->getTable();
-		$this->tableClassName = get_class($this->table);
-		$this->contentType = new \JUcmType;
-		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->batchSet = true;
-
-		if ($this->type == false)
-		{
-			$type = new \JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-		}
-
-		$this->tagsObserver = $this->table->getObserverOfClass('\JTableObserverTags');
+		// Initialize re-usable member properties
+		$this->initBatch();
 
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
@@ -295,15 +339,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		foreach ($pks as $pk)
 		{
@@ -352,15 +389,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		$categoryId = $value;
 
@@ -472,15 +502,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		foreach ($pks as $pk)
 		{
@@ -529,15 +552,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		$categoryId = (int) $value;
 
@@ -618,27 +634,23 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		// Set the variables
-		$user = \JFactory::getUser();
-		$table = $this->getTable();
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
+		$tags = array($value);
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$table->reset();
-				$table->load($pk);
-				$tags = array($value);
+				$this->table->reset();
+				$this->table->load($pk);
 
-				/**
-				 * @var  \JTableObserverTags  $tagsObserver
-				 */
-				$tagsObserver = $table->getObserverOfClass('\JTableObserverTags');
-				$result = $tagsObserver->setNewTags($tags, false);
+				// Add new tags, keeping existing ones
+				$result = $this->tagsObserver->setNewTags($tags, false);
 
 				if (!$result)
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
@@ -1309,11 +1321,9 @@ abstract class AdminModel extends FormModel
 	 */
 	public function saveorder($pks = array(), $order = null)
 	{
-		$table = $this->getTable();
-		$tableClassName = get_class($table);
-		$contentType = new \JUcmType;
-		$type = $contentType->getTypeByTable($tableClassName);
-		$tagsObserver = $table->getObserverOfClass('\JTableObserverTags');
+		// Initialize re-usable member properties
+		$this->initBatch();
+
 		$conditions = array();
 
 		if (empty($pks))
@@ -1321,38 +1331,38 @@ abstract class AdminModel extends FormModel
 			return \JError::raiseWarning(500, \JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
 		}
 
-		$orderingField = $table->getColumnAlias('ordering');
+		$orderingField = $this->table->getColumnAlias('ordering');
 
 		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
-			$table->load((int) $pk);
+			$this->table->load((int) $pk);
 
 			// Access checks.
-			if (!$this->canEditState($table))
+			if (!$this->canEditState($this->table))
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
 				\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 			}
-			elseif ($table->$orderingField != $order[$i])
+			elseif ($this->table->$orderingField != $order[$i])
 			{
-				$table->$orderingField = $order[$i];
+				$this->table->$orderingField = $order[$i];
 
-				if ($type)
+				if ($this->type)
 				{
-					$this->createTagsHelper($tagsObserver, $type, $pk, $type->type_alias, $table);
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 				}
 
-				if (!$table->store())
+				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
 
 				// Remember to reorder within position and client_id
-				$condition = $this->getReorderConditions($table);
+				$condition = $this->getReorderConditions($this->table);
 				$found = false;
 
 				foreach ($conditions as $cond)
@@ -1366,8 +1376,8 @@ abstract class AdminModel extends FormModel
 
 				if (!$found)
 				{
-					$key = $table->getKeyName();
-					$conditions[] = array($table->$key, $condition);
+					$key = $this->table->getKeyName();
+					$conditions[] = array($this->table->$key, $condition);
 				}
 			}
 		}
@@ -1375,8 +1385,8 @@ abstract class AdminModel extends FormModel
 		// Execute reorder for each category.
 		foreach ($conditions as $cond)
 		{
-			$table->load($cond[0]);
-			$table->reorder($cond[1]);
+			$this->table->load($cond[0]);
+			$this->table->reorder($cond[1]);
 		}
 
 		// Clear the component's cache
@@ -1451,8 +1461,9 @@ abstract class AdminModel extends FormModel
 
 		// Check that the user has create permission for the component
 		$extension = \JFactory::getApplication()->input->get('option', '');
+		$user = \JFactory::getUser();
 
-		if (!$this->user->authorise('core.create', $extension . '.category.' . $categoryId))
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
 			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
@@ -1479,5 +1490,38 @@ abstract class AdminModel extends FormModel
 		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
 		$table->title = $data['0'];
 		$table->alias = $data['1'];
+	}
+
+	/**
+	 * Method to initialize member variables used by batch methods and other methods like saveorder()
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function initBatch()
+	{
+		if ($this->batchSet === null)
+		{
+			$this->batchSet = true;
+
+			// Get current user
+			$this->user = \JFactory::getUser();
+
+			// Get table
+			$this->table = $this->getTable();
+
+			// Get table class name
+			$tc = explode('\\', get_class($this->table));
+			$this->tableClassName = end($tc);
+
+			// Get UCM Type data
+			$this->contentType = new \JUcmType;
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
+				?: $this->contentType->getTypeByAlias($this->typeAlias);
+
+			// Get tabs observer
+			$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
+		}
 	}
 }
