@@ -178,10 +178,10 @@ class ApiModel extends BaseModel
 	 * Creates a folder with the given name in the given path. More information
 	 * can be found in AdapterInterface::createFolder().
 	 *
-	 * @param   string   $adapter  The adapter
-	 * @param   string   $name     The name
-	 * @param   string   $path     The folder
-	 * @param   boolean  override  Should the folder being overriden when it exists
+	 * @param   string   $adapter   The adapter
+	 * @param   string   $name      The name
+	 * @param   string   $path      The folder
+	 * @param   boolean  $override  Should the folder being overriden when it exists
 	 *
 	 * @return  void
 	 *
@@ -196,7 +196,9 @@ class ApiModel extends BaseModel
 			$file = $this->getFile($adapter, $path . '/' . $name);
 		}
 		catch (FileNotFoundException $e)
-		{}
+		{
+			// Do nothing
+		}
 
 		// Check if the file exists
 		if ($file && !$override)
@@ -211,11 +213,11 @@ class ApiModel extends BaseModel
 	 * Creates a file with the given name in the given path with the data. More information
 	 * can be found in AdapterInterface::createFile().
 	 *
-	 * @param   string   $adapter  The adapter
-	 * @param   string   $name     The name
-	 * @param   string   $path     The folder
-	 * @param   binary   $data     The data
-	 * @param   boolean  override  Should the file being overriden when it exists
+	 * @param   string   $adapter   The adapter
+	 * @param   string   $name      The name
+	 * @param   string   $path      The folder
+	 * @param   binary   $data      The data
+	 * @param   boolean  $override  Should the file being overriden when it exists
 	 *
 	 * @return  void
 	 *
@@ -230,7 +232,9 @@ class ApiModel extends BaseModel
 			$file = $this->getFile($adapter, $path . '/' . $name);
 		}
 		catch (FileNotFoundException $e)
-		{}
+		{
+			// Do nothing
+		}
 
 		// Check if the file exists
 		if (isset($file) && !$override)
@@ -419,8 +423,8 @@ class ApiModel extends BaseModel
 		}
 
 		// Initialize the allowed extensions
-		if ($this->allowedExtensions === null) {
-
+		if ($this->allowedExtensions === null)
+		{
 			// Get the setting from the params
 			$this->allowedExtensions = ComponentHelper::getParams('com_media')->get(
 				'upload_extensions',
