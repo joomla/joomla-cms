@@ -7327,7 +7327,7 @@ h6 {
 .form-vertical .controls {
 	margin-left: 0;
 }
-@media (max-width: 978px) {
+@media (max-width: 979px) {
 	.form-horizontal-desktop .control-label {
 		float: none;
 		width: auto;
@@ -7511,7 +7511,7 @@ textarea.noResize {
 .subform-repeatable-group .control-group:last-of-type {
 	margin-bottom: 10px;
 }
-@media (max-width: 978px) {
+@media (max-width: 979px) {
 	.subform-repeatable-group > .btn-toolbar .btn-group {
 		margin-bottom: 10px;
 	}
@@ -7615,7 +7615,7 @@ textarea.noResize {
 .header .navbar-search {
 	margin-top: 0;
 }
-@media (max-width: 978px) {
+@media (max-width: 979px) {
 	.header .navbar-search {
 		border-top: 0;
 		border-bottom: 0;
@@ -8177,7 +8177,7 @@ body .navbar-fixed-top {
 .navbar-search .search-query {
 	background: rgba(255,255,255,0.3);
 }
-@media (max-width: 978px) {
+@media (max-width: 979px) {
 	.navbar .nav {
 		font-size: 13px;
 		margin: 0 2px 0 0;
@@ -8405,7 +8405,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 		transition: all 0.3s ease;
 	}
 }
-@media (max-width: 978px) {
+@media (max-width: 979px) {
 	.j-toggle-button-wrapper.j-toggle-hidden {
 		right: -20px;
 	}
@@ -8809,7 +8809,7 @@ ul.treeselect ul.dropdown-menu li {
 #assignment.tab-pane {
 	min-height: 500px;
 }
-@media (max-width: 978px) {
+@media (max-width: 979px) {
 	.container-fluid {
 		padding-left: 10px;
 		padding-right: 10px;
@@ -9933,7 +9933,7 @@ a.grid_true {
 #system-debug.j-toggle-main {
 	float: left;
 }
-@media (max-width: 978px) {
+@media (max-width: 979px) {
 	.j-toggle-button-wrapper.j-toggle-hidden {
 		right: auto;
 		left: -20px;
