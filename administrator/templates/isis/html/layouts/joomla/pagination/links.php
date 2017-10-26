@@ -31,21 +31,23 @@ $showLimitStart = $options->get('showLimitStart', true);
 	<?php endif; ?>
 
 	<?php if ($showPagesLinks && (!empty($pages))) : ?>
-		<ul class="pagination-list">
-			<?php
-				$pages['start']['pagOptions'] = array('addText' => ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', 1, $pagesTotal) . ')');
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['start']);
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
-			<?php foreach ($pages['pages'] as $page) :
-				$page['pagOptions'] = array('liClass' => 'hidden-phone');
-			?>
-				<?php echo JLayoutHelper::render('joomla.pagination.link', $page); ?>
-			<?php endforeach; ?>
-			<?php
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['next']);
-				$pages['end']['pagOptions'] = array('addText' => ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $pagesTotal, $pagesTotal) . ')');
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
-		</ul>
+		<nav role="navigation" aria-label="<?php echo JText::_('JLIB_HTML_PAGINATION'); ?>">
+			<ul class="pagination-list">
+				<?php
+					$pages['start']['pagOptions'] = array('addText' => ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', 1, $pagesTotal) . ')');
+					echo JLayoutHelper::render('joomla.pagination.link', $pages['start']);
+					echo JLayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
+				<?php foreach ($pages['pages'] as $page) :
+					$page['pagOptions'] = array('liClass' => 'hidden-phone');
+				?>
+					<?php echo JLayoutHelper::render('joomla.pagination.link', $page); ?>
+				<?php endforeach; ?>
+				<?php
+					echo JLayoutHelper::render('joomla.pagination.link', $pages['next']);
+					$pages['end']['pagOptions'] = array('addText' => ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $pagesTotal, $pagesTotal) . ')');
+					echo JLayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
+			</ul>
+		</nav>
 	<?php endif; ?>
 
 	<?php if ($showLimitStart) : ?>
