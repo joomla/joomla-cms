@@ -263,6 +263,18 @@
 			</field>
 
 			<field
+				name="show_form_label"
+				type="radio"
+				label="COM_FIELDS_FIELD_SHOWFORMLABEL_LABEL"
+				description="COM_FIELDS_FIELD_SHOWFORMLABEL_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+
+			<field
 				name="show_on"
 				type="radio"
 				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"

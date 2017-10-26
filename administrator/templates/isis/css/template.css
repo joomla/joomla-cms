@@ -7605,6 +7605,9 @@ textarea.noResize {
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
 }
+.form-horizontal .controls-nolabel {
+	margin-left: 0;
+}
 .header {
 	background-color: #1a3867;
 	border-top: 1px solid rgba(255,255,255,0.2);

@@ -173,6 +173,7 @@ abstract class FieldsPlugin extends JPlugin
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
+		$node->setAttribute('hiddenLabel', !$field->params->get('show_form_label', 1));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
 
 		if ($field->default_value !== '')
