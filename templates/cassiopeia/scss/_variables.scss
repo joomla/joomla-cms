@@ -1,16 +1,16 @@
 @import "../../../media/vendor/bootstrap/scss/functions";
 
 // Global
-$aurora-template-color-dark:         #0d1321 !default;
-$aurora-template-color:              #1c3d5c !default;
-$aurora-container-main-bg:           #f2f2f2 !default;
-$aurora-border-color:                #ccc !default;
-$aurora-box-shadow:                  0 0 3px rgba(0,0,0,.04) !default;
-$aurora-block-header-bg:             #f5f5f5 !default;
+$cassiopeia-template-color-dark:         #0d1321 !default;
+$cassiopeia-template-color:              #1c3d5c !default;
+$cassiopeia-container-main-bg:           #f2f2f2 !default;
+$cassiopeia-border-color:                #ccc !default;
+$cassiopeia-box-shadow:                  0 0 3px rgba(0,0,0,.04) !default;
+$cassiopeia-block-header-bg:             #f5f5f5 !default;
 $white-offset:                       #fefefe;
 $grey:                               #aaa; // REMMOVE THIS AFTER
-$aurora-hl-grad-inner:               #59afff;
-$aurora-hl-grad-outer:               #59daff;
+$cassiopeia-hl-grad-inner:               #59afff;
+$cassiopeia-hl-grad-outer:               #59daff;
 
 $white:                              #fff;
 $gray-100:                           #f8f9fa;
@@ -75,11 +75,11 @@ $theme-colors: (
 );
 
 // Toolbar
-$aurora-toolbar-line-height:         1.8rem;
+$cassiopeia-toolbar-line-height:         1.8rem;
 
 // Fonts
 $font-family-base:                   Arial, sans-serif;
-$aurora-inverted-text-color:         $aurora-template-color;
+$cassiopeia-inverted-text-color:         $cassiopeia-template-color;
 $font-size-root:                     14px;
 $h1-font-size:                       1.857rem;
 $h2-font-size:                       1.571rem;
@@ -95,17 +95,17 @@ $table-bg:                           transparent !default;
 $table-bg-accent:                    rgba(0,0,0,.03) !default;
 
 // Tabs
-$aurora-tabs-header-bg:              $aurora-block-header-bg;
-$aurora-tabs-active-bg:              rgba(0,0,0,.03);
-$aurora-tabs-active-highlight:       theme-color("primary");
+$cassiopeia-tabs-header-bg:              $cassiopeia-block-header-bg;
+$cassiopeia-tabs-active-bg:              rgba(0,0,0,.03);
+$cassiopeia-tabs-active-highlight:       theme-color("primary");
 
 // Cards
-$aurora-card-title-bg:               $aurora-block-header-bg;
-$aurora-card-title-icon-bg:          $aurora-block-header-bg;
-$aurora-card-title-icon-bg-hover:    darken($aurora-card-title-bg, 2%);
+$cassiopeia-card-title-bg:               $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg:          $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg-hover:    darken($cassiopeia-card-title-bg, 2%);
 $card-bg-color-light:                #f8f8f8;
-$card-bg-color-dark:                 $aurora-template-color;
-$card-border-color:                  $aurora-border-color;
+$card-bg-color-dark:                 $cassiopeia-template-color;
+$card-border-color:                  $cassiopeia-border-color;
 
 // Alerts
 $state-success-text:                 $white !default;
@@ -146,4 +146,4 @@ $badge-default-bg:                   #5e7082;
 
 // Gutter
 $grid-gutter-width:                  15px !default;
-$aurora-grid-gutter:                 $grid-gutter-width;
+$cassiopeia-grid-gutter:                 $grid-gutter-width;

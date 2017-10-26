@@ -16,12 +16,12 @@
       ". footer footer footer footer ."
       ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
-    grid-gap: 0 $aurora-grid-gutter;
+    grid-gap: 0 $cassiopeia-grid-gutter;
 
     > div {
       width: auto;
       max-width: none;
-      margin: 0 0 $aurora-grid-gutter;
+      margin: 0 0 $cassiopeia-grid-gutter;
     }
 
     .container-top-a,
@@ -34,7 +34,7 @@
     }
 
     .container-main {
-      margin: ($aurora-grid-gutter / -2) ($aurora-grid-gutter / -2) ($aurora-grid-gutter / 2);
+      margin: ($cassiopeia-grid-gutter / -2) ($cassiopeia-grid-gutter / -2) ($cassiopeia-grid-gutter / 2);
     }
 
     > .full-width {
@@ -58,13 +58,13 @@
       margin-bottom: 0;
 
       + div:not(.container-banner) {
-        margin-top: $aurora-grid-gutter;
+        margin-top: $cassiopeia-grid-gutter;
       }
     }
   }
 
   .container-banner {
-    margin: 0 0 $aurora-grid-gutter;
+    margin: 0 0 $cassiopeia-grid-gutter;
 
     p {
       margin-bottom: 0;
@@ -98,7 +98,7 @@ header                    { grid-area: head; }
 .container-bottom-a,
 .container-bottom-b {
   display: grid;
-  grid-gap: $aurora-grid-gutter;
+  grid-gap: $cassiopeia-grid-gutter;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 
   @include media-breakpoint-down(md) {

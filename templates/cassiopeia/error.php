@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  Templates.aurora
+ * @subpackage  Templates.cassiopeia
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -90,7 +90,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 				<?php endif; ?>
 			</div>
 
-			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_AURORA_TOGGLE'); ?>">
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 				<span class="fa fa-bars"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbar">
@@ -152,7 +152,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
 				<span class="icon-arrow-up-4" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?></span>
+				<span class="sr-only"><?php echo JText::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
 		</p>
 		<?php echo $this->getBuffer('modules', 'footer', ['style' => 'none']); ?>
