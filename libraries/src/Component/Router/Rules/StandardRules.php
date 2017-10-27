@@ -104,7 +104,7 @@ class StandardRules implements RulesInterface
 				}
 				else
 				{
-					// The router is not complete. The get<View>Key() method is missing.
+					// The router is not complete. The get<View>Id() method is missing.
 					return;
 				}
 			}
@@ -182,13 +182,21 @@ class StandardRules implements RulesInterface
 	 */
 	public function build(&$query, &$segments)
 	{
-		// Get the menu item belonging to the Itemid that has been found
-		$item = $this->router->menu->getItem($query['Itemid']);
-
-		if (!isset($query['view']))
+		if (!isset($query['Itemid'], $query['view']))
 		{
 			return;
 		}
+
+		// Get the menu item belonging to the Itemid that has been found
+		$item = $this->router->menu->getItem($query['Itemid']);
+
+		if ($item === null || $item->component !== 'com_' . $this->router->getName())
+		{
+			return;
+		}
+
+		// Get menu item layout
+		$mLayout = isset($item->query['layout']) ? $item->query['layout'] : 'default';
 
 		// Get all views for this component
 		$views = $this->router->getViews();
@@ -198,7 +206,25 @@ class StandardRules implements RulesInterface
 		{
 			$view = $views[$query['view']];
 
-			if (isset($item->query[$view->key], $query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
+			if ($view->key === false)
+			{
+				unset($query['view']);
+
+				if (isset($query['layout']) && $mLayout === $query['layout'])
+				{
+					unset($query['layout']);
+				}
+
+				return;
+			}
+
+			// If item has no key set, we assume 0.
+			if (!isset($item->query[$view->key]))
+			{
+				$item->query[$view->key] = 0;
+			}
+
+			if (isset($query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
 
@@ -211,21 +237,12 @@ class StandardRules implements RulesInterface
 
 				unset($query['view']);
 
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
+				if (isset($query['layout']) && $mLayout === $query['layout'])
 				{
 					unset($query['layout']);
 				}
 
 				return;
-			}
-
-			if (!$view->key)
-			{
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
-				{
-					unset($query['view'], $query['layout']);
-					return;
-				}
 			}
 		}
 
@@ -293,7 +310,12 @@ class StandardRules implements RulesInterface
 
 		if ($found)
 		{
-			unset($query['layout'], $query[$views[$query['view']]->key], $query['view']);
+			unset($query[$views[$query['view']]->key], $query['view']);
+
+			if (isset($query['layout']) && $mLayout === $query['layout'])
+			{
+				unset($query['layout']);
+			}
 		}
 	}
 }
