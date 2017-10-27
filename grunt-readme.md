@@ -3,7 +3,7 @@
 There are 3 tasks that are commonly used by Joomla contributors:
 
 1. Updating dependencies
-2. Compiling SASS
+2. Compiling SCSS
 3. Minifying Javascript
 
 First things first you must install node onto your system (this will also install Node Package Manager (NPM)). If you
@@ -17,13 +17,13 @@ Then navigate on command line to the Joomla install and run the following comman
 
 This will install all node dependencies onto your system. Then there are 3 easy commands
 
-* To update dependencies to the version in grunt-settings.yaml run `npm run update-dependencies`
-* To compile the SASS run `npm run compile-sass`
-* To minify the javascript run `npm run compile-js`
+* To update dependencies to the version in `grunt-settings.yaml` run `npm run update-dependencies`
+* To compile the SCSS run `npm run compile-sass`
+* To minify the Javascript run `npm run compile-js`
 
 
 ### Maintainer's Area (TODO: This list of commands needs updating)
-- Running `grunt` will automatically update all the assets. Make sure that you have updated the grunt-settings.yaml file in
+- Running `grunt` will automatically update all the assets. Make sure that you have updated the `grunt-settings.yaml` file in
 order to update the libraries!!!
 
 The full list of other Grunt Tasks available are:
