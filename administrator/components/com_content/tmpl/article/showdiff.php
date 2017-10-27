@@ -49,38 +49,34 @@ $contentHistory->setState('type_id', $typeId);
 $dbObject = $contentHistory->getItems();
 
 ?>
-<!-- These Buttons toogle the shown text between one including HTML-Tags and one that doesn´t -->
+<!-- These Buttons toggle the shown text between one including HTML-Tags and one that doesn´t -->
 <div>
-    <button class="diff-header btn hasTooltip"
-            title="<?php JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_HTML_DESC'); ?>">
-        <span class="icon-wrench" aria-hidden="true"></span>
+	<button class="diff-header btn hasTooltip" title="<?php JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_HTML_DESC'); ?>">
+		<span class="icon-wrench" aria-hidden="true"></span>
 		<?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_HTML'); ?>
-    </button>
-    <button class="diffhtml-header btn hasTooltip"
-            title="<?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_TEXT_DESC'); ?>"
-            style="display:none">
-        <span class="icon-pencil" aria-hidden="true"></span>
+	</button>
+	<button class="diffhtml-header btn hasTooltip" title="<?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_TEXT_DESC'); ?>"
+			style="display:none">
+		<span class="icon-pencil" aria-hidden="true"></span>
 		<?php echo JText::_('COM_CONTENT_SHOWDIFF_BUTTON_COMPARE_TEXT'); ?>
-    </button>
+	</button>
 </div>
 
-<div id="diff_area" class="container-popup" style="height: auto">
-	<?php
-	if (count($dbObject) > 1)
+<?php
+echo '<div id="diff_area" class="container-popup" style="height: auto">';
+
+if (count($dbObject) > 1)
+{
+	$object = ContenthistoryHelper::decodeFields($dbObject[ $previousVersion ]->version_data);
+
+	if ($object->fulltext != null)
 	{
-		$object = ContenthistoryHelper::decodeFields($dbObject[$previousVersion]->version_data);
-
-		if ($object->fulltext != null)
-		{
-			echo $object->introtext . '<hr id="system-readmore" />' . $object->fulltext;
-		}
-		else
-		{
-			echo $object->introtext;
-		}
+		echo $object->introtext . '<hr id="system-readmore" />' . $object->fulltext;
 	}
-	?>
-</div>
+	else
+	{
+		echo $object->introtext;
+	}
+}
 
-
-
+echo '</div>';

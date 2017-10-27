@@ -2,7 +2,6 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.showdiff
- *
  * @copyright   Copyright (C)2017 - Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -31,7 +30,7 @@ class PlgButtonShowdiff extends JPlugin
 	/**
 	 * Display the button
 	 *
-	 * @param   string $name The name of the button to add
+	 * @param   string  $name  The name of the button to add
 	 *
 	 * @return  JObject  The button options as JObject
 	 *
@@ -39,9 +38,9 @@ class PlgButtonShowdiff extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$input = JFactory::getApplication()->input;
+		$input  = JFactory::getApplication()->input;
 		$itemId = $input->get('id');
-		$user = JFactory::getUser();
+		$user   = JFactory::getUser();
 
 		if ($user->authorise('core.create', 'com_content')
 			|| $user->authorise('core.edit', 'com_content')
@@ -65,5 +64,7 @@ class PlgButtonShowdiff extends JPlugin
 				return $button;
 			}
 		}
+
+		// TODO Missing return statement?
 	}
 }
