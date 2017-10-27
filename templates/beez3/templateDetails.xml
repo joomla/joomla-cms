@@ -58,7 +58,7 @@
 			<fieldset name="advanced">
 				<field 
 					name="wrapperSmall"  
-					type="text" 
+					type="number" 
 					label="TPL_BEEZ3_FIELD_WRAPPERSMALL_LABEL"
 					description="TPL_BEEZ3_FIELD_WRAPPERSMALL_DESC"
 					class="validate-numeric" 
@@ -68,7 +68,7 @@
 
 				<field 
 					name="wrapperLarge"  
-					type="text" 
+					type="number" 
 					label="TPL_BEEZ3_FIELD_WRAPPERLARGE_LABEL"
 					description="TPL_BEEZ3_FIELD_WRAPPERLARGE_DESC"
 					class="validate-numeric" 
