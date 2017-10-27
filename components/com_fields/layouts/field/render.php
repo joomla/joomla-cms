@@ -16,7 +16,13 @@ if (!key_exists('field', $displayData))
 $field = $displayData['field'];
 $label = JText::_($field->label);
 $value = $field->value;
+$labelClass = $field->params->get('label_render_class');
 $showLabel = $field->params->get('showlabel');
+if ($showLabel == 0)
+{
+$labelClass .= ' hidden';
+}
+
 
 if ($value == '')
 {
@@ -24,7 +30,5 @@ if ($value == '')
 }
 
 ?>
-<?php if ($showLabel == 1) : ?>
-	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
-<?php endif; ?>
+<span class="field-label <?php echo $labelClass; ?>"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 <span class="field-value"><?php echo $value; ?></span>

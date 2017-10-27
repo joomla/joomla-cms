@@ -223,20 +223,18 @@
 
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
+
+			<field
+				name="formoptions"
+				type="spacer"
+				label="COM_FIELDS_FIELD_FORMOPTIONS_HEADING"
+			/>
+
 			<field
 				name="hint"
 				type="text"
 				label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
 				description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
-				class="input-xxlarge"
-				size="40"
-			/>
-
-			<field
-				name="render_class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
-				description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
 				class="input-xxlarge"
 				size="40"
 			/>
@@ -251,16 +249,13 @@
 			/>
 
 			<field
-				name="showlabel"
-				type="radio"
-				label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
-				description="COM_FIELDS_FIELD_SHOWLABEL_DESC"
-				class="btn-group btn-group-yesno"
-				default="1"
-				>
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>
-			</field>
+				name="label_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_LABEL_FORM_CLASS_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
 
 			<field
 				name="show_on"
@@ -274,6 +269,30 @@
 				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
 				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
 			</field>
+
+			<field
+				name="renderoptions"
+				type="spacer"
+				label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING"
+			/>
+
+			<field
+				name="render_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
+
+			<field
+				name="label_render_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
 
 			<field
 				name="display"
