@@ -1,16 +1,13 @@
 <template>
     <div class="media-modal-backdrop" @click="close()">
         <div class="modal" @click.stop style="display: flex">
-            <slot name="backdrop-close"></slot>
+            <a @click="close()" class="media-backdrop-close"></a>
+            <div class="modal-header">
+                <slot name="close"></slot>
+                <slot name="header"></slot>
+            </div>
             <div class="modal-dialog" :class="modalClass" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <slot name="header"></slot>
-                        <button type="button" v-if="showClose" class="close" @click="close()"
-                                aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
                     <div class="modal-body">
                         <slot name="body"></slot>
                     </div>
