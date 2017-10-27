@@ -31,47 +31,47 @@ class TagsRouter extends JComponentRouterBase
 	{
 		$segments = array();
 
-		// Get a menu item based on Itemid or currently active
-		$params = JComponentHelper::getParams('com_tags');
-
-		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
-		if (empty($query['Itemid']))
-		{
-			$menuItem = $this->menu->getActive();
-		}
-		else
-		{
-			$menuItem = $this->menu->getItem($query['Itemid']);
-		}
-
-		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
-		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
-
-		if (is_array($mId))
-		{
-			$mId = ArrayHelper::toInteger($mId);
-		}
-
-		$view = '';
+		// Get a menu item based on Itemid
+		$menuItem = empty($query['Itemid']) ? null : $this->menu->getItem($query['Itemid']);
 
 		if (isset($query['view']))
 		{
 			$view = $query['view'];
 
-			if (empty($query['Itemid']))
+			if ($menuItem === null)
 			{
 				$segments[] = $view;
 			}
 
 			unset($query['view']);
 		}
-
-		// Are we dealing with a tag that is attached to a menu item?
-		if ($mView == $view && isset($query['id']) && $mId == $query['id'])
+		else
 		{
-			unset($query['id']);
+			$view = '';
+		}
 
-			return $segments;
+		if ($menuItem !== null)
+		{
+			$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+			$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
+
+			if (is_array($mId))
+			{
+				$mId = ArrayHelper::toInteger($mId);
+			}
+
+			// Are we dealing with a tag that is attached to a menu item?
+			if ($mView == $view && isset($query['id']) && $mId == $query['id'])
+			{
+				unset($query['id']);
+
+				return $segments;
+			}
+		}
+		else
+		{
+			$mView = null;
+			$mId   = null;
 		}
 
 		if ($view === 'tag')
@@ -90,7 +90,7 @@ class TagsRouter extends JComponentRouterBase
 
 		if (isset($query['layout']))
 		{
-			if ((!empty($query['Itemid']) && isset($menuItem->query['layout'])
+			if (($menuItem !== null && isset($menuItem->query['layout'])
 				&& $query['layout'] == $menuItem->query['layout'])
 				|| $query['layout'] === 'default')
 			{
