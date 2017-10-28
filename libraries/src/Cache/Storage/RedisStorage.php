@@ -79,6 +79,12 @@ class RedisStorage extends CacheStorage
 			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
+		// If connecting with a sock file and not a TCP Port then ignore port provided
+		if (strstr($server['host'], 'sock'))
+		{
+			$server['port'] = 0;
+		}
+
 		static::$_redis = new \Redis;
 
 		if ($this->_persistent)
