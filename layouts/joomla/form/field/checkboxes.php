@@ -40,7 +40,6 @@ extract($displayData);
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Including fallback code for HTML5 non supported browsers.
@@ -80,10 +79,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 			$oid        = $id . $i;
 			$value      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-
-			// Initialize data-*
-			$dataAttribute = !empty($option->dataAttributes) ? ' ' . $option->dataAttributes : '';
-			$attributes = array_filter(array($checked, $optionClass, $optionDisabled, $onchange, $onclick, $dataAttribute));
+			$attributes = array_filter(array($checked, $optionClass, $optionDisabled, $onchange, $onclick));
 		?>
 
 		<label for="<?php echo $oid; ?>" class="checkbox">
