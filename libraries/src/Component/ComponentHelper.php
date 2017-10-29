@@ -66,7 +66,9 @@ class ComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		return (bool) static::getComponent($option, true)->enabled;
+		$components = static::getComponents();
+
+		return isset($components[$option]) && $components[$option]->enabled;
 	}
 
 	/**
@@ -80,7 +82,9 @@ class ComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		return static::getComponent($option, true)->id ? 1 : 0;
+		$components = static::getComponents();
+
+		return isset($components[$option]) ? 1 : 0;
 	}
 
 	/**
@@ -406,23 +410,6 @@ class ComponentHelper
 	 */
 	protected static function load($option)
 	{
-		try
-		{
-			\JLog::add(
-				sprintf(
-					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
-					__METHOD__,
-					__CLASS__
-				),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $e)
-		{
-			// Informational log only
-		}
-
 		$loader = function ()
 		{
 			$db = \JFactory::getDbo();
@@ -447,27 +434,49 @@ class ComponentHelper
 			static::$components = $loader();
 		}
 
-		if (empty(static::$components[$option]))
+		// Core CMS will use '*' as a placeholder for required parameter in this method. In 4.0 this will not be passed at all.
+		if (isset($option) && $option != '*')
 		{
-			/*
-			 * Fatal error
-			 *
-			 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
-			 * before logging the error to ensure a human friendly message is always given
-			 */
-
-			if (\JFactory::$language)
+			// Log deprecated warning and display missing component warning only if using deprecated format.
+			try
 			{
-				$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+				\JLog::add(
+					sprintf(
+						'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
+						__METHOD__,
+						__CLASS__
+					),
+					\JLog::WARNING,
+					'deprecated'
+				);
 			}
-			else
+			catch (\RuntimeException $e)
 			{
-				$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
+				// Informational log only
 			}
 
-			\JLog::add($msg, \JLog::WARNING, 'jerror');
+			if (empty(static::$components[$option]))
+			{
+				/*
+				 * Fatal error
+				 *
+				 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
+				 * before logging the error to ensure a human friendly message is always given
+				 */
 
-			return false;
+				if (\JFactory::$language)
+				{
+					$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+				}
+				else
+				{
+					$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
+				}
+
+				\JLog::add($msg, \JLog::WARNING, 'jerror');
+
+				return false;
+			}
 		}
 
 		return true;
