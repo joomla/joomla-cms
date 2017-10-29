@@ -36,6 +36,7 @@ class JSessionStorageRedis extends JSessionStorage
 		$this->_server = array(
 			'host' => $config->get('session_redis_server_host', 'localhost'),
 			'port' => $config->get('session_redis_server_port', 6379),
+			'db'   => (int) $config->get('session_redis_server_db', 0)
 		);
 
 		parent::__construct($options);
@@ -54,7 +55,14 @@ class JSessionStorageRedis extends JSessionStorage
 		{
 			if (!headers_sent())
 			{
-				ini_set('session.save_path', "{$this->_server['host']}:{$this->_server['port']}");
+				$path = $this->_server['host'] . ":" . $this->_server['port'];
+
+				if (isset($this->_server['db']) && ($this->_server['db'] !== 0))
+				{
+					$path = 'tcp://' . $path . '?database=' . $this->_server['db'];
+				}
+				
+				ini_set('session.save_path', $path);
 				ini_set('session.save_handler', 'redis');
 			}
 

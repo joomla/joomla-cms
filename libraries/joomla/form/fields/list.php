@@ -126,6 +126,12 @@ class JFormFieldList extends JFormField
 				{
 					continue;
 				}
+
+				// Requires vote plugin
+				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];

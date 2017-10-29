@@ -144,10 +144,11 @@ else
 								</ul>
 							</div>
 							<div class="span6">
-								<?php if (JModuleHelper::getModule('search')) : ?>
+								<?php if (JModuleHelper::getModule('mod_search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-									<?php echo $this->getBuffer('module', 'search'); ?>
+									<?php $module = JModuleHelper::getModule('mod_search'); ?>
+									<?php echo JModuleHelper::renderModule($module); ?>
 								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home" aria-hidden="true"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>

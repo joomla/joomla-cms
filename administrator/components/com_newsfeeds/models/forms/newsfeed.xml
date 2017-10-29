@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
@@ -109,7 +109,7 @@
 
 		<field
 			name="numarticles"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 			default="5"
@@ -119,7 +119,7 @@
 
 		<field
 			name="cache_time"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			default="3600"
@@ -358,7 +358,7 @@
 
 		<field
 			name="numarticles"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 			default="5"
@@ -368,7 +368,7 @@
 
 		<field
 			name="cache_time"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			default="3600"
@@ -425,7 +425,7 @@
 
 			<field
 				name="feed_character_count"
-				type="text"
+				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
 				size="6"
@@ -484,7 +484,7 @@
 
 			<field
 				name="hits"
-				type="text"
+				type="number"
 				label="JGLOBAL_HITS"
 				description="COM_NEWSFEEDS_HITS_DESC"
 				class="readonly"
