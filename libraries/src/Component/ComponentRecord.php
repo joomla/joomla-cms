@@ -54,14 +54,6 @@ class ComponentRecord extends \JObject
 	public $enabled;
 
 	/**
-	 * Indicates if this component is installed
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $installed = true;
-
-	/**
 	 * Class constructor
 	 *
 	 * @param   array  $data  The component record data to load

@@ -47,9 +47,8 @@ class ComponentHelper
 		}
 		else
 		{
-			$result            = new ComponentRecord;
-			$result->enabled   = $strict ? false : true;
-			$result->installed = false;
+			$result          = new ComponentRecord;
+			$result->enabled = $strict ? false : true;
 			$result->setParams(new Registry);
 		}
 
@@ -81,7 +80,7 @@ class ComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		return (bool) static::getComponent($option, true)->installed;
+		return (bool) static::getComponent($option, true)->id;
 	}
 
 	/**
