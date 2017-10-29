@@ -80,7 +80,7 @@ class ComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		return (bool) static::getComponent($option, true)->id;
+		return static::getComponent($option, true)->id ? 1 : 0;
 	}
 
 	/**
