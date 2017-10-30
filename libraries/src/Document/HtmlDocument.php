@@ -555,6 +555,12 @@ class HtmlDocument extends Document
 		$data = $this->_renderTemplate();
 		parent::render();
 
+		// Minify the output if we're not in debug mode
+		if (!JDEBUG)
+		{
+			return preg_replace('~>\s+<~', '><', $data);
+		}
+
 		return $data;
 	}
 
