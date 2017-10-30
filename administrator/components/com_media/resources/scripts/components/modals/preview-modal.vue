@@ -1,8 +1,5 @@
 <template>
     <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal">
-        <a slot="close" @click="close()" class="media-preview-close">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-        </a>
         <h3 slot="header" class="modal-title">{{ item.name }}</h3>
         <div slot="body">
             <img :src="item.url" v-if="isImage()" :type="item.mime_type"/>
@@ -10,6 +7,9 @@
                 <source :src="item.url" :type="item.mime_type">
             </video>
         </div>
+        <a slot="backdrop-close" @click="close()" class="media-preview-close">
+            <span class="fa fa-times"></span>
+        </a>
     </media-modal>
 </template>
 
