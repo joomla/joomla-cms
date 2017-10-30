@@ -152,6 +152,10 @@ class HeadRenderer extends DocumentRenderer
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $src => $attribs)
 		{
+			// Find the relation
+			$relation = isset($attribs['relation']) ? $attribs['relation'] : 'stylesheet';
+			$relation = ($relation == 'stylesheet' && \JFile::getExt($src) == 'less') ? 'stylesheet/less' : 'stylesheet';
+
 			// Check if stylesheet uses IE conditional statements.
 			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 
@@ -170,7 +174,7 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
 
-			$buffer .= '<link href="' . $src . '" rel="stylesheet"';
+			$buffer .= '<link href="' . $src . '" rel="' . $relation . '"';
 
 			// Add script tag attributes.
 			foreach ($attribs as $attrib => $value)
