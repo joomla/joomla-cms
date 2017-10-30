@@ -15,23 +15,23 @@
   },
   "dependencies": {
     "awesomplete": "1.1.2",
+    "bootstrap": "4.0.0-beta.2",
+    "codemirror": "5.31.0",
+    "cropperjs": "1.1.3",
+    "diff": "3.4.0",
+    "dragula": "3.7.2",
+    "flying-focus-a11y": "1.5.5",
+    "font-awesome": "4.7.0",
+    "joomla-ui-custom-elements": "0.0.9",
     "jquery": "3.2.1",
     "jquery-migrate": "1.4.1",
-    "bootstrap": "4.0.0-beta.2",
-    "font-awesome": "latest",
-    "@claviska/jquery-minicolors": "latest",
-    "jquery-sortable": "latest",
+    "jquery-sortable": "0.9.13",
     "jquery-ui-dist": "1.12.1",
-    "mediaelement": "latest",
-    "masonry-layout": "latest",
+    "masonry-layout": "4.2.0",
+    "mediaelement": "4.2.6",
     "punycode": "1.4.1",
     "tinymce": "4.7.1",
-    "dragula": "latest",
-    "codemirror": "latest",
-    "cropperjs": "latest",
-    "flying-focus-a11y": "latest",
-    "diff": "latest",
-    "joomla-ui-custom-elements": "latest"
+    "@claviska/jquery-minicolors": "2.2.6"
   },
   "devDependencies": {
     "@polymer/test-fixture": "latest",
@@ -287,10 +287,10 @@
         "filesjs": "*",
         "dependencies": ""
       },
-      "tinymce": {
+      "codemirror": {
         "dependencies": ""
       },
-      "codemirror": {
+      "tinymce": {
         "dependencies": ""
       }
     }

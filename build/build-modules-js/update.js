@@ -161,9 +161,9 @@ copyFiles = (options) => {
 				"media/vendor/codemirror/addon/scroll/simplescrollbars.css"
 			], 'media/vendor/codemirror/lib/addons.css');
 
-			// Update the XML files for Codemirror
+			// Update the XML file for Codemirror
 			let codemirrorXml = fs.readFileSync(rootPath + '/plugins/editors/codemirror/codemirror.xml', {encoding: 'UTF-8'});
-			codemirrorXml = codemirrorXml.replace(xmlVersionStr, "$1" + options.dependencies.tinymce + "$3");
+			codemirrorXml = codemirrorXml.replace(xmlVersionStr, "$1" + options.dependencies.codemirror + "$3");
 			fs.writeFileSync(rootPath + '/plugins/editors/codemirror/codemirror.xml', codemirrorXml, {encoding: 'UTF-8'});
 
 		} else if ('tinymce' === name) {
@@ -182,7 +182,7 @@ copyFiles = (options) => {
 
 			copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
-			// Update the XML files for tinyMCE
+			// Update the XML file for tinyMCE
 			let tinyXml = fs.readFileSync(rootPath + '/plugins/editors/tinymce/tinymce.xml', {encoding: 'UTF-8'});
 			tinyXml = tinyXml.replace(xmlVersionStr, "$1" + options.dependencies.tinymce + "$3");
 			fs.writeFileSync(rootPath + '/plugins/editors/tinymce/tinymce.xml', tinyXml, {encoding: 'UTF-8'});
