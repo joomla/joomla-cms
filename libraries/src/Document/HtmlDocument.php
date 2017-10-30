@@ -26,6 +26,14 @@ jimport('joomla.utilities.utility');
 class HtmlDocument extends Document
 {
 	/**
+	 * Minification switch
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $minify = false;
+
+	/**
 	 * Array of Header `<link>` tags
 	 *
 	 * @var    array
@@ -554,6 +562,12 @@ class HtmlDocument extends Document
 
 		$data = $this->_renderTemplate();
 		parent::render();
+
+		// Minify the output if we're not in debug mode
+		if ($this->minify)
+		{
+			return preg_replace('~>\s+<~', '><', $data);
+		}
 
 		return $data;
 	}

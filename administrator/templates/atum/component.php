@@ -27,6 +27,12 @@ JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true
 
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+
+// Minify the output
+if (!JDEBUG)
+{
+	$this->minify = true;
+}
 ?>
 
 <!DOCTYPE html>

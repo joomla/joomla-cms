@@ -25,6 +25,12 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Minify the output
+if (!JDEBUG)
+{
+	$this->minify = true;
+}
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
