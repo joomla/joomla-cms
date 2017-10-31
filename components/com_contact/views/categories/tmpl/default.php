@@ -19,6 +19,11 @@ jQuery(function($) {
 		btn.on('click', function() {
 			btn.find('span').toggleClass('icon-plus');
 			btn.find('span').toggleClass('icon-minus');
+			if (btn.attr('aria-label') == 'JGLOBAL_EXPAND') {
+				btn.attr('aria-label','JGLOBAL_COLLAPSE');
+			} else {
+				btn.attr('aria-label','JGLOBAL_EXPAND');
+			}
 		});
 	});
 });");

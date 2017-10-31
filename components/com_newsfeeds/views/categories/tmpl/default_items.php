@@ -33,7 +33,7 @@ JHtml::_('bootstrap.tooltip');
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
+							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND'); ?>">
 							<span class="icon-plus" aria-hidden="true"></span>
 						</a>
 					<?php endif; ?>
