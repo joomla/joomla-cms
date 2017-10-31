@@ -11,7 +11,11 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
-JHtmlBehavior::core();
+JHtml::_('behavior.core');
+
+// Add strings for translations in Javascript.
+JText::script('JGLOBAL_EXPAND');
+JText::script('JGLOBAL_COLLAPSE');
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(function($) {
@@ -20,7 +24,8 @@ jQuery(function($) {
 		btn.on('click', function() {
 			btn.find('span').toggleClass('icon-plus');
 			btn.find('span').toggleClass('icon-minus');
-			if (btn.attr('aria-label') == 'JGLOBAL_EXPAND') {
+			if (btn.attr('aria-label') == Joomla.JText._('JGLOBAL_EXPAND'))
+			{
 				btn.attr('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE'));
 			} else {
 				btn.attr('aria-label', Joomla.JText._('JGLOBAL_EXPAND'));
