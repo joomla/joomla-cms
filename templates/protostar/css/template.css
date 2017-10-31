@@ -1701,9 +1701,9 @@ legend + .control-group {
 }
 .control-label .hasPopover:after,
 .control-label .hasTooltip:after {
-	content: "E";
+	content: "\e220";
 	font-family: IcoMoon;
-	font-size: 0.6rem;
+	font-size: 0.8rem;
 	margin-left: 0.2rem;
 	color: #ababab;
 }
