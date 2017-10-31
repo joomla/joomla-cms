@@ -21,9 +21,9 @@ jQuery(function($) {
 			btn.find('span').toggleClass('icon-plus');
 			btn.find('span').toggleClass('icon-minus');
 			if (btn.attr('aria-label') == 'JGLOBAL_EXPAND') {
-				btn.attr('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE');
+				btn.attr('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE'));
 			} else {
-				btn.attr('aria-label', Joomla.JText._('JGLOBAL_EXPAND');
+				btn.attr('aria-label', Joomla.JText._('JGLOBAL_EXPAND'));
 			}
 		});
 	});
