@@ -1691,9 +1691,21 @@ legend + .control-group {
 .form-horizontal .form-actions {
 	padding-left: 180px;
 }
+.control-label {
+	cursor: pointer;
+}
 .control-label .hasPopover,
 .control-label .hasTooltip {
 	display: inline-block;
+	cursor: help;
+}
+.control-label .hasPopover:after,
+.control-label .hasTooltip:after {
+	content: "E";
+	font-family: IcoMoon;
+	font-size: 0.6rem;
+	margin-left: 0.2rem;
+	color: #ababab;
 }
 .subform-repeatable-wrapper .btn-group>.btn.button {
 	min-width: 0;

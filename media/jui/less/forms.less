@@ -691,9 +691,23 @@ legend + .control-group {
 }
 
 /*Fix for tooltips wrong positioning*/
-.control-label .hasPopover,
-.control-label .hasTooltip {
-  display: inline-block;
+.control-label {
+
+	cursor: pointer;
+
+	.hasPopover,
+	.hasTooltip {
+		display: inline-block;
+		cursor: help;
+
+		&:after {
+			content: "E";
+			font-family: IcoMoon;
+			font-size: 0.6rem;
+			margin-left: 0.2rem;
+			color:#ababab;
+    }
+  }
 }
 
 /* Field subform repeatable */
