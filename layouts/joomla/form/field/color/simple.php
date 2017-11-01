@@ -51,7 +51,7 @@ $readonly = $readonly ? ' readonly' : '';
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 JHtml::_('script', 'jui/jquery.simplecolors.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'system/color-field-init.min.js', array('version' => 'auto', 'relative' => true));

@@ -13,16 +13,16 @@ JHtml::_('bootstrap.tooltip');
 
 $class = ' class="first"';
 $lang  = JFactory::getLanguage();
-
 ?>
+
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
 				<?php $class = ' class="last"'; ?>
 			<?php endif; ?>
-			<div<?php echo $class; ?>>
-			<?php $class = ''; ?>
+			<div <?php echo $class; ?> >
+				<?php $class = ''; ?>
 				<h3 class="page-header item-title">
 					<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 						<?php echo $this->escape($item->title); ?>
@@ -35,13 +35,13 @@ $lang  = JFactory::getLanguage();
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
-							<span class="icon-plus"></span>
+							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES '); ?>">
+								<span class="icon-plus" aria-hidden="true"></span>
 						</a>
 					<?php endif; ?>
 				</h3>
 				<?php if ($this->params->get('show_description_image') && $item->getParams()->get('image')) : ?>
-					<img src="<?php echo $item->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($item->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>" />
+					<img src="<?php echo $item->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($item->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>"/>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
 					<?php if ($item->description) : ?>
@@ -52,12 +52,12 @@ $lang  = JFactory::getLanguage();
 				<?php endif; ?>
 				<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 					<div class="collapse fade" id="category-<?php echo $item->id; ?>">
-					<?php $this->items[$item->id] = $item->getChildren(); ?>
-					<?php $this->parent = $item; ?>
-					<?php $this->maxLevelcat--; ?>
-					<?php echo $this->loadTemplate('items'); ?>
-					<?php $this->parent = $item->getParent(); ?>
-					<?php $this->maxLevelcat++; ?>
+						<?php $this->items[$item->id] = $item->getChildren(); ?>
+						<?php $this->parent = $item; ?>
+						<?php $this->maxLevelcat--; ?>
+						<?php echo $this->loadTemplate('items'); ?>
+						<?php $this->parent = $item->getParent(); ?>
+						<?php $this->maxLevelcat++; ?>
 					</div>
 				<?php endif; ?>
 			</div>

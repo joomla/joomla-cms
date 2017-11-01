@@ -38,8 +38,8 @@ $groups = $user->getAuthorisedViewLevels();
 								<?php echo $this->escape($child->title); ?>
 							</a>
 							<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-								<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
-									<span class="icon-plus"></span>
+								<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES '); ?>">
+									<span class="icon-plus" aria-hidden="true"></span>
 								</a>
 							<?php endif; ?>
 						</h3>
@@ -54,9 +54,7 @@ $groups = $user->getAuthorisedViewLevels();
 								</span>
 							<?php endif; ?>
 							<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-								<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
-									<span class="icon-plus"></span>
-								</a>
+								<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES '); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 							<?php endif; ?>
 						</h3>
 					<?php endif; ?>
