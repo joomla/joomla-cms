@@ -240,14 +240,16 @@ class PluginsModelPlugin extends JModelAdmin
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
 		$lang    = JFactory::getLanguage();
+		$user    = JFactory::getUser();
+		$groups  = implode(',', $user->getAuthorisedViewLevels());
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
+			->where($db->quoteName('extension_id') . ' = ' . $data->extension_id)
+			->where($db->quoteName('access') . ' IN (' . $groups . ')');
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 
@@ -257,7 +259,7 @@ class PluginsModelPlugin extends JModelAdmin
 			|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
 		}
 
-		if (empty($folder) || empty($element))
+		if (empty($folder) || empty($element) || empty($elements))
 		{
 			$app = JFactory::getApplication();
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
