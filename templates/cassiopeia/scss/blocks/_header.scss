@@ -121,6 +121,13 @@
     }
   }
 
+  .form-inline {
+    margin-left: 1.5rem;
+    @include media-breakpoint-down(md) {
+      margin: 1rem 0;
+    }
+  }
+
 }
 
 .container-title {
@@ -177,11 +184,4 @@
   left: 0;
   border-bottom: 20px solid #fff;
 
-}
-
-.form-inline {
-  margin-left: 1.5rem;
-  @include media-breakpoint-down(md) {
-    margin: 1rem 0;
-  }
 }

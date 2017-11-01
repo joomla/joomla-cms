@@ -8582,6 +8582,11 @@ legend {
     border: 1px solid #fefefe; }
     .container-header .navbar-toggler .fa {
       font-size: 24px; }
+  .container-header .form-inline {
+    margin-left: 1.5rem; }
+    @media (max-width: 991px) {
+      .container-header .form-inline {
+        margin: 1rem 0; } }
 
 .container-title {
   padding-top: 13px;
@@ -8621,12 +8626,6 @@ legend {
   bottom: -20px;
   left: 0;
   border-bottom: 20px solid #fff; }
-
-.form-inline {
-  margin-left: 1.5rem; }
-  @media (max-width: 991px) {
-    .form-inline {
-      margin: 1rem 0; } }
 
 .icon-back::before {
   content: "\e008"; }
