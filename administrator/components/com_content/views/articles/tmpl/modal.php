@@ -18,6 +18,9 @@ if ($app->isClient('site'))
 
 JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
 
+// Load the system language. This is needed when a modal is shown on the front end
+JFactory::getLanguage()->load('', JPATH_ADMINISTRATOR);
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
