@@ -248,7 +248,6 @@ class PluginsModelPlugin extends JModelAdmin
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
-
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 
