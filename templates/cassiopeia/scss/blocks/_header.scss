@@ -4,7 +4,7 @@
   position: relative;
   z-index: 10;
   background-color: $cassiopeia-template-color;
-  background-image: linear-gradient(135deg, #112856 0%, #434178 100%);
+  background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px rgba(0,0,0,.03) inset;
 
   header {

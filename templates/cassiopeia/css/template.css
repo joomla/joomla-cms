@@ -8431,7 +8431,7 @@ small,
 .footer .back-top {
   padding: 8px 11px;
   color: #fff;
-  background: #1c3d5c;
+  background: #434178;
   border-radius: 3px; }
 
 .form-control {
@@ -8505,7 +8505,7 @@ legend {
 .container-header {
   position: relative;
   z-index: 10;
-  background-color: #1c3d5c;
+  background-color: #434178;
   background-image: linear-gradient(135deg, #112856 0%, #434178 100%);
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.03) inset; }
   .container-header header {
@@ -8587,7 +8587,7 @@ legend {
   padding-top: 13px;
   padding-bottom: 13px;
   color: #fff;
-  background-color: #1c3d5c; }
+  background-color: #434178; }
   .container-title .row {
     margin-right: 0;
     margin-left: 0; }
@@ -8601,7 +8601,7 @@ legend {
       margin-right: 12px;
       margin-left: 5px;
       font-size: 1.857rem;
-      color: #285783; }
+      color: #555399; }
 
 .header-shadow {
   display: none; }
@@ -9138,7 +9138,7 @@ joomla-alert {
   .nav.nav-tabs .nav-link {
     position: relative;
     padding: .75em 1em;
-    color: #1c3d5c;
+    color: #434178;
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
