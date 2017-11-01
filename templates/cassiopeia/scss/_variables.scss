@@ -1,16 +1,16 @@
 @import "../../../media/vendor/bootstrap/scss/functions";
 
 // Global
-$cassiopeia-template-color-dark:         #0d1321 !default;
-$cassiopeia-template-color:              #1c3d5c !default;
-$cassiopeia-container-main-bg:           #f2f2f2 !default;
-$cassiopeia-border-color:                #ccc !default;
-$cassiopeia-box-shadow:                  0 0 3px rgba(0,0,0,.04) !default;
-$cassiopeia-block-header-bg:             #f5f5f5 !default;
+$cassiopeia-template-color-dark:     #0d1321 !default;
+$cassiopeia-template-color:          #1c3d5c !default;
+$cassiopeia-container-main-bg:       #f2f2f2 !default;
+$cassiopeia-border-color:            #ccc !default;
+$cassiopeia-box-shadow:              0 0 3px rgba(0,0,0,.04) !default;
+$cassiopeia-block-header-bg:         #f5f5f5 !default;
 $white-offset:                       #fefefe;
 $grey:                               #aaa; // REMMOVE THIS AFTER
-$cassiopeia-hl-grad-inner:               #59afff;
-$cassiopeia-hl-grad-outer:               #59daff;
+$cassiopeia-hl-grad-inner:           #59afff;
+$cassiopeia-hl-grad-outer:           #59daff;
 
 $white:                              #fff;
 $gray-100:                           #f8f9fa;
@@ -78,8 +78,8 @@ $theme-colors: (
 $cassiopeia-toolbar-line-height:         1.8rem;
 
 // Fonts
-$font-family-base:                   Arial, sans-serif;
-$cassiopeia-inverted-text-color:         $cassiopeia-template-color;
+$font-family-base:                   'Fira Sans', Arial, sans-serif;
+$cassiopeia-inverted-text-color:     $cassiopeia-template-color;
 $font-size-root:                     14px;
 $h1-font-size:                       1.857rem;
 $h2-font-size:                       1.571rem;
@@ -89,6 +89,11 @@ $h5-font-size:                       .9286rem;
 $h6-font-size:                       .8571rem;
 $font-size-sm:                       .8rem;
 $fa-font-path:                       "../../../media/vendor/font-awesome/fonts";
+
+// Border Radius
+$border-radius:               .25rem !default;
+$border-radius-lg:            .3rem !default;
+$border-radius-sm:            .2rem !default;
 
 // Tables
 $table-bg:                           transparent !default;
@@ -146,4 +151,4 @@ $badge-default-bg:                   #5e7082;
 
 // Gutter
 $grid-gutter-width:                  15px !default;
-$cassiopeia-grid-gutter:                 $grid-gutter-width;
+$cassiopeia-grid-gutter:             $grid-gutter-width;

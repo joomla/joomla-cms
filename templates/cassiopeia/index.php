@@ -57,7 +57,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block align-top" alt="' . $sitename . '">';
+	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 // Header bottom margin
@@ -84,39 +84,45 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
-	<header class="header full-width">
-		<nav class="navbar navbar-expand-lg navbar-full">
-			<div class="navbar-brand">
-				<a href="<?php echo $this->baseurl; ?>/">
-					<?php echo $logo; ?>
-				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
-				<?php endif; ?>
-			</div>
-
-			<?php if ($this->countModules('menu')) : ?>
-				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-					<span class="fa fa-bars"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbar">
-					<jdoc:include type="modules" name="menu" style="none" />
-					<?php if ($this->countModules('search')) : ?>
-						<div class="form-inline">
-							<jdoc:include type="modules" name="search" style="none" />
-						</div>
+	<div class="container-header full-width">
+		<header class="header">
+			<nav class="navbar navbar-expand-lg">
+				<div class="navbar-brand">
+					<a href="<?php echo $this->baseurl; ?>/">
+						<?php echo $logo; ?>
+					</a>
+					<?php if ($this->params->get('siteDescription')) : ?>
+						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
 					<?php endif; ?>
 				</div>
+
+				<?php if ($this->countModules('menu')) : ?>
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+						<span class="fa fa-bars"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbar">
+						<jdoc:include type="modules" name="menu" style="none" />
+						<?php if ($this->countModules('search')) : ?>
+							<div class="form-inline">
+								<jdoc:include type="modules" name="search" style="none" />
+							</div>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+				
+			</nav>
+			<?php if ($this->countModules('banner')) : ?>
+			<div class="container-banner">
+				<jdoc:include type="modules" name="banner" style="xhtml" />
+			</div>
 			<?php endif; ?>
-		</nav>
-	</header>
-
-	<?php if ($this->countModules('banner')) : ?>
-	<div class="container-banner full-width">
-		<jdoc:include type="modules" name="banner" style="xhtml" />
+			<div class="header-shadow"></div>
+			<svg class="header-shape-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
+				<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fff"/>
+			</svg>
+		</header>
 	</div>
-	<?php endif; ?>
-
+	
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="container-top-a">
 		<jdoc:include type="modules" name="top-a" style="cardGrey" />
