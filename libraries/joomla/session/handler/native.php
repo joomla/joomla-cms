@@ -143,7 +143,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 */
 	public function regenerate($destroy = false, $lifetime = null)
 	{
-		if (null !== $lifetime)
+		if (!headers_sent() && null !== $lifetime)
 		{
 			ini_set('session.cookie_lifetime', $lifetime);
 		}

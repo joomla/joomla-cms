@@ -131,7 +131,7 @@ class PlgUserJoomla extends JPlugin
 		$userParams = new Registry($user['params']);
 		$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
-		if ($userLocale != $defaultLocale)
+		if ($userLocale !== $defaultLocale)
 		{
 			$lang->setLanguage($userLocale);
 		}
@@ -169,7 +169,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Set application language back to default if we changed it
-		if ($userLocale != $defaultLocale)
+		if ($userLocale !== $defaultLocale)
 		{
 			$lang->setLanguage($defaultLocale);
 		}

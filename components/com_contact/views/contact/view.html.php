@@ -72,6 +72,8 @@ class ContactViewContact extends JViewLegacy
 		$item = $this->get('Item');
 		$state = $this->get('State');
 
+		$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
+
 		$this->form = $this->get('Form');
 
  		$params = $state->get('params');
@@ -108,7 +110,7 @@ class ContactViewContact extends JViewLegacy
 		{
 			// Get Category Model data
 			$categoryModel = JModelLegacy::getInstance('Category', 'ContactModel', array('ignore_request' => true));
-			
+
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
@@ -330,7 +332,7 @@ class ContactViewContact extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
 
 		$this->contact     = &$item;
-		$this->params      = &$params;
+		$this->params      = &$item->params;
 		$this->return      = &$return;
 		$this->state       = &$state;
 		$this->item        = &$item;

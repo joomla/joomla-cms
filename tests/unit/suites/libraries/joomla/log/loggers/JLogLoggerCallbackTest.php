@@ -4,7 +4,7 @@
  * @subpackage  Log
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/callback/inspector.php';
@@ -29,7 +29,9 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 	public function testConstructor01()
 	{
 		// Create a callback function
-		$callback = create_function('$entry', 'return;');
+		$callback = function ($entry)
+		{
+		};
 
 		// Setup the basic configuration.
 		$config = array(

@@ -4,7 +4,7 @@
  * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/data/TestRouter.php';
@@ -159,7 +159,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test.json'
+				'expUrl'  => 'joomla/blog/test'
 			),
 			array(
 				'url'     => '/joomla/blog/test.json/',
@@ -167,7 +167,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test.json'
+				'expUrl'  => 'joomla/blog/test'
 			),
 			array(
 				'url'     => '/joomla/blog/test%202',
@@ -896,6 +896,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				->will($this->returnValue(true));
 			unset($appConfig['languagefilter']);
 		}
+
 		$app->expects($this->any())
 			->method('get')
 			->will($this->returnValueMap($appConfig));

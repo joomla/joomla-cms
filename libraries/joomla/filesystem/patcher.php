@@ -213,7 +213,7 @@ class JFilesystemPatcher
 	 * @param   string  $root      The files root path
 	 * @param   string  $strip     The number of '/' to strip
 	 *
-	 * @return	JFilesystemPatch $this for chaining
+	 * @return	JFilesystemPatcher  $this for chaining
 	 *
 	 * @since   12.1
 	 */
@@ -229,7 +229,7 @@ class JFilesystemPatcher
 	 * @param   string  $root   The files root path
 	 * @param   string  $strip  The number of '/' to strip
 	 *
-	 * @return	JFilesystemPatch $this for chaining
+	 * @return	JFilesystemPatcher  $this for chaining
 	 *
 	 * @since   12.1
 	 */

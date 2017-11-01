@@ -65,7 +65,7 @@ if ($currentPage >= $step)
 			<?php foreach ($pages['pages'] as $k => $page) : ?>
 
 				<?php $output = JLayoutHelper::render('joomla.pagination.link', $page); ?>
-				<?php if (in_array($k, range($range * $step - ($step + 1), $range * $step))) : ?>
+				<?php if (in_array($k, range($range * $step - ($step + 1), $range * $step), true)) : ?>
 					<?php if (($k % $step === 0 || $k === $range * $step - ($step + 1)) && $k !== $currentPage && $k !== $range * $step - $step) : ?>
 						<?php $output = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $output); ?>
 					<?php endif; ?>

@@ -120,7 +120,7 @@ class TemplatesModelStyle extends JModelAdmin
 				// You should not delete a default style
 				if ($table->home != '0')
 				{
-					JError::raiseWarning(SOME_ERROR_NUMBER, JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
+					JError::raiseWarning(500, JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
 
 					return false;
 				}
@@ -271,7 +271,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Add the default fields directory
-		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
 
 		// These variables are used to add data from the plugin XML files.
@@ -432,7 +432,7 @@ class TemplatesModelStyle extends JModelAdmin
 		// Disable home field if it is default style
 
 		if ((is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
-			|| ((is_object($data) && isset($data->home) && $data->home == '1')))
+			|| (is_object($data) && isset($data->home) && $data->home == '1'))
 		{
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
@@ -451,8 +451,8 @@ class TemplatesModelStyle extends JModelAdmin
 			$helpKey = trim((string) $help[0]['key']);
 			$helpURL = trim((string) $help[0]['url']);
 
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpKey = $helpKey ?: $this->helpKey;
+			$this->helpURL = $helpURL ?: $this->helpURL;
 		}
 
 		// Trigger the default form events.

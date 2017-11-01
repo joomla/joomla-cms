@@ -40,7 +40,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	{
 		$pubkey = $this->params->get('public_key', '');
 
-		if ($pubkey == null || $pubkey == '')
+		if ($pubkey === '')
 		{
 			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
@@ -117,13 +117,13 @@ class PlgCaptchaRecaptcha extends JPlugin
 			case '1.0':
 				$challenge = $input->get('recaptcha_challenge_field', '', 'string');
 				$response  = $input->get('recaptcha_response_field', '', 'string');
-				$spam      = ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0);
+				$spam      = ($challenge === '' || $response === '');
 				break;
 			case '2.0':
 				// Challenge Not needed in 2.0 but needed for getResponse call
 				$challenge = null;
 				$response  = $input->get('g-recaptcha-response', '', 'string');
-				$spam      = ($response == null || strlen($response) == 0);
+				$spam      = ($response === '');
 				break;
 		}
 
@@ -268,7 +268,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		$response = '';
 
-		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) == false )
+		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) === false)
 		{
 			die('Could not open socket');
 		}
