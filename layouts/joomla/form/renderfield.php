@@ -33,4 +33,9 @@ $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
 		<div class="control-label"><?php echo $label; ?></div>
 	<?php endif; ?>
 	<div class="controls"><?php echo $input; ?></div>
+	<?php if (!empty($description)) : ?>
+		<div>
+			<small class="form-text text-muted"><?php echo $description; ?></small>
+		</div>
+	<?php endif; ?>
 </div>

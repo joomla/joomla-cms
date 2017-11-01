@@ -970,10 +970,12 @@ abstract class FormField
 		}
 
 		$data = array(
-			'input'   => $this->getInput(),
-			'label'   => $this->getLabel(),
-			'options' => $options,
+			'input'       => $this->getInput(),
+			'label'       => $this->getLabel(),
+			'options'     => $options,
 		);
+
+		$data = array_merge($this->getLayoutData(), $data);
 
 		return $this->getRenderer($this->renderLayout)->render($data);
 	}
