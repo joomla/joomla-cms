@@ -8624,6 +8624,9 @@ legend {
 
 .form-inline {
   margin-left: 1.5rem; }
+  @media (max-width: 991px) {
+    .form-inline {
+      margin: 1rem 0; } }
 
 .icon-back::before {
   content: "\e008"; }
