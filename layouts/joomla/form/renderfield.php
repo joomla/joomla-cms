@@ -14,9 +14,10 @@ extract($displayData);
 /**
  * Layout variables
  * ---------------------
- * 	$options         : (array)  Optional parameters
- * 	$label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
- * 	$input           : (string) The input field html code
+ * 	$options      : (array)  Optional parameters
+ * 	$label        : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
+ * 	$input        : (string) The input field html code
+ * 	$description  : (string)  An optional description to use in a tooltip
  */
 
 if (!empty($options['showonEnabled']))
