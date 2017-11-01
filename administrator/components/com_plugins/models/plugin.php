@@ -162,6 +162,13 @@ class PluginsModelPlugin extends JModelAdmin
 				return false;
 			}
 
+			// Check for Access Level.			
+			$user   = JFactory::getUser();
+
+			if (!in_array($table->access,  $user->getAuthorisedViewLevels()))
+			{
+				return false;
+			}
 			// Convert to the JObject before adding other data.
 			$properties = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
