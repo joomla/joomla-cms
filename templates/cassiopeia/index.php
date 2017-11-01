@@ -96,7 +96,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 					<?php endif; ?>
 				</div>
 
-				<?php if ($this->countModules('menu')) : ?>
+				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 					<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 						<span class="fa fa-bars"></span>
 					</button>
