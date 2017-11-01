@@ -676,7 +676,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated 4.0  Use Joomla.listItemTask() instead
 	 */
 	window.listItemTask = function ( id, task ) {
-		Joomla.listItemTask( id, task );
+		return Joomla.listItemTask( id, task );
 	};
 
 	/**

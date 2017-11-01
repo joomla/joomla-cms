@@ -711,7 +711,7 @@ class SiteRouter extends Router
 			{
 				$item = $this->menu->getItem($this->getVar('Itemid'));
 
-				if (isset($item) && $item->component === $option)
+				if ($item !== null && $item->component === $option)
 				{
 					$uri->setVar('Itemid', $item->id);
 				}

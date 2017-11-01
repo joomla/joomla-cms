@@ -95,7 +95,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 		margin-right: auto;
 	}
 	.view-login .navbar-fixed-bottom {
-		display: none;
+		position: relative;
 	}');
 }
 ?>

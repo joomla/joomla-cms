@@ -45,7 +45,7 @@
 
 				<field
 					name="html_height"
-					type="text"
+					type="number"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
 					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
 					default="550"
@@ -53,7 +53,7 @@
 
 				<field
 					name="html_width"
-					type="text"
+					type="number"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
 					default=""
