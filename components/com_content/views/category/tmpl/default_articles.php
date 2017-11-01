@@ -40,7 +40,6 @@ JFactory::getDocument()->addStyleDeclaration('
 ');
 
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
-
 ?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
@@ -54,7 +53,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						</label>
 						<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
 					<?php else : ?>
-						<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();">
+						<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
 							<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
 						</select>
@@ -76,13 +75,17 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		</fieldset>
 		<div class="control-group hide pull-right">
 			<div class="controls">
-				<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
+				<button type="submit" name="filter_submit" class="btn btn-primary">
+					<?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?>
+				</button>
 			</div>
 		</div>
 	<?php endif; ?>
 	<?php if (empty($this->items)) : ?>
 		<?php if ($this->params->get('show_no_articles', 1)) : ?>
-			<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+			<p>
+				<?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?>
+			</p>
 		<?php endif; ?>
 	<?php else : ?>
 		<table class="category table table-striped table-bordered table-hover<?php echo $tableClass; ?>">
@@ -135,10 +138,9 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				<?php if ($this->items[$i]->state == 0) : ?>
 					<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else : ?>
-					<tr class="cat-list-row<?php echo $i % 2; ?>">
+					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
 				<td headers="categorylist_header_title" class="list-title">
-					<?php $associationClass = 'label label-association label-' . $association['language']->sef; ?>
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?>
@@ -146,25 +148,21 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
 							<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
-								&nbsp;
 								<?php if ($this->params->get('flags', 1)) : ?>
+									<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+									&nbsp;
 									<a href="<?php echo JRoute::_($association['item']); ?>">
-										<?php echo JHtml::_(
-												'image',
-												'mod_languages/' . $association['language']->image . '.gif',
-												$association['language']->title_native,
-												array(
-													'title' => $association['language']->title_native
-												),
-												true
-											); ?>
+										<?php echo $flag; ?>
 									</a>
+									&nbsp;
 								<?php else : ?>
-									<a class="<?php echo $associationClass; ?>" href="<?php echo JRoute::_($association['item']); ?>">
+									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+									&nbsp;
+									<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>">
 										<?php echo strtoupper($association['language']->sef); ?>
 									</a>
+									&nbsp;
 								<?php endif; ?>
-								&nbsp;
 							<?php endforeach; ?>
 						<?php endif; ?>
 					<?php else : ?>
@@ -180,25 +178,21 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 						<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
 							<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
-								&nbsp;
 								<?php if ($this->params->get('flags', 1)) : ?>
+									<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+									&nbsp;
 									<a href="<?php echo JRoute::_($association['item']); ?>">
-										<?php echo JHtml::_(
-												'image',
-												'mod_languages/' . $association['language']->image . '.gif',
-												$association['language']->title_native,
-												array(
-													'title' => $association['language']->title_native
-												),
-												true
-											); ?>
+										<?php echo $flag; ?>
 									</a>
+									&nbsp;
 								<?php else : ?>
-									<a class="<?php echo $associationClass; ?>" href="<?php echo JRoute::_($association['item']); ?>">
+									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+									&nbsp;
+									<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>">
 										<?php echo strtoupper($association['language']->sef); ?>
 									</a>
+									&nbsp;
 								<?php endif; ?>
-								&nbsp;
 							<?php endforeach; ?>
 						<?php endif; ?>
 					<?php endif; ?>
@@ -278,7 +272,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 	<?php endif; ?>
 	<?php // Add pagination links ?>
 	<?php if (!empty($this->items)) : ?>
-		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
+		<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="pagination">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 					<p class="counter pull-right">
