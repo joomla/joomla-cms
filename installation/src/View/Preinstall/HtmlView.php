@@ -39,7 +39,7 @@ class HtmlView extends DefaultView
 	 */
 	public function display($tpl = null)
 	{
-		$this->options  = $this->get('PhpOptions');
+		$this->options  = $this->get('PhpOptions', 'Checks');
 
 		return parent::display($tpl);
 	}

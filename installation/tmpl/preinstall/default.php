@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-/* @var InstallationViewPreinstallHtml $this */
+/* @var \Joomla\CMS\Installation\View\Preinstall\HtmlView $this */
 ?>
 <div id="installer-view" class="container" data-page-name="preinstall">
 		<div class="row">
