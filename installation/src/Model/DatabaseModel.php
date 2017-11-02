@@ -57,7 +57,7 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	protected static function generateRandUserId()
 	{
-		$session    = Factory::getApplication()->getSession();
+		$session    = Factory::getSession();
 		$randUserId = $session->get('randUserId');
 
 		if (empty($randUserId))

@@ -70,7 +70,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Get the session
-		$session = Factory::getApplication()->getSession();
+		$session = Factory::getSession();
 		$options['helpurl'] = $session->get('setup.helpurl', null);
 
 		// Merge the new setup options into the current ones and store in the session.
