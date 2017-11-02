@@ -635,7 +635,14 @@ class SetupModel extends BaseInstallationModel
 		$options = ArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
-		$this->setDatabaseCharset($db, $options->db_name);
+		try
+		{
+			$db->alterDbCharacterSet($options->db_name);
+		}
+		catch (\RuntimeException $e)
+		{
+			// Continue Anyhow
+		}
 
 		// Should any old database tables be removed or backed up?
 		if ($options->db_old == 'remove')
@@ -687,7 +694,14 @@ class SetupModel extends BaseInstallationModel
 		$type = $options->db_type;
 
 		// Set the character set to UTF-8 for pre-existing databases.
-		$this->setDatabaseCharset($db, $options->db_name);
+		try
+		{
+			$db->alterDbCharacterSet($options->db_name);
+		}
+		catch (\RuntimeException $e)
+		{
+			// Continue Anyhow
+		}
 
 		// Set the appropriate schema script based on UTF-8 support.
 		if ($db->getServerType() === 'mysql')
@@ -1315,33 +1329,6 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		return $return;
-	}
-
-	/**
-	 * Method to set the database character set to UTF-8.
-	 *
-	 * @param   \JDatabaseDriver  $db    JDatabaseDriver object.
-	 * @param   string            $name  Name of the database to process.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function setDatabaseCharset($db, $name)
-	{
-		// Run the create database query.
-		$db->setQuery($db->getAlterDbCharacterSet($name));
-
-		try
-		{
-			$db->execute();
-		}
-		catch (\RuntimeException $e)
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
