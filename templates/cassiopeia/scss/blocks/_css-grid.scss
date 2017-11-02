@@ -54,8 +54,9 @@
         ". debug debug debug debug .";
     }
 
-    header {
-      margin-bottom: 0;
+    .container-header {
+      margin-top: 0;
+      margin-bottom: 20px;
 
       + div:not(.container-banner) {
         margin-top: $cassiopeia-grid-gutter;
@@ -64,16 +65,23 @@
   }
 
   .container-banner {
-    margin: 0 0 $cassiopeia-grid-gutter;
+    z-index: 5;
+    margin: -2rem 0 0;
+    padding: 0 ($cassiopeia-grid-gutter / 2);
 
     p {
       margin-bottom: 0;
     }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: -3rem;
+    }
+
   }
 
 }
 
-header                    { grid-area: head; }
+.container-header         { grid-area: head; }
 .container-banner         { grid-area: banner; }
 .container-top-a          { grid-area: top-a; }
 .container-top-b          { grid-area: top-b; }
