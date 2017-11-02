@@ -39,7 +39,7 @@ class CMSHelper
 	{
 		$app = Factory::getApplication();
 		$langCode = null;
-		
+
 		// Get the languagefilter parameters
 		if (Multilanguage::isEnabled())
 		{
