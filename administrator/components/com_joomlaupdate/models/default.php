@@ -1110,13 +1110,6 @@ ENDDATA;
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for mcrypt support
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
-		$option->state  = is_callable('mcrypt_encrypt');
-		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
-		$options[] = $option;
-
 		return $options;
 	}
 
