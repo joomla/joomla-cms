@@ -145,7 +145,7 @@ class LibraryAdapter extends InstallerAdapter
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
-	protected function finaliseUninstall()
+	protected function finaliseUninstall(): bool
 	{
 		$db = $this->parent->getDbo();
 

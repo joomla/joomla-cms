@@ -14,17 +14,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Content\Site\Model\Articles;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 
 \JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_popular
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class ArticlesPopularHelper
 {
@@ -38,7 +35,7 @@ abstract class ArticlesPopularHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = new Articles(array('ignore_request' => true));
+		$model = new ArticlesModel(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = Factory::getApplication();

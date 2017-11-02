@@ -79,7 +79,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 	// Customize the buttons
 	Joomla.submitbutton = function(task) {
-		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg',
+		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension,
 		    pathName = window.location.pathname.replace(/&view=file.*/g, ''),
 			name = options.uploadPath.split('/').pop(),
 			forUpload = {
@@ -92,6 +92,15 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 		forUpload[options.csrfToken] = "1";
 
+		var fileDirectory = uploadPath.split('/');
+		fileDirectory.pop();
+		fileDirectory = fileDirectory.join('/');
+
+		// If we are in root add a backslash
+		if (fileDirectory.endsWith(':')) {
+			fileDirectory = fileDirectory + '/';
+		}
+
 		switch (task) {
 			case 'apply':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
@@ -99,10 +108,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 				break;
 			case 'save':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-				window.location = pathName + '?option=com_media';
+				window.location = pathName + '?option=com_media&path=' + fileDirectory;
 				break;
 			case 'cancel':
-				window.location = pathName + '?option=com_media&path=' + uploadPath;
+				window.location = pathName + '?option=com_media&path=' + fileDirectory;
 				break;
 			case 'reset':
 				Joomla.MediaManager.Edit.Reset('initial');

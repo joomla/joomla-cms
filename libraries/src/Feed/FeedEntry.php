@@ -56,7 +56,7 @@ class FeedEntry
 	 */
 	public function __get($name)
 	{
-		return (isset($this->properties[$name])) ? $this->properties[$name] : null;
+		return $this->properties[$name] ?? null;
 	}
 
 	/**

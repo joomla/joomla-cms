@@ -89,6 +89,9 @@ jQuery(function ($) {
 		 */
 		function saveActiveTab(event) {
 
+			if (!window.sessionStorage) {
+				return;
+			}
 			// Get a new storage key, normally the full url we are on with some cleanup
 			var storageKey = getStorageKey();
 

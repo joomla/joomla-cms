@@ -2,10 +2,24 @@
 <form>
 	<fieldset name="Resize" label="PLG_MEDIA-ACTION_RESIZE_LABEL">
 		<field
+			name="resize_quality"
+			type="integer"
+			label="PLG_MEDIA-ACTION_RESIZE_QUALITY"
+			addonBefore="PLG_MEDIA-ACTION_RESIZE_QUALITY"
+			first="1"
+			last="100"
+			step="1"
+			default="80"
+		/>
+		<field
+			type="spacer"
+			hr="true"
+		/>
+		<field
 			name="resize_w"
 			type="range"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
-		    value="0"
+			value="0"
 		/>
 		<field
 			name="resize_h"
