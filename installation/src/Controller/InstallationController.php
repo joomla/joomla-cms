@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installation\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -230,7 +231,7 @@ class InstallationController extends JSONController
 		// If an error was encountered return an error.
 		if (!$success)
 		{
-			$this->app->enqueueMessage(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
+			$this->app->enqueueMessage(\JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
 		}
 
 		$r = new \stdClass;

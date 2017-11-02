@@ -12,8 +12,8 @@ namespace Joomla\CMS\Installation\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -42,11 +42,12 @@ class LanguageController extends JSONController
 			$this->sendJsonResponse(new \Exception(\JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
 		}
 
-		// Get the setup model.
+		/** @var SetupModel $model */
 		$model = $this->getModel('Setup');
 
 		// Get the posted values from the request and validate them.
 		$data   = $this->input->post->get('jform', [], 'array');
+		$return = $model->validate($data, 'language');
 
 		$r = new \stdClass;
 
@@ -128,7 +129,7 @@ class LanguageController extends JSONController
 		else
 		{
 			// Create a response body.
-			$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang), 'message');
+			$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang), 'message');
 		}
 
 		// Check if user has activated the multilingual site

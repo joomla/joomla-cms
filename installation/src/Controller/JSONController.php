@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Default JSON controller class for the Joomla Installer controllers.
