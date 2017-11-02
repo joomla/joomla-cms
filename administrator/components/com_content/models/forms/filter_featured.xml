@@ -63,7 +63,7 @@
 			class="multipleAuthors"
 			onchange="this.form.submit();"
 			>
-			<option value="0">JOPTION_NO_USER</option>
+			<option value="0">JNONE</option>
 		</field>
 
 		<field
