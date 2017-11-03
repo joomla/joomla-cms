@@ -58,6 +58,14 @@ class ConfigurationModel extends BaseInstallationModel
 		$options->db_select = true;
 		$options->db_created = 1;
 
+		// Handle old db if exists
+		if (!$databaseModel->handleOldDatabase($options))
+		{
+			$this->deleteConfiguration();
+
+			return false;
+		}
+
 		// Create tables
 		if (!$databaseModel->createTables($options))
 		{
@@ -68,14 +76,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Attempt to create the root user.
 		if (!$this->createRootUser($options))
-		{
-			$this->deleteConfiguration();
-
-			return false;
-		}
-
-		// Handle old db if exists
-		if (!$databaseModel->handleOldDatabase($options))
 		{
 			$this->deleteConfiguration();
 
