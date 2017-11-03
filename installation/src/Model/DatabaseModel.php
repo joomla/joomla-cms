@@ -884,7 +884,9 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Run Cms data post install to update user ids.
-		return $this->postInstallCmsData($db);
+		$this->postInstallCmsData($db);
+
+		return true;
 	}
 
 	/**

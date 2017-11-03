@@ -50,7 +50,8 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create Db
 		if (!$databaseModel->createDatabase($options))
 		{
-			$this->deleteConfiguartion();
+			$this->deleteConfiguration();
+
 			return false;
 		}
 
@@ -60,28 +61,32 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create tables
 		if (!$databaseModel->createTables($options))
 		{
-			$this->deleteConfiguartion();
+			$this->deleteConfiguration();
+
 			return false;
 		}
 
 		// Attempt to create the root user.
 		if (!$this->createRootUser($options))
 		{
-			$this->deleteConfiguartion();
+			$this->deleteConfiguration();
+
 			return false;
 		}
 
 		// Handle old db if exists
 		if (!$databaseModel->handleOldDatabase($options))
 		{
-			$this->deleteConfiguartion();
+			$this->deleteConfiguration();
+
 			return false;
 		}
 
-		// Install CSM data
+		// Install CMS data
 		if (!$databaseModel->installCmsData($options))
 		{
-			$this->deleteConfiguartion();
+			$this->deleteConfiguration();
+
 			return false;
 		}
 
@@ -394,7 +399,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function deleteConfiguartion()
+	private function deleteConfiguration()
 	{
 		// The configuration file path.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
