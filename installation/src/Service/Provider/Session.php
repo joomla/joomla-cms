@@ -46,16 +46,10 @@ class Session implements ServiceProviderInterface
 				{
 					$app = Factory::getApplication();
 
-					// Generate a session name.
-					$name = ApplicationHelper::getHash($app->get('session_name', get_class($app)));
-
-					// Calculate the session lifetime.
-					$lifetime = (($app->get('lifetime')) ? $app->get('lifetime') * 60 : 900);
-
 					// Initialize the options for the Session object.
 					$options = array(
-						'name'   => $name,
-						'expire' => $lifetime
+						'name'   => md5(get_class($app)),
+						'expire' => 900
 					);
 
 					// Set up the storage handler
