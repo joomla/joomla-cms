@@ -508,9 +508,6 @@ class DatabaseModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Get the options as an object for easier handling.
-		$options = ArrayHelper::toObject($options);
-
 		// Set the character set to UTF-8 for pre-existing databases.
 		try
 		{
