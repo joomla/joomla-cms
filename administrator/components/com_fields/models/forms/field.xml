@@ -298,6 +298,16 @@
 			</field>
 
 			<field
+					name="label_render_class"
+					type="textarea"
+					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
+					description="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_DESC"
+					class="input-xxlarge"
+					size="40"
+					showon="showlabel:1"
+			/>
+
+			<field
 				name="display"
 				type="list"
 				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
