@@ -178,7 +178,13 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		return static::$_redis->exists($this->_getCacheId($id, $group));
+		// Redis exists returns integer values lets convert that to boolean see: https://redis.io/commands/exists
+		if (static::$_redis->exists($this->_getCacheId($id, $group)) === 0)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
