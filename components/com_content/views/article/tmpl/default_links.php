@@ -14,37 +14,31 @@ $urls = json_decode($this->item->urls);
 
 // Create shortcuts to some parameters.
 $params = $this->item->params;
-if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
+
 ?>
-<div class="content-links">
-	<ul class="nav nav-tabs nav-stacked">
-		<?php
-			$urlarray = array(
-			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
-			array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
-			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
-			);
-			foreach ($urlarray as $url) :
-				$link = $url[0];
-				$label = $url[1];
-				$target = $url[2];
-				$id = $url[3];
-
-				if ( ! $link) :
-					continue;
-				endif;
-
-				// If no label is present, take the link
-				$label = $label ?: $link;
-
-				// If no target is present, use the default
-				$target = $target ?: $params->get('target' . $id);
-				?>
-			<li class="content-links-<?php echo $id; ?>">
-				<?php
-					// Compute the correct link
-
-					switch ($target)
+<?php if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) : ?>
+	<div class="content-links">
+		<ul class="nav nav-tabs nav-stacked">
+			<?php $urlarray = array(
+				array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
+				array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
+				array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
+			); ?>
+			<?php foreach ($urlarray as $url) : ?>
+				<?php $link = $url[0]; ?>
+				<?php $label = $url[1]; ?>
+				<?php $target = $url[2]; ?>
+				<?php $id = $url[3]; ?>
+				<?php if (!$link) : ?>
+					<?php continue; ?>
+				<?php endif; ?>
+				<?php // If no label is present, take the link ?>
+				<?php $label = $label ?: $link; ?>
+				<?php // If no target is present, use the default ?>
+				<?php $target = $target ?: $params->get('target' . $id); ?>
+				<li class="content-links-<?php echo $id; ?>">
+					<?php // Compute the correct link ?>
+					<?php switch ($target)
 					{
 						case 1:
 							// Open in a new window
@@ -70,10 +64,9 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="nofollow">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
 							break;
-					}
-				?>
+					} ?>
 				</li>
-		<?php endforeach; ?>
-	</ul>
-</div>
+			<?php endforeach; ?>
+		</ul>
+	</div>
 <?php endif; ?>
