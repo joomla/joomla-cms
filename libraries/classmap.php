@@ -357,7 +357,7 @@ JLoader::registerAlias('JFactory',                          '\\Joomla\\CMS\\Fact
 
 JLoader::registerAlias('JMail',                             '\\Joomla\\CMS\\Mail\\Mail', '5.0');
 JLoader::registerAlias('JMailHelper',                       '\\Joomla\\CMS\\Mail\\MailHelper', '5.0');
-JLoader::registerAlias('JMailWrapperHelper',                '\\Joomla\\CMS\\Mail\\MailWrapper', '5.0');
+JLoader::registerAlias('JMailWrapperHelper',                '\\Joomla\\CMS\\Mail\\MailWrapper', '4.0');
 
 JLoader::registerAlias('JClientHelper',                     '\\Joomla\\CMS\\Client\\ClientHelper', '5.0');
 JLoader::registerAlias('JClientWrapperHelper',              '\\Joomla\\CMS\\Client\\ClientWrapper', '5.0');

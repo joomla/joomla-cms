@@ -266,6 +266,37 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the preprocess() method
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testPreprocessLayout()
+	{
+		$this->saveFactoryState();
+
+		$router = $this->object->get('router');
+
+		// Unset an active menu
+		$router->menu->active = null;
+
+		// Check link if default layout is set explicitly
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'default');
+		$expect = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'default');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		// Check link if the layout is different than in menu item for parent category
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'blog');
+		$expect = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'blog');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		$this->restoreFactoryState();
+	}
+
+	/**
 	 * Tests the buildLookup() method
 	 *
 	 * @return  void
