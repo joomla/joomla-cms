@@ -37,7 +37,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
 					<span class="caret"></span>
 					<?php if ($language->image) : ?>
-						&nbsp;<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+						&nbsp;<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $language->title_native; ?>
 				</a>
@@ -49,7 +49,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
 				<a href="<?php echo $language->link; ?>">
 					<?php if ($language->image) : ?>
-						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $language->title_native; ?>
 				</a>
