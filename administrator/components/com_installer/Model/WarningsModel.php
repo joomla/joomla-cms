@@ -107,7 +107,7 @@ class WarningsModel extends ListModel
 		}
 		else
 		{
-			if (!is_writeable($upload_dir))
+			if (!is_writable($upload_dir))
 			{
 				$messages[] = array('message' => \JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLE'),
 						'description' => \JText::sprintf('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLEDESC', $upload_dir));
@@ -124,7 +124,7 @@ class WarningsModel extends ListModel
 		}
 		else
 		{
-			if (!is_writeable($tmp_path))
+			if (!is_writable($tmp_path))
 			{
 				$messages[] = array('message' => \JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'),
 						'description' => \JText::sprintf('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLEDESC', $tmp_path));
