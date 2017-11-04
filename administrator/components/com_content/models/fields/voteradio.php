@@ -33,7 +33,7 @@ class JFormFieldVoteradio extends JFormFieldRadio
 	 *
 	 * @throws \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.2
 	 */
 	public function getLabel()
 	{
