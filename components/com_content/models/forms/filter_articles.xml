@@ -24,10 +24,33 @@
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
+			multiple="true"
+			class="multipleCategories"
 			extension="com_content"
 			onchange="this.form.submit();"
+			published="0,1,2"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JOPTION_FILTER_ACCESS"
+			description="JOPTION_FILTER_ACCESS_DESC"
+			multiple="true"
+			class="multipleAccessLevels"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="author_id"
+			type="author"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			multiple="true"
+			class="multipleAuthors"
+			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
+			<option value="0">JNONE</option>
 		</field>
 
 		<field
@@ -42,26 +65,6 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
-		</field>
-
-		<field
-			name="access"
-			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_ACCESS</option>
-		</field>
-
-		<field
-			name="author_id"
-			type="author"
-			label="COM_CONTENT_FILTER_AUTHOR"
-			description="COM_CONTENT_FILTER_AUTHOR_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
 		</field>
 
 		<field
@@ -80,11 +83,11 @@
 			type="tag"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
+			multiple="true"
+			class="multipleTags"
 			mode="nested"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 	</fields>
 	<fields name="list">
 		<field

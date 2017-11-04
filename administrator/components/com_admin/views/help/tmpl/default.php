@@ -33,7 +33,7 @@ JHtml::_('bootstrap.tooltip');
 			</div>
 		</div>
 		<div class="span9">
-			<iframe name="helpFrame" height="2100px" src="<?php echo $this->page; ?>" class="helpFrame table table-bordered"></iframe>
+			<iframe name="helpFrame" title="helpFrame" height="2100px" src="<?php echo $this->page; ?>" class="helpFrame table table-bordered"></iframe>
 		</div>
 	</div>
 	<input class="textarea" type="hidden" name="option" value="com_admin" />
