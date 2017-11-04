@@ -53,7 +53,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<?php // Header ?>
 			<header class="j-header" role="banner">
 				<div class="j-header-logo">
-					<img src="<?php echo $this->baseurl ?>/template/images/logo.svg" alt="Joomla" class="logo"/>
+					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="Joomla" class="logo"/>
 				</div>
 				<div class="j-header-help">
 					<a href="#">
