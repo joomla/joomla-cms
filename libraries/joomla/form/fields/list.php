@@ -160,20 +160,6 @@ class JFormFieldList extends JFormField
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 
-			// Check data attributes
-			$dataAttributes = array();
-
-			foreach ($option->attributes() as $optionName => $optionValue)
-			{
-				// Detect Miscellaneous data-*
-				if (strpos($optionName, "data-") === 0)
-				{
-					$dataAttributes[$optionName] = $optionName . '="' . htmlspecialchars($optionValue, ENT_COMPAT, 'UTF-8') . '"';
-				}
-			}
-
-			$tmp['dataAttributes'] = !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
-
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}
