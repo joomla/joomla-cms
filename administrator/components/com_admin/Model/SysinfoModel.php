@@ -308,13 +308,13 @@ class SysInfoModel extends BaseModel
 		$db = $this->getDbo();
 
 		$this->info = array(
-			'php'                   => php_uname(),
+			'php'                   => PHP_OS,
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => phpversion(),
+			'phpversion'            => PHP_VERSION,
 			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => php_sapi_name(),
+			'sapi_name'             => PHP_SAPI,
 			'version'               => (new Version)->getLongVersion(),
 			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);

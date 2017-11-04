@@ -324,7 +324,7 @@ class PlgSystemStats extends JPlugin
 			'db_type'     => $this->db->name,
 			'db_version'  => $this->db->getVersion(),
 			'cms_version' => JVERSION,
-			'server_os'   => php_uname('s') . ' ' . php_uname('r')
+			'server_os'   => PHP_OS . ' ' . php_uname('r')
 		);
 	}
 

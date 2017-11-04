@@ -52,5 +52,5 @@ function admin_postinstall_joomla40checks_condition()
 	}
 
 	// PHP minimum version is 7.0
-	return version_compare(PHP_VERSION, '7.0', 'lt');
+	return PHP_VERSION_ID < 70000;
 }

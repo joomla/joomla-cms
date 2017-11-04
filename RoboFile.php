@@ -524,7 +524,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	private function getOs()
 	{
-		$os = php_uname('s');
+		$os = PHP_OS;
 
 		if (strpos(strtolower($os), 'windows') !== false)
 		{

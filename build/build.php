@@ -23,7 +23,7 @@
 
 use Joomla\CMS\Version;
 
-if (version_compare(PHP_VERSION, '5.4', '<'))
+if (PHP_VERSION_ID < 50400)
 {
 	echo "The build script requires PHP 5.4.\n";
 

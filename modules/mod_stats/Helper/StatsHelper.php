@@ -45,12 +45,12 @@ class StatsHelper
 		{
 			$rows[$i] = new \stdClass;
 			$rows[$i]->title = \JText::_('MOD_STATS_OS');
-			$rows[$i]->data  = substr(php_uname(), 0, 7);
+			$rows[$i]->data  = substr(PHP_OS, 0, 7);
 			$i++;
 
 			$rows[$i] = new \stdClass;
 			$rows[$i]->title = \JText::_('MOD_STATS_PHP');
-			$rows[$i]->data  = phpversion();
+			$rows[$i]->data  = PHP_VERSION;
 			$i++;
 
 			$rows[$i] = new \stdClass;
