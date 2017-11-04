@@ -3,6 +3,7 @@
 .container-header {
   position: relative;
   z-index: 10;
+  margin-bottom: 20px;
   background-color: $cassiopeia-template-color;
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px rgba(0,0,0,.03) inset;
@@ -182,6 +183,6 @@
   right: 0;
   bottom: -20px;
   left: 0;
-  border-bottom: 20px solid #fff;
+  border-bottom: 20px solid #fafafa;
 
 }
