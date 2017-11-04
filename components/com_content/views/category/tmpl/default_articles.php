@@ -223,7 +223,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				<?php if ($this->params->get('list_show_author', 1)) : ?>
 					<td headers="categorylist_header_author" class="list-author">
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
-							<?php $author = $article->author ?>
+							<?php $author = $article->author; ?>
 							<?php $author = $article->created_by_alias ?: $author; ?>
 							<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
