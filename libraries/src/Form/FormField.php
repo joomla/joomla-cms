@@ -975,6 +975,8 @@ abstract class FormField
 			'options' => $options,
 		);
 
+		$data = array_merge($this->getLayoutData(), $data);
+
 		return $this->getRenderer($this->renderLayout)->render($data);
 	}
 
