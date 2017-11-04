@@ -39,31 +39,31 @@ define(['jquery', 'testsRoot/subform-repeatable/spec-setup', 'jasmineJquery'], f
 				expect($container.find('tbody').children().length).toEqual(2);
 			});
 
-			it('Should fix the id of the template input checkbox element to "input_checkbox_base-name2_test"', function () {
-				expect($container.find('#input_checkbox_group_test')).not.toExist();
-				expect($container.find('#input_checkbox_base-name2_test')).toExist();
+			it('Should fix the id of the template input checkbox element to "jform_group__group2__checkbox"', function () {
+				expect($container.find('#jform_group__groupX__checkbox')).not.toExist();
+				expect($container.find('#jform_group__group2__checkbox')).toExist();
 			});
 
 			it('Should fix the for attribute of the checkbox label element to match the changed input id', function () {
-				expect($container.find('label[for="input_checkbox_base-name2_test"]')).toExist();
+				expect($container.find('label[for="jform_group__group2__checkbox"]')).toExist();
 			});
 
-			it('Should fix the name of the template input checkbox element to "input_checkbox[base-name2][test]"', function () {
-				expect($container.find('#input_checkbox_base-name2_test')).toHaveAttr('name','input_checkbox[base-name2][test]');
+			it('Should fix the name of the template input checkbox element to "jform[group][group2][checkbox]"', function () {
+				expect($container.find('#jform_group__group2__checkbox')).toHaveAttr('name','jform[group][group2][checkbox]');
 			});
 
-			it('Should fix the id of the template input radio element to "input_radio_base-name2_test0"', function () {
-				expect($container.find('#input_radio_group_test')).not.toExist();
-				expect($container.find('#input_radio_base-name2_test0')).toExist();
+			it('Should fix the id of the template input radio element to "jform_group__group2__radio0"', function () {
+				expect($container.find('#jform_group__groupX__radio0')).not.toExist();
+				expect($container.find('#jform_group__group2__radio0')).toExist();
 			});
 
-			it('Should fix the name of the template input radio element to "input_radio[base-name2][test]"', function () {
-				expect($container.find('#input_radio_base-name2_test0')).toHaveAttr('name','input_radio[base-name2][test]');
+			it('Should fix the name of the template input radio element to "jform[group][group2][radio]"', function () {
+				expect($container.find('#jform_group__group2__radio0')).toHaveAttr('name','jform[group][group2][radio]');
 			});
 
 			it('Should have captured the template correctly', function () {
 				var $newElement = $container.find('tbody').children().last();
-				
+
 				expect($newElement).toContainText('Data 3');
 				expect($newElement).toContainText('Data 4');
 				expect($newElement).toContainText('Checkbox label');
@@ -76,8 +76,8 @@ define(['jquery', 'testsRoot/subform-repeatable/spec-setup', 'jasmineJquery'], f
 				expect($container.find('tbody').children().last()).toHaveAttr('data-new', 'true');
 			});
 
-			it('Should set data-group attribute to "base-name2" in the new element', function () {
-				expect($container.find('tbody').children().last()).toHaveAttr('data-group', 'base-name2');
+			it('Should set data-group attribute to "group2" in the new element', function () {
+				expect($container.find('tbody').children().last()).toHaveAttr('data-group', 'group2');
 			});
 
 			it('Should trigger subform-row-add event', function () {
@@ -88,7 +88,7 @@ define(['jquery', 'testsRoot/subform-repeatable/spec-setup', 'jasmineJquery'], f
 		describe('Remove existing row', function () {
 			beforeAll(function () {
 				$container.find('a.group-remove.generated').click();
-				$container.find('subform-original-remove').click();
+				$container.find('#subform-original-remove').click();
 			});
 
 			it('Should remove the added row from the table', function () {
