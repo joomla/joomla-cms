@@ -42,7 +42,8 @@ module.exports = function(grunt) {
 			puny          : 'media/vendor/punycode/js',
 			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum',
-			siteTemplate  : 'templates/aurora',
+			installTemplate : 'installation/template',
+			siteTemplate  : 'templates/cassiopeia',
 			node_module   : 'build/assets_tmp/node_modules/',
 		},
 
@@ -238,6 +239,7 @@ module.exports = function(grunt) {
 					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
+					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
 				}
 			},
@@ -445,7 +447,21 @@ module.exports = function(grunt) {
 					dest: '<%= folder.siteTemplate %>/css',
 				}]
 			},
-			admin: {
+			installTemplate: {
+				files: [{
+					expand: true,
+					matchBase: true,
+					ext: '.min.css',
+					cwd: '<%= folder.installTemplate %>/css',
+					src: [
+						'*.css',
+						'!*.min.css',
+						'!theme/*.css'
+					],
+					dest: '<%= folder.installTemplate %>/css',
+				}]
+			},
+			siteTemplate: {
 				files: [{
 					expand: true,
 					matchBase: true,
@@ -465,6 +481,7 @@ module.exports = function(grunt) {
 		watch: {
 			siteTemplate: {
 				files: [
+					'<%= folder.adminTemplate %>/**/*.scss',
 					'<%= folder.siteTemplate %>/**/*.scss',
 					'media/system/scss/**/*.scss',
 				],

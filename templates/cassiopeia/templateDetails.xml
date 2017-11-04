@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="template" client="site">
+	<name>cassiopeia</name>
+	<version>1.0</version>
+	<creationDate>30/02/2017</creationDate>
+	<author>Charlie Lodder / Ciarán Walsh</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.</copyright>
+	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>scss</folder>
+		<folder>language</folder>
+	</files>
+	<positions>
+		<position>menu</position>
+		<position>search</position>
+		<position>banner</position>
+		<position>top-a</position>
+		<position>top-b</position>
+		<position>main-top</position>
+		<position>main-bottom</position>
+		<position>breadcrumbs</position>
+		<position>sidebar-left</position>
+		<position>sidebar-right</position>
+		<position>bottom-a</position>
+		<position>bottom-b</position>
+		<position>footer</position>
+		<position>debug</position>
+	</positions>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_cassiopeia.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_cassiopeia.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field
+					name="logoFile" 
+					type="media" 
+					default=""
+					label="TPL_CASSIOPEIA_LOGO_LABEL"
+				/>
+
+				<field
+					name="siteTitle" 
+					type="text" 
+					default=""
+					label="JGLOBAL_TITLE"
+					filter="string"
+				/>
+
+				<field
+					name="siteDescription" 
+					type="text" 
+					default=""
+					label="JGLOBAL_DESCRIPTION"
+					filter="string"
+				/>
+
+				<field
+					name="fluidContainer"
+					type="radio"
+					class="switcher switcher-primary"
+					default="0"
+					label="TPL_CASSIOPEIA_FLUID_LABEL"
+				>
+					<option value="1">TPL_CASSIOPEIA_FLUID</option>
+					<option value="0">TPL_CASSIOPEIA_STATIC</option>
+				</field>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>

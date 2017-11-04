@@ -35,7 +35,7 @@ The full list of other Grunt Tasks available are:
 - `grunt uglify:allJs`.................minifies various javascripts, excluding template files
 - `grunt uglify:templates`.............minifies template javascripts
 - `grunt cssmin:allCss`................minifies various stylesheets, currently it only affects codemirror files
-- `grunt cssmin:site`..................minifies the site template (Aurora) stylesheet
+- `grunt cssmin:site`..................minifies the site template (Cassiopeia) stylesheet
 - `grunt cssmin:admin`.................minifies the admin template (Atum) stylesheet
 - `grunt compile:site`.................minifies site template JS, lints SCSS then compiles it
 - `grunt compile:admin`................minifies admin template JS, lints SCSS then compiles it
