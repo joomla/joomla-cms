@@ -15,8 +15,8 @@ $class  = ' class="first"';
 $lang   = JFactory::getLanguage();
 $user   = JFactory::getUser();
 $groups = $user->getAuthorisedViewLevels();
-?>
 
+?>
 <?php if (count($this->children[$this->category->id]) > 0) : ?>
 	<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 		<?php // Check whether category access level allows access to subcategories. ?>
