@@ -60,6 +60,7 @@ if (JText::_('JLIB_FORM_SELECT_USER') === htmlspecialchars($userName, ENT_COMPAT
 
 if (!$readonly)
 {
+	JHtml::_('jquery.framework');
 	JHtml::_('script', 'system/fields/fielduser.min.js', ['version' => 'auto', 'relative' => true]);
 }
 ?>
