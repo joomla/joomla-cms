@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Button\ActionButton;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
@@ -101,26 +102,11 @@ abstract class JHtmlContentAdministrator
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{
-		// Array of image, task, title, action
-		$states = array(
-			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-		);
-		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$icon  = $state[0];
+		$button = new ActionButton(['disabled' => !$canChange, 'tip_title' => 'JGLOBAL_TOGGLE_FEATURED']);
 
-		if ($canChange)
-		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3])
-				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
-		}
-		else
-		{
-			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
-				. JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
-		}
+		$button->addState(0, 'articles.featured', 'icon-unfeatured', 'COM_CONTENT_UNFEATURED');
+		$button->addState(1, 'articles.unfeatured', 'icon-featured', 'COM_CONTENT_FEATURED');
 
-		return $html;
+		return $button->render($value, $i);
 	}
 }

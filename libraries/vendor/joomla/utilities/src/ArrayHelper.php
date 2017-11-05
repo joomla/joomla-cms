@@ -744,4 +744,42 @@ final class ArrayHelper
 
 		return $array;
 	}
+
+	/**
+	 * Merge array recursively.
+	 *
+	 * @param   array  ...$args  Array to be merge.
+	 *
+	 * @return  array  Merged array.
+	 *
+	 * @throws \InvalidArgumentException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function mergeRecursive(...$args)
+	{
+		$result = [];
+
+		foreach ($args as $i => $array)
+		{
+			if (!is_array($array))
+			{
+				throw new \InvalidArgumentException(sprintf('Argument #%d is not an array.', $i + 2));
+			}
+
+			foreach ($array as $key => &$value)
+			{
+				if (is_array($value) && isset($result[$key]) && is_array($result[$key]))
+				{
+					$result[$key] = static::mergeRecursive($result [$key], $value);
+				}
+				else
+				{
+					$result[$key] = $value;
+				}
+			}
+		}
+
+		return $result;
+	}
 }
