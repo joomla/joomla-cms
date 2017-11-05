@@ -74,7 +74,7 @@ class PlgFieldsSql extends FieldsListPlugin
 		$rules = $item->getRules()->getData();
 
 		// Only change the edit rule and when it is empty
-		if (key_exists('core.edit', $rules) && !$rules['core.edit']->getData())
+		if (array_key_exists('core.edit', $rules) && !$rules['core.edit']->getData())
 		{
 			// Set the denied flag on the root group
 			$rules['core.edit']->mergeIdentity(1, false);
