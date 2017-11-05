@@ -8782,6 +8782,9 @@ header {
     width: 33.33333%; }
   .blog-items.columns-4 > div {
     width: 25%; }
+  @media (max-width: 991px) {
+    .blog-items[class^='columns-'] > div, .blog-items[class*=' columns-'] > div {
+      width: 100%; } }
 
 .blog-item {
   padding: 0 7.5px 15px 7.5px; }
@@ -8804,7 +8807,10 @@ header {
     .blog-items.columns-3 {
       grid-template-columns: 1fr 1fr 1fr; }
     .blog-items.columns-4 {
-      grid-template-columns: 1fr 1fr 1fr 1fr; } }
+      grid-template-columns: 1fr 1fr 1fr 1fr; }
+    @media (max-width: 991px) {
+      .blog-items[class^='columns-'], .blog-items[class*=' columns-'] {
+        grid-template-columns: 1fr; } } }
 
 .blog-items[class^='masonry-'], .blog-items[class*=' masonry-'] {
   display: block;

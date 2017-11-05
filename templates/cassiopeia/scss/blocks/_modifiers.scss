@@ -22,6 +22,13 @@
       width: 25%;
     }
   }
+  &[class^='columns-'], &[class*=' columns-'] {
+    > div {
+      @include media-breakpoint-down(md) {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .blog-item {
@@ -53,6 +60,11 @@
     }
     &.columns-4 {
       grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    &[class^='columns-'], &[class*=' columns-'] {
+      @include media-breakpoint-down(md) {
+        grid-template-columns: 1fr;
+      }
     }
   }
 }
