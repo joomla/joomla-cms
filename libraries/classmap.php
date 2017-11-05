@@ -243,8 +243,9 @@ JLoader::registerAlias('JInstallerTemplate',                '\\Joomla\\CMS\\Inst
 JLoader::registerAlias('JInstallerManifestLibrary',         '\\Joomla\\CMS\\Installer\\Manifest\\LibraryManifest', '5.0');
 JLoader::registerAlias('JInstallerManifestPackage',         '\\Joomla\\CMS\\Installer\\Manifest\\PackageManifest', '5.0');
 
-JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '5.0');
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '5.0');
+JLoader::registerAlias('JRoute',                            '\\Joomla\\CMS\\Router\\Route', '5.0');
+JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '5.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '5.0');
 
 JLoader::registerAlias('JCategories',                       '\\Joomla\\CMS\\Categories\\Categories', '5.0');

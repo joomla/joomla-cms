@@ -62,7 +62,6 @@ if (!interface_exists('JsonSerializable'))
 JLoader::register('JAuthenticationResponse',  JPATH_PLATFORM . '/joomla/user/response.php');
 JLoader::register('JAuthentication',  JPATH_PLATFORM . '/joomla/user/authentication.php');
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
-JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
