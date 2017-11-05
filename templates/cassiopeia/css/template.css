@@ -8829,6 +8829,10 @@ header {
 .blog-items.masonry-4 {
   column-count: 4; }
 
+@media (max-width: 991px) {
+  .blog-items[class^='masonry-'], .blog-items[class*=' masonry-'] {
+    column-count: 1; } }
+
 .blog-item-content {
   display: flex;
   flex-direction: column; }
