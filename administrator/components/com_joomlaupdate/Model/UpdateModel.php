@@ -435,7 +435,7 @@ ENDDATA;
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if ($writable)
 			{
@@ -474,7 +474,7 @@ ENDDATA;
 			}
 
 			// \Just in case the temp-directory was off-root, try using the default tmp directory.
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if (!$writable)
 			{
@@ -510,7 +510,7 @@ ENDDATA;
 			}
 
 			// If we still have no writable directory, we'll try /tmp and the system's temp-directory.
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if (!$writable)
 			{

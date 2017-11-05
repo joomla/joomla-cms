@@ -162,15 +162,15 @@ class FieldsHelper
 				 */
 				$field = clone $original;
 
-				if ($valuesToOverride && key_exists($field->name, $valuesToOverride))
+				if ($valuesToOverride && array_key_exists($field->name, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->name];
 				}
-				elseif ($valuesToOverride && key_exists($field->id, $valuesToOverride))
+				elseif ($valuesToOverride && array_key_exists($field->id, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
-				elseif (key_exists($field->id, $fieldValues))
+				elseif (array_key_exists($field->id, $fieldValues))
 				{
 					$field->value = $fieldValues[$field->id];
 				}
