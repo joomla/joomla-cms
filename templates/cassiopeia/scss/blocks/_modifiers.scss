@@ -131,6 +131,12 @@
       padding-right: 25px;
     }
   }
+  .image-left &, .image-right & {
+    flex-direction: row;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+  }
 }
 
 .image-alternate {

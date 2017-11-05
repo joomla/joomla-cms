@@ -8858,6 +8858,11 @@ header {
     padding-left: 25px; }
   .image-right .blog-item-content .item-content {
     padding-right: 25px; }
+  .image-left .blog-item-content, .image-right .blog-item-content {
+    flex-direction: row; }
+    @media (max-width: 767px) {
+      .image-left .blog-item-content, .image-right .blog-item-content {
+        flex-direction: column; } }
 
 .image-alternate .blog-item:nth-of-type(2n+1) .item-image {
   order: 0; }
