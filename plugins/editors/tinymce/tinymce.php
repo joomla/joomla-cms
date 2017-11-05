@@ -735,60 +735,39 @@ class PlgEditorTinymce extends JPlugin
 
 							// Now we can built the script
 							$tempConstructor = '!(function(){';
-
-							// Get the modal width/height
-							if ($options && is_scalar($options))
-							{
-								$tempConstructor .= '
-				var getBtnOptions = new Function("return ' . addslashes($options) . '"),
-					btnOptions = getBtnOptions(),
-					modalWidth = btnOptions.size && btnOptions.size.x ?  btnOptions.size.x : null,
-					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
-							}
-							else
-							{
-								$tempConstructor .= '
-				var btnOptions = {}, modalWidth = null, modalHeight = null;';
-							}
-
-							$tempConstructor .= "
-				editor.addButton(\"" . $name . "\", {
-					text: \"" . $title . "\",
-					title: \"" . $title . "\",
-					icon: \"" . $icon . "\",
-					onclick: function () {";
+							$tempConstructor .= "editor.addButton(\"" . $name . "\", {
+								text: \"" . $title . "\",
+								title: \"" . $title . "\",
+								icon: \"" . $icon . "\",
+								onclick: function () {";
 
 							if ($href || $button->get('modal'))
 							{
 								$tempConstructor .= "
-							var modalOptions = {
-								title  : \"" . $title . "\",
-								url : '" . $href . "',
-								buttons: [{
-									text   : \"Close\",
-									onclick: \"close\"
-								}]
-							}
-							if(modalWidth){
-								modalOptions.width = modalWidth;
-							}
-							if(modalHeight){
-								modalOptions.height = modalHeight;
-							}
-							editor.windowManager.open(modalOptions);";
+								var modalOptions = {
+									title  : \"" . $title . "\",
+									url : '" . $href . "',
+									buttons: [{
+										text   : \"Close\",
+										onclick: \"close\"
+									}]
+								}
+								modalOptions.width = parseInt(" . intval($options['width']) . ", 10);
+								modalOptions.height = parseInt(" . intval($options['height']) . ", 10);
+								editor.windowManager.open(modalOptions);";
 
 								if ($onclick && ($button->get('modal') || $href))
 								{
 									$tempConstructor .= "\r\n
-						" . $onclick . '
-							';
+										" . $onclick . '
+									';
 								}
 							}
 							else
 							{
 								$tempConstructor .= "\r\n
-						" . $onclick . '
-							';
+								" . $onclick . '
+								';
 							}
 
 							$tempConstructor .= '

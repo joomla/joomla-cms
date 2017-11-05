@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Joomla\CMS\Installation\Form\Field" addruleprefix="Joomla\CMS\Installation\Form\Rule">
+	<fieldset name="site">
+		<field
+				name="language"
+				type="installation.language"
+				id="language"
+				class="custom-select required ml-2"
+				label="INSTL_SELECT_LANGUAGE_TITLE"
+				default="en-GB"
+		/>
+
+		<field
+				name="site_name"
+				type="text"
+				id="site_name"
+				class="form-control"
+				label="INSTL_SITE_NAME_DESC"
+				required="true"
+		/>
+
+		<field
+				name="admin_email"
+				type="email"
+				id="admin_email"
+				class="form-control"
+				label="INSTL_ADMIN_EMAIL_DESC"
+				validate="email"
+				required="true"
+		/>
+
+		<field
+				name="admin_user"
+				type="text"
+				id="admin_user"
+				class="form-control"
+				label="INSTL_ADMIN_USER_DESC"
+				required="true"
+		/>
+
+		<field
+				name="admin_password"
+				type="password"
+				id="admin_password"
+				class="form-control"
+				label="INSTL_ADMIN_PASSWORD_DESC"
+				required="true"
+				autocomplete="off"
+		/>
+
+		<field
+				name="site_metadesc"
+				type="textarea"
+				id="site_metadesc"
+				class="form-control text_area noResize"
+				label="INSTL_SITE_METADESC_DESC"
+				rows="3"
+		/>
+
+		<field
+				name="site_offline"
+				type="radio"
+				id="site_offline"
+				class="btn-group"
+				default="0"
+				label="INSTL_SITE_OFFLINE_DESC"
+				filter="integer"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+				name="db_type"
+				type="databaseconnection"
+				id="db_type"
+				class="custom-select form-control"
+				label="INSTL_DATABASE_TYPE_DESC"
+				supported="mysqli,pdomysql,postgresql"
+				required="true"
+				default="mysqli"
+				filter="string"
+		/>
+		<field
+				name="db_host"
+				type="text"
+				id="db_host"
+				class="form-control"
+				label="INSTL_DATABASE_HOST_DESC"
+				default="localhost"
+				required="true"
+		/>
+		<field
+				name="db_user"
+				type="text"
+				id="db_user"
+				class="form-control"
+				label="INSTL_DATABASE_USER_DESC"
+				required="true"
+		/>
+		<field
+				name="db_pass"
+				type="password"
+				id="db_pass"
+				class="form-control"
+				label="INSTL_DATABASE_PASSWORD_DESC"
+				autocomplete="off"
+				filter="raw"
+		/>
+		<field
+				name="db_name"
+				type="text"
+				id="db_name"
+				class="form-control"
+				label="INSTL_DATABASE_NAME_DESC"
+				required="true"
+				default="joomla_db"
+		/>
+	</fieldset>
+
+	<!-- Advanced Settings -->
+	<fieldset name="advanced">
+		<field
+				name="db_prefix"
+				type="installation.prefix"
+				id="db_prefix"
+				class="form-control"
+				label="INSTL_DATABASE_PREFIX_DESC"
+				required="true"
+				validate="prefix"
+				message="INSTL_DATABASE_PREFIX_MSG"
+				autocomplete="off"
+		/>
+		<field
+				name="db_old"
+				type="hidden"
+				id="db_old"
+				default="backup"
+		/>
+	</fieldset>
+</form>

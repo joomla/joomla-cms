@@ -642,7 +642,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (484, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (485, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(510, 0, 'aurora', 'template', 'aurora', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -1771,7 +1771,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
 (10, 'atum', 1, '1', 'atum - Default', ''),
-(11, 'aurora', 0, '1', 'aurora - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
+(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 
 -- --------------------------------------------------------
 

@@ -72,7 +72,6 @@ JLoader::registerAlias('JTableModule',                      '\\Joomla\\CMS\\Tabl
 JLoader::registerAlias('JAccess',                           '\\Joomla\\CMS\\Access\\Access', '5.0');
 JLoader::registerAlias('JAccessRule',                       '\\Joomla\\CMS\\Access\\Rule', '5.0');
 JLoader::registerAlias('JAccessRules',                      '\\Joomla\\CMS\\Access\\Rules', '5.0');
-JLoader::registerAlias('JAccessWrapperAccess',              '\\Joomla\\CMS\\Access\\Wrapper\\Access', '4.0');
 JLoader::registerAlias('JAccessExceptionNotallowed',        '\\Joomla\\CMS\\Access\\Exception\\NotAllowed', '5.0');
 JLoader::registerAlias('JRule',                             '\\Joomla\\CMS\\Access\\Rule', '5.0');
 JLoader::registerAlias('JRules',                            '\\Joomla\\CMS\\Access\\Rules', '5.0');
@@ -244,8 +243,9 @@ JLoader::registerAlias('JInstallerTemplate',                '\\Joomla\\CMS\\Inst
 JLoader::registerAlias('JInstallerManifestLibrary',         '\\Joomla\\CMS\\Installer\\Manifest\\LibraryManifest', '5.0');
 JLoader::registerAlias('JInstallerManifestPackage',         '\\Joomla\\CMS\\Installer\\Manifest\\PackageManifest', '5.0');
 
-JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '5.0');
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '5.0');
+JLoader::registerAlias('JRoute',                            '\\Joomla\\CMS\\Router\\Route', '5.0');
+JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '5.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '5.0');
 
 JLoader::registerAlias('JCategories',                       '\\Joomla\\CMS\\Categories\\Categories', '5.0');
@@ -437,7 +437,6 @@ JLoader::registerAlias('JFactory',                          '\\Joomla\\CMS\\Fact
 
 JLoader::registerAlias('JMail',                             '\\Joomla\\CMS\\Mail\\Mail', '5.0');
 JLoader::registerAlias('JMailHelper',                       '\\Joomla\\CMS\\Mail\\MailHelper', '5.0');
-JLoader::registerAlias('JMailWrapperHelper',                '\\Joomla\\CMS\\Mail\\MailWrapper', '5.0');
 
 JLoader::registerAlias('JClientHelper',                     '\\Joomla\\CMS\\Client\\ClientHelper', '5.0');
 JLoader::registerAlias('JClientWrapperHelper',              '\\Joomla\\CMS\\Client\\ClientWrapper', '5.0');
