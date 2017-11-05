@@ -233,7 +233,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void
@@ -244,13 +244,13 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
 
 		// Check if the extension that owns the category is also enabled.
-		if (JComponentHelper::isEnabled($item->extension) == false)
+		if (JComponentHelper::isEnabled($item->extension) === false)
 		{
 			return;
 		}

@@ -13,7 +13,7 @@
 				label="COM_MENUS_ITEMS_CHOOSE_MENU_LABEL"
 				description="COM_MENUS_ITEMS_CHOOSE_MENU_DESC"
 				clientid=""
-			>
+				>
 				<option value="">COM_MENUS_SELECT_MENU</option>
 			</field>
 		</fields>

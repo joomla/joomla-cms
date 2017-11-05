@@ -69,13 +69,13 @@ if (is_numeric($value))
 }
 else
 {
-	$value = "";
+	$value = '';
 	$value = ($required && isset($min)) ? $min : $value;
 }
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 ?>
 <input type="number" name="<?php

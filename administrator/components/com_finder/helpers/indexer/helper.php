@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -433,7 +433,7 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  &$item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  &$item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *

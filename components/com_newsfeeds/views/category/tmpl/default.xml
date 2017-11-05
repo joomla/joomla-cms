@@ -47,6 +47,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -58,6 +59,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -69,6 +71,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -96,6 +99,7 @@
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -107,6 +111,7 @@
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -119,6 +124,7 @@
 				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 				id="show_cat_items"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -139,6 +145,7 @@
 				description="JGLOBAL_FILTER_FIELD_DESC"
 				default=""
 				useglobal="true"
+				class="chzn-color"				
 				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -150,6 +157,7 @@
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -162,6 +170,7 @@
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				id="show_headings"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -174,6 +183,7 @@
 				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
 				id="show_articles"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -186,6 +196,7 @@
 				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
 				id="show_link"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -197,6 +208,7 @@
 				label="JGLOBAL_PAGINATION_LABEL"
 				description="JGLOBAL_PAGINATION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -209,6 +221,7 @@
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -223,6 +236,7 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -234,6 +248,7 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -245,6 +260,7 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -252,7 +268,7 @@
 
 			<field 
 				name="feed_character_count" 
-				type="text"
+				type="number"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				size="6"

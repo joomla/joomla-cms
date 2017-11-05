@@ -82,7 +82,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<td class="has-context">
 							<a class="btn btn-small btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>

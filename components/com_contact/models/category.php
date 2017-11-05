@@ -93,13 +93,18 @@ class ContactModelCategory extends JModelList
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$item = & $items[$i];
+			$item = &$items[$i];
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);
 			}
-			$this->tags = new JHelperTags;
-			$this->tags->getItemTags('com_contact.contact', $item->id);
+
+			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+			if ($this->getState('load_tags', true))
+			{
+				$this->tags = new JHelperTags;
+				$this->tags->getItemTags('com_contact.contact', $item->id);
+			}
 		}
 
 		return $items;
@@ -248,7 +253,9 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.start', $limitstart);
 
 		// Optional filter text
-		$this->setState('list.filter', $app->input->getString('filter-search'));
+		$itemid = $app->input->get('Itemid', 0, 'int');
+		$search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
+		$this->setState('list.filter', $search);
 
 		// Get list ordering default from the parameters
 		$menuParams = new Registry;

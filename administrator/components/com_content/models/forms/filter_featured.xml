@@ -8,6 +8,7 @@
 			description="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
+
 		<field
 			name="published"
 			type="status"
@@ -17,34 +18,54 @@
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
+
 		<field
 			name="category_id"
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
-			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
+			multiple="true"
+			class="multipleCategories"
+			extension="com_content"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="level"
+			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
+
 		<field
 			name="access"
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
+			multiple="true"
+			class="multipleAccessLevels"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="author_id"
+			type="author"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			multiple="true"
+			class="multipleAuthors"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_ACCESS</option>
+			<option value="0">JNONE</option>
 		</field>
-		<field
-                	name="author_id"
-                	type="author"
-                	label="COM_CONTENT_FILTER_AUTHOR"
-                	description="COM_CONTENT_FILTER_AUTHOR_DESC"
-                	onchange="this.form.submit();"
-                	>
-        		<option value="">JOPTION_SELECT_AUTHOR</option>
-        	</field>
+
 		<field
 			name="language"
 			type="contentlanguage"
@@ -55,30 +76,19 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+
 		<field
 			name="tag"
 			type="tag"
-			mode="nested"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
+			multiple="true"
+			class="multipleTags"
+			mode="nested"
 			onchange="this.form.submit();"
-		>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
-        	<field
-                	name="level"
-                	type="integer"
-                	first="1"
-                	last="10"
-                	step="1"
-                	label="JOPTION_FILTER_LEVEL"
-                	languages="*"
-                	description="JOPTION_FILTER_LEVEL_DESC"
-                	onchange="this.form.submit();"
-                	>
-        		<option value="">JOPTION_SELECT_MAX_LEVELS</option>
-        	</field>
+		/>
 	</fields>
+
 	<fields name="list">
 		<field
 			name="fullordering"
@@ -118,13 +128,14 @@
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
-			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"
+			class="input-mini"
+			default="25"
 			onchange="this.form.submit();"
 		/>
 	</fields>

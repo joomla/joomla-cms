@@ -59,7 +59,7 @@ class ColorProcessor implements ProcessorInterface
 	 */
 	public function __construct($noColors = null)
 	{
-		if (is_null($noColors))
+		if ($noColors === null)
 		{
 			/*
 			 * By default windows cmd.exe and PowerShell does not support ANSI-colored output

@@ -63,7 +63,7 @@ if ($meter)
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
