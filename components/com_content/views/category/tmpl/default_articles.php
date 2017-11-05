@@ -40,6 +40,7 @@ JFactory::getDocument()->addStyleDeclaration('
 ');
 
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
+
 ?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>

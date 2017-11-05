@@ -37,8 +37,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 			</h1>
 		</div>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
-		<h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
+	<?php if ($this->params->get('show_category_title', 1) || $this->params->get('page_subheading')) : ?>
+		<h2> 
+			<?php echo $this->escape($this->params->get('page_subheading')); ?>
 			<?php if ($this->params->get('show_category_title')) : ?>
 				<span class="subheading-category"><?php echo $this->category->title; ?></span>
 			<?php endif; ?>
@@ -97,7 +98,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				<!-- end item -->
 				<?php $counter++; ?>
 			</div><!-- end span -->
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
+			<?php if ($rowcount == $this->columns || $counter == $introcount) : ?>
 				</div><!-- end row -->
 			<?php endif; ?>
 		<?php endforeach; ?>
@@ -124,6 +125,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
 			<?php endif; ?>
-			<?php echo $this->pagination->getPagesLinks(); ?> </div>
+			<?php echo $this->pagination->getPagesLinks(); ?>
+		</div>
 	<?php endif; ?>
 </div>

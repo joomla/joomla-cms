@@ -29,7 +29,7 @@ $groups = $user->getAuthorisedViewLevels();
 					<?php $class = ''; ?>
 					<?php if ($lang->isRtl()) : ?>
 						<h3 class="page-header item-title">
-							<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
+							<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
 								<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 									<?php echo $child->getNumItems(true); ?>
 								</span>
@@ -54,7 +54,9 @@ $groups = $user->getAuthorisedViewLevels();
 								</span>
 							<?php endif; ?>
 							<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-								<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES '); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+								<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES '); ?>">
+									<span class="icon-plus" aria-hidden="true"></span>
+								</a>
 							<?php endif; ?>
 						</h3>
 					<?php endif; ?>
