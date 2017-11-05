@@ -45,17 +45,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	protected $nameQuote = '`';
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->freeResult();
-		$this->connection = null;
-	}
-
-	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -116,6 +105,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public function disconnect()
 	{
 		$this->freeResult();
+
 		$this->connection = null;
 	}
 

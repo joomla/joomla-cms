@@ -25,7 +25,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-if ($task ==='edit' || $layout === 'form')
+if ($task === 'edit' || $layout === 'form')
 {
 	$fullWidth = 1;
 }
@@ -144,10 +144,11 @@ else
 								</ul>
 							</div>
 							<div class="span6">
-								<?php if (JModuleHelper::getModule('search')) : ?>
+								<?php if (JModuleHelper::getModule('mod_search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-									<?php echo $this->getBuffer('module', 'search'); ?>
+									<?php $module = JModuleHelper::getModule('mod_search'); ?>
+									<?php echo JModuleHelper::renderModule($module); ?>
 								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home" aria-hidden="true"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
@@ -157,6 +158,9 @@ else
 						<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 						<blockquote>
 							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+							<?php if ($this->debug) : ?>
+								<br/><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
+							<?php endif; ?>
 						</blockquote>
 						<?php if ($this->debug) : ?>
 							<div>
@@ -169,7 +173,10 @@ else
 									<?php $this->setError($this->_error->getPrevious()); ?>
 									<?php while ($loop === true) : ?>
 										<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-										<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+										<p>
+											<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+											<br/><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
+										</p>
 										<?php echo $this->renderBacktrace(); ?>
 										<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 									<?php endwhile; ?>

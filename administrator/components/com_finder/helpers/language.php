@@ -29,7 +29,7 @@ class FinderHelperLanguage
 	{
 		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
 
-		if ($return != '_')
+		if ($return !== '_')
 		{
 			return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
 		}
@@ -66,13 +66,14 @@ class FinderHelperLanguage
 	{
 		$title = $branchName;
 
-		if ($branchName == '*')
+		if ($branchName === '*')
 		{
 			$title = JText::_('JALL_LANGUAGE');
 		}
 		else
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
+
 			if (isset($languages[$branchName]))
 			{
 				$title = $languages[$branchName]->title;

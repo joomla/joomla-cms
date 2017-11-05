@@ -92,6 +92,7 @@ class InstallerModel extends JModelList
 				{
 					// Check if search string exists in any of the fields to be searched.
 					$found = 0;
+
 					foreach ($searchFields as $key => $field)
 					{
 						if (!$found && preg_match('/' . $escapedSearchString . '/i', $item->{$field}))

@@ -296,13 +296,6 @@ class InstallationModelSetup extends JModelBase
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for mcrypt support
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
-		$option->state  = is_callable('mcrypt_encrypt');
-		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
-		$options[] = $option;
-
 		// Check for configuration file writable.
 		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
 			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));

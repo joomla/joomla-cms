@@ -63,7 +63,6 @@
 					label="PLG_RECAPTCHA_THEME_LABEL"
 					description="PLG_RECAPTCHA_THEME_DESC"
 					default="clean"
-					required="false"
 					showon="version:1.0"
 					filter=""
 					>
@@ -79,7 +78,6 @@
 					label="PLG_RECAPTCHA_THEME_LABEL"
 					description="PLG_RECAPTCHA_THEME_DESC"
 					default="light"
-					required="false"
 					showon="version:2.0"
 					filter=""
 					>
@@ -93,7 +91,6 @@
 					label="PLG_RECAPTCHA_SIZE_LABEL"
 					description="PLG_RECAPTCHA_SIZE_DESC"
 					default="normal"
-					required="false"
 					showon="version:2.0"
 					filter=""
 					>

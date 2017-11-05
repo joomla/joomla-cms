@@ -25,6 +25,11 @@ JHtml::_('behavior.core');
 JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 JHtml::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
+JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
 JHtml::_('formbehavior.chosen', 'select');
 
 // Special case for the search field tooltip.

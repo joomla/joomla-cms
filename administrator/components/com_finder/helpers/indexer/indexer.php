@@ -91,6 +91,48 @@ abstract class FinderIndexer
 	public static $profiler;
 
 	/**
+	 * Database driver cache.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.8.0
+	 */
+	protected $db;
+
+	/**
+	 * Reusable Query Template. To be used with clone.
+	 *
+	 * @var    JDatabaseQuery
+	 * @since  3.8.0
+	 */
+	protected $addTokensToDbQueryTemplate;
+
+	/**
+	 * FinderIndexer constructor.
+	 *
+	 * @since  3.8.0
+	 */
+	public function __construct()
+	{
+		$this->db = JFactory::getDbo();
+
+		$db = $this->db;
+
+		// Set up query template for addTokensToDb
+		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
+			->columns(
+				array(
+					$db->quoteName('term'),
+					$db->quoteName('stem'),
+					$db->quoteName('common'),
+					$db->quoteName('phrase'),
+					$db->quoteName('weight'),
+					$db->quoteName('context'),
+					$db->quoteName('language')
+				)
+			);
+	}
+
+	/**
 	 * Returns a reference to the FinderIndexer object.
 	 *
 	 * @return  FinderIndexer instance based on the database driver
@@ -254,7 +296,49 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract public function remove($linkId);
+	public function remove($linkId)
+	{
+		$db    = $this->db;
+		$query = $db->getQuery(true);
+
+		// Update the link counts and remove the mapping records.
+		for ($i = 0; $i <= 15; $i++)
+		{
+			// Update the link counts for the terms.
+			$query->clear()
+				->update($db->quoteName('#__finder_terms', 't'))
+				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
+				->set('t.links = t.links - 1')
+				->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+			$db->setQuery($query)->execute();
+
+			// Remove all records from the mapping tables.
+			$query->clear()
+				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
+				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+			$db->setQuery($query)->execute();
+		}
+
+		// Delete all orphaned terms.
+		$query->clear()
+			->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('links') . ' <= 0');
+		$db->setQuery($query)->execute();
+
+		// Delete the link from the index.
+		$query->clear()
+			->delete($db->quoteName('#__finder_links'))
+			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
+
+		// Remove the taxonomy maps.
+		FinderIndexerTaxonomy::removeMaps($linkId);
+
+		// Remove the orphaned taxonomy nodes.
+		FinderIndexerTaxonomy::removeOrphanNodes();
+
+		return true;
+	}
 
 	/**
 	 * Method to optimize the index. We use this method to remove unused terms
@@ -340,7 +424,7 @@ abstract class FinderIndexer
 						$string = substr($buffer, 0, $ls);
 
 						// Adjust the buffer based on the last space for the next iteration and trim.
-						$buffer = JString::trim(substr($buffer, $ls));
+						$buffer = StringHelper::trim(substr($buffer, $ls));
 					}
 					// No space character was found.
 					else
@@ -420,11 +504,43 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract protected function addTokensToDb($tokens, $context = '');
+	protected function addTokensToDb($tokens, $context = '')
+	{
+		// Get the database object.
+		$db = $this->db;
+
+		$query = clone $this->addTokensToDbQueryTemplate;
+
+		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
+		$tokens = is_array($tokens) ? $tokens : array($tokens);
+
+		// Count the number of token values.
+		$values = 0;
+
+		// Iterate through the tokens to create SQL value sets.
+		foreach ($tokens as $token)
+		{
+			$query->values(
+				$db->quote($token->term) . ', '
+				. $db->quote($token->stem) . ', '
+				. (int) $token->common . ', '
+				. (int) $token->phrase . ', '
+				. (float) $token->weight . ', '
+				. (int) $context . ', '
+				. $db->quote($token->language)
+			);
+			++$values;
+		}
+
+		$db->setQuery($query)->execute();
+
+		return $values;
+	}
 
 	/**
-	 * Method to switch the token tables from Memory tables to MyISAM tables
+	 * Method to switch the token tables from Memory tables to Disk tables
 	 * when they are close to running out of memory.
+	 * Since this is not supported/implemented in all DB-drivers, the default is a stub method, which simply returns true.
 	 *
 	 * @param   boolean  $memory  Flag to control how they should be toggled.
 	 *
@@ -433,5 +549,8 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract protected function toggleTables($memory);
+	protected function toggleTables($memory)
+	{
+		return true;
+	}
 }

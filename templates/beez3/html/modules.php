@@ -47,7 +47,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 	class="no"><img src="templates/beez3/images/plus.png"
 	alt="<?php if ($state === 1) { echo JText::_('TPL_BEEZ3_ALTOPEN');} else {echo JText::_('TPL_BEEZ3_ALTCLOSE');} ?>" />
 </span></a></h<?php echo $headerLevel; ?>> <?php endif; ?>
-<div class="module_content <?php if ($state == 1){echo 'open';} ?>"
+<div class="module_content <?php if ($state === 1){echo 'open';} ?>"
 	id="module_<?php echo $module->id; ?>" tabindex="-1"><?php echo $module->content; ?></div>
 </div>
 	<?php }
@@ -72,7 +72,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$modules = array();
 	}
 
-	if ($modulecount == 1)
+	if ($modulecount === 1)
 	{
 		$temp = new stdClass;
 		$temp->content = $module->content;
@@ -97,7 +97,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 
 			echo '<div tabindex="-1" class="tabcontent tabopen" id="module_'.$rendermodule->id.'">';
 			echo $rendermodule->content;
-			if ($counter != count($modules))
+			if ($counter !== count($modules))
 			{
 			echo '<a href="#" class="unseen" onclick="nexttab(\'module_'. $rendermodule->id.'\');return false;" id="next_'.$rendermodule->id.'">'.JText::_('TPL_BEEZ3_NEXTTAB').'</a>';
 			}

@@ -38,7 +38,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					</label>
 					<div id="batch-choose-action" class="combo controls">
 						<select name="batch[category_id]" id="batch-category-id">
-							<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
+							<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 						</select>
 					</div>
@@ -55,4 +55,15 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
+	<div class="row-fluid">
+		<div class="span6">
+			<div class="control-group">
+				<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
+					<?php echo JText::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
+				</label>
+				<?php echo JHtml::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+			</div>
+		</div>
+	</div>
 </div>
+

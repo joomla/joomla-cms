@@ -38,6 +38,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function affix($selector = 'affix', $params = array())
 	{
@@ -500,6 +502,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.6
+	 *
+	 * @deprecated  4.0 No replacement, use Bootstrap tooltips.
 	 */
 	public static function tooltipExtended($extended = true)
 	{
@@ -535,6 +539,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function typeahead($selector = '.typeahead', $params = array())
 	{

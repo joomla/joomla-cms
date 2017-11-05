@@ -3,7 +3,7 @@
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
 		<field 
 			name="id" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC" 
 			class="readonly" 
@@ -226,7 +226,7 @@
 
 		<field 
 			name="hits" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_HITS"
 			description="COM_CONTENT_FIELD_HITS_DESC" 
 			class="readonly" 
@@ -1029,7 +1029,6 @@
 				type="textarea" 
 				label="JFIELD_META_RIGHTS_LABEL"
 				description="JFIELD_META_RIGHTS_DESC" 
-				required="false" 
 				filter="string"
 				cols="30" 
 				rows="2" 
