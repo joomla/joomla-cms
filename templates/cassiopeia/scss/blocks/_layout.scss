@@ -62,7 +62,7 @@ header {
 .container-component {
   flex: 1;
 
-  > div {
+  > div:not(#system-message-container) {
     margin-bottom: $cassiopeia-grid-gutter;
 
     &:last-of-type {

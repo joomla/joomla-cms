@@ -184,5 +184,15 @@
   bottom: -20px;
   left: 0;
   border-bottom: 20px solid #fafafa;
-
+  canvas {
+    display: block;
+    width: 100%;
+    visibility: hidden;
+  }
+  svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
 }

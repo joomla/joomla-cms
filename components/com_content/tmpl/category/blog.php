@@ -29,7 +29,7 @@ $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->ex
 $afterDisplayContent = trim(implode("\n", $results));
 
 ?>
-<div class="container-fluid blog<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Blog">
+<div class="blog<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -75,10 +75,12 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<?php
-					$this->item = & $item;
-					echo $this->loadTemplate('item');
-					?>
+					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
+						<?php
+						$this->item = & $item;
+						echo $this->loadTemplate('item');
+						?>
+					</div>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
@@ -95,10 +97,12 @@ $afterDisplayContent = trim(implode("\n", $results));
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 				<div class="blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<?php
-					$this->item = & $item;
-					echo $this->loadTemplate('item');
-					?>
+					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
+						<?php
+						$this->item = & $item;
+						echo $this->loadTemplate('item');
+						?>
+					</div>
 				</div>
 			<?php endforeach; ?>
 			</div>

@@ -1,25 +1,68 @@
 // Modifiers
 
 .blog-items {
-  display: grid;
-  grid-gap: 2rem;
-  grid-template-columns: 1fr;
-  grid-auto-flow: row;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -($cassiopeia-grid-gutter / 2);
+  margin-bottom: $cassiopeia-grid-gutter;
+  margin-left: -($cassiopeia-grid-gutter / 2);
+  padding: 0;
   &.columns-2 {
-    grid-template-columns: 1fr 1fr;
+    > div {
+      width: 50%;
+    }
   }
   &.columns-3 {
-    grid-template-columns: 1fr 1fr 1fr;
+    > div {
+      width: 33.33333%;
+    }
   }
   &.columns-4 {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    > div {
+      width: 25%;
+    }
   }
+}
+
+.blog-item {
+  padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
+}
+
+@supports (display: grid) {
+  .blog-items {
+    display: grid;
+    grid-gap: $cassiopeia-grid-gutter;
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    margin: 0 0 $cassiopeia-grid-gutter;
+    .blog-item {
+      padding: 0;
+    }
+    &[class^='columns-'], &[class*=' columns-'] {
+      > div {
+        flex: 0 1 auto;
+        width: auto;
+        max-width: none;
+      }
+    }
+    &.columns-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+    &.columns-3 {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    &.columns-4 {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+  }
+}
+
+.blog-items {
   &[class^='masonry-'], &[class*=' masonry-'] {
     display: block;
-    column-gap: 2rem;
+    column-gap: $cassiopeia-grid-gutter;
     .blog-item {
-      margin-bottom: 2rem;
+      margin-bottom: $cassiopeia-grid-gutter;
       page-break-inside: avoid;
       break-inside: avoid;
     }
@@ -35,10 +78,9 @@
   }
 }
 
-.blog-item {
+.blog-item-content {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   .boxed & {
     background-color: #fff;
     box-shadow: 0 0 2px rgba(52, 58, 67, 0.1), 0 2px 5px rgba(52, 58, 67, 0.08), 0 5px 15px rgba(52, 58, 67, 0.08), inset 0 3px 0 $cassiopeia-template-color;
@@ -52,6 +94,7 @@
   .item-image {
     margin-top: 3px;
     margin-bottom: 15px;
+    overflow: hidden;
     .boxed & {
       margin-bottom: 0;
     }
