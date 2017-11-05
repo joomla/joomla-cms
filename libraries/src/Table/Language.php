@@ -149,6 +149,6 @@ class Language extends Table
 			$assetId = $asset->id;
 		}
 
-		return $assetId === null ? parent::_getAssetParentId($table, $id) : $assetId;
+		return $assetId ?? parent::_getAssetParentId($table, $id);
 	}
 }

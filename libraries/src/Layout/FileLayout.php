@@ -421,7 +421,7 @@ class FileLayout extends BaseLayout
 	protected function validComponent($option = null)
 	{
 		// By default we will validate the active component
-		$component = ($option !== null) ? $option : $this->options->get('component', null);
+		$component = $option ?? $this->options->get('component', null);
 
 		// Valid option format
 		if (!empty($component) && substr_count($component, 'com_'))

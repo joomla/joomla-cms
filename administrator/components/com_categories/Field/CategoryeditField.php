@@ -58,7 +58,7 @@ class CategoryeditField extends \JFormFieldList
 
 		if ($return)
 		{
-			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+			$this->allowAdd = $this->element['allowAdd'] ?? '';
 		}
 
 		return $return;

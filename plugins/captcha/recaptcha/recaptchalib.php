@@ -137,7 +137,7 @@ class JReCaptcha
 		else
 		{
 			$recaptchaResponse->success = false;
-			$recaptchaResponse->errorCodes = isset($answers['error-codes']) ? $answers['error-codes'] : '';
+			$recaptchaResponse->errorCodes = $answers['error-codes'] ?? '';
 		}
 
 		return $recaptchaResponse;

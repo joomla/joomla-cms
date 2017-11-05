@@ -452,7 +452,7 @@ class Pagination
 	public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = array())
 	{
 		// Allow to receive a null layout
-		$layoutId = $layoutId === null ? 'joomla.pagination.links' : $layoutId;
+		$layoutId = $layoutId ?? 'joomla.pagination.links';
 
 		$list = array(
 			'prefix'       => $this->prefix,

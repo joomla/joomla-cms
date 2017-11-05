@@ -254,8 +254,8 @@ class CssMenu
 				continue;
 			}
 
-			$item->scope = isset($item->scope) ? $item->scope : 'default';
-			$item->icon  = isset($item->icon) ? $item->icon : '';
+			$item->scope = $item->scope ?? 'default';
+			$item->icon  = $item->icon ?? '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
 			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
@@ -269,7 +269,7 @@ class CssMenu
 			if ($item->element == 'com_categories')
 			{
 				parse_str($item->link, $query);
-				$assetName = isset($query['extension']) ? $query['extension'] : 'com_content';
+				$assetName = $query['extension'] ?? 'com_content';
 			}
 			elseif ($item->element == 'com_fields')
 			{

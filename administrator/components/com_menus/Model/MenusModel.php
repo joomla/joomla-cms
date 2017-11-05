@@ -143,9 +143,9 @@ class MenusModel extends ListModel
 		// Inject the values back into the array.
 		foreach ($items as $item)
 		{
-			$item->count_published   = isset($countPublished[$item->menutype]) ? $countPublished[$item->menutype] : 0;
-			$item->count_unpublished = isset($countUnpublished[$item->menutype]) ? $countUnpublished[$item->menutype] : 0;
-			$item->count_trashed     = isset($countTrashed[$item->menutype]) ? $countTrashed[$item->menutype] : 0;
+			$item->count_published   = $countPublished[$item->menutype] ?? 0;
+			$item->count_unpublished = $countUnpublished[$item->menutype] ?? 0;
+			$item->count_trashed     = $countTrashed[$item->menutype] ?? 0;
 		}
 
 		// Add the items to the internal cache.

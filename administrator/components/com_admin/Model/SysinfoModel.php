@@ -313,10 +313,10 @@ class SysInfoModel extends BaseModel
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
 			'phpversion'            => phpversion(),
-			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
+			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
 			'sapi_name'             => php_sapi_name(),
 			'version'               => (new Version)->getLongVersion(),
-			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
 
 		return $this->info;
