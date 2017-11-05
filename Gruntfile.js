@@ -461,7 +461,7 @@ module.exports = function(grunt) {
 					dest: '<%= folder.installTemplate %>/css',
 				}]
 			},
-			siteTemplate: {
+			admin: {
 				files: [{
 					expand: true,
 					matchBase: true,
