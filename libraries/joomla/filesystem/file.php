@@ -66,7 +66,7 @@ class JFile
 		$file = rtrim($file, '.');
 
 		// Allow uploading UTF-8 filenames in Linux
-		$unicode = strtoupper(PHP_OS === 'LINUX') ? 'u' : '';
+		$unicode = strtoupper(PHP_OS === 'LINUX') || version_compare(PHP_VERSION, '7.1', '>=') ? 'u' : '';
 
 		$regex = array('#(\.){2,}#', '#[^\w\.\- ]#' . $unicode, '#^\.#');
 
