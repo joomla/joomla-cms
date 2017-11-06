@@ -41,16 +41,16 @@ class ComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (isset(static::$components[$option]) || static::load($option))
+		$components = static::getComponents();
+
+		if (isset($components[$option]))
 		{
-			$result = static::$components[$option];
+			return $components[$option];
 		}
-		else
-		{
-			$result          = new ComponentRecord;
-			$result->enabled = $strict ? false : true;
-			$result->setParams(new Registry);
-		}
+
+		$result = new ComponentRecord;
+		$result->enabled = $strict ? false : true;
+		$result->setParams(new Registry);
 
 		return $result;
 	}
@@ -435,7 +435,7 @@ class ComponentHelper
 		}
 
 		// Core CMS will use '*' as a placeholder for required parameter in this method. In 4.0 this will not be passed at all.
-		if ($option === null || $option !== '*')
+		if (isset($option) && $option != '*')
 		{
 			// Log deprecated warning and display missing component warning only if using deprecated format.
 			try
