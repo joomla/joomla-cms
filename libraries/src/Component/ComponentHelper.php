@@ -435,7 +435,7 @@ class ComponentHelper
 		}
 
 		// Core CMS will use '*' as a placeholder for required parameter in this method. In 4.0 this will not be passed at all.
-		if (isset($option) && $option != '*')
+		if ($option === null || $option !== '*')
 		{
 			// Log deprecated warning and display missing component warning only if using deprecated format.
 			try
