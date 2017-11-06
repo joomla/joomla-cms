@@ -251,7 +251,6 @@
 
 	/** Method to close/hide the calendar */
 	JoomlaCalendar.prototype.close = function () {
-		document.activeElement.blur();
 		this.hide();
 	};
 
