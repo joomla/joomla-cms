@@ -167,7 +167,7 @@ class Input extends \Joomla\Input\Input
 			}
 			else
 			{
-				$filter = isset($defaultFilter) ? $defaultFilter : $v;
+				$filter = $defaultFilter ?? $v;
 
 				if (is_null($datasource))
 				{

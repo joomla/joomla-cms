@@ -1,20 +1,42 @@
 #media-form {
-	.control-group .control-label {
-		width: 160px;
-	}
-	.control-group .controls {
-	    margin-left: 160px;
-	}
+  .control-group .control-label {
+    width: 160px;
+  }
+  .control-group .controls {
+    margin-left: 0;
+  }
+  .control-group .control-label + .controls {
+    margin-left: 160px;
+  }
+  .input-group-addon {
+    font-size: .9rem;
+  }
 }
 
 .media-manager-edit {
-    > div {
-    	padding: 0 15px;
-    }
-    h3 {
-    	text-align: center;
-    	opacity: .6;
-    	padding: 3px;
-    }
+  > div {
+    padding: 0 15px;
+  }
+  h3 {
+    padding: 3px;
+    text-align: center;
+    opacity: .6;
+  }
 }
 
+.btn-group.btn-group-ratio {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  .btn {
+    width: 100%;
+    font-size: .9rem;
+    background-color: #fff;
+    border-color: rgba(0, 0, 0, .14);
+    &:hover, &.active, &:focus {
+      color: inherit;
+      background-color: #e9ecef;
+      box-shadow: none;
+    }
+  }
+}

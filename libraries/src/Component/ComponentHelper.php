@@ -428,7 +428,7 @@ class ComponentHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function dispatchComponent(DispatcherInterface $dispatcher)
+	protected static function dispatchComponent(DispatcherInterface $dispatcher): string
 	{
 		ob_start();
 		$dispatcher->dispatch();
@@ -544,7 +544,7 @@ class ComponentHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getComponentName($object, $alternativeName)
+	public static function getComponentName($object, string $alternativeName): string
 	{
 		$reflect = new \ReflectionClass($object);
 

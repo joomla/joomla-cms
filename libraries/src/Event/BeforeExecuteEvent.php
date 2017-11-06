@@ -26,7 +26,7 @@ class BeforeExecuteEvent extends AbstractImmutableEvent
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getApplication()
+	public function getApplication(): AbstractApplication
 	{
 		return $this->getArgument('subject');
 	}

@@ -41,7 +41,7 @@
 					default="5"
 				/>
 
-					<field
+				<field
 					name="show_front"
 					type="radio"
 					class="switcher"
@@ -101,7 +101,7 @@
 					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
-					/>
+				/>
 
 				<field
 					name="relative_date"

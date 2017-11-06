@@ -32,7 +32,7 @@ function modChrome_html5($module, &$params, &$attribs)
 	$headerClass    = !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
 
 	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
 
 		<?php if ((bool) $module->showtitle) :?>
 			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
@@ -50,7 +50,7 @@ function modChrome_html5($module, &$params, &$attribs)
  */
 function modChrome_table($module, &$params, &$attribs)
 { ?>
-	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+	<table cellpadding="0" cellspacing="0" class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 	<?php if ((bool) $module->showtitle) : ?>
 		<tr>
 			<th>
@@ -112,7 +112,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
  */
 function modChrome_rounded($module, &$params, &$attribs)
 { ?>
-		<div class="module<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+		<div class="module <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 			<div>
 				<div>
 					<div>

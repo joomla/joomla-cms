@@ -805,9 +805,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			perform: true
 		}, options);
 
-		// Use POST for send the data
-		options.method = options.data ? 'POST' : options.method.toUpperCase();
-
 		// Set up XMLHttpRequest instance
 		try{
 			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
