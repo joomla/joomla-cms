@@ -1475,11 +1475,6 @@ select:focus:invalid:focus {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-.input-append .active,
-.input-prepend .active {
-	background-color: #a9dba9;
-	border-color: #46a546;
-}
 .input-prepend .add-on,
 .input-prepend .btn {
 	margin-right: -1px;
@@ -1582,6 +1577,10 @@ input.search-query {
 	-webkit-border-radius: 14px 0 0 14px;
 	-moz-border-radius: 14px 0 0 14px;
 	border-radius: 14px 0 0 14px;
+}
+.js-stools-field-filter .input-prepend,
+.js-stools-field-filter .input-append {
+	margin-bottom: 0;
 }
 .form-search input,
 .form-search textarea,
