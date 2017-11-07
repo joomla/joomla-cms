@@ -8794,12 +8794,12 @@ header {
     grid-row-end: span 3; }
   .span-row-4 {
     grid-row-end: span 4; }
-  [class^='span-'] [class^='container-'], [class*=' container-'] [class^='span-'], [class*=' span-'] [class^='container-'], [class*=' container-'] [class*=' span-'] {
-    flex: 0 1 auto;
-    max-width: none; }
   @media (max-width: 991px) {
     [class^='span-'], [class*=' span-'] {
-      grid-row-end: auto; } } }
+      grid-row-end: auto; } }
+  [class^='container-'] [class^='span-'], [class^='container-'] [class*=' span-'], [class*=' container-'] [class^='span-'], [class*=' container-'] [class*=' span-'] {
+    flex: 0 1 auto;
+    max-width: none; } }
 
 .blog-items {
   display: flex;

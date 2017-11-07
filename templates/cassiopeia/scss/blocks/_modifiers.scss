@@ -36,12 +36,14 @@
     grid-row-end: span 4;
   }
   [class^='span-'], [class*=' span-'] {
-    [class^='container-'], [class*=' container-'] & {
-      flex: 0 1 auto;
-      max-width: none;
-    }
     @include media-breakpoint-down(md) {
       grid-row-end: auto;
+    }
+  }
+  [class^='container-'], [class*=' container-'] {
+    [class^='span-'], [class*=' span-'] {
+      flex: 0 1 auto;
+      max-width: none;
     }
   }
 }
