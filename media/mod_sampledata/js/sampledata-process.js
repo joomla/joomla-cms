@@ -85,8 +85,8 @@
 		}
 
 		// Turn on the progress container
-		$('.sampledata-progress-' + type).show();
-		$el.data('processed', true)
+		$('.sampledata-progress-' + type).removeClass('d-none');
+		$el.data('processed', true);
 
 		inProgress = true;
 		sampledataAjax(type, steps, 1);

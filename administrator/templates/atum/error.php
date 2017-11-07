@@ -30,7 +30,7 @@ $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Alerts
-JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+JHtml::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -75,7 +75,7 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
 			<div id="main-brand" class="main-brand align-items-center">
 				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename;?>">
+					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
 				</a>
 			</div>
 			<?php // Display menu modules ?>
@@ -126,7 +126,7 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 							<?php
 								try
 								{
-									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(['ignore_request' => true]);
+									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
 									$messages      = $messagesModel->getItems();
 								}
 								catch (RuntimeException $e)
@@ -199,7 +199,7 @@ JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['rel
 						<jdoc:include type="message" />
 						<h1><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<blockquote class="blockquote">
-							<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+							<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 						</blockquote>
 						<?php if ($this->debug) : ?>
 							<div>

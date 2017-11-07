@@ -42,7 +42,7 @@ class CssMenu
 	 *
 	 * @var   Registry
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $params;
 
@@ -51,7 +51,7 @@ class CssMenu
 	 *
 	 * @var   bool
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $enabled;
 
@@ -255,6 +255,7 @@ class CssMenu
 			}
 
 			$item->scope = isset($item->scope) ? $item->scope : 'default';
+			$item->icon  = isset($item->icon) ? $item->icon : '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
 			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
@@ -263,7 +264,20 @@ class CssMenu
 			}
 
 			// Exclude item if the component is not authorised
-			if ($item->element && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $item->element))
+			$assetName = $item->element;
+
+			if ($item->element == 'com_categories')
+			{
+				parse_str($item->link, $query);
+				$assetName = isset($query['extension']) ? $query['extension'] : 'com_content';
+			}
+			elseif ($item->element == 'com_fields')
+			{
+				parse_str($item->link, $query);
+				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+			}
+
+			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
 				continue;
 			}
@@ -358,7 +372,7 @@ class CssMenu
 			elseif ($item->type == 'heading')
 			{
 				// We already excluded heading type menu item with no children.
-				$this->tree->addChild(new Node\Heading($item->title, $class), $this->enabled);
+				$this->tree->addChild(new Node\Heading($item->title, $class, null, $item->icon), $this->enabled);
 
 				if ($this->enabled)
 				{
@@ -368,7 +382,7 @@ class CssMenu
 			}
 			elseif ($item->type == 'url')
 			{
-				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class);
+				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
 
 				if ($this->enabled)
@@ -379,7 +393,7 @@ class CssMenu
 			}
 			elseif ($item->type == 'component')
 			{
-				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class);
+				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
 
 				if ($this->enabled)
@@ -391,7 +405,7 @@ class CssMenu
 			elseif ($item->type == 'container')
 			{
 				// We already excluded container type menu item with no children.
-				$this->tree->addChild(new Node\Container($item->title, $item->class), $this->enabled);
+				$this->tree->addChild(new Node\Container($item->title, $item->class, null, $item->icon), $this->enabled);
 
 				if ($this->enabled)
 				{

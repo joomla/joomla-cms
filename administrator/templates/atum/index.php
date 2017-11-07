@@ -46,7 +46,7 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Alerts
-JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+JHtml::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -110,7 +110,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div class="container-fluid container-main">
 			<?php if (!$cpanel) : ?>
 				<?php // Subheader ?>
-				<a class="btn btn-subhead hidden-md-up" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
+				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
 				<div class="subhead-collapse" data-scroll="<?php echo $hidden; ?>">
 					<div id="subhead" class="subhead">

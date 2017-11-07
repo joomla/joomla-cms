@@ -132,7 +132,7 @@ class UCMContent extends UCMBase
 	 */
 	public function mapData($original, UCMType $type = null)
 	{
-		$contentType = isset($type) ? $type : $this->type;
+		$contentType = $type ?: $this->type;
 
 		$fields = json_decode($contentType->type->field_mappings);
 

@@ -189,6 +189,7 @@
       cm.state.closeBrackets = null;
     }
     if (val) {
+      ensureBound(getOption(val, "pairs"))
       cm.state.closeBrackets = val;
       cm.addKeyMap(keyMap);
     }
@@ -200,10 +201,14 @@
     return defaults[name];
   }
 
-  var bind = defaults.pairs + "`";
   var keyMap = {Backspace: handleBackspace, Enter: handleEnter};
-  for (var i = 0; i < bind.length; i++)
-    keyMap["'" + bind.charAt(i) + "'"] = handler(bind.charAt(i));
+  function ensureBound(chars) {
+    for (var i = 0; i < chars.length; i++) {
+      var ch = chars.charAt(i), key = "'" + ch + "'"
+      if (!keyMap[key]) keyMap[key] = handler(ch)
+    }
+  }
+  ensureBound(defaults.pairs + "`")
 
   function handler(ch) {
     return function(cm) { return handleChar(cm, ch); };
@@ -245,7 +250,8 @@
       if (!around || explode.indexOf(around) % 2 != 0) return CodeMirror.Pass;
     }
     cm.operation(function() {
-      cm.replaceSelection("\n\n", null);
+      var linesep = cm.lineSeparator() || "\n";
+      cm.replaceSelection(linesep + linesep, null);
       cm.execCommand("goCharLeft");
       ranges = cm.listSelections();
       for (var i = 0; i < ranges.length; i++) {
@@ -2006,18 +2012,65 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     function detachVimMap(cm, next) {
-      if (this == CodeMirror.keyMap.vim)
+      if (this == CodeMirror.keyMap.vim) {
         CodeMirror.rmClass(cm.getWrapperElement(), "cm-fat-cursor");
+        if (cm.getOption("inputStyle") == "contenteditable" && document.body.style.caretColor != null) {
+          disableFatCursorMark(cm);
+          cm.getInputField().style.caretColor = "";
+        }
+      }
 
       if (!next || next.attach != attachVimMap)
         leaveVimMode(cm);
     }
     function attachVimMap(cm, prev) {
-      if (this == CodeMirror.keyMap.vim)
+      if (this == CodeMirror.keyMap.vim) {
         CodeMirror.addClass(cm.getWrapperElement(), "cm-fat-cursor");
+        if (cm.getOption("inputStyle") == "contenteditable" && document.body.style.caretColor != null) {
+          enableFatCursorMark(cm);
+          cm.getInputField().style.caretColor = "transparent";
+        }
+      }
 
       if (!prev || prev.attach != attachVimMap)
         enterVimMode(cm);
+    }
+
+    function fatCursorMarks(cm) {
+      var ranges = cm.listSelections(), result = []
+      for (var i = 0; i < ranges.length; i++) {
+        var range = ranges[i]
+        if (range.empty()) {
+          if (range.anchor.ch < cm.getLine(range.anchor.line).length) {
+            result.push(cm.markText(range.anchor, Pos(range.anchor.line, range.anchor.ch + 1),
+                                    {className: "cm-fat-cursor-mark"}))
+          } else {
+            var widget = document.createElement("span")
+            widget.textContent = "\u00a0"
+            widget.className = "cm-fat-cursor-mark"
+            result.push(cm.setBookmark(range.anchor, {widget: widget}))
+          }
+        }
+      }
+      return result
+    }
+
+    function updateFatCursorMark(cm) {
+      var marks = cm.state.fatCursorMarks
+      if (marks) for (var i = 0; i < marks.length; i++) marks[i].clear()
+      cm.state.fatCursorMarks = fatCursorMarks(cm)
+    }
+
+    function enableFatCursorMark(cm) {
+      cm.state.fatCursorMarks = fatCursorMarks(cm)
+      cm.on("cursorActivity", updateFatCursorMark)
+    }
+
+    function disableFatCursorMark(cm) {
+      var marks = cm.state.fatCursorMarks
+      if (marks) for (var i = 0; i < marks.length; i++) marks[i].clear()
+      cm.state.fatCursorMarks = null
+      cm.off("cursorActivity", updateFatCursorMark)
     }
 
     // Deprecated, simply setting the keymap works again.
@@ -3785,7 +3838,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         vimGlobalState.registerController.pushText(
             args.registerName, 'delete', text,
             args.linewise, vim.visualBlock);
-        return clipCursorToContent(cm, finalHead);
+        var includeLineBreak = vim.insertMode
+        return clipCursorToContent(cm, finalHead, includeLineBreak);
       },
       indent: function(cm, args, ranges) {
         var vim = cm.state.vim;
@@ -4995,7 +5049,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       return cur;
     }
 
-    /**
+    /*
      * Returns the boundaries of the next word. If the cursor in the middle of
      * the word, then returns the boundaries of the current word, starting at
      * the cursor. If the cursor is at the start/end of a word, and we are going
@@ -5729,6 +5783,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var history = cm.doc.history.done;
         var event = history[history.length - 2];
         return event && event.ranges && event.ranges[0].head;
+      } else if (markName == '.') {
+        if (cm.doc.history.lastModTime == 0) {
+          return  // If no changes, bail out; don't bother to copy or reverse history array.
+        } else {
+          var changeHistory = cm.doc.history.done.filter(function(el){ if (el.changes !== undefined) { return el } });
+          changeHistory.reverse();
+          var lastEditPos = changeHistory[0].changes[0].to;
+        }
+        return lastEditPos;
       }
 
       var mark = vim.marks[markName];
@@ -6539,7 +6602,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       // so as to update the ". register as expected in real vim.
       var text = [];
       if (!isPlaying) {
-        var selLength = lastChange.inVisualBlock ? vim.lastSelection.visualBlock.height : 1;
+        var selLength = lastChange.inVisualBlock && vim.lastSelection ?
+            vim.lastSelection.visualBlock.height : 1;
         var changes = lastChange.changes;
         var text = [];
         var i = 0;

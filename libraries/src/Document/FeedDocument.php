@@ -231,7 +231,7 @@ class FeedDocument extends Document
 	}
 
 	/**
-	 * Adds an FeedItem to the feed.
+	 * Adds a FeedItem to the feed.
 	 *
 	 * @param   FeedItem  $item  The feeditem to add to the feed.
 	 *

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Encrypt\Totp;
+
 /**
  * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
  *
@@ -89,7 +91,7 @@ class PlgTwofactorauthTotp extends JPlugin
 	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
 	{
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		if ($otpConfig->method === $this->methodName)
 		{
@@ -177,7 +179,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		// Check the security code entered by the user (exact time slot match)
 		$code = $totp->getCode($data['key']);
@@ -259,7 +261,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		// Check the code
 		$code = $totp->getCode($otpConfig->config['code']);

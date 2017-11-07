@@ -48,6 +48,7 @@ extract($displayData);
 if (!$readonly)
 {
 	JHtml::_('behavior.modal', 'a.modal_' . $id);
+	JHtml::_('jquery.framework');
 	JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
 }
 

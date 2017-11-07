@@ -535,7 +535,7 @@ abstract class InstallerAdapter
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
-	abstract protected function finaliseUninstall();
+	abstract protected function finaliseUninstall(): bool;
 
 	/**
 	 * Checks if the adapter supports discover_install
@@ -989,7 +989,7 @@ abstract class InstallerAdapter
 	 */
 	protected function setupScriptfile()
 	{
-		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		// If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)

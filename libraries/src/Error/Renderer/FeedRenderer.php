@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
+defined('JPATH_PLATFORM') or die;
+
 /**
  * RSS/Atom feed error page renderer
  *

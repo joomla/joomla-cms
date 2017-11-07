@@ -66,10 +66,13 @@ class PlgButtonImage extends JPlugin
 			$button->text    = JText::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name    = 'pictures';
 			$button->options = array(
-				'height'     => '300px',
+				'height'     => '400px',
 				'width'      => '800px',
 				'bodyHeight' => '70',
 				'modalWidth' => '80',
+				'tinyPath'   => $link,
+				'confirmCallback' => 'Joomla.getImage(Joomla.selectedFile, \'' . $name . '\')',
+				'confirmText' => 'insert image' // Needs to be translated
 			);
 
 			return $button;

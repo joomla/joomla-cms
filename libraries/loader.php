@@ -305,7 +305,7 @@ abstract class JLoader
 	public static function register($class, $path, $force = true)
 	{
 		// When an alias exists, register it as well
-		if (key_exists($class, self::$classAliases))
+		if (array_key_exists($class, self::$classAliases))
 		{
 			self::register(self::stripFirstBackslash(self::$classAliases[$class]), $path, $force);
 		}
@@ -568,7 +568,7 @@ abstract class JLoader
 		}
 
 		// Check if it is an extension class
-		if (!key_exists($key, self::$extensionRootFolders))
+		if (!array_key_exists($key, self::$extensionRootFolders))
 		{
 			return false;
 		}
@@ -658,7 +658,7 @@ abstract class JLoader
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . str_replace($nsPath, '', $classPath);
+					$classFilePath = $path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1);
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -885,7 +885,7 @@ abstract class JLoader
 	 */
 	private static function loadAliasFor($class)
 	{
-		if (!key_exists($class, self::$classAliasesInverse))
+		if (!array_key_exists($class, self::$classAliasesInverse))
 		{
 			return;
 		}

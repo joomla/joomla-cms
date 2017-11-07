@@ -159,11 +159,28 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
+
 				<field
 					name="bloglayout"
 					type="spacer"
 					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
 					class="text"
+				/>
+
+				<field
+					name="blog_class_leading"
+					type="text"
+					label="JGLOBAL_BLOG_CLASS_LEADING"
+					useglobal="true"
+					size="3"
+				/>
+
+				<field
+					name="blog_class"
+					type="text"
+					label="JGLOBAL_BLOG_CLASS"
+					useglobal="true"
+					size="3"
 				/>
 
 				<field
@@ -183,30 +200,12 @@
 				/>
 
 				<field
-					name="num_columns"
-					type="text"
-					label="JGLOBAL_NUM_COLUMNS_LABEL"
-					useglobal="true"
-					size="3"
-				/>
-
-				<field
 					name="num_links"
 					type="text"
 					label="JGLOBAL_NUM_LINKS_LABEL"
 					useglobal="true"
 					size="3"
 				/>
-
-				<field
-					name="multi_column_order"
-					type="list"
-					label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-					useglobal="true"
-					>
-					<option value="0">JGLOBAL_DOWN</option>
-					<option value="1">JGLOBAL_ACROSS</option>
-				</field>
 
 				<field
 					name="show_subcategory_content"
@@ -312,6 +311,16 @@
 		</fieldset>
 
 		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
+			<field
+				name="article_layout" type="componentlayout"
+				label="JGLOBAL_FIELD_LAYOUT_LABEL"
+				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				menuitems="true"
+				extension="com_content"
+				view="article"
+			/>
+
 			<field
 				name="show_title"
 				type="list"

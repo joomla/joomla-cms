@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
 			<div class="col-md-12">
-				<div class="alert alert-info"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></div>
+				<div class="alert alert-info"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></div>
 			</div>
 		</li>
 	<?php endif; ?>

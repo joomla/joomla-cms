@@ -147,7 +147,7 @@ class CategoryeditField extends \JFormFieldList
 		$user = \JFactory::getUser();
 
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft')
+			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
 			->from('#__categories AS a');
 
 		// Filter by the extension type
@@ -234,16 +234,6 @@ class CategoryeditField extends \JFormFieldList
 				}
 			}
 
-			// Displays language code if not set to All
-			$db = \JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('language'))
-				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
-				->from($db->quoteName('#__categories'));
-
-			$db->setQuery($query);
-			$language = $db->loadResult();
-
 			if ($options[$i]->level != 0)
 			{
 				$options[$i]->level = $options[$i]->level -1;
@@ -258,9 +248,10 @@ class CategoryeditField extends \JFormFieldList
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
 			}
 
-			if ($language !== '*')
+			// Displays language code if not set to All
+			if ($options[$i]->language !== '*')
 			{
-				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
+				$options[$i]->text = $options[$i]->text . ' (' . $options[$i]->language . ')';
 			}
 		}
 

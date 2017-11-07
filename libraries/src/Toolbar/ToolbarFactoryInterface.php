@@ -28,7 +28,7 @@ interface ToolbarFactoryInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createButton(Toolbar $toolbar, $type);
+	public function createButton(Toolbar $toolbar, string $type): ToolbarButton;
 
 	/**
 	 * Creates a new Toolbar object.
@@ -39,5 +39,5 @@ interface ToolbarFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createToolbar($name = 'toolbar');
+	public function createToolbar(string $name = 'toolbar'): Toolbar;
 }

@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Error\AbstractRenderer;
 
 /**
@@ -28,13 +30,13 @@ class CliRenderer extends AbstractRenderer
 	/**
 	 * Render the error for the given object.
 	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
+	 * @param   \Throwable  $error  The error object to be rendered
 	 *
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function doRender($error)
+	public function render(\Throwable $error): string
 	{
 		$buffer = PHP_EOL . 'Error occurred: ' . $error->getMessage() . PHP_EOL . $this->getTrace($error);
 
@@ -49,13 +51,13 @@ class CliRenderer extends AbstractRenderer
 	/**
 	 * Returns a trace for the given error.
 	 *
-	 * @param   \Throwable|\Exception  $error  The error
+	 * @param   \Throwable  $error  The error
 	 *
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getTrace($error)
+	private function getTrace(\Throwable $error): string
 	{
 		// Include the stack trace only if in debug mode
 		if (!JDEBUG)

@@ -1,0 +1,75 @@
+//
+// Variables
+//
+
+// Color system
+$blue:    #006898;
+$purple:  #6f42c1;
+$pink:    #e83e8c;
+$red:     #d9534f;
+$orange:  #fd7e14;
+$yellow:  #f0ad4e;
+$green:   #438243;
+$teal:    #20c997;
+
+$colors: (
+        blue: $blue,
+        indigo: $indigo,
+        purple: $purple,
+        pink: $pink,
+        red: $red,
+        orange: $orange,
+        yellow: $yellow,
+        green: $green,
+        teal: $teal,
+        cyan: $cyan,
+        white: $white,
+        gray: $gray-600,
+        gray-dark: $gray-800
+);
+
+$theme-colors: (
+        primary: $blue,
+        secondary: $gray-600,
+        success: $green,
+        info: $cyan,
+        warning: $yellow,
+        danger: $red,
+        light: $gray-100,
+        dark: $gray-800
+);
+
+
+// Alerts
+$alert-padding-y:                 .5rem;
+
+// Tabs
+$tab-border-radius:               .25rem;
+
+$tab-ul-bg:                       #f5f5f5;
+$tab-ul-border-color:             $gray-400 $gray-400 currentcolor;
+$tab-ul-border-width:             1px 1px 0;
+$tab-ul-border-radius:            $tab-border-radius $tab-border-radius 0 0;
+$tab-ul-box-shadow:               0 1px $white inset, 0 2px 3px -3px rgba(0, 0, 0, .15), 0 -4px 0 rgba(0, 0, 0, .05) inset, 0 0 3px rgba(0, 0, 0, .04);
+
+$tab-link-padding:                .75rem 1rem;
+$tab-link-colour:                 $gray-800;
+$tab-link-box-shadow:             1px 0 0 rgba(0, 0, 0, .05);
+
+$tab-link-width-active:           5px;
+$tab-link-bg-colour-active:       rgba(0, 0, 0, .03);
+$tab-link-bg-image-active:        linear-gradient(to bottom, transparent, rgba(0, 0, 0, .05) 100%);
+$tab-link-box-shadow-active:      2px 0 1px -1px rgba(0, 0, 0, .08) inset, -2px 0 1px -1px rgba(0, 0, 0, .08) inset, 0 1px 0 rgba(0, 0, 0, .02) inset;
+
+$tab-content-padding:             15px;
+$tab-content-bg:                  #fefefe;
+$tab-content-border:              1px solid $gray-400;
+$tab-content-border-radius:       0 0 $tab-border-radius $tab-border-radius;
+$tab-content-box-shadow:          0 0 3px rgba(0, 0, 0, .04);
+
+$tab-accordion-ul-border-radius:  $tab-border-radius;
+$tab-accordion-ul-box-shadow:     0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
+
+$tab-accordion-link-border:       1px solid #ddd;
+
+$tab-vertical-ul-border:          1px solid #ccc;

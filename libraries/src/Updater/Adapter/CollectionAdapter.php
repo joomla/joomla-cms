@@ -172,7 +172,7 @@ class CollectionAdapter extends UpdateAdapter
 				// Set this to ourself as a default
 				if (!isset($values['targetplatformversion']))
 				{
-					$values['targetplatformversion'] = $ver::RELEASE;
+					$values['targetplatformversion'] = $ver::MAJOR_VERSION . '.' . $ver::MINOR_VERSION;
 				}
 
 				// Set this to ourselves as a default

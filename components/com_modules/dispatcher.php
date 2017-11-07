@@ -69,7 +69,7 @@ class ModulesDispatcher extends Dispatcher
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  \Joomla\CMS\Controller\Controller
+	 * @return  \Joomla\CMS\MVC\Controller\BaseController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

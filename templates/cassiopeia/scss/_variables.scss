@@ -1,0 +1,153 @@
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+// Global
+$cassiopeia-template-color-dark:     #112856 !default;
+$cassiopeia-template-color:          #434178 !default;
+$cassiopeia-container-main-bg:       #f2f2f2 !default;
+$cassiopeia-border-color:            #ccc !default;
+$cassiopeia-box-shadow:              0 0 3px rgba(0,0,0,.04) !default;
+$cassiopeia-block-header-bg:         #f5f5f5 !default;
+$white-offset:                       #fefefe;
+$grey:                               #aaa; // REMMOVE THIS AFTER
+$cassiopeia-header-grad:             linear-gradient(135deg, $cassiopeia-template-color-dark 0%, $cassiopeia-template-color 100%);
+
+$white:                              #fff;
+$gray-100:                           #f8f9fa;
+$gray-200:                           #e9ecef;
+$gray-300:                           #dee2e6;
+$gray-400:                           #ced4da;
+$gray-500:                           #adb5bd;
+$gray-600:                           #868e96;
+$gray-700:                           #495057;
+$gray-800:                           #343a40;
+$gray-900:                           #212529;
+$black:                              #000;
+
+$grays: (
+  100: $gray-100,
+  200: $gray-200,
+  300: $gray-300,
+  400: $gray-400,
+  500: $gray-500,
+  600: $gray-600,
+  700: $gray-700,
+  800: $gray-800,
+  900: $gray-900
+);
+
+$blue:                               #006898;
+$indigo:                             #6610f2;
+$purple:                             #6f42c1;
+$pink:                               #e83e8c;
+$red:                                #d9534f;
+$orange:                             #fd7e14;
+$yellow:                             #f0ad4e;
+$green:                              #438243;
+$teal:                               #5bc0de;
+$cyan:                               #17a2b8;
+
+$colors: (
+  blue: $blue,
+  indigo: $indigo,
+  purple: $purple,
+  pink: $pink,
+  red: $red,
+  orange: $orange,
+  yellow: $yellow,
+  green: $green,
+  teal: $teal,
+  cyan: $cyan,
+  white: $white,
+  gray: $gray-600,
+  gray-dark: $gray-800
+);
+
+$theme-colors: (
+  primary: $blue,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-800
+);
+
+// Toolbar
+$cassiopeia-toolbar-line-height:         1.8rem;
+
+// Fonts
+$font-family-base:                   'Fira Sans', Arial, sans-serif;
+$cassiopeia-inverted-text-color:     $cassiopeia-template-color;
+$font-size-root:                     14px;
+$h1-font-size:                       1.857rem;
+$h2-font-size:                       1.571rem;
+$h3-font-size:                       1.286rem;
+$h4-font-size:                       1rem;
+$h5-font-size:                       .9286rem;
+$h6-font-size:                       .8571rem;
+$font-size-sm:                       .8rem;
+$fa-font-path:                       "../../../media/vendor/font-awesome/fonts";
+
+// Border Radius
+$border-radius:               .25rem !default;
+$border-radius-lg:            .3rem !default;
+$border-radius-sm:            .2rem !default;
+
+// Tables
+$table-bg:                           transparent !default;
+$table-bg-accent:                    rgba(0,0,0,.03) !default;
+
+// Tabs
+$cassiopeia-tabs-header-bg:              $cassiopeia-block-header-bg;
+$cassiopeia-tabs-active-bg:              rgba(0,0,0,.03);
+$cassiopeia-tabs-active-highlight:       theme-color("primary");
+
+// Cards
+$cassiopeia-card-title-bg:               $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg:          $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg-hover:    darken($cassiopeia-card-title-bg, 2%);
+$card-bg-color-light:                #f8f8f8;
+$card-bg-color-dark:                 $cassiopeia-template-color;
+$card-border-color:                  $cassiopeia-border-color;
+
+// Alerts
+$state-success-text:                 $white !default;
+$state-success-bg:                   theme-color("success") !default;
+$state-success-border:               darken(theme-color("success"), 5%) !default;
+
+$state-info-text:                    $white !default;
+$state-info-bg:                      theme-color("info") !default;
+$state-info-border:                  darken(theme-color("info"), 7%) !default;
+
+$state-warning-text:                 $white !default;
+$state-warning-bg:                   theme-color("warning") !default;
+$state-warning-border:               darken(theme-color("warning"), 5%) !default;
+
+$state-danger-text:                  $white !default;
+$state-danger-bg:                    theme-color("danger") !default;
+$state-danger-border:                darken(theme-color("danger"), 5%) !default;
+
+// Switchers
+$switcher-color-success:             rgb(100,189,99);
+$switcher-color-danger:              rgb(188,101,100);
+$switcher-color-primary:             rgb(100,143,186);
+
+// Treeselect
+$treeselect-line-height:             2.2rem;
+
+// List
+$list-group-bg:                      $white-offset;
+
+// Custom form
+$custom-select-bg:                   $white-offset;
+
+// Modals
+$modal-header-height:                46px;
+
+// Badges
+$badge-default-bg:                   #5e7082;
+
+// Gutter
+$grid-gutter-width:                  15px !default;
+$cassiopeia-grid-gutter:             $grid-gutter-width;

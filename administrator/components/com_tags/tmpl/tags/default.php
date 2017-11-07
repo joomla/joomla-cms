@@ -230,7 +230,7 @@ if ($saveOrder)
 								<a class="badge <?php echo $item->count_trashed > 0 ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
-						<?php endif;?>
+						<?php endif; ?>
 						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_title); ?>
 						</td>

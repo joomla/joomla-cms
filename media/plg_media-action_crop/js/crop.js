@@ -58,16 +58,15 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 				document.getElementById('jform_crop_width').value = e.detail.width;
 				document.getElementById('jform_crop_height').value = e.detail.height;
 
-				var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+				var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
+
+				var quality = document.getElementById('jform_crop_quality').value;
 
 				// Update the store
-				Joomla.MediaManager.Edit.current.contents = Joomla.cropperCrop.getCroppedCanvas().toDataURL("image/" + format, 1.0);
+				Joomla.MediaManager.Edit.current.contents = Joomla.cropperCrop.getCroppedCanvas().toDataURL("image/" + format, quality);
 
 				// Notify the app that a change has been made
 				window.dispatchEvent(new Event('mediaManager.history.point'));
-
-				// Make sure that the plugin didn't remove the preview
-				document.getElementById('image-preview').src = Joomla.MediaManager.Edit.current.contents;
 			}
 		});
 
