@@ -164,6 +164,7 @@
 			element="com_users"
 			link="index.php?option=com_users&amp;view=mail"
 			class="class:massmail"
+			scope="massmail"
 		/>
 	</menuitem>
 	<menuitem

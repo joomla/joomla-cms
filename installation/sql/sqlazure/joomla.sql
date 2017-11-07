@@ -540,6 +540,11 @@ CREATE NONCLUSTERED INDEX "idx_xreference" ON "#__content"
   "xreference" ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
+CREATE NONCLUSTERED INDEX "idx_alias" ON "#__content"
+(
+  "alias" ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
 --
 -- Table structure for table `#__content_frontpage`
 --

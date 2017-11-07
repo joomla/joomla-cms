@@ -74,7 +74,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.1
 	 */
 	private function prepare($string, $context, $item)
 	{
