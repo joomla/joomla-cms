@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 	<ul>
 	<?php foreach ($list as $item) : ?>
 	<li>
-		<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->tag_id . '-' . $item->alias)); ?>">
+		<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->tag_id . ':' . $item->alias)); ?>">
 			<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?></a>
 		<?php if ($display_count) : ?>
 			<span class="tag-count badge badge-info"><?php echo $item->count; ?></span>

@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			id="id"
@@ -87,7 +87,7 @@
 
 		<field
 			name="hits"
-			type="text"
+			type="number"
 			label="JGLOBAL_HITS"
 			id="hits"
 			class="readonly"

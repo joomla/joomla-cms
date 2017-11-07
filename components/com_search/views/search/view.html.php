@@ -157,6 +157,9 @@ class SearchViewSearch extends JViewLegacy
 
 			JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
+			// Make sure there are no slashes in the needle
+			$needle = str_replace('/', '\/', $needle);
+
 			for ($i = 0, $count = count($results); $i < $count; ++$i)
 			{
 				$row = &$results[$i]->text;

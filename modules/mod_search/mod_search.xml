@@ -31,7 +31,7 @@
 
 				<field
 					name="width"
-					type="text"
+					type="number"
 					label="MOD_SEARCH_FIELD_BOXWIDTH_LABEL"
 					description="MOD_SEARCH_FIELD_BOXWIDTH_DESC"
 				/>
@@ -149,7 +149,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
