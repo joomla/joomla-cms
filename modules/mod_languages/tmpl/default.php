@@ -66,7 +66,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 			<a href="<?php echo $language->link; ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
-					<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+					<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', array('title' => $language->title_native), true); ?>
 				<?php else : ?>
 					<span class="label"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>
