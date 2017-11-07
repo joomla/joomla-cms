@@ -211,7 +211,7 @@ class StandardRules implements RulesInterface
 
 				unset($query['view']);
 
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
+				if (!isset($item->query['layout'], $query['layout']) || (isset($item->query['layout'], $query['layout']) && $item->query['layout'] === $query['layout']))
 				{
 					unset($query['layout']);
 				}
