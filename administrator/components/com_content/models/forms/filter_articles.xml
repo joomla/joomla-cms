@@ -49,7 +49,9 @@
 			multiple="true"
 			class="multipleAuthors"
 			onchange="this.form.submit();"
-		/>
+			>
+			<option value="0">JNONE</option>
+		</field>
 
 		<field
 			name="language"
