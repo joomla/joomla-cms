@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 $positions = $this->model->getPositions();
 
 // Add custom position to options
