@@ -41,16 +41,16 @@ class ComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (isset(static::$components[$option]) || static::load($option))
+		$components = static::getComponents();
+
+		if (isset($components[$option]))
 		{
-			$result = static::$components[$option];
+			return $components[$option];
 		}
-		else
-		{
-			$result          = new ComponentRecord;
-			$result->enabled = $strict ? false : true;
-			$result->setParams(new Registry);
-		}
+
+		$result = new ComponentRecord;
+		$result->enabled = $strict ? false : true;
+		$result->setParams(new Registry);
 
 		return $result;
 	}
