@@ -8769,6 +8769,38 @@ header {
 .contentpane {
   padding: 15px; }
 
+[class^='container-'] .span-col-2, [class*=' container-'] .span-col-2 {
+  flex: 0 0 50%;
+  max-width: calc(50% - 15px); }
+
+[class^='container-'] .span-col-3, [class*=' container-'] .span-col-3 {
+  flex: 0 0 33.333%;
+  max-width: calc(33.333% - 15px); }
+
+[class^='container-'] .span-col-4, [class*=' container-'] .span-col-4 {
+  flex: 0 0 25%;
+  max-width: calc(25% - 15px); }
+
+@supports (display: grid) {
+  .span-col-2 {
+    grid-column-end: span 2; }
+  .span-col-3 {
+    grid-column-end: span 3; }
+  .span-col-4 {
+    grid-column-end: span 4; }
+  .span-row-2 {
+    grid-row-end: span 2; }
+  .span-row-3 {
+    grid-row-end: span 3; }
+  .span-row-4 {
+    grid-row-end: span 4; }
+  [class^='span-'] [class^='container-'], [class*=' container-'] [class^='span-'], [class*=' span-'] [class^='container-'], [class*=' container-'] [class*=' span-'] {
+    flex: 0 1 auto;
+    max-width: none; }
+  @media (max-width: 991px) {
+    [class^='span-'], [class*=' span-'] {
+      grid-row-end: auto; } } }
+
 .blog-items {
   display: flex;
   flex-wrap: wrap;
@@ -9059,7 +9091,7 @@ joomla-alert {
 .container-bottom-b {
   display: grid;
   grid-gap: 15px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  grid-template-columns: repeat(auto-fit, minmax(24%, 1fr)); }
   @media (max-width: 991px) {
     .container-top-a,
     .container-top-b,
