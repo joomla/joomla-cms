@@ -248,8 +248,7 @@ class CssMenu
 
 		// Call preprocess for the menu items on plugins.
 		// Plugins should normally process the current level only unless their logic needs deep levels too.
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
+		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
 
 		foreach ($items as $i => &$item)
 		{
