@@ -10,8 +10,9 @@
 		parent.window.onresize = movePopup;
 		movePopup();
 
-		diffHtml = JsDiff.diffWords(text1, text2);
-		fragment = document.createDocumentFragment();
+        diffHtml = JsDiff.diffWords(cleanMCE(text1), cleanMCE(text2));
+
+        fragment = document.createDocumentFragment();
 
 		diffHtml.forEach(function( part ) {
 			span = createDiffSpan(part);
@@ -118,6 +119,22 @@ function cleanTags( text ) {
 	}
 
 	return textClean;
+}
+
+// Deletes all HTML-Text it finds in the given text
+function cleanMCE( text ) {
+    var textClean = String(text),
+        regexp1 = new RegExp('data-mce-href=".*?/"'),
+        regexp2 = new RegExp('> <');
+
+    while ( regexp1.test(textClean) ) {
+        textClean = textClean.replace(regexp1.exec(textClean).toString(), '');
+    }
+    while ( regexp2.test(textClean) ) {
+        textClean = textClean.replace(regexp2.exec(textClean).toString(), '');
+    }
+
+    return textClean;
 }
 
 // positioning of the showdiff-popup.
