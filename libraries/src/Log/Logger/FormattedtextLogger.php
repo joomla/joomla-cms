@@ -148,7 +148,7 @@ class FormattedtextLogger extends Logger
 
 		foreach ($this->fields as $field)
 		{
-			$line = str_replace('{' . $field . '}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
+			$line = str_replace('{' . $field . '}', $tmp[$field] ?? '-', $line);
 		}
 
 		// Write the new entry to the file.

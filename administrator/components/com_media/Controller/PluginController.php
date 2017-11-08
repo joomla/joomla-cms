@@ -75,14 +75,14 @@ class PluginController extends BaseController
 					. 'onFileSystemOAuthCallback method');
 			}
 
-			$action = isset($eventResults['action']) ? $eventResults['action'] : null;
+			$action = $eventResults['action'] ?? null;
 			$message = null;
 
 			// If there are any messages display them
 			if (isset($eventResults['message']))
 			{
 				$message = $eventResults['message'];
-				$messageType = (isset($eventResults['message_type']) ? $eventResults['message_type'] : '');
+				$messageType = ($eventResults['message_type'] ?? '');
 
 				Factory::getApplication()->enqueueMessage($message, $messageType);
 			}
