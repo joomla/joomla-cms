@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $n = count($this->items);
+
 ?>
 
 <div class="tag-category<?php echo $this->pageclass_sfx; ?>">
@@ -51,6 +52,5 @@ $n = count($this->items);
 			<?php echo JHtml::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
-
 	<?php echo $this->loadTemplate('items'); ?>
 </div>

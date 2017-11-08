@@ -68,7 +68,7 @@ class PlgUserProfile extends JPlugin
 
 		if (is_object($data))
 		{
-			$userId = isset($data->id) ? $data->id : 0;
+			$userId = $data->id ?? 0;
 
 			if (!isset($data->profile) && $userId > 0)
 			{

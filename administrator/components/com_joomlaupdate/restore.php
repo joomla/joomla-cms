@@ -4185,7 +4185,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			}
 		}
 
-		$filename = isset($this->fileHeader->realFile) ? $this->fileHeader->realFile : $this->fileHeader->file;
+		$filename = $this->fileHeader->realFile ?? $this->fileHeader->file;
 
 		if (!AKFactory::get('kickstart.setup.dryrun', '0'))
 		{
