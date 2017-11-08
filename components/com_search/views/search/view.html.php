@@ -206,16 +206,17 @@ class SearchViewSearch extends JViewLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   bool  $string   is the text to be search
-	 * @param   bool  $needle is the text to search for
-	 * @param   bool  $searchWords is the words to be searched
+	 * @param   bool  $string is the text to be search
+	 * @param   bool  $needle  is the text to search for
+	 * @param   bool  $searchWords  is the words to be searched
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.8.3
 	 */
 
-	public function hightLight($string, $needle, $searchWords) {
+	public function hightLight($string, $needle, $searchWords)
+	{
 		$hl1            = '<span class="highlight">';
 		$hl2            = '</span>';
 		$mbString       = extension_loaded('mbstring');
