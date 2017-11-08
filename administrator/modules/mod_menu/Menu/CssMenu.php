@@ -246,6 +246,11 @@ class CssMenu
 
 		$noSeparator = true;
 
+		// Call preprocess for the menu items on plugins.
+		// Plugins should normally process the current level only unless their logic needs deep levels too.
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
+
 		foreach ($items as $i => &$item)
 		{
 			// Exclude item with menu item option set to exclude from menu modules
@@ -261,6 +266,20 @@ class CssMenu
 			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
 			{
 				continue;
+			}
+
+			if (substr($item->link, 0, 8) === 'special:')
+			{
+				$special = substr($item->link, 8);
+
+				if ($special === 'language-forum')
+				{
+					$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+				}
+				elseif ($special === 'custom-forum')
+				{
+					$item->link = $this->params->get('forum_url');
+				}
 			}
 
 			// Exclude item if the component is not authorised
