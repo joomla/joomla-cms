@@ -14,7 +14,7 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -24,7 +24,7 @@ jimport('joomla.filesystem.file');
  *
  * @since  2.5.4
  */
-class UpdateModel extends BaseModel
+class UpdateModel extends BaseDatabaseModel
 {
 	/**
 	 * @var   array  $updateInformation  null

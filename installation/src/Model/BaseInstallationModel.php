@@ -12,14 +12,14 @@ namespace Joomla\CMS\Installation\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Base Model for the installation model classes
  *
  * @since  __DEPLOY_VERSION__
  */
-class BaseInstallationModel extends BaseModel
+class BaseInstallationModel extends BaseDatabaseModel
 {
 	/**
 	 * Constructor

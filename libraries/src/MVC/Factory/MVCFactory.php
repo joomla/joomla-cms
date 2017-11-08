@@ -56,7 +56,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
