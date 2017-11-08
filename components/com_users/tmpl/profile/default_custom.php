@@ -50,7 +50,7 @@ foreach ($tmp as $customField)
 							<?php echo $field->title; ?>
 						</dt>
 						<dd>
-							<?php if (key_exists($field->fieldname, $customFields)) : ?>
+							<?php if (array_key_exists($field->fieldname, $customFields)) : ?>
 								<?php echo $customFields[$field->fieldname]->value ?: JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 							<?php elseif (JHtml::isRegistered('users.' . $field->id)) : ?>
 								<?php echo JHtml::_('users.' . $field->id, $field->value); ?>

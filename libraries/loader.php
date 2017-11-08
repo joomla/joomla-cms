@@ -305,7 +305,7 @@ abstract class JLoader
 	public static function register($class, $path, $force = true)
 	{
 		// When an alias exists, register it as well
-		if (key_exists(strtolower($class), self::$classAliases))
+		if (array_key_exists(strtolower($class), self::$classAliases))
 		{
 			self::register(self::stripFirstBackslash(self::$classAliases[strtolower($class)]), $path, $force);
 		}
@@ -571,7 +571,7 @@ abstract class JLoader
 		}
 
 		// Check if it is an extension class
-		if (!key_exists($key, self::$extensionRootFolders))
+		if (!array_key_exists($key, self::$extensionRootFolders))
 		{
 			return false;
 		}
@@ -888,7 +888,7 @@ abstract class JLoader
 	 */
 	private static function loadAliasFor($class)
 	{
-		if (!key_exists($class, self::$classAliasesInverse))
+		if (!array_key_exists($class, self::$classAliasesInverse))
 		{
 			return;
 		}
