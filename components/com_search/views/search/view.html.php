@@ -210,7 +210,7 @@ class SearchViewSearch extends JViewLegacy
 	 * @param   string  $needle  is the text to search for
 	 * @param   string  $searchWords  is the words to be searched
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  mixed  A string.
 	 *
 	 * @since   3.8.3
 	 */
