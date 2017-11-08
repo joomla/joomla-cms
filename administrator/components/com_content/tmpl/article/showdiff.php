@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Contenthistory\Administrator\Model\History;
+use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
 
 JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com_contenthistory/helpers/contenthistory.php');
 
@@ -28,7 +28,7 @@ $document->setTitle(JText::_('COM_CONTENT_SHOWDIFF_DOC_TITLE'));
 $input = JFactory::getApplication()->input;
 
 /** @var Joomla\Component\Contenthistory\Administrator\Model\History $contentHistory */
-$contentHistory = new History;
+$contentHistory = new HistoryModel;
 
 $itemId          = $contentHistory->getState('item_id', $input->get('id'));
 $typeId          = $contentHistory->getState('type_id', 5);
