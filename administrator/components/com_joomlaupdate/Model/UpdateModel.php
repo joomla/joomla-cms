@@ -81,7 +81,7 @@ class UpdateModel extends BaseDatabaseModel
 			 * case 'nochange':
 			 */
 			default:
-				$updateURL = 'https://update.joomla.org/core//test/next_major_list.xml';
+				$updateURL = 'https://update.joomla.org/core/test/next_major_list.xml';
 		}
 
 		$db = $this->getDbo();
