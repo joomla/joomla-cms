@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -27,7 +27,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ApiModel extends BaseModel
+class ApiModel extends BaseDatabaseModel
 {
 	/**
 	 * Holds available media file adapters.

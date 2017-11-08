@@ -10,7 +10,7 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
  *
  * @since  2.5
  */
-class StringsModel extends BaseModel
+class StringsModel extends BaseDatabaseModel
 {
 	/**
 	 * Method for refreshing the cache in the database with the known language strings.

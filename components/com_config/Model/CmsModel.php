@@ -12,14 +12,14 @@ namespace Joomla\Component\Config\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Prototype admin model.
  *
  * @since  3.2
  */
-abstract class CmsModel extends BaseModel
+abstract class CmsModel extends BaseDatabaseModel
 {
 	/**
 	 * The model (base) name

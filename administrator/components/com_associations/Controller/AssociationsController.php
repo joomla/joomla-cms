@@ -36,7 +36,7 @@ class AssociationsController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel|bool
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel|bool
 	 *
 	 * @since  3.7.0
 	 */
