@@ -387,7 +387,7 @@ return array(
     'Joomla\\CMS\\MVC\\Factory\\MVCFactory' => $baseDir . '/libraries/src/MVC/Factory/MVCFactory.php',
     'Joomla\\CMS\\MVC\\Factory\\MVCFactoryInterface' => $baseDir . '/libraries/src/MVC/Factory/MVCFactoryInterface.php',
     'Joomla\\CMS\\MVC\\Model\\AdminModel' => $baseDir . '/libraries/src/MVC/Model/AdminModel.php',
-    'Joomla\\CMS\\MVC\\Model\\BaseModel' => $baseDir . '/libraries/src/MVC/Model/BaseModel.php',
+    'Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel' => $baseDir . '/libraries/src/MVC/Model/BaseDatabaseModel.php',
     'Joomla\\CMS\\MVC\\Model\\FormModel' => $baseDir . '/libraries/src/MVC/Model/FormModel.php',
     'Joomla\\CMS\\MVC\\Model\\ItemModel' => $baseDir . '/libraries/src/MVC/Model/ItemModel.php',
     'Joomla\\CMS\\MVC\\Model\\ListModel' => $baseDir . '/libraries/src/MVC/Model/ListModel.php',

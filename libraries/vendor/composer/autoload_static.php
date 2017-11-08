@@ -29,22 +29,22 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
     );
 
     public static $prefixLengthsPsr4 = array (
-        'Z' => 
+        'Z' =>
         array (
             'Zend\\Diactoros\\' => 15,
         ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\WebLink\\' => 26,
         ),
-        'R' => 
+        'R' =>
         array (
             'ReCaptcha\\' => 10,
         ),
-        'P' => 
+        'P' =>
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
@@ -52,7 +52,7 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
             'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'J' => 
+        'J' =>
         array (
             'Joomla\\Utilities\\' => 17,
             'Joomla\\Uri\\' => 11,
@@ -79,170 +79,170 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
             'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
         ),
-        'F' => 
+        'F' =>
         array (
             'Fig\\Link\\' => 9,
         ),
-        'D' => 
+        'D' =>
         array (
             'Defuse\\Crypto\\' => 14,
         ),
-        'C' => 
+        'C' =>
         array (
             'Composer\\CaBundle\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Zend\\Diactoros\\' => 
+        'Zend\\Diactoros\\' =>
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
         ),
-        'Symfony\\Polyfill\\Util\\' => 
+        'Symfony\\Polyfill\\Util\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
         ),
-        'Symfony\\Polyfill\\Php56\\' => 
+        'Symfony\\Polyfill\\Php56\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
         ),
-        'Symfony\\Component\\Yaml\\' => 
+        'Symfony\\Component\\Yaml\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Symfony\\Component\\WebLink\\' => 
+        'Symfony\\Component\\WebLink\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/web-link',
         ),
-        'ReCaptcha\\' => 
+        'ReCaptcha\\' =>
         array (
             0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
         ),
-        'Psr\\Log\\' => 
+        'Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Link\\' => 
+        'Psr\\Link\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
-        'Psr\\Http\\Message\\' => 
+        'Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Container\\' => 
+        'Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'PHPMailer\\PHPMailer\\' => 
+        'PHPMailer\\PHPMailer\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Joomla\\Utilities\\' => 
+        'Joomla\\Utilities\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/utilities/src',
         ),
-        'Joomla\\Uri\\' => 
+        'Joomla\\Uri\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/uri/src',
         ),
-        'Joomla\\String\\' => 
+        'Joomla\\String\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/string/src',
         ),
-        'Joomla\\Session\\' => 
+        'Joomla\\Session\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/session/src',
         ),
-        'Joomla\\Registry\\' => 
+        'Joomla\\Registry\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
         ),
-        'Joomla\\OAuth2\\' => 
+        'Joomla\\OAuth2\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth2/src',
         ),
-        'Joomla\\OAuth1\\' => 
+        'Joomla\\OAuth1\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth1/src',
         ),
-        'Joomla\\Ldap\\Tests\\' => 
+        'Joomla\\Ldap\\Tests\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
         ),
-        'Joomla\\Ldap\\' => 
+        'Joomla\\Ldap\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/ldap/src',
         ),
-        'Joomla\\Input\\Tests\\' => 
+        'Joomla\\Input\\Tests\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/input/Tests',
         ),
-        'Joomla\\Input\\' => 
+        'Joomla\\Input\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
         ),
-        'Joomla\\Image\\' => 
+        'Joomla\\Image\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/image/src',
         ),
-        'Joomla\\Http\\' => 
+        'Joomla\\Http\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/http/src',
         ),
-        'Joomla\\Filter\\' => 
+        'Joomla\\Filter\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
         ),
-        'Joomla\\Filesystem\\' => 
+        'Joomla\\Filesystem\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/filesystem/src',
         ),
-        'Joomla\\Event\\' => 
+        'Joomla\\Event\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
         ),
-        'Joomla\\Database\\' => 
+        'Joomla\\Database\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/database/src',
         ),
-        'Joomla\\Data\\' => 
+        'Joomla\\Data\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
         ),
-        'Joomla\\DI\\' => 
+        'Joomla\\DI\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/di/src',
         ),
-        'Joomla\\Crypt\\' => 
+        'Joomla\\Crypt\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/crypt/src',
         ),
-        'Joomla\\Controller\\' => 
+        'Joomla\\Controller\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/controller/src',
         ),
-        'Joomla\\CMS\\' => 
+        'Joomla\\CMS\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
-        'Joomla\\Archive\\' => 
+        'Joomla\\Archive\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/archive/src',
         ),
-        'Joomla\\Application\\' => 
+        'Joomla\\Application\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
         ),
-        'Fig\\Link\\' => 
+        'Fig\\Link\\' =>
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
         ),
-        'Defuse\\Crypto\\' => 
+        'Defuse\\Crypto\\' =>
         array (
             0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
         ),
-        'Composer\\CaBundle\\' => 
+        'Composer\\CaBundle\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
@@ -630,7 +630,7 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\CMS\\MVC\\Factory\\MVCFactory' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactory.php',
         'Joomla\\CMS\\MVC\\Factory\\MVCFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactoryInterface.php',
         'Joomla\\CMS\\MVC\\Model\\AdminModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/AdminModel.php',
-        'Joomla\\CMS\\MVC\\Model\\BaseModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/BaseModel.php',
+        'Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/BaseDatabaseModel.php',
         'Joomla\\CMS\\MVC\\Model\\FormModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/FormModel.php',
         'Joomla\\CMS\\MVC\\Model\\ItemModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/ItemModel.php',
         'Joomla\\CMS\\MVC\\Model\\ListModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/ListModel.php',
