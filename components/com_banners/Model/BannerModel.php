@@ -11,14 +11,14 @@ namespace Joomla\Component\Banners\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Banner model for the Joomla Banners component.
  *
  * @since  1.5
  */
-class BannerModel extends BaseModel
+class BannerModel extends BaseDatabaseModel
 {
 	/**
 	 * Cached item object

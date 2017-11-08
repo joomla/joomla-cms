@@ -177,7 +177,7 @@ class HtmlView extends BaseHtmlView
 		/** @var \Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
 		$warningsModel = $this->getModel('warnings');
 
-		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseModel)
+		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel)
 		{
 			$language = \JFactory::getLanguage();
 			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);

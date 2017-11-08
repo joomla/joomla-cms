@@ -870,9 +870,9 @@
 		<field
 			name="show_email_copy"
 			type="radio"
-			class="switcher"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
-			default="1"
+			default="0"
+			class="switcher"
 			showon="show_email_form:1"
 			>
 			<option value="0">JHIDE</option>

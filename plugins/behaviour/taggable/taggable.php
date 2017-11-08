@@ -115,7 +115,7 @@ class PlgBehaviourTaggable extends JPlugin
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
-		$newTags = isset($table->newTags) ? $table->newTags : array();
+		$newTags = $table->newTags ?? array();
 
 		if (empty($newTags))
 		{
@@ -173,7 +173,7 @@ class PlgBehaviourTaggable extends JPlugin
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
-		$newTags = isset($table->newTags) ? $table->newTags : array();
+		$newTags = $table->newTags ?? array();
 
 		if (empty($newTags))
 		{

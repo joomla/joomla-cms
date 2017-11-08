@@ -14,7 +14,7 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -24,7 +24,7 @@ jimport('joomla.filesystem.file');
  *
  * @since  2.5.4
  */
-class UpdateModel extends BaseModel
+class UpdateModel extends BaseDatabaseModel
 {
 	/**
 	 * @var   array  $updateInformation  null
@@ -435,7 +435,7 @@ ENDDATA;
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if ($writable)
 			{
@@ -474,7 +474,7 @@ ENDDATA;
 			}
 
 			// \Just in case the temp-directory was off-root, try using the default tmp directory.
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if (!$writable)
 			{
@@ -510,7 +510,7 @@ ENDDATA;
 			}
 
 			// If we still have no writable directory, we'll try /tmp and the system's temp-directory.
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if (!$writable)
 			{
@@ -939,7 +939,7 @@ ENDDATA;
 	public function captiveLogin($credentials)
 	{
 		// Make sure the username matches
-		$username = isset($credentials['username']) ? $credentials['username'] : null;
+		$username = $credentials['username'] ?? null;
 		$user     = \JFactory::getUser();
 
 		if (strtolower($user->username) != strtolower($username))
