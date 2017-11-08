@@ -206,9 +206,9 @@ class SearchViewSearch extends JViewLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   bool  $string is the text to be search
-	 * @param   bool  $needle  is the text to search for
-	 * @param   bool  $searchWords  is the words to be searched
+	 * @param   string  $string is the text to be search
+	 * @param   string  $needle  is the text to search for
+	 * @param   string  $searchWords  is the words to be searched
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
