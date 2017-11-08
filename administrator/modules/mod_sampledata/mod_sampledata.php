@@ -9,8 +9,5 @@
 
 defined('_JEXEC') or die;
 
-// Include dependencies.
-JLoader::register('ModSampledataHelper', __DIR__ . '/helper.php');
-
-$items = ModSampledataHelper::getList();
-require JModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));
+$items = \Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper::getList();
+require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));
