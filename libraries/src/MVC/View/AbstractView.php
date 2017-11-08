@@ -176,7 +176,7 @@ abstract class AbstractView extends \JObject
 	 * Category.
 	 *
 	 * @param   BaseDatabaseModel  $model    The model to add to the view.
-	 * @param   boolean    $default  Is this the default model?
+	 * @param   boolean            $default  Is this the default model?
 	 *
 	 * @return  BaseDatabaseModel  The added model.
 	 *
