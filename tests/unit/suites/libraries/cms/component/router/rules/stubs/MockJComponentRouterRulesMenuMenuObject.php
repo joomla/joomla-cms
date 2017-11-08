@@ -170,7 +170,7 @@ class MockJComponentRouterRulesMenuMenuObject
 	 */
 	public function getActive()
 	{
-		return (isset($this->items[$this->active]) ? $this->items[$this->active] : null);
+		return ($this->items[$this->active] ?? null);
 	}
 
 	/**

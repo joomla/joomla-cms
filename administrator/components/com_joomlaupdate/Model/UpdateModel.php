@@ -939,7 +939,7 @@ ENDDATA;
 	public function captiveLogin($credentials)
 	{
 		// Make sure the username matches
-		$username = isset($credentials['username']) ? $credentials['username'] : null;
+		$username = $credentials['username'] ?? null;
 		$user     = \JFactory::getUser();
 
 		if (strtolower($user->username) != strtolower($username))

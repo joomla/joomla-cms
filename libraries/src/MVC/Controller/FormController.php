@@ -249,7 +249,7 @@ class FormController extends BaseController
 		// Build an array of item contexts to check
 		$contexts = array();
 
-		$option = isset($this->extension) ? $this->extension : $this->option;
+		$option = $this->extension ?? $this->option;
 
 		foreach ($cid as $id)
 		{

@@ -252,7 +252,7 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	protected function _createToc(&$row, &$matches, &$page)
 	{
-		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+		$heading = $row->title ?? JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
 		$input = JFactory::getApplication()->input;
 		$limitstart = $input->getUInt('limitstart', 0);
 		$showall = $input->getInt('showall', 0);

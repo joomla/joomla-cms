@@ -97,7 +97,7 @@ abstract class UserHelper
 		// Get the user object.
 		$user = User::getInstance((int) $userId);
 
-		return isset($user->groups) ? $user->groups : array();
+		return $user->groups ?? array();
 	}
 
 	/**
