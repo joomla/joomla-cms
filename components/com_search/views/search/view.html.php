@@ -206,7 +206,7 @@ class SearchViewSearch extends JViewLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   bool  $row   is the text to be search
+	 * @param   bool  $string   is the text to be search
 	 * @param   bool  $needle is the text to search for
 	 * @param   bool  $searchWords is the words to be searched
 	 *
@@ -215,7 +215,7 @@ class SearchViewSearch extends JViewLegacy
 	 * @since   3.8.3
 	 */
 
-	public function hightLight($search, $needle, $searchWords) {
+	public function hightLight($string, $needle, $searchWords) {
 		$hl1            = '<span class="highlight">';
 		$hl2            = '</span>';
 		$mbString       = extension_loaded('mbstring');
@@ -223,7 +223,7 @@ class SearchViewSearch extends JViewLegacy
 
 		// Doing HTML entity decoding here, just in case we get any HTML entities here.
 		$quoteStyle   = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_NOQUOTES | ENT_HTML401 : ENT_NOQUOTES;
-		$row          = html_entity_decode($search, $quoteStyle, 'UTF-8');
+		$row          = html_entity_decode($string, $quoteStyle, 'UTF-8');
 		$row          = SearchHelper::prepareSearchContent($row, $needle);
 		$searchWords  = array_values(array_unique($searchWords));
 		$lowerCaseRow = $mbString ? mb_strtolower($row) : StringHelper::strtolower($row);
