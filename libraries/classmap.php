@@ -45,6 +45,7 @@ JLoader::registerAlias('JViewCategories',                   '\\Joomla\\CMS\\MVC\
 JLoader::registerAlias('JViewCategory',                     '\\Joomla\\CMS\\MVC\\View\\CategoryView', '5.0');
 JLoader::registerAlias('JViewCategoryfeed',                 '\\Joomla\\CMS\\MVC\\View\\CategoryFeedView', '5.0');
 JLoader::registerAlias('JViewLegacy',                       '\\Joomla\\CMS\\MVC\\View\\HtmlView', '5.0');
+JLoader::registerAlias('JViewGenericdataexception',         '\\Joomla\\CMS\\MVC\\View\\GenericDataException', '5.0');
 JLoader::registerAlias('JControllerAdmin',                  '\\Joomla\\CMS\\MVC\\Controller\\AdminController', '5.0');
 JLoader::registerAlias('JControllerLegacy',                 '\\Joomla\\CMS\\MVC\\Controller\\BaseController', '5.0');
 JLoader::registerAlias('JControllerForm',                   '\\Joomla\\CMS\\MVC\\Controller\\FormController', '5.0');
