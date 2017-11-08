@@ -34,7 +34,7 @@ if (!defined('_AKEEBA_IS_WINDOWS'))
 {
 	if (function_exists('php_uname'))
 	{
-		define('_AKEEBA_IS_WINDOWS', stristr(PHP_OS, 'windows'));
+		define('_AKEEBA_IS_WINDOWS', stristr(php_uname(), 'windows'));
 	}
 	else
 	{
