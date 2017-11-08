@@ -106,7 +106,7 @@ class Language extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function _getAssetName()
 	{
@@ -118,7 +118,7 @@ class Language extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -137,7 +137,7 @@ class Language extends Table
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
