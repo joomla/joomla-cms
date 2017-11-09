@@ -452,18 +452,13 @@ class AssociationsHelper extends JHelperContent
 	 */
 	public static function getContentLanguages()
 	{
-		if (count(static::$languages) > 0 || static::load())
-		{
-			$result = static::$languages;
-		}
-		else
+		if (empty(static::$languages))
 		{
 			static::load();
-            		$result = static::$languages;
 		}
-
-		return $result;
-	}
+ 
+		return static::$languages;
+   	}
 
 	/**
 	 * Get the associated items for an item
@@ -693,7 +688,7 @@ class AssociationsHelper extends JHelperContent
 			$query = $db->getQuery(true)
 			    ->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
 			    ->from($db->quoteName('#__languages'))
-			    ->where($db->quoteName('published') . ' != -2')
+			    ->where($db->quoteName('published') . ' > 0')
 			    ->order($db->quoteName('ordering') . ' ASC');
 
 			$db->setQuery($query);
