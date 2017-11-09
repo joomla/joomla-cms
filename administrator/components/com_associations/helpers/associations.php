@@ -37,6 +37,14 @@ class AssociationsHelper extends JHelperContent
 	public static $supportedExtensionsList = array();
 
 	/**
+	 * List languages of languages
+	 *
+	 * @var    installed languages
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $languages = array();
+
+	/**
 	 * Get the associated items for an item
 	 *
 	 * @param   string  $extensionName  The extension name with com_
@@ -444,18 +452,17 @@ class AssociationsHelper extends JHelperContent
 	 */
 	public static function getContentLanguages()
 	{
-		$db = JFactory::getDbo();
+		if (count(static::$languages) > 0 || static::load())
+		{
+			$result = static::$languages;
+		}
+		else
+		{
+			static::load();
+            		$result = static::$languages;
+		}
 
-		// Get all content languages.
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
-			->from($db->quoteName('#__languages'))
-			->where($db->quoteName('published') . ' != -2')
-			->order($db->quoteName('ordering') . ' ASC');
-
-		$db->setQuery($query);
-
-		return $db->loadObjectList('lang_code');
+		return $result;
 	}
 
 	/**
@@ -669,5 +676,42 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Load the installed languages.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function load()
+	{
+		$loader = function ()
+		{
+			$db = \JFactory::getDbo();
+			$query = $db->getQuery(true)
+			    ->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
+			    ->from($db->quoteName('#__languages'))
+			    ->where($db->quoteName('published') . ' != -2')
+			    ->order($db->quoteName('ordering') . ' ASC');
+
+			$db->setQuery($query);
+
+			return $db->loadObjectList('lang_code');
+		};
+
+		$cache = \JFactory::getCache('_system', 'callback');
+
+		try
+		{
+			static::$languages = $cache->get($loader, array(), __METHOD__);
+		}
+		catch (\JCacheException $e)
+		{
+			static::$languages = $loader();
+		}
+
+    		return true;
 	}
 }
