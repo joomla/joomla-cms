@@ -226,7 +226,7 @@
 
 			<field
 				name="formoptions"
-				type="spacer"
+				type="note"
 				label="COM_FIELDS_FIELD_FORMOPTIONS_HEADING"
 			/>
 
@@ -272,7 +272,7 @@
 
 			<field
 				name="renderoptions"
-				type="spacer"
+				type="note"
 				label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING"
 			/>
 
