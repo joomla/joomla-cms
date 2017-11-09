@@ -422,43 +422,41 @@ class MenusModelMenutypes extends JModelLegacy
 		// Process submenu options.
 		$submenu = $manifest->administration->submenu;
 
-		if (!$submenu)
+		if ($submenu)
 		{
-			return $options;
-		}
-
-		foreach ($submenu->menu as $child)
-		{
-			$attributes = $child->attributes();
-
-			$o = new stdClass;
-			$o->title       = (string) trim($child);
-			$o->description = '';
-
-			if ((string) $attributes->link)
+			foreach ($submenu->menu as $child)
 			{
-				parse_str((string) $attributes->link, $request);
-			}
-			else
-			{
-				$request = array();
+				$attributes = $child->attributes();
 
-				$request['option']     = $component;
-				$request['act']        = (string) $attributes->act;
-				$request['task']       = (string) $attributes->task;
-				$request['controller'] = (string) $attributes->controller;
-				$request['view']       = (string) $attributes->view;
-				$request['layout']     = (string) $attributes->layout;
-				$request['sub']        = (string) $attributes->sub;
-			}
+				$o              = new stdClass;
+				$o->title       = (string) trim($child);
+				$o->description = '';
 
-			$o->request = array_filter($request, 'strlen');
-			$options[]  = new JObject($o);
+				if ((string) $attributes->link)
+				{
+					parse_str((string) $attributes->link, $request);
+				}
+				else
+				{
+					$request = array();
 
-			// Do not repeat the default view link (index.php?option=com_abc).
-			if (count($o->request) == 1)
-			{
-				$ro = null;
+					$request['option']     = $component;
+					$request['act']        = (string) $attributes->act;
+					$request['task']       = (string) $attributes->task;
+					$request['controller'] = (string) $attributes->controller;
+					$request['view']       = (string) $attributes->view;
+					$request['layout']     = (string) $attributes->layout;
+					$request['sub']        = (string) $attributes->sub;
+				}
+
+				$o->request = array_filter($request, 'strlen');
+				$options[]  = new JObject($o);
+
+				// Do not repeat the default view link (index.php?option=com_abc).
+				if (count($o->request) == 1)
+				{
+					$ro = null;
+				}
 			}
 		}
 
