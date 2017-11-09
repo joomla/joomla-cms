@@ -456,9 +456,9 @@ class AssociationsHelper extends JHelperContent
 		{
 			static::load();
 		}
- 
+
 		return static::$languages;
-   	}
+	}
 
 	/**
 	 * Get the associated items for an item
