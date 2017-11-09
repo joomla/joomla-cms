@@ -158,9 +158,9 @@ class SearchViewSearch extends JViewLegacy
 			for ($i = 0, $count = count($results); $i < $count; ++$i)
 			{
 				$rowTitle = &$results[$i]->title;
-				$rowTitleHighLighted = $this->hightLight($rowTitle, $needle, $searchWords);
+				$rowTitleHighLighted = $this->highLight($rowTitle, $needle, $searchWords);
 				$rowText = &$results[$i]->text;
-				$rowTextHighLighted = $this->hightLight($rowText, $needle, $searchWords);
+				$rowTextHighLighted = $this->highLight($rowText, $needle, $searchWords);
 
 				$result = &$results[$i];
 				$created = '';
@@ -170,7 +170,7 @@ class SearchViewSearch extends JViewLegacy
 					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
 
-				$result->title   =  $rowTitleHighLighted;
+				$result->title   = $rowTitleHighLighted;
 				$result->text    = JHtml::_('content.prepare', $rowTextHighLighted, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;
@@ -206,16 +206,16 @@ class SearchViewSearch extends JViewLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   string  $string       is the text to be search
-	 * @param   string  $needle       is the text to search for
-	 * @param   string  $searchWords  is the words to be searched  
+	 * @param   string  $string       text to be searched
+	 * @param   string  $needle       text to search for
+	 * @param   string  $searchWords  words to be searched  
 	 *
 	 * @return  mixed  A string.
 	 *
-	 * @since   3.8.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 
-	public function hightLight($string, $needle, $searchWords)
+	public function highLight($string, $needle, $searchWords)
 	{
 		$hl1            = '<span class="highlight">';
 		$hl2            = '</span>';
