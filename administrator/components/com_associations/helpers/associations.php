@@ -37,9 +37,10 @@ class AssociationsHelper extends JHelperContent
 	public static $supportedExtensionsList = array();
 
 	/**
-	 * List languages of languages
+	 * List of available languages
 	 *
 	 * @var    installed languages
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $languages = array();
@@ -686,15 +687,15 @@ class AssociationsHelper extends JHelperContent
 		{
 			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-			    ->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
-			    ->from($db->quoteName('#__languages'))
-			    ->where($db->quoteName('published') . ' > 0')
-			    ->order($db->quoteName('ordering') . ' ASC');
+				->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
+				->from($db->quoteName('#__languages'))
+				->where($db->quoteName('published') . ' > 0')
+				->order($db->quoteName('ordering') . ' ASC');
 
 			$db->setQuery($query);
 
 			return $db->loadObjectList('lang_code');
-		};
+		}
 
 		$cache = \JFactory::getCache('_system', 'callback');
 
