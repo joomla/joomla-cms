@@ -90,6 +90,14 @@ class Update extends \JObject
 	protected $group;
 
 	/**
+	 * The mirrors name array
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $mirrors = array();
+
+	/**
 	 * Update manifest `<downloads>` element
 	 *
 	 * @var    string
@@ -246,6 +254,13 @@ class Update extends \JObject
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
+		// Change name if is mirror
+		if ($name == 'DOWNLOADURL' && isset($this->currentUpdate->downloadurl))
+		{
+			$name            = 'MIRROR' . count($this->mirrors);
+			$this->mirrors[] = strtolower($name);
+		}
+
 		$this->stack[] = $name;
 		$tag           = $this->_getStackLocation();
 
