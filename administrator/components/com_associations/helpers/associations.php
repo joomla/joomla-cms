@@ -708,6 +708,6 @@ class AssociationsHelper extends JHelperContent
 			static::$languages = $loader();
 		}
 
-    		return true;
+		return true;
 	}
 }
