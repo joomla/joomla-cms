@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Sampledata\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
@@ -17,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  3.8.0
  */
-abstract class ModSampledataHelper
+abstract class SampledataHelper
 {
 	/**
 	 * Get a list of sampledata.
@@ -29,8 +31,6 @@ abstract class ModSampledataHelper
 	public static function getList()
 	{
 		PluginHelper::importPlugin('sampledata');
-		$data = Factory::getApplication()->triggerEvent('onSampledataGetOverview', array('test', 'foo'));
-
-		return $data;
+		return Factory::getApplication()->triggerEvent('onSampledataGetOverview', array('test', 'foo'));
 	}
 }
