@@ -42,6 +42,30 @@ copyArrayFiles = (dirName, files, name, type) => {
 		}
 	});
 };
+/**
+ *
+ * @param files   Object of files map, eg {"src.js": "js/src.js"}
+ * @param srcDir  Package root dir
+ * @param destDir Vendor destination dir
+ * @param type
+ * @returns {Array}
+ */
+copyFilesTo = (files, srcDir, destDir, type) => {
+	const filesResult = [];
+
+	// Copy each file
+	for (let srcFile in files) {
+		let destFile = files[srcFile],
+			srcPath  = Path.join(srcDir, srcFile),
+			//stats    = fs.lstatSync(srcPath),
+			destPath = Path.join(destDir, destFile);
+
+		fsExtra.copySync(srcPath, destPath);
+		filesResult.push(destPath);
+	}
+
+	return filesResult;
+};
 
 // Concatenate some files
 concatFiles = (files, output) => {
@@ -56,77 +80,42 @@ concatFiles = (files, output) => {
 };
 
 copyFiles = (options) => {
-	if (!fsExtra.existsSync(Path.join(rootPath, 'media/vendor'))) {
-		fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor'));
+	const mediaVendorPath = Path.join(rootPath, 'media/vendor'),
+			registry = {
+				"name": options.name,
+				"version": options.version,
+				"description": options.description,
+				"license": options.license,
+				"vendors": {}
+			};
+
+	if (!fsExtra.existsSync(mediaVendorPath)) {
+		fsExtra.mkdirSync(mediaVendorPath);
 	}
 
 	// Loop to get some text for the packgage.json
-	for (let name in options.settings.vendors) {
-		if (['codemirror', 'tinymce'].indexOf(name) === -1) {
-			// Create the directory stracture
-			if (!fsExtra.existsSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '')))) {
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '')));
+	for (let packageName in options.settings.vendors) {
+		let vendor  = options.settings.vendors[packageName],
+			vendorName     = vendor.name || packageName,
+			modulePathJson = require.resolve(packageName + '/package.json'),
+			modulePathRoot = Path.dirname(modulePathJson),
+			moduleOptions  = require(modulePathJson),
+			registryItem   = {
+				package: packageName,
+				name: vendorName,
+				version: moduleOptions.version,
+				dependencies: vendor.dependencies || []
+			};
 
-				if (options.settings.vendors[name]['srcjs']) {
-					fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/js'));
-				}
-
-				if (options.settings.vendors[name]['srccss']) {
-					fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/css'));
-				}
-
-				if (options.settings.vendors[name]['srcscss']) {
-					fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/scss'));
-				}
-
-				if (options.settings.vendors[name]['license']) {
-					fsExtra.copySync(Path.join(rootPath, 'node_modules/' + name + '/' + options.settings.vendors[name]['license']), Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/license.txt'));
-				}
-			}
-
-			// Copy any js files
-			if (options.settings.vendors[name]['srcjs']) {
-				if (options.settings.vendors[name]['filesjs'] && options.settings.vendors[name]['filesjs'] === '*') {
-					copyAll(options.settings.vendors[name]['srcjs'], name, 'js')
-				} else if (options.settings.vendors[name]['filesjs'] && Array.isArray(options.settings.vendors[name]['filesjs'])) {
-					copyArrayFiles(options.settings.vendors[name]['srcjs'], options.settings.vendors[name]['filesjs'], name, 'js')
-				}
-			}
-
-			// // Copy any css files
-			if (options.settings.vendors[name]['srccss']) {
-				if (options.settings.vendors[name]['filescss'] && options.settings.vendors[name]['filescss'] === '*') {
-					copyAll(options.settings.vendors[name]['srccss'], name, 'css')
-				} else if (options.settings.vendors[name]['filescss'] && Array.isArray(options.settings.vendors[name]['filescss'])) {
-					copyArrayFiles(options.settings.vendors[name]['srccss'], options.settings.vendors[name]['filescss'], name, 'css')
-				}
-			}
-
-			// Copy any scss files
-			if (options.settings.vendors[name]['srcscss']) {
-				if (options.settings.vendors[name]['filesscss'] && options.settings.vendors[name]['filesscss'] === '*') {
-					copyAll(options.settings.vendors[name]['srcscss'], name, 'scss')
-				} else if (options.settings.vendors[name]['filesscss'] && Array.isArray(options.settings.vendors[name]['filesscss'])) {
-					copyArrayFiles(options.settings.vendors[name]['srcscss'], options.settings.vendors[name]['filesscss'], name, 'scss')
-				}
-			}
-
-			// Copy any font files
-			if (options.settings.vendors[name]['srcfonts']) {
-				if (options.settings.vendors[name]['filesfonts'] && options.settings.vendors[name]['filesfonts'] === '*') {
-					copyAll(options.settings.vendors[name]['srcfonts'], name, 'fonts')
-				} else if (options.settings.vendors[name]['filesfonts'] && Array.isArray(options.settings.vendors[name]['filesfonts'])) {
-					copyArrayFiles(options.settings.vendors[name]['srcfonts'], options.settings.vendors[name]['filesfonts'], name, 'fonts')
-				}
-			}
-		} else if ('codemirror' === name) {
-			if (!fsExtra.existsSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '')))) {
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '')));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/addon'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/lib'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/mode'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/keymap'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/theme'));
+		if ('codemirror' === packageName) {
+			let itemvendorPath = Path.join(rootPath, 'media/vendor/' + packageName);
+			if (!fsExtra.existsSync(itemvendorPath)) {
+				fsExtra.mkdirSync(itemvendorPath);
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'addon'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'lib'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'mode'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'keymap'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'theme'));
 			}
 
 			copyAll('addon', 'codemirror', 'addon');
@@ -166,14 +155,16 @@ copyFiles = (options) => {
 			codemirrorXml = codemirrorXml.replace(xmlVersionStr, "$1" + options.dependencies.codemirror + "$3");
 			fs.writeFileSync(rootPath + '/plugins/editors/codemirror/codemirror.xml', codemirrorXml, {encoding: 'UTF-8'});
 
-		} else if ('tinymce' === name) {
-			if (!fsExtra.existsSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '')))) {
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '')));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/plugins'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/langs'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/skins'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/themes'));
-				fsExtra.mkdirSync(Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/templates'));
+		} else if ('tinymce' === packageName) {
+			let itemvendorPath = Path.join(rootPath, 'media/vendor/' + packageName);
+
+			if (!fsExtra.existsSync(itemvendorPath)) {
+				fsExtra.mkdirSync(itemvendorPath);
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'plugins'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'langs'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'skins'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'themes'));
+				fsExtra.mkdirSync(Path.join(itemvendorPath, 'templates'));
 			}
 
 			copyAll('plugins', 'tinymce', 'plugins');
@@ -186,10 +177,32 @@ copyFiles = (options) => {
 			let tinyXml = fs.readFileSync(rootPath + '/plugins/editors/tinymce/tinymce.xml', {encoding: 'UTF-8'});
 			tinyXml = tinyXml.replace(xmlVersionStr, "$1" + options.dependencies.tinymce + "$3");
 			fs.writeFileSync(rootPath + '/plugins/editors/tinymce/tinymce.xml', tinyXml, {encoding: 'UTF-8'});
+
+		} else {
+
+			['js', 'css', 'filesExtra'].forEach(function (type) {
+				if (!vendor[type]) return;
+
+				let dest  = Path.join(mediaVendorPath, vendorName),
+					files = copyFilesTo(vendor[type], modulePathRoot, dest, type);
+
+				// Add to registry, in format suported by JHtml
+				if ('js' === type || 'css' === type) {
+					registryItem[type] = [];
+					files.forEach((filePath) => {
+						registryItem[type].push('vendor/' + vendorName + '/' + Path.basename(filePath));
+					});
+				}
+			});
 		}
 
-		console.log(Chalk.green(name + ' was updated.'));
+		registry.vendors[vendorName] = registryItem;
+
+		console.log(Chalk.green(packageName + ' was updated.'));
 	}
+
+	// Write assets registry
+	fs.writeFileSync(Path.join(mediaVendorPath, 'joomla.asset.json'), JSON.stringify(registry, null, 2), {encoding: 'UTF-8'});
 };
 
 copyPolyfills = () => {
