@@ -314,6 +314,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter by current user access level.
 		$user = JFactory::getUser();
+
 		// Get the current user for authorisation checks
 		if ($user->authorise('core.admin') !== true) 
 		{
