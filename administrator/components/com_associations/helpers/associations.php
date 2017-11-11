@@ -446,7 +446,7 @@ class AssociationsHelper extends JHelperContent
 	public static function getContentLanguages()
 	{
 		return LanguageHelper::getContentLanguages();
-   	}
+	}
 
 	/**
 	 * Get the associated items for an item
