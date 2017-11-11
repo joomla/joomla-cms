@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
+JHtml::_('jquery.token');
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbuttonpackage = function()
@@ -112,7 +113,6 @@ JFactory::getDocument()->addScriptDeclaration(
 			var data = new FormData;
 			data.append('install_package', file);
 			data.append('installtype', 'upload');
-			data.append(token, 1);
 
 			actions.hide();
 			progress.show();
