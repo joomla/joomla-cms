@@ -313,10 +313,10 @@ class ModulesModelModules extends JModelList
 		$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
 
 		// Filter by current user access level.
-		$user   = JFactory::getUser();
+		$user = JFactory::getUser();
 		// Get the current user for authorisation checks
 		if ($user->authorise('core.admin') !== true) 
-		{ 
+		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
 		}
