@@ -14,8 +14,8 @@ const options = require('./package.json');
 Program
 	.version(options.version)
 	.option('--update', 'Updates the vendor scripts')
-	.option('--compilejs', 'Compiles ES6 to ES5 scripts')
-	.option('--compilecss', 'Compiles all the scss files to css')
+	.option('--compilejs, --compilejs path', 'Compiles ES6 to ES5 scripts')
+	.option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
 	.option('--installer', 'Creates the language file for installer error page')
 	.on('--help', () => {
 		console.log(Chalk.cyan('\n  Version %s\n'), options.version);
@@ -52,10 +52,10 @@ if (Program.installer) {
 
 // Convert scss to css
 if (Program['compilecss']) {
-	css.css(options)
+	css.css(options, Program.args[0])
 }
 
 // Compress/transpile the javascript files
 if (Program['compilejs']) {
-	Js.js(options)
+	Js.js(options, Program.args[0])
 }

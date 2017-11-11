@@ -11,18 +11,33 @@ const postcss      = require('postcss');
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '');
 
-compileFiles = (options) => {
-	const files = [
-		rootPath + '/' + 'templates/cassiopeia/scss/template.scss',
-		rootPath + '/' + 'administrator/templates/atum/scss/bootstrap.scss',
-		rootPath + '/' + 'administrator/templates/atum/scss/font-awesome.scss',
-		rootPath + '/' + 'administrator/templates/atum/scss/template.scss',
-		rootPath + '/' + 'administrator/templates/atum/scss/template-rtl.scss',
-	];
+compileFiles = (options, path) => {
+	let files = [], folders = [];
 
-	const folders = [
-		rootPath + '/' + 'media',
-	];
+	if (path) {
+		const stats = fs.lstatSync(rootPath + '/' + path);
+
+		if (stats.isDirectory()) {
+			folders.push(rootPath + '/' + path);
+		} else if (stats.isFile()) {
+			files.push(rootPath + '/' + path);
+		} else {
+			throw new Error ('Unknown path ' + path);
+		}
+
+	} else {
+		files = [
+			rootPath + '/' + 'templates/cassiopeia/scss/template.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/bootstrap.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/font-awesome.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/template.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/template-rtl.scss',
+		];
+
+		folders = [
+			rootPath + '/' + 'media',
+		];
+	}
 
 	// Loop to get some text for the packgage.json
 	files.forEach((file) => {
@@ -78,10 +93,10 @@ compileFiles = (options) => {
 };
 
 
-sass = (options) => {
+sass = (options, path) => {
 	Promise.resolve()
 		// Compile the scss files
-		.then(() => compileFiles(options))
+		.then(() => compileFiles(options, path))
 
 		// Handle errors
 		.catch((err) => {

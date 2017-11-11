@@ -8,13 +8,24 @@ const UglifyJS = require('uglify-es');
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '');
 
-uglifyJs = (options) => {
-	const folders = [
-		rootPath + '/' + 'media',
-		rootPath + '/' + 'administrator/templates/atum/js',
-		rootPath + '/' + 'templates/cassiopeia/js'
-	];
+uglifyJs = (options, path) => {
+	let folders = [];
+	if (path) {
+		const stats = fs.lstatSync(rootPath + '/' + path);
 
+		if (!stats.isDirectory()) {
+			// @todo: allow to compile single file
+			throw new Error ('Path should be a directory: ' + path);
+		}
+
+		folders.push(rootPath + '/' + path);
+	} else {
+		folders = [
+			rootPath + '/' + 'media',
+			rootPath + '/' + 'administrator/templates/atum/js',
+			rootPath + '/' + 'templates/cassiopeia/js'
+		];
+	}
 
 	// Loop to get some text for the packgage.json
 	folders.forEach((folder) => {
@@ -36,10 +47,10 @@ uglifyJs = (options) => {
 };
 
 
-ujs = (options) => {
+ujs = (options, path) => {
 	Promise.resolve()
 		// Compile the scss files
-		.then(() => uglifyJs(options))
+		.then(() => uglifyJs(options, path))
 
 		// Handle errors
 		.catch((err) => {
