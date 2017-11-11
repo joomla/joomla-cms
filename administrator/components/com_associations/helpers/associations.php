@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Associations component helper.
@@ -35,15 +36,6 @@ class AssociationsHelper extends JHelperContent
 	 * @since   3.7.0
 	 */
 	public static $supportedExtensionsList = array();
-
-	/**
-	 * List of available languages
-	 *
-	 * @var    installed languages
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $languages = array();
 
 	/**
 	 * Get the associated items for an item
@@ -186,7 +178,7 @@ class AssociationsHelper extends JHelperContent
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = self::getContentLanguages();
+		$languages = LanguageHelper::getContentLanguages();
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
@@ -445,23 +437,6 @@ class AssociationsHelper extends JHelperContent
 	}
 
 	/**
-	 * Get all the content languages.
-	 *
-	 * @return  array  Array of objects all content languages by language code.
-	 *
-	 * @since   3.7.0
-	 */
-	public static function getContentLanguages()
-	{
-		if (empty(static::$languages))
-		{
-			static::load();
-		}
-
-		return static::$languages;
-	}
-
-	/**
 	 * Get the associated items for an item
 	 *
 	 * @param   string  $extensionName  The extension name with com_
@@ -672,42 +647,5 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Load the installed languages.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected static function load()
-	{
-		$loader = function ()
-		{
-			$db = \JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
-				->from($db->quoteName('#__languages'))
-				->where($db->quoteName('published') . ' > 0')
-				->order($db->quoteName('ordering') . ' ASC');
-
-			$db->setQuery($query);
-
-			return $db->loadObjectList('lang_code');
-		}
-
-		$cache = \JFactory::getCache('_system', 'callback');
-
-		try
-		{
-			static::$languages = $cache->get($loader, array(), __METHOD__);
-		}
-		catch (\JCacheException $e)
-		{
-			static::$languages = $loader();
-		}
-
-		return true;
 	}
 }
