@@ -531,31 +531,35 @@ class Update extends \JObject
 		xml_parser_free($this->xmlParser);
 		
 		// Why do I use this garbage code instead of Http instance? It's faster!
-		foreach ($this->currentUpdate->downloadurl as $downloadurl) {
-			$url = $downloadurl->_data;
-			$code_pattern = '#[0-9]{3}#';
-			$type_pattern = '#application/#';
-			$headers = get_headers($url, 1);
+		if (isset($this->currentUpdate->downloadurl)) {
+			$found = false;
+			
+			foreach ($this->currentUpdate->downloadurl as $downloadurl) {
+				$url = $downloadurl->_data;
+				$code_pattern = '#[0-9]{3}#';
+				$type_pattern = '#application/#';
+				$headers = get_headers($url, 1);
 
-			while (isset($headers['Location']))
-			{
-				$url = $headers['Location'];
-				$headers    = get_headers($url, 1);
+				while (isset($headers['Location']))
+				{
+					$url = $headers['Location'];
+					$headers    = get_headers($url, 1);
+				}
+				
+				preg_match($code_pattern, array_shift($headers), $matches);
+				$code = count($matches) ? $matches[0] : null;			
+				$found = is_array($headers['Content-Type']) ? !empty(preg_grep($type_pattern, $headers['Content-Type'])) : preg_match($type_pattern, $headers['Content-Type']);
+				
+				if ($found && ($code == 200 || $code == 310)) {
+					$this->currentUpdate->downloadurl = $downloadurl;
+					break;
+				}
 			}
 			
-			preg_match($code_pattern, array_shift($headers), $matches);
-			$code = count($matches) ? $matches[0] : null;			
-			$found = is_array($headers['Content-Type']) ? !empty(preg_grep($type_pattern, $headers['Content-Type'])) : preg_match($type_pattern, $headers['Content-Type']);
-			
-			if ($found && ($code == 200 || $code == 310)) {
-				$this->currentUpdate->downloadurl = $downloadurl;
-				break;
+			// Should we pass at least 1 downloadurl, even it's not working?
+			if (!$found) {
+				$this->currentUpdate->downloadurl = $this->currentUpdate->downloadurl[0];
 			}
-		}
-		
-		// Should we pass at least 1 downloadurl, even it's not working?
-		if (!$found) {
-			$this->currentUpdate->downloadurl = $this->currentUpdate->downloadurl[0];
 		}
 		
 		return true;
