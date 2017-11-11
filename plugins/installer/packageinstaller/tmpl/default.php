@@ -51,8 +51,10 @@ JFactory::getDocument()->addScriptDeclaration(
 		var url       = 'index.php?option=com_installer&task=install.ajax_upload';
 		var returnUrl = $('#installer-return').val();
 		var token     = $('#installer-token').val();
+		var actions   = $('.upload-actions');
 		var progress  = $('.upload-progress');
-		var percentage = progress.find('.bar');
+		var progressBar = progress.find('.bar');
+		var percentage = progress.find('.uploading-number');
 
 		if (returnUrl) {
 			url += '&return=' + returnUrl;
@@ -112,7 +114,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			data.append('installtype', 'upload');
 			data.append(token, 1);
 
-			JoomlaInstaller.showLoading();
+			actions.hide();
 			progress.show();
 			
 			$.ajax({
@@ -125,11 +127,16 @@ JFactory::getDocument()->addScriptDeclaration(
 				xhr: function () {
                     var xhr = new window.XMLHttpRequest();
                     
+                    progressBar.css('width', 0);
+                    percentage.text(0);
+                    
                     // Upload progress
                     xhr.addEventListener("progress", function (evt) {
                         if (evt.lengthComputable) {
                             var percentComplete = evt.loaded / evt.total;
-                            percentage.css('width', Math.round(percentComplete * 100) + '%');
+                            var number = Math.round(percentComplete * 100);
+                            progressBar.css('width', Math.round(percentComplete * 100) + '%');
+                            percentage.text(number);
                         }
                     }, false);
                     
@@ -142,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration(
                     
                     // Handle extension fatal error
                     if (!res.data) {
-                        JoomlaInstaller.hideLoading();
+                        actions.show();
                         progress.hide();
                         alert(res.message || 'Unknown error.');
                         return;
@@ -156,8 +163,8 @@ JFactory::getDocument()->addScriptDeclaration(
 					location.href = 'index.php?option=com_installer&view=install';
 				}
 			}).error(function (error) {
-				JoomlaInstaller.hideLoading();
-				progress.hide();
+				actions.show();
+			    progress.hide();
 				alert(error.statusText);
 			});
 		});
@@ -219,21 +226,34 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			</p>
             <div class="upload-progress" style="display: none;">
                 <div class="progress progress-striped active">
-                    <div class="bar bar-success" style="width: 0%;"></div>
+                    <div class="bar bar-success" style="width: 0;"></div>
                 </div>
+                <p class="lead">
+		            <span class="uploading-text">
+                        <?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
+                    </span>
+                    <span class="uploading-number">
+                        0
+                    </span>
+                    <span class="uploading-symbol">
+                        %
+                    </span>
+                </p>
             </div>
-			<p class="lead">
-				<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
-			</p>
-			<p>
-				<button id="select-file-button" type="button" class="btn btn-success">
-					<span class="icon-copy" aria-hidden="true"></span>
-					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
-				</button>
-			</p>
-			<p>
-				<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
-			</p>
+			<div class="upload-actions">
+                <p class="lead">
+					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
+                </p>
+                <p>
+                    <button id="select-file-button" type="button" class="btn btn-success">
+                        <span class="icon-copy" aria-hidden="true"></span>
+						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
+                    </button>
+                </p>
+                <p>
+					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+                </p>
+            </div>
 		</div>
 
 	</div>
