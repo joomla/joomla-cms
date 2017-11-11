@@ -320,7 +320,7 @@ class ModulesModelModules extends JModelList
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
 		}
-		
+
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
