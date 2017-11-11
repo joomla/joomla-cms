@@ -223,6 +223,14 @@ JFactory::getDocument()->addStyleDeclaration(
 		width: 50%;
 		margin: 5px auto;
 	 }
+
+	/* Default transition (.3s) is too slow, progress will not run to 100% */
+	.upload-progress .progress .bar {
+		-webkit-transition: width .1s;
+		-moz-transition: width .1s;
+		-o-transition: width .1s;
+		transition: width .1s;
+	}
 CSS
 );
 
