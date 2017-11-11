@@ -124,42 +124,42 @@ JFactory::getDocument()->addScriptDeclaration(
 				cache: false,
 				contentType: false,
 				xhr: function () {
-                    var xhr = new window.XMLHttpRequest();
-                    
-                    progressBar.css('width', 0);
-                    percentage.text(0);
-                    
-                    // Upload progress
-                    xhr.upload.addEventListener("progress", function (evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = evt.loaded / evt.total;
-                            var number = Math.round(percentComplete * 100);
-                            progressBar.css('width', Math.round(percentComplete * 100) + '%');
-                            percentage.text(number);
-                        }
-                    }, false);
-                    
-                    return xhr;
-                }
+					var xhr = new window.XMLHttpRequest();
+					
+					progressBar.css('width', 0);
+					percentage.text(0);
+					
+					// Upload progress
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							var percentComplete = evt.loaded / evt.total;
+							var number = Math.round(percentComplete * 100);
+							progressBar.css('width', Math.round(percentComplete * 100) + '%');
+							percentage.text(number);
+						}
+					}, false);
+					
+					return xhr;
+				}
 			})
 			.done(function (res) {
 				// Handle extension fatal error
-                if (!res.success && !res.data) {
-                    actions.show();
-                    progress.hide();
-                    var message = 'Unknown error.';
+				if (!res.success && !res.data) {
+					actions.show();
+					progress.hide();
+					var message = 'Unknown error.';
 
-                    if (typeof res === 'string') {
-                        var tmp = document.createElement('DIV');
-                        tmp.innerHTML = res;
-                        message = tmp.textContent || tmp.innerText || '';
-                    } else if (res.message) {
-                        message = res.message;
-                    }
+					if (typeof res === 'string') {
+						var tmp = document.createElement('DIV');
+						tmp.innerHTML = res;
+						message = tmp.textContent || tmp.innerText || '';
+					} else if (res.message) {
+						message = res.message;
+					}
 
-                    alert(message);
-                    return;
-                }
+					alert(message);
+					return;
+				}
 
 				// Always redirect that can show message queue from session 
 				if (res.data.redirect) {
@@ -169,7 +169,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				}
 			}).error(function (error) {
 				actions.show();
-			    progress.hide();
+				progress.hide();
 				alert(error.statusText);
 			});
 		});
