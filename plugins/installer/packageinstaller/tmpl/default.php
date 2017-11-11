@@ -51,7 +51,6 @@ JFactory::getDocument()->addScriptDeclaration(
 		var button    = $('#select-file-button');
 		var url       = 'index.php?option=com_installer&task=install.ajax_upload';
 		var returnUrl = $('#installer-return').val();
-		var token     = $('#installer-token').val();
 		var actions   = $('.upload-actions');
 		var progress  = $('.upload-progress');
 		var progressBar = progress.find('.bar');
