@@ -137,8 +137,23 @@ JFactory::getDocument()->addScriptDeclaration(
                 }
 			})
 			.done(function (res) {
+			    // Handle extension fatal error
 				if (!res.success) {
-					console.log(res.message, res.messages);
+				    var message = '';
+				    
+				    if (res.message) {
+				        message += res.message;
+				    }
+				    
+				    if (res.messages) {
+				        message += "\\n" + message + res.messages.join("\\n");
+				    }
+				    
+				    JoomlaInstaller.hideLoading();
+                    progress.hide();
+                    alert(message || 'Unknown error.');
+				    
+				    return;
 				}
 
 				// Always redirect that can show message queue from session 
