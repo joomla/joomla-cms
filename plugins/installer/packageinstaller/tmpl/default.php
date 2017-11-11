@@ -212,10 +212,10 @@ JFactory::getDocument()->addStyleDeclaration(
 		color: #666;
 	}
 
-     .upload-progress {
-        width: 50%;
-        margin: 5px auto;
-     }
+	 .upload-progress {
+		width: 50%;
+		margin: 5px auto;
+	 }
 CSS
 );
 
@@ -229,36 +229,36 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			<p>
 				<span id="upload-icon" class="icon-upload" aria-hidden="true"></span>
 			</p>
-            <div class="upload-progress" style="display: none;">
-                <div class="progress progress-striped active">
-                    <div class="bar bar-success" style="width: 0;"></div>
-                </div>
-                <p class="lead">
-		            <span class="uploading-text">
-                        <?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
-                    </span>
-                    <span class="uploading-number">
-                        0
-                    </span>
-                    <span class="uploading-symbol">
-                        %
-                    </span>
-                </p>
-            </div>
+			<div class="upload-progress" style="display: none;">
+				<div class="progress progress-striped active">
+					<div class="bar bar-success" style="width: 0;"></div>
+				</div>
+				<p class="lead">
+					<span class="uploading-text">
+						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
+					</span>
+					<span class="uploading-number">
+						0
+					</span>
+					<span class="uploading-symbol">
+						%
+					</span>
+				</p>
+			</div>
 			<div class="upload-actions">
-                <p class="lead">
+				<p class="lead">
 					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
-                </p>
-                <p>
-                    <button id="select-file-button" type="button" class="btn btn-success">
-                        <span class="icon-copy" aria-hidden="true"></span>
+				</p>
+				<p>
+					<button id="select-file-button" type="button" class="btn btn-success">
+						<span class="icon-copy" aria-hidden="true"></span>
 						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
-                    </button>
-                </p>
-                <p>
+					</button>
+				</p>
+				<p>
 					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
-                </p>
-            </div>
+				</p>
+			</div>
 		</div>
 
 	</div>
