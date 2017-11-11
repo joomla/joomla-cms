@@ -137,23 +137,16 @@ JFactory::getDocument()->addScriptDeclaration(
                 }
 			})
 			.done(function (res) {
-			    // Handle extension fatal error
 				if (!res.success) {
-				    var message = '';
-				    
-				    if (res.message) {
-				        message += res.message;
+				    console.log(res.message, res.messages);
+                    
+                    // Handle extension fatal error
+                    if (!res.data) {
+                        JoomlaInstaller.hideLoading();
+                        progress.hide();
+                        alert(res.message || 'Unknown error.');
+                        return;
 				    }
-				    
-				    if (res.messages) {
-				        message += "\\n" + message + res.messages.join("\\n");
-				    }
-				    
-				    JoomlaInstaller.hideLoading();
-                    progress.hide();
-                    alert(message || 'Unknown error.');
-				    
-				    return;
 				}
 
 				// Always redirect that can show message queue from session 
