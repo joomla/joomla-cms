@@ -131,7 +131,7 @@ JFactory::getDocument()->addScriptDeclaration(
                     percentage.text(0);
                     
                     // Upload progress
-                    xhr.addEventListener("progress", function (evt) {
+                    xhr.upload.addEventListener("progress", function (evt) {
                         if (evt.lengthComputable) {
                             var percentComplete = evt.loaded / evt.total;
                             var number = Math.round(percentComplete * 100);
@@ -144,17 +144,23 @@ JFactory::getDocument()->addScriptDeclaration(
                 }
 			})
 			.done(function (res) {
-				if (!res.success) {
-				    console.log(res.message, res.messages);
-                    
-                    // Handle extension fatal error
-                    if (!res.data) {
-                        actions.show();
-                        progress.hide();
-                        alert(res.message || 'Unknown error.');
-                        return;
-				    }
-				}
+				// Handle extension fatal error
+                if (!res.success && !res.data) {
+                    actions.show();
+                    progress.hide();
+                    var message = 'Unknown error.';
+
+                    if (typeof res === 'string') {
+                        var tmp = document.createElement('DIV');
+                        tmp.innerHTML = res;
+                        message = tmp.textContent || tmp.innerText || '';
+                    } else if (res.message) {
+                        message = res.message;
+                    }
+
+                    alert(message);
+                    return;
+                }
 
 				// Always redirect that can show message queue from session 
 				if (res.data.redirect) {
