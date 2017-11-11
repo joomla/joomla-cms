@@ -115,7 +115,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 			actions.hide();
 			progress.show();
-			
+
 			$.ajax({
 				url: url,
 				data: data,
@@ -145,19 +145,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			.done(function (res) {
 				// Handle extension fatal error
 				if (!res.success && !res.data) {
-					actions.show();
-					progress.hide();
-					var message = 'Unknown error.';
-
-					if (typeof res === 'string') {
-						var tmp = document.createElement('DIV');
-						tmp.innerHTML = res;
-						message = tmp.textContent || tmp.innerText || '';
-					} else if (res.message) {
-						message = res.message;
-					}
-
-					alert(message);
+					showError(res);
 					return;
 				}
 
@@ -168,10 +156,29 @@ JFactory::getDocument()->addScriptDeclaration(
 					location.href = 'index.php?option=com_installer&view=install';
 				}
 			}).error(function (error) {
+				if (error.status === 200) {
+					var res = error.responseText || error.responseJSON;
+					showError(res);
+				} else {
+					showError(error.statusText);
+				}
+			});
+
+			function showError(res) {
 				actions.show();
 				progress.hide();
-				alert(error.statusText);
-			});
+
+				var message = 'Unknown error.';
+
+				if (typeof res === 'string') {
+					// Let's remove unnecessary HTML
+					message = res.replace(/(<([^>]+)>|\s+)/g, ' ');
+				} else if (res.message) {
+					message = res.message;
+				}
+
+				alert(message);
+			}
 		});
 	});
 JS
