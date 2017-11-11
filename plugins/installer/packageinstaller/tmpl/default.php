@@ -51,6 +51,8 @@ JFactory::getDocument()->addScriptDeclaration(
 		var url       = 'index.php?option=com_installer&task=install.ajax_upload';
 		var returnUrl = $('#installer-return').val();
 		var token     = $('#installer-token').val();
+		var progress  = $('.upload-progress');
+		var percentage = progress.find('.bar');
 
 		if (returnUrl) {
 			url += '&return=' + returnUrl;
@@ -111,6 +113,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			data.append(token, 1);
 
 			JoomlaInstaller.showLoading();
+			progress.show();
 			
 			$.ajax({
 				url: url,
@@ -118,8 +121,22 @@ JFactory::getDocument()->addScriptDeclaration(
 				type: 'post',
 				processData: false,
 				cache: false,
-				contentType: false
-			}).done(function (res) {
+				contentType: false,
+				xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    
+                    // Upload progress
+                    xhr.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            percentage.css('width', Math.round(percentComplete * 100) + '%');
+                        }
+                    }, false);
+                    
+                    return xhr;
+                }
+			})
+			.done(function (res) {
 				if (!res.success) {
 					console.log(res.message, res.messages);
 				}
@@ -130,8 +147,9 @@ JFactory::getDocument()->addScriptDeclaration(
 				} else {
 					location.href = 'index.php?option=com_installer&view=install';
 				}
-			}).error (function (error) {
+			}).error(function (error) {
 				JoomlaInstaller.hideLoading();
+				progress.hide();
 				alert(error.statusText);
 			});
 		});
@@ -173,6 +191,11 @@ JFactory::getDocument()->addStyleDeclaration(
 	#dragarea p.lead {
 		color: #666;
 	}
+
+     .upload-progress {
+        width: 50%;
+        margin: 5px auto;
+     }
 CSS
 );
 
@@ -186,6 +209,11 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			<p>
 				<span id="upload-icon" class="icon-upload" aria-hidden="true"></span>
 			</p>
+            <div class="upload-progress" style="display: none;">
+                <div class="progress progress-striped active">
+                    <div class="bar bar-success" style="width: 0%;"></div>
+                </div>
+            </div>
 			<p class="lead">
 				<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
 			</p>
