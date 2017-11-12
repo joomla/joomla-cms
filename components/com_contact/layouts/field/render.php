@@ -14,7 +14,7 @@ if (!array_key_exists('field', $displayData))
 }
 
 $field     = $displayData['field'];
-$label     = $field->label;
+$label     = JText::_($field->label);
 $value     = $field->value;
 $class     = $field->params->get('render_class');
 $showLabel = $field->params->get('showlabel');
