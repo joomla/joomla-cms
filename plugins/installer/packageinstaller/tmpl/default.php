@@ -66,10 +66,10 @@ JFactory::getDocument()->addScriptDeclaration(
 		});
 		
 		fileInput.on('change', function (e) {
-		    if (uploading) {
-		        return;
-		    }
-		    
+			if (uploading) {
+				return;
+			}
+			
 			Joomla.submitbuttonpackage();
 		});
 
@@ -107,8 +107,8 @@ JFactory::getDocument()->addScriptDeclaration(
 			dragZone.removeClass('hover');
 			
 			if (uploading) {
-		        return;
-		    }
+				return;
+			}
 
 			var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
 
@@ -168,7 +168,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					location.href = 'index.php?option=com_installer&view=install';
 				}
 			}).error(function (error) {
-			    uploading = false;
+				uploading = false;
 
 				if (error.status === 200) {
 					var res = error.responseText || error.responseJSON;
