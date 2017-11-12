@@ -475,12 +475,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "9db77b107ecd5b654a1c725492e4ad8936e10cdd"
+                "reference": "091cc077da5dac8ebb600c1862c2cb9916c349f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/9db77b107ecd5b654a1c725492e4ad8936e10cdd",
-                "reference": "9db77b107ecd5b654a1c725492e4ad8936e10cdd",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/091cc077da5dac8ebb600c1862c2cb9916c349f0",
+                "reference": "091cc077da5dac8ebb600c1862c2cb9916c349f0",
                 "shasum": ""
             },
             "require": {
@@ -520,7 +520,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-09-13T00:12:59+00:00"
+            "time": "2017-10-24T00:47:31+00:00"
         },
         {
             "name": "joomla/controller",
@@ -1875,12 +1875,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "5dcaece35a81f3e0719f8d333122f3051ceca288"
+                "reference": "0f859c42d6b557fdac74754c9823170765ae3872"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/5dcaece35a81f3e0719f8d333122f3051ceca288",
-                "reference": "5dcaece35a81f3e0719f8d333122f3051ceca288",
+                "url": "https://api.github.com/repos/symfony/console/zipball/0f859c42d6b557fdac74754c9823170765ae3872",
+                "reference": "0f859c42d6b557fdac74754c9823170765ae3872",
                 "shasum": ""
             },
             "require": {
@@ -1936,24 +1936,24 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-09-27T15:10:55+00:00"
+            "time": "2017-11-12T16:53:54+00:00"
         },
         {
             "name": "symfony/debug",
-            "version": "v3.3.2",
+            "version": "v3.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "e9c50482841ef696e8fa1470d950a79c8921f45d"
+                "reference": "74557880e2846b5c84029faa96b834da37e29810"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/e9c50482841ef696e8fa1470d950a79c8921f45d",
-                "reference": "e9c50482841ef696e8fa1470d950a79c8921f45d",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/74557880e2846b5c84029faa96b834da37e29810",
+                "reference": "74557880e2846b5c84029faa96b834da37e29810",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9",
+                "php": "^5.5.9|>=7.0.8",
                 "psr/log": "~1.0"
             },
             "conflict": {
@@ -1992,20 +1992,20 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-01T21:01:25+00:00"
+            "time": "2017-11-10T16:38:39+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.4.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937"
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
                 "shasum": ""
             },
             "require": {
@@ -2017,7 +2017,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.6-dev"
                 }
             },
             "autoload": {
@@ -2051,7 +2051,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09T14:24:12+00:00"
+            "time": "2017-10-11T12:05:26+00:00"
         },
         {
             "name": "symfony/polyfill-php56",

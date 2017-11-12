@@ -143,7 +143,7 @@ class TextDescriptor extends Descriptor
         $this->writeText('<comment>Usage:</comment>', $options);
         foreach (array_merge(array($command->getSynopsis(true)), $command->getAliases(), $command->getUsages()) as $usage) {
             $this->writeText("\n");
-            $this->writeText('  '.$usage, $options);
+            $this->writeText('  '.OutputFormatter::escape($usage), $options);
         }
         $this->writeText("\n");
 
@@ -253,11 +253,9 @@ class TextDescriptor extends Descriptor
     /**
      * Formats command aliases to show them in the command description.
      *
-     * @param Command $command
-     *
      * @return string
      */
-    private function getCommandAliasesText($command)
+    private function getCommandAliasesText(Command $command)
     {
         $text = '';
         $aliases = $command->getAliases();
@@ -323,7 +321,7 @@ class TextDescriptor extends Descriptor
      *
      * @return int
      */
-    private function calculateTotalWidthForOptions($options)
+    private function calculateTotalWidthForOptions(array $options)
     {
         $totalWidth = 0;
         foreach ($options as $option) {

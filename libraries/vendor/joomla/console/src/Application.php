@@ -390,7 +390,7 @@ class Application extends AbstractApplication
 		{
 			$dispatcher = $this->getDispatcher();
 		}
-		catch (\UnexpectedValueException $exception)
+		catch (\UnexpectedValueException $noDispatcherException)
 		{
 			$dispatcher = null;
 		}
