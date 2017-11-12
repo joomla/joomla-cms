@@ -46,6 +46,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			return;
 		}
 
+		var uploading = false;
 		var dragZone  = $('#dragarea');
 		var fileInput = $('#install_package');
 		var button    = $('#select-file-button');
@@ -65,6 +66,10 @@ JFactory::getDocument()->addScriptDeclaration(
 		});
 		
 		fileInput.on('change', function (e) {
+		    if (uploading) {
+		        return;
+		    }
+		    
 			Joomla.submitbuttonpackage();
 		});
 
@@ -100,6 +105,10 @@ JFactory::getDocument()->addScriptDeclaration(
 			e.stopPropagation();
 
 			dragZone.removeClass('hover');
+			
+			if (uploading) {
+		        return;
+		    }
 
 			var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
 
@@ -115,6 +124,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 			actions.hide();
 			progress.show();
+			uploading = true;
 
 			$.ajax({
 				url: url,
@@ -158,6 +168,8 @@ JFactory::getDocument()->addScriptDeclaration(
 					location.href = 'index.php?option=com_installer&view=install';
 				}
 			}).error(function (error) {
+			    uploading = false;
+
 				if (error.status === 200) {
 					var res = error.responseText || error.responseJSON;
 					showError(res);
