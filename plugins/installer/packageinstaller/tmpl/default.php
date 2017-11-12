@@ -127,14 +127,16 @@ JFactory::getDocument()->addScriptDeclaration(
 					var xhr = new window.XMLHttpRequest();
 					
 					progressBar.css('width', 0);
+					progressBar.attr('aria-valuenow', 0);
 					percentage.text(0);
-					
+
 					// Upload progress
 					xhr.upload.addEventListener("progress", function (evt) {
 						if (evt.lengthComputable) {
 							var percentComplete = evt.loaded / evt.total;
 							var number = Math.round(percentComplete * 100);
-							progressBar.css('width', Math.round(percentComplete * 100) + '%');
+							progressBar.css('width', number + '%');
+							progressBar.attr('aria-valuenow', number);
 							percentage.text(number);
 						}
 					}, false);
@@ -246,7 +248,13 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			</p>
 			<div class="upload-progress" style="display: none;">
 				<div class="progress progress-striped active">
-					<div class="bar bar-success" style="width: 0;"></div>
+					<div class="bar bar-success"
+                        style="width: 0;"
+                        role="progressbar"
+                        aria-valuenow="25"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                    ></div>
 				</div>
 				<p class="lead">
 					<span class="uploading-text">
