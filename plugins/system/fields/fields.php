@@ -118,10 +118,11 @@ class PlgSystemFields extends JPlugin
 
 		$user = JFactory::getUser($userData['id']);
 
-		$task = JFactory::getApplication()->input->getCmd('task');
+		$option = JFactory::getApplication()->input->getCmd('option');
+		$task   = JFactory::getApplication()->input->getCmd('task');
 
 		// Skip fields save when we activate a user, because we will lose the saved data
-		if (in_array($task, array('activate', 'block', 'unblock')))
+		if ($option != 'com_users' || in_array($task, array('activate', 'block', 'unblock', 'request', 'complete')))
 		{
 			return true;
 		}
