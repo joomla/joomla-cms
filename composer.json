@@ -12,6 +12,7 @@
         },
         "preferred-install": {
             "joomla/application": "dist",
+            "joomla/authentication": "dist",
             "joomla/controller": "dist",
             "joomla/crypt": "dist",
             "joomla/data": "dist",
@@ -46,6 +47,7 @@
         "php": ">=7.0",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
+        "joomla/authentication": "~2.0@dev",
         "joomla/controller": "~2.0@dev",
         "joomla/crypt": "~2.0@dev",
         "joomla/data": "~2.0@dev",
