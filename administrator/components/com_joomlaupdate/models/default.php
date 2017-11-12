@@ -1072,7 +1072,7 @@ ENDDATA;
 		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
 			$option = new stdClass;
-			$option->label  = sprintf(JText::_('INSTL_DATABASE_SUPPORTED'), $this->getConfiguredDatabaseType());
+			$option->label  = JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
 			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
