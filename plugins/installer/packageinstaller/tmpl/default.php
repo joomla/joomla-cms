@@ -39,7 +39,6 @@ $return = JFactory::getApplication()->input->getBase64('return');
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
 	jQuery(document).ready(function($) {
-		
 		if (typeof FormData === 'undefined') {
 			$('#legacy-uploader').show();
 			$('#uploader-wrapper').hide();
@@ -60,25 +59,25 @@ JFactory::getDocument()->addScriptDeclaration(
 		if (returnUrl) {
 			url += '&return=' + returnUrl;
 		}
-		
+
 		button.on('click', function(e) {
 			fileInput.click();
 		});
-		
+
 		fileInput.on('change', function (e) {
 			if (uploading) {
 				return;
 			}
-			
+
 			Joomla.submitbuttonpackage();
 		});
 
 		dragZone.on('dragenter', function(e) {
 			e.preventDefault();
 			e.stopPropagation();
-			
+
 			dragZone.addClass('hover');
-			
+
 			return false;
 		});
 
@@ -105,7 +104,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			e.stopPropagation();
 
 			dragZone.removeClass('hover');
-			
+
 			if (uploading) {
 				return;
 			}
@@ -135,7 +134,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				contentType: false,
 				xhr: function () {
 					var xhr = new window.XMLHttpRequest();
-					
+
 					progressBar.css('width', 0);
 					progressBar.attr('aria-valuenow', 0);
 					percentage.text(0);
@@ -150,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							percentage.text(number);
 						}
 					}, false);
-					
+
 					return xhr;
 				}
 			})
@@ -208,7 +207,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		transition: all 0.2s ease 0s;
 		width: 100%;
 	}
-	
+
 	#dragarea p.lead {
 		color: #999;
 	}
@@ -222,12 +221,12 @@ JFactory::getDocument()->addStyleDeclaration(
 		color: #999;
 		transition: all .2s;
 	}
-	
+
 	#dragarea.hover {
 		border-color: #666;
 		background-color: #eee;
 	}
-	
+
 	#dragarea.hover #upload-icon,
 	#dragarea p.lead {
 		color: #666;
