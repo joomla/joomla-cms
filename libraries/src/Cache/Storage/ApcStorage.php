@@ -186,6 +186,18 @@ class ApcStorage extends CacheStorage
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		return apc_clear_cache('user');
+	}
+
+	/**
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean

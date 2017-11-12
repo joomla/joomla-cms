@@ -338,6 +338,18 @@ class RedisStorage extends CacheStorage
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		return static::$_redis->flushDB();
+	}
+
+	/**
 	 * Test to see if the storage handler is available.
 	 *
 	 * @return  boolean

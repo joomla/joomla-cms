@@ -194,6 +194,18 @@ class ApcuStorage extends CacheStorage
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		return apcu_clear_cache();
+	}
+
+	/**
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean

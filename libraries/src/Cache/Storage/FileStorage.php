@@ -299,6 +299,25 @@ class FileStorage extends CacheStorage
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		$return = true;
+
+		foreach ($this->_folders($this->_root) as $folder)
+		{
+			$return |= $this->_deleteFolder($this->_root . '/' . $folder);
+		}
+
+		return (bool) $return;
+	}
+
+	/**
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean

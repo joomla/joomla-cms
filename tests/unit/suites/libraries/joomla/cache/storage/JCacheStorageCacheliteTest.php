@@ -14,6 +14,13 @@
 class JCacheStorageCacheliteTest extends TestCaseCache
 {
 	/**
+	 * Flag if the handler is flushable
+	 *
+	 * @var  bool
+	 */
+	protected $isFlushable = false;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
