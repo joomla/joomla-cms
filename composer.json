@@ -66,6 +66,7 @@
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
         "fig/link-util": "~1.0",
+        "google/recaptcha": "~1.1",
         "ircmaxell/password-compat": "1.*",
         "paragonie/random_compat": "~2.0",
         "paragonie/sodium_compat": "~1.2",

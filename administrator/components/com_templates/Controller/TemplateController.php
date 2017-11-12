@@ -170,7 +170,7 @@ class TemplateController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   3.2
 	 */

@@ -268,7 +268,7 @@ class ApplicationModel extends FormModel
 		// Set the shared session configuration
 		if (isset($data['shared_session']))
 		{
-			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+			$currentShared = $prev['shared_session'] ?? '0';
 
 			// Has the user enabled shared sessions?
 			if ($data['shared_session'] == 1 && $currentShared == 0)
@@ -288,7 +288,7 @@ class ApplicationModel extends FormModel
 		// Set the shared session configuration
 		if (isset($data['shared_session']))
 		{
-			$currentShared = isset($prev['shared_session']) ? $prev['shared_session'] : '0';
+			$currentShared = $prev['shared_session'] ?? '0';
 
 			// Has the user enabled shared sessions?
 			if ($data['shared_session'] == 1 && $currentShared == 0)

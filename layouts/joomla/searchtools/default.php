@@ -18,7 +18,7 @@ $noResultsText     = '';
 $hideActiveFilters = false;
 $showFilterButton  = false;
 $showSelector      = false;
-$selectorFieldName = isset($data['options']['selectorFieldName']) ? $data['options']['selectorFieldName'] : 'client_id';
+$selectorFieldName = $data['options']['selectorFieldName'] ?? 'client_id';
 
 // If a filter form exists.
 if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
@@ -60,7 +60,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 $customOptions = array(
 	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
 	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
-	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
+	'defaultLimit'        => $data['options']['defaultLimit'] ?? JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'selectorFieldName'   => $selectorFieldName,
 	'showSelector'        => $showSelector,

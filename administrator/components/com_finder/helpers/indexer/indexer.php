@@ -505,8 +505,8 @@ abstract class FinderIndexer
 
 		$query = clone $this->addTokensToDbQueryTemplate;
 
-		// Force tokens to an array.
-		$tokens = (array) $tokens;
+		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
+		$tokens = is_array($tokens) ? $tokens : array($tokens);
 
 		// Count the number of token values.
 		$values = 0;
