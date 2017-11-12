@@ -51,7 +51,7 @@ class BufferStreamHandler
 	 * Status of registering the wrapper
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.2
 	 */
 	static private $registered = false;
 
@@ -60,7 +60,7 @@ class BufferStreamHandler
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.2
 	 */
 	public static function stream_register()
 	{

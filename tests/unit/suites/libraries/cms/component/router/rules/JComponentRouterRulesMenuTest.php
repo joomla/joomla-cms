@@ -237,7 +237,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	public function testPreprocessActive()
 	{
@@ -270,7 +270,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	public function testPreprocessLayout()
 	{

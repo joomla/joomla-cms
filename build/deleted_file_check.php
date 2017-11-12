@@ -140,3 +140,6 @@ asort($deletedFiles);
 
 // Write the deleted files list to a file for later reference
 file_put_contents(__DIR__ . '/deleted_files.txt', implode("\n", $deletedFiles));
+
+echo PHP_EOL;
+echo 'There are ' . count($deletedFiles) . ' deleted files in comparison to "' . $options['from'] . '"' . PHP_EOL;

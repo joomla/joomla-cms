@@ -103,7 +103,7 @@ abstract class AdminModel extends FormModel
 	 * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
 	 *
 	 * @var     object
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	protected $batchSet = null;
 
@@ -111,7 +111,7 @@ abstract class AdminModel extends FormModel
 	 * The user performing the actions (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	protected $user = null;
 
@@ -119,7 +119,7 @@ abstract class AdminModel extends FormModel
 	 * A JTable instance (of appropropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	protected $table = null;
 
@@ -127,7 +127,7 @@ abstract class AdminModel extends FormModel
 	 * The class name of the JTable instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	protected $tableClassName = null;
 
@@ -135,7 +135,7 @@ abstract class AdminModel extends FormModel
 	 * UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
 	 *
 	 * @var     object
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	protected $contentType = null;
 
@@ -143,7 +143,7 @@ abstract class AdminModel extends FormModel
 	 * DB data of UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
 	 *
 	 * @var     object
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	protected $type = null;
 
@@ -151,7 +151,7 @@ abstract class AdminModel extends FormModel
 	 * A tags Observer instance to handle assigned tags (re-usable in batch action methods, initialized via initBatch())
 	 *
 	 * @var     object
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	protected $tagsObserver = null;
 
@@ -1497,7 +1497,7 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.2
 	 */
 	public function initBatch()
 	{
