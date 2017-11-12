@@ -12,6 +12,7 @@
         },
         "preferred-install": {
             "joomla/application": "dist",
+            "joomla/authentication": "dist",
             "joomla/console": "dist",
             "joomla/controller": "dist",
             "joomla/crypt": "dist",
@@ -48,6 +49,7 @@
         "php": ">=7.0",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
+        "joomla/authentication": "~2.0@dev",
         "joomla/console": "~2.0@dev",
         "joomla/controller": "~2.0@dev",
         "joomla/crypt": "~2.0@dev",
@@ -67,6 +69,7 @@
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
         "fig/link-util": "~1.0",
+        "google/recaptcha": "~1.1",
         "ircmaxell/password-compat": "1.*",
         "paragonie/random_compat": "~2.0",
         "paragonie/sodium_compat": "~1.2",

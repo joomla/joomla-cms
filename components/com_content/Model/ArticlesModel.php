@@ -270,7 +270,7 @@ class ArticlesModel extends ListModel
 		{
 			// If category is archived then article has to be published or archived.
 			// If categogy is published then article has to be archived.
-			$query->where('(c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2)');
+			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}
 		elseif (is_numeric($published))
 		{

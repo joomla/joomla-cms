@@ -110,7 +110,7 @@ class PlgContentFields extends JPlugin
 					}
 					else
 					{
-						$renderFields = isset($groups[$id]) ? $groups[$id] : '';
+						$renderFields = $groups[$id] ?? '';
 					}
 
 					if ($renderFields)

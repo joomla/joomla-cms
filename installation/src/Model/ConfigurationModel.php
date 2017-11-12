@@ -136,7 +136,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('gzip', false);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
-		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
+		$registry->set('ftp_host', $options->ftp_host ?? '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');

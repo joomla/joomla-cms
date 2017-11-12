@@ -107,6 +107,14 @@ Desktop.ini
 /libraries/vendor/defuse/php-encryption/README.md
 /libraries/vendor/defuse/php-encryption/psalm.xml
 /libraries/vendor/defuse/php-encryption/test.sh
+/libraries/vendor/google/recaptcha/examples
+/libraries/vendor/google/recaptcha/tests
+/libraries/vendor/google/recaptcha/.gitignore
+/libraries/vendor/google/recaptcha/.travis.yml
+/libraries/vendor/google/recaptcha/composer.json
+/libraries/vendor/google/recaptcha/CONTRIBUTING.md
+/libraries/vendor/google/recaptcha/phpunit.xml.dist
+/libraries/vendor/google/recaptcha/README.md
 /libraries/vendor/joomla/*/.appveyor.yml
 /libraries/vendor/joomla/*/.gitattributes
 /libraries/vendor/joomla/*/.github

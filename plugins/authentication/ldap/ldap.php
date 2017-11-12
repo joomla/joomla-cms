@@ -84,7 +84,13 @@ class PlgAuthenticationLdap extends JPlugin
 				if ($bindtest)
 				{
 					// Search for users DN
-					$binddata = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
+					$binddata = $ldap->simple_search(
+						str_replace(
+							'[search]',
+							$ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER),
+							$this->params->get('search_string')
+						)
+					);
 
 					if (isset($binddata[0], $binddata[0]['dn']))
 					{
@@ -110,11 +116,17 @@ class PlgAuthenticationLdap extends JPlugin
 			case 'bind':
 			{
 				// We just accept the result here
-				$success = $ldap->bind($credentials['username'], $credentials['password']);
+				$success = $ldap->bind($ldap->escape($credentials['username'], null, LDAP_ESCAPE_DN), $credentials['password']);
 
 				if ($success)
 				{
-					$userdetails = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
+					$userdetails = $ldap->simple_search(
+						str_replace(
+							'[search]',
+							$ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER),
+							$this->params->get('search_string')
+						)
+					);
 				}
 				else
 				{

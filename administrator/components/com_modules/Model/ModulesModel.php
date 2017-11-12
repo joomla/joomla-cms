@@ -106,6 +106,7 @@ class ModulesModel extends ListModel
 		if ($app->isClient('site') || $layout === 'modal')
 		{
 			$this->setState('client_id', 0);
+			$clientId = 0;
 		}
 		else
 		{

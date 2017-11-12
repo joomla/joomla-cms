@@ -379,7 +379,7 @@ class PlgUserJoomla extends JPlugin
 		$instance->groups = array($defaultUserGroup);
 
 		// If autoregister is set let's register the user
-		$autoregister = isset($options['autoregister']) ? $options['autoregister'] : $this->params->get('autoregister', 1);
+		$autoregister = $options['autoregister'] ?? $this->params->get('autoregister', 1);
 
 		if ($autoregister)
 		{

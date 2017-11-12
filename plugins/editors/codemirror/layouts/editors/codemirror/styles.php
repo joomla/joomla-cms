@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 $params     = $displayData->params;
-$fontFamily = isset($displayData->fontFamily) ? $displayData->fontFamily : 'monospace';
+$fontFamily = $displayData->fontFamily ?? 'monospace';
 $fontSize   = $params->get('fontSize', 13) . 'px;';
 $lineHeight = $params->get('lineHeight', 1.2) . 'em;';
 

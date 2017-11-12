@@ -11,7 +11,7 @@ namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -122,7 +122,7 @@ class NewsfeedController extends FormController
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(BaseModel $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
 
 	}
