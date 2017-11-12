@@ -261,12 +261,12 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			<div class="upload-progress" style="display: none;">
 				<div class="progress progress-striped active">
 					<div class="bar bar-success"
-                        style="width: 0;"
-                        role="progressbar"
-                        aria-valuenow="25"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                    ></div>
+						style="width: 0;"
+						role="progressbar"
+						aria-valuenow="25"
+						aria-valuemin="0"
+						aria-valuemax="100"
+					></div>
 				</div>
 				<p class="lead">
 					<span class="uploading-text">
