@@ -179,7 +179,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					message = res.message;
 				}
 
-				alert(message);
+				Joomla.renderMessages({error: [message]});
 			}
 		});
 	});
