@@ -178,7 +178,7 @@ class AssociationsHelper extends JHelperContent
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = self::getContentLanguages();
+		$languages = LanguageHelper::getContentLanguages(false, true);
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
@@ -434,18 +434,6 @@ class AssociationsHelper extends JHelperContent
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
-	}
-
-	/**
-	 * Get all the content languages.
-	 *
-	 * @return  array  Array of objects all content languages by language code.
-	 *
-	 * @since   3.7.0
-	 */
-	public static function getContentLanguages()
-	{
-		return LanguageHelper::getContentLanguages();
 	}
 
 	/**
