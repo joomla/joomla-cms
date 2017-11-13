@@ -424,3 +424,12 @@ JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Obje
 JLoader::registerAlias('JExtensionHelper',                  '\\Joomla\\CMS\\Extension\\ExtensionHelper', '5.0');
 
 JLoader::registerAlias('JHtml',                             '\\Joomla\\CMS\\HTML\\HTMLHelper', '5.0');
+
++JLoader::registerAlias('JFile',                             '\\Joomla\\CMS\\Filesystem\\File', '5.0');
++JLoader::registerAlias('JFolder',                           '\\Joomla\\CMS\\Filesystem\\Folder', '5.0');
++JLoader::registerAlias('JFilesystemHelper',                 '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '5.0');
++JLoader::registerAlias('JFilesystemPatcher',                '\\Joomla\\CMS\\Filesystem\\Patcher', '5.0');
++JLoader::registerAlias('JPath',                             '\\Joomla\\CMS\\Filesystem\\Path', '5.0');
++JLoader::registerAlias('JStream',                           '\\Joomla\\CMS\\Filesystem\\Stream', '5.0');
++JLoader::registerAlias('JStreamString',                     '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString', '5.0');
++JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '5.0');
