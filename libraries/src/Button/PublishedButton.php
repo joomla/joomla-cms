@@ -10,6 +10,7 @@ namespace Joomla\CMS\Button;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * The PublishedButton class.
@@ -69,12 +70,12 @@ class PublishedButton extends ActionButton
 
 				if ($publishUp)
 				{
-					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_START', $publishUp->format(Date::$format, true));
+					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, \JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 
 				if ($publishDown)
 				{
-					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publishDown->format(Date::$format, true));
+					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', HTMLHelper::_('date', $publishDown, \JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 
 				$tip = empty($tips) ? false : implode('<br>', $tips);
