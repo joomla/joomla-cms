@@ -49,7 +49,7 @@ class ActionButton
 		'_default' => [
 			'value'     => '_default',
 			'task'      => '',
-			'icon'      => 'icon-unfeatured',
+			'icon'      => 'icon-question',
 			'title'     => 'Unknown state',
 			'options'   => [
 				'disabled'  => false,
@@ -181,13 +181,12 @@ class ActionButton
 	}
 
 	/**
-	 * render
+	 * Render action button by item value.
 	 *
-	 * @param  mixed   $value
-	 * @param  integer $row
+	 * @param   mixed    $value  Current value of this item.
+	 * @param   integer  $row    The row number of this item.
 	 *
-	 * @return string
-	 * @throws \InvalidArgumentException
+	 * @return  string  Rendered HTML.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Button;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 
 /**
@@ -33,19 +34,20 @@ class PublishedButton extends ActionButton
 	}
 
 	/**
-	 * render
+	 * Render action button by item value.
 	 *
-	 * @param  mixed   $value
-	 * @param  integer $row
-	 * @param  string  $publish_up
-	 * @param  string  $publish_down
+	 * @param   mixed        $value        Current value of this item.
+	 * @param   integer      $row          The row number of this item.
+	 * @param   string|Date  $publishUp    The date which item publish up.
+	 * @param   string|Date  $publishDown  The date which item publish down.
 	 *
-	 * @return string
+	 * @return  string  Rendered HTML.
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function render($value = null, $row = null, $publish_up = null, $publish_down = null)
+	public function render($value = null, $row = null, $publishUp = null, $publishDown = null)
 	{
-		if ($publish_up || $publish_down)
+		if ($publishUp || $publishDown)
 		{
 			$bakState = $this->getState($value);
 			$default  = $this->getState($value) ? : $this->getState('_default');
@@ -55,8 +57,8 @@ class PublishedButton extends ActionButton
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publish_up = ($publish_up != $nullDate) ? Factory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
-			$publish_down = ($publish_down != $nullDate) ? Factory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
+			$publishUp   = ($publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : null;
+			$publishDown = ($publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : null;
 
 			// Add tips and special titles
 			// Create special titles for published items
@@ -65,14 +67,14 @@ class PublishedButton extends ActionButton
 				// Create tip text, only we have publish up or down settings
 				$tips = array();
 
-				if ($publish_up)
+				if ($publishUp)
 				{
-					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_START', $publish_up->format(\JDate::$format, true));
+					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_START', $publishUp->format(Date::$format, true));
 				}
 
-				if ($publish_down)
+				if ($publishDown)
 				{
-					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(\JDate::$format, true));
+					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publishDown->format(Date::$format, true));
 				}
 
 				$tip = empty($tips) ? false : implode('<br>', $tips);
@@ -81,16 +83,16 @@ class PublishedButton extends ActionButton
 
 				$default['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
 
-				if ($publish_up > $nullDate && $nowDate < $publish_up->toUnix())
+				if ($publishUp > $nullDate && $nowDate < $publishUp->toUnix())
 				{
 					$default['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
-					$default['icon'] = 'pending';
+					$default['icon'] = 'icon-pending';
 				}
 
-				if ($publish_down > $nullDate && $nowDate > $publish_down->toUnix())
+				if ($publishDown > $nullDate && $nowDate > $publishDown->toUnix())
 				{
 					$default['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
-					$default['icon'] = 'expired';
+					$default['icon'] = 'icon-expired';
 				}
 			}
 
@@ -105,5 +107,4 @@ class PublishedButton extends ActionButton
 
 		return parent::render($value, $row);
 	}
-
 }
