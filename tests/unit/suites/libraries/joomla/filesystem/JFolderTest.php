@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
+JLoader::register('Folder', JPATH_LIBRARIES . '/src/Filesystem/Folder.php');
 
 /**
  * Test class for JFolder.
@@ -28,7 +28,7 @@ class JFolderTest extends TestCase
 	 */
 	public function testDeleteArrayPath()
 	{
-		JFolder::delete(array('/path/to/folder') );
+		Folder::delete(array('/path/to/folder') );
 	}
 
 	/**
@@ -39,7 +39,7 @@ class JFolderTest extends TestCase
 	public function testExists()
 	{
 		$this->assertTrue(
-			JFolder::exists(__DIR__)
+			Folder::exists(__DIR__)
 		);
 	}
 

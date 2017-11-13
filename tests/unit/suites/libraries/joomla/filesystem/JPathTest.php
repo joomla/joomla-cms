@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
+JLoader::register('Path', JPATH_LIBRARIES . '/src/Filesystem/Path.php');
 
 /**
  * Tests for the JPath class.
@@ -55,7 +55,7 @@ class JPathTest extends TestCase
 	{
 		$this->assertEquals(
 			$expected,
-			JPath::clean($input, $ds)
+			Path::clean($input, $ds)
 		);
 	}
 
@@ -69,6 +69,6 @@ class JPathTest extends TestCase
 	 */
 	public function testCleanArrayPath()
 	{
-		JPath::clean(array('/path/to/folder') );
+		Path::clean(array('/path/to/folder') );
 	}
 }
