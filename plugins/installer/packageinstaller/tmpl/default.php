@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip');
 JHtml::_('jquery.token');
 
+JText::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
+JText::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbuttonpackage = function()
 	{
@@ -155,7 +158,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			})
 			.done(function (res) {
 				// Handle extension fatal error
-				if (!res.success && !res.data) {
+				if (!res || (!res.success && !res.data)) {
 					showError(res);
 					return;
 				}
@@ -181,9 +184,11 @@ JFactory::getDocument()->addScriptDeclaration(
 				actions.show();
 				progress.hide();
 
-				var message = 'Unknown error.';
+				var message = Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 
-				if (typeof res === 'string') {
+				if (res == null) {
+					message = Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+				} else if (typeof res === 'string') {
 					// Let's remove unnecessary HTML
 					message = res.replace(/(<([^>]+)>|\s+)/g, ' ');
 				} else if (res.message) {
