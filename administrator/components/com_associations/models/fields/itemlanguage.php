@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\LanguageHelper;
 
 JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
 JFormHelper::loadFieldClass('list');
@@ -57,7 +58,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$canCreate = AssociationsHelper::allowAdd($extensionName, $typeName);
 
 		// Gets existing languages.
-		$existingLanguages = AssociationsHelper::getContentLanguages();
+		$existingLanguages = LanguageHelper::getContentLanguages(false, true);
 
 		$options = array();
 
