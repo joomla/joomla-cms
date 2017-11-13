@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_LIBRARIES . '/src/Filesystem/Path.php';
+require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
 
 /**
  * A unit test class for JFilesystemPatcher
@@ -35,7 +35,7 @@ class JFilesystemPatcherTest extends TestCase
 		$this->_cleanupTestFiles();
 
 		// Make some test files and folders
-		mkdir(Path::clean(JPATH_TESTS . '/tmp/patcher'), 0777, true);
+		mkdir(JPath::clean(JPATH_TESTS . '/tmp/patcher'), 0777, true);
 	}
 
 	/**
@@ -61,10 +61,10 @@ class JFilesystemPatcherTest extends TestCase
 	 */
 	private function _cleanupTestFiles()
 	{
-		$this->_cleanupFile(Path::clean(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff'));
-		$this->_cleanupFile(Path::clean(JPATH_TESTS . '/tmp/patcher/lao'));
-		$this->_cleanupFile(Path::clean(JPATH_TESTS . '/tmp/patcher/tzu'));
-		$this->_cleanupFile(Path::clean(JPATH_TESTS . '/tmp/patcher'));
+		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff'));
+		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/patcher/lao'));
+		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/patcher/tzu'));
+		$this->_cleanupFile(JPath::clean(JPATH_TESTS . '/tmp/patcher'));
 	}
 
 	/**
