@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -235,7 +235,7 @@ class FormController extends BaseController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   BaseModel  $model  The model of the component being processed.
+	 * @param   BaseDatabaseModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -249,7 +249,7 @@ class FormController extends BaseController
 		// Build an array of item contexts to check
 		$contexts = array();
 
-		$option = isset($this->extension) ? $this->extension : $this->option;
+		$option = $this->extension ?? $this->option;
 
 		foreach ($cid as $id)
 		{
@@ -417,7 +417,7 @@ class FormController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  BaseModel  The model.
+	 * @return  BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -505,14 +505,14 @@ class FormController extends BaseController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   BaseModel  $model      The data model object.
-	 * @param   array      $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(BaseModel $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
 	}
 
@@ -858,7 +858,11 @@ class FormController extends BaseController
 
 		$recordId = $this->input->getInt($urlVar);
 
-		if (!$this->allowEdit($data, $key))
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// Check if it is allowed to edit or create the data
+		if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data)))
 		{
 			$this->setRedirect(
 				\JRoute::_(
@@ -868,9 +872,6 @@ class FormController extends BaseController
 			);
 			$this->redirect();
 		}
-
-		// Populate the row id from the session.
-		$data[$key] = $recordId;
 
 		// The redirect url
 		$redirectUrl = \JRoute::_(

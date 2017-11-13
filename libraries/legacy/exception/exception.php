@@ -356,7 +356,7 @@ class JException extends Exception
 	{
 		JLog::add('JException::set is deprecated.', JLog::WARNING, 'deprecated');
 
-		$previous = isset($this->$property) ? $this->$property : null;
+		$previous = $this->$property ?? null;
 		$this->$property = $value;
 
 		return $previous;

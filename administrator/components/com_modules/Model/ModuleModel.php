@@ -975,7 +975,7 @@ class ModuleModel extends AdminModel
 		}
 
 		// Process the menu link mappings.
-		$assignment = isset($data['assignment']) ? $data['assignment'] : 0;
+		$assignment = $data['assignment'] ?? 0;
 
 		// Delete old module to menu item associations
 		$db    = $this->getDbo();

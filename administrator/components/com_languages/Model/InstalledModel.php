@@ -73,7 +73,7 @@ class InstalledModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -221,7 +221,7 @@ class InstalledModel extends ListModel
 					$row               = new \stdClass;
 					$row->language     = $lang->element;
 					$row->name         = $lang->metadata['name'];
-					$row->nativeName   = isset($lang->metadata['nativeName']) ? $lang->metadata['nativeName'] : '-';
+					$row->nativeName   = $lang->metadata['nativeName'] ?? '-';
 					$row->client_id    = (int) $lang->client_id;
 					$row->extension_id = (int) $lang->extension_id;
 					$row->author       = $lang->manifest['author'];

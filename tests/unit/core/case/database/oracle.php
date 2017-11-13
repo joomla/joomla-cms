@@ -94,8 +94,8 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 		}
 
 		// Ensure some defaults.
-		self::$_options['charset'] = isset(self::$_options['charset']) ? self::$_options['charset'] : 'AL32UTF8';
-		self::$_options['port'] = isset(self::$_options['port']) ? self::$_options['port'] : 1521;
+		self::$_options['charset'] = self::$_options['charset'] ?? 'AL32UTF8';
+		self::$_options['port'] = self::$_options['port'] ?? 1521;
 
 		try
 		{

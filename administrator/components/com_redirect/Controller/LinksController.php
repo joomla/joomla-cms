@@ -109,7 +109,7 @@ class LinksController extends AdminController
 	 * @param   string  $prefix  The prefix of the model.
 	 * @param   array   $config  An array of settings.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel The model instance
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel The model instance
 	 *
 	 * @since   1.6
 	 */

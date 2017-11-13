@@ -36,7 +36,7 @@ class ItemController extends FormController
 	{
 		$user = \JFactory::getUser();
 
-		$menuType = \JFactory::getApplication()->input->getCmd('menutype', isset($data['menutype']) ? $data['menutype'] : '');
+		$menuType = \JFactory::getApplication()->input->getCmd('menutype', $data['menutype'] ?? '');
 
 		$menutypeID = 0;
 
@@ -518,8 +518,8 @@ class ItemController extends FormController
 		$type = $data['type'];
 
 		$type = json_decode(base64_decode($type));
-		$title = isset($type->title) ? $type->title : null;
-		$recordId = isset($type->id) ? $type->id : 0;
+		$title = $type->title ?? null;
+		$recordId = $type->id ?? 0;
 
 		$specialTypes = array('alias', 'separator', 'url', 'heading', 'container');
 

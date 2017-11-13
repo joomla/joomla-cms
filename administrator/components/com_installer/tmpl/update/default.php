@@ -79,7 +79,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php
 								$client          = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 								$manifest        = json_decode($item->manifest_cache);
-								$current_version = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
+								$current_version = $manifest->version ?? JText::_('JLIB_UNKNOWN');
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td>

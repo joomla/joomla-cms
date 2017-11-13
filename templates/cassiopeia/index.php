@@ -117,9 +117,12 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</div>
 			<?php endif; ?>
 			<div class="header-shadow"></div>
-			<svg class="header-shape-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-				<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fff"/>
-			</svg>
+			<div class="header-shape-bottom">
+				<canvas width="736" height="15"></canvas>
+				<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
+					<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
+				</svg>
+			</div>
 		</header>
 	</div>
 	

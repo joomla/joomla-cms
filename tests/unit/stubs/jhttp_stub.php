@@ -49,5 +49,5 @@ echo json_encode($response);
  */
 function getVar($array, $key, $default = '')
 {
-	return isset($array[$key]) ? $array[$key] : $default;
+	return $array[$key] ?? $default;
 }

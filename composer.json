@@ -12,6 +12,7 @@
         },
         "preferred-install": {
             "joomla/application": "dist",
+            "joomla/authentication": "dist",
             "joomla/controller": "dist",
             "joomla/crypt": "dist",
             "joomla/data": "dist",
@@ -46,6 +47,7 @@
         "php": ">=7.0",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
+        "joomla/authentication": "~2.0@dev",
         "joomla/controller": "~2.0@dev",
         "joomla/crypt": "~2.0@dev",
         "joomla/data": "~2.0@dev",
@@ -64,6 +66,7 @@
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
         "fig/link-util": "~1.0",
+        "google/recaptcha": "~1.1",
         "ircmaxell/password-compat": "1.*",
         "paragonie/random_compat": "~2.0",
         "paragonie/sodium_compat": "~1.2",
@@ -79,6 +82,7 @@
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~1.11",
         "squizlabs/php_codesniffer": "~1.5",
-        "joomla/test-system": "dev-master"
+        "joomla/test-system": "dev-master",
+        "joomla-projects/joomla-browser": "~4.0@dev"
     }
 }

@@ -28,7 +28,7 @@ class ContactController extends FormController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6.4
 	 */
@@ -133,7 +133,7 @@ class ContactController extends FormController
 
 		if (!$params->get('custom_reply'))
 		{
-			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy'));
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
 		}
 
 		// Set the success message if it was a success

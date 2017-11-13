@@ -1308,7 +1308,7 @@ class Language
 	{
 		if (!isset($this->locale))
 		{
-			$locale = str_replace(' ', '', isset($this->metadata['locale']) ? $this->metadata['locale'] : '');
+			$locale = str_replace(' ', '', $this->metadata['locale'] ?? '');
 
 			if ($locale)
 			{
