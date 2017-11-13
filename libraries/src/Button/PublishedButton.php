@@ -37,7 +37,7 @@ class PublishedButton extends ActionButton
 	 * Render action button by item value.
 	 *
 	 * @param   mixed        $value        Current value of this item.
-	 * @param   integer      $row          The row number of this item.
+	 * @param   string       $row          The row number of this item.
 	 * @param   string|Date  $publishUp    The date which item publish up.
 	 * @param   string|Date  $publishDown  The date which item publish down.
 	 *
@@ -45,7 +45,7 @@ class PublishedButton extends ActionButton
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function render($value = null, $row = null, $publishUp = null, $publishDown = null)
+	public function render(string $value = null, string $row = null, $publishUp = null, $publishDown = null): string
 	{
 		if ($publishUp || $publishDown)
 		{
@@ -62,7 +62,7 @@ class PublishedButton extends ActionButton
 
 			// Add tips and special titles
 			// Create special titles for published items
-			if ($value == 1)
+			if ($value === '1')
 			{
 				// Create tip text, only we have publish up or down settings
 				$tips = array();

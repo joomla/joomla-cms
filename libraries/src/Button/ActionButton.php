@@ -21,25 +21,7 @@ use Joomla\Utilities\ArrayHelper;
 class ActionButton
 {
 	/**
-	 * Property row.
-	 *
-	 * @var  int
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $row = 0;
-
-	/**
-	 * Property value.
-	 *
-	 * @var  mixed
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $value;
-
-	/**
-	 * Property states.
+	 * The button states profiles.
 	 *
 	 * @var  array
 	 *
@@ -63,7 +45,7 @@ class ActionButton
 	];
 
 	/**
-	 * Property options.
+	 * Options of this button set.
 	 *
 	 * @var  Registry
 	 *
@@ -72,7 +54,7 @@ class ActionButton
 	protected $options;
 
 	/**
-	 * Property template.
+	 * The layout path to render.
 	 *
 	 * @var  string
 	 *
@@ -81,25 +63,11 @@ class ActionButton
 	protected $layout = 'joomla.button.action-button';
 
 	/**
-	 * create
+	 * ActionButton constructor.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The options for all buttons in this group.
 	 *
-	 * @return static
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function create(array $options = [])
-	{
-		return new static($options);
-	}
-
-	/**
-	 * StateButton constructor.
-	 *
-	 * @param array $options
-	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(array $options = [])
 	{
@@ -113,7 +81,7 @@ class ActionButton
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function preprocess()
 	{
@@ -121,56 +89,56 @@ class ActionButton
 	}
 
 	/**
-	 * addState
+	 * Add a state profile.
 	 *
-	 * @param string|integer $value
-	 * @param string         $task
-	 * @param string         $icon
-	 * @param null           $title
-	 * @param array          $options
+	 * @param   string  $value    The value of this state.
+	 * @param   string  $task     The task you want to execute after click this button.
+	 * @param   string  $icon     The icon to display for user.
+	 * @param   string  $title    Title text will show if we enable tooltips.
+	 * @param   array   $options  The button options, will override group options.
 	 *
-	 * @return static
+	 * @return  static  Return self to support chaining.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addState($value, $task, $icon = 'ok', $title = null, array $options = [])
+	public function addState(string $value, string $task, string $icon = 'ok', string $title = '', array $options = []): self
 	{
 		// Force type to prevent null data
 		$this->states[$value] = [
-			'value'   => (string) $value,
-			'task'    => (string) $task,
-			'icon'    => (string) $icon,
-			'title'   => (string) $title,
-			'options' => (array) $options
+			'value'   => $value,
+			'task'    => $task,
+			'icon'    => $icon,
+			'title'   => $title,
+			'options' => $options
 		];
 
 		return $this;
 	}
 
 	/**
-	 * getState
+	 * Get state profile by value name.
 	 *
-	 * @param   string|integer $value
+	 * @param   string|integer  $value  The value name we want to get.
 	 *
-	 * @return  array
+	 * @return  array|null  Return state profile or NULL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getState($value)
+	public function getState(string $value): array
 	{
-		return isset($this->states[$value]) ? $this->states[$value] : null;
+		return $this->states[$value] ?? null;
 	}
 
 	/**
-	 * removeState
+	 * Remove a state by value name.
 	 *
-	 * @param   string|integer  $value
+	 * @param   string  $value  Remove state by this value.
 	 *
-	 * @return  static
+	 * @return  static  Return to support chaining.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeState($value)
+	public function removeState(string $value): self
 	{
 		if (isset($this->states[$value]))
 		{
@@ -183,14 +151,14 @@ class ActionButton
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed    $value  Current value of this item.
-	 * @param   integer  $row    The row number of this item.
+	 * @param   mixed   $value  Current value of this item.
+	 * @param   string  $row    The row number of this item.
 	 *
 	 * @return  string  Rendered HTML.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function render($value = null, $row = null)
+	public function render(string $value = null, string $row = null): string
 	{
 		$data = $this->getState($value);
 
@@ -198,19 +166,19 @@ class ActionButton
 
 		$data = ArrayHelper::mergeRecursive($this->getState('_default'), $data, ['options' => $this->options->toArray()]);
 
-		$data['row'] = (int) $row;
+		$data['row'] = $row;
 
 		return LayoutHelper::render($this->layout, $data);
 	}
 
 	/**
-	 * __toString
+	 * Render to string.
 	 *
 	 * @return  string
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		try
 		{
@@ -223,13 +191,13 @@ class ActionButton
 	}
 
 	/**
-	 * Method to get property Template
+	 * Method to get property layout.
 	 *
 	 * @return  string
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getLayout()
+	public function getLayout():string
 	{
 		return $this->layout;
 	}
@@ -237,71 +205,15 @@ class ActionButton
 	/**
 	 * Method to set property template
 	 *
-	 * @param   string $layout
+	 * @param   string  $layout The layout path.
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setLayout($layout)
+	public function setLayout(string $layout)
 	{
 		$this->layout = $layout;
-
-		return $this;
-	}
-
-	/**
-	 * Method to get property Value
-	 *
-	 * @return  mixed
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getValue()
-	{
-		return $this->value;
-	}
-
-	/**
-	 * Method to set property value
-	 *
-	 * @param   mixed $value
-	 *
-	 * @return  static  Return self to support chaining.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setValue($value)
-	{
-		$this->value = $value;
-
-		return $this;
-	}
-
-	/**
-	 * Method to get property Row
-	 *
-	 * @return  int
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getRow()
-	{
-		return $this->row;
-	}
-
-	/**
-	 * Method to set property row
-	 *
-	 * @param   int $row
-	 *
-	 * @return  static  Return self to support chaining.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setRow($row)
-	{
-		$this->row = $row;
 
 		return $this;
 	}
@@ -313,7 +225,7 @@ class ActionButton
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
 		return $this->options->toArray();
 	}
@@ -321,13 +233,13 @@ class ActionButton
 	/**
 	 * Method to set property options
 	 *
-	 * @param   array $options
+	 * @param   array  $options  The options of this button group.
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setOptions(array $options)
+	public function setOptions(array $options): self
 	{
 		$this->options = new Registry($options);
 
@@ -335,27 +247,31 @@ class ActionButton
 	}
 
 	/**
-	 * getOption
+	 * Get an option value.
 	 *
-	 * @param string $name
-	 * @param mixed  $default
+	 * @param  string  $name     The option name.
+	 * @param  mixed   $default  Default value if not exists.
 	 *
-	 * @return  mixed
+	 * @return  mixed  Return option value or default value.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getOption($name, $default = null)
+	public function getOption(string $name, $default = null)
 	{
 		return $this->options->get($name, $default);
 	}
 
 	/**
-	 * setOption
+	 * Set option value.
 	 *
-	 * @param string $name
-	 * @param mixed  $value
+	 * @param   string  $name   The option name.
+	 * @param   mixed   $value  The option value.
 	 *
-	 * @return  static
+	 * @return  static  Return self to support chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setOption($name, $value)
+	public function setOption(string $name, $value): self
 	{
 		$this->options->set($name, $value);
 
