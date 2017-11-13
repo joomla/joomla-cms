@@ -23,9 +23,9 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -61,7 +61,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
             'Joomla\\Registry\\' => 16,
             'Joomla\\OAuth2\\' => 14,
             'Joomla\\OAuth1\\' => 14,
-            'Joomla\\Ldap\\Tests\\' => 18,
             'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
@@ -166,10 +165,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\OAuth1\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth1/src',
-        ),
-        'Joomla\\Ldap\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
         ),
         'Joomla\\Ldap\\' => 
         array (
@@ -734,17 +729,17 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\CMS\\Table\\Usergroup' => __DIR__ . '/../../..' . '/libraries/src/Table/Usergroup.php',
         'Joomla\\CMS\\Table\\ViewLevel' => __DIR__ . '/../../..' . '/libraries/src/Table/ViewLevel.php',
         'Joomla\\CMS\\Toolbar\\Button\\ApplyButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ApplyButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\ConfirmButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ConfirmButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\CustomButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/CustomButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\HelpButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/HelpButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\LinkButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/LinkButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\PopupButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/PopupButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\SeparatorButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/SeparatorButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\SliderButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/SliderButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\StandardButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/StandardButton.php',
         'Joomla\\CMS\\Toolbar\\ContainerAwareToolbarFactory' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ContainerAwareToolbarFactory.php',
+        'Joomla\\CMS\\Toolbar\\LegacyToolbarButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/LegacyToolbarButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\ConfirmButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/ConfirmButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\CustomButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/CustomButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\HelpButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/HelpButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\LinkButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/LinkButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\PopupButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/PopupButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\SeparatorButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/SeparatorButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\SliderButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/SliderButton.php',
+        'Joomla\\CMS\\Toolbar\\Legacy\\StandardButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Legacy/StandardButton.php',
         'Joomla\\CMS\\Toolbar\\Toolbar' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Toolbar.php',
-        'Joomla\\CMS\\Toolbar\\ToolbarButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ToolbarButton.php',
         'Joomla\\CMS\\Toolbar\\ToolbarFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ToolbarFactoryInterface.php',
         'Joomla\\CMS\\Toolbar\\ToolbarHelper' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ToolbarHelper.php',
         'Joomla\\CMS\\UCM\\UCM' => __DIR__ . '/../../..' . '/libraries/src/UCM/UCM.php',
@@ -890,7 +885,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\Input\\Input' => __DIR__ . '/..' . '/joomla/input/src/Input.php',
         'Joomla\\Input\\Json' => __DIR__ . '/..' . '/joomla/input/src/Json.php',
         'Joomla\\Ldap\\LdapClient' => __DIR__ . '/..' . '/joomla/ldap/src/LdapClient.php',
-        'Joomla\\Ldap\\Tests\\LdapClientTest' => __DIR__ . '/..' . '/joomla/ldap/Tests/LdapClientTest.php',
         'Joomla\\OAuth1\\Client' => __DIR__ . '/..' . '/joomla/oauth1/src/Client.php',
         'Joomla\\OAuth2\\Client' => __DIR__ . '/..' . '/joomla/oauth2/src/Client.php',
         'Joomla\\Registry\\Factory' => __DIR__ . '/..' . '/joomla/registry/src/Factory.php',
@@ -958,8 +952,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
         'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
         'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
-        'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
-        'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'ReCaptcha\\ReCaptcha' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/ReCaptcha.php',
         'ReCaptcha\\RequestMethod' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod.php',
         'ReCaptcha\\RequestMethod\\Curl' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/Curl.php',
@@ -987,7 +979,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
         'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
         'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
-        'Symfony\\Polyfill\\Util\\TestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListener.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
         'Zend\\Diactoros\\CallbackStream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/CallbackStream.php',
         'Zend\\Diactoros\\Exception\\DeprecatedMethodException' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Exception/DeprecatedMethodException.php',

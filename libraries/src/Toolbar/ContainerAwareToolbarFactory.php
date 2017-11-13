@@ -28,12 +28,12 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 * @param   Toolbar  $toolbar  The Toolbar instance to attach to the button
 	 * @param   string   $type     Button Type
 	 *
-	 * @return  ToolbarButton
+	 * @return  LegacyToolbarButton
 	 *
 	 * @since   3.8.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createButton(Toolbar $toolbar, string $type): ToolbarButton
+	public function createButton(Toolbar $toolbar, string $type): LegacyToolbarButton
 	{
 		$buttonClass = $this->loadButtonClass($type);
 
@@ -97,7 +97,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	private function loadButtonClass(string $type)
 	{
 		$buttonClasses = [
-			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
+			'Joomla\\CMS\\Toolbar\\Legacy\\' . ucfirst($type) . 'Button',
 			// @deprecated 5.0
 			'JToolbarButton' . ucfirst($type),
 		];

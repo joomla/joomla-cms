@@ -263,7 +263,7 @@ class Toolbar
 			return $this->_buttons[$signature];
 		}
 
-		if (!class_exists('Joomla\\CMS\\Toolbar\\ToolbarButton'))
+		if (!class_exists('Joomla\\CMS\\Toolbar\\LegacyToolbarButton'))
 		{
 			\JLog::add(\JText::_('JLIB_HTML_BUTTON_BASE_CLASS'), \JLog::WARNING, 'jerror');
 
