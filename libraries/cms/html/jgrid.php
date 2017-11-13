@@ -165,15 +165,74 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$button = new PublishedButton(
-			[
-				'diabled' => !$enabled,
-				'task_prefix' => $prefix,
-				'checkbox_name' => $checkbox
-			]
+		$states = array(
+			1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'),
+			0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'),
+			2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
+			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'),
 		);
 
-		return $button->render($value, $i, $publish_up, $publish_down);
+		// Special state for dates
+		if ($publish_up || $publish_down)
+		{
+			$nullDate = JFactory::getDbo()->getNullDate();
+			$nowDate = JFactory::getDate()->toUnix();
+
+			$tz = JFactory::getUser()->getTimezone();
+
+			$publish_up = ($publish_up != $nullDate) ? JFactory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
+			$publish_down = ($publish_down != $nullDate) ? JFactory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
+
+			// Create tip text, only we have publish up or down settings
+			$tips = array();
+
+			if ($publish_up)
+			{
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_START', $publish_up->format(JDate::$format, true));
+			}
+
+			if ($publish_down)
+			{
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
+			}
+
+			$tip = empty($tips) ? false : implode('<br />', $tips);
+
+			// Add tips and special titles
+			foreach ($states as $key => $state)
+			{
+				// Create special titles for published items
+				if ($key == 1)
+				{
+					$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
+
+					if ($publish_up > $nullDate && $nowDate < $publish_up->toUnix())
+					{
+						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
+						$states[$key][5] = $states[$key][6] = 'pending';
+					}
+
+					if ($publish_down > $nullDate && $nowDate > $publish_down->toUnix())
+					{
+						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
+						$states[$key][5] = $states[$key][6] = 'expired';
+					}
+				}
+
+				// Add tips to titles
+				if ($tip)
+				{
+					$states[$key][1] = JText::_($states[$key][1]);
+					$states[$key][2] = JText::_($states[$key][2]) . '<br />' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '<br />' . $tip;
+					$states[$key][4] = true;
+				}
+			}
+
+			return static::state($states, $value, $i, array('prefix' => $prefix, 'translate' => !$tip), $enabled, true, $checkbox);
+		}
+
+		return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
 
 	/**

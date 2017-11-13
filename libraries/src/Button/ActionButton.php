@@ -151,20 +151,32 @@ class ActionButton
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed   $value  Current value of this item.
-	 * @param   string  $row    The row number of this item.
+	 * @param   mixed   $value    Current value of this item.
+	 * @param   string  $row      The row number of this item.
+	 * @param   array   $options  The options to override group options.
 	 *
 	 * @return  string  Rendered HTML.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  \InvalidArgumentException
 	 */
-	public function render(string $value = null, string $row = null): string
+	public function render(string $value = null, string $row = null, array $options = []): string
 	{
 		$data = $this->getState($value);
 
 		$data = $data ? : $this->getState('_default');
 
-		$data = ArrayHelper::mergeRecursive($this->getState('_default'), $data, ['options' => $this->options->toArray()]);
+		$data = ArrayHelper::mergeRecursive(
+			$this->getState('_default'),
+			$data,
+			[
+				'options' => $this->options->toArray()
+			],
+			[
+				'options' => $options
+			]
+		);
 
 		$data['row'] = $row;
 

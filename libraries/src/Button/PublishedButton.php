@@ -39,6 +39,7 @@ class PublishedButton extends ActionButton
 	 *
 	 * @param   mixed        $value        Current value of this item.
 	 * @param   string       $row          The row number of this item.
+	 * @param   array        $options      The options to override group options.
 	 * @param   string|Date  $publishUp    The date which item publish up.
 	 * @param   string|Date  $publishDown  The date which item publish down.
 	 *
@@ -46,7 +47,7 @@ class PublishedButton extends ActionButton
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function render(string $value = null, string $row = null, $publishUp = null, $publishDown = null): string
+	public function render(string $value = null, string $row = null, array $options = [], $publishUp = null, $publishDown = null): string
 	{
 		if ($publishUp || $publishDown)
 		{
