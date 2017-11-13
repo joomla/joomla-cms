@@ -6,19 +6,19 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Toolbar\Button;
+namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Toolbar\LegacyToolbarButton;
 
 /**
  * Renders a button to render an HTML element in a slider container
  *
  * @since  3.0
  */
-class SliderButton extends ToolbarButton
+class SliderButton extends LegacyToolbarButton
 {
 	/**
 	 * Button type

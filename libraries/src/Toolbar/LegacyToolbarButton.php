@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.0
  */
-abstract class ToolbarButton
+abstract class LegacyToolbarButton
 {
 	/**
 	 * element name

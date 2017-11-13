@@ -6,19 +6,19 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Toolbar\Button;
+namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Toolbar\LegacyToolbarButton;
 
 /**
  * Renders a button separator
  *
  * @since  3.0
  */
-class SeparatorButton extends ToolbarButton
+class SeparatorButton extends LegacyToolbarButton
 {
 	/**
 	 * Button type
@@ -34,7 +34,7 @@ class SeparatorButton extends ToolbarButton
 	 *
 	 * @return  string  The HTML for the separator
 	 *
-	 * @see     ToolbarButton::render()
+	 * @see     LegacyToolbarButton::render()
 	 * @since   3.0
 	 */
 	public function render(&$definition)

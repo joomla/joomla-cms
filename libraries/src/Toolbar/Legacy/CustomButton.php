@@ -6,18 +6,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Toolbar\Button;
+namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Toolbar\LegacyToolbarButton;
 
 /**
  * Renders a custom button
  *
  * @since  3.0
  */
-class CustomButton extends ToolbarButton
+class CustomButton extends LegacyToolbarButton
 {
 	/**
 	 * Button type

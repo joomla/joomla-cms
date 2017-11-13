@@ -6,20 +6,20 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Toolbar\Button;
+namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Toolbar\LegacyToolbarButton;
 
 /**
  * Renders a help popup window button
  *
  * @since  3.0
  */
-class HelpButton extends ToolbarButton
+class HelpButton extends LegacyToolbarButton
 {
 	/**
 	 * @var    string	Button type

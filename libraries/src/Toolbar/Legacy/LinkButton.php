@@ -6,19 +6,19 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Toolbar\Button;
+namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Toolbar\LegacyToolbarButton;
 
 /**
  * Renders a link button
  *
  * @since  3.0
  */
-class LinkButton extends ToolbarButton
+class LinkButton extends LegacyToolbarButton
 {
 	/**
 	 * Button type
