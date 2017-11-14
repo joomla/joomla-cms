@@ -291,7 +291,6 @@ class ModuleAdapter extends InstallerAdapter
 		catch (\RuntimeException $e)
 		{
 			// Ignore the error...
-			$retval = false;
 		}
 
 		// Remove the installation folder
