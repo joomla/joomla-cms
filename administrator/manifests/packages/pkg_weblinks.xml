@@ -27,4 +27,3 @@
 		<!-- Note: No spaces or linebreaks allowed between the server tags -->
 		<server type="extension" name="Weblinks Update Site">https://raw.githubusercontent.com/joomla-extensions/weblinks/master/manifest.xml</server>
 	</updateservers>
-</extension>
