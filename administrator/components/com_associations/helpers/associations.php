@@ -437,6 +437,20 @@ class AssociationsHelper extends JHelperContent
 	}
 
 	/**
+	 * Get all the content languages.
+	 *
+	 * @return  array  Array of objects all content languages by language code.
+	 *
+	 * @since   3.7.0
+	 *
+	 * @deprecated  4.0  Use LanguageHelper::getContentLanguages().
+	 */
+	public static function getContentLanguages()
+	{
+		return LanguageHelper::getContentLanguages(false, true);
+	}
+
+	/**
 	 * Get the associated items for an item
 	 *
 	 * @param   string  $extensionName  The extension name with com_
