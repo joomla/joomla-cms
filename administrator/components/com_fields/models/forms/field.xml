@@ -289,6 +289,14 @@
 			</field>
 
 			<field
+				name="layout"
+				type="fieldlayout"
+				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
+				description="COM_FIELDS_FIELD_LAYOUT_DESC"
+				showon="display:1,2,3"
+			/>
+
+			<field
 				name="display_readonly"
 				type="radio"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
