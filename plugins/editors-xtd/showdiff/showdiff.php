@@ -59,7 +59,12 @@ class PlgButtonShowdiff extends JPlugin
 				$button->link    = $link;
 				$button->text    = JText::_('PLG_EDITORSXTD_SHOWDIFF_BUTTON_SHOWDIFF');
 				$button->name    = 'shuffle';
-				$button->options = "{handler: 'iframe', size: {x: 500, y: 450}}";
+				$button->options = array(
+					'height'     => '450px',
+					'width'      => '400px',
+					'bodyHeight' => '70',
+					'modalWidth' => '80',
+				);
 
 				return $button;
 			}

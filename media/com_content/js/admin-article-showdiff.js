@@ -10,10 +10,9 @@
 		parent.window.onresize = movePopup;
 		movePopup();
 
-        diffHtml = JsDiff.diffWords(cleanMCE(text1), cleanMCE(text2));
+		fragment = document.createDocumentFragment();
 
-        fragment = document.createDocumentFragment();
-
+		diffHtml = JsDiff.diffWords(cleanMCE(text1), cleanMCE(text2));
 		diffHtml.forEach(function( part ) {
 			span = createDiffSpan(part);
 			span.className = 'diff_html';
@@ -123,33 +122,33 @@ function cleanTags( text ) {
 
 // Deletes all HTML-Text it finds in the given text
 function cleanMCE( text ) {
-    var textClean = String(text),
-        regexp1 = new RegExp('data-mce-href=".*?/"'),
-        regexp2 = new RegExp('> <');
+	var textClean = String(text),
+		regexp1 = new RegExp('data-mce-href=".*?/"'),
+		regexp2 = new RegExp('> <');
 
-    while ( regexp1.test(textClean) ) {
-        textClean = textClean.replace(regexp1.exec(textClean).toString(), '');
-    }
-    while ( regexp2.test(textClean) ) {
-        textClean = textClean.replace(regexp2.exec(textClean).toString(), '');
-    }
+	while ( regexp1.test(textClean) ) {
+		textClean = textClean.replace(regexp1.exec(textClean).toString(), '');
+	}
+	while ( regexp2.test(textClean) ) {
+		textClean = textClean.replace(regexp2.exec(textClean).toString(), '');
+	}
 
-    return textClean;
+	return textClean;
 }
 
 // positioning of the showdiff-popup.
 function movePopup() {
-	var popupContainer = parent.document.getElementsByClassName('mce-floatpanel')[0],
-		popupBody = popupContainer.getElementsByClassName('mce-container-body')[0],
+	var editor = parent.document.getElementById('jform_articletext_ifr').parentNode,
+		editTop = editor.getBoundingClientRect().top + 5,
+		editWidth = (editor.offsetWidth) - 10,
+		popupBody = window.frameElement.parentNode,
+		popupContainer = popupBody.parentNode.parentNode,
 		popupFoot = popupContainer.getElementsByClassName('mce-foot')[0],
 		popupFootChild = popupFoot.firstChild,
-		popupFootChildBtn = popupFootChild.getElementsByClassName('mce-btn')[0],
-		editor = parent.document.getElementById('jform_articletext_ifr').parentNode,
-		editTop = editor.getBoundingClientRect().top,
-		editWidth = (editor.offsetWidth) - 10;
+		popupFootChildBtn = popupFootChild.getElementsByClassName('mce-btn')[0];
 
 	popupContainer.style.top = editTop + 'px';
-	popupContainer.style.left = '35px';
+	popupContainer.style.left = '36px';
 	popupContainer.style.width = editWidth + 'px';
 	popupBody.style.width = editWidth + 'px';
 	popupFoot.style.width = editWidth + 'px';
