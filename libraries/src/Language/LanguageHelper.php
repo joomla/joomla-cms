@@ -328,13 +328,14 @@ class LanguageHelper
 	 * @param   string   $pivot           The pivot of the returning array.
 	 * @param   string   $orderField      Field to order the results.
 	 * @param   string   $orderDirection  Direction to order the results.
+	 * @param   boolean  $checkTrashed    Check if the content language is trashed.
 	 *
 	 * @return  array  Array of the content languages.
 	 *
 	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
-		$orderDirection = null)
+		$orderDirection = null, $checkTrashed = false)
 	{
 		static $contentLanguages = null;
 
@@ -368,6 +369,19 @@ class LanguageHelper
 			foreach ($languages as $key => $language)
 			{
 				if ((int) $language->published === 0)
+				{
+					unset($languages[$key]);
+				}
+			}
+		}
+
+		
+		// Check if the language is trashed, if needed.
+		if (!$checkTrashed)
+		{
+			foreach ($languages as $key => $language)
+			{
+				if ((int) $language->published === -2)
 				{
 					unset($languages[$key]);
 				}
