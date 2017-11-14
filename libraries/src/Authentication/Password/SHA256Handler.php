@@ -17,7 +17,7 @@ use Joomla\CMS\User\UserHelper;
 /**
  * Password handler for SHA256 hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since       __DEPLOY_VERSION__
  * @deprecated  5.0  Support for SHA256 hashed passwords will be removed
  */
 class SHA256Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
