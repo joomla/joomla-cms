@@ -58,7 +58,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 		$canCreate = AssociationsHelper::allowAdd($extensionName, $typeName);
 
 		// Gets existing languages.
-		$existingLanguages = LanguageHelper::getContentLanguages(false, true);
+		$existingLanguages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		$options = array();
 
