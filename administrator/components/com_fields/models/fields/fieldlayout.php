@@ -100,6 +100,7 @@ class JFormFieldFieldlayout extends JFormField
 					$template_paths = array(
 						JPath::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/' . $extension . '/field'),
 						JPath::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/com_fields/field'),
+						JPath::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/field'),
 					);
 
 					// Add the layout options from the template paths.
@@ -113,8 +114,10 @@ class JFormFieldFieldlayout extends JFormField
 
 					foreach ($files as $i => $file)
 					{
-						// Remove layout files that exist in the component folder
-						if (in_array($file, $component_layouts))
+						$value = basename($file, '.php');
+
+						// Remove the default "render.php" or layout files that exist in the component folder
+						if ($value === 'render' || in_array($value, $component_layouts))
 						{
 							unset($files[$i]);
 						}
