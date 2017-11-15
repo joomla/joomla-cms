@@ -293,7 +293,6 @@
 				type="fieldlayout"
 				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
 				description="COM_FIELDS_FIELD_LAYOUT_DESC"
-				showon="display:1,2,3"
 			/>
 
 			<field
