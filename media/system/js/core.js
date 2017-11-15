@@ -591,38 +591,51 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 	};
 
-	/**
-	 * USED IN: all over :)
-	 *
-	 * @param id
-	 * @param task
-	 * @return
-	 *
-	 * @deprecated 4.0  Use Joomla.listItemTask() instead
-	 */
-	window.listItemTask = function ( id, task ) {
-		var f = document.adminForm,
-		    i = 0, cbx,
-		    cb = f[ id ];
+    /**
+     * USED IN: all over :)
+     *
+     * @param id
+     * @param task
+     * @return
+     *
+     * @deprecated 4.0  Use Joomla.listItemTask() instead
+     */
+    window.listItemTask = function ( id, task ) {
+        return Joomla.listItemTask( id, task );
+    };
 
-		if ( !cb ) return false;
+    /**
+     * USED IN: all over :)
+     *
+     * @param  {string}  id    The id
+     * @param  {string}  task  The task
+     *
+     * @return {boolean}
+     */
+    Joomla.listItemTask = function ( id, task ) {
+        var f = document.adminForm,
+            i = 0, cbx,
+            cb = f[ id ];
 
-		while ( true ) {
-			cbx = f[ 'cb' + i ];
+        if ( !cb ) return false;
 
-			if ( !cbx ) break;
+        while ( true ) {
+            cbx = f[ 'cb' + i ];
 
-			cbx.checked = false;
+            if ( !cbx ) break;
 
-			i++;
-		}
+            cbx.checked = false;
 
-		cb.checked = true;
-		f.boxchecked.value = 1;
-		window.submitform( task );
+            i++;
+        }
 
-		return false;
-	};
+        cb.checked = true;
+        f.boxchecked.value = 1;
+        window.submitform( task );
+
+        return false;
+    };
+
 	/**
 	 * Default function. Usually would be overriden by the component
 	 *

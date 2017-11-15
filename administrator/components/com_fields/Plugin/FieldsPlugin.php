@@ -171,7 +171,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('hint', $field->params->get('hint'));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
 
-		if ($field->default_value)
+		if ($field->default_value !== '')
 		{
 			$defaultNode = $node->appendChild(new DOMElement('default'));
 			$defaultNode->appendChild(new DOMCdataSection($field->default_value));
