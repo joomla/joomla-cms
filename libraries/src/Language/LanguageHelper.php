@@ -334,7 +334,7 @@ class LanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($publishedStates = array(1), $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
-	                                           $orderDirection = null)
+		$orderDirection = null)
 	{
 		static $contentLanguages = null;
 
