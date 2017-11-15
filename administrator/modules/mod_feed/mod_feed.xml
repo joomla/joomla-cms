@@ -61,7 +61,7 @@
 					name="rssdate"
 					type="radio"
 					label="MOD_FEED_FIELD_DATE_LABEL"
-					description="MOD_FEED_DATE_DESC"
+					description="MOD_FEED_FIELD_DATE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
 					>
