@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "45a034f7d5968eeb83f375414e066f4f",
+    "content-hash": "1b6050ba99b860420e8946ea8a43d8c5",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1022,33 +1022,37 @@
             "time": "2014-10-12T18:01:36+00:00"
         },
         {
-			"name": "joomla/ldap",
-			"version": "1.2.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/joomla-framework/ldap.git",
-				"reference": "2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/joomla-framework/ldap/zipball/2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208",
-				"reference": "2d82a7e9ad0aa1091e8121ab8e194ff0e9d14208",
-				"shasum": ""
-			},
-			"require": {
-				"ext-ldap": "*",
-				"php": "^5.3.10|~7.0",
-				"symfony/polyfill-php56": "~1.0"
-			},
-			"require-dev": {
-				"phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
-				"squizlabs/php_codesniffer": "1.*"
-			},
+            "name": "joomla/ldap",
+            "version": "dev-2.0-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/ldap.git",
+                "reference": "9da0299c4a104d09b0776936d87a9b9c60bac95e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/ldap/zipball/9da0299c4a104d09b0776936d87a9b9c60bac95e",
+                "reference": "9da0299c4a104d09b0776936d87a9b9c60bac95e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ldap": "*",
+                "php": "~7.0"
+            },
+            "require-dev": {
+                "joomla/registry": "^1.4.5|~2.0",
+                "phpunit/phpunit": "~6.3",
+                "squizlabs/php_codesniffer": "1.*"
+            },
             "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.0-dev": "2.0-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
-                    "Joomla\\Ldap\\": "src/",
-                    "Joomla\\Ldap\\Tests\\": "Tests/"
+                    "Joomla\\Ldap\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1062,7 +1066,7 @@
                 "joomla",
                 "ldap"
             ],
-            "time": "2017-07-27T13:13:55+00:00"
+            "time": "2017-11-16T12:59:31+00:00"
         },
         {
             "name": "joomla/oauth1",
@@ -5124,6 +5128,7 @@
         "joomla/event": 20,
         "joomla/http": 20,
         "joomla/image": 20,
+        "joomla/ldap": 20,
         "joomla/oauth1": 20,
         "joomla/oauth2": 20,
         "joomla/registry": 20,
