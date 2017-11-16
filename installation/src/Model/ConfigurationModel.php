@@ -108,7 +108,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry = new Registry;
 
 		// Site settings.
-		$registry->set('offline', '0');
+		$registry->set('offline', false);
 		$registry->set('offline_message', \JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
@@ -157,7 +157,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('smtppass', '');
 		$registry->set('smtphost', 'localhost');
 		$registry->set('smtpsecure', 'none');
-		$registry->set('smtpport', '25');
+		$registry->set('smtpport', 25);
 
 		// Cache settings.
 		$registry->set('caching', 0);
