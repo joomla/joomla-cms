@@ -746,7 +746,6 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		$nameWithoutExtension = substr($name, 0, strlen($name) - strlen($extension));
-		$nameWithoutExtension = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $nameWithoutExtension);
 
 		return $nameWithoutExtension . $extension;
 	}
