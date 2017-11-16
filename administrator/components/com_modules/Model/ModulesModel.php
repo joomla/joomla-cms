@@ -315,10 +315,10 @@ class ModulesModel extends ListModel
 
 		// Filter by current user access level.
 		// Get the current user for authorisation checks
-		$user   = JFactory::getUser();
+		$user   = \JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$query->where('a.access IN (' . $groups . ')');
-		
+
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
