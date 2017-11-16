@@ -11,9 +11,6 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Console\CheckUpdatesCommand;
-use Joomla\CMS\Console\CleanCacheCommand;
-use Joomla\CMS\Console\RemoveOldFilesCommand;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ConsoleApplication;
@@ -103,11 +100,6 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($dispatcher);
 					$app->setLogger(Log::createDelegatedLogger());
 					$app->setSession($session);
-
-					// Register core commands
-					$app->addCommand(new CleanCacheCommand);
-					$app->addCommand(new CheckUpdatesCommand);
-					$app->addCommand(new RemoveOldFilesCommand);
 
 					return $app;
 				},

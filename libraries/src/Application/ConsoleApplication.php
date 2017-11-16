@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Console;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
@@ -161,6 +162,25 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		}
 
 		$this->messages[$type][] = $msg;
+	}
+
+	/**
+	 * Get the commands which should be registered by default to the application.
+	 *
+	 * @return  CommandInterface[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getDefaultCommands(): array
+	{
+		return array_merge(
+			parent::getDefaultCommands(),
+			[
+				new Console\CleanCacheCommand,
+				new Console\CheckUpdatesCommand,
+				new Console\RemoveOldFilesCommand,
+			]
+		);
 	}
 
 	/**
