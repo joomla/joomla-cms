@@ -485,7 +485,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$js = "toggleContainer('dbg_container_" . $name . "');";
+		$js = "Joomla.toggleContainer('dbg_container_" . $name . "');";
 
 		$class = 'dbg-header';
 
@@ -552,7 +552,7 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$js = "toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
+					$js = "Joomla.toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
 
 					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
 
