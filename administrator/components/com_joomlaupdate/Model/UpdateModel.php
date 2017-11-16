@@ -1073,7 +1073,7 @@ ENDDATA;
 		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
 			$option = new \stdClass;
-			$option->label  = sprintf(\JText::_('INSTL_DATABASE_SUPPORTED'), $this->getConfiguredDatabaseType());
+			$option->label  = \JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
 			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
@@ -1109,13 +1109,6 @@ ENDDATA;
 		$option->label  = \JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
-		$options[] = $option;
-
-		// Check for mcrypt support
-		$option = new \stdClass;
-		$option->label  = \JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
-		$option->state  = is_callable('mcrypt_encrypt');
-		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
 		$options[] = $option;
 
 		return $options;

@@ -42,8 +42,8 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<div class="input-group">
 					<?php echo $filters['filter_search']->input; ?>
 					<span class="input-group-btn">
-						<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>">
-							<span class="icon-search"></span>
+						<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"  aria-label="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
+							<span class="icon-search" aria-hidden="true"></span>
 						</button>
 						<button type="button" class="btn btn-secondary hasTooltip js-stools-btn-clear" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>">
 							<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>

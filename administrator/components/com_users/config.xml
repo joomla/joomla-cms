@@ -201,7 +201,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
 			default="5"

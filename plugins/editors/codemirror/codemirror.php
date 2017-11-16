@@ -32,12 +32,7 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @var array
 	 */
-	protected $modeAlias = array(
-			'html' => 'htmlmixed',
-			'ini'  => 'properties',
-			'json' => array('name' => 'javascript', 'json' => true),
-			'scss' => 'css',
-		);
+	protected $modeAlias = array();
 
 	/**
 	 * Initialises the Editor.

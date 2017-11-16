@@ -960,6 +960,12 @@ class FieldModel extends AdminModel
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);
 			}
+
+			// Remove placeholder field on list fields
+			if ($dataObject->type == 'list')
+			{
+				$form->removeField('hint', 'params');
+			}
 		}
 
 		// Setting the context for the category field

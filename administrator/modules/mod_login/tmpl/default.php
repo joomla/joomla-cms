@@ -51,9 +51,10 @@ if ($spacing > 0)
 				id="mod-login-username"
 				type="text"
 				class="form-control input-full"
-				required="true"
+				required="required"
 				autofocus
-			>
+                tabindex="1"
+            >
 		</div>
 
 		<div class="form-group">
@@ -64,8 +65,9 @@ if ($spacing > 0)
 					id="mod-login-password"
 					type="password"
 					class="form-control input-full"
-					required="true"
-				>
+					required="required"
+                    tabindex="2"
+                >
 				<span class="input-group-addon">
 					<span class="fa fa-eye" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
@@ -82,6 +84,7 @@ if ($spacing > 0)
 					id="mod-login-secretkey"
 					type="text"
 					class="form-control input-full"
+                    tabindex="3"
 				>
 			</div>
 		<?php endif; ?>
@@ -94,7 +97,7 @@ if ($spacing > 0)
 		<?php endif; ?>
 
 		<div class="form-group">
-			<button class="btn btn-success btn-block btn-lg" id="btn-login-submit">
+			<button tabindex="5" class="btn btn-success btn-block btn-lg" id="btn-login-submit">
 				<span class="fa fa-lock icon-white"></span> <?php echo JText::_('JLOGIN'); ?>
 			</button>
 		</div>
