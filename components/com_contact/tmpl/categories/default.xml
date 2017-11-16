@@ -30,6 +30,7 @@
 				type="list"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -62,6 +63,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -72,6 +74,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -82,6 +85,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -100,6 +104,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -110,6 +115,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -120,6 +126,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -145,6 +152,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -155,6 +163,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -165,6 +174,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -184,6 +194,7 @@
 				type="list"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -194,6 +205,7 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -204,6 +216,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -214,6 +227,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -224,6 +238,7 @@
 				type="list"
 				label="JGLOBAL_EMAIL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -234,6 +249,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -244,6 +260,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -254,6 +271,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -264,6 +282,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -274,6 +293,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -284,6 +304,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -294,6 +315,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -305,6 +327,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -328,6 +351,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
@@ -339,6 +363,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -349,6 +374,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -359,6 +385,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -370,6 +397,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -381,6 +409,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -392,6 +421,7 @@
 				label="JGLOBAL_EMAIL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -403,6 +433,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -414,6 +445,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -425,6 +457,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -436,6 +469,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -447,6 +481,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -458,6 +493,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -469,6 +505,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -480,6 +517,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -491,6 +529,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -502,6 +541,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 				useglobal="true"
 				showon="show_info:1"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -512,6 +552,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -522,6 +563,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -532,6 +574,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -566,6 +609,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -618,6 +662,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -628,6 +673,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -665,6 +711,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -675,6 +722,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -696,6 +744,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

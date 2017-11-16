@@ -32,7 +32,7 @@ $options = array(
 		<div class="outer-panel" id="left-panel">
 			<div class="inner-panel">
 				<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
-				<iframe id="reference-association" name="reference-association"
+				<iframe id="reference-association" name="reference-association" title="reference-association"
 					src="<?php echo JRoute::_($this->editUri . '&task=' . $this->typeName . '.edit&id=' . (int) $this->referenceId); ?>"
 					height="400" width="400"
 					data-action="edit"
@@ -50,7 +50,7 @@ $options = array(
 					<?php echo $this->form->getInput('modalassociation'); ?>
 					<?php echo $this->form->getInput('itemlanguage'); ?>
 				</div>
-				<iframe id="target-association" name="target-association"
+				<iframe id="target-association" name="target-association" title="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
 					height="400" width="400"
 					data-action="<?php echo $this->targetAction; ?>"

@@ -1078,7 +1078,7 @@ class ComponentAdapter extends InstallerAdapter
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)
 			{
-				if (!$table->delete((int) $menuid))
+				if (!$table->delete((int) $menuid, false))
 				{
 					\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
 

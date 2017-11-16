@@ -154,7 +154,7 @@ class PlgSearchTags extends JPlugin
 
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
+				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->slug);
 				$rows[$key]->text       = ($row->description !== '' ? $row->description : $row->title);
 				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;

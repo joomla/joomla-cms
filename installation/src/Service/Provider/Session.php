@@ -10,14 +10,13 @@ namespace Joomla\CMS\Installation\Service\Provider;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
-use Joomla\CMS\Session\Validator\AddressValidator;
-use Joomla\CMS\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler\FilesystemHandler;
+use Joomla\Session\Validator\AddressValidator;
+use Joomla\Session\Validator\ForwardedValidator;
 
 /**
  * Service provider for the application's session dependency

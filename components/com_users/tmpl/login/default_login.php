@@ -71,7 +71,7 @@ $usersConfig = JComponentHelper::getParams('com_users');
 				<div  class="control-group">
 					<div class="control-label">
 						<label for="remember">
-							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?>
+							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
 					</div>
 					<div class="controls">

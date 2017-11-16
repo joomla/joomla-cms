@@ -30,10 +30,10 @@ class Json implements FormatInterface
 	 */
 	public function objectToString($object, array $options = [])
 	{
-		$bitmask = isset($options['bitmask']) ? $options['bitmask'] : 0;
-		$depth = isset($options['depth']) ? $options['depth'] : 512;
+		$bitMask = $options['bitmask'] ?? 0;
+		$depth   = $options['depth'] ?? 512;
 
-		return json_encode($object, $bitmask, $depth);
+		return json_encode($object, $bitMask, $depth);
 	}
 
 	/**
@@ -51,18 +51,19 @@ class Json implements FormatInterface
 	 */
 	public function stringToObject($data, array $options = ['processSections' => false])
 	{
-		$data = trim($data);
-
-		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}'))
-		{
-			return Factory::getFormat('Ini')->stringToObject($data, $options);
-		}
-
 		$decoded = json_decode($data);
 
 		// Check for an error decoding the data
 		if ($decoded === null)
 		{
+			$data = trim($data);
+
+			// If it's an ini file, parse as ini.
+			if ($data !== '' && $data[0] !== '{')
+			{
+				return Factory::getFormat('Ini')->stringToObject($data, $options);
+			}
+
 			throw new \RuntimeException(sprintf('Error decoding JSON data: %s', json_last_error_msg()));
 		}
 

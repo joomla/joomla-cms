@@ -47,7 +47,7 @@ var _createClass = function () {
     function c() {
       return _classCallCheck(this, c), _possibleConstructorReturn(this, (c.__proto__ || Object.getPrototypeOf(c)).apply(this, arguments));
     }return _inherits(c, b), _createClass(c, [{ key: 'connectedCallback', value: function connectedCallback() {
-        console.log(this.buttonClear);var a = this.querySelector(this.buttonSelect),
+        var a = this.querySelector(this.buttonSelect),
             b = this.querySelector(this.buttonClear);this.show = this.show.bind(this), this.modalClose = this.modalClose.bind(this), this.clearValue = this.clearValue.bind(this), this.setValue = this.setValue.bind(this), this.updatePreview = this.updatePreview.bind(this), a.addEventListener('click', this.show), b && b.addEventListener('click', this.clearValue), this.updatePreview();
       } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {
         var a = this.querySelector(this.buttonClear);a.removeEventListener('click', self);
@@ -58,7 +58,7 @@ var _createClass = function () {
           return c.preventDefault(), c.stopPropagation(), a.selectedPath && b.setValue(a.selectedPath), b.modalClose(), !1;
         });
       } }, { key: 'modalClose', value: function modalClose() {
-        var b = this.querySelector(this.input);console.log(this), a.getImage(a.selectedFile, b, this), window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
+        var b = this.querySelector(this.input);a.getImage(a.selectedFile, b, this), window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
       } }, { key: 'setValue', value: function setValue(a) {
         var b = window.jQuery(this.querySelector(this.input));b.val(a).trigger('change'), this.updatePreview();
       } }, { key: 'clearValue', value: function clearValue() {
