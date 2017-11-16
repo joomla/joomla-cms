@@ -17,7 +17,7 @@ use Joomla\CMS\User\UserHelper;
 /**
  * Password handler for MD5 hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since       __DEPLOY_VERSION__
  * @deprecated  5.0  Support for MD5 hashed passwords will be removed
  */
 class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterface

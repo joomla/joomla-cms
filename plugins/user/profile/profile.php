@@ -408,7 +408,10 @@ class PlgUserProfile extends JPlugin
 			$db = JFactory::getDbo();
 
 			// Sanitize the date
-			$data['profile']['dob'] = $this->date;
+			if (!empty($data['profile']['dob']))
+			{
+				$data['profile']['dob'] = $this->date;
+			}
 
 			$keys = array_keys($data['profile']);
 

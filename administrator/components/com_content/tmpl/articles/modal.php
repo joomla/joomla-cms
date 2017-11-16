@@ -23,6 +23,11 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
+JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
 $editor    = $app->input->getCmd('editor', '');

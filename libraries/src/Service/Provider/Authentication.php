@@ -59,7 +59,12 @@ class Authentication implements ServiceProviderInterface
 
 					// Load the chain with supported core handlers
 					$handler->addHandler($container->get(BCryptHandler::class));
-					$handler->addHandler($container->get(Argon2iHandler::class));
+
+					if (Argon2iHandler::isSupported())
+					{
+						$handler->addHandler($container->get(Argon2iHandler::class));
+					}
+
 					$handler->addHandler($container->get(PHPassHandler::class));
 					$handler->addHandler($container->get(SHA256Handler::class));
 					$handler->addHandler($container->get(MD5Handler::class));

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
+class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -65,7 +65,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
             'Joomla\\Registry\\' => 16,
             'Joomla\\OAuth2\\' => 14,
             'Joomla\\OAuth1\\' => 14,
-            'Joomla\\Ldap\\Tests\\' => 18,
             'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
@@ -183,10 +182,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\OAuth1\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth1/src',
-        ),
-        'Joomla\\Ldap\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
         ),
         'Joomla\\Ldap\\' => 
         array (
@@ -931,7 +926,6 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\Input\\Input' => __DIR__ . '/..' . '/joomla/input/src/Input.php',
         'Joomla\\Input\\Json' => __DIR__ . '/..' . '/joomla/input/src/Json.php',
         'Joomla\\Ldap\\LdapClient' => __DIR__ . '/..' . '/joomla/ldap/src/LdapClient.php',
-        'Joomla\\Ldap\\Tests\\LdapClientTest' => __DIR__ . '/..' . '/joomla/ldap/Tests/LdapClientTest.php',
         'Joomla\\OAuth1\\Client' => __DIR__ . '/..' . '/joomla/oauth1/src/Client.php',
         'Joomla\\OAuth2\\Client' => __DIR__ . '/..' . '/joomla/oauth2/src/Client.php',
         'Joomla\\Registry\\Factory' => __DIR__ . '/..' . '/joomla/registry/src/Factory.php',
@@ -1161,9 +1155,9 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c::$classMap;
 
         }, null, ClassLoader::class);
     }

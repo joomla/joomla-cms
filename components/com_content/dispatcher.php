@@ -36,18 +36,21 @@ class ContentDispatcher extends Dispatcher
 	 */
 	public function dispatch()
 	{
-		if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak')
-		{
-			if (!$this->app->getIdentity()->authorise('core.create', 'com_content'))
-			{
-				$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		$checkCreateEdit = ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
+			|| ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak');
 
-				return;
-			}
-		}
-		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
+		if ($checkCreateEdit)
 		{
-			if (!$this->app->getIdentity()->authorise('core.create', 'com_content'))
+			// Can create in any category (component permission) or at least in one category
+			$canCreateRecords = $this->app->getIdentity()->authorise('core.create', 'com_content')
+				|| count($this->app->getIdentity()->getAuthorisedCategories('com_content', 'core.create')) > 0;
+
+			// Instead of checking edit on all records, we can use **same** check as the form editing view
+			$values = (array) $this->app->getUserState('com_content.edit.article.id');
+			$isEditingRecords = count($values);
+			$hasAccess = $canCreateRecords || $isEditingRecords;
+
+			if (!$hasAccess)
 			{
 				$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 

@@ -662,7 +662,6 @@ return array(
     'Joomla\\Input\\Input' => $vendorDir . '/joomla/input/src/Input.php',
     'Joomla\\Input\\Json' => $vendorDir . '/joomla/input/src/Json.php',
     'Joomla\\Ldap\\LdapClient' => $vendorDir . '/joomla/ldap/src/LdapClient.php',
-    'Joomla\\Ldap\\Tests\\LdapClientTest' => $vendorDir . '/joomla/ldap/Tests/LdapClientTest.php',
     'Joomla\\OAuth1\\Client' => $vendorDir . '/joomla/oauth1/src/Client.php',
     'Joomla\\OAuth2\\Client' => $vendorDir . '/joomla/oauth2/src/Client.php',
     'Joomla\\Registry\\Factory' => $vendorDir . '/joomla/registry/src/Factory.php',

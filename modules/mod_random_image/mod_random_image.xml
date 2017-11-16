@@ -43,13 +43,13 @@
 
 				<field
 					name="width"
-					type="text"
+					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
 				/>
 
 				<field
 					name="height"
-					type="text"
+					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
 				/>
 

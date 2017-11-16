@@ -260,7 +260,7 @@ class TagField extends \JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && $this->element['custom'] === 'deny')
+		if (isset($this->element['custom']) && (string) $this->element['custom'] === 'deny')
 		{
 			return false;
 		}

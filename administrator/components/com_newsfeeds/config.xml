@@ -29,7 +29,7 @@
 		
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			default="5"
 			filter="integer"
@@ -74,7 +74,7 @@
 
 		<field
 			name="feed_character_count"
-			type="text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 			id="feed_character_count"
