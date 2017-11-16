@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
+class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -23,9 +23,9 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -643,25 +643,25 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\CMS\\Log\\Logger\\MessagequeueLogger' => __DIR__ . '/../../..' . '/libraries/src/Log/Logger/MessagequeueLogger.php',
         'Joomla\\CMS\\Log\\Logger\\SyslogLogger' => __DIR__ . '/../../..' . '/libraries/src/Log/Logger/SyslogLogger.php',
         'Joomla\\CMS\\Log\\Logger\\W3cLogger' => __DIR__ . '/../../..' . '/libraries/src/Log/Logger/W3cLogger.php',
-        'Joomla\\CMS\\MVC\\Controller\\AdminController' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/AdminController.php',
-        'Joomla\\CMS\\MVC\\Controller\\BaseController' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/BaseController.php',
-        'Joomla\\CMS\\MVC\\Controller\\ControllerInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/ControllerInterface.php',
-        'Joomla\\CMS\\MVC\\Controller\\FormController' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/FormController.php',
-        'Joomla\\CMS\\MVC\\Factory\\LegacyFactory' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/LegacyFactory.php',
-        'Joomla\\CMS\\MVC\\Factory\\MVCFactory' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactory.php',
-        'Joomla\\CMS\\MVC\\Factory\\MVCFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactoryInterface.php',
-        'Joomla\\CMS\\MVC\\Model\\AdminModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/AdminModel.php',
-        'Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/BaseDatabaseModel.php',
-        'Joomla\\CMS\\MVC\\Model\\FormModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/FormModel.php',
-        'Joomla\\CMS\\MVC\\Model\\ItemModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/ItemModel.php',
-        'Joomla\\CMS\\MVC\\Model\\ListModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/ListModel.php',
-        'Joomla\\CMS\\MVC\\View\\AbstractView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/AbstractView.php',
-        'Joomla\\CMS\\MVC\\View\\CategoriesView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/CategoriesView.php',
-        'Joomla\\CMS\\MVC\\View\\CategoryFeedView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/CategoryFeedView.php',
-        'Joomla\\CMS\\MVC\\View\\CategoryView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/CategoryView.php',
-        'Joomla\\CMS\\MVC\\View\\FormView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/FormView.php',
-        'Joomla\\CMS\\MVC\\View\\HtmlView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/HtmlView.php',
-        'Joomla\\CMS\\MVC\\View\\ListView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/ListView.php',
+        'Joomla\\CMS\\MVC\\Controller\\AdminController' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Controller/AdminController.php',
+        'Joomla\\CMS\\MVC\\Controller\\BaseController' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Controller/BaseController.php',
+        'Joomla\\CMS\\MVC\\Controller\\ControllerInterface' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Controller/ControllerInterface.php',
+        'Joomla\\CMS\\MVC\\Controller\\FormController' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Controller/FormController.php',
+        'Joomla\\CMS\\MVC\\Factory\\LegacyFactory' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Factory/LegacyFactory.php',
+        'Joomla\\CMS\\MVC\\Factory\\MVCFactory' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Factory/MVCFactory.php',
+        'Joomla\\CMS\\MVC\\Factory\\MVCFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Factory/MVCFactoryInterface.php',
+        'Joomla\\CMS\\MVC\\Model\\AdminModel' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Model/AdminModel.php',
+        'Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Model/BaseDatabaseModel.php',
+        'Joomla\\CMS\\MVC\\Model\\FormModel' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Model/FormModel.php',
+        'Joomla\\CMS\\MVC\\Model\\ItemModel' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Model/ItemModel.php',
+        'Joomla\\CMS\\MVC\\Model\\ListModel' => __DIR__ . '/../../..' . '/libraries/src/Mvc/Model/ListModel.php',
+        'Joomla\\CMS\\MVC\\View\\AbstractView' => __DIR__ . '/../../..' . '/libraries/src/Mvc/View/AbstractView.php',
+        'Joomla\\CMS\\MVC\\View\\CategoriesView' => __DIR__ . '/../../..' . '/libraries/src/Mvc/View/CategoriesView.php',
+        'Joomla\\CMS\\MVC\\View\\CategoryFeedView' => __DIR__ . '/../../..' . '/libraries/src/Mvc/View/CategoryFeedView.php',
+        'Joomla\\CMS\\MVC\\View\\CategoryView' => __DIR__ . '/../../..' . '/libraries/src/Mvc/View/CategoryView.php',
+        'Joomla\\CMS\\MVC\\View\\FormView' => __DIR__ . '/../../..' . '/libraries/src/Mvc/View/FormView.php',
+        'Joomla\\CMS\\MVC\\View\\HtmlView' => __DIR__ . '/../../..' . '/libraries/src/Mvc/View/HtmlView.php',
+        'Joomla\\CMS\\MVC\\View\\ListView' => __DIR__ . '/../../..' . '/libraries/src/Mvc/View/ListView.php',
         'Joomla\\CMS\\Mail\\Mail' => __DIR__ . '/../../..' . '/libraries/src/Mail/Mail.php',
         'Joomla\\CMS\\Mail\\MailHelper' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailHelper.php',
         'Joomla\\CMS\\Menu\\AbstractMenu' => __DIR__ . '/../../..' . '/libraries/src/Menu/AbstractMenu.php',
@@ -889,6 +889,13 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
         'Joomla\\Input\\Files' => __DIR__ . '/..' . '/joomla/input/src/Files.php',
         'Joomla\\Input\\Input' => __DIR__ . '/..' . '/joomla/input/src/Input.php',
         'Joomla\\Input\\Json' => __DIR__ . '/..' . '/joomla/input/src/Json.php',
+        'Joomla\\Input\\Tests\\CliTest' => __DIR__ . '/..' . '/joomla/input/Tests/CliTest.php',
+        'Joomla\\Input\\Tests\\CookieTest' => __DIR__ . '/..' . '/joomla/input/Tests/CookieTest.php',
+        'Joomla\\Input\\Tests\\FilesTest' => __DIR__ . '/..' . '/joomla/input/Tests/FilesTest.php',
+        'Joomla\\Input\\Tests\\FilterInputMock' => __DIR__ . '/..' . '/joomla/input/Tests/Stubs/FilterInputMock.php',
+        'Joomla\\Input\\Tests\\InputMocker' => __DIR__ . '/..' . '/joomla/input/Tests/InputMocker.php',
+        'Joomla\\Input\\Tests\\InputTest' => __DIR__ . '/..' . '/joomla/input/Tests/InputTest.php',
+        'Joomla\\Input\\Tests\\JsonTest' => __DIR__ . '/..' . '/joomla/input/Tests/JsonTest.php',
         'Joomla\\Ldap\\LdapClient' => __DIR__ . '/..' . '/joomla/ldap/src/LdapClient.php',
         'Joomla\\Ldap\\Tests\\LdapClientTest' => __DIR__ . '/..' . '/joomla/ldap/Tests/LdapClientTest.php',
         'Joomla\\OAuth1\\Client' => __DIR__ . '/..' . '/joomla/oauth1/src/Client.php',
@@ -1024,9 +1031,9 @@ class ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit74ef86c5f34c77e33c93ad0a7df1d823::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c::$classMap;
 
         }, null, ClassLoader::class);
     }
