@@ -134,7 +134,7 @@ class ListField extends FormField
 				}
 
 				// Requires vote plugin
-				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
+				if (in_array('vote', $requires) && !\JPluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
 				}
