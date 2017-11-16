@@ -24,7 +24,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
@@ -270,7 +269,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
     );
 
     public static $classMap = array (
-        'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
         'Composer\\CaBundle\\CaBundle' => __DIR__ . '/..' . '/composer/ca-bundle/src/CaBundle.php',
         'Defuse\\Crypto\\Core' => __DIR__ . '/..' . '/defuse/php-encryption/src/Core.php',
         'Defuse\\Crypto\\Crypto' => __DIR__ . '/..' . '/defuse/php-encryption/src/Crypto.php',
@@ -730,8 +728,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Session\\Exception\\UnsupportedStorageException' => __DIR__ . '/../../..' . '/libraries/src/Session/Exception/UnsupportedStorageException.php',
         'Joomla\\CMS\\Session\\Session' => __DIR__ . '/../../..' . '/libraries/src/Session/Session.php',
         'Joomla\\CMS\\Session\\Storage\\JoomlaStorage' => __DIR__ . '/../../..' . '/libraries/src/Session/Storage/JoomlaStorage.php',
-        'Joomla\\CMS\\Session\\Validator\\AddressValidator' => __DIR__ . '/../../..' . '/libraries/src/Session/Validator/AddressValidator.php',
-        'Joomla\\CMS\\Session\\Validator\\ForwardedValidator' => __DIR__ . '/../../..' . '/libraries/src/Session/Validator/ForwardedValidator.php',
         'Joomla\\CMS\\String\\PunycodeHelper' => __DIR__ . '/../../..' . '/libraries/src/String/PunycodeHelper.php',
         'Joomla\\CMS\\Table\\Asset' => __DIR__ . '/../../..' . '/libraries/src/Table/Asset.php',
         'Joomla\\CMS\\Table\\Category' => __DIR__ . '/../../..' . '/libraries/src/Table/Category.php',
@@ -803,6 +799,8 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Controller\\ControllerInterface' => __DIR__ . '/..' . '/joomla/controller/src/ControllerInterface.php',
         'Joomla\\Crypt\\CipherInterface' => __DIR__ . '/..' . '/joomla/crypt/src/CipherInterface.php',
         'Joomla\\Crypt\\Cipher\\Crypto' => __DIR__ . '/..' . '/joomla/crypt/src/Cipher/Crypto.php',
+        'Joomla\\Crypt\\Cipher\\OpenSSL' => __DIR__ . '/..' . '/joomla/crypt/src/Cipher/OpenSSL.php',
+        'Joomla\\Crypt\\Cipher\\Sodium' => __DIR__ . '/..' . '/joomla/crypt/src/Cipher/Sodium.php',
         'Joomla\\Crypt\\Crypt' => __DIR__ . '/..' . '/joomla/crypt/src/Crypt.php',
         'Joomla\\Crypt\\Key' => __DIR__ . '/..' . '/joomla/crypt/src/Key.php',
         'Joomla\\DI\\Container' => __DIR__ . '/..' . '/joomla/di/src/Container.php',
@@ -938,11 +936,9 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Registry\\Registry' => __DIR__ . '/..' . '/joomla/registry/src/Registry.php',
         'Joomla\\Session\\Exception\\InvalidSessionException' => __DIR__ . '/..' . '/joomla/session/src/Exception/InvalidSessionException.php',
         'Joomla\\Session\\HandlerInterface' => __DIR__ . '/..' . '/joomla/session/src/HandlerInterface.php',
-        'Joomla\\Session\\Handler\\ApcHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/ApcHandler.php',
         'Joomla\\Session\\Handler\\ApcuHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/ApcuHandler.php',
         'Joomla\\Session\\Handler\\DatabaseHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/DatabaseHandler.php',
         'Joomla\\Session\\Handler\\FilesystemHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/FilesystemHandler.php',
-        'Joomla\\Session\\Handler\\MemcacheHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/MemcacheHandler.php',
         'Joomla\\Session\\Handler\\MemcachedHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/MemcachedHandler.php',
         'Joomla\\Session\\Handler\\RedisHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/RedisHandler.php',
         'Joomla\\Session\\Handler\\WincacheHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/WincacheHandler.php',
@@ -965,7 +961,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Uri\\UriImmutable' => __DIR__ . '/..' . '/joomla/uri/src/UriImmutable.php',
         'Joomla\\Uri\\UriInterface' => __DIR__ . '/..' . '/joomla/uri/src/UriInterface.php',
         'Joomla\\Utilities\\ArrayHelper' => __DIR__ . '/..' . '/joomla/utilities/src/ArrayHelper.php',
-        'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
         'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
         'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
         'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
