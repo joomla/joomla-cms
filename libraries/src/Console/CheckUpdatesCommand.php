@@ -62,7 +62,7 @@ class CheckUpdatesCommand extends AbstractCommand
 		$this->setHelp(<<<'EOF'
 The <info>%command.name%</info> command checks for pending extension updates
 
-<info>php %command.full_name% %command.name%</info>
+<info>php %command.full_name%</info>
 EOF
 		);
 	}
