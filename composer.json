@@ -8,11 +8,12 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.0"
+            "php": "7.0.8"
         },
         "preferred-install": {
             "joomla/application": "dist",
             "joomla/authentication": "dist",
+            "joomla/console": "dist",
             "joomla/controller": "dist",
             "joomla/crypt": "dist",
             "joomla/data": "dist",
@@ -29,7 +30,8 @@
             "joomla/session": "dist",
             "joomla/string": "dist",
             "joomla/uri": "dist",
-            "joomla/utilities": "dist"
+            "joomla/utilities": "dist",
+            "symfony/console": "dist"
         },
         "vendor-dir": "libraries/vendor"
     },
@@ -49,6 +51,7 @@
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
         "joomla/authentication": "~2.0@dev",
+        "joomla/console": "~2.0@dev",
         "joomla/controller": "~2.0@dev",
         "joomla/crypt": "~2.0@dev",
         "joomla/data": "~2.0@dev",
@@ -74,6 +77,7 @@
         "phpmailer/phpmailer": "~6.0@rc",
         "psr/link": "~1.0",
         "symfony/polyfill-php56": "~1.0",
+        "symfony/console": "3.4.*@dev",
         "symfony/web-link": "3.3.*",
         "symfony/yaml": "3.3.*"
     },
@@ -83,7 +87,7 @@
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~1.11",
         "squizlabs/php_codesniffer": "~1.5",
-        "joomla/test-system": "dev-master",
-        "joomla-projects/joomla-browser": "~4.0@dev"
+        "joomla-projects/joomla-browser": "~4.0@dev",
+        "joomla/test-system": "dev-master"
     }
 }
