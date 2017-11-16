@@ -8,6 +8,7 @@
   },
   "scripts": {
     "compile-js": "grunt uglify:allJs",
+    "compile-elements": "grunt createElements",
     "compile-sass": "grunt sass:dist",
     "update-dependencies": "grunt default",
     "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
