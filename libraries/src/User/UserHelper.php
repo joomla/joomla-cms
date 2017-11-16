@@ -377,11 +377,9 @@ abstract class UserHelper
 		switch ($algorithm)
 		{
 			case self::HASH_ARGON2I :
-			case PASSWORD_ARGON2I :
 				return $container->get(Argon2iHandler::class)->hashPassword($password, $options);
 
 			case self::HASH_BCRYPT :
-			case PASSWORD_BCRYPT :
 				return $container->get(BCryptHandler::class)->hashPassword($password, $options);
 
 			case self::HASH_MD5 :
