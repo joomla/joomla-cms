@@ -44,6 +44,7 @@ JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\In
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
+	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
 
 // Instantiate and execute the application
