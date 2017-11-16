@@ -209,7 +209,8 @@ class ModuleAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$db = $this->parent->getDbo();
+		$db     = $this->parent->getDbo();
+		$retval = true;
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
