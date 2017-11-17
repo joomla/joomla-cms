@@ -90,10 +90,13 @@ var JFormValidator = function() {
 			    isValid = new RegExp('^'+$el.attr('pattern')+'$').test($el.val());
 			    handleResponse(isValid, $el);
 			    return isValid;
-		    } else {
+		    } else if($el.attr('required')) {
 			    handleResponse(false, $el);
 			    return false;
 		    }
+		    // Return validation state
+		    handleResponse(true, $el);
+		    return true;
 	    } else {
 		    if (handler === '') {
 			    handleResponse(true, $el);
