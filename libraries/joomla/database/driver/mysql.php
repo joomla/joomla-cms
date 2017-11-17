@@ -366,7 +366,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to MySQL database');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL database.');
 		}
 
 		return true;
