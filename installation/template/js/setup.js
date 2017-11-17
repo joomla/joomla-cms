@@ -184,6 +184,7 @@ Joomla.checkDbCredentials = function() {
 
 		document.getElementById('setupButton').addEventListener('click', function(e) {
 			e.preventDefault();
+			e.stopPropagation();
 			Joomla.checkInputs();
 		})
 	}
