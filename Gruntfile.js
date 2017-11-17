@@ -584,36 +584,38 @@ module.exports = function(grunt) {
 	// Compile the css
 	grunt.registerTask('compile-ce', 'Compile css files', () => {
 		const compileCss = (element) => {
-			// Compile the css files
-			grunt.config.set('sass.' + element + '.files', [{
-				src: 'build/webcomponents/scss/' + element + '/' + element + '.scss',
-				dest: settings.webcomponents[element].css + '/joomla-' + element + '.css'
-			}]);
+			if (grunt.file.exists('build/webcomponents/scss/' + element + '/' + element + '.scss')) {
+				// Compile the css files
+				grunt.config.set('sass.' + element + '.files', [{
+					src: 'build/webcomponents/scss/' + element + '/' + element + '.scss',
+					dest: settings.webcomponents[element].css + '/joomla-' + element + '.css'
+				}]);
 
-			grunt.task.run('sass:' + element);
+				grunt.task.run('sass:' + element);
 
-			// Autoprefix the CSS files
-			grunt.config.set('postcss.' + element + '.files', [{
-				map: false,
-				processors: [
-					require('autoprefixer')({
-						browsers: [
-							`grunt.settings.browsers`,
-						]
-					})
-				],
-				src: settings.webcomponents[element].css + '/joomla-' + element + '.css',
-			}]);
+				// Autoprefix the CSS files
+				grunt.config.set('postcss.' + element + '.files', [{
+					map: false,
+					processors: [
+						require('autoprefixer')({
+							browsers: [
+								`grunt.settings.browsers`,
+							]
+						})
+					],
+					src: settings.webcomponents[element].css + '/joomla-' + element + '.css',
+				}]);
 
-			grunt.task.run('postcss:' + element);
+				grunt.task.run('postcss:' + element);
 
-			// Autoprefix the CSS files
-			grunt.config.set('cssmin.' + element + '.files', [{
-				src: settings.webcomponents[element].css + '/joomla-' + element + '.css',
-				dest: settings.webcomponents[element].css + '/joomla-' + element + '.min.css'
-			}]);
+				// Autoprefix the CSS files
+				grunt.config.set('cssmin.' + element + '.files', [{
+					src: settings.webcomponents[element].css + '/joomla-' + element + '.css',
+					dest: settings.webcomponents[element].css + '/joomla-' + element + '.min.css'
+				}]);
 
-			grunt.task.run('cssmin:' + element);
+				grunt.task.run('cssmin:' + element);
+			}
 		};
 
 		console.info('Build the custom elements stylesheets')
