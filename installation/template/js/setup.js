@@ -98,7 +98,7 @@ Joomla.checkDbCredentials = function() {
 				Joomla.install(['config'], form);
 
 				// If all good (we need some code here)
-				Joomla.goToPage('remove');
+                setTimeout(function() {Joomla.goToPage('remove');}, 1000)
 			}
 		},
 		onError:   function(xhr){
