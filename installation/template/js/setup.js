@@ -55,7 +55,7 @@ Joomla.checkInputs = function() {
 	document.getElementById('jform_admin_password2').value = document.getElementById('jform_admin_password').value;
 
 	var inputs = [].slice.call(document.querySelectorAll('input[type="password"], input[type="text"], input[type="email"], select')),
-	    state = true;
+		state = true;
 	inputs.forEach(function(item) {
 		if (!item.valid) state = false;
 	});
@@ -76,7 +76,7 @@ Joomla.checkDbCredentials = function() {
 	Joomla.loadingLayer("show");
 
 	var form = document.getElementById('adminForm'),
-	    data = Joomla.serialiseForm(form);
+		data = Joomla.serialiseForm(form);
 
 	Joomla.request({
 		method: "POST",
@@ -98,7 +98,7 @@ Joomla.checkDbCredentials = function() {
 				Joomla.install(['config'], form);
 
 				// If all good (we need some code here)
-                setTimeout(function() {Joomla.goToPage('remove');}, 1000)
+				setTimeout(function() {Joomla.goToPage('remove');}, 1000)
 			}
 		},
 		onError:   function(xhr){
