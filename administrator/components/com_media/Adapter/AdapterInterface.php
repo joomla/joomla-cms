@@ -69,6 +69,18 @@ interface AdapterInterface
 	public function getFiles($path = '/');
 
 	/**
+	 * Returns a resource to download the path.
+	 *
+	 * @param   string  $path  The path to download
+	 *
+	 * @return  resource
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function getResource($path);
+
+	/**
 	 * Creates a folder with the given name in the given path.
 	 *
 	 * It returns the new folder name. This allows the implementation

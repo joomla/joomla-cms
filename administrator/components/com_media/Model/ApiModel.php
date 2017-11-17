@@ -108,6 +108,16 @@ class ApiModel extends BaseDatabaseModel
 			}
 		}
 
+		if (isset($options['content']) && $options['content'] && $file->type == 'file')
+		{
+			$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+			if ($resource)
+			{
+				$file->content = base64_encode(stream_get_contents($resource));
+			}
+		}
+
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
@@ -163,6 +173,16 @@ class ApiModel extends BaseDatabaseModel
 				else
 				{
 					$file->url = $this->getUrl($adapter, $file->path);
+				}
+			}
+
+			if (isset($options['content']) && $options['content'] && $file->type == 'file')
+			{
+				$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+				if ($resource)
+				{
+					$file->content = base64_encode(stream_get_contents($resource));
 				}
 			}
 
