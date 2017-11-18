@@ -1312,7 +1312,7 @@ ENDDATA;
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		$rows = array_filter($rows, 'JoomlaupdateModelDefault::isNonCoreExtension');
+		$rows = array_filter($rows, UpdateModel::class . '::isNonCoreExtension');
 
 		foreach ($rows as $extension)
 		{
