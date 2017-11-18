@@ -267,7 +267,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by categories and by level
-		$categoryId = $this->getState('filter.category_id');
+		$categoryId = $this->getState('filter.category_id', array());
 		$level = $this->getState('filter.level');
 
 		$categoryId = $categoryId && !is_array($categoryId)
