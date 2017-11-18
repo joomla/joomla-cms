@@ -4834,6 +4834,10 @@ a.badge:focus {
 	.dl-horizontal dd {
 		margin-left: 0;
 	}
+	.dropdown-menu .menuitem-group {
+		background-color: #10223e;
+		color: #eee;
+	}
 	.container {
 		width: auto;
 	}
