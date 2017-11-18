@@ -8179,9 +8179,6 @@ body .navbar-fixed-top {
 		padding: 9px 9px 0 9px;
 	}
 }
-.navbar-search .search-query {
-	background: rgba(255,255,255,0.3);
-}
 @media (max-width: 979px) {
 	.navbar .nav {
 		font-size: 13px;
