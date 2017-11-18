@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Extension;
-use Joomla\Component\Templates\Administrator\Table\Style;
+use Joomla\Component\Templates\Administrator\Table\StyleTable;
 
 /**
  * Installer Manage Model
@@ -120,7 +120,7 @@ class ManageModel extends InstallerModel
 
 			if ($table->type == 'template')
 			{
-				$style = new Style($this->getDbo());
+				$style = new StyleTable($this->getDbo());
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
