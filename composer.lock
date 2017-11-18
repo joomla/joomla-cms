@@ -396,12 +396,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "091cc077da5dac8ebb600c1862c2cb9916c349f0"
+                "reference": "15ecf5a734a04836f00bcca115bd472a0aa421c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/091cc077da5dac8ebb600c1862c2cb9916c349f0",
-                "reference": "091cc077da5dac8ebb600c1862c2cb9916c349f0",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/15ecf5a734a04836f00bcca115bd472a0aa421c0",
+                "reference": "15ecf5a734a04836f00bcca115bd472a0aa421c0",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +441,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-10-24T00:47:31+00:00"
+            "time": "2017-11-18T10:10:40+00:00"
         },
         {
             "name": "joomla/controller",
