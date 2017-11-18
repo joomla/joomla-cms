@@ -37,7 +37,6 @@
 			description="COM_BANNERS_FIELD_EMAIL_DESC"
 			size="40"
 			validate="email"
-			required="true"
 		/>
 
 		<field
