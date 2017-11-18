@@ -11,8 +11,8 @@ namespace Joomla\Component\Installer\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Installer Manage Model
@@ -284,7 +284,7 @@ class ManageModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  DatabaseQuery  The database query
 	 *
 	 * @since   1.6
 	 */
