@@ -59,6 +59,25 @@ class Cache
 			'caching'      => ($conf->get('caching') >= 1) ? true : false,
 		);
 
+		if ($conf->get('cache_platformprefix', '0'))
+		{
+			$webclient = new WebClient;
+
+			 // Add a platform key to cache key if device calls for separate caching
+			if ($webclient->mobile)
+			{
+				if ($webclient->platform === WebClient::ANDROIDTABLET
+					|| $webclient->platform === WebClient::IPAD)
+				{
+					$this->_options['platformKey'] = 'T';
+				}
+				else
+				{
+					$this->_options['platformKey'] = 'M';
+				}
+			}
+		}
+
 		// Overwrite default options with given options
 		foreach ($options as $option => $value)
 		{
@@ -758,6 +777,7 @@ class Cache
 	 * @return  string
 	 *
 	 * @since   3.5
+	 * @deprecated  4.0
 	 */
 	public static function getPlatformPrefix()
 	{
@@ -771,6 +791,12 @@ class Cache
 
 		if ($webclient->mobile)
 		{
+			if ($webclient->platform === WebClient::ANDROIDTABLET
+				|| $webclient->platform === WebClient::IPAD)
+			{
+				return 'T-';
+			}
+
 			return 'M-';
 		}
 

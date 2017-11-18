@@ -39,6 +39,14 @@ class MemcachedStorage extends CacheStorage
 	protected $_compress = 0;
 
 	/**
+	 * Whether platform key is used as suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_platformKeyAsSuffix = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
