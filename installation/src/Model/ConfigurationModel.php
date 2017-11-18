@@ -281,11 +281,8 @@ class ConfigurationModel extends BaseInstallationModel
 
 		$cryptpass = UserHelper::hashPassword($options->admin_password);
 
-		// Take the admin user id.
+		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
 		$userId = DatabaseModel::getUserId();
-
-		// We don't need the randUserId in the session any longer, let's remove it.
-		DatabaseModel::resetRandUserId();
 
 		// Create the admin user.
 		date_default_timezone_set('UTC');
