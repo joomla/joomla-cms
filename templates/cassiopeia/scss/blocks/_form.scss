@@ -97,6 +97,12 @@ legend {
   width: 100%;
 }
 
+.custom-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 // Validation
 .invalid {
   color: $switcher-color-danger;
