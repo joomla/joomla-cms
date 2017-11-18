@@ -50,6 +50,15 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$message = null;
 		$messageType = null;
 
+		// Try to use the fallback file
+		if ($file === false)
+		{
+			$file = $model->download(true);
+
+			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED_FALLBACK');
+			$messageType = 'message';
+		}
+
 		if ($file)
 		{
 			JFactory::getApplication()->setUserState('com_joomlaupdate.file', $file);
