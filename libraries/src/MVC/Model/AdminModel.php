@@ -618,9 +618,9 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 
 				$setTagsEvent = \Joomla\CMS\Event\AbstractEvent::create(
-					'TableSetNewTags',
+					'onTableSetNewTags',
 					array(
-						'subject'     => $this,
+						'subject'     => $this->table,
 						'newTags'     => $tags,
 						'replaceTags' => false,
 					)
@@ -628,7 +628,7 @@ abstract class AdminModel extends FormModel
 
 				try
 				{
-					$this->table->getDispatcher()->dispatch($setTagsEvent);
+					$this->table->getDispatcher()->dispatch('onTableSetNewTags', $setTagsEvent);
 				}
 				catch (\RuntimeException $e)
 				{
