@@ -291,7 +291,7 @@ class LocalAdapter implements AdapterInterface
 		$obj->name      = basename($path);
 		$obj->path      = str_replace($this->rootPath, '/', $path);
 		$obj->extension = !$isDir ? \JFile::getExt($obj->name) : '';
-		$obj->size      = !$isDir ? filesize($path) : 0;
+		$obj->size      = !$isDir ? filesize($path) : '';
 		$obj->mime_type = MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name));
 		$obj->width     = 0;
 		$obj->height    = 0;
