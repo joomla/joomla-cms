@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Dispatcher class for com_content
@@ -73,7 +74,7 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getController($name, $client = null, $config = array())
+	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
 		if ($this->input->get('task') === 'module.orderPosition')
 		{
