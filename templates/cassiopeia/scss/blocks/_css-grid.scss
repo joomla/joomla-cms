@@ -27,6 +27,7 @@
     .container-top-b,
     .container-bottom-a,
     .container-bottom-b {
+      display: grid;
       > div {
         margin: 0;
       }

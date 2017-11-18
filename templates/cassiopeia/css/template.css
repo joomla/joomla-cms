@@ -8663,18 +8663,19 @@ iframe {
 
 .site {
   background-color: #fafafa; }
+  .site > div,
+  .site header > nav,
+  .site .container-banner,
+  .site footer {
+    display: flex;
+    width: 100%;
+    max-width: 1140px;
+    margin-right: auto;
+    margin-left: auto; }
   .site > .full-width {
     max-width: none; }
-
-[class^='container-'], > [class*=' container-'],
-header > nav,
-.container-banner,
-footer {
-  display: flex;
-  width: 100%;
-  max-width: 1140px;
-  margin-right: auto;
-  margin-left: auto; }
+  .site .container-footer {
+    display: block; }
 
 header {
   margin-bottom: 10px; }
@@ -8702,15 +8703,14 @@ header {
     .container-bottom-b > div {
       flex: 0 1 auto; } }
 
-.container-main {
-  display: flex; }
-  .container-main > div {
-    margin: 7.5px; }
-  @media (max-width: 767px) {
-    .container-main {
-      flex-direction: column; }
-      .container-main > div {
-        flex: 0 1 auto; } }
+.container-main > div {
+  margin: 7.5px; }
+
+@media (max-width: 767px) {
+  .container-main {
+    flex-direction: column; }
+    .container-main > div {
+      flex: 0 1 auto; } }
 
 .container-component {
   flex: 1; }
@@ -8734,9 +8734,6 @@ header {
     .container-sidebar-right {
       width: calc(100% - 15px);
       order: 1; } }
-
-.container-footer {
-  display: block; }
 
 .system-debug {
   display: block; }
@@ -8980,11 +8977,16 @@ joomla-alert {
       width: auto;
       max-width: none;
       margin: 0 0 15px; }
-    .site-grid .container-top-a > div,
-    .site-grid .container-top-b > div,
-    .site-grid .container-bottom-a > div,
-    .site-grid .container-bottom-b > div {
-      margin: 0; }
+    .site-grid .container-top-a,
+    .site-grid .container-top-b,
+    .site-grid .container-bottom-a,
+    .site-grid .container-bottom-b {
+      display: grid; }
+      .site-grid .container-top-a > div,
+      .site-grid .container-top-b > div,
+      .site-grid .container-bottom-a > div,
+      .site-grid .container-bottom-b > div {
+        margin: 0; }
     .site-grid .container-main {
       margin: -7.5px -7.5px 7.5px; }
     .site-grid > .full-width {
