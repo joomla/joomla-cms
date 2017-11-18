@@ -1,20 +1,22 @@
 <?php
 /**
- * Part of the Joomla Framework Application Package
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Application\Cli\Output\Processor;
+namespace Joomla\CMS\Application\CLI\Output\Processor;
 
-use Joomla\Application\Cli\ColorStyle;
-use Joomla\Application\Cli\Output\Stdout;
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CLI\ColorStyle;
 
 /**
  * Command line output processor supporting ANSI-colored output
  *
- * @since  1.0
+ * @since       __DEPLOY_VERSION__
+ * @deprecated  5.0  Use the `joomla/console` package instead
  */
 class ColorProcessor implements ProcessorInterface
 {
@@ -22,7 +24,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Flag to remove color codes from the output
 	 *
 	 * @var    boolean
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $noColors = false;
 
@@ -30,7 +32,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Regex to match tags
 	 *
 	 * @var    string
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $tagFilter = '/<([a-z=;]+)>(.*?)<\/\\1>/s';
 
@@ -38,7 +40,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Regex used for removing color codes
 	 *
 	 * @var    string
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $stripFilter = '/<[\/]?[a-z=;]+>/';
 
@@ -46,7 +48,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Array of ColorStyle objects
 	 *
 	 * @var    ColorStyle[]
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $styles = [];
 
@@ -55,7 +57,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @param   boolean  $noColors  Defines non-colored mode on construct
 	 *
-	 * @since   1.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($noColors = null)
 	{
@@ -81,7 +83,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addStyle($name, ColorStyle $style)
 	{
@@ -97,7 +99,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function stripColors($string)
 	{
@@ -111,7 +113,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function process($string)
 	{
@@ -148,7 +150,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function replaceColors($text, $tag, $match, ColorStyle $style)
 	{
@@ -164,7 +166,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addPredefinedStyles()
 	{

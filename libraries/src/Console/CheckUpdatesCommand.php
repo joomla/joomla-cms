@@ -59,7 +59,7 @@ class CheckUpdatesCommand extends AbstractCommand
 	{
 		$this->setName('update:extensions:check');
 		$this->setDescription('Checks for pending extension updates');
-		$this->setHelp(<<<'EOF'
+		$this->setHelp(<<<EOF
 The <info>%command.name%</info> command checks for pending extension updates
 
 <info>php %command.full_name%</info>
