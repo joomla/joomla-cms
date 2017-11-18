@@ -33,7 +33,7 @@ class VoteradioField extends \JFormFieldRadio
 	/**
 	 * Method to get the field Label.
 	 *
-	 * @return array The field label objects.
+	 * @return string The field label
 	 *
 	 * @throws \Exception
 	 *
@@ -42,7 +42,7 @@ class VoteradioField extends \JFormFieldRadio
 	public function getLabel()
 	{
 		// Requires vote plugin enabled
-		return JPluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
+		return \JPluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
 	}
 
 	/**

@@ -8666,19 +8666,21 @@ iframe {
 .modal iframe {
   width: 100%; }
 
-body {
+.site {
   background-color: #fafafa; }
-  body > div,
-  body header > nav,
-  body .container-banner,
-  body footer {
+  .site > div,
+  .site header > nav,
+  .site .container-banner,
+  .site footer {
     display: flex;
     width: 100%;
     max-width: 1140px;
     margin-right: auto;
     margin-left: auto; }
-  body > .full-width {
+  .site > .full-width {
     max-width: none; }
+  .site .container-footer {
+    display: block; }
 
 header {
   margin-bottom: 10px; }
@@ -8737,9 +8739,6 @@ header {
     .container-sidebar-right {
       width: calc(100% - 15px);
       order: 1; } }
-
-.container-footer {
-  display: block; }
 
 .system-debug {
   display: block; }
@@ -8979,15 +8978,20 @@ joomla-alert {
     grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
-    .site-grid > div {
+    .site-grid > [class^='container-'], .site-grid > [class*=' container-'] {
       width: auto;
       max-width: none;
       margin: 0 0 15px; }
-    .site-grid .container-top-a > div,
-    .site-grid .container-top-b > div,
-    .site-grid .container-bottom-a > div,
-    .site-grid .container-bottom-b > div {
-      margin: 0; }
+    .site-grid .container-top-a,
+    .site-grid .container-top-b,
+    .site-grid .container-bottom-a,
+    .site-grid .container-bottom-b {
+      display: grid; }
+      .site-grid .container-top-a > div,
+      .site-grid .container-top-b > div,
+      .site-grid .container-bottom-a > div,
+      .site-grid .container-bottom-b > div {
+        margin: 0; }
     .site-grid .container-main {
       margin: -7.5px -7.5px 7.5px; }
     .site-grid > .full-width {

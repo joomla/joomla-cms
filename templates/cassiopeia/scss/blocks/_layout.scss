@@ -1,6 +1,6 @@
 // Layout
 
-body {
+.site {
   background-color: #fafafa;
   > div,
   header > nav,
@@ -16,6 +16,11 @@ body {
   > .full-width {
     max-width: none;
   }
+
+  .container-footer {
+    display: block;
+  }
+
 }
 
 header {
@@ -88,10 +93,6 @@ header {
     width: calc(100% - #{$cassiopeia-grid-gutter});
     order: 1;
   }
-}
-
-.container-footer {
-  display: block;
 }
 
 .system-debug {

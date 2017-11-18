@@ -1,17 +1,20 @@
 <?php
 /**
- * Part of the Joomla Framework Application Package
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Application\Cli;
+namespace Joomla\CMS\Application\CLI;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Class defining ANSI-color styles for command line output
  *
- * @since  1.0
+ * @since       __DEPLOY_VERSION__
+ * @deprecated  5.0  Use the `joomla/console` package instead
  */
 final class ColorStyle
 {
@@ -19,7 +22,7 @@ final class ColorStyle
 	 * Known colors
 	 *
 	 * @var    array
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $knownColors = [
 		'black'   => 0,
@@ -36,7 +39,7 @@ final class ColorStyle
 	 * Known styles
 	 *
 	 * @var    array
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $knownOptions = [
 		'bold'       => 1,
@@ -49,7 +52,7 @@ final class ColorStyle
 	 * Foreground base value
 	 *
 	 * @var    integer
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $fgBase = 30;
 
@@ -57,7 +60,7 @@ final class ColorStyle
 	 * Background base value
 	 *
 	 * @var    integer
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $bgBase = 40;
 
@@ -65,7 +68,7 @@ final class ColorStyle
 	 * Foreground color
 	 *
 	 * @var    integer
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $fgColor = 0;
 
@@ -73,7 +76,7 @@ final class ColorStyle
 	 * Background color
 	 *
 	 * @var    integer
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $bgColor = 0;
 
@@ -81,7 +84,7 @@ final class ColorStyle
 	 * Array of style options
 	 *
 	 * @var    array
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $options = [];
 
@@ -92,7 +95,7 @@ final class ColorStyle
 	 * @param   string  $bg       Background color.
 	 * @param   array   $options  Style options.
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct(string $fg = '', string $bg = '', array $options = [])
@@ -151,7 +154,7 @@ final class ColorStyle
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __toString()
 	{
@@ -167,7 +170,7 @@ final class ColorStyle
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
 	public static function fromString(string $string): self
@@ -215,7 +218,7 @@ final class ColorStyle
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getStyle(): string
 	{
@@ -244,7 +247,7 @@ final class ColorStyle
 	 *
 	 * @return  string[]
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getKnownColors(): array
 	{
@@ -256,7 +259,7 @@ final class ColorStyle
 	 *
 	 * @return  string[]
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getKnownOptions(): array
 	{
