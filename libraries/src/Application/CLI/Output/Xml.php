@@ -1,19 +1,22 @@
 <?php
 /**
- * Part of the Joomla Framework Application Package
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Application\Cli\Output;
+namespace Joomla\CMS\Application\CLI\Output;
 
-use Joomla\Application\Cli\CliOutput;
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CLI\CliOutput;
 
 /**
  * Output handler for writing command line output to the stdout interface
  *
- * @since  1.0
+ * @since       __DEPLOY_VERSION__
+ * @deprecated  5.0  Use the `joomla/console` package instead
  */
 class Xml extends CliOutput
 {
@@ -25,7 +28,7 @@ class Xml extends CliOutput
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 * @codeCoverageIgnore
 	 */
