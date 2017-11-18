@@ -4,7 +4,6 @@
 @supports (display: grid) {
   .site-grid {
     display: grid;
-
     grid-template-areas:
       ". head head head head ."
       ". banner banner banner banner ."
@@ -18,7 +17,7 @@
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $cassiopeia-grid-gutter;
 
-    > div {
+    > [class^='container-'], > [class*=' container-'] {
       width: auto;
       max-width: none;
       margin: 0 0 $cassiopeia-grid-gutter;

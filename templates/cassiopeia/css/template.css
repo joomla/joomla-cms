@@ -8661,19 +8661,20 @@ iframe {
 .modal iframe {
   width: 100%; }
 
-body {
+.site {
   background-color: #fafafa; }
-  body > div,
-  body header > nav,
-  body .container-banner,
-  body footer {
-    display: flex;
-    width: 100%;
-    max-width: 1140px;
-    margin-right: auto;
-    margin-left: auto; }
-  body > .full-width {
+  .site > .full-width {
     max-width: none; }
+
+[class^='container-'], > [class*=' container-'],
+header > nav,
+.container-banner,
+footer {
+  display: flex;
+  width: 100%;
+  max-width: 1140px;
+  margin-right: auto;
+  margin-left: auto; }
 
 header {
   margin-bottom: 10px; }
@@ -8701,14 +8702,15 @@ header {
     .container-bottom-b > div {
       flex: 0 1 auto; } }
 
-.container-main > div {
-  margin: 7.5px; }
-
-@media (max-width: 767px) {
-  .container-main {
-    flex-direction: column; }
-    .container-main > div {
-      flex: 0 1 auto; } }
+.container-main {
+  display: flex; }
+  .container-main > div {
+    margin: 7.5px; }
+  @media (max-width: 767px) {
+    .container-main {
+      flex-direction: column; }
+      .container-main > div {
+        flex: 0 1 auto; } }
 
 .container-component {
   flex: 1; }
@@ -8971,10 +8973,10 @@ joomla-alert {
 @supports (display: grid) {
   .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
+    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
-    .site-grid > div {
+    .site-grid > [class^='container-'], .site-grid > [class*=' container-'] {
       width: auto;
       max-width: none;
       margin: 0 0 15px; }
@@ -8989,7 +8991,7 @@ joomla-alert {
       grid-column: full-start / full-end; }
     @media (max-width: 575px) {
       .site-grid {
-        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
+        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
     .site-grid .container-header {
       margin-top: 0;
       margin-bottom: 20px; }
