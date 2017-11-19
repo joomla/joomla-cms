@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 	 * Configuration forms for all two-factor authentication methods.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $twofactorform;
 
@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
 	 * List of two factor authentication methods available.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $twofactormethods;
 
@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
 	 * One time password (OTP) – a.k.a. two factor authentication – configuration for the user.
 	 *
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $otpConfig;
 
@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 

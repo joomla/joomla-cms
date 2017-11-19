@@ -107,7 +107,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * The query monitor.
 	 *
 	 * @var    DebugMonitor
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $queryMonitor;
 
@@ -1476,7 +1476,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAfterDisconnect(ConnectionEvent $event)
 	{

@@ -224,7 +224,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Article', $prefix = 'Administrator', $options = array())

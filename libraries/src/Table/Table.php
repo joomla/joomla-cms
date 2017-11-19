@@ -123,7 +123,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 * The UCM type alias. Used for tags, content versioning etc. Leave blank to effectively disable these features.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $typeAlias = null;
 

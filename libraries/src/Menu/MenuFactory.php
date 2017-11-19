@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Default factory for creating Menu objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MenuFactory implements MenuFactoryInterface
 {
@@ -25,7 +25,7 @@ class MenuFactory implements MenuFactoryInterface
 	 *
 	 * @return  AbstractMenu
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function createMenu(string $client, array $options = []): AbstractMenu

@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * Array used for displaying the levels filter
 	 *
 	 * @return  stdClass[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $f_levels;
 

@@ -27,7 +27,7 @@ use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
  *
  * This is NO public api controller, it is internal for the com_media component only!
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ApiController extends BaseController
 {
@@ -38,7 +38,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function execute($task)
@@ -122,7 +122,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getFiles()
@@ -152,7 +152,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function deleteFiles()
@@ -183,7 +183,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function postFiles()
@@ -249,7 +249,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function putFiles()
@@ -299,7 +299,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function sendResponse($data = null, $responseCode = 200)
 	{
@@ -324,7 +324,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  Model|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getModel($name = 'Api', $prefix = 'Administrator', $config = array())
 	{
@@ -336,7 +336,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	private function checkContent()
@@ -365,7 +365,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getAdapter()
 	{
@@ -377,7 +377,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getPath()
 	{

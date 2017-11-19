@@ -19,7 +19,7 @@ Joomla = window.Joomla || {};
 	 * @param {int}     h       The height of the new window
 	 * @param {string}  scroll  The vertical/horizontal scroll bars
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
 		var winl = ( screen.width - w ) / 2,

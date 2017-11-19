@@ -16,7 +16,7 @@ use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 /**
  * Media provider interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface ProviderInterface
 {
@@ -25,7 +25,7 @@ interface ProviderInterface
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getID();
 
@@ -34,7 +34,7 @@ interface ProviderInterface
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getDisplayName();
 
@@ -43,7 +43,7 @@ interface ProviderInterface
 	 *
 	 * @return  AdapterInterface[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAdapters();
 }

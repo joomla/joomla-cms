@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 	 * The sidebar markup
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $sidebar;
 

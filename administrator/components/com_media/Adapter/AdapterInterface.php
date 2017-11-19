@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Media file adapter interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface AdapterInterface
 {
@@ -38,7 +38,7 @@ interface AdapterInterface
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getFile($path = '/');
@@ -63,7 +63,7 @@ interface AdapterInterface
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getFiles($path = '/');
@@ -91,7 +91,7 @@ interface AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createFolder($name, $path);
@@ -108,7 +108,7 @@ interface AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createFile($name, $path, $data);
@@ -122,7 +122,7 @@ interface AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function updateFile($name, $path, $data);
@@ -134,7 +134,7 @@ interface AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function delete($path);
@@ -151,7 +151,7 @@ interface AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function move($sourcePath, $destinationPath, $force = false);
@@ -168,7 +168,7 @@ interface AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false);
@@ -182,7 +182,7 @@ interface AdapterInterface
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
 	public function getUrl($path);
@@ -193,7 +193,7 @@ interface AdapterInterface
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAdapterName();
 
@@ -206,7 +206,7 @@ interface AdapterInterface
 	 *
 	 * @return \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function search($path, $needle, $recursive);
 
@@ -218,7 +218,7 @@ interface AdapterInterface
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
 	public function getTemporaryUrl($path);

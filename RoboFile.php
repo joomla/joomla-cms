@@ -43,7 +43,7 @@ class RoboFile extends \Robo\Tasks
 	 * Path to the tests
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $testsPath = 'libraries/vendor/joomla/test-system/src/';
 

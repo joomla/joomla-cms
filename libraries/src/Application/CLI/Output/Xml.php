@@ -15,7 +15,7 @@ use Joomla\CMS\Application\CLI\CliOutput;
 /**
  * Output handler for writing command line output to the stdout interface
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Use the `joomla/console` package instead
  */
 class Xml extends CliOutput
@@ -28,7 +28,7 @@ class Xml extends CliOutput
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 * @codeCoverageIgnore
 	 */

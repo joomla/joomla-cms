@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class CliInput
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Use the `joomla/console` package instead
  */
 class CliInput
@@ -24,7 +24,7 @@ class CliInput
 	 * @return  string  The input string from standard input.
 	 *
 	 * @codeCoverageIgnore
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function in()
 	{

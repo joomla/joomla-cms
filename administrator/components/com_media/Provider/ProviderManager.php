@@ -16,7 +16,7 @@ use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 /**
  * Media Adapter Manager
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ProviderManager
 {
@@ -25,7 +25,7 @@ class ProviderManager
 	 *
 	 * @var  ProviderInterface[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $providers = array();
 
@@ -34,7 +34,7 @@ class ProviderManager
 	 *
 	 * @return  ProviderInterface[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getProviders()
 	{
@@ -48,7 +48,7 @@ class ProviderManager
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function registerProvider(ProviderInterface $provider)
 	{
@@ -64,7 +64,7 @@ class ProviderManager
 	 *
 	 * @throws \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getProvider($id)
 	{
@@ -85,7 +85,7 @@ class ProviderManager
 	 *
 	 * @throws \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAdapter($name)
 	{

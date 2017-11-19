@@ -17,7 +17,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Event object to retrieve Media Adapters.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MediaProviderEvent extends AbstractEvent
 {
@@ -25,7 +25,7 @@ class MediaProviderEvent extends AbstractEvent
 	 * The ProviderManager for event
 	 *
 	 * @var ProviderManager
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $providerManager = null;
 
@@ -34,7 +34,7 @@ class MediaProviderEvent extends AbstractEvent
 	 *
 	 * @return  ProviderManager
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getProviderManager()
 	{
@@ -48,7 +48,7 @@ class MediaProviderEvent extends AbstractEvent
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setProviderManager($providerManager)
 	{
