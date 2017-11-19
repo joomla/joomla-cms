@@ -503,29 +503,10 @@ module.exports = function(grunt) {
 	/**
 	 * Webcomponents polyfills start
 	 */
-	// Patch the Custom Element Polyfill to add the WebComponentsReady event
-	grunt.registerTask('patchCE', 'Patch Custom Elements Polyfill', () => {
-		// Patch the Custom Element polyfill
-		if (grunt.file.exists('media/system/js/polyfills/webcomponents-ce.js')) {
-			let ce = grunt.file.read('media/system/js/polyfills/webcomponents-ce.js');
-			ce = ce.replace('//# sourceMappingURL=custom-elements.min.js.map', `
-(function(){
-	window.WebComponents = window.WebComponents || {};
-	requestAnimationFrame(function() {
-		window.WebComponents.ready= true;
-		document.dispatchEvent(new CustomEvent("WebComponentsReady", { bubbles:true }) );
-	})
-})();
-//# sourceMappingURL=custom-elements.js.map`);
-
-			grunt.file.write('media/system/js/polyfills/webcomponents-ce.js', ce);
-		}
-	});
-
 	grunt.registerTask('polyfills-wc', 'Create a copy of the polyfills', () => {
 		// Copy polyfills in the system/polyfills directory
 		if (grunt.file.exists('node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js')) {
-			let polyfills = ['webcomponents-hi-ce', 'webcomponents-hi-sd-ce', 'webcomponents-hi', 'webcomponents-lite', 'webcomponents-loader', 'webcomponents-sd-ce'];
+			let polyfills = ['webcomponents-hi-ce', 'webcomponents-hi-sd-ce', 'webcomponents-hi', 'webcomponents-lite', 'webcomponents-sd-ce'];
 
 			polyfills.forEach((polyfill) => {
 				// Put a copy of webcomponentjs polyfills in the dist folder
@@ -545,13 +526,27 @@ module.exports = function(grunt) {
 				grunt.task.run('copy:' + polyfill + '-map');
 			})
 
-			// Copy the Custom Elements polyfill
-			grunt.config.set('copy.ce.files', [{
-				src: 'node_modules/@webcomponents/custom-elements/custom-elements.min.js',
-				dest: 'media/system/js/polyfills/webcomponents/webcomponents-ce.js'
-			}]);
 
-			grunt.task.run('copy:ce');
+			// Patch the Custom Element Polyfill to add the WebComponentsReady event
+			grunt.registerTask('patchCE', 'Patch Custom Elements Polyfill', () => {
+				// Patch the Custom Element polyfill
+				console.log(grunt.file.read('node_modules/@webcomponents/custom-elements/custom-elements.min.js'))
+				if (grunt.file.exists('node_modules/@webcomponents/custom-elements/custom-elements.min.js')) {
+					let ce = grunt.file.read('node_modules/@webcomponents/custom-elements/custom-elements.min.js');
+					console.log(ce)
+					ce = ce.replace('//# sourceMappingURL=custom-elements.min.js.map', `
+(function(){
+	window.WebComponents = window.WebComponents || {};
+	requestAnimationFrame(function() {
+		window.WebComponents.ready= true;
+		document.dispatchEvent(new CustomEvent("WebComponentsReady", { bubbles:true }) );
+	})
+})();
+//# sourceMappingURL=custom-elements.js.map`);
+
+					grunt.file.write('media/system/js/polyfills/webcomponents/webcomponents-ce.js', ce);
+				}
+			});
 
 			// Copy the Custom Elements polyfill map
 			grunt.config.set('copy.ce-map.files', [{
@@ -559,9 +554,9 @@ module.exports = function(grunt) {
 				dest: 'media/system/js/polyfills/webcomponents/webcomponents-ce.js.map'
 			}]);
 
-			grunt.task.run('copy:ce-map');
-
-			grunt.task.run('patchCE');
+			grunt.registerTask('all-ce', ['patchCE', 'copy:ce-map']);
+			// grunt.task.run('copy:ce-map');
+			grunt.task.run('all-ce');
 		}
 
 		// Uglify the polyfills
