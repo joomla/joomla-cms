@@ -88,8 +88,12 @@ class PlgSystemFields extends JPlugin
 			// Determine the value if it is available from the data
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
-			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $item->id, $value);
+			// Setting a null value deletes the record
+			if(!is_null($value))
+			{
+				// Setting the value for the field and the item
+				$model->setFieldValue($field->id, $item->id, $value);
+			}
 		}
 
 		return true;
