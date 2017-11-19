@@ -112,7 +112,7 @@ class FieldTable extends Table
 		$this->name = str_replace(',', '-', $this->name);
 
 		// Verify that the name is unique
-		$table = new Field($this->_db);
+		$table = new FieldTable($this->_db);
 
 		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
 		{
