@@ -264,7 +264,15 @@ JFactory::getDocument()->addStyleDeclaration(
 		display: none;
 	}
 
+	#dragarea[data-state=uploading] .upload-actions {
+		display: none;
+	}
+
 	#dragarea[data-state=installing] .upload-progress {
+		display: none;
+	}
+
+	#dragarea[data-state=installing] .upload-actions {
 		display: none;
 	}
 CSS
