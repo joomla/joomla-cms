@@ -223,7 +223,7 @@ class CalendarField extends FormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($config->get('offset')));
+					$date->setTimezone(new \DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);
