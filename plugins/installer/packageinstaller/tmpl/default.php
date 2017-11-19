@@ -124,8 +124,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			data.append('install_package', file);
 			data.append('installtype', 'upload');
 
-			actions.hide();
-			progress.show();
+			dragZone.attr('data-state', 'uploading');
 			uploading = true;
 
 			$.ajax({
@@ -150,6 +149,10 @@ JFactory::getDocument()->addScriptDeclaration(
 							progressBar.css('width', number + '%');
 							progressBar.attr('aria-valuenow', number);
 							percentage.text(number);
+							
+							if (number === 100) {
+								dragZone.attr('data-state', 'installing');
+							}
 						}
 					}, false);
 
@@ -181,8 +184,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			});
 
 			function showError(res) {
-				actions.show();
-				progress.hide();
+				dragZone.attr('data-state', 'pending');
 
 				var message = Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 
@@ -237,7 +239,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		color: #666;
 	}
 
-	 .upload-progress {
+	 .upload-progress, .install-progress {
 		width: 50%;
 		margin: 5px auto;
 	 }
@@ -249,6 +251,22 @@ JFactory::getDocument()->addStyleDeclaration(
 		-o-transition: width .1s;
 		transition: width .1s;
 	}
+
+	#dragarea[data-state=pending] .upload-progress {
+		display: none;
+	}
+
+	#dragarea[data-state=pending] .install-progress {
+		display: none;
+	}
+
+	#dragarea[data-state=uploading] .install-progress {
+		display: none;
+	}
+
+	#dragarea[data-state=installing] .upload-progress {
+		display: none;
+	}
 CSS
 );
 
@@ -257,12 +275,12 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 <legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 
 <div id="uploader-wrapper">
-	<div id="dragarea" class="">
+	<div id="dragarea" data-state="pending">
 		<div id="dragarea-content" class="text-center">
 			<p>
 				<span id="upload-icon" class="icon-upload" aria-hidden="true"></span>
 			</p>
-			<div class="upload-progress" style="display: none;">
+			<div class="upload-progress">
 				<div class="progress progress-striped active">
 					<div class="bar bar-success"
 						style="width: 0;"
@@ -277,6 +295,16 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
 					</span>
 					<span class="uploading-number">0</span><span class="uploading-symbol">%</span>
+				</p>
+			</div>
+			<div class="install-progress">
+				<div class="progress progress-striped active">
+					<div class="bar" style="width: 100%;"></div>
+				</div>
+				<p class="lead">
+					<span class="installing-text">
+						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_INSTALLING'); ?>
+					</span>
 				</p>
 			</div>
 			<div class="upload-actions">
