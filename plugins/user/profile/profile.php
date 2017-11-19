@@ -446,7 +446,7 @@ class PlgUserProfile extends JPlugin
 					$order++;
 				}
 
-				$query->values(implode(', ', [$userId, 'profile.' . $k, json_encode($v), $order++]));
+				$query->values(implode(', ', $db->quote([$userId, 'profile.' . $k, json_encode($v), $order++])));
 			}
 
 			$db->setQuery($query);
