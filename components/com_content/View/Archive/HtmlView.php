@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	 * Object containing the year, month and limit field to be displayed
 	 *
 	 * @var    \stdClass|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $form = null;
 
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $params = null;
 
@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
 	 * filter_field component parameter)
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $filter = '';
 
@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
 	 * The user object
 	 *
 	 * @var    \JUser
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $user = null;
 
@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 

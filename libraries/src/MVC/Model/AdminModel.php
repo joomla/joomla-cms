@@ -149,14 +149,6 @@ abstract class AdminModel extends FormModel
 	protected $type = null;
 
 	/**
-	 * A tags Observer instance to handle assigned tags (re-usable in batch action methods, initialized via initBatch())
-	 *
-	 * @var     object
-	 * @since   3.8.2
-	 */
-	protected $tagsObserver = null;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
@@ -626,9 +618,9 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 
 				$setTagsEvent = \Joomla\CMS\Event\AbstractEvent::create(
-					'TableSetNewTags',
+					'onTableSetNewTags',
 					array(
-						'subject'     => $this,
+						'subject'     => $this->table,
 						'newTags'     => $tags,
 						'replaceTags' => false,
 					)
@@ -636,7 +628,7 @@ abstract class AdminModel extends FormModel
 
 				try
 				{
-					$this->table->getDispatcher()->dispatch($setTagsEvent);
+					$this->table->getDispatcher()->dispatch('onTableSetNewTags', $setTagsEvent);
 				}
 				catch (\RuntimeException $e)
 				{
@@ -1483,9 +1475,6 @@ abstract class AdminModel extends FormModel
 			$this->contentType = new \JUcmType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
 				?: $this->contentType->getTypeByAlias($this->typeAlias);
-
-			// Get tabs observer
-			$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 		}
 	}
 }

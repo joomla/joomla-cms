@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for removing files which should have been cleared during an update
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class RemoveOldFilesCommand extends AbstractCommand
 {
@@ -25,7 +25,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 *
 	 * @return  integer  The exit code for the command.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function execute(): int
 	{
@@ -52,13 +52,13 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function initialise()
 	{
 		$this->setName('update:joomla:remove-old-files');
 		$this->setDescription('Removes old system files');
-		$this->setHelp(<<<'EOF'
+		$this->setHelp(<<<EOF
 The <info>%command.name%</info> command removes old files which should have been deleted during a Joomla update
 
 <info>php %command.full_name%</info>

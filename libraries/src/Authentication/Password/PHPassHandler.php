@@ -15,7 +15,7 @@ use Joomla\Authentication\Password\HandlerInterface;
 /**
  * Password handler for PHPass hashed passwords
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Support for PHPass hashed passwords will be removed
  */
 class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
@@ -27,7 +27,7 @@ class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkIfRehashNeeded(string $hash): bool
 	{
@@ -42,7 +42,7 @@ class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hashPassword($plaintext, array $options = [])
 	{
@@ -54,7 +54,7 @@ class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function isSupported()
 	{
@@ -69,7 +69,7 @@ class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validatePassword($plaintext, $hashed)
 	{
@@ -81,7 +81,7 @@ class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  \PasswordHash
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getPasswordHash(): \PasswordHash
 	{

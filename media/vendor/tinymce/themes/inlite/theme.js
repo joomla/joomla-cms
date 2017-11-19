@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.themes.inlite.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.inlite.api.ThemeApi","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.core.Render","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","global!document","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.themes.inlite.api.Events","tinymce.themes.inlite.api.Settings","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.core.Measure","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","tinymce.themes.inlite.alien.EditorSettings","tinymce.core.geom.Rect","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.themes.inlite.alien.Type","ephox.sand.api.FileReader","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","ephox.katamari.api.Option","global!String","tinymce.ui.data.Binding","tinymce.core.util.Observable","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.dom.RangeUtils","ephox.sand.util.Global","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","global!Object","ephox.katamari.api.Resolve","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.katamari.api.Global","ephox.sugar.api.search.Traverse","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
+["tinymce.themes.inlite.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.inlite.api.ThemeApi","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.core.Render","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","global!document","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.themes.inlite.api.Events","tinymce.themes.inlite.api.Settings","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.core.Measure","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","tinymce.themes.inlite.alien.EditorSettings","tinymce.core.geom.Rect","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.themes.inlite.alien.Type","ephox.sand.api.FileReader","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","ephox.katamari.api.Option","global!String","tinymce.ui.data.Binding","tinymce.core.util.Observable","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.api.dom.RangeUtils","ephox.sand.util.Global","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","global!Object","ephox.katamari.api.Resolve","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.katamari.api.Global","ephox.sugar.api.search.Traverse","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc*/
 defineGlobal("global!window", window);
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
@@ -493,26 +493,6 @@ define(
 );
 
 /**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.EditorManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.EditorManager');
-  }
-);
-
-/**
  * Events.js
  *
  * Released under LGPL License.
@@ -543,6 +523,26 @@ define(
 );
 
 
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.EditorManager',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.EditorManager');
+  }
+);
 
 /**
  * Type.js
@@ -845,11 +845,16 @@ define(
       return settings.skin_url ? toAbsoluteUrl(editor, settings.skin_url) : urlFromName(settings.skin);
     };
 
+    var isSkinDisabled = function (editor) {
+      return editor.settings.skin === false;
+    };
+
     return {
       getTextSelectionToolbarItems: getTextSelectionToolbarItems,
       getInsertToolbarItems: getInsertToolbarItems,
       getPositionHandler: getPositionHandler,
-      getSkinUrl: getSkinUrl
+      getSkinUrl: getSkinUrl,
+      isSkinDisabled: isSkinDisabled
     };
   }
 );
@@ -868,11 +873,10 @@ define(
   'tinymce.themes.inlite.core.SkinLoader',
   [
     'tinymce.core.dom.DOMUtils',
-    'tinymce.core.EditorManager',
     'tinymce.themes.inlite.api.Events',
     'tinymce.themes.inlite.api.Settings'
   ],
-  function (DOMUtils, EditorManager, Events, Settings) {
+  function (DOMUtils, Events, Settings) {
     var fireSkinLoaded = function (editor, callback) {
       var done = function () {
         editor._skinLoaded = true;
@@ -894,8 +898,12 @@ define(
         fireSkinLoaded(editor, callback);
       };
 
-      DOMUtils.DOM.styleSheetLoader.load(skinUrl + '/skin.min.css', done);
-      editor.contentCSS.push(skinUrl + '/content.inline.min.css');
+      if (Settings.isSkinDisabled(editor)) {
+        done();
+      } else {
+        DOMUtils.DOM.styleSheetLoader.load(skinUrl + '/skin.min.css', done);
+        editor.contentCSS.push(skinUrl + '/content.inline.min.css');
+      }
     };
 
     return {
@@ -2817,12 +2825,11 @@ define(
        * Binds a callback to the specified event. This event can both be
        * native browser events like "click" or custom ones like PostRender.
        *
-       * The callback function will have two parameters the first one being the control that received the event
-       * the second one will be the event object either the browsers native event object or a custom JS object.
+       * The callback function gets one parameter: either the browser's native event object or a custom JS object.
        *
        * @method on
        * @param {String} name Name of the event to bind. For example "click".
-       * @param {String/function} callback Callback function to execute ones the event occurs.
+       * @param {String/function} callback Callback function to execute once the event occurs.
        * @return {tinymce.ui.Collection} Current collection instance.
        */
       // on: function(name, callback) {}, -- Generated by code below
@@ -2935,6 +2942,7 @@ define(
     return Collection;
   }
 );
+
 /**
  * Binding.js
  *
@@ -8330,7 +8338,7 @@ define(
  */
 
 define(
-  'tinymce.core.dom.RangeUtils',
+  'tinymce.core.api.dom.RangeUtils',
   [
     'global!tinymce.util.Tools.resolve'
   ],
@@ -8361,7 +8369,7 @@ define(
     'tinymce.themes.inlite.alien.Bookmark',
     'tinymce.core.util.Tools',
     'tinymce.core.dom.TreeWalker',
-    'tinymce.core.dom.RangeUtils'
+    'tinymce.core.api.dom.RangeUtils'
   ],
   function (Bookmark, Tools, TreeWalker, RangeUtils) {
     var getSelectedElements = function (rootElm, startNode, endNode) {
@@ -14523,11 +14531,16 @@ define(
       return Option.none();
     };
 
-    var toPt = function (fontSize) {
-      if (/[0-9.]+px$/.test(fontSize)) {
-        return Math.round(parseInt(fontSize, 10) * 72 / 96) + 'pt';
-      }
+    var round = function (number, precision) {
+      var factor = Math.pow(10, precision);
+      return Math.round(number * factor) / factor;
+    };
 
+    var toPt = function (fontSize, precision) {
+      if (/[0-9.]+px$/.test(fontSize)) {
+        // Round to the nearest 0.5
+        return round(parseInt(fontSize, 10) * 72 / 96, precision || 0) + 'pt';
+      }
       return fontSize;
     };
 
@@ -14708,7 +14721,7 @@ define(
   ],
   function (Tools, FontInfo) {
     var findMatchingValue = function (items, pt, px) {
-      var value ;
+      var value;
 
       Tools.each(items, function (item) {
         if (item.value === px) {
@@ -14726,12 +14739,17 @@ define(
         var self = this;
 
         editor.on('init nodeChange', function (e) {
-          var px, pt;
+          var px, pt, precision, match;
 
           px = FontInfo.getFontSize(editor.getBody(), e.element);
-          pt = FontInfo.toPt(px);
+          if (px) {
+            // checking for three digits after decimal point, should be precise enough
+            for (precision = 3; !match && precision >= 0; precision--) {
+              pt = FontInfo.toPt(px, precision);
+              match = findMatchingValue(items, pt, px);
+            }
+          }
 
-          var match = findMatchingValue(items, pt, px);
           self.value(match ? match : null);
 
           if (!match) {

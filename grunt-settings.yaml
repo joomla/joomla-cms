@@ -37,7 +37,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.7.1'
+                  'version': '4.7.2'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.2'
@@ -90,6 +90,7 @@ CmAddons:
             - 'addon/scroll/simplescrollbars.js'
             - 'addon/selection/active-line.js'
             - 'keymap/vim.js'
+            - 'mode/meta.js'
         css:
             - 'addon/display/fullscreen.css'
             - 'addon/fold/foldgutter.css'

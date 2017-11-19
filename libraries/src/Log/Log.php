@@ -131,7 +131,7 @@ class Log
 	 * The registry of available loggers
 	 *
 	 * @var    LoggerRegistry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $loggerRegistry;
 
@@ -207,7 +207,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function registerLogger(string $key, string $class, bool $replace = false)
 	{

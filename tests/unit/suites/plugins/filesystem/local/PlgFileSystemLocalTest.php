@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Plugins
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 class PlgFileSystemLocalTest extends TestCaseDatabase
 {
@@ -21,7 +21,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 *
 	 * @var   PlgFileSystemLocal
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $pluginClass = null;
 
@@ -30,7 +30,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 *
 	 * @var   string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $root = null;
 
@@ -39,7 +39,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function setUp()
 	{
@@ -72,7 +72,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	/**
 	 * Cleans the test folder
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function tearDown()
 	{
@@ -82,7 +82,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	/**
 	 * Tests event onFileSystemGetAdapters
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function testOnFileSystemGetAdapters()
 	{

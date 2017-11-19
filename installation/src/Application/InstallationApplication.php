@@ -274,7 +274,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function executeController()
 	{

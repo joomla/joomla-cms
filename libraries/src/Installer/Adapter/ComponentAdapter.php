@@ -357,7 +357,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function finaliseUninstall(): bool
@@ -409,6 +409,8 @@ class ComponentAdapter extends InstallerAdapter
 		// Now we need to delete the installation directories. This is the final step in uninstalling the component.
 		if (trim($this->extension->element))
 		{
+			$retval = true;
+
 			// Delete the component site directory
 			if (is_dir($this->parent->getPath('extension_site')))
 			{
@@ -530,7 +532,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function parseQueries()
@@ -628,7 +630,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function removeExtensionFiles()
@@ -668,7 +670,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setupUninstall()
 	{

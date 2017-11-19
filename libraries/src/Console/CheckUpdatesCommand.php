@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for checking if there are pending extension updates
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CheckUpdatesCommand extends AbstractCommand
 {
@@ -27,7 +27,7 @@ class CheckUpdatesCommand extends AbstractCommand
 	 *
 	 * @return  integer  The exit code for the command.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function execute(): int
 	{
@@ -53,13 +53,13 @@ class CheckUpdatesCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function initialise()
 	{
 		$this->setName('update:extensions:check');
 		$this->setDescription('Checks for pending extension updates');
-		$this->setHelp(<<<'EOF'
+		$this->setHelp(<<<EOF
 The <info>%command.name%</info> command checks for pending extension updates
 
 <info>php %command.full_name%</info>

@@ -185,11 +185,13 @@
 		checkFilter: function (element) {
 			var self = this;
 			var option = element.querySelector('option:checked');
-			if (option.value !== '') {
-				self.activeFilter(element, self);
-			} else {
-				self.deactiveFilter(element, self);
-			}
+			if (option) {
+                if (option.value !== '') {
+                    self.activeFilter(element, self);
+                } else {
+                    self.deactiveFilter(element, self);
+                }
+            }
 		},
 		clear: function () {
 			var self = this;

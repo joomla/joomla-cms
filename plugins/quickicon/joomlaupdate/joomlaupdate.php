@@ -33,7 +33,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -51,7 +51,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCoreUpdateNotification(QuickIconsEvent $event)
 	{

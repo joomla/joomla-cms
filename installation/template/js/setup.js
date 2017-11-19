@@ -22,7 +22,6 @@ Joomla.setlanguage = function(form) {
 		perform: true,
 		onSuccess: function(response, xhr){
 			response = JSON.parse(response);
-			console.log(response)
 			Joomla.replaceTokens(response.token);
 
 			if (response.messages) {
@@ -34,7 +33,6 @@ Joomla.setlanguage = function(form) {
 				Joomla.loadingLayer("hide");
 			} else {
 				Joomla.loadingLayer("hide");
-				console.log(response.data.view)
 				Joomla.goToPage(response.data.view, true);
 			}
 		},
@@ -94,11 +92,10 @@ Joomla.checkDbCredentials = function() {
 				// You shall not pass, DB credentials error!!!!
 			} else {
 				Joomla.loadingLayer('hide');
-				// You shall pass
-				Joomla.install(['config'], form);
 
-				// If all good (we need some code here)
-				setTimeout(function() {Joomla.goToPage('remove');}, 1000)
+				// Run the installer - we let this handle the redirect for now
+				// TODO: Convert to promises
+				Joomla.install(['config'], form);
 			}
 		},
 		onError:   function(xhr){

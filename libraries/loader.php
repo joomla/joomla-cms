@@ -76,7 +76,7 @@ abstract class JLoader
 	 * The root folders where extensions can be found.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $extensionRootFolders = array();
 
@@ -476,7 +476,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function registerExtensionRootFolder($key, $path)
 	{
@@ -536,7 +536,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function loadByExtension($class)
 	{
@@ -922,7 +922,7 @@ abstract class JLoader
 	 *
 	 * @return  string  The space separated string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private static function fromCamelCase($input, $grouped = false)
 	{

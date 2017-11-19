@@ -23,10 +23,11 @@
 
   .close {
     width: $modal-header-height;
+    height: $modal-header-height;
     margin-top: 0;
     margin-right: -15px;
     font-size: 2rem;
-    line-height: $modal-header-height;
+    line-height: 1rem;
     border-left: 1px solid $atum-border-color;
   }
 
@@ -34,6 +35,7 @@
 
 .modal-body {
   padding: 0;
+  overflow-y: auto;
 }
 
 .modal-title {

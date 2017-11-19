@@ -26,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * The Joomla! CMS Console Application
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
@@ -36,7 +36,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $messages = [];
 
@@ -44,7 +44,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * The application session object.
 	 *
 	 * @var    SessionInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $session;
 
@@ -100,7 +100,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute()
 	{
@@ -133,7 +133,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function execute()
 	{
@@ -152,7 +152,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
@@ -169,7 +169,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  CommandInterface[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getDefaultCommands(): array
 	{
@@ -188,7 +188,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  array  The system message queue.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMessageQueue()
 	{
@@ -202,7 +202,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function isClient($identifier)
 	{
@@ -214,7 +214,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  SessionInterface  The session object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSession()
 	{
@@ -228,7 +228,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  5.0  Will be removed without replacements
 	 */
 	public function isCli()
@@ -243,7 +243,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setSession(SessionInterface $session): self
 	{

@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.image.Plugin","tinymce.core.PluginManager","tinymce.plugins.image.api.Commands","tinymce.plugins.image.core.FilterContent","tinymce.plugins.image.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.image.ui.Dialog","tinymce.core.util.Tools","ephox.sand.api.URL","global!document","global!Math","global!RegExp","tinymce.core.Env","tinymce.core.ui.Factory","tinymce.core.util.JSON","tinymce.core.util.XHR","tinymce.plugins.image.api.Settings","tinymce.plugins.image.core.Uploader","tinymce.plugins.image.core.Utils","ephox.sand.util.Global","ephox.sand.api.XMLHttpRequest","global!window","tinymce.core.util.Promise","ephox.katamari.api.Resolve","ephox.katamari.api.Global"]
+["tinymce.plugins.image.Plugin","tinymce.core.PluginManager","tinymce.plugins.image.api.Commands","tinymce.plugins.image.core.FilterContent","tinymce.plugins.image.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.image.ui.Dialog","tinymce.core.util.Tools","ephox.sand.api.URL","global!Math","global!RegExp","tinymce.core.ui.Factory","tinymce.core.util.JSON","tinymce.core.util.XHR","tinymce.plugins.image.api.Settings","tinymce.plugins.image.core.Uploader","tinymce.plugins.image.core.Utils","ephox.sand.util.Global","ephox.sand.api.XMLHttpRequest","global!document","global!window","tinymce.core.util.Promise","ephox.katamari.api.Resolve","ephox.katamari.api.Global"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -232,29 +232,8 @@ define(
     };
   }
 );
-defineGlobal("global!document", document);
 defineGlobal("global!Math", Math);
 defineGlobal("global!RegExp", RegExp);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.Env',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.Env');
-  }
-);
-
 /**
  * ResolveGlobal.js
  *
@@ -412,6 +391,7 @@ define(
     };
   }
 );
+defineGlobal("global!document", document);
 defineGlobal("global!window", window);
 /**
  * ResolveGlobal.js
@@ -558,6 +538,9 @@ define(
     'global!document'
   ],
   function (Tools, Math, document) {
+    var parseIntAndGetMax = function (val1, val2) {
+      return Math.max(parseInt(val1, 10), parseInt(val2, 10));
+    };
 
     var getImageSize = function (url, callback) {
       var img = document.createElement('img');
@@ -571,7 +554,9 @@ define(
       }
 
       img.onload = function () {
-        done(Math.max(img.width, img.clientWidth), Math.max(img.height, img.clientHeight));
+        var width = parseIntAndGetMax(img.width, img.clientWidth);
+        var height = parseIntAndGetMax(img.height, img.clientHeight);
+        done(width, height);
       };
 
       img.onerror = function () {
@@ -689,10 +674,8 @@ define(
   'tinymce.plugins.image.ui.Dialog',
   [
     'ephox.sand.api.URL',
-    'global!document',
     'global!Math',
     'global!RegExp',
-    'tinymce.core.Env',
     'tinymce.core.ui.Factory',
     'tinymce.core.util.JSON',
     'tinymce.core.util.Tools',
@@ -701,7 +684,7 @@ define(
     'tinymce.plugins.image.core.Uploader',
     'tinymce.plugins.image.core.Utils'
   ],
-  function (URL, document, Math, RegExp, Env, Factory, JSON, Tools, XHR, Settings, Uploader, Utils) {
+  function (URL, Math, RegExp, Factory, JSON, Tools, XHR, Settings, Uploader, Utils) {
     return function (editor) {
       function createImageList(callback) {
         var imageList = Settings.getImageList(editor);
@@ -777,8 +760,8 @@ define(
             return;
           }
 
-          newWidth = widthCtrl.value();
-          newHeight = heightCtrl.value();
+          newWidth = parseInt(widthCtrl.value(), 10);
+          newHeight = parseInt(heightCtrl.value(), 10);
 
           if (win.find('#constrain')[0].checked() && width && height && newWidth && newHeight) {
             if (width !== newWidth) {

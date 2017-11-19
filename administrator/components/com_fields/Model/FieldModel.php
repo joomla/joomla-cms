@@ -339,7 +339,12 @@ class FieldModel extends AdminModel
 			if (property_exists($result, 'fieldparams'))
 			{
 				$registry = new Registry;
-				$registry->loadString($result->fieldparams);
+
+				if ($result->fieldparams)
+				{
+					$registry->loadString($result->fieldparams);
+				}
+
 				$result->fieldparams = $registry->toArray();
 			}
 

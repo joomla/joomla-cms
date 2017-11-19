@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 	 * Is there a content type associated with this category aias
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $checkTags = false;
 

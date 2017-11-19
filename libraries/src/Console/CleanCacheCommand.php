@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for cleaning the system cache
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CleanCacheCommand extends AbstractCommand
 {
@@ -26,7 +26,7 @@ class CleanCacheCommand extends AbstractCommand
 	 *
 	 * @return  integer  The exit code for the command.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function execute(): int
 	{
@@ -46,13 +46,13 @@ class CleanCacheCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function initialise()
 	{
 		$this->setName('cache:clean');
 		$this->setDescription('Cleans expired cache entries');
-		$this->setHelp(<<<'EOF'
+		$this->setHelp(<<<EOF
 The <info>%command.name%</info> command cleans the system cache of expired entries
 
 <info>php %command.full_name%</info>

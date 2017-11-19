@@ -46,7 +46,7 @@ class InstallationController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dbcheck()
 	{
@@ -72,7 +72,7 @@ class InstallationController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function config()
 	{
@@ -98,7 +98,7 @@ class InstallationController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function database()
 	{
@@ -127,7 +127,7 @@ class InstallationController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function backup()
 	{
@@ -153,7 +153,7 @@ class InstallationController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function languages()
 	{
@@ -194,7 +194,7 @@ class InstallationController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function sample()
 	{
@@ -220,7 +220,7 @@ class InstallationController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function delete()
 	{

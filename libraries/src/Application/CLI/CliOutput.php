@@ -1,19 +1,22 @@
 <?php
 /**
- * Part of the Joomla Framework Application Package
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Application\Cli;
+namespace Joomla\CMS\Application\CLI;
 
-use Joomla\Application\Cli\Output\Processor\ProcessorInterface;
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CLI\Output\Processor\ProcessorInterface;
 
 /**
  * Base class defining a command line output handler
  *
- * @since  1.0
+ * @since       4.0.0
+ * @deprecated  5.0  Use the `joomla/console` package instead
  */
 abstract class CliOutput
 {
@@ -21,7 +24,7 @@ abstract class CliOutput
 	 * Output processing object
 	 *
 	 * @var    ProcessorInterface
-	 * @since  1.0
+	 * @since  4.0.0
 	 */
 	protected $processor;
 
@@ -30,7 +33,7 @@ abstract class CliOutput
 	 *
 	 * @param   ProcessorInterface  $processor  The output processor.
 	 *
-	 * @since   1.1.2
+	 * @since   4.0.0
 	 */
 	public function __construct(ProcessorInterface $processor = null)
 	{
@@ -44,7 +47,7 @@ abstract class CliOutput
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
+	 * @since   4.0.0
 	 */
 	public function setProcessor(ProcessorInterface $processor)
 	{
@@ -58,7 +61,7 @@ abstract class CliOutput
 	 *
 	 * @return  ProcessorInterface
 	 *
-	 * @since   1.0
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function getProcessor()
@@ -79,7 +82,7 @@ abstract class CliOutput
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
+	 * @since   4.0.0
 	 * @codeCoverageIgnore
 	 */
 	abstract public function out($text = '', $nl = true);

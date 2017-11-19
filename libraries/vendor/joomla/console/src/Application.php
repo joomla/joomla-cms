@@ -9,6 +9,7 @@
 namespace Joomla\Console;
 
 use Joomla\Application\AbstractApplication;
+use Joomla\Application\ApplicationEvents;
 use Joomla\Console\Input\JoomlaInput;
 use Joomla\Input\Cli;
 use Joomla\Registry\Registry;
@@ -374,6 +375,20 @@ class Application extends AbstractApplication
 
 		try
 		{
+			$dispatcher = $this->getDispatcher();
+		}
+		catch (\UnexpectedValueException $noDispatcherException)
+		{
+			$dispatcher = null;
+		}
+
+		if ($dispatcher)
+		{
+			$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
+		}
+
+		try
+		{
 			$thrown = null;
 			$this->doExecute();
 		}
@@ -384,15 +399,6 @@ class Application extends AbstractApplication
 		catch (\Throwable $thrown)
 		{
 			$exception = new FatalThrowableError($thrown);
-		}
-
-		try
-		{
-			$dispatcher = $this->getDispatcher();
-		}
-		catch (\UnexpectedValueException $noDispatcherException)
-		{
-			$dispatcher = null;
 		}
 
 		if ($dispatcher && $thrown !== null)
