@@ -7353,7 +7353,7 @@ h6 {
 		margin-left: 0;
 	}
 }
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
 	.row-fluid .row-fluid .form-horizontal-desktop .control-label {
 		float: none;
 		width: auto;
@@ -7729,7 +7729,7 @@ textarea.noResize {
 .login .form-inline .btn-group {
 	display: block;
 }
-@media (max-width: 480px) {
+@media (max-width: 479px) {
 	.login .chzn-single {
 		width: 222px !important;
 	}
@@ -7738,7 +7738,7 @@ textarea.noResize {
 		width: 230px !important;
 	}
 }
-@media (max-width: 320px) {
+@media (max-width: 319px) {
 	.view-login .navbar-fixed-bottom {
 		display: none;
 	}
@@ -8484,7 +8484,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #status.status-top a {
 	color: #d9d9d9;
 }
-@media (max-width: 480px) {
+@media (max-width: 479px) {
 	.pagination a {
 		padding: 5px;
 	}
@@ -8650,12 +8650,12 @@ html[dir=rtl] #toolbar #toolbar-help {
 .btn-subhead {
 	display: none;
 }
-@media (min-width: 481px) {
+@media (min-width: 480px) {
 	#filter-bar {
 		height: 29px;
 	}
 }
-@media (max-width: 480px) {
+@media (max-width: 479px) {
 	.navbar .btn {
 		margin: 0;
 	}
@@ -8685,7 +8685,7 @@ html[dir=rtl] #toolbar #toolbar-help {
 		width: 10px;
 	}
 }
-@media (max-width: 320px) {
+@media (max-width: 319px) {
 	.view-login .navbar-fixed-bottom {
 		display: none;
 	}
@@ -8821,7 +8821,7 @@ ul.treeselect ul.dropdown-menu li {
 		padding-right: 0;
 	}
 }
-@media (max-width: 480px) {
+@media (max-width: 479px) {
 	.pagination a {
 		padding: 5px;
 	}
