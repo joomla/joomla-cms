@@ -73,10 +73,13 @@ class JFormFieldRepeatable extends JFormField
 		}
 
 		// Append buttons
-		$head_row_str[] = '<th><div class="btn-group"><a href="#" class="add btn button btn-success"><span class="icon-plus"></span> </a></div></th>';
+		$head_row_str[] = '<th><div class="btn-group"><a href="#" class="add btn button btn-success" aria-label="' . JText::_('JGLOBAL_FIELD_ADD') . '">';
+		$head_row_str[] = '<span class="icon-plus" aria-hidden="true"></span> </a></div></th>';
 		$body_row_str[] = '<td><div class="btn-group">';
-		$body_row_str[] = '<a class="add btn button btn-success"><span class="icon-plus"></span> </a>';
-		$body_row_str[] = '<a class="remove btn button btn-danger"><span class="icon-minus"></span> </a>';
+		$body_row_str[] = '<a class="add btn button btn-success" aria-label="' . JText::_('JGLOBAL_FIELD_ADD') . '">';
+		$body_row_str[] = '<span class="icon-plus" aria-hidden="true"></span> </a>';
+		$body_row_str[] = '<a class="remove btn button btn-danger" aria-label="' . JText::_('JGLOBAL_FIELD_REMOVE') . '">';
+		$body_row_str[] = '<span class="icon-minus" aria-hidden="true"></span> </a>';
 		$body_row_str[] = '</div></td>';
 
 		// Put all table parts together

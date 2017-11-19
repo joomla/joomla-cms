@@ -160,7 +160,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Make sure the MySQLi extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('The MySQL adapter mysqli is not available');
+			throw new JDatabaseExceptionUnsupported('The MySQLi extension for PHP is not installed or enabled.');
 		}
 
 		$this->connection = @mysqli_connect(
@@ -170,7 +170,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!$this->connection)
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL server.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -695,7 +695,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if (!mysqli_select_db($this->connection, $database))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to database.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL database.');
 		}
 
 		return true;

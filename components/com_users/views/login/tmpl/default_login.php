@@ -60,7 +60,7 @@ JHtml::_('behavior.formvalidator');
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 				<div class="control-group">
 					<div class="control-label">
-						<label>
+						<label for="remember">
 							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
 					</div>

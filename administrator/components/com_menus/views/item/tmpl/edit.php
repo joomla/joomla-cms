@@ -134,6 +134,11 @@ $clientId = $this->state->get('item.client_id', 0);
 					echo $this->form->renderFieldset('aliasoptions');
 				}
 
+				if ($this->item->type == 'separator')
+				{
+					echo $this->form->renderField('text_separator', 'params');
+				}
+
 				echo $this->form->renderFieldset('request');
 
 				if ($this->item->type == 'url')
