@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.media.Plugin","tinymce.core.PluginManager","tinymce.plugins.media.api.Api","tinymce.plugins.media.api.Commands","tinymce.plugins.media.core.FilterContent","tinymce.plugins.media.core.ResolveName","tinymce.plugins.media.core.Selection","tinymce.plugins.media.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.media.ui.Dialog","tinymce.core.html.Node","tinymce.core.util.Tools","tinymce.plugins.media.core.Nodes","tinymce.plugins.media.core.Sanitize","tinymce.plugins.media.core.UpdateHtml","tinymce.core.Env","tinymce.core.util.Delay","tinymce.plugins.media.api.Settings","tinymce.plugins.media.core.HtmlToData","tinymce.plugins.media.core.Service","tinymce.plugins.media.core.Size","tinymce.core.html.Writer","tinymce.core.html.SaxParser","tinymce.core.html.Schema","tinymce.core.dom.DOMUtils","tinymce.plugins.media.ui.SizeManager","tinymce.plugins.media.core.VideoScript","tinymce.core.util.Promise","tinymce.plugins.media.core.DataToHtml","tinymce.plugins.media.core.Mime","tinymce.plugins.media.core.UrlPatterns"]
+["tinymce.plugins.media.Plugin","tinymce.core.PluginManager","tinymce.plugins.media.api.Api","tinymce.plugins.media.api.Commands","tinymce.plugins.media.core.FilterContent","tinymce.plugins.media.core.ResolveName","tinymce.plugins.media.core.Selection","tinymce.plugins.media.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.media.ui.Dialog","tinymce.core.html.Node","tinymce.core.util.Tools","tinymce.plugins.media.core.Nodes","tinymce.plugins.media.core.Sanitize","tinymce.plugins.media.core.UpdateHtml","tinymce.core.Env","tinymce.plugins.media.api.Settings","tinymce.plugins.media.core.HtmlToData","tinymce.plugins.media.core.Service","tinymce.plugins.media.core.Size","tinymce.core.html.Writer","tinymce.core.html.SaxParser","tinymce.core.html.Schema","tinymce.core.dom.DOMUtils","tinymce.plugins.media.ui.SizeManager","tinymce.plugins.media.core.VideoScript","tinymce.core.util.Promise","tinymce.plugins.media.core.DataToHtml","tinymce.plugins.media.core.Mime","tinymce.plugins.media.core.UrlPatterns"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -121,26 +121,6 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.Env');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.Delay',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.Delay');
   }
 );
 
@@ -821,6 +801,12 @@ define(
         type: 'iframe', w: 480, h: 270,
         url: '//www.dailymotion.com/embed/video/$1',
         allowFullscreen: true
+      },
+      {
+        regex: /dai\.ly\/([^_]+)/,
+        type: 'iframe', w: 480, h: 270,
+        url: '//www.dailymotion.com/embed/video/$1',
+        allowFullscreen: true
       }
     ];
 
@@ -1011,8 +997,8 @@ define(
     'tinymce.plugins.media.core.DataToHtml'
   ],
   function (Promise, Settings, DataToHtml) {
+    var cache = {};
     var embedPromise = function (data, dataToHtml, handler) {
-      var cache = {};
       return new Promise(function (res, rej) {
         var wrappedResolve = function (response) {
           if (response.html) {
@@ -1049,8 +1035,13 @@ define(
       return embedHandler ? embedPromise(data, loadedData(editor), embedHandler) : defaultPromise(data, loadedData(editor));
     };
 
+    var isCached = function (url) {
+      return cache.hasOwnProperty(url);
+    };
+
     return {
-      getEmbedHtml: getEmbedHtml
+      getEmbedHtml: getEmbedHtml,
+      isCached: isCached
     };
   }
 );
@@ -1164,7 +1155,6 @@ define(
   'tinymce.plugins.media.ui.Dialog',
   [
     'tinymce.core.Env',
-    'tinymce.core.util.Delay',
     'tinymce.core.util.Tools',
     'tinymce.plugins.media.api.Settings',
     'tinymce.plugins.media.core.HtmlToData',
@@ -1173,7 +1163,7 @@ define(
     'tinymce.plugins.media.core.UpdateHtml',
     'tinymce.plugins.media.ui.SizeManager'
   ],
-  function (Env, Delay, Tools, Settings, HtmlToData, Service, Size, UpdateHtml, SizeManager) {
+  function (Env, Tools, Settings, HtmlToData, Service, Size, UpdateHtml, SizeManager) {
     var embedChange = (Env.ie && Env.ie <= 8) ? 'onChange' : 'onInput';
 
     var handleError = function (editor) {
@@ -1255,7 +1245,7 @@ define(
 
       data.embed = UpdateHtml.updateHtml(data.embed, data);
 
-      if (data.embed) {
+      if (data.embed && Service.isCached(data.source1)) {
         handleInsert(editor, data.embed);
       } else {
         Service.getEmbedHtml(editor, data)
