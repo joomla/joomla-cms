@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.themes.mobile.Theme","ephox.alloy.api.behaviour.Swapping","ephox.alloy.api.events.AlloyTriggers","ephox.alloy.api.system.Attachment","ephox.alloy.debugging.Debugging","ephox.katamari.api.Cell","ephox.katamari.api.Fun","ephox.sand.api.PlatformDetection","ephox.sugar.api.dom.Focus","ephox.sugar.api.dom.Insert","ephox.sugar.api.node.Element","ephox.sugar.api.node.Node","tinymce.core.dom.DOMUtils","tinymce.core.ThemeManager","tinymce.themes.mobile.alien.TinyCodeDupe","tinymce.themes.mobile.channels.TinyChannels","tinymce.themes.mobile.features.Features","tinymce.themes.mobile.style.Styles","tinymce.themes.mobile.touch.view.Orientation","tinymce.themes.mobile.ui.AndroidRealm","tinymce.themes.mobile.ui.Buttons","tinymce.themes.mobile.ui.IosRealm","tinymce.themes.mobile.util.CssUrls","tinymce.themes.mobile.util.FormatChangers","tinymce.themes.mobile.util.SkinLoaded","ephox.alloy.api.behaviour.Behaviour","ephox.alloy.behaviour.swapping.SwapApis","ephox.alloy.behaviour.swapping.SwapSchema","ephox.alloy.api.events.SystemEvents","global!Array","global!Error","ephox.katamari.api.Merger","ephox.katamari.api.Obj","ephox.katamari.api.Arr","ephox.katamari.api.Option","ephox.sugar.api.search.Traverse","ephox.sugar.api.dom.Remove","ephox.sugar.api.node.Body","ephox.alloy.log.AlloyLogger","ephox.boulder.api.Objects","ephox.katamari.api.Options","global!console","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.dom.Compare","global!document","ephox.sugar.api.search.PredicateExists","ephox.sugar.api.node.NodeTypes","global!tinymce.util.Tools.resolve","ephox.alloy.api.behaviour.Receiving","ephox.alloy.api.behaviour.Toggling","ephox.alloy.api.component.Memento","ephox.katamari.api.Type","global!setTimeout","global!window","tinymce.themes.mobile.channels.Receivers","ephox.alloy.api.behaviour.Unselecting","ephox.alloy.api.ui.Button","tinymce.themes.mobile.util.UiDomFactory","tinymce.themes.mobile.ui.ColorSlider","tinymce.themes.mobile.ui.FontSizeSlider","tinymce.themes.mobile.ui.ImagePicker","tinymce.themes.mobile.ui.LinkButton","tinymce.themes.mobile.util.StyleFormats","ephox.sugar.api.events.DomEvent","global!clearInterval","global!Math","global!setInterval","ephox.alloy.api.behaviour.Replacing","ephox.katamari.api.Singleton","tinymce.themes.mobile.api.AndroidWebapp","tinymce.themes.mobile.toolbar.ScrollingToolbar","tinymce.themes.mobile.ui.CommonRealm","tinymce.themes.mobile.ui.Dropup","tinymce.themes.mobile.ui.OuterContainer","tinymce.themes.mobile.api.IosWebapp","tinymce.core.EditorManager","ephox.alloy.behaviour.common.Behaviour","ephox.alloy.behaviour.common.NoState","ephox.boulder.api.FieldSchema","ephox.boulder.combine.ResultCombine","ephox.boulder.core.ObjChanger","ephox.boulder.core.ObjReader","ephox.boulder.core.ObjWriter","ephox.boulder.api.ValueSchema","ephox.sugar.api.properties.Class","ephox.alloy.api.events.NativeEvents","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","global!String","global!Object","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.api.Node","ephox.sugar.api.search.Selectors","ephox.sugar.api.dom.InsertAll","ephox.alloy.alien.Truncate","ephox.sugar.api.search.PredicateFind","ephox.alloy.behaviour.receiving.ActiveReceiving","ephox.alloy.behaviour.receiving.ReceivingSchema","ephox.alloy.behaviour.toggling.ActiveToggle","ephox.alloy.behaviour.toggling.ToggleApis","ephox.alloy.behaviour.toggling.ToggleSchema","ephox.alloy.registry.Tagger","ephox.alloy.behaviour.unselecting.ActiveUnselecting","ephox.alloy.api.behaviour.Focusing","ephox.alloy.api.behaviour.Keying","ephox.alloy.api.ui.Sketcher","ephox.alloy.ui.common.ButtonBase","ephox.alloy.api.component.DomFactory","ephox.katamari.api.Strings","ephox.alloy.api.ui.Slider","ephox.sugar.api.properties.Css","tinymce.themes.mobile.ui.ToolbarWidgets","tinymce.themes.mobile.ui.SizeSlider","tinymce.themes.mobile.util.FontSizes","ephox.alloy.api.events.AlloyEvents","ephox.imagetools.api.BlobConversions","ephox.katamari.api.Id","ephox.alloy.api.behaviour.Representing","tinymce.themes.mobile.bridge.LinkBridge","tinymce.themes.mobile.ui.Inputs","tinymce.themes.mobile.ui.SerialisedDialog","tinymce.themes.mobile.util.RangePreserver","tinymce.themes.mobile.features.DefaultStyleFormats","tinymce.themes.mobile.ui.StylesMenu","tinymce.themes.mobile.util.StyleConversions","ephox.sugar.impl.FilteredEvent","ephox.alloy.behaviour.replacing.ReplaceApis","ephox.alloy.api.component.GuiFactory","tinymce.themes.mobile.android.core.AndroidMode","tinymce.themes.mobile.api.MobileSchema","tinymce.themes.mobile.touch.view.TapToEditMask","ephox.alloy.api.behaviour.AddEventsBehaviour","ephox.alloy.api.ui.Container","ephox.alloy.api.ui.Toolbar","ephox.alloy.api.ui.ToolbarGroup","tinymce.themes.mobile.ios.scroll.Scrollables","tinymce.themes.mobile.touch.scroll.Scrollable","ephox.alloy.api.behaviour.Sliding","ephox.alloy.api.system.Gui","tinymce.themes.mobile.ios.core.IosMode","ephox.alloy.alien.EventRoot","ephox.sand.detect.Version","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.alloy.construct.EventHandler","ephox.katamari.api.Result","ephox.katamari.api.Results","ephox.alloy.debugging.FunctionAnnotator","ephox.alloy.dom.DomModification","ephox.boulder.api.FieldPresence","ephox.boulder.core.ValueProcessor","ephox.boulder.core.ChoiceProcessor","ephox.boulder.format.PrettyPrinter","ephox.alloy.behaviour.common.BehaviourState","ephox.sugar.api.properties.Toggler","ephox.sugar.api.properties.Attr","ephox.sugar.impl.ClassList","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.util.Global","ephox.sugar.api.properties.Html","ephox.sugar.api.dom.Replication","ephox.sugar.impl.ClosestOrAncestor","ephox.alloy.data.Fields","ephox.alloy.behaviour.toggling.ToggleModes","ephox.alloy.ephemera.AlloyTags","global!Date","ephox.sugar.api.search.SelectorFind","ephox.alloy.behaviour.focusing.ActiveFocus","ephox.alloy.behaviour.focusing.FocusApis","ephox.alloy.behaviour.focusing.FocusSchema","ephox.alloy.behaviour.keyboard.KeyboardBranches","ephox.alloy.behaviour.keyboard.KeyingState","ephox.alloy.api.ui.GuiTypes","ephox.alloy.api.ui.UiSketcher","ephox.alloy.parts.AlloyParts","ephox.alloy.parts.PartType","ephox.alloy.ui.slider.SliderParts","ephox.alloy.ui.slider.SliderSchema","ephox.alloy.ui.slider.SliderUi","ephox.sugar.impl.Style","ephox.sugar.api.search.TransformFind","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.alloy.behaviour.representing.ActiveRepresenting","ephox.alloy.behaviour.representing.RepresentApis","ephox.alloy.behaviour.representing.RepresentSchema","ephox.alloy.behaviour.representing.RepresentState","ephox.sugar.api.properties.TextContent","ephox.alloy.api.behaviour.Composing","ephox.alloy.api.ui.DataField","ephox.alloy.api.ui.Input","ephox.alloy.api.behaviour.Disabling","ephox.alloy.api.behaviour.Highlighting","ephox.alloy.api.ui.Form","ephox.sugar.api.search.SelectorFilter","ephox.sugar.api.view.Width","tinymce.themes.mobile.model.SwipingModel","ephox.alloy.api.behaviour.Transitioning","ephox.alloy.api.component.Component","ephox.alloy.api.component.ComponentApi","ephox.alloy.api.system.NoContextApi","ephox.alloy.events.DefaultEvents","ephox.alloy.spec.CustomSpec","ephox.alloy.api.ui.Menu","ephox.alloy.api.ui.TieredMenu","ephox.alloy.alien.AriaFocus","tinymce.themes.mobile.android.core.AndroidEvents","tinymce.themes.mobile.android.core.AndroidSetup","tinymce.themes.mobile.ios.core.PlatformEditor","tinymce.themes.mobile.util.Thor","tinymce.themes.mobile.touch.view.MetaViewport","ephox.katamari.api.Throttler","ephox.alloy.ui.schema.ToolbarSchema","ephox.alloy.api.behaviour.Tabstopping","ephox.alloy.ui.schema.ToolbarGroupSchema","ephox.alloy.behaviour.sliding.ActiveSliding","ephox.alloy.behaviour.sliding.SlidingApis","ephox.alloy.behaviour.sliding.SlidingSchema","ephox.alloy.behaviour.sliding.SlidingState","ephox.alloy.api.system.SystemApi","ephox.alloy.events.DescribedHandler","ephox.alloy.events.GuiEvents","ephox.alloy.events.Triggers","ephox.alloy.registry.Registry","tinymce.themes.mobile.ios.core.IosEvents","tinymce.themes.mobile.ios.core.IosSetup","tinymce.themes.mobile.ios.view.IosKeyboard","ephox.katamari.api.Resolve","global!Number","ephox.katamari.api.Adt","ephox.boulder.core.SchemaError","ephox.boulder.format.TypeTokens","ephox.sand.api.JSON","ephox.alloy.dom.DomDefinition","ephox.katamari.util.BagUtils","ephox.katamari.api.Contracts","ephox.sugar.api.properties.AttrList","ephox.sugar.api.node.Elements","ephox.alloy.menu.util.MenuMarkers","ephox.alloy.keying.CyclicType","ephox.alloy.keying.ExecutionType","ephox.alloy.keying.FlatgridType","ephox.alloy.keying.FlowType","ephox.alloy.keying.MatrixType","ephox.alloy.keying.MenuType","ephox.alloy.keying.SpecialType","ephox.alloy.parts.PartSubstitutes","ephox.alloy.spec.UiSubstitutes","ephox.alloy.spec.SpecSchema","ephox.alloy.ui.slider.SliderActions","ephox.alloy.behaviour.representing.DatasetStore","ephox.alloy.behaviour.representing.ManualStore","ephox.alloy.behaviour.representing.MemoryStore","ephox.sugar.impl.Dimension","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.alloy.behaviour.composing.ComposeApis","ephox.alloy.behaviour.composing.ComposeSchema","ephox.alloy.ui.common.InputBase","ephox.alloy.behaviour.disabling.ActiveDisable","ephox.alloy.behaviour.disabling.DisableApis","ephox.alloy.behaviour.disabling.DisableSchema","ephox.alloy.behaviour.highlighting.HighlightApis","ephox.alloy.behaviour.highlighting.HighlightSchema","ephox.sugar.api.search.PredicateFilter","ephox.alloy.behaviour.transitioning.ActiveTransitioning","ephox.alloy.behaviour.transitioning.TransitionApis","ephox.alloy.behaviour.transitioning.TransitionSchema","ephox.alloy.api.component.CompBehaviours","ephox.alloy.behaviour.common.BehaviourBlob","ephox.alloy.construct.ComponentDom","ephox.alloy.construct.ComponentEvents","ephox.alloy.construct.CustomDefinition","ephox.alloy.dom.DomRender","ephox.alloy.ui.schema.MenuSchema","ephox.alloy.ui.single.MenuSpec","ephox.alloy.ui.single.TieredMenuSpec","tinymce.themes.mobile.util.TappingEvent","tinymce.themes.mobile.android.focus.ResumeEditing","tinymce.themes.mobile.util.DataAttributes","tinymce.themes.mobile.util.Rectangles","ephox.sugar.api.selection.WindowSelection","global!clearTimeout","ephox.alloy.behaviour.tabstopping.ActiveTabstopping","ephox.alloy.behaviour.tabstopping.TabstopSchema","ephox.sugar.api.properties.Classes","ephox.sugar.api.view.Height","ephox.alloy.alien.Keys","ephox.alloy.events.TapEvent","ephox.alloy.events.EventSource","ephox.alloy.events.SimulatedEvent","ephox.alloy.events.EventRegistry","ephox.sugar.api.view.Location","global!parseInt","tinymce.themes.mobile.ios.focus.FakeSelection","tinymce.themes.mobile.ios.scroll.IosScrolling","tinymce.themes.mobile.ios.smooth.BackgroundActivity","tinymce.themes.mobile.ios.view.Greenzone","tinymce.themes.mobile.ios.view.IosUpdates","tinymce.themes.mobile.ios.view.IosViewport","tinymce.themes.mobile.util.CaptureBin","tinymce.themes.mobile.ios.focus.ResumeEditing","ephox.katamari.api.Global","ephox.alloy.keying.KeyingType","ephox.alloy.navigation.ArrNavigation","ephox.alloy.navigation.KeyMatch","ephox.alloy.navigation.KeyRules","ephox.alloy.alien.EditableFields","ephox.alloy.keying.KeyingTypes","ephox.alloy.navigation.DomMovement","ephox.alloy.navigation.DomPinpoint","ephox.alloy.navigation.WrapArrNavigation","ephox.alloy.navigation.DomNavigation","ephox.alloy.navigation.MatrixNavigation","ephox.alloy.ui.slider.SliderModel","ephox.sugar.api.properties.Value","ephox.alloy.alien.Cycles","ephox.alloy.alien.ObjIndex","ephox.alloy.alien.PrioritySort","ephox.alloy.api.focus.FocusManagers","ephox.alloy.menu.build.ItemType","ephox.alloy.menu.build.SeparatorType","ephox.alloy.menu.build.WidgetType","ephox.alloy.menu.util.ItemEvents","ephox.alloy.menu.util.MenuEvents","ephox.alloy.menu.layered.LayeredState","ephox.alloy.alien.DelayedFunction","global!isNaN","ephox.sugar.api.selection.Awareness","ephox.sugar.api.selection.Selection","ephox.sugar.api.dom.DocumentPosition","ephox.sugar.api.node.Fragment","ephox.sugar.api.selection.Situ","ephox.sugar.selection.core.NativeRange","ephox.sugar.selection.core.SelectionDirection","ephox.sugar.selection.query.CaretRange","ephox.sugar.selection.query.Within","ephox.sugar.selection.quirks.Prefilter","ephox.alloy.alien.TransformFind","ephox.sugar.api.view.Position","ephox.sugar.api.dom.Dom","tinymce.themes.mobile.touch.focus.CursorRefresh","ephox.katamari.api.Future","tinymce.themes.mobile.ios.smooth.SmoothAnimation","tinymce.themes.mobile.ios.view.DeviceZones","ephox.katamari.api.LazyValue","ephox.katamari.api.Futures","ephox.sugar.api.properties.Direction","ephox.alloy.navigation.ArrPinpoint","ephox.sugar.api.view.Visibility","ephox.alloy.menu.build.WidgetParts","ephox.alloy.menu.layered.MenuPathing","ephox.sugar.api.node.Text","ephox.sugar.selection.query.ContainerPoint","ephox.sugar.selection.query.EdgePoint","ephox.katamari.async.Bounce","tinymce.themes.mobile.ios.view.Devices","ephox.katamari.async.AsyncValues","ephox.sugar.impl.NodeValue","ephox.sugar.selection.alien.Geometry","ephox.sugar.selection.query.TextPoint","ephox.sugar.api.selection.CursorPosition"]
+["tinymce.themes.mobile.Theme","ephox.alloy.api.behaviour.Swapping","ephox.alloy.api.events.AlloyTriggers","ephox.alloy.api.system.Attachment","ephox.alloy.debugging.Debugging","ephox.katamari.api.Cell","ephox.katamari.api.Fun","ephox.sand.api.PlatformDetection","ephox.sugar.api.dom.Focus","ephox.sugar.api.dom.Insert","ephox.sugar.api.node.Element","ephox.sugar.api.node.Node","tinymce.core.ThemeManager","tinymce.core.dom.DOMUtils","tinymce.themes.mobile.alien.TinyCodeDupe","tinymce.themes.mobile.api.Settings","tinymce.themes.mobile.channels.TinyChannels","tinymce.themes.mobile.features.Features","tinymce.themes.mobile.style.Styles","tinymce.themes.mobile.touch.view.Orientation","tinymce.themes.mobile.ui.AndroidRealm","tinymce.themes.mobile.ui.Buttons","tinymce.themes.mobile.ui.IosRealm","tinymce.themes.mobile.util.CssUrls","tinymce.themes.mobile.util.FormatChangers","tinymce.themes.mobile.util.SkinLoaded","ephox.alloy.api.behaviour.Behaviour","ephox.alloy.behaviour.swapping.SwapApis","ephox.alloy.behaviour.swapping.SwapSchema","ephox.alloy.api.events.SystemEvents","global!Array","global!Error","ephox.katamari.api.Merger","ephox.katamari.api.Obj","ephox.katamari.api.Arr","ephox.katamari.api.Option","ephox.sugar.api.search.Traverse","ephox.sugar.api.dom.Remove","ephox.sugar.api.node.Body","ephox.alloy.log.AlloyLogger","ephox.boulder.api.Objects","ephox.katamari.api.Options","global!console","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.dom.Compare","global!document","ephox.sugar.api.search.PredicateExists","ephox.sugar.api.node.NodeTypes","global!tinymce.util.Tools.resolve","ephox.alloy.api.behaviour.Receiving","ephox.alloy.api.behaviour.Toggling","ephox.alloy.api.component.Memento","ephox.katamari.api.Type","global!setTimeout","global!window","tinymce.themes.mobile.channels.Receivers","ephox.alloy.api.behaviour.Unselecting","ephox.alloy.api.ui.Button","tinymce.themes.mobile.util.UiDomFactory","tinymce.themes.mobile.ui.ColorSlider","tinymce.themes.mobile.ui.FontSizeSlider","tinymce.themes.mobile.ui.ImagePicker","tinymce.themes.mobile.ui.LinkButton","tinymce.themes.mobile.util.StyleFormats","ephox.sugar.api.events.DomEvent","global!clearInterval","global!Math","global!setInterval","ephox.alloy.api.behaviour.Replacing","ephox.katamari.api.Singleton","tinymce.themes.mobile.api.AndroidWebapp","tinymce.themes.mobile.toolbar.ScrollingToolbar","tinymce.themes.mobile.ui.CommonRealm","tinymce.themes.mobile.ui.Dropup","tinymce.themes.mobile.ui.OuterContainer","tinymce.themes.mobile.api.IosWebapp","tinymce.core.EditorManager","ephox.alloy.behaviour.common.Behaviour","ephox.alloy.behaviour.common.NoState","ephox.boulder.api.FieldSchema","ephox.boulder.combine.ResultCombine","ephox.boulder.core.ObjChanger","ephox.boulder.core.ObjReader","ephox.boulder.core.ObjWriter","ephox.boulder.api.ValueSchema","ephox.sugar.api.properties.Class","ephox.alloy.api.events.NativeEvents","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","global!String","global!Object","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.api.Node","ephox.sugar.api.search.Selectors","ephox.sugar.api.dom.InsertAll","ephox.alloy.alien.Truncate","ephox.sugar.api.search.PredicateFind","ephox.alloy.behaviour.receiving.ActiveReceiving","ephox.alloy.behaviour.receiving.ReceivingSchema","ephox.alloy.behaviour.toggling.ActiveToggle","ephox.alloy.behaviour.toggling.ToggleApis","ephox.alloy.behaviour.toggling.ToggleSchema","ephox.alloy.registry.Tagger","ephox.alloy.behaviour.unselecting.ActiveUnselecting","ephox.alloy.api.behaviour.Focusing","ephox.alloy.api.behaviour.Keying","ephox.alloy.api.ui.Sketcher","ephox.alloy.ui.common.ButtonBase","ephox.alloy.api.component.DomFactory","ephox.katamari.api.Strings","ephox.alloy.api.ui.Slider","ephox.sugar.api.properties.Css","tinymce.themes.mobile.ui.ToolbarWidgets","tinymce.themes.mobile.ui.SizeSlider","tinymce.themes.mobile.util.FontSizes","ephox.alloy.api.events.AlloyEvents","ephox.imagetools.api.BlobConversions","ephox.katamari.api.Id","ephox.alloy.api.behaviour.Representing","tinymce.themes.mobile.bridge.LinkBridge","tinymce.themes.mobile.ui.Inputs","tinymce.themes.mobile.ui.SerialisedDialog","tinymce.themes.mobile.util.RangePreserver","tinymce.themes.mobile.features.DefaultStyleFormats","tinymce.themes.mobile.ui.StylesMenu","tinymce.themes.mobile.util.StyleConversions","ephox.sugar.impl.FilteredEvent","ephox.alloy.behaviour.replacing.ReplaceApis","ephox.alloy.api.component.GuiFactory","tinymce.themes.mobile.android.core.AndroidMode","tinymce.themes.mobile.api.MobileSchema","tinymce.themes.mobile.touch.view.TapToEditMask","ephox.alloy.api.behaviour.AddEventsBehaviour","ephox.alloy.api.ui.Container","ephox.alloy.api.ui.Toolbar","ephox.alloy.api.ui.ToolbarGroup","tinymce.themes.mobile.ios.scroll.Scrollables","tinymce.themes.mobile.touch.scroll.Scrollable","ephox.alloy.api.behaviour.Sliding","ephox.alloy.api.system.Gui","tinymce.themes.mobile.ios.core.IosMode","ephox.alloy.alien.EventRoot","ephox.sand.detect.Version","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.alloy.construct.EventHandler","ephox.katamari.api.Result","ephox.katamari.api.Results","ephox.alloy.debugging.FunctionAnnotator","ephox.alloy.dom.DomModification","ephox.boulder.api.FieldPresence","ephox.boulder.core.ValueProcessor","ephox.boulder.core.ChoiceProcessor","ephox.boulder.format.PrettyPrinter","ephox.alloy.behaviour.common.BehaviourState","ephox.sugar.api.properties.Toggler","ephox.sugar.api.properties.Attr","ephox.sugar.impl.ClassList","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.util.Global","ephox.sugar.api.properties.Html","ephox.sugar.api.dom.Replication","ephox.sugar.impl.ClosestOrAncestor","ephox.alloy.data.Fields","ephox.alloy.behaviour.toggling.ToggleModes","ephox.alloy.ephemera.AlloyTags","global!Date","ephox.sugar.api.search.SelectorFind","ephox.alloy.behaviour.focusing.ActiveFocus","ephox.alloy.behaviour.focusing.FocusApis","ephox.alloy.behaviour.focusing.FocusSchema","ephox.alloy.behaviour.keyboard.KeyboardBranches","ephox.alloy.behaviour.keyboard.KeyingState","ephox.alloy.api.ui.GuiTypes","ephox.alloy.api.ui.UiSketcher","ephox.alloy.parts.AlloyParts","ephox.alloy.parts.PartType","ephox.alloy.ui.slider.SliderParts","ephox.alloy.ui.slider.SliderSchema","ephox.alloy.ui.slider.SliderUi","ephox.sugar.impl.Style","ephox.sugar.api.search.TransformFind","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.alloy.behaviour.representing.ActiveRepresenting","ephox.alloy.behaviour.representing.RepresentApis","ephox.alloy.behaviour.representing.RepresentSchema","ephox.alloy.behaviour.representing.RepresentState","ephox.sugar.api.properties.TextContent","ephox.alloy.api.behaviour.Composing","ephox.alloy.api.ui.DataField","ephox.alloy.api.ui.Input","ephox.alloy.api.behaviour.Disabling","ephox.alloy.api.behaviour.Highlighting","ephox.alloy.api.ui.Form","ephox.sugar.api.search.SelectorFilter","ephox.sugar.api.view.Width","tinymce.themes.mobile.model.SwipingModel","ephox.alloy.api.behaviour.Transitioning","ephox.alloy.api.component.Component","ephox.alloy.api.component.ComponentApi","ephox.alloy.api.system.NoContextApi","ephox.alloy.events.DefaultEvents","ephox.alloy.spec.CustomSpec","ephox.alloy.api.ui.Menu","ephox.alloy.api.ui.TieredMenu","ephox.alloy.alien.AriaFocus","tinymce.themes.mobile.android.core.AndroidEvents","tinymce.themes.mobile.android.core.AndroidSetup","tinymce.themes.mobile.ios.core.PlatformEditor","tinymce.themes.mobile.util.Thor","tinymce.themes.mobile.touch.view.MetaViewport","ephox.katamari.api.Throttler","ephox.alloy.ui.schema.ToolbarSchema","ephox.alloy.api.behaviour.Tabstopping","ephox.alloy.ui.schema.ToolbarGroupSchema","ephox.alloy.behaviour.sliding.ActiveSliding","ephox.alloy.behaviour.sliding.SlidingApis","ephox.alloy.behaviour.sliding.SlidingSchema","ephox.alloy.behaviour.sliding.SlidingState","ephox.alloy.api.system.SystemApi","ephox.alloy.events.DescribedHandler","ephox.alloy.events.GuiEvents","ephox.alloy.events.Triggers","ephox.alloy.registry.Registry","tinymce.themes.mobile.ios.core.IosEvents","tinymce.themes.mobile.ios.core.IosSetup","tinymce.themes.mobile.ios.view.IosKeyboard","ephox.katamari.api.Resolve","global!Number","ephox.katamari.api.Adt","ephox.boulder.core.SchemaError","ephox.boulder.format.TypeTokens","ephox.sand.api.JSON","ephox.alloy.dom.DomDefinition","ephox.katamari.util.BagUtils","ephox.katamari.api.Contracts","ephox.sugar.api.properties.AttrList","ephox.sugar.api.node.Elements","ephox.alloy.menu.util.MenuMarkers","ephox.alloy.keying.CyclicType","ephox.alloy.keying.ExecutionType","ephox.alloy.keying.FlatgridType","ephox.alloy.keying.FlowType","ephox.alloy.keying.MatrixType","ephox.alloy.keying.MenuType","ephox.alloy.keying.SpecialType","ephox.alloy.parts.PartSubstitutes","ephox.alloy.spec.UiSubstitutes","ephox.alloy.spec.SpecSchema","ephox.alloy.ui.slider.SliderActions","ephox.alloy.behaviour.representing.DatasetStore","ephox.alloy.behaviour.representing.ManualStore","ephox.alloy.behaviour.representing.MemoryStore","ephox.sugar.impl.Dimension","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.alloy.behaviour.composing.ComposeApis","ephox.alloy.behaviour.composing.ComposeSchema","ephox.alloy.ui.common.InputBase","ephox.alloy.behaviour.disabling.ActiveDisable","ephox.alloy.behaviour.disabling.DisableApis","ephox.alloy.behaviour.disabling.DisableSchema","ephox.alloy.behaviour.highlighting.HighlightApis","ephox.alloy.behaviour.highlighting.HighlightSchema","ephox.sugar.api.search.PredicateFilter","ephox.alloy.behaviour.transitioning.ActiveTransitioning","ephox.alloy.behaviour.transitioning.TransitionApis","ephox.alloy.behaviour.transitioning.TransitionSchema","ephox.alloy.api.component.CompBehaviours","ephox.alloy.behaviour.common.BehaviourBlob","ephox.alloy.construct.ComponentDom","ephox.alloy.construct.ComponentEvents","ephox.alloy.construct.CustomDefinition","ephox.alloy.dom.DomRender","ephox.alloy.ui.schema.MenuSchema","ephox.alloy.ui.single.MenuSpec","ephox.alloy.ui.single.TieredMenuSpec","tinymce.themes.mobile.util.TappingEvent","tinymce.themes.mobile.android.focus.ResumeEditing","tinymce.themes.mobile.util.DataAttributes","tinymce.themes.mobile.util.Rectangles","ephox.sugar.api.selection.WindowSelection","global!clearTimeout","ephox.alloy.behaviour.tabstopping.ActiveTabstopping","ephox.alloy.behaviour.tabstopping.TabstopSchema","ephox.sugar.api.properties.Classes","ephox.sugar.api.view.Height","ephox.alloy.alien.Keys","ephox.alloy.events.TapEvent","ephox.alloy.events.EventSource","ephox.alloy.events.SimulatedEvent","ephox.alloy.events.EventRegistry","ephox.sugar.api.view.Location","global!parseInt","tinymce.themes.mobile.ios.focus.FakeSelection","tinymce.themes.mobile.ios.scroll.IosScrolling","tinymce.themes.mobile.ios.smooth.BackgroundActivity","tinymce.themes.mobile.ios.view.Greenzone","tinymce.themes.mobile.ios.view.IosUpdates","tinymce.themes.mobile.ios.view.IosViewport","tinymce.themes.mobile.util.CaptureBin","tinymce.themes.mobile.ios.focus.ResumeEditing","ephox.katamari.api.Global","ephox.alloy.keying.KeyingType","ephox.alloy.navigation.ArrNavigation","ephox.alloy.navigation.KeyMatch","ephox.alloy.navigation.KeyRules","ephox.alloy.alien.EditableFields","ephox.alloy.keying.KeyingTypes","ephox.alloy.navigation.DomMovement","ephox.alloy.navigation.DomPinpoint","ephox.alloy.navigation.WrapArrNavigation","ephox.alloy.navigation.DomNavigation","ephox.alloy.navigation.MatrixNavigation","ephox.alloy.ui.slider.SliderModel","ephox.sugar.api.properties.Value","ephox.alloy.alien.Cycles","ephox.alloy.alien.ObjIndex","ephox.alloy.alien.PrioritySort","ephox.alloy.api.focus.FocusManagers","ephox.alloy.menu.build.ItemType","ephox.alloy.menu.build.SeparatorType","ephox.alloy.menu.build.WidgetType","ephox.alloy.menu.util.ItemEvents","ephox.alloy.menu.util.MenuEvents","ephox.alloy.menu.layered.LayeredState","ephox.alloy.alien.DelayedFunction","global!isNaN","ephox.sugar.api.selection.Awareness","ephox.sugar.api.selection.Selection","ephox.sugar.api.dom.DocumentPosition","ephox.sugar.api.node.Fragment","ephox.sugar.selection.core.NativeRange","ephox.sugar.selection.core.SelectionDirection","ephox.sugar.selection.query.CaretRange","ephox.sugar.selection.query.Within","ephox.sugar.selection.quirks.Prefilter","ephox.alloy.alien.TransformFind","ephox.sugar.api.view.Position","ephox.sugar.api.dom.Dom","tinymce.themes.mobile.touch.focus.CursorRefresh","ephox.katamari.api.Future","tinymce.themes.mobile.ios.smooth.SmoothAnimation","tinymce.themes.mobile.ios.view.DeviceZones","ephox.katamari.api.LazyValue","ephox.katamari.api.Futures","ephox.sugar.api.properties.Direction","ephox.alloy.navigation.ArrPinpoint","ephox.sugar.api.view.Visibility","ephox.alloy.menu.build.WidgetParts","ephox.alloy.menu.layered.MenuPathing","ephox.sugar.api.node.Text","ephox.sugar.api.selection.Situ","ephox.sugar.selection.query.ContainerPoint","ephox.sugar.selection.query.EdgePoint","ephox.katamari.async.Bounce","tinymce.themes.mobile.ios.view.Devices","ephox.katamari.async.AsyncValues","ephox.sugar.impl.NodeValue","ephox.sugar.selection.alien.Geometry","ephox.sugar.selection.query.TextPoint","ephox.sugar.api.selection.CursorPosition"]
 jsc*/
 defineGlobal("global!Array", Array);
 defineGlobal("global!Error", Error);
@@ -5745,12 +5745,12 @@ defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
  */
 
 define(
-  'tinymce.core.dom.DOMUtils',
+  'tinymce.core.ThemeManager',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.dom.DOMUtils');
+    return resolve('tinymce.ThemeManager');
   }
 );
 
@@ -5765,12 +5765,12 @@ define(
  */
 
 define(
-  'tinymce.core.ThemeManager',
+  'tinymce.core.dom.DOMUtils',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.ThemeManager');
+    return resolve('tinymce.dom.DOMUtils');
   }
 );
 
@@ -5799,6 +5799,24 @@ define(
 
     return {
       openLink: openLink
+    };
+  }
+);
+
+define(
+  'tinymce.themes.mobile.api.Settings',
+
+  [
+
+  ],
+
+  function () {
+    var isSkinDisabled = function (editor) {
+      return editor.settings.skin === false;
+    };
+
+    return {
+      isSkinDisabled: isSkinDisabled
     };
   }
 );
@@ -7405,6 +7423,19 @@ define(
       return Option.from(raw).filter(function (r) { return r.length > 0; });
     };
 
+    var getAllRaw = function (element) {
+      var css = {};
+      var dom = element.dom();
+
+      if (Style.isSupported(dom)) {
+        for (var i = 0; i < dom.style.length; i++) {
+          var ruleName = dom.style.item(i);
+          css[ruleName] = dom.style[ruleName];
+        }
+      }
+      return css;
+    };
+
     var isValidValue = function (tag, property, value) {
       var element = Element.fromTag(tag);
       set(element, property, value);
@@ -7470,6 +7501,7 @@ define(
       remove: remove,
       get: get,
       getRaw: getRaw,
+      getAllRaw: getAllRaw,
       isValidValue: isValidValue,
       reflow: reflow,
       transfer: transfer
@@ -7571,14 +7603,15 @@ define(
   'ephox.sugar.api.view.Height',
 
   [
+    'ephox.sugar.api.node.Body',
     'ephox.sugar.api.properties.Css',
     'ephox.sugar.impl.Dimension'
   ],
 
-  function (Css, Dimension) {
+  function (Body, Css, Dimension) {
     var api = Dimension('height', function (element) {
-      // IMO passing this function is better than using dom['offset' + 'height']
-      return element.dom().offsetHeight;
+      // getBoundingClientRect gives better results than offsetHeight for tables with captions on Firefox
+      return Body.inBody(element) ? element.dom().getBoundingClientRect().height : element.dom().offsetHeight;
     });
 
     var set = function (element, h) {
@@ -17264,14 +17297,51 @@ define(
 );
 
 define(
+  'ephox.sugar.api.selection.Situ',
+
+  [
+    'ephox.katamari.api.Adt',
+    'ephox.katamari.api.Fun'
+  ],
+
+  function (Adt, Fun) {
+    var adt = Adt.generate([
+      { 'before': [ 'element' ] },
+      { 'on': [ 'element', 'offset' ] },
+      { after: [ 'element' ] }
+    ]);
+
+    // Probably don't need this given that we now have "match"
+    var cata = function (subject, onBefore, onOn, onAfter) {
+      return subject.fold(onBefore, onOn, onAfter);
+    };
+
+    var getStart = function (situ) {
+      return situ.fold(Fun.identity, Fun.identity, Fun.identity)
+    };
+
+    return {
+      before: adt.before,
+      on: adt.on,
+      after: adt.after,
+      cata: cata,
+      getStart: getStart
+    };
+  }
+);
+
+define(
   'ephox.sugar.api.selection.Selection',
 
   [
     'ephox.katamari.api.Adt',
-    'ephox.katamari.api.Struct'
+    'ephox.katamari.api.Struct',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.search.Traverse',
+    'ephox.sugar.api.selection.Situ'
   ],
 
-  function (Adt, Struct) {
+  function (Adt, Struct, Element, Traverse, Situ) {
     // Consider adding a type for "element"
     var type = Adt.generate([
       { domRange: [ 'rng' ] },
@@ -17290,13 +17360,35 @@ define(
       return type.exact(simRange.start(), simRange.soffset(), simRange.finish(), simRange.foffset());
     };
 
+    var getStart = function (selection) {
+      return selection.match({
+        domRange: function (rng) {
+          return Element.fromDom(rng.startContainer);
+        },
+        relative: function (startSitu, finishSitu) {
+          return Situ.getStart(startSitu);
+        },
+        exact: function (start, soffset, finish, foffset) {
+          return start;
+        }
+      });
+    };
+
+    var getWin = function (selection) {
+      var start = getStart(selection);
+
+      return Traverse.defaultView(start);
+    };
+
     return {
       domRange: type.domRange,
       relative: type.relative,
       exact: type.exact,
 
       exactFromRange: exactFromRange,
-      range: range
+      range: range,
+
+      getWin: getWin
     };
   }
 );
@@ -17363,34 +17455,6 @@ define(
 
     return {
       fromElements: fromElements
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.selection.Situ',
-
-  [
-    'ephox.katamari.api.Adt'
-  ],
-
-  function (Adt) {
-    var adt = Adt.generate([
-      { 'before': [ 'element' ] },
-      { 'on': [ 'element', 'offset' ] },
-      { after: [ 'element' ] }
-    ]);
-
-    // Probably don't need this given that we now have "match"
-    var cata = function (subject, onBefore, onOn, onAfter) {
-      return subject.fold(onBefore, onOn, onAfter);
-    };
-
-    return {
-      before: adt.before,
-      on: adt.on,
-      after: adt.after,
-      cata: cata
     };
   }
 );
@@ -18021,12 +18085,13 @@ define(
 
   [
     'ephox.katamari.api.Arr',
+    'ephox.sugar.api.node.Element',
     'ephox.sugar.api.node.Node',
     'ephox.sugar.api.selection.Selection',
     'ephox.sugar.api.selection.Situ'
   ],
 
-  function (Arr, Node, Selection, Situ) {
+  function (Arr, Element, Node, Selection, Situ) {
     var beforeSpecial = function (element, offset) {
       // From memory, we don't want to use <br> directly on Firefox because it locks the keyboard input.
       // It turns out that <img> directly on IE locks the keyboard as well.
@@ -18038,15 +18103,35 @@ define(
       else return offset === 0 ? Situ.before(element) : Situ.after(element);
     };
 
-    var preprocess = function (startSitu, finishSitu) {
+    var preprocessRelative = function (startSitu, finishSitu) {
       var start = startSitu.fold(Situ.before, beforeSpecial, Situ.after);
       var finish = finishSitu.fold(Situ.before, beforeSpecial, Situ.after);
       return Selection.relative(start, finish);
     };
 
+    var preprocessExact = function (start, soffset, finish, foffset) {
+      var startSitu = beforeSpecial(start, soffset);
+      var finishSitu = beforeSpecial(finish, foffset);
+      return Selection.relative(startSitu, finishSitu);
+    };
+
+    var preprocess = function (selection) {
+      return selection.match({
+        domRange: function (rng) {
+          var start = Element.fromDom(rng.startContainer);
+          var finish = Element.fromDom(rng.endContainer);
+          return preprocessExact(start, rng.startOffset, finish, rng.endOffset);
+        },
+        relative: preprocessRelative,
+        exact: preprocessExact
+      });
+    };
+
     return {
       beforeSpecial: beforeSpecial,
-      preprocess: preprocess
+      preprocess: preprocess,
+      preprocessRelative: preprocessRelative,
+      preprocessExact: preprocessExact
     };
   }
 );
@@ -18059,8 +18144,8 @@ define(
     'ephox.sugar.api.dom.DocumentPosition',
     'ephox.sugar.api.node.Element',
     'ephox.sugar.api.node.Fragment',
+    'ephox.sugar.api.search.Traverse',
     'ephox.sugar.api.selection.Selection',
-    'ephox.sugar.api.selection.Situ',
     'ephox.sugar.selection.core.NativeRange',
     'ephox.sugar.selection.core.SelectionDirection',
     'ephox.sugar.selection.query.CaretRange',
@@ -18068,7 +18153,7 @@ define(
     'ephox.sugar.selection.quirks.Prefilter'
   ],
 
-  function (Option, DocumentPosition, Element, Fragment, Selection, Situ, NativeRange, SelectionDirection, CaretRange, Within, Prefilter) {
+  function (Option, DocumentPosition, Element, Fragment, Traverse, Selection, NativeRange, SelectionDirection, CaretRange, Within, Prefilter) {
     var doSetNativeRange = function (win, rng) {
       var selection = win.getSelection();
       selection.removeAllRanges();
@@ -18084,13 +18169,7 @@ define(
       return Within.find(win, selection, selector);
     };
 
-    var setExact = function (win, start, soffset, finish, foffset) {
-      setRelative(win, Situ.on(start, soffset), Situ.on(finish, foffset));
-    };
-
-    var setRelative = function (win, startSitu, finishSitu) {
-      var relative = Prefilter.preprocess(startSitu, finishSitu);
-
+    var setRangeFromRelative = function (win, relative) {
       return SelectionDirection.diagnose(win, relative).match({
         ltr: function (start, soffset, finish, foffset) {
           doSetRange(win, start, soffset, finish, foffset);
@@ -18105,6 +18184,30 @@ define(
             doSetRange(win, finish, foffset, start, soffset);
           }
         }
+      });
+    };
+
+    var setExact = function (win, start, soffset, finish, foffset) {
+      var relative = Prefilter.preprocessExact(start, soffset, finish, foffset);
+
+      setRangeFromRelative(win, relative);
+    };
+
+    var setRelative = function (win, startSitu, finishSitu) {
+      var relative = Prefilter.preprocessRelative(startSitu, finishSitu);
+
+      setRangeFromRelative(win, relative);
+    };
+
+    var toNative = function (selection) {
+      var win = Selection.getWin(selection).dom();
+      var getDomRange = function (start, soffset, finish, foffset) {
+        return NativeRange.exactToNative(win, start, soffset, finish, foffset);
+      };
+      var filtered = Prefilter.preprocess(selection);
+      return SelectionDirection.diagnose(win, filtered).match({
+        ltr: getDomRange,
+        rtl: getDomRange
       });
     };
 
@@ -18139,7 +18242,7 @@ define(
     var forElement = function (win, element) {
       var rng = NativeRange.selectNodeContents(win, element);
       return Selection.range(
-        Element.fromDom(rng.startContainer), rng.startOffset, 
+        Element.fromDom(rng.startContainer), rng.startOffset,
         Element.fromDom(rng.endContainer), rng.endOffset
       );
     };
@@ -18202,6 +18305,7 @@ define(
       getExact: getExact,
       get: get,
       setRelative: setRelative,
+      toNative: toNative,
       setToElement: setToElement,
       clear: clear,
 
@@ -18653,8 +18757,15 @@ define(
         if (backup !== undefined && backup !== null && backup.length > 0) {
           Attr.set(element, 'content', backup);
         } else {
-          // TODO: user-scalable is left as disabled when the editor closes
-          Attr.remove(element, 'content');
+          // According to apple docs the default is:
+          //  width=980
+          //  height=<calculated>
+          //  initial-scale=<calculated>
+          //  minimum-scale=0.25
+          //  maximum-scale=5.0
+          //  user-scalable yes
+          // However just setting user-scalable seems to fix pinch zoom and who knows these defaults might change
+          Attr.set(element, 'content', 'user-scalable=yes');
         }
       };
 
@@ -23039,9 +23150,10 @@ define(
     'ephox.sugar.api.dom.Insert',
     'ephox.sugar.api.node.Element',
     'ephox.sugar.api.node.Node',
-    'tinymce.core.dom.DOMUtils',
     'tinymce.core.ThemeManager',
+    'tinymce.core.dom.DOMUtils',
     'tinymce.themes.mobile.alien.TinyCodeDupe',
+    'tinymce.themes.mobile.api.Settings',
     'tinymce.themes.mobile.channels.TinyChannels',
     'tinymce.themes.mobile.features.Features',
     'tinymce.themes.mobile.style.Styles',
@@ -23056,8 +23168,8 @@ define(
 
 
   function (
-    Swapping, AlloyTriggers, Attachment, Debugging, Cell, Fun, PlatformDetection, Focus, Insert, Element, Node, DOMUtils, ThemeManager, TinyCodeDupe, TinyChannels,
-    Features, Styles, Orientation, AndroidRealm, Buttons, IosRealm, CssUrls, FormatChangers, SkinLoaded
+    Swapping, AlloyTriggers, Attachment, Debugging, Cell, Fun, PlatformDetection, Focus, Insert, Element, Node, ThemeManager, DOMUtils, TinyCodeDupe, Settings,
+    TinyChannels, Features, Styles, Orientation, AndroidRealm, Buttons, IosRealm, CssUrls, FormatChangers, SkinLoaded
   ) {
     /// not to be confused with editor mode
     var READING = Fun.constant('toReading'); /// 'hide the keyboard'
@@ -23067,8 +23179,12 @@ define(
       var renderUI = function (args) {
         var cssUrls = CssUrls.derive(editor);
 
-        editor.contentCSS.push(cssUrls.content);
-        DOMUtils.DOM.styleSheetLoader.load(cssUrls.ui, SkinLoaded.fireSkinLoaded(editor));
+        if (Settings.isSkinDisabled(editor) === false) {
+          editor.contentCSS.push(cssUrls.content);
+          DOMUtils.DOM.styleSheetLoader.load(cssUrls.ui, SkinLoaded.fireSkinLoaded(editor));
+        } else {
+          SkinLoaded.fireSkinLoaded(editor)();
+        }
 
         var doScrollIntoView = function () {
           editor.fire('scrollIntoView');
@@ -23095,7 +23211,9 @@ define(
         });
 
         var setReadOnly = function (readOnlyGroups, mainGroups, ro) {
-          if (ro === false) editor.selection.collapse();
+          if (ro === false) {
+            editor.selection.collapse();
+          }
           realm.setToolbarGroups(ro ? readOnlyGroups.get() : mainGroups.get());
           editor.setMode(ro === true ? 'readonly' : 'design');
           editor.fire(ro === true ? READING() : EDITING());
@@ -23167,7 +23285,7 @@ define(
                   editor.selection.select(target.dom());
                   // Prevent the default behaviour from firing so that the image stays selected
                   evt.kill();
-                } else if (Node.name(target) === 'a')  {
+                } else if (Node.name(target) === 'a') {
                   var component = realm.system().getByDom(Element.fromDom(editor.editorContainer));
                   component.each(function (container) {
                     /// view mode
@@ -23228,7 +23346,7 @@ define(
 
           var features = Features.setup(realm, editor);
           var items = Features.detect(editor.settings, features);
-          
+
           var actionGroup = {
             label: 'the action group',
             scrollable: true,
