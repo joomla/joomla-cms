@@ -76,7 +76,7 @@ class InstallerControllerInstall extends JControllerLegacy
 	{
 		$app = JFactory::getApplication();
 		$message = $app->getUserState('com_installer.message');
-sleep(3);
+
 		// Do install
 		$result = $this->install();
 
