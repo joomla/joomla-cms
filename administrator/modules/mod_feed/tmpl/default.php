@@ -64,11 +64,10 @@ else
 			</h2>
 		<?php endif;
 		// Feed date
-		if ($params->get('rssdate', 1)) :
-			?>
-				<h3>
-				<?php echo JHtml::_('date', $feed->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
-				</h3>
+		if ($params->get('rssdate', 1)) : ?>
+			<h3>
+			<?php echo JHtml::_('date', $feed->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
+			</h3>
 		<?php endif; ?>
 
 		<!-- Feed description -->
