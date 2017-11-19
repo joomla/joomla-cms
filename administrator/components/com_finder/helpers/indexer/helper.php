@@ -499,7 +499,7 @@ class FinderIndexerHelper
 
 		if ($item)
 		{
-			$content->bind((array)$item);
+			$content->bind((array) $item);
 			$content->bind($item->getElements());
 		}
 
