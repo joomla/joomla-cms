@@ -224,7 +224,7 @@
 
 					switch (this.type) {
 						case 'image':
-							imgPreview.src = imgPreview.src = /http/.test(value) ? value : '/' + value;
+							imgPreview.src = imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
 							break;
 						default:
 							// imgPreview.src = dummy image path;

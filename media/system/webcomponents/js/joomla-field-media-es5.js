@@ -65,11 +65,11 @@ var _createClass = function () {
         this.setValue('');
       } }, { key: 'updatePreview', value: function updatePreview() {
         if (-1 !== ['true', 'static'].indexOf(this.preview) && 'false' !== this.preview && this.preview) {
-          var a = this.querySelector(this.input),
-              b = a.value,
-              c = this.querySelector('.field-media-preview');if (!b) c.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';else {
-            c.innerHTML = '';var d = new Image();switch (this.type) {case 'image':
-                d.src = d.src = /http/.test(b) ? b : '/' + b;break;default:}c.style.width = this.previewWidth, c.appendChild(d);
+          var b = this.querySelector(this.input),
+              c = b.value,
+              d = this.querySelector('.field-media-preview');if (!c) d.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';else {
+            d.innerHTML = '';var e = new Image();switch (this.type) {case 'image':
+                e.src = e.src = /http/.test(c) ? c : a.getOptions('system.paths').rootFull + c;break;default:}d.style.width = this.previewWidth, d.appendChild(e);
           }
         }
       } }, { key: 'type', get: function get() {
