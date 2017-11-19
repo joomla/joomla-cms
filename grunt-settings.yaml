@@ -28,7 +28,7 @@ vendors:
                   'version': '1.12.1'
                   'dependencies': 'jquery'
     'mediaelement':
-                  'version': '4.2.6'
+                  'version': '4.2.7'
                   'dependencies': ''
     'masonry-layout':
                   'version': '4.2.0'
@@ -55,7 +55,7 @@ vendors:
                   'version': '1.5.5'
                   'dependencies': ''
     'diff':
-                  'version': '3.3.0'
+                  'version': '3.4.0'
                   'dependencies': ''
     'wicked-good-xpath':
                   'version': '1.3.0'
